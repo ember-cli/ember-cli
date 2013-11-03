@@ -80,3 +80,6 @@ ideas
     ```javascript
 new Error("tried compiling: `app.coffee` but CoffesScript is Missing, to install please: npm install coffee-script --save-dev")
      ````
+
+  - tasks
+    consider extracting them into [grunt-ember](https://github.com/dgeb/grunt-ember-templates/issues/41)
