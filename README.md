@@ -50,6 +50,9 @@ ideas
 
     ember generate [...]
     ember generate scaffold [...] # for resources
+    
+    
+    ember addon # reserved for future use.
   ```
   - folder structure: (very similar to what we currently have)
   
