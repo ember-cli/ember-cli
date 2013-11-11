@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+
+console.log('Oh, hey it\'s Tomster.\nI\'m on vacation. Come back some other time :)');
