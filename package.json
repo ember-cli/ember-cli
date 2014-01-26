@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "bin": {
-    "ember": "./bin/ember"
+    "ember": "./bin/ember",
+    "ember-build": "./bin/ember-build"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,5 +26,8 @@
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/stefanpenner/ember-cli/issues"
+  },
+  "dependencies": {
+    "commander": "~2.1.0"
   }
 }
