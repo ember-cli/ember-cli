@@ -2,5 +2,6 @@
 
 process.title = 'ember';
 
-var cli = require('../lib/cli/main');
+var cli = require('../lib/cli/server');
 cli();
+
