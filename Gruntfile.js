@@ -138,17 +138,23 @@ module.exports = function(grunt) {
   grunt.registerTask('build:dist', filterAvailable([
                      'createResultDirectory', // Create directoy beforehand, fixes race condition
                      'fancySprites:create',
-                     'concurrent:buildDist', // Executed in parallel, see config below
+                     // 'concurrent:buildDist', // Executed in parallel, see config below
+                     'buildTemplates:dist',
+                     'buildScripts',
+                     'buildStyles',
+                     'buildIndexHTML:dist'
                      ]));
 
   grunt.registerTask('build:debug', filterAvailable([
                      'jshint:tooling',
                      'createResultDirectory', // Create directoy beforehand, fixes race condition
                      'fancySprites:create',
-                      "buildTemplates:debug",
-                      "buildScripts",
-                      "buildStyles",
-                      "buildIndexHTML:debug"
+                     // 'concurrent:buildDebug'   // Temporarily disabling concurrent; isn't working when nested in another process
+                     'buildTemplates:debug',
+                     'buildScripts',
+                     'buildStyles',
+                     'buildIndexHTML:debug'
+
  // Executed in parallel, see config below
                      ]));
 
