@@ -5,8 +5,8 @@ module.exports = {
       collapseWhitespace: true
     },
     files: [{
-      src: 'dist/index.html',
-      dest: 'dist/index.html'
+      src: '<%= outputPath %>/index.html',
+      dest: '<%= outputPath %>/index.html'
     }]
   }
 };

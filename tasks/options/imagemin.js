@@ -7,7 +7,7 @@ module.exports = {
       expand: true,
       cwd: 'tmp/result',
       src: '**/*.{png,gif,jpg,jpeg}',
-      dest: 'dist/'
+      dest: '<%= outputPath %>/'
     }]
   }
 };

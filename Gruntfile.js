@@ -76,6 +76,7 @@ module.exports = function(grunt) {
 
   config.cliRoot = grunt.option("cliRoot");
   config.appRoot = grunt.option("appRoot");
+  config.outputPath = grunt.option("outputPath");
 
 
   // App Kit's Main Tasks

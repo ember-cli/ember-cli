@@ -1,3 +1,3 @@
 module.exports = {
-  html: ['dist/index.html'],
+  html: ['<%= outputPath %>/index.html'],
 };

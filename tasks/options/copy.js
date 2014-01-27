@@ -66,7 +66,7 @@ module.exports = {
         '!**/*.map' // No source maps
       ],
       filter: 'isFile',
-      dest: 'dist/'
+      dest: '<%= outputPath %>'
     }]
   },
 };
