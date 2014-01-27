@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
   var express = require('express'),
       lockFile = require('lockfile'),
-      Helpers = require('./helpers'),
+      Helpers = require('../lib/helpers'),
       fs = require('fs'),
       path = require('path'),
       request = require('request');
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
       // Load API stub routes
       app.use(express.json());
       app.use(express.urlencoded());
-      require('../api-stub/routes')(app);
+      require(path.join(grunt.config("appRoot"), 'api-stub', 'routes'))(app);
     } else if (proxyMethod === 'proxy') {
       var proxyURL = grunt.config('express-server.options.proxyURL');
       grunt.log.writeln('Proxying API requests to: ' + proxyURL);
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
       app.use(static({ file: 'dist/index.html', ignoredFileExtensions: /\.\w{1,5}$/ })); // Gotta catch 'em all
     }
 
-    var port = parseInt(process.env.PORT || 8000, 10);
+    var port = parseInt(process.env.PORT || grunt.config("port") || 8000, 10);
     if (isNaN(port) || port < 1 || port > 65535) {
       grunt.fail.fatal('The PORT environment variable of ' + process.env.PORT + ' is not valid.');
     }

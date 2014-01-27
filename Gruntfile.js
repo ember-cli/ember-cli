@@ -70,14 +70,14 @@ module.exports = function(grunt) {
       })
   );
 
-  grunt.loadTasks('tasks'); // Loads tasks in `tasks/` folder
-
-  config.env = process.env;
-
   config.cliRoot = grunt.option("cliRoot");
   config.appRoot = grunt.option("appRoot");
+  config.port = grunt.option("port");
   config.outputPath = grunt.option("outputPath");
 
+  grunt.loadTasks(path.join(config.cliRoot, 'tasks')); // Loads tasks in `tasks/` folder
+
+  config.env = process.env;
 
   // App Kit's Main Tasks
   // ====================

@@ -4,7 +4,8 @@
   "description": "Command line tool for developing ambitious ember.js apps",
   "bin": {
     "ember": "./bin/ember",
-    "ember-build": "./bin/ember-build"
+    "ember-build": "./bin/ember-build",
+    "ember-server": "./bin/ember-server"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,7 +29,9 @@
     "url": "https://github.com/stefanpenner/ember-cli/issues"
   },
   "dependencies": {
+    "express": "~3.4.2",
     "commander": "~2.1.0",
+    "lockfile": "~0.3.4",
     "grunt": "~0.4.2",
     "load-grunt-config": "~0.7.0",
     "grunt-contrib-watch": "~0.5.3",
@@ -46,6 +49,8 @@
     "grunt-rev": "~0.1.0",
     "grunt-ember-templates": "~0.4.18",
     "grunt-contrib-testem": "~0.5.11",
+    "express-namespace": "~0.1.1",
+    "request": "~2.27.0",
     "connect-livereload": "~0.3.1"
   }
 }
