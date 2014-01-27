@@ -1,4 +1,4 @@
-var Helpers = require('../helpers'),
+var Helpers = require('../../lib/helpers'),
     filterAvailable = Helpers.filterAvailableTasks;
 
 var scripts = '{app,tests}/**/*.{js,coffee,em}',

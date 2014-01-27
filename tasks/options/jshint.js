@@ -1,3 +1,6 @@
+var path = require("path"),
+    grunt = require("grunt");
+
 module.exports = {
   app: {
     src: [
@@ -11,7 +14,7 @@ module.exports = {
       'Gruntfile.js',
       'tasks/**/*.js'
     ],
-    options: { jshintrc: 'tasks/.jshintrc' }
+    options: { jshintrc: '<%= cliRoot %>/tasks/.jshintrc' }
   },
 
   tests: {

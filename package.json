@@ -28,6 +28,24 @@
     "url": "https://github.com/stefanpenner/ember-cli/issues"
   },
   "dependencies": {
-    "commander": "~2.1.0"
+    "commander": "~2.1.0",
+    "grunt": "~0.4.2",
+    "load-grunt-config": "~0.7.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-cssmin": "~0.6.2",
+    "grunt-preprocess": "~3.0.1",
+    "grunt-es6-module-transpiler": "~0.6.0",
+    "grunt-concat-sourcemap": "~0.3.2",
+    "grunt-concurrent": "~0.3.1",
+    "grunt-usemin": "~0.1.13",
+    "grunt-rev": "~0.1.0",
+    "grunt-ember-templates": "~0.4.18",
+    "grunt-contrib-testem": "~0.5.11",
+    "connect-livereload": "~0.3.1"
   }
 }

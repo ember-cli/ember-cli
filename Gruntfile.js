@@ -45,7 +45,7 @@ module.exports = function(grunt) {
   //   `npm install --save-dev grunt-autoprefixer`
   //
 
-  var Helpers = require('./tasks/helpers'),
+  var Helpers = require('./lib/helpers'),
       filterAvailable = Helpers.filterAvailableTasks,
       _ = grunt.util._,
       path = require('path');
@@ -74,7 +74,8 @@ module.exports = function(grunt) {
 
   config.env = process.env;
 
-  
+  config.cliRoot = grunt.option("cliRoot");
+  config.appRoot = grunt.option("appRoot");
 
 
   // App Kit's Main Tasks
@@ -144,7 +145,11 @@ module.exports = function(grunt) {
                      'jshint:tooling',
                      'createResultDirectory', // Create directoy beforehand, fixes race condition
                      'fancySprites:create',
-                     'concurrent:buildDebug', // Executed in parallel, see config below
+                      "buildTemplates:debug",
+                      "buildScripts",
+                      "buildStyles",
+                      "buildIndexHTML:debug"
+ // Executed in parallel, see config below
                      ]));
 
   grunt.registerTask('createDistVersion', filterAvailable([
