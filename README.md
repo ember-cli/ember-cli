@@ -3,7 +3,7 @@ ember-cli
 
 a ember commandline utility.
 
-why?
+Why?
 ====
 
 The https://github.com/stefanpenner/ember-app-kit project has proved to be quite useful, we have learned lots, and
@@ -11,8 +11,8 @@ it allowed us to iterate quickly while building real ambitious applications.
 
 While it's initial incarnation is useful, it has several meta problems:
 
-1. it is not "simple" and appears daunting.
-2. because of inline configuration, the api surface area is massive
+1. It is not "simple" and appears daunting.
+2. Because of inline configuration, the api surface area is massive
 3. #2 does not allow users to express the "what" just the "how", this prevents EAK from doing more of the heavy lifting itself.
 4. [#2 #3] makes it quite tedious to upgrade
 
@@ -29,30 +29,49 @@ Guidelines
   - the current contents of tasks/* should reside in the ember executables library
   - the pipeline related Gruntfile configuration should also reside in the above mentioned library.
 
-ideas
+Usage
+===========
+
+Install
+------------
+
+This is an npm package and can be used locally by installing it globally
+
+```sh
+npm install -g
+```
+
+Current Commands
+----------------
+
+```sh
+ember build <env-name>
+ember server
+```
+
+Ideas
 =====
   - excutable  (this project)
 
   ```sh
-    ember
-    ember new   <app-name>
-    ember build <env-name> [default: development] [optional: target path]
-    ember server
-      --autotest   [default: false]
-      --port       [default: 8000]
-      --subscribe  [default:release, optional: (beta|canary)] 
+  ember
+  ember new   <app-name>
+  ember build <env-name> [default: development] [optional: target path]
+  ember server
+    --autotest   [default: false]
+    --port       [default: 8000]
+    --subscribe  [default:release, optional: (beta|canary)] 
                    # on "start" of an app, it will prompt the user if the channel they
                    # subscribe to has an update.
                    # if an update occured. they are asked [yes, no] to try the update (using bower)
                    #   (what about other libs? ember-data or components or..)
-      --env        [default: development] # allow previewing the various build envs.
-      --app        [default: .]
+    --env        [default: development] # allow previewing the various build envs.
+    --app        [default: .]
 
-    ember generate [...]
-    ember generate scaffold [...] # for resources
-    
-    
-    ember addon # reserved for future use.
+  ember generate [...]
+  ember generate scaffold [...] # for resources
+      
+  ember addon # reserved for future use.
   ```
   - folder structure: (very similar to what we currently have)
   
