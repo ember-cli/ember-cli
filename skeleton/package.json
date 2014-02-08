@@ -1,0 +1,54 @@
+{
+  "name": "app-kit",
+  "namespace": "appkit",
+  "APIMethod": "stub",
+  "proxyURL": "http://localhost:8000",
+  "proxyPath": "/api",
+  "version": "0.0.0",
+  "private": true,
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "grunt server",
+    "build": "grunt build:debug",
+    "test": "grunt test:ci",
+    "postinstall": "bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stefanpenner/ember-app-kit.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "express": "~3.4.8",
+    "lockfile": "~0.4.2",
+    "bower": "~1.2.7",
+    "grunt": "~0.4.2",
+    "grunt-cli": "~0.1.9",
+    "load-grunt-config": "~0.7.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-cssmin": "~0.6.2",
+    "grunt-preprocess": "~3.0.1",
+    "grunt-es6-module-transpiler": "~0.6.0",
+    "grunt-concat-sourcemap": "~0.4.0",
+    "grunt-concurrent": "~0.4.3",
+    "grunt-usemin": "~0.1.13",
+    "grunt-rev": "~0.1.0",
+    "grunt-ember-templates": "~0.4.18",
+    "grunt-contrib-testem": "~0.5.14",
+    "express-namespace": "~0.1.1",
+    "request": "~2.33.0",
+    "loom-generators-ember-appkit": "~1.0.2",
+    "originate": "~0.1.5",
+    "loom": "~3.1.2",
+    "connect-livereload": "~0.3.1"
+  }
+}
