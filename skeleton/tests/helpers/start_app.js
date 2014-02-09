@@ -1,5 +1,5 @@
-import Application from 'appkit/app';
-import Router from 'appkit/router';
+import Application from '<%= namespace %>/app';
+import Router from '<%= namespace %>/router';
 
 function startApp(attrs) {
   var App;

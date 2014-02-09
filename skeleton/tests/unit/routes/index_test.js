@@ -1,6 +1,6 @@
-import { test , moduleFor } from 'appkit/tests/helpers/module_for';
+import { test , moduleFor } from '<%= namespace %>/tests/helpers/module_for';
 
-import Index from 'appkit/routes/index';
+import Index from '<%= namespace %>/routes/index';
 
 moduleFor('route:index', "Unit - IndexRoute");
 

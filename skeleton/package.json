@@ -1,6 +1,6 @@
 {
   "name": "app-kit",
-  "namespace": "appkit",
+  "namespace": "<%= namespace %>",
   "APIMethod": "stub",
   "proxyURL": "http://localhost:8000",
   "proxyPath": "/api",

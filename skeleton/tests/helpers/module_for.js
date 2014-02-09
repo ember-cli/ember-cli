@@ -1,6 +1,6 @@
 var __testing_context__;
 
-import resolver from 'appkit/tests/helpers/resolver';
+import resolver from '<%= namespace %>/tests/helpers/resolver';
 
 function defaultSubject(factory, options) {
   return factory.create(options);
