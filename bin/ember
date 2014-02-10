@@ -1,6 +1,54 @@
 #!/usr/bin/env node
 
+var nopt = require('nopt'),
+    commands = require('../lib/cli/commands'),
+    chalk = require("chalk"),
+    RSVP = require("rsvp"),
+    pkg = require('../package.json');
+
 process.title = 'ember';
 
-var cli = require('../lib/cli/main');
-cli();
+var opts = nopt({
+  help: Boolean,
+  version: Boolean
+}, {
+  h: '--help',
+  v: '--version'
+});
+
+var args = opts.argv.remain;
+var cmd = args[0];
+
+function init() {
+
+  return new RSVP.Promise(function(resolve, reject) {
+
+    if(opts.version) {
+      console.log('ember-cli', pkg.version);
+      resolve();
+      return;
+    }
+
+
+    var action = commands[cmd];
+
+    action.run().then(resolve).catch(reject);
+
+    if(!action) {
+      reject("The specified command " + chalk.underline(cmd) + " could not be found");
+    }
+
+  });
+
+}
+
+init().then(process.exit);
+
+RSVP.on("error", function(error) {
+  console.log(chalk.red("Unhandled Error"));
+  console.error(error);
+  if(opts.debug) {
+    console.error(error.stack);
+  }
+  process.exit(1);
+});
