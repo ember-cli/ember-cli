@@ -27,7 +27,7 @@ Guidelines
     - we should provide internal configuration/implementation to satisfy the 'what' with the how.
   - simple > easy
   - the current contents of tasks/* should reside in the ember executables library
-  - the pipeline related Gruntfile configuration should also reside in the above mentioned library.
+  - the pipeline-related Broccoli configuration should also reside in the above mentioned library.
 
 Usage
 ===========
@@ -47,6 +47,7 @@ Current Commands
 ```sh
 ember build <env-name>
 ember server
+ember new [--name app-name]
 ```
 
 Ideas
@@ -76,13 +77,13 @@ Ideas
   - folder structure: (very similar to what we currently have)
   
   ```sh
-  app/*         # like EAK today
-  tasks/        # custom user tasks
-  vendor/       # mostly for bower, some non-bower stuff will reside.
-  tests/        # tests test config and test helpers.
-  tmp/*         # created on demand, but scratch pad for EAK.
-  Gruntfile.js  # should contain a mechanism for default ember tasks to be loaded
-                # should be the place for users to define custom grunt related things.
+  app/*            # like EAK today
+  tasks/           # custom user tasks
+  vendor/          # mostly for bower, some non-bower stuff will reside.
+  tests/           # tests test config and test helpers.
+  tmp/*            # created on demand, but scratch pad for EAK.
+  Broccolifile.js  # should contain a mechanism for default ember tasks to be loaded
+                   # should be the place for users to define custom broccoli related things.
   package.json
   bower.json
   .gitignore
@@ -93,7 +94,7 @@ Ideas
   - configuration
     ```shell
     server.js                    # for adding additional connect middleware (like a proxy to the backend)
-    Gruntfile                    # default tasks will exist in "ember"
+    Broccolifile                 # default tasks will exist in "ember"
     tasks/                       # custom user tasks
     ```
   - detect .js, .coffee, .styl, .scss, .sass
@@ -104,4 +105,4 @@ new Error("tried compiling: `app.coffee` but CoffesScript is Missing, to install
      ````
 
   - tasks
-    consider extracting them into [grunt-ember](https://github.com/dgeb/grunt-ember-templates/issues/41)
+    consider extracting them into broccoli-ember
