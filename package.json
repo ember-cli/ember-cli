@@ -5,7 +5,8 @@
   "bin": {
     "ember": "./bin/ember",
     "ember-build": "./bin/ember-build",
-    "ember-server": "./bin/ember-server"
+    "ember-server": "./bin/ember-server",
+    "ember-init": "./bin/ember-init"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

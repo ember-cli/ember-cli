@@ -2,6 +2,6 @@
 
 process.title = 'ember';
 
-var cli = require('../lib/cli/new');
+var cli = require('../lib/cli/init');
 cli();
 
