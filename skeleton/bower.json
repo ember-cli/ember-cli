@@ -1,0 +1,16 @@
+{
+  "name": "ember-app-kit",
+  "dependencies": {
+    "handlebars": "~1.1.2",
+    "jquery": "~1.9.1",
+    "qunit": "~1.12.0",
+    "ember": "~1.4.0-beta.2",
+    "ember-data": "~1.0.0-beta.6",
+    "ember-resolver": "git://github.com/stefanpenner/ember-jj-abrams-resolver.git#master",
+    "ic-ajax": "~0.3.0",
+    "ember-testing-httpRespond": "~0.1.1"
+  },
+  "resolutions": {
+    "ember": "~1.4.0-beta.2"
+  }
+}

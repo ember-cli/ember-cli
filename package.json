@@ -5,7 +5,8 @@
   "bin": {
     "ember": "./bin/ember",
     "ember-build": "./bin/ember-build",
-    "ember-server": "./bin/ember-server"
+    "ember-server": "./bin/ember-server",
+    "ember-init": "./bin/ember-init"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -51,6 +52,10 @@
     "grunt-contrib-testem": "~0.5.11",
     "express-namespace": "~0.1.1",
     "request": "~2.27.0",
-    "connect-livereload": "~0.3.1"
+    "connect-livereload": "~0.3.1",
+    "fs-extra": "~0.8.1",
+    "lodash-node": "~2.4.1",
+    "chalk": "~0.4.0",
+    "rsvp": "~3.0.3"
   }
 }
