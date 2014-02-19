@@ -4,6 +4,9 @@ var nopt = require('nopt'),
     commands = require('../lib/cli/commands'),
     chalk = require("chalk"),
     RSVP = require("rsvp"),
+    rest = require("lodash-node/modern/arrays/rest"),
+    merge = require("lodash-node/modern/objects/merge"),
+    path = require("path"),
     pkg = require('../package.json');
 
 process.title = 'ember';
@@ -16,29 +19,42 @@ var opts = nopt({
   v: '--version'
 });
 
-var args = opts.argv.remain;
-var cmd = args[0];
+RSVP.Promise.prototype.asStatus = function() {
+  this.then(function() {
+    return 0;
+  }).catch(function() {
+    return 1;
+  });
+  return this;
+}
+
+var cmd = opts.argv.remain[0];
 
 function init() {
 
-  return new RSVP.Promise(function(resolve, reject) {
-
-    if(opts.version) {
-      console.log('ember-cli', pkg.version);
-      resolve();
-      return;
-    }
+  if(opts.version) {
+    console.log('ember-cli', pkg.version);
+    return 0;
+  }
 
 
-    var action = commands[cmd];
+  var action = commands[cmd];
 
-    action.run().then(resolve).catch(reject);
+  opts = nopt(action.options);
 
-    if(!action) {
-      reject("The specified command " + chalk.underline(cmd) + " could not be found");
-    }
+  if(!action) {
+    throw new Error("The specified command " + chalk.underline(cmd) + " could not be found");
+  }
 
-  });
+  var args = rest(opts.argv.remain),
+      options = merge(opts, {
+        appRoot: process.cwd(),
+        cliRoot: path.resolve(path.join(__dirname, ".."))
+      });
+
+  args.push(options);
+
+  return action.run.apply(this, args).asStatus();
 
 }
 
