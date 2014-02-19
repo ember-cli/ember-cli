@@ -61,9 +61,6 @@ init().then(process.exit);
 
 RSVP.on("error", function(error) {
   console.log(chalk.red("Unhandled Error"));
-  console.error(error);
-  if(opts.debug) {
-    console.error(error.stack);
-  }
+  throw error;
   process.exit(1);
 });
