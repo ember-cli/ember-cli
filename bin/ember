@@ -20,12 +20,11 @@ var opts = nopt({
 });
 
 RSVP.Promise.prototype.asStatus = function() {
-  this.then(function() {
+  return this.then(function() {
     return 0;
   }).catch(function() {
     return 1;
   });
-  return this;
 }
 
 var cmd = opts.argv.remain[0];
