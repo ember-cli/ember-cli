@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "express": "~3.4.2",
-    "commander": "~2.1.0",
     "lockfile": "~0.3.4",
     "grunt": "~0.4.2",
     "load-grunt-config": "~0.7.0",
