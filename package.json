@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "express": "~3.4.2",
-    "commander": "~2.1.0",
     "lockfile": "~0.3.4",
     "grunt": "~0.4.2",
     "load-grunt-config": "~0.7.0",
@@ -56,6 +55,7 @@
     "fs-extra": "~0.8.1",
     "lodash-node": "~2.4.1",
     "chalk": "~0.4.0",
-    "rsvp": "~3.0.3"
+    "rsvp": "~3.0.3",
+    "nopt": "~2.1.2"
   }
 }

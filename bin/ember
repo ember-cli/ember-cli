@@ -1,6 +1,65 @@
 #!/usr/bin/env node
 
+var nopt = require('nopt'),
+    commands = require('../lib/commands/commands'),
+    chalk = require("chalk"),
+    RSVP = require("rsvp"),
+    rest = require("lodash-node/modern/arrays/rest"),
+    merge = require("lodash-node/modern/objects/merge"),
+    path = require("path"),
+    pkg = require('../package.json');
+
 process.title = 'ember';
 
-var cli = require('../lib/cli/main');
-cli();
+var opts = nopt({
+  help: Boolean,
+  version: Boolean
+}, {
+  h: '--help',
+  v: '--version'
+});
+
+RSVP.Promise.prototype.asStatus = function() {
+  return this.then(function() {
+    return 0;
+  }).catch(function() {
+    return 1;
+  });
+}
+
+var cmd = opts.argv.remain[0];
+
+function init() {
+
+  if(opts.version) {
+    console.log('ember-cli', pkg.version);
+    return 0;
+  }
+
+  var action = commands[cmd];
+
+  opts = nopt.apply(null, action.options);
+
+  if(!action) {
+    throw new Error("The specified command " + chalk.underline(cmd) + " could not be found");
+  }
+
+  var args = rest(opts.argv.remain),
+      options = merge(opts, {
+        appRoot: process.cwd(),
+        cliRoot: path.resolve(path.join(__dirname, ".."))
+      });
+
+  args.push(options);
+
+  return action.run.apply(this, args).asStatus();
+
+}
+
+init().then(process.exit);
+
+RSVP.on("error", function(error) {
+  console.log(chalk.red("Unhandled Error"));
+  throw error;
+  process.exit(1);
+});

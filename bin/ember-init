@@ -1,7 +1,0 @@
-#!/usr/bin/env node
-
-process.title = 'ember';
-
-var cli = require('../lib/cli/init');
-cli();
-
