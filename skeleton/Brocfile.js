@@ -40,7 +40,7 @@ module.exports = function (broccoli) {
   ];
 
   if (env !== 'production') {
-    sourceTrees.push(tests);
+    //sourceTrees.push(tests);
   }
 
   sourceTrees = sourceTrees.concat(broccoli.bowerTrees());
@@ -63,7 +63,7 @@ module.exports = function (broccoli) {
       //'ember-resolver.js'
     ],
 
-    wrapInEvas: env !== 'production',
+    wrapInEval: env !== 'production',
     outputFile: '/assets/app.js'
   });
 
