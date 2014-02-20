@@ -25,7 +25,7 @@ RSVP.Promise.prototype.asStatus = function() {
   }).catch(function() {
     return 1;
   });
-}
+};
 
 var cmd = opts.argv.remain[0];
 
@@ -38,11 +38,11 @@ function init() {
 
   var action = commands[cmd];
 
-  opts = nopt.apply(null, action.options);
-
   if(!action) {
     throw new Error("The specified command " + chalk.underline(cmd) + " could not be found");
   }
+
+  opts = nopt.apply(null, action.options);
 
   var args = rest(opts.argv.remain),
       options = merge(opts, {
