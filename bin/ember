@@ -2,11 +2,12 @@
 
 var nopt = require('nopt'),
     commands = require('../lib/commands/commands'),
-    chalk = require("chalk"),
-    RSVP = require("rsvp"),
-    rest = require("lodash-node/modern/arrays/rest"),
-    merge = require("lodash-node/modern/objects/merge"),
-    path = require("path"),
+    chalk = require('chalk'),
+    RSVP = require('rsvp'),
+    Promise = RSVP.Promise,
+    rest = require('lodash-node/modern/arrays/rest'),
+    merge = require('lodash-node/modern/objects/merge'),
+    path = require('path'),
     pkg = require('../package.json');
 
 process.title = 'ember';
@@ -31,15 +32,15 @@ var cmd = opts.argv.remain[0];
 
 function init() {
 
-  if(opts.version) {
+  if (opts.version) {
     console.log('ember-cli', pkg.version);
     return 0;
   }
 
   var action = commands[cmd];
 
-  if(!action) {
-    throw new Error("The specified command " + chalk.underline(cmd) + " could not be found");
+  if (!action) {
+    throw new Error('The specified command ' + chalk.underline(cmd) + ' could not be found');
   }
 
   opts = nopt.apply(null, action.options);
@@ -47,19 +48,17 @@ function init() {
   var args = rest(opts.argv.remain),
       options = merge(opts, {
         appRoot: process.cwd(),
-        cliRoot: path.resolve(path.join(__dirname, ".."))
+        cliRoot: path.resolve(path.join(__dirname, '..'))
       });
 
   args.push(options);
 
   return action.run.apply(this, args).asStatus();
-
 }
 
-init().then(process.exit);
+Promise.resolve(init()).then(process.exit);
 
-RSVP.on("error", function(error) {
-  console.log(chalk.red("Unhandled Error"));
+RSVP.on('error', function(error) {
+  console.log(chalk.red('Unhandled Error'));
   throw error;
-  process.exit(1);
 });

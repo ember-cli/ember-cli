@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "bin": {
-    "ember": "./bin/ember",
-    "ember-build": "./bin/ember-build",
-    "ember-server": "./bin/ember-server",
-    "ember-init": "./bin/ember-init"
+    "ember": "./bin/ember"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,9 +27,11 @@
     "url": "https://github.com/stefanpenner/ember-cli/issues"
   },
   "dependencies": {
+    "broccoli": "0.2.0",
     "lodash-node": "~2.4.1",
     "chalk": "~0.4.0",
-    "rsvp": "~3.0.3",
-    "nopt": "~2.1.2"
+    "rsvp": "~3.0.6",
+    "nopt": "~2.1.2",
+    "fs-extra": "~0.8.1"
   }
 }

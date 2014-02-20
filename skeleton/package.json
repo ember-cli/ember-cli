@@ -28,6 +28,9 @@
     "broccoli-cli": "0.0.1",
     "broccoli-es6-concatenator": "0.0.7",
     "broccoli": "~0.2.0",
-    "broccoli-static-compiler": "0.0.5"
+    "broccoli-static-compiler": "0.0.5",
+    "broccoli-template": "0.0.5",
+    "broccoli-uglify-js": "0.0.4",
+    "broccoli-env": "0.0.1"
   }
 }
