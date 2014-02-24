@@ -3,6 +3,12 @@ ember-cli
 
 a ember commandline utility.
 
+
+Warning
+=======
+
+Although potentially exciting, this is still really a WIP, use at your own risk.
+
 Why?
 ====
 
