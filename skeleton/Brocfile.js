@@ -70,13 +70,13 @@ module.exports = function (broccoli) {
 
   if (env === 'production') {
     applicationJs = uglifyJavaScript(applicationJs, {
-      // mangle: false,
-      // compress: false
+      mangle: false,
+      compress: false
     });
   }
 
   return [
     applicationJs,
     publicFiles
-  ]
+  ];
 };
