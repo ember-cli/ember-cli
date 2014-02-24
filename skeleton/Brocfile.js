@@ -60,7 +60,7 @@ module.exports = function (broccoli) {
       'handlebars.js',
       'ember.js',
       'ember-data.js',
-      //'ember-resolver.js'
+      'ember-resolver.js'
     ],
 
     wrapInEval: env !== 'production',
