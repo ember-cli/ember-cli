@@ -23,14 +23,14 @@ module.exports = function (broccoli) {
 
   app = pickFiles(app, {
     srcDir: '/',
-    destDir: 'appkit' // move under appkit namespace
+    destDir: '<%= namespace %>'
   });
 
   app = preprocess(app);
 
   tests = pickFiles(tests, {
     srcDir: '/',
-    destDir: 'appkit/tests'
+    destDir: '<%= namespace %>/tests'
   });
 
   tests = preprocess(tests);
@@ -54,7 +54,7 @@ module.exports = function (broccoli) {
       'resolver'
     ],
     inputFiles: [
-      'appkit/**/*.js'
+      '<%= namespace %>/**/*.js'
     ],
     legacyFilesToAppend: [
       'jquery.js',

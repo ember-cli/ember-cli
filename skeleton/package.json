@@ -1,5 +1,5 @@
 {
-  "name": "app-kit",
+  "name": "<%= namespace %>",
   "namespace": "<%= namespace %>",
   "APIMethod": "stub",
   "version": "0.0.0",
