@@ -10,6 +10,8 @@ var nopt = require('nopt'),
     path = require('path'),
     pkg = require('../package.json');
 
+require('../lib/ext/promise');
+
 process.title = 'ember';
 
 var opts = nopt({
