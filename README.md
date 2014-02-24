@@ -47,7 +47,7 @@ Current Commands
 ```sh
 ember build <env-name>
 ember server
-ember new [--name app-name]
+ember init [app-name] [--dry-run]
 ```
 
 Ideas
