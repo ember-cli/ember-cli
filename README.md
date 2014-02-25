@@ -62,7 +62,7 @@ Ideas
 
   ```sh
   ember
-  ember new   <app-name>
+  ember init  <app-name>
   ember build <env-name> [default: development] [optional: target path]
   ember server
     --autotest   [default: false]
