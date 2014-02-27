@@ -53,7 +53,7 @@ Current Commands
 ```sh
 ember build <env-name>
 ember server
-ember init [app-name] [--dry-run]
+ember init [app-name] [--dry-run] [--skip-npm-install]
 ```
 
 Ideas
