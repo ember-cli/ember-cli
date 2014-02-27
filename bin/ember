@@ -34,6 +34,14 @@ var cmd = opts.argv.remain[0];
 
 function init() {
 
+  if (opts.help) {
+    console.log('ember-cli','available commands:');
+    for(var c in commands){
+        console.log('    ' + commands[c].usage.apply());
+    }
+    return 0;
+  }
+
   if (opts.version) {
     console.log('ember-cli', pkg.version);
     return 0;
