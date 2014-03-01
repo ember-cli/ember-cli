@@ -22,14 +22,6 @@ var opts = nopt({
   v: '--version'
 });
 
-RSVP.Promise.prototype.asStatus = function() {
-  return this.then(function() {
-    return 0;
-  }).catch(function() {
-    return 1;
-  });
-};
-
 var cmd = opts.argv.remain[0];
 
 function init() {
@@ -63,7 +55,7 @@ function init() {
 
   args.push(options);
 
-  return action.run.apply(this, args).asStatus();
+  return action.run.apply(this, args);
 }
 
 Promise.resolve(init()).then(process.exit);
