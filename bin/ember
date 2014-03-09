@@ -24,14 +24,18 @@ var opts = nopt({
 
 var cmd = opts.argv.remain[0];
 
+function help() {
+  console.log('ember-cli','available commands:');
+  for(var c in commands){
+    console.log('    ' + commands[c].usage.apply());
+  }
+}
+
 function init() {
 
   if (opts.help) {
-    console.log('ember-cli','available commands:');
-    for(var c in commands){
-        console.log('    ' + commands[c].usage.apply());
-    }
-    return 0;
+    help();
+     return 0;
   }
 
   if (opts.version) {
@@ -39,10 +43,17 @@ function init() {
     return 0;
   }
 
+  if (!cmd) {
+    help();
+    return;
+  }
+
   var action = commands[cmd];
 
-  if (!action) {
-    throw new Error('The specified command ' + chalk.underline(cmd) + ' could not be found');
+  if (cmd && !action) {
+    process.stdout.write('The specified command ' + chalk.underline(cmd) + ' is invalid\n\n');
+    help();
+    return;
   }
 
   opts = nopt.apply(null, action.options);
