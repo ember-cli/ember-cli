@@ -6,7 +6,7 @@
     "ember": "./bin/ember"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -R spec tests/**/*_test.js"
   },
   "repository": {
     "type": "git",
@@ -37,5 +37,8 @@
     "nopt": "~2.1.2",
     "fs-extra": "~0.8.1",
     "ncp": "~0.5.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1"
   }
 }
