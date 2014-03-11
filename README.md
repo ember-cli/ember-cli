@@ -9,6 +9,19 @@ Warning
 
 Although potentially exciting, this is still really a WIP, use at your own risk.
 
+
+Getting Started
+===============
+
+```sh
+npm install -g ember-cli
+ 
+mkdir my-cool-app
+cd my-cool-app
+ember init
+ember server
+```
+
 Why?
 ====
 
