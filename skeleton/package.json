@@ -21,16 +21,15 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "bower": "~1.2.7",
-    "loom-generators-ember-appkit": "~1.0.2",
+    "bower": "~1.2.8",
+    "loom-generators-ember-appkit": "~1.0.5",
     "originate": "~0.1.5",
     "loom": "~3.1.2",
-    "broccoli-cli": "0.0.1",
-    "broccoli-es6-concatenator": "0.0.7",
-    "broccoli": "~0.2.0",
-    "broccoli-static-compiler": "0.0.5",
-    "broccoli-template": "0.0.5",
-    "broccoli-uglify-js": "0.0.4",
+    "broccoli-es6-concatenator": "0.1.0",
+    "broccoli": "~0.2.4",
+    "broccoli-static-compiler": "0.1.1",
+    "broccoli-template": "0.1.0",
+    "broccoli-uglify-js": "0.1.0",
     "broccoli-env": "0.0.1"
   }
 }
