@@ -16,3 +16,4 @@
 .DS_Store
 Thumbs.db
 /coverage/*
+npm-debug.log
