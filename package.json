@@ -30,7 +30,7 @@
     "url": "https://github.com/stefanpenner/ember-cli/issues"
   },
   "dependencies": {
-    "broccoli": "0.2.4",
+    "broccoli": "0.3.0",
     "lodash-node": "~2.4.1",
     "chalk": "~0.4.0",
     "rsvp": "~3.0.6",
