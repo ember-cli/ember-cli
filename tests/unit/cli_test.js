@@ -26,7 +26,11 @@ function ember(args) {
 }
 
 function command(name) {
-  commands[name] = {};
+  var mod;
+  try {
+    mod = require('../../lib/commands/' + name);
+  } catch(e) { }
+  commands[name] = mod || {};
   return stub(commands[name], 'run');
 }
 
@@ -59,10 +63,24 @@ describe('CLI', function(){
     assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
   });
 
+  it("ember -v", function(){
+    ember(['-v']);
+    assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
+  });
+
   it("ember --help", function(){
     var help = command('help');
 
     ember(['--help']);
+
+    assert.equal(help.called, 1, 'expected the help command to be run');
+    assert.deepEqual(ui.output, [], 'expected no output');
+  });
+
+  it("ember -h", function(){
+    var help = command('help');
+
+    ember(['-h']);
 
     assert.equal(help.called, 1, 'expected the help command to be run');
     assert.deepEqual(ui.output, [], 'expected no output');
@@ -78,6 +96,46 @@ describe('CLI', function(){
     assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
     assert.deepEqual(ui.output.length, 1, 'expected  one line of output');
   });
+
+  it("ember server --port 9999", function(){
+    var server = command('server');
+
+    ember(['server', '--port',  '9999']);
+
+    assert.equal(server.called, 1, 'expected the server command to be run');
+    assert.equal(server.calledWith[0][0].port, 9999, 'correct port');
+    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+  });
+
+  it("ember server -p 9999", function(){
+    var server = command('server');
+
+    ember(['server', '-p',  '9999']);
+
+    assert.equal(server.called, 1, 'expected the server command to be run');
+    assert.equal(server.calledWith[0][0].port, 9999, 'correct port');
+    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+  });
+
+  it("ember server --host localhost", function(){
+    var server = command('server');
+
+    ember(['server', '--host', 'localhost']);
+
+    assert.equal(server.called, 1, 'expected the server command to be run');
+    assert.equal(server.calledWith[0][0].host, 'localhost', 'correct localhost');
+    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+  });
+
+  it("ember server --port 9292 --host localhost", function(){
+    var server = command('server');
+
+    ember(['server', '--port', '9292',  '--host',  'localhost']);
+
+    assert.equal(server.called, 1, 'expected the server command to be run');
+    assert.equal(server.calledWith[0][0].host, 'localhost', 'correct localhost');
+    assert.equal(server.calledWith[0][0].port, '9292', 'correct localhost');
+    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
   });
 
   it("ember <valid command>", function(){
