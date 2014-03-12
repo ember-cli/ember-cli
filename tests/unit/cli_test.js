@@ -65,7 +65,19 @@ describe('CLI', function(){
     ember(['--help']);
 
     assert.equal(help.called, 1, 'expected the help command to be run');
-    assert.deepEqual(ui.output, [], 'expected no outout');
+    assert.deepEqual(ui.output, [], 'expected no output');
+  });
+
+  it("ember --help --version", function(){
+    var help = command('help');
+
+    ember(['--version', '--help']);
+
+    // --version takes priority
+    assert.equal(help.called, 0, 'expected the help command to be run');
+    assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
+    assert.deepEqual(ui.output.length, 1, 'expected  one line of output');
+  });
   });
 
   it("ember <valid command>", function(){
