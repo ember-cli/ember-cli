@@ -11,8 +11,7 @@
   "scripts": {
     "start": "ember server",
     "build": "ember build",
-    "test": "ember test",
-    "postinstall": "bower install"
+    "test": "ember test"
   },
   "repository": {
     "type": "git",
