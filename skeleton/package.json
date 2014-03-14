@@ -25,8 +25,8 @@
     "originate": "~0.1.5",
     "loom": "~3.1.2",
     "broccoli-es6-concatenator": "0.1.0",
-    "broccoli": "~0.2.4",
-    "broccoli-static-compiler": "0.1.1",
+    "broccoli": "0.4.1",
+    "broccoli-static-compiler": "0.1.2",
     "broccoli-template": "0.1.0",
     "broccoli-uglify-js": "0.1.0",
     "broccoli-env": "0.0.1"
