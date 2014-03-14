@@ -28,6 +28,11 @@ module.exports = function (broccoli) {
 
   app = preprocess(app);
 
+  var styles = pickFiles(app, {
+    srcDir: '<%= namespace %>/styles',
+    destDir: 'assets' 
+  });
+
   tests = pickFiles(tests, {
     srcDir: '/',
     destDir: '<%= namespace %>/tests'
@@ -77,6 +82,7 @@ module.exports = function (broccoli) {
 
   return [
     applicationJs,
-    publicFiles
+    publicFiles,
+    styles
   ];
 };
