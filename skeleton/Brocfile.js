@@ -21,6 +21,7 @@ module.exports = function (broccoli) {
   var tests = broccoli.makeTree('tests');
   var publicFiles = broccoli.makeTree('public');
   var vendor = broccoli.makeTree('vendor');
+  var styles = broccoli.makeTree('styles');
 
   app = pickFiles(app, {
     srcDir: '/',
@@ -29,10 +30,12 @@ module.exports = function (broccoli) {
 
   app = preprocess(app);
 
-  var styles = pickFiles(app, {
-    srcDir: '<%= namespace %>/styles',
-    destDir: 'assets' 
+  styles = pickFiles(app, {
+    srcDir: '/',
+    destDir: '<%= namespace %>/styles' 
   });
+
+  styles = preprocess(styles);
 
   tests = pickFiles(tests, {
     srcDir: '/',
@@ -43,6 +46,7 @@ module.exports = function (broccoli) {
 
   var sourceTrees = [
     app,
+    // styles,          // Uncomment for Sass support
     vendor
   ];
 
