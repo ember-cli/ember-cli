@@ -30,7 +30,7 @@ module.exports = function (broccoli) {
 
   app = preprocess(app);
 
-  styles = pickFiles(app, {
+  styles = pickFiles(styles, {
     srcDir: '/',
     destDir: '<%= namespace %>/styles' 
   });
