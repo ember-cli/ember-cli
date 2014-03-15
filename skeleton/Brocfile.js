@@ -2,6 +2,7 @@
 var filterTemplates = require('broccoli-template');
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
+// var compileSass = require('broccoli-sass');      // Uncomment for Sass support
 var pickFiles = require('broccoli-static-compiler');
 var env = require('broccoli-env').getEnv();
 
@@ -73,6 +74,9 @@ module.exports = function (broccoli) {
     outputFile: '/assets/app.js'
   });
 
+  // Uncomment for Sass support
+  // var appCss = compileSass(sourceTrees, '<%= namespace %>/styles/app.scss', '/assets/app.css');
+
   if (env === 'production') {
     applicationJs = uglifyJavaScript(applicationJs, {
       mangle: false,
@@ -83,6 +87,7 @@ module.exports = function (broccoli) {
   return [
     applicationJs,
     publicFiles,
+    // appCss,          // Uncomment for Sass support
     styles
   ];
 };
