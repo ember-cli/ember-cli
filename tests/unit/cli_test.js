@@ -137,6 +137,25 @@ describe('CLI', function(){
     assert.equal(server.calledWith[0][0].port, '9292', 'correct localhost');
     assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
   });
+  
+  it("ember init", function(){
+    var init = command('init');
+
+    ember(['init']);
+
+    assert.equal(init.called, 1, 'expected the init command to be run');
+    assert.equal(ui.output.length, 0, 'expected no output');
+  });
+  
+  it("ember init <app-name>", function(){
+    var init = command('init');
+
+    ember(['init', 'my-blog']);
+
+    assert.equal(init.called, 1, 'expected the init command to be run');
+    assert.equal(init.calledWith[0][0], 'my-blog', 'expect first arg to be the app name');
+    assert.equal(ui.output.length, 0, 'expected no output');
+  });
 
   it("ember <valid command>", function(){
     var help = command('help');
@@ -146,6 +165,23 @@ describe('CLI', function(){
 
     assert.equal(help.called, 0, 'expected the help command NOT to be run');
     assert.equal(foo.called, 1,  'expected the foo command to be run');
+    assert.deepEqual(ui.output, [], 'expected no output');
+  });
+
+  it("ember <valid command with args>", function(){
+    var help = command('help');
+    var foo = command('foo');
+
+    ember(['foo', 'lorem', 'ipsum', 'dolor', '--flag1=one']);
+
+    assert.equal(help.called, 0, 'expected the help command NOT to be run');
+    assert.equal(foo.called, 1,  'expected the foo command to be run');
+    assert.equal(foo.calledWith[0][0], 'lorem', 'expect foo to receive the string lorem');
+    assert.equal(foo.calledWith[0][1], 'ipsum', 'expect foo to receive the string ipsum');
+    assert.equal(foo.calledWith[0][2], 'dolor', 'expect foo to receive the string dolor');
+    assert.ok(typeof foo.calledWith[0][3] === 'object', 'expect arg 4 to be the object options');
+    assert.equal(foo.calledWith[0].length, 4, 'expect foo to receive a total of 4 args');
+    assert.equal(foo.calledWith[0][3].flag1, 'one', 'expect foo to receive the flag1 with the string one');
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
