@@ -94,7 +94,7 @@ describe('CLI', function(){
     // --version takes priority
     assert.equal(help.called, 0, 'expected the help command to be run');
     assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
-    assert.deepEqual(ui.output.length, 1, 'expected  one line of output');
+    assert.deepEqual(ui.output.length, 1, 'expected one line of output');
   });
 
   ['server','s'].forEach(function(command) {
@@ -176,6 +176,22 @@ describe('CLI', function(){
       assert.equal(init.calledWith[0][0], 'my-blog', 'expect first arg to be the app name');
       assert.equal(ui.output.length, 0, 'expected no output');
     });
+  });
+
+  it('ember new', function(){
+    var newCommand = stubCommand('new');
+
+    ember(['new']);
+
+    assert.equal(newCommand.called, 1, 'expected the new command to be run');
+  });
+
+  it('ember new MyApp', function(){
+    var newCommand = stubCommand('new');
+
+    ember(['new', 'MyApp']);
+
+    assert.equal(newCommand.called, 1, 'expected the new command to be run');
   });
 
   it('ember <valid command>', function(){
