@@ -138,6 +138,21 @@ describe('CLI', function(){
     assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
   });
 
+  it('ember generate foo bar baz', function(){
+    var generate = command('generate');
+    var called;
+
+    ember(['generate', 'foo', 'bar', 'baz']);
+
+    called = generate.calledWith[0];
+
+    assert.equal(generate.called, 1, 'expected the generate command to be run');
+    assert.equal(called[0], 'foo');
+    assert.equal(called[1], 'bar');
+    assert.equal(called[2], 'baz');
+    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+  });
+
   it('ember init', function(){
     var init = command('init');
 
