@@ -42,7 +42,7 @@ afterEach(function() {
   commands = argv = ui = undefined;
 });
 
-describe('CLI', function(){
+describe('Unit: CLI', function(){
   it('exists', function(){
     assert(Cli);
   });
