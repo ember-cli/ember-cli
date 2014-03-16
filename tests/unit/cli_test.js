@@ -94,7 +94,7 @@ describe('CLI', function(){
     // --version takes priority
     assert.equal(help.called, 0, 'expected the help command to be run');
     assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
-    assert.deepEqual(ui.output.length, 1, 'expected  one line of output');
+    assert.deepEqual(ui.output.length, 1, 'expected one line of output');
   });
 
   it("ember server --port 9999", function(){
@@ -104,7 +104,7 @@ describe('CLI', function(){
 
     assert.equal(server.called, 1, 'expected the server command to be run');
     assert.equal(server.calledWith[0][0].port, 9999, 'correct port');
-    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+    assert.deepEqual(ui.output.length, 0, 'expected one line of output');
   });
 
   it("ember server -p 9999", function(){
@@ -114,7 +114,7 @@ describe('CLI', function(){
 
     assert.equal(server.called, 1, 'expected the server command to be run');
     assert.equal(server.calledWith[0][0].port, 9999, 'correct port');
-    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+    assert.deepEqual(ui.output.length, 0, 'expected one line of output');
   });
 
   it("ember server --host localhost", function(){
@@ -124,7 +124,7 @@ describe('CLI', function(){
 
     assert.equal(server.called, 1, 'expected the server command to be run');
     assert.equal(server.calledWith[0][0].host, 'localhost', 'correct localhost');
-    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+    assert.deepEqual(ui.output.length, 0, 'expected one line of output');
   });
 
   it("ember server --port 9292 --host localhost", function(){
@@ -135,7 +135,23 @@ describe('CLI', function(){
     assert.equal(server.called, 1, 'expected the server command to be run');
     assert.equal(server.calledWith[0][0].host, 'localhost', 'correct localhost');
     assert.equal(server.calledWith[0][0].port, '9292', 'correct localhost');
-    assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+    assert.deepEqual(ui.output.length, 0, 'expected one line of output');
+  });
+
+  it("ember new", function(){
+    var newCommand = command('new');
+
+    ember(['new']);
+
+    assert.equal(newCommand.called, 1, 'expected the new command to be run');
+  });
+
+  it("ember new MyApp", function(){
+    var newCommand = command('new');
+
+    ember(['new', 'MyApp']);
+
+    assert.equal(newCommand.called, 1, 'expected the new command to be run');
   });
 
   it("ember <valid command>", function(){
