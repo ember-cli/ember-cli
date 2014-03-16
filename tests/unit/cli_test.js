@@ -144,6 +144,7 @@ describe('CLI', function(){
     ember(['new']);
 
     assert.equal(newCommand.called, 1, 'expected the new command to be run');
+    assert(/requires an app-name to be specified/.test(ui.output[0]), 'expected an app-name not specified message');
   });
 
   it("ember new MyApp", function(){
