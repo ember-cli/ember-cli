@@ -9,10 +9,12 @@ describe('generate command', function(){
   before(function() {
     command = require('../../../lib/commands/generate');
   });
+
   after(function() {
     command = null;
   });
-  it("generates a controller", function(){
+
+  it('generates a controller', function(){
     command.run('controller', 'application', 'type:array');
     //TODO: figure out how to test this more thoroughly
   });
