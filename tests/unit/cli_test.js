@@ -49,7 +49,7 @@ describe('CLI', function(){
     assert(Cli);
   });
 
-  it("ember", function(){
+  it('ember', function(){
     var help = command('help');
 
     ember();
@@ -58,17 +58,17 @@ describe('CLI', function(){
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
-  it("ember --version", function(){
+  it('ember --version', function(){
     ember(['--version']);
     assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
   });
 
-  it("ember -v", function(){
+  it('ember -v', function(){
     ember(['-v']);
     assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
   });
 
-  it("ember --help", function(){
+  it('ember --help', function(){
     var help = command('help');
 
     ember(['--help']);
@@ -77,7 +77,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
-  it("ember -h", function(){
+  it('ember -h', function(){
     var help = command('help');
 
     ember(['-h']);
@@ -86,7 +86,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
-  it("ember --help --version", function(){
+  it('ember --help --version', function(){
     var help = command('help');
 
     ember(['--version', '--help']);
@@ -97,7 +97,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output.length, 1, 'expected  one line of output');
   });
 
-  it("ember server --port 9999", function(){
+  it('ember server --port 9999', function(){
     var server = command('server');
 
     ember(['server', '--port',  '9999']);
@@ -107,7 +107,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
   });
 
-  it("ember server -p 9999", function(){
+  it('ember server -p 9999', function(){
     var server = command('server');
 
     ember(['server', '-p',  '9999']);
@@ -117,7 +117,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
   });
 
-  it("ember server --host localhost", function(){
+  it('ember server --host localhost', function(){
     var server = command('server');
 
     ember(['server', '--host', 'localhost']);
@@ -127,7 +127,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
   });
 
-  it("ember server --port 9292 --host localhost", function(){
+  it('ember server --port 9292 --host localhost', function(){
     var server = command('server');
 
     ember(['server', '--port', '9292',  '--host',  'localhost']);
@@ -137,8 +137,8 @@ describe('CLI', function(){
     assert.equal(server.calledWith[0][0].port, '9292', 'correct localhost');
     assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
   });
-  
-  it("ember init", function(){
+
+  it('ember init', function(){
     var init = command('init');
 
     ember(['init']);
@@ -146,8 +146,8 @@ describe('CLI', function(){
     assert.equal(init.called, 1, 'expected the init command to be run');
     assert.equal(ui.output.length, 0, 'expected no output');
   });
-  
-  it("ember init <app-name>", function(){
+
+  it('ember init <app-name>', function(){
     var init = command('init');
 
     ember(['init', 'my-blog']);
@@ -157,7 +157,7 @@ describe('CLI', function(){
     assert.equal(ui.output.length, 0, 'expected no output');
   });
 
-  it("ember <valid command>", function(){
+  it('ember <valid command>', function(){
     var help = command('help');
     var foo = command('foo');
 
@@ -168,7 +168,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
-  it("ember <valid command with args>", function(){
+  it('ember <valid command with args>', function(){
     var help = command('help');
     var foo = command('foo');
 
@@ -185,7 +185,7 @@ describe('CLI', function(){
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
-  it("ember <invalid command>", function(){
+  it('ember <invalid command>', function(){
     var help = command('help');
     var foo = command('foo');
 
