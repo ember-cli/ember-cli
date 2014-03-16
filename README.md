@@ -15,7 +15,7 @@ Getting Started
 
 ```sh
 npm install -g ember-cli
- 
+
 mkdir my-cool-app
 cd my-cool-app
 ember init
@@ -51,13 +51,11 @@ Guidelines
 Usage
 ===========
 
-Install
-------------
-
-This is an npm package and can be used locally by installing it globally
+Install from npm
+-------------------
 
 ```sh
-npm install -g
+npm install ember-cli -g
 ```
 
 Current Commands
@@ -67,6 +65,19 @@ Current Commands
 ember build <env-name>
 ember server
 ember init [app-name] [--dry-run] [--skip-npm-install]
+```
+
+Developing
+==========
+
+You may want to use `npm link` to make your local source directory a globally installed package.
+See [npm-developers](https://www.npmjs.org/doc/misc/npm-developers.html)
+
+Running tests
+-------------
+
+```sh
+npm test
 ```
 
 Ideas
@@ -80,7 +91,7 @@ Ideas
   ember server
     --autotest   [default: false]
     --port       [default: 8000]
-    --subscribe  [default:release, optional: (beta|canary)] 
+    --subscribe  [default:release, optional: (beta|canary)]
                    # on "start" of an app, it will prompt the user if the channel they
                    # subscribe to has an update.
                    # if an update occured. they are asked [yes, no] to try the update (using bower)
@@ -90,11 +101,11 @@ Ideas
 
   ember generate [...]
   ember generate scaffold [...] # for resources
-      
+
   ember addon # reserved for future use.
   ```
   - folder structure: (very similar to what we currently have)
-  
+
   ```sh
   app/*            # like EAK today
   tasks/           # custom user tasks
@@ -109,7 +120,7 @@ Ideas
   .travis
   .jshintrc
   ```
-  
+
   - configuration
     ```shell
     server.js                    # for adding additional connect middleware (like a proxy to the backend)
@@ -118,7 +129,7 @@ Ideas
     ```
   - detect .js, .coffee, .styl, .scss, .sass
     and use the appropriate filter, or throw with useful error.
-    e.g: 
+    e.g:
     ```javascript
 new Error("tried compiling: `app.coffee` but CoffesScript is Missing, to install please: npm install coffee-script --save-dev")
      ````
