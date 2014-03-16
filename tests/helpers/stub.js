@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function stub(obj, name) {
   obj[name] = function() {
     obj[name].called++;

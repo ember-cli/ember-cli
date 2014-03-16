@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert');
 var stub = require('../helpers/stub');
 var MockUI = require('../helpers/mock_ui');

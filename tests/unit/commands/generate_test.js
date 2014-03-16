@@ -1,3 +1,5 @@
+'use strict';
+
 var describe = require('mocha').describe;
 var before = require('mocha').beforeEach;
 var after = require('mocha').afterEach;

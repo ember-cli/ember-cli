@@ -6,6 +6,7 @@
     "beforeEach": true,
     "afterEach": true
   },
+  "strict": true,
   "indent": 2,
   "camelcase": true,
   "node" : true,
