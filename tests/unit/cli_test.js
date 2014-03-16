@@ -1,7 +1,3 @@
-var describe = require('mocha').describe;
-var before = require('mocha').beforeEach;
-var after = require('mocha').afterEach;
-var it = require('mocha').it;
 var assert = require('assert');
 var stub = require('../helpers/stub');
 var MockUI = require('../helpers/mock_ui');
@@ -34,13 +30,13 @@ function stubCommand(name) {
   return stub(commands[name], 'run');
 }
 
-before(function() {
+beforeEach(function() {
   ui = new MockUI();
   argv = [];
   commands = {};
 });
 
-after(function() {
+afterEach(function() {
   commands = argv = ui = undefined;
 });
 

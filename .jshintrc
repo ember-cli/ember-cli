@@ -1,6 +1,10 @@
 {
   "predef": {
-    "console": true
+    "console": true,
+    "it": true,
+    "describe": true,
+    "beforeEach": true,
+    "afterEach": true
   },
   "indent": 2,
   "camelcase": true,
