@@ -45,7 +45,7 @@
     "loom": "~3.1.2"
   },
   "devDependencies": {
-    "mocha": "~1.17.1",
+    "mocha": "~1.18.0",
     "mocha-jshint": "0.0.7"
   }
 }
