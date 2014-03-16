@@ -65,6 +65,7 @@ Current Commands
 ember build <env-name>
 ember server
 ember init [app-name] [--dry-run] [--skip-npm-install]
+ember new [app-name]
 ```
 
 Developing
