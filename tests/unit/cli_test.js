@@ -190,6 +190,7 @@ describe('Unit: CLI', function(){
     ember(['new', 'MyApp']);
 
     assert.equal(newCommand.called, 1, 'expected the new command to be run');
+    assert.equal(newCommand.calledWith[0][0], 'MyApp', 'expect first arg to be the app name');
   });
 
   it('ember <valid command>', function(){
