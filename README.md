@@ -77,8 +77,14 @@ See [npm-developers](https://www.npmjs.org/doc/misc/npm-developers.html)
 Running tests
 -------------
 
+Once:
 ```sh
 npm test
+```
+
+On every file change:
+```sh
+npm run-script autotest
 ```
 
 Ideas
