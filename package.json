@@ -6,7 +6,7 @@
     "ember": "./bin/ember"
   },
   "scripts": {
-    "test": "mocha --reporter spec tests/**/*_test.js",
+    "test": "mocha --reporter spec tests/**/*_test.js tests/**/*_slow.js",
     "autotest": "mocha --watch --reporter spec tests/**/*_test.js"
   },
   "repository": {
@@ -42,7 +42,8 @@
     "npm": "~1.4.4",
     "inquirer": "~0.4.1",
     "loom-generators-ember-appkit": "~1.0.5",
-    "loom": "~3.1.2"
+    "loom": "~3.1.2",
+    "rimraf": "^2.2.6"
   },
   "devDependencies": {
     "mocha": "~1.18.0",
