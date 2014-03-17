@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "mocha": "~1.18.0",
-    "mocha-jshint": "0.0.7"
+    "mocha-jshint": "0.0.7",
+    "lodash": "^2.4.1"
   }
 }
