@@ -6,7 +6,7 @@
     "ember": "./bin/ember"
   },
   "scripts": {
-    "test": "mocha --reporter spec tests/**/*_test.js",
+    "test": "mocha --reporter spec tests/**/*_test.js tests/**/*_slow.js",
     "autotest": "mocha --watch --reporter spec tests/**/*_test.js"
   },
   "repository": {
