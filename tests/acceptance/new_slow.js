@@ -1,7 +1,6 @@
 'use strict';
 
 var fs = require('fs-extra');
-//var RSVP = require('rsvp');
 var mkdirSync = fs.mkdirSync;
 var rimraf = require('rimraf');
 var ember = require('../helpers/ember');
@@ -44,4 +43,13 @@ describe('Acceptance: ember new', function(){
       assert.deepEqual(expected, actual, 'correct files');
     });
   });
+
+  it('ember new with empty app name doesnt throw exception', function() {
+    return ember(['new', '']);
+  });
+
+  it('ember new without app name doesnt throw exception', function() {
+    return ember(['new']);
+  });
+
 });

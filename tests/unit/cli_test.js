@@ -40,6 +40,10 @@ beforeEach(function() {
 });
 
 afterEach(function() {
+  for(var key in commands) {
+    if (!commands.hasOwnProperty(key)) { continue; }
+    commands[key].run.restore();
+  }
   commands = argv = ui = undefined;
 });
 
