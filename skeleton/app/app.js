@@ -6,7 +6,7 @@ var App = Ember.Application.extend({
   // LOG_TRANSITIONS: true,
   // LOG_TRANSITIONS_INTERNAL: true,
   LOG_VIEW_LOOKUPS: true,
-  modulePrefix: '<%= namespace %>', // TODO: loaded via config
+  modulePrefix: '<%= modulePrefix %>', // TODO: loaded via config
   Resolver: Resolver['default']
 });
 

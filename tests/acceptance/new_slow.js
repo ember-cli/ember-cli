@@ -26,8 +26,7 @@ describe('Acceptance: ember new', function(){
     this.timeout(1200000);
 
     return ember(['new', 'foo']).then(function() {
-      var cwd = process.cwd().split('/');
-      var folder = cwd[cwd.length-1];
+      var folder = path.basename(process.cwd);
 
       assert.equal(folder, 'foo');
 

@@ -1,5 +1,5 @@
-import Application from '<%= namespace %>/app';
-import Router from '<%= namespace %>/router';
+import Application from '<%= modulePrefix %>/app';
+import Router from '<%= modulePrefix %>/router';
 
 function startApp(attrs) {
   var App;

@@ -1,4 +1,4 @@
-import resolver from '<%= namespace %>/tests/helpers/resolver';
+import resolver from '<%= modulePrefix %>/tests/helpers/resolver';
 
 function isolatedContainer(fullNames) {
   var container = new Ember.Container();

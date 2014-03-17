@@ -25,21 +25,21 @@ module.exports = function (broccoli) {
 
   app = pickFiles(app, {
     srcDir: '/',
-    destDir: '<%= namespace %>'
+    destDir: '<%= modulePrefix %>'
   });
 
   app = preprocess(app);
 
   styles = pickFiles(styles, {
     srcDir: '/',
-    destDir: '<%= namespace %>/styles' 
+    destDir: '<%= modulePrefix %>/styles' 
   });
 
   styles = preprocess(styles);
 
   tests = pickFiles(tests, {
     srcDir: '/',
-    destDir: '<%= namespace %>/tests'
+    destDir: '<%= modulePrefix %>/tests'
   });
 
   tests = preprocess(tests);
@@ -64,7 +64,7 @@ module.exports = function (broccoli) {
       'ember/resolver'
     ],
     inputFiles: [
-      '<%= namespace %>/**/*.js'
+      '<%= modulePrefix %>/**/*.js'
     ],
     legacyFilesToAppend: [
       'jquery.js',
@@ -79,7 +79,7 @@ module.exports = function (broccoli) {
   });
 
   // Uncomment for Sass support
-  // var appCss = compileSass(sourceTrees, '<%= namespace %>/styles/app.scss', '/assets/app.css');
+  // var appCss = compileSass(sourceTrees, '<%= modulePrefix %>/styles/app.scss', '/assets/app.css');
 
   if (env === 'production') {
     applicationJs = uglifyJavaScript(applicationJs, {

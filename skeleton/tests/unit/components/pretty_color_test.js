@@ -1,4 +1,7 @@
-import { test , moduleForComponent } from '<%= namespace %>/tests/helpers/module_for';
+import {
+  test,
+  moduleForComponent
+} from '<%= modulePrefix %>/tests/helpers/module_for';
 
 moduleForComponent('pretty-color');
 

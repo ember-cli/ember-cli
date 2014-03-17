@@ -20,7 +20,7 @@
   <![endif]-->
 
   <script>
-    window.App = require('<%= namespace %>/app')['default'].create();
+    window.<%= namespace %> = require('<%= modulePrefix %>/app')['default'].create();
   </script>
 </body>
 </html>

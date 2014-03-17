@@ -1,6 +1,9 @@
-import { test , moduleFor } from '<%= namespace %>/tests/helpers/module_for';
+import {
+  test,
+  moduleFor
+} from '<%= modulePrefix %>/tests/helpers/module_for';
 
-import Index from '<%= namespace %>/routes/index';
+import Index from '<%= modulePrefix %>/routes/index';
 
 moduleFor('route:index', "Unit - IndexRoute");
 
