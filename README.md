@@ -35,7 +35,7 @@ While it's initial incarnation is useful, it has several meta problems:
 3. #2 does not allow users to express the "what" just the "how", this prevents EAK from doing more of the heavy lifting itself.
 4. [#2 #3] makes it quite tedious to upgrade
 
-Rational for #3
+Rationale for #3
 ===============
 
 If we want to upgrade or swap in a faster build pipeline it would be a major pain currently. But with #3, in theory it should be minimal pain.
