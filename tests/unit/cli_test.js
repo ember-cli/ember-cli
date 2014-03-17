@@ -193,7 +193,7 @@ describe('Unit: CLI', function(){
       assert.equal(ui.output.length, 0, 'expected no output');
     });
 
-    it('ember + ' + command + ' + <app-name>', function(){
+    it('ember ' + command + ' <app-name>', function(){
       var init = stubCommand('init');
 
       ember([command, 'my-blog']);
