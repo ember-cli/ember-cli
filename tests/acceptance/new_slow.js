@@ -13,7 +13,9 @@ describe('Acceptance: ember new', function(){
   var root;
   beforeEach(function(){
     root = process.cwd();
-    mkdirSync('tmp');
+    try {
+      mkdirSync('tmp');
+    } catch(e) {}
     process.chdir('./tmp');
   });
 
@@ -26,7 +28,7 @@ describe('Acceptance: ember new', function(){
     this.timeout(1200000);
 
     return ember(['new', 'foo']).then(function() {
-      var folder = path.basename(process.cwd);
+      var folder = path.basename(process.cwd());
 
       assert.equal(folder, 'foo');
 
