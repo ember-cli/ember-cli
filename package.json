@@ -43,7 +43,8 @@
     "inquirer": "~0.4.1",
     "loom-generators-ember-appkit": "~1.0.5",
     "loom": "~3.1.2",
-    "rimraf": "^2.2.6"
+    "rimraf": "^2.2.6",
+    "express": "^3.4.8"
   },
   "devDependencies": {
     "mocha": "~1.18.0",
