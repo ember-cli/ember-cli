@@ -135,7 +135,7 @@ describe('Unit: CLI', function(){
       assert.equal(server.called, 1, 'expected the server command to be run');
       assert.equal(server.calledWith[0][0].host, 'localhost', 'correct localhost');
       assert.equal(server.calledWith[0][0].port, '9292', 'correct localhost');
-      assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+      assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
     });
   });
 
@@ -152,7 +152,7 @@ describe('Unit: CLI', function(){
       assert.equal(called[0], 'foo');
       assert.equal(called[1], 'bar');
       assert.equal(called[2], 'baz');
-      assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+      assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
     });
   });
 
