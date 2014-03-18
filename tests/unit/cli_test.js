@@ -6,6 +6,7 @@ var MockUI = require('../helpers/mock_ui');
 var Cli = require('../../lib/cli');
 var baseArgs = ['node', 'path/to/cli'];
 var _ = require('lodash');
+var brocEnv = require('broccoli-env');
 
 var ui;
 var commands;
@@ -44,6 +45,7 @@ afterEach(function() {
     if (!commands.hasOwnProperty(key)) { continue; }
     commands[key].run.restore();
   }
+  delete process.env.BROCCOLI_ENV;
   commands = argv = ui = undefined;
 });
 
@@ -141,6 +143,27 @@ describe('Unit: CLI', function(){
       assert.equal(server.calledWith[0][0].port, '9292', 'correct localhost');
       assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
     });
+
+    it('ember ' + command + ' --environment <environment>', function(){
+      var server = stubCommand('server');
+
+      ember([command, '--environment', 'production']);
+
+      assert.equal(server.called, 1, 'expected the server command to be run');
+      assert.equal(server.calledWith[0][0].environment, 'production', 'correct environment');
+      assert.equal(brocEnv.getEnv(), 'production', 'expect broccoli env to be changed to production');
+    });
+
+    it('ember ' + command + ' --env <environment>', function(){
+      var server = stubCommand('server');
+
+      ember([command, '--env', 'production']);
+
+      assert.equal(server.called, 1, 'expected the server command to be run');
+      assert.equal(server.calledWith[0][0].environment, 'production', 'correct environment');
+      assert.equal(brocEnv.getEnv(), 'production', 'expect broccoli env to be changed to production');
+    });
+
   });
 
   ['generate', 'g'].forEach(function(command) {
@@ -195,6 +218,25 @@ describe('Unit: CLI', function(){
     ember(['new', 'MyApp']);
 
     assert.equal(newCommand.called, 1, 'expected the new command to be run');
+  });
+
+  it('ember build', function(){
+    var build = stubCommand('build');
+
+    ember(['build']);
+
+    assert.equal(build.called, 1, 'expected the build command to be run');
+    assert.equal(brocEnv.getEnv(), 'development', 'expect broccoli env to be changed to development');
+  });
+
+  it('ember build <environment>', function(){
+    var build = stubCommand('build');
+
+    ember(['build', 'production']);
+
+    assert.equal(build.called, 1, 'expected the build command to be run');
+    assert.equal(build.calledWith[0][0], 'production', 'expect first arg to be the production environment');
+    assert.equal(brocEnv.getEnv(), 'production', 'expect broccoli env to be changed to production');
   });
 
   it('ember <valid command>', function(){
