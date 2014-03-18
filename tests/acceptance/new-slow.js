@@ -31,13 +31,13 @@ describe('Acceptance: ember new', function(){
 
       assert.equal(folder, 'foo');
 
-      var skeletonPath = path.join(root, 'skeleton');
+      var blueprintPath = path.join(root, 'blueprint');
 
       function installables(path) {
         return !/node_modules|vendor|tmp/.test(path);
       }
 
-      var expected = walkSync(skeletonPath).sort().filter(installables);
+      var expected = walkSync(blueprintPath).sort().filter(installables);
       var actual = walkSync('.').sort().filter(installables);
 
       assert.deepEqual(expected, actual, 'correct files');
