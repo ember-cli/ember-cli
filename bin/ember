@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --use_strict
 
 process.title = 'ember';
 require('../lib/cli').run(process.argv);
