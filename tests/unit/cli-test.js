@@ -2,7 +2,7 @@
 
 var assert = require('assert');
 var stub = require('../helpers/stub');
-var MockUI = require('../helpers/mock_ui');
+var MockUI = require('../helpers/mock-ui');
 var Cli = require('../../lib/cli');
 var baseArgs = ['node', 'path/to/cli'];
 var _ = require('lodash');
