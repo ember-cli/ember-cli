@@ -2,21 +2,12 @@
 var filterTemplates = require('broccoli-template');
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
-var preprocessors = require('ember-cli/lib/preprocessors');
+var p = require('ember-cli/lib/preprocessors');
 var pickFiles = require('broccoli-static-compiler');
 var env = require('broccoli-env').getEnv();
 
-var preprocessCss = preprocess.preprocessCss;
-
-function preprocess (tree) {
-  return filterTemplates(tree, {
-    extensions: [
-      'hbs',
-      'handlebars'
-    ],
-    compileFunction: 'Ember.Handlebars.compile'
-  });
-}
+var preprocessCss = p.preprocessCss;
+var preprocessTemplates = p.preprocessTemplates;
 
 module.exports = function (broccoli) {
   var app = broccoli.makeTree('app');
@@ -31,14 +22,14 @@ module.exports = function (broccoli) {
     destDir: '<%= modulePrefix %>'
   });
 
-  app = preprocess(app);
+  app = preprocessTemplates(app);
 
   tests = pickFiles(tests, {
     srcDir: '/',
     destDir: '<%= modulePrefix %>/tests'
   });
 
-  tests = preprocess(tests);
+  tests = preprocessTemplates(tests);
 
   config = pickFiles(config, {
     srcDir: '/',
