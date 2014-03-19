@@ -45,7 +45,9 @@
     "loom": "~3.1.2",
     "rimraf": "^2.2.6",
     "express": "^3.4.8",
-    "broccoli-static-compiler": "^0.1.2"
+    "broccoli-static-compiler": "^0.1.2",
+    "broccoli-uglify-js": "^0.1.1",
+    "broccoli-es6-concatenator": "^0.1.2"
   },
   "devDependencies": {
     "mocha": "~1.18.0",
