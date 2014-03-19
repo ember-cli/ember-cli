@@ -47,7 +47,9 @@
     "express": "^3.4.8",
     "broccoli-static-compiler": "^0.1.2",
     "broccoli-uglify-js": "^0.1.1",
-    "broccoli-es6-concatenator": "^0.1.2"
+    "broccoli-es6-concatenator": "^0.1.2",
+    "connect-livereload": "^0.3.2",
+    "tiny-lr": "0.0.5"
   },
   "devDependencies": {
     "mocha": "~1.18.0",
