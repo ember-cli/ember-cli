@@ -22,6 +22,7 @@ module.exports = function (broccoli) {
   var publicFiles = broccoli.makeTree('public');
   var vendor = broccoli.makeTree('vendor');
   var styles = broccoli.makeTree('styles');
+  var config = broccoli.makeTree('config');
 
   app = pickFiles(app, {
     srcDir: '/',
@@ -32,7 +33,7 @@ module.exports = function (broccoli) {
 
   styles = pickFiles(styles, {
     srcDir: '/',
-    destDir: '<%= modulePrefix %>/styles' 
+    destDir: '<%= modulePrefix %>/styles'
   });
 
   styles = preprocess(styles);
@@ -44,9 +45,16 @@ module.exports = function (broccoli) {
 
   tests = preprocess(tests);
 
+  config = pickFiles(config, {
+    srcDir: '/',
+    files: ['environment.js', 'environments/' + env + '.js'],
+    destDir: '<%= modulePrefix %>/config'
+  });
+
   var sourceTrees = [
     app,
     // styles,          // Uncomment for Sass support
+    config,
     vendor
   ];
 
@@ -67,6 +75,8 @@ module.exports = function (broccoli) {
       '<%= modulePrefix %>/**/*.js'
     ],
     legacyFilesToAppend: [
+      '<%= modulePrefix %>/config/environment.js',
+      '<%= modulePrefix %>/config/environments/' + env + '.js',
       'jquery.js',
       'handlebars.js',
       'ember.js',
