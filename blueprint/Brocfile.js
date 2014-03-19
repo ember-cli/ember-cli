@@ -80,6 +80,7 @@ module.exports = function (broccoli) {
       'jquery.js',
       'handlebars.js',
       'ember.js',
+      'ic-ajax/main.js',
       'ember-data.js',
       'ember-resolver.js'
     ],
