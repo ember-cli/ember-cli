@@ -5,7 +5,7 @@ var stub = require('../helpers/stub');
 var MockUI = require('../helpers/mock-ui');
 var Cli = require('../../lib/cli');
 var baseArgs = ['node', 'path/to/cli'];
-var _ = require('lodash');
+var extend = require('lodash-node/compat/objects/assign');
 var brocEnv = require('broccoli-env');
 
 var ui;
@@ -28,7 +28,7 @@ function stubCommand(name) {
   var mod;
   try {
     // deep clone
-    mod = _.extend({}, require('../../lib/commands/' + name));
+    mod = extend({}, require('../../lib/commands/' + name));
   } catch(e) { }
   commands[name] = mod || {};
   return stub(commands[name], 'run');
