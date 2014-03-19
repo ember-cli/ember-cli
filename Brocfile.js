@@ -1,59 +1,50 @@
 /* global require, module */
-var filterTemplates = require('broccoli-template');
+
+'use strict';
+
+var requireLocal = require('./lib/utilities/require-local');
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
-// var compileSass = require('broccoli-sass');      // Uncomment for Sass support
+var p = require('./lib/preprocessors');
 var pickFiles = require('broccoli-static-compiler');
 var env = require('broccoli-env').getEnv();
 
-function preprocess (tree) {
-  return filterTemplates(tree, {
-    extensions: [
-      'hbs',
-      'handlebars'
-    ],
-    compileFunction: 'Ember.Handlebars.compile'
-  });
-}
+var localApp = requireLocal('../package');
+
+var preprocessCss = p.preprocessCss;
+var preprocessTemplates = p.preprocessTemplates;
+var preprocessJs = p.preprocessJs;
 
 module.exports = function (broccoli) {
   var app = broccoli.makeTree('app');
   var tests = broccoli.makeTree('tests');
   var publicFiles = broccoli.makeTree('public');
   var vendor = broccoli.makeTree('vendor');
-  var styles = broccoli.makeTree('styles');
   var config = broccoli.makeTree('config');
+  var styles;
 
   app = pickFiles(app, {
     srcDir: '/',
-    destDir: '<%= modulePrefix %>'
+    destDir: localApp.name + '/'
   });
 
-  app = preprocess(app);
-
-  styles = pickFiles(styles, {
-    srcDir: '/',
-    destDir: '<%= modulePrefix %>/styles'
-  });
-
-  styles = preprocess(styles);
-
-  tests = pickFiles(tests, {
-    srcDir: '/',
-    destDir: '<%= modulePrefix %>/tests'
-  });
-
-  tests = preprocess(tests);
+  app = preprocessTemplates(app);
 
   config = pickFiles(config, {
     srcDir: '/',
-    files: ['environment.js', 'environments/' + env + '.js'],
-    destDir: '<%= modulePrefix %>/config'
+    files: ['environment.*', 'environments/' + env + '.*'],
+    destDir: localApp.name + '/config'
   });
+
+  tests = pickFiles(tests, {
+    srcDir: '/',
+    destDir: localApp.name + '/tests'
+  });
+
+  tests = preprocessTemplates(tests);
 
   var sourceTrees = [
     app,
-    // styles,          // Uncomment for Sass support
     config,
     vendor
   ];
@@ -66,17 +57,19 @@ module.exports = function (broccoli) {
 
   var appAndDependencies = new broccoli.MergedTree(sourceTrees);
 
+  appAndDependencies = preprocessJs(appAndDependencies, '/', 'emblem-app');
+
   var applicationJs = compileES6(appAndDependencies, {
     loaderFile: 'loader.js',
     ignoredModules: [
       'ember/resolver'
     ],
     inputFiles: [
-      '<%= modulePrefix %>/**/*.js'
+      localApp.name + '/**/*.js'
     ],
     legacyFilesToAppend: [
-      '<%= modulePrefix %>/config/environment.js',
-      '<%= modulePrefix %>/config/environments/' + env + '.js',
+      localApp.name + '/config/environment.js',
+      localApp.name + '/config/environments/' + env + '.js',
       'jquery.js',
       'handlebars.js',
       'ember.js',
@@ -89,8 +82,7 @@ module.exports = function (broccoli) {
     outputFile: '/assets/app.js'
   });
 
-  // Uncomment for Sass support
-  // var appCss = compileSass(sourceTrees, '<%= modulePrefix %>/styles/app.scss', '/assets/app.css');
+  styles = preprocessCss(sourceTrees, localApp.name + '/styles', '/assets');
 
   if (env === 'production') {
     applicationJs = uglifyJavaScript(applicationJs, {
@@ -102,7 +94,6 @@ module.exports = function (broccoli) {
   return [
     applicationJs,
     publicFiles,
-    // appCss,          // Uncomment for Sass support
     styles
   ];
 };
