@@ -8,6 +8,7 @@ var env = require('broccoli-env').getEnv();
 
 var preprocessCss = p.preprocessCss;
 var preprocessTemplates = p.preprocessTemplates;
+var preprocessJs = p.preprocessJs;
 
 module.exports = function (broccoli) {
   var app = broccoli.makeTree('app');
@@ -19,10 +20,16 @@ module.exports = function (broccoli) {
 
   app = pickFiles(app, {
     srcDir: '/',
-    destDir: '<%= modulePrefix %>'
+    destDir: '<%= modulePrefix %>/'
   });
 
   app = preprocessTemplates(app);
+
+  config = pickFiles(config, {
+    srcDir: '/',
+    files: ['environment.*', 'environments/' + env + '.*'],
+    destDir: '<%= modulePrefix %>/config'
+  });
 
   tests = pickFiles(tests, {
     srcDir: '/',
@@ -30,12 +37,6 @@ module.exports = function (broccoli) {
   });
 
   tests = preprocessTemplates(tests);
-
-  config = pickFiles(config, {
-    srcDir: '/',
-    files: ['environment.js', 'environments/' + env + '.js'],
-    destDir: '<%= modulePrefix %>/config'
-  });
 
   var sourceTrees = [
     app,
@@ -50,6 +51,8 @@ module.exports = function (broccoli) {
   sourceTrees = sourceTrees.concat(broccoli.bowerTrees());
 
   var appAndDependencies = new broccoli.MergedTree(sourceTrees);
+
+  appAndDependencies = preprocessJs(appAndDependencies, '/', 'emblem-app');
 
   var applicationJs = compileES6(appAndDependencies, {
     loaderFile: 'loader.js',
