@@ -1,4 +1,7 @@
 /* global require, module */
+
+'use strict';
+
 var requireLocal = require('./lib/utilities/require-local');
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
