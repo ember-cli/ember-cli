@@ -2,9 +2,11 @@
 var filterTemplates = require('broccoli-template');
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
-// var compileSass = require('broccoli-sass');      // Uncomment for Sass support
+var preprocessors = require('ember-cli/lib/preprocessors');
 var pickFiles = require('broccoli-static-compiler');
 var env = require('broccoli-env').getEnv();
+
+var preprocessCss = preprocess.preprocessCss;
 
 function preprocess (tree) {
   return filterTemplates(tree, {
@@ -21,8 +23,8 @@ module.exports = function (broccoli) {
   var tests = broccoli.makeTree('tests');
   var publicFiles = broccoli.makeTree('public');
   var vendor = broccoli.makeTree('vendor');
-  var styles = broccoli.makeTree('styles');
   var config = broccoli.makeTree('config');
+  var styles;
 
   app = pickFiles(app, {
     srcDir: '/',
@@ -30,13 +32,6 @@ module.exports = function (broccoli) {
   });
 
   app = preprocess(app);
-
-  styles = pickFiles(styles, {
-    srcDir: '/',
-    destDir: '<%= modulePrefix %>/styles'
-  });
-
-  styles = preprocess(styles);
 
   tests = pickFiles(tests, {
     srcDir: '/',
@@ -53,7 +48,6 @@ module.exports = function (broccoli) {
 
   var sourceTrees = [
     app,
-    // styles,          // Uncomment for Sass support
     config,
     vendor
   ];
@@ -89,8 +83,7 @@ module.exports = function (broccoli) {
     outputFile: '/assets/app.js'
   });
 
-  // Uncomment for Sass support
-  // var appCss = compileSass(sourceTrees, '<%= modulePrefix %>/styles/app.scss', '/assets/app.css');
+  styles = preprocessCss(sourceTrees, '<%= modulePrefix %>/styles', '/assets');
 
   if (env === 'production') {
     applicationJs = uglifyJavaScript(applicationJs, {
@@ -102,7 +95,6 @@ module.exports = function (broccoli) {
   return [
     applicationJs,
     publicFiles,
-    // appCss,          // Uncomment for Sass support
     styles
   ];
 };
