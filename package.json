@@ -1,13 +1,13 @@
 {
   "name": "ember-cli",
-  "version": "0.0.7",
+  "version": "0.0.12",
   "description": "Command line tool for developing ambitious ember.js apps",
   "bin": {
     "ember": "./bin/ember"
   },
   "scripts": {
-    "test": "mocha --reporter spec tests/**/*_test.js tests/**/*_slow.js",
-    "autotest": "mocha --watch --reporter spec tests/**/*_test.js"
+    "test": "mocha --reporter spec tests/**/*-test.js tests/**/*-slow.js",
+    "autotest": "mocha --watch --reporter spec tests/**/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -43,11 +43,17 @@
     "inquirer": "~0.4.1",
     "loom-generators-ember-appkit": "~1.0.5",
     "loom": "~3.1.2",
-    "rimraf": "^2.2.6"
+    "rimraf": "^2.2.6",
+    "express": "^3.4.8",
+    "broccoli-static-compiler": "^0.1.2",
+    "broccoli-uglify-js": "^0.1.1",
+    "broccoli-es6-concatenator": "^0.1.2",
+    "connect-livereload": "^0.3.2",
+    "tiny-lr": "0.0.5",
+    "broccoli-env": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~1.18.0",
-    "mocha-jshint": "0.0.7",
-    "lodash": "^2.4.1"
+    "mocha-jshint": "0.0.7"
   }
 }

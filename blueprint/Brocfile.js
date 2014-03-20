@@ -1,52 +1,46 @@
 /* global require, module */
-var filterTemplates = require('broccoli-template');
+
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
-// var compileSass = require('broccoli-sass');      // Uncomment for Sass support
+var p = require('ember-cli/lib/preprocessors');
 var pickFiles = require('broccoli-static-compiler');
 var env = require('broccoli-env').getEnv();
 
-function preprocess (tree) {
-  return filterTemplates(tree, {
-    extensions: [
-      'hbs',
-      'handlebars'
-    ],
-    compileFunction: 'Ember.Handlebars.compile'
-  });
-}
+var preprocessCss = p.preprocessCss;
+var preprocessTemplates = p.preprocessTemplates;
+var preprocessJs = p.preprocessJs;
 
 module.exports = function (broccoli) {
   var app = broccoli.makeTree('app');
   var tests = broccoli.makeTree('tests');
   var publicFiles = broccoli.makeTree('public');
   var vendor = broccoli.makeTree('vendor');
-  var styles = broccoli.makeTree('styles');
+  var config = broccoli.makeTree('config');
+  var styles;
 
   app = pickFiles(app, {
     srcDir: '/',
-    destDir: '<%= modulePrefix %>'
+    destDir: '<%= modulePrefix %>/'
   });
 
-  app = preprocess(app);
+  app = preprocessTemplates(app);
 
-  styles = pickFiles(styles, {
+  config = pickFiles(config, {
     srcDir: '/',
-    destDir: '<%= modulePrefix %>/styles' 
+    files: ['environment.*', 'environments/' + env + '.*'],
+    destDir: '<%= modulePrefix %>/config'
   });
-
-  styles = preprocess(styles);
 
   tests = pickFiles(tests, {
     srcDir: '/',
     destDir: '<%= modulePrefix %>/tests'
   });
 
-  tests = preprocess(tests);
+  tests = preprocessTemplates(tests);
 
   var sourceTrees = [
     app,
-    // styles,          // Uncomment for Sass support
+    config,
     vendor
   ];
 
@@ -58,6 +52,8 @@ module.exports = function (broccoli) {
 
   var appAndDependencies = new broccoli.MergedTree(sourceTrees);
 
+  appAndDependencies = preprocessJs(appAndDependencies, '/', 'emblem-app');
+
   var applicationJs = compileES6(appAndDependencies, {
     loaderFile: 'loader.js',
     ignoredModules: [
@@ -67,9 +63,12 @@ module.exports = function (broccoli) {
       '<%= modulePrefix %>/**/*.js'
     ],
     legacyFilesToAppend: [
+      '<%= modulePrefix %>/config/environment.js',
+      '<%= modulePrefix %>/config/environments/' + env + '.js',
       'jquery.js',
       'handlebars.js',
       'ember.js',
+      'ic-ajax/main.js',
       'ember-data.js',
       'ember-resolver.js'
     ],
@@ -78,8 +77,7 @@ module.exports = function (broccoli) {
     outputFile: '/assets/app.js'
   });
 
-  // Uncomment for Sass support
-  // var appCss = compileSass(sourceTrees, '<%= modulePrefix %>/styles/app.scss', '/assets/app.css');
+  styles = preprocessCss(sourceTrees, '<%= modulePrefix %>/styles', '/assets');
 
   if (env === 'production') {
     applicationJs = uglifyJavaScript(applicationJs, {
@@ -91,7 +89,6 @@ module.exports = function (broccoli) {
   return [
     applicationJs,
     publicFiles,
-    // appCss,          // Uncomment for Sass support
     styles
   ];
 };
