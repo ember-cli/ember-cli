@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/stefanpenner/ember-app-kit.git"
+    "url": "git://github.com/stefanpenner/ember-cli.git"
   },
   "author": "",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "broccoli-static-compiler": "0.1.2",
     "broccoli-template": "0.1.0",
     "broccoli-uglify-js": "0.1.1",
+    "broccoli-sass": "^0.1.2",
     "broccoli-env": "0.0.1"
   }
 }
