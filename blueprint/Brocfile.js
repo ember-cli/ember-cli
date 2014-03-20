@@ -1,5 +1,4 @@
 /* global require, module */
-'use strict';
 
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
