@@ -49,11 +49,11 @@
     "broccoli-uglify-js": "^0.1.1",
     "broccoli-es6-concatenator": "^0.1.2",
     "connect-livereload": "^0.3.2",
-    "tiny-lr": "0.0.5"
+    "tiny-lr": "0.0.5",
+    "broccoli-env": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~1.18.0",
-    "mocha-jshint": "0.0.7",
-    "broccoli-env": "0.0.1"
+    "mocha-jshint": "0.0.7"
   }
 }
