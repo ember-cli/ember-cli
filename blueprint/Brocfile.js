@@ -1,15 +1,11 @@
 /* global require, module */
-
 'use strict';
 
-var requireLocal = require('./lib/utilities/require-local');
 var uglifyJavaScript = require('broccoli-uglify-js');
 var compileES6 = require('broccoli-es6-concatenator');
-var p = require('./lib/preprocessors');
+var p = require('ember-cli/lib/preprocessors');
 var pickFiles = require('broccoli-static-compiler');
 var env = require('broccoli-env').getEnv();
-
-var localApp = requireLocal('../package');
 
 var preprocessCss = p.preprocessCss;
 var preprocessTemplates = p.preprocessTemplates;
@@ -25,7 +21,7 @@ module.exports = function (broccoli) {
 
   app = pickFiles(app, {
     srcDir: '/',
-    destDir: localApp.name + '/'
+    destDir: '<%= modulePrefix %>/'
   });
 
   app = preprocessTemplates(app);
@@ -33,12 +29,12 @@ module.exports = function (broccoli) {
   config = pickFiles(config, {
     srcDir: '/',
     files: ['environment.*', 'environments/' + env + '.*'],
-    destDir: localApp.name + '/config'
+    destDir: '<%= modulePrefix %>/config'
   });
 
   tests = pickFiles(tests, {
     srcDir: '/',
-    destDir: localApp.name + '/tests'
+    destDir: '<%= modulePrefix %>/tests'
   });
 
   tests = preprocessTemplates(tests);
@@ -65,11 +61,11 @@ module.exports = function (broccoli) {
       'ember/resolver'
     ],
     inputFiles: [
-      localApp.name + '/**/*.js'
+      '<%= modulePrefix %>/**/*.js'
     ],
     legacyFilesToAppend: [
-      localApp.name + '/config/environment.js',
-      localApp.name + '/config/environments/' + env + '.js',
+      '<%= modulePrefix %>/config/environment.js',
+      '<%= modulePrefix %>/config/environments/' + env + '.js',
       'jquery.js',
       'handlebars.js',
       'ember.js',
@@ -82,7 +78,7 @@ module.exports = function (broccoli) {
     outputFile: '/assets/app.js'
   });
 
-  styles = preprocessCss(sourceTrees, localApp.name + '/styles', '/assets');
+  styles = preprocessCss(sourceTrees, '<%= modulePrefix %>/styles', '/assets');
 
   if (env === 'production') {
     applicationJs = uglifyJavaScript(applicationJs, {
