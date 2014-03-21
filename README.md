@@ -119,7 +119,7 @@ Ideas
   vendor/          # mostly for bower, some non-bower stuff will reside.
   tests/           # tests test config and test helpers.
   tmp/*            # created on demand, but scratch pad for EAK.
-  Broccolifile.js  # should contain a mechanism for default ember tasks to be loaded
+  Brocfile.js      # should contain a mechanism for default ember tasks to be loaded
                    # should be the place for users to define custom broccoli related things.
   package.json
   bower.json
@@ -131,7 +131,7 @@ Ideas
   - configuration
     ```shell
     server.js                    # for adding additional connect middleware (like a proxy to the backend)
-    Broccolifile                 # default tasks will exist in "ember"
+    Brocfile                     # default tasks will exist in "ember"
     tasks/                       # custom user tasks
     ```
   - detect .js, .coffee, .styl, .scss, .sass
