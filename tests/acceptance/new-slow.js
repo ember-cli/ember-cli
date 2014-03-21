@@ -52,4 +52,12 @@ describe('Acceptance: ember new', function(){
     return ember(['new']);
   });
 
+  it('Cannot run ember new, inside of ember-cli project', function() {
+    this.timeout(1200000);
+    return ember(['new', 'foo']).then(function() {
+      return ember(['new', 'foo']).then(function() {
+        assert(!fs.existsSync('foo'));
+      });
+    });
+  });
 });
