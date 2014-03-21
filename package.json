@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Command line tool for developing ambitious ember.js apps",
   "bin": {
     "ember": "./bin/ember"
