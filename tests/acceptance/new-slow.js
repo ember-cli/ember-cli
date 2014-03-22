@@ -51,5 +51,4 @@ describe('Acceptance: ember new', function(){
   it('ember new without app name doesnt throw exception', function() {
     return ember(['new']);
   });
-
 });
