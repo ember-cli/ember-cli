@@ -1,7 +1,7 @@
 ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.png?branch=master)](https://travis-ci.org/stefanpenner/ember-cli)
 =========
 
-a ember commandline utility.
+an ember commandline utility.
 
 
 Warning
@@ -10,33 +10,21 @@ Warning
 Although potentially exciting, this is still really a WIP, use at your own risk.
 
 
-Getting Started
-===============
-
-```sh
-npm install -g ember-cli
-
-mkdir my-cool-app
-cd my-cool-app
-ember init
-ember server
-```
-
 Why?
 ====
 
-The https://github.com/stefanpenner/ember-app-kit project has proved to be quite useful, we have learned lots, and
-it allowed us to iterate quickly while building real ambitious applications.
+The [ember-app-kit](https://github.com/stefanpenner/ember-app-kit) project has proved to be quite useful, 
+we have learned lots, and it allowed us to iterate quickly while building real ambitious applications.
 
 While it's initial incarnation is useful, it has several meta problems:
 
-1. It is not "simple" and appears daunting.
+1. It is not "simple" and appears daunting
 2. Because of inline configuration, the api surface area is massive
-3. #2 does not allow users to express the "what" just the "how", this prevents EAK from doing more of the heavy lifting itself.
+3. #2 does not allow users to express the "what" just the "how", this prevents EAK from doing more of the heavy lifting itself
 4. [#2 #3] makes it quite tedious to upgrade
 
 Rationale for #3
-===============
+================
 
 If we want to upgrade or swap in a faster build pipeline it would be a major pain currently. But with #3, in theory it should be minimal pain.
 
@@ -49,13 +37,17 @@ Guidelines
   - the pipeline-related Broccoli configuration should also reside in the above mentioned library.
 
 Usage
-===========
+=====
 
-Install from npm
--------------------
+Getting Started
+---------------
 
 ```sh
-npm install ember-cli -g
+npm install -g ember-cli
+
+ember new my-cool-app
+cd my-cool-app
+ember server
 ```
 
 Current Commands
