@@ -52,7 +52,7 @@ module.exports = function (broccoli) {
 
   var appAndDependencies = new broccoli.MergedTree(sourceTrees);
 
-  appAndDependencies = preprocessJs(appAndDependencies, '/', 'emblem-app');
+  appAndDependencies = preprocessJs(appAndDependencies, '/', '<%= modulePrefix %>');
 
   var applicationJs = compileES6(appAndDependencies, {
     loaderFile: 'loader.js',
