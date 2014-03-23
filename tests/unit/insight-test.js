@@ -17,6 +17,7 @@ describe('Unit: insight wrapper', function() {
     insight = new Insight({
       insight: insightLib
     });
+    insight.optOut = undefined;
   });
 
   describe('askPermission', function() {
