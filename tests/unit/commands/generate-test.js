@@ -17,7 +17,13 @@ describe('generate command', function(){
   });
 
   it('generates a controller', function(){
-    command.run('controller', 'application', 'type:array');
+    command.run({
+      args: [
+        'controller',
+        'application',
+        'type:array'
+      ]
+    });
     //TODO: figure out how to test this more thoroughly
   });
 });

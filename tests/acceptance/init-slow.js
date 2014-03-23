@@ -1,6 +1,5 @@
 'use strict';
 
-var fs = require('fs-extra');
 var ember = require('../helpers/ember');
 var assert = require('assert');
 var walkSync = require('../../lib/utilities/walk-sync').walkSync;
@@ -9,7 +8,7 @@ var tmp = require('../helpers/tmp');
 var root = process.cwd();
 var util = require('util');
 
-describe('Acceptance: ember new', function(){
+describe('Acceptance: ember init', function(){
   beforeEach(function(){
     tmp.setup('./tmp');
     process.chdir('./tmp');
@@ -19,10 +18,10 @@ describe('Acceptance: ember new', function(){
     tmp.teardown('./tmp');
   });
 
-  it.only('ember new foo, where foo does not yet exist, works', function() {
+  it.only('ember init,', function() {
     this.timeout(1200000);
 
-    return ember(['new', 'foo']).then(function() {
+    return ember(['init']).then(function() {
       var folder = path.basename(process.cwd());
 
       assert.equal(folder, 'foo');
@@ -41,20 +40,10 @@ describe('Acceptance: ember new', function(){
     });
   });
 
-  it('ember new with empty app name doesnt throw exception', function() {
-    return ember(['new', '']);
-  });
-
-  it('ember new without app name doesnt throw exception', function() {
-    return ember(['new']);
-  });
-
-  it('Cannot run ember new, inside of ember-cli project', function() {
+  it('init an already init\'d folder', function() {
     this.timeout(1200000);
-    return ember(['new', 'foo']).then(function() {
-      return ember(['new', 'foo']).then(function() {
-        assert(!fs.existsSync('foo'));
-      });
+    return ember(['init']).then(function() {
+      return ember(['init']);
     });
   });
 });

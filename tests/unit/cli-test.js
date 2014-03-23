@@ -108,8 +108,10 @@ describe('Unit: CLI', function(){
 
       ember([command, '--port',  '9999']);
 
+      var options = server.calledWith[0][0].options;
+
       assert.equal(server.called, 1, 'expected the server command to be run');
-      assert.equal(server.calledWith[0][0].port, 9999, 'correct port');
+      assert.equal(options.port, 9999, 'correct port');
       assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
     });
 
@@ -118,8 +120,10 @@ describe('Unit: CLI', function(){
 
       ember([command, '-p',  '9999']);
 
+      var options = server.calledWith[0][0].options;
+
       assert.equal(server.called, 1, 'expected the server command to be run');
-      assert.equal(server.calledWith[0][0].port, 9999, 'correct port');
+      assert.equal(options.port, 9999, 'correct port');
       assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
     });
 
@@ -128,8 +132,10 @@ describe('Unit: CLI', function(){
 
       ember(['server', '--host', 'localhost']);
 
+      var options = server.calledWith[0][0].options;
+
       assert.equal(server.called, 1, 'expected the server command to be run');
-      assert.equal(server.calledWith[0][0].host, 'localhost', 'correct localhost');
+      assert.equal(options.host, 'localhost', 'correct localhost');
       assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
     });
 
@@ -138,9 +144,11 @@ describe('Unit: CLI', function(){
 
       ember([command, '--port', '9292',  '--host',  'localhost']);
 
+      var options = server.calledWith[0][0].options;
+
       assert.equal(server.called, 1, 'expected the server command to be run');
-      assert.equal(server.calledWith[0][0].host, 'localhost', 'correct localhost');
-      assert.equal(server.calledWith[0][0].port, '9292', 'correct localhost');
+      assert.equal(options.host, 'localhost', 'correct localhost');
+      assert.equal(options.port, '9292', 'correct localhost');
       assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
     });
 
@@ -149,8 +157,10 @@ describe('Unit: CLI', function(){
 
       ember([command, '--environment', 'production']);
 
+      var options = server.calledWith[0][0].options;
+
       assert.equal(server.called, 1, 'expected the server command to be run');
-      assert.equal(server.calledWith[0][0].environment, 'production', 'correct environment');
+      assert.equal(options.environment, 'production', 'correct environment');
       assert.equal(brocEnv.getEnv(), 'production', 'expect broccoli env to be changed to production');
     });
 
@@ -159,8 +169,10 @@ describe('Unit: CLI', function(){
 
       ember([command, '--env', 'production']);
 
+      var options = server.calledWith[0][0].options;
+
       assert.equal(server.called, 1, 'expected the server command to be run');
-      assert.equal(server.calledWith[0][0].environment, 'production', 'correct environment');
+      assert.equal(options.environment, 'production', 'correct environment');
       assert.equal(brocEnv.getEnv(), 'production', 'expect broccoli env to be changed to production');
     });
 
@@ -173,12 +185,10 @@ describe('Unit: CLI', function(){
 
       ember([command, 'foo', 'bar', 'baz']);
 
-      called = generate.calledWith[0];
+      called = generate.calledWith[0][0];
 
       assert.equal(generate.called, 1, 'expected the generate command to be run');
-      assert.equal(called[0], 'foo');
-      assert.equal(called[1], 'bar');
-      assert.equal(called[2], 'baz');
+      assert.deepEqual(called.args, ['foo', 'bar', 'baz']);
       assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
     });
   });
@@ -198,8 +208,10 @@ describe('Unit: CLI', function(){
 
       ember([command, 'my-blog']);
 
+      var options = init.calledWith[0][0];
+
       assert.equal(init.called, 1, 'expected the init command to be run');
-      assert.equal(init.calledWith[0][0], 'my-blog', 'expect first arg to be the app name');
+      assert.deepEqual(options.args, ['my-blog'], 'expect first arg to be the app name');
       assert.equal(ui.output.length, 0, 'expected no output');
     });
   });
@@ -234,8 +246,10 @@ describe('Unit: CLI', function(){
 
     ember(['build', 'production']);
 
+    var options = build.calledWith[0][0];
+
     assert.equal(build.called, 1, 'expected the build command to be run');
-    assert.equal(build.calledWith[0][0], 'production', 'expect first arg to be the production environment');
+    assert.deepEqual(options.args, ['production'], 'expect first arg to be the production environment');
     assert.equal(brocEnv.getEnv(), 'production', 'expect broccoli env to be changed to production');
   });
 
@@ -256,14 +270,14 @@ describe('Unit: CLI', function(){
 
     ember(['foo', 'lorem', 'ipsum', 'dolor', '--flag1=one']);
 
+    var options = foo.calledWith[0][0];
+
     assert.equal(help.called, 0, 'expected the help command NOT to be run');
     assert.equal(foo.called, 1,  'expected the foo command to be run');
-    assert.equal(foo.calledWith[0][0], 'lorem', 'expect foo to receive the string lorem');
-    assert.equal(foo.calledWith[0][1], 'ipsum', 'expect foo to receive the string ipsum');
-    assert.equal(foo.calledWith[0][2], 'dolor', 'expect foo to receive the string dolor');
-    assert.ok(typeof foo.calledWith[0][3] === 'object', 'expect arg 4 to be the object options');
-    assert.equal(foo.calledWith[0].length, 4, 'expect foo to receive a total of 4 args');
-    assert.equal(foo.calledWith[0][3].flag1, 'one', 'expect foo to receive the flag1 with the string one');
+    assert.deepEqual(options.args, ['lorem', 'ipsum', 'dolor'], 'expects correct arguments');
+
+    assert.equal(foo.calledWith[0].length, 2, 'expect foo to receive a total of 4 args');
+    assert.equal(options.options.flag1, 'one', 'expect foo to receive the flag1 with the string one');
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
