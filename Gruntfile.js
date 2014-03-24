@@ -40,8 +40,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('ember:release', ['test', 'release']);
-  for(var level in ['patch', 'major', 'minor']) {
-    grunt.registerTask('ember:release:' + level, ['test', 'release:' + level]);
-  }
 
+  ['patch', 'major', 'minor'].forEach(function(level) {
+    grunt.registerTask('ember:release:' + level, ['test', 'release:' + level]);
+  });
 };
