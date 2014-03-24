@@ -3,6 +3,7 @@
 var Cli = require('../../lib/cli');
 
 var baseArgs = ['node', 'path/to/cli'];
+var MockUi = require('./mock-ui');
 
 module.exports = function ember(args) {
   var argv;
@@ -13,5 +14,7 @@ module.exports = function ember(args) {
     argv = baseArgs;
   }
 
-  return Cli.run(argv);
+  return Cli.run(argv, module.exports.ui);
 };
+
+module.exports.ui = new MockUi();

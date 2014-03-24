@@ -26,20 +26,14 @@ describe('Acceptance: ember new', function(){
 
     var blueprintPath = path.join(root, 'blueprint');
 
-    function installables(path) {
-      return !/node_modules|vendor|tmp/.test(path);
-    }
-
-    var expected = walkSync(blueprintPath).sort().filter(installables);
-    var actual = walkSync('.').sort().filter(installables);
+    var expected = walkSync(blueprintPath).sort();
+    var actual = walkSync('.').sort();
 
     assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
                      '\n but got: ' +  util.inspect(actual));
   }
 
   it('ember new foo, where foo does not yet exist, works', function() {
-    this.timeout(1200000);
-
     return ember([
       'new',
       'foo',
@@ -61,7 +55,6 @@ describe('Acceptance: ember new', function(){
   });
 
   it('Cannot run ember new, inside of ember-cli project', function() {
-    this.timeout(1200000);
     return ember([
       'new',
       'foo',
