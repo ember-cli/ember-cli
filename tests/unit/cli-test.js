@@ -337,7 +337,6 @@ describe('Unit: CLI', function(){
 
       var args = JSON.parse(track.calledWith[1][0]);
       assert.ok(track.called);
-      console.log(args);
       assert.equal(args[0], 'production');
       assert.equal(args[1].output, '/blah');
     });

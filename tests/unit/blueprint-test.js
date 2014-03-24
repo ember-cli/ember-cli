@@ -13,6 +13,8 @@ var MockUi = require('../helpers/mock-ui');
 
 require('../../lib/ext/promise');
 
+var conf = require('../helpers/conf');
+
 var basicBlueprintFiles = [
   'test.txt',
   'foo.txt'
@@ -33,6 +35,11 @@ function write(message) {
 }
 
 describe('Blueprint', function() {
+  // TODO: why do I need to do this in a UNIT test?
+  before(conf.setup);
+
+  after(conf.restore);
+
   it('exists', function() {
     assert(Blueprint);
     var blueprint = new Blueprint(basicBlueprint);

@@ -8,8 +8,13 @@ var path = require('path');
 var tmp = require('../helpers/tmp');
 var root = process.cwd();
 var util = require('util');
+var conf = require('../helpers/conf');
 
 describe('Acceptance: ember new', function(){
+  before(conf.setup);
+
+  after(conf.restore);
+  
   beforeEach(function(){
     tmp.setup('./tmp');
     process.chdir('./tmp');

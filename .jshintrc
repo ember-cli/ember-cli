@@ -4,7 +4,9 @@
     "it": true,
     "describe": true,
     "beforeEach": true,
-    "afterEach": true
+    "afterEach": true,
+    "before": true,
+    "after": true
   },
   "strict": true,
   "indent": 2,
