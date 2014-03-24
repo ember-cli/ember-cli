@@ -57,7 +57,9 @@
     "chai": "^1.9.1",
     "chai-as-promised": "^4.1.1",
     "configstore": "^0.2.3",
+    "grunt": "^0.4.4",
     "mocha": "~1.18.0",
-    "mocha-jshint": "0.0.7"
+    "mocha-jshint": "0.0.7",
+    "grunt-release": "git://github.com/townxelliot/grunt-release.git#multiple-files-56"
   }
 }
