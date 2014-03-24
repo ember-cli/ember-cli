@@ -11,6 +11,8 @@ var tmp = require('../helpers/tmp');
 var walkSync = require('../../lib/utilities/walk-sync').walkSync;
 var MockUi = require('../helpers/mock-ui');
 
+require('../../lib/ext/promise');
+
 var basicBlueprintFiles = [
   'test.txt',
   'foo.txt'
