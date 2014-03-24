@@ -64,10 +64,10 @@ describe('Blueprint', function() {
         var output = ui.output;
 
         assert.equal(status, 0);
-        assert.equal(output.length, 4);
         assert.match(output.shift(), /^installing/);
         assert.match(output.shift(), /create.* foo.txt/);
         assert.match(output.shift(), /create.* test.txt/);
+        assert.equal(output.length, 0);
 
         assert.deepEqual(actualFiles, basicBlueprintFiles);
       });
@@ -77,20 +77,18 @@ describe('Blueprint', function() {
       return blueprint.install('.').then(function() {
         var output = ui.output;
 
-        assert.equal(output.length, 4);
         assert.match(output.shift(), /^installing/);
         assert.match(output.shift(), /create.* foo.txt/);
         assert.match(output.shift(), /create.* test.txt/);
-        assert.match(output.shift(), /Skipping/);
+        assert.equal(output.length, 0);
 
         return blueprint.install('.').then(function() {
           var actualFiles = walkSync('.').sort();
 
-          assert.equal(output.length, 4);
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /identical.* foo.txt/);
           assert.match(output.shift(), /identical.* test.txt/);
-          assert.match(output.shift(), /Skipping/);
+          assert.equal(output.length, 0);
 
           assert.deepEqual(actualFiles, basicBlueprintFiles);
         });
@@ -101,14 +99,12 @@ describe('Blueprint', function() {
       return blueprint.install('.').then(function() {
         var output = ui.output;
 
-        assert.equal(output.length, 4);
         assert.match(output.shift(), /^installing/);
         assert.match(output.shift(), /create.* foo.txt/);
         assert.match(output.shift(), /create.* test.txt/);
-        assert.match(output.shift(), /Skipping/);
+        assert.equal(output.length, 0);
 
         var blueprintNew = new Blueprint(basicNewBlueprint, ui);
-
 
         setTimeout(function(){
           write('y\n');
@@ -117,11 +113,10 @@ describe('Blueprint', function() {
         return blueprintNew.install('.').then(function() {
           var actualFiles = walkSync('.').sort();
 
-          assert.equal(output.length, 4);
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /skip.* foo.txt/);
           assert.match(output.shift(), /identical.* test.txt/);
-          assert.match(output.shift(), /Skipping/);
+          assert.equal(output.length, 0);
 
           assert.deepEqual(actualFiles, basicBlueprintFiles);
         });

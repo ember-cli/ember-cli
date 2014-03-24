@@ -18,32 +18,37 @@ describe('Acceptance: ember init', function(){
     tmp.teardown('./tmp');
   });
 
+  function confirmBlueprinted() {
+    var blueprintPath = path.join(root, 'blueprint');
+
+    function installables(path) {
+      return !/node_modules|vendor|tmp/.test(path);
+    }
+
+    var expected = walkSync(blueprintPath).sort().filter(installables);
+    var actual = walkSync('.').sort().filter(installables);
+
+    assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
+                     '\n but got: ' +  util.inspect(actual));
+  }
+
   it('ember init,', function() {
-    this.timeout(1200000);
-
-    return ember(['init']).then(function() {
-      var folder = path.basename(process.cwd());
-
-      assert.equal(folder, 'foo');
-
-      var blueprintPath = path.join(root, 'blueprint');
-
-      function installables(path) {
-        return !/node_modules|vendor|tmp/.test(path);
-      }
-
-      var expected = walkSync(blueprintPath).sort().filter(installables);
-      var actual = walkSync('.').sort().filter(installables);
-
-      assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
-                       '\n but got: ' +  util.inspect(actual));
-    });
+    return ember([
+      'init',
+      '--skip-npm-install'
+    ]).then(confirmBlueprinted);
   });
 
   it('init an already init\'d folder', function() {
     this.timeout(1200000);
-    return ember(['init']).then(function() {
-      return ember(['init']);
+    return ember([
+      'init',
+      '--skip-npm-install'
+    ]).then(function() {
+      return ember([
+        'init',
+        '--skip-npm-install'
+      ]).then(confirmBlueprinted);
     });
   });
 });

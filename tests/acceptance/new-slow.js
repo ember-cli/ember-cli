@@ -19,42 +19,61 @@ describe('Acceptance: ember new', function(){
     tmp.teardown('./tmp');
   });
 
+  function confirmBlueprinted() {
+    var folder = path.basename(process.cwd());
+
+    assert.equal(folder, 'foo');
+
+    var blueprintPath = path.join(root, 'blueprint');
+
+    function installables(path) {
+      return !/node_modules|vendor|tmp/.test(path);
+    }
+
+    var expected = walkSync(blueprintPath).sort().filter(installables);
+    var actual = walkSync('.').sort().filter(installables);
+
+    assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
+                     '\n but got: ' +  util.inspect(actual));
+  }
+
   it('ember new foo, where foo does not yet exist, works', function() {
     this.timeout(1200000);
 
-    return ember(['new', 'foo']).then(function() {
-      var folder = path.basename(process.cwd());
-
-      assert.equal(folder, 'foo');
-
-      var blueprintPath = path.join(root, 'blueprint');
-
-      function installables(path) {
-        return !/node_modules|vendor|tmp/.test(path);
-      }
-
-      var expected = walkSync(blueprintPath).sort().filter(installables);
-      var actual = walkSync('.').sort().filter(installables);
-
-      assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
-                       '\n but got: ' +  util.inspect(actual));
-    });
+    return ember([
+      'new',
+      'foo',
+      '--skip-npm-install'
+    ]).then(confirmBlueprinted);
   });
 
   it('ember new with empty app name doesnt throw exception', function() {
-    return ember(['new', '']);
+    return ember([
+      'new',
+      ''
+    ]);
   });
 
   it('ember new without app name doesnt throw exception', function() {
-    return ember(['new']);
+    return ember([
+      'new'
+    ]);
   });
 
   it('Cannot run ember new, inside of ember-cli project', function() {
     this.timeout(1200000);
-    return ember(['new', 'foo']).then(function() {
-      return ember(['new', 'foo']).then(function() {
+    return ember([
+      'new',
+      'foo',
+      '--skip-npm-install'
+    ]).then(function() {
+      return ember([
+        'new',
+        'foo',
+        '--skip-npm-install'
+      ]).then(function() {
         assert(!fs.existsSync('foo'));
       });
-    });
+    }).then(confirmBlueprinted);
   });
 });
