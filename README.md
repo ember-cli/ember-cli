@@ -90,7 +90,7 @@ npm run-script autotest
 LESS, Sass, or Stylus
 ---------------------
 
-You can use [LESS](http://lesscss.org/), [Sass](http://sass-lang.com/) *(scss only)*, or [Stylus](http://learnboost.github.io/stylus/) by installing the corresponding Broccoli package (`broccoli-sass`, `broccoli-less` or `broccoli-stylus`).
+You can use [LESS](http://lesscss.org/), [Sass](http://sass-lang.com/) *(scss only)*, or [Stylus](http://learnboost.github.io/stylus/) by installing the corresponding Broccoli package (`broccoli-sass`, `broccoli-less-single` or `broccoli-stylus`).
 
 For example, to enable SCSS compilation:
 
