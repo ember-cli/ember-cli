@@ -1,8 +1,9 @@
 'use strict';
 
-var assert = require('assert');
+var assert = require('../helpers/assert');
 var stub = require('../helpers/stub');
 var MockUI = require('../helpers/mock-ui');
+var Insight = require('../../lib/utilities/insight');
 var Cli = require('../../lib/cli');
 var baseArgs = ['node', 'path/to/cli'];
 var extend = require('lodash-node/compat/objects/assign');
@@ -10,6 +11,7 @@ var brocEnv = require('broccoli-env');
 
 var ui;
 var commands;
+var insight;
 var argv;
 // helper to similate running the CLI
 function ember(args) {
@@ -21,7 +23,7 @@ function ember(args) {
     argv = baseArgs;
   }
 
-  return new Cli(argv, commands, ui).run();
+  return new Cli(argv, commands, ui, insight).run();
 }
 
 function stubCommand(name) {
@@ -34,8 +36,22 @@ function stubCommand(name) {
   return stub(commands[name], 'run');
 }
 
+function stubInsight() {
+  insight = new Insight({
+    trackingCode: 'test',
+    packageName: 'test'
+  });
+
+  stub(insight, 'track');
+  stub(insight, 'askPermission').asPromise();
+
+  return insight;
+
+}
+
 beforeEach(function() {
   ui = new MockUI();
+  stubInsight();
   argv = [];
   commands = {};
 });
@@ -45,6 +61,8 @@ afterEach(function() {
     if (!commands.hasOwnProperty(key)) { continue; }
     commands[key].run.restore();
   }
+
+  insight.track.restore();
   delete process.env.BROCCOLI_ENV;
   commands = argv = ui = undefined;
 });
@@ -290,5 +308,58 @@ describe('Unit: CLI', function(){
     assert(/The specified command .*unknownCommand.* is invalid/.test(ui.output[0]), 'expected an invalid command message');
     assert.equal(foo.called, 0, 'exptected the foo command no to be run');
     assert.equal(help.called, 0, 'expected the help command to be run');
+  });
+
+  describe('analytics tracking', function() {
+
+    var track;
+
+    beforeEach(function() {
+      track = stub(insight, 'track');
+      stubCommand(['build']);
+    });
+
+    afterEach(function() {
+      insight.track.restore();
+    });
+
+    it('tracks the command that was run', function() {
+
+      ember(['build']);
+
+      assert.ok(track.called);
+      assert.equal(track.calledWith[0][0], 'ember');
+      assert.equal(track.calledWith[0][1], 'build');
+    });
+
+    it('tracks given options as JSON string', function() {
+      ember(['build', 'production', '--output', '/blah']);
+
+      var args = JSON.parse(track.calledWith[1][0]);
+      assert.ok(track.called);
+      assert.equal(args[0], 'production');
+      assert.equal(args[1].output, '/blah');
+    });
+
+    describe('prompting for permission', function() {
+      beforeEach(function() {
+        insight.askPermission.restore();
+      });
+
+      it('asks when optOut is not set', function() {
+        insight.optOut = undefined;
+        var askPermission = stub(insight.insight, 'askPermission').asPromise();
+        Cli.run([], ui, insight);
+        assert.ok(askPermission.called);
+      });
+
+      it('does not ask when optOut is set', function() {
+        insight.optOut = false;
+        var askPermission = stub(insight.insight, 'askPermission').asPromise();
+        Cli.run([], ui, insight);
+        assert.notOk(askPermission.called);
+      });
+    });
+
   });
 });

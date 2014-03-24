@@ -7,7 +7,18 @@ var path = require('path');
 var tmp = require('../helpers/tmp');
 var root = process.cwd();
 var util = require('util');
+var conf = require('../helpers/conf');
+
 describe('Acceptance: ember init', function(){
+
+  before(function() {
+    conf.setup();
+  });
+
+  after(function() {
+    conf.restore();
+  });
+
   beforeEach(function(){
     tmp.setup('./tmp');
     process.chdir('./tmp');
