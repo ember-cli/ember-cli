@@ -19,7 +19,7 @@ describe('Acceptance: ember new', function(){
     tmp.teardown('./tmp');
   });
 
-  it.only('ember new foo, where foo does not yet exist, works', function() {
+  it('ember new foo, where foo does not yet exist, works', function() {
     this.timeout(1200000);
 
     return ember(['new', 'foo']).then(function() {

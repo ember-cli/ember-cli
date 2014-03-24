@@ -18,7 +18,7 @@ describe('Acceptance: ember init', function(){
     tmp.teardown('./tmp');
   });
 
-  it.only('ember init,', function() {
+  it('ember init,', function() {
     this.timeout(1200000);
 
     return ember(['init']).then(function() {
