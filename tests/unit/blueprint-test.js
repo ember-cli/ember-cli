@@ -42,7 +42,7 @@ describe('Blueprint', function() {
   it('throws when givin unknown blueprintPath', function() {
     assert.throws(function(){
       new Blueprint(missingBlueprint);
-    }, /Unknown Blueprint: /);
+    }, /Unknown Blueprint:\s/);
   });
 
   describe('basic blueprint installation', function() {
