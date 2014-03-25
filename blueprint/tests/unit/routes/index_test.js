@@ -1,8 +1,4 @@
-import {
-  test,
-  moduleFor
-} from '<%= modulePrefix %>/tests/helpers/module_for';
-
+import { test, moduleFor } from 'ember-qunit';
 import Index from '<%= modulePrefix %>/routes/index';
 
 moduleFor('route:index', "Unit - IndexRoute");

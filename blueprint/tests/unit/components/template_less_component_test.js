@@ -1,7 +1,4 @@
-import {
-  test,
-  moduleForComponent
-} from '<%= modulePrefix %>/tests/helpers/module_for';
+import { test, moduleForComponent } from 'ember-qunit';
 
 moduleForComponent('template-less');
 
