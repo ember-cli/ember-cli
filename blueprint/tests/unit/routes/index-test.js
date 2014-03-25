@@ -1,4 +1,7 @@
-import { test, moduleFor } from 'ember-qunit';
+import {
+  test,
+  moduleFor
+} from 'ember-qunit';
 import Index from '<%= modulePrefix %>/routes/index';
 
 moduleFor('route:index', "Unit - IndexRoute");
@@ -8,5 +11,9 @@ test("it exists", function(){
 });
 
 test("#model", function(){
-  deepEqual(this.subject().model(), ['red', 'yellow', 'blue']);
+  deepEqual(this.subject().model(), [
+    'red',
+    'yellow',
+    'blue'
+  ]);
 });

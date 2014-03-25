@@ -1,3 +1,5 @@
+import startApp from './helpers/start-app';
+
 var App;
 
 module('Acceptances - Component', {
