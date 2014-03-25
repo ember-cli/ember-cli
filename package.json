@@ -51,7 +51,8 @@
     "npm": "~1.4.4",
     "rimraf": "^2.2.6",
     "rsvp": "~3.0.6",
-    "tiny-lr": "0.0.5"
+    "tiny-lr": "0.0.5",
+    "bower-config": "^0.5.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
