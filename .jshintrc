@@ -15,7 +15,7 @@
   "browser" : false,
   "boss" : true,
   "curly": true,
-  "latedef": true,
+  "latedef": "nofunc",
   "debug": false,
   "devel": false,
   "eqeqeq": true,
