@@ -47,7 +47,7 @@ module.exports = function (broccoli) {
   qunit = pickFiles(vendor, {
     srcDir: '/qunit/qunit',
     files: ['qunit.css'],
-    destDir: '/tests'
+    destDir: '/assets/'
   });
 
   tests = preprocessTemplates(tests);
