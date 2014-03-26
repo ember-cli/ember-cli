@@ -1,4 +1,4 @@
-import startApp from './helpers/start-app';
+import startApp from '<%= modulePrefix %>/tests/helpers/start-app';
 
 var App;
 
@@ -20,4 +20,3 @@ test('component output is rendered', function(){
     equal(list.first().text(), 'Pretty Color: purple\n');
   });
 });
-

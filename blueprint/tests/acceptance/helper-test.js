@@ -1,4 +1,4 @@
-import startApp from './helpers/start-app';
+import startApp from '<%= modulePrefix %>/tests/helpers/start-app';
 
 var App;
 
@@ -18,4 +18,3 @@ test("helper output is rendered", function(){
     ok(exists("h3:contains('My name is Ember.')"));
   });
 });
-

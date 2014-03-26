@@ -1,4 +1,5 @@
-import startApp from './helpers/start-app';
+import startApp from '<%= modulePrefix %>/tests/helpers/start-app';
+
 var App;
 
 module('Acceptances - Index', {
