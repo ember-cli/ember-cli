@@ -17,6 +17,8 @@ module.exports = function (broccoli) {
   var vendor = broccoli.makeTree('vendor');
   var config = broccoli.makeTree('config');
   var styles;
+  var qunit;
+  var testsIndex;
 
   app = pickFiles(app, {
     srcDir: '/',
@@ -31,9 +33,21 @@ module.exports = function (broccoli) {
     destDir: '<%= modulePrefix %>/config'
   });
 
+  testsIndex = pickFiles(tests, {
+    srcDir: '/',
+    files: ['index.html'],
+    destDir: '/tests'
+  });
+
   tests = pickFiles(tests, {
     srcDir: '/',
     destDir: '<%= modulePrefix %>/tests'
+  });
+
+  qunit = pickFiles(vendor, {
+    srcDir: '/qunit/qunit',
+    files: ['qunit.css'],
+    destDir: '/tests'
   });
 
   tests = preprocessTemplates(tests);
@@ -44,8 +58,26 @@ module.exports = function (broccoli) {
     vendor
   ];
 
+  var legacyFilesToAppend = [
+    '<%= modulePrefix %>/config/environment.js',
+    '<%= modulePrefix %>/config/environments/' + env + '.js',
+    'jquery.js',
+    'handlebars.js',
+    'ember.js',
+    'ic-ajax/main.js',
+    'ember-data.js',
+    'ember-resolver.js'
+  ];
+
   if (env !== 'production') {
-    //sourceTrees.push(tests);
+    legacyFilesToAppend.push(
+      'ember-shim.js',
+      'qunit/qunit/qunit.js',
+      'qunit-shim.js',
+      'ember-qunit/dist/named-amd/main.js'
+    );
+
+    sourceTrees.push(tests);
   }
 
   sourceTrees = sourceTrees.concat(broccoli.bowerTrees());
@@ -57,21 +89,13 @@ module.exports = function (broccoli) {
   var applicationJs = compileES6(appAndDependencies, {
     loaderFile: 'loader.js',
     ignoredModules: [
-      'ember/resolver'
+      'ember/resolver',
+      'ember-qunit'
     ],
     inputFiles: [
       '<%= modulePrefix %>/**/*.js'
     ],
-    legacyFilesToAppend: [
-      '<%= modulePrefix %>/config/environment.js',
-      '<%= modulePrefix %>/config/environments/' + env + '.js',
-      'jquery.js',
-      'handlebars.js',
-      'ember.js',
-      'ic-ajax/main.js',
-      'ember-data.js',
-      'ember-resolver.js'
-    ],
+    legacyFilesToAppend: legacyFilesToAppend,
 
     wrapInEval: env !== 'production',
     outputFile: '/assets/app.js'
@@ -86,9 +110,15 @@ module.exports = function (broccoli) {
     });
   }
 
-  return [
+  var outputTrees = [
     applicationJs,
     publicFiles,
     styles
   ];
+
+  if (env !== 'production') {
+    outputTrees.push(qunit, testsIndex);
+  }
+
+  return outputTrees;
 };
