@@ -1,4 +1,4 @@
-import startApp from '<%= modulePrefix %>/tests/helpers/start-app';
+import startApp from '../helpers/start-app';
 
 var App;
 
