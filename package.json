@@ -48,11 +48,12 @@
     "loom-generators-ember-appkit": "~1.0.5",
     "ncp": "~0.5.0",
     "nopt": "~2.1.2",
-    "npm": "~1.4.4",
+    "npm": "~1.4.6",
     "rimraf": "^2.2.6",
     "rsvp": "~3.0.6",
     "tiny-lr": "0.0.5",
-    "bower-config": "^0.5.0"
+    "bower-config": "^0.5.0",
+    "through": "^2.3.4"
   },
   "devDependencies": {
     "chai": "^1.9.1",
