@@ -59,6 +59,19 @@ describe('Acceptance: ember new', function(){
     ]);
   });
 
+  it('ember new with app name creates new directory and has a dasherized package name', function() {
+    return ember([
+      'new',
+      'FooApp',
+      '--skip-npm-install'
+    ]).then(function() {
+      assert(!fs.existsSync('FooApp'));
+
+      var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      assert.equal(pkgJson.name, 'foo-app');
+    });
+  });
+
   it('Cannot run ember new, inside of ember-cli project', function() {
     return ember([
       'new',
