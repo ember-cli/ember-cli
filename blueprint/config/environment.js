@@ -5,6 +5,7 @@
 // For example to enable a feature on a canary build you
 // might do:
 //
-// window.ENV = {FEATURES: {'with-controller': true}};
+// window.ENV.FEATURES['with-controller'] = true;
 
-window.ENV = {};
+window.ENV = window.ENV || {};
+window.ENV.FEATURES = window.ENV.FEATURES || {};
