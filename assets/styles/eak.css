@@ -1,0 +1,21 @@
+#content-wrapper {
+  width: 960px;
+  margin: 0 auto;
+}
+
+#content-wrapper .sidebar {
+  float: left;
+  width: 280px;
+  overflow:hidden;
+  margin-top:38px;
+}
+
+#content-wrapper .sidebar a.current {
+  font-weight: bold;
+  color: #373737;
+}
+
+#content-wrapper .content {
+  float: left;
+  max-width: 660px;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ site.baseurl }}/assets/styles/slate.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ site.baseurl }}/assets/styles/eak.css">
+
+    <title>{{page.title}} | Ember App Kit</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/stefanpenner/ember-app-kit">View on GitHub</a>
+
+          <h1 id="project_title">Ember App Kit</h1>
+          <h2 id="project_tagline">A template for ambitious web applications</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/stefanpenner/ember-app-kit/archive/master.zip">
+              Download this project as a .zip file
+            </a>
+            <a class="tar_download_link" href="https://github.com/stefanpenner/ember-app-kit/archive/master.tar.gz">
+              Download this project as a tar.gz file
+            </a>
+          </section>
+        </header>
+    </div>
+
+    <div id="main_content_wrap">
+      <div id="content-wrapper">
+
+        <!-- SIDEBAR -->
+        <ul class="sidebar">
+          {% for guide in site.guides %}
+            <li>
+              {% if guide.page == page.url or (guide.page == "/" and page.url == "/index.html") %}
+                <a class="current" href="{{ site.baseurl }}{{guide.page}}">{{guide.name}}</a>
+              {% else %}
+                <a href="{{ site.baseurl }}{{guide.page}}">{{guide.name}}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+
+        <!-- MAIN CONTENT -->
+        <section class="content inner">
+          <h2>{{page.title}}</h2>
+          {{content}}
+        </section>
+
+      </div>
+
+      <div style="clear:both"></div>
+
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Theme forked from <a href="https://github.com/jsncostello/slate">Jason Costello's Slate</a>.</p>
+      </footer>
+    </div>
+
+  </body>
+</html>

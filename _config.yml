@@ -1,0 +1,25 @@
+baseurl: /ember-app-kit
+
+guides:
+  - name: "Overview"
+    page: "/"
+  - name: "Getting Started"
+    page: "/guides/getting-started.html"
+  - name: "Using Modules &amp; the Resolver"
+    page: "/guides/using-modules.html"
+  - name: "Naming Conventions"
+    page: "/guides/naming-conventions.html"
+  - name: "Using With Ember Data"
+    page: "/guides/ember-data.html"
+  - name: "Testing"
+    page: "/guides/testing.html"
+  - name: "Proxy or Mock API Requests"
+    page: "/guides/mock-and-proxy-requests.html"
+  - name: "Asset Compilation"
+    page: "/guides/asset-compilation.html"
+  - name: "Managing Dependencies"
+    page: "/guides/dependencies.html"
+
+pygments: true
+
+exclude: [dist, node_modules, vendor, tmp]
