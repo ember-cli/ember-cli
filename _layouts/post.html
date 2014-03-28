@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  {% include head.html %}
+  <body data-spy="scroll" data-target=".sidebar">
+    {% include header.html %}
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="content-section">
+              <div class="guide-content">
+                <a class="edit-page" href="{{page.github}}" title="Edit this page on GitHub">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <h1>{{page.title}}</h1>
+                <p>{{content}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include scripts.html %}
+  </body>
+</html>

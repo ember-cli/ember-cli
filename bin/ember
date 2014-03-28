@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-
-process.title = 'ember';
-require('../lib/cli').run(process.argv);
