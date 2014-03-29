@@ -11,11 +11,11 @@ var preprocessTemplates = p.preprocessTemplates;
 var preprocessJs = p.preprocessJs;
 
 module.exports = function (broccoli) {
-  var app = broccoli.makeTree('app');
-  var tests = broccoli.makeTree('tests');
-  var publicFiles = broccoli.makeTree('public');
-  var vendor = broccoli.makeTree('vendor');
-  var config = broccoli.makeTree('config');
+  var app = 'app';
+  var tests = 'tests';
+  var publicFiles = 'public';
+  var vendor = 'vendor';
+  var config = 'config';
   var styles;
   var qunit;
   var testsIndex;
