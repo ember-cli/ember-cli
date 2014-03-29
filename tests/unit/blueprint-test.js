@@ -14,8 +14,6 @@ var MockUi = require('../helpers/mock-ui');
 
 require('../../lib/ext/promise');
 
-var conf = require('../helpers/conf');
-
 var basicBlueprintFiles = [
   '.gitignore',
   'test.txt',
@@ -23,6 +21,12 @@ var basicBlueprintFiles = [
 ].sort();
 
 var ui;
+
+function stubBlueprint(structure, ui) {
+  var blueprint = new Blueprint(structure, ui);
+  stub(blueprint, 'postInstall');
+  return blueprint;
+}
 
 assert.match = function(actual, matcher) {
   assert(matcher.test(actual), 'expected: ' +
@@ -36,11 +40,7 @@ function write(message) {
   process.stdin.emit('data', '');
 }
 
-describe.only('Blueprint', function() {
-  // TODO: why do I need to do this in a UNIT test?
-  before(conf.setup);
-
-  after(conf.restore);
+describe('Blueprint', function() {
 
   it('exists', function() {
     assert(Blueprint);
@@ -62,7 +62,7 @@ describe.only('Blueprint', function() {
       tmp.setup('./tmp');
       process.chdir('./tmp');
       ui = new MockUi();
-      blueprint = new Blueprint(basicBlueprint, ui);
+      blueprint = stubBlueprint(basicBlueprint, ui);
       postInstall = stub(blueprint, 'postInstall');
     });
 
@@ -121,7 +121,8 @@ describe.only('Blueprint', function() {
         assert.match(output.shift(), /create.* test.txt/);
         assert.equal(output.length, 0);
 
-        var blueprintNew = new Blueprint(basicNewBlueprint, ui);
+        var blueprintNew = stubBlueprint(basicNewBlueprint, ui);
+        stub(blueprintNew, 'postInstall');
 
         setTimeout(function(){
           write('y\n');
