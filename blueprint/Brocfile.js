@@ -90,7 +90,7 @@ module.exports = function (broccoli) {
   appAndDependencies = preprocessJs(appAndDependencies, '/', '<%= modulePrefix %>');
 
   var applicationJs = compileES6(appAndDependencies, {
-    loaderFile: 'loader.js',
+    loaderFile: 'loader/loader.js',
     ignoredModules: [
       'ember/resolver',
       'ember-qunit'

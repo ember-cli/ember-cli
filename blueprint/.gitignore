@@ -7,7 +7,6 @@
 # dependencies
 /node_modules
 /vendor/*
-!/vendor/loader.js
 !/vendor/ember-shim.js
 !/vendor/qunit-shim.js
 
