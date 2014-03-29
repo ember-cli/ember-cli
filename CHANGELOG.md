@@ -1,6 +1,8 @@
 # ember-cli Changelog
 
-### 0.0.19
+* 
+
+### 0.0.20
 
 * Run tests through /tests.
 * Integrate ember-qunit.
