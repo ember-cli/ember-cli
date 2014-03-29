@@ -20,6 +20,11 @@ module.exports = function (broccoli) {
   var qunit;
   var testsIndex;
 
+  broccoli.subscribe(function(change) {
+    // Add code here to run whenever broccoli's watcher changes
+    // /*eg.*/ change.symlinkTo('../server/public')
+  });
+
   app = pickFiles(app, {
     srcDir: '/',
     destDir: '<%= modulePrefix %>/'
