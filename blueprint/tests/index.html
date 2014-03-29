@@ -30,18 +30,11 @@
     </style>
   </head>
   <body>
-    <!--[if lt IE 8]>
-        <p class='browsehappy'>
-          You are using an <strong>outdated</strong> browser. Please
-          <a href='http://browsehappy.com/'>upgrade your browser</a>
-          to improve your experience.
-        </p>
-        <![endif]-->
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
     <script>
-      require('sandbox/tests/test-helper');
-      require('sandbox/tests/test-loader');
+      require('<%= modulePrefix %>/tests/test-helper');
+      require('<%= modulePrefix %>/tests/test-loader');
     </script>
   </body>
 </html>
