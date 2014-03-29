@@ -17,6 +17,7 @@ require('../../lib/ext/promise');
 var conf = require('../helpers/conf');
 
 var basicBlueprintFiles = [
+  '.gitignore',
   'test.txt',
   'foo.txt'
 ].sort();
@@ -35,7 +36,7 @@ function write(message) {
   process.stdin.emit('data', '');
 }
 
-describe('Blueprint', function() {
+describe.only('Blueprint', function() {
   // TODO: why do I need to do this in a UNIT test?
   before(conf.setup);
 
@@ -77,6 +78,7 @@ describe('Blueprint', function() {
         var output = ui.output;
 
         assert.match(output.shift(), /^installing/);
+        assert.match(output.shift(), /create.* .gitignore/);
         assert.match(output.shift(), /create.* foo.txt/);
         assert.match(output.shift(), /create.* test.txt/);
         assert.equal(output.length, 0);
@@ -90,6 +92,7 @@ describe('Blueprint', function() {
         var output = ui.output;
 
         assert.match(output.shift(), /^installing/);
+        assert.match(output.shift(), /create.* \.gitignore/);
         assert.match(output.shift(), /create.* foo.txt/);
         assert.match(output.shift(), /create.* test.txt/);
         assert.equal(output.length, 0);
@@ -98,6 +101,7 @@ describe('Blueprint', function() {
           var actualFiles = walkSync('.').sort();
 
           assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /identical.* \.gitignore/);
           assert.match(output.shift(), /identical.* foo.txt/);
           assert.match(output.shift(), /identical.* test.txt/);
           assert.equal(output.length, 0);
@@ -112,6 +116,7 @@ describe('Blueprint', function() {
         var output = ui.output;
 
         assert.match(output.shift(), /^installing/);
+        assert.match(output.shift(), /create.* \.gitignore/);
         assert.match(output.shift(), /create.* foo.txt/);
         assert.match(output.shift(), /create.* test.txt/);
         assert.equal(output.length, 0);
@@ -122,10 +127,15 @@ describe('Blueprint', function() {
           write('y\n');
         }, 10);
 
+        setTimeout(function(){
+          write('y\n');
+        }, 20);
+
         return blueprintNew.install('.').then(function() {
           var actualFiles = walkSync('.').sort();
 
           assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /identical.* \.gitignore/);
           assert.match(output.shift(), /skip.* foo.txt/);
           assert.match(output.shift(), /identical.* test.txt/);
           assert.equal(output.length, 0);
