@@ -1,7 +1,6 @@
 ## ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.png?branch=master)](https://travis-ci.org/stefanpenner/ember-cli)
 
-an ember commandline utility.
-
+An ember command line utility.
 
 ## Warning
 
@@ -9,13 +8,13 @@ Although potentially exciting, this is still really a WIP, use at your own risk.
 
 ## Why?
 
-The [ember-app-kit](https://github.com/stefanpenner/ember-app-kit) project has proved to be quite useful, 
+The [ember-app-kit](https://github.com/stefanpenner/ember-app-kit) project has proved to be quite useful,
 we have learned lots, and it allowed us to iterate quickly while building real ambitious applications.
 
 While it's initial incarnation is useful, it has several meta problems:
 
 1. It is not "simple" and appears daunting
-2. Because of inline configuration, the api surface area is massive
+2. Because of inline configuration, the API surface area is massive
 3. #2 does not allow users to express the "what" just the "how", this prevents EAK from doing more of the heavy lifting itself
 4. [#2 #3] makes it quite tedious to upgrade
 
@@ -81,32 +80,35 @@ For example, to enable SCSS compilation:
 npm install --save-dev broccoli-sass
 ```
 
+Building will now compile `app/styles/app.scss` into `app.css` in your output.
+
 #### Contributing
 
 Submit a pull request (code + tests) and make sure to add the change to [CHANGELOG.md](https://github.com/stefanpenner/ember-cli/blob/master/CHANGELOG.md).
 
-Building will now compile `app/styles/app.scss` into `app.css` in your output.
-
 #### Ideas
 
-+ excutable (this project)
++ executable (this project)
 
   ```bash
   ember
+  ember new <app-name>
+  ember help
   ember init  <app-name>
   ember build <env-name> [default: development] [optional: target path]
   ember server
     --autotest   [default: false]
-    --port       [default: 8000]
+    --port       [default: 4200]
+    --host       [default: 0.0.0.0]
     --subscribe  [default:release, optional: (beta|canary)]
-                 # on "start" of an app, it will prompt the user if the channel they
-                 # subscribe to has an update.
-                 # if an update occured. they are asked [yes, no] to try the update (using bower)
-                 #   (what about other libs? ember-data or components or..)
+                   # on "start" of an app, it will prompt the user if the channel they
+                   # subscribe to has an update.
+                   # if an update occured. they are asked [yes, no] to try the update (using bower)
+                   #   (what about other libs? ember-data or components or..)
     --env        [default: development] # allow previewing the various build envs.
     --app        [default: .]
 
-  ember generate [...]
+  ember generate <generator-name> <options...> See https://github.com/cavneb/loom-generators-ember-appkit for available generators
   ember generate scaffold [...] # for resources
 
   ember addon # reserved for future use.
