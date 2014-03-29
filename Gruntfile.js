@@ -19,6 +19,9 @@ module.exports = function(grunt) {
     'major',
     'minor'
   ].forEach(function(level) {
-    grunt.registerTask('ember:release:' + level, ['test', 'release:' + level]);
+    grunt.registerTask('ember:release:' + level, [
+      'test',
+      'release:' + level
+    ]);
   });
 };
