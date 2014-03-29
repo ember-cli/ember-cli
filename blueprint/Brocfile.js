@@ -29,7 +29,10 @@ module.exports = function (broccoli) {
 
   config = pickFiles(config, {
     srcDir: '/',
-    files: ['environment.*', 'environments/' + env + '.*'],
+    files: [
+      'environment.*',
+      'environments/' + env + '.*'
+    ],
     destDir: '<%= modulePrefix %>/config'
   });
 
