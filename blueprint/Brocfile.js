@@ -5,6 +5,7 @@ var replace = require('broccoli-replace');
 var compileES6 = require('broccoli-es6-concatenator');
 var pickFiles = require('broccoli-static-compiler');
 var env = require('broccoli-env').getEnv();
+var getEnvJSON = require('./config/environment');
 
 var p = require('ember-cli/lib/preprocessors');
 var preprocessCss = p.preprocessCss;
@@ -26,7 +27,7 @@ module.exports = function (broccoli) {
 
   indexHTML = replace(indexHTML, {
     files: ['index.html'],
-    patterns: [{ match: /\{\{rootURL\}\}/g, replacement: rootURL}]
+    patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
   });
 
   var testsIndexHTML = pickFiles('tests', {
@@ -37,7 +38,7 @@ module.exports = function (broccoli) {
 
   testsIndexHTML = replace(testsIndexHTML, {
     files: ['tests/index.html'],
-    patterns: [{ match: /\{\{rootURL\}\}/g, replacement: rootURL}]
+    patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
   });
 
   // sourceTrees, appAndDependencies for CSS and JavaScript
@@ -49,13 +50,10 @@ module.exports = function (broccoli) {
 
   app = preprocessTemplates(app);
 
-  var config = pickFiles('config', {
+  var config = pickFiles('config', { // Don't pick anything, just watch config folder
     srcDir: '/',
-    files: [
-      'environment.*',
-      'environments/' + env + '.*'
-    ],
-    destDir: prefix + '/config'
+    files: [],
+    destDir: '/'
   });
 
   var sourceTrees = [app, config, 'vendor'].concat(broccoli.bowerTrees());
@@ -76,8 +74,6 @@ module.exports = function (broccoli) {
   // JavaScript
 
   var legacyFilesToAppend = [
-    prefix + '/config/environment.js',
-    prefix + '/config/environments/' + env + '.js',
     'jquery.js',
     'handlebars.js',
     'ember.js',

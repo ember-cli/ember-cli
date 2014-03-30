@@ -7,8 +7,9 @@
     <meta name='description' content=''>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-    <script> // Sets base tag in order to support history location properly
-      document.write('<base href="' + document.location.origin + '{{rootURL}}" />');
+    <script>
+      ENV = {{ENV}};
+      document.write('<base href="' + document.location.origin + ENV.rootURL + '" />');
     </script>
 
     <link rel='stylesheet' href='assets/app.css'>
