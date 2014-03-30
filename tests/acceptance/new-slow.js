@@ -16,7 +16,7 @@ describe('Acceptance: ember new', function(){
   before(conf.setup);
 
   after(conf.restore);
-  
+
   beforeEach(function(){
     tmp.setup('./tmp');
     process.chdir('./tmp');

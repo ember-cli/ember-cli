@@ -12,10 +12,6 @@ module.exports = function stub(obj, name) {
     obj[name] = original;
   };
 
-  obj[name].asPromise = function() {
-    return obj[name];
-  };
-
   obj[name].called = 0;
   obj[name].calledWith = [];
 

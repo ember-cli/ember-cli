@@ -43,7 +43,7 @@ function stubInsight() {
   });
 
   stub(insight, 'track');
-  stub(insight, 'askPermission').asPromise();
+  stub(insight, 'askPermission');
 
   return insight;
 
@@ -348,14 +348,14 @@ describe('Unit: CLI', function(){
 
       it('asks when optOut is not set', function() {
         insight.optOut = undefined;
-        var askPermission = stub(insight.insight, 'askPermission').asPromise();
+        var askPermission = stub(insight.insight, 'askPermission');
         Cli.run([], ui, insight);
         assert.ok(askPermission.called);
       });
 
       it('does not ask when optOut is set', function() {
         insight.optOut = false;
-        var askPermission = stub(insight.insight, 'askPermission').asPromise();
+        var askPermission = stub(insight.insight, 'askPermission');
         Cli.run([], ui, insight);
         assert.notOk(askPermission.called);
       });
