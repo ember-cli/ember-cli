@@ -70,7 +70,6 @@ module.exports = function (broccoli) {
 
   var appAndDependencies = new broccoli.MergedTree(sourceTrees);
 
-
   // JavaScript
 
   var legacyFilesToAppend = [
@@ -114,7 +113,6 @@ module.exports = function (broccoli) {
       compress: false
     });
   }
-
 
   // Styles
 
