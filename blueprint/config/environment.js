@@ -7,5 +7,7 @@
 //
 // window.ENV.FEATURES['with-controller'] = true;
 
-window.ENV = window.ENV || {};
+window.ENV = window.ENV || {
+  rootURL: '/'
+};
 window.ENV.FEATURES = window.ENV.FEATURES || {};
