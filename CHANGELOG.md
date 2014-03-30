@@ -1,6 +1,6 @@
 # ember-cli Changelog
 
-* 
+* Use `loader.js` from `bower` ([0c1e8d28](https://github.com/stefanpenner/ember-cli/commit/0c1e8d28ca4bf6d24dc28af1fa4736690394eb5a))
 
 ### 0.0.20
 
