@@ -2,7 +2,9 @@
 
 var ember = require('../helpers/ember');
 var assert = require('assert');
+var forEach = require('lodash-node/compat/collections/forEach');
 var walkSync = require('../../lib/utilities/walk-sync').walkSync;
+var Blueprint = require('../../lib/blueprint');
 var path = require('path');
 var tmp = require('../helpers/tmp');
 var root = process.cwd();
@@ -33,6 +35,12 @@ describe('Acceptance: ember init', function(){
 
     var expected = walkSync(blueprintPath).sort();
     var actual = walkSync('.').sort();
+
+    forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
+      expected[expected.indexOf(srcFile)] = destFile;
+    });
+
+    expected.sort();
 
     assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
                      '\n but got: ' +  util.inspect(actual));
