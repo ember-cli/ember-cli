@@ -1,8 +1,5 @@
-// For `/tests` site
-var testsURLPrefix = /^\/tests/.test(document.location.pathname) ? '/tests' : '';
-
 var Router = Ember.Router.extend({
-  rootURL: testsURLPrefix + ENV.rootURL,
+  rootURL: ENV.rootURL,
   location: 'history'
 });
 
