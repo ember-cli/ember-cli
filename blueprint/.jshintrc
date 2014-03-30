@@ -8,7 +8,8 @@
     "Em": true,
     "DS": true,
     "$": true,
-    "ENV": true
+    "ENV": true,
+    "module": true
   },
   "node" : false,
   "browser" : false,
