@@ -16,7 +16,6 @@ module.exports = function (broccoli) {
   var prefix = '<%= modulePrefix %>';
   var rootURL = '/';
 
-
   // index.html
 
   var indexHTML = pickFiles('app', {
@@ -40,8 +39,6 @@ module.exports = function (broccoli) {
     files: ['tests/index.html'],
     patterns: [{ match: /\{\{rootURL\}\}/g, replacement: rootURL}]
   });
-
-
 
   // sourceTrees, appAndDependencies for CSS and JavaScript
 
@@ -125,23 +122,26 @@ module.exports = function (broccoli) {
 
   // Styles
 
-  styles = preprocessCss(sourceTrees, prefix + '/styles', '/assets');
+  var styles = preprocessCss(sourceTrees, prefix + '/styles', '/assets');
 
-  qunitStyles = pickFiles('vendor', {
+  var qunitStyles = pickFiles('vendor', {
     srcDir: '/qunit/qunit',
     files: ['qunit.css'],
     destDir: '/assets/'
   });
 
-
   // Ouput
 
-  var outputTrees = [indexHTML, applicationJs, 'public', styles];
+  var outputTrees = [
+    indexHTML,
+    applicationJs,
+    'public',
+    styles
+  ];
 
   if (env !== 'production') {
     outputTrees.push(qunitStyles, testsIndexHTML);
   }
-
 
   return outputTrees;
 };
