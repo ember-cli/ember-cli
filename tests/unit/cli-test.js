@@ -126,7 +126,7 @@ describe('Unit: CLI', function(){
 
       ember([command, '--port',  '9999']);
 
-      var options = server.calledWith[0][0].options;
+      var options = server.calledWith[0][0].cliOptions;
 
       assert.equal(server.called, 1, 'expected the server command to be run');
       assert.equal(options.port, 9999, 'correct port');
@@ -138,7 +138,7 @@ describe('Unit: CLI', function(){
 
       ember([command, '-p',  '9999']);
 
-      var options = server.calledWith[0][0].options;
+      var options = server.calledWith[0][0].cliOptions;
 
       assert.equal(server.called, 1, 'expected the server command to be run');
       assert.equal(options.port, 9999, 'correct port');
@@ -150,7 +150,7 @@ describe('Unit: CLI', function(){
 
       ember(['server', '--host', 'localhost']);
 
-      var options = server.calledWith[0][0].options;
+      var options = server.calledWith[0][0].cliOptions;
 
       assert.equal(server.called, 1, 'expected the server command to be run');
       assert.equal(options.host, 'localhost', 'correct localhost');
@@ -162,7 +162,7 @@ describe('Unit: CLI', function(){
 
       ember([command, '--port', '9292',  '--host',  'localhost']);
 
-      var options = server.calledWith[0][0].options;
+      var options = server.calledWith[0][0].cliOptions;
 
       assert.equal(server.called, 1, 'expected the server command to be run');
       assert.equal(options.host, 'localhost', 'correct localhost');
@@ -175,7 +175,7 @@ describe('Unit: CLI', function(){
 
       ember([command, '--environment', 'production']);
 
-      var options = server.calledWith[0][0].options;
+      var options = server.calledWith[0][0].cliOptions;
 
       assert.equal(server.called, 1, 'expected the server command to be run');
       assert.equal(options.environment, 'production', 'correct environment');
@@ -187,7 +187,7 @@ describe('Unit: CLI', function(){
 
       ember([command, '--env', 'production']);
 
-      var options = server.calledWith[0][0].options;
+      var options = server.calledWith[0][0].cliOptions;
 
       assert.equal(server.called, 1, 'expected the server command to be run');
       assert.equal(options.environment, 'production', 'correct environment');
@@ -295,7 +295,7 @@ describe('Unit: CLI', function(){
     assert.deepEqual(options.args, ['lorem', 'ipsum', 'dolor'], 'expects correct arguments');
 
     assert.equal(foo.calledWith[0].length, 2, 'expect foo to receive a total of 4 args');
-    assert.equal(options.options.flag1, 'one', 'expect foo to receive the flag1 with the string one');
+    assert.equal(options.cliOptions.flag1, 'one', 'expect foo to receive the flag1 with the string one');
     assert.deepEqual(ui.output, [], 'expected no output');
   });
 
