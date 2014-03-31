@@ -5,7 +5,7 @@ An ember command line utility.
 ## Community
 
 * irc: #ember-cli on freenode
-* issues: [ember-cli/issues](https://github.com/stefanpenner/ember-cli/edit/master/)
+* issues: [ember-cli/issues](https://github.com/stefanpenner/ember-cli/issues)
 
 
 ## Warning
