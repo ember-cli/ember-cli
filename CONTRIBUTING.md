@@ -77,7 +77,7 @@ explain a standard use case to us.
 7. Update the Changelog.
 
 We try to be quick about responding to tickets but sometimes we get a bit
-backlogged. If the response is slow, try to find someone on IRC(#emberjs) to
+backlogged. If the response is slow, try to find someone on IRC(#ember-cli) to
 give the ticket a review.
 
 Some things that will increase the chance that your pull request is accepted,
