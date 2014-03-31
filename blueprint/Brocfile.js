@@ -30,17 +30,6 @@ module.exports = function (broccoli) {
     patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
   });
 
-  var testsIndexHTML = pickFiles('tests', {
-    srcDir: '/',
-    files: ['index.html'],
-    destDir: '/tests'
-  });
-
-  testsIndexHTML = replace(testsIndexHTML, {
-    files: ['tests/index.html'],
-    patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
-  });
-
   // sourceTrees, appAndDependencies for CSS and JavaScript
 
   var app = pickFiles('app', {
@@ -119,12 +108,6 @@ module.exports = function (broccoli) {
 
   var styles = preprocessCss(sourceTrees, prefix + '/styles', '/assets');
 
-  var qunitStyles = pickFiles('vendor', {
-    srcDir: '/qunit/qunit',
-    files: ['qunit.css'],
-    destDir: '/assets/'
-  });
-
   // Ouput
 
   var outputTrees = [
@@ -134,8 +117,28 @@ module.exports = function (broccoli) {
     styles
   ];
 
+  // Testing
+
   if (env !== 'production') {
-    outputTrees.push(qunitStyles, testsIndexHTML);
+    var testsIndexHTML = pickFiles('tests', {
+      srcDir: '/',
+      files: ['index.html'],
+      destDir: '/tests'
+    });
+
+    var qunitStyles = pickFiles('vendor', {
+      srcDir: '/qunit/qunit',
+      files: ['qunit.css'],
+      destDir: '/assets/'
+    });
+
+    testsIndexHTML = replace(testsIndexHTML, {
+      files: ['tests/index.html'],
+      patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
+    });
+
+    var testsTrees = [qunitStyles, testsIndexHTML];
+    outputTrees = outputTrees.concat(testsTrees);
   }
 
   return outputTrees;
