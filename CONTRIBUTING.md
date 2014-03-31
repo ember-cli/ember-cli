@@ -91,7 +91,6 @@ Syntax:
 
     * Two spaces, no tabs.
     * No trailing whitespace. Blank lines should not have any space.
-    * a = b and not a = b.
     * Follow the conventions you see used in the source already.
 
 Inline Documentation Guidelines:
