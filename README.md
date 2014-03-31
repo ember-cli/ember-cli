@@ -146,3 +146,7 @@ Submit a pull request (code + tests) and make sure to add the change to [CHANGEL
   ```
 
 + tasks (consider extracting them into `broccoli-ember`)
+
+### License
+
+ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
