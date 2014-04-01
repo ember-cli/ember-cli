@@ -9,7 +9,7 @@ var basicNewBlueprint = path.resolve(path.join(__dirname, '..', 'fixtures', 'blu
 var missingBlueprint = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', '__missing__'));
 
 var tmp = require('../helpers/tmp');
-var walkSync = require('../../lib/utilities/walk-sync').walkSync;
+var walkSync = require('walk-sync');
 var MockUi = require('../helpers/mock-ui');
 
 require('../../lib/ext/promise');
