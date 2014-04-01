@@ -100,7 +100,7 @@ npm install --save-dev broccoli-coffee
 
 Now CoffeeScript files will be complied.
 
-Note that `export` and `default` are reserved words in CoffeeScript so if you are using using ES6 modules they must be escaped:
+Note that `export` and `default` are reserved words in CoffeeScript so they must be escaped:
 
 ```coffee
 `export default Router`
