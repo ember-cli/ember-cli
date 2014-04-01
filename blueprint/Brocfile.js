@@ -76,7 +76,7 @@ module.exports = function (broccoli) {
     'jquery.js',
     'handlebars.js',
     'ember.js',
-    'ic-ajax/main.js',
+    'ic-ajax/dist/named-amd/main.js',
     'ember-data.js',
     'ember-resolver.js',
     'ember-shim.js'
@@ -96,7 +96,8 @@ module.exports = function (broccoli) {
     loaderFile: 'loader/loader.js',
     ignoredModules: [
       'ember/resolver',
-      'ember-qunit'
+      'ember-qunit',
+      'ic-ajax'
     ],
     inputFiles: [
       prefix + '/**/*.js'
