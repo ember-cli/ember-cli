@@ -46,17 +46,6 @@ module.exports = function (broccoli) {
   });
 
   var sourceTrees = [app, config, 'vendor'].concat(broccoli.bowerTrees());
-
-  if (env !== 'production') {
-    var tests = pickFiles('tests', {
-      srcDir: '/',
-      destDir: prefix + '/tests'
-    });
-
-    tests = preprocessTemplates(tests);
-    sourceTrees.push(tests);
-  }
-
   var appAndDependencies = new broccoli.MergedTree(sourceTrees);
 
   // JavaScript
@@ -71,28 +60,18 @@ module.exports = function (broccoli) {
     'ember-shim.js'
   ];
 
-  if (env !== 'production') {
-    legacyFilesToAppend.push(
-      'qunit/qunit/qunit.js',
-      'qunit-shim.js',
-      'ember-qunit/dist/named-amd/main.js'
-    );
-  }
-
   var applicationJs = preprocessJs(appAndDependencies, '/', prefix);
 
   applicationJs = compileES6(applicationJs, {
     loaderFile: 'loader/loader.js',
     ignoredModules: [
       'ember/resolver',
-      'ember-qunit',
       'ic-ajax'
     ],
     inputFiles: [
       prefix + '/**/*.js'
     ],
     legacyFilesToAppend: legacyFilesToAppend,
-
     wrapInEval: env !== 'production',
     outputFile: '/assets/app.js'
   });
@@ -120,6 +99,12 @@ module.exports = function (broccoli) {
   // Testing
 
   if (env !== 'production') {
+
+    var tests = pickFiles('tests', {
+      srcDir: '/',
+      destDir: prefix + '/tests'
+    });
+
     var testsIndexHTML = pickFiles('tests', {
       srcDir: '/',
       files: ['index.html'],
@@ -137,7 +122,39 @@ module.exports = function (broccoli) {
       patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
     });
 
-    var testsTrees = [qunitStyles, testsIndexHTML];
+    tests = preprocessTemplates(tests);
+
+    sourceTrees = [tests, 'vendor'].concat(broccoli.bowerTrees());
+    appAndDependencies = new broccoli.MergedTree(sourceTrees);
+
+    var testsJs = preprocessJs(appAndDependencies, '/', prefix);
+
+    var legacyTestFiles = [
+      'qunit/qunit/qunit.js',
+      'qunit-shim.js',
+      'ember-qunit/dist/named-amd/main.js'
+    ];
+
+    legacyFilesToAppend = legacyFilesToAppend.concat(legacyTestFiles);
+
+    testsJs = compileES6(testsJs, {
+      // Temporary workaround for
+      // https://github.com/joliss/broccoli-es6-concatenator/issues/9
+      loaderFile: '_loader.js',
+      ignoredModules: [
+        'ember/resolver',
+        'ember-qunit'
+      ],
+      inputFiles: [
+        prefix + '/**/*.js'
+      ],
+      legacyFilesToAppend: legacyFilesToAppend,
+
+      wrapInEval: true,
+      outputFile: '/assets/tests.js'
+    });
+
+    var testsTrees = [qunitStyles, testsIndexHTML, testsJs];
     outputTrees = outputTrees.concat(testsTrees);
   }
 
