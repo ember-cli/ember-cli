@@ -1,5 +1,5 @@
-import Application from '<%= modulePrefix %>/app';
-import Router from '<%= modulePrefix %>/router';
+var Application = require('<%= modulePrefix %>/app')['default'];
+var Router = require('<%= modulePrefix %>/router')['default'];
 
 function startApp(attrs) {
   var App;
