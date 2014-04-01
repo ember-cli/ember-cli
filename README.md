@@ -88,6 +88,24 @@ npm install --save-dev broccoli-sass
 
 Building will now compile `app/styles/app.scss` into `app.css` in your output.
 
+#### CoffeeScript
+
+You can also use [CoffeeScript](http://coffeescript.org/) with `ember-cli`.
+
+Install the `broccoli-coffee` package:
+
+```bash
+npm install --save-dev broccoli-coffee
+```
+
+Now CoffeeScript files will be complied.
+
+Note that `export` and `default` are reserved words in CoffeeScript so if you are using using ES6 modules they must be escaped:
+
+```coffee
+`export default Router`
+```
+
 #### Contributing
 
 Submit a pull request (code + tests) and make sure to add the change to [CHANGELOG.md](https://github.com/stefanpenner/ember-cli/blob/master/CHANGELOG.md).
