@@ -12,7 +12,7 @@ var root = process.cwd();
 var util = require('util');
 var conf = require('../helpers/conf');
 
-describe('Acceptance: ember new', function(){
+describe.skip('Acceptance: ember new', function(){
   before(conf.setup);
 
   after(conf.restore);

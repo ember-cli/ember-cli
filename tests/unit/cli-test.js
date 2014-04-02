@@ -67,7 +67,7 @@ afterEach(function() {
   commands = argv = ui = undefined;
 });
 
-describe('Unit: CLI', function(){
+describe.skip('Unit: CLI', function(){
   it('exists', function(){
     assert(Cli);
   });
