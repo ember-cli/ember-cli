@@ -6,7 +6,7 @@ var rewire        = require('rewire');
 var stubPath      = require('../../helpers/stub').stubPath;
 var stubBlueprint = require('../../helpers/stub').stubBlueprint;
 
-describe('init command', function(){
+describe.skip('init command', function(){
   before(function() {
     command = rewire('../../../lib/commands/init');
     command.__set__('Blueprint', stubBlueprint());

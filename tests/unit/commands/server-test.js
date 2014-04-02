@@ -15,7 +15,7 @@ function stubAdapter(name, fn) {
   };
 }
 
-describe('server command', function(){
+describe.skip('server command', function(){
   before(function() {
     command = rewire('../../../lib/commands/server');
     command.__set__('adapt', stubAdapter('server', function(args) {

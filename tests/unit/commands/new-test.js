@@ -5,7 +5,7 @@ var assert        = require('../../helpers/assert');
 var rewire        = require('rewire');
 var stubBlueprint = require('../../helpers/stub').stubBlueprint;
 
-describe('new command', function(){
+describe.skip('new command', function(){
   before(function() {
     command = rewire('../../../lib/commands/new');
     command.__set__('Blueprint', stubBlueprint());

@@ -11,7 +11,7 @@ function stubLoom() {
     called = true;
   };
 }
-describe('generate command', function(){
+describe.skip('generate command', function(){
 
   before(function() {
     command = rewire('../../../lib/commands/generate');
