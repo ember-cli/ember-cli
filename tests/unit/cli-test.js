@@ -14,7 +14,7 @@ var commands;
 var insight;
 var argv;
 // helper to similate running the CLI
-function ember(args) {
+function ember(args, defaults) {
   var argv;
 
   if (args) {
@@ -23,7 +23,7 @@ function ember(args) {
     argv = baseArgs;
   }
 
-  return new Cli(argv, commands, ui, insight).run();
+  return new Cli(argv, commands, ui, insight).run(defaults);
 }
 
 function stubCommand(name) {
@@ -308,6 +308,18 @@ describe('Unit: CLI', function(){
     assert(/The specified command .*unknownCommand.* is invalid/.test(ui.output[0]), 'expected an invalid command message');
     assert.equal(foo.called, 0, 'exptected the foo command no to be run');
     assert.equal(help.called, 0, 'expected the help command to be run');
+  });
+
+  describe('default options config file', function() {
+    it('reads default options from .ember-cli file', function() {
+      var defaults = ['--output', process.cwd()];
+      var build = stubCommand('build');
+
+      ember(['build'], defaults);
+
+      var options = build.calledWith[0][0].cliOptions;
+      assert.equal(options.output, process.cwd());
+    });
   });
 
   describe('analytics tracking', function() {

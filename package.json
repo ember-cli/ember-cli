@@ -40,6 +40,7 @@
     "broccoli-uglify-js": "^0.1.1",
     "chalk": "~0.4.0",
     "connect-livereload": "^0.3.2",
+    "connect-proxy": "^1.0.2",
     "express": "^3.4.8",
     "fs-extra": "~0.8.1",
     "inquirer": "~0.4.1",
