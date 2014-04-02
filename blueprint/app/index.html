@@ -17,7 +17,7 @@
   </head>
   <body>
     <script>
-      window.<%= namespace %> = require('<%= modulePrefix %>/app')['default'].create();
+      window.<%= namespace %> = require('<%= modulePrefix %>/main')['default']('<%= modulePrefix %>');
     </script>
   </body>
 </html>
