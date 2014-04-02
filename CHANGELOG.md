@@ -5,6 +5,8 @@
 * Drop boilerplate tests ([c6f7475e](https://github.com/twokul/ember-cli/commit/c6f7475e0c8b3013b4af8ea5139aa25818aedeaf))
 * Use named-amd version of `ic-ajax` ([#225](https://github.com/stefanpenner/ember-cli/pull/225))
 * Separate `tests` and `app` code. Tests are now within 'assets/tests.js' (#220).
+* Implement `--proxy-port` and `--proxy-host` parameters to `ember server` command (#40)
+* Add support for `.ember-cli` file to provide default flags to commands ([7b90bd9](https://github.com/stefanpenner/ember-cli/commit/dfac84ffd27acedfd18189a0e4b0b5d3fb13bd7b))
 
 ### 0.0.20
 
