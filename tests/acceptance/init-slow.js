@@ -11,7 +11,7 @@ var root = process.cwd();
 var util = require('util');
 var conf = require('../helpers/conf');
 
-describe('Acceptance: ember init', function(){
+describe.skip('Acceptance: ember init', function(){
 
   before(function() {
     conf.setup();

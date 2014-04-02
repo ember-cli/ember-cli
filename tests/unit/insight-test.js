@@ -11,7 +11,7 @@ var insightLib = new InsightLib({
   packageName: 'test'
 });
 
-describe('Unit: insight wrapper', function() {
+describe.skip('Unit: insight wrapper', function() {
 
   beforeEach(function() {
     insight = new Insight({
