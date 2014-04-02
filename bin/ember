@@ -1,4 +1,17 @@
 #!/usr/bin/env node
 
+var path = require('path');
+var chalk = require('chalk');
+
 process.title = 'ember';
+
+var installedViaNPM = path.basename(path.resolve(__dirname, '../../..')) === 'npm';
+
+if (installedViaNPM) {
+  console.log('Detected that ember-cli was installed via npm. (Report on github if this is wrong!)');
+} else {
+  console.log('Detected development ember-cli version installed via ' +
+              chalk.bold('npm link') + '. (Report on github if this is wrong!)');
+}
+
 require('../lib/cli').run(process.argv);
