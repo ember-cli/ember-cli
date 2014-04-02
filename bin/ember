@@ -5,7 +5,7 @@ var chalk = require('chalk');
 
 process.title = 'ember';
 
-var installedViaNPM = path.basename(path.resolve(__dirname, '../../..')) === 'npm';
+var installedViaNPM = path.basename(path.resolve(__dirname, '../..')) === 'node_modules';
 
 if (installedViaNPM) {
   console.log('Detected that ember-cli was installed via npm. (Report on github if this is wrong!)');
