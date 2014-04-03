@@ -1,4 +1,3 @@
-var Application = require('<%= modulePrefix %>/app')['default'];
 var Router = require('<%= modulePrefix %>/router')['default'];
 
 function startApp(attrs) {
@@ -16,7 +15,7 @@ function startApp(attrs) {
   });
 
   Ember.run(function(){
-    App = Application.create(attributes);
+    App = require('<%= modulePrefix %>/main')['default']('<%= modulePrefix %>', attributes);
     App.setupForTesting();
     App.injectTestHelpers();
   });

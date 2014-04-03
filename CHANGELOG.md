@@ -7,6 +7,7 @@
 * Separate `tests` and `app` code. Tests are now within 'assets/tests.js' (#220).
 * Implement `--proxy-port` and `--proxy-host` parameters to `ember server` command (#40)
 * Add support for `.ember-cli` file to provide default flags to commands ([7b90bd9](https://github.com/stefanpenner/ember-cli/commit/dfac84ffd27acedfd18189a0e4b0b5d3fb13bd7b))
+* Ember initializers are required automatically ([#242](https://github.com/stefanpenner/ember-cli/pull/242))
 
 ### 0.0.20
 
