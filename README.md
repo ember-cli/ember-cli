@@ -2,6 +2,8 @@
 
 An ember command line utility.
 
+Supports node 0.10.5 and npm 1.4.6.
+
 ## Community
 
 * irc: #ember-cli on freenode
