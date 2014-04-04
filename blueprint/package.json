@@ -16,6 +16,9 @@
     "type": "git",
     "url": "git://github.com/stefanpenner/ember-cli.git"
   },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
   "author": "",
   "license": "MIT",
   "devDependencies": {
