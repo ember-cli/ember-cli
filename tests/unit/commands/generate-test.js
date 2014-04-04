@@ -1,15 +1,21 @@
 'use strict';
 
-var describe = require('mocha').describe;
-var before = require('mocha').beforeEach;
-var after = require('mocha').afterEach;
-var it = require('mocha').it;
+var rewire  = require('rewire');
+var assert  = require('../../helpers/assert');
 
 var command;
+var called = false;
 
+function stubLoom() {
+  return function loom() {
+    called = true;
+  };
+}
 describe('generate command', function(){
+
   before(function() {
-    command = require('../../../lib/commands/generate');
+    command = rewire('../../../lib/commands/generate');
+    command.__set__('loom', stubLoom());
   });
 
   after(function() {
@@ -24,6 +30,7 @@ describe('generate command', function(){
         'type:array'
       ]
     });
-    //TODO: figure out how to test this more thoroughly
+
+    assert.ok(called);
   });
 });

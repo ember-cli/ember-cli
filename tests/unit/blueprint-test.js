@@ -1,12 +1,12 @@
 'use strict';
 
-var path = require('path');
-var assert = require('assert');
-var stub = require('../helpers/stub');
-var Blueprint = require('../../lib/blueprint');
-var basicBlueprint = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', 'basic'));
+var path              = require('path');
+var assert            = require('assert');
+var stub              = require('../helpers/stub').stub;
+var Blueprint         = require('../../lib/blueprint');
+var basicBlueprint    = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', 'basic'));
 var basicNewBlueprint = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', 'basic_2'));
-var missingBlueprint = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', '__missing__'));
+var missingBlueprint  = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', '__missing__'));
 
 var tmp = require('../helpers/tmp');
 var walkSync = require('walk-sync');

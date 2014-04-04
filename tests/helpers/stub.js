@@ -1,19 +1,35 @@
 'use strict';
 
-module.exports = function stub(obj, name) {
-  var original = obj[name];
+module.exports = {
+  stub: function stub(obj, name) {
+    var original = obj[name];
 
-  obj[name] = function() {
-    obj[name].called++;
-    obj[name].calledWith.push(arguments);
-  };
+    obj[name] = function() {
+      obj[name].called++;
+      obj[name].calledWith.push(arguments);
+    };
 
-  obj[name].restore = function() {
-    obj[name] = original;
-  };
+    obj[name].restore = function() {
+      obj[name] = original;
+    };
 
-  obj[name].called = 0;
-  obj[name].calledWith = [];
+    obj[name].called = 0;
+    obj[name].calledWith = [];
 
-  return obj[name];
+    return obj[name];
+  },
+  stubPath: function stubPath(path) {
+    return {
+      basename: function() {
+        return path;
+      }
+    };
+  },
+  stubBlueprint: function stubBlueprint() {
+    return function Blueprint() {
+      return {
+        install: function() { }
+      };
+    };
+  }
 };

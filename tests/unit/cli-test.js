@@ -1,13 +1,13 @@
 'use strict';
 
-var assert = require('../helpers/assert');
-var stub = require('../helpers/stub');
-var MockUI = require('../helpers/mock-ui');
-var Insight = require('../../lib/utilities/insight');
-var Cli = require('../../lib/cli');
+var assert   = require('../helpers/assert');
+var stub     = require('../helpers/stub').stub;
+var MockUI   = require('../helpers/mock-ui');
+var Insight  = require('../../lib/utilities/insight');
+var Cli      = require('../../lib/cli');
 var baseArgs = ['node', 'path/to/cli'];
-var extend = require('lodash-node/compat/objects/assign');
-var brocEnv = require('broccoli-env');
+var extend   = require('lodash-node/compat/objects/assign');
+var brocEnv  = require('broccoli-env');
 
 var ui;
 var commands;
