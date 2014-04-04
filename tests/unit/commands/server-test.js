@@ -34,8 +34,8 @@ describe('server command', function(){
       }
     });
 
-    assert.equal(options.port,           4000,        'has correct port');
+    assert.equal(options.port,           4000,      'has correct port');
     assert.equal(options.host,           '0.0.0.0', 'has correct host');
-    assert.equal(options.liveReloadPort, 31729,       'has correct liveReload port');
+    assert.equal(options.liveReloadPort, 31729,     'has correct liveReload port');
   });
 });
