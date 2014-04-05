@@ -1,6 +1,7 @@
 # ember-cli Changelog
 
 * Makes sure that user cannot create an application named `test`([#256](https://github.com/stefanpenner/ember-cli/pull/256))
+* Adds broccoli-merge-trees dependency and updates Brocfile to use it
 
 ### 0.0.21
 
