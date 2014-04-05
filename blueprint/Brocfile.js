@@ -27,7 +27,7 @@ module.exports = function (broccoli) {
 
   indexHTML = replace(indexHTML, {
     files: ['index.html'],
-    patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
+    patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(null, env)}]
   });
 
   // sourceTrees, appAndDependencies for CSS and JavaScript
@@ -119,7 +119,7 @@ module.exports = function (broccoli) {
 
     testsIndexHTML = replace(testsIndexHTML, {
       files: ['tests/index.html'],
-      patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(env)}]
+      patterns: [{ match: /\{\{ENV\}\}/g, replacement: getEnvJSON.bind(null, env)}]
     });
 
     tests = preprocessTemplates(tests);
