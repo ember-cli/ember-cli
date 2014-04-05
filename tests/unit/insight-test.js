@@ -1,9 +1,9 @@
 'use strict';
 
-var Insight = require('../../lib/utilities/insight');
+var Insight    = require('../../lib/utilities/insight');
 var InsightLib = require('insight');
-var assert = require('../helpers/assert');
-var stub = require('../helpers/stub');
+var assert     = require('../helpers/assert');
+var stub       = require('../helpers/stub').stub;
 
 var insight;
 var insightLib = new InsightLib({

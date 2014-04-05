@@ -2,8 +2,8 @@
 
 var command;
 var options;
-var assert  = require('../../helpers/assert');
-var rewire  = require('rewire');
+var assert = require('../../helpers/assert');
+var rewire = require('rewire');
 
 function stubAdapter(name, fn) {
   var result = {};
@@ -29,7 +29,7 @@ describe('server command', function(){
 
   it('has correct options', function(){
     command.run({
-      options: {
+      cliOptions: {
         port: 4000
       }
     });
