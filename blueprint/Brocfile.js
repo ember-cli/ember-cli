@@ -4,6 +4,8 @@ var uglifyJavaScript = require('broccoli-uglify-js');
 var replace = require('broccoli-replace');
 var compileES6 = require('broccoli-es6-concatenator');
 var pickFiles = require('broccoli-static-compiler');
+var mergeTrees = require('broccoli-merge-trees');
+
 var env = require('broccoli-env').getEnv();
 var getEnvJSON = require('./config/environment');
 
@@ -46,7 +48,7 @@ module.exports = function (broccoli) {
   });
 
   var sourceTrees = [app, config, 'vendor'].concat(broccoli.bowerTrees());
-  var appAndDependencies = new broccoli.MergedTree(sourceTrees);
+  var appAndDependencies = mergeTrees(sourceTrees, { overwrite: true });
 
   // JavaScript
 
@@ -85,7 +87,7 @@ module.exports = function (broccoli) {
 
   // Styles
 
-  var styles = preprocessCss(sourceTrees, prefix + '/styles', '/assets');
+  var styles = preprocessCss(appAndDependencies, prefix + '/styles', '/assets');
 
   // Ouput
 
@@ -125,7 +127,7 @@ module.exports = function (broccoli) {
     tests = preprocessTemplates(tests);
 
     sourceTrees = [tests, 'vendor'].concat(broccoli.bowerTrees());
-    appAndDependencies = new broccoli.MergedTree(sourceTrees);
+    appAndDependencies = mergeTrees(sourceTrees, { overwrite: true });
 
     var testsJs = preprocessJs(appAndDependencies, '/', prefix);
 
