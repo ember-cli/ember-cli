@@ -1,0 +1,5 @@
+baseurl: /ember-cli
+
+highlighter: pygments
+markdown:    kramdown
+exclude: [node_modules]

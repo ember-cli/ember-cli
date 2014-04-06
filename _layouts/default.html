@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  {% include head.html %}
+  <body data-spy="scroll" data-target=".sidebar">
+    {% include header.html %}
+    <div class="content">
+      <div class="container">
+        {% include description.html %}
+        <div class="row">
+          <div class="col-md-9">
+            <div class="content-section">
+              {% for guide in site.posts %}
+                {% if guide.hidden != 'true' %}
+                <div id="{{guide.permalink}}" class="guide-content">
+                  <a class="edit-page" href="{{guide.github}}" title="Edit this page on GitHub">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </a>
+                  <h1>{{guide.title}}</h1>
+                  <p>{{guide.content}}</p>
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="sidebar affix-top">
+              <ul class="nav sidenav">
+                {% for guide in site.posts %}
+                  {% if guide.hidden != 'true' %}
+                    <li>
+                      <a href="#{{guide.permalink}}">{{guide.title}}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include scripts.html %}
+  </body>
+</html>
