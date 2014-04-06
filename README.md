@@ -26,7 +26,7 @@ While it's initial incarnation is useful, it has several meta problems:
 3. #2 does not allow users to express the "what" just the "how", this prevents EAK from doing more of the heavy lifting itself
 4. [#2 #3] makes it quite tedious to upgrade
 
-## Rationale for #3
+### Rationale for #3
 
 If we want to upgrade or swap in a faster build pipeline it would be a major pain currently. But with #3, in theory it should be minimal pain.
 
@@ -68,26 +68,8 @@ You can provide default flags by creating a file in your project's root called `
 ```
 
 Any time I run `ember server` it will always work as if I had run `ember server --proxy-port 3000`. This works with any flag for any command.
-### Developing
 
-You may want to use `npm link` to make your local source directory a globally installed package.
-See [npm-developers](https://www.npmjs.org/doc/misc/npm-developers.html).
-
-#### Running tests
-
-Once:
-
-```bash
-npm test
-```
-
-On every file change:
-
-```bash
-npm run-script autotest
-```
-
-#### LESS, Sass, or Stylus
+### LESS, Sass, or Stylus
 
 You can use [LESS](http://lesscss.org/), [Sass](http://sass-lang.com/) *(scss only)*, or [Stylus](http://learnboost.github.io/stylus/) by installing the corresponding Broccoli package (`broccoli-sass`, `broccoli-less-single` or `broccoli-stylus-single`).
 
@@ -99,7 +81,7 @@ npm install --save-dev broccoli-sass
 
 Building will now compile `app/styles/app.scss` into `app.css` in your output.
 
-#### CoffeeScript
+### CoffeeScript
 
 You can also use [CoffeeScript](http://coffeescript.org/) with `ember-cli`.
 
@@ -117,11 +99,30 @@ Note that `export` and `default` are reserved words in CoffeeScript so they must
 `export default Router`
 ```
 
-#### Contributing
+## Developing
+
+You may want to use `npm link` to make your local source directory a globally installed package.
+See [npm-developers](https://www.npmjs.org/doc/misc/npm-developers.html).
+
+### Running tests
+
+Once:
+
+```bash
+npm test
+```
+
+On every file change:
+
+```bash
+npm run-script autotest
+```
+
+## Contributing
 
 Submit a pull request (code + tests) and make sure to add the change to [CHANGELOG.md](https://github.com/stefanpenner/ember-cli/blob/master/CHANGELOG.md).
 
-#### Ideas
+## Ideas
 
 + executable (this project)
 
@@ -182,6 +183,6 @@ Submit a pull request (code + tests) and make sure to add the change to [CHANGEL
 
 + tasks (consider extracting them into `broccoli-ember`)
 
-### License
+## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
