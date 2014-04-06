@@ -1,0 +1,172 @@
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+.warning {
+  color: rgb(201, 4, 0);
+  font-weight: 200;
+}
+
+.row {
+  margin-top: 5%;
+}
+
+.edit-page {
+  float: right;
+  padding-right: 10px;
+  padding-top: 4px;
+}
+
+.glyphicon-pencil {
+  font-size: 1.3em;
+}
+
+.navbar-brand {
+  color: rgb(35, 35, 35);
+  font-size: 1.6em;
+}
+
+.hidden-header {
+  position: fixed;
+  width: 320px;
+  background: rgb(255, 255, 255);
+  display: none;
+}
+
+.icon-bar {
+  background-color: rgb(35, 35, 35)
+}
+
+.content h1 {
+  font-size: 3em;
+  margin-top: 5%;
+  font-weight: 200;
+  color: rgb(35, 35, 35);
+}
+
+.content p {
+  line-height: 2.4;
+  font-size: 1.7em;
+  font-weight: 200;
+  margin-top: 20px;
+}
+
+.content-section h1 {
+  margin-top: 0;
+  font-size: 2em;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.content-section h3 {
+  font-size: 1.2em;
+}
+
+.content-section h4 {
+  padding-top: 10px;
+}
+.content-section h5 {
+  font-size: 1.1em;
+  padding-top: 10px;
+}
+
+.content-section p {
+  line-height: 1.7;
+  font-size: 1.1em;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.guide-content {
+  padding-bottom: 40px;
+}
+
+.sidebar {
+  padding-left: 20px;
+  position: fixed;
+}
+
+.sidenav {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+  font-weight: 200;
+  font-size: 1.1em;
+}
+
+.sidenav li.active {
+  font-weight: 500;
+}
+
+.sidenav li:nth-child(1) {
+  padding-top: 0;
+}
+
+.sidenav li {
+  padding: 5px 0;
+}
+
+.download {
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: 200;
+  border-color: rgb(35, 35, 35);
+  color: rgb(35, 35, 35);
+}
+
+.download:hover {
+  color: rgb(66, 139, 202);
+  border-color: rgb(66, 139, 202);
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .download {
+    width: 100%;
+  }
+
+  .guide-content {
+    padding-bottom: 0;
+    margin-bottom: -20px;
+  }
+
+  .edit-page {
+    padding-top: 65px;
+  }
+
+  .warning {
+    text-align: center;
+  }
+
+  .hidden-header {
+    position: fixed;
+    width: 320px;
+    background: rgb(255, 255, 255);
+    display: inline;
+  }
+
+  .centered {
+    text-align: center;
+    padding-top: 70px;
+  }
+
+  .center {
+    text-align: center;
+    padding-top: 15px;
+  }
+
+  .content p {
+    line-height: 1.4;
+  }
+
+  .col-md-3 {
+    display: none;
+  }
+
+  .row {
+    margin-top: 0;
+  }
+
+  .content-section h1 {
+    padding-top: 60px;
+  }
+}
