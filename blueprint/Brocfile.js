@@ -160,5 +160,5 @@ module.exports = function (broccoli) {
     outputTrees = outputTrees.concat(testsTrees);
   }
 
-  return outputTrees;
+  return mergeTrees(outputTrees, { overwrite: true });
 };
