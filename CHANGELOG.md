@@ -2,7 +2,12 @@
 
 * Makes sure that user cannot create an application named `test`([#256](https://github.com/stefanpenner/ember-cli/pull/256))
 * Adds broccoli-merge-trees dependency and updates Brocfile to use it
-* Locks ember-cli to particular version of broccoli & friends
+* Locks blueprint to particular version of ember-cli, broccoli & friends:
+  * ember-cli 0.0.21
+  * broccoli (v0.7.2)
+  * broccoli-es6-concatenator (v0.1.4)
+  * broccoli-static-compiler (v0.1.4)
+  * broccoli-replace version (v0.1.5)
 
 ### 0.0.21
 
