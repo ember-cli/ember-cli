@@ -7,6 +7,16 @@ body {
   font-weight: 200;
 }
 
+.npm {
+  min-height: 20px;
+  padding: 19px;
+  font-size: 1.9em;
+  font-weight: 200;
+  background-color: rgb(245, 245, 245);
+  background-image: linear-gradient(to right, rgb(245, 245, 245), rgb(255, 255, 255));
+  color: rgb(35, 128, 195);
+}
+
 .row {
   margin-top: 5%;
 }
@@ -168,5 +178,10 @@ body {
 
   .content-section h1 {
     padding-top: 60px;
+  }
+
+  .npm {
+    font-size: 1.6em;
+    text-align: center;
   }
 }
