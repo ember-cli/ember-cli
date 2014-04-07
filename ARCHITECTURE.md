@@ -21,9 +21,11 @@ cli({
 ```
 
 ### Commands
-Commands are located in the `commands/` folder. They get picked up by `loadCommands()` automatically.
+Commands are located in the `commands/` folder. They get picked up by
+`loadCommands()` automatically.
 
-The following file structure is expected (Demonstrated on the imaginary command `develop-ember-cli`):
+The following file structure is expected (Demonstrated on the imaginary
+command `develop-ember-cli`):
 ``` JavaScript
 // e.g. commands/develop-ember-cli.js
 
@@ -59,14 +61,17 @@ module.exports = {
 }
 ```
 
-Best practice is to use the `run()` function only to execute tasks. The real work should be done in these tasks, then.
+Best practice is to use the `run()` function only to execute tasks. The real
+work should be done in these tasks, then.
 
 The promise returned by `run()` should either
 - resolve to `undefined`
 - reject with an `Error` instance if the error is unhandled
-- or reject with `undefined` if it was handled. In this case the command should log something via the `ui` first.
+- or reject with `undefined` if it was handled. In this case the command
+should log something via the `ui` first.
 
-`loadCommands()` assembles from the files in `commands/` a hash that looks like this:
+`loadCommands()` assembles from the files in `commands/` a hash that looks
+like this:
 ``` JavaScript
 {
   developEmberCLI: require('commands/develop-ember-cli'),
@@ -77,12 +82,19 @@ The promise returned by `run()` should either
 ### Tasks
 Located in `lib/tasks`.
 
-Tasks do the real work. They should also do only one thing: For example there are seperate `bower-install` and `npm-install` tasks, not just one unified `install` task. And they should not call other tasks: For example `install-blueprint` shouldn't call `npm-install` directly. That's because the task sequence is determined by the command and thus should be declared there. A tasks has to return a promise which resolves or rejects depending on whether it ran through successfully or not.
+Tasks do the real work. They should also do only one thing: For example there
+are seperate `bower-install` and `npm-install` tasks, not just one unified
+`install` task. And they should not call other tasks: For example
+`install-blueprint` shouldn't call `npm-install` directly. That's because the
+task sequence is determined by the command and thus should be declared there.
+A tasks has to return a promise which resolves or rejects depending on whether
+it ran through successfully or not.
 
 The promise of a task should either
 - fulfill to `undefined`
 - reject with an `Error` instance if the error is unhandled
-- or reject with `undefined` if it was handled. In this case the task should log something via the `ui` first.
+- or reject with `undefined` if it was handled. In this case the task should
+log something via the `ui` first.
 
 So, tasks don't have a return value per design.
 
@@ -133,7 +145,8 @@ module.exports = {
 - No comma separated var satements (`var cool = 123, supercool = 456;`)
 - Line break at the end of every file
 
-This list only contains style decisions not already covered by JSHint (e.g. mandatory semicolons and other rules are omitted).
+This list only contains style decisions not already covered by JSHint (e.g.
+mandatory semicolons and other rules are omitted).
 
 ### Indentation
 #### Aligned require statments
