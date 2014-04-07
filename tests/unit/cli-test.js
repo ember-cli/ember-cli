@@ -1,18 +1,17 @@
 'use strict';
 
-var assert   = require('../helpers/assert');
-var stub     = require('../helpers/stub').stub;
-var MockUI   = require('../helpers/mock-ui');
-var Insight  = require('../../lib/utilities/insight');
-var Cli      = require('../../lib/cli');
-var baseArgs = ['node', 'path/to/cli'];
-var extend   = require('lodash-node/compat/objects/assign');
-var brocEnv  = require('broccoli-env');
+var assert     = require('../helpers/assert');
+var stubHelper = require('../helpers/stub');
+var MockUI     = require('../helpers/mock-ui');
+var Insight    = require('../../lib/utilities/insight');
+var Cli        = require('../../lib/cli');
+var baseArgs   = ['node', 'path/to/cli'];
+var brocEnv    = require('broccoli-env');
 
 var ui;
-var commands;
 var insight;
 var argv;
+
 // helper to similate running the CLI
 function ember(args, defaults) {
   var argv;
@@ -23,17 +22,7 @@ function ember(args, defaults) {
     argv = baseArgs;
   }
 
-  return new Cli(argv, commands, ui, insight).run(defaults);
-}
-
-function stubCommand(name) {
-  var mod;
-  try {
-    // deep clone
-    mod = extend({}, require('../../lib/commands/' + name));
-  } catch(e) { }
-  commands[name] = mod || {};
-  return stub(commands[name], 'run');
+  return new Cli(argv, stubHelper.commands, ui, insight).run(defaults);
 }
 
 function stubInsight() {
@@ -42,29 +31,26 @@ function stubInsight() {
     packageName: 'test'
   });
 
-  stub(insight, 'track');
-  stub(insight, 'askPermission');
+  stubHelper.stub(insight, 'track');
+  stubHelper.stub(insight, 'askPermission');
 
   return insight;
-
 }
 
 beforeEach(function() {
   ui = new MockUI();
   stubInsight();
   argv = [];
-  commands = {};
 });
 
 afterEach(function() {
-  for(var key in commands) {
-    if (!commands.hasOwnProperty(key)) { continue; }
-    commands[key].run.restore();
-  }
+  stubHelper.restoreCommands();
 
   insight.track.restore();
   delete process.env.BROCCOLI_ENV;
-  commands = argv = ui = undefined;
+  argv = ui = undefined;
+
+  stubHelper.clearCommands();
 });
 
 describe('Unit: CLI', function(){
@@ -73,7 +59,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember', function(){
-    var help = stubCommand('help');
+    var help = stubHelper.stubCommand('help');
 
     ember();
 
@@ -92,7 +78,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember --help', function(){
-    var help = stubCommand('help');
+    var help = stubHelper.stubCommand('help');
 
     ember(['--help']);
 
@@ -101,7 +87,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember -h', function(){
-    var help = stubCommand('help');
+    var help = stubHelper.stubCommand('help');
 
     ember(['-h']);
 
@@ -110,7 +96,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember --help --version', function(){
-    var help = stubCommand('help');
+    var help = stubHelper.stubCommand('help');
 
     ember(['--version', '--help']);
 
@@ -122,7 +108,7 @@ describe('Unit: CLI', function(){
 
   ['server','s'].forEach(function(command) {
     it('ember ' + command + ' --port 9999', function(){
-      var server = stubCommand('server');
+      var server = stubHelper.stubCommand('server');
 
       ember([command, '--port',  '9999']);
 
@@ -134,7 +120,7 @@ describe('Unit: CLI', function(){
     });
 
     it('ember ' + command + ' -p 9999', function(){
-      var server = stubCommand('server');
+      var server = stubHelper.stubCommand('server');
 
       ember([command, '-p',  '9999']);
 
@@ -146,7 +132,7 @@ describe('Unit: CLI', function(){
     });
 
     it('ember ' + command + ' --host localhost', function(){
-      var server = stubCommand('server');
+      var server = stubHelper.stubCommand('server');
 
       ember(['server', '--host', 'localhost']);
 
@@ -158,7 +144,7 @@ describe('Unit: CLI', function(){
     });
 
     it('ember ' + command + ' --port 9292 --host localhost', function(){
-      var server = stubCommand('server');
+      var server = stubHelper.stubCommand('server');
 
       ember([command, '--port', '9292',  '--host',  'localhost']);
 
@@ -171,7 +157,7 @@ describe('Unit: CLI', function(){
     });
 
     it('ember ' + command + ' --environment <environment>', function(){
-      var server = stubCommand('server');
+      var server = stubHelper.stubCommand('server');
 
       ember([command, '--environment', 'production']);
 
@@ -183,7 +169,7 @@ describe('Unit: CLI', function(){
     });
 
     it('ember ' + command + ' --env <environment>', function(){
-      var server = stubCommand('server');
+      var server = stubHelper.stubCommand('server');
 
       ember([command, '--env', 'production']);
 
@@ -198,7 +184,7 @@ describe('Unit: CLI', function(){
 
   ['generate', 'g'].forEach(function(command) {
     it('ember ' + command + ' foo bar baz', function(){
-      var generate = stubCommand('generate');
+      var generate = stubHelper.stubCommand('generate');
       var called;
 
       ember([command, 'foo', 'bar', 'baz']);
@@ -213,7 +199,7 @@ describe('Unit: CLI', function(){
 
   ['init', 'i'].forEach(function(command) {
     it('ember ' + command, function(){
-      var init = stubCommand('init');
+      var init = stubHelper.stubCommand('init');
 
       ember([command]);
 
@@ -222,7 +208,7 @@ describe('Unit: CLI', function(){
     });
 
     it('ember ' + command + ' <app-name>', function(){
-      var init = stubCommand('init');
+      var init = stubHelper.stubCommand('init');
 
       ember([command, 'my-blog']);
 
@@ -235,7 +221,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember new', function(){
-    var newCommand = stubCommand('new');
+    var newCommand = stubHelper.stubCommand('new');
 
     ember(['new']);
 
@@ -243,7 +229,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember new MyApp', function(){
-    var newCommand = stubCommand('new');
+    var newCommand = stubHelper.stubCommand('new');
 
     ember(['new', 'MyApp']);
 
@@ -251,7 +237,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember build', function(){
-    var build = stubCommand('build');
+    var build = stubHelper.stubCommand('build');
 
     ember(['build']);
 
@@ -260,7 +246,7 @@ describe('Unit: CLI', function(){
   });
 
   it('ember build <environment>', function(){
-    var build = stubCommand('build');
+    var build = stubHelper.stubCommand('build');
 
     ember(['build', 'production']);
 
@@ -272,8 +258,8 @@ describe('Unit: CLI', function(){
   });
 
   it('ember <valid command>', function(){
-    var help = stubCommand('help');
-    var foo = stubCommand('foo');
+    var help = stubHelper.stubCommand('help');
+    var foo  = stubHelper.stubCommand('foo');
 
     ember(['foo']);
 
@@ -283,8 +269,8 @@ describe('Unit: CLI', function(){
   });
 
   it('ember <valid command with args>', function(){
-    var help = stubCommand('help');
-    var foo = stubCommand('foo');
+    var help = stubHelper.stubCommand('help');
+    var foo  = stubHelper.stubCommand('foo');
 
     ember(['foo', 'lorem', 'ipsum', 'dolor', '--flag1=one']);
 
@@ -300,8 +286,8 @@ describe('Unit: CLI', function(){
   });
 
   it('ember <invalid command>', function(){
-    var help = stubCommand('help');
-    var foo = stubCommand('foo');
+    var help = stubHelper.stubCommand('help');
+    var foo  = stubHelper.stubCommand('foo');
 
     ember(['unknownCommand']);
 
@@ -313,22 +299,21 @@ describe('Unit: CLI', function(){
   describe('default options config file', function() {
     it('reads default options from .ember-cli file', function() {
       var defaults = ['--output', process.cwd()];
-      var build = stubCommand('build');
+      var build    = stubHelper.stubCommand('build');
 
       ember(['build'], defaults);
 
-      var options = build.calledWith[0][0].cliOptions;
+      var options  = build.calledWith[0][0].cliOptions;
       assert.equal(options.output, process.cwd());
     });
   });
 
   describe('analytics tracking', function() {
-
     var track;
 
     beforeEach(function() {
-      track = stub(insight, 'track');
-      stubCommand(['build']);
+      track = stubHelper.stub(insight, 'track');
+      stubHelper.stubCommand(['build']);
     });
 
     afterEach(function() {
@@ -336,7 +321,6 @@ describe('Unit: CLI', function(){
     });
 
     it('tracks the command that was run', function() {
-
       ember(['build']);
 
       assert.ok(track.called);
@@ -360,18 +344,17 @@ describe('Unit: CLI', function(){
 
       it('asks when optOut is not set', function() {
         insight.optOut = undefined;
-        var askPermission = stub(insight.insight, 'askPermission');
+        var askPermission = stubHelper.stub(insight.insight, 'askPermission');
         Cli.run([], ui, insight);
         assert.ok(askPermission.called);
       });
 
       it('does not ask when optOut is set', function() {
         insight.optOut = false;
-        var askPermission = stub(insight.insight, 'askPermission');
+        var askPermission = stubHelper.stub(insight.insight, 'askPermission');
         Cli.run([], ui, insight);
         assert.notOk(askPermission.called);
       });
     });
-
   });
 });
