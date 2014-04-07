@@ -12,12 +12,12 @@ server running, then switch from the stub to the proxy pass through.
 
 To configure which API method to use edit **package.json**.
 
-* Set the **APIMethod** to 'stub' to use these express stub routes. 
+* Set the **APIMethod** to 'stub' to use these express stub routes.
 
 * Set the method to 'proxy' and define the **proxyURL** to pass all API requests to the proxy URL.
 
 Default Example
----------------- 
+----------------
 
 1. Create the following models:
 
@@ -76,7 +76,6 @@ Default Example
 
 		export default IndexRoute;
 		```
-
 
 4. Expose the model properties in the index.hbs template
 
