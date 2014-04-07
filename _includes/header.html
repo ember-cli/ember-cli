@@ -11,15 +11,11 @@
     </div>
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
       <ul class="nav navbar-nav">
-        <li><a href="/overview/index.html#overview">Overview</a></li>
-        <li><a href="/getting-started/index.html#getting-started">Getting started</a></li>
-        <li><a href="/using-modules/index.html#using-modules">Using Modules &amp; Resolver</a></li>
-        <li><a href="/naming-conventions/index.html#naming-conventions">Naming Conventions</a></li>
-        <li><a href="/ember-data/index.html#ember-data">Using With Ember Data</a></li>
-        <li><a href="/testing/index.html#testing">Testing</a></li>
-        <li><a href="/mock-and-proxy-requests/index.html#mock-and-proxy-requests">Mock and proxy requests</a></li>
-        <li><a href="/asset-compilation/index.html#asset-compilation">Asset Compilation</a></li>
-        <li><a href="/managing-dependencies/index.html#managing-dependencies">Managing Dependencies</a></li>
+        {% for guide in site.posts %}
+          {% if guide.hidden != 'true' %}
+            <li><a href="/{{guide.permalink}}/index.html#{{guide.permalink}}">{{guide.title}}</a></li>
+          {% endif %}
+        {% endfor %}
       </ul>
     </nav>
   </div>
