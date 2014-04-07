@@ -1,4 +1,5 @@
-var Router = require('<%= modulePrefix %>/router')['default'];
+import Router from '<%= modulePrefix %>/router';
+import AppBuilder from '<%= modulePrefix %>/main';
 
 function startApp(attrs) {
   var App;
@@ -15,7 +16,7 @@ function startApp(attrs) {
   });
 
   Ember.run(function(){
-    App = require('<%= modulePrefix %>/main')['default']('<%= modulePrefix %>', attributes);
+    App = AppBuilder('<%= modulePrefix %>', attributes);
     App.setupForTesting();
     App.injectTestHelpers();
   });
