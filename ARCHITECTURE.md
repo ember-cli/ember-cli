@@ -29,9 +29,11 @@ command `develop-ember-cli`):
 ``` JavaScript
 // e.g. commands/develop-ember-cli.js
 
-module.exports = {
-  filename: __filename, // Optional, default is undefined
-  name: 'develop-ember-cli', // Required unless filename is provided
+var Command = require('../command');
+
+module.exports = new Command({
+  name: 'develop-ember-cli', // Optional, default is the filename
+                             // Powered by some Magic in getCallerFile()
   key: 'developEmberCLI', // Optional, default is the camelized name
   aliases: ['d', 'go-tomster'], // Optional, default is an empty array
   works: 'everywhere', // 'insideProject', 'outsideProject' or 'everywhere'
@@ -59,7 +61,7 @@ module.exports = {
   usageInstructions: function() { // Required
     return "Usage Instructions...";
   }
-}
+});
 ```
 
 Best practice is to use the `run()` function only to execute tasks. The real
@@ -103,15 +105,18 @@ The file format of a task looks like this:
 ``` JavaScript
 // tasks/npm-install.js
 
-module.exports = {
-  name: 'npm-install', // Optional, defaults to file name
+var Task = require('../task');
+
+module.exports = new Task({
+  name: 'npm-install', // Optional, defaults to filename
+                       // Powered by some Magic in getCallerFile()
   key: 'npmInstall', // Optional, defaults to camelized name
   run: function(environment, options) {
     // environment === { ui, ... }
 
     // return promise
   }
-}
+});
 ```
 
 `loadTasks()` assembles from the files in `tasks/` a hash that looks like this:
