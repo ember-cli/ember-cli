@@ -174,8 +174,9 @@ return someFunction(
   someArgument,
   otherArgument
 );
+```
 
-
+``` JavaScript
 // Correct
 return returnsAPromise()
   .then(...)
@@ -185,3 +186,28 @@ return returnsAPromise()
 return retursAPromise().then(...)
 .catch(...);
 ```
+
+### Sync and async
+Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
+blocking and compute intesive operations is discouraged. The general
+recommendation is to use asynchronous operations.
+
+However, there are exceptions. Node's own `require` statement is synchronous. It
+is mainly used at program startup and only for a handful of files. Consequently,
+although it being synchronous, using it is harmless. Same thing goes for
+synchronous file globs in combination with `require` at startup.
+
+The use of asynchronous code is mainly important for file walking operations
+during runtime. For example for globbing a large amout of files or recursive
+copying/deleting of folder structures. These operations generally take a long
+time to complete and would if implemented synchronously disrupt progress
+animations or delay server responses.
+
+An advantage of asynchronous operations is that libraries can use it to
+offer increased reliability. For example the popular file deletion library
+rimraf uses `setTimeout` and a limited amount of retries after increasing
+time intervals to [mitigate EBUSY errors on
+windows](https://github.com/isaacs/rimraf/blob/master/rimraf.js#L20-L27).
+Also, libraries can use asynchronicity to offload work onto worker threads. By
+providing an asynchronous API fixes and optimizations can be implemented
+transparently without breaking API compatibilty.
