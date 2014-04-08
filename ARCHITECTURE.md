@@ -64,6 +64,9 @@ module.exports = new Command({
 });
 ```
 
+For more information on possible option types, see the [documentation for the
+nopt library](https://github.com/npm/nopt).
+
 Best practice is to use the `run()` function only to execute tasks. The real
 work should be done in these tasks, then.
 
