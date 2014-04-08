@@ -30,7 +30,8 @@ command `develop-ember-cli`):
 // e.g. commands/develop-ember-cli.js
 
 module.exports = {
-  name: 'develop-ember-cli', // Optional, default is the file name
+  filename: __filename, // Optional, default is undefined
+  name: 'develop-ember-cli', // Required unless filename is provided
   key: 'developEmberCLI', // Optional, default is the camelized name
   aliases: ['d', 'go-tomster'], // Optional, default is an empty array
   works: 'everywhere', // 'insideProject', 'outsideProject' or 'everywhere'
