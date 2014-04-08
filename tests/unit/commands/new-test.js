@@ -1,14 +1,15 @@
 'use strict';
 
 var command;
-var assert        = require('../../helpers/assert');
-var rewire        = require('rewire');
-var stubBlueprint = require('../../helpers/stub').stubBlueprint;
+var assert = require('../../helpers/assert');
+var MockUI = require('../../helpers/mock-ui');
+var rewire = require('rewire');
+var ui;
 
-describe.skip('new command', function(){
+describe('new command', function(){
   before(function() {
     command = rewire('../../../lib/commands/new');
-    command.__set__('Blueprint', stubBlueprint());
+    ui = new MockUI();
   });
 
   after(function() {
@@ -18,9 +19,11 @@ describe.skip('new command', function(){
   it('doesn\'t allow to create an application named `test`', function(){
     assert.throw(function() {
       command.run({
-        args: ['test'],
-        cliOptions: {}
+        cliArgs: ['', 'test'],
+        ui: ui
       });
-    }, 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
+    }, undefined);
+
+    assert.equal(ui.output[0], 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
   });
 });
