@@ -21,8 +21,8 @@ cli({
 ```
 
 ### Commands
-Commands are located in the `commands/` folder. They get picked up by
-`loadCommands()` automatically.
+Located in `lib/commands/`. They get picked up by `requireAsHash()`
+automatically.
 
 The following file structure is expected (Demonstrated on the imaginary
 command `develop-ember-cli`):
@@ -33,7 +33,7 @@ var Command = require('../command');
 
 module.exports = new Command({
   name: 'develop-ember-cli', // Optional, default is the filename
-                             // Powered by some Magic in getCallerFile()
+                             // Powered by some magic in getCallerFile()
   key: 'developEmberCLI', // Optional, default is the camelized name
   aliases: ['d', 'go-tomster'], // Optional, default is an empty array
   works: 'everywhere', // 'insideProject', 'outsideProject' or 'everywhere'
@@ -73,7 +73,7 @@ The promise returned by `run()` should either
 - or reject with `undefined` if it was handled. In this case the command
 should log something via the `ui` first.
 
-`loadCommands()` assembles from the files in `commands/` a hash that looks
+`requireAsHash()` assembles from the files in `commands/` a hash that looks
 like this:
 ``` JavaScript
 {
@@ -83,7 +83,7 @@ like this:
 ```
 
 ### Tasks
-Located in `lib/tasks`.
+Located in `lib/tasks`. They get picked up by `requireAsHash()` automatically.
 
 Tasks do the real work. They should also do only one thing: For example there
 are seperate `bower-install` and `npm-install` tasks, not just one unified
@@ -109,7 +109,7 @@ var Task = require('../task');
 
 module.exports = new Task({
   name: 'npm-install', // Optional, defaults to filename
-                       // Powered by some Magic in getCallerFile()
+                       // Powered by some magic in getCallerFile()
   key: 'npmInstall', // Optional, defaults to camelized name
   run: function(environment, options) {
     // environment === { ui, ... }
@@ -119,7 +119,7 @@ module.exports = new Task({
 });
 ```
 
-`loadTasks()` assembles from the files in `tasks/` a hash that looks like this:
+`requireAsHash()` assembles from the files in `tasks/` a hash that looks like this:
 ``` JavaScript
 {
   npmInstall: require('tasks/npm-install'),
@@ -187,7 +187,7 @@ return retursAPromise().then(...)
 .catch(...);
 ```
 
-### Sync and async
+### Sync vs async
 Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
 blocking and compute intesive operations is discouraged. The general
 recommendation is to use asynchronous operations.
