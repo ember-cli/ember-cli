@@ -6,51 +6,50 @@ var parseCLIArgs = require('../../../lib/cli/parse-cli-args');
 var UI           = require('../../../lib/ui');
 var through      = require('through');
 var assign       = require('lodash-node/modern/objects/assign');
+var Command      = require('../../../lib/command');
 
 describe('cli/parse-cli-args.js', function() {
   var output = [];
 
   var environment = {
     commands: {
-      serve: {
+      serve: new Command({
         name: 'serve',
-        key: 'serve',
         aliases: ['s'],
         works: 'everywhere',
-        options: [
+        availableOptions: [
           { name: 'port', key: 'port', type: Number, default: 4200, required: true }
-        ]
-      },
-      developEmberCLI: {
+        ],
+        run: function() {},
+        usageInstructions: function() {}
+      }),
+      developEmberCLI: new Command({
         name: 'develop-ember-cli',
-        key: 'developEmberCLI',
-        aliases: [],
         works: 'everywhere',
-        options: [
+        availableOptions: [
           { name: 'package-name', key: 'packageName', type: String, required: true }
-        ]
-      },
-      insideProject: {
+        ],
+        run: function() {},
+        usageInstructions: function() {}
+      }),
+      insideProject: new Command({
         name: 'inside-project',
-        key: 'insideProject',
-        aliases: [],
         works: 'insideProject',
-        options: []
-      },
-      outsideProject: {
+        run: function() {},
+        usageInstructions: function() {}
+      }),
+      outsideProject: new Command({
         name: 'outside-project',
-        key: 'outsideProject',
-        aliases: [],
         works: 'outsideProject',
-        options: []
-      },
-      everywhere: {
+        run: function() {},
+        usageInstructions: function() {}
+      }),
+      everywhere: new Command({
         name: 'everywhere',
-        key: 'everywhere',
-        aliases: [],
         works: 'everywhere',
-        options: []
-      }
+        run: function() {},
+        usageInstructions: function() {}
+      })
     },
     ui: new UI({
       inputStream: through(),
