@@ -74,6 +74,18 @@ Nested routes as such: `app/routes/timer/index.js` or `app/routes/timer/record.j
 export default DS.RESTSerializer.extend({});
 {% endhighlight %}
 
+##### Initializers
+
+{% highlight javascript linenos %}
+// app/initializers/observation.js
+export default {
+  name: 'observation',
+  initialize: function() {
+    // code
+  }
+};
+{% endhighlight %}
+
 ##### Transforms
 
 {% highlight javascript linenos %}
