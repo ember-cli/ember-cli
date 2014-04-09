@@ -8,7 +8,7 @@ var command;
 var environment;
 var ui;
 
-describe('init command', function(){
+describe('init command', function() {
   before(function() {
     ui = new MockUI();
     command = rewire('../../../lib/commands/init');
@@ -19,7 +19,7 @@ describe('init command', function(){
     };
   });
 
-  it('doesn\'t allow to create an application named `test`', function(){
+  it('doesn\'t allow to create an application named `test`', function() {
     assert.throw(function() {
       command.run(environment, { });
     }, undefined);
