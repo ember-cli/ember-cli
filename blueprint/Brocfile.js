@@ -3,6 +3,7 @@
 var uglifyJavaScript = require('broccoli-uglify-js');
 var replace = require('broccoli-replace');
 var compileES6 = require('broccoli-es6-concatenator');
+var validateES6 = require('broccoli-es6-import-validate');
 var pickFiles = require('broccoli-static-compiler');
 var mergeTrees = require('broccoli-merge-trees');
 
@@ -131,6 +132,20 @@ module.exports = function (broccoli) {
 
     var testsJs = preprocessJs(appAndDependencies, '/', prefix);
 
+    var validatedJs = validateES6(mergeTrees([app, tests]), {
+      whitelist: {
+        'ember/resolver': ['default'],
+        'ember-qunit': [
+          'globalize',
+          'moduleFor',
+          'moduleForComponent',
+          'moduleForModel',
+          'test',
+          'setResolver'
+        ]
+      }
+    });
+
     var legacyTestFiles = [
       'qunit/qunit/qunit.js',
       'qunit-shim.js',
@@ -156,7 +171,7 @@ module.exports = function (broccoli) {
       outputFile: '/assets/tests.js'
     });
 
-    var testsTrees = [qunitStyles, testsIndexHTML, testsJs];
+    var testsTrees = [qunitStyles, testsIndexHTML, validatedJs, testsJs];
     outputTrees = outputTrees.concat(testsTrees);
   }
 
