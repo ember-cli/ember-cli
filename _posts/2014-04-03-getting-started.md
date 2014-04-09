@@ -11,8 +11,7 @@ If you don't already have Node installed, you can get it from
 [nodejs.org](http://nodejs.org/) or your package manager of choice (including
 [Homebrew](http://brew.sh/) on OSX).
 
-Once you've installed Node, you'll need to install the Grunt command-line tool
-globally with:
+Once you've installed Node, you'll need to install the Ember CLI globally with:
 
 {% highlight bash %}
 npm install -g ember-cli
