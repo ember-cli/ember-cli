@@ -86,6 +86,8 @@ export default {
 };
 {% endhighlight %}
 
+Note: `initializers` are loaded automatically.
+
 ##### Transforms
 
 {% highlight javascript linenos %}
