@@ -6,7 +6,7 @@ var MockUI = require('../../helpers/mock-ui');
 var rewire = require('rewire');
 var ui;
 
-describe('new command', function(){
+describe('new command', function() {
   before(function() {
     command = rewire('../../../lib/commands/new');
     ui = new MockUI();
@@ -16,7 +16,7 @@ describe('new command', function(){
     command = null;
   });
 
-  it('doesn\'t allow to create an application named `test`', function(){
+  it('doesn\'t allow to create an application named `test`', function() {
     assert.throw(function() {
       command.run({
         cliArgs: ['', 'test'],

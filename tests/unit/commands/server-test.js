@@ -6,7 +6,7 @@ var rewire = require('rewire');
 var stub = require('../../helpers/stub').stub;
 var env;
 
-describe('server command', function(){
+describe('server command', function() {
   before(function() {
     command = rewire('../../../lib/commands/serve');
     env = {
@@ -24,7 +24,7 @@ describe('server command', function(){
     command = null;
   });
 
-  it('has correct options', function(){
+  it('has correct options', function() {
     command.run(env, { port: 4000 });
 
     var run = env.tasks.serve.run;

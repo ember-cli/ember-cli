@@ -63,53 +63,53 @@ afterEach(function() {
 });
 
 describe.skip('Unit: CLI', function() {
-  it('exists', function(){
+  it('exists', function() {
     assert(CLI);
   });
 
-  it('ember', function(){
+  it('ember', function() {
     var help = stubCommand('help');
 
-    return ember().then(function(){
+    return ember().then(function() {
       assert.equal(help.called, 1, 'expected help to be called once');
       assert.deepEqual(ui.output, [], 'expected no output');
     });
   });
 
-  it('ember --version', function(){
-    return ember(['--version']).then(function(){
+  it('ember --version', function() {
+    return ember(['--version']).then(function() {
       assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
     });
   });
 
-  it('ember -v', function(){
-    return ember(['-v']).then(function(){
+  it('ember -v', function() {
+    return ember(['-v']).then(function() {
       assert(/ember-cli \d+\.\d+\.\d+/.test(ui.output[0]), 'expected the output to contain the version string');
     });
   });
 
-  it('ember --help', function(){
+  it('ember --help', function() {
     var help = stubCommand('help');
 
-    return ember(['--help']).then(function(){
+    return ember(['--help']).then(function() {
       assert.equal(help.called, 1, 'expected the help command to be run');
       assert.deepEqual(ui.output, [], 'expected no output');
     });
   });
 
-  it('ember -h', function(){
+  it('ember -h', function() {
     var help = stubCommand('help');
 
-    return ember(['-h']).then(function(){
+    return ember(['-h']).then(function() {
       assert.equal(help.called, 1, 'expected the help command to be run');
       assert.deepEqual(ui.output, [], 'expected no output');
     });
   });
 
-  it('ember --help --version', function(){
+  it('ember --help --version', function() {
     var help = stubCommand('help');
 
-    return ember(['--version', '--help']).then(function(){
+    return ember(['--version', '--help']).then(function() {
 
       // --version takes priority
 
@@ -120,10 +120,10 @@ describe.skip('Unit: CLI', function() {
   });
 
   ['server','s'].forEach(function(command) {
-    it('ember ' + command + ' --port 9999', function(){
+    it('ember ' + command + ' --port 9999', function() {
       var server = stubCommand('server');
 
-      return ember([command, '--port',  '9999']).then(function(){
+      return ember([command, '--port',  '9999']).then(function() {
 
         var options = server.calledWith[0][0].cliOptions;
 
@@ -133,10 +133,10 @@ describe.skip('Unit: CLI', function() {
       });
     });
 
-    it('ember ' + command + ' -p 9999', function(){
+    it('ember ' + command + ' -p 9999', function() {
       var server = stubCommand('server');
 
-      ember([command, '-p',  '9999']).then(function(){
+      ember([command, '-p',  '9999']).then(function() {
 
         var options = server.calledWith[0][0].cliOptions;
 
@@ -146,10 +146,10 @@ describe.skip('Unit: CLI', function() {
       });
     });
 
-    it('ember ' + command + ' --host localhost', function(){
+    it('ember ' + command + ' --host localhost', function() {
       var server = stubCommand('server');
 
-      ember(['server', '--host', 'localhost']).then(function(){
+      ember(['server', '--host', 'localhost']).then(function() {
 
         var options = server.calledWith[0][0].cliOptions;
 
@@ -159,10 +159,10 @@ describe.skip('Unit: CLI', function() {
       });
     });
 
-    it('ember ' + command + ' --port 9292 --host localhost', function(){
+    it('ember ' + command + ' --port 9292 --host localhost', function() {
       var server = stubCommand('server');
 
-      ember([command, '--port', '9292',  '--host',  'localhost']).then(function(){
+      ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
 
         var options = server.calledWith[0][0].cliOptions;
 
@@ -173,10 +173,10 @@ describe.skip('Unit: CLI', function() {
       });
     });
 
-    it('ember ' + command + ' --environment <environment>', function(){
+    it('ember ' + command + ' --environment <environment>', function() {
       var server = stubCommand('server');
 
-      return ember([command, '--environment', 'production']).then(function(){
+      return ember([command, '--environment', 'production']).then(function() {
 
         var options = server.calledWith[0][0].cliOptions;
 
@@ -186,10 +186,10 @@ describe.skip('Unit: CLI', function() {
       });
     });
 
-    it('ember ' + command + ' --env <environment>', function(){
+    it('ember ' + command + ' --env <environment>', function() {
       var server = stubCommand('server');
 
-      return ember([command, '--env', 'production']).then(function(){
+      return ember([command, '--env', 'production']).then(function() {
 
         var options = server.calledWith[0][0].cliOptions;
 
@@ -202,10 +202,10 @@ describe.skip('Unit: CLI', function() {
   });
 
   ['generate', 'g'].forEach(function(command) {
-    it('ember ' + command + ' foo bar baz', function(){
+    it('ember ' + command + ' foo bar baz', function() {
       var generate = stubCommand('generate');
 
-      return ember([command, 'foo', 'bar', 'baz']).then(function(){
+      return ember([command, 'foo', 'bar', 'baz']).then(function() {
 
         var called = generate.calledWith[0][0];
 
@@ -217,20 +217,20 @@ describe.skip('Unit: CLI', function() {
   });
 
   ['init', 'i'].forEach(function(command) {
-    it('ember ' + command, function(){
+    it('ember ' + command, function() {
       var init = stubCommand('init');
 
-      return ember([command]).then(function(){
+      return ember([command]).then(function() {
 
         assert.equal(init.called, 1, 'expected the init command to be run');
         assert.equal(ui.output.length, 0, 'expected no output');
       });
     });
 
-    it('ember ' + command + ' <app-name>', function(){
+    it('ember ' + command + ' <app-name>', function() {
       var init = stubCommand('init');
 
-      return ember([command, 'my-blog']).then(function(){
+      return ember([command, 'my-blog']).then(function() {
 
         var options = init.calledWith[0][0];
 
@@ -241,7 +241,7 @@ describe.skip('Unit: CLI', function() {
     });
   });
 
-  it('ember new', function(){
+  it('ember new', function() {
     var newCommand = stubCommand('new');
 
     return ember(['new']).then(function() {
@@ -249,27 +249,27 @@ describe.skip('Unit: CLI', function() {
     });
   });
 
-  it('ember new MyApp', function(){
+  it('ember new MyApp', function() {
     var newCommand = stubCommand('new');
 
-    return ember(['new', 'MyApp']).then(function(){
+    return ember(['new', 'MyApp']).then(function() {
       assert.equal(newCommand.called, 1, 'expected the new command to be run');
     });
   });
 
-  it('ember build', function(){
+  it('ember build', function() {
     var build = stubCommand('build');
 
-    return ember(['build']).then(function(){
+    return ember(['build']).then(function() {
       assert.equal(build.called, 1, 'expected the build command to be run');
       assert.equal(brocEnv.getEnv(), 'development', 'expect broccoli env to be changed to development');
     });
   });
 
-  it('ember build <environment>', function(){
+  it('ember build <environment>', function() {
     var build = stubCommand('build');
 
-    return ember(['build', 'production']).then(function(){
+    return ember(['build', 'production']).then(function() {
 
       var options = build.calledWith[0][0];
 
@@ -279,7 +279,7 @@ describe.skip('Unit: CLI', function() {
     });
   });
 
-  it('ember <valid command>', function(){
+  it('ember <valid command>', function() {
     var help = stubCommand('help');
     var foo = stubCommand('foo');
 
@@ -290,11 +290,11 @@ describe.skip('Unit: CLI', function() {
     });
   });
 
-  it('ember <valid command with args>', function(){
+  it('ember <valid command with args>', function() {
     var help = stubCommand('help');
     var foo = stubCommand('foo');
 
-    return ember(['foo', 'lorem', 'ipsum', 'dolor', '--flag1=one']).then(function(){
+    return ember(['foo', 'lorem', 'ipsum', 'dolor', '--flag1=one']).then(function() {
       var options = foo.calledWith[0][0];
 
       assert.equal(help.called, 0, 'expected the help command NOT to be run');
@@ -356,7 +356,7 @@ describe.skip('Unit: CLI', function() {
     });
 
     it('tracks given options as JSON string', function() {
-      return ember(['build', 'production', '--output', '/blah']).then(function(){
+      return ember(['build', 'production', '--output', '/blah']).then(function() {
 
         var args = JSON.parse(track.calledWith[1][0]);
 

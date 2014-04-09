@@ -11,7 +11,7 @@ var root = process.cwd();
 var util = require('util');
 var conf = require('../helpers/conf');
 
-describe.skip('Acceptance: ember init', function(){
+describe.skip('Acceptance: ember init', function() {
 
   before(function() {
     conf.setup();
@@ -21,12 +21,12 @@ describe.skip('Acceptance: ember init', function(){
     conf.restore();
   });
 
-  beforeEach(function(){
+  beforeEach(function() {
     tmp.setup('./tmp');
     process.chdir('./tmp');
   });
 
-  afterEach(function(){
+  afterEach(function() {
     tmp.teardown('./tmp');
   });
 
