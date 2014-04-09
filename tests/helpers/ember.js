@@ -1,12 +1,20 @@
 'use strict';
 
-var Cli = require('../../lib/cli');
-
+var rewire   = require('rewire');
+var Cli      = rewire('../../lib/cli');
 var baseArgs = ['node', 'path/to/cli'];
-var MockUI = require('./mock-ui');
+
+Cli.__set__('UI', function() {
+  this.outputStream = [];
+  this.inputStream  = [];
+
+  this.write = function(data) {
+    this.outputStream.push(data);
+  };
+});
 
 module.exports = function ember(args) {
-  var argv;
+  var argv, cli;
 
   if (args) {
     argv = baseArgs.slice().concat(args);
@@ -14,6 +22,11 @@ module.exports = function ember(args) {
     argv = baseArgs;
   }
 
-  var ui = module.exports.ui = new MockUI();
-  return Cli.run(argv, ui);
+  cli = new Cli({
+    inputStream:  [],
+    outputStream: [],
+    cliArgs:      args
+  });
+
+  return cli;
 };
