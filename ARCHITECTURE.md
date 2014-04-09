@@ -39,7 +39,7 @@ module.exports = new Command({
   works: 'everywhere',          // 'insideProject', 'outsideProject' or 'everywhere'
                                 // Optional, default is 'insideProject'
 
-  options: [                    // Optional, default is an empty array
+  availableOptions: [           // Optional, default is an empty array
     {
       name: 'package-name',     // Required
       key: 'packageName'        // Optional, default is the camelized name
