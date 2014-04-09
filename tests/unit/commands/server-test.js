@@ -1,26 +1,23 @@
 'use strict';
 
 var command;
-var options;
 var assert = require('../../helpers/assert');
 var rewire = require('rewire');
+var stub = require('../../helpers/stub').stub;
+var env;
 
-function stubAdapter(name, fn) {
-  var result = {};
-  result[name] = fn;
-  return {
-    to: function() {
-      return result;
-    }
-  };
-}
-
-describe.skip('server command', function(){
+describe('server command', function(){
   before(function() {
-    command = rewire('../../../lib/commands/server');
-    command.__set__('adapt', stubAdapter('server', function(args) {
-      options = args;
-    }));
+    command = rewire('../../../lib/commands/serve');
+    env = {
+      tasks: {
+        serve: {
+          run: function() { }
+        }
+      }
+    };
+
+    stub(env.tasks.serve, 'run');
   });
 
   after(function() {
@@ -28,14 +25,14 @@ describe.skip('server command', function(){
   });
 
   it('has correct options', function(){
-    command.run({
-      cliOptions: {
-        port: 4000
-      }
-    });
+    command.run(env, { port: 4000 });
+
+    var run = env.tasks.serve.run;
+    var options = run.calledWith[0][1];
+
+    assert.equal(run.called, 1, 'expected run to be called once');
 
     assert.equal(options.port,           4000,      'has correct port');
-    assert.equal(options.host,           '0.0.0.0', 'has correct host');
-    assert.equal(options.liveReloadPort, 31729,     'has correct liveReload port');
+    assert.equal(options.liveReloadPort, 35529,     'has correct liveReload port');
   });
 });
