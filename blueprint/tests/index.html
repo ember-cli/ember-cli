@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script>
-      ENV = {{ENV}};
-      document.write('<base href="' + document.location.origin + ENV.rootURL + '" />');
+      window.ENV = {{ENV}};
+      document.write('<base href="' + ENV.rootURL + '" />');
     </script>
 
     <link rel="stylesheet" href="assets/app.css">
