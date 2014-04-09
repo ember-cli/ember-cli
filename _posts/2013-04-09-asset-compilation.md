@@ -16,10 +16,11 @@ example you can do `public/assets/images`, and in your templates using
 
 ### Stylesheets
 
-Ember CLI supports, out of the box, the most popular CSS preprocessors, as
-well as just raw CSS. You'll need to install the appropriate Grunt plugin. By
-default, the grunt tasks are configured to simply compile all of the `*.less*`,
-`*.scss`, or `*.styl` files in `app/styles` to `app.css` in your output.
+Ember CLI supports plain CSS out of the box. To use a CSS preprocessor, you'll
+need to install the appropriate [Broccoli](https://github.com/joliss/broccoli)
+plugin. By default, the Broccoli plugins are configured to simply compile all
+of the `*.less*`, `*.scss`, or `*.styl` files in `app/styles` to
+`assets/app.css` in your output.
 
 #### CSS
 
@@ -28,17 +29,19 @@ default, the grunt tasks are configured to simply compile all of the `*.less*`,
 
 #### LESS
 
-To enable [LESS](http://lesscss.org/), you'll need to add `broccoli-less-single`
-to your NPM modules.
+To enable [LESS](http://lesscss.org/), you'll need to add
+[broccoli-less-single](https://github.com/gabrielgrant/broccoli-less-single) to
+your NPM modules.
 
 {% highlight bash %}
 npm install --save-dev broccoli-less-single
 {% endhighlight %}
 
-#### SASS
+#### Sass
 
 To enable [Sass](http://sass-lang.com/) *(SCSS without Sass)*, you'll need to
-add `broccoli-sass` to your NPM modules.
+add [broccoli-sass](https://github.com/joliss/broccoli-sass) to your NPM
+modules.
 
 {% highlight bash %}
 npm install --save-dev broccoli-sass
@@ -47,7 +50,8 @@ npm install --save-dev broccoli-sass
 #### Stylus
 
 To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
-`broccoli-stylus` to your NPM modules:
+[broccoli-stylus](https://github.com/sindresorhus/broccoli-stylus) to your NPM
+modules:
 
 {% highlight bash %}
 npm install --save-dev broccoli-stylus
@@ -56,7 +60,8 @@ npm install --save-dev broccoli-stylus
 ### CoffeeScript
 
 To enable [CoffeeScript](http://coffeescript.org/), you must
-first add `broccoli-coffee` to your NPM modules:
+first add [broccoli-coffee](https://github.com/joliss/broccoli-coffee) to your
+NPM modules:
 
 {% highlight bash %}
 npm install --save-dev broccoli-coffee
