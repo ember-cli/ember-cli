@@ -100,5 +100,5 @@ CoffeeScript, but that support has been removed.
 For Emblem, run the following commands:
 
 {% highlight bash %}
-npm install --save-dev broccoli-emblem-compiler && bower install emblem.js --save
+npm install --save-dev broccoli-emblem-compiler
 {% endhighlight %}
