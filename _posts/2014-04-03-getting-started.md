@@ -147,7 +147,7 @@ Your route configuration. The routes defined here correspond to routes in `app/r
 
 Contains your stylesheets, whether SASS, LESS, Stylus, Compass, or plain CSS
 (though only one type is allowed, see [Asset Compilation](asset-compilation.html)).
-These are all compiled through the into `app.css`.
+These are all compiled into `app.css`.
 
 `app/templates/`
 
