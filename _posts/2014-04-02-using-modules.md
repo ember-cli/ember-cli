@@ -48,11 +48,11 @@ Of course, while automatic resolving is awesome, you can always manually
 require dependencies with the following syntax:
 
 {% highlight javascript linenos %}
-import FooModel from "appkit/models/foo-model";
+import FooModel from "./models/foo-model";
 {% endhighlight %}
 
 Which will load the `default` export (aliased as `FooModel`) from
-`app/models/foo-model.js`.
+`./models/foo-model.js`.
 
 Note, that the name of the variable used in the exported module doesn't have any
 influence on the resolver. It's the filename that is used to resolve modules.
@@ -147,7 +147,7 @@ export default function(value, options) {
 In `app.js`:
 
 {% highlight javascript linenos %}
-import exampleHelper from 'appkit/helpers/example';
+import exampleHelper from './helpers/example';
 Ember.Handlebars.registerBoundHelper('example', exampleHelper);
 {% endhighlight %}
 
