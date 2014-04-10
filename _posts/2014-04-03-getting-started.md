@@ -156,4 +156,4 @@ The templates are named the same as their filename, minus the extension (i.e. `t
 
 `app/controllers/`, `app/models/`, etc
 
-Modules resolved by the Ember App Kit resolver. See [Using Modules &amp; the Resolver](using-modules.html).
+Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules.html).

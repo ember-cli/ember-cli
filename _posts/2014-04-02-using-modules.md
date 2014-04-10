@@ -6,7 +6,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 ---
 
 Rather than use AMD (Require.js) or CommonJS (Browserify) modules, apps built
-using the Ember App Kit use ES6 modules through the
+using Ember CLI use ES6 modules through the
 [ES6 module transpiler](https://github.com/square/es6-module-transpiler). This
 means that you can build your apps using syntax from future JavaScript versions,
 but output AMD modules that can be used by existing JavaScript libraries today.
@@ -14,7 +14,7 @@ but output AMD modules that can be used by existing JavaScript libraries today.
 If you've built Ember.js apps before, you're probably used to stuffing
 everything into a global namespace, following naming conventions so the app can
 automatically resolve its dependencies: `App.FooRoute` would know
-to render `App.FooView` by default. Using the custom resolver, Ember App Kit
+to render `App.FooView` by default. Using the custom resolver, Ember CLI
 applications have similar abilities, but using ES6 modules instead of a global
 namespace.
 
