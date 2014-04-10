@@ -188,13 +188,6 @@ export default Ember.Controller.extend({
 {% endraw %}
 {% endhighlight %}
 
-If your filename has an underscore in it, we can reference it using the following technique:
-
-{% highlight javascript linenos %}
-// controller/posts/comment-thread.js -> controller:posts/comment-thread
-export default Ember.Controller.extend();
-{% endhighlight %}
-
 ### Views and Templates
 
 Let's say we were using Ember out of the box with the following view:
