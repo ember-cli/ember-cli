@@ -74,23 +74,25 @@ describe('Unit: CLI', function() {
     });
   });
 
-  ['--help', '-h'].forEach(function(command){
-    it('ember ' + command, function() {
+  describe('help', function(){
+    ['--help', '-h'].forEach(function(command){
+      it('ember ' + command, function() {
+        var help = stubCommand('help');
+
+        return ember([command]).then(function() {
+          assert.equal(help.called, 1, 'expected help to be called once');
+          assert.deepEqual(ui.output, [], 'expected no output');
+        });
+      });
+    });
+
+    it('ember -h', function() {
       var help = stubCommand('help');
 
-      return ember([command]).then(function() {
+      return ember(['-h']).then(function() {
         assert.equal(help.called, 1, 'expected help to be called once');
         assert.deepEqual(ui.output, [], 'expected no output');
       });
-    });
-  });
-
-  it('ember -h', function() {
-    var help = stubCommand('help');
-
-    return ember(['-h']).then(function() {
-      assert.equal(help.called, 1, 'expected help to be called once');
-      assert.deepEqual(ui.output, [], 'expected no output');
     });
   });
 
@@ -104,157 +106,167 @@ describe('Unit: CLI', function() {
     });
   });
 
-  ['server','s'].forEach(function(command) {
-    it('ember ' + command + ' --port 9999', function() {
-      var server = stubCommand('serve');
-
-      return ember([command, '--port',  '9999']).then(function() {
-
-        assert.equal(server.called, 1, 'expected the server command to be run');
-
-        var options = server.calledWith[0][1];
-
-        assert.equal(options.port, 9999, 'correct port');
-        assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
-      });
-    });
-
-    it('ember ' + command + ' -p 9999', function() {
-      var server = stubCommand('serve');
-
-      ember([command, '-p',  '9999']).then(function() {
-        assert.equal(server.called, 1, 'expected the server command to be run');
-
-        var options = server.calledWith[0][1];
-
-        assert.equal(options.port, 9999, 'correct port');
-        assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
-      });
-    });
-
-    it('ember ' + command + ' --host localhost', function() {
-      var server = stubCommand('serve');
-
-      ember(['server', '--host', 'localhost']).then(function() {
-        assert.equal(server.called, 1, 'expected the server command to be run');
-
-        var options = server.calledWith[0][1];
-
-        assert.equal(options.host, 'localhost', 'correct localhost');
-        assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
-      });
-    });
-
-    it('ember ' + command + ' --port 9292 --host localhost', function() {
-      var server = stubCommand('serve');
-
-      ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
-        assert.equal(server.called, 1, 'expected the server command to be run');
-
-        var options = server.calledWith[0][1];
-
-        assert.equal(options.host, 'localhost', 'correct localhost');
-        assert.equal(options.port, '9292', 'correct localhost');
-        assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
-      });
-    });
-
-    ['production', 'development', 'foo'].forEach(function(env) {
-      it('ember ' + command + ' --environment ' + env, function() {
+  describe('server', function() {
+    ['server','s'].forEach(function(command) {
+      it('ember ' + command + ' --port 9999', function() {
         var server = stubCommand('serve');
 
-        return ember([command, '--environment', env]).then(function() {
+        return ember([command, '--port',  '9999']).then(function() {
+
           assert.equal(server.called, 1, 'expected the server command to be run');
 
           var options = server.calledWith[0][1];
 
-          assert.equal(options.environment, env, 'correct environment');
+          assert.equal(options.port, 9999, 'correct port');
+          assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+        });
+      });
+
+      it('ember ' + command + ' -p 9999', function() {
+        var server = stubCommand('serve');
+
+        ember([command, '-p',  '9999']).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][1];
+
+          assert.equal(options.port, 9999, 'correct port');
+          assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+        });
+      });
+
+      it('ember ' + command + ' --host localhost', function() {
+        var server = stubCommand('serve');
+
+        ember(['server', '--host', 'localhost']).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][1];
+
+          assert.equal(options.host, 'localhost', 'correct localhost');
+          assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+        });
+      });
+
+      it('ember ' + command + ' --port 9292 --host localhost', function() {
+        var server = stubCommand('serve');
+
+        ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][1];
+
+          assert.equal(options.host, 'localhost', 'correct localhost');
+          assert.equal(options.port, '9292', 'correct localhost');
+          assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
+        });
+      });
+
+      ['production', 'development', 'foo'].forEach(function(env) {
+        it('ember ' + command + ' --environment ' + env, function() {
+          var server = stubCommand('serve');
+
+          return ember([command, '--environment', env]).then(function() {
+            assert.equal(server.called, 1, 'expected the server command to be run');
+
+            var options = server.calledWith[0][1];
+
+            assert.equal(options.environment, env, 'correct environment');
+          });
         });
       });
     });
   });
 
-  ['generate', 'g'].forEach(function(command) {
-    it.skip('ember ' + command + ' foo bar baz', function() {
-      var generate = stubCommand('generate');
+  describe('generate', function() {
+    ['generate', 'g'].forEach(function(command) {
+      it.skip('ember ' + command + ' foo bar baz', function() {
+        var generate = stubCommand('generate');
 
-      return ember([command, 'foo', 'bar', 'baz']).then(function() {
-        assert.equal(generate.called, 1, 'expected the generate command to be run');
+        return ember([command, 'foo', 'bar', 'baz']).then(function() {
+          assert.equal(generate.called, 1, 'expected the generate command to be run');
 
-        var args = generate.calledWith[0][0].cliArgs;
+          var args = generate.calledWith[0][0].cliArgs;
 
-        assert.deepEqual(args, ['foo', 'bar', 'baz']);
-        assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
+          assert.deepEqual(args, ['foo', 'bar', 'baz']);
+          assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
+        });
       });
     });
   });
 
-  ['init', 'i'].forEach(function(command) {
-    it('ember ' + command, function() {
-      var init = stubCommand('init');
+  describe('init', function() {
+    ['init', 'i'].forEach(function(command) {
+      it('ember ' + command, function() {
+        var init = stubCommand('init');
 
-      return ember([command]).then(function() {
+        return ember([command]).then(function() {
 
-        assert.equal(init.called, 1, 'expected the init command to be run');
-        assert.equal(ui.output.length, 0, 'expected no output');
+          assert.equal(init.called, 1, 'expected the init command to be run');
+          assert.equal(ui.output.length, 0, 'expected no output');
+        });
+      });
+
+      it.skip('ember ' + command + ' <app-name>', function() {
+        var init = stubCommand('init');
+
+        return ember([command, 'my-blog']).then(function() {
+
+          var options = init.calledWith[0][0];
+
+          assert.equal(init.called, 1, 'expected the init command to be run');
+          assert.deepEqual(options.args, ['my-blog'], 'expect first arg to be the app name');
+          assert.equal(ui.output.length, 0, 'expected no output');
+        });
+      });
+    });
+  });
+
+  describe('new', function() {
+    it('ember new', function() {
+      insideProject = false;
+
+      var newCommand = stubCommand('new');
+
+      return ember(['new']).then(function() {
+        assert.equal(newCommand.called, 1, 'expected the new command to be run');
       });
     });
 
-    it.skip('ember ' + command + ' <app-name>', function() {
-      var init = stubCommand('init');
+    it.skip('ember new MyApp', function() {
+      insideProject = false;
 
-      return ember([command, 'my-blog']).then(function() {
+      var newCommand = stubCommand('new');
 
-        var options = init.calledWith[0][0];
+      return ember(['new', 'MyApp']).then(function() {
+        assert.equal(newCommand.called, 1, 'expected the new command to be run');
+        var options = newCommand.calledWith[0][0];
 
-        assert.equal(init.called, 1, 'expected the init command to be run');
-        assert.deepEqual(options.args, ['my-blog'], 'expect first arg to be the app name');
-        assert.equal(ui.output.length, 0, 'expected no output');
+        assert.equal(options.name, 'MyApp');
       });
     });
   });
 
-  it('ember new', function() {
-    insideProject = false;
-
-    var newCommand = stubCommand('new');
-
-    return ember(['new']).then(function() {
-      assert.equal(newCommand.called, 1, 'expected the new command to be run');
-    });
-  });
-
-  it.skip('ember new MyApp', function() {
-    insideProject = false;
-
-    var newCommand = stubCommand('new');
-
-    return ember(['new', 'MyApp']).then(function() {
-      assert.equal(newCommand.called, 1, 'expected the new command to be run');
-      var options = newCommand.calledWith[0][0];
-
-      assert.equal(options.name, 'MyApp');
-    });
-  });
-
-  it('ember build', function() {
-    var build = stubCommand('build');
-
-    return ember(['build']).then(function() {
-      assert.equal(build.called, 1, 'expected the build command to be run');
-    });
-  });
-
-  ['production', 'development', 'baz'].forEach(function(env){
-    it.skip('ember build ' + env, function() {
+  describe('build', function() {
+    it('ember build', function() {
       var build = stubCommand('build');
 
-      return ember(['build', env]).then(function() {
-
-        var options = build.calledWith[0][0];
-
+      return ember(['build']).then(function() {
         assert.equal(build.called, 1, 'expected the build command to be run');
-        assert.deepEqual(options.args, ['production'], 'expect first arg to be the production environment');
+      });
+    });
+
+    ['production', 'development', 'baz'].forEach(function(env){
+      it.skip('ember build ' + env, function() {
+        var build = stubCommand('build');
+
+        return ember(['build', env]).then(function() {
+
+          var options = build.calledWith[0][0];
+
+          assert.equal(build.called, 1, 'expected the build command to be run');
+          assert.deepEqual(options.args, ['production'], 'expect first arg to be the production environment');
+        });
       });
     });
   });
