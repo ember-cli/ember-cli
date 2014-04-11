@@ -61,6 +61,7 @@ module.exports = function (broccoli) {
     'ic-ajax/dist/named-amd/main.js',
     'ember-data.js',
     'ember-resolver.js',
+    'ember-load-initializers.js',
     'ember-shim.js'
   ];
 
@@ -70,6 +71,7 @@ module.exports = function (broccoli) {
     loaderFile: 'loader/loader.js',
     ignoredModules: [
       'ember/resolver',
+      'ember/load-initializers',
       'ic-ajax'
     ],
     inputFiles: [
@@ -136,6 +138,7 @@ module.exports = function (broccoli) {
     var validatedJs = validateES6(mergeTrees([app, tests]), {
       whitelist: {
         'ember/resolver': ['default'],
+        'ember/load-initializers': ['default'],
         'ember-qunit': [
           'globalize',
           'moduleFor',
@@ -161,6 +164,7 @@ module.exports = function (broccoli) {
       loaderFile: '_loader.js',
       ignoredModules: [
         'ember/resolver',
+        'ember/load-initializers',
         'ember-qunit'
       ],
       inputFiles: [
