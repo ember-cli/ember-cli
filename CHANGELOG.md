@@ -1,5 +1,13 @@
 # ember-cli Changelog
 
+### 0.0.23
+
+* Adds ES6 import validation ([#209](https://github.com/stefanpenner/ember-cli/pull/209))
+* CSS broccoli fixes ([#325](https://github.com/stefanpenner/ember-cli/pull/325))
+* Speed up boot ([#273](https://github.com/stefanpenner/ember-cli/pull/273))
+
+### 0.0.22
+
 * Makes sure that user cannot create an application named `test`([#256](https://github.com/stefanpenner/ember-cli/pull/256))
 * Adds broccoli-merge-trees dependency and updates Brocfile to use it
 * Locks blueprint to particular version of ember-cli, broccoli & friends:
