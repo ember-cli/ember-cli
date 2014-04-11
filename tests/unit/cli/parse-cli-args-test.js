@@ -55,13 +55,12 @@ describe('cli/parse-cli-args.js', function() {
       inputStream: through(),
       outputStream: through(function(data) { output.push(data); })
     }),
-    project: {
-      directory: '',
-      packageJSON: {}
-    }
+    isWithinProject: true
   };
 
-  var parse = function(e) { return parseCLIArgs(assign({}, environment, e)); };
+  var parse = function(e) {
+    return parseCLIArgs(assign({}, environment, e));
+  };
 
   it('parseCLIArgs() should find commands by name and aliases.', function() {
     output = [];
@@ -109,9 +108,9 @@ describe('cli/parse-cli-args.js', function() {
     expect(parse({ cliArgs: ['everywhere']})).to.exist;
 
     // Outside project
-    expect(parse({ cliArgs: ['inside-project'], project: null })).to.null;
+    expect(parse({ cliArgs: ['inside-project'], isWithinProject: false})).to.null;
     expect(output.shift()).to.match(/You have to be inside an ember-cli project/);
-    expect(parse({ cliArgs: ['outside-project'], project: null })).to.be.exist;
-    expect(parse({ cliArgs: ['everywhere'], project: null })).to.exist;
+    expect(parse({ cliArgs: ['outside-project'], isWithinProject: false })).to.be.exist;
+    expect(parse({ cliArgs: ['everywhere'],      isWithinProject: false })).to.exist;
   });
 });

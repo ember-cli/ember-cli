@@ -12,14 +12,14 @@ var commands;
 var insight;
 var argv;
 
-var insideProject;
+var isWithinProject;
 // helper to similate running the CLI
 function ember(args) {
   return new CLI(ui).run({
     tasks:    {},
     commands: commands,
     cliArgs:  args || [],
-    project:  insideProject // similate being inside or outside a project
+    isWithinProject: isWithinProject // similate being inside or outside a project
   });
 }
 
@@ -46,7 +46,7 @@ beforeEach(function() {
   stubInsight();
   argv = [];
   commands = { };
-  insideProject = true;
+  isWithinProject = true;
 });
 
 afterEach(function() {
@@ -180,7 +180,7 @@ describe('Unit: CLI', function() {
 
   describe('generate', function() {
     ['generate', 'g'].forEach(function(command) {
-      it.skip('ember ' + command + ' foo bar baz', function() {
+      it('ember ' + command + ' foo bar baz', function() {
         var generate = stubCommand('generate');
 
         return ember([command, 'foo', 'bar', 'baz']).then(function() {
@@ -188,7 +188,7 @@ describe('Unit: CLI', function() {
 
           var args = generate.calledWith[0][0].cliArgs;
 
-          assert.deepEqual(args, ['foo', 'bar', 'baz']);
+          assert.deepEqual(args, [command, 'foo', 'bar', 'baz']);
           assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
         });
       });
@@ -207,15 +207,14 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it.skip('ember ' + command + ' <app-name>', function() {
+      it('ember ' + command + ' <app-name>', function() {
         var init = stubCommand('init');
 
         return ember([command, 'my-blog']).then(function() {
-
-          var options = init.calledWith[0][0];
+          var args = init.calledWith[0][0].cliArgs;
 
           assert.equal(init.called, 1, 'expected the init command to be run');
-          assert.deepEqual(options.args, ['my-blog'], 'expect first arg to be the app name');
+          assert.deepEqual(args, [command, 'my-blog'], 'expect first arg to be the app name');
           assert.equal(ui.output.length, 0, 'expected no output');
         });
       });
@@ -224,7 +223,7 @@ describe('Unit: CLI', function() {
 
   describe('new', function() {
     it('ember new', function() {
-      insideProject = false;
+      isWithinProject = false;
 
       var newCommand = stubCommand('new');
 
@@ -233,16 +232,16 @@ describe('Unit: CLI', function() {
       });
     });
 
-    it.skip('ember new MyApp', function() {
-      insideProject = false;
+    it('ember new MyApp', function() {
+      isWithinProject = false;
 
       var newCommand = stubCommand('new');
 
       return ember(['new', 'MyApp']).then(function() {
         assert.equal(newCommand.called, 1, 'expected the new command to be run');
-        var options = newCommand.calledWith[0][0];
+        var args = newCommand.calledWith[0][0].cliArgs;
 
-        assert.equal(options.name, 'MyApp');
+        assert.deepEqual(args, ['new', 'MyApp']);
       });
     });
   });
@@ -262,10 +261,10 @@ describe('Unit: CLI', function() {
 
         return ember(['build', env]).then(function() {
 
-          var options = build.calledWith[0][0];
+          var args = build.calledWith[0][0].cliArgs;
 
           assert.equal(build.called, 1, 'expected the build command to be run');
-          assert.deepEqual(options.args, ['production'], 'expect first arg to be the production environment');
+          assert.deepEqual(args, ['build', 'production'], 'expect first arg to be the production environment');
         });
       });
     });
@@ -287,14 +286,13 @@ describe('Unit: CLI', function() {
     var serve = stubCommand('serve');
 
     return ember(['serve', 'lorem', 'ipsum', 'dolor', '--flag1=one']).then(function() {
-      var options = serve.calledWith[0][0];
+      var args= serve.calledWith[0][0].cliArgs;
 
       assert.equal(help.called, 0, 'expected the help command NOT to be run');
       assert.equal(serve.called, 1,  'expected the foo command to be run');
-      assert.deepEqual(options.args, ['lorem', 'ipsum', 'dolor'], 'expects correct arguments');
+      assert.deepEqual(args, ['serve', 'lorem', 'ipsum', 'dolor'], 'expects correct arguments');
 
       assert.equal(serve.calledWith[0].length, 2, 'expect foo to receive a total of 4 args');
-      assert.equal(options.cliOptions.flag1, 'one', 'expect foo to receive the flag1 with the string one');
       assert.deepEqual(ui.output, [], 'expected no output');
     });
   });
@@ -374,6 +372,5 @@ describe('Unit: CLI', function() {
     //     assert.notOk(askPermission.called);
     //   });
     // });
-
   });
 });
