@@ -1,6 +1,6 @@
 # ember-cli Changelog
 
-* Introcudes broccoli-bower ([#333](https://github.com/stefanpenner/ember-cli/pull/333))
+* Introduces broccoli-bower ([#333](https://github.com/stefanpenner/ember-cli/pull/333))
   * locks it to version `0.0.2`
 
 ### 0.0.23
