@@ -6,6 +6,7 @@ var compileES6 = require('broccoli-es6-concatenator');
 var validateES6 = require('broccoli-es6-import-validate');
 var pickFiles = require('broccoli-static-compiler');
 var mergeTrees = require('broccoli-merge-trees');
+var findBowerTrees = require('broccoli-bower');
 
 var env = require('broccoli-env').getEnv();
 var getEnvJSON = require('./config/environment');
@@ -48,7 +49,7 @@ module.exports = function (broccoli) {
     destDir: '/'
   });
 
-  var sourceTrees = [app, config, 'vendor'].concat(broccoli.bowerTrees());
+  var sourceTrees = [app, config, 'vendor'].concat(findBowerTrees());
   var appAndDependencies = mergeTrees(sourceTrees, { overwrite: true });
 
   // JavaScript
@@ -127,7 +128,7 @@ module.exports = function (broccoli) {
 
     tests = preprocessTemplates(tests);
 
-    sourceTrees = [tests, 'vendor'].concat(broccoli.bowerTrees());
+    sourceTrees = [tests, 'vendor'].concat(findBowerTrees());
     appAndDependencies = mergeTrees(sourceTrees, { overwrite: true });
 
     var testsJs = preprocessJs(appAndDependencies, '/', prefix);
