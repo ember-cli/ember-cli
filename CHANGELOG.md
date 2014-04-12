@@ -5,7 +5,7 @@
 * Extracts initializers autoloading into bower package ([#337](https://github.com/stefanpenner/ember-cli/pull/337))
   * locks it to version `0.0.1`
 * Introduces broccoli-bower ([#333](https://github.com/stefanpenner/ember-cli/pull/333))
-  * locks it to version `0.0.2`
+  * locks it to version `0.2.0`
 
 ### 0.0.23
 
