@@ -14,6 +14,13 @@ Supports node 0.10.5 and npm 1.4.6.
 
 Although potentially exciting, this is still really a WIP, use at your own risk.
 
+## Project Elements
+Additional components of this project which are used runtime in your application:
+* [ember-jj-abrams-resolver](https://github.com/stefanpenner/ember-jj-abrams-resolver)
+* [loader](https://github.com/stefanpenner/loader.js)
+* [ember-cli-shims](https://github.com/stefanpenner/ember-cli-shims)
+* [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
+
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
