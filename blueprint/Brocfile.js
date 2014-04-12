@@ -60,9 +60,9 @@ module.exports = function (broccoli) {
     'ember.js',
     'ic-ajax/dist/named-amd/main.js',
     'ember-data.js',
+    'app-shims.js',
     'ember-resolver.js',
-    'ember-load-initializers.js',
-    'ember-shim.js'
+    'ember-load-initializers.js'
   ];
 
   var applicationJs = preprocessJs(appAndDependencies, '/', prefix);
@@ -70,6 +70,7 @@ module.exports = function (broccoli) {
   applicationJs = compileES6(applicationJs, {
     loaderFile: 'loader/loader.js',
     ignoredModules: [
+      'ember',
       'ember/resolver',
       'ember/load-initializers',
       'ic-ajax'
@@ -137,6 +138,7 @@ module.exports = function (broccoli) {
 
     var validatedJs = validateES6(mergeTrees([app, tests]), {
       whitelist: {
+        'ember': ['default'],
         'ember/resolver': ['default'],
         'ember/load-initializers': ['default'],
         'ember-qunit': [
@@ -146,13 +148,14 @@ module.exports = function (broccoli) {
           'moduleForModel',
           'test',
           'setResolver'
-        ]
+        ],
+        'qunit': ['default']
       }
     });
 
     var legacyTestFiles = [
       'qunit/qunit/qunit.js',
-      'qunit-shim.js',
+      'test-shims.js',
       'ember-qunit/dist/named-amd/main.js'
     ];
 
@@ -165,6 +168,7 @@ module.exports = function (broccoli) {
       ignoredModules: [
         'ember/resolver',
         'ember/load-initializers',
+        'qunit',
         'ember-qunit'
       ],
       inputFiles: [
