@@ -123,7 +123,7 @@ Contains build specification for [Broccoli](https://github.com/joliss/broccoli).
 
 `bower.json`
 
-Bower configuration and dependency list. See [Managing Dependencies](dependencies.html).
+Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
 
 `package.json`
 
@@ -146,7 +146,7 @@ Your route configuration. The routes defined here correspond to routes in `app/r
 `app/styles/`
 
 Contains your stylesheets, whether SASS, LESS, Stylus, Compass, or plain CSS
-(though only one type is allowed, see [Asset Compilation](asset-compilation.html)).
+(though only one type is allowed, see [Asset Compilation](asset-compilation)).
 These are all compiled into `app.css`.
 
 `app/templates/`
@@ -156,4 +156,4 @@ The templates are named the same as their filename, minus the extension (i.e. `t
 
 `app/controllers/`, `app/models/`, etc
 
-Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules.html).
+Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules).
