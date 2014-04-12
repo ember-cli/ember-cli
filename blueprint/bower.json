@@ -10,6 +10,6 @@
     "ember-resolver": "git://github.com/stefanpenner/ember-jj-abrams-resolver.git#master",
     "ic-ajax": "~1.x",
     "loader": "git://github.com/stefanpenner/loader.js#1.0.0",
-    "ember-load-initializers": "git://github.com/stefanpenner/ember-load-initializers"
+    "ember-load-initializers": "git://github.com/stefanpenner/ember-load-initializers.git#0.0.1"
   }
 }
