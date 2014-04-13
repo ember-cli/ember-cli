@@ -95,9 +95,14 @@ ember serve <arg-option (Default: something)>
   --important-option (Required) Description 2
 ```
 - white: `ember serve`
+<<<<<<< HEAD
 - yellow: `<arg-option `, `>`
 - cyan `--port`, `--important-option`
 - cyan `(Default: something)`, `(Default: 4200)`
+=======
+- yellow: `<arg-option `, `>`, `--port`, `--important-option`
+- cyan`(Default: something)`, `(Default: 4200)`
+>>>>>>> re-align architecture.MD with project
 - white `Description 1`, `Description 2`
 - cyan `(Required)`
 

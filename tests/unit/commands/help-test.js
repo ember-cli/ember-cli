@@ -33,12 +33,12 @@ describe('help command', function() {
 
   it('should generate complete help output', function() {
     command.run(ui, environment);
-    expect(ui.output[0]).to.include('ember test-command-1');
-    expect(ui.output[0]).to.include('command-description');
-    expect(ui.output[0]).to.include('option-with-default');
-    expect(ui.output[0]).to.include('(Default: default-value)');
-    expect(ui.output[0]).to.include('required-option');
-    expect(ui.output[0]).to.include('(Required)');
-    expect(ui.output[0]).to.include('ember test-command-2');
+    expect(ui.output[1]).to.include('ember test-command-1');
+    expect(ui.output[1]).to.include('command-description');
+    expect(ui.output[1]).to.include('option-with-default');
+    expect(ui.output[1]).to.include('(Default: default-value)');
+    expect(ui.output[1]).to.include('required-option');
+    expect(ui.output[1]).to.include('(Required)');
+    expect(ui.output[1]).to.include('ember test-command-2');
   });
 });
