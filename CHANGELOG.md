@@ -1,5 +1,7 @@
 # ember-cli Changelog
-
+* ember cli now attempts to use the project-local ember-cli if
+  available, this should help with people who have multiple versions of
+  the cli installed. ([5a3c9a](https://github.com/stefanpenner/ember-cli/commit/5a3c9a97e407c128939feb5bd8cd98db2a8e3181))
 * Complete restructuring of how ember-cli works internally
 * `ember help` now offers nicely colored output
 * Extracts shims in vendor into bower package ([#342](https://github.com/stefanpenner/ember-cli/pull/342))
