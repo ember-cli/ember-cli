@@ -8,6 +8,7 @@
     "before": true,
     "after": true
   },
+  "proto": true,
   "strict": true,
   "indent": 2,
   "camelcase": true,
