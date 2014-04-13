@@ -79,7 +79,8 @@ parent/child.js.
 
 `app/helpers/`
 
-Helpers, where `helpername.js`. Remember that you must register your helpers.
+Helpers, where `helpername.js`. Remember that you must register your helpers by
+exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
 
 `app/mixins/`
 
@@ -128,6 +129,15 @@ helpers, too:
 controller within `controllers/bar.js`
 
 ### Resolving Handlebars helpers
+
+Ember automatically loads files under `app/helpers` if they contain a dash:
+
+{% highlight javascript linenos %}
+// app/helpers/upper-case.js
+export default Ember.Handlebars.makeBoundHelper(function(text, options) {
+  return value.toUpperCase();
+});
+{% endhighlight %}
 
 Handlebars helpers will only be found automatically by the resolver if their
 name contains a dash (`reverse-word`, `translate-text`, etc.) This is the
