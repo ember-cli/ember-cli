@@ -153,13 +153,11 @@ module.exports = function (broccoli) {
       }
     });
 
-    var legacyTestFiles = [
+    var legacyTestFilesToAppend = [
       'qunit/qunit/qunit.js',
       'test-shims.js',
       'ember-qunit/dist/named-amd/main.js'
     ];
-
-    legacyFilesToAppend = legacyFilesToAppend.concat(legacyTestFiles);
 
     testsJs = compileES6(testsJs, {
       // Temporary workaround for
@@ -174,7 +172,7 @@ module.exports = function (broccoli) {
       inputFiles: [
         prefix + '/**/*.js'
       ],
-      legacyFilesToAppend: legacyFilesToAppend,
+      legacyFilesToAppend: legacyTestFilesToAppend,
 
       wrapInEval: true,
       outputFile: '/assets/tests.js'
