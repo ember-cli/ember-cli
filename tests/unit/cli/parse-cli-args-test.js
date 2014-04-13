@@ -8,63 +8,69 @@ var through      = require('through');
 var assign       = require('lodash-node/modern/objects/assign');
 var Command      = require('../../../lib/command');
 
-describe('cli/parse-cli-args.js', function() {
-  var output = [];
-
-  var environment = {
-    commands: {
-      serve: new Command({
-        name: 'serve',
-        aliases: ['s'],
-        works: 'everywhere',
-        availableOptions: [
-          { name: 'port', key: 'port', type: Number, default: 4200, required: true }
-        ],
-        run: function() {},
-        usageInstructions: function() {}
-      }),
-      developEmberCLI: new Command({
-        name: 'develop-ember-cli',
-        works: 'everywhere',
-        availableOptions: [
-          { name: 'package-name', key: 'packageName', type: String, required: true }
-        ],
-        run: function() {},
-        usageInstructions: function() {}
-      }),
-      insideProject: new Command({
-        name: 'inside-project',
-        works: 'insideProject',
-        run: function() {},
-        usageInstructions: function() {}
-      }),
-      outsideProject: new Command({
-        name: 'outside-project',
-        works: 'outsideProject',
-        run: function() {},
-        usageInstructions: function() {}
-      }),
-      everywhere: new Command({
-        name: 'everywhere',
-        works: 'everywhere',
-        run: function() {},
-        usageInstructions: function() {}
-      })
-    },
-    ui: new UI({
-      inputStream: through(),
-      outputStream: through(function(data) { output.push(data); })
+var environment = {
+  commands: {
+    serve: new Command({
+      name: 'serve',
+      aliases: ['s'],
+      works: 'everywhere',
+      availableOptions: [
+        { name: 'port', key: 'port', type: Number, default: 4200, required: true }
+      ],
+      run: function() {},
+      usageInstructions: function() {}
     }),
-    isWithinProject: true
-  };
+    developEmberCLI: new Command({
+      name: 'develop-ember-cli',
+      works: 'everywhere',
+      availableOptions: [
+        { name: 'package-name', key: 'packageName', type: String, required: true }
+      ],
+      run: function() {},
+      usageInstructions: function() {}
+    }),
+    insideProject: new Command({
+      name: 'inside-project',
+      works: 'insideProject',
+      run: function() {},
+      usageInstructions: function() {}
+    }),
+    outsideProject: new Command({
+      name: 'outside-project',
+      works: 'outsideProject',
+      run: function() {},
+      usageInstructions: function() {}
+    }),
+    everywhere: new Command({
+      name: 'everywhere',
+      works: 'everywhere',
+      run: function() {},
+      usageInstructions: function() {}
+    })
+  },
+  isWithinProject: true
+};
 
-  var parse = function(e) {
-    return parseCLIArgs(assign({}, environment, e));
-  };
+describe('cli/parse-cli-args.js', function() {
+  var output;
+  var ui;
 
-  it('parseCLIArgs() should find commands by name and aliases.', function() {
+  before(function(){
     output = [];
 
+    ui = new UI({
+      inputStream: through(),
+      outputStream: through(function(data) {
+        output.push(data);
+      })
+    });
+  });
+
+  function parse(e) {
+    return parseCLIArgs(ui, assign({}, environment, e));
+  }
+
+  it('parseCLIArgs() should find commands by name and aliases.', function() {
     // Valid commands
 
     expect(parse({ cliArgs: ['serve'] })).to.exist;
@@ -99,8 +105,6 @@ describe('cli/parse-cli-args.js', function() {
   });
 
   it('parseCLIArgs() should print a message if a task cannot need the presence/absence of a project.', function() {
-    output = [];
-
     // Inside project
     expect(parse({ cliArgs: ['inside-project']})).to.exist;
     expect(parse({ cliArgs: ['outside-project']})).to.be.null;

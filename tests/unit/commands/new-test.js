@@ -4,9 +4,10 @@ var command;
 var assert = require('../../helpers/assert');
 var MockUI = require('../../helpers/mock-ui');
 var rewire = require('rewire');
-var ui;
 
 describe('new command', function() {
+  var ui;
+
   before(function() {
     command = rewire('../../../lib/commands/new');
     ui = new MockUI();
@@ -18,9 +19,8 @@ describe('new command', function() {
 
   it('doesn\'t allow to create an application named `test`', function() {
     assert.throw(function() {
-      command.run({
-        cliArgs: ['', 'test'],
-        ui: ui
+      command.run(ui, {
+        cliArgs: ['', 'test']
       });
     }, undefined);
 
