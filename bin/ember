@@ -1,4 +1,9 @@
 #!/usr/bin/env node
 
 process.title = 'ember';
-require('../lib/cli').run(process.argv);
+
+require('../lib/cli')({
+  cliArgs: process.argv.slice(2),
+  inputStream: process.stdin,
+  outputStream: process.stdout
+});

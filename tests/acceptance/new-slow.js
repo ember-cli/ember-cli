@@ -1,28 +1,28 @@
 'use strict';
 
-var fs = require('fs-extra');
-var ember = require('../helpers/ember');
-var assert = require('assert');
-var forEach = require('lodash-node/compat/collections/forEach');
-var walkSync = require('walk-sync');
+var fs        = require('fs-extra');
+var ember     = require('../helpers/ember');
+var assert    = require('assert');
+var forEach   = require('lodash-node/compat/collections/forEach');
+var walkSync  = require('walk-sync');
 var Blueprint = require('../../lib/blueprint');
-var path = require('path');
-var tmp = require('../helpers/tmp');
-var root = process.cwd();
-var util = require('util');
-var conf = require('../helpers/conf');
+var path      = require('path');
+var tmp       = require('../helpers/tmp');
+var root      = process.cwd();
+var util      = require('util');
+var conf      = require('../helpers/conf');
 
-describe('Acceptance: ember new', function(){
+describe('Acceptance: ember new', function() {
   before(conf.setup);
 
   after(conf.restore);
 
-  beforeEach(function(){
+  beforeEach(function() {
     tmp.setup('./tmp');
     process.chdir('./tmp');
   });
 
-  afterEach(function(){
+  afterEach(function() {
     tmp.teardown('./tmp');
   });
 
@@ -50,7 +50,7 @@ describe('Acceptance: ember new', function(){
     return ember([
       'new',
       'foo',
-      '--skip-npm-install'
+      '--dry-run'
     ]).then(confirmBlueprinted);
   });
 
@@ -71,7 +71,7 @@ describe('Acceptance: ember new', function(){
     return ember([
       'new',
       'FooApp',
-      '--skip-npm-install'
+      '--dry-run'
     ]).then(function() {
       assert(!fs.existsSync('FooApp'));
 
@@ -84,12 +84,12 @@ describe('Acceptance: ember new', function(){
     return ember([
       'new',
       'foo',
-      '--skip-npm-install'
+      '--dry-run'
     ]).then(function() {
       return ember([
         'new',
         'foo',
-        '--skip-npm-install'
+        '--dry-run'
       ]).then(function() {
         assert(!fs.existsSync('foo'));
       });
