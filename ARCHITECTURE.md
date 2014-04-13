@@ -191,6 +191,16 @@ return retursAPromise().then(...)
 .catch(...);
 ```
 
+### Custom errors
+Custom error classes should end with the suffix "Error".
+``` JavaScript
+function CustomError() {
+  this.name = 'CustomError';
+  this.stack = (new Error()).stack;
+}
+CustomError.prototype = new Error();
+```
+
 ### Sync vs async
 Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
 blocking and compute intesive operations is discouraged. The general
