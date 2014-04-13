@@ -1,9 +1,17 @@
 #!/usr/bin/env node
+'use strict';
 
 process.title = 'ember';
+var resolve = require('resolve');
 
-require('../lib/cli')({
-  cliArgs: process.argv.slice(2),
-  inputStream: process.stdin,
-  outputStream: process.stdout
+resolve('ember-cli', {
+  basedir: process.cwd()
+}, function(error, projectLocalCli) {
+  var cli = error ? require('../lib/cli') : require(projectLocalCli);
+
+  cli({
+    cliArgs: process.argv.slice(2),
+    inputStream: process.stdin,
+    outputStream: process.stdout
+  });
 });
