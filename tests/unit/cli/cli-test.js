@@ -60,6 +60,11 @@ afterEach(function() {
   commands = argv = ui = undefined;
 });
 
+function assertVersion(string, message) {
+  assert(/version:\s\d+\.\d+\.\d+/.test(string), message ||
+         ('expected version, got: ' + string));
+}
+
 describe('Unit: CLI', function() {
   it('exists', function() {
     assert(CLI);
@@ -70,7 +75,8 @@ describe('Unit: CLI', function() {
 
     return ember().then(function() {
       assert.equal(help.called, 1, 'expected help to be called once');
-      assert.deepEqual(ui.output, [], 'expected no output');
+      assertVersion(ui.output[0]);
+      assert.equal(ui.output.length, 1, 'expected no extra output');
     });
   });
 
@@ -81,7 +87,8 @@ describe('Unit: CLI', function() {
 
         return ember([command]).then(function() {
           assert.equal(help.called, 1, 'expected help to be called once');
-          assert.deepEqual(ui.output, [], 'expected no output');
+          assertVersion(ui.output[0]);
+          assert.equal(ui.output.length, 1, 'expected no extra output');
         });
       });
     });
@@ -91,7 +98,8 @@ describe('Unit: CLI', function() {
 
       return ember(['-h']).then(function() {
         assert.equal(help.called, 1, 'expected help to be called once');
-        assert.deepEqual(ui.output, [], 'expected no output');
+        assertVersion(ui.output[0]);
+        assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
       });
     });
   });
@@ -101,6 +109,8 @@ describe('Unit: CLI', function() {
       var version = stubCommand('version');
 
       return ember([command]).then(function() {
+        assertVersion(ui.output[0]);
+        assert.equal(ui.output.length, 1, 'expected no extra output');
         assert.equal(version.called, 1, 'expected version to be called once');
       });
     });
@@ -118,7 +128,8 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][2];
 
           assert.equal(options.port, 9999, 'correct port');
-          assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+          assertVersion(ui.output[0]);
+          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -131,7 +142,8 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][2];
 
           assert.equal(options.port, 9999, 'correct port');
-          assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+          assertVersion(ui.output[0]);
+          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -144,7 +156,8 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][2];
 
           assert.equal(options.host, 'localhost', 'correct localhost');
-          assert.deepEqual(ui.output.length, 0, 'expected  one line of output');
+          assertVersion(ui.output[0]);
+          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -158,7 +171,9 @@ describe('Unit: CLI', function() {
 
           assert.equal(options.host, 'localhost', 'correct localhost');
           assert.equal(options.port, '9292', 'correct localhost');
-          assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
+
+          assertVersion(ui.output[0]);
+          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -189,7 +204,9 @@ describe('Unit: CLI', function() {
           var args = generate.calledWith[0][1].cliArgs;
 
           assert.deepEqual(args, [command, 'foo', 'bar', 'baz']);
-          assert.deepEqual(ui.output.length, 0, 'expected no lines of output');
+
+          assertVersion(ui.output[0]);
+          assert.equal(ui.output.length, 1, 'expected no extra of output');
         });
       });
     });
@@ -203,7 +220,6 @@ describe('Unit: CLI', function() {
         return ember([command]).then(function() {
 
           assert.equal(init.called, 1, 'expected the init command to be run');
-          assert.equal(ui.output.length, 0, 'expected no output');
         });
       });
 
@@ -215,7 +231,9 @@ describe('Unit: CLI', function() {
 
           assert.equal(init.called, 1, 'expected the init command to be run');
           assert.deepEqual(args, [command, 'my-blog'], 'expect first arg to be the app name');
-          assert.equal(ui.output.length, 0, 'expected no output');
+
+          assertVersion(ui.output[0]);
+          assert.equal(ui.output.length, 1, 'expected no extra of output');
         });
       });
     });
@@ -277,7 +295,9 @@ describe('Unit: CLI', function() {
     return ember(['serve']).then(function() {
       assert.equal(help.called, 0, 'expected the help command NOT to be run');
       assert.equal(serve.called, 1,  'expected the foo command to be run');
-      assert.deepEqual(ui.output, [], 'expected no output');
+
+      assertVersion(ui.output[0]);
+      assert.equal(ui.output.length, 1, 'expected no extra output');
     });
   });
 
@@ -293,7 +313,9 @@ describe('Unit: CLI', function() {
       assert.deepEqual(args, ['serve', 'lorem', 'ipsum', 'dolor'], 'expects correct arguments');
 
       assert.equal(serve.calledWith[0].length, 2, 'expect foo to receive a total of 4 args');
-      assert.deepEqual(ui.output, [], 'expected no output');
+
+      assertVersion(ui.output[0]);
+      assert.equal(ui.output.length, 1, 'expected no extra output');
     });
   });
 
@@ -302,7 +324,7 @@ describe('Unit: CLI', function() {
 
     return ember(['unknownCommand']).then(function() {
 
-      assert(/The specified command .*unknownCommand.* is invalid/.test(ui.output[0]), 'expected an invalid command message');
+      assert(/The specified command .*unknownCommand.* is invalid/.test(ui.output[1]), 'expected an invalid command message');
       assert.equal(help.called, 0, 'expected the help command to be run');
     });
   });
