@@ -35,6 +35,7 @@ module.exports = new Command({
   name: 'develop-ember-cli',    // Optional, default is the filename
                                 // Powered by some magic in getCallerFile()
   key: 'developEmberCLI',       // Optional, default is the camelized name
+  description: 'Explanation',   // Optional
   aliases: ['d', 'go-tomster'], // Optional, default is an empty array
   works: 'everywhere',          // 'insideProject', 'outsideProject' or 'everywhere'
                                 // Optional, default is 'insideProject'
@@ -43,6 +44,7 @@ module.exports = new Command({
     {
       name: 'package-name',     // Required
       key: 'packageName'        // Optional, default is the camelized name
+      description: '...',       // Optional
       type: String,             // Required
       default: 'ember-cli',     // Optional, default is undefined
       required: false           // Optional, default is false
@@ -59,8 +61,8 @@ module.exports = new Command({
 
     // Run tasks and return a promise
   },
-  usageInstructions: function() { // Required
-    return "Usage Instructions...";
+  usageInstructions: function() { // Optional
+    return 'Usage Instructions...';
   }
 });
 ```
@@ -85,6 +87,18 @@ like this:
   ...
 }
 ```
+
+#### Usage instructions formatting
+```
+ember serve <arg-option (Default: something)>
+  --port (Default: 4200) Description 1
+  --important-option (Required) Description 2
+```
+- green: `ember serve`
+- yellow: `<arg-option `, `>`, `--port`, `--important-option`
+- magenta `(Default: something)`, `(Default: 4200)`
+- white `Description 1`, `Description 2`
+- cyan `(Required)`
 
 ### Tasks
 Located in `lib/tasks`. They get picked up by `requireAsHash()` automatically.
