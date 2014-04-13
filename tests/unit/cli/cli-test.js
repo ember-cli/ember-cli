@@ -1,10 +1,10 @@
 'use strict';
 
-var assert   = require('../helpers/assert');
-var stub     = require('../helpers/stub').stub;
-var MockUI   = require('../helpers/mock-ui');
-var Insight  = require('../../lib/utilities/insight');
-var CLI      = require('../../lib/cli/cli');
+var assert   = require('../../helpers/assert');
+var stub     = require('../../helpers/stub').stub;
+var MockUI   = require('../../helpers/mock-ui');
+var Insight  = require('../../../lib/utilities/insight');
+var CLI      = require('../../../lib/cli/cli');
 var extend   = require('lodash-node/compat/objects/assign');
 
 var ui;
@@ -24,7 +24,7 @@ function ember(args) {
 }
 
 function stubCommand(name) {
-  commands[name] = extend({}, require('../../lib/commands/' + name));
+  commands[name] = extend({}, require('../../../lib/commands/' + name));
   return stub(commands[name], 'run');
 }
 
