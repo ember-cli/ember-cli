@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* Complete restructuring of how ember-cli works internally
+* `ember help` now offers nicely colored output
 * Extracts shims in vendor into bower package ([#342](https://github.com/stefanpenner/ember-cli/pull/342))
   * locks it to version `0.0.1`
 * Extracts initializers autoloading into bower package ([#337](https://github.com/stefanpenner/ember-cli/pull/337))
