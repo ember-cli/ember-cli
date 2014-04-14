@@ -11,6 +11,7 @@
 * Introduces broccoli-bower ([#333](https://github.com/stefanpenner/ember-cli/pull/333))
   * locks it to version `0.2.0`
 * Fix issue where app.js files are appended to tests.js ([#347](https://github.com/stefanpenner/ember-cli/pull/347))
+* upgrade broccoli to `0.9.0` [v0.9.0 brocfile changes](https://gist.github.com/joliss/15630762fa0f43976418)
 
 ### 0.0.23
 
