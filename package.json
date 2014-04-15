@@ -3,6 +3,7 @@
   "version": "0.0.24-dev",
   "main": "lib/cli/index.js",
   "description": "Command line tool for developing ambitious ember.js apps",
+  "trackingCode": "UA-49225444-1",
   "bin": {
     "ember": "./bin/ember"
   },
@@ -47,7 +48,7 @@
     "findup": "^0.1.5",
     "fs-extra": "~0.8.1",
     "glob": "^3.2.9",
-    "leek": "0.0.2",
+    "leek": "0.0.3",
     "lodash-node": "~2.4.1",
     "loom": "~3.1.2",
     "loom-generators-ember-appkit": "~1.1.0",
