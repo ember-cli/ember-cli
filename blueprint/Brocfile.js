@@ -164,7 +164,8 @@ if (env !== 'production') {
       'ember/resolver',
       'ember/load-initializers',
       'qunit',
-      'ember-qunit'
+      'ember-qunit',
+      'ic-ajax'
     ],
     inputFiles: [
       prefix + '/**/*.js'
