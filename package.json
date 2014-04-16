@@ -43,7 +43,7 @@
     "connect-livereload": "^0.3.2",
     "express": "^3.4.8",
     "fs-extra": "~0.8.1",
-    "inquirer": "~0.4.1",
+    "inquirer": "^0.4.1",
     "insight": "git+https://github.com/joefiorini/insight.git#mobile-app",
     "lodash-node": "~2.4.1",
     "loom": "~3.1.2",
@@ -59,7 +59,9 @@
     "proxy-middleware": "^0.5.0",
     "glob": "^3.2.9",
     "findup": "^0.1.5",
-    "configstore": "^0.2.3"
+    "configstore": "^0.2.3",
+    "walk-tree-as-promised": "^0.0.10",
+    "readline2": "^0.1.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",

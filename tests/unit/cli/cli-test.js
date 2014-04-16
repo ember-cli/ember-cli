@@ -1,5 +1,6 @@
 'use strict';
 
+require('../../setup');
 var assert   = require('../../helpers/assert');
 var stub     = require('../../helpers/stub').stub;
 var MockUI   = require('../../helpers/mock-ui');
