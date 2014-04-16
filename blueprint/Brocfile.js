@@ -17,7 +17,6 @@ var preprocessTemplates = p.preprocessTemplates;
 var preprocessJs = p.preprocessJs;
 
 var prefix = '<%= modulePrefix %>';
-var rootURL = '/';
 
 // index.html
 
