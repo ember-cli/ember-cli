@@ -1,7 +1,7 @@
 var Application = require('<%= modulePrefix %>/app')['default'];
 var Router = require('<%= modulePrefix %>/router')['default'];
 
-function startApp(attrs) {
+export default function startApp(attrs) {
   var App;
 
   var attributes = Ember.merge({
@@ -25,5 +25,3 @@ function startApp(attrs) {
 
   return App;
 }
-
-export default startApp;
