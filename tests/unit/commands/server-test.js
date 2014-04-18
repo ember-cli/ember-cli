@@ -2,12 +2,10 @@
 
 var command;
 var assert = require('../../helpers/assert');
-var stub = require('../../helpers/stub').stub;
+var stub   = require('../../helpers/stub').stub;
 var env;
 
 describe('server command', function() {
-  var ui = {};
-
   before(function() {
     command = require('../../../lib/commands/serve');
 
@@ -27,10 +25,10 @@ describe('server command', function() {
   });
 
   it('has correct options', function() {
-    command.run(ui, env, { port: 4000 });
+    command.run(env, { port: 4000 });
 
     var serveRun = env.tasks.serve.run;
-    var options = serveRun.calledWith[0][1];
+    var options = serveRun.calledWith[0][0];
 
     assert.equal(serveRun.called, 1, 'expected run to be called once');
 

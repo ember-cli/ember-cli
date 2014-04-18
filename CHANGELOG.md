@@ -19,6 +19,7 @@
 * Use configuration from `config/environments.js` to pass options to `Ember.Application.create`. ([#370](https://github.com/stefanpenner/ember-cli/pull/370))
 * Adds `ic-ajax` to the list of ignored modules for tests([#378](https://github.com/stefanpenner/ember-cli/pull/378))
 * Adds per command help output ([#376](https://github.com/stefanpenner/ember-cli/pull/376))
+* Adds integration with [leek](https://github.com/twokul/leek)([#367](https://github.com/stefanpenner/ember-cli/pull/367))
 
 ### 0.0.23
 

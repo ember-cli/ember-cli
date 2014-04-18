@@ -19,7 +19,8 @@ describe('new command', function() {
 
   it('doesn\'t allow to create an application named `test`', function() {
     assert.throw(function() {
-      command.run(ui, {
+      command.ui = ui;
+      command.run({
         cliArgs: ['', 'test']
       });
     }, undefined);

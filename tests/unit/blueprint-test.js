@@ -24,7 +24,6 @@ var ui;
 
 function stubBlueprint(structure, ui) {
   var blueprint = new Blueprint(structure, ui);
-  stub(blueprint, 'postInstall');
   return blueprint;
 }
 
@@ -36,7 +35,6 @@ assert.match = function(actual, matcher) {
 };
 
 describe('Blueprint', function() {
-
   it('exists', function() {
     assert(Blueprint);
     var blueprint = new Blueprint(basicBlueprint);
@@ -51,19 +49,16 @@ describe('Blueprint', function() {
 
   describe('basic blueprint installation', function() {
     var blueprint;
-    var postInstall;
 
     beforeEach(function() {
       tmp.setup('./tmp');
       process.chdir('./tmp');
       ui = new MockUi();
       blueprint = stubBlueprint(basicBlueprint, ui);
-      postInstall = stub(blueprint, 'postInstall');
     });
 
     afterEach(function() {
       tmp.teardown('./tmp');
-      postInstall.restore();
     });
 
     it('installs basic files', function() {
@@ -72,6 +67,7 @@ describe('Blueprint', function() {
         var actualFiles = walkSync('.').sort();
         var output = ui.output.trim().split('\n');
 
+        debugger
         assert.match(output.shift(), /^installing/);
         assert.match(output.shift(), /create.* .gitignore/);
         assert.match(output.shift(), /create.* foo.txt/);
