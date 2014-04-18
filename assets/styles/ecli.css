@@ -98,7 +98,10 @@ body {
 
 .sidebar {
   padding-left: 20px;
-  position: fixed;
+}
+
+.sidebar.affix {
+  top: 20px;
 }
 
 .sidenav {
