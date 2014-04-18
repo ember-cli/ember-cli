@@ -56,11 +56,11 @@ npm install --save-dev broccoli-sass
 #### Stylus
 
 To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
-[broccoli-stylus](https://github.com/sindresorhus/broccoli-stylus) to your NPM
+[broccoli-stylus-single](https://github.com/gabrielgrant/broccoli-stylus-single) to your NPM
 modules:
 
 {% highlight bash %}
-npm install --save-dev broccoli-stylus
+npm install --save-dev broccoli-stylus-single
 {% endhighlight %}
 
 ### CoffeeScript
