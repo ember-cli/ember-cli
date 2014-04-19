@@ -6,4 +6,6 @@
       top: $('.sidebar').offset().top - 20
     }
   });
+
+  FastClick.attach(document.body);
 })();
