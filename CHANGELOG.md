@@ -1,4 +1,5 @@
 # ember-cli Changelog
+* Add `ember test` with Testem integration ([388](https://github.com/stefanpenner/ember-cli/pull/388)).
 * some improvements to bower dependency management, unfortunately until bower.json stabilizes broccoli-bower stability is at the whim of bower component authors.
 * introduce maintainable + upgradable ember app specific brocfile filter
   ([396][https://github.com/stefanpenner/ember-cli/pull/396])
