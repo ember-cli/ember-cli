@@ -27,6 +27,22 @@ var app = new EmberApp(env, {
     'ic-ajax'
   ],
 
+  // hack we can hopefully remove as the addon system improves
+  importWhitelist: {
+    'ember': ['default'],
+    'ember/resolver': ['default'],
+    'ember/load-initializers': ['default'],
+    'ember-qunit': [
+      'globalize',
+      'moduleFor',
+      'moduleForComponent',
+      'moduleForModel',
+      'test',
+      'setResolver'
+    ],
+    'qunit': ['default']
+  },
+
   // hack
   getEnvJSON: require('./config/environment')
 });
