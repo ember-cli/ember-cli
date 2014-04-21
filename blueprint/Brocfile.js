@@ -15,8 +15,7 @@ var app = new EmberApp(env, {
     'ember-data.js',
     'app-shims.js',
     'ember-resolver.js',
-    'ember-load-initializers.js',
-    'emberfire.js'
+    'ember-load-initializers.js'
   ],
 
   // AKA whitelisted modules
