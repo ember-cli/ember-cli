@@ -1,4 +1,5 @@
 # ember-cli Changelog
+* some improvements to bower dependency management, unfortunately until bower.json stabilizes broccoli-bower stability is at the whim of bower component authors.
 * introduce maintainable + upgradable ember app specific brocfile filter
   ([396][https://github.com/stefanpenner/ember-cli/pull/396])
 * ember cli now attempts to use the project-local ember-cli if
