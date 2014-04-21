@@ -46,6 +46,10 @@ var environment = {
       works: 'everywhere',
       run: function() {},
       usageInstructions: function() {}
+    }),
+    help: new Command({
+      name: 'help',
+      run: function() {},
     })
   },
   isWithinProject: true
@@ -116,5 +120,9 @@ describe('cli/parse-cli-args.js', function() {
     expect(output.shift()).to.match(/You have to be inside an ember-cli project/);
     expect(parse({ cliArgs: ['outside-project'], isWithinProject: false })).to.be.exist;
     expect(parse({ cliArgs: ['everywhere'],      isWithinProject: false })).to.exist;
+  });
+
+  it('parseCLIArgs() should delegate commands to the help function if the help option is provided.', function() {
+    expect(parse({ cliArgs: ['s', '--help']}).command.name).to.equal('help');
   });
 });

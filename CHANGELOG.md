@@ -16,6 +16,7 @@
 * upgrade broccoli to `0.9.0` [v0.9.0 brocfile changes](https://gist.github.com/joliss/15630762fa0f43976418)
 * Use configuration from `config/environments.js` to pass options to `Ember.Application.create`. ([#370](https://github.com/stefanpenner/ember-cli/pull/370))
 * Adds `ic-ajax` to the list of ignored modules for tests([#378](https://github.com/stefanpenner/ember-cli/pull/378))
+* Adds per command help output ([#376](https://github.com/stefanpenner/ember-cli/pull/376))
 
 ### 0.0.23
 
