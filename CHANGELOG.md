@@ -1,4 +1,6 @@
 # ember-cli Changelog
+* introduce maintainable + upgradable ember app specific brocfile filter
+  ([396][https://github.com/stefanpenner/ember-cli/pull/396])
 * ember cli now attempts to use the project-local ember-cli if
   available, this should help with people who have multiple versions of
   the cli installed. ([5a3c9a](https://github.com/stefanpenner/ember-cli/commit/5a3c9a97e407c128939feb5bd8cd98db2a8e3181))
