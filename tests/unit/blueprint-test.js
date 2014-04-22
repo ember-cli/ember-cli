@@ -35,11 +35,6 @@ assert.match = function(actual, matcher) {
                                 matcher);
 };
 
-function write(message) {
-  process.stdin.write(message);
-  process.stdin.emit('data', '');
-}
-
 describe('Blueprint', function() {
 
   it('exists', function() {
@@ -75,7 +70,7 @@ describe('Blueprint', function() {
       assert(blueprint);
       return blueprint.install('.').then(function() {
         var actualFiles = walkSync('.').sort();
-        var output = ui.output;
+        var output = ui.output.trim().split('\n');
 
         assert.match(output.shift(), /^installing/);
         assert.match(output.shift(), /create.* .gitignore/);
@@ -89,7 +84,8 @@ describe('Blueprint', function() {
 
     it('re-installing identical files', function() {
       return blueprint.install('.').then(function() {
-        var output = ui.output;
+        var output = ui.output.trim().split('\n');
+        ui.output = '';
 
         assert.match(output.shift(), /^installing/);
         assert.match(output.shift(), /create.* \.gitignore/);
@@ -99,6 +95,7 @@ describe('Blueprint', function() {
 
         return blueprint.install('.').then(function() {
           var actualFiles = walkSync('.').sort();
+          var output = ui.output.trim().split('\n');
 
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /identical.* \.gitignore/);
@@ -113,7 +110,8 @@ describe('Blueprint', function() {
 
     it('re-installing conflicting files', function() {
       return blueprint.install('.').then(function() {
-        var output = ui.output;
+        var output = ui.output.trim().split('\n');
+        ui.output = '';
 
         assert.match(output.shift(), /^installing/);
         assert.match(output.shift(), /create.* \.gitignore/);
@@ -125,20 +123,22 @@ describe('Blueprint', function() {
         stub(blueprintNew, 'postInstall');
 
         setTimeout(function(){
-          write('y\n');
+          ui.inputStream.write('n\n');
         }, 10);
 
         setTimeout(function(){
-          write('y\n');
+          ui.inputStream.write('y\n');
         }, 20);
 
         return blueprintNew.install('.').then(function() {
           var actualFiles = walkSync('.').sort();
-
+          var output = ui.output.trim().split('\n');
           assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /Overwrite.*foo.*\?/); // Prompt
+          assert.match(output.shift(), /Overwrite.*test.*\?/); // Prompt
           assert.match(output.shift(), /identical.* \.gitignore/);
           assert.match(output.shift(), /skip.* foo.txt/);
-          assert.match(output.shift(), /identical.* test.txt/);
+          assert.match(output.shift(), /overwrite.* test.txt/);
           assert.equal(output.length, 0);
 
           assert.deepEqual(actualFiles, basicBlueprintFiles);

@@ -24,6 +24,6 @@ describe('new command', function() {
       });
     }, undefined);
 
-    assert.equal(ui.output[0], 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
+    assert.equal(ui.output, 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
   });
 });

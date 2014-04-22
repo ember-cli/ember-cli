@@ -1,15 +1,19 @@
 'use strict';
 
-function MockUI() {
-  this.output = [];
-}
+var UI      = require('../../lib/ui');
+var through = require('through');
 
 module.exports = MockUI;
+function MockUI() {
+  this.output = '';
 
-MockUI.prototype.write = function(message) {
-  this.output.push(message);
-};
+  UI.call(this, {
+    inputStream: through(),
+    outputStream: through(function(data) {
+      this.output += data;
+    }.bind(this))
+  });
+}
 
-MockUI.prototype.reset = function() {
-  this.output = [];
-};
+MockUI.prototype = Object.create(UI.prototype);
+MockUI.prototype.constructor = MockUI;

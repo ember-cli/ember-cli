@@ -75,8 +75,9 @@ describe('Unit: CLI', function() {
 
     return ember().then(function() {
       assert.equal(help.called, 1, 'expected help to be called once');
-      assertVersion(ui.output[0]);
-      assert.equal(ui.output.length, 1, 'expected no extra output');
+      var output = ui.output.trim().split('\n');
+      assertVersion(output[0]);
+      assert.equal(output.length, 1, 'expected no extra output');
     });
   });
 
@@ -87,8 +88,9 @@ describe('Unit: CLI', function() {
 
         return ember([command]).then(function() {
           assert.equal(help.called, 1, 'expected help to be called once');
-          assertVersion(ui.output[0]);
-          assert.equal(ui.output.length, 1, 'expected no extra output');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.equal(output.length, 1, 'expected no extra output');
         });
       });
     });
@@ -98,8 +100,9 @@ describe('Unit: CLI', function() {
 
       return ember(['-h']).then(function() {
         assert.equal(help.called, 1, 'expected help to be called once');
-        assertVersion(ui.output[0]);
-        assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
+        var output = ui.output.trim().split('\n');
+        assertVersion(output[0]);
+        assert.deepEqual(output.length, 1, 'expected no extra of output');
       });
     });
   });
@@ -109,8 +112,9 @@ describe('Unit: CLI', function() {
       var version = stubCommand('version');
 
       return ember([command]).then(function() {
-        assertVersion(ui.output[0]);
-        assert.equal(ui.output.length, 1, 'expected no extra output');
+        var output = ui.output.trim().split('\n');
+        assertVersion(output[0]);
+        assert.equal(output.length, 1, 'expected no extra output');
         assert.equal(version.called, 1, 'expected version to be called once');
       });
     });
@@ -128,8 +132,9 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][2];
 
           assert.equal(options.port, 9999, 'correct port');
-          assertVersion(ui.output[0]);
-          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -142,8 +147,9 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][2];
 
           assert.equal(options.port, 9999, 'correct port');
-          assertVersion(ui.output[0]);
-          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -156,8 +162,9 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][2];
 
           assert.equal(options.host, 'localhost', 'correct localhost');
-          assertVersion(ui.output[0]);
-          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -172,8 +179,9 @@ describe('Unit: CLI', function() {
           assert.equal(options.host, 'localhost', 'correct localhost');
           assert.equal(options.port, '9292', 'correct localhost');
 
-          assertVersion(ui.output[0]);
-          assert.deepEqual(ui.output.length, 1, 'expected no extra of output');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -205,8 +213,9 @@ describe('Unit: CLI', function() {
 
           assert.deepEqual(args, [command, 'foo', 'bar', 'baz']);
 
-          assertVersion(ui.output[0]);
-          assert.equal(ui.output.length, 1, 'expected no extra of output');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.equal(output.length, 1, 'expected no extra of output');
         });
       });
     });
@@ -232,8 +241,9 @@ describe('Unit: CLI', function() {
           assert.equal(init.called, 1, 'expected the init command to be run');
           assert.deepEqual(args, [command, 'my-blog'], 'expect first arg to be the app name');
 
-          assertVersion(ui.output[0]);
-          assert.equal(ui.output.length, 1, 'expected no extra of output');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.equal(output.length, 1, 'expected no extra of output');
         });
       });
     });
@@ -296,8 +306,9 @@ describe('Unit: CLI', function() {
       assert.equal(help.called, 0, 'expected the help command NOT to be run');
       assert.equal(serve.called, 1,  'expected the foo command to be run');
 
-      assertVersion(ui.output[0]);
-      assert.equal(ui.output.length, 1, 'expected no extra output');
+      var output = ui.output.trim().split('\n');
+      assertVersion(output[0]);
+      assert.equal(output.length, 1, 'expected no extra output');
     });
   });
 
@@ -314,8 +325,9 @@ describe('Unit: CLI', function() {
 
       assert.equal(serve.calledWith[0].length, 2, 'expect foo to receive a total of 4 args');
 
-      assertVersion(ui.output[0]);
-      assert.equal(ui.output.length, 1, 'expected no extra output');
+      var output = ui.output.trim().split('\n');
+      assertVersion(output[0]);
+      assert.equal(output.length, 1, 'expected no extra output');
     });
   });
 
@@ -323,8 +335,8 @@ describe('Unit: CLI', function() {
     var help = stubCommand('help');
 
     return ember(['unknownCommand']).then(function() {
-
-      assert(/The specified command .*unknownCommand.* is invalid/.test(ui.output[1]), 'expected an invalid command message');
+      var output = ui.output.trim().split('\n');
+      assert(/The specified command .*unknownCommand.* is invalid/.test(output[1]), 'expected an invalid command message');
       assert.equal(help.called, 0, 'expected the help command to be run');
     });
   });
