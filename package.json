@@ -51,7 +51,7 @@
     "insight": "git+https://github.com/joefiorini/insight.git#mobile-app",
     "lodash-node": "~2.4.1",
     "loom": "~3.1.2",
-    "loom-generators-ember-appkit": "~1.0.5",
+    "loom-generators-ember-appkit": "~1.1.0",
     "ncp": "~0.5.0",
     "nopt": "^2.1.2",
     "npm": "~1.4.6",
