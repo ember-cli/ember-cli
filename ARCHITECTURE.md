@@ -27,7 +27,7 @@ those through this wrapper. This makes our code testing friendly
 because it lets us simulate user input and it lets us verify if the output
 matches the expected output in tests.
 
-`ui.prompt().then(...)` can be used to get user input. It wraps the [inquirer node
+`ui.prompt(options).then(...)` can be used to get user input. It wraps the [inquirer node
 package](https://github.com/SBoudrias/Inquirer.js). See its documentation for
 usage instructions. Note: Navigation with
 arrow keys doesn't work properly on windows, only use prompt types with

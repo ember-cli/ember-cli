@@ -6,31 +6,31 @@ var rewire  = require('rewire');
 var Command = rewire('../../../lib/command');
 
 describe('help command', function() {
-  var ui, helpCommand, commands;
+  var ui;
 
-  before(function() {
+  var commands = {
+    'test-command-1': new Command({
+      name: 'test-command-1',
+      description: 'command-description',
+      availableOptions: [
+        { name: 'option-with-default', type: String, default: 'default-value' },
+        { name: 'required-option', type: String, required: 'true', description: 'option-descriptionnnn' }
+      ],
+      run: function() {}
+    }),
+    'test-command-2': new Command({
+      name: 'test-command-2',
+      run: function() {}
+    })
+  };
+
+  var helpCommand = rewire('../../../lib/commands/help');
+
+  beforeEach(function() {
     ui = new MockUI();
-    helpCommand = rewire('../../../lib/commands/help');
-    commands = {
-      'test-command-1': new Command({
-        name: 'test-command-1',
-        description: 'command-description',
-        availableOptions: [
-          { name: 'option-with-default', type: String, default: 'default-value' },
-          { name: 'required-option', type: String, required: 'true', description: 'option-descriptionnnn' }
-        ],
-        run: function() {}
-      }),
-      'test-command-2': new Command({
-        name: 'test-command-2',
-        run: function() {}
-      })
-    };
   });
 
   it('should generate complete help output', function() {
-    ui.output = '';
-
     helpCommand.run(ui, {
       commands: commands
     });
@@ -45,8 +45,6 @@ describe('help command', function() {
   });
 
   it('should generate specific help output', function() {
-    ui.output = '';
-
     helpCommand.run(ui, {
       commands: commands,
       cliArgs: ['help', 'test-command-2']
