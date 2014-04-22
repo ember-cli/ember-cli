@@ -5,10 +5,13 @@ An ember command line utility.
 Supports node 0.10.5 and npm 1.4.6.
 
 ## Community
-
 * irc: #ember-cli on freenode
 * issues: [ember-cli/issues](https://github.com/stefanpenner/ember-cli/issues)
 * website: [iamstef.net/ember-cli](http://iamstef.net/ember-cli)
+
+
+[![ScreenShot](http://static.iamstef.net/ember-conf-2014-video.jpg)](https://www.youtube.com/watch?v=4D8z3972h64)
+
 
 ## Warning
 
