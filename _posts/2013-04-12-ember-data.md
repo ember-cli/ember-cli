@@ -20,12 +20,18 @@ For example, we can create a todo model like so:
 
 {% highlight javascript linenos %}
 // models/todo.js
-var Todo = DS.Model.extend({
+export default DS.Model.extend({
   title: DS.attr('string'),
-  isCompleted: DS.attr('boolean')
+  isCompleted: DS.attr('boolean'),
+  notes: DS.hasMany('note')
 });
 
-export default Todo;
+// models/note.js
+export default DS.Model.extend({
+  name: DS.attr('string'),
+  todo: DS.belongsTo('todo')
+});
+
 {% endhighlight %}
 
 Note, that filenames should be all lowercase - this is used by the
