@@ -29,30 +29,30 @@ describe('help command', function() {
   });
 
   it('should generate complete help output', function() {
-    ui.reset();
+    ui.output = '';
 
     helpCommand.run(ui, {
       commands: commands
     });
 
-    expect(ui.output[1]).to.include('ember test-command-1');
-    expect(ui.output[1]).to.include('command-description');
-    expect(ui.output[1]).to.include('option-with-default');
-    expect(ui.output[1]).to.include('(Default: default-value)');
-    expect(ui.output[1]).to.include('required-option');
-    expect(ui.output[1]).to.include('(Required)');
-    expect(ui.output[2]).to.include('ember test-command-2');
+    expect(ui.output).to.include('ember test-command-1');
+    expect(ui.output).to.include('command-description');
+    expect(ui.output).to.include('option-with-default');
+    expect(ui.output).to.include('(Default: default-value)');
+    expect(ui.output).to.include('required-option');
+    expect(ui.output).to.include('(Required)');
+    expect(ui.output).to.include('ember test-command-2');
   });
 
   it('should generate specific help output', function() {
-    ui.reset();
+    ui.output = '';
 
     helpCommand.run(ui, {
       commands: commands,
       cliArgs: ['help', 'test-command-2']
     });
 
-    expect(ui.output[1]).to.include('test-command-2');
-    expect(ui.output[1]).to.not.include('test-command-1');
+    expect(ui.output).to.include('test-command-2');
+    expect(ui.output).to.not.include('test-command-1');
   });
 });
