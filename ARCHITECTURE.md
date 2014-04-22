@@ -20,6 +20,25 @@ cli({
   .then(...);
 ```
 
+## UI
+In ember-cli we pass an `UI` instance around. Instead of calling
+`console.log` or writing things directly to `process.stdout` we access
+those through this wrapper. This makes our code testing friendly
+because it lets us simulate user input and it lets us verify if the output
+matches the expected output in tests.
+
+`ui.prompt().then(...)` can be used to get user input. It wraps the [inquirer node
+package](https://github.com/SBoudrias/Inquirer.js). See its documentation for
+usage instructions. Note: Navigation with
+arrow keys doesn't work properly on windows, only use prompt types with
+text input.
+
+`ui.write()` can be used to write something to the output stream. It's just
+`this.outputStream.write(data);` internally.
+
+`ui.inputStream`, `ui.outputStream` can be used for things that require a
+stream. Also nice for testing, e.g. simulating input.
+
 ### Commands
 Located in `lib/commands/`. They get picked up by `requireAsHash()`
 automatically.
