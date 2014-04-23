@@ -24,6 +24,21 @@ Additional components of this project which are used runtime in your application
 * [ember-cli-shims](https://github.com/stefanpenner/ember-cli-shims)
 * [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
 
+## Working with master
+
+```sh
+git clone https://github.com/stefanpenner/ember-cli.git
+cd ember-cli
+npm link
+
+# now go to where you want to build your app
+
+/path/to/ember-cli/bin/ember new foo
+cd foo
+npm link ember-cli
+./node_modules/.bin/ember server
+```
+
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
