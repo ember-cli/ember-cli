@@ -45,6 +45,16 @@ cd my-new-app && ember server
 
 and navigate to [http://0.0.0.0:4200](http://0.0.0.0:4200) to see your new app in action.
 
+### Working with `master`
+
+{% highlight bash %}
+git clone https://github.com/stefanpenner/ember-cli.git
+cd ember-cli && npm link
+/path/to/ember-cli/bin/ember new foo && cd foo
+npm link ember-cli
+./node_modules/.bin/ember server
+{% endhighlight %}
+
 ### Using Ember CLI
 
 `ember`
