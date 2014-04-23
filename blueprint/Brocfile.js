@@ -53,7 +53,6 @@ if (env !== 'production') {
   ]);
 
   push.apply(app.legacyFilesToAppend, [
-    'qunit/qunit/qunit.js',
     'test-shims.js',
     'ember-qunit/dist/named-amd/main.js'
   ]);
