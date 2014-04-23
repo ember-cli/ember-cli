@@ -26,18 +26,24 @@ Additional components of this project which are used runtime in your application
 
 ## Working with master
 
-```sh
+``` sh
 git clone https://github.com/stefanpenner/ember-cli.git
 cd ember-cli
 npm link
+```
 
-# now go to where you want to build your app
+`npm link` is very similar to `npm install -g` except that instead of downloading the package from the repo the just cloned `ember-cli/` folder becomes the global package. Any changes to the files in the `ember-cli/` folder will immediatly affect the global ember-cli package.
 
-/path/to/ember-cli/bin/ember new foo
+Now you can use `ember-cli` via the command line:
+
+``` sh
+ember new foo
 cd foo
 npm link ember-cli
-./node_modules/.bin/ember server
+ember server
 ```
+
+`npm link ember-cli` is needed because by default the globally installed `ember-cli` just loads the local `ember-cli` from the project. `npm link ember-cli` symlinks the global `ember-cli` package to the local `ember-cli` package. Now the `ember-cli` you cloned before is in three places: The folder you cloned it into, npm's folder where it stores global packages and the `ember-cli` project you just created.
 
 ## License
 
