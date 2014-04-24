@@ -47,6 +47,27 @@ ember server
 
 Please read the official [npm-link](https://www.npmjs.org/doc/cli/npm-link.html) documentation and/or the [npm-link cheatsheet](https://blog.nodejitsu.com/npm-cheatsheet/#Linking_any_npm_package_locally) for more information.
 
+## Working with the tests
+
+Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests).
+
+- To exclude a test or test suite
+
+  `it(...)` → `it.skip(...)`
+  
+  `describe(...)` → `describe.skip(...)`
+  
+  
+  
+- To focus on a certain test or test suite
+
+  `it(...)` → `it.only(...)`
+  
+  `describe(...)` → `describe.only(...)`
+  
+Use `npm test` to run the tests once.
+
+
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
