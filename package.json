@@ -26,7 +26,7 @@
     "app-kit",
     "ember-app-kit"
   ],
-  "author": "Ember core team and ember cli contributers",
+  "author": "Ember core team and ember cli contributors",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/stefanpenner/ember-cli/issues"
