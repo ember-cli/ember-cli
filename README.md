@@ -24,7 +24,8 @@ Additional components of this project which are used runtime in your application
 * [ember-cli-shims](https://github.com/stefanpenner/ember-cli-shims)
 * [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
 
-## Working with master
+## Development Hints
+### Working with master
 
 ``` sh
 git clone https://github.com/stefanpenner/ember-cli.git
@@ -47,26 +48,13 @@ ember server
 
 Please read the official [npm-link](https://www.npmjs.org/doc/cli/npm-link.html) documentation and/or the [npm-link cheatsheet](https://blog.nodejitsu.com/npm-cheatsheet/#Linking_any_npm_package_locally) for more information.
 
-## Working with the tests
+### Working with the tests
 
-Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests).
+Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
 
-- To exclude a test or test suite
+To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
 
-  `it(...)` → `it.skip(...)`
-  
-  `describe(...)` → `describe.skip(...)`
-  
-  
-  
-- To focus on a certain test or test suite
-
-  `it(...)` → `it.only(...)`
-  
-  `describe(...)` → `describe.only(...)`
-  
-Use `npm test` to run the tests once.
-
+Please read the official [mocha](http://visionmedia.github.io/mocha/ documentation) for more information.
 
 ## License
 
