@@ -72,6 +72,12 @@ Starts up the server. Default port is `4200`.
 Runs a specific generator. See [cavneb/loom-generators-ember-appkit](https://github.com/cavneb/loom-generators-ember-appkit)
 for available generators.
 
+`ember test`
+
+Run tests with Testem on CI mode. You can pass any options to Testem
+through `testem.json`, by default we'll search for it under your
+project's root or you can specify `config-file`.
+
 ### Default Flags
 
 You can provide default flags by creating a file in your project's root called `.ember-cli`. For example, say I have a file called `.ember-cli` with the contents:
