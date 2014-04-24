@@ -54,7 +54,7 @@ Use `npm run-script autotest` to run the tests after every file change (Runs onl
 
 To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
 
-Please read the official [mocha documentation](http://visionmedia.github.io/mocha/ documentation) for more information.
+Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
 
 ## License
 
