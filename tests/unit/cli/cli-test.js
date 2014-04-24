@@ -56,7 +56,7 @@ afterEach(function() {
   }
 
   insight.track.restore();
-  delete process.env.BROCCOLI_ENV;
+  delete process.env.EMBER_ENV;
   commands = argv = ui = undefined;
 });
 

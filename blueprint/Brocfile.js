@@ -1,10 +1,9 @@
 /* global require, module */
 
-var env = require('broccoli-env').getEnv();
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var push = Array.prototype.push;
 
-var app = new EmberApp(env, {
+var app = new EmberApp({
   name: require('./package.json').name,
 
   legacyFilesToAppend: [
@@ -46,7 +45,7 @@ var app = new EmberApp(env, {
   getEnvJSON: require('./config/environment')
 });
 
-if (env !== 'production') {
+if (app.env !== 'production') {
   push.apply(app.ignoredModules, [
     'qunit',
     'ember-qunit'
