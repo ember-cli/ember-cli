@@ -46,7 +46,7 @@ ember server
 
 `npm link ember-cli` is needed because by default the globally installed `ember-cli` just loads the local `ember-cli` from the project. `npm link ember-cli` symlinks the global `ember-cli` package to the local `ember-cli` package. Now the `ember-cli` you cloned before is in three places: The folder you cloned it into, npm's folder where it stores global packages and the `ember-cli` project you just created.
 
-Please read the official [npm-link](https://www.npmjs.org/doc/cli/npm-link.html) documentation and/or the [npm-link cheatsheet](https://blog.nodejitsu.com/npm-cheatsheet/#Linking_any_npm_package_locally) for more information.
+Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html) and the [npm-link cheatsheet](https://blog.nodejitsu.com/npm-cheatsheet/#Linking_any_npm_package_locally) for more information.
 
 ### Working with the tests
 
@@ -54,7 +54,7 @@ Use `npm run-script autotest` to run the tests after every file change (Runs onl
 
 To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
 
-Please read the official [mocha](http://visionmedia.github.io/mocha/ documentation) for more information.
+Please read the official [mocha documentation](http://visionmedia.github.io/mocha/ documentation) for more information.
 
 ## License
 
