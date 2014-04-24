@@ -1,6 +1,6 @@
 /* global require, module */
 
-var env = require('broccoli-env').getEnv();
+var env = process.env.BROCCOLI_ENV || 'development';
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var push = Array.prototype.push;
 
