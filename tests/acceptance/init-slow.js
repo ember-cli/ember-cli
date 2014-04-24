@@ -29,10 +29,10 @@ describe('Acceptance: ember init', function() {
     tmp.teardown('./tmp');
   });
 
-  function confirmBlueprinted() {
+  function confirmBlueprinted(done) {
     var blueprintPath = path.join(root, 'blueprint');
     var expected      = walkSync(blueprintPath).sort();
-    var actual        = walkSync(process.cwd()).sort();
+    var actual        = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
@@ -40,15 +40,21 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
+    console.log('second');
     assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
                      '\n but got: ' +  util.inspect(actual));
+
+    done();
   }
 
-  it('ember init', function() {
-    return ember([
-      'init',
-      '--dry-run'
-    ]).then(confirmBlueprinted);
+  it('ember init', function(done) {
+    return ember([ 'init', '--dry-run' ])
+            .then(function() {
+              confirmBlueprinted(done);
+            })
+            .catch(function(error) {
+              done(error);
+            });
   });
 
   // it('init an already init\'d folder', function() {
