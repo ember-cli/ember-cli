@@ -26,6 +26,14 @@ module.exports = {
       }
     };
   },
+  stubLeek: function() {
+    return function() {
+      return {
+        track:      function() {},
+        trackEvent: function() {}
+      };
+    };
+  },
   stubBlueprint: function stubBlueprint() {
     return function Blueprint() {
       return {

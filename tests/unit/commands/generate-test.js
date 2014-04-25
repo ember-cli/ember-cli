@@ -13,8 +13,6 @@ function stubLoom() {
 }
 
 describe('generate command', function() {
-  var ui = { };
-
   before(function() {
     command = rewire('../../../lib/commands/generate');
     command.__set__('loom', stubLoom());
@@ -25,7 +23,7 @@ describe('generate command', function() {
   });
 
   it('generates a controller', function() {
-    command.run(ui, {
+    command.run({
       cliArgs: [
         'controller',
         'application',

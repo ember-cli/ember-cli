@@ -13,6 +13,14 @@ Cli.__set__('UI', function() {
   };
 });
 
+Cli.__set__('Leek', function() {
+  return {
+    track:      function() {},
+    trackEvent: function() {},
+    trackError: function() {}
+  };
+});
+
 module.exports = function ember(args) {
   var argv, cli;
 
