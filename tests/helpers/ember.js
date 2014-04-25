@@ -4,6 +4,14 @@ var rewire   = require('rewire');
 var Cli      = rewire('../../lib/cli');
 var baseArgs = ['node', 'path/to/cli'];
 
+Cli.__set__('Leek', function() {
+  return {
+      track:      function() {},
+      trackEvent: function() {},
+      trackError: function() {}
+    };
+});
+
 Cli.__set__('UI', function() {
   this.outputStream = [];
   this.inputStream  = [];
