@@ -4,13 +4,15 @@ var path              = require('path');
 var assert            = require('assert');
 var stub              = require('../helpers/stub').stub;
 var Blueprint         = require('../../lib/blueprint');
-var basicBlueprint    = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', 'basic'));
-var basicNewBlueprint = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', 'basic_2'));
-var missingBlueprint  = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints', '__missing__'));
 
-var tmp = require('../helpers/tmp');
+var rootBlueprints    = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints')),
+    basicBlueprint    = path.join(rootBlueprints, 'basic'),
+    basicNewBlueprint = path.join(rootBlueprints, 'basic_2'),
+    missingBlueprint  = path.join(rootBlueprints, '__missing__');
+
+var tmp      = require('../helpers/tmp');
 var walkSync = require('walk-sync');
-var MockUi = require('../helpers/mock-ui');
+var MockUi   = require('../helpers/mock-ui');
 
 require('../../lib/ext/promise');
 
@@ -135,7 +137,9 @@ describe('Blueprint', function() {
           var output = ui.output.trim().split('\n');
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /Overwrite.*foo.*\?/); // Prompt
+          assert.match(output.shift(), /Overwrite.*foo.*No, skip/);
           assert.match(output.shift(), /Overwrite.*test.*\?/); // Prompt
+          assert.match(output.shift(), /Overwrite.*test.*Yes, overwrite/);
           assert.match(output.shift(), /identical.* \.gitignore/);
           assert.match(output.shift(), /skip.* foo.txt/);
           assert.match(output.shift(), /overwrite.* test.txt/);
