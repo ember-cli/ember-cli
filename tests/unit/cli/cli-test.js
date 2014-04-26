@@ -3,13 +3,11 @@
 var assert   = require('../../helpers/assert');
 var stub     = require('../../helpers/stub').stub;
 var MockUI   = require('../../helpers/mock-ui');
-var Insight  = require('../../../lib/utilities/insight');
 var CLI      = require('../../../lib/cli/cli');
 var extend   = require('lodash-node/compat/objects/assign');
 
 var ui;
 var commands;
-var insight;
 var argv;
 
 var isWithinProject;
@@ -28,22 +26,8 @@ function stubCommand(name) {
   return stub(commands[name], 'run');
 }
 
-function stubInsight() {
-  insight = new Insight({
-    trackingCode: 'test',
-    packageName: 'test'
-  });
-
-  stub(insight, 'track');
-  stub(insight, 'askPermission');
-
-  return insight;
-
-}
-
 beforeEach(function() {
   ui = new MockUI();
-  stubInsight();
   argv = [];
   commands = { };
   isWithinProject = true;
@@ -55,7 +39,6 @@ afterEach(function() {
     commands[key].run.restore();
   }
 
-  insight.track.restore();
   delete process.env.EMBER_ENV;
   commands = argv = ui = undefined;
 });
@@ -359,12 +342,7 @@ describe('Unit: CLI', function() {
     var track;
 
     beforeEach(function() {
-      track = stub(insight, 'track');
       stubCommand(['build']);
-    });
-
-    afterEach(function() {
-      insight.track.restore();
     });
 
     it('tracks the command that was run', function() {
@@ -386,25 +364,5 @@ describe('Unit: CLI', function() {
         assert.equal(args[1].output, '/blah');
       });
     });
-
-    // describe('prompting for permission', function() {
-    //   beforeEach(function() {
-    //     insight.askPermission.restore();
-    //   });
-
-    //   it('asks when optOut is not set', function() {
-    //     insight.optOut = undefined;
-    //     var askPermission = stub(insight.insight, 'askPermission');
-    //     Cli.run([], ui, insight).then(function() {
-    //     assert.ok(askPermission.called);
-    //   });
-
-    //   it('does not ask when optOut is set', function() {
-    //     insight.optOut = false;
-    //     var askPermission = stub(insight.insight, 'askPermission');
-    //     Cli.run([], ui, insight);
-    //     assert.notOk(askPermission.called);
-    //   });
-    // });
   });
 });
