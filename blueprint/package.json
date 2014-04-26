@@ -12,10 +12,7 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/stefanpenner/ember-cli.git"
-  },
+  "repository": "https://github.com/stefanpenner/ember-cli",
   "engines": {
     "node": ">= 0.10.0"
   },
