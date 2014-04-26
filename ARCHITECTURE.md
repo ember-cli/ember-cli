@@ -178,7 +178,7 @@ module.exports = new Task({
     - CSS classes
     - HTML tags and attributes
   - Camel case (`someThing`)
-    - JavaScript (and JSON) propertys and variables
+    - JavaScript (and JSON) properties and variables
   - Pascal case (`SomeThing`)
     - JavaScript class names
   - Acronyms:
@@ -187,6 +187,7 @@ module.exports = new Task({
     - We stick with how it's done in ember -> `rootURL`
 - No comma separated var satements (`var cool = 123, supercool = 456;`)
 - Line break at the end of every file
+- Make constructors take an options object to avoid order-dependence
 
 This list only contains style decisions not already covered by JSHint (e.g.
 mandatory semicolons and other rules are omitted).
