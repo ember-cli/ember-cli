@@ -21,6 +21,8 @@
 * Adds per command help output ([#376](https://github.com/stefanpenner/ember-cli/pull/376))
 * Ensures that the broccoli trees are cleaned up properly. ([#444](https://github.com/stefanpenner/ember-cli/pull/444))
 * Integrate leek package for ember-cli usage analytics reporting. ([#448](https://github.com/stefanpenner/ember-cli/pull/448))
+* Generate current live build to `tmp/output/` when running `ember server`. This is very useful for
+  debugging the current Broccoli tree without manually running `ember build`. ([#457](https://github.com/stefanpenner/ember-cli/pull/457))
 
 ### 0.0.23
 
