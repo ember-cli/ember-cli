@@ -92,7 +92,7 @@ Models, where `modelname.js`.
 
 `app/routes/`
 
-Routes for your application, where `route.js` is the controller name. Child routes are defined in sub-directories,
+Routes for your application, where `route.js` is the route name. Child routes are defined in sub-directories,
 `parent/child.js`.
 
 `app/serializers/`
