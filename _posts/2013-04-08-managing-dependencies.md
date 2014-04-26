@@ -33,7 +33,7 @@ Some bower packages include static assets that will not, by default, get merged
 into your final output tree. In this case, you will need to extend your default
 `Brocfile` to merge in your vendored assets. For example:
 
-```js
+{% highlight javascript linenos %}
 // ...existing Brocfile...
 
 var pickFiles = require('broccoli-static-compiler');
@@ -57,4 +57,4 @@ var appAndCustomDependencies = mergeTrees([emberApp, pikaday], {
 });
 
 module.exports = appAndCustomDependencies;
-```
+{% endhighlight %}
