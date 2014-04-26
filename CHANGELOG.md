@@ -20,6 +20,7 @@
 * Adds `ic-ajax` to the list of ignored modules for tests([#378](https://github.com/stefanpenner/ember-cli/pull/378))
 * Adds per command help output ([#376](https://github.com/stefanpenner/ember-cli/pull/376))
 * Ensures that the broccoli trees are cleaned up properly. ([#444](https://github.com/stefanpenner/ember-cli/pull/444))
+* Integrate leek package for ember-cli usage analytics reporting. ([#448](https://github.com/stefanpenner/ember-cli/pull/448))
 
 ### 0.0.23
 
