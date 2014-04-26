@@ -44,7 +44,7 @@ describe('Acceptance: ember init', function() {
                      '\n but got: ' +  util.inspect(actual));
   }
 
-  it('ember init,', function() {
+  it('ember init', function() {
     return ember([
       'init',
       '--dry-run'
