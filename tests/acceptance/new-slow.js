@@ -27,14 +27,10 @@ describe('Acceptance: ember new', function() {
   });
 
   function confirmBlueprinted() {
-    var folder = path.basename(process.cwd());
-
-    assert.equal(folder, 'foo');
-
     var blueprintPath = path.join(root, 'blueprint');
-
-    var expected = walkSync(blueprintPath);
-    var actual = walkSync('.').sort();
+    var expected      = walkSync(blueprintPath);
+    var actual        = walkSync('.').sort();
+    var folder        = path.basename(process.cwd());
 
     forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
@@ -42,6 +38,7 @@ describe('Acceptance: ember new', function() {
 
     expected.sort();
 
+    assert.equal(folder, 'foo');
     assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
                      '\n but got: ' +  util.inspect(actual));
   }

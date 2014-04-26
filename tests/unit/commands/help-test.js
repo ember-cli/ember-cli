@@ -31,7 +31,8 @@ describe('help command', function() {
   });
 
   it('should generate complete help output', function() {
-    helpCommand.run(ui, {
+    helpCommand.ui = ui;
+    helpCommand.run({
       commands: commands
     });
 
@@ -45,7 +46,8 @@ describe('help command', function() {
   });
 
   it('should generate specific help output', function() {
-    helpCommand.run(ui, {
+    helpCommand.ui = ui;
+    helpCommand.run({
       commands: commands,
       cliArgs: ['help', 'test-command-2']
     });

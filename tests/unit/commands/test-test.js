@@ -36,7 +36,8 @@ describe('test command', function() {
     var buildRun = env.tasks.build.run;
     var testRun = env.tasks.test.run;
 
-    return command.run(ui, env, {})
+    command.ui = ui;
+    return command.run(env, {})
       .then(function(){
         assert.equal(buildRun.called, 1, 'expected build task to be called once');
         assert.equal(testRun.called, 1, 'expected test task to be called once');
@@ -48,10 +49,11 @@ describe('test command', function() {
     var testRun = env.tasks.test.run;
     var options = { configFile: 'tests/testem.json' };
 
-    return command.run(ui, env, options)
+    command.ui = ui;
+    return command.run(env, options)
       .then(function(){
-        var buildOptions = buildRun.calledWith[0][1];
-        var testOptions = testRun.calledWith[1][1];
+        var buildOptions = buildRun.calledWith[0][0];
+        var testOptions = testRun.calledWith[1][0];
 
         assert.equal(buildOptions.environment, 'development', 'has correct env');
         assert.ok(buildOptions.outputPath, 'has outputPath');
