@@ -26,21 +26,28 @@ describe('Acceptance: ember new', function() {
     tmp.teardown('./tmp');
   });
 
+  function confirmBlueprintedForDir(dir) {
+    return function() {
+      var blueprintPath = path.join(root, dir);
+      var expected      = walkSync(blueprintPath);
+      var actual        = walkSync('.').sort();
+      var folder        = path.basename(process.cwd());
+
+      forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
+        expected[expected.indexOf(srcFile)] = destFile;
+      });
+
+      expected.sort();
+
+      assert.equal(folder, 'foo');
+      assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
+                       '\n but got: ' +  util.inspect(actual));
+
+    };
+  }
+
   function confirmBlueprinted() {
-    var blueprintPath = path.join(root, 'blueprint');
-    var expected      = walkSync(blueprintPath);
-    var actual        = walkSync('.').sort();
-    var folder        = path.basename(process.cwd());
-
-    forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
-      expected[expected.indexOf(srcFile)] = destFile;
-    });
-
-    expected.sort();
-
-    assert.equal(folder, 'foo');
-    assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
-                     '\n but got: ' +  util.inspect(actual));
+    return confirmBlueprintedForDir('blueprint');
   }
 
   it('ember new foo, where foo does not yet exist, works', function() {
@@ -91,5 +98,18 @@ describe('Acceptance: ember new', function() {
         assert(!fs.existsSync('foo'));
       });
     }).then(confirmBlueprinted);
+  });
+
+  it('ember new with blueprint uses the specified blueprint directory', function() {
+    tmp.setup('./tmp/my_blueprint');
+    fs.writeFileSync('./tmp/my_blueprint/gitignore');
+    process.chdir('./tmp');
+
+    return ember([
+      'new',
+      'foo',
+      '--dry-run',
+      '--blueprint=my_blueprint'
+    ]).then(confirmBlueprintedForDir('tmp/my_blueprint'));
   });
 });
