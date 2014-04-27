@@ -5,10 +5,10 @@ var assert            = require('assert');
 var stub              = require('../helpers/stub').stub;
 var Blueprint         = require('../../lib/blueprint');
 
-var rootBlueprints    = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints')),
-    basicBlueprint    = path.join(rootBlueprints, 'basic'),
-    basicNewBlueprint = path.join(rootBlueprints, 'basic_2'),
-    missingBlueprint  = path.join(rootBlueprints, '__missing__');
+var rootBlueprints    = path.resolve(path.join(__dirname, '..', 'fixtures', 'blueprints'));
+var basicBlueprint    = path.join(rootBlueprints, 'basic');
+var basicNewBlueprint = path.join(rootBlueprints, 'basic_2');
+var missingBlueprint  = path.join(rootBlueprints, '__missing__');
 
 var tmp      = require('../helpers/tmp');
 var walkSync = require('walk-sync');
