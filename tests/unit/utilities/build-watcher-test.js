@@ -8,6 +8,7 @@ var stub   = require('../../helpers/stub').stub;
 var called;
 var utility;
 var callbacks;
+var buildBuilderCalled;
 
 function stubWatcher() {
   return function watcher() {
@@ -19,16 +20,28 @@ function stubWatcher() {
   };
 }
 
+function stubBuildBuilder() {
+  return function buildBuilder() {
+    buildBuilderCalled = true;
+  };
+}
+
 describe('buildWatcher utility', function() {
   var ui;
 
   before(function() {
     utility = rewire('../../../lib/utilities/build-watcher');
     utility.__set__('Watcher', stubWatcher());
+    utility.__set__('buildBuilder', stubBuildBuilder());
   });
 
   beforeEach(function() {
     ui = new MockUI();
+  });
+
+  afterEach(function() {
+    called = false;
+    buildBuilderCalled = false;
   });
 
   it('creates a Watcher instance', function() {
@@ -69,6 +82,12 @@ describe('buildWatcher utility', function() {
     callbacks.on.calledWith[0][1]();
 
     assert.equal(ui.output, '\u001b[32m\n\nBuild successful.\n\u001b[39m');
+  });
+
+  it('will create a builder instance if not provided', function() {
+    utility({ui: ui});
+
+    assert.ok(buildBuilderCalled);
   });
 });
 
