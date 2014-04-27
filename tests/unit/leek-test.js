@@ -3,7 +3,7 @@
 var assert  = require('../helpers/assert');
 var Command = require('../../lib/command');
 var command;
-var called  = false;
+var called = false;
 var ui = {};
 
 beforeEach(function() {
