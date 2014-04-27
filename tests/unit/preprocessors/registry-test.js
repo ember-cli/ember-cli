@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('../../helpers/assert');
+var assert         = require('../../helpers/assert');
 var PluginRegistry = require('../../../lib/preprocessors/registry');
 
 var pkg, registry;

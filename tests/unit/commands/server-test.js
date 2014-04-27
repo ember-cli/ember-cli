@@ -2,7 +2,7 @@
 
 var command;
 var assert = require('../../helpers/assert');
-var stub = require('../../helpers/stub').stub;
+var stub   = require('../../helpers/stub').stub;
 var env;
 
 describe('server command', function() {

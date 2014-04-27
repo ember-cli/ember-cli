@@ -185,7 +185,7 @@ module.exports = new Task({
     - Okay: `url`, `id`, `rootURL` (property) or `URL`, `URLParser` (class)
     - Wrong: `Url`,`rootUrl`
     - We stick with how it's done in ember -> `rootURL`
-- No comma separated var satements (`var cool = 123, supercool = 456;`)
+- No comma separated var statements (`var cool = 123, supercool = 456;`)
 - Line break at the end of every file
 - Make constructors take an options object to avoid order-dependence
 
