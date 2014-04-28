@@ -41,6 +41,10 @@ var app = new EmberApp({
     'qunit': ['default']
   },
 
+  // config for css-minify, see:
+  // https://github.com/GoalSmashers/clean-css#how-to-use-clean-css-programmatically
+  cleanCSSconfig: {},
+
   // hack
   getEnvJSON: require('./config/environment')
 });
