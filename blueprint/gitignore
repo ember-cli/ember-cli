@@ -17,3 +17,4 @@
 Thumbs.db
 /coverage/*
 npm-debug.log
+testem.log
