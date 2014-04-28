@@ -72,7 +72,8 @@
     "readline2": "^0.1.0",
     "broccoli-export-tree": "~0.3.0",
     "broccoli-jshint": "~0.3.2",
-    "diff": "~1.0.8"
+    "diff": "~1.0.8",
+    "broccoli-kitchen-sink-helpers": "^0.2.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
