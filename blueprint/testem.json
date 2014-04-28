@@ -2,5 +2,6 @@
   "framework": "qunit",
   "test_page": "tests/index.html",
   "cwd": "tmp/output",
-  "launch_in_ci": ["PhantomJS", "Chrome"]
+  "launch_in_ci": ["PhantomJS", "Chrome"],
+  "on_start": "say 'Make sure you are running ember serve or else your testem suite will not automatically update.'"
 }
