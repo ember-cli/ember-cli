@@ -25,5 +25,5 @@ module.exports = function(environment) {
 
   }
 
-  return JSON.stringify(ENV); // Set in index.html
+  return ENV;
 };
