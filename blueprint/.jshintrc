@@ -9,7 +9,9 @@
     "DS": true,
     "$": true,
     "ENV": true,
-    "module": true
+    "module": true,
+    "QUnit": true,
+    "require": true
   },
   "node" : false,
   "browser" : false,

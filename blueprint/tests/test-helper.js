@@ -6,7 +6,7 @@ import resolver from './helpers/resolver';
 require('ember-qunit').setResolver(resolver);
 
 function exists(selector) {
-  return !!find(selector).length;
+  return !!window.find(selector).length;
 }
 
 function getAssertionMessage(actual, expected, message) {

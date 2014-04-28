@@ -70,7 +70,8 @@
     "broccoli-template": "^0.1.1",
     "broccoli-es6-import-validate": "^0.1.0",
     "readline2": "^0.1.0",
-    "broccoli-export-tree": "~0.3.0"
+    "broccoli-export-tree": "~0.3.0",
+    "broccoli-jshint": "~0.3.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
