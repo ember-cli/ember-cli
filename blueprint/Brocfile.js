@@ -1,7 +1,6 @@
 /* global require, module */
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-var push = Array.prototype.push;
 
 var app = new EmberApp({
   name: require('./package.json').name,
@@ -29,32 +28,11 @@ var app = new EmberApp({
   importWhitelist: {
     'ember': ['default'],
     'ember/resolver': ['default'],
-    'ember/load-initializers': ['default'],
-    'ember-qunit': [
-      'globalize',
-      'moduleFor',
-      'moduleForComponent',
-      'moduleForModel',
-      'test',
-      'setResolver'
-    ],
-    'qunit': ['default']
+    'ember/load-initializers': ['default']
   },
 
   // hack
   getEnvJSON: require('./config/environment')
 });
-
-if (app.env !== 'production') {
-  push.apply(app.ignoredModules, [
-    'qunit',
-    'ember-qunit'
-  ]);
-
-  push.apply(app.legacyFilesToAppend, [
-    'test-shims.js',
-    'ember-qunit/dist/named-amd/main.js'
-  ]);
-}
 
 module.exports = app.toTree();
