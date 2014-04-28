@@ -11,13 +11,18 @@ var commands;
 var argv;
 
 var isWithinProject;
+
 // helper to similate running the CLI
 function ember(args) {
   return new CLI(ui).run({
     tasks:    {},
     commands: commands,
     cliArgs:  args || [],
-    isWithinProject: isWithinProject // similate being inside or outside a project
+    project: {
+      isEmberCLIProject: function() {  // similate being inside or outside of a project
+        return isWithinProject;
+      }
+    }
   });
 }
 
