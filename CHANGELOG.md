@@ -1,4 +1,5 @@
 # ember-cli Changelog
+* Add a custom watcher to make broccoli more usable on windows by catching file errors ([493](https://github.com/stefanpenner/ember-cli/pull/493)).
 * Allow `ember new` and `ember init` to receive a `blueprint` argument to allow for alternative project scaffolding ([462](https://github.com/stefanpenner/ember-cli/pull/462))
 * Add `ember test` with Testem integration ([388](https://github.com/stefanpenner/ember-cli/pull/388)).
 * some improvements to bower dependency management, unfortunately until bower.json stabilizes broccoli-bower stability is at the whim of bower component authors.
