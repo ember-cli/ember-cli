@@ -1,5 +1,9 @@
 # ember-cli Changelog
 
+### 0.0.25
+
+* [BUGFIX] The blueprinted application's `package.json` forces an older version of `ember-cli`. Fixed in [#518](https://github.com/stefanpenner/ember-cli/pull/518).
+
 ### 0.0.24
 
 * Changes to `index.html`: Script tags were moved into body, `ENV` and the app are now defined in the same script tag.
