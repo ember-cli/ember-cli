@@ -3,7 +3,7 @@ layout: post
 title: "Mock and proxy requests"
 permalink: mock-and-proxy-requests
 hidden: "true"
-github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-10-mock-and-proxy-requests.md"
+github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-09-mock-and-proxy-requests.md"
 ---
 
 Ember CLI allows you to either mock responses or proxy requests to a proxy server.
