@@ -29,6 +29,27 @@ Further documentation about Bower is available at their
 
 ### Compiling Bower Assets
 
+#### Legacy Files
+
+Ember CLI uses the broccoli-es6-concatenator to compile your app's source. However, it 
+is likely that you'll want to bring in a library that is not written with modules.
+In this case you must tell Ember CLI that you want to append this file to your
+outputted app.js file. This is done by adding the filename to the `legacyFilesToAppend`
+array when creating your `EmberApp` in your `Brocfile`. For example:
+
+{% highlight javascript linenos %}
+var app = new EmberApp({
+  name: require('./package.json').name,
+  legacyFilesToAppend: [
+    // ... existing legacy files to append
+    "moment.js" // library you wish to append
+  ],
+  //...
+});
+{% endhighlight %}
+
+#### Bower Static Assets
+
 Some bower packages include static assets that will not, by default, get merged
 into your final output tree. In this case, you will need to extend your default
 `Brocfile` to merge in your vendored assets. For example:
