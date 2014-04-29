@@ -1,6 +1,5 @@
 {
   "name": "<%= name %>",
-  "APIMethod": "stub",
   "version": "0.0.0",
   "private": true,
   "directories": {
