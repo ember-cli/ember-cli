@@ -2,6 +2,8 @@
 
 ### 0.0.24
 
+* introduce NULL Project, to gracefully handle out-of-project
+  invocations of the cli. Like new/init [fixes #502]
 * pre 1.0.0 dependency are now locked down to exact versions, post 1.0.0 deps are in good faith semver locked.
 * patch to quickfix some broccoli + Windows IO issues. We expect a proper solution soon, but this will hold us over (#493)[https://github.com/stefanpenner/ember-cli/pull/493]
 * Add a custom watcher to make broccoli more usable on windows by catching file errors ([493](https://github.com/stefanpenner/ember-cli/pull/493)).
