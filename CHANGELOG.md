@@ -1,5 +1,6 @@
 # ember-cli Changelog
 * pre 1.0.0 dependency are now locked down to exact versions, post 1.0.0 deps are in good faith semver locked.
+* patch to quickfix some broccoli + Windows IO issues. We expect a proper solution soon, but this will hold us over (#493)[https://github.com/stefanpenner/ember-cli/pull/493]
 * Add a custom watcher to make broccoli more usable on windows by catching file errors ([493](https://github.com/stefanpenner/ember-cli/pull/493)).
 * Allow `ember new` and `ember init` to receive a `blueprint` argument to allow for alternative project scaffolding ([462](https://github.com/stefanpenner/ember-cli/pull/462))
 * Add `ember test` with Testem integration ([388](https://github.com/stefanpenner/ember-cli/pull/388)).
