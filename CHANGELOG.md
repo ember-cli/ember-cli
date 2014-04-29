@@ -1,5 +1,8 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] Remove `Ember.setupForTesting` and
+  `Router.reopen({location: 'none'});` from test helpers [#516].
+
 ### 0.0.25
 
 * [BUGFIX] The blueprinted application's `package.json` forces an older version of `ember-cli`. Fixed in [#518](https://github.com/stefanpenner/ember-cli/pull/518).
