@@ -43,7 +43,7 @@ Once the generation process finishes, launch the app:
 cd my-new-app && ember server
 {% endhighlight %}
 
-and navigate to [http://0.0.0.0:4200](http://0.0.0.0:4200) to see your new app in action.
+and navigate to [http://localhost:4200](http://localhost:4200) to see your new app in action.
 
 ### Using Ember CLI
 
