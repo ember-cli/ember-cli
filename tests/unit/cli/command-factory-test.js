@@ -51,7 +51,11 @@ var environment = {
       run: function() {},
     })
   },
-  isWithinProject: true
+  project: {
+    isEmberCLIProject: function() {
+      return true;
+    }
+  }
 };
 
 describe('cli/command-factory.js', function() {
@@ -73,7 +77,7 @@ describe('cli/command-factory.js', function() {
     return new CommandFactory({
       ui: ui,
       commands: environment.commands,
-      isWithinProject: typeof opts.isWithinProject === 'undefined' ? environment.isWithinProject : opts.isWithinProject,
+      project: typeof opts.project === 'undefined' ? environment.project : opts.project,
     }).commandFromArgs(opts.cliArgs);
   }
 
@@ -119,9 +123,10 @@ describe('cli/command-factory.js', function() {
     expect(commandFromArgs({ cliArgs: ['everywhere']})).to.exist;
 
     // Outside project
-    expect(commandFromArgs({ cliArgs: ['inside-project'], isWithinProject: false})).to.null;
+    var nonProject = {isEmberCLIProject: function() { return false; }};
+    expect(commandFromArgs({ cliArgs: ['inside-project'], project: nonProject})).to.null;
     expect(output.shift()).to.match(/You have to be inside an ember-cli project/);
-    expect(commandFromArgs({ cliArgs: ['outside-project'], isWithinProject: false })).to.be.exist;
-    expect(commandFromArgs({ cliArgs: ['everywhere'],      isWithinProject: false })).to.exist;
+    expect(commandFromArgs({ cliArgs: ['outside-project'], project: nonProject})).to.be.exist;
+    expect(commandFromArgs({ cliArgs: ['everywhere'],      project: nonProject})).to.exist;
   });
 });
