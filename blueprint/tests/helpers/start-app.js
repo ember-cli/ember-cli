@@ -1,5 +1,4 @@
 var Application = require('<%= modulePrefix %>/app')['default'];
-var Router = require('<%= modulePrefix %>/router')['default'];
 
 export default function startApp(attrs) {
   var App;
@@ -10,10 +9,6 @@ export default function startApp(attrs) {
     LOG_ACTIVE_GENERATION:false,
     LOG_VIEW_LOOKUPS: false
   }, attrs); // but you can override;
-
-  Router.reopen({
-    location: 'none'
-  });
 
   Ember.run(function(){
     App = Application.create(attributes);
