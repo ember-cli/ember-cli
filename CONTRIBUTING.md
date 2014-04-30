@@ -74,7 +74,12 @@ a test!
 explanation of why you made the changes you made. For new features make sure to
 explain a standard use case to us.
 
-7. Update the Changelog.
+7. Update the Changelog. Please prefix your change with one of the
+following tags inside brackets: BUGFIX, FEATURE/ENHANCEMENT, INTERNAL.
+
+    - FEATURES and ENHANCEMENT is something that users are interested in (no super technical, concise changes + description).
+    - BUGFIX is a link to a bug + a link to a patch.
+    - INTERNAL an internal log of changes.
 
 We try to be quick about responding to tickets but sometimes we get a bit
 backlogged. If the response is slow, try to find someone on IRC(#ember-cli) to
