@@ -21,6 +21,6 @@
     "ember-cli" : "0.0.25",
     "originate": "0.1.5",
     "broccoli-template": "0.1.1",
-    "loom-generators-ember-appkit": "^1.1.0"
+    "loom-generators-ember-appkit": "^1.1.1"
   }
 }
