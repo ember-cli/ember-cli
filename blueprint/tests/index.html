@@ -32,11 +32,13 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
 
+    <script>
+      window.ENV = {{ENV}};
+    </script>
     <script src="assets/qunit.js"></script>
     <script src="assets/app.js"></script>
     <script src="testem.js"></script>
     <script>
-      window.ENV = {{ENV}};
       require('<%= modulePrefix %>/tests/test-helper');
       require('<%= modulePrefix %>/tests/test-loader');
     </script>
