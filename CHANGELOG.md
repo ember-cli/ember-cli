@@ -1,6 +1,9 @@
 # ember-cli Changelog
 
 * [FEATURE] Added support for ember-scripts preprocessing.
+
+* [ENHANCEMENT] Refactor `blueprint.js` to remove unnecessary variable assignment, change double iteration to simple reduce, and remove function that only swapped arguments and called through. [#537]
+
 * [ENHANCEMENT] Refactor `test-loader.js` for readability and to prevent unnecessary iterations [#524]
 * [ENHANCEMENT] Remove `Ember.setupForTesting` and
   `Router.reopen({location: 'none'});` from test helpers [#516].
