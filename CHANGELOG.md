@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] Refactor `test-loader.js` for readability and to prevent unnecessary iterations [#524]
+
 * [ENHANCEMENT] Remove `Ember.setupForTesting` and
   `Router.reopen({location: 'none'});` from test helpers [#516].
 * [ENHANCEMENT] Update loom-generators-ember-appkit to `^1.1.1`.
