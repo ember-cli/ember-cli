@@ -10,6 +10,7 @@
 * [ENHANCEMENT] Update loom-generators-ember-appkit to `^1.1.1`.
 * [BUGFIX] Whitelist `ic-ajax` exports to prevent import validation warnings. [#533](https://github.com/stefanpenner/ember-cli/pull/533)
 * [BUGFIX] `ember init` fails on `NULL_PROJECT` ([#546](https://github.com/stefanpenner/ember-cli/pull/546))
+* [ENHANCEMENT] Files added by ember-cli should not needed to be specified in `Brocfile.js`. [#534](https://github.com/stefanpenner/ember-cli/pull/534)
 
 ### 0.0.25
 
