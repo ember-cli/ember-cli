@@ -5,6 +5,7 @@
 * [ENHANCEMENT] Remove `Ember.setupForTesting` and
   `Router.reopen({location: 'none'});` from test helpers [#516].
 * [ENHANCEMENT] Update loom-generators-ember-appkit to `^1.1.1`.
+* [BUGFIX] On `init`, check `pkg` existence before reading name.
 
 ### 0.0.25
 
