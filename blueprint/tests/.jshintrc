@@ -40,7 +40,10 @@
     "keyEvent",
     "isolatedContainer",
     "startApp",
-    "andThen"
+    "andThen",
+    "currentUrl",
+    "currentPath",
+    "currentRouteName"
   ],
   "node" : false,
   "browser" : false,
