@@ -12,9 +12,11 @@
     <link rel="stylesheet" href="assets/app.css">
   </head>
   <body>
-    <script src="assets/app.js"></script>
     <script>
       window.ENV = {{ENV}};
+    </script>
+    <script src="assets/app.js"></script>
+    <script>
       window.<%= namespace %> = require('<%= modulePrefix %>/app')['default'].create(ENV.APP);
     </script>
   </body>
