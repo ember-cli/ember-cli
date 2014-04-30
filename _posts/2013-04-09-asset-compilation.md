@@ -95,6 +95,18 @@ Post = Em.Object.extend
 Note that earlier versions of the transpiler had explicit support for
 CoffeeScript, but that support has been removed.
 
+### EmberScript
+
+To enable [EmberScript](emberscript.com/), you must
+first add [broccoli-ember-script](https://github.com/aradabaugh/broccoli-ember-script) to your
+NPM modules:
+
+{% highlight bash %}
+npm install --save-dev broccoli-ember-script
+{% endhighlight %}
+
+Note that the ES6 module transpiler is not directly supported with Emberscript, to allow use of ES6 modules use the `` ` `` character to escape raw Javascript similar to the CoffeeScript example above.
+
 ### Emblem
 
 For Emblem, run the following commands:
