@@ -52,6 +52,25 @@ describe('init command', function() {
 
   });
 
+  it('Uses the name of closest project, derived from directory name if package.json is not present', function() {
+    var env = {
+      project: { pkg: undefined },
+      tasks: {
+        installBlueprint: {
+          run: function(ui, blueprintOpts) {
+            assert.equal(blueprintOpts.rawName, 'ember-cli');
+            return Promise.reject('Called run');
+          }
+        }
+      }
+    };
+
+    return command.run(env, {})
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
     var env = {
       tasks: {
