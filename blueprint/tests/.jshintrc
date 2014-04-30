@@ -39,7 +39,8 @@
     "DS",
     "keyEvent",
     "isolatedContainer",
-    "startApp"
+    "startApp",
+    "andThen"
   ],
   "node" : false,
   "browser" : false,
