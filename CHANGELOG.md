@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] Refactored `ember-app.js` to have `inProduction` and `notInProduction` 'helper' methods, removed unnecessary conditionals, extracted a method, moved markup into the templates, and simplified `injectENVJson`
+
 * [FEATURE] Added support for ember-scripts preprocessing.
 
 * [ENHANCEMENT] Refactor `blueprint.js` to remove unnecessary variable assignment, change double iteration to simple reduce, and remove function that only swapped arguments and called through. [#537]
