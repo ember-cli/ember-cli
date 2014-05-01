@@ -5,31 +5,20 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp({
   name: require('./package.json').name,
 
+  // Use this to add the following modules to the generated application
+  // file.
   legacyFilesToAppend: [
-    'jquery.js',
-    'handlebars.js',
-    'ember.js',
-    'ic-ajax/dist/named-amd/main.js',
     'ember-data.js',
-    'app-shims.js',
-    'ember-resolver.js',
-    'ember-load-initializers.js'
   ],
 
-  // AKA whitelisted modules
-  ignoredModules: [
-    'ember',
-    'ember/resolver',
-    'ember/load-initializers',
-    'ic-ajax'
-  ],
+  // Use this to instruct the `broccoli-es6-concatenator` to allow
+  // references to the following modules (this would commonly include
+  // any modules exported from any AMD files added to `legacyFilesToAppend`)
+  ignoredModules: [ ],
 
-  // hack we can hopefully remove as the addon system improves
-  importWhitelist: {
-    'ember': ['default'],
-    'ember/resolver': ['default'],
-    'ember/load-initializers': ['default']
-  },
+  // Use this to notify the import validator of any AMD modules
+  // that you add to your project.
+  importWhitelist: { },
 
   // hack
   getEnvJSON: require('./config/environment')
