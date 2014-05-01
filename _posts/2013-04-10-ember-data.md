@@ -2,7 +2,7 @@
 layout: post
 title: "Using With Ember Data"
 permalink: ember-data
-github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-12-ember-data.md"
+github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-10-ember-data.md"
 ---
 
 The current beta Ember Data is included with Ember CLI.
