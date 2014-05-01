@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "postinstall": "bower install",
     "start": "ember server",
     "build": "ember build",
     "test": "ember test"
