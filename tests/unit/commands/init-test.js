@@ -21,7 +21,16 @@ describe('init command', function() {
   it('doesn\'t allow to create an application named `test`', function() {
     command.__set__('path', stubPath('test'));
 
-    return command.run({ tasks: {} }, {})
+    var environment = {
+      tasks: {},
+      project: {
+        name: function() {
+          return 'test';
+        }
+      }
+    };
+
+    return command.run(environment, {})
       .then(function() {
         assert.ok(false, 'should have rejected with an application name of test');
       })
@@ -32,9 +41,12 @@ describe('init command', function() {
   });
 
   it('Uses the name of the closest project to when calling installBlueprint', function() {
-
     var env = {
-      project: {pkg: { name: 'some-random-name'}},
+      project: {
+        name: function() {
+          return 'some-random-name';
+        }
+      },
       tasks: {
         installBlueprint: {
           run: function(ui, blueprintOpts) {
@@ -61,6 +73,12 @@ describe('init command', function() {
             return Promise.reject('Called run');
           }
         }
+      },
+      project: {
+        name: function() {
+          return path.basename(process.cwd());
+        },
+        pkg: { name: path.basename(process.cwd()) }
       }
     };
 

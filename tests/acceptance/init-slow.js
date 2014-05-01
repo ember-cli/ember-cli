@@ -51,6 +51,18 @@ describe('Acceptance: ember init', function() {
     ]).then(confirmBlueprinted);
   });
 
+  it('ember init can run in created folder', function() {
+    tmp.setup('./tmp/foo');
+    process.chdir('./tmp/foo');
+
+    return ember([
+      'init',
+      '--dry-run'
+    ]).then(confirmBlueprinted).then(function() {
+      tmp.teardown('./tmp/foo');
+    });
+  });
+
   it('init an already init\'d folder', function() {
     return ember([
       'init',

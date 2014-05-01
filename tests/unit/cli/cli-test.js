@@ -215,7 +215,6 @@ describe('Unit: CLI', function() {
         var init = stubCommand('init');
 
         return ember([command]).then(function() {
-
           assert.equal(init.called, 1, 'expected the init command to be run');
         });
       });
