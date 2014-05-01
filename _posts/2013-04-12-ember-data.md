@@ -23,10 +23,10 @@ For example, we can create a todo model like so:
 export default DS.Model.extend({
   title: DS.attr('string'),
   isCompleted: DS.attr('boolean'),
-  notes: DS.hasMany('note')
+  quickNotes: DS.hasMany('quick-note')
 });
 
-// models/note.js
+// models/quick-note.js
 export default DS.Model.extend({
   name: DS.attr('string'),
   todo: DS.belongsTo('todo')
@@ -34,7 +34,7 @@ export default DS.Model.extend({
 
 {% endhighlight %}
 
-Note, that filenames should be all lowercase - this is used by the
+Note, that filenames should be all lowercase and dasherized - this is used by the
 *Resolver* automatically.
 
 ### Adapters & Serializers
