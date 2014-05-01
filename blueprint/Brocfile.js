@@ -5,23 +5,25 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp({
   name: require('./package.json').name,
 
-  // Use this to add the following modules to the generated application
-  // file.
-  legacyFilesToAppend: [
-    'ember-data.js',
-  ],
-
-  // Use this to instruct the `broccoli-es6-concatenator` to allow
-  // references to the following modules (this would commonly include
-  // any modules exported from any AMD files added to `legacyFilesToAppend`)
-  ignoredModules: [ ],
-
-  // Use this to notify the import validator of any AMD modules
-  // that you add to your project.
-  importWhitelist: { },
-
-  // hack
   getEnvJSON: require('./config/environment')
 });
+
+// Use this to add additional libraries to the generated output files.
+app.import('vendor/ember-data/ember-data.js');
+
+// If the library that you are including contains AMD or ES6 modules that
+// you would like to import into your application please specify an
+// object with the list of modules as keys along with the exports of each
+// module as its value.
+app.import('vendor/ic-ajax/dist/named-amd/main.js', {
+  'ic-ajax': [
+    'default',
+    'defineFixture',
+    'lookupFixture',
+    'raw',
+    'request',
+  ]
+});
+
 
 module.exports = app.toTree();

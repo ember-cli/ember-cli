@@ -2,9 +2,7 @@
 
 * [BUGFIX] ` ENV.LOG_MODULE_RESOLVER` must be set pre-1.6 to get better container logging.
 * [FEATURE] Added support for ember-scripts preprocessing.
-
 * [ENHANCEMENT] Refactor `blueprint.js` to remove unnecessary variable assignment, change double iteration to simple reduce, and remove function that only swapped arguments and called through. [#537]
-
 * [ENHANCEMENT] Refactor `test-loader.js` for readability and to prevent unnecessary iterations [#524]
 * [ENHANCEMENT] Remove `Ember.setupForTesting` and
   `Router.reopen({location: 'none'});` from test helpers [#516].
@@ -18,6 +16,7 @@
 * [ENHANCEMENT] Update to Broccoli 0.11.0. This provides better timing information for `Watcher`. [#587](https://github.com/stefanpenner/ember-cli/pull/587)
 * [ENHANCEMENT] Track rebuild timing. [#588](https://github.com/stefanpenner/ember-cli/pull/587)
 * [ENHANCEMENT] Remove global defined helpers in favor of http://api.qunitjs.com/equal http://api.qunitjs.com/strictEqual/, etc. [#579](https://github.com/stefanpenner/ember-cli/pull/579)
+* [BREAKING BUGFIX] No longer rely on `broccoli-bower` to automatically import vendored files. Use `app.import` to import dependencies and specify modules to whitelist. [#562](https://github.com/stefanpenner/ember-cli/pull/562)
 
 ### 0.0.25
 
