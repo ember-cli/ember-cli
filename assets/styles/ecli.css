@@ -36,11 +36,16 @@ body {
   font-size: 1.6em;
 }
 
-.hidden-header {
-  position: fixed;
-  width: 320px;
-  background: rgb(255, 255, 255);
-  display: none;
+
+.navbar {
+  background-color: #FCFCFC;
+  border-color: #e7e7e7;
+}
+
+@media (max-width:991px) {
+  body {
+    margin-top: 45px;
+  }
 }
 
 .icon-bar {
@@ -153,13 +158,6 @@ body {
 
   .warning {
     text-align: center;
-  }
-
-  .hidden-header {
-    position: fixed;
-    width: 320px;
-    background: rgb(255, 255, 255);
-    display: inline;
   }
 
   .centered {
