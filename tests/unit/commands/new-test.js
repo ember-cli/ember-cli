@@ -1,30 +1,36 @@
 'use strict';
 
-var command;
 var assert = require('../../helpers/assert');
 var MockUI = require('../../helpers/mock-ui');
+var MockAnalytics = require('../../helpers/mock-analytics');
 var rewire = require('rewire');
 
 describe('new command', function() {
   var ui;
+  var analytics;
+  var NewCommand;
 
   before(function() {
-    command = rewire('../../../lib/commands/new');
+    NewCommand = rewire('../../../lib/commands/new');
     ui = new MockUI();
+    analytics = new MockAnalytics();
   });
 
   after(function() {
-    command = null;
+    NewCommand = null;
   });
 
   it('doesn\'t allow to create an application named `test`', function() {
-    assert.throw(function() {
-      command.ui = ui;
-      command.run({
-        cliArgs: ['', 'test']
-      });
-    }, undefined);
-
-    assert.equal(ui.output, 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
+    new NewCommand({
+      ui: ui,
+      analytics: analytics,
+      tasks: {},
+      project: { isEmberCLIProject: function(){ return false; }}
+    }).validateAndRun(['test']).then(function() {
+      assert.ok(false, 'should have rejected with an application name of test');
+    })
+    .catch(function() {
+      assert.equal(ui.output, 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
+    });
   });
 });

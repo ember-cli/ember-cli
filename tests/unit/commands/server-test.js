@@ -1,36 +1,41 @@
 'use strict';
 
-var command;
-var assert = require('../../helpers/assert');
-var stub   = require('../../helpers/stub').stub;
-var env;
+var assert        = require('../../helpers/assert');
+var stub          = require('../../helpers/stub').stub;
+var MockUI        = require('../../helpers/mock-ui');
+var MockAnalytics = require('../../helpers/mock-analytics');
+var Task          = require('../../../lib/models/task');
+var ServeCommand;
+var tasks;
 
 describe('server command', function() {
-  var ui = {};
+  var ui;
+  var analytics;
 
   before(function() {
-    command = require('../../../lib/commands/serve');
-
-    env = {
-      tasks: {
-        serve: {
-          run: function() { }
-        }
-      }
+    ServeCommand = require('../../../lib/commands/serve');
+    ui = new MockUI();
+    analytics = new MockAnalytics();
+    tasks = {
+      Serve: Task.extend({})
     };
 
-    stub(env.tasks.serve, 'run');
+    stub(tasks.Serve.prototype, 'run');
   });
 
   after(function() {
-    command = null;
+    ServeCommand = null;
   });
 
   it('has correct options', function() {
-    command.ui = ui;
-    command.run(env, { port: 4000 });
+    new ServeCommand({
+      ui: ui,
+      analytics: analytics,
+      tasks: tasks,
+      project: { isEmberCLIProject: function(){ return true; }}
+    }).validateAndRun(['--port', '4000']);
 
-    var serveRun = env.tasks.serve.run;
+    var serveRun = tasks.Serve.prototype.run;
     var options = serveRun.calledWith[0][0];
 
     assert.equal(serveRun.called, 1, 'expected run to be called once');

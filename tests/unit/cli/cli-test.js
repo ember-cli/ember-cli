@@ -3,10 +3,10 @@
 var assert   = require('../../helpers/assert');
 var stub     = require('../../helpers/stub').stub;
 var MockUI   = require('../../helpers/mock-ui');
+var MockAnalytics   = require('../../helpers/mock-analytics');
 var CLI      = require('../../../lib/cli/cli');
-var extend   = require('lodash-node/compat/objects/assign');
-
 var ui;
+var analytics;
 var commands;
 var argv;
 
@@ -14,7 +14,11 @@ var isWithinProject;
 
 // helper to similate running the CLI
 function ember(args) {
-  return new CLI(ui).run({
+  return new CLI({
+    ui: ui,
+    analytics: analytics,
+    testing: true
+  }).run({
     tasks:    {},
     commands: commands,
     cliArgs:  args || [],
@@ -26,13 +30,19 @@ function ember(args) {
   });
 }
 
-function stubCommand(name) {
-  commands[name] = extend({}, require('../../../lib/commands/' + name));
-  return stub(commands[name], 'run');
+function stubValidateAndRun(name) {
+  commands[name] = require('../../../lib/commands/' + name);
+  return stub(commands[name].prototype, 'validateAndRun');
+}
+
+function stubRun(name) {
+  commands[name] = require('../../../lib/commands/' + name);
+  return stub(commands[name].prototype, 'run');
 }
 
 beforeEach(function() {
   ui = new MockUI();
+  analytics = new MockAnalytics();
   argv = [];
   commands = { };
   isWithinProject = true;
@@ -41,7 +51,12 @@ beforeEach(function() {
 afterEach(function() {
   for(var key in commands) {
     if (!commands.hasOwnProperty(key)) { continue; }
-    commands[key].run.restore();
+    if (commands[key].prototype.validateAndRun.restore) {
+      commands[key].prototype.validateAndRun.restore();
+    }
+    if (commands[key].prototype.run.restore) {
+      commands[key].prototype.run.restore();
+    }
   }
 
   delete process.env.EMBER_ENV;
@@ -59,7 +74,7 @@ describe('Unit: CLI', function() {
   });
 
   it('ember', function() {
-    var help = stubCommand('help');
+    var help = stubValidateAndRun('help');
 
     return ember().then(function() {
       assert.equal(help.called, 1, 'expected help to be called once');
@@ -72,7 +87,7 @@ describe('Unit: CLI', function() {
   describe('help', function(){
     ['--help', '-h'].forEach(function(command){
       it('ember ' + command, function() {
-        var help = stubCommand('help');
+        var help = stubValidateAndRun('help');
 
         return ember([command]).then(function() {
           assert.equal(help.called, 1, 'expected help to be called once');
@@ -84,7 +99,7 @@ describe('Unit: CLI', function() {
     });
 
     it('ember -h', function() {
-      var help = stubCommand('help');
+      var help = stubValidateAndRun('help');
 
       return ember(['-h']).then(function() {
         assert.equal(help.called, 1, 'expected help to be called once');
@@ -97,7 +112,7 @@ describe('Unit: CLI', function() {
 
   ['--version', '-v'].forEach(function(command){
     it('ember ' + command, function() {
-      var version = stubCommand('version');
+      var version = stubValidateAndRun('version');
 
       return ember([command]).then(function() {
         var output = ui.output.trim().split('\n');
@@ -111,15 +126,13 @@ describe('Unit: CLI', function() {
   describe('server', function() {
     ['server','s'].forEach(function(command) {
       it('ember ' + command + ' --port 9999', function() {
-        var server = stubCommand('serve');
-
+        var server = stubRun('serve');
         return ember([command, '--port',  '9999']).then(function() {
-
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var options = server.calledWith[0][1];
+          var options = server.calledWith[0][0];
 
-          assert.equal(options.port, 9999, 'correct port');
+          assert.equal(options.port, 9999, 'expected port 9999, was ' + options.port);
           var output = ui.output.trim().split('\n');
           assertVersion(output[0]);
           assert.deepEqual(output.length, 1, 'expected no extra of output');
@@ -127,7 +140,7 @@ describe('Unit: CLI', function() {
       });
 
       it('ember ' + command + ' -p 9999', function() {
-        var server = stubCommand('serve');
+        var server = stubValidateAndRun('serve');
 
         ember([command, '-p',  '9999']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
@@ -142,7 +155,7 @@ describe('Unit: CLI', function() {
       });
 
       it('ember ' + command + ' --host localhost', function() {
-        var server = stubCommand('serve');
+        var server = stubValidateAndRun('serve');
 
         ember(['server', '--host', 'localhost']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
@@ -157,7 +170,7 @@ describe('Unit: CLI', function() {
       });
 
       it('ember ' + command + ' --port 9292 --host localhost', function() {
-        var server = stubCommand('serve');
+        var server = stubValidateAndRun('serve');
 
         ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
@@ -175,12 +188,12 @@ describe('Unit: CLI', function() {
 
       ['production', 'development', 'foo'].forEach(function(env) {
         it('ember ' + command + ' --environment ' + env, function() {
-          var server = stubCommand('serve');
+          var server = stubRun('serve');
 
           return ember([command, '--environment', env]).then(function() {
             assert.equal(server.called, 1, 'expected the server command to be run');
 
-            var options = server.calledWith[0][1];
+            var options = server.calledWith[0][0];
 
             assert.equal(options.environment, env, 'correct environment');
           });
@@ -192,14 +205,14 @@ describe('Unit: CLI', function() {
   describe('generate', function() {
     ['generate', 'g'].forEach(function(command) {
       it('ember ' + command + ' foo bar baz', function() {
-        var generate = stubCommand('generate');
+        var generate = stubRun('generate');
 
         return ember([command, 'foo', 'bar', 'baz']).then(function() {
           assert.equal(generate.called, 1, 'expected the generate command to be run');
 
-          var args = generate.calledWith[0][0].cliArgs;
+          var args = generate.calledWith[0][1];
 
-          assert.deepEqual(args, [command, 'foo', 'bar', 'baz']);
+          assert.deepEqual(args, ['foo', 'bar', 'baz']);
 
           var output = ui.output.trim().split('\n');
           assertVersion(output[0]);
@@ -212,7 +225,7 @@ describe('Unit: CLI', function() {
   describe('init', function() {
     ['init', 'i'].forEach(function(command) {
       it('ember ' + command, function() {
-        var init = stubCommand('init');
+        var init = stubValidateAndRun('init');
 
         return ember([command]).then(function() {
           assert.equal(init.called, 1, 'expected the init command to be run');
@@ -220,13 +233,13 @@ describe('Unit: CLI', function() {
       });
 
       it('ember ' + command + ' <app-name>', function() {
-        var init = stubCommand('init');
+        var init = stubRun('init');
 
         return ember([command, 'my-blog']).then(function() {
-          var args = init.calledWith[0][0].cliArgs;
+          var args = init.calledWith[0][1];
 
           assert.equal(init.called, 1, 'expected the init command to be run');
-          assert.deepEqual(args, [command, 'my-blog'], 'expect first arg to be the app name');
+          assert.deepEqual(args, ['my-blog'], 'expect first arg to be the app name');
 
           var output = ui.output.trim().split('\n');
           assertVersion(output[0]);
@@ -240,7 +253,7 @@ describe('Unit: CLI', function() {
     it('ember new', function() {
       isWithinProject = false;
 
-      var newCommand = stubCommand('new');
+      var newCommand = stubRun('new');
 
       return ember(['new']).then(function() {
         assert.equal(newCommand.called, 1, 'expected the new command to be run');
@@ -250,20 +263,20 @@ describe('Unit: CLI', function() {
     it('ember new MyApp', function() {
       isWithinProject = false;
 
-      var newCommand = stubCommand('new');
+      var newCommand = stubRun('new');
 
       return ember(['new', 'MyApp']).then(function() {
         assert.equal(newCommand.called, 1, 'expected the new command to be run');
-        var args = newCommand.calledWith[0][0].cliArgs;
+        var args = newCommand.calledWith[0][1];
 
-        assert.deepEqual(args, ['new', 'MyApp']);
+        assert.deepEqual(args, ['MyApp']);
       });
     });
   });
 
   describe('build', function() {
     it('ember build', function() {
-      var build = stubCommand('build');
+      var build = stubRun('build');
 
       return ember(['build']).then(function() {
         assert.equal(build.called, 1, 'expected the build command to be run');
@@ -272,7 +285,7 @@ describe('Unit: CLI', function() {
 
     ['production', 'development', 'baz'].forEach(function(env){
       it.skip('ember build ' + env, function() {
-        var build = stubCommand('build');
+        var build = stubRun('build');
 
         return ember(['build', env]).then(function() {
 
@@ -286,12 +299,11 @@ describe('Unit: CLI', function() {
   });
 
   it('ember <valid command>', function() {
-    var help = stubCommand('help');
-    var serve = stubCommand('serve');
-
+    var help = stubValidateAndRun('help');
+    var serve = stubValidateAndRun('serve');
     return ember(['serve']).then(function() {
       assert.equal(help.called, 0, 'expected the help command NOT to be run');
-      assert.equal(serve.called, 1,  'expected the foo command to be run');
+      assert.equal(serve.called, 1,  'expected the serve command to be run');
 
       var output = ui.output.trim().split('\n');
       assertVersion(output[0]);
@@ -300,8 +312,8 @@ describe('Unit: CLI', function() {
   });
 
   it.skip('ember <valid command with args>', function() {
-    var help = stubCommand('help');
-    var serve = stubCommand('serve');
+    var help = stubValidateAndRun('help');
+    var serve = stubValidateAndRun('serve');
 
     return ember(['serve', 'lorem', 'ipsum', 'dolor', '--flag1=one']).then(function() {
       var args= serve.calledWith[0][0].cliArgs;
@@ -319,8 +331,7 @@ describe('Unit: CLI', function() {
   });
 
   it('ember <invalid command>', function() {
-    var help = stubCommand('help');
-
+    var help = stubValidateAndRun('help');
     return ember(['unknownCommand']).then(function() {
       var output = ui.output.trim().split('\n');
       assert(/The specified command .*unknownCommand.* is invalid/.test(output[1]), 'expected an invalid command message');
@@ -331,7 +342,7 @@ describe('Unit: CLI', function() {
   describe.skip('default options config file', function() {
     it('reads default options from .ember-cli file', function() {
       var defaults = ['--output', process.cwd()];
-      var build = stubCommand('build');
+      var build = stubValidateAndRun('build');
 
       return ember(['build'], defaults).then(function() {
 
@@ -346,7 +357,7 @@ describe('Unit: CLI', function() {
     var track;
 
     beforeEach(function() {
-      stubCommand(['build']);
+      stubValidateAndRun(['build']);
     });
 
     it('tracks the command that was run', function() {
