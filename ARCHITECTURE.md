@@ -228,13 +228,17 @@ return retursAPromise().then(...)
 
 ### Custom errors
 Custom error classes should end with the suffix "Error".
+
 ``` JavaScript
 function CustomError() {
-  this.name = 'CustomError';
   this.stack = (new Error()).stack;
 }
-CustomError.prototype = new Error();
+CustomError.prototype = Object.create(Error.prototype);
+CustomError.prototype.name = 'CustomError';
 ```
+
+Also a `message` property should be set: Either in the constructor or as a property on `CustomError.prototype`.
+
 
 ### Sync vs async
 Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
