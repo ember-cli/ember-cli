@@ -2,8 +2,10 @@
 
 var rewire  = require('rewire');
 var assert  = require('../../helpers/assert');
+var MockUI  = require('../../helpers/mock-ui');
+var MockAnalytics  = require('../../helpers/mock-analytics');
 
-var command;
+var Command;
 var called = false;
 
 function stubLoom() {
@@ -13,23 +15,33 @@ function stubLoom() {
 }
 
 describe('generate command', function() {
+  var ui;
+  var analytics;
+
   before(function() {
-    command = rewire('../../../lib/commands/generate');
-    command.__set__('loom', stubLoom());
+    Command = rewire('../../../lib/commands/generate');
+    Command.__set__('loom', stubLoom());
+  });
+
+  beforeEach(function() {
+    ui = new MockUI();
+    analytics = new MockAnalytics();
   });
 
   after(function() {
-    command = null;
+    Command = null;
   });
 
   it('generates a controller', function() {
-    command.run({
-      cliArgs: [
-        'controller',
-        'application',
-        'type:array'
-      ]
-    });
+    new Command({
+      ui: ui,
+      analytics: analytics,
+      project: { isEmberCLIProject: function(){ return true; }}
+    }).validateAndRun([
+      'controller',
+      'application',
+      'type:array'
+    ]);
 
     assert.ok(called);
   });

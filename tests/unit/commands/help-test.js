@@ -2,14 +2,16 @@
 
 var expect  = require('chai').expect;
 var MockUI  = require('../../helpers/mock-ui');
+var MockAnalytics  = require('../../helpers/mock-analytics');
 var rewire  = require('rewire');
-var Command = rewire('../../../lib/command');
+var Command = rewire('../../../lib/models/command');
 
 describe('help command', function() {
   var ui;
+  var analytics;
 
   var commands = {
-    'test-command-1': new Command({
+    'TestCommand1': Command.extend({
       name: 'test-command-1',
       description: 'command-description',
       availableOptions: [
@@ -18,23 +20,26 @@ describe('help command', function() {
       ],
       run: function() {}
     }),
-    'test-command-2': new Command({
+    'TestCommand2': Command.extend({
       name: 'test-command-2',
       run: function() {}
     })
   };
 
-  var helpCommand = rewire('../../../lib/commands/help');
+  var HelpCommand = rewire('../../../lib/commands/help');
 
   beforeEach(function() {
     ui = new MockUI();
+    analytics = new MockAnalytics();
   });
 
   it('should generate complete help output', function() {
-    helpCommand.ui = ui;
-    helpCommand.run({
-      commands: commands
-    });
+    new HelpCommand({
+      ui: ui,
+      analytics: analytics,
+      commands: commands,
+      project: { isEmberCLIProject: function(){ return true; }}
+    }).validateAndRun([]);
 
     expect(ui.output).to.include('ember test-command-1');
     expect(ui.output).to.include('command-description');
@@ -46,11 +51,12 @@ describe('help command', function() {
   });
 
   it('should generate specific help output', function() {
-    helpCommand.ui = ui;
-    helpCommand.run({
+    new HelpCommand({
+      ui: ui,
+      analytics: analytics,
       commands: commands,
-      cliArgs: ['help', 'test-command-2']
-    });
+      project: { isEmberCLIProject: function(){ return true; }}
+    }).validateAndRun(['test-command-2']);
 
     expect(ui.output).to.include('test-command-2');
     expect(ui.output).to.not.include('test-command-1');

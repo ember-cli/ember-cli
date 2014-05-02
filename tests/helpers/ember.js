@@ -33,7 +33,8 @@ module.exports = function ember(args) {
   cli = new Cli({
     inputStream:  [],
     outputStream: [],
-    cliArgs:      args
+    cliArgs:      args,
+    testing: true
   });
 
   return cli;
