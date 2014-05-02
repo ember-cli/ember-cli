@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [FEATURE] Expose server: Bring back the API stub's functionality, give users the opportunity to add their own middleware.
+
 * [FEATURE] Added support for ember-scripts preprocessing.
 
 * [ENHANCEMENT] Refactor `blueprint.js` to remove unnecessary variable assignment, change double iteration to simple reduce, and remove function that only swapped arguments and called through. [#537]
