@@ -97,7 +97,7 @@ CoffeeScript, but that support has been removed.
 
 ### EmberScript
 
-To enable [EmberScript](emberscript.com/), you must
+To enable [EmberScript](http://emberscript.com), you must
 first add [broccoli-ember-script](https://github.com/aradabaugh/broccoli-ember-script) to your
 NPM modules:
 
