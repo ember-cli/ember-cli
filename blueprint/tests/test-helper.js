@@ -1,7 +1,9 @@
-document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
-
 import resolver from './helpers/resolver';
-require('ember-qunit').setResolver(resolver);
+import { setResolver } from 'ember-qunit';
+
+setResolver(resolver);
+
+document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
 
 function exists(selector) {
   return !!window.find(selector).length;
