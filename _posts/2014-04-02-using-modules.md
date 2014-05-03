@@ -134,7 +134,7 @@ Ember automatically loads files under `app/helpers` if they contain a dash:
 
 {% highlight javascript linenos %}
 // app/helpers/upper-case.js
-export default Ember.Handlebars.makeBoundHelper(function(text, options) {
+export default Ember.Handlebars.makeBoundHelper(function(value, options) {
   return value.toUpperCase();
 });
 {% endhighlight %}
