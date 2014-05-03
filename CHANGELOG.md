@@ -1,5 +1,6 @@
 # ember-cli Changelog
 
+* [BUGFIX] ` ENV.LOG_MODULE_RESOLVER` must be set pre-1.6 to get better container logging.
 * [FEATURE] Added support for ember-scripts preprocessing.
 
 * [ENHANCEMENT] Refactor `blueprint.js` to remove unnecessary variable assignment, change double iteration to simple reduce, and remove function that only swapped arguments and called through. [#537]
