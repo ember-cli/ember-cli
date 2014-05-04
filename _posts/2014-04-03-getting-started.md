@@ -55,6 +55,25 @@ cd my-app && npm install && bower install
 ember server
 {% endhighlight %}
 
+### Upgrading an Ember CLI App
+
+Use NPM to update to the latest released version of Ember CLI.
+
+{% highlight bash %}
+npm install ember-cli --save-dev
+{% endhighlight %}
+
+When you update to the latest version you may need to re-install files from the
+app blueprint and update Node NPM dependencies. 
+
+{% highlight bash %}
+ember init
+{% endhighlight %}
+
+This will re-copy files from the project blueprint. You can choose to overwrite
+existing files or not. It will subsequently call `npm install` to update any
+changed dependencies.
+
 ### Using Ember CLI
 
 `ember`
