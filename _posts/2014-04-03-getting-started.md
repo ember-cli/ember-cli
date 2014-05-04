@@ -40,10 +40,20 @@ This will create a new `my-new-app` folder and generate an application structure
 Once the generation process finishes, launch the app:
 
 {% highlight bash %}
-cd my-new-app && ember server
+cd my-new-app
+ember server
 {% endhighlight %}
 
 and navigate to [http://localhost:4200](http://localhost:4200) to see your new app in action.
+
+Alternatively, if you are git-cloning an Ember project created with ember-cli, you will need
+to install dependencies yourself before running the server:
+
+{% highlight bash %}
+git clone git@github.com:me/my-app.git
+cd my-app && npm install && bower install
+ember server
+{% endhighlight %}
 
 ### Using Ember CLI
 
