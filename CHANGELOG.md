@@ -12,6 +12,9 @@
 * [BUGFIX] `ember init` fails on `NULL_PROJECT` ([#546](https://github.com/stefanpenner/ember-cli/pull/546))
 * [ENHANCEMENT] Files added by ember-cli should not needed to be specified in `Brocfile.js`. [#534](https://github.com/stefanpenner/ember-cli/pull/534)
 * [ENHANCEMENT] Ensure minified output is using `compress` and `mangle` options with `uglify-js`. [#564](https://github.com/stefanpenner/ember-cli/pull/564)
+* [ENHANCEMENT] Removed `proxy-url` and `proxy-host` parameters and
+  introduced `proxy` param with full proxy url.
+([#567](https://github.com/stefanpenner/ember-cli/pull/567))
 
 ### 0.0.25
 
