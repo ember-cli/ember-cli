@@ -40,10 +40,39 @@ This will create a new `my-new-app` folder and generate an application structure
 Once the generation process finishes, launch the app:
 
 {% highlight bash %}
-cd my-new-app && ember server
+cd my-new-app
+ember server
 {% endhighlight %}
 
 and navigate to [http://localhost:4200](http://localhost:4200) to see your new app in action.
+
+Alternatively, if you are git-cloning an Ember project created with ember-cli, you will need
+to install dependencies yourself before running the server:
+
+{% highlight bash %}
+git clone git@github.com:me/my-app.git
+cd my-app && npm install && bower install
+ember server
+{% endhighlight %}
+
+### Upgrading an Ember CLI App
+
+Use NPM to update to the latest released version of Ember CLI.
+
+{% highlight bash %}
+npm install ember-cli --save-dev
+{% endhighlight %}
+
+When you update to the latest version you may need to re-install files from the
+app blueprint and update Node NPM dependencies. 
+
+{% highlight bash %}
+ember init
+{% endhighlight %}
+
+This will re-copy files from the project blueprint. You can choose to overwrite
+existing files or not. It will subsequently call `npm install` to update any
+changed dependencies.
 
 ### Using Ember CLI
 
