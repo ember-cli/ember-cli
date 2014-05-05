@@ -125,6 +125,17 @@ describe('Unit: CLI', function() {
 
   describe('server', function() {
     ['server','s'].forEach(function(command) {
+      it('expects version in UI output', function() {
+        var server = stubRun('serve');
+        return ember([command]).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.deepEqual(output.length, 1, 'expected no extra of output');
+        });
+      });
+
       it('ember ' + command + ' --port 9999', function() {
         var server = stubRun('serve');
         return ember([command, '--port',  '9999']).then(function() {
@@ -133,9 +144,6 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][0];
 
           assert.equal(options.port, 9999, 'expected port 9999, was ' + options.port);
-          var output = ui.output.trim().split('\n');
-          assertVersion(output[0]);
-          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -148,9 +156,6 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][1];
 
           assert.equal(options.port, 9999, 'correct port');
-          var output = ui.output.trim().split('\n');
-          assertVersion(output[0]);
-          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -163,9 +168,6 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][1];
 
           assert.equal(options.host, 'localhost', 'correct localhost');
-          var output = ui.output.trim().split('\n');
-          assertVersion(output[0]);
-          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -179,10 +181,6 @@ describe('Unit: CLI', function() {
 
           assert.equal(options.host, 'localhost', 'correct localhost');
           assert.equal(options.port, '9292', 'correct localhost');
-
-          var output = ui.output.trim().split('\n');
-          assertVersion(output[0]);
-          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
@@ -195,11 +193,6 @@ describe('Unit: CLI', function() {
           var options = server.calledWith[0][1];
 
           assert.equal(options.proxy, 'http://localhost:3000/', 'correct proxy url');
-
-          var output = ui.output.trim().split('\n');
-
-          assertVersion(output[0]);
-          assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
       });
 
