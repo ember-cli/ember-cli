@@ -39,7 +39,7 @@ npm link
 Now you can use `ember-cli` via the command line:
 
 ``` sh
-ember new foo
+ember create foo
 cd foo
 npm link ember-cli
 ember server
