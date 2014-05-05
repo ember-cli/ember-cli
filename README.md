@@ -26,6 +26,7 @@ Additional components of this project which are used runtime in your application
 * [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
 
 ## Development Hints
+
 ### Working with master
 
 ``` sh
@@ -49,6 +50,14 @@ ember server
 
 Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html) and the [npm-link cheatsheet](https://blog.nodejitsu.com/npm-cheatsheet/#Linking_any_npm_package_locally) for more information.
 
+#### Testing with master
+
+The master build of ember-cli will run your project tests using [PhantomJS][] by default.  Make sure you have this installed:
+
+```console
+brew install phantomjs
+```
+
 ### Working with the tests
 
 Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
@@ -60,3 +69,6 @@ Please read the official [mocha documentation](http://visionmedia.github.io/moch
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
+
+
+[PhantomJS]: http://phantomjs.org/
