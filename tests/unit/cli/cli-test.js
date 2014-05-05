@@ -186,6 +186,23 @@ describe('Unit: CLI', function() {
         });
       });
 
+      it('ember ' + command + ' --proxy http://localhost:3000/', function() {
+        var server = stubValidateAndRun('serve');
+
+        ember([command, '--proxy', 'http://localhost:3000/']).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][1];
+
+          assert.equal(options.proxy, 'http://localhost:3000/', 'correct proxy url');
+
+          var output = ui.output.trim().split('\n');
+
+          assertVersion(output[0]);
+          assert.deepEqual(output.length, 1, 'expected no extra of output');
+        });
+      });
+
       ['production', 'development', 'foo'].forEach(function(env) {
         it('ember ' + command + ' --environment ' + env, function() {
           var server = stubRun('serve');
