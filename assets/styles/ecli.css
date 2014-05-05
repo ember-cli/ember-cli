@@ -147,6 +147,10 @@ body {
     width: 100%;
   }
 
+  code {
+    white-space: normal;
+  }
+
   .guide-content {
     padding-bottom: 0;
     margin-bottom: -20px;
