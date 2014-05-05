@@ -50,13 +50,15 @@ ember server
 
 Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html) and the [npm-link cheatsheet](https://blog.nodejitsu.com/npm-cheatsheet/#Linking_any_npm_package_locally) for more information.
 
-### Working with the tests
+#### Testing with master
 
-Install [PhantomJS][], if needed:
+The master build of ember-cli will run your project tests using [PhantomJS][] by default.  Make sure you have this installed:
 
 ```console
 brew install phantomjs
 ```
+
+### Working with the tests
 
 Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
 
