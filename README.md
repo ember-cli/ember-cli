@@ -26,7 +26,6 @@ Additional components of this project which are used runtime in your application
 * [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
 
 ## Development Hints
-
 ### Working with master
 
 ``` sh
@@ -52,12 +51,6 @@ Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/
 
 ### Working with the tests
 
-Install [PhantomJS][], if needed:
-
-```console
-brew install phantomjs
-```
-
 Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
 
 To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
@@ -67,6 +60,3 @@ Please read the official [mocha documentation](http://visionmedia.github.io/moch
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
-
-
-[PhantomJS]: http://phantomjs.org/
