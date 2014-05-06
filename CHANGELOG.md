@@ -2,10 +2,10 @@
 
 * [BUGFIX] ` ENV.LOG_MODULE_RESOLVER` must be set pre-1.6 to get better container logging.
 * [FEATURE] Added support for ember-scripts preprocessing.
-* [ENHANCEMENT] Refactor `blueprint.js` to remove unnecessary variable assignment, change double iteration to simple reduce, and remove function that only swapped arguments and called through. [#537]
-* [ENHANCEMENT] Refactor `test-loader.js` for readability and to prevent unnecessary iterations [#524]
+* [ENHANCEMENT] Refactor `blueprint.js` to remove unnecessary variable assignment, change double iteration to simple reduce, and remove function that only swapped arguments and called through. [#537](https://github.com/stefanpenner/ember-cli/pull/537)
+* [ENHANCEMENT] Refactor `test-loader.js` for readability and to prevent unnecessary iterations [#524](https://github.com/stefanpenner/ember-cli/pull/524)
 * [ENHANCEMENT] Remove `Ember.setupForTesting` and
-  `Router.reopen({location: 'none'});` from test helpers [#516].
+  `Router.reopen({location: 'none'});` from test helpers [#516](https://github.com/stefanpenner/ember-cli/pull/516).
 * [ENHANCEMENT] Update loom-generators-ember-appkit to `^1.1.1`.
 * [BUGFIX] Whitelist `ic-ajax` exports to prevent import validation warnings. [#533](https://github.com/stefanpenner/ember-cli/pull/533)
 * [BUGFIX] `ember init` fails on `NULL_PROJECT` ([#546](https://github.com/stefanpenner/ember-cli/pull/546))
