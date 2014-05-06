@@ -57,7 +57,7 @@
     "npm": "1.4.6",
     "proxy-middleware": "0.5.0",
     "resolve": "0.6.2",
-    "rimraf": "^2.2.6",
+    "rimraf": "^2.2.8",
     "rsvp": "^3.0.6",
     "testem": "0.6.5",
     "through": "2.3.4",
