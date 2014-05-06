@@ -29,53 +29,88 @@ Further documentation about Bower is available at their
 
 ### Compiling Bower Assets
 
-#### Legacy Files
+In your `Brocfile.js` specify a dependency before calling
+`app.toTree()`. The following example scenarios should illustrate how
+this works.
 
-Ember CLI uses the broccoli-es6-concatenator to compile your app's source. However, it 
-is likely that you'll want to bring in a library that is not written with modules.
-In this case you must tell Ember CLI that you want to append this file to your
-outputted app.js file. This is done by adding the filename to the `legacyFilesToAppend`
-array when creating your `EmberApp` in your `Brocfile`. For example:
+#### Javascript Assets
+
+##### Standard Non-AMD Asset
+
+Provide the asset path as the first and only argument:
 
 {% highlight javascript linenos %}
-var app = new EmberApp({
-  name: require('./package.json').name,
-  legacyFilesToAppend: [
-    // ... existing legacy files to append
-    "moment.js" // library you wish to append
-  ],
-  //...
+app.import('vendor/momentjs/moment.js');
+{% endhighlight %}
+
+##### Standard AMD Asset
+
+Provide the asset path as the first argument, and the list of modules and exports as the second:
+
+{% highlight javascript linenos %}
+app.import('vendor/ic-ajax/dist/named-amd/main.js', {
+  'ic-ajax': [
+    'default',
+    'defineFixture',
+    'lookupFixture',
+    'raw',
+    'request',
+  ]
 });
 {% endhighlight %}
 
-#### Bower Static Assets
+##### Environment Specific Assets
 
-Some bower packages include static assets that will not, by default, get merged
-into your final output tree. In this case, you will need to extend your default
-`Brocfile` to merge in your vendored assets. For example:
+If you need to use different assets in different environments, specify an object as the first parameter. That objects keys should be the environment name, and the values should be the asset to use in that environment.
 
 {% highlight javascript linenos %}
-// ...existing Brocfile...
+app.import({
+  development: 'vendor/ember/ember.js',
+  production:  'vendor/ember/ember.prod.js'
+});
+{% endhighlight %}
 
-var pickFiles = require('broccoli-static-compiler');
-var mergeTrees  = require('broccoli-merge-trees');
+##### Customizing a built-in Asset
 
-// get a hold of the tree in question
-var pikaday = pickFiles('vendor', {
-  srcDir: '/pikaday/css',
-  files: [
-    'pikaday.css'
-  ],
-  destDir: '/assets/'
+This is somewhat non-standard, but suppose that you have different versions of Ember specified (using the canary builds for example).  You would simply manipulate the vendor tree that is passed in to the `EmberApp` constructor:
+
+{% highlight javascript linenos %}
+var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+var fileMover   = require('broccoli-file-mover');
+
+var vendorTree = fileMover('vendor', {
+  files: {
+    'ember-dev/ember.js': 'ember/ember.js',
+    'ember-prod/ember.prod.js': 'ember/ember.prod.js'
+  }
 });
 
-// default ember app source tree
-var emberApp = app.toTree();
+var app = new EmberApp({
+  name: require('./package.json').name,
+  trees: {
+    vendor: vendorTree
+  }
 
-// shim in custom assets
-var appAndCustomDependencies = mergeTrees([emberApp, pikaday], {
-  overwrite: true
+  getEnvJSON: require('./config/environment')
 });
+{% endhighlight %}
 
-module.exports = appAndCustomDependencies;
+#### Styles
+
+##### Static CSS
+
+Provide the asset path as the first argument:
+
+{% highlight javascript linenos %}
+app.import('vendor/foundation/css/foundation.css')
+{% endhighlight %}
+
+All style assets added this way will be concatenated and output as `/assets/vendor.css`.
+
+##### Dynamic Styles (SCSS, LESS, etc)
+
+The vendor trees that are provided upon instantiation are available to your dynamic style files.  Take the following example (in `app/styles/app.scss`):
+
+{% highlight scss linenos %}
+@import "vendor/foundation/scss/normalize.scss";
 {% endhighlight %}
