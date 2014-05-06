@@ -7,9 +7,22 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 ### Prerequisites
 
+#### PhantomJS
+
+By default, your integration tests will run on [PhantomJS][].  If you are on a
+Mac, you can install via [homebrew][]:
+
+{% highlight console %}
+brew install phantomjs
+{% endhighlight %}
+
+#### Node.js
+
 If you don't already have Node installed, you can get it from
 [nodejs.org](http://nodejs.org/) or your package manager of choice (including
 [Homebrew](http://brew.sh/) on OSX).
+
+#### Ember CLI
 
 Once you've installed Node, you'll need to install the Ember CLI globally with:
 
@@ -18,6 +31,8 @@ npm install -g ember-cli
 {% endhighlight %}
 
 This will give you access to the `ember` command-line runner.
+
+#### Bower
 
 You'll need to install [Bower](http://bower.io), a package manager that keeps
 your front-end dependencies (including JQuery, Ember, and QUnit) up to date.
@@ -29,7 +44,9 @@ npm install -g bower
 
 This will give you access to the `bower` command-line runner.
 
-Next, you will need to run the generator for your project:
+### Create a new project
+
+Run the generator for your project:
 
 {% highlight bash %}
 ember new my-new-app
@@ -46,8 +63,10 @@ ember server
 
 and navigate to [http://localhost:4200](http://localhost:4200) to see your new app in action.
 
-Alternatively, if you are git-cloning an Ember project created with ember-cli, you will need
-to install dependencies yourself before running the server:
+#### Cloning an existing project
+
+Alternatively, if you are checking out an existing Ember project created with ember-cli,
+you will need to install dependencies yourself before running the server:
 
 {% highlight bash %}
 git clone git@github.com:me/my-app.git
@@ -192,3 +211,7 @@ The templates are named the same as their filename, minus the extension (i.e. `t
 `app/controllers/`, `app/models/`, etc
 
 Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules).
+
+
+[PhantomJS]: http://phantomjs.org/
+[homebrew]: http://brew.sh/
