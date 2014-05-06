@@ -83,7 +83,7 @@ npm install ember-cli --save-dev
 {% endhighlight %}
 
 When you update to the latest version you may need to re-install files from the
-app blueprint and update Node NPM dependencies. 
+app blueprint and update Node NPM dependencies.
 
 {% highlight bash %}
 ember init
@@ -131,10 +131,10 @@ project's root or you can specify `config-file`.
 You can provide default flags by creating a file in your project's root called `.ember-cli`. For example, say I have a file called `.ember-cli` with the contents:
 
 {% highlight bash %}
---proxy-port 3000
+--proxy http://localhost:3000
 {% endhighlight %}
 
-Any time I run `ember server` it will always work as if I had run `ember server --proxy-port 3000`. This works with any flag for any command.
+Any time I run `ember server` it will always work as if I had run `ember server --proxy http://localhost:3000`. This works with any flag for any command.
 
 ### Folder Layout
 
