@@ -44,7 +44,9 @@ npm install -g bower
 
 This will give you access to the `bower` command-line runner.
 
-Next, you will need to run the generator for your project:
+### Create a new project
+
+Run the generator for your project:
 
 {% highlight bash %}
 ember new my-new-app
@@ -61,8 +63,10 @@ ember server
 
 and navigate to [http://localhost:4200](http://localhost:4200) to see your new app in action.
 
-Alternatively, if you are git-cloning an Ember project created with ember-cli, you will need
-to install dependencies yourself before running the server:
+#### Cloning an existing project
+
+Alternatively, if you are checking out an existing Ember project created with ember-cli,
+you will need to install dependencies yourself before running the server:
 
 {% highlight bash %}
 git clone git@github.com:me/my-app.git
