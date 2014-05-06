@@ -95,6 +95,37 @@ var app = new EmberApp({
 });
 {% endhighlight %}
 
+##### Test Assets
+
+You may have additional libraries that should only be included when running tests (such as qunit-bdd or sinon). These can be merged into your assets in your Brocfile.js:
+
+{% highlight javascript linenos %}
+var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+var pickFiles = require('broccoli-static-compiler');
+var mergeTrees = require('broccoli-merge-trees');
+
+var app = new EmberApp({
+// snip
+});
+
+var qunitBdd = pickFiles('vendor/qunit-bdd/lib', {
+    srcDir: '/',
+    files: ['qunit-bdd.js'],
+    destDir: '/assets'
+});
+
+module.exports = mergeTrees([app.toTree(), qunitBdd]);
+{% endhighlight %}
+
+Be sure to add the appropriate script tag for your test library.
+
+{% highlight html %}
+...
+<script src="assets/qunit.js"></script>
+<script src="assets/qunit-bdd.js"></script>
+...
+{% endhighlight %}
+
 #### Styles
 
 ##### Static CSS
