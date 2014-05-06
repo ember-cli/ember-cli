@@ -68,7 +68,7 @@
     "broccoli-es6-import-validate": "0.1.0",
     "readline2": "0.1.0",
     "broccoli-export-tree": "0.3.0",
-    "broccoli-jshint": "0.3.3",
+    "broccoli-jshint": "0.4.0",
     "diff": "~1.0.8",
     "broccoli-concat": "0.0.6"
   },
