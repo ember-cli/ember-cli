@@ -10,8 +10,6 @@
     "QUnit",
     "define",
     "console",
-    "require",
-    "requirejs",
     "equal",
     "notEqual",
     "notStrictEqual",

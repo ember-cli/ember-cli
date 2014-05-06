@@ -1,3 +1,5 @@
+/* global require */
+
 var Application = require('<%= modulePrefix %>/app')['default'];
 
 export default function startApp(attrs) {

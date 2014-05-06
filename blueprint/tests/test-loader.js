@@ -1,4 +1,4 @@
-/* global requirejs */
+/* globals requirejs,require */
 
 // TODO: load based on params
 Ember.keys(requirejs.entries).forEach(function(entry) {
