@@ -8,7 +8,8 @@
     "ember": "./bin/ember"
   },
   "scripts": {
-    "test": "mocha --timeout 8000 --reporter spec tests/**/*-test.js tests/**/*/*-test.js tests/**/*/*/*-test.js tests/**/*-slow.js",
+    "test": "mocha --timeout 8000 --reporter spec tests/**/*-test.js tests/**/*/*-test.js tests/**/*/*/*-test.js",
+    "test-all": "mocha --timeout 8000 --reporter spec tests/**/*-test.js tests/**/*/*-test.js tests/**/*/*/*-test.js tests/**/*-slow.js",
     "autotest": "mocha --watch --reporter spec tests/**/*-test.js"
   },
   "repository": {
