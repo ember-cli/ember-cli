@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] The generated `app.js` and `app.css` files are now named for your application name. [#638](https://github.com/stefanpenner/ember-cli/pull/638)
+
 ### 0.0.27
 
 * [BUGFIX] ` ENV.LOG_MODULE_RESOLVER` must be set pre-1.6 to get better container logging.
