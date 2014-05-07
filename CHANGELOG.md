@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [BUGFIX] Fix incorrect generation of all `vendor/` assets in build output. [#645](https://github.com/stefanpenner/ember-cli/pull/645)
+
 ### 0.0.27
 
 * [BUGFIX] ` ENV.LOG_MODULE_RESOLVER` must be set pre-1.6 to get better container logging.
