@@ -44,6 +44,20 @@ like such: `app/controllers/test/index.js`.
 export default Ember.Handlebars.makeBoundHelper(function(){});
 {% endhighlight %}
 
+##### Initializers
+
+{% highlight javascript linenos %}
+// app/initializers/observation.js
+export default {
+  name: 'observation',
+  initialize: function() {
+    // code
+  }
+};
+{% endhighlight %}
+
+Note: `initializers` are loaded automatically.
+
 ##### Mixins
 
 {% highlight javascript linenos %}
@@ -73,20 +87,6 @@ Nested routes as such: `app/routes/timer/index.js` or `app/routes/timer/record.j
 // app/serializers/observation.js
 export default DS.RESTSerializer.extend({});
 {% endhighlight %}
-
-##### Initializers
-
-{% highlight javascript linenos %}
-// app/initializers/observation.js
-export default {
-  name: 'observation',
-  initialize: function() {
-    // code
-  }
-};
-{% endhighlight %}
-
-Note: `initializers` are loaded automatically.
 
 ##### Transforms
 
