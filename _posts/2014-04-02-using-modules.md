@@ -54,6 +54,12 @@ import FooModel from "./models/foo-model";
 Which will load the `default` export (aliased as `FooModel`) from
 `./models/foo-model.js`.
 
+Relative paths can become confusing when referencing a file from within a nested directory structure. In this case, you can also use absolute paths that start with the package name specified in your `package.json`:
+
+{% highlight javascript linenos %}
+import FooModel from "appname/models/foo-model";
+{% endhighlight %}
+
 Note, that the name of the variable used in the exported module doesn't have any
 influence on the resolver. It's the filename that is used to resolve modules.
 Similarly, you can give any name to the variable into which you import a module
