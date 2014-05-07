@@ -66,34 +66,35 @@ Only the `default` export is supported at the moment.
 
 `app/adapters/`
 
-Adapters for your application, where `adapter-name.js` is the correct naming convention.
+Adapters with the convention `adapter-name.js`.
 
 `app/components/`
 
-Components for your application, where `component-name.js` is the correct naming convention. Remember, components are dasherized.
+Components with the convention `component-name.js`. Remember, components are dasherized.
 
 `app/controllers/`
 
-Controllers for your application, where `controller.js` is the controller name. Child controllers are defined in sub-directories,
-parent/child.js.
+Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
 
 `app/helpers/`
 
-Helpers, where `helper-name.js`. Remember that you must register your helpers by
-exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
+Helpers with the convention `helper-name.js`. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
+
+`app/initializers/`
+
+Initializers with the convention `initializer-name.js`. Initializers are loaded automatically.
 
 `app/mixins/`
 
-Mixins, where `evented.js` is the convention.
+Mixins with the convention `mixin-name.js`.
 
 `app/models/`
 
-Models, where `model-name.js`.
+Models with the convention `model-name.js`.
 
 `app/routes/`
 
-Routes for your application, where `route.js` is the route name. Child routes are defined in sub-directories,
-`parent/child.js`.
+Routes with the convention `route-name.js`. Child routes are defined in sub-directories, `parent/child.js`.
 
 `app/serializers/`
 
@@ -101,15 +102,15 @@ Serializers for your models or adapter, where `model-name.js` or `adapter-name.j
 
 `app/transforms/`
 
-Transforms for custom Ember Data attributes, where `attributename.js` is the new attribute.
+Transforms for custom Ember Data attributes, where `attribute-name.js` is the new attribute.
 
 `app/utils`
 
-Utility modules for your application.
+Utility modules with the convention `utility-name.js`.
 
 `app/views/`
 
-Views for your application, can contain sub-directories for organization, where `view-name.js` is the view.
+Views with the convention `view-name.js`. Sub-directories can be used for organization.
 
 All modules in the `app` folder can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
