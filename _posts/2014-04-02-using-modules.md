@@ -66,7 +66,7 @@ Only the `default` export is supported at the moment.
 
 `app/adapters/`
 
-Adapters for your application, where `adaptername.js` is the correct naming convention.
+Adapters for your application, where `adapter-name.js` is the correct naming convention.
 
 `app/components/`
 
@@ -79,7 +79,7 @@ parent/child.js.
 
 `app/helpers/`
 
-Helpers, where `helpername.js`. Remember that you must register your helpers by
+Helpers, where `helper-name.js`. Remember that you must register your helpers by
 exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
 
 `app/mixins/`
@@ -88,7 +88,7 @@ Mixins, where `evented.js` is the convention.
 
 `app/models/`
 
-Models, where `modelname.js`.
+Models, where `model-name.js`.
 
 `app/routes/`
 
@@ -97,7 +97,7 @@ Routes for your application, where `route.js` is the route name. Child routes ar
 
 `app/serializers/`
 
-Serializers for your models or adapter, where `modelname.js` or `adaptername.js`.
+Serializers for your models or adapter, where `model-name.js` or `adapter-name.js`.
 
 `app/transforms/`
 
@@ -109,7 +109,7 @@ Utility modules for your application.
 
 `app/views/`
 
-Views for your application, can contain sub-directories for organization, where `viewname.js` is the view.
+Views for your application, can contain sub-directories for organization, where `view-name.js` is the view.
 
 All modules in the `app` folder can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
