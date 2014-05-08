@@ -1,5 +1,6 @@
 # ember-cli Changelog
 
+* [BUGFIX] Changes to the blueprint's `.jshintrc`. [#658](https://github.com/stefanpenner/ember-cli/pull/658)
 * [BUGFIX] Fix incorrect generation of all `vendor/` assets in build output. [#645](https://github.com/stefanpenner/ember-cli/pull/645)
 * [ENHANCEMENT] Update to Broccoli 0.12. Prevents double initial rebuilds when running `ember server`. [#648](https://github.com/stefanpenner/ember-cli/pull/648)
 * [BREAKING ENHANCEMENT] The generated `app.js` and `app.css` files are now named for your application name. [#638](https://github.com/stefanpenner/ember-cli/pull/638)
