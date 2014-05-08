@@ -9,7 +9,7 @@
 
     {{BASE_TAG}}
 
-    <link rel="stylesheet" href="assets/app.css">
+    <link rel="stylesheet" href="assets/<%= name %>.css">
     <link rel="stylesheet" href="assets/qunit.css">
     <style>
       #ember-testing-container {
@@ -36,7 +36,7 @@
       window.ENV = {{ENV}};
     </script>
     <script src="assets/qunit.js"></script>
-    <script src="assets/app.js"></script>
+    <script src="assets/<%= name %>.js"></script>
     <script src="testem.js"></script>
     <script>
       require('<%= modulePrefix %>/tests/test-helper');
