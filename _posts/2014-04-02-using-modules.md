@@ -54,7 +54,10 @@ import FooMixin from "./mixins/foo";
 Which will load the `default` export (aliased as `FooMixin`) from
 `./mixins/foo.js`.
 
-Relative paths can become confusing when referencing a file from within a nested directory structure. In this case, you can also use absolute paths that start with the package name specified in your `package.json`:
+If you like you can also use an absolute path to reference a module. But keep in
+mind that using relative paths is considered best practice for accessing modules
+within the same package. To reference a module using an absolute path begin
+the path with the name defined in `package.json`:
 
 {% highlight javascript linenos %}
 import FooMixin from "appname/mixins/foo";
