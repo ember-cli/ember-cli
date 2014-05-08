@@ -11,6 +11,7 @@
 * [ENHANCEMENT] Upgrade `leek` to `0.0.6`. [#934](https://github.com/stefanpenner/ember-cli/pull/934)
 * [BUGFIX] `leek` upgrade fixes [#642](https://github.com/stefanpenner/ember-cli/issues/642), [#709](https://github.com/stefanpenner/ember-cli/issues/709)
 * [ENHANCEMENT] Allow disabling of automatic fingerprinting. [#930](https://github.com/stefanpenner/ember-cli/pull/930)
+* [BUGFIX] Changes to the blueprint's `.jshintrc`. [#658](https://github.com/stefanpenner/ember-cli/pull/658)
 
 ### 0.0.29
 
