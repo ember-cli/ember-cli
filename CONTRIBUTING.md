@@ -75,7 +75,9 @@ explanation of why you made the changes you made. For new features make sure to
 explain a standard use case to us.
 
 7. Update the Changelog. Please prefix your change with one of the
-following tags inside brackets: BUGFIX, FEATURE/ENHANCEMENT, INTERNAL.
+following tags inside brackets: BUGFIX, FEATURE/ENHANCEMENT, INTERNAL. If a
+change requires a user to change their configuration, `bower.json`, `package.json`,
+or `Brocfile.js` also add a BREAKING tag within the brackets before any other tags (example [BREAKING BUGFIX]).
 
     - FEATURES and ENHANCEMENT is something that users are interested in (no super technical, concise changes + description).
     - BUGFIX is a link to a bug + a link to a patch.
