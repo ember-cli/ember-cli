@@ -71,7 +71,8 @@
     "broccoli-export-tree": "0.3.1",
     "broccoli-jshint": "0.4.0",
     "diff": "~1.0.8",
-    "broccoli-concat": "0.0.6"
+    "broccoli-concat": "0.0.6",
+    "broccoli-file-mover": "~0.3.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
