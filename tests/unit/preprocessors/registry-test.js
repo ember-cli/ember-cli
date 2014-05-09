@@ -15,8 +15,8 @@ describe('Plugin Loader', function() {
       }
     };
     registry = new PluginRegistry(pkg.devDependencies);
-    registry.add('css', 'broccoli-sass');
-    registry.add('css', 'broccoli-ruby-sass');
+    registry.add('css', 'broccoli-sass', 'scss');
+    registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
   });
 
   it('returns first plugin when only one', function() {
@@ -41,4 +41,17 @@ describe('Plugin Loader', function() {
     var plugin = registry.load('blah');
     assert.notOk(plugin, 'loaded a plugin that wasn\'t in dependencies');
   });
+
+  it('returns the configured extension for the plugin', function() {
+    var plugin = registry.load('css');
+    assert.equal(plugin.ext, 'scss');
+  });
+
+  it('can specify fallback extensions', function() {
+    registry.availablePlugins = { 'broccoli-ruby-sass': 'latest' };
+    var plugin = registry.load('css');
+    assert.equal(plugin.ext[0], 'scss');
+    assert.equal(plugin.ext[1], 'sass');
+  });
+
 });
