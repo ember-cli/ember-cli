@@ -7,6 +7,7 @@
 * [ENHANCEMENT] added first iteration of a slow but thorough acceptance
   test. A new app is generated, depedencies resolve, and the test for
   that base app are run.  [#614](https://github.com/stefanpenner/ember-cli/pull/614)
+* [BUGFIX] Changes `app.css` to the `<your-application-name>.css` [#677](https://github.com/stefanpenner/ember-cli/pull/677)
 
 ### 0.0.27
 
