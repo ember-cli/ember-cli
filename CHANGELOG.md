@@ -7,6 +7,7 @@
 * [ENHANCEMENT] added first iteration of a slow but thorough acceptance
   test. A new app is generated, depedencies resolve, and the test for
   that base app are run.  [#614](https://github.com/stefanpenner/ember-cli/pull/614)
+* [ENHANCEMENT] Use handlebars-runtime in production. [#675](https://github.com/stefanpenner/ember-cli/pull/675)
 
 ### 0.0.27
 
