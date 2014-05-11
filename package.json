@@ -72,8 +72,7 @@
     "diff": "~1.0.8",
     "broccoli-concat": "0.0.6",
     "broccoli-file-mover": "~0.3.1",
-    "connect-chain": "0.0.1",
-    "grunt": "~0.4.4"
+    "connect-chain": "0.0.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
