@@ -25,6 +25,10 @@ preprocessor, Broccoli is configured to look for an `app.less`, `app.scss`,
 or `app.styl` manifest file in `app/styles`. This manifest should import any
 additional stylesheets.
 
+The compiled css-files are minified by `broccoli-clean-css` or `broccoli-csso`,
+if it is installed locally. You can pass minifer-specific options to them using
+the `minifyCSS` object in your brocfile.
+
 All your preprocessed stylesheets will be compiled into one file and served at
 `assets/app.css`.
 
