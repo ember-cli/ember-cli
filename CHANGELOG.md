@@ -13,6 +13,7 @@
   that base app are run.  [#614](https://github.com/stefanpenner/ember-cli/pull/614)
 * [ENHANCEMENT] Use handlebars-runtime in production. [#675](https://github.com/stefanpenner/ember-cli/pull/675)
 * [BUGFIX] Do not watch `vendor/` for changes (watching vendor drammatically increases CPU usage). [#693](https://github.com/stefanpenner/ember-cli/pull/693)
+* [ENHANCEMENT] Minify CSS [#688](https://github.com/stefanpenner/ember-cli/pull/688)
 
 ### 0.0.27
 
