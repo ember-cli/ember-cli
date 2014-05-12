@@ -133,7 +133,7 @@ Be sure to add the appropriate script tag for your test library.
 Provide the asset path as the first argument:
 
 {% highlight javascript linenos %}
-app.import('vendor/foundation/css/foundation.css')
+app.import('vendor/foundation/css/foundation.css');
 {% endhighlight %}
 
 All style assets added this way will be concatenated and output as `/assets/vendor.css`.
