@@ -12,6 +12,7 @@
   test. A new app is generated, depedencies resolve, and the test for
   that base app are run.  [#614](https://github.com/stefanpenner/ember-cli/pull/614)
 * [ENHANCEMENT] Use handlebars-runtime in production. [#675](https://github.com/stefanpenner/ember-cli/pull/675)
+* [BUGFIX] Do not watch `vendor/` for changes (watching vendor drammatically increases CPU usage). [#693](https://github.com/stefanpenner/ember-cli/pull/693)
 
 ### 0.0.27
 
