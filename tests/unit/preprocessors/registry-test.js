@@ -1,5 +1,6 @@
 'use strict';
 
+var assign         = require('lodash-node/modern/objects/assign');
 var assert         = require('../../helpers/assert');
 var PluginRegistry = require('../../../lib/preprocessors/registry');
 
@@ -9,12 +10,15 @@ describe('Plugin Loader', function() {
 
   beforeEach(function() {
     pkg = {
+      dependencies: {
+        'broccoli-emblem': 'latest'
+      },
       devDependencies: {
         'broccoli-sass': 'latest',
         'broccoli-coffee': 'latest'
       }
     };
-    registry = new PluginRegistry(pkg.devDependencies);
+    registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies));
     registry.add('css', 'broccoli-sass', 'scss');
     registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
   });
@@ -34,6 +38,12 @@ describe('Plugin Loader', function() {
     registry.add('js', 'broccoli-coffee');
     var plugin = registry.load('js');
     assert.equal(plugin.name, 'broccoli-coffee');
+  });
+
+  it('returns plugin that was in dependencies', function() {
+    registry.add('template', 'broccoli-emblem');
+    var plugin = registry.load('template');
+    assert.equal(plugin.name, 'broccoli-emblem');
   });
 
   it('returns null when no plugin available for type', function() {
