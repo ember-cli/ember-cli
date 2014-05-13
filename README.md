@@ -63,13 +63,12 @@ To exclude a test or test suite append a `.skip` to `it()` or `describe()` respe
 
 Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
 
-### Running your own tasks
+### Running your own scripts
 
-To create and run your own tasks, you must install a task runner. Currently, the only supported task runner is [grunt](http://gruntjs.com). To use it, create a Gruntfile.js or Gruntfile.coffee file in your project's root, install grunt, and add it to your `devDependencies`.
+You can run scripts defined in the "scripts" section of package.json with `ember run`.
 
 ```
-npm install --save-dev grunt
-ember run grunt:task:name
+ember run npm-script-name
 ```
 
 ## License
