@@ -96,16 +96,19 @@ describe('Unit: CLI', function() {
           assert.equal(output.length, 1, 'expected no extra output');
         });
       });
-    });
 
-    it('ember -h', function() {
-      var help = stubValidateAndRun('help');
+      it('ember new ' + command, function() {
+        var help = stubValidateAndRun('help');
+        var newCommand = stubValidateAndRun('new');
 
-      return ember(['-h']).then(function() {
-        assert.equal(help.called, 1, 'expected help to be called once');
-        var output = ui.output.trim().split('\n');
-        assertVersion(output[0]);
-        assert.deepEqual(output.length, 1, 'expected no extra of output');
+        return ember(['new', command]).then(function() {
+          assert.equal(help.called, 1, 'expected help to be called once');
+          var output = ui.output.trim().split('\n');
+          assertVersion(output[0]);
+          assert.equal(output.length, 1, 'expected no extra output');
+
+          assert.equal(newCommand.called, 0, 'expected the new command to never be called');
+        });
       });
     });
   });
