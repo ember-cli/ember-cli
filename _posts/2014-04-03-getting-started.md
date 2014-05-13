@@ -126,16 +126,6 @@ Run tests with Testem on CI mode. You can pass any options to Testem
 through `testem.json`, by default we'll search for it under your
 project's root or you can specify `config-file`.
 
-### Default Flags
-
-You can provide default flags by creating a file in your project's root called `.ember-cli`. For example, say I have a file called `.ember-cli` with the contents:
-
-{% highlight bash %}
---proxy http://localhost:3000
-{% endhighlight %}
-
-Any time I run `ember server` it will always work as if I had run `ember server --proxy http://localhost:3000`. This works with any flag for any command.
-
 ### Folder Layout
 
 `app/`
