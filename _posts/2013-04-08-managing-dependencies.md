@@ -43,6 +43,8 @@ Provide the asset path as the first and only argument:
 app.import('vendor/momentjs/moment.js');
 {% endhighlight %}
 
+All style assets added this way will be concatenated and output as `/assets/vendor.js`.
+
 ##### Standard AMD Asset
 
 Provide the asset path as the first argument, and the list of modules and exports as the second:
@@ -144,4 +146,13 @@ The vendor trees that are provided upon instantiation are available to your dyna
 
 {% highlight scss linenos %}
 @import "vendor/foundation/scss/normalize.scss";
+{% endhighlight %}
+
+#### Other Assets
+
+All other assets like images or fonts can also be added via `import()`. They
+will be copied to `assets/` as they are.
+
+{% highlight javascript linenos %}
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
 {% endhighlight %}
