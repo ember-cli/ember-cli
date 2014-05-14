@@ -145,3 +145,14 @@ The vendor trees that are provided upon instantiation are available to your dyna
 {% highlight scss linenos %}
 @import "vendor/foundation/scss/normalize.scss";
 {% endhighlight %}
+
+#### Other Assets
+
+All other assets like images or fonts can also be added via `import()`. They
+will be copied to `dist/` as they are.
+
+{% highlight javascript linenos %}
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
+{% endhighlight %}
+
+This example would create the font file in `dist/font-awesome/fonts/font-awesome-webfonts.ttf`.
