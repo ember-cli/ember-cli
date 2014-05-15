@@ -6,6 +6,18 @@
 //     res.send('hello');
 //   });
 // };
+//
+// Example to proxy /api/* on  localhost:3000
+//
+// var httpProxy = require('http-proxy');
+// var apiProxy = httpProxy.createProxyServer();
+// 
+// module.exports = function(app) {
+//    app.get('/api/*', function(req, res) {
+//      apiProxy.web(req, res, { target: 'http://127.0.0.1:3000' });
+//    });
+// };
+// 
 
 var express    = require('express');
 var bodyParser = require('body-parser');
