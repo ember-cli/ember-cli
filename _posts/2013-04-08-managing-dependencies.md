@@ -75,8 +75,8 @@ app.import({
 This is somewhat non-standard, but suppose that you have different versions of Ember specified (using the canary builds for example).  You would simply manipulate the vendor tree that is passed in to the `EmberApp` constructor:
 
 {% highlight javascript linenos %}
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-var fileMover   = require('broccoli-file-mover');
+var EmberApp  = require('ember-cli/lib/broccoli/ember-app');
+var fileMover = require('broccoli-file-mover');
 
 var vendorTree = fileMover('vendor', {
   files: {
