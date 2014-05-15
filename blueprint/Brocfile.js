@@ -5,9 +5,12 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp({
   name: require('./package.json').name,
 
+  // For more options see: https://github.com/GoalSmashers/clean-css#how-to-use-clean-css-programmatically
   minifyCSS: {
     enabled: true,
-    options: {}
+    options: {
+      noAdvanced: true
+    }
   },
 
   getEnvJSON: require('./config/environment')
