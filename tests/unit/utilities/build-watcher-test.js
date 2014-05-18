@@ -13,6 +13,7 @@ var utility;
 var analytics;
 var callbacks;
 var buildBuilderCalled;
+var printSlowTreesCalled;
 
 function stubWatcher() {
   return function watcher() {
@@ -30,6 +31,12 @@ function stubBuildBuilder() {
   };
 }
 
+function stubPrintSlowTrees() {
+  return function printSlowTrees() {
+    printSlowTreesCalled = true;
+  };
+}
+
 describe('buildWatcher utility', function() {
   var ui;
 
@@ -37,6 +44,7 @@ describe('buildWatcher utility', function() {
     utility = rewire('../../../lib/utilities/build-watcher');
     utility.__set__('Watcher', stubWatcher());
     utility.__set__('buildBuilder', stubBuildBuilder());
+    utility.__set__('printSlowTrees', stubPrintSlowTrees());
   });
 
   beforeEach(function() {
@@ -48,6 +56,7 @@ describe('buildWatcher utility', function() {
     called = false;
     buildBuilderCalled = false;
     analyticsCalled = false;
+    printSlowTreesCalled = false;
   });
 
   it('creates a Watcher instance', function() {
@@ -63,31 +72,36 @@ describe('buildWatcher utility', function() {
     assert.equal(callbacks.on.calledWith[1][0], 'error');
   });
 
-  it('the change callback does not print without an error first', function() {
+  it('prints the build time returned from broccoli', function() {
     utility({ui: ui, analytics: analytics});
 
-    callbacks.on.calledWith[0][1]({totalTime: 1});
+    callbacks.on.calledWith[0][1]({totalTime: 1000000});
 
-    assert.equal(ui.output, '');
+    assert.equal(ui.output, '\u001b[32m\n\nBuild successful - 1ms.\n\u001b[39m');
   });
 
-  it('the change callback prints a message if there is an error', function() {
+  it('calls printSlowTrees if verbose is not specified', function() {
     utility({ui: ui, analytics: analytics});
 
-    callbacks.on.calledWith[1][1](true);
-    callbacks.on.calledWith[0][1]({totalTime: 1});
+    callbacks.on.calledWith[0][1]({totalTime: 1000000});
 
-    assert.equal(ui.output, '\u001b[32m\n\nBuild successful.\n\u001b[39m');
+    assert.ok(printSlowTreesCalled);
   });
 
-  it('the change callback prints a message only once if there is an error', function() {
-    utility({ui: ui, analytics: analytics});
+  it('calls printSlowTrees if verbose is truthy', function() {
+    utility({ui: ui, analytics: analytics, verbose: true});
 
-    callbacks.on.calledWith[1][1](true);
-    callbacks.on.calledWith[0][1]({totalTime: 1});
-    callbacks.on.calledWith[0][1]({totalTime: 1});
+    callbacks.on.calledWith[0][1]({totalTime: 1000000});
 
-    assert.equal(ui.output, '\u001b[32m\n\nBuild successful.\n\u001b[39m');
+    assert.ok(printSlowTreesCalled);
+  });
+
+  it('does not call printSlowTrees if verbose is false', function() {
+    utility({ui: ui, analytics: analytics, verbose: false});
+
+    callbacks.on.calledWith[0][1]({totalTime: 1000000});
+
+    assert.ok(!printSlowTreesCalled);
   });
 
   it('will create a builder instance if not provided', function() {
