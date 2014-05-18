@@ -27,9 +27,23 @@ additional stylesheets.
 
 The compiled css-files are minified by `broccoli-clean-css` or `broccoli-csso`,
 if it is installed locally. You can pass minifer-specific options to them using
-the `minifyCSS:options` object in your brocfile. Minification is enabled by
+the `minifyCSS:options` object in your `Brocfile.js`. Minification is enabled by
 default in the production-env and can be disabled using the `minifyCSS:enabled`
 switch.
+
+`broccoli-clean-css` is using [clean-css](https://github.com/GoalSmashers/clean-css),
+which uses advanced optimizations (selector & property merging, reduction, etc.)
+by default. This might break your minified CSS. To fix it, just try enabling
+`noAdvanced` like so:
+
+{% highlight javascript linenos %}
+minifyCSS: {
+  enabled: true,
+  options: {
+    noAdvanced: true
+  }
+}
+{% endhighlight %}
 
 All your preprocessed stylesheets will be compiled into one file and served at
 `assets/app.css`.
