@@ -63,6 +63,21 @@ To exclude a test or test suite append a `.skip` to `it()` or `describe()` respe
 
 Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
 
+## Common Issues
+
+*Usage with SublimeText 3*
+
+If you are using SublimeText 3 with `ember-cli`, by default it will try to index all files in your `tmp` directory for its GoToAnything functionality.  This will cause your computer to come to a screeching halt @ 90%+ CPU usage.  Simply remove these directories from the folders ST3 watches:
+
+`Sublime Text -> Preferences -> Settings -User`
+
+```
+// folder_exclude_patterns and file_exclude_patterns control which files
+// are listed in folders on the side bar. These can also be set on a per-
+// project basis.
+"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "tmp/class-*", "tmp/es_*", "tmp/jshinter*", "tmp/replace_*", "tmp/static_compiler*", "tmp/template_compiler*", "tmp/tree_merger*", "tmp/coffee_script*", "tmp/concat-tmp*", "tmp/export_tree*", "tmp/sass_compiler*"]
+```
+
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
