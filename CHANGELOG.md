@@ -6,6 +6,7 @@
 * [ENHANCEMENT] If both EMBER_ENV and --environment are specified, use EMBER_ENV. [#753](https://github.com/stefanpenner/ember-cli/pull/753)
 * [ENHANCEMENT] Update broccoli-jshint to 0.5.0 (more efficient caching for faster rebuilds). [#758](https://github.com/stefanpenner/ember-cli/pull/758)
 * [ENHANCEMENT] Ensure that the `app/templates/components` directory is created automatically. [#761](https://github.com/stefanpenner/ember-cli/pull/761)
+* [ENHANCEMENT] Show timing and slow tree listing for each rebuild. [#759](http://github.com/stefanpenner/ember-cli/pull/759)
 
 ### 0.0.28
 
