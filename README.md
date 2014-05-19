@@ -63,6 +63,14 @@ To exclude a test or test suite append a `.skip` to `it()` or `describe()` respe
 
 Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
 
+### Running your own scripts
+
+You can run scripts defined in the "scripts" section of package.json with `ember run`.
+
+```
+ember run npm-script-name
+```
+
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
