@@ -92,7 +92,7 @@ export default DS.RESTSerializer.extend({});
 
 {% highlight javascript linenos %}
 // app/transforms/time.js
-export default DS.Transforms.extend({});
+export default DS.Transform.extend({});
 {% endhighlight %}
 
 ##### Utilities
