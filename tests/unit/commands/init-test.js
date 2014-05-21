@@ -66,6 +66,28 @@ describe('init command', function() {
       });
   });
 
+  it('Uses the provided app name over the closest found project', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.rawName, 'provided-name');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['provided-name'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
