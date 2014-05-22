@@ -18,7 +18,7 @@ Uncaught Error: Could not find module ember/resolver loader/loader.js:42
 
 can be caused by installing bower with sudo. See [#354](https://github.com/stefanpenner/ember-cli/issues/354) for details.
 
-### Can't install behind HTTP proxy
+### Installing from behind a proxy
 
 If you're behind a proxy, you might not be able to install because `ember-cli` &mdash; or some of its dependencies &mdash; tries to `git clone` a `git://` url. (In this scenario, only `http://` urls will work).
 
