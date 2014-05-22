@@ -14,13 +14,4 @@ describe('express-server', function() {
       assert.deepEqual(output.length, 2, 'expected extra line for proxy');
     });
   });
-
-  it('should not start live-reload if `live-reload` option is false', function() {
-    expressServer.ui = new MockUI();
-    expressServer.project = new MockProject();
-    return expressServer.start({'live-reload': false}).then(function() {
-      var output = expressServer.ui.output.trim().split('\n');
-      assert.deepEqual(output.length, 1, 'expected extra line for proxy');
-    });
-  });
 });
