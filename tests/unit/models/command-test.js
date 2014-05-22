@@ -57,8 +57,11 @@ describe('models/command.js', function() {
       ui: ui,
       analytics: analytics,
       project: project
-    }).parseArgs(['--port', '80'])).to.include({
-      port: 80
+    }).parseArgs(['--port', '80'])).to.deep.equal({
+      args: [],
+      options: {
+        port: 80
+      }
     });
   });
 
@@ -67,8 +70,11 @@ describe('models/command.js', function() {
       ui: ui,
       analytics: analytics,
       project: project
-    }).parseArgs(['-p', '80'])).to.include({
-      port: 80
+    }).parseArgs(['-p', '80'])).to.deep.equal({
+      args: [],
+      options: {
+        port: 80
+      }
     });
   });
 
@@ -77,8 +83,24 @@ describe('models/command.js', function() {
       ui: ui,
       analytics: analytics,
       project: project
-    }).parseArgs([])).to.include({
-      port: 4200
+    }).parseArgs([])).to.deep.equal({
+      args: [],
+      options: {
+        port: 4200
+      }
+    });
+  });
+
+  it('parseArgs() should return args too.', function() {
+    expect(new ServeCommand({
+      ui: ui,
+      analytics: analytics,
+      project: project
+    }).parseArgs(['foo', '--port', '80'])).to.deep.equal({
+      args: ['foo'],
+      options: {
+        port: 80
+      }
     });
   });
 
