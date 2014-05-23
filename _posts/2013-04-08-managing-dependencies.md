@@ -27,11 +27,12 @@ install new dependencies via `bower install --save <dependencies>`.
 Further documentation about Bower is available at their
 [official documentation page](http://bower.io/).
 
-### Compiling Bower Assets
+### Temporary Recommendations for Using Bower Assets in Your Ember App
+We are actively working on a new & improved way to handle dependencies in your Ember app with ember-cli.  The new method will leverage the [ES6 Module Transpiler](https://github.com/square/es6-module-transpiler) to allow a simple `import` statement in your javascript file to automatically manage both AMD and non-AMD dependencies (learn more about [handling depenencies in javascript](http://addyosmani.com/writing-modular-js/)).  In the meantime, if you wish to begin developing with ember-cli immediately, use these guidelines as a temporary workaround.
 
-In your `Brocfile.js` specify a dependency before calling
-`app.toTree()`. The following example scenarios should illustrate how
-this works.
+You may opt to continue using these temporary methods to handle dependencies in your app even after we've released the ES6 import functionality.
+
+In your `Brocfile.js` specify a dependency before calling `app.toTree()`. The following example scenarios  illustrate how this works.
 
 #### Javascript Assets
 
@@ -42,6 +43,42 @@ Provide the asset path as the first and only argument:
 {% highlight javascript linenos %}
 app.import('vendor/momentjs/moment.js');
 {% endhighlight %}
+
+##### Standard Non-AMD Asset Example
+For example, to add a third-party library like moment.js from scratch, first type:
+
+```
+bower install --save moment
+```
+
+Bower will download the necessary files to your `/vendor/moment` directory.  
+
+Next, we tell Broccoli to add these javascript files to the `/assets/your-app-name.js` file which is explicitly referenced from your `index.html` page. Brocollio compiles this file as part of using `ember serve` or `ember build`.  In your `Brocfile.js`, add this before calling `app.toTree()`:
+
+{% highlight javascript linenos %}
+app.import('vendor/momentjs/moment.js');
+{% endhighlight %}
+
+Any variables or functions defined in the `moment.js` library are now in global scope and available on the `window` object in any javascript file (e.g. `window.moment`).  But to make these available as part of the Ember environment (and therefore without `.window`), we will edit the `.jshintrc` file to add the following:
+
+```javascript
+{
+  predef: {
+    ...
+    "moment": true
+  }
+}
+```
+
+Finally, open the EmberJS file where you will be using the `moment.js` library (say `views/my-page.js`), and access the `moment.js` library directly.  For example:
+
+```javascript
+var MyPageView = Ember.View.extend({
+    didInsertElement: function() {
+        console.log( moment().format() );
+    }
+});
+```
 
 ##### Standard AMD Asset
 
