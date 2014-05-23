@@ -75,7 +75,7 @@ describe('Acceptance: ember new', function() {
     return ember([
       'new',
       'FooApp',
-      '--dry-run'
+      '--init'
     ]).then(function() {
       assert(!fs.existsSync('FooApp'));
 
@@ -108,7 +108,7 @@ describe('Acceptance: ember new', function() {
     return ember([
       'new',
       'foo',
-      '--dry-run',
+      '--init',
       '--blueprint=my_blueprint'
     ]).then(confirmBlueprintedForDir('tmp/my_blueprint'));
   });
