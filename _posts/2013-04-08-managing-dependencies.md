@@ -28,11 +28,18 @@ Further documentation about Bower is available at their
 [official documentation page](http://bower.io/).
 
 ### Temporary Recommendations for Using Bower Assets in Your Ember App
-We are actively working on a new & improved way to handle dependencies in your Ember app with ember-cli.  The new method will leverage the [ES6 Module Transpiler](https://github.com/square/es6-module-transpiler) to allow a simple `import` statement in your javascript file to automatically manage both AMD and non-AMD dependencies (learn more about [handling depenencies in javascript](http://addyosmani.com/writing-modular-js/)).  In the meantime, if you wish to begin developing with ember-cli immediately, use these guidelines as a temporary workaround.
+We are actively working on a new & improved way to handle dependencies in your 
+Ember app with ember-cli.  The new method will leverage the [ES6 Module 
+Transpiler](https://github.com/square/es6-module-transpiler) to allow a simple 
+`import` statement in your javascript file to automatically manage both AMD and 
+non-AMD dependencies (learn more about [handling depenencies in javascript](http://addyosmani.com/writing-modular-js/)).  In the meantime, if you wish to begin developing with ember-cli immediately, use
+ these guidelines as a temporary workaround.
 
-You may opt to continue using these temporary methods to handle dependencies in your app even after we've released the ES6 import functionality.
+You may opt to continue using these temporary methods to handle dependencies in 
+your app even after we've released the ES6 import functionality.
 
-In your `Brocfile.js` specify a dependency before calling `app.toTree()`. The following example scenarios  illustrate how this works.
+In your `Brocfile.js` specify a dependency before calling `app.toTree()`. The 
+following example scenarios  illustrate how this works.
 
 #### Javascript Assets
 
@@ -53,13 +60,19 @@ bower install --save moment
 
 Bower will download the necessary files to your `/vendor/moment` directory.  
 
-Next, we tell Broccoli to add these javascript files to the `/assets/your-app-name.js` file which is explicitly referenced from your `index.html` page. Brocollio compiles this file as part of using `ember serve` or `ember build`.  In your `Brocfile.js`, add this before calling `app.toTree()`:
+Next, we tell Broccoli to add these javascript files to the `/assets/your-app-name.js` 
+file which is explicitly referenced from your `index.html` page. Brocolli compiles 
+this file as part of using `ember serve` or `ember build`.  In your `Brocfile.js`, 
+add this before calling `app.toTree()`:
 
 {% highlight javascript linenos %}
 app.import('vendor/momentjs/moment.js');
 {% endhighlight %}
 
-Any variables or functions defined in the `moment.js` library are now in global scope and available on the `window` object in any javascript file (e.g. `window.moment`).  But to make these available as part of the Ember environment (and therefore without `.window`), we will edit the `.jshintrc` file to add the following:
+Any variables or functions defined in the `moment.js` library are now in global 
+scope and available on the `window` object in any javascript file (e.g. `window.moment`).  
+But to make these available as part of the Ember environment (and therefore without 
+`.window`), we will edit the `.jshintrc` file to add the following:
 
 ```javascript
 {
@@ -70,7 +83,9 @@ Any variables or functions defined in the `moment.js` library are now in global 
 }
 ```
 
-Finally, open the EmberJS file where you will be using the `moment.js` library (say `views/my-page.js`), and access the `moment.js` library directly.  For example:
+Finally, open the EmberJS file where you will be using the `moment.js` 
+library (say `views/my-page.js`), and access the `moment.js` library directly.  
+For example:
 
 ```javascript
 var MyPageView = Ember.View.extend({
