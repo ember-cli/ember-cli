@@ -6,3 +6,10 @@ Ember.keys(requirejs.entries).forEach(function(entry) {
     require(entry, null, null, true);
   }
 });
+
+QUnit.notifications({
+  icons: {
+    passed: '/assets/passed.png',
+    failed: '/assets/failed.png'
+  }
+});
