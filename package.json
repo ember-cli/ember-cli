@@ -74,7 +74,8 @@
     "testem": "0.6.15",
     "through": "2.3.4",
     "tiny-lr": "0.0.5",
-    "walk-sync": "0.1.2"
+    "walk-sync": "0.1.2",
+    "broccoli-es3-safe-recast": "0.0.4"
   },
   "devDependencies": {
     "chai": "^1.9.1",
