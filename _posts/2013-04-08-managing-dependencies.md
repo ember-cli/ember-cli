@@ -148,6 +148,8 @@ The vendor trees that are provided upon instantiation are available to your dyna
 
 #### Other Assets
 
+##### Using app.import()
+
 All other assets like images or fonts can also be added via `import()`. They
 will be copied to `dist/` as they are.
 
@@ -156,3 +158,45 @@ app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
 {% endhighlight %}
 
 This example would create the font file in `dist/font-awesome/fonts/font-awesome-webfonts.ttf`.
+
+##### Using broccoli-static-compiler
+
+With the [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) package, 
+(parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli 
+packages needed to build are installed:
+
+{% highlight bash %}
+npm install --save-dev broccoli-static-compiler
+npm install --save-dev broccoli-merge-trees
+{% endhighlight %}
+
+Add these imports to the top of `Brocfile.js`, just below the `EmberApp` require:
+
+{% highlight javascript linenos %}
+var mergeTrees = require('broccoli-merge-trees');
+var pickFiles = require('broccoli-static-compiler');
+{% endhighlight %}
+
+At the bottom of `Brocfile.js` we merge assets from a bower dependency with the main app tree:
+
+{% highlight javascript linenos %}
+// Remove this line:
+// module.exports = app.toTree()
+
+// Copy only the relevant files. For example the WOFF-files and stylesheets for a webfont:
+var extraAssets = pickFiles('vendor/a-lovely-webfont', {
+   srcDir: '/',
+   files: ['**/*.woff', '**/stylesheet.css'],
+   destDir: '/assets/fonts'
+});
+
+// Merge the app tree and our new font assets.
+module.exports = mergeTrees([app.toTree(), extraAssets]);
+{% endhighlight %}
+
+In the above example the assets from the fictive bower dependency called `a-lovely-webfont` can now
+be found under `/assets/fonts/`, and might be linked to from `index.html` like so:
+
+{% highlight html %}
+<link rel="stylesheet" href="assets/fonts/lovelyfont_bold/stylesheet.css">
+{% endhighlight %}
