@@ -128,4 +128,25 @@ describe('init command', function() {
         assert.equal(reason, 'Called run');
       });
   });
+
+  it('doesn\'t use . as the name', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.rawName, 'some-random-name');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['.'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
 });
