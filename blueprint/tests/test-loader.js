@@ -2,7 +2,7 @@
 
 // TODO: load based on params
 Ember.keys(requirejs.entries).forEach(function(entry) {
-  if ((/\-test/).test(entry)) {
+  if ((/\-test/).test(entry) || (/.jshint$/).test(entry)) {
     require(entry, null, null, true);
   }
 });
