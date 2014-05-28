@@ -146,7 +146,11 @@ body {
 .links {
   padding-left: 0;
   margin-bottom: 20px;
-  font-size: 18px;
+  font-size: 1.5em;
+}
+
+.links a {
+  font-weight: 200;
 }
 
 .links li {
@@ -159,6 +163,13 @@ body {
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .links {
+    width: 305px;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+
   .download {
     width: 100%;
   }
