@@ -143,6 +143,21 @@ body {
   border-color: rgb(66, 139, 202);
 }
 
+.links {
+  padding-left: 0;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.links li {
+  display: inline-block;
+}
+
+.links li:not(:last-child):after {
+  content: " |";
+  color: lightgrey;
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
   .download {
     width: 100%;
