@@ -1,23 +1,17 @@
 'use strict';
 
-var assert        = require('../../helpers/assert');
-var stub          = require('../../helpers/stub').stub;
-var MockUI        = require('../../helpers/mock-ui');
-var MockAnalytics = require('../../helpers/mock-analytics');
-var Task          = require('../../../lib/models/task');
+var assert             = require('../../helpers/assert');
+var stub               = require('../../helpers/stub').stub;
+var stubCommandOptions = require('../../helpers/stub').stubCommandOptions;
+var Task               = require('../../../lib/models/task');
 var ServeCommand;
 var tasks;
 
 describe('server command', function() {
-  var ui;
-  var analytics;
-
   before(function() {
     ServeCommand = require('../../../lib/commands/serve');
-    ui = new MockUI();
-    analytics = new MockAnalytics();
     tasks = {
-      Serve: Task.extend({})
+      Serve: Task.extend()
     };
   });
 
@@ -34,12 +28,9 @@ describe('server command', function() {
   });
 
   it('has correct options', function() {
-    new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      tasks: tasks,
-      project: { isEmberCLIProject: function(){ return true; }}
-    }).validateAndRun(['--port', '4000']);
+    new ServeCommand(
+      stubCommandOptions(tasks)
+    ).validateAndRun(['--port', '4000']);
 
     var serveRun = tasks.Serve.prototype.run;
     var options = serveRun.calledWith[0][0];
@@ -51,12 +42,9 @@ describe('server command', function() {
   });
 
   it('has correct proxy', function() {
-    new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      tasks: tasks,
-      project: { isEmberCLIProject: function(){ return true; }}
-    }).validateAndRun(['--proxy', 'http://localhost:3000/']);
+    new ServeCommand(
+      stubCommandOptions(tasks)
+    ).validateAndRun(['--proxy', 'http://localhost:3000/']);
 
     var serveRun = tasks.Serve.prototype.run;
     var options = serveRun.calledWith[0][0];
