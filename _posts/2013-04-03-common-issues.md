@@ -51,3 +51,23 @@ If you are using SublimeText 3 with `ember-cli`, by default it will try to index
 // project basis.
 "folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "tmp/class-*", "tmp/es_*", "tmp/jshinter*", "tmp/replace_*", "tmp/static_compiler*", "tmp/template_compiler*", "tmp/tree_merger*", "tmp/coffee_script*", "tmp/concat-tmp*", "tmp/export_tree*", "tmp/sass_compiler*"]
 {% endhighlight %}
+
+### Usage with ember-addons.bs_for_ember
+
+The Bootstrap for Ember addons requires the Handlebars compiler at runtime which is not part of the production build.  You will need to modify your `node_modules/ember-cli/lib/proccoli/ember-app.js` and change:
+
+{% highlight javascript %}
+  this.import({
+    "development": 'vendor/handlebars/handlebars.js',
+    "production":  'vendor/handlebars/handlebars.runtime.js'
+  });
+{% endhighlight %}
+
+to
+
+{% highlight javascript %}
+  this.import({
+    "development": 'vendor/handlebars/handlebars.js',
+    "production":  'vendor/handlebars/handlebars.js'
+  });
+{% endhighlight %}
