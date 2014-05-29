@@ -1,5 +1,6 @@
 # ember-cli Changelog
 
+* [BUGFIX] changes the behavior of an `ember-app` helper to read the name of the app from `package.json` [#856](https://github.com/stefanpenner/ember-cli/pull/856)
 * [BUGFIX] prevent pointless event emitter memory leak warning [#850](https://github.com/stefanpenner/ember-cli/pull/850)
 * [ENHANCEMENT] add and es3 safe transpile step: specifically promise.catch and promise.finally -> promise['catch'] & promise['finally']. In addition we cover afew more variables see: https://github.com/stefanpenner/es3-safe-recast [#823](https://github.com/stefanpenner/ember-cli/pull/823)
 * [ENHANCEMENT] Load the vendor.css in the rendered HTML. [#728](http://github.com/stefanpenner/ember-cli/pull/728)
