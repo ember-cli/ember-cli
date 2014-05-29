@@ -24,14 +24,14 @@ If you're behind a proxy, you might not be able to install because `ember-cli` &
 
 You'll probably get an error like this:
 
-```bash
+{% highlight bash %}
 npm ERR! git clone git://github.com/jgable/esprima.git Cloning into bare repository '/home/<username>/.npm/_git-remotes/git-github-com-jgable-esprima-git-d221af32'...
 npm ERR! git clone git://github.com/jgable/esprima.git 
 npm ERR! git clone git://github.com/jgable/esprima.git fatal: unable to connect to github.com:
 npm ERR! git clone git://github.com/jgable/esprima.git github.com[0: 192.30.252.129]: errno=Connection timed out
 npm ERR! Error: Command failed: fatal: unable to connect to github.com:
 npm ERR! github.com[0: 192.30.252.129]: errno=Connection timed out
-```
+{% endhighlight %}
 
 This is not a `ember-cli` issue _per se_, but here's a workaround. You can configure `git` to make the translation:
 
