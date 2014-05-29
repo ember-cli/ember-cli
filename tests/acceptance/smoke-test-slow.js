@@ -24,7 +24,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, clean from scratch', function() {
-    console.log('    runnig the slow end-to-end it will take some time');
+    console.log('    running the slow end-to-end it will take some time');
 
     this.timeout(360000);
 
