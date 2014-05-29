@@ -6,7 +6,7 @@
     "qunit": "~1.12.0",
     "ember-qunit": "~0.1.5",
     "ember": "1.5.1",
-    "ember-data": "1.0.0-beta.7",
+    "ember-data": "1.0.0-beta.8",
     "ember-resolver": "stefanpenner/ember-jj-abrams-resolver#master",
     "ic-ajax": "~1.x",
     "loader": "stefanpenner/loader.js#1.0.0",
