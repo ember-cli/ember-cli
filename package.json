@@ -37,6 +37,7 @@
     "bower": "^1.3.2",
     "bower-config": "0.5.0",
     "broccoli": "0.12.0",
+    "broccoli-asset-rev": "0.0.5",
     "broccoli-clean-css": "0.1.5",
     "broccoli-concat": "0.0.6",
     "broccoli-env": "0.0.1",
