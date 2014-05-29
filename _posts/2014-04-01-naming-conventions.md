@@ -165,7 +165,7 @@ export default Ember.Model.extend();
 If you prefer to nest your files to better manage your application, you can easily do so.
 
 {% highlight javascript linenos %}
-// controller/posts/new.js -> controller:posts/new
+// controllers/posts/new.js results in a controller named "controllers.posts/new"
 export default Ember.Controller.extend();
 {% endhighlight %}
 
@@ -173,7 +173,7 @@ You cannot use paths containing slashes in your templates because Handlebars wil
 them back to dots. Simply create an alias like this:
 
 {% highlight javascript linenos %}
-// controller/posts.js
+// controllers/posts.js
 export default Ember.Controller.extend({
   needs: ['posts/details'],
   postsDetails: Ember.computed.alias('controllers.posts/details')
