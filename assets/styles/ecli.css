@@ -162,14 +162,7 @@ body {
   color: lightgrey;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-  .links {
-    width: 305px;
-    margin: 0 auto;
-    padding-left: 10px;
-    padding-bottom: 20px;
-  }
-
+@media only screen and (max-width:480px) {
   .download {
     width: 100%;
   }
@@ -203,10 +196,6 @@ body {
 
   .content p {
     line-height: 1.4;
-  }
-
-  .col-md-3 {
-    display: none;
   }
 
   .row {
