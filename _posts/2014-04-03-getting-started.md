@@ -60,7 +60,9 @@ cd my-new-app
 ember server
 {% endhighlight %}
 
-and navigate to [http://localhost:4200](http://localhost:4200) to see your new app in action.
+navigate to `http://localhost:4200` to see your new app in action.
+
+navigate to `http://localhost:4200/tests` to see your test results in action.
 
 #### Cloning an existing project
 
