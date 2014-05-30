@@ -20,12 +20,14 @@ describe('livereload-server', function() {
     });
   });
 
-  it('ensure the correct banner is printed', function() {
-    return subject.start({
+  describe('output', function() {
+    it('correctly indicates which port livereload is present on', function() {
+      return subject.start({
         liveReloadPort: 1337
       })
       .then(function() {
         assert.equal(ui.output, 'Livereload server on port 1337\n');
       });
+    });
   });
 });
