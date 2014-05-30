@@ -1,23 +1,6 @@
 'use strict';
 
-var MockUI        = require('./mock-ui');
-var MockAnalytics = require('./mock-analytics');
-var ui            = new MockUI();
-var analytics     = new MockAnalytics();
-
 module.exports = {
-  stubCommandOptions: function stubCommandOptions(tasks) {
-    return {
-      ui:        ui,
-      analytics: analytics,
-      tasks:     tasks || {},
-      project:   {
-        isEmberCLIProject: function isEmberCLIProject() {
-          return true;
-        }
-      }
-    };
-  },
   stub: function stub(obj, name, value) {
     var original = obj[name];
 

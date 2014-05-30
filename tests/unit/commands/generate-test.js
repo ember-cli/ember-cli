@@ -1,37 +1,28 @@
 'use strict';
 
-var rewire             = require('rewire');
-var assert             = require('../../helpers/assert');
-var stubCommandOptions = require('../../helpers/stub').stubCommandOptions;
+var rewire = require('rewire');
+var assert = require('../../helpers/assert');
 
-var Command;
-var called = false;
-
-function stubLoom() {
-  return function loom() {
-    called = true;
-  };
-}
+var commandOptionsFactory = require('../../factories/command-options');
 
 describe('generate command', function() {
+  var Command;
+  var args;
+
   before(function() {
     Command = rewire('../../../lib/commands/generate');
-    Command.__set__('loom', stubLoom());
-  });
-
-  after(function() {
-    Command = null;
+    Command.__set__('loom', function(arg){
+      args = arg;
+    });
   });
 
   it('generates a controller', function() {
-    new Command(
-      stubCommandOptions()
-    ).validateAndRun([
+    new Command(commandOptionsFactory()).validateAndRun([
       'controller',
       'application',
       'type:array'
     ]);
 
-    assert.ok(called);
+    assert.equal(args, 'controller application type:array');
   });
 });

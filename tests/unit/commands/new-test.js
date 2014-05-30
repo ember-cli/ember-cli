@@ -1,8 +1,8 @@
 'use strict';
 
-var assert             = require('../../helpers/assert');
-var stubCommandOptions = require('../../helpers/stub').stubCommandOptions;
-var rewire             = require('rewire');
+var assert         = require('../../helpers/assert');
+var commandOptions = require('../../factories/command-options');
+var rewire         = require('rewire');
 
 describe('new command', function() {
   var NewCommand, command;
@@ -11,17 +11,9 @@ describe('new command', function() {
     NewCommand = rewire('../../../lib/commands/new');
   });
 
-  afterEach(function() {
-    command = null;
-  });
-
-  after(function() {
-    NewCommand = null;
-  });
-
   it('doesn\'t allow to create an application named `test`', function() {
     command = new NewCommand(
-      stubCommandOptions()
+      commandOptions()
     ).validateAndRun(['test']).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
@@ -32,7 +24,7 @@ describe('new command', function() {
 
   it('doesn\'t allow to create an application named `ember`', function() {
     command = new NewCommand(
-      stubCommandOptions()
+      commandOptions()
     ).validateAndRun(['ember']).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
