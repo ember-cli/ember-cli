@@ -30,7 +30,7 @@ describe('Watcher', function() {
   describe('watcher:change', function() {
     beforeEach(function() {
       watcher.emit('change', {
-        totalTime: 12344
+        totalTime: 12344000000
       });
     });
 
@@ -49,8 +49,8 @@ describe('Watcher', function() {
       }]);
     });
 
-    it('logs nothing', function() {
-      assert.equal(ui.output.length, 0);
+    it('logs that the build was successful', function() {
+      assert.equal(ui.output, '\u001b[32m\nBuild successful - 12344ms.\n\u001b[39m');
     });
   });
 
@@ -77,7 +77,7 @@ describe('Watcher', function() {
       });
 
       watcher.emit('change', {
-        totalTime: 12344
+        totalTime: 12344000000
       });
     });
 
