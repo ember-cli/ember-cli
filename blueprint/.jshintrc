@@ -9,7 +9,8 @@
     "DS": true,
     "$": true,
     "ENV": true,
-    "module": true
+    "module": true,
+    "Handlebars": true
   },
   "node" : false,
   "browser" : false,
