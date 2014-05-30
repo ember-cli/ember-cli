@@ -9,8 +9,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 #### PhantomJS
 
-By default, your integration tests will run on [PhantomJS][].  If you are on a
-Mac, you can install via [npm][]:
+By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
 
 {% highlight console %}
 npm install phantomjs -g
