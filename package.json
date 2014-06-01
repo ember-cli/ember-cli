@@ -96,6 +96,7 @@
     "broccoli-static-compiler": "0.1.4",
     "broccoli-uglify-js": "0.1.3",
     "broccoli-unwatched-tree": "~0.1.1",
+    "ember-cli-proxy-fixtures": "^0.0.1",
     "chalk": "0.4.0",
     "configstore": "0.2.3",
     "connect-chain": "0.0.1",
