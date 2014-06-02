@@ -40,7 +40,7 @@
     "broccoli-asset-rev": "0.0.5",
     "broccoli-clean-css": "0.1.5",
     "broccoli-concat": "0.0.6",
-    "broccoli-es6-concatenator": "0.1.5",
+    "broccoli-es6-concatenator": "0.1.6",
     "broccoli-es6-import-validate": "0.1.0",
     "broccoli-export-tree": "0.3.2",
     "broccoli-file-mover": "~0.3.4",
