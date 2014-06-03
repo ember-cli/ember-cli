@@ -22,6 +22,7 @@
 * [BUGFIX] Prevent slow tree printout during `ember test --server` from bleeding through `testem` UI.[#877](https://github.com/stefanpenner/ember-cli/pull/877)
 * [ENHANCEMENT] Remove unused `vendor/_loader.js` file. [#880](https://github.com/stefanpenner/ember-cli/pull/880)
 * [ENHANCEMENT] Allow disabling JSHint tests from within QUnit UI. [#878](https://github.com/stefanpenner/ember-cli/pull/878)
+* [BUGFIX] Fix `ember server --live-reload false` option. [#888](https://github.com/stefanpenner/ember-cli/pull/888)
 
 ### 0.0.28
 
