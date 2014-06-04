@@ -1,15 +1,16 @@
 'use strict';
 
-var tmp     = require('../helpers/tmp');
-var conf    = require('../helpers/conf');
-var Promise = require('../../lib/ext/promise');
-var exec    = Promise.denodeify(require('child_process').exec);
-var path    = require('path');
-var rimraf  = Promise.denodeify(require('rimraf'));
-var fs      = require('fs');
-var crypto  = require('crypto');
-var assert  = require('assert');
-var appName = 'some-cool-app';
+var tmp      = require('../helpers/tmp');
+var conf     = require('../helpers/conf');
+var Promise  = require('../../lib/ext/promise');
+var exec     = Promise.denodeify(require('child_process').exec);
+var path     = require('path');
+var rimraf   = Promise.denodeify(require('rimraf'));
+var fs       = require('fs');
+var crypto   = require('crypto');
+var assert   = require('assert');
+var walkSync = require('walk-sync');
+var appName  = 'some-cool-app';
 
 describe('Acceptance: smoke-test', function() {
   before(conf.setup);
@@ -94,6 +95,36 @@ describe('Acceptance: smoke-test', function() {
       files.forEach(function (filename) {
         assert(indexHtml.indexOf(filename) > -1);
       });
+    }).finally(function() {
+      console.log('done');
+    });
+  });
+
+  it('ember new foo, build development, and verify generated files', function() {
+    console.log('    running the slow build tests');
+
+    this.timeout(360000);
+
+    var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
+    var globalPwd = null;
+
+    return exec('pwd').then(function(pwd) {
+      globalPwd = pwd;
+
+      return exec(path.join('..', 'bin', 'ember') + ' new ' + appName);
+    }).then(function() {
+      return rimraf(appsECLIPath);
+    }).then(function() {
+      fs.symlinkSync(path.join(globalPwd, '..'), appsECLIPath);
+
+      process.chdir(appName);
+
+      return exec(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember') + ' build');
+    }).then(function() {
+      var dirPath = path.join('.', 'dist');
+      var paths = walkSync(dirPath);
+
+      assert(paths.length < 20);
     }).finally(function() {
       console.log('done');
     });
