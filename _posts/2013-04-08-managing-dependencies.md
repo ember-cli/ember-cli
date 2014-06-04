@@ -94,7 +94,7 @@ Once the method described in AMD Module Example #1 is released, this method will
 
 Follow AMD Module Example #1 until the `import` step.  
 
-**TODO:** Add Info on Using Shims.
+Additional documentation to be added per [GitHub Pull Request #892](https://github.com/stefanpenner/ember-cli/issues/892)
 
 For example:
 
@@ -118,7 +118,7 @@ CommonJS modules are javascript libraries that are generally intended for use wi
 
 ##### CommonJS Module Example
 
-**TODO:** Example needed for importing CommonJS Module
+Additional documentation to be added per [GitHub Pull Request #892](https://github.com/stefanpenner/ember-cli/issues/892)
 
 #### Import a Standard Non-AMD Library
 
