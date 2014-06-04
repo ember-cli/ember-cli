@@ -14,6 +14,9 @@ var routes     = globSync('./routes/*.js', { cwd: __dirname }).map(require);
 
 module.exports = function(emberCLIMiddleware) {
   var app = express();
+  
+  // You can include any connect enabled module here. `body-parser` is added here as an example
+  // and can safely be removed if you do not use it
   app.use(bodyParser());
 
   routes.forEach(function(route) { route(app); });
