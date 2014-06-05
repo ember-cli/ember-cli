@@ -132,7 +132,8 @@
     "broccoli-es3-safe-recast": "0.0.4",
     "express": "^4.2.0",
     "broccoli-sane-watcher": "0.0.2",
-    "yam": "0.0.12"
+    "yam": "0.0.12",
+    "broccoli-amd-transforms": "git+https://github.com/abuiles/broccoli-amd-transforms.git"
   },
   "devDependencies": {
     "chai": "^1.9.1",
