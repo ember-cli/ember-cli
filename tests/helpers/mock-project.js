@@ -22,4 +22,8 @@ MockProject.prototype.require = function(file) {
   }
 };
 
+MockProject.prototype.has = function(key) {
+  return (/server/.test(key));
+};
+
 module.exports = MockProject;
