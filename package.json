@@ -40,7 +40,7 @@
     "broccoli-asset-rev": "0.0.5",
     "broccoli-clean-css": "0.1.5",
     "broccoli-concat": "0.0.6",
-    "broccoli-es6-concatenator": "0.1.6",
+    "broccoli-es6-concatenator": "~0.1.6",
     "broccoli-es6-import-validate": "0.1.0",
     "broccoli-export-tree": "0.3.2",
     "broccoli-file-mover": "~0.3.5",
@@ -75,7 +75,8 @@
     "through": "2.3.4",
     "tiny-lr": "0.0.5",
     "walk-sync": "0.1.2",
-    "broccoli-es3-safe-recast": "0.0.4"
+    "broccoli-es3-safe-recast": "0.0.4",
+    "express": "^4.2.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",
