@@ -23,7 +23,8 @@ describe('livereload-server', function() {
   describe('output', function() {
     it('correctly indicates which port livereload is present on', function() {
       return subject.start({
-        liveReloadPort: 1337
+        liveReloadPort: 1337,
+        liveReload: true
       })
       .then(function() {
         assert.equal(ui.output, 'Livereload server on port 1337\n');
