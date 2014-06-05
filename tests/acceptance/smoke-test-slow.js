@@ -29,7 +29,7 @@ describe('Acceptance: smoke-test', function() {
   it('ember new foo, clean from scratch', function() {
     console.log('    running the slow end-to-end it will take some time');
 
-    this.timeout(360000);
+    this.timeout(450000);
 
     var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
 
