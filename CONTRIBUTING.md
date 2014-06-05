@@ -1,3 +1,9 @@
+# Getting Involved
+
+There are many ways to contribute to the project, you can fix issues,
+improve documentation or work on any of the features on the
+[wish wist](https://github.com/stefanpenner/ember-cli/wiki/Wish-List).
+
 #Questions
 
 This is the issue tracker for `ember-cli`. The community uses this site
