@@ -35,7 +35,7 @@ describe('help command', function() {
     analytics = new MockAnalytics();
   });
 
-  it('should generate complete help output', function() {
+  it('should generate complete help output, including aliases', function() {
     new HelpCommand({
       ui: ui,
       analytics: analytics,
@@ -50,6 +50,7 @@ describe('help command', function() {
     expect(ui.output).to.include('required-option');
     expect(ui.output).to.include('(Required)');
     expect(ui.output).to.include('ember test-command-2');
+    expect(ui.output).to.include('aliases:');
   });
 
   it('should generate specific help output', function() {
@@ -64,18 +65,7 @@ describe('help command', function() {
     expect(ui.output).to.not.include('test-command-1');
   });
 
-  it('should generate complete help output, including aliases', function() {
-    new HelpCommand({
-      ui: ui,
-      analytics: analytics,
-      commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }}
-    }).validateAndRun([]);
-
-    expect(ui.output).to.include('aliases:');
-  });
-
-  it('should generate specific help output with when given an alias', function() {
+  it('should generate specific help output when given an alias', function() {
     new HelpCommand({
       ui: ui,
       analytics: analytics,
