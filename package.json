@@ -76,7 +76,8 @@
     "tiny-lr": "0.0.5",
     "walk-sync": "0.1.2",
     "broccoli-es3-safe-recast": "0.0.4",
-    "express": "^4.2.0"
+    "express": "^4.2.0",
+    "broccoli-sane-watcher": "0.0.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
