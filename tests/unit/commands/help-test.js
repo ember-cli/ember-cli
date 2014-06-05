@@ -14,6 +14,7 @@ describe('help command', function() {
     'TestCommand1': Command.extend({
       name: 'test-command-1',
       description: 'command-description',
+      aliases: ['t1', 'test-1'],
       availableOptions: [
         { name: 'option-with-default', type: String, default: 'default-value' },
         { name: 'required-option', type: String, required: 'true', description: 'option-descriptionnnn' }
@@ -22,6 +23,7 @@ describe('help command', function() {
     }),
     'TestCommand2': Command.extend({
       name: 'test-command-2',
+      aliases: ['t2', 'test-2'],
       run: function() {}
     })
   };
@@ -33,7 +35,7 @@ describe('help command', function() {
     analytics = new MockAnalytics();
   });
 
-  it('should generate complete help output', function() {
+  it('should generate complete help output, including aliases', function() {
     new HelpCommand({
       ui: ui,
       analytics: analytics,
@@ -48,6 +50,7 @@ describe('help command', function() {
     expect(ui.output).to.include('required-option');
     expect(ui.output).to.include('(Required)');
     expect(ui.output).to.include('ember test-command-2');
+    expect(ui.output).to.include('aliases:');
   });
 
   it('should generate specific help output', function() {
@@ -60,5 +63,28 @@ describe('help command', function() {
 
     expect(ui.output).to.include('test-command-2');
     expect(ui.output).to.not.include('test-command-1');
+  });
+
+  it('should generate specific help output when given an alias', function() {
+    new HelpCommand({
+      ui: ui,
+      analytics: analytics,
+      commands: commands,
+      project: { isEmberCLIProject: function(){ return true; }}
+    }).validateAndRun(['t1']);
+
+    expect(ui.output).to.include('test-command-1');
+    expect(ui.output).to.not.include('test-command-2');
+  });
+
+  it('should generate "no help entry" message for non-existent commands', function() {
+    new HelpCommand({
+      ui: ui,
+      analytics: analytics,
+      commands: commands,
+      project: { isEmberCLIProject: function(){ return true; }}
+    }).validateAndRun(['heyyy']);
+
+    expect(ui.output).to.include('No help entry for');
   });
 });
