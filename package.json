@@ -55,6 +55,7 @@
     "connect-chain": "0.0.1",
     "connect-livereload": "0.3.2",
     "diff": "~1.0.8",
+    "express": "^4.2.0",
     "findup": "0.1.5",
     "fs-extra": "0.8.1",
     "glob": "^3.2.9",
