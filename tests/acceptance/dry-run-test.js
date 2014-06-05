@@ -10,8 +10,9 @@ var tmp       = require('../helpers/tmp');
 var root      = process.cwd();
 var util      = require('util');
 var conf      = require('../helpers/conf');
+var fs        = require('fs');
 
-describe('Acceptance: ember init', function() {
+describe('Acceptance: ember --dry-run', function() {
   before(function() {
     conf.setup();
   });
@@ -44,34 +45,58 @@ describe('Acceptance: ember init', function() {
                      '\n but got: ' +  util.inspect(actual));
   }
 
-  it('ember init', function() {
+  function confirmNotBlueprinted() {
+    var blueprintPath = path.join(root, 'blueprint');
+    var expected      = walkSync(blueprintPath).sort();
+    var actual        = walkSync('.').sort();
+
+    assert.deepEqual([], actual, '\n expected: ' +  util.inspect(expected) +
+                     '\n but got: ' +  util.inspect(actual));
+  }
+
+  it('new does not create project folder.', function() {
     return ember([
-      'init',
-      '--init'
-    ]).then(confirmBlueprinted);
+      'new',
+      'foo',
+      '--dry-run'
+    ]).then(function() {
+      assert.ok(!fs.existsSync('./foo'), 'foo folder should not be created.');
+    });
   });
 
-  it('ember init can run in created folder', function() {
+
+  it('new does not create Blueprint.', function() {
+    return ember([
+      'new',
+      'foo',
+      '--dry-run'
+    ]).then(confirmNotBlueprinted);
+  });
+
+  it('new on an already init\'d folder does not change folder.', function() {
+    return ember([
+      'new',
+      'foo',
+      '--init'
+    ]).then(function() {
+      return ember([
+        'new',
+        'foo',
+        '--dry-run'
+      ]).then(confirmBlueprinted);
+    });
+  });
+
+  it('init --dry-run does not create Blueprint', function() {
     tmp.setup('./tmp/foo');
     process.chdir('./tmp/foo');
 
     return ember([
       'init',
-      '--init'
-    ]).then(confirmBlueprinted).then(function() {
+      '--dry-run'
+    ]).then(confirmNotBlueprinted).then(function() {
       tmp.teardown('./tmp/foo');
     });
   });
 
-  it('init an already init\'d folder', function() {
-    return ember([
-      'init',
-      '--init'
-    ]).then(function() {
-      return ember([
-        'init',
-        '--init'
-      ]).then(confirmBlueprinted);
-    });
-  });
 });
