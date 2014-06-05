@@ -1,5 +1,4 @@
 ## Overview
-
 - **cli** parses args and calls the respective **command**
 - **command** calls a sequence of **tasks**
 - **tasks** do the actual work
@@ -10,14 +9,14 @@ cli is a small function that gets everything going.
 
 Usage:
 ``` JavaScript
-var cli = require('cli');
+var cli = require('./cli');
 
 cli({
   cliArgs: argv, // Required
   inputStream: inputStream, // Required
   outputStream: outputStream // Required
 })
-  .then(...);
+.then(...);
 ```
 
 ## UI
@@ -49,6 +48,7 @@ be constructed and wired up via a dependency injection container.
 
 The following file structure is expected (Demonstrated on the imaginary
 command `develop-ember-cli`):
+
 ``` JavaScript
 // e.g. commands/develop-ember-cli.js
 
@@ -92,6 +92,7 @@ Best practice is to use the `run()` function only to execute tasks. The real
 work should be done in these tasks, then.
 
 The promise returned by `run()` should either
+
 - resolve to `undefined`
 - reject with an `Error` instance if the error is unhandled
 - or reject with `undefined` if it was handled. In this case the command
@@ -99,6 +100,7 @@ should log something via the `ui` first.
 
 `requireAsHash()` assembles from the files in `commands/` a hash that looks
 like this:
+
 ``` JavaScript
 {
   DevelopEmberCLI: require('commands/develop-ember-cli'),
@@ -112,13 +114,14 @@ ember serve <arg-option (Default: something)>
   --port (Default: 4200) Description 1
   --important-option (Required) Description 2
 ```
-- white: `ember serve`
 
+##### Formatting colors
+- white: `ember serve`
 - yellow: `<arg-option `, `>`
-- cyan `--port`, `--important-option`
-- cyan `(Default: something)`, `(Default: 4200)`
-- white `Description 1`, `Description 2`
-- cyan `(Required)`
+- cyan: `--port`, `--important-option`
+- cyan: `(Default: something)`, `(Default: 4200)`
+- white: `Description 1`, `Description 2`
+- cyan: `(Required)`
 
 ### Tasks
 Located in `lib/tasks`. They get picked up by `requireAsHash()` automatically.
@@ -233,6 +236,7 @@ Custom error classes should end with the suffix "Error".
 function CustomError() {
   this.stack = (new Error()).stack;
 }
+
 CustomError.prototype = Object.create(Error.prototype);
 CustomError.prototype.name = 'CustomError';
 ```
