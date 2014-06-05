@@ -340,6 +340,16 @@ describe('Unit: CLI', function() {
     });
   });
 
+  describe('update', function() {
+    it('ember update', function() {
+      var update = stubRun('update');
+
+      return ember(['update']).then(function() {
+        assert.equal(update.called, 1, 'expected the update command to be run');
+      });
+    });
+  });
+
   describe('build', function() {
     it('ember build', function() {
       var build = stubRun('build');
