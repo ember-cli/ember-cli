@@ -63,6 +63,11 @@ To exclude a test or test suite append a `.skip` to `it()` or `describe()` respe
 
 Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
 
+## Contribution
+
+[See `CONTRIBUTING.md`](https://github.com/stefanpenner/ember-cli/blob/master/CONTRIBUTING.md)
+
+
 ## Donating
 
 All donations will support this project and treats for contributors.
