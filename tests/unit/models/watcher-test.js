@@ -43,9 +43,10 @@ describe('Watcher', function() {
 
     it('tracks timings', function() {
       assert.deepEqual(analytics.trackTimings, [{
-        category: 'ember rebuild',
-        variable: 'broccoli rebuild time',
-        value: 12344
+        category: 'rebuild',
+        variable: 'rebuild time',
+        label:    'broccoli rebuild time',
+        value:    12344
       }]);
     });
 
