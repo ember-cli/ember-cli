@@ -8,7 +8,7 @@
     "Em": true,
     "DS": true,
     "$": true,
-    "ENV": true,
+    "<%= namespace %>ENV": true,
     "module": true
   },
   "node" : false,
