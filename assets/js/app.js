@@ -14,7 +14,7 @@
  
 $(window).scroll(function () {
   if ( $(this).scrollTop() > $(this).height() ) {
-    $('#sidenav').show();
+    $('#sidenav').delay('2000').show('1000');
    } else if ( $(this).scrollTop() <= $(this).height() ) {
     $('#sidenav').hide();
   }

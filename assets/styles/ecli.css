@@ -75,8 +75,7 @@ body {
 #swap {
   clear: both;
   margin: 0;
-  padding: 0;
-  background: red; }
+  padding: 0; }
 
 #showcase {
   background-color: #742416;
@@ -87,7 +86,7 @@ body {
   background-image: linear-gradient(to bottom, #34100a, #742416);
   padding-left: 10%;
   padding-right: 10%;
-  padding-top: 1%;
+  padding-top: 10%;
   overflow: hidden;
   position: absolute;
   width: 100%;
@@ -134,7 +133,8 @@ body {
       bottom: -10px;
       left: 12.5%;
       width: 75%;
-      height: 50%; }
+      height: 50%;
+      display: none; }
       #showcase .content .window h3.window-title {
         color: #333;
         padding: .4em 0;
@@ -159,7 +159,7 @@ body {
         background: rgba(246, 214, 96, 0.9);
         position: absolute;
         right: -1%;
-        top: 60%;
+        bottom: 0;
         padding: 1em 1.2em;
         color: rgba(107, 85, 6, 0.9);
         font-family: "exomedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
