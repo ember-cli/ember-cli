@@ -24,13 +24,13 @@ body {
   font-weight: 200;
 }
 
-#swap {clear:both;margin:0;padding:0;background:red;}
+#swap {clear:both;margin:0;padding:0;}
 
 #showcase {
   @include css-gradient(darken($drkred,40%),darken($drkred,25%));  
   padding-left: 10%;
   padding-right: 10%;
-  padding-top: 1%;
+  padding-top: 10%;
   overflow: hidden;
   position: absolute;
   width: 100%;
@@ -74,9 +74,10 @@ body {
       box-shadow: 0 -3px 128px $red;
       position: absolute;
       bottom: -10px;
-      left:12.5%;
+      left: 12.5%;
       width: 75%;
-      height:50%;
+      height: 50%;
+      display: none;
       h3.window-title {
         color: #333;
         padding: .4em 0;
@@ -103,13 +104,13 @@ body {
         background: lighten($orange,15%);
         position: absolute;
         right: -1%;
-        top: 60%;
+        bottom: 0;
         padding: 1em 1.2em;
         color: darken($orange,30%);
         font-family: $exo2;
         letter-spacing: .02em;
         font-size: 1em;
-        width:102%;
+        width: 102%;
       }
     }
   }
