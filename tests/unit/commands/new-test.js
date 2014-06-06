@@ -32,4 +32,15 @@ describe('new command', function() {
       assert.equal(command.ui.output, 'We currently do not support an application name of `ember`.');
     });
   });
+
+  it('doesn\'t allow to create an application with a period in the name', function() {
+    command = new NewCommand(
+      commandOptions()
+    ).validateAndRun(['zomg.awesome']).then(function() {
+      assert.ok(false, 'should have rejected with period in the application name');
+    })
+    .catch(function() {
+      assert.equal(command.ui.output, 'We currently do not support an application name of `zomg.awesome`.');
+    });
+  });
 });
