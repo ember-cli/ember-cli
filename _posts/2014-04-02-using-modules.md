@@ -67,7 +67,10 @@ Note, that the name of the variable used in the exported module doesn't have any
 influence on the resolver. It's the filename that is used to resolve modules.
 Similarly, you can give any name to the variable into which you import a module
 when doing so manually; see how the module `mixins/foo` is assigned to variable
-`FooMixin` in the example above.
+`FooMixin` in the example above. 
+
+By default the `Ember` (as well as the shortened `Em`) and `DS` (for Ember Data) 
+variables are included automatically in every module, so no need to import them.
 
 Only the `default` export is supported at the moment.
 
