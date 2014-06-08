@@ -34,6 +34,8 @@
     "url": "https://github.com/stefanpenner/ember-cli/issues"
   },
   "bundledDependencies": [
+    "bower",
+    "bower-config",
     "broccoli",
     "broccoli-asset-rev",
     "broccoli-clean-css",
@@ -52,6 +54,9 @@
     "broccoli-unwatched-tree",
     "chalk",
     "configstore",
+    "connect-chain",
+    "connect-livereload",
+    "expresss",
     "diff",
     "express",
     "findup",
@@ -63,6 +68,7 @@
     "loom",
     "ncp",
     "nopt",
+    "npm",
     "proxy-middleware",
     "quick-temp",
     "readline2",
