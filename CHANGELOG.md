@@ -13,6 +13,7 @@
 * [ENHANCEMENT] Allow disabling of automatic fingerprinting. [#930](https://github.com/stefanpenner/ember-cli/pull/930)
 * [ENHANCEMENT] Update ember-cli-shims to add `ember-data` shim. [#941](https://github.com/stefanpenner/ember-cli/pull/941)
 * [ENHANCEMENT] Update default jshint settings to require importing Ember. [#941](https://github.com/stefanpenner/ember-cli/pull/941)
+* [ENHANCEMENT] Adds ember-cli-proxy-fixtures for capturing and replaying proxy requests in test runs [#882](https://github.com/stefanpenner/ember-cli/pull/882)
 
 ### 0.0.29
 
