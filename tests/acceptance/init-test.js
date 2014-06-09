@@ -4,12 +4,15 @@ var ember     = require('../helpers/ember');
 var assert    = require('assert');
 var forEach   = require('lodash-node/compat/collections/forEach');
 var walkSync  = require('walk-sync');
-var Blueprint = require('../../lib/blueprint');
+var Blueprint = require('../../lib/models/blueprint');
 var path      = require('path');
 var tmp       = require('../helpers/tmp');
 var root      = process.cwd();
 var util      = require('util');
 var conf      = require('../helpers/conf');
+var minimatch = require('minimatch');
+var remove    = require('lodash-node/compat/arrays/remove');
+var any       = require('lodash-node/compat/collections/some');
 
 describe('Acceptance: ember init', function() {
   before(function() {
@@ -30,7 +33,7 @@ describe('Acceptance: ember init', function() {
   });
 
   function confirmBlueprinted() {
-    var blueprintPath = path.join(root, 'blueprint');
+    var blueprintPath = path.join(root, 'blueprints', 'app', 'files');
     var expected      = walkSync(blueprintPath).sort();
     var actual        = walkSync('.').sort();
 
@@ -38,10 +41,21 @@ describe('Acceptance: ember init', function() {
       expected[expected.indexOf(srcFile)] = destFile;
     });
 
+    removeIgnored(expected);
+    removeIgnored(actual);
+
     expected.sort();
 
     assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
                      '\n but got: ' +  util.inspect(actual));
+  }
+
+  function removeIgnored(array) {
+    remove(array, function(fn) {
+      return any(Blueprint.ignoredFiles, function(ignoredFile) {
+        return minimatch(fn, ignoredFile, { matchBase: true });
+      });
+    });
   }
 
   it('ember init', function() {

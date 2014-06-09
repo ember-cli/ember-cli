@@ -26,4 +26,8 @@ MockProject.prototype.has = function(key) {
   return (/server/.test(key));
 };
 
+MockProject.prototype.name = function() {
+  return 'mock-project';
+};
+
 module.exports = MockProject;

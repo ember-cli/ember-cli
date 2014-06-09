@@ -22,7 +22,7 @@ describe('Unit - FileInfo', function(){
       outputPath: testOutputPath,
       displayPath: '/pretty-output-path',
       inputPath: path.resolve(__dirname,
-        '../../fixtures/blueprints/with-templating/foo.txt'),
+        '../../fixtures/blueprints/with-templating/files/foo.txt'),
       templateVariables: {},
       ui: ui
     };
@@ -45,6 +45,19 @@ describe('Unit - FileInfo', function(){
     return fileInfo.render().then(function(output){
       assert.equal(output.trim(), 'Howdy Billy',
         'expects the template to have been run');
+    });
+  });
+
+  it('does not explode when trying to template binary files', function() {
+    var binary = path.resolve(__dirname, '../../fixtures/problem-binary.png');
+
+    validOptions.inputPath = binary;
+
+    var fileInfo = new FileInfo(validOptions);
+
+    return fileInfo.render().then(function(output){
+      assert(output,
+        'expects the file to be processed without error');
     });
   });
 
