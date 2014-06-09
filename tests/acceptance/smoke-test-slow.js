@@ -86,7 +86,7 @@ describe('Acceptance: smoke-test', function() {
         md5.update(file);
         var hex = md5.digest('hex');
 
-        var possibleNames = [appName + '-' + hex + '.js', appName + '-' + hex + '.css', 'vendor-' + hex + '.css'];
+        var possibleNames = [appName + '-' + hex + '.js', appName + '-' + hex + '.css', 'vendor-' + hex + '.js', 'vendor-' + hex + '.css'];
         assert(possibleNames.indexOf(filepath) > -1);
       });
 

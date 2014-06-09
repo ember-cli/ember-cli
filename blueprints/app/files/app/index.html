@@ -16,6 +16,7 @@
     <script>
       window.<%= namespace %>ENV = {{ENV}};
     </script>
+    <script src="assets/vendor.js"></script>
     <script src="assets/<%= name %>.js"></script>
     <script>
       window.<%= namespace %> = require('<%= modulePrefix %>/app')['default'].create(<%= namespace %>ENV.APP);
