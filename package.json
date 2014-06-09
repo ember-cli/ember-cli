@@ -70,6 +70,7 @@
     "nopt",
     "npm",
     "proxy-middleware",
+    "testem",
     "quick-temp",
     "readline2",
     "resolve",
