@@ -4,14 +4,15 @@ var Blueprint         = require('../../../lib/models/blueprint');
 var MockProject       = require('../../helpers/mock-project');
 var MockUi            = require('../../helpers/mock-ui');
 var assert            = require('assert');
+var glob              = require('glob');
 var path              = require('path');
 var tmp               = require('../../helpers/tmp');
 var walkSync          = require('walk-sync');
 
-var rootBlueprints    = path.resolve(path.join(__dirname, '..', '..', 'fixtures', 'blueprints'));
-var basicBlueprint    = path.join(rootBlueprints, 'basic');
-var basicNewBlueprint = path.join(rootBlueprints, 'basic_2');
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
+var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
+var basicBlueprint    = path.join(fixtureBlueprints, 'basic');
+var basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
 
 var basicBlueprintFiles = [
   '.gitignore',
@@ -44,7 +45,7 @@ describe('Blueprint', function() {
     it('finds blueprints within given lookup paths', function() {
       var expectedClass = require(basicBlueprint);
       var blueprint = Blueprint.lookup('basic', {
-        paths: [rootBlueprints]
+        paths: [fixtureBlueprints]
       });
 
       assert.equal(blueprint.name, 'basic');
@@ -67,6 +68,27 @@ describe('Blueprint', function() {
       assert.throws(function() {
         Blueprint.lookup('foo');
       }, 'Unknown blueprint: foo');
+    });
+  });
+
+  describe('.list', function() {
+    it('returns a list of blueprints grouped by lookup path', function() {
+      var expectedDefaults = glob.sync(path.join(defaultBlueprints, '*'));
+      expectedDefaults = expectedDefaults.map(function(blueprint) {
+        return path.basename(blueprint);
+      });
+      var expectedFixtures = glob.sync(path.join(fixtureBlueprints, '*'));
+      expectedFixtures = expectedFixtures.map(function(blueprint) {
+        return path.basename(blueprint);
+      });
+
+      assert.deepEqual(Blueprint.list([fixtureBlueprints]), [{
+        source: 'fixtures',
+        blueprints: expectedFixtures
+      }, {
+        source: 'ember-cli',
+        blueprints: expectedDefaults
+      }]);
     });
   });
 

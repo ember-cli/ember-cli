@@ -14,8 +14,7 @@ var ServeCommand = Command.extend({
   availableOptions: [
     { name: 'port', key: 'port', type: Number, default: 4200, required: true }
   ],
-  run: function() {},
-  usageInstructions: function() {}
+  run: function() {}
 });
 
 var DevelopEmberCLICommand = Command.extend({
@@ -24,22 +23,19 @@ var DevelopEmberCLICommand = Command.extend({
   availableOptions: [
     { name: 'package-name', key: 'packageName', type: String, required: true }
   ],
-  run: function() {},
-  usageInstructions: function() {}
+  run: function() {}
 });
 
 var InsideProjectCommand = Command.extend({
   name: 'inside-project',
   works: 'insideProject',
-  run: function() {},
-  usageInstructions: function() {}
+  run: function() {}
 });
 
 var OutsideProjectCommand = Command.extend({
   name: 'outside-project',
   works: 'outsideProject',
-  run: function() {},
-  usageInstructions: function() {}
+  run: function() {}
 });
 
 describe('models/command.js', function() {
