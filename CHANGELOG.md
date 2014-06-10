@@ -19,7 +19,7 @@
 * [BUGFIX] Only process applicaiton code with ES3SafeFilter. [#949](https://github.com/stefanpenner/ember-cli/pull/949)
 * [ENHANCEMENT] Separate applicaiton code from vendor code. Generate `/assets/vendor.js` for vendored code. [#949](https://github.com/stefanpenner/ember-cli/pull/949)
 * [ENHANCEMENT] Provide `registry` access from `EmberApp`. [#955](https://github.com/stefanpenner/ember-cli/pull/955)
-* [BUGFIX] Ensure that `EmberENV` is setup (to allow enabling flagged features). [#957](https://github.com/stefanpenner/ember-cli/pull/957)
+* [BUGFIX] Ensure that `EmberENV` is setup (to allow enabling flagged features). [#958](https://github.com/stefanpenner/ember-cli/pull/958)
 
 ### 0.0.29
 
