@@ -1,6 +1,7 @@
 # ember-cli Changelog
 
 * Allow opting out of `ES3SafeFilter` until Recast can handle full ES6 syntax. [#966](https://github.com/stefanpenner/ember-cli/pull/966)
+* [ENHANCEMENT] Provide `--watcher` option for switching between the  polling Broccoli watcher, and the Sane events-based watcher.
 
 ### 0.0.33
 
