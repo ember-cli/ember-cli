@@ -59,6 +59,15 @@ app.import('vendor/ic-ajax/dist/named-amd/main.js', {
 });
 {% endhighlight %}
 
+To use this asset in your app, import it.
+For example, with `ic-ajax`, when to use `ic.ajax.raw`:
+
+{% highlight javascript linenos %}
+import { raw as icAjaxRaw } from 'ic-ajax';
+//...
+icAjaxRaw( /* ... */ );
+{% endhighlight %}
+
 ##### Environment Specific Assets
 
 If you need to use different assets in different environments, specify an object as the first parameter. That objects keys should be the environment name, and the values should be the asset to use in that environment.
