@@ -11,8 +11,8 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
 
-{% highlight console %}
-npm install phantomjs -g
+{% highlight bash %}
+npm install -g phantomjs
 {% endhighlight %}
 
 #### Node.js
