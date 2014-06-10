@@ -30,17 +30,17 @@ describe('Watcher', function() {
   describe('watcher strategy selection', function() {
     it('selects the events-based watcher by default', function () {
       subject.options = null;
-      assert.equal(subject.selectWatcher(), require('broccoli-sane-watcher'));
+      assert.ok(!subject.polling());
     });
 
     it('selects the events-based watcher when given events watcher option', function () {
       subject.options = { watcher: 'events' };
-      assert.equal(subject.selectWatcher(), require('broccoli-sane-watcher'));
+      assert.ok(!subject.polling());
     });
 
     it('selects the polling watcher when given polling watcher option', function () {
       subject.options = { watcher: 'polling' };
-      assert.equal(subject.selectWatcher(), require('broccoli/lib/watcher'));
+      assert.ok(subject.polling());
     });
   });
 
