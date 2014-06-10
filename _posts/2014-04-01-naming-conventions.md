@@ -33,7 +33,7 @@ export default Ember.ObjectController.extend({});
 {% endhighlight %}
 
 And if it's a nested controller, we can declare nested/child controllers
-like such: `app/controllers/test/index.js`.
+like such: `app/controllers/posts/index.js`.
 
 ##### Helpers
 
