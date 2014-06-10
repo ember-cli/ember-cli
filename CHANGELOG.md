@@ -1,5 +1,9 @@
 # ember-cli Changelog
 
+* Allow opting out of `ES3SafeFilter` until Recast can handle full ES6 syntax. [#966](https://github.com/stefanpenner/ember-cli/pull/966)
+
+### 0.0.33
+
 * [BUGFIX] broccoli-sane-watcher now recovers after filters throw [#940](https://github.com/stefanpenner/ember-cli/pull/940)
 * [ENHANCEMENT] Use ember-data.prod.js when ENV=production [#909](https://github.com/stefanpenner/ember-cli/pull/909).
 * [BUGFIX] Ensure that config/environment is findable and required when setting up baseURL for server. [#916](https://github.com/stefanpenner/ember-cli/pull/916)
@@ -14,6 +18,10 @@
 * [ENHANCEMENT] Update ember-cli-shims to add `ember-data` shim. [#941](https://github.com/stefanpenner/ember-cli/pull/941)
 * [ENHANCEMENT] Update default jshint settings to require importing Ember. [#941](https://github.com/stefanpenner/ember-cli/pull/941)
 * [ENHANCEMENT] Bring generators in-house via blueprints. [#747](https://github.com/stefanpenner/ember-cli/pull/747)
+* [BUGFIX] Only process applicaiton code with ES3SafeFilter. [#949](https://github.com/stefanpenner/ember-cli/pull/949)
+* [ENHANCEMENT] Separate applicaiton code from vendor code. Generate `/assets/vendor.js` for vendored code. [#949](https://github.com/stefanpenner/ember-cli/pull/949)
+* [ENHANCEMENT] Provide `registry` access from `EmberApp`. [#955](https://github.com/stefanpenner/ember-cli/pull/955)
+* [BUGFIX] Ensure that `EmberENV` is setup (to allow enabling flagged features). [#958](https://github.com/stefanpenner/ember-cli/pull/958)
 
 ### 0.0.29
 
