@@ -17,7 +17,7 @@ example you can do `public/assets/images`, and in your templates using
 ### Stylesheets
 
 Ember CLI supports plain CSS out of the box. You can add your css styles to
-`app/styles/app.css` and it will be served at `assets/app.css`.
+`app/styles/app.css` and it will be served at `assets/application-name.css`.
 
 To use a CSS preprocessor, you'll need to install the appropriate
 [Broccoli](https://github.com/joliss/broccoli) plugin. When using a
