@@ -5,6 +5,9 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp({
   name: require('./package.json').name,
 
+  // for some large projects, you may want to uncomment this (for now)
+  es3Safe: true,
+
   minifyCSS: {
     enabled: true,
     options: {}
