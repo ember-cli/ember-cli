@@ -13,8 +13,6 @@ Ember Data and Handlebars. In this section we review some of these naming conven
 
 ##### Adapters
 
-An adapter the traditional Ember way:
-
 {% highlight javascript linenos %}
 // app/adapters/application.js
 export default DS.RESTAdapter.extend({});
@@ -34,8 +32,8 @@ export default Ember.TextField.extend({});
 export default Ember.ObjectController.extend({});
 {% endhighlight %}
 
-And if it's a route controller, we can declare nested/child controllers
-like such: `app/controllers/test/index.js`.
+And if it's a nested controller, we can declare nested/child controllers
+like such: `app/controllers/posts/index.js`.
 
 ##### Helpers
 
