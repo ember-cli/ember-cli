@@ -2,19 +2,7 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-var app = new EmberApp({
-  name: require('./package.json').name,
-
-  // for some large projects, you may want to uncomment this (for now)
-  es3Safe: true,
-
-  minifyCSS: {
-    enabled: true,
-    options: {}
-  },
-
-  getEnvJSON: require('./config/environment')
-});
+var app = new EmberApp();
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
