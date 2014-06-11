@@ -2,8 +2,10 @@
 
 * [BUGFIX] broccoli-es6-safe-recast now once again has one-at-a-time semantics for incremental rebuilds
 * [BUGFIX] upgrade broccoli-sane-watcher to include better error messages when attempting to watch non-existent files
-* Allow opting out of `ES3SafeFilter` until Recast can handle full ES6 syntax. [#966](https://github.com/stefanpenner/ember-cli/pull/966)
+* [ENHANCEMENT] Allow opting out of `ES3SafeFilter`. [#966](https://github.com/stefanpenner/ember-cli/pull/966)
 * [ENHANCEMENT] Provide `--watcher` option for switching between polling and events-based file watching. [#970](https://github.com/stefanpenner/ember-cli/pull/970)
+* [BUGFIX] Ensure that tmp/ is cleaned up after running `ember server` or `ember test --server`. [#971](https://github.com/stefanpenner/ember-cli/pull/971)
+* [BUGFIX] Fix errors with certain `generate` commands that depend on `inflection`. [f016820](https://github.com/stefanpenner/ember-cli/commit/f016820)
 
 ### 0.0.33
 
