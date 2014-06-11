@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+### 0.0.34
+
 * [BUGFIX] broccoli-es6-safe-recast now once again has one-at-a-time semantics for incremental rebuilds
 * [BUGFIX] upgrade broccoli-sane-watcher to include better error messages when attempting to watch non-existent files
 * [ENHANCEMENT] Allow opting out of `ES3SafeFilter`. [#966](https://github.com/stefanpenner/ember-cli/pull/966)
