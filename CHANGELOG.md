@@ -1,7 +1,7 @@
 # ember-cli Changelog
 
 * Allow opting out of `ES3SafeFilter` until Recast can handle full ES6 syntax. [#966](https://github.com/stefanpenner/ember-cli/pull/966)
-* [ENHANCEMENT] Provide `--watcher` option for switching between polling and events-based file watching.
+* [ENHANCEMENT] Provide `--watcher` option for switching between polling and events-based file watching. [#970](https://github.com/stefanpenner/ember-cli/pull/970)
 
 ### 0.0.33
 
