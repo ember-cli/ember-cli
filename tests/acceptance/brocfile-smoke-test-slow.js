@@ -1,5 +1,7 @@
 'use strict';
 
+var walkSync   = require('walk-sync');
+var assert     = require('assert');
 var tmp        = require('../helpers/tmp');
 var conf       = require('../helpers/conf');
 var Promise    = require('../../lib/ext/promise');
@@ -77,7 +79,49 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return copyFixtureFiles('wrap-in-eval')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test').then(console.log);
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
+
+  it('pretender is included for non production builds', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('default-development')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
+
+  it('pretender is not included if the `includePretender: false` option is passed to EmberApp', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('include-pretender-false')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
+
+  it('pretender is NOT included for production builds', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('default-production')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
+      })
+      .then(function() {
+        var assets = walkSync('dist/assets');
+        var vendorPath = assets.filter(function(path) {
+          return path.match(/vendor-.*\.js/);
+        })[0];
+        var vendorJS = fs.readFileSync('dist/assets/' + vendorPath, {encoding: 'utf8'});
+
+        assert(!vendorJS.match(/Pretender/));
       });
   });
 });

@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] Include `Pretender` by default for non-production builds. [#987](https://github.com/stefanpenner/ember-cli/pull/987)
+
 ### 0.0.34
 
 * [BUGFIX] broccoli-es6-safe-recast now once again has one-at-a-time semantics this improves incremental rebuild performance
