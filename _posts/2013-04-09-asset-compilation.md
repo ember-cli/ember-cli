@@ -131,6 +131,8 @@ html, js, and css files will be re-written to include the new name. There are
 a few options you can pass in to `EmberApp` in your `Brocfile.js` to customize 
 this behavior.
 
+* `enabled` - Default: `false` - Boolean. Enables fingerprinting if true,
+otherwise, fingerprinting is disabled.
 * `exclude` - Default: `[]` - An array of strings. If a filename contains any 
 item in the exclude array, it will not be fingerprinted.
 * `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif']` - The file types 
@@ -153,6 +155,7 @@ var app = new EmberApp({
   },
 
   fingerprint: {
+    enabled: true,
     exclude: ['fonts/169929'],
     prepend: 'https://sudomain.cloudfront.net/'
   },
