@@ -80,5 +80,16 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test').then(console.log);
       });
   });
+
+  it('default development build tests', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('default-development')
+    .then(function() {
+      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+    });
+  });
 });
 
