@@ -25,7 +25,9 @@ For example, to add bootstrap in your project you need to do the following:
 
 In `Brocfile.js` add the following: 
 
-{% highlight javascript linenos %} app.import('vendor/bootstrap/dist/css/bootstrap.css'); {% endhighlight %} it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
+{% highlight javascript linenos %}
+app.import('vendor/bootstrap/dist/css/bootstrap.css');
+{% endhighlight %} it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
 
 In `app/index.html` add the following: `<link rel="stylesheet" href="assets/vendor.css">`
 
