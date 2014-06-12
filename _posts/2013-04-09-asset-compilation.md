@@ -28,6 +28,7 @@ In `Brocfile.js` add the following:
 it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
 
 In `app/index.html` add the following:
+
 `<link rel="stylesheet" href="assets/vendor.css">`
 
 
