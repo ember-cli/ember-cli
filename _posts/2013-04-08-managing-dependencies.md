@@ -41,7 +41,7 @@ Learn more about [Handling Dependencies in Javascript](http://addyosmani.com/wri
 #### Begin Using ES6 Modules Soon
 Where possible, you should use ES6-compatible libraries, and import them into your project using ES6 syntax.  
 
-Officially, the ES6 module syntax is still [under development](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts) by the Ecma TC39 committee.  However, it is unlikely that the `import` syntax used to import dependencies into a script will change.  Note that ES6 `import` functionality in ember-cli is still under development and not yet ready for use with importing dependencies.  
+Officially, the ES6 module syntax is still [under development](https://people.mozilla.org/~jorendorff/es6-draft.html) by the Ecma TC39 committee.  However, it is unlikely that the `import` syntax used to import dependencies into a script will change.  Note that ES6 `import` functionality in ember-cli is still under development and not yet ready for use with importing dependencies.  
 
 Nevertheless, we recommend you plan on using the ES6 `import` syntax when possible. Ember-cli leverages the [ES6 Module Transpiler](https://github.com/square/es6-module-transpiler) to allow ES6-style `import` statements to be used natively on modern browsers and be "transpiled" into older javascript supported by older browsers.  Use of the transpiler also enables the ES6 `import` syntax to be used with javascript modules that are compatible with ES6, AMD, or non-AMD (CommonJS or global legacy).
 
@@ -128,9 +128,9 @@ Many javascript libraries will be written in a non-AMD or non-CommonJS manner.  
 
 ##### Non-AMD Module Example
 
-[Moment.js](http://momentjs.com/) is a javascript library which is not natively AMD-compliant (although [documentation](http://momentjs.com/docs/#/use-it/require-js/) is available on how to make it AMD-compliant with [RequireJS](http://requirejs.org/)).
+[Moment.js](http://momentjs.com/) is a javascript library which can be used either as an AMD module ([See Documentation](http://momentjs.com/docs/#/use-it/require-js/)) or as a legacy global include ([See Documentation](http://momentjs.com/docs/#/use-it/browser/)).  You should always use AMD modules where possible, but for example purposes only, we will use it as a non-AMD module.  
 
-To import moment.js using ember-cli, first tell Bower to type:
+To import moment.js as a legacy global using ember-cli, first tell Bower to type:
 
 ```
 bower install --save moment
