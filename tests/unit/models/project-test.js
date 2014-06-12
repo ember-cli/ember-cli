@@ -2,7 +2,7 @@
 
 var Project = require('../../../lib/models/project');
 var tmp     = require('../../helpers/tmp');
-var touch   = require('../../helpers/file-utils').touch;
+var touch   = require('../../helpers/fs-utils').touch;
 var assert  = require('assert');
 
 describe('models/project.js', function() {
