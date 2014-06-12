@@ -130,6 +130,7 @@ describe('Unit: CLI', function() {
     ['server','s'].forEach(function(command) {
       it('expects version in UI output', function() {
         var server = stubRun('serve');
+
         return ember([command]).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
@@ -141,6 +142,7 @@ describe('Unit: CLI', function() {
 
       it('ember ' + command + ' --port 9999', function() {
         var server = stubRun('serve');
+
         return ember([command, '--port',  '9999']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
@@ -150,37 +152,25 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' -p 9999', function() {
-        var server = stubValidateAndRun('serve');
-
-        ember([command, '-p',  '9999']).then(function() {
-          assert.equal(server.called, 1, 'expected the server command to be run');
-
-          var options = server.calledWith[0][1];
-
-          assert.equal(options.port, 9999, 'correct port');
-        });
-      });
-
       it('ember ' + command + ' --host localhost', function() {
-        var server = stubValidateAndRun('serve');
+        var server = stubRun('serve');
 
-        ember(['server', '--host', 'localhost']).then(function() {
+        return ember(['server', '--host', 'localhost']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var options = server.calledWith[0][1];
+          var options = server.calledWith[0][0];
 
           assert.equal(options.host, 'localhost', 'correct localhost');
         });
       });
 
       it('ember ' + command + ' --port 9292 --host localhost', function() {
-        var server = stubValidateAndRun('serve');
+        var server = stubRun('serve');
 
-        ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
+        return ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var options = server.calledWith[0][1];
+          var options = server.calledWith[0][0];
 
           assert.equal(options.host, 'localhost', 'correct localhost');
           assert.equal(options.port, '9292', 'correct localhost');
@@ -188,48 +178,48 @@ describe('Unit: CLI', function() {
       });
 
       it('ember ' + command + ' --proxy http://localhost:3000/', function() {
-        var server = stubValidateAndRun('serve');
+        var server = stubRun('serve');
 
-        ember([command, '--proxy', 'http://localhost:3000/']).then(function() {
+        return ember([command, '--proxy', 'http://localhost:3000/']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var options = server.calledWith[0][1];
+          var options = server.calledWith[0][0];
 
           assert.equal(options.proxy, 'http://localhost:3000/', 'correct proxy url');
         });
       });
 
       it('ember ' + command + ' --watcher events', function() {
-        var server = stubValidateAndRun('serve');
+        var server = stubRun('serve');
 
-        ember([command, '--watcher', 'events']).then(function() {
+        return ember([command, '--watcher', 'events']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var options = server.calledWith[0][1];
+          var options = server.calledWith[0][0];
 
           assert.equal(options.watcher, 'events', 'correct watcher type');
         });
       });
 
       it('ember ' + command + ' --watcher polling', function() {
-        var server = stubValidateAndRun('serve');
+        var server = stubRun('serve');
 
-        ember([command, '--watcher', 'polling']).then(function() {
+        return ember([command, '--watcher', 'polling']).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var options = server.calledWith[0][1];
+          var options = server.calledWith[0][0];
 
           assert.equal(options.watcher, 'polling', 'correct watcher type');
         });
       });
 
       it('ember ' + command, function() {
-        var server = stubValidateAndRun('serve');
+        var server = stubRun('serve');
 
-        ember([command]).then(function() {
+        return ember([command]).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var options = server.calledWith[0][1];
+          var options = server.calledWith[0][0];
 
           assert.equal(options.watcher, 'events', 'correct watcher type');
         });
@@ -405,6 +395,7 @@ describe('Unit: CLI', function() {
   it('ember <valid command>', function() {
     var help = stubValidateAndRun('help');
     var serve = stubValidateAndRun('serve');
+
     return ember(['serve']).then(function() {
       assert.equal(help.called, 0, 'expected the help command NOT to be run');
       assert.equal(serve.called, 1,  'expected the serve command to be run');
@@ -436,6 +427,7 @@ describe('Unit: CLI', function() {
 
   it('ember <invalid command>', function() {
     var help = stubValidateAndRun('help');
+
     return ember(['unknownCommand']).then(function() {
       var output = ui.output.trim().split('\n');
       assert(/The specified command .*unknownCommand.* is invalid/.test(output[1]), 'expected an invalid command message');

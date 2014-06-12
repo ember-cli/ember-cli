@@ -32,16 +32,18 @@ describe('init command', function() {
   });
 
   it('doesn\'t allow to create an application named `test`', function() {
-    new InitCommand({
+    var command = new InitCommand({
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: 'test'}),
       tasks: tasks
-    }).validateAndRun([]).then(function() {
+    });
+
+    return command.validateAndRun([]).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
     .catch(function() {
-      assert.equal(ui.output, 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
+      assert.equal(ui.output, 'We currently do not support an application name of `test`.');
     });
   });
 
