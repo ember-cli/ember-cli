@@ -6,9 +6,10 @@ var baseArgs = ['node', 'path/to/cli'];
 
 Cli.__set__('Leek', function() {
   return {
-      track:      function() {},
-      trackEvent: function() {},
-      trackError: function() {}
+      track:      function track() {},
+      trackEvent: function trackEvent() {},
+      trackError: function trackError() {},
+      setName:    function setName() {}
     };
 });
 
