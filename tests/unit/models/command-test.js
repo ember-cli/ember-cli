@@ -4,8 +4,8 @@
 var expect        = require('chai').expect;
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var MockConfig    = require('../../helpers/mock-config');
 var Command       = require('../../../lib/models/command');
+var Yam           = require('yam');
 
 var ServeCommand = Command.extend({
   name: 'serve',
@@ -52,15 +52,17 @@ describe('models/command.js', function() {
     ui = new MockUI();
     analytics = new MockAnalytics();
     project = { isEmberCLIProject: function(){ return true; }};
-    config = new MockConfig();
+    config = new Yam('ember-cli', {
+      homePath: process.cwd() + '/tests/fixtures/home',
+      path:     process.cwd() + '/tests/fixtures/project'
+    });
   });
 
   it('parseArgs() should parse the command options.', function() {
     expect(new ServeCommand({
       ui: ui,
       analytics: analytics,
-      project: project,
-      settings: config
+      project: project
     }).parseArgs(['--port', '80'])).to.have.deep.property('options.port', 80);
   });
 
@@ -69,14 +71,14 @@ describe('models/command.js', function() {
       ui: ui,
       analytics: analytics,
       project: project,
-      settings: config
+      settings: config.getAll()
     }).parseArgs(['--port', '789'])).to.deep.equal({
       options: {
         port: 789,
         environment: 'mock-development',
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
-        'live-reload': true
+        'live-reload': false
       },
       args: []
     });
@@ -86,8 +88,7 @@ describe('models/command.js', function() {
     expect(new ServeCommand({
       ui: ui,
       analytics: analytics,
-      project: project,
-      settings: config
+      project: project
     }).parseArgs(['-p', '80'])).to.have.deep.property('options.port', 80);
   });
 
@@ -95,8 +96,7 @@ describe('models/command.js', function() {
     expect(new ServeCommand({
       ui: ui,
       analytics: analytics,
-      project: project,
-      settings: config
+      project: project
     }).parseArgs([])).to.have.deep.property('options.port', 4200);
   });
 
@@ -105,14 +105,14 @@ describe('models/command.js', function() {
       ui: ui,
       analytics: analytics,
       project: project,
-      settings: config
+      settings: config.getAll()
     }).parseArgs(['foo', '--port', '80'])).to.deep.equal({
       args: ['foo'],
       options: {
         environment: 'mock-development',
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
-        'live-reload': true,
+        'live-reload': false,
         port: 80
       }
     });
