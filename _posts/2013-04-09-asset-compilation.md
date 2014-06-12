@@ -19,12 +19,12 @@ example you can do `public/assets/images`, and in your templates using
 Ember CLI supports plain CSS out of the box. You can add your css styles to
 `app/styles/app.css` and it will be served at `assets/application-name.css`.
 
-For example, to add bootstrap in your project you need to do the following: {% highlight bash %} bower install --save-dev bootstrap {% endhighlight %}
+For example, to add bootstrap in your project you need to do the following: {% highlight sh lineos %} bower install --save-dev bootstrap {% endhighlight %}
 
-In {% highlight bash %} Brocfile.js {% endhighlight %} add the following: {% highlight bash %} app.import('vendor/bootstrap/dist/css/bootstrap.css');
-{% endhighlight %} it's going to tell {% highlight bash %} Broccoli {% endhighlight %} that we want this file to be concatenated with our {% highlight bash %} vendor.css {% endhighlight %} file.
+In `Brocfile.js` add the following: {% highlight javascript lineos %} app.import('vendor/bootstrap/dist/css/bootstrap.css');
+{% endhighlight %} it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
 
-In {% highlight bash %} app/index.html {% endhighlight %} add the following:{% highlight bash %} <link rel="stylesheet" href="assets/vendor.css"> {% endhighlight %}
+In `app/index.html` add the following:{% highlight html lineos %} <link rel="stylesheet" href="assets/vendor.css"> {% endhighlight %}
 
 
 To use a CSS preprocessor, you'll need to install the appropriate
