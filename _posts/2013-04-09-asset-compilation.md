@@ -20,7 +20,9 @@ Ember CLI supports plain CSS out of the box. You can add your css styles to
 `app/styles/app.css` and it will be served at `assets/application-name.css`.
 
 For example, to add bootstrap in your project you need to do the following:
+
 `bower install --save-dev bootstrap`
+
 In `Brocfile.js` add the following:
 `app.import('vendor/bootstrap/dist/css/bootstrap.css');`
 it's going to tell broccoli that we want this file to be concatenated with our `vendor.css` file.
