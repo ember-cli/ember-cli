@@ -32,20 +32,37 @@ describe('test command', function() {
   });
 
   it('builds and runs test', function() {
-    new TestCommand(options).validateAndRun([]).then(function() {
+    return new TestCommand(options).validateAndRun([]).then(function() {
       assert.equal(buildRun.called, 1, 'expected build task to be called once');
       assert.equal(testRun.called, 1,  'expected test task to be called once');
     });
   });
 
   it('has the correct options', function() {
-    new TestCommand(options).validateAndRun([]).then(function() {
+    return new TestCommand(options).validateAndRun([]).then(function() {
       var buildOptions = buildRun.calledWith[0][0];
-      var testOptions  = testRun.calledWith[1][0];
+      var testOptions  = testRun.calledWith[0][0];
 
       assert.equal(buildOptions.environment, 'development', 'has correct env');
       assert.ok(buildOptions.outputPath,     'has outputPath');
-      assert.equal(testOptions.configFile,   'tests/testem.json', 'has config file');
+      assert.equal(testOptions.configFile,   './testem.json', 'has config file');
+      assert.equal(testOptions.port,         7357, 'has config file');
+    });
+  });
+
+  it('passes through custom configFile option', function() {
+    return new TestCommand(options).validateAndRun(['--config-file=some-random/path.json']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      assert.equal(testOptions.configFile, 'some-random/path.json');
+    });
+  });
+
+  it('passes through custom port option', function() {
+    return new TestCommand(options).validateAndRun(['--port=5678']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      assert.equal(testOptions.port, 5678);
     });
   });
 });
