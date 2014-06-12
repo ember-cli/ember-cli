@@ -199,6 +199,42 @@ describe('Unit: CLI', function() {
         });
       });
 
+      it('ember ' + command + ' --watcher events', function() {
+        var server = stubValidateAndRun('serve');
+
+        ember([command, '--watcher', 'events']).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][1];
+
+          assert.equal(options.watcher, 'events', 'correct watcher type');
+        });
+      });
+
+      it('ember ' + command + ' --watcher polling', function() {
+        var server = stubValidateAndRun('serve');
+
+        ember([command, '--watcher', 'polling']).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][1];
+
+          assert.equal(options.watcher, 'polling', 'correct watcher type');
+        });
+      });
+
+      it('ember ' + command, function() {
+        var server = stubValidateAndRun('serve');
+
+        ember([command]).then(function() {
+          assert.equal(server.called, 1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][1];
+
+          assert.equal(options.watcher, 'events', 'correct watcher type');
+        });
+      });
+
       ['production', 'development', 'foo'].forEach(function(env) {
         it('ember ' + command + ' --environment ' + env, function() {
           var server = stubRun('serve');

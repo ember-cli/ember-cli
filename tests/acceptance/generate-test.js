@@ -2,17 +2,18 @@
 
 'use strict';
 
-var Promise    = require('../../lib/ext/promise');
-var assertFile = require('../helpers/assert-file');
-var conf       = require('../helpers/conf');
-var ember      = require('../helpers/ember');
-var fs         = require('fs-extra');
-var outputFile = Promise.denodeify(fs.outputFile);
-var path       = require('path');
-var rimraf     = require('rimraf');
-var root       = process.cwd();
-var tmp        = require('tmp-sync');
-var tmproot    = path.join(root, 'tmp');
+var Promise          = require('../../lib/ext/promise');
+var assertFile       = require('../helpers/assert-file');
+var assertFileEquals = require('../helpers/assert-file-equals');
+var conf             = require('../helpers/conf');
+var ember            = require('../helpers/ember');
+var fs               = require('fs-extra');
+var outputFile       = Promise.denodeify(fs.outputFile);
+var path             = require('path');
+var rimraf           = require('rimraf');
+var root             = process.cwd();
+var tmp              = require('tmp-sync');
+var tmproot          = path.join(root, 'tmp');
 
 describe('Acceptance: ember generate', function() {
   var tmpdir;
@@ -477,5 +478,13 @@ describe('Acceptance: ember generate', function() {
           contains: 'custom: true'
         });
       });
+  });
+
+  it('integration-test foo', function() {
+    return generate(['integration-test', 'foo']).then(function() {
+      var expected = path.join(__dirname, '../fixtures/generate/integration-test-expected.js');
+
+      assertFileEquals('tests/integration/foo-test.js', expected);
+    });
   });
 });

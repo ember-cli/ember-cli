@@ -27,6 +27,23 @@ describe('Watcher', function() {
     });
   });
 
+  describe('watcher strategy selection', function() {
+    it('selects the events-based watcher by default', function () {
+      subject.options = null;
+      assert.ok(!subject.polling());
+    });
+
+    it('selects the events-based watcher when given events watcher option', function () {
+      subject.options = { watcher: 'events' };
+      assert.ok(!subject.polling());
+    });
+
+    it('selects the polling watcher when given polling watcher option', function () {
+      subject.options = { watcher: 'polling' };
+      assert.ok(subject.polling());
+    });
+  });
+
   describe('watcher:change', function() {
     beforeEach(function() {
       watcher.emit('change', {
