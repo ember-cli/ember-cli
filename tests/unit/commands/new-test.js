@@ -2,19 +2,25 @@
 
 var assert         = require('../../helpers/assert');
 var commandOptions = require('../../factories/command-options');
-var rewire         = require('rewire');
+var NewCommand     = require('../../../lib/commands/new');
 
 describe('new command', function() {
-  var NewCommand, command;
+  var command, options;
 
-  before(function() {
-    NewCommand = rewire('../../../lib/commands/new');
+  beforeEach(function() {
+    options = commandOptions({
+      project: {
+        isEmberCLIProject: function() {
+          return false;
+        }
+      }
+    });
+
+    command = new NewCommand(options);
   });
 
   it('doesn\'t allow to create an application named `test`', function() {
-    command = new NewCommand(
-      commandOptions()
-    ).validateAndRun(['test']).then(function() {
+    return command.validateAndRun(['test']).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
     .catch(function() {
@@ -23,9 +29,7 @@ describe('new command', function() {
   });
 
   it('doesn\'t allow to create an application named `ember`', function() {
-    command = new NewCommand(
-      commandOptions()
-    ).validateAndRun(['ember']).then(function() {
+    return command.validateAndRun(['ember']).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
     .catch(function() {
@@ -34,9 +38,7 @@ describe('new command', function() {
   });
 
   it('doesn\'t allow to create an application with a period in the name', function() {
-    command = new NewCommand(
-      commandOptions()
-    ).validateAndRun(['zomg.awesome']).then(function() {
+    return command.validateAndRun(['zomg.awesome']).then(function() {
       assert.ok(false, 'should have rejected with period in the application name');
     })
     .catch(function() {
