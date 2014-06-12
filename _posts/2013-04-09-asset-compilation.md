@@ -24,6 +24,10 @@ For example, to add bootstrap in your project you need to do the following:
 bower install --save-dev bootstrap
 {% endhighlight %}
 
+{% highlight bash %}
+bower install --save-dev bootstrap
+{% endhighlight %}
+
 In `Brocfile.js` add the following: 
 ```javascript
 app.import('vendor/bootstrap/dist/css/bootstrap.css');
