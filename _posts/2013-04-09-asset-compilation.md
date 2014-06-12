@@ -25,7 +25,7 @@ For example, to add bootstrap in your project you need to do the following:
 
 In `Brocfile.js` add the following:
 `app.import('vendor/bootstrap/dist/css/bootstrap.css');`
-it's going to tell broccoli that we want this file to be concatenated with our `vendor.css` file.
+it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
 
 In `app/index.html` add the following:
 `<link rel="stylesheet" href="assets/vendor.css">`
