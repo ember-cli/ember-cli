@@ -74,6 +74,9 @@ variables are included automatically in every module, so no need to import them.
 
 Only the `default` export is supported at the moment.
 
+[Cyclic dependencies](http://wiki.ecmascript.org/doku.php?id=harmony:modules_examples#cyclic_dependencies)
+are not yet supported at the moment.
+
 ### Module Directory Naming Structure
 
 `app/adapters/`
