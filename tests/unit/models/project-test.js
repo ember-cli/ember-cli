@@ -14,11 +14,6 @@ describe('models/project.js', function() {
     projectPath = process.cwd() + '/tmp/test-app';
 
     before(function() {
-      Project.prototype.require = function() {
-        called = true;
-        return function() {};
-      };
-
       tmp.setup(projectPath);
 
       touch(projectPath + '/config/environment.js', {
@@ -26,6 +21,11 @@ describe('models/project.js', function() {
       });
 
       project = new Project(projectPath, { });
+      project.require = function() {
+        called = true;
+        return function() {};
+      };
+
     });
 
     after(function() {
@@ -44,6 +44,7 @@ describe('models/project.js', function() {
       var packageContents = require(path.join(projectPath, 'package.json'));
 
       project = new Project(projectPath, packageContents);
+      project.initializeAddons();
     });
 
     it('returns a listing of all dependencies in the projects package.json', function() {
@@ -64,13 +65,13 @@ describe('models/project.js', function() {
     });
 
     it('returns an instance of the addon', function() {
-      var addons = project.addons();
+      var addons = project.addons;
 
       assert.equal(addons[0].name, 'Ember Random Addon');
     });
 
     it('addons get passed the project instance', function() {
-      var addons = project.addons();
+      var addons = project.addons;
 
       assert.equal(addons[0].project, project);
     });
