@@ -69,10 +69,12 @@ Similarly, you can give any name to the variable into which you import a module
 when doing so manually; see how the module `mixins/foo` is assigned to variable
 `FooMixin` in the example above. 
 
-By default the `Ember` (as well as the shortened `Em`) and `DS` (for Ember Data) 
-variables are included automatically in every module, so no need to import them.
+To use `Ember` or `DS` (for Ember Data) in your modules you must import them:
 
-Only the `default` export is supported at the moment.
+{% highlight javascript linenos %}
+import Ember from "ember";
+import DS from "ember-data";
+{% endhighlight %}
 
 Cyclic dependencies – are not yet supported at the moment, we are depending on: https://github.com/square/es6-module-transpiler/pull/126
 
