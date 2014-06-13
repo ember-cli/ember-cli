@@ -74,8 +74,7 @@ variables are included automatically in every module, so no need to import them.
 
 Only the `default` export is supported at the moment.
 
-[Cyclic dependencies](http://wiki.ecmascript.org/doku.php?id=harmony:modules_examples#cyclic_dependencies)
-are not yet supported at the moment.
+Cyclic dependencies – are not yet supported at the moment, we are depending on: https://github.com/square/es6-module-transpiler/pull/126
 
 ### Module Directory Naming Structure
 
