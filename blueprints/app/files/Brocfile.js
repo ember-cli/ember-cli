@@ -21,19 +21,25 @@ app.import({
   development: 'vendor/ember-data/ember-data.js',
   production:  'vendor/ember-data/ember-data.prod.js'
 }, {
-  'ember-data': [
-    'default'
-  ]
+  {
+    availableModules: {
+      'ember-data': [
+        'default'
+      ]
+    }
+  }
 });
 
 app.import('vendor/ic-ajax/dist/named-amd/main.js', {
-  'ic-ajax': [
-    'default',
-    'defineFixture',
-    'lookupFixture',
-    'raw',
-    'request',
-  ]
+  availableModules: {
+    'ic-ajax': [
+      'default',
+      'defineFixture',
+      'lookupFixture',
+      'raw',
+      'request',
+    ]
+  }
 });
 
 
