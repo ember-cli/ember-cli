@@ -223,3 +223,7 @@ We can then embed our view using the following convention:
 
 Note, that we did not namespace `UserView`. The resolver takes care of this for you.
 For more information about the default Ember resolver, check out the source [here](https://github.com/emberjs/ember.js/blob/master/packages/ember-application/lib/system/resolver.js).
+
+### Tests
+
+Test filenames should be suffixed with `-test.js` in order to run.
