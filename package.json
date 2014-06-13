@@ -133,7 +133,7 @@
     "express": "^4.2.0",
     "broccoli-sane-watcher": "0.0.2",
     "yam": "0.0.12",
-    "broccoli-amd-transforms": "git+https://github.com/abuiles/broccoli-amd-transforms.git"
+    "broccoli-amd-transforms": "git+https://github.com/abuiles/broccoli-amd-deanonymize.git"
   },
   "devDependencies": {
     "chai": "^1.9.1",
