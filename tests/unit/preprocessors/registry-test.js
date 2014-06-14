@@ -73,4 +73,13 @@ describe('Plugin Loader', function() {
     assert.equal(plugin.applicationName, 'some-application-name');
   });
 
+  it('adds a plugin directly if it is provided', function() {
+    var randomPlugin = {name: 'Awesome!'};
+
+    registry.add('js', randomPlugin);
+    var registered = registry.registry['js'];
+
+    assert.equal(registered[0], randomPlugin);
+  });
+
 });
