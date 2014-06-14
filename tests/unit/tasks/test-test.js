@@ -11,13 +11,14 @@ describe('test', function() {
       invokeTestem: function(options) {
         assert.equal(options.file, 'blahzorz.conf');
         assert.equal(options.port, 123324);
-        assert.equal(options.cwd, 'tmp/output');
+        assert.equal(options.cwd, 'blerpy-derpy');
       }
     });
 
     subject.run({
       configFile: 'blahzorz.conf',
-      port: 123324
+      port: 123324,
+      outputPath: 'blerpy-derpy'
     });
   });
 });
