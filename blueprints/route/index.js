@@ -10,8 +10,7 @@ module.exports = Blueprint.extend({
 
     if (!isIndex) {
       addRouteToRouter(entity.name, {
-        type: entity.options.type,
-        within: entity.options.within
+        type: entity.options.type
       });
     }
   }
@@ -19,11 +18,15 @@ module.exports = Blueprint.extend({
 
 function addRouteToRouter(name, options) {
   var type       = options.type || 'route';
-  var within     = options.within || 'root';
-  var plural     = inflection.pluralize(name);
   var routerPath = path.join(process.cwd(), 'app', 'router.js');
   var oldContent = fs.readFileSync(routerPath, 'utf-8');
-  var newContent = null;
+  var existence  = new RegExp("(route|resource)\\(['\"]" + name + "'");
+  var newContent;
+  var plural;
+
+  if (existence.test(oldContent)) {
+    return;
+  }
 
   switch (type) {
   case 'route':
@@ -33,6 +36,8 @@ function addRouteToRouter(name, options) {
     );
     break;
   case 'resource':
+    plural = inflection.pluralize(name);
+
     if (plural === name) {
       newContent = oldContent.replace(
         /(map\(function\(\) {[\s\S]+)}\)/,

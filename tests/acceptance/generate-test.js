@@ -207,6 +207,29 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('route bar does not create duplicates in router.js', function() {
+    var routerDefinition = (
+      "Router.map(function() {\n" +
+      "  this.resource('foo', function() {\n" +
+      "    this.route('bar');\n" +
+      "  });\n" +
+      "});\n"
+    );
+
+    return initApp()
+      .then(function() {
+        return outputFile('app/router.js', routerDefinition);
+      })
+      .then(function() {
+        return ember(['generate', 'route', 'bar']);
+      })
+      .then(function() {
+        assertFile('app/router.js', {
+          contains: routerDefinition
+        });
+      });
+  });
+
   it('template foo', function() {
     return generate(['template', 'foo']).then(function() {
       assertFile('app/templates/foo.hbs');
