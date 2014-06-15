@@ -80,7 +80,7 @@ ember server
 Use NPM to update to the latest released version of Ember CLI.
 
 {% highlight bash %}
-npm install ember-cli --save-dev
+npm install --save-dev ember-cli 
 {% endhighlight %}
 
 When you update to the latest version you may need to re-install files from the
