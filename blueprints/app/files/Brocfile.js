@@ -26,15 +26,4 @@ app.import({
   ]
 });
 
-app.import('vendor/ic-ajax/dist/named-amd/main.js', {
-  'ic-ajax': [
-    'default',
-    'defineFixture',
-    'lookupFixture',
-    'raw',
-    'request',
-  ]
-});
-
-
 module.exports = app.toTree();
