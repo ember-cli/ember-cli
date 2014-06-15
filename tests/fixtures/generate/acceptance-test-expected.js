@@ -3,7 +3,7 @@ import startApp from '../helpers/start-app';
 
 var App;
 
-module('Integration - <%= classifiedModuleName %>', {
+module('Acceptance: Foo', {
   setup: function() {
     App = startApp();
   },
@@ -12,10 +12,10 @@ module('Integration - <%= classifiedModuleName %>', {
   }
 });
 
-test('visiting /<%= dasherizedModuleName %>', function() {
-  visit('/<%= dasherizedModuleName %>');
+test('visiting /foo', function() {
+  visit('/foo');
 
   andThen(function() {
-    equal(currentPath(), '<%= dasherizedModuleName %>');
+    equal(currentPath(), 'foo');
   });
 });
