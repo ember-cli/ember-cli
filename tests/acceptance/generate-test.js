@@ -480,11 +480,11 @@ describe('Acceptance: ember generate', function() {
       });
   });
 
-  it('integration-test foo', function() {
-    return generate(['integration-test', 'foo']).then(function() {
-      var expected = path.join(__dirname, '../fixtures/generate/integration-test-expected.js');
+  it('acceptance-test foo', function() {
+    return generate(['acceptance-test', 'foo']).then(function() {
+      var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
 
-      assertFileEquals('tests/integration/foo-test.js', expected);
+      assertFileEquals('tests/acceptance/foo-test.js', expected);
     });
   });
 });
