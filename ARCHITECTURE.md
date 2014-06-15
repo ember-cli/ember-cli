@@ -74,13 +74,21 @@ module.exports = Command.extend({
     },
     ...
   ],
+
+  anonymousOptions: [
+    '<option-1>',
+    '<option-2>',
+    ...
+  ],
+
   run: function(options) { // Required
     // options === { packageName, ... }
 
     // Run tasks and return a promise
   },
-  usageInstructions: function() { // Optional
-    return 'Usage Instructions...';
+
+  printDetailedHelp: function() { // Optional
+    this.ui.write('Detailed help...');
   }
 });
 ```
