@@ -51,6 +51,7 @@ describe('models/project.js', function() {
       var expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
+        'ember-non-root-addon': 'latest',
         'non-ember-thingy': 'latest',
         'something-else': 'latest'
       };
@@ -59,7 +60,7 @@ describe('models/project.js', function() {
     });
 
     it('returns a listing of all ember-cli-addons', function() {
-      var expected = [ 'ember-random-addon' ];
+      var expected = [ 'ember-random-addon', 'ember-non-root-addon' ];
 
       assert.deepEqual(project.availableAddons(), expected);
     });
@@ -74,6 +75,12 @@ describe('models/project.js', function() {
       var addons = project.addons;
 
       assert.equal(addons[0].project, project);
+    });
+
+    it('returns an instance of an addon that uses `ember-addon-main`', function() {
+      var addons = project.addons;
+
+      assert.equal(addons[1].name, 'Ember Non Root Addon');
     });
   });
 });

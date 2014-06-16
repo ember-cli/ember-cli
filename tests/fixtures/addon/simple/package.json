@@ -7,6 +7,7 @@
   "devDependencies": {
     "ember-cli": "latest",
     "ember-random-addon": "latest",
+    "ember-non-root-addon": "latest",
     "non-ember-thingy": "latest"
   }
 }
