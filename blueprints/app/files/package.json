@@ -26,5 +26,9 @@
     "glob": "^3.2.9",
     "ember-cli-ic-ajax": "0.0.2",
     "ember-cli-ember-data": "0.0.2"
+  },
+  "dependencies": {
+    "ember-inflector-node-shim": "git://github.com/manuelmitasch/ember-inflector-node-shim",
+    "nedb": "^0.10.5"
   }
 }
