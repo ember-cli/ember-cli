@@ -80,7 +80,7 @@ ember server
 Use NPM to update to the latest released version of Ember CLI.
 
 {% highlight bash %}
-npm install --save-dev ember-cli 
+npm install --save-dev ember-cli
 {% endhighlight %}
 
 When you update to the latest version you may need to re-install files from the
@@ -199,10 +199,13 @@ These are all compiled into `app.css`.
 Your Handlebars templates. These are compiled to `templates.js`.
 The templates are named the same as their filename, minus the extension (i.e. `templates/foo/bar.hbs` -> `foo/bar`).
 
-`app/controllers/`, `app/models/`, etc
+`app/controllers/`, `app/models/`, etc.
 
 Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules).
 
+[PhantomJS]: http://phantomjs.org
+[homebrew]: http://brew.sh
 
-[PhantomJS]: http://phantomjs.org/
-[homebrew]: http://brew.sh/
+### Add-Ons
+
+Add-ons are registered in NPM with a keyword of `ember-addon`. See a full list of existing add-ons registered in NPM [here](https://www.npmjs.org/browse/keyword/ember-addon).
