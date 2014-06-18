@@ -122,7 +122,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['model', 'foo']).then(function() {
       assertFile('app/models/foo.js', {
         contains: [
-          "import DS from 'ember-data';",
+          "import DS from 'vendor/ember-data/ember-data';",
           "export default DS.Model.extend"
         ]
       });
@@ -334,7 +334,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo']).then(function() {
       assertFile('app/adapters/foo.js', {
         contains: [
-          "import DS from 'ember-data';",
+          "import DS from 'vendor/ember-data/ember-data';",
           "export default DS.RESTAdapter.extend({\n});"
         ]
       });
@@ -345,7 +345,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['serializer', 'foo']).then(function() {
       assertFile('app/serializers/foo.js', {
         contains: [
-          "import DS from 'ember-data';",
+          "import DS from 'vendor/ember-data/ember-data';",
           'export default DS.RESTSerializer.extend({\n});'
         ]
       });
@@ -362,7 +362,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['transform', 'foo']).then(function() {
       assertFile('app/transforms/foo.js', {
         contains: [
-          "import DS from 'ember-data';",
+          "import DS from 'vendor/ember-data/ember-data';",
           'export default DS.Transform.extend({\n' +
           '  deserialize: function(serialized) {\n' +
           '    return serialized;\n' +

@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import DS from 'vendor/ember-data/ember-data';
 
 export default DS.Transform.extend({
   deserialize: function(serialized) {
