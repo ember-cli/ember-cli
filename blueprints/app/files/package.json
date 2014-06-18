@@ -25,6 +25,6 @@
     "body-parser": "^1.2.0",
     "glob": "^3.2.9",
     "ember-cli-ic-ajax": "0.0.2",
-    "ember-cli-ember-data": "0.0.2"
+    "ember-cli-ember-data": "0.0.3"
   }
 }
