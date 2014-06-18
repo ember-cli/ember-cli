@@ -16,6 +16,8 @@
 * [ENHANCEMENT] Keep output path (`/dist` by default) up to date with both `ember server` and `ember build`. [#1034](https://github.com/stefanpenner/ember-cli/pull/1034)
 * [ENHANCEMENT] Use the `ember-cli-ic-ajax` addon to bring in ic-ajax. [#1047](https://github.com/stefanpenner/ember-cli/issues/1047)
 * [ENHANCEMENT] Use the `ember-cli-ember-data` addon to bring in ember-data. [#1047](https://github.com/stefanpenner/ember-cli/issues/1047)
+* [BUGFIX] Update blueprints to use new ember-data path.
+[#1059](https://github.com/stefanpenner/ember-cli/issues/1059)
 
 ### 0.0.34
 
