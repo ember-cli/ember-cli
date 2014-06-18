@@ -59,6 +59,9 @@ modules.
 npm install --save-dev broccoli-sass
 {% endhighlight %}
 
+Note: When importing `.scss` files from `public/` you will need to include `public/` in the path.
+This differs from css imports.
+
 #### Stylus
 
 To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
