@@ -1,5 +1,9 @@
 # ember-cli Changelog
 
+### 0.0.36
+* deployed bundled package with outdated bundled depds... Likely user
+  error (by @stefannpenner)
+
 ### 0.0.35
 
 * [BUGFIX] Ensure that vendored JS files are concatted in a safe way (to prevent issues with ASI). [#988](https://github.com/stefanpenner/ember-cli/pull/988)
