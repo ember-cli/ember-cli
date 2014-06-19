@@ -118,8 +118,8 @@ Starts up the server. Default port is `4200`.
 
 `ember generate <generator-name> <options>`
 
-Runs a specific generator. See [cavneb/loom-generators-ember-appkit](https://github.com/cavneb/loom-generators-ember-appkit)
-for available generators.
+Runs a specific generator. To see available generators,
+run `ember help generate`.
 
 `ember test`
 
