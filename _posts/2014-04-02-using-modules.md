@@ -142,8 +142,8 @@ helpers, too:
 
 `{% raw %}{{view "foo"}}{% endraw %}` will render the view within `views/foo.js`
 
-`{% raw %}{{render "foo" "bar"}}{% endraw %}` will render the view within `views/foo.js` using the
-controller within `controllers/bar.js`
+`{% raw %}{{render "foo"  <context>}}{% endraw %}` will render the view within `views/foo.js` using the
+controller within `controllers/foo.js` and the template `templates/foo.hbs`
 
 ### Resolving Handlebars helpers
 
