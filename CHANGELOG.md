@@ -25,6 +25,7 @@
 * [BUGFIX] Allow fingerprinting to be enabled/disabled in a more custom way. [#1066](https://github.com/stefanpenner/ember-cli/pull/1066)
 * [ENHANCEMENT] Use `ember-addon` as the "addon" keyword. [#1071](https://github.com/stefanpenner/ember-cli/pull/1071)
 * [ENHANCEMENT] loader should now support CJS mode of AMD.
+* [BUGFIX] Changes the way application is tracked. [#1020](https://github.com/stefanpenner/ember-cli/pull/1020)
 
 ### 0.0.34
 
