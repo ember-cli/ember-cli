@@ -116,7 +116,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-
 ### 0.0.24
 
 * Changes to `index.html`: Script tags were moved into body, `ENV` and the app are now defined in the same script tag.
-* patch to quickfix some broccoli + Windows IO issues. We expect a proper solution soon, but this will hold us over (#493)[https://github.com/stefanpenner/ember-cli/pull/493]
+* patch to quickfix some broccoli + Windows IO issues. We expect a proper solution soon, but this will hold us over ([#493](https://github.com/stefanpenner/ember-cli/pull/493)).
 * Add a custom watcher to make broccoli more usable on windows by catching file errors ([493](https://github.com/stefanpenner/ember-cli/pull/493)).
 * Add `ember test` with Testem integration ([388](https://github.com/stefanpenner/ember-cli/pull/388)).
 * some improvements to bower dependency management, unfortunately until bower.json stabilizes broccoli-bower stability is at the whim of bower component authors.
