@@ -274,5 +274,5 @@ rimraf uses `setTimeout` and a limited amount of retries after increasing
 time intervals to [mitigate EBUSY errors on
 windows](https://github.com/isaacs/rimraf/blob/master/rimraf.js#L20-L27).
 Also, libraries can use asynchronicity to offload work onto worker threads. By
-providing an asynchronous API fixes and optimizations can be implemented
+providing an asynchronous API, fixes and optimizations can be implemented
 transparently without breaking API compatibilty.
