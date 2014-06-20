@@ -100,13 +100,13 @@ taken straight from the Ruby on Rails guide:
     * Include tests that fail without your code, and pass with it.
     * Update the documentation, the surrounding one, examples elsewhere, guides, whatever is affected by your contribution.
 
-Syntax:
+#### Syntax ####
 
     * Two spaces, no tabs.
     * No trailing whitespace. Blank lines should not have any space.
     * Follow the conventions you see used in the source already.
 
-Inline Documentation Guidelines:
+#### Inline Documentation Guidelines ####
 
 All inline documentation is written using YUIDoc. Follow these rules when updating or writing new documentation:
 
@@ -120,7 +120,7 @@ All inline documentation is written using YUIDoc. Follow these rules when updati
     8. Wrap long markdown blocks > 80 characters.
     9. Don't include blank lines after `@param` definitions.
 
-Code words are:
+#### Code Words ####
 
 * `thisPropertyName`
 * `Global.Class.attribute`
@@ -128,6 +128,6 @@ Code words are:
 * `Global.CONSTANT_NAME`
 * `true`, `false`, `null`, `undefined` (when referring to programming values)
 
-And in case we didn't emphasize it enough: we love tests!
+And in case we didn't emphasize it enough: **we love tests!**
 
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
