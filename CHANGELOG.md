@@ -1,6 +1,7 @@
 # ember-cli Changelog
 
-* [BUGFIX] Ensure EDITOR is set before allowing edit in ember init. [#1091](https://github.com/stefanpenner/ember-cli/pull/1091)
+* [BUGFIX] Ensure EDITOR is set before allowing edit in ember init. [#1090](https://github.com/stefanpenner/ember-cli/pull/1090)
+* [BUGFIX] Display message to user when diff cannot be applied cleanly [1091](https://github.com/stefanpenner/ember-cli/pull/1091)
 
 ### 0.0.36
 * deployed bundled package with outdated bundled depds... Likely user
