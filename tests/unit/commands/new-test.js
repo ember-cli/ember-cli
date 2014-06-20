@@ -54,4 +54,13 @@ describe('new command', function() {
       assert.equal(command.ui.output, 'We currently do not support an application name of `zomg.awesome`.');
     });
   });
+
+  it('doesn\'t allow to create an application with a name beginning with a number', function() {
+    return command.validateAndRun(['123-my-bagel']).then(function() {
+      assert.ok(false, 'should have rejected with a name beginning with a number');
+    })
+    .catch(function() {
+      assert.equal(command.ui.output, 'We currently do not support an application name of `123-my-bagel`.');
+    });
+  });
 });
