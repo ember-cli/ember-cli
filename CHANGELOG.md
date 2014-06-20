@@ -7,7 +7,7 @@
 ### 0.0.36
 
 * deployed bundled package with outdated bundled depds... Likely user
-  error (by @stefannpenner)
+  error (by @stefanpenner)
 
 ### 0.0.35
 
