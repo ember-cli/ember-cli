@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [BUGFIX] Ensure EDITOR is set before allowing edit in ember init. [#1091](https://github.com/stefanpenner/ember-cli/pull/1091)
+
 ### 0.0.36
 * deployed bundled package with outdated bundled depds... Likely user
   error (by @stefannpenner)
