@@ -30,4 +30,8 @@ MockProject.prototype.name = function() {
   return 'mock-project';
 };
 
+MockProject.prototype.initializeAddons = function() {
+  this.addons = [];
+};
+
 module.exports = MockProject;
