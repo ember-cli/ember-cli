@@ -85,9 +85,9 @@ following tags inside brackets: BUGFIX, FEATURE/ENHANCEMENT, INTERNAL. If a
 change requires a user to change their configuration, `bower.json`, `package.json`,
 or `Brocfile.js` also add a BREAKING tag within the brackets before any other tags (example [BREAKING BUGFIX]).
 
-    - FEATURES and ENHANCEMENT is something that users are interested in (no super technical, concise changes + description).
-    - BUGFIX is a link to a bug + a link to a patch.
-    - INTERNAL an internal log of changes.
+    - FEATURE and ENHANCEMENT tags are for things that users are interested in. Avoid super technical talk. Craft a concise description of the change.
+    - BUGFIX tag is a link to a bug + a link to a patch.
+    - INTERNAL tag is an internal log of changes.
 
 We try to be quick about responding to tickets but sometimes we get a bit
 backlogged. If the response is slow, try to find someone on IRC(#ember-cli) to
