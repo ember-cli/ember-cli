@@ -1,12 +1,16 @@
 # ember-cli Changelog
 
 * [BUGFIX] Ensure EDITOR is set before allowing edit in ember init. [#1090](https://github.com/stefanpenner/ember-cli/pull/1090)
-* [BUGFIX] Display message to user when diff cannot be applied cleanly [1091](https://github.com/stefanpenner/ember-cli/pull/1091)
+* [BUGFIX] Display message to user when diff cannot be applied cleanly [#1091](https://github.com/stefanpenner/ember-cli/pull/1091)
 * [ENHANCEMENT] Notify when an ember-cli update is available, and add `ember update` command. [#899](https://github.com/stefanpenner/ember-cli/pull/899)
 * [BUGFIX] Ensure that build output directory is cleaned up properly. [#1122](https://github.com/stefanpenner/ember-cli/pull/1122)
 * [BUGFIX] Ensure that non-zero exit code is used when running `ember test` with failing tests. [#1123](https://github.com/stefanpenner/ember-cli/pull/1123)
 * [BREAKING ENHANCEMENT] Change the expected interface for the `./server/index.js` file. It now receives the instantiated `express` server. [#1097](https://github.com/stefanpenner/ember-cli/pull/1097)
 * [ENHANCEMENT] Allow addons to provide server side middlewares. [#1097](https://github.com/stefanpenner/ember-cli/pull/1097)
+* [ENHANCEMENT] Automatically pluralize the attribute when generating a
+  model. [#1120](https://github.com/stefanpenner/ember-cli/pull/1120)
+* [BUGFIX] Make sure non-dasherized model attributes are also added to
+  generated tests. [#1120](https://github.com/stefanpenner/ember-cli/pull/1120)
 
 ### 0.0.36
 
