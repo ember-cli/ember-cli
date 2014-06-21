@@ -37,12 +37,30 @@ describe('new command', function() {
     });
   });
 
+  it('doesn\'t allow to create an application named `vendor`', function() {
+    return command.validateAndRun(['vendor']).then(function() {
+      assert.ok(false, 'should have rejected with an application name of `vendor`');
+    })
+    .catch(function() {
+      assert.equal(command.ui.output, 'We currently do not support an application name of `vendor`.');
+    });
+  });
+
   it('doesn\'t allow to create an application with a period in the name', function() {
     return command.validateAndRun(['zomg.awesome']).then(function() {
       assert.ok(false, 'should have rejected with period in the application name');
     })
     .catch(function() {
       assert.equal(command.ui.output, 'We currently do not support an application name of `zomg.awesome`.');
+    });
+  });
+
+  it('doesn\'t allow to create an application with a name beginning with a number', function() {
+    return command.validateAndRun(['123-my-bagel']).then(function() {
+      assert.ok(false, 'should have rejected with a name beginning with a number');
+    })
+    .catch(function() {
+      assert.equal(command.ui.output, 'We currently do not support an application name of `123-my-bagel`.');
     });
   });
 });

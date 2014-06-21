@@ -139,25 +139,29 @@ describe('Acceptance: ember generate', function() {
     return generate([
       'model',
       'foo',
-      'name:string',
+      'firstName:string',
       'created_at:date',
       'is-published:boolean',
       'rating:number',
       'bars:has-many',
-      'baz:belongs-to'
+      'baz:belongs-to',
+      'echo:hasMany',
+      'bravo:belongs_to'
     ]).then(function() {
       assertFile('app/models/foo.js', {
         contains: [
-          "name: DS.attr('string')",
+          "firstName: DS.attr('string')",
           "createdAt: DS.attr('date')",
           "isPublished: DS.attr('boolean')",
           "rating: DS.attr('number')",
           "bars: DS.hasMany('bar')",
-          "baz: DS.belongsTo('baz')"
+          "baz: DS.belongsTo('baz')",
+          "echos: DS.hasMany('echo')",
+          "bravo: DS.belongsTo('bravo')"
         ]
       });
       assertFile('tests/unit/models/foo-test.js', {
-        contains: "needs: ['model:bar', 'model:baz']"
+        contains: "needs: ['model:bar', 'model:baz', 'model:echo', 'model:bravo']"
       });
     });
   });
@@ -437,19 +441,14 @@ describe('Acceptance: ember generate', function() {
   it('api-stub foo/bar', function() {
     return generate(['api-stub', '/foo/bar']).then(function() {
       assertFile('server/index.js', {
-        contains: "var express    = require('express');\n" +
-                  "var bodyParser = require('body-parser');\n" +
+        contains: "var bodyParser = require('body-parser');\n" +
                   "var globSync   = require('glob').sync;\n" +
                   "var routes     = globSync('./routes/**/*.js', { cwd: __dirname }).map(require);\n" +
                   "\n" +
-                  "module.exports = function(emberCLIMiddleware) {\n" +
-                  "  var app = express();\n" +
+                  "module.exports = function(app) {\n" +
                   "  app.use(bodyParser());\n" +
                   "\n" +
                   "  routes.forEach(function(route) { route(app); });\n" +
-                  "  app.use(emberCLIMiddleware);\n" +
-                  "\n" +
-                  "  return app;\n" +
                   "};"
       });
       assertFile('server/routes/foo/bar.js', {

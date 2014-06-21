@@ -254,7 +254,7 @@ Also a `message` property should be set: Either in the constructor or as a prope
 
 ### Sync vs async
 Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
-blocking and compute intesive operations is discouraged. The general
+blocking and compute intensive operations is discouraged. The general
 recommendation is to use asynchronous operations.
 
 However, there are exceptions. Node's own `require` statement is synchronous. It
@@ -274,5 +274,5 @@ rimraf uses `setTimeout` and a limited amount of retries after increasing
 time intervals to [mitigate EBUSY errors on
 windows](https://github.com/isaacs/rimraf/blob/master/rimraf.js#L20-L27).
 Also, libraries can use asynchronicity to offload work onto worker threads. By
-providing an asynchronous API fixes and optimizations can be implemented
+providing an asynchronous API, fixes and optimizations can be implemented
 transparently without breaking API compatibilty.

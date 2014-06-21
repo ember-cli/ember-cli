@@ -15,9 +15,14 @@ module.exports = Blueprint.extend({
       var camelizedName = stringUtils.camelize(name);
       var dasherizedType = stringUtils.dasherize(type);
 
-      attrs.push(camelizedName + ': ' + dsAttr(camelizedName, dasherizedType));
+      if (/has-many/.test(dasherizedType)) {
+        var camelizedNamePlural = inflection.pluralize(camelizedName);
+        attrs.push(camelizedNamePlural + ': ' + dsAttr(camelizedName, dasherizedType));
+      } else {
+        attrs.push(camelizedName + ': ' + dsAttr(camelizedName, dasherizedType));
+      }
 
-      if (/has-many|belongs-to/.test(type)) {
+      if (/has-many|belongs-to/.test(dasherizedType)) {
         needs.push("'model:" + dasherizedNameSingular + "'");
       }
     }
