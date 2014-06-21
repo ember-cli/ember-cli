@@ -3,6 +3,7 @@
 * [BUGFIX] Ensure EDITOR is set before allowing edit in ember init. [#1090](https://github.com/stefanpenner/ember-cli/pull/1090)
 * [BUGFIX] Display message to user when diff cannot be applied cleanly [1091](https://github.com/stefanpenner/ember-cli/pull/1091)
 * [ENHANCEMENT] Notify when an ember-cli update is available, and add `ember update` command. [#899](https://github.com/stefanpenner/ember-cli/pull/899)
+* [ENHANCEMENT] Adds a `--watch` flag to the `ember build` command. [#1111](https://github.com/stefanpenner/ember-cli/pull/1111)
 
 ### 0.0.36
 
