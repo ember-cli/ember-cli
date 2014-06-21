@@ -139,25 +139,29 @@ describe('Acceptance: ember generate', function() {
     return generate([
       'model',
       'foo',
-      'name:string',
+      'firstName:string',
       'created_at:date',
       'is-published:boolean',
       'rating:number',
       'bars:has-many',
-      'baz:belongs-to'
+      'baz:belongs-to',
+      'echo:hasMany',
+      'bravo:belongs_to'
     ]).then(function() {
       assertFile('app/models/foo.js', {
         contains: [
-          "name: DS.attr('string')",
+          "firstName: DS.attr('string')",
           "createdAt: DS.attr('date')",
           "isPublished: DS.attr('boolean')",
           "rating: DS.attr('number')",
           "bars: DS.hasMany('bar')",
-          "baz: DS.belongsTo('baz')"
+          "baz: DS.belongsTo('baz')",
+          "echos: DS.hasMany('echo')",
+          "bravo: DS.belongsTo('bravo')"
         ]
       });
       assertFile('tests/unit/models/foo-test.js', {
-        contains: "needs: ['model:bar', 'model:baz']"
+        contains: "needs: ['model:bar', 'model:baz', 'model:echo', 'model:bravo']"
       });
     });
   });
