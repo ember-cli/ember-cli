@@ -18,6 +18,10 @@ describe('express-server', function() {
     });
   });
 
+  afterEach(function() {
+    return subject.httpServer.close();
+  });
+
   describe('output', function() {
     it('with proxy', function() {
       return subject.start({
@@ -58,6 +62,49 @@ describe('express-server', function() {
       it('proxies PUT',    function() { });
       it('proxies POST',   function() { });
       it('proxies DELETE', function() { });
+    });
+
+    describe('addons', function() {
+      it('calls processAddonMiddlewares upon start', function() {
+        var called = false;
+
+        subject.processAddonMiddlewares = function() {
+          called = true;
+        };
+
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          assert(called);
+        });
+      });
+
+      it('calls serverMiddleware on the addons', function() {
+        var firstCalled  = false;
+        var secondCalled = false;
+
+        project.initializeAddons = function() { };
+        project.addons = [{
+            serverMiddleware: function() {
+              firstCalled = true;
+            }
+          }, {
+            serverMiddleware: function() {
+              secondCalled = true;
+            }
+          }, {
+            doesntGoBoom: null
+          }];
+
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          assert(firstCalled);
+          assert(secondCalled);
+        });
+      });
     });
   });
 });
