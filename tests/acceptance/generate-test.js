@@ -437,14 +437,19 @@ describe('Acceptance: ember generate', function() {
   it('api-stub foo/bar', function() {
     return generate(['api-stub', '/foo/bar']).then(function() {
       assertFile('server/index.js', {
-        contains: "var bodyParser = require('body-parser');\n" +
+        contains: "var express    = require('express');\n" +
+                  "var bodyParser = require('body-parser');\n" +
                   "var globSync   = require('glob').sync;\n" +
                   "var routes     = globSync('./routes/**/*.js', { cwd: __dirname }).map(require);\n" +
                   "\n" +
-                  "module.exports = function(app) {\n" +
+                  "module.exports = function(emberCLIMiddleware) {\n" +
+                  "  var app = express();\n" +
                   "  app.use(bodyParser());\n" +
                   "\n" +
                   "  routes.forEach(function(route) { route(app); });\n" +
+                  "  app.use(emberCLIMiddleware);\n" +
+                  "\n" +
+                  "  return app;\n" +
                   "};"
       });
       assertFile('server/routes/foo/bar.js', {

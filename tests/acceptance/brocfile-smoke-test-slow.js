@@ -7,17 +7,24 @@ var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var ncp        = Promise.denodeify(require('ncp'));
-
-var runCommand       = require('../helpers/run-command');
-var copyFixtureFiles = require('../helpers/copy-fixture-files');
+var runCommand = require('../helpers/run-command');
 
 var appName  = 'some-cool-app';
+
+var rootPath = process.cwd();
 
 function buildApp(appName) {
   return runCommand(path.join('..', 'bin', 'ember'), 'new', appName, {
     onOutput: function() {
       return; // no output for initial application build
     }
+  });
+}
+
+function copyFixtureFiles(sourceDir) {
+  return ncp(path.join(rootPath, 'tests', 'fixtures', 'brocfile-tests', sourceDir), '.', {
+    clobber: true,
+    stopOnErr: true
   });
 }
 
@@ -68,7 +75,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     this.timeout(450000);
 
-    return copyFixtureFiles('brocfile-tests/wrap-in-eval')
+    return copyFixtureFiles('wrap-in-eval')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test').then(console.log);
       });
@@ -79,7 +86,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     this.timeout(450000);
 
-    return copyFixtureFiles('brocfile-tests/default-development')
+    return copyFixtureFiles('default-development')
     .then(function() {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
     });
