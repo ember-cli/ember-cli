@@ -356,6 +356,18 @@ describe('Unit: CLI', function() {
 
       return ember(['build']).then(function() {
         assert.equal(build.called, 1, 'expected the build command to be run');
+
+        var options = build.calledWith[0][0];
+        assert.equal(options.watch, false, 'expected the default watch flag to be false');
+      });
+    });
+
+    it('ember build --watch', function() {
+      var build = stubRun('build');
+
+      return ember(['build', '--watch']).then(function() {
+        var options = build.calledWith[0][0];
+        assert.equal(options.watch, true, 'expected the watch flag to be true');
       });
     });
 

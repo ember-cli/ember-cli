@@ -150,6 +150,39 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
+  it('ember new foo, build --watch development, and verify rebuilt after change', function() {
+    console.log('    running the slow build --watch tests');
+    this.timeout(360000);
+
+    var touched     = false;
+    var appJsPath   = path.join('.', 'app', 'app.js');
+    var builtJsPath = path.join('.', 'dist', 'assets', 'some-cool-app.js');
+    var text        = 'anotuhaonteuhanothunaothanoteh';
+    var line        = 'console.log("' + text + '");';
+
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
+        onOutput: function(string, process) {
+          if (touched) {
+            if (string.match(/Build successful/)) {
+              // build after change to app.js
+              var contents  = fs.readFileSync(builtJsPath).toString();
+              assert(contents.indexOf(text) > 1, 'must contain changed line after rebuild');
+              process.kill('SIGINT');
+            }
+          } else {
+            if (string.match(/Build successful/)) {
+              // first build
+              touched = true;
+              fs.appendFileSync(appJsPath, line);
+            }
+          }
+        }
+      })
+      .catch(function() {
+        // swallowing because of SIGINT
+      });
+  });
+
   it('ember new foo, server, SIGINT clears tmp/', function() {
     console.log('    running the slow build tests');
 
