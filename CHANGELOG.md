@@ -11,6 +11,7 @@
   model. [#1120](https://github.com/stefanpenner/ember-cli/pull/1120)
 * [BUGFIX] Make sure non-dasherized model attributes are also added to
   generated tests. [#1120](https://github.com/stefanpenner/ember-cli/pull/1120)
+* [ENHANCEMENT] Adds `ember build --watch` [#1131](https://github.com/stefanpenner/ember-cli/pull/1131)
 
 ### 0.0.36
 
