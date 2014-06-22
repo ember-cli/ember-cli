@@ -179,6 +179,7 @@ describe('Acceptance: smoke-test', function() {
         }
       })
       .catch(function() {
+        // swallowing because of SIGINT
       });
   });
 
