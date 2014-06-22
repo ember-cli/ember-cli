@@ -12,6 +12,7 @@
 * [BUGFIX] Make sure non-dasherized model attributes are also added to
   generated tests. [#1120](https://github.com/stefanpenner/ember-cli/pull/1120)
 * [ENHANCEMENT] Upgrade `ember-qunit-notifications` to `0.0.3`. [#1117](https://github.com/stefanpenner/ember-cli/pull/1117)
+* [ENHANCEMENT] Adds `ember build --watch` [#1131](https://github.com/stefanpenner/ember-cli/pull/1131)
 
 
 ### 0.0.36

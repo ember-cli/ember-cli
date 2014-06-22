@@ -11,9 +11,7 @@ var assert   = require('assert');
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var ncp      = Promise.denodeify(require('ncp'));
-
-var runCommand       = require('../helpers/run-command');
-var copyFixtureFiles = require('../helpers/copy-fixture-files');
+var runCommand = require('../helpers/run-command');
 
 function assertTmpEmpty() {
   var paths = walkSync('tmp')
@@ -80,24 +78,7 @@ describe('Acceptance: smoke-test', function() {
 
     this.timeout(450000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-  });
-
-  it('ember test exits with non-zero when tests fail', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
-    this.timeout(450000);
-
-    return copyFixtureFiles('smoke-tests/failing-test')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
-          .then(function() {
-            assert(false, 'should have rejected with a failing test');
-          })
-          .catch(function(result) {
-            assert.equal(result.code, 1);
-          });
-      });
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test').then(console.log);
   });
 
   it('ember new foo, build production and verify fingerprint', function() {
@@ -147,6 +128,39 @@ describe('Acceptance: smoke-test', function() {
         var paths = walkSync(dirPath);
 
         assert(paths.length < 20, 'expected fewer than 20 files in dist, found ' + paths.length);
+      });
+  });
+
+  it('ember new foo, build --watch development, and verify rebuilt after change', function() {
+    console.log('    running the slow build --watch tests');
+    this.timeout(360000);
+
+    var touched     = false;
+    var appJsPath   = path.join('.', 'app', 'app.js');
+    var builtJsPath = path.join('.', 'dist', 'assets', 'some-cool-app.js');
+    var text        = 'anotuhaonteuhanothunaothanoteh';
+    var line        = 'console.log("' + text + '");';
+
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
+        onOutput: function(string, process) {
+          if (touched) {
+            if (string.match(/Build successful/)) {
+              // build after change to app.js
+              var contents  = fs.readFileSync(builtJsPath).toString();
+              assert(contents.indexOf(text) > 1, 'must contain changed line after rebuild');
+              process.kill('SIGINT');
+            }
+          } else {
+            if (string.match(/Build successful/)) {
+              // first build
+              touched = true;
+              fs.appendFileSync(appJsPath, line);
+            }
+          }
+        }
+      })
+      .catch(function() {
+        // swallowing because of SIGINT
       });
   });
 
