@@ -51,3 +51,13 @@ If you are using SublimeText 3 with `ember-cli`, by default it will try to index
 // project basis.
 "folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "tmp/class-*", "tmp/es_*", "tmp/jshinter*", "tmp/replace_*", "tmp/static_compiler*", "tmp/template_compiler*", "tmp/tree_merger*", "tmp/coffee_script*", "tmp/concat-tmp*", "tmp/export_tree*", "tmp/sass_compiler*"]
 {% endhighlight %}
+
+### Removing default ember-cli libraries
+
+* To use ember-cli without Ember Data
+
+`npm rm ember-cli-ember-data --save-dev`
+
+* To use ember-cli without ic-ajax
+
+`npm rm ember-cli-ic-ajax --save-dev`

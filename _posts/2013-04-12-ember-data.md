@@ -11,6 +11,12 @@ Ember Data has recently undergone a major reboot, drastically simplifying it and
 making it easier to use with the Ember resolver. Here's some tips for using it
 within Ember CLI.
 
+To use ember-cli without Ember Data remove the dependency from package.json
+(the same applies for ic-ajax)
+
+  `npm rm ember-cli-ember-data --save-dev`
+
+
 ### Models
 
 Models are critical in any dynamic web application. Ember Data makes making
