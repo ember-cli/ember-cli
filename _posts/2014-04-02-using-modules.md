@@ -191,6 +191,31 @@ argument to `registerBoundHelper` which makes the Handlebars renderer find it.
 The file name (`example.js`) and the name of the variable it's been imported
 into (`exampleHelper`) could have been anything.
 
+A common pattern with helpers is to define a helper to use your views 
+(e.g. for a custom text field view, `MyTextField` a helper `my-text-field`
+to use it). It is advised to leverage Components instead. More concretely,
+instead of:
+
+{% highlight javascript linenos %}
+// app/views/my-text-field.js
+export default Ember.TextField.extend(
+  // some custom behaviour
+});
+
+// app/helpers/my-text-field.js... the below does not work!!!
+import MyTextField from 'my-app/helpers/my-text-field';
+
+Ember.Handlebars.helper('my-text-field', MyTextField);
+{% endhighlight %}
+
+Do this:
+
+{% highlight javascript linenos %}
+// Given... app/components/my-text-field.js
+export default Ember.TextField.extend({
+  // some custom behaviour...
+});
+{% endhighlight %}
 
 ###	Using global variables or external scripts
 
