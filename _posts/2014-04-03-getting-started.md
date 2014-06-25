@@ -7,6 +7,12 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 ### Prerequisites
 
+#### Node.js
+
+If you don't already have Node installed, you can get it from
+[nodejs.org](http://nodejs.org/) or your package manager of choice (including
+[Homebrew](http://brew.sh/) on OSX).
+
 #### PhantomJS
 
 By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
@@ -14,12 +20,6 @@ By default, your integration tests will run on [PhantomJS](http://phantomjs.org/
 {% highlight bash %}
 npm install -g phantomjs
 {% endhighlight %}
-
-#### Node.js
-
-If you don't already have Node installed, you can get it from
-[nodejs.org](http://nodejs.org/) or your package manager of choice (including
-[Homebrew](http://brew.sh/) on OSX).
 
 #### Ember CLI
 
