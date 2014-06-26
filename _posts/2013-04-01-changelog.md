@@ -5,6 +5,23 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-01-changelog.md"
 ---
 
+### 0.0.37
+
+* [BUGFIX] ensure the CLI exits with the correct status, fixes hanging tests and some non-graceful exit cleanups [#1150](https://github.com/stefanpenner/ember-cli/pull/1150)
+* [BUGFIX] Ensure EDITOR is set before allowing edit in ember init. [#1090](https://github.com/stefanpenner/ember-cli/pull/1090)
+* [BUGFIX] Display message to user when diff cannot be applied cleanly [#1091](https://github.com/stefanpenner/ember-cli/pull/1091)
+* [ENHANCEMENT] Notify when an ember-cli update is available, and add `ember update` command. [#899](https://github.com/stefanpenner/ember-cli/pull/899)
+* [BUGFIX] Ensure that build output directory is cleaned up properly. [#1122](https://github.com/stefanpenner/ember-cli/pull/1122)
+* [BUGFIX] Ensure that non-zero exit code is used when running `ember test` with failing tests. [#1123](https://github.com/stefanpenner/ember-cli/pull/1123)
+* [BREAKING ENHANCEMENT] Change the expected interface for the `./server/index.js` file. It now receives the instantiated `express` server. [#1097](https://github.com/stefanpenner/ember-cli/pull/1097)
+* [ENHANCEMENT] Allow addons to provide server side middlewares. [#1097](https://github.com/stefanpenner/ember-cli/pull/1097)
+* [ENHANCEMENT] Automatically pluralize the attribute when generating a model. [#1120](https://github.com/stefanpenner/ember-cli/pull/1120)
+* [BUGFIX] Make sure non-dasherized model attributes are also added to generated tests. [#1120](https://github.com/stefanpenner/ember-cli/pull/1120)
+* [ENHANCEMENT] Upgrade `ember-qunit-notifications` to `0.0.3`. [#1117](https://github.com/stefanpenner/ember-cli/pull/1117)
+* [ENHANCEMENT] Allow addons to specify load ordering. [#1132](https://github.com/stefanpenner/ember-cli/pull/1132)
+* [ENHANCEMENT] Adds `ember build --watch` [#1131](https://github.com/stefanpenner/ember-cli/pull/1131)
+* [BREAKING ENHANCEMENT] Accept options as second parameter of ember-app#import. Pass modules as exports. [#1121](https://github.com/stefanpenner/ember-cli/pull/1121)
+
 ### 0.0.36
 
 * deployed bundled package with outdated bundled depds... Likely user
