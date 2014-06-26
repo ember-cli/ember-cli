@@ -446,7 +446,10 @@ describe('Acceptance: ember generate', function() {
                   "var routes     = globSync('./routes/**/*.js', { cwd: __dirname }).map(require);\n" +
                   "\n" +
                   "module.exports = function(app) {\n" +
-                  "  app.use(bodyParser());\n" +
+                  "  app.use(bodyParser.json());\n" +
+                  "  app.use(bodyParser.urlencoded({\n" +
+                  "    extended: true\n" +
+                  "  }));\n" +
                   "\n" +
                   "  routes.forEach(function(route) { route(app); });\n" +
                   "};"
