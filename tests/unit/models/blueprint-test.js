@@ -21,9 +21,6 @@ var basicBlueprintFiles = [
   'test.txt'
 ];
 
-var ui;
-var project;
-
 assert.match = function(actual, matcher) {
   assert(matcher.test(actual), 'expected: ' +
                                 actual +
@@ -83,7 +80,7 @@ describe('Blueprint', function() {
         return path.basename(blueprint);
       });
 
-      assert.deepEqual(Blueprint.list([fixtureBlueprints]), [{
+      assert.deepEqual(Blueprint.list({ paths: [fixtureBlueprints] }), [{
         source: 'fixtures',
         blueprints: expectedFixtures
       }, {
@@ -94,30 +91,29 @@ describe('Blueprint', function() {
   });
 
   it('exists', function() {
-    var blueprint = new Blueprint({ path: basicBlueprint });
+    var blueprint = new Blueprint(basicBlueprint);
     assert(blueprint);
   });
 
   it('derives name from path', function() {
-    var blueprint = new Blueprint({ path: basicBlueprint });
+    var blueprint = new Blueprint(basicBlueprint);
     assert.equal(blueprint.name, 'basic');
   });
 
   describe('basic blueprint installation', function() {
     var blueprint;
+    var ui;
+    var project;
+    var options;
 
     beforeEach(function() {
       tmp.setup('./tmp');
       process.chdir('./tmp');
 
-      ui = new MockUI();
-      project = new MockProject();
-
-      blueprint = new Blueprint({
-        ui: ui,
-        project: project,
-        path: basicBlueprint
-      });
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+      project   = new MockProject();
+      options   = { ui: ui, project: project, target: '.' };
     });
 
     afterEach(function() {
@@ -126,7 +122,8 @@ describe('Blueprint', function() {
 
     it('installs basic files', function() {
       assert(blueprint);
-      return blueprint.install({ target: '.' })
+
+      return blueprint.install(options)
         .then(function() {
           var actualFiles = walkSync('.').sort();
           var output = ui.output.trim().split('\n');
@@ -143,7 +140,7 @@ describe('Blueprint', function() {
     });
 
     it('re-installing identical files', function() {
-      return blueprint.install({ target: '.' })
+      return blueprint.install(options)
         .then(function() {
           var output = ui.output.trim().split('\n');
           ui.output = '';
@@ -155,7 +152,7 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
 
-          return blueprint.install({ target: '.' });
+          return blueprint.install(options);
         })
         .then(function() {
           var actualFiles = walkSync('.').sort();
@@ -173,7 +170,7 @@ describe('Blueprint', function() {
     });
 
     it('re-installing conflicting files', function() {
-      return blueprint.install({ target: '.' })
+      return blueprint.install(options)
         .then(function() {
           var output = ui.output.trim().split('\n');
           ui.output = '';
@@ -185,11 +182,7 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
 
-          var blueprintNew = new Blueprint({
-              path: basicNewBlueprint,
-              ui: ui,
-              project: project
-            });
+          var blueprintNew = new Blueprint(basicNewBlueprint);
 
           setTimeout(function(){
             ui.inputStream.write('n\n');
@@ -199,7 +192,7 @@ describe('Blueprint', function() {
             ui.inputStream.write('y\n');
           }, 50);
 
-          return blueprintNew.install({ target: '.' });
+          return blueprintNew.install(options);
         })
         .then(function() {
           var actualFiles = walkSync('.').sort();
