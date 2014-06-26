@@ -509,4 +509,29 @@ describe('Acceptance: ember generate', function() {
       assertFileEquals('tests/acceptance/foo-test.js', expected);
     });
   });
+
+  it('correctly identifies the root of the project', function() {
+    return initApp()
+      .then(function() {
+        return outputFile(
+          'blueprints/controller/files/app/controllers/__name__.js',
+          "import Ember from 'ember';\n\n" +
+          "export default Ember.Controller.extend({ custom: true });\n"
+        );
+      })
+      .then(function() {
+        process.chdir(path.join(tmpdir, 'app'));
+      })
+      .then(function() {
+        return ember(['generate', 'controller', 'foo']);
+      })
+      .then(function() {
+        process.chdir(tmpdir);
+      })
+      .then(function() {
+        assertFile('app/controllers/foo.js', {
+          contains: 'custom: true'
+        });
+      });
+  });
 });
