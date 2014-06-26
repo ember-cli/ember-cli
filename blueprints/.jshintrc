@@ -17,9 +17,9 @@
     "ok": true,
     "equal": true
   },
-  "node" : false,
-  "browser" : false,
-  "boss" : true,
+  "node": false,
+  "browser": false,
+  "boss": true,
   "curly": false,
   "debug": false,
   "devel": false,
