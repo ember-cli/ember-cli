@@ -2,6 +2,7 @@
 
 * [BUGFIX] Ensure `ember generate` always operate in relation to project root. [#1165](https://github.com/stefanpenner/ember-cli/pull/1165)
 * [ENHANCEMENT] Upgrade `ember-cli-ember-data` to `0.1.0`.
+* [BUGFIX] Update `ember-cli-ic-ajax` to prevent warnings. [#1180](https://github.com/stefanpenner/ember-cli/pull/1180)
 
 ### 0.0.37
 
