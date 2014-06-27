@@ -32,16 +32,18 @@ describe('init command', function() {
   });
 
   it('doesn\'t allow to create an application named `test`', function() {
-    new InitCommand({
+    var command = new InitCommand({
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: 'test'}),
       tasks: tasks
-    }).validateAndRun([]).then(function() {
+    });
+
+    return command.validateAndRun([]).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
     .catch(function() {
-      assert.equal(ui.output, 'Due to an issue with `compileES6` an application name of `test` cannot be used.');
+      assert.equal(ui.output, 'We currently do not support an application name of `test`.');
     });
   });
 
@@ -66,6 +68,28 @@ describe('init command', function() {
       });
   });
 
+  it('Uses the provided app name over the closest found project', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.rawName, 'provided-name');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['provided-name'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
@@ -81,6 +105,48 @@ describe('init command', function() {
     });
 
     return command.validateAndRun([])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+  it('doesn\'t use --dry-run or any other command option as the name', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.rawName, 'some-random-name');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['--dry-run'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+  it('doesn\'t use . as the name', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.rawName, 'some-random-name');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['.'])
       .catch(function(reason) {
         assert.equal(reason, 'Called run');
       });

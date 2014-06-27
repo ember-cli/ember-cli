@@ -22,4 +22,16 @@ MockProject.prototype.require = function(file) {
   }
 };
 
+MockProject.prototype.has = function(key) {
+  return (/server/.test(key));
+};
+
+MockProject.prototype.name = function() {
+  return 'mock-project';
+};
+
+MockProject.prototype.initializeAddons = function() {
+  this.addons = [];
+};
+
 module.exports = MockProject;

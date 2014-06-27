@@ -1,3 +1,9 @@
+# Getting Involved
+
+There are many ways to contribute to the project, you can fix issues,
+improve documentation or work on any of the features on the
+[wish list](https://github.com/stefanpenner/ember-cli/wiki/Wish-List).
+
 #Questions
 
 This is the issue tracker for `ember-cli`. The community uses this site
@@ -79,9 +85,9 @@ following tags inside brackets: BUGFIX, FEATURE/ENHANCEMENT, INTERNAL. If a
 change requires a user to change their configuration, `bower.json`, `package.json`,
 or `Brocfile.js` also add a BREAKING tag within the brackets before any other tags (example [BREAKING BUGFIX]).
 
-    - FEATURES and ENHANCEMENT is something that users are interested in (no super technical, concise changes + description).
-    - BUGFIX is a link to a bug + a link to a patch.
-    - INTERNAL an internal log of changes.
+    - FEATURE and ENHANCEMENT tags are for things that users are interested in. Avoid super technical talk. Craft a concise description of the change.
+    - BUGFIX tag is a link to a bug + a link to a patch.
+    - INTERNAL tag is an internal log of changes.
 
 We try to be quick about responding to tickets but sometimes we get a bit
 backlogged. If the response is slow, try to find someone on IRC(#ember-cli) to
@@ -94,13 +100,13 @@ taken straight from the Ruby on Rails guide:
     * Include tests that fail without your code, and pass with it.
     * Update the documentation, the surrounding one, examples elsewhere, guides, whatever is affected by your contribution.
 
-Syntax:
+#### Syntax ####
 
     * Two spaces, no tabs.
     * No trailing whitespace. Blank lines should not have any space.
     * Follow the conventions you see used in the source already.
 
-Inline Documentation Guidelines:
+#### Inline Documentation Guidelines ####
 
 All inline documentation is written using YUIDoc. Follow these rules when updating or writing new documentation:
 
@@ -114,7 +120,7 @@ All inline documentation is written using YUIDoc. Follow these rules when updati
     8. Wrap long markdown blocks > 80 characters.
     9. Don't include blank lines after `@param` definitions.
 
-Code words are:
+#### Code Words ####
 
 * `thisPropertyName`
 * `Global.Class.attribute`
@@ -122,6 +128,6 @@ Code words are:
 * `Global.CONSTANT_NAME`
 * `true`, `false`, `null`, `undefined` (when referring to programming values)
 
-And in case we didn't emphasize it enough: we love tests!
+And in case we didn't emphasize it enough: **we love tests!**
 
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md

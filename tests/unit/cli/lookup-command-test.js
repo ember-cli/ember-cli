@@ -14,8 +14,7 @@ var commands = {
     availableOptions: [
       { name: 'port', key: 'port', type: Number, default: 4200, required: true }
     ],
-    run: function() {},
-    usageInstructions: function() {}
+    run: function() {}
   })
 };
 

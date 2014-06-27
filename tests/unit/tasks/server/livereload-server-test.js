@@ -1,13 +1,34 @@
 'use strict';
 
 var assert           = require('../../../helpers/assert');
-var liveReloadServer = require('../../../../lib/tasks/server/livereload-server');
+var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
+var MockUI           = require('../../../helpers/mock-ui');
 
+var MockWatcher  = require('../../../helpers/mock-watcher');
 describe('livereload-server', function() {
-  it('should return immediately if `liveReload` option is false', function() {
-    return liveReloadServer.start({liveReload: false})
-      .then(function(result) {
-        assert.equal('live-reload is disabled', result);
+  var subject;
+  var ui;
+  var watcher;
+
+  beforeEach(function() {
+    ui = new MockUI();
+    watcher = new MockWatcher();
+
+    subject = new LiveReloadServer({
+      ui: ui,
+      watcher: watcher
+    });
+  });
+
+  describe('output', function() {
+    it('correctly indicates which port livereload is present on', function() {
+      return subject.start({
+        liveReloadPort: 1337,
+        liveReload: true
+      })
+      .then(function() {
+        assert.equal(ui.output, 'Livereload server on port 1337\n');
       });
+    });
   });
 });

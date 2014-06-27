@@ -1,5 +1,4 @@
 ## Overview
-
 - **cli** parses args and calls the respective **command**
 - **command** calls a sequence of **tasks**
 - **tasks** do the actual work
@@ -10,14 +9,14 @@ cli is a small function that gets everything going.
 
 Usage:
 ``` JavaScript
-var cli = require('cli');
+var cli = require('./cli');
 
 cli({
   cliArgs: argv, // Required
   inputStream: inputStream, // Required
   outputStream: outputStream // Required
 })
-  .then(...);
+.then(...);
 ```
 
 ## UI
@@ -49,6 +48,7 @@ be constructed and wired up via a dependency injection container.
 
 The following file structure is expected (Demonstrated on the imaginary
 command `develop-ember-cli`):
+
 ``` JavaScript
 // e.g. commands/develop-ember-cli.js
 
@@ -74,13 +74,21 @@ module.exports = Command.extend({
     },
     ...
   ],
+
+  anonymousOptions: [
+    '<option-1>',
+    '<option-2>',
+    ...
+  ],
+
   run: function(options) { // Required
     // options === { packageName, ... }
 
     // Run tasks and return a promise
   },
-  usageInstructions: function() { // Optional
-    return 'Usage Instructions...';
+
+  printDetailedHelp: function() { // Optional
+    this.ui.write('Detailed help...');
   }
 });
 ```
@@ -92,6 +100,7 @@ Best practice is to use the `run()` function only to execute tasks. The real
 work should be done in these tasks, then.
 
 The promise returned by `run()` should either
+
 - resolve to `undefined`
 - reject with an `Error` instance if the error is unhandled
 - or reject with `undefined` if it was handled. In this case the command
@@ -99,6 +108,7 @@ should log something via the `ui` first.
 
 `requireAsHash()` assembles from the files in `commands/` a hash that looks
 like this:
+
 ``` JavaScript
 {
   DevelopEmberCLI: require('commands/develop-ember-cli'),
@@ -112,13 +122,14 @@ ember serve <arg-option (Default: something)>
   --port (Default: 4200) Description 1
   --important-option (Required) Description 2
 ```
-- white: `ember serve`
 
+##### Formatting colors
+- white: `ember serve`
 - yellow: `<arg-option `, `>`
-- cyan `--port`, `--important-option`
-- cyan `(Default: something)`, `(Default: 4200)`
-- white `Description 1`, `Description 2`
-- cyan `(Required)`
+- cyan: `--port`, `--important-option`
+- cyan: `(Default: something)`, `(Default: 4200)`
+- white: `Description 1`, `Description 2`
+- cyan: `(Required)`
 
 ### Tasks
 Located in `lib/tasks`. They get picked up by `requireAsHash()` automatically.
@@ -233,6 +244,7 @@ Custom error classes should end with the suffix "Error".
 function CustomError() {
   this.stack = (new Error()).stack;
 }
+
 CustomError.prototype = Object.create(Error.prototype);
 CustomError.prototype.name = 'CustomError';
 ```
@@ -242,7 +254,7 @@ Also a `message` property should be set: Either in the constructor or as a prope
 
 ### Sync vs async
 Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
-blocking and compute intesive operations is discouraged. The general
+blocking and compute intensive operations is discouraged. The general
 recommendation is to use asynchronous operations.
 
 However, there are exceptions. Node's own `require` statement is synchronous. It
@@ -262,5 +274,5 @@ rimraf uses `setTimeout` and a limited amount of retries after increasing
 time intervals to [mitigate EBUSY errors on
 windows](https://github.com/isaacs/rimraf/blob/master/rimraf.js#L20-L27).
 Also, libraries can use asynchronicity to offload work onto worker threads. By
-providing an asynchronous API fixes and optimizations can be implemented
+providing an asynchronous API, fixes and optimizations can be implemented
 transparently without breaking API compatibilty.

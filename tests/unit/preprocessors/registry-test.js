@@ -4,7 +4,7 @@ var assign         = require('lodash-node/modern/objects/assign');
 var assert         = require('../../helpers/assert');
 var PluginRegistry = require('../../../lib/preprocessors/registry');
 
-var pkg, registry;
+var pkg, registry, app;
 
 describe('Plugin Loader', function() {
 
@@ -18,7 +18,9 @@ describe('Plugin Loader', function() {
         'broccoli-coffee': 'latest'
       }
     };
-    registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies));
+
+    app = { name: 'some-application-name' };
+    registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies), app);
     registry.add('css', 'broccoli-sass', 'scss');
     registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
   });
@@ -62,6 +64,22 @@ describe('Plugin Loader', function() {
     var plugin = registry.load('css');
     assert.equal(plugin.ext[0], 'scss');
     assert.equal(plugin.ext[1], 'sass');
+  });
+
+  it('provides the application name to each plugin', function() {
+    registry.add('js', 'broccoli-coffee');
+    var plugin = registry.load('js');
+
+    assert.equal(plugin.applicationName, 'some-application-name');
+  });
+
+  it('adds a plugin directly if it is provided', function() {
+    var randomPlugin = {name: 'Awesome!'};
+
+    registry.add('js', randomPlugin);
+    var registered = registry.registry['js'];
+
+    assert.equal(registered[0], randomPlugin);
   });
 
 });
