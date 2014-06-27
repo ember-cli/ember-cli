@@ -150,6 +150,38 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
+  it('ember build exits with non-zero code when build fails', function () {
+    console.log('    running the slow build tests');
+    this.timeout(360000);
+
+    var appJsPath   = path.join('.', 'app', 'app.js');
+    var ouputContainsBuildFailed = false;
+
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+      .then(function (result) {
+        assert(result.code === 0, 'expected exit code to be zero, but got ' + result.code);
+
+        // add something broken to the project to make build fail
+        fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
+
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          onOutput: function(string) {
+            // discard output as there will be a lot of errors and a long stacktrace
+            // just mark that the output contains expected text
+            if (!ouputContainsBuildFailed && string.match(/Build failed/)) {
+              ouputContainsBuildFailed = true;
+            }
+          }
+        });
+
+      }).then(function () {
+        assert(false, 'should have rejected with a failing build');
+      }).catch(function (result) {
+        assert(ouputContainsBuildFailed, 'command output must contain "Build failed" text');
+        assert(result.code !== 0, 'expected exit code to be non-zero, but got ' + result.code);
+      });
+  });
+
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
     console.log('    running the slow build --watch tests');
     this.timeout(360000);
