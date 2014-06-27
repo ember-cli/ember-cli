@@ -1,6 +1,7 @@
 # ember-cli Changelog
 
 * [BUGFIX] Failed build should return non-zero exit code. [#1169](https://github.com/stefanpenner/ember-cli/pull/1169)
+* [ENHANCEMENT] Use `includeJquery: false` in the Brocfile.js to opt out of including jQuery in the vendor.js file.
 * [BUGFIX] Ensure `ember generate` always operate in relation to project root. [#1165](https://github.com/stefanpenner/ember-cli/pull/1165)
 * [ENHANCEMENT] Upgrade `ember-cli-ember-data` to `0.1.0`. [#1178](https://github.com/stefanpenner/ember-cli/pull/1178)
 * [BUGFIX] Update `ember-cli-ic-ajax` to prevent warnings. [#1180](https://github.com/stefanpenner/ember-cli/pull/1180)
