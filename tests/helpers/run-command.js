@@ -30,7 +30,11 @@ module.exports = function run(/* command, args, options */) {
     console.log('Running: ' + command + ' ' + args.join(' '));
 
     var child = spawn(command, args);
-    var result = {output: [], errors: [], code: null};
+    var result = {
+      output: [],
+      errors: [],
+      code: null
+    };
 
     child.stdout.on('data', function (data) {
       var string = data.toString();
