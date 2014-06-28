@@ -252,6 +252,45 @@ CustomError.prototype.name = 'CustomError';
 Also a `message` property should be set: Either in the constructor or as a property on `CustomError.prototype`.
 
 
+### Dependencies
+When requiring modules, we should be aware of their effect on startup
+time. If they introduce a noticable penalty, and are not needed except
+for some task/command we should require them lazily. Obviously afew
+small modules wont make a difference, but eaglerly requiring npm + bower
+and all of lodash will add a second to startup time.
+
+The following example eagerly requires npm, but only truely requires it
+when that task is invoked, not for `ember help` `ember version` or even
+`ember server`. This introduces a 200ms-300ms startup penalty.
+
+```js
+var npm = require('npm');
+
+module.exports = Task.extend({
+  run: function() {
+    npm.install() // or something
+  }
+});
+```
+
+If a dependency (like bower or npm) turns out to have high startup cost,
+we should require them lazily. This also allows us to inject
+alternative dependencies at construction time. Some future DI
+refactoring can likely automate this process.
+
+example:
+
+```js
+module.exports = Task.extend({
+  init: function() {
+    this.npm = this.npm || require('npm');
+  },
+  run: function() {
+    this.npm.install() // or something
+  }
+});
+```
+
 ### Sync vs async
 Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
 blocking and compute intensive operations is discouraged. The general
