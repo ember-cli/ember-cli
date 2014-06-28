@@ -22,6 +22,7 @@
 * [BREAKING ENHANCEMENT] Split `app/templates` into its own tree to prevent preprocessing template files as if they were JavaScript. [#1238](https://github.com/stefanpenner/ember-cli/pull/1238)
 * [ENHANCEMENT] Print a warning when using `app.import` for assets in the root of `vendor/` (this is a significant performance penalty).
 * [ENHANCEMENT] Model generation no longer requires an attribute type. [#1252]
+* [ENHANCEMENT] Allow vendor files to be configurable. [#1187](https://github.com/stefanpenner/ember-cli/pull/1187)
 
 ### 0.0.37
 
