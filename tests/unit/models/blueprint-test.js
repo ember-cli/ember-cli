@@ -2,7 +2,7 @@
 
 var Blueprint         = require('../../../lib/models/blueprint');
 var MockProject       = require('../../helpers/mock-project');
-var MockUi            = require('../../helpers/mock-ui');
+var MockUI            = require('../../helpers/mock-ui');
 var assert            = require('assert');
 var glob              = require('glob');
 var path              = require('path');
@@ -15,13 +15,11 @@ var basicBlueprint    = path.join(fixtureBlueprints, 'basic');
 var basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
 
 var basicBlueprintFiles = [
+  '.ember-cli',
   '.gitignore',
   'foo.txt',
   'test.txt'
 ];
-
-var ui;
-var project;
 
 assert.match = function(actual, matcher) {
   assert(matcher.test(actual), 'expected: ' +
@@ -82,7 +80,7 @@ describe('Blueprint', function() {
         return path.basename(blueprint);
       });
 
-      assert.deepEqual(Blueprint.list([fixtureBlueprints]), [{
+      assert.deepEqual(Blueprint.list({ paths: [fixtureBlueprints] }), [{
         source: 'fixtures',
         blueprints: expectedFixtures
       }, {
@@ -93,30 +91,29 @@ describe('Blueprint', function() {
   });
 
   it('exists', function() {
-    var blueprint = new Blueprint({ path: basicBlueprint });
+    var blueprint = new Blueprint(basicBlueprint);
     assert(blueprint);
   });
 
   it('derives name from path', function() {
-    var blueprint = new Blueprint({ path: basicBlueprint });
+    var blueprint = new Blueprint(basicBlueprint);
     assert.equal(blueprint.name, 'basic');
   });
 
   describe('basic blueprint installation', function() {
     var blueprint;
+    var ui;
+    var project;
+    var options;
 
     beforeEach(function() {
       tmp.setup('./tmp');
       process.chdir('./tmp');
 
-      ui = new MockUi();
-      project = new MockProject();
-
-      blueprint = new Blueprint({
-        ui: ui,
-        project: project,
-        path: basicBlueprint
-      });
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+      project   = new MockProject();
+      options   = { ui: ui, project: project, target: '.' };
     });
 
     afterEach(function() {
@@ -125,12 +122,14 @@ describe('Blueprint', function() {
 
     it('installs basic files', function() {
       assert(blueprint);
-      return blueprint.install({ target: '.' })
+
+      return blueprint.install(options)
         .then(function() {
           var actualFiles = walkSync('.').sort();
           var output = ui.output.trim().split('\n');
 
           assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /create.* .ember-cli/);
           assert.match(output.shift(), /create.* .gitignore/);
           assert.match(output.shift(), /create.* foo.txt/);
           assert.match(output.shift(), /create.* test.txt/);
@@ -141,24 +140,26 @@ describe('Blueprint', function() {
     });
 
     it('re-installing identical files', function() {
-      return blueprint.install({ target: '.' })
+      return blueprint.install(options)
         .then(function() {
           var output = ui.output.trim().split('\n');
           ui.output = '';
 
           assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /create.* \.ember-cli/);
           assert.match(output.shift(), /create.* \.gitignore/);
           assert.match(output.shift(), /create.* foo.txt/);
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
 
-          return blueprint.install({ target: '.' });
+          return blueprint.install(options);
         })
         .then(function() {
           var actualFiles = walkSync('.').sort();
           var output = ui.output.trim().split('\n');
 
           assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /identical.* \.ember-cli/);
           assert.match(output.shift(), /identical.* \.gitignore/);
           assert.match(output.shift(), /identical.* foo.txt/);
           assert.match(output.shift(), /identical.* test.txt/);
@@ -169,22 +170,19 @@ describe('Blueprint', function() {
     });
 
     it('re-installing conflicting files', function() {
-      return blueprint.install({ target: '.' })
+      return blueprint.install(options)
         .then(function() {
           var output = ui.output.trim().split('\n');
           ui.output = '';
 
           assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /create.* \.ember-cli/);
           assert.match(output.shift(), /create.* \.gitignore/);
           assert.match(output.shift(), /create.* foo.txt/);
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
 
-          var blueprintNew = new Blueprint({
-              path: basicNewBlueprint,
-              ui: ui,
-              project: project
-            });
+          var blueprintNew = new Blueprint(basicNewBlueprint);
 
           setTimeout(function(){
             ui.inputStream.write('n\n');
@@ -194,7 +192,7 @@ describe('Blueprint', function() {
             ui.inputStream.write('y\n');
           }, 50);
 
-          return blueprintNew.install({ target: '.' });
+          return blueprintNew.install(options);
         })
         .then(function() {
           var actualFiles = walkSync('.').sort();
@@ -204,6 +202,7 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /Overwrite.*foo.*No, skip/);
           assert.match(output.shift(), /Overwrite.*test.*\?/); // Prompt
           assert.match(output.shift(), /Overwrite.*test.*Yes, overwrite/);
+          assert.match(output.shift(), /identical.* \.ember-cli/);
           assert.match(output.shift(), /identical.* \.gitignore/);
           assert.match(output.shift(), /skip.* foo.txt/);
           assert.match(output.shift(), /overwrite.* test.txt/);

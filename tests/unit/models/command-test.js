@@ -74,7 +74,8 @@ describe('models/command.js', function() {
         environment: 'mock-development',
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
-        'live-reload': false
+        'live-reload': false,
+        checkForUpdates: false
       },
       args: []
     });
@@ -109,7 +110,8 @@ describe('models/command.js', function() {
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
         'live-reload': false,
-        port: 80
+        port: 80,
+        checkForUpdates: false
       }
     });
   });

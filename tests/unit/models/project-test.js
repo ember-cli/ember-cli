@@ -62,13 +62,13 @@ describe('models/project.js', function() {
     it('returns a listing of all ember-cli-addons', function() {
       var expected = [ 'ember-random-addon', 'ember-non-root-addon' ];
 
-      assert.deepEqual(project.availableAddons(), expected);
+      assert.deepEqual(Object.keys(project.availableAddons()), expected);
     });
 
     it('returns an instance of the addon', function() {
       var addons = project.addons;
 
-      assert.equal(addons[0].name, 'Ember Random Addon');
+      assert.equal(addons[0].name, 'Ember Non Root Addon');
     });
 
     it('addons get passed the project instance', function() {
@@ -80,7 +80,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       var addons = project.addons;
 
-      assert.equal(addons[1].name, 'Ember Non Root Addon');
+      assert.equal(addons[1].name, 'Ember Random Addon');
     });
   });
 });
