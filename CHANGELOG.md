@@ -1,6 +1,7 @@
 # ember-cli Changelog
 
 * [BUGFIX] Ensure `ember generate` always operate in relation to project root. [#1165](https://github.com/stefanpenner/ember-cli/pull/1165)
+* [ENHANCEMENT] Addons can add blueprints. [#1088](https://github.com/stefanpenner/ember-cli/pull/1088)
 
 ### 0.0.37
 
