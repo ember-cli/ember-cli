@@ -1,21 +1,12 @@
 'use strict';
 /*jshint expr: true*/
 
-var expect         = require('chai').expect;
-var lookupCommand  = require('../../../lib/cli/lookup-command');
-var Command  = require('../../../lib/models/command');
-var MockUI         = require('../../helpers/mock-ui');
-
-function Addon() { return this; }
-
-Addon.prototype.includedCommands = function() {
-  return {
-    'AddonCommand': {
-      name: 'addon-command',
-      aliases: ['ac']
-    }
-  };
-}
+var expect        = require('chai').expect;
+var lookupCommand = require('../../../lib/cli/lookup-command');
+var Command       = require('../../../lib/models/command');
+var Project       = require('../../../lib/models/project');
+var MockUI        = require('../../helpers/mock-ui');
+var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
 
 var commands = {
   serve: Command.extend({
@@ -47,7 +38,10 @@ describe('cli/lookup-command.js', function() {
     var project = {
       isEmberCLIProject: function(){ return true; },
       initializeAddons: function() {
-        this.addons = [new Addon()];
+        this.addons = [new AddonCommand()];
+      },
+      addonCommands: function() {
+        return Project.prototype.addonCommands.call(this)
       }
     };
 
