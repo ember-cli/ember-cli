@@ -35,26 +35,27 @@ describe('cli/lookup-command.js', function() {
   });
 
   it('lookupCommand() should find commands that addons add by name and aliases.', function() {
+    var command, Command;
     var project = {
       isEmberCLIProject: function(){ return true; },
       initializeAddons: function() {
         this.addons = [new AddonCommand()];
       },
       addonCommands: function() {
-        return Project.prototype.addonCommands.call(this)
+        return Project.prototype.addonCommands.call(this);
       }
     };
 
-    var Command = lookupCommand(commands, 'addon-command', [], project);
-    var command = new Command({
+    Command = lookupCommand(commands, 'addon-command', [], project);
+    command = new Command({
       ui: ui,
       project: project
     });
 
     expect(command.name).to.equal('addon-command');
 
-    var Command = lookupCommand(commands, 'ac', [], project);
-    var command = new Command({
+    Command = lookupCommand(commands, 'ac', [], project);
+    command = new Command({
       ui: ui,
       project: project
     });
