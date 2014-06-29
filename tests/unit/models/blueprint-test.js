@@ -211,5 +211,31 @@ describe('Blueprint', function() {
           assert.deepEqual(actualFiles, basicBlueprintFiles);
         });
     });
+
+
+    it('throws error when there is a trailing forward slash in entityName', function(){
+      options.entity = { name: 'foo/' };
+      assert.throws(function(){
+        blueprint.install(options);
+      }, /You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
+
+      options.entity = { name: 'foo\\' };
+      assert.throws(function(){
+        blueprint.install(options);
+      }, /You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
+
+      options.entity = { name: 'foo' };
+      assert.doesNotThrow(function(){
+        blueprint.install(options);
+      });
+    });
+
+    it('calls normalizeEntityName hook during install', function(done){
+      blueprint.normalizeEntityName = function(){ done(); };
+      options.entity = { name: 'foo' };
+      blueprint.install(options);
+    });
+
   });
+
 });
