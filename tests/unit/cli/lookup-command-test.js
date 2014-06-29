@@ -6,6 +6,17 @@ var lookupCommand  = require('../../../lib/cli/lookup-command');
 var Command  = require('../../../lib/models/command');
 var MockUI         = require('../../helpers/mock-ui');
 
+function Addon() { return this; }
+
+Addon.prototype.includedCommands = function() {
+  return {
+    'AddonCommand': {
+      name: 'addon-command',
+      aliases: ['ac']
+    }
+  };
+}
+
 var commands = {
   serve: Command.extend({
     name: 'serve',
@@ -30,6 +41,31 @@ describe('cli/lookup-command.js', function() {
 
     expect(lookupCommand(commands, 'serve')).to.exist;
     expect(lookupCommand(commands, 's')).to.exist;
+  });
+
+  it('lookupCommand() should find commands that addons add by name and aliases.', function() {
+    var project = {
+      isEmberCLIProject: function(){ return true; },
+      initializeAddons: function() {
+        this.addons = [new Addon()];
+      }
+    };
+
+    var Command = lookupCommand(commands, 'addon-command', [], project);
+    var command = new Command({
+      ui: ui,
+      project: project
+    });
+
+    expect(command.name).to.equal('addon-command');
+
+    var Command = lookupCommand(commands, 'ac', [], project);
+    var command = new Command({
+      ui: ui,
+      project: project
+    });
+
+    expect(command.name).to.equal('addon-command');
   });
 
   it('lookupCommand() should return UnknownCommand object when command name is not present.', function() {
