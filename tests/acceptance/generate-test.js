@@ -434,7 +434,6 @@ describe('Acceptance: ember generate', function() {
                   "module.exports = Blueprint.extend({\n" +
                   "});"
       });
-      assertFile('blueprints/foo/files/.gitkeep');
     });
   });
 

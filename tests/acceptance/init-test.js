@@ -14,6 +14,8 @@ var minimatch = require('minimatch');
 var remove    = require('lodash-node/compat/arrays/remove');
 var any       = require('lodash-node/compat/collections/some');
 
+var defaultIgnoredFiles = Blueprint.ignoredFiles;
+
 describe('Acceptance: ember init', function() {
   before(function() {
     conf.setup();
@@ -26,6 +28,7 @@ describe('Acceptance: ember init', function() {
   beforeEach(function() {
     tmp.setup('./tmp');
     process.chdir('./tmp');
+    Blueprint.ignoredFiles = defaultIgnoredFiles;
   });
 
   afterEach(function() {
