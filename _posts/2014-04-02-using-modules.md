@@ -111,6 +111,8 @@ Models with the convention `model-name.js`.
 `app/routes/`
 
 Routes with the convention `route-name.js`. Child routes are defined in sub-directories, `parent/child.js`.
+To provide a custom implementation for generated routes (equivalent to `App.Route` when using globals),
+use `app/routes/basic.js`.
 
 `app/serializers/`
 
