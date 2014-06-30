@@ -37,7 +37,7 @@ describe('Acceptance: ember generate', function() {
   });
 
   function initApp() {
-    return ember(['init', 'my-app', '--dry-run']);
+    return ember(['init', 'my-app', '--skip-npm', '--skip-bower']);
   }
 
   function generate(args) {
