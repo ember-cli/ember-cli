@@ -61,7 +61,8 @@ describe('Acceptance: ember init', function() {
   it('ember init', function() {
     return ember([
       'init',
-      '--dry-run'
+      '--skip-npm',
+      '--skip-bower',
     ]).then(confirmBlueprinted);
   });
 
@@ -71,7 +72,8 @@ describe('Acceptance: ember init', function() {
 
     return ember([
       'init',
-      '--dry-run'
+      '--skip-npm',
+      '--skip-bower'
     ]).then(confirmBlueprinted).then(function() {
       tmp.teardown('./tmp/foo');
     });
@@ -80,11 +82,13 @@ describe('Acceptance: ember init', function() {
   it('init an already init\'d folder', function() {
     return ember([
       'init',
-      '--dry-run'
+      '--skip-npm',
+      '--skip-bower'
     ]).then(function() {
       return ember([
         'init',
-        '--dry-run'
+        '--skip-npm',
+        '--skip-bower'
       ]).then(confirmBlueprinted);
     });
   });

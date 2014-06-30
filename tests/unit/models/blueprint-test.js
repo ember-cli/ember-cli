@@ -6,8 +6,11 @@ var MockUI            = require('../../helpers/mock-ui');
 var assert            = require('assert');
 var glob              = require('glob');
 var path              = require('path');
-var tmp               = require('../../helpers/tmp');
 var walkSync          = require('walk-sync');
+var rimraf            = require('rimraf');
+var root              = process.cwd();
+var tmp               = require('tmp-sync');
+var tmproot           = path.join(root, 'tmp');
 
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
@@ -105,19 +108,22 @@ describe('Blueprint', function() {
     var ui;
     var project;
     var options;
+    var tmpdir;
 
     beforeEach(function() {
-      tmp.setup('./tmp');
-      process.chdir('./tmp');
-
+      tmpdir    = tmp.in(tmproot);
       blueprint = new Blueprint(basicBlueprint);
       ui        = new MockUI();
       project   = new MockProject();
-      options   = { ui: ui, project: project, target: '.' };
+      options   = {
+        ui: ui,
+        project: project,
+        target: tmpdir
+      };
     });
 
     afterEach(function() {
-      tmp.teardown('./tmp');
+      rimraf.sync(tmproot);
     });
 
     it('installs basic files', function() {
@@ -125,7 +131,7 @@ describe('Blueprint', function() {
 
       return blueprint.install(options)
         .then(function() {
-          var actualFiles = walkSync('.').sort();
+          var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split('\n');
 
           assert.match(output.shift(), /^installing/);
@@ -155,7 +161,7 @@ describe('Blueprint', function() {
           return blueprint.install(options);
         })
         .then(function() {
-          var actualFiles = walkSync('.').sort();
+          var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split('\n');
 
           assert.match(output.shift(), /^installing/);
@@ -195,7 +201,7 @@ describe('Blueprint', function() {
           return blueprintNew.install(options);
         })
         .then(function() {
-          var actualFiles = walkSync('.').sort();
+          var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split('\n');
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /Overwrite.*foo.*\?/); // Prompt

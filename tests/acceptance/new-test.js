@@ -54,7 +54,8 @@ describe('Acceptance: ember new', function() {
     return ember([
       'new',
       'foo',
-      '--dry-run'
+      '--skip-npm',
+      '--skip-bower'
     ]).then(confirmBlueprinted);
   });
 
@@ -75,7 +76,8 @@ describe('Acceptance: ember new', function() {
     return ember([
       'new',
       'FooApp',
-      '--dry-run'
+      '--skip-npm',
+      '--skip-bower'
     ]).then(function() {
       assert(!fs.existsSync('FooApp'));
 
@@ -88,12 +90,14 @@ describe('Acceptance: ember new', function() {
     return ember([
       'new',
       'foo',
-      '--dry-run'
+      '--skip-npm',
+      '--skip-bower'
     ]).then(function() {
       return ember([
         'new',
         'foo',
-        '--dry-run'
+        '--skip-npm',
+        '--skip-bower'
       ]).then(function() {
         assert(!fs.existsSync('foo'));
       });
@@ -109,7 +113,8 @@ describe('Acceptance: ember new', function() {
     return ember([
       'new',
       'foo',
-      '--dry-run',
+      '--skip-npm',
+      '--skip-bower',
       '--blueprint=my_blueprint'
     ]).then(confirmBlueprintedForDir('tmp/my_blueprint'));
   });
