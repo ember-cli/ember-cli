@@ -5,6 +5,8 @@ var MockUI  = require('../../helpers/mock-ui');
 var MockAnalytics  = require('../../helpers/mock-analytics');
 var rewire  = require('rewire');
 var Command = rewire('../../../lib/models/command');
+var Project       = require('../../../lib/models/project');
+var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
 
 describe('help command', function() {
   var ui;
@@ -75,6 +77,57 @@ describe('help command', function() {
 
     expect(ui.output).to.include('test-command-1');
     expect(ui.output).to.not.include('test-command-2');
+  });
+
+  describe('addon commands', function() {
+    var projectWithAddons = {
+      isEmberCLIProject: function(){ return true; },
+      initializeAddons: function() {
+        this.addons = [new AddonCommand()];
+      },
+      addonCommands: Project.prototype.addonCommands,
+      eachAddonCommand: Project.prototype.eachAddonCommand
+    };
+
+    it('should generate complete help output, including aliases', function() {
+      new HelpCommand({
+        ui: ui,
+        analytics: analytics,
+        commands: commands,
+        project: projectWithAddons
+      }).validateAndRun([]);
+
+      expect(ui.output).to.include('Available commands in ember-cli');
+      expect(ui.output).to.include('test-command-1');
+      expect(ui.output).to.include('Available commands from Ember CLI Addon Command Test');
+      expect(ui.output).to.include('addon-command');
+      expect(ui.output).to.include('aliases:');
+    });
+
+    it('should generate specific help output', function() {
+      new HelpCommand({
+        ui: ui,
+        analytics: analytics,
+        commands: commands,
+        project: projectWithAddons
+      }).validateAndRun(['addon-command']);
+
+      expect(ui.output).to.include('addon-command');
+      expect(ui.output).to.not.include('No help entry for');
+    });
+
+    it('should generate specific help output when given an alias', function() {
+      new HelpCommand({
+        ui: ui,
+        analytics: analytics,
+        commands: commands,
+        project: projectWithAddons
+      }).validateAndRun(['ac']);
+
+      expect(ui.output).to.include('addon-command');
+      expect(ui.output).to.not.include('No help entry for');
+    });
+
   });
 
   it('should generate "no help entry" message for non-existent commands', function() {
