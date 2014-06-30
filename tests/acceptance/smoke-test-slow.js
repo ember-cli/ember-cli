@@ -215,6 +215,50 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
+  it('ember new foo, build --watch development, and verify rebuilt after multiple changes', function() {
+    console.log('    running the slow build --watch tests');
+    this.timeout(360000);
+
+    var buildCount  = 0;
+    var touched     = false;
+    var appJsPath   = path.join('.', 'app', 'app.js');
+    var builtJsPath = path.join('.', 'dist', 'assets', 'some-cool-app.js');
+    var firstText   = 'anotuhaonteuhanothunaothanoteh';
+    var firstLine   = 'console.log("' + firstText + '");';
+    var secondText  = 'aahsldfjlwioruoiiononociwewqwr';
+    var secondLine  = 'console.log("' + secondText + '");';
+
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
+        onOutput: function(string, process) {
+          if (buildCount === 0) {
+            if (string.match(/Build successful/)) {
+              // first build
+              touched = true;
+              buildCount = 1;
+              fs.appendFileSync(appJsPath, firstLine);
+            }
+          } else if (buildCount === 1) {
+            if (string.match(/Build successful/)) {
+              // second build
+              touched = true;
+              buildCount = 2;
+              fs.appendFileSync(appJsPath, secondLine);
+            }
+          } else if (touched && buildCount === 2) {
+            if (string.match(/Build successful/)) {
+              // build after change to app.js
+              var contents  = fs.readFileSync(builtJsPath).toString();
+              assert(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild');
+              process.kill('SIGINT');
+            }
+          }
+        }
+      })
+      .catch(function() {
+        // swallowing because of SIGINT
+      });
+  });
+
   it('ember new foo, server, SIGINT clears tmp/', function() {
     console.log('    running the slow build tests');
 
