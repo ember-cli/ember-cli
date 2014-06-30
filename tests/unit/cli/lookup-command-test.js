@@ -37,9 +37,8 @@ describe('cli/lookup-command.js', function() {
     initializeAddons: function() {
       this.addons = [new AddonCommand()];
     },
-    addonCommands: function() {
-      return Project.prototype.addonCommands.call(this);
-    }
+    addonCommands: Project.prototype.addonCommands,
+    eachAddonCommand: Project.prototype.eachAddonCommand
   };
 
   before(function(){
@@ -86,9 +85,8 @@ describe('cli/lookup-command.js', function() {
       initializeAddons: function() {
         this.addons = [new AddonServeCommand()];
       },
-      addonCommands: function() {
-        return Project.prototype.addonCommands.call(this);
-      }
+      addonCommands: Project.prototype.addonCommands,
+      eachAddonCommand: Project.prototype.eachAddonCommand
     };
 
     lookupCommand(commands, 'serve', [], {

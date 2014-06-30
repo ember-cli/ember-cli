@@ -85,9 +85,8 @@ describe('help command', function() {
       initializeAddons: function() {
         this.addons = [new AddonCommand()];
       },
-      addonCommands: function() {
-        return Project.prototype.addonCommands.call(this);
-      }
+      addonCommands: Project.prototype.addonCommands,
+      eachAddonCommand: Project.prototype.eachAddonCommand
     };
 
     it('should generate complete help output, including aliases', function() {
@@ -98,7 +97,9 @@ describe('help command', function() {
         project: projectWithAddons
       }).validateAndRun([]);
 
+      expect(ui.output).to.include('Available commands in ember-cli');
       expect(ui.output).to.include('test-command-1');
+      expect(ui.output).to.include('Available commands from Ember CLI Addon Command Test');
       expect(ui.output).to.include('addon-command');
       expect(ui.output).to.include('aliases:');
     });

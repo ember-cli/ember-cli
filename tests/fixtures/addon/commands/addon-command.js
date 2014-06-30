@@ -1,4 +1,7 @@
-function Addon() { return this; }
+function Addon() {
+  this.name = "Ember CLI Addon Command Test"
+  return this;
+}
 
 Addon.prototype.includedCommands = function() {
   return {
