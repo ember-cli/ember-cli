@@ -4,8 +4,6 @@
     "window",
     "location",
     "setTimeout",
-    "Ember",
-    "Em",
     "$",
     "QUnit",
     "define",
