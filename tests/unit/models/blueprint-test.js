@@ -70,6 +70,15 @@ describe('Blueprint', function() {
       assert(blueprint instanceof expectedClass);
     });
 
+    it('can instantiate a blueprint that exports an object instead of a constructor', function() {
+      var blueprint = Blueprint.lookup('exporting-object', {
+        paths: [fixtureBlueprints]
+      });
+
+      assert.equal(blueprint.woot, 'someValueHere');
+      assert(blueprint instanceof Blueprint);
+    });
+
     it('throws an error if no blueprint is found', function() {
       assert.throws(function() {
         Blueprint.lookup('foo');

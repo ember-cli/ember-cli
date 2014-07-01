@@ -16,7 +16,7 @@
 * [ENHANCEMENT] `broccoli-asset-rev` has been moved to an addon using the standard addon post-processing hooks. [#1214](https://github.com/stefanpenner/ember-cli/pull/1214)
 * [ENHANCEMENT] Allow `app.toTree` to accept an array of additional trees to merge in the final output. [#1214](https://github.com/stefanpenner/ember-cli/pull/1214)
 * [BUGFIX] Only run JSHint after preprocessing. [#1221](https://github.com/stefanpenner/ember-cli/pull/1221)
-* [ENHANCEMENT] Addons can add blueprints.
+* [ENHANCEMENT] Addons can add blueprints. [#1222](https://github.com/stefanpenner/ember-cli/pull/1222)
 
 ### 0.0.37
 
