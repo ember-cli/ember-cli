@@ -3,73 +3,67 @@
 var assert        = require('../../helpers/assert');
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var rewire        = require('rewire');
-var Promise       = require('../../../lib/ext/promise');
 var Task          = require('../../../lib/models/task');
+var UpdateCommand = require('../../../lib/commands/update');
+var UpdateChecker = require('../../../lib/models/update-checker');
 
 describe('update command', function() {
-  var UpdateCommand;
   var ui;
   var analytics;
   var project;
   var tasks;
+  var updateTaskWasRun;
 
   beforeEach(function() {
     ui = new MockUI();
+    updateTaskWasRun = false;
     analytics = new MockAnalytics();
     tasks = {
       Update: Task.extend({
         run: function() {
-          this.ui.write('UpdateTask called successfully');
+          updateTaskWasRun = true;
         }
       })
     };
-    project = { isEmberCLIProject: function(){ return true; }};
-    UpdateCommand = rewire('../../../lib/commands/update');
+
+    project = {
+      isEmberCLIProject: function(){
+        return true;
+      }
+    };
   });
 
-
   it('says "you have the latest version" if no update is needed', function() {
-    UpdateCommand.__set__('checkForUpdates', function() {
-      return new Promise(function(resolve) {
-        resolve({ updateNeeded: false });
-      });
-    });
-
-    UpdateCommand.__set__('emberCLIVersion', function() {
-      return '100.0.0';
-    });
+    var updateChecker = new UpdateChecker(ui, {
+      checkForUpdates: true
+    }, '100.0.0');
 
     return new UpdateCommand({
       ui: ui,
       analytics: analytics,
       project: project,
-      tasks: tasks
-    }).validateAndRun([]).catch(function() {
+      tasks: tasks,
+      updateChecker: updateChecker,
+      environment: { }
+    }).validateAndRun([]).then(function() {
       assert.include(ui.output, 'You have the latest version of ember-cli');
     });
   });
 
-
   it('calls UpdateTask if an update is needed', function() {
-    UpdateCommand.__set__('checkForUpdates', function() {
-      return new Promise(function(resolve) {
-        resolve({ updateNeeded: true, newestVersion: '100.0.0' });
-      });
-    });
-
-    UpdateCommand.__set__('emberCLIVersion', function() {
-      return '0.0.1';
-    });
+    var updateChecker = new UpdateChecker(ui, {
+      checkForUpdates: true
+    }, '0.0.1');
 
     return new UpdateCommand({
       ui: ui,
       analytics: analytics,
       project: project,
-      tasks: tasks
+      tasks: tasks,
+      updateChecker: updateChecker,
+      environment: { }
     }).validateAndRun([]).then(function() {
-      assert.include(ui.output, 'UpdateTask called successfully');
+      assert(updateTaskWasRun, 'update task should have been run');
     });
   });
-
 });
