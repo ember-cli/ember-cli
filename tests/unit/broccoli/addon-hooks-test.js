@@ -45,14 +45,14 @@ describe('broccoli/ember-app', function() {
         assert.equal(passedApp, emberApp);
       });
 
-      it('throws an error if the addon does not implement `included`', function() {
+      it('does not throw an error if the addon does not implement `included`', function() {
         delete addon.included;
 
         project.initializeAddons = function() {
           this.addons = [ addon ];
         };
 
-        assert.throws(
+        assert.doesNotThrow(
           function() {
             emberApp = new EmberApp({
               project: project
@@ -102,14 +102,14 @@ describe('broccoli/ember-app', function() {
         assert.equal(actualTreeName, 'blah');
       });
 
-      it('addonTreesFor throws an error if treeFor is not defined', function() {
+      it('addonTreesFor does not throw an error if treeFor is not defined', function() {
         delete addon.treeFor;
 
         emberApp = new EmberApp({
           project: project
         });
 
-        assert.throws(
+        assert.doesNotThrow(
           function() {
             emberApp.addonTreesFor('blah');
           },
@@ -143,6 +143,37 @@ describe('broccoli/ember-app', function() {
 
           assert.equal(addonTreesForStub.calledWith[0][0], 'styles');
         });
+      });
+    });
+    describe('toTree', function() {
+      beforeEach(function() {
+        addon = {
+          included: function() { },
+          treeFor: function() { },
+          postprocessTree: function() { }
+        };
+
+        project.initializeAddons = function() {
+          this.addons = [ addon ];
+        };
+
+        emberApp = new EmberApp({
+          project: project
+        });
+      });
+
+      it('calls postProcessTree if defined', function() {
+        stub(emberApp, 'toArray', []);
+        stub(addon, 'postprocessTree', 'derp');
+
+        assert.equal(emberApp.toTree(), 'derp');
+      });
+
+      it('calls addonPostprocessTree', function() {
+        stub(emberApp, 'toArray', []);
+        stub(emberApp, 'addonPostprocessTree', 'blap');
+
+        assert.equal(emberApp.toTree(), 'blap');
       });
     });
   });
