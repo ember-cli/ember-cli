@@ -41,7 +41,6 @@
     "broccoli-concat",
     "broccoli-es3-safe-recast",
     "broccoli-es6-concatenator",
-    "broccoli-es6-import-validate",
     "broccoli-file-mover",
     "broccoli-jshint",
     "broccoli-merge-trees",
