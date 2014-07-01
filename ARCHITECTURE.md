@@ -135,7 +135,7 @@ ember serve <arg-option (Default: something)>
 Located in `lib/tasks`. They get picked up by `requireAsHash()` automatically.
 
 Tasks do the real work. They should also do only one thing: For example there
-are seperate `bower-install` and `npm-install` tasks, not just one unified
+are separate `bower-install` and `npm-install` tasks, not just one unified
 `install` task. And they should not call other tasks: For example
 `install-blueprint` shouldn't call `npm-install` directly. That's because the
 task sequence is determined by the command and thus should be declared there.
@@ -205,13 +205,13 @@ This list only contains style decisions not already covered by JSHint (e.g.
 mandatory semicolons and other rules are omitted).
 
 ### Indentation
-#### Aligned require statments
+#### Aligned require statements
 ``` JavaScript
 var RSVP    = require('rsvp');
 var Promise = RSVP.Promise;
 ```
 
-#### Multiline return statement
+#### Multi-line return statement
 ``` JavaScript
 // Correct
 return someFunction(
@@ -254,12 +254,12 @@ Also a `message` property should be set: Either in the constructor or as a prope
 
 ### Dependencies
 When requiring modules, we should be aware of their effect on startup
-time. If they introduce a noticable penalty, and are not needed except
-for some task/command we should require them lazily. Obviously afew
-small modules wont make a difference, but eaglerly requiring npm + bower
+time. If they introduce a noticeable penalty, and are not needed except
+for some task/command we should require them lazily. Obviously a few
+small modules wont make a difference, but eagerly requiring npm + bower
 and all of lodash will add a second to startup time.
 
-The following example eagerly requires npm, but only truely requires it
+The following example eagerly requires npm, but only truly requires it
 when that task is invoked, not for `ember help` `ember version` or even
 `ember server`. This introduces a 200ms-300ms startup penalty.
 
@@ -302,7 +302,7 @@ although it being synchronous, using it is harmless. Same thing goes for
 synchronous file globs in combination with `require` at startup.
 
 The use of asynchronous code is mainly important for file walking operations
-during runtime. For example for globbing a large amout of files or recursive
+during runtime. For example for globbing a large amount of files or recursive
 copying/deleting of folder structures. These operations generally take a long
 time to complete and would if implemented synchronously disrupt progress
 animations or delay server responses.
