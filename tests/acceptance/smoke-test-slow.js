@@ -124,8 +124,7 @@ describe('Acceptance: smoke-test', function() {
           md5.update(file);
           var hex = md5.digest('hex');
 
-          var possibleNames = [appName + '-' + hex + '.js', appName + '-' + hex + '.css', 'vendor-' + hex + '.js', 'vendor-' + hex + '.css'];
-          assert(possibleNames.indexOf(filepath) > -1);
+          assert(filepath.indexOf(hex) > -1, filepath + ' contains the fingerprint (' + hex + ')');
         });
 
         var indexHtml = fs.readFileSync(path.join('.', 'dist', 'index.html'), { encoding: 'utf8' });
@@ -134,6 +133,30 @@ describe('Acceptance: smoke-test', function() {
           assert(indexHtml.indexOf(filename) > -1);
         });
       });
+  });
+
+  it('ember test --environment=production', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('smoke-tests/passing-test')
+        .then(function() {
+          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production')
+              .then(function(result) {
+                var exitCode = result.code;
+                var output = result.output.join('\n');
+
+                assert.equal(exitCode, 0, 'exit code should be 0 for passing tests');
+
+                assert(!output.match('JSHint'), 'JSHint should not be run on production assets');
+                assert(output.match(/fail\s+0/), 'no failures');
+                assert(output.match(/pass\s+1/), '1 passing');
+              })
+              .catch(function(result) {
+                assert(false, 'failed `ember test --environment=production`.  The following output was received:\n' + result.output.join('\n'));
+              });
+        });
   });
 
   it('ember new foo, build development, and verify generated files', function() {

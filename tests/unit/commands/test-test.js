@@ -21,7 +21,8 @@ describe('test command', function() {
     };
 
     options = commandOptions({
-      tasks: tasks
+      tasks: tasks,
+      testing: true
     });
 
     stub(tasks.Test.prototype,  'run', Promise.resolve());
