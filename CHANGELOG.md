@@ -17,6 +17,7 @@
 * [ENHANCEMENT] Allow `app.toTree` to accept an array of additional trees to merge in the final output. [#1214](https://github.com/stefanpenner/ember-cli/pull/1214)
 * [BUGFIX] Only run JSHint after preprocessing. [#1221](https://github.com/stefanpenner/ember-cli/pull/1221)
 * [ENHANCEMENT] Addons can add blueprints. [#1222](https://github.com/stefanpenner/ember-cli/pull/1222)
+* [ENHANCEMENT] Allow testing of production assets. [#1230](https://github.com/stefanpenner/ember-cli/pull/1230)
 
 ### 0.0.37
 
