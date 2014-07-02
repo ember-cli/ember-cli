@@ -70,7 +70,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return copyFixtureFiles('brocfile-tests/wrap-in-eval')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test').then(console.log);
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
       });
   });
 
