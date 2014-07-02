@@ -19,6 +19,7 @@
 * [ENHANCEMENT] Addons can add blueprints. [#1222](https://github.com/stefanpenner/ember-cli/pull/1222)
 * [ENHANCEMENT] Allow testing of production assets. [#1230](https://github.com/stefanpenner/ember-cli/pull/1230)
 * [ENHANCEMENT] Provide Ember CLI version to Project model. [#1239](https://github.com/stefanpenner/ember-cli/pull/1239)
+* [BREAKING ENHANCEMENT] Split `app/templates` into its own tree to prevent preprocessing template files as if they were JavaScript. [#1238](https://github.com/stefanpenner/ember-cli/pull/1238)
 
 ### 0.0.37
 
