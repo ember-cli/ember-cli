@@ -6,6 +6,8 @@ var tmp     = require('../../helpers/tmp');
 var touch   = require('../../helpers/file-utils').touch;
 var assert  = require('assert');
 
+var emberCLIVersion = require('../../../lib/utilities/ember-cli-version');
+
 describe('models/project.js', function() {
   var project, projectPath;
 
@@ -102,6 +104,12 @@ describe('models/project.js', function() {
       ];
 
       assert.deepEqual(project.blueprintLookupPaths(), expected);
+    });
+  });
+
+  describe('emberCLIVersion', function() {
+    it('should return the same value as the utlity function', function() {
+      assert.equal(project.emberCLIVersion(), emberCLIVersion());
     });
   });
 });
