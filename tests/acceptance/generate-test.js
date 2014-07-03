@@ -437,8 +437,8 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('api-stub foo/bar', function() {
-    return generate(['api-stub', '/foo/bar']).then(function() {
+  it('api-stub foo', function() {
+    return generate(['api-stub', 'foo']).then(function() {
       assertFile('server/index.js', {
         contains: "var bodyParser = require('body-parser');\n" +
                   "var globSync   = require('glob').sync;\n" +
@@ -453,11 +453,13 @@ describe('Acceptance: ember generate', function() {
                   "  routes.forEach(function(route) { route(app); });\n" +
                   "};"
       });
-      assertFile('server/routes/foo/bar.js', {
+      assertFile('server/routes/foo.js', {
         contains: "module.exports = function(app) {\n" +
-                  "  app.get('/foo/bar', function(req, res) {\n" +
-                  "    res.send('hello');\n" +
+                  "  var fooRouter = express.Router();\n" +
+                  "  fooRouter.get('/', function(req, res) {\n" +
+                  "    res.send({foo:[]});\n" +
                   "  });\n" +
+                  "  app.use('/api/foo', fooRouter);\n" +
                   "};"
       });
       assertFile('server/.jshintrc', {
