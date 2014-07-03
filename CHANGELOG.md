@@ -20,6 +20,7 @@
 * [ENHANCEMENT] Allow testing of production assets. [#1230](https://github.com/stefanpenner/ember-cli/pull/1230)
 * [ENHANCEMENT] Provide Ember CLI version to Project model. [#1239](https://github.com/stefanpenner/ember-cli/pull/1239)
 * [BREAKING ENHANCEMENT] Split `app/templates` into its own tree to prevent preprocessing template files as if they were JavaScript. [#1238](https://github.com/stefanpenner/ember-cli/pull/1238)
+* [INTERNAL] Switch from `ncp` to `wrench` for copying files internally (so that we can inflate symlinks). [#1250](https://github.com/stefanpenner/ember-cli/pull/1250)
 
 ### 0.0.37
 

@@ -66,7 +66,6 @@
     "leek",
     "lodash-node",
     "minimatch",
-    "ncp",
     "nopt",
     "npm",
     "pleasant-progress",
@@ -79,7 +78,8 @@
     "semver",
     "through",
     "tiny-lr",
-    "walk-sync"
+    "walk-sync",
+    "wrench"
   ],
   "dependencies": {
     "abbrev": "^1.0.5",
@@ -117,7 +117,6 @@
     "leek": "0.0.6",
     "lodash-node": "^2.4.1",
     "minimatch": "^0.3.0",
-    "ncp": "^0.5.0",
     "nopt": "^2.2.1",
     "npm": "^1.4.6",
     "pleasant-progress": "^1.0.1",
@@ -133,6 +132,7 @@
     "tiny-lr": "0.0.5",
     "tmp-sync": "^1.0.1",
     "walk-sync": "^0.1.2",
+    "wrench": "~1.5.8",
     "yam": "0.0.12"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@ var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
-var ncp        = Promise.denodeify(require('ncp'));
+var copy       = Promise.denodeify(require('wrench').copyDirRecursive);
 
 var runCommand       = require('../helpers/run-command');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -43,9 +43,9 @@ describe('Acceptance: brocfile-smoke-test', function() {
   beforeEach(function() {
     this.timeout(10000);
     tmp.setup('./tmp');
-    return ncp('./common-tmp/' + appName, './tmp/' + appName, {
-      clobber: true,
-      stopOnErr: true
+    return copy('./common-tmp/' + appName, './tmp/' + appName, {
+      forceDelete: true,
+      inflateSymlinks: true,
     })
     .then(function() {
       process.chdir('./tmp');

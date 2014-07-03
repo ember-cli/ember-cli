@@ -10,7 +10,7 @@ var crypto   = require('crypto');
 var assert   = require('assert');
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
-var ncp      = Promise.denodeify(require('ncp'));
+var copy     = Promise.denodeify(require('wrench').copyDirRecursive);
 
 var runCommand       = require('../helpers/run-command');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -54,9 +54,9 @@ describe('Acceptance: smoke-test', function() {
   beforeEach(function() {
     this.timeout(10000);
     tmp.setup('./tmp');
-    return ncp('./common-tmp/' + appName, './tmp/' + appName, {
-      clobber: true,
-      stopOnErr: true
+    return copy('./common-tmp/' + appName, './tmp/' + appName, {
+      forceDelete: true,
+      inflateSymlinks: true,
     })
     .then(function() {
       process.chdir('./tmp');
