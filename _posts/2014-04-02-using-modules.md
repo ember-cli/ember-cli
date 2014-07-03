@@ -21,7 +21,7 @@ namespace.
 For example, this route definition in `app/routes/index.js`:
 
 {% highlight javascript linenos %}
-// import Ember from "ember";
+import Ember from "ember";
 
 var IndexRoute = Ember.Route.extend({
   model: function() {
@@ -214,8 +214,9 @@ export default Ember.TextField.extend(
 });
 
 // app/helpers/my-text-field.js... the below does not work!!!
-import MyTextField from 'my-app/helpers/my-text-field';
 import Ember from "ember";
+import MyTextField from 'my-app/helpers/my-text-field';
+
 Ember.Handlebars.helper('my-text-field', MyTextField);
 {% endhighlight %}
 
@@ -224,6 +225,7 @@ Do this:
 {% highlight javascript linenos %}
 // Given... app/components/my-text-field.js
 import Ember from "ember";
+
 export default Ember.TextField.extend({
   // some custom behaviour...
 });
