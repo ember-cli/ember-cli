@@ -139,6 +139,7 @@ describe('Acceptance: ember generate', function() {
     return generate([
       'model',
       'foo',
+      'noType',
       'firstName:string',
       'created_at:date',
       'is-published:boolean',
@@ -150,6 +151,7 @@ describe('Acceptance: ember generate', function() {
     ]).then(function() {
       assertFile('app/models/foo.js', {
         contains: [
+          "noType: DS.attr()",
           "firstName: DS.attr('string')",
           "createdAt: DS.attr('date')",
           "isPublished: DS.attr('boolean')",
