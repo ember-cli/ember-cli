@@ -123,7 +123,7 @@ describe('broccoli/ember-app', function() {
             project: project
           });
 
-          addonTreesForStub = stub(emberApp, 'addonTreesFor', []);
+          addonTreesForStub = stub(emberApp, 'addonTreesFor', ['batman']);
         });
 
         it('_processedVendorTree calls addonTreesFor', function() {
@@ -139,9 +139,10 @@ describe('broccoli/ember-app', function() {
         });
 
         it('styles calls addonTreesFor', function() {
-          emberApp.styles();
+          var trees = emberApp.styles();
 
           assert.equal(addonTreesForStub.calledWith[0][0], 'styles');
+          assert(trees.inputTrees[0].inputTree.inputTree.inputTrees.indexOf('batman') !== -1, 'contains addon tree');
         });
       });
     });
