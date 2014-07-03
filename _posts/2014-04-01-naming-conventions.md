@@ -25,6 +25,8 @@ export default DS.RESTAdapter.extend({});
 
 {% highlight javascript linenos %}
 // app/components/time-input.js
+import Ember from "ember";
+
 export default Ember.TextField.extend({});
 {% endhighlight %}
 
@@ -76,7 +78,6 @@ export default Ember.Mixin.create({});
 
 {% highlight javascript linenos %}
 // app/models/observation.js
-import Ember from "ember";
 import DS from "ember-data";
 
 export default DS.Model.extend({});
@@ -86,6 +87,8 @@ export default DS.Model.extend({});
 
 {% highlight javascript linenos %}
 // app/routes/timer.js
+import Ember from "ember";
+
 export default Ember.Route.extend({});
 {% endhighlight %}
 
@@ -95,7 +98,6 @@ Nested routes as such: `app/routes/timer/index.js` or `app/routes/timer/record.j
 
 {% highlight javascript linenos %}
 // app/serializers/observation.js
-import Ember from "ember";
 import DS from "ember-data";
 
 export default DS.RESTSerializer.extend({});
@@ -105,7 +107,6 @@ export default DS.RESTSerializer.extend({});
 
 {% highlight javascript linenos %}
 // app/transforms/time.js
-import Ember from "ember";
 import DS from "ember-data";
 
 export default DS.Transform.extend({});
@@ -127,6 +128,8 @@ export default function myAjax() {};
 
 {% highlight javascript linenos %}
 // app/views/stop-watch.js
+import Ember from "ember";
+
 export default Ember.View.extend({});
 {% endhighlight %}
 
@@ -139,6 +142,8 @@ And views, which can be referenced in sub-directories, but have no inheritance.
 
 {% highlight javascript linenos %}
 // app/views/inputs/time-input.js
+import Ember from "ember";
+
 export default Ember.TextField.extend({});
 {% endhighlight %}
 
@@ -233,6 +238,7 @@ In Ember CLI our view would be declared like so:
 
 {% highlight javascript linenos %}
 // app/views/user.js
+import Ember from "ember";
 export default Ember.View.extend({});
 {% endhighlight %}
 

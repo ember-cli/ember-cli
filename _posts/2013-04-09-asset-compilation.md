@@ -89,9 +89,10 @@ your `.coffee` files, and use the ES6 syntax there:
 
 {% highlight coffeescript linenos %}
 # app/models/post.coffee
+`import Ember from 'ember'`
 `import User from 'appkit/models/user'`
 
-Post = Em.Object.extend
+Post = Ember.Object.extend
   init: (userId) ->
     @set 'user', User.findById(userId)
 
