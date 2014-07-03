@@ -1,4 +1,12 @@
-var Blueprint = require('ember-cli/lib/models/blueprint');
+module.exports = {
+  // locals: function(options) {
+  //   // Return custom template variables here.
+  //   return {
+  //     foo: options.entity.options.foo
+  //   };
+  // }
 
-module.exports = Blueprint.extend({
-});
+  // afterInstall: function(options) {
+  //   // Perform extra work here.
+  // }
+};

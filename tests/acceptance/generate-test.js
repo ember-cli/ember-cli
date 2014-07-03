@@ -430,9 +430,18 @@ describe('Acceptance: ember generate', function() {
   it('blueprint foo', function() {
     return generate(['blueprint', 'foo']).then(function() {
       assertFile('blueprints/foo/index.js', {
-        contains: "var Blueprint = require('ember-cli/lib/models/blueprint');\n\n" +
-                  "module.exports = Blueprint.extend({\n" +
-                  "});"
+        contains: "module.exports = {\n" +
+                  "  // locals: function(options) {\n" +
+                  "  //   // Return custom template variables here.\n" +
+                  "  //   return {\n" +
+                  "  //     foo: options.entity.options.foo\n" +
+                  "  //   };\n" +
+                  "  // }\n" +
+                  "\n" +
+                  "  // afterInstall: function(options) {\n" +
+                  "  //   // Perform extra work here.\n" +
+                  "  // }\n" +
+                  "};"
       });
     });
   });
