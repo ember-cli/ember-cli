@@ -21,6 +21,8 @@ namespace.
 For example, this route definition in `app/routes/index.js`:
 
 {% highlight javascript linenos %}
+// import Ember from "ember";
+
 var IndexRoute = Ember.Route.extend({
   model: function() {
     return ['red', 'yellow', 'blue'];
@@ -37,6 +39,8 @@ exports.
 You can also export directly, i.e., without having to declare a variable:
 
 {% highlight javascript linenos %}
+import Ember from "ember";
+
 export default Ember.Route.extend({
   model: function() {
     return ['red', 'yellow', 'blue'];
@@ -153,6 +157,8 @@ Ember automatically loads files under `app/helpers` if they contain a dash:
 
 {% highlight javascript linenos %}
 // app/helpers/upper-case.js
+import Ember from "ember";
+
 export default Ember.Handlebars.makeBoundHelper(function(value, options) {
   return value.toUpperCase();
 });
@@ -176,7 +182,9 @@ export default function(value, options) {
 In `app.js`:
 
 {% highlight javascript linenos %}
+import Ember from "ember";
 import exampleHelper from './helpers/example';
+
 Ember.Handlebars.registerBoundHelper('example', exampleHelper);
 {% endhighlight %}
 
@@ -200,13 +208,14 @@ instead of:
 
 {% highlight javascript linenos %}
 // app/views/my-text-field.js
+import Ember from "ember";
 export default Ember.TextField.extend(
   // some custom behaviour
 });
 
 // app/helpers/my-text-field.js... the below does not work!!!
 import MyTextField from 'my-app/helpers/my-text-field';
-
+import Ember from "ember";
 Ember.Handlebars.helper('my-text-field', MyTextField);
 {% endhighlight %}
 
@@ -214,6 +223,7 @@ Do this:
 
 {% highlight javascript linenos %}
 // Given... app/components/my-text-field.js
+import Ember from "ember";
 export default Ember.TextField.extend({
   // some custom behaviour...
 });
