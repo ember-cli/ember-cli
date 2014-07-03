@@ -21,7 +21,7 @@ namespace.
 For example, this route definition in `app/routes/index.js`:
 
 {% highlight javascript linenos %}
-// import Ember from "ember";
+import Ember from "ember";
 
 var IndexRoute = Ember.Route.extend({
   model: function() {
