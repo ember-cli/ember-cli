@@ -49,13 +49,15 @@ Provide the asset path as the first argument, and the list of modules and export
 
 {% highlight javascript linenos %}
 app.import('vendor/ic-ajax/dist/named-amd/main.js', {
-  'ic-ajax': [
-    'default',
-    'defineFixture',
-    'lookupFixture',
-    'raw',
-    'request',
-  ]
+  exports: {
+    'ic-ajax': [
+      'default',
+      'defineFixture',
+      'lookupFixture',
+      'raw',
+      'request',
+    ]
+  }
 });
 {% endhighlight %}
 
