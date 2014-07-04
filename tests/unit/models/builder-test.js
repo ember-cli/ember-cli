@@ -41,7 +41,11 @@ describe('models/builder.js', function() {
         postBuild: function() { }
       };
       var postBuild = stub(addon, 'postBuild');
+      var project = {
+        addons: [addon]
+      };
       var results = 'build results';
+
       builder = new Builder({
         setupBroccoliBuilder: function() { },
         trapSignals:          function() { },
@@ -50,14 +54,13 @@ describe('models/builder.js', function() {
           build: function() { return Promise.resolve(results); }
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
-        project: {
-          addons: [addon]
-        }
+        project: project
       });
 
       return builder.build().then(function() {
         assert.equal(postBuild.called, 1, 'expected postBuild to be called');
-        assert.equal(postBuild.calledWith[0][0], results, 'expected postBuild to be called with the results');
+        assert.deepEqual(postBuild.calledWith[0][0], project, 'expected postBuild to be called with the project');
+        assert.equal(postBuild.calledWith[0][1], results, 'expected postBuild to be called with the results');
       });
     });
   });

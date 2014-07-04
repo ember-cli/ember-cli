@@ -2,6 +2,7 @@
 
 * [BUGFIX] eagerly requireing inquirer was cost ~100ms -> 150ms on boot [https://github.com/stefanpenner/ember-cli/commit/0ae78df5b4772b126facfed1d3203e9c695e80a1)
 * [BUGFIX] Fix issue with invalid warnings (regarding files in the root of `vendor/`) on Windows. [#1264](https://github.com/stefanpenner/ember-cli/issues/1264)
+* [BREAKING ENHANCEMENT] Pass project into postBuild addon hook [#1272](https://github.com/stefanpenner/ember-cli/pull/1272)
  
 ### 0.0.39
 
