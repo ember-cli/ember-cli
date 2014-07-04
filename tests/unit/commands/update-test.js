@@ -33,7 +33,7 @@ describe('update command', function() {
     };
   });
 
-  it('says "you have the latest version" if no update is needed', function() {
+  it('says \'you have the latest version\' if no update is needed', function() {
     var updateChecker = new UpdateChecker(ui, {
       checkForUpdates: true
     }, '100.0.0');
