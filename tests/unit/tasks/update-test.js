@@ -16,7 +16,7 @@ describe('update task', function() {
 
   var npm = {
     load: function(options, callback) {
-      setTimeout(function(){
+      setTimeout(function() {
         callback(undefined, npm);
       }, 0);
       loadCalledWith = options;
@@ -63,7 +63,7 @@ describe('update task', function() {
     });
   });
 
-  describe("do update", function() {
+  describe('do update', function() {
     beforeEach(function() {
       ui = new MockUI();
 
@@ -74,8 +74,7 @@ describe('update task', function() {
 
       ui.prompt = function(messageObject) {
         return new Promise(function(resolve) {
-          ui.write(messageObject.message)
-
+          ui.write(messageObject.message);
           resolve({
             answer: true
           });
@@ -88,7 +87,8 @@ describe('update task', function() {
 
       Init.prototype.run = function() {
         initCommandWasRun = true;
-      }
+      };
+
       updateTask = new UpdateTask({
         commands: {
           Init: Init
@@ -119,5 +119,17 @@ describe('update task', function() {
         assert(initCommandWasRun);
       });
     });
+
+    it('updates package.json file with newly updated version number', function() {
+      return updateTask.run({
+        environment: 'development'
+      }, {
+        newestVersion: '100.0.0'
+      }).then(function() {
+        var pkg = updateTask.project.pkg;
+        assert.equal(pkg.devDependencies['ember-cli'], '100.0.0');
+      });
+    });
+
   });
 });
