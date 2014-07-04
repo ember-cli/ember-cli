@@ -26,6 +26,11 @@
 * [ENHANCEMENT] Model generation no longer requires an attribute type. [#1252]
 * [ENHANCEMENT] Allow vendor files to be configurable. [#1187](https://github.com/stefanpenner/ember-cli/pull/1187)
 
+
+### 0.0.38
+
+* accidentally deploy with node v0.0.11 which builds an invalid package
+
 ### 0.0.37
 
 * [BREAKING BUGFIX] ensure the CLI exits with the correct status, fixes hanging tests and some non-graceful exit cleanups [#1150](https://github.com/stefanpenner/ember-cli/pull/1150)
