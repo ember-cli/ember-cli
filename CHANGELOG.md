@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [BUGFIX] eagerly requireing inquirer was cost ~100ms -> 150ms on boot [https://github.com/stefanpenner/ember-cli/commit/0ae78df5b4772b126facfed1d3203e9c695e80a1)
+ 
 ### 0.0.39
 
 * [BUGFIX] `ember build --watch` should run until SIGTERM. [#1197](https://github.com/stefanpenner/ember-cli/issues/1197)
