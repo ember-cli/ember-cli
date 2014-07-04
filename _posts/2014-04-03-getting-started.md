@@ -142,6 +142,24 @@ Contains the *distributable* (that is, optimized and self-contained) output of y
 
 This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
 
+`server/`
+
+Allows the installation of middleware, for example to proxy an API behind the ember server.
+
+For example:
+
+{% highlight javascript linenos %}
+// Proxy requests to /api/*
+var httpProxy = require('http-proxy');
+var apiProxy = httpProxy.createProxyServer();
+
+module.exports = function(app) {
+   app.all('/api/*', function(req, res) {
+     apiProxy.web(req, res, { target: "http://127.0.0.1:3000" });
+   });
+};
+{% endhighlight %}
+
 `tests/`
 
 Includes unit and integration tests for your app, as well as various helpers to load and run your tests.
