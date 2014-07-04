@@ -4,17 +4,24 @@ var assert        = require('../../../helpers/assert');
 var ExpressServer = require('../../../../lib/tasks/server/express-server');
 var MockUI        = require('../../../helpers/mock-ui');
 var MockProject   = require('../../../helpers/mock-project');
+var MockWatcher   = require('../../../helpers/mock-watcher');
+var MockProxy     = require('../../../helpers/mock-proxy');
+var request       = require('supertest');
 
 describe('express-server', function() {
-  var subject, ui, project;
+  var subject, ui, project, proxy;
 
   beforeEach(function() {
     ui = new MockUI();
     project = new MockProject();
-
+    proxy = new MockProxy();
     subject = new ExpressServer({
       ui: ui,
-      project: project
+      project: project,
+      watcher: new MockWatcher(),
+      proxyMiddleware: function() {
+        return proxy.handler.bind(proxy);
+      }
     });
   });
 
@@ -27,7 +34,7 @@ describe('express-server', function() {
       return subject.start({
         proxy: 'http://localhost:3001/',
         host:  '0.0.0.0',
-        port: '1337',
+        port: '1337'
       }).then(function() {
         var output = ui.output.trim().split('\n');
         assert.deepEqual(output[1], 'Serving on http://0.0.0.0:1337');
@@ -55,13 +62,67 @@ describe('express-server', function() {
           proxy: 'http://localhost:3001/',
           host:  '0.0.0.0',
           port: '1337',
+          baseURL: '/'
         });
       });
 
-      it('proxies GET',    function() { });
-      it('proxies PUT',    function() { });
-      it('proxies POST',   function() { });
-      it('proxies DELETE', function() { });
+      function bypassTest(app, url, done) {
+        request(app)
+          .get(url)
+          .set('accept', 'text/html')
+          .end(function(err) {
+            if (err) {
+              return done(err);
+            }
+            assert(!proxy.called);
+            done();
+          });
+      }
+      it('bypasses proxy for /', function(done) {
+        bypassTest(subject.app, '/', done);
+      });
+      it('bypasses proxy for files that exist', function(done) {
+        bypassTest(subject.app, '/test-file.txt', done);
+      });
+      function apiTest(app, method, url, done) {
+        var req = request(app);
+        return req[method].call(req, url)
+          .set('accept', 'text/json')
+          .end(function(err) {
+            if (err) {
+              return done(err);
+            }
+            assert(proxy.called, 'proxy receives the request');
+            assert.equal(proxy.lastReq.method, method.toUpperCase());
+            assert.equal(proxy.lastReq.url, url);
+            done();
+          });
+      }
+      it('proxies GET', function(done) {
+        apiTest(subject.app, 'get', '/api/get', done);
+      });
+      it('proxies PUT', function(done) {
+        apiTest(subject.app, 'put', '/api/put', done);
+      });
+      it('proxies POST', function(done) {
+        apiTest(subject.app, 'post', '/api/post', done);
+      });
+      it('proxies DELETE', function(done) {
+        apiTest(subject.app, 'delete', '/api/delete', done);
+      });
+      // test for #1263
+      it('proxies when accept contains */*', function(done) {
+        request(subject.app)
+          .get('/api/get')
+          .set('accept', 'application/json, */*')
+          .end(function(err) {
+            if (err) {
+              return done(err);
+            }
+            assert(proxy.called, 'proxy receives the request');
+            done();
+          });
+      });
     });
 
     describe('addons', function() {
