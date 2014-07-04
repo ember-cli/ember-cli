@@ -1,6 +1,6 @@
 # ember-cli Changelog
 
-### 0.0.38
+### 0.0.39
 
 * [BUGFIX] `ember build --watch` should run until SIGTERM. [#1197](https://github.com/stefanpenner/ember-cli/issues/1197)
 * [BUGFIX] Failed build should return non-zero exit code. [#1169](https://github.com/stefanpenner/ember-cli/pull/1169)
