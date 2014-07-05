@@ -1,7 +1,8 @@
-var Blueprint  = require('../../lib/models/blueprint');
 var stringUtil = require('../../lib/utilities/string');
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'The default blueprint for ember-cli projects.',
+
   locals: function(options) {
     var entity    = options.entity;
     var rawName   = entity.name;
@@ -15,4 +16,4 @@ module.exports = Blueprint.extend({
       emberCLIVersion: require('../../package').version
     }
   }
-});
+};

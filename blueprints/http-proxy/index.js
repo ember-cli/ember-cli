@@ -1,7 +1,13 @@
-var Blueprint = require('../../lib/models/blueprint');
 var Promise   = require('../../lib/ext/promise');
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'Generates a relative proxy to another server.',
+
+  anonymousOptions: [
+    'local-path',
+    'remote-url'
+  ],
+
   locals: function(options) {
     var proxyUrl = options.args[2];
     return {
@@ -16,4 +22,4 @@ module.exports = Blueprint.extend({
       this.addPackageToProject('connect-restreamer', '^1.0.0')
     ]);
   }
-});
+};

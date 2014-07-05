@@ -7,6 +7,8 @@ var assign     = require('lodash-node/modern/objects/assign');
 var uniq       = require('lodash-node/underscore/arrays/uniq');
 
 module.exports = Blueprint.extend({
+  description: 'The default blueprint for ember-cli addons.',
+
   afterInstall: function(options) {
     if (options.dryRun) { return; }
 
@@ -47,6 +49,7 @@ module.exports = Blueprint.extend({
       emberCLIVersion: require('../../package').version
     }
   },
+
   files: function() {
     if (this._files) { return this._files; }
 
@@ -80,6 +83,7 @@ module.exports = Blueprint.extend({
 
     return path;
   },
+
   srcPath: function(file) {
     var filePath = path.resolve(this.path, 'files', file);
     if (fs.existsSync(filePath)) {

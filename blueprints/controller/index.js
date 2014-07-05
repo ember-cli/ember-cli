@@ -1,4 +1,3 @@
-var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
 var chalk       = require('chalk');
 
@@ -8,7 +7,13 @@ var TYPE_MAP = {
   basic: 'Controller'
 };
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'Generates a controller of the given type.',
+
+  availableOptions: [
+    { name: 'type', values: ['basic', 'object', 'array'], default: 'basic' }
+  ],
+
   beforeInstall: function(options) {
     var type = options.type;
 
@@ -31,4 +36,4 @@ module.exports = Blueprint.extend({
       baseClass: baseClass
     };
   }
-});
+};

@@ -60,7 +60,8 @@ describe('help command', function() {
       ui: ui,
       analytics: analytics,
       commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }}
+      project: { isEmberCLIProject: function(){ return true; }},
+      settings: {}
     }).validateAndRun(['test-command-2']);
 
     expect(ui.output).to.include('test-command-2');

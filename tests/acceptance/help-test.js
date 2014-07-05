@@ -18,42 +18,46 @@ describe('Acceptance: ember help', function() {
   });
 
   afterEach(function(done) {
-    this.timeout(10000);
-
     process.chdir(root);
     rimraf(tmproot, done);
   });
 
-  it('generate', function() {
+  it('generate lists blueprints', function() {
+    this.timeout(10000);
     var output = '';
 
-    return runCommand(ember, 'help', 'generate', {
-      onOutput: function(string) {
-        output += string;
-      }
-    }).then(function() {
-      assert.include(output, 'ember-cli commands:');
-      assert.include(output, '  app');
-      assert.include(output, '  adapter');
-      assert.include(output, '  http-mock');
-      assert.include(output, '  http-proxy');
-      assert.include(output, '  app');
-      assert.include(output, '  blueprint');
-      assert.include(output, '  component');
-      assert.include(output, '  controller');
-      assert.include(output, '  helper');
-      assert.include(output, '  initializer');
-      assert.include(output, '  acceptance-test');
-      assert.include(output, '  mixin');
-      assert.include(output, '  model');
-      assert.include(output, '  resource');
-      assert.include(output, '  route');
-      assert.include(output, '  serializer');
-      assert.include(output, '  service');
-      assert.include(output, '  template');
-      assert.include(output, '  transform');
-      assert.include(output, '  util');
-      assert.include(output, '  view');
-    });
+    return runCommand(ember, 'init', 'my-app', '--skip-npm', '--skip-bower', { verbose: false })
+      .then(function() {
+        return runCommand(ember, 'generate', 'blueprint', 'component', { verbose: false });
+      })
+      .then(function() {
+        return runCommand(ember, 'help', 'generate', '--verbose', {
+          onOutput: function(string) {
+            output += string;
+          }
+        });
+      })
+      .then(function() {
+        assert.include(output, 'my-app:');
+        assert.include(output, '  component');
+        assert.include(output, 'ember-cli:');
+        assert.include(output, '  acceptance-test');
+        assert.include(output, '  adapter');
+        assert.include(output, '  app');
+        assert.include(output, '  blueprint');
+        assert.include(output, '  (overridden) component');
+        assert.include(output, '  controller');
+        assert.include(output, '  helper');
+        assert.include(output, '  http-mock');
+        assert.include(output, '  http-proxy');
+        assert.include(output, '  initializer');
+        assert.include(output, '  mixin');
+        assert.include(output, '  resource');
+        assert.include(output, '  route');
+        assert.include(output, '  service');
+        assert.include(output, '  template');
+        assert.include(output, '  util');
+        assert.include(output, '  view');
+      });
   });
 });
