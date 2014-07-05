@@ -10,48 +10,59 @@ Ember CLI allows you to either mock responses or proxy requests to a proxy serve
 
 ### Mock API Responses
 
-If you want to mock respones have a further look in the
-[api-stub/README](https://github.com/stefanpenner/ember-cli/tree/master/api-stub),
-which gives a detailed example on how to stub API calls. Basically you define the
-mocked responses in `api-stub/routes.js`:
+Ember-CLI comes with basic setup for HTTPServer using [express](http://expressjs.com/).
+This simple example will help you how to get started with `express`.
+`Note:This example does not use ember-data library. `
+
+Suppose when user visits`/songs` client makes a `GET` request to the server for `fav/songs`.
+Your server is not ready yet and you want to test this new route. You can easily add an route to `express` to test this new route.
+`Note:/songs is a route defined on ember while /fav/songs is a route defined on express.`
+
+To test it this is the first step as in ember everything starts with router.
+`app/router.js`
 
 {% highlight javascript linenos %}
-module.exports = function(server) {
-  server.namespace('/api', function() {
-    server.get('/posts', function(req, res) {
-      res.send({ post: { body: "hello mocking world" } });
-    });
+Router.map(function() {
+  this.route('songs');
+{% endhighlight %}
+
+Next step could be to define a route on express which will respond with Mock data when appropriate request is made.
+`server/routes/songs.js`
+
+{% highlight javascript linenos %}
+module.exports = function(app) {
+  app.get('/fav/songs', function(req, res) {
+  res.json( [{"name":"Foo"},{"name":"Bar"}] );
   });
 };
 {% endhighlight %}
 
-So, if you have a route setup like this, the mocked response is served:
+`app/adapters/RESTadapter.js`
 
 {% highlight javascript linenos %}
-export default Ember.Route.extend({
-  model: function() {
-    return ic.ajax('/api/posts');
-  },
+import ajax from 'ic-ajax';
 
-  afterModel: function(model) {
-    // model.post.body === "hello mocking world"
+var Adapter = Ember.Object.extend( {} );
+
+Adapter.reopenClass( {
+  get: function( url ) {
+    return ajax( { url: url, type: 'GET' } );
   }
-});
+} );
 {% endhighlight %}
 
-To serve the mocked responses, specify the `APIMethod` property in the `package.json`
-to be `stub`:
+`app/routes/songs.js`
 
-{% highlight json %}
- {
-   "APIMethod": "stub"
- }
+{% highlight javascript linenos %}
+import Adapter from 'app/adapters/RESTadapter';
+
+export default Ember.Route.extend( {
+  model: function() {
+    return Adapter.get( '/fav/songs' );
+  }
 {% endhighlight %}
 
-Next time you start the server with `ember server`, it will use the mocked responses.
-
-Note: For changes to routes.js, you'll need to restart the express server using `grunt server`
-or add `route.js` to your watch task in grunt.
+`ember build` and then `ember server`. And now if you visit `/songs` you should see server response with appropriate json.
 
 ### Proxy API Requests
 
