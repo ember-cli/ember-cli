@@ -303,6 +303,17 @@ describe('Blueprint', function() {
       blueprint.install(options);
     });
 
+    it('normalizeEntityName hook can modify the entity name', function(){
+      blueprint.normalizeEntityName = function(){ return 'foo'; };
+      options.entity = { name: 'bar' };
+
+      return blueprint.install(options)
+          .then(function() {
+            var actualFiles = walkSync(tmpdir).sort();
+
+            assert.deepEqual(actualFiles, basicBlueprintFiles);
+          });
+    });
   });
 
 });
