@@ -7,6 +7,7 @@ var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var ncp        = Promise.denodeify(require('ncp'));
+var assert     = require('assert');
 
 var runCommand       = require('../helpers/run-command');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -83,6 +84,31 @@ describe('Acceptance: brocfile-smoke-test', function() {
     .then(function() {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
     });
+  });
+
+  it('app.import works properly with non-js/css files', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/app-import')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['ember-random-addon'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', 'file-to-import.txt'), { encoding: 'utf8' });
+
+        assert.equal(subjectFileContents, 'EXAMPLE TEXT FILE CONTENT\n');
+      });
   });
 });
 
