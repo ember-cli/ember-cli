@@ -83,11 +83,11 @@ npm install --save-dev broccoli-stylus-single
 ### CoffeeScript
 
 To enable [CoffeeScript](http://coffeescript.org/), you must
-first add [broccoli-coffee](https://github.com/joliss/broccoli-coffee) to your
+first add [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeescript) to your
 NPM modules:
 
 {% highlight bash %}
-npm install --save-dev broccoli-coffee
+npm install --save-dev ember-cli-coffeescript
 {% endhighlight %}
 
 The modified `package.json` should be checked into source control. CoffeeScript
