@@ -92,20 +92,23 @@ describe('Acceptance: brocfile-smoke-test', function() {
     this.timeout(100000);
 
     return copyFixtureFiles('brocfile-tests/app-import')
-    .then(function() {
-      var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-      var packageJson = require(packageJsonPath);
-      packageJson.devDependencies['ember-random-addon'] = 'latest';
-      return Promise.denodeify(fs.writeFile)(packageJsonPath, JSON.stringify(packageJson));
-    }).then(function() {
-      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-        verbose: true
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['ember-random-addon'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', 'file-to-import.txt'), { encoding: 'utf8' });
+
+        assert.equal(subjectFileContents, 'EXAMPLE TEXT FILE CONTENT\n');
       });
-    }).then(function() {
-      return Promise.denodeify(fs.readFile(path.join('.', 'dist', 'assets', 'file-to-import.txt')));
-    }).then(function(subjectFileContents) {
-      assert.equal(subjectFileContents, 'EXAMPLE TEXT FILE CONTENT');
-    });
   });
 });
 
