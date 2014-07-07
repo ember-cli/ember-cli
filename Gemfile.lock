@@ -61,3 +61,4 @@ PLATFORMS
 DEPENDENCIES
   jekyll
   kramdown
+  yajl-ruby
