@@ -7,6 +7,7 @@ var MockProject   = require('../../../helpers/mock-project');
 var MockWatcher   = require('../../../helpers/mock-watcher');
 var MockProxy     = require('../../../helpers/mock-proxy');
 var request       = require('supertest');
+var net           = require('net');
 
 describe('express-server', function() {
   var subject, ui, project, proxy;
@@ -26,7 +27,9 @@ describe('express-server', function() {
   });
 
   afterEach(function() {
-    return subject.httpServer.close();
+    try {
+      subject.httpServer.close();
+    } catch(err) { }
   });
 
   describe('output', function() {
@@ -51,6 +54,20 @@ describe('express-server', function() {
         var output = ui.output.trim().split('\n');
         assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337');
         assert.deepEqual(output.length, 1, 'expected only one line of output');
+      });
+    });
+
+    it('address in use', function(done) {
+      var preexistingServer = net.createServer();
+      preexistingServer.listen(1337);
+      return subject.start({
+        host:  '0.0.0.0',
+        port: '1337'
+      }).then(function() {
+        var output = ui.output.trim().split('\n');
+        assert.deepEqual(output[0], 'Could not serve on http://0.0.0.0:1337. It is either in use or you do not have permission.');
+        assert.deepEqual(output.length, 1, 'expected only one line of output');
+        preexistingServer.close(done);
       });
     });
   });
