@@ -123,26 +123,32 @@ npm install --save-dev broccoli-emblem-compiler
 
 ### Fingerprinting and CDN URLs
 
-When environment is production (e.g. `ember build --environment=production`), 
-ember-cli will automatically fingerprint your js, css, png, jpg, and gif assets 
-by appending an md5 checksum to the end of their filename 
-(e.g. `assets/yourapp-9c2cbd818d09a4a742406c6cb8219b3b.js`). In addition, your 
-html, js, and css files will be re-written to include the new name. There are 
-a few options you can pass in to `EmberApp` in your `Brocfile.js` to customize 
+Fingerprinting is done using the addon
+[broccoli-asset-rev](https://github.com/rickharrison/broccoli-asset-rev)
+(which is included by default).
+
+When environment is production (e.g. `ember build --environment=production`),
+the addon will automatically fingerprint your js, css, png, jpg, and gif assets
+by appending an md5 checksum to the end of their filename
+(e.g. `assets/yourapp-9c2cbd818d09a4a742406c6cb8219b3b.js`). In addition, your
+html, js, and css files will be re-written to include the new name. There are
+a few options you can pass in to `EmberApp` in your `Brocfile.js` to customize
 this behavior.
 
-* `enabled` - Default: `false` - Boolean. Enables fingerprinting if true,
-otherwise, fingerprinting is disabled.
-* `exclude` - Default: `[]` - An array of strings. If a filename contains any 
+* `enabled` - Default: `app.env !== 'production'` - Boolean. Enables fingerprinting if true,
+otherwise, fingerprinting is disabled. **Noticed that by default it is
+true only if current environment is production.**
+
+* `exclude` - Default: `[]` - An array of strings. If a filename contains any
 item in the exclude array, it will not be fingerprinted.
-* `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif']` - The file types 
+* `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif']` - The file types
 to add md5 checksums.
-* `prepend` - Default: `''` - A string to prepend to all of the assets. Useful 
+* `prepend` - Default: `''` - A string to prepend to all of the assets. Useful
 for CDN urls like `https://subdomain.cloudfront.net/`
-* `replaceExtensions` - Default: `['html', 'css', 'js']` - The file types to 
+* `replaceExtensions` - Default: `['html', 'css', 'js']` - The file types to
 replace source code with new checksum file names.
 
-As an example, this `Brocfile` will exclude any file in the fonts/169929 
+As an example, this `Brocfile` will exclude any file in the fonts/169929
 directory as well as add a cloudfront domain to each fingerprinted asset.
 
 {% highlight javascript linenos %}
@@ -155,7 +161,6 @@ var app = new EmberApp({
   },
 
   fingerprint: {
-    enabled: true,
     exclude: ['fonts/169929'],
     prepend: 'https://sudomain.cloudfront.net/'
   },
