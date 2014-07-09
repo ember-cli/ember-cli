@@ -14,6 +14,7 @@
 * [ENHANCEMENT] Display friendly error message when the server fails to start (e.g. address in use). [#1306](https://github.com/stefanpenner/ember-cli/pull/1306)
 * [BREAKING ENHANCEMENT] Rename test-vendor.{css,js} to test-support.{css,js} to better reflect its role. [#1320](https://github.com/stefanpenner/ember-cli/pull/1320)
 * [BUGFIX] Store version check information correctly, and only change the `lastVersionCheckAt` timestamp when the version is checked from npm. [#1323](https://github.com/stefanpenner/ember-cli/pull/1323)
+* [ENHANCEMENT] Ember apps can now be nested under any other directory as long as EmberApp is given the proper `root` path to run the app [#1338](https://github.com/stefanpenner/ember-cli/pull/1338)
 
 ### 0.0.39
 
