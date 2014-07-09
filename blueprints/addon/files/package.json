@@ -6,6 +6,10 @@
     "doc": "doc",
     "test": "test"
   },
+  "keywords": [
+    "ember-addon"
+  ],
+  "ember-addon-main": "lib/ember-addon-main.js",
   "scripts": {
     "start": "ember server",
     "build": "ember build",
