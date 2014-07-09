@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/<%= name %>.css">
-    <link rel="stylesheet" href="assets/test-vendor.css">
+    <link rel="stylesheet" href="assets/test-support.css">
     <style>
       #ember-testing-container {
         position: absolute;
@@ -37,7 +37,7 @@
       window.<%= namespace %>ENV = {{ENV}};
       window.EmberENV = window.<%= namespace %>ENV.EmberENV;
     </script>
-    <script src="assets/test-vendor.js"></script>
+    <script src="assets/test-support.js"></script>
     <script src="assets/vendor.js"></script>
     <script src="assets/<%= name %>.js"></script>
     <script src="testem.js"></script>
