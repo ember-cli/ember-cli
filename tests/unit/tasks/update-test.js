@@ -1,14 +1,18 @@
 'use strict';
 
-var assert        = require('../../helpers/assert');
-var MockUI        = require('../../helpers/mock-ui');
-var rewire        = require('rewire');
-var Promise       = require('../../../lib/ext/promise');
-var UpdateTask    = rewire('../../../lib/tasks/update');
+var fs         = require('fs');
+var path       = require('path');
+var assert     = require('../../helpers/assert');
+var MockUI     = require('../../helpers/mock-ui');
+var rewire     = require('rewire');
+var Promise    = require('../../../lib/ext/promise');
+var UpdateTask = rewire('../../../lib/tasks/update');
 
 describe('update task', function() {
   var updateTask;
   var ui;
+
+  var dummyPkgPath = '../../fixtures/dummy-project-outdated/package.json';
 
   var loadCalledWith;
   var installCalledWith;
@@ -64,6 +68,8 @@ describe('update task', function() {
   });
 
   describe('do update', function() {
+    var pkg;
+
     beforeEach(function() {
       ui = new MockUI();
 
@@ -97,9 +103,15 @@ describe('update task', function() {
         npm: npm,
         project: {
           root: 'tests/fixtures/dummy-project-outdated',
-          pkg: require('../../fixtures/dummy-project-outdated/package.json')
+          pkg: require(dummyPkgPath)
         }
       });
+      pkg = updateTask.project.pkg;
+    });
+
+    afterEach(function() {
+      pkg.devDependencies['ember-cli'] = '0.0.1';
+      fs.writeFileSync(path.join(__dirname, dummyPkgPath), JSON.stringify(pkg, null, 2));
     });
 
     it('says \'a new version is available\' and asks you to confirm you want to update', function() {
@@ -126,7 +138,6 @@ describe('update task', function() {
       }, {
         newestVersion: '100.0.0'
       }).then(function() {
-        var pkg = updateTask.project.pkg;
         assert.equal(pkg.devDependencies['ember-cli'], '100.0.0');
       });
     });
