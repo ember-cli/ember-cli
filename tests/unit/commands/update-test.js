@@ -6,6 +6,7 @@ var MockAnalytics = require('../../helpers/mock-analytics');
 var Task          = require('../../../lib/models/task');
 var UpdateCommand = require('../../../lib/commands/update');
 var UpdateChecker = require('../../../lib/models/update-checker');
+var Promise       = require('../../../lib/ext/promise');
 
 describe('update command', function() {
   var ui;
@@ -38,6 +39,10 @@ describe('update command', function() {
       checkForUpdates: true
     }, '100.0.0');
 
+    updateChecker.checkNPM = function() {
+      return Promise.resolve('0.0.1');
+    };
+
     return new UpdateCommand({
       ui: ui,
       analytics: analytics,
@@ -54,6 +59,10 @@ describe('update command', function() {
     var updateChecker = new UpdateChecker(ui, {
       checkForUpdates: true
     }, '0.0.1');
+
+    updateChecker.checkNPM = function() {
+      return Promise.resolve('100.0.0');
+    };
 
     return new UpdateCommand({
       ui: ui,
