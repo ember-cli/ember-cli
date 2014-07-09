@@ -60,15 +60,20 @@ describe('express-server', function() {
     it('address in use', function(done) {
       var preexistingServer = net.createServer();
       preexistingServer.listen(1337);
+
       return subject.start({
-        host:  '0.0.0.0',
-        port: '1337'
-      }).then(function() {
-        var output = ui.output.trim().split('\n');
-        assert.deepEqual(output[0], 'Could not serve on http://0.0.0.0:1337. It is either in use or you do not have permission.');
-        assert.deepEqual(output.length, 1, 'expected only one line of output');
-        preexistingServer.close(done);
-      });
+          host:  '0.0.0.0',
+          port: '1337'
+        })
+        .then(function() {
+          assert(false, 'should have rejected');
+        })
+        .catch(function(reason) {
+          assert.equal(reason, 'Could not serve on http://0.0.0.0:1337. It is either in use or you do not have permission.');
+        })
+        .finally(function() {
+          preexistingServer.close(done);
+        });
     });
   });
 

@@ -40,13 +40,17 @@ describe('livereload-server', function() {
     it('informs of error during startup', function(done) {
       var preexistingServer = net.createServer();
       preexistingServer.listen(1337);
+
       return subject.start({
-        liveReloadPort: 1337,
-        liveReload: true
-      }).then(function() {
-        assert.equal(ui.output, 'Livereload failed on port 1337.  It is either in use or you do not have permission.\n');
-        preexistingServer.close(done);
-      });
+          liveReloadPort: 1337,
+          liveReload: true
+        })
+        .catch(function(reason) {
+          assert.equal(reason, 'Livereload failed on port 1337.  It is either in use or you do not have permission.\n');
+        })
+        .finally(function() {
+          preexistingServer.close(done);
+        });
     });
   });
 });
