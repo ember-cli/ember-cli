@@ -2,6 +2,17 @@ body {
   background-color: rgb(255, 255, 255);
 }
 
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: inherit;
+}
+
 .warning {
   color: rgb(201, 4, 0);
   font-weight: 200;
