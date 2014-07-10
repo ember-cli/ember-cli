@@ -15,6 +15,7 @@
 * [BREAKING ENHANCEMENT] Rename test-vendor.{css,js} to test-support.{css,js} to better reflect its role. [#1320](https://github.com/stefanpenner/ember-cli/pull/1320)
 * [BUGFIX] Store version check information correctly, and only change the `lastVersionCheckAt` timestamp when the version is checked from npm. [#1323](https://github.com/stefanpenner/ember-cli/pull/1323)
 * [ENHANCEMENT] Ember apps can now be nested under any other directory as long as EmberApp is given the proper `root` path to run the app [#1338](https://github.com/stefanpenner/ember-cli/pull/1338)
+* [BUGFIX] Update `broccoli-es3-safe-recast` to fix bugs with incorrectly replaced segments. [#1340](https://github.com/stefanpenner/ember-cli/pull/1340)
 
 ### 0.0.39
 
