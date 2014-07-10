@@ -16,6 +16,7 @@
 * [BUGFIX] Store version check information correctly, and only change the `lastVersionCheckAt` timestamp when the version is checked from npm. [#1323](https://github.com/stefanpenner/ember-cli/pull/1323)
 * [ENHANCEMENT] Ember apps can now be nested under any other directory as long as EmberApp is given the proper `root` path to run the app [#1338](https://github.com/stefanpenner/ember-cli/pull/1338)
 * [BUGFIX] Update `broccoli-es3-safe-recast` to fix bugs with incorrectly replaced segments. [#1340](https://github.com/stefanpenner/ember-cli/pull/1340)
+* [ENHANCEMENT] EmberApp can take jshintrc path options for app and test jshintrc files. [#1341](https://github.com/stefanpenner/ember-cli/pull/1341)
 
 ### 0.0.39
 
