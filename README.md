@@ -34,7 +34,7 @@ cd ember-cli
 npm link
 ```
 
-`npm link` is very similar to `npm install -g` except that instead of downloading the package from the repo the just cloned `ember-cli/` folder becomes the global package. Any changes to the files in the `ember-cli/` folder will immediatly affect the global ember-cli package.
+`npm link` is very similar to `npm install -g` except that instead of downloading the package from the repo the just cloned `ember-cli/` folder becomes the global package. Any changes to the files in the `ember-cli/` folder will immediately affect the global ember-cli package.
 
 Now you can use `ember-cli` via the command line:
 
