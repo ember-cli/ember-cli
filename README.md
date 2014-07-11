@@ -31,6 +31,7 @@ Additional components of this project which are used runtime in your application
 ``` sh
 git clone https://github.com/stefanpenner/ember-cli.git
 cd ember-cli
+npm install
 npm link
 ```
 
