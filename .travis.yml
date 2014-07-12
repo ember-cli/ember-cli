@@ -2,6 +2,5 @@ language: node_js
 sudo: false
 node_js:
   - "0.10.18"
-  - "0.10.26"
   - "0.11"
 script: npm run-script test-all
