@@ -466,6 +466,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('server/routes/foo.js', {
         contains: "module.exports = function(app) {\n" +
+                  "  var express = require('express');\n" +
                   "  var fooRouter = express.Router();\n" +
                   "  fooRouter.get('/', function(req, res) {\n" +
                   "    res.send({foo:[]});\n" +

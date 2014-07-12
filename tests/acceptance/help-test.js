@@ -30,7 +30,7 @@ describe('Acceptance: ember help', function() {
         output += string;
       }
     }).then(function() {
-      assert.include(output, 'ember-cli:');
+      assert.include(output, 'ember-cli commands:');
       assert.include(output, '  app');
       assert.include(output, '  adapter');
       assert.include(output, '  api');
