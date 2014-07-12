@@ -106,6 +106,9 @@ describe('express-server', function() {
       it('bypasses proxy for files that exist', function(done) {
         bypassTest(subject.app, '/test-file.txt', done);
       });
+      it('bypasses proxy for /assets/*', function (done) {
+        bypassTest(subject.app, '/assets/qunit.js', done);
+      });
       function apiTest(app, method, url, done) {
         var req = request(app);
         return req[method].call(req, url)
