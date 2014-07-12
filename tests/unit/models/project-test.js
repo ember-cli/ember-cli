@@ -112,13 +112,4 @@ describe('models/project.js', function() {
       assert.equal(project.emberCLIVersion(), emberCLIVersion());
     });
   });
-
-  describe('pathTo', function() {
-    it('should return a relative path to the file', function() {
-      projectPath = 'test/dummy';
-
-      project = new Project(projectPath);
-      assert.equal(project.pathTo('app.js'), 'test/dummy/app.js');
-    });
-  });
 });
