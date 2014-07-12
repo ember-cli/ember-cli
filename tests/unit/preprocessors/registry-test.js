@@ -21,7 +21,7 @@ describe('Plugin Loader', function() {
 
     app = { name: 'some-application-name' };
     registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies), app);
-    registry.add('css', 'broccoli-sass', 'scss');
+    registry.add('css', 'broccoli-sass', ['scss', 'sass']);
     registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
   });
 
@@ -55,8 +55,10 @@ describe('Plugin Loader', function() {
   });
 
   it('returns the configured extension for the plugin', function() {
+    registry.add('css', 'broccoli-less-single', 'less');
+    registry.availablePlugins = { 'broccoli-less-single': 'latest' };
     var plugin = registry.load('css');
-    assert.equal(plugin.ext, 'scss');
+    assert.equal(plugin.ext, 'less');
   });
 
   it('can specify fallback extensions', function() {
