@@ -40,7 +40,7 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('dependencies', function() {
+  describe('addons', function() {
     before(function() {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
@@ -62,7 +62,7 @@ describe('models/project.js', function() {
     });
 
     it('returns a listing of all ember-cli-addons', function() {
-      var expected = [ 'ember-random-addon', 'ember-non-root-addon' ];
+      var expected = [ 'ember-random-addon', 'ember-non-root-addon', 'ember-super-button' ];
 
       assert.deepEqual(Object.keys(project.availableAddons()), expected);
     });
