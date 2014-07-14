@@ -3,6 +3,7 @@
 var assert         = require('../../helpers/assert');
 var commandOptions = require('../../factories/command-options');
 var AddonCommand     = require('../../../lib/commands/addon');
+var chalk       = require('chalk');
 
 
 describe('addon command', function() {
@@ -17,6 +18,15 @@ describe('addon command', function() {
       }
     });
     command = new AddonCommand(options);
+  });
+
+  it('requires `new` to be specified before the addon-name', function() {
+    return command.validateAndRun(['foo']).then(function() {
+      assert.ok(false, 'should have rejected without the `new`');
+    })
+    .catch(function() {
+      assert.equal(command.ui.output, chalk.yellow('The `ember addon` command requires `new` to be specified before the addon-name. For more details, use `ember help`.\n'));
+    });
   });
 
   it('doesn\'t allow to create an addon named `test`', function() {
