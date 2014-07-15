@@ -1,3 +1,5 @@
+var express = require('express');
+
 module.exports = function(app) {
   var <%= camelizedModuleName %>Router = express.Router();
   <%= camelizedModuleName %>Router.get('/', function(req, res) {
