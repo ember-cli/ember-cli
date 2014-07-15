@@ -518,6 +518,34 @@ describe('Acceptance: ember generate', function() {
       });
   });
 
+  it('passes custom cli arguments to blueprint options', function() {
+    return initApp()
+      .then(function() {
+        outputFile(
+          'blueprints/customblue/files/app/__name__.js',
+          "Q: Can I has custom command? A: <%= hasCustomCommand %>"
+        );
+        return outputFile(
+          'blueprints/customblue/index.js',
+          "module.exports = {\n" +
+          "  locals: function(options) {\n" +
+          "    var loc = {};\n" +
+          "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';\n" +
+          "    return loc;\n" +
+          "  },\n" +
+          "};\n"
+        );
+      })
+      .then(function() {
+        return ember(['generate', 'customblue', 'foo', '--custom-command']);
+      })
+      .then(function() {
+        assertFile('app/foo.js', {
+          contains: 'A: Yes!'
+        });
+      });
+  });
+
   it('acceptance-test foo', function() {
     return generate(['acceptance-test', 'foo']).then(function() {
       var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
