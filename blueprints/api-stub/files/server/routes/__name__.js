@@ -1,3 +1,5 @@
+var express = require('express');
+
 module.exports = function(app) {
   var express = require('express');
   var <%= camelizedModuleName %>Router = express.Router();
