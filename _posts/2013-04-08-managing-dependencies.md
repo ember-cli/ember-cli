@@ -29,53 +29,185 @@ Further documentation about Bower is available at their
 
 ### Compiling Bower Assets
 
-#### Legacy Files
+In your `Brocfile.js` specify a dependency before calling
+`app.toTree()`. The following example scenarios should illustrate how
+this works.
 
-Ember CLI uses the broccoli-es6-concatenator to compile your app's source. However, it 
-is likely that you'll want to bring in a library that is not written with modules.
-In this case you must tell Ember CLI that you want to append this file to your
-outputted app.js file. This is done by adding the filename to the `legacyFilesToAppend`
-array when creating your `EmberApp` in your `Brocfile`. For example:
+#### Javascript Assets
+
+##### Standard Non-AMD Asset
+
+Provide the asset path as the first and only argument:
 
 {% highlight javascript linenos %}
-var app = new EmberApp({
-  name: require('./package.json').name,
-  legacyFilesToAppend: [
-    // ... existing legacy files to append
-    "moment.js" // library you wish to append
-  ],
-  //...
+app.import('vendor/momentjs/moment.js');
+{% endhighlight %}
+
+##### Standard AMD Asset
+
+Provide the asset path as the first argument, and the list of modules and exports as the second:
+
+{% highlight javascript linenos %}
+app.import('vendor/ic-ajax/dist/named-amd/main.js', {
+  exports: {
+    'ic-ajax': [
+      'default',
+      'defineFixture',
+      'lookupFixture',
+      'raw',
+      'request',
+    ]
+  }
 });
 {% endhighlight %}
 
-#### Bower Static Assets
-
-Some bower packages include static assets that will not, by default, get merged
-into your final output tree. In this case, you will need to extend your default
-`Brocfile` to merge in your vendored assets. For example:
+To use this asset in your app, import it.
+For example, with `ic-ajax`, when to use `ic.ajax.raw`:
 
 {% highlight javascript linenos %}
-// ...existing Brocfile...
+import { raw as icAjaxRaw } from 'ic-ajax';
+//...
+icAjaxRaw( /* ... */ );
+{% endhighlight %}
 
+##### Environment Specific Assets
+
+If you need to use different assets in different environments, specify an object as the first parameter. That objects keys should be the environment name, and the values should be the asset to use in that environment.
+
+{% highlight javascript linenos %}
+app.import({
+  development: 'vendor/ember/ember.js',
+  production:  'vendor/ember/ember.prod.js'
+});
+{% endhighlight %}
+
+##### Customizing a built-in Asset
+
+This is somewhat non-standard, but suppose that you have different versions of Ember specified (using the canary builds for example).  You would simply manipulate the vendor tree that is passed in to the `EmberApp` constructor:
+
+{% highlight javascript linenos %}
+var EmberApp  = require('ember-cli/lib/broccoli/ember-app');
+var fileMover = require('broccoli-file-mover');
+
+var vendorTree = fileMover('vendor', {
+  files: {
+    'ember-dev/ember.js': 'ember/ember.js',
+    'ember-prod/ember.prod.js': 'ember/ember.prod.js'
+  }
+});
+
+var app = new EmberApp({
+  name: require('./package.json').name,
+  trees: {
+    vendor: vendorTree
+  }
+
+  getEnvJSON: require('./config/environment')
+});
+{% endhighlight %}
+
+##### Test Assets
+
+You may have additional libraries that should only be included when running tests (such as qunit-bdd or sinon). These can be merged into your assets in your Brocfile.js:
+
+{% highlight javascript linenos %}
+var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var pickFiles = require('broccoli-static-compiler');
-var mergeTrees  = require('broccoli-merge-trees');
+var mergeTrees = require('broccoli-merge-trees');
 
-// get a hold of the tree in question
-var pikaday = pickFiles('vendor', {
-  srcDir: '/pikaday/css',
-  files: [
-    'pikaday.css'
-  ],
-  destDir: '/assets/'
+var app = new EmberApp({
+// snip
 });
 
-// default ember app source tree
-var emberApp = app.toTree();
-
-// shim in custom assets
-var appAndCustomDependencies = mergeTrees([emberApp, pikaday], {
-  overwrite: true
+var qunitBdd = pickFiles('vendor/qunit-bdd/lib', {
+    srcDir: '/',
+    files: ['qunit-bdd.js'],
+    destDir: '/assets'
 });
 
-module.exports = appAndCustomDependencies;
+module.exports = mergeTrees([app.toTree(), qunitBdd]);
+{% endhighlight %}
+
+Be sure to add the appropriate script tag for your test library.
+
+{% highlight html %}
+...
+<script src="assets/qunit.js"></script>
+<script src="assets/qunit-bdd.js"></script>
+...
+{% endhighlight %}
+
+#### Styles
+
+##### Static CSS
+
+Provide the asset path as the first argument:
+
+{% highlight javascript linenos %}
+app.import('vendor/foundation/css/foundation.css');
+{% endhighlight %}
+
+All style assets added this way will be concatenated and output as `/assets/vendor.css`.
+
+##### Dynamic Styles (SCSS, LESS, etc)
+
+The vendor trees that are provided upon instantiation are available to your dynamic style files.  Take the following example (in `app/styles/app.scss`):
+
+{% highlight scss linenos %}
+@import "vendor/foundation/scss/normalize.scss";
+{% endhighlight %}
+
+#### Other Assets
+
+##### Using app.import()
+
+All other assets like images or fonts can also be added via `import()`. They
+will be copied to `dist/` as they are.
+
+{% highlight javascript linenos %}
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
+{% endhighlight %}
+
+This example would create the font file in `dist/font-awesome/fonts/font-awesome-webfonts.ttf`.
+
+##### Using broccoli-static-compiler
+
+With the [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) package, 
+(parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli 
+packages needed to build are installed:
+
+{% highlight bash %}
+npm install --save-dev broccoli-static-compiler
+npm install --save-dev broccoli-merge-trees
+{% endhighlight %}
+
+Add these imports to the top of `Brocfile.js`, just below the `EmberApp` require:
+
+{% highlight javascript linenos %}
+var mergeTrees = require('broccoli-merge-trees');
+var pickFiles = require('broccoli-static-compiler');
+{% endhighlight %}
+
+At the bottom of `Brocfile.js` we merge assets from a bower dependency with the main app tree:
+
+{% highlight javascript linenos %}
+// Remove this line:
+// module.exports = app.toTree()
+
+// Copy only the relevant files. For example the WOFF-files and stylesheets for a webfont:
+var extraAssets = pickFiles('vendor/a-lovely-webfont', {
+   srcDir: '/',
+   files: ['**/*.woff', '**/stylesheet.css'],
+   destDir: '/assets/fonts'
+});
+
+// Merge the app tree and our new font assets.
+module.exports = mergeTrees([app.toTree(), extraAssets]);
+{% endhighlight %}
+
+In the above example the assets from the fictive bower dependency called `a-lovely-webfont` can now
+be found under `/assets/fonts/`, and might be linked to from `index.html` like so:
+
+{% highlight html %}
+<link rel="stylesheet" href="assets/fonts/lovelyfont_bold/stylesheet.css">
 {% endhighlight %}

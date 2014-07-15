@@ -17,13 +17,30 @@ example you can do `public/assets/images`, and in your templates using
 ### Stylesheets
 
 Ember CLI supports plain CSS out of the box. You can add your css styles to
-`app/styles/app.css` and it will be served at `assets/app.css`.
+`app/styles/app.css` and it will be served at `assets/application-name.css`.
+
+For example, to add bootstrap in your project you need to do the following: 
+{% highlight bash %} 
+bower install --save-dev bootstrap 
+{% endhighlight %}
+
+In `Brocfile.js` add the following: 
+{% highlight bash %} 
+app.import('vendor/bootstrap/dist/css/bootstrap.css');
+{% endhighlight %}
+it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
 
 To use a CSS preprocessor, you'll need to install the appropriate
 [Broccoli](https://github.com/joliss/broccoli) plugin. When using a
 preprocessor, Broccoli is configured to look for an `app.less`, `app.scss`,
 or `app.styl` manifest file in `app/styles`. This manifest should import any
 additional stylesheets.
+
+The compiled css-files are minified by `broccoli-clean-css` or `broccoli-csso`,
+if it is installed locally. You can pass minifer-specific options to them using
+the `minifyCSS:options` object in your brocfile. Minification is enabled by
+default in the production-env and can be disabled using the `minifyCSS:enabled`
+switch.
 
 All your preprocessed stylesheets will be compiled into one file and served at
 `assets/app.css`.
@@ -66,11 +83,11 @@ npm install --save-dev broccoli-stylus-single
 ### CoffeeScript
 
 To enable [CoffeeScript](http://coffeescript.org/), you must
-first add [broccoli-coffee](https://github.com/joliss/broccoli-coffee) to your
+first add [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeescript) to your
 NPM modules:
 
 {% highlight bash %}
-npm install --save-dev broccoli-coffee
+npm install --save-dev ember-cli-coffeescript
 {% endhighlight %}
 
 The modified `package.json` should be checked into source control. CoffeeScript
@@ -83,9 +100,10 @@ your `.coffee` files, and use the ES6 syntax there:
 
 {% highlight coffeescript linenos %}
 # app/models/post.coffee
+`import Ember from 'ember'`
 `import User from 'appkit/models/user'`
 
-Post = Em.Object.extend
+Post = Ember.Object.extend
   init: (userId) ->
     @set 'user', User.findById(userId)
 
@@ -113,4 +131,61 @@ For Emblem, run the following commands:
 
 {% highlight bash %}
 npm install --save-dev broccoli-emblem-compiler
+{% endhighlight %}
+
+### Fingerprinting and CDN URLs
+
+When environment is production (e.g. `ember build --environment=production`), 
+ember-cli will automatically fingerprint your js, css, png, jpg, and gif assets 
+by appending an md5 checksum to the end of their filename 
+(e.g. `assets/yourapp-9c2cbd818d09a4a742406c6cb8219b3b.js`). In addition, your 
+html, js, and css files will be re-written to include the new name. There are 
+a few options you can pass in to `EmberApp` in your `Brocfile.js` to customize 
+this behavior.
+
+* `enabled` - Default: `false` - Boolean. Enables fingerprinting if true,
+otherwise, fingerprinting is disabled.
+* `exclude` - Default: `[]` - An array of strings. If a filename contains any 
+item in the exclude array, it will not be fingerprinted.
+* `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif']` - The file types 
+to add md5 checksums.
+* `prepend` - Default: `''` - A string to prepend to all of the assets. Useful 
+for CDN urls like `https://subdomain.cloudfront.net/`
+* `replaceExtensions` - Default: `['html', 'css', 'js']` - The file types to 
+replace source code with new checksum file names.
+
+As an example, this `Brocfile` will exclude any file in the fonts/169929 
+directory as well as add a cloudfront domain to each fingerprinted asset.
+
+{% highlight javascript linenos %}
+var app = new EmberApp({
+  name: require('./package.json').name,
+
+  minifyCSS: {
+    enabled: true,
+    options: {}
+  },
+
+  fingerprint: {
+    enabled: true,
+    exclude: ['fonts/169929'],
+    prepend: 'https://sudomain.cloudfront.net/'
+  },
+
+  getEnvJSON: require('./config/environment')
+});
+{% endhighlight %}
+
+The end result will turn
+
+{% highlight html %}
+<script src="assets/appname.js">
+background: url('/images/foo.png');
+{% endhighlight %}
+
+into
+
+{% highlight html %}
+<script src="https://subdomain.cloudfront.net/assets/appname-342b0f87ea609e6d349c7925d86bd597.js">
+background: url('https://subdomain.cloudfront.net/images/foo-735d6c098496507e26bb40ecc8c1394d.png');
 {% endhighlight %}

@@ -21,6 +21,8 @@ namespace.
 For example, this route definition in `app/routes/index.js`:
 
 {% highlight javascript linenos %}
+import Ember from "ember";
+
 var IndexRoute = Ember.Route.extend({
   model: function() {
     return ['red', 'yellow', 'blue'];
@@ -37,6 +39,8 @@ exports.
 You can also export directly, i.e., without having to declare a variable:
 
 {% highlight javascript linenos %}
+import Ember from "ember";
+
 export default Ember.Route.extend({
   model: function() {
     return ['red', 'yellow', 'blue'];
@@ -48,68 +52,87 @@ Of course, while automatic resolving is awesome, you can always manually
 require dependencies with the following syntax:
 
 {% highlight javascript linenos %}
-import FooModel from "./models/foo-model";
+import FooMixin from "./mixins/foo";
 {% endhighlight %}
 
-Which will load the `default` export (aliased as `FooModel`) from
-`./models/foo-model.js`.
+Which will load the `default` export (aliased as `FooMixin`) from
+`./mixins/foo.js`.
+
+If you like you can also use an absolute path to reference a module. But keep in
+mind that using relative paths is considered best practice for accessing modules
+within the same package. To reference a module using an absolute path begin
+the path with the name defined in `package.json`:
+
+{% highlight javascript linenos %}
+import FooMixin from "appname/mixins/foo";
+{% endhighlight %}
 
 Note, that the name of the variable used in the exported module doesn't have any
 influence on the resolver. It's the filename that is used to resolve modules.
 Similarly, you can give any name to the variable into which you import a module
-when doing so manually; see how the module `foo-model` is assigned to variable
-`FooModel` in the example above.
+when doing so manually; see how the module `mixins/foo` is assigned to variable
+`FooMixin` in the example above. 
 
-Only the `default` export is supported at the moment.
+To use `Ember` or `DS` (for Ember Data) in your modules you must import them:
+
+{% highlight javascript linenos %}
+import Ember from "ember";
+import DS from "ember-data";
+{% endhighlight %}
+
+Cyclic dependencies – are not yet supported at the moment, we are depending on: https://github.com/square/es6-module-transpiler/pull/126
 
 ### Module Directory Naming Structure
 
 `app/adapters/`
 
-Adapters for your application, where `adaptername.js` is the correct naming convention.
+Adapters with the convention `adapter-name.js`.
 
 `app/components/`
 
-Components for your application, where `component-name.js` is the correct naming convention. Remember, components are dasherized.
+Components with the convention `component-name.js`. Remember, components are dasherized.
 
 `app/controllers/`
 
-Controllers for your application, where `controller.js` is the controller name. Child controllers are defined in sub-directories,
-parent/child.js.
+Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
 
 `app/helpers/`
 
-Helpers, where `helpername.js`. Remember that you must register your helpers by
-exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
+Helpers with the convention `helper-name.js`. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
+
+`app/initializers/`
+
+Initializers with the convention `initializer-name.js`. Initializers are loaded automatically.
 
 `app/mixins/`
 
-Mixins, where `evented.js` is the convention.
+Mixins with the convention `mixin-name.js`.
 
 `app/models/`
 
-Models, where `modelname.js`.
+Models with the convention `model-name.js`.
 
 `app/routes/`
 
-Routes for your application, where `route.js` is the route name. Child routes are defined in sub-directories,
-`parent/child.js`.
+Routes with the convention `route-name.js`. Child routes are defined in sub-directories, `parent/child.js`.
+To provide a custom implementation for generated routes (equivalent to `App.Route` when using globals),
+use `app/routes/basic.js`.
 
 `app/serializers/`
 
-Serializers for your models or adapter, where `modelname.js` or `adaptername.js`.
+Serializers for your models or adapter, where `model-name.js` or `adapter-name.js`.
 
 `app/transforms/`
 
-Transforms for custom Ember Data attributes, where `attributename.js` is the new attribute.
+Transforms for custom Ember Data attributes, where `attribute-name.js` is the new attribute.
 
 `app/utils`
 
-Utility modules for your application.
+Utility modules with the convention `utility-name.js`.
 
 `app/views/`
 
-Views for your application, can contain sub-directories for organization, where `viewname.js` is the view.
+Views with the convention `view-name.js`. Sub-directories can be used for organization.
 
 All modules in the `app` folder can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
@@ -125,8 +148,8 @@ helpers, too:
 
 `{% raw %}{{view "foo"}}{% endraw %}` will render the view within `views/foo.js`
 
-`{% raw %}{{render "foo" "bar"}}{% endraw %}` will render the view within `views/foo.js` using the
-controller within `controllers/bar.js`
+`{% raw %}{{render "foo"  <context>}}{% endraw %}` will render the view within `views/foo.js` using the
+controller within `controllers/foo.js` and the template `templates/foo.hbs`
 
 ### Resolving Handlebars helpers
 
@@ -134,6 +157,8 @@ Ember automatically loads files under `app/helpers` if they contain a dash:
 
 {% highlight javascript linenos %}
 // app/helpers/upper-case.js
+import Ember from "ember";
+
 export default Ember.Handlebars.makeBoundHelper(function(value, options) {
   return value.toUpperCase();
 });
@@ -157,7 +182,9 @@ export default function(value, options) {
 In `app.js`:
 
 {% highlight javascript linenos %}
+import Ember from "ember";
 import exampleHelper from './helpers/example';
+
 Ember.Handlebars.registerBoundHelper('example', exampleHelper);
 {% endhighlight %}
 
@@ -174,12 +201,41 @@ argument to `registerBoundHelper` which makes the Handlebars renderer find it.
 The file name (`example.js`) and the name of the variable it's been imported
 into (`exampleHelper`) could have been anything.
 
+A common pattern with helpers is to define a helper to use your views 
+(e.g. for a custom text field view, `MyTextField` a helper `my-text-field`
+to use it). It is advised to leverage Components instead. More concretely,
+instead of:
+
+{% highlight javascript linenos %}
+// app/views/my-text-field.js
+import Ember from "ember";
+export default Ember.TextField.extend(
+  // some custom behaviour
+});
+
+// app/helpers/my-text-field.js... the below does not work!!!
+import Ember from "ember";
+import MyTextField from 'my-app/helpers/my-text-field';
+
+Ember.Handlebars.helper('my-text-field', MyTextField);
+{% endhighlight %}
+
+Do this:
+
+{% highlight javascript linenos %}
+// Given... app/components/my-text-field.js
+import Ember from "ember";
+
+export default Ember.TextField.extend({
+  // some custom behaviour...
+});
+{% endhighlight %}
 
 ###	Using global variables or external scripts
 
 If you want to use external libraries that write to a global namespace (e.g.
 [moment.js](http://momentjs.com/)), you need to add those to the `predef`
-section of your project's `.jshintrc` file. If you use the lib in tests, need
+section of your project's `.jshintrc` file and set its value to true. If you use the lib in tests, need
 to add it to your `tests/.jshintrc` file, too.
 
 ### Module import validation

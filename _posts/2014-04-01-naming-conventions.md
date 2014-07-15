@@ -13,10 +13,11 @@ Ember Data and Handlebars. In this section we review some of these naming conven
 
 ##### Adapters
 
-An adapter the traditional Ember way:
-
 {% highlight javascript linenos %}
 // app/adapters/application.js
+import Ember from "ember";
+import DS from "ember-data";
+
 export default DS.RESTAdapter.extend({});
 {% endhighlight %}
 
@@ -24,6 +25,8 @@ export default DS.RESTAdapter.extend({});
 
 {% highlight javascript linenos %}
 // app/components/time-input.js
+import Ember from "ember";
+
 export default Ember.TextField.extend({});
 {% endhighlight %}
 
@@ -31,47 +34,21 @@ export default Ember.TextField.extend({});
 
 {% highlight javascript linenos %}
 // app/controllers/stop-watch.js
+import Ember from "ember";
+
 export default Ember.ObjectController.extend({});
 {% endhighlight %}
 
-And if it's a route controller, we can declare nested/child controllers
-like such: `app/controllers/test/index.js`.
+And if it's a nested controller, we can declare nested/child controllers
+like such: `app/controllers/posts/index.js`.
 
 ##### Helpers
 
 {% highlight javascript linenos %}
 // app/helpers/format-time.js
+import Ember from "ember";
+
 export default Ember.Handlebars.makeBoundHelper(function(){});
-{% endhighlight %}
-
-##### Mixins
-
-{% highlight javascript linenos %}
-// app/mixins/evented.js
-export default Ember.Mixin.create({});
-{% endhighlight %}
-
-##### Models
-
-{% highlight javascript linenos %}
-// app/models/observation.js
-export default DS.Model.extend({});
-{% endhighlight %}
-
-##### Routes
-
-{% highlight javascript linenos %}
-// app/routes/timer.js
-export default Ember.Route.extend({});
-{% endhighlight %}
-
-Nested routes as such: `app/routes/timer/index.js` or `app/routes/timer/record.js`.
-
-##### Serializers
-
-{% highlight javascript linenos %}
-// app/serializers/observation.js
-export default DS.RESTSerializer.extend({});
 {% endhighlight %}
 
 ##### Initializers
@@ -88,11 +65,51 @@ export default {
 
 Note: `initializers` are loaded automatically.
 
+##### Mixins
+
+{% highlight javascript linenos %}
+// app/mixins/evented.js
+import Ember from "ember";
+
+export default Ember.Mixin.create({});
+{% endhighlight %}
+
+##### Models
+
+{% highlight javascript linenos %}
+// app/models/observation.js
+import DS from "ember-data";
+
+export default DS.Model.extend({});
+{% endhighlight %}
+
+##### Routes
+
+{% highlight javascript linenos %}
+// app/routes/timer.js
+import Ember from "ember";
+
+export default Ember.Route.extend({});
+{% endhighlight %}
+
+Nested routes as such: `app/routes/timer/index.js` or `app/routes/timer/record.js`.
+
+##### Serializers
+
+{% highlight javascript linenos %}
+// app/serializers/observation.js
+import DS from "ember-data";
+
+export default DS.RESTSerializer.extend({});
+{% endhighlight %}
+
 ##### Transforms
 
 {% highlight javascript linenos %}
 // app/transforms/time.js
-export default DS.Transforms.extend({});
+import DS from "ember-data";
+
+export default DS.Transform.extend({});
 {% endhighlight %}
 
 ##### Utilities
@@ -111,6 +128,8 @@ export default function myAjax() {};
 
 {% highlight javascript linenos %}
 // app/views/stop-watch.js
+import Ember from "ember";
+
 export default Ember.View.extend({});
 {% endhighlight %}
 
@@ -123,6 +142,8 @@ And views, which can be referenced in sub-directories, but have no inheritance.
 
 {% highlight javascript linenos %}
 // app/views/inputs/time-input.js
+import Ember from "ember";
+
 export default Ember.TextField.extend({});
 {% endhighlight %}
 
@@ -148,6 +169,7 @@ yourself. But there a couple of things you should know.
 
 {% highlight javascript linenos %}
 // models/user.js
+import Ember from "ember";
 export default Ember.Model.extend();
 {% endhighlight %}
 
@@ -157,6 +179,7 @@ You may want to name your files according to their function, this is easily acco
 
 {% highlight javascript %}
 // models/user-model.js
+import Ember from "ember";
 export default Ember.Model.extend();
 {% endhighlight %}
 
@@ -165,7 +188,8 @@ export default Ember.Model.extend();
 If you prefer to nest your files to better manage your application, you can easily do so.
 
 {% highlight javascript linenos %}
-// controller/posts/new.js -> controller:posts/new
+// controllers/posts/new.js results in a controller named "controllers.posts/new"
+import Ember from "ember";
 export default Ember.Controller.extend();
 {% endhighlight %}
 
@@ -173,7 +197,8 @@ You cannot use paths containing slashes in your templates because Handlebars wil
 them back to dots. Simply create an alias like this:
 
 {% highlight javascript linenos %}
-// controller/posts.js
+// controllers/posts.js
+import Ember from "ember";
 export default Ember.Controller.extend({
   needs: ['posts/details'],
   postsDetails: Ember.computed.alias('controllers.posts/details')
@@ -193,6 +218,7 @@ export default Ember.Controller.extend({
 Let's say we were using Ember out of the box with the following view:
 
 {% highlight javascript %}
+import Ember from "ember";
 App.UserView = Ember.View.extend({});
 {% endhighlight %}
 
@@ -212,6 +238,7 @@ In Ember CLI our view would be declared like so:
 
 {% highlight javascript linenos %}
 // app/views/user.js
+import Ember from "ember";
 export default Ember.View.extend({});
 {% endhighlight %}
 
@@ -225,3 +252,7 @@ We can then embed our view using the following convention:
 
 Note, that we did not namespace `UserView`. The resolver takes care of this for you.
 For more information about the default Ember resolver, check out the source [here](https://github.com/emberjs/ember.js/blob/master/packages/ember-application/lib/system/resolver.js).
+
+### Tests
+
+Test filenames should be suffixed with `-test.js` in order to run.
