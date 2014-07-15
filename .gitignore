@@ -3,3 +3,6 @@ npm-debug.log
 tmp*
 _posts
 _site
+
+*.swp
+*.swo
