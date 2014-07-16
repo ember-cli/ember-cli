@@ -28,6 +28,8 @@ function addRouteToRouter(name, options) {
     return;
   }
 
+  if (name === 'basic') { return; }
+
   switch (type) {
   case 'route':
     newContent = oldContent.replace(
