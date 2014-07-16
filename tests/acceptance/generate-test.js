@@ -258,6 +258,15 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('route basic isn\'t added to router', function() {
+    return generate(['route', 'basic']).then(function() {
+      assertFile('app/router.js', {
+        doesNotContain: "this.route('basic');"
+      });
+      assertFile('app/routes/basic.js');
+    });
+  });
+
   it('route bar does not create duplicates in router.js', function() {
     function checkRoute(testString) {
       var routerDefinition = (
