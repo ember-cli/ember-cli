@@ -87,6 +87,23 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('controller foo/bar', function() {
+    return generate(['controller', 'foo/bar']).then(function() {
+      assertFile('app/controllers/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Controller.extend({\n});"
+        ]
+      });
+      assertFile('tests/unit/controllers/foo/bar-test.js', {
+        contains: [
+          "import { test, moduleFor } from 'ember-qunit';",
+          "moduleFor('controller:foo/bar', 'FooBarController'"
+        ]
+      });
+    });
+  });
+
   it('component x-foo', function() {
     return generate(['component', 'x-foo']).then(function() {
       assertFile('app/components/x-foo.js', {
@@ -110,6 +127,17 @@ describe('Acceptance: ember generate', function() {
   it('helper foo-bar', function() {
     return generate(['helper', 'foo-bar']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
+        contains: "import Ember from 'ember';\n\n" +
+                  "export default Ember.Handlebars.makeBoundHelper(function(value) {\n" +
+                  "  return value;\n" +
+                  "});"
+      });
+    });
+  });
+
+  it('helper foo/bar-baz', function() {
+    return generate(['helper', 'foo/bar-baz']).then(function() {
+      assertFile('app/helpers/foo/bar-baz.js', {
         contains: "import Ember from 'ember';\n\n" +
                   "export default Ember.Handlebars.makeBoundHelper(function(value) {\n" +
                   "  return value;\n" +
@@ -164,6 +192,23 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/models/foo-test.js', {
         contains: "needs: ['model:bar', 'model:baz', 'model:echo', 'model:bravo']"
+      });
+    });
+  });
+
+  it('model foo/bar', function() {
+    return generate(['model', 'foo/bar']).then(function() {
+      assertFile('app/models/foo/bar.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          "export default DS.Model.extend"
+        ]
+      });
+      assertFile('tests/unit/models/foo/bar-test.js', {
+        contains: [
+          "import { test, moduleForModel } from 'ember-qunit';",
+          "moduleForModel('foo/bar', 'FooBar'"
+        ]
       });
     });
   });
@@ -278,6 +323,23 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('view foo/bar', function() {
+    return generate(['view', 'foo/bar']).then(function() {
+      assertFile('app/views/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.View.extend({\n})'
+        ]
+      });
+      assertFile('tests/unit/views/foo/bar-test.js', {
+        contains: [
+          "import { test, moduleFor } from 'ember-qunit';",
+          "moduleFor('view:foo/bar', 'FooBarView'"
+        ]
+      });
+    });
+  });
+
   it('resource foo', function() {
     return generate(['resource', 'foo']).then(function() {
       assertFile('app/router.js', {
@@ -333,6 +395,19 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('initializer foo/bar', function() {
+    return generate(['initializer', 'foo/bar']).then(function() {
+      assertFile('app/initializers/foo/bar.js', {
+        contains: "export default {\n" +
+                  "  name: 'foo/bar',\n\n" +
+                  "  initialize: function(/* container, app */) {\n" +
+                  "    // app.register('route', 'foo', 'service:foo');\n" +
+                  "  }\n" +
+                  "};"
+      });
+    });
+  });
+
   it('mixin foo', function() {
     return generate(['mixin', 'foo']).then(function() {
       assertFile('app/mixins/foo.js', {
@@ -349,9 +424,36 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('mixin foo/bar', function() {
+    return generate(['mixin', 'foo/bar']).then(function() {
+      assertFile('app/mixins/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Mixin.create({\n});'
+        ]
+      });
+      assertFile('tests/unit/mixins/foo/bar-test.js', {
+        contains: [
+          "import FooBarMixin from 'my-app/mixins/foo/bar';"
+        ]
+      });
+    });
+  });
+
   it('adapter foo', function() {
     return generate(['adapter', 'foo']).then(function() {
       assertFile('app/adapters/foo.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          "export default DS.RESTAdapter.extend({\n});"
+        ]
+      });
+    });
+  });
+
+  it('adapter foo/bar', function() {
+    return generate(['adapter', 'foo/bar']).then(function() {
+      assertFile('app/adapters/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
           "export default DS.RESTAdapter.extend({\n});"
@@ -372,6 +474,23 @@ describe('Acceptance: ember generate', function() {
         contains: [
           "import { test, moduleFor } from 'ember-qunit';",
           "moduleFor('serializer:foo', 'FooSerializer'"
+        ]
+      });
+    });
+  });
+
+  it('serializer foo/bar', function() {
+    return generate(['serializer', 'foo/bar']).then(function() {
+      assertFile('app/serializers/foo/bar.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          'export default DS.RESTSerializer.extend({\n});'
+        ]
+      });
+      assertFile('tests/unit/serializers/foo/bar-test.js', {
+        contains: [
+          "import { test, moduleFor } from 'ember-qunit';",
+          "moduleFor('serializer:foo/bar', 'FooBarSerializer'"
         ]
       });
     });
@@ -402,6 +521,31 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('transform foo/bar', function() {
+    return generate(['transform', 'foo/bar']).then(function() {
+      assertFile('app/transforms/foo/bar.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          'export default DS.Transform.extend({\n' +
+          '  deserialize: function(serialized) {\n' +
+          '    return serialized;\n' +
+          '  },\n' +
+          '\n' +
+          '  serialize: function(deserialized) {\n' +
+          '    return deserialized;\n' +
+          '  }\n' +
+          '});'
+        ]
+      });
+      assertFile('tests/unit/transforms/foo/bar-test.js', {
+        contains: [
+          "import { test, moduleFor } from 'ember-qunit';",
+          "moduleFor('transform:foo/bar', 'FooBarTransform'"
+        ]
+      });
+    });
+  });
+
   it('util foo-bar', function() {
     return generate(['util', 'foo-bar']).then(function() {
       assertFile('app/utils/foo-bar.js', {
@@ -412,6 +556,21 @@ describe('Acceptance: ember generate', function() {
       assertFile('tests/unit/utils/foo-bar-test.js', {
         contains: [
           "import fooBar from 'my-app/utils/foo-bar';"
+        ]
+      });
+    });
+  });
+
+  it('util foo-bar/baz', function() {
+    return generate(['util', 'foo/bar-baz']).then(function() {
+      assertFile('app/utils/foo/bar-baz.js', {
+        contains: 'export default function fooBarBaz() {\n' +
+                  '  return true;\n' +
+                  '}'
+      });
+      assertFile('tests/unit/utils/foo/bar-baz-test.js', {
+        contains: [
+          "import fooBarBaz from 'my-app/utils/foo/bar-baz';"
         ]
       });
     });
@@ -442,9 +601,53 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('service foo/bar', function() {
+    return generate(['service', 'foo/bar']).then(function() {
+      assertFile('app/services/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Object.extend({\n});'
+        ]
+      });
+      assertFile('app/initializers/foo/bar.js', {
+        contains: "export default {\n" +
+                  "  name: 'foo/bar',\n" +
+                  "  initialize: function(container, app) {\n" +
+                  "    app.inject('route', 'fooBar', 'service:fooBar');\n" +
+                  "  }\n" +
+                  "};"
+      });
+      assertFile('tests/unit/services/foo/bar-test.js', {
+        contains: [
+          "import { test, moduleFor } from 'ember-qunit';",
+          "moduleFor('service:foo/bar', 'FooBarService'"
+        ]
+      });
+    });
+  });
+
   it('blueprint foo', function() {
     return generate(['blueprint', 'foo']).then(function() {
       assertFile('blueprints/foo/index.js', {
+        contains: "module.exports = {\n" +
+                  "  // locals: function(options) {\n" +
+                  "  //   // Return custom template variables here.\n" +
+                  "  //   return {\n" +
+                  "  //     foo: options.entity.options.foo\n" +
+                  "  //   };\n" +
+                  "  // }\n" +
+                  "\n" +
+                  "  // afterInstall: function(options) {\n" +
+                  "  //   // Perform extra work here.\n" +
+                  "  // }\n" +
+                  "};"
+      });
+    });
+  });
+
+  it('blueprint foo/bar', function() {
+    return generate(['blueprint', 'foo/bar']).then(function() {
+      assertFile('blueprints/foo/bar/index.js', {
         contains: "module.exports = {\n" +
                   "  // locals: function(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
