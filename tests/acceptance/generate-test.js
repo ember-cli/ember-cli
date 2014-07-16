@@ -214,26 +214,39 @@ describe('Acceptance: ember generate', function() {
   });
 
   it('route bar does not create duplicates in router.js', function() {
-    var routerDefinition = (
-      "Router.map(function() {\n" +
-      "  this.resource('foo', function() {\n" +
-      "    this.route('bar');\n" +
-      "  });\n" +
-      "});\n"
-    );
-
-    return initApp()
-      .then(function() {
-        return outputFile('app/router.js', routerDefinition);
-      })
+    function checkRoute(testString) {
+      var routerDefinition = (
+        "Router.map(function() {\n" +
+        "  this.resource('foo', function() {\n" +
+        "    " + testString + "\n" +
+        "  });\n" +
+        "});\n"
+      );
+      return outputFile('app/router.js', routerDefinition)
       .then(function() {
         return ember(['generate', 'route', 'bar']);
       })
       .then(function() {
-        assertFile('app/router.js', {
+        return assertFile('app/router.js', {
           contains: routerDefinition
         });
       });
+    }
+
+
+    return initApp()
+    .then(function() {
+      return checkRoute("this.route('bar');");
+    })
+    .then(function() {
+      return checkRoute("this.route ('bar');");
+    })
+    .then(function() {
+      return checkRoute("this.route ( 'bar' );");
+    })
+    .then(function() {
+      return checkRoute('this.route("bar");');
+    });
   });
 
   it('template foo', function() {
