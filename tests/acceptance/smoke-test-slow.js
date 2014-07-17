@@ -317,5 +317,5 @@ describe('Acceptance: smoke-test', function() {
           });
         });
     });
-  });  
+  });
 });
