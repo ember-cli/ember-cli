@@ -147,6 +147,30 @@ describe('express-server', function() {
       });
     });
 
+    describe('without proxy', function() {
+      beforeEach(function() {
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337',
+          baseURL: '/'
+        });
+      });
+
+      it('serves index.html when period in name', function(done) {
+        request(subject.app)
+          .get('/someurl.withperiod')
+          .set('accept', 'text/html')
+          .expect(200)
+          .expect('Content-Type', /html/)
+          .end(function(err) {
+            if (err) {
+              return done(err);
+            }
+            done();
+          });
+      });
+    });
+
     describe('addons', function() {
       it('calls processAddonMiddlewares upon start', function() {
         var called = false;
