@@ -298,4 +298,24 @@ describe('Acceptance: smoke-test', function() {
         // just eat the rejection as we are testing what happens
       });
   });
+
+  it('ember new foo, build production and verify css files are concatenated', function() {
+    this.timeout(450000);
+    return copyFixtureFiles('with-styles')
+      .then(function() {
+      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
+        .then(function() {
+          var dirPath = path.join('.', 'dist', 'assets');
+          var dir = fs.readdirSync(dirPath);
+          var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css','i');
+          dir.forEach(function (filepath) {
+            if(cssNameRE.test(filepath)) {
+              var appCss = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
+              assert(appCss.indexOf('.some-weird-selector')>-1);
+              assert(appCss.indexOf('.some-even-weirder-selector')>-1);
+            }
+          });
+        });
+    });
+  });
 });
