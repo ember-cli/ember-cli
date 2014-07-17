@@ -152,7 +152,7 @@ Various temporary output of build steps, as well as the debug output of your app
 
 `vendor/`
 
-Your dependencies, both those included with EAK and those installed with Bower.
+Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
 
 `.jshintrc`
 
