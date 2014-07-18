@@ -3,7 +3,7 @@
 var mergeTrees = require('broccoli-merge-trees');
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-var appTree = mergeTrees(['app', 'tests/dummy-app'], { overwrite: true });
+var appTree = mergeTrees(['app', 'tests/dummy/app'], { overwrite: true });
 var vendorTree = mergeTrees(['vendor']);
 
 var app = new EmberApp({

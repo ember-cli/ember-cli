@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import startApp from 'ember-token-auth/tests/helpers/start-app';
 
 var App;
@@ -7,6 +8,7 @@ module('Acceptance - Hello Addon', {
     App = startApp();
   },
   teardown: function() {
+    window.history.pushState('','','/tests');
     Ember.run(App, 'destroy');
   }
 });
