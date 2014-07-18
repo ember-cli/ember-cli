@@ -1,10 +1,11 @@
 import Ember from 'ember';
-import Router from '<%= name %>/router';
 
 var Router = Ember.Router.extend({
   location: <%= namespace %>ENV.locationType
 });
 
-Router.map(function() {});
+Router.map(function() {
+  this.route('hello-addon');
+});
 
 export default Router;
