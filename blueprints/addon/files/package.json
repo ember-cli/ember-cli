@@ -9,7 +9,7 @@
   "keywords": [
     "ember-addon"
   ],
-  "ember-addon-main": "lib/ember-addon-main.js",
+  "ember-addon-main": "lib/<%= name %>-main.js",
   "scripts": {
     "start": "ember server",
     "build": "ember build",

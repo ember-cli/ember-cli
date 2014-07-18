@@ -18,6 +18,12 @@ function unwatchedTree(dir) {
 <%= namespace %>.prototype.treeFor = function treeFor(name) {
   var treePath =  path.join('node_modules', "<%= name %>", name);
 
+  if (name === 'templates' || name === 'styles') {
+    var treePath =  path.join('node_modules', "ember-token-auth", 'app', name);
+  } else {
+    var treePath =  path.join('node_modules', "ember-token-auth", name);
+  }
+
   if (fs.existsSync(treePath)) {
     return unwatchedTree(treePath);
   }
