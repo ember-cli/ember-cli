@@ -44,7 +44,7 @@ describe('test command', function() {
       var buildOptions = buildRun.calledWith[0][0];
       var testOptions  = testRun.calledWith[0][0];
 
-      assert.equal(buildOptions.environment, 'development', 'has correct env');
+      assert.equal(buildOptions.environment, 'test', 'has correct env');
       assert.ok(buildOptions.outputPath,     'has outputPath');
       assert.equal(testOptions.configFile,   './testem.json', 'has config file');
       assert.equal(testOptions.port,         7357, 'has config file');

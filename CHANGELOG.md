@@ -26,6 +26,7 @@
 * [BREAKING BUGFIX] Standard variables passed in to Blueprints now handle slashes better. Breaking if you relied on the old behavior. [#1278](https://github.com/stefanpenner/ember-cli/pull/1278)
 * [BUGFIX] Generating a route named 'basic' no longer adds it to router.js. [#1390](https://github.com/stefanpenner/ember-cli/pull/1390)
 * [ENHANCEMENT] EmberAddon constructor defaults `process.env.EMBER_ADDON_ENV` to "development". [#]()
+* [ENHANCEMENT] Tests now run with the "test" environment by default, `config/environment.js` contains an (empty) section for the "test" environment [#1401](https://github.com/stefanpenner/ember-cli/pull/1401)
 
 ### 0.0.39
 
