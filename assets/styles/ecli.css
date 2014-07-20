@@ -50,21 +50,18 @@ BORDER RADIUS
   src: url("../fonts/exo-medium-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-medium-webfont.woff") format("woff"), url("../fonts/exo-medium-webfont.ttf") format("truetype"), url("../fonts/exo-medium-webfont.svg#exomedium") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 @font-face {
   font-family: 'exoblack';
   src: url("../fonts/exo-black-webfont.eot");
   src: url("../fonts/exo-black-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-black-webfont.woff") format("woff"), url("../fonts/exo-black-webfont.ttf") format("truetype"), url("../fonts/exo-black-webfont.svg#exoblack") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 @font-face {
   font-family: 'exolight';
   src: url("../fonts/exo-light-webfont.eot");
   src: url("../fonts/exo-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-light-webfont.woff") format("woff"), url("../fonts/exo-light-webfont.ttf") format("truetype"), url("../fonts/exo-light-webfont.svg#exolight") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 body {
   background: #f2d1cb; }
 
@@ -91,7 +88,8 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 5000; }
+  z-index: 5000;
+  top: 0; }
   #showcase .content {
     height: 100%;
     position: relative; }
@@ -122,6 +120,15 @@ body {
         -moz-border-radius: 8px;
         -khtml-border-radius: 8px;
         border-radius: 8px; }
+    #showcase .content code {
+      text-align: center;
+      display: block;
+      color: #ffffff;
+      font-size: 130%;
+      background-color: transparent; }
+    #showcase .content iframe {
+      margin: 0 auto;
+      display: block; }
     #showcase .content .window {
       margin: 50px auto 0;
       padding: 0 5px;
@@ -168,7 +175,6 @@ body {
         width: 102%; }
   #showcase #switch {
     display: block;
-    width: 256px;
     height: auto;
     float: none;
     margin: 2em auto;
@@ -178,12 +184,13 @@ body {
     -khtml-border-radius: 8px;
     border-radius: 8px;
     padding: .95em .35em;
-    color: #f23818;
     letter-spacing: .06em;
     font-size: 1em;
     font-family: "exomedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
-    text-align: center; }
+    text-align: center;
+    width: 256px;
+    color: #f23818; }
     #showcase #switch:hover, #showcase #switch:active {
       background: #f23818;
       text-decoration: none;
@@ -223,16 +230,48 @@ body {
   font-size: 1.6em; }
 
 .navbar {
-  border-color: #e7e7e7; }
+  border-color: #e7e7e7;
+  background: #f23818; }
+  .navbar a {
+    color: #ffffff; }
+  .navbar .navbar-brand {
+    color: #ffffff; }
 
 .container {
   width: 100%; }
 
+.h1-animate-in {
+  display: block;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-name: fadeInFromNone; }
+
+.description-animate-in {
+  display: block;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-delay: 0.4s;
+  -webkit-animation-name: fadeInFromNone; }
+
+@-webkit-keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0; }
+
+  49% {
+    display: none;
+    opacity: 0; }
+
+  50% {
+    display: block;
+    opacity: 0; }
+
+  100% {
+    display: block;
+    opacity: 1; } }
 @media (max-width: 991px) {
   body {
     margin-top: 45px; } }
 .icon-bar {
-  background-color: #232323; }
+  background-color: white; }
 
 .content h1 {
   font-size: 3em;
@@ -383,3 +422,17 @@ body {
   .npm {
     font-size: 1.6em;
     text-align: center; } }
+#footer {
+  background: #f6eBe9;
+  border-top: 1px solid #eab4aa; }
+  #footer a {
+    color: #f23818;
+    font-weight: bold; }
+  #footer p {
+    margin-bottom: 0px; }
+  #footer .info {
+    color: #8f8f8f;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 90%;
+    padding: 40px 0px 40px 15px; }
