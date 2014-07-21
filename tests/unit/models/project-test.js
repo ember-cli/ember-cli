@@ -2,6 +2,7 @@
 
 var path    = require('path');
 var Project = require('../../../lib/models/project');
+var Addon   = require('../../../lib/models/addon');
 var tmp     = require('../../helpers/tmp');
 var touch   = require('../../helpers/file-utils').touch;
 var assert  = require('assert');
@@ -54,6 +55,8 @@ describe('models/project.js', function() {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
         'ember-non-root-addon': 'latest',
+        'ember-generated-with-export-addon': 'latest',
+        'ember-generated-no-export-addon': 'latest',
         'non-ember-thingy': 'latest',
         'something-else': 'latest'
       };
@@ -62,7 +65,11 @@ describe('models/project.js', function() {
     });
 
     it('returns a listing of all ember-cli-addons', function() {
-      var expected = [ 'ember-random-addon', 'ember-non-root-addon', 'ember-super-button' ];
+      var expected = [
+        'ember-random-addon', 'ember-non-root-addon',
+        'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
+        'ember-super-button'
+      ];
 
       assert.deepEqual(Object.keys(project.availableAddons()), expected);
     });
@@ -104,6 +111,20 @@ describe('models/project.js', function() {
       ];
 
       assert.deepEqual(project.blueprintLookupPaths(), expected);
+    });
+
+    it('returns an instance of an addon with an object export', function() {
+      var addons = project.addons;
+
+      assert.ok(addons[2] instanceof Addon);
+      assert.equal(addons[2].name, 'Ember CLI Generated with export');
+    });
+
+    it('returns an instance of a generated addon with no export', function() {
+      var addons = project.addons;
+
+      assert.ok(addons[3] instanceof Addon);
+      assert.equal(addons[3].name, '(generated ember-generated-no-export-addon addon)');
     });
   });
 
