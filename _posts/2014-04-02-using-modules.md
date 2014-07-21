@@ -215,7 +215,7 @@ export default Ember.TextField.extend(
 
 // app/helpers/my-text-field.js... the below does not work!!!
 import Ember from "ember";
-import MyTextField from 'my-app/helpers/my-text-field';
+import MyTextField from 'my-app/views/my-text-field';
 
 Ember.Handlebars.helper('my-text-field', MyTextField);
 {% endhighlight %}
