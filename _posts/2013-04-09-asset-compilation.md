@@ -19,13 +19,13 @@ example you can do `public/assets/images`, and in your templates using
 Ember CLI supports plain CSS out of the box. You can add your css styles to
 `app/styles/app.css` and it will be served at `assets/application-name.css`.
 
-For example, to add bootstrap in your project you need to do the following: 
-{% highlight bash %} 
-bower install --save-dev bootstrap 
+For example, to add bootstrap in your project you need to do the following:
+{% highlight bash %}
+bower install --save-dev bootstrap
 {% endhighlight %}
 
-In `Brocfile.js` add the following: 
-{% highlight bash %} 
+In `Brocfile.js` add the following:
+{% highlight bash %}
 app.import('vendor/bootstrap/dist/css/bootstrap.css');
 {% endhighlight %}
 it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
@@ -194,3 +194,16 @@ into
 <script src="https://subdomain.cloudfront.net/assets/appname-342b0f87ea609e6d349c7925d86bd597.js">
 background: url('https://subdomain.cloudfront.net/images/foo-735d6c098496507e26bb40ecc8c1394d.png');
 {% endhighlight %}
+
+You can disable fingerprinting in your `Brocfile.js`:
+
+{% highlight javascript %}
+var app = new EmberApp({
+  fingerprint: {
+    enabled: false
+  }
+});
+{% endhighlight %}
+
+Or remove the entry from your `EmberApp` and  `broccoli-asset-rev`
+from your `package.json`.
