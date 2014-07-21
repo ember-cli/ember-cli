@@ -77,7 +77,8 @@ describe('Acceptance: ember new', function() {
       'new',
       'FooApp',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
+      '--skip-git'
     ]).then(function() {
       assert(!fs.existsSync('FooApp'));
 
@@ -91,13 +92,15 @@ describe('Acceptance: ember new', function() {
       'new',
       'foo',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
+      '--skip-git'
     ]).then(function() {
       return ember([
         'new',
         'foo',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
+        '--skip-git'
       ]).then(function() {
         assert(!fs.existsSync('foo'));
       });
@@ -115,7 +118,19 @@ describe('Acceptance: ember new', function() {
       'foo',
       '--skip-npm',
       '--skip-bower',
+      '--skip-git',
       '--blueprint=my_blueprint'
     ]).then(confirmBlueprintedForDir('tmp/my_blueprint'));
+  });
+
+  it('ember new without skip-git flag creates .git dir', function(){
+    return ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower'
+    ]).then(function() {
+      assert(fs.existsSync('.git'));
+    });
   });
 });
