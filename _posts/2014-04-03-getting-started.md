@@ -7,11 +7,21 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 ### Prerequisites
 
-#### Node.js
+#### Node
 
-If you don't already have Node installed, you can get it from
-[nodejs.org](http://nodejs.org/) or your package manager of choice (including
-[Homebrew](http://brew.sh/) on OSX).
+First, install the latest stable version of Node (version 0.10.x).
+
+To do so, either follow the installation instructions on
+[nodejs.org](http://nodejs.org/), or use your preferred package manager (such
+as Homebrew on OS X) if you have one.
+
+After installing Node, verify that Node is set up correctly by typing the
+following commands on the command line. Both should output help messages:
+
+```sh
+node --help
+npm --help
+```
 
 #### PhantomJS
 
