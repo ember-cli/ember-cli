@@ -23,14 +23,6 @@ node --help
 npm --help
 {% endhighlight %}
 
-#### PhantomJS
-
-By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
-
-{% highlight bash %}
-npm install -g phantomjs
-{% endhighlight %}
-
 #### Ember CLI
 
 Once you've installed Node, you'll need to install the Ember CLI globally with:
@@ -52,6 +44,14 @@ npm install -g bower
 {% endhighlight %}
 
 This will give you access to the `bower` command-line runner.
+
+#### PhantomJS
+
+By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
+
+{% highlight bash %}
+npm install -g phantomjs
+{% endhighlight %}
 
 ### Create a new project
 
