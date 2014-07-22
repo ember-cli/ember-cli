@@ -18,17 +18,9 @@ as Homebrew on OS X) if you have one.
 After installing Node, verify that Node is set up correctly by typing the
 following commands on the command line. Both should output help messages:
 
-```sh
+{% highlight bash %}
 node --help
 npm --help
-```
-
-#### PhantomJS
-
-By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
-
-{% highlight bash %}
-npm install -g phantomjs
 {% endhighlight %}
 
 #### Ember CLI
@@ -52,6 +44,14 @@ npm install -g bower
 {% endhighlight %}
 
 This will give you access to the `bower` command-line runner.
+
+#### PhantomJS
+
+By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
+
+{% highlight bash %}
+npm install -g phantomjs
+{% endhighlight %}
 
 ### Create a new project
 
