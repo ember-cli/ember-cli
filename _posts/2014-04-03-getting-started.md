@@ -18,10 +18,10 @@ as Homebrew on OS X) if you have one.
 After installing Node, verify that Node is set up correctly by typing the
 following commands on the command line. Both should output help messages:
 
-```sh
+{% highlight bash %}
 node --help
 npm --help
-```
+{% endhighlight %}
 
 #### PhantomJS
 
