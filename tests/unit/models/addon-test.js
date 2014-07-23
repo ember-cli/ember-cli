@@ -50,7 +50,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon no-export', function() {
       before(function() {
-        addon = project.addons[3];
+        addon = project.addons[6];
       });
 
       it('sets it\'s project', function() {
@@ -86,7 +86,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon with-export', function() {
       before(function() {
-        addon = project.addons[2];
+        addon = project.addons[5];
       });
 
       it('sets it\'s project', function() {
