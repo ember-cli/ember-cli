@@ -5,7 +5,7 @@ var ExpressServer = require('../../../../lib/tasks/server/express-server');
 var MockUI        = require('../../../helpers/mock-ui');
 var MockProject   = require('../../../helpers/mock-project');
 var MockWatcher   = require('../../../helpers/mock-watcher');
-var MockProxy     = require('../../../helpers/mock-proxy');
+var ProxyServer   = require('../../../helpers/proxy-server');
 var request       = require('supertest');
 var net           = require('net');
 
@@ -15,7 +15,7 @@ describe('express-server', function() {
   beforeEach(function() {
     ui = new MockUI();
     project = new MockProject();
-    proxy = new MockProxy();
+    proxy = new ProxyServer();
     subject = new ExpressServer({
       ui: ui,
       project: project,
@@ -29,6 +29,9 @@ describe('express-server', function() {
   afterEach(function() {
     try {
       subject.httpServer.close();
+    } catch(err) { }
+    try {
+      proxy.httpServer.close();
     } catch(err) { }
   });
 
