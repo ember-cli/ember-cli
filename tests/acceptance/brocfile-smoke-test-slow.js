@@ -110,5 +110,27 @@ describe('Acceptance: brocfile-smoke-test', function() {
         assert.equal(subjectFileContents, 'EXAMPLE TEXT FILE CONTENT\n');
       });
   });
+
+  it('using pods based templates', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('brocfile-tests/pods-templates')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
+
+  it('using pods based templates with a podModulePrefix', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('brocfile-tests/pods-with-prefix-templates')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
 });
 
