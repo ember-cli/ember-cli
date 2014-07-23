@@ -128,7 +128,9 @@ var qunitBdd = pickFiles('vendor/qunit-bdd/lib', {
 module.exports = mergeTrees([app.toTree(), qunitBdd]);
 {% endhighlight %}
 
-Be sure to add the appropriate script tag for your test library.
+**Notes:**
+- Be sure to add the appropriate script tag for your test library.
+- The first argument to `pickFiles` is a tree. This means that doing `pickFiles('vendor', ...)` will cause **all files in `/vendor`** to be watched. If you get a `Error: watch EMFILE` during build, this could be the culprit. Consider using a more specific path as tree or use `pickFiles(unwatchedTree('vendor'),...)` from `broccoli-unwatched-tree`.
 
 {% highlight html %}
 ...
