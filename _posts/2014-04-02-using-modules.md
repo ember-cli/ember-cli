@@ -80,7 +80,7 @@ import Ember from "ember";
 import DS from "ember-data";
 {% endhighlight %}
 
-Cyclic dependencies – are not yet supported at the moment, we are depending on: https://github.com/square/es6-module-transpiler/pull/126
+Cyclic dependencies – are not yet supported at the moment, we are depending on [es6-module-transpiler/pull/126](https://github.com/square/es6-module-transpiler/pull/126)
 
 ### Module Directory Naming Structure
 
