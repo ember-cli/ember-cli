@@ -1,6 +1,4 @@
 (function() {
-  $('body').scrollspy({ target: '.sidebar' });
-
   FastClick.attach(document.body);
 
   (function() {
@@ -25,7 +23,6 @@
   var sheight = $('#showcase').css('height');
 
   $('#swap').height(sheight);
-  $('.guide-content').css('min-height',sheight);
 
   $('.sidebar').affix({
     offset: {
