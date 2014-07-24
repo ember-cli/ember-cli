@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] Remove chain from express server [#1474](https://github.com/stefanpenner/ember-cli/pull/1474)
+
 ### 0.0.40
 
 * [BUGFIX] fix detection of static files to allow periods in urls [#1399](https://github.com/stefanpenner/ember-cli/pull/1399)
