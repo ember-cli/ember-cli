@@ -68,6 +68,17 @@ BORDER RADIUS
 body {
   background: #f2d1cb; }
 
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: inherit;
+}
+
 .warning {
   color: #c90400;
   font-weight: 200; }

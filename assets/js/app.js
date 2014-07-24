@@ -1,10 +1,10 @@
 (function() {
   $('body').scrollspy({ target: '.sidebar' });
-  
+
   FastClick.attach(document.body);
 
   (function() {
-   
+
     $(function() {
       $('#switch').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
@@ -33,4 +33,9 @@
     }
   });
 
+  $('h1, h2, h3, h4, h5, h6').each(function() {
+    if (this.id) {
+      $(this).wrapInner('<a href="#' + this.id + '"></a>');
+    }
+  });
 })();

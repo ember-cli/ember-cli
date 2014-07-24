@@ -175,12 +175,10 @@ export default Ember.Model.extend();
 
 ##### Dasherized file and folder names are recommended
 
-You may want to name your files according to their function, this is easily accomplished. However, this will not be automatically resolved and will require an import.
-
 {% highlight javascript %}
-// models/user-model.js
+// controllers/sign-up.js
 import Ember from "ember";
-export default Ember.Model.extend();
+export default Ember.Controller.extend();
 {% endhighlight %}
 
 ##### Nested directories

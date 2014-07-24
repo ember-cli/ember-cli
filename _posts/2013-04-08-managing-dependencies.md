@@ -128,7 +128,9 @@ var qunitBdd = pickFiles('vendor/qunit-bdd/lib', {
 module.exports = mergeTrees([app.toTree(), qunitBdd]);
 {% endhighlight %}
 
-Be sure to add the appropriate script tag for your test library.
+**Notes:**
+- Be sure to add the appropriate script tag for your test library.
+- The first argument to `pickFiles` is a tree. This means that doing `pickFiles('vendor', ...)` will cause **all files in `/vendor`** to be watched. If you get a `Error: watch EMFILE` during build, this could be the culprit. Consider using a more specific path as tree or use `pickFiles(unwatchedTree('vendor'),...)` from `broccoli-unwatched-tree`.
 
 {% highlight html %}
 ...
@@ -161,14 +163,23 @@ The vendor trees that are provided upon instantiation are available to your dyna
 
 ##### Using app.import()
 
-All other assets like images or fonts can also be added via `import()`. They
+All other assets like images or fonts can also be added via `import()`. By default, they
 will be copied to `dist/` as they are.
 
 {% highlight javascript linenos %}
 app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
 {% endhighlight %}
 
-This example would create the font file in `dist/font-awesome/fonts/font-awesome-webfonts.ttf`.
+This example would create the font file in `dist/font-awesome/fonts/fontawesome-webfont.ttf`.
+
+You can also optionally tell `import()` to place the file at a different path.
+The following example will copy the file to `dist/assets/fontawesome-webfont.ttf`.
+
+{% highlight javascript linenos %}
+app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf', {
+  destDir: 'assets'
+});
+{% endhighlight %}
 
 ##### Using broccoli-static-compiler
 

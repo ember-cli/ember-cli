@@ -7,18 +7,20 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 ### Prerequisites
 
-#### Node.js
+#### Node
 
-If you don't already have Node installed, you can get it from
-[nodejs.org](http://nodejs.org/) or your package manager of choice (including
-[Homebrew](http://brew.sh/) on OSX).
+First, install the latest stable version of Node (version 0.10.x).
 
-#### PhantomJS
+To do so, either follow the installation instructions on
+[nodejs.org](http://nodejs.org/), or use your preferred package manager (such
+as Homebrew on OS X) if you have one.
 
-By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
+After installing Node, verify that Node is set up correctly by typing the
+following commands on the command line. Both should output help messages:
 
 {% highlight bash %}
-npm install -g phantomjs
+node --help
+npm --help
 {% endhighlight %}
 
 #### Ember CLI
@@ -42,6 +44,14 @@ npm install -g bower
 {% endhighlight %}
 
 This will give you access to the `bower` command-line runner.
+
+#### PhantomJS
+
+By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
+
+{% highlight bash %}
+npm install -g phantomjs
+{% endhighlight %}
 
 ### Create a new project
 
@@ -102,7 +112,7 @@ Prints out a list of available commands.
 
 `ember new <app-name>`
 
-Creates a folder called `<app-name>` and generates an application structure for you.
+Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
 
 `ember init`
 
@@ -152,7 +162,7 @@ Various temporary output of build steps, as well as the debug output of your app
 
 `vendor/`
 
-Your dependencies, both those included with EAK and those installed with Bower.
+Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
 
 `.jshintrc`
 

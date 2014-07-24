@@ -80,7 +80,7 @@ import Ember from "ember";
 import DS from "ember-data";
 {% endhighlight %}
 
-Cyclic dependencies – are not yet supported at the moment, we are depending on: https://github.com/square/es6-module-transpiler/pull/126
+Cyclic dependencies – are not yet supported at the moment, we are depending on [es6-module-transpiler/pull/126](https://github.com/square/es6-module-transpiler/pull/126)
 
 ### Module Directory Naming Structure
 
@@ -215,7 +215,7 @@ export default Ember.TextField.extend(
 
 // app/helpers/my-text-field.js... the below does not work!!!
 import Ember from "ember";
-import MyTextField from 'my-app/helpers/my-text-field';
+import MyTextField from 'my-app/views/my-text-field';
 
 Ember.Handlebars.helper('my-text-field', MyTextField);
 {% endhighlight %}

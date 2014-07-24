@@ -64,6 +64,17 @@ And, following `dependencies` add `resolutions`:
       "ember": "canary"
     }
 
+This can also be applied to Ember Data:
+
+    "ember-data": "components/ember-data#canary",
+
+And, adding to `resolutions`:
+
+    "resolutions": {
+      "ember-data": "canary"
+    }
+
+
 Wipe your vender directory clean then run `bower install`.
 
 
