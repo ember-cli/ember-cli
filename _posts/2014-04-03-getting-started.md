@@ -160,9 +160,13 @@ Includes unit and integration tests for your app, as well as various helpers to 
 
 Various temporary output of build steps, as well as the debug output of your application (`tmp/public`).
 
-`vendor/`
+`bower_components/`
 
 Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
+
+`vendor/`
+
+Your external dependencies not installed with `Bower` or `Npm`.
 
 `.jshintrc`
 

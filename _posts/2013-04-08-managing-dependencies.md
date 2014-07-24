@@ -17,9 +17,10 @@ installing packages individually.
 Executing `bower install` will install all of the dependencies listed in
 `bower.json` in one step.
 
-Ember CLI is configured to have git ignore your `vendor` directory by default.
-Using the Bower configuration file allows collaborators to fork your repo and get
-their dependencies installed locally by executing `bower install` themselves.
+Ember CLI is configured to have git ignore your `bower_components` and `vendor`
+directories by default.  Using the Bower configuration file allows collaborators
+to fork your repo and get their dependencies installed locally by executing
+`bower install` themselves.
 
 Ember CLI watches `bower.json` for changes. Thus it reloads your app if you
 install new dependencies via `bower install --save <dependencies>`.
@@ -27,11 +28,11 @@ install new dependencies via `bower install --save <dependencies>`.
 Further documentation about Bower is available at their
 [official documentation page](http://bower.io/).
 
-### Compiling Bower Assets
+### Compiling Assets
 
-In your `Brocfile.js` specify a dependency before calling
-`app.toTree()`. The following example scenarios should illustrate how
-this works.
+In your `Brocfile.js` specify a dependency before calling `app.toTree()`. You
+can only import assets that are within the `bower_components` or `vendor`
+directories. The following example scenarios illustrate how this works.
 
 #### Javascript Assets
 
@@ -40,7 +41,7 @@ this works.
 Provide the asset path as the first and only argument:
 
 {% highlight javascript linenos %}
-app.import('vendor/momentjs/moment.js');
+app.import('bower_components/momentjs/moment.js');
 {% endhighlight %}
 
 ##### Standard AMD Asset
@@ -48,7 +49,7 @@ app.import('vendor/momentjs/moment.js');
 Provide the asset path as the first argument, and the list of modules and exports as the second:
 
 {% highlight javascript linenos %}
-app.import('vendor/ic-ajax/dist/named-amd/main.js', {
+app.import('bower_components/ic-ajax/dist/named-amd/main.js', {
   exports: {
     'ic-ajax': [
       'default',
@@ -76,8 +77,8 @@ If you need to use different assets in different environments, specify an object
 
 {% highlight javascript linenos %}
 app.import({
-  development: 'vendor/ember/ember.js',
-  production:  'vendor/ember/ember.prod.js'
+  development: 'bower_components/ember/ember.js',
+  production:  'bower_components/ember/ember.prod.js'
 });
 {% endhighlight %}
 
@@ -89,7 +90,7 @@ This is somewhat non-standard, but suppose that you have different versions of E
 var EmberApp  = require('ember-cli/lib/broccoli/ember-app');
 var fileMover = require('broccoli-file-mover');
 
-var vendorTree = fileMover('vendor', {
+var vendorTree = fileMover('bower_components', {
   files: {
     'ember-dev/ember.js': 'ember/ember.js',
     'ember-prod/ember.prod.js': 'ember/ember.prod.js'
@@ -119,7 +120,7 @@ var app = new EmberApp({
 // snip
 });
 
-var qunitBdd = pickFiles('vendor/qunit-bdd/lib', {
+var qunitBdd = pickFiles('bower_components/qunit-bdd/lib', {
     srcDir: '/',
     files: ['qunit-bdd.js'],
     destDir: '/assets'
@@ -130,7 +131,7 @@ module.exports = mergeTrees([app.toTree(), qunitBdd]);
 
 **Notes:**
 - Be sure to add the appropriate script tag for your test library.
-- The first argument to `pickFiles` is a tree. This means that doing `pickFiles('vendor', ...)` will cause **all files in `/vendor`** to be watched. If you get a `Error: watch EMFILE` during build, this could be the culprit. Consider using a more specific path as tree or use `pickFiles(unwatchedTree('vendor'),...)` from `broccoli-unwatched-tree`.
+- The first argument to `pickFiles` is a tree. This means that doing `pickFiles('bower_components', ...)` will cause **all files in `/bower_components`** to be watched. If you get a `Error: watch EMFILE` during build, this could be the culprit. Consider using a more specific path as tree or use `pickFiles(unwatchedTree('bower_components'),...)` from `broccoli-unwatched-tree`.
 
 {% highlight html %}
 ...
@@ -146,7 +147,7 @@ module.exports = mergeTrees([app.toTree(), qunitBdd]);
 Provide the asset path as the first argument:
 
 {% highlight javascript linenos %}
-app.import('vendor/foundation/css/foundation.css');
+app.import('bower_components/foundation/css/foundation.css');
 {% endhighlight %}
 
 All style assets added this way will be concatenated and output as `/assets/vendor.css`.
@@ -156,7 +157,7 @@ All style assets added this way will be concatenated and output as `/assets/vend
 The vendor trees that are provided upon instantiation are available to your dynamic style files.  Take the following example (in `app/styles/app.scss`):
 
 {% highlight scss linenos %}
-@import "vendor/foundation/scss/normalize.scss";
+@import "bower_components/foundation/scss/normalize.scss";
 {% endhighlight %}
 
 #### Other Assets
@@ -167,7 +168,7 @@ All other assets like images or fonts can also be added via `import()`. By defau
 will be copied to `dist/` as they are.
 
 {% highlight javascript linenos %}
-app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf');
+app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf');
 {% endhighlight %}
 
 This example would create the font file in `dist/font-awesome/fonts/fontawesome-webfont.ttf`.
@@ -176,7 +177,7 @@ You can also optionally tell `import()` to place the file at a different path.
 The following example will copy the file to `dist/assets/fontawesome-webfont.ttf`.
 
 {% highlight javascript linenos %}
-app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf', {
+app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf', {
   destDir: 'assets'
 });
 {% endhighlight %}
@@ -206,7 +207,7 @@ At the bottom of `Brocfile.js` we merge assets from a bower dependency with the 
 // module.exports = app.toTree()
 
 // Copy only the relevant files. For example the WOFF-files and stylesheets for a webfont:
-var extraAssets = pickFiles('vendor/a-lovely-webfont', {
+var extraAssets = pickFiles('bower_components/a-lovely-webfont', {
    srcDir: '/',
    files: ['**/*.woff', '**/stylesheet.css'],
    destDir: '/assets/fonts'
