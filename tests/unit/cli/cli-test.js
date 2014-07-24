@@ -498,4 +498,40 @@ describe('Unit: CLI', function() {
       });
     });
   });
+
+  describe('Global command options', function() {
+    var verboseCommand = function(args) {
+      return ember(['fake-command', '--verbose'].concat(args));
+    };
+
+    describe('--verbose', function() {
+      describe('option parsing', function() {
+        afterEach(function() {
+          delete process.env.EMBER_VERBOSE_FAKE_OPTION_1;
+          delete process.env.EMBER_VERBOSE_FAKE_OPTION_2;
+        });
+
+        it('sets process.env.EMBER_VERBOSE_${NAME} for each space delimited option', function() {
+          return verboseCommand(['fake_option_1', 'fake_option_2']).then(function() {
+            assert(process.env.EMBER_VERBOSE_FAKE_OPTION_1,  'expected it to be true');
+            assert(process.env.EMBER_VERBOSE_FAKE_OPTION_2,  'expected it to be true');
+          });
+        });
+
+        it('ignores verbose options after --', function() {
+          return verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2']).then(function() {
+            assert(process.env.EMBER_VERBOSE_FAKE_OPTION_1,  'expected it to be true');
+            assert(!process.env.EMBER_VERBOSE_FAKE_OPTION_2,  'expected it to be false');
+          });
+        });
+
+        it('ignores verbose options after -', function() {
+          return verboseCommand(['fake_option_1', '-f', 'fake_option_2']).then(function() {
+            assert(process.env.EMBER_VERBOSE_FAKE_OPTION_1,  'expected it to be true');
+            assert(!process.env.EMBER_VERBOSE_FAKE_OPTION_2,  'expected it to be false');
+          });
+        });
+      });
+    });
+  });
 });
