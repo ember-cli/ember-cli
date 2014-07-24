@@ -282,19 +282,19 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
-  it('ember new foo, server, SIGINT clears tmp/', function() {
+  it.only('ember new foo, server, SIGINT clears tmp/', function() {
     console.log('    running the slow build tests');
 
     this.timeout(360000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', {
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
         onOutput: function(string, process) {
           if (string.match(/Build successful/)) {
             process.kill('SIGINT');
           }
         }
       })
-      .catch(function() {
+      .catch(function(reason) {
         // just eat the rejection as we are testing what happens
       });
   });
