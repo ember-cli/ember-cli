@@ -27,7 +27,6 @@ body {
 #swap {clear:both;margin:0;padding:0;}
 
 #showcase {
-  @include css-gradient(darken($drkred,40%),darken($drkred,25%));  
   padding-left: 10%;
   padding-right: 10%;
   padding-top: 10%;
@@ -35,43 +34,56 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index:5000;
+  z-index: 5000;
   top: 0;
   .content {
     height: 100%;
     position: relative;
     h1,h6,h4 {text-align: center;}
-    h1 {color: #ffffff}
     p.tagline {
       text-align: center;
       font-family: $exo1;
       letter-spacing: .02em;
-      color:rgba(255,255,255,.75)
+      line-height: 1.3em;
+      color: desaturate($red,50%);
+      margin-bottom: 1.5em;
     }
     h6 {
-      color: $drkred;
-      font-size:.9em;
-      letter-spacing:.04em;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: desaturate(lighten($red,10%),38%);
+      font-size: .9em;
+      letter-spacing: .04em;
+      text-shadow: 0 1px lighten($red,45%);
     }
     h1 {
       font-family: $exo1;
-      line-height:1.4em;
+      line-height: 1.4em;
+      font-size: 4em;
+      color: darken($red,25%);
+      text-shadow: 0 1px lighten($red,45%);
       span {
         width: 56px;
         top: -15px;
-        background: lighten($red,20%);
-        color: darken($red,60%);
-        padding: .04em .35em;
+        background: lighten($red,45%);
+        color: darken($red,15%);
+        padding: .04em .4em .04em .3em;
         font-size: .75em;
-        @include border-radius(8px);
+        border-bottom: 2px solid desaturate(lighten($red,25%),30%);
+        text-shadow: 0 1px white;
+        @include border-radius(7px);
+        @include css-gradient(lighten($red,55%),lighten($red,40%))
       }
     }
     code {
       text-align: center;
       display: block;
-      color: #ffffff;
+      margin: 0 auto;
+      color: desaturate($red,40%);
       font-size: 130%;
-      background-color: transparent;
+      padding: 1em 3em;
+      border-top: 2px solid darken($drkred,50%);
+      border-bottom: 1px solid lighten($lgtred,10%);
+      @include css-gradient(darken($drkred,38%),darken($drkred,48%));
     }
     iframe {
       margin: 0 auto;
@@ -131,22 +143,29 @@ body {
     height: auto;
     float: none;
     margin: 2em auto;
-    border: 2px solid $red;
-    @include border-radius(8px);
+    border: 1px solid desaturate(lighten($red,20%),35%);
+    border-bottom: 2px solid desaturate(lighten($red,20%),35%);
     padding:.95em .35em;
-    letter-spacing:.06em;
-    font-size: 1em;
+    letter-spacing: .04em;
+    font-size: 1.1em;
     font-family: $exo2;
     text-transform: uppercase;
     text-align: center;
-    
-    &:hover, &:active {
-      background: $red;
-      text-decoration:none;
-      color:#ffffff;
-    } 
+    text-shadow: 0 1px lighten($lgtred,12%);
     width: 256px;
-    color: $red;
+    color: desaturate($red,35%);
+    @include css-gradient(lighten($lgtred,5%),$lgtred);
+    @include border-radius(7px);
+    @include transition(all 2s ease-in-out);
+
+    &:hover, &:active {
+      border: 1px solid desaturate(lighten($red,10%),35%);
+      border-bottom: 2px solid desaturate(lighten($red,6%),35%);
+      text-decoration:none;
+      @include css-gradient(lighten($lgtred,5%),darken($lgtred,5%));
+      @include transition(all 2s ease-in-out);
+    } 
+   
   }
 }
 
@@ -323,7 +342,7 @@ body {
 .sidenav {
   margin-bottom: 0;
   padding-left: 0;
-  margin-left:0;
+  margin-left: 0;
   list-style: none;
   font-weight: 200;
   font-size: 1.1em;
@@ -332,11 +351,12 @@ body {
   li.active, li.active:hover {
     font-weight: 500;
     margin-right: -6px;
-    @include css-gradient(lighten($red,15%),$red);
+    @include css-gradient(lighten($lgtred,18%),lighten($lgtred,5%));
+    border-bottom: 1px solid lighten($lgtred,20%);
     a {
-      color:white;
-      background:none;
-      text-shadow: 0 1px 4px darken($drkred,5%);
+      color: desaturate(darken($red,15%),25%);
+      letter-spacing: .04em;
+      text-shadow: 0 1px lighten($lgtred,25%);
       &:hover, &:active {background:none}
     }
   }
@@ -348,13 +368,17 @@ body {
   li {
     padding: 0;
     border-top: 1px solid darken($lgtred,8%);
+    border-bottom: 1px solid $lgtred;
+    margin-right: -6px;
     a {
-      text-transform:uppercase;
+      text-transform: uppercase;
       font-size: .8em;
       font-weight: 500;
-      color: $drkred;
+      color: desaturate($drkred,25%);
       letter-spacing: .04em;
-      &:hover {@include css-gradient(lighten($red,45%),darken($lgtred,3%))}
+      &:hover {
+        @include css-gradient(lighten($lgtred,9%),lighten($lgtred,2%));
+      }
     }
   }
   .ectop {
