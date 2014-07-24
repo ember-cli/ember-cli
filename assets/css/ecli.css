@@ -68,17 +68,6 @@ BORDER RADIUS
 body {
   background: #f2d1cb; }
 
-h1 a,
-h2 a,
-h3 a,
-h4 a,
-h5 a,
-h6 a {
-  color: inherit;
-  font-weight: inherit;
-  text-decoration: inherit;
-}
-
 .warning {
   color: #c90400;
   font-weight: 200; }
@@ -89,78 +78,55 @@ h6 a {
   padding: 0; }
 
 #showcase {
+  background-color: #742416;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#34100a), to(#742416));
+  background-image: -webkit-linear-gradient(top, #34100a, #742416);
+  background-image: -moz-linear-gradient(top, #34100a, #742416);
+  background-image: -o-linear-gradient(top, #34100a, #742416);
+  background-image: linear-gradient(to bottom, #34100a, #742416);
   padding-left: 10%;
   padding-right: 10%;
   padding-top: 10%;
   overflow: hidden;
   position: absolute;
-  width: 100%;
-  height: 100%;
   z-index: 5000;
-  top: 0;
-  background-color: #d84a32;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#54251d), to(#d84a32));
-  background-image: -webkit-linear-gradient(top, #54251d, #d84a32);
-  background-image: -moz-linear-gradient(top, #54251d, #d84a32);
-  background-image: -o-linear-gradient(top, #54251d, #d84a32);
-  background-image: linear-gradient(to bottom, #54251d, #d84a32); }
+  top: 0; }
   #showcase .content {
     height: 100%;
     position: relative; }
     #showcase .content h1, #showcase .content h6, #showcase .content h4 {
       text-align: center; }
+    #showcase .content h1 {
+      color: #ffffff; }
     #showcase .content p.tagline {
       text-align: center;
       font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
       letter-spacing: .02em;
-      line-height: 1.3em;
-      color: #d4a49c;
-      margin: 1.5em 0; }
+      color: rgba(255, 255, 255, 0.75); }
     #showcase .content h6 {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      color: #d07b6d;
+      color: #d84a32;
       font-size: .9em;
-      letter-spacing: .04em;
-      text-shadow: 0 1px #4a170e; }
+      letter-spacing: .04em; }
     #showcase .content h1 {
       font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      line-height: 1.4em;
-      font-size: 4em;
-      color: white;
-      text-shadow: 0 2px #742416; }
+      line-height: 1.4em; }
       #showcase .content h1 span {
         width: 56px;
         top: -15px;
-        color: #b3230a;
-        padding: .04em .4em .04em .3em;
+        background: #f78b79;
+        color: black;
+        padding: .04em .35em;
         font-size: .75em;
-        border-bottom: 3px solid #d66f5d;
-        text-shadow: 0 1px white;
-        -webkit-border-radius: 7px;
-        -moz-border-radius: 7px;
-        -khtml-border-radius: 7px;
-        border-radius: 7px;
-        background-color: #f9a091;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f9a091));
-        background-image: -webkit-linear-gradient(top, white, #f9a091);
-        background-image: -moz-linear-gradient(top, white, #f9a091);
-        background-image: -o-linear-gradient(top, white, #f9a091);
-        background-image: linear-gradient(to bottom, white, #f9a091); }
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -khtml-border-radius: 8px;
+        border-radius: 8px; }
     #showcase .content code {
       text-align: center;
       display: block;
-      margin: 0 auto;
-      color: #e1b0a8;
+      color: #ffffff;
       font-size: 130%;
-      padding: 1em 3em;
-      border-top: 2px solid #1f0906;
-      border-bottom: 1px solid #e0705d;
-      background-color: #120503;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(#3d130c), to(#120503));
-      background-image: -webkit-linear-gradient(top, #3d130c, #120503);
-      background-image: -moz-linear-gradient(top, #3d130c, #120503);
-      background-image: -o-linear-gradient(top, #3d130c, #120503);
-      background-image: linear-gradient(to bottom, #3d130c, #120503); }
+      background-color: transparent; }
     #showcase .content iframe {
       margin: 0 auto;
       display: block; }
@@ -212,38 +178,24 @@ h6 a {
     display: block;
     height: auto;
     float: none;
-    margin: 3em auto 4em;
-    border: 1px solid #a05c51;
-    border-bottom: 4px solid #cd7e70;
+    margin: 2em auto;
+    border: 2px solid #f23818;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    border-radius: 8px;
     padding: .95em .35em;
-    letter-spacing: .04em;
-    font-size: 1.1em;
+    letter-spacing: .06em;
+    font-size: 1em;
     font-family: "exomedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0 1px #fefcfc;
     width: 256px;
-    color: #c75643;
-    background-color: #e8ada2;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#e8ada2));
-    background-image: -webkit-linear-gradient(top, #f7e3df, #e8ada2);
-    background-image: -moz-linear-gradient(top, #f7e3df, #e8ada2);
-    background-image: -o-linear-gradient(top, #f7e3df, #e8ada2);
-    background-image: linear-gradient(to bottom, #f7e3df, #e8ada2);
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    -khtml-border-radius: 7px;
-    border-radius: 7px; }
+    color: #f23818; }
     #showcase #switch:hover, #showcase #switch:active {
-      border: 1px solid #b6786e;
-      border-bottom: 4px solid #c46656;
+      background: #f23818;
       text-decoration: none;
-      background-color: #de8979;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#de8979));
-      background-image: -webkit-linear-gradient(top, #f7e3df, #de8979);
-      background-image: -moz-linear-gradient(top, #f7e3df, #de8979);
-      background-image: -o-linear-gradient(top, #f7e3df, #de8979);
-      background-image: linear-gradient(to bottom, #f7e3df, #de8979); }
+      color: #ffffff; }
 
 .row {
   margin-top: 0;
@@ -384,39 +336,36 @@ h6 a {
   .sidenav li.active, .sidenav li.active:hover {
     font-weight: 500;
     margin-right: -6px;
-    background-color: #f7e3df;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f7e3df));
-    background-image: -webkit-linear-gradient(top, white, #f7e3df);
-    background-image: -moz-linear-gradient(top, white, #f7e3df);
-    background-image: -o-linear-gradient(top, white, #f7e3df);
-    background-image: linear-gradient(to bottom, white, #f7e3df);
-    border-bottom: 1px solid white; }
+    background-color: #f23818;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f67660), to(#f23818));
+    background-image: -webkit-linear-gradient(top, #f67660, #f23818);
+    background-image: -moz-linear-gradient(top, #f67660, #f23818);
+    background-image: -o-linear-gradient(top, #f67660, #f23818);
+    background-image: linear-gradient(to bottom, #f67660, #f23818); }
     .sidenav li.active a, .sidenav li.active:hover a {
-      color: #9c3422;
-      letter-spacing: .04em;
-      text-shadow: 0 1px white; }
+      color: white;
+      background: none;
+      text-shadow: 0 1px 4px #ca3e26; }
       .sidenav li.active a:hover, .sidenav li.active a:active, .sidenav li.active:hover a:hover, .sidenav li.active:hover a:active {
         background: none; }
   .sidenav li:nth-child(1) {
     padding-top: 0; }
   .sidenav li {
     padding: 0;
-    border-top: 1px solid #eab4aa;
-    border-bottom: 1px solid #f2d1cb;
-    margin-right: -6px; }
+    border-top: 1px solid #eab4aa; }
     .sidenav li a {
       text-transform: uppercase;
       font-size: .8em;
       font-weight: 500;
-      color: #ba6051;
+      color: #d84a32;
       letter-spacing: .04em; }
       .sidenav li a:hover {
-        background-color: #f4d8d3;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(#fbf1f0), to(#f4d8d3));
-        background-image: -webkit-linear-gradient(top, #fbf1f0, #f4d8d3);
-        background-image: -moz-linear-gradient(top, #fbf1f0, #f4d8d3);
-        background-image: -o-linear-gradient(top, #fbf1f0, #f4d8d3);
-        background-image: linear-gradient(to bottom, #fbf1f0, #f4d8d3); }
+        background-color: #efc6bf;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#fef3f1), to(#efc6bf));
+        background-image: -webkit-linear-gradient(top, #fef3f1, #efc6bf);
+        background-image: -moz-linear-gradient(top, #fef3f1, #efc6bf);
+        background-image: -o-linear-gradient(top, #fef3f1, #efc6bf);
+        background-image: linear-gradient(to bottom, #fef3f1, #efc6bf); }
   .sidenav .ectop a {
     text-align: center;
     padding: 1em 0;
@@ -435,15 +384,14 @@ h6 a {
   color: #428bca;
   border-color: #428bca; }
 
-@media only screen and (max-device-width: 768px) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .download {
     width: 100%; }
 
   code {
     white-space: normal; }
 
-  .content-section .guide-content {
-    padding-top: 95px;
+  .guide-content {
     padding-bottom: 0;
     margin-bottom: -20px; }
 
