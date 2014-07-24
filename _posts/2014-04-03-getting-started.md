@@ -112,7 +112,7 @@ Prints out a list of available commands.
 
 `ember new <app-name>`
 
-Creates a folder called `<app-name>` and generates an application structure for you.
+Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
 
 `ember init`
 
