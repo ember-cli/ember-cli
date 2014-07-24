@@ -106,36 +106,15 @@ changed dependencies.
 
 ### Using Ember CLI
 
-`ember`
-
-Prints out a list of available commands.
-
-`ember new <app-name>`
-
-Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
-
-`ember init`
-
-Generates an application structure for you in the current folder.
-
-`ember build`
-
-Builds the application depending on the environment.
-
-`ember server`
-
-Starts up the server. Default port is `4200`.
-
-`ember generate <generator-name> <options>`
-
-Runs a specific generator. To see available generators,
-run `ember help generate`.
-
-`ember test`
-
-Run tests with Testem on CI mode. You can pass any options to Testem
-through `testem.json`, by default we'll search for it under your
-project's root or you can specify `config-file`.
+ Command                                     | Purpose
+ :------------------------------------------ | :-------
+ `ember`                                     | Prints out a list of available commands.
+ `ember new <app-name>`                      | Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
+ `ember init`                                | Generates an application structure for you in the current folder.
+ `ember build`                               | Builds the application depending on the environment.
+ `ember server`                              | Starts up the server. Default port is `4200`.
+ <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
+ `ember test`                                | Run tests with Testem on CI mode. You can pass any options to Testem through `testem.json`, by default we'll search for it under your project's root or you can specify `config-file`.
 
 ### Folder Layout
 
