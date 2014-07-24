@@ -139,79 +139,30 @@ project's root or you can specify `config-file`.
 
 ### Folder Layout
 
-`app/`
-
-Contains your Ember application's code. Javascript files in this folder are *compiled* through
-the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
-
-`dist/`
-
-Contains the *distributable* (that is, optimized and self-contained) output of your application. Deploy this to your server!
-
-`public/`
-
-This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
-
-`tests/`
-
-Includes unit and integration tests for your app, as well as various helpers to load and run your tests.
-
-`tmp/`
-
-Various temporary output of build steps, as well as the debug output of your application (`tmp/public`).
-
-`vendor/`
-
-Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
-
-`.jshintrc`
-
-[JSHint](http://jshint.com/) configuration.
-
-`.gitignore`
-
-Git configuration for ignored files.
-
-`Brocfile.js`
-
-Contains build specification for [Broccoli](https://github.com/joliss/broccoli).
-
-`bower.json`
-
-Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
-
-`package.json`
-
-NPM configuration. Mainly used to list the dependencies needed for asset compilation.
+ File/folder    | Purpose
+ -------------- | :-------
+ `app/`         | Contains your Ember application's code. Javascript files in this folder are *compiled* through the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
+ `dist/`        | Contains the *distributable* (that is, optimized and self-contained) output of your application. Deploy this to your server!
+ `public/`      | This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
+ `tests/`       | Includes unit and integration tests for your app, as well as various helpers to load and run your tests.
+ `tmp/`         | Various temporary output of build steps, as well as the debug output of your application (`tmp/public`).
+ `vendor/`      | Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
+ `.jshintrc`    | [JSHint](http://jshint.com/) configuration.
+ `.gitignore`   | Git configuration for ignored files.
+ `Brocfile.js`  | Contains build specification for [Broccoli](https://github.com/joliss/broccoli).
+ `bower.json`   | Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
+ `package.json` | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
 
 ### Layout within `app` folder
 
-`app/app.js`
-
-Your application's entry point. This is the module that is first executed.
-
-`app/index.html`
-
-The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application.
-
-`app/router.js`
-
-Your route configuration. The routes defined here correspond to routes in `app/routes/`.
-
-`app/styles/`
-
-Contains your stylesheets, whether SASS, LESS, Stylus, Compass, or plain CSS
-(though only one type is allowed, see [Asset Compilation](asset-compilation)).
-These are all compiled into `app.css`.
-
-`app/templates/`
-
-Your Handlebars templates. These are compiled to `templates.js`.
-The templates are named the same as their filename, minus the extension (i.e. `templates/foo/bar.hbs` -> `foo/bar`).
-
-`app/controllers/`, `app/models/`, etc.
-
-Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules).
+ File/folder    | Purpose
+ -------------- | :-------
+ `app/app.js` | Your application's entry point. This is the module that is first executed.
+ `app/index.html` | The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application.
+ `app/router.js` | Your route configuration. The routes defined here correspond to routes in `app/routes/`.
+ `app/styles/` | Contains your stylesheets, whether SASS, LESS, Stylus, Compass, or plain CSS (though only one type is allowed, see [Asset Compilation](asset-compilation)). These are all compiled into `app.css`.
+ `app/templates/` | Your Handlebars templates. These are compiled to `templates.js`. The templates are named the same as their filename, minus the extension (i.e. `templates/foo/bar.hbs` -> `foo/bar`).
+ `app/controllers/`, `app/models/`, etc. | Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules).
 
 [PhantomJS]: http://phantomjs.org
 [homebrew]: http://brew.sh
