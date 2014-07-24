@@ -106,41 +106,20 @@ changed dependencies.
 
 ### Using Ember CLI
 
-`ember`
-
-Prints out a list of available commands.
-
-`ember new <app-name>`
-
-Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
-
-`ember init`
-
-Generates an application structure for you in the current folder.
-
-`ember build`
-
-Builds the application depending on the environment.
-
-`ember server`
-
-Starts up the server. Default port is `4200`.
-
-`ember generate <generator-name> <options>`
-
-Runs a specific generator. To see available generators,
-run `ember help generate`.
-
-`ember test`
-
-Run tests with Testem on CI mode. You can pass any options to Testem
-through `testem.json`, by default we'll search for it under your
-project's root or you can specify `config-file`.
+ Command                                     | Purpose
+ :------------------------------------------ | :-------
+ `ember`                                     | Prints out a list of available commands.
+ `ember new <app-name>`                      | Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
+ `ember init`                                | Generates an application structure for you in the current folder.
+ `ember build`                               | Builds the application depending on the environment.
+ `ember server`                              | Starts up the server. Default port is `4200`.
+ <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
+ `ember test`                                | Run tests with Testem on CI mode. You can pass any options to Testem through `testem.json`, by default we'll search for it under your project's root or you can specify `config-file`.
 
 ### Folder Layout
 
  File/folder    | Purpose
- -------------- | :-------
+ :------------- | :-------
  `app/`         | Contains your Ember application's code. Javascript files in this folder are *compiled* through the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
  `dist/`        | Contains the *distributable* (that is, optimized and self-contained) output of your application. Deploy this to your server!
  `public/`      | This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
@@ -156,7 +135,7 @@ project's root or you can specify `config-file`.
 ### Layout within `app` folder
 
  File/folder    | Purpose
- -------------- | :-------
+ :------------- | :-------
  `app/app.js` | Your application's entry point. This is the module that is first executed.
  `app/index.html` | The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application.
  `app/router.js` | Your route configuration. The routes defined here correspond to routes in `app/routes/`.
