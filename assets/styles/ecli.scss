@@ -36,6 +36,7 @@ body {
   height: 100%;
   z-index: 5000;
   top: 0;
+  @include css-gradient(desaturate(darken($drkred,30%),20%), $drkred);
   .content {
     height: 100%;
     position: relative;
@@ -45,44 +46,43 @@ body {
       font-family: $exo1;
       letter-spacing: .02em;
       line-height: 1.3em;
-      color: desaturate($red,50%);
-      margin-bottom: 1.5em;
+      color: desaturate(lighten($red,20%),50%);
+      margin: 1.5em 0;
     }
     h6 {
       font-family: "Helvetica Neue", Arial, sans-serif;
       color: desaturate(lighten($red,10%),38%);
       font-size: .9em;
       letter-spacing: .04em;
-      text-shadow: 0 1px lighten($red,45%);
+      text-shadow: 0 1px darken($drkred,35%);
     }
     h1 {
       font-family: $exo1;
       line-height: 1.4em;
       font-size: 4em;
-      color: darken($red,25%);
-      text-shadow: 0 1px lighten($red,45%);
+      color: white;
+      text-shadow: 0 2px darken($drkred,25%);
       span {
         width: 56px;
         top: -15px;
-        background: lighten($red,45%);
         color: darken($red,15%);
         padding: .04em .4em .04em .3em;
         font-size: .75em;
-        border-bottom: 2px solid desaturate(lighten($red,25%),30%);
+        border-bottom: 3px solid desaturate(lighten($red,8%),30%);
         text-shadow: 0 1px white;
         @include border-radius(7px);
-        @include css-gradient(lighten($red,55%),lighten($red,40%))
+        @include css-gradient(lighten($red,55%),lighten($red,25%))
       }
     }
     code {
       text-align: center;
       display: block;
       margin: 0 auto;
-      color: desaturate($red,40%);
+      color: desaturate(lighten($red,25%),40%);
       font-size: 130%;
       padding: 1em 3em;
-      border-top: 2px solid darken($drkred,50%);
-      border-bottom: 1px solid lighten($lgtred,10%);
+      border-top: 2px solid darken($drkred,45%);
+      border-bottom: 1px solid lighten($drkred,10%);
       @include css-gradient(darken($drkred,38%),darken($drkred,48%));
     }
     iframe {
@@ -142,9 +142,9 @@ body {
     display: block;
     height: auto;
     float: none;
-    margin: 2em auto;
-    border: 1px solid desaturate(lighten($red,20%),35%);
-    border-bottom: 2px solid desaturate(lighten($red,20%),35%);
+    margin: 3em auto 4em;
+    border: 1px solid desaturate(darken($drkred,5%),35%);
+    border-bottom: 4px solid desaturate(lighten($drkred,10%),20%);
     padding:.95em .35em;
     letter-spacing: .04em;
     font-size: 1.1em;
@@ -154,18 +154,15 @@ body {
     text-shadow: 0 1px lighten($lgtred,12%);
     width: 256px;
     color: desaturate($red,35%);
-    @include css-gradient(lighten($lgtred,5%),$lgtred);
+    @include css-gradient(lighten($lgtred,5%),darken($lgtred,10%));
     @include border-radius(7px);
-    @include transition(all 2s ease-in-out);
 
     &:hover, &:active {
-      border: 1px solid desaturate(lighten($red,10%),35%);
-      border-bottom: 2px solid desaturate(lighten($red,6%),35%);
+      border: 1px solid desaturate(lighten($drkred,5%),35%);
+      border-bottom: 4px solid desaturate(lighten($drkred,3%),20%);
       text-decoration:none;
-      @include css-gradient(lighten($lgtred,5%),darken($lgtred,5%));
-      @include transition(all 2s ease-in-out);
+      @include css-gradient(lighten($lgtred,5%),darken($lgtred,20%));
     } 
-   
   }
 }
 
@@ -404,7 +401,7 @@ body {
   border-color: rgb(66, 139, 202);
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media only screen and (max-device-width : 768px) {
 
   .download {
     width: 100%;
@@ -414,9 +411,12 @@ body {
     white-space: normal;
   }
 
-  .guide-content {
-    padding-bottom: 0;
-    margin-bottom: -20px;
+  .content-section {
+    .guide-content {
+      padding-top: 95px;
+      padding-bottom: 0;
+      margin-bottom: -20px;
+    }
   }
 
   .edit-page {

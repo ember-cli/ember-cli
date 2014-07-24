@@ -86,7 +86,13 @@ body {
   width: 100%;
   height: 100%;
   z-index: 5000;
-  top: 0; }
+  top: 0;
+  background-color: #d84a32;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#54251d), to(#d84a32));
+  background-image: -webkit-linear-gradient(top, #54251d, #d84a32);
+  background-image: -moz-linear-gradient(top, #54251d, #d84a32);
+  background-image: -o-linear-gradient(top, #54251d, #d84a32);
+  background-image: linear-gradient(to bottom, #54251d, #d84a32); }
   #showcase .content {
     height: 100%;
     position: relative; }
@@ -97,48 +103,47 @@ body {
       font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
       letter-spacing: .02em;
       line-height: 1.3em;
-      color: #b56355;
-      margin-bottom: 1.5em; }
+      color: #d4a49c;
+      margin: 1.5em 0; }
     #showcase .content h6 {
       font-family: "Helvetica Neue", Arial, sans-serif;
       color: #d07b6d;
       font-size: .9em;
       letter-spacing: .04em;
-      text-shadow: 0 1px #fef3f1; }
+      text-shadow: 0 1px #4a170e; }
     #showcase .content h1 {
       font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
       line-height: 1.4em;
       font-size: 4em;
-      color: #831a07;
-      text-shadow: 0 1px #fef3f1; }
+      color: white;
+      text-shadow: 0 2px #742416; }
       #showcase .content h1 span {
         width: 56px;
         top: -15px;
-        background: #fef3f1;
         color: #b3230a;
         padding: .04em .4em .04em .3em;
         font-size: .75em;
-        border-bottom: 2px solid #e7aca2;
+        border-bottom: 3px solid #d66f5d;
         text-shadow: 0 1px white;
         -webkit-border-radius: 7px;
         -moz-border-radius: 7px;
         -khtml-border-radius: 7px;
         border-radius: 7px;
-        background-color: #fdded9;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#fdded9));
-        background-image: -webkit-linear-gradient(top, white, #fdded9);
-        background-image: -moz-linear-gradient(top, white, #fdded9);
-        background-image: -o-linear-gradient(top, white, #fdded9);
-        background-image: linear-gradient(to bottom, white, #fdded9); }
+        background-color: #f9a091;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f9a091));
+        background-image: -webkit-linear-gradient(top, white, #f9a091);
+        background-image: -moz-linear-gradient(top, white, #f9a091);
+        background-image: -o-linear-gradient(top, white, #f9a091);
+        background-image: linear-gradient(to bottom, white, #f9a091); }
     #showcase .content code {
       text-align: center;
       display: block;
       margin: 0 auto;
-      color: #c15a49;
+      color: #e1b0a8;
       font-size: 130%;
       padding: 1em 3em;
-      border-top: 2px solid #090302;
-      border-bottom: 1px solid #fcf5f4;
+      border-top: 2px solid #1f0906;
+      border-bottom: 1px solid #e0705d;
       background-color: #120503;
       background-image: -webkit-gradient(linear, left top, left bottom, from(#3d130c), to(#120503));
       background-image: -webkit-linear-gradient(top, #3d130c, #120503);
@@ -196,9 +201,9 @@ body {
     display: block;
     height: auto;
     float: none;
-    margin: 2em auto;
-    border: 1px solid #df9d91;
-    border-bottom: 2px solid #df9d91;
+    margin: 3em auto 4em;
+    border: 1px solid #a05c51;
+    border-bottom: 4px solid #cd7e70;
     padding: .95em .35em;
     letter-spacing: .04em;
     font-size: 1.1em;
@@ -208,30 +213,26 @@ body {
     text-shadow: 0 1px #fefcfc;
     width: 256px;
     color: #c75643;
-    background-color: #f2d1cb;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#f2d1cb));
-    background-image: -webkit-linear-gradient(top, #f7e3df, #f2d1cb);
-    background-image: -moz-linear-gradient(top, #f7e3df, #f2d1cb);
-    background-image: -o-linear-gradient(top, #f7e3df, #f2d1cb);
-    background-image: linear-gradient(to bottom, #f7e3df, #f2d1cb);
+    background-color: #e8ada2;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#e8ada2));
+    background-image: -webkit-linear-gradient(top, #f7e3df, #e8ada2);
+    background-image: -moz-linear-gradient(top, #f7e3df, #e8ada2);
+    background-image: -o-linear-gradient(top, #f7e3df, #e8ada2);
+    background-image: linear-gradient(to bottom, #f7e3df, #e8ada2);
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;
     -khtml-border-radius: 7px;
-    border-radius: 7px;
-    -webkit-transition: all 2s ease-in-out;
-    transition: all 2s ease-in-out; }
+    border-radius: 7px; }
     #showcase #switch:hover, #showcase #switch:active {
-      border: 1px solid #d3796a;
-      border-bottom: 2px solid #ce6b5a;
+      border: 1px solid #b6786e;
+      border-bottom: 4px solid #c46656;
       text-decoration: none;
-      background-color: #edbfb7;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#edbfb7));
-      background-image: -webkit-linear-gradient(top, #f7e3df, #edbfb7);
-      background-image: -moz-linear-gradient(top, #f7e3df, #edbfb7);
-      background-image: -o-linear-gradient(top, #f7e3df, #edbfb7);
-      background-image: linear-gradient(to bottom, #f7e3df, #edbfb7);
-      -webkit-transition: all 2s ease-in-out;
-      transition: all 2s ease-in-out; }
+      background-color: #de8979;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#de8979));
+      background-image: -webkit-linear-gradient(top, #f7e3df, #de8979);
+      background-image: -moz-linear-gradient(top, #f7e3df, #de8979);
+      background-image: -o-linear-gradient(top, #f7e3df, #de8979);
+      background-image: linear-gradient(to bottom, #f7e3df, #de8979); }
 
 .row {
   margin-top: 0;
@@ -423,14 +424,15 @@ body {
   color: #428bca;
   border-color: #428bca; }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+@media only screen and (max-device-width: 768px) {
   .download {
     width: 100%; }
 
   code {
     white-space: normal; }
 
-  .guide-content {
+  .content-section .guide-content {
+    padding-top: 95px;
     padding-bottom: 0;
     margin-bottom: -20px; }
 
