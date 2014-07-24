@@ -294,7 +294,7 @@ describe('Acceptance: smoke-test', function() {
           }
         }
       })
-      .catch(function(reason) {
+      .catch(function() {
         // just eat the rejection as we are testing what happens
       });
   });
