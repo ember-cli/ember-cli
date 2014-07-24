@@ -140,7 +140,7 @@ project's root or you can specify `config-file`.
 ### Folder Layout
 
  File/folder    | Purpose
- -------------- | :-------
+ :------------- | :-------
  `app/`         | Contains your Ember application's code. Javascript files in this folder are *compiled* through the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
  `dist/`        | Contains the *distributable* (that is, optimized and self-contained) output of your application. Deploy this to your server!
  `public/`      | This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
@@ -156,7 +156,7 @@ project's root or you can specify `config-file`.
 ### Layout within `app` folder
 
  File/folder    | Purpose
- -------------- | :-------
+ :------------- | :-------
  `app/app.js` | Your application's entry point. This is the module that is first executed.
  `app/index.html` | The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application.
  `app/router.js` | Your route configuration. The routes defined here correspond to routes in `app/routes/`.
