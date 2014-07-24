@@ -5,6 +5,44 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-01-changelog.md"
 ---
 
+### 0.0.40
+
+* [BUGFIX] fix detection of static files to allow periods in urls [#1399](https://github.com/stefanpenner/ember-cli/pull/1399)
+* [BUGFIX] fix processing of import statements in css [#1400](https://github.com/stefanpenner/ember-cli/pull/1400)
+* [BUGFIX] fix detection of requests to be proxied [#1263](https://github.com/stefanpenner/ember-cli/pull/1263)
+* [BUGFIX] fix ember update (broken promises) [#1265](https://github.com/stefanpenner/ember-cli/pull/1265)
+* [BUGFIX] eagerly requireing inquirer was cost ~100ms -> 150ms on boot [https://github.com/stefanpenner/ember-cli/commit/0ae78df5b4772b126facfed1d3203e9c695e80a1)
+* [BUGFIX] Fix issue with invalid warnings (regarding files in the root of `vendor/`) on Windows. [#1264](https://github.com/stefanpenner/ember-cli/issues/1264)
+* [BUGFIX] Fix addons being unable to use `app.import` to pull in non-js/css assets from their own `vendor/` tree. [#1159](https://github.com/stefanpenner/ember-cli/pull/1159)
+* [ENHANCEMENT] When using `app.import` to import non-js/css assets, you can now specify the destination of the asset. [#1159](https://github.com/stefanpenner/ember-cli/pull/1159)
+* [BUGFIX] Fix issue with `ember build` failing if the public/ folder was deleted. [#1270](https://github.com/stefanpenner/ember-cli/issues/1270)
+* [BREAKING ENHANCEMENT] CoffeeScript support is now brought in by `ember-cli-coffeescript`. To use CoffeeScript with future versions run `npm install --save-dev ember-cli-coffeescript` (and `broccoli-coffee` is no longer needed as a direct dependency). [#1289](https://github.com/stefanpenner/ember-cli/pull/1289)
+* [BUGFIX] `Blueprint.prototype.normalizeEntityName`'s return value should update the entity name. [#1283](https://github.com/stefanpenner/ember-cli/issues/1283)
+* [BREAKING ENHANCEMENT] Move test only js/css assets into test-vendor.js and test-vendor.css respectively. [#1288](https://github.com/stefanpenner/ember-cli/pull/1288)
+* [ENHANCEMENT] Update default Ember version to 1.6.0.
+* [ENHANCEMENT] Display friendly error message when the server fails to start (e.g. address in use). [#1306](https://github.com/stefanpenner/ember-cli/pull/1306)
+* [BREAKING ENHANCEMENT] Rename test-vendor.{css,js} to test-support.{css,js} to better reflect its role. [#1320](https://github.com/stefanpenner/ember-cli/pull/1320)
+* [BUGFIX] Store version check information correctly, and only change the `lastVersionCheckAt` timestamp when the version is checked from npm. [#1323](https://github.com/stefanpenner/ember-cli/pull/1323)
+* [BUGFIX] Update `broccoli-es3-safe-recast` to fix bugs with incorrectly replaced segments. [#1340](https://github.com/stefanpenner/ember-cli/pull/1340)
+* [ENHANCEMENT] EmberApp can take jshintrc path options for app and test jshintrc files. [#1341](https://github.com/stefanpenner/ember-cli/pull/1341)
+* [ENHANCEMENT] Using broccoli-sass > 0.2.0 now allows you to use .sass files. [#1367](https://github.com/stefanpenner/ember-cli/pull/1367)
+* [ENHANCEMENT] EmberAddon constructor to build an EmberApp object with defaults for addon projects. [#1343](https://github.com/stefanpenner/ember-cli/pull/1343)
+* [ENHANCEMENT] Allow addons to be vendored outside of node modules [#1370](https://github.com/stefanpenner/ember-cli/pull/1370)
+* [ENHANCEMENT] Make "ember version" show NPM and Node version (versions of all loaded modules with "--verbose" switch). [#1307](https://github.com/stefanpenner/ember-cli/pull/1307)
+* [BUGFIX] Duplicate-checking for generating routes now accounts for `"`-syntax. [#1371](https://github.com/stefanpenner/ember-cli/pull/1371)
+* [BREAKING BUGFIX] Standard variables passed in to Blueprints now handle slashes better. Breaking if you relied on the old behavior. [#1278](https://github.com/stefanpenner/ember-cli/pull/1278)
+* [BUGFIX] Generating a route named 'basic' no longer adds it to router.js. [#1390](https://github.com/stefanpenner/ember-cli/pull/1390)
+* [ENHANCEMENT] EmberAddon constructor defaults `process.env.EMBER_ADDON_ENV` to "development". [#]()
+* [ENHANCEMENT] Tests now run with the "test" environment by default, `config/environment.js` contains an (empty) section for the "test" environment [#1401](https://github.com/stefanpenner/ember-cli/pull/1401)
+* [ENHANCEMENT] Add Git initialization to `ember new` command [#1369](https://github.com/stefanpenner/ember-cli/pull/1369)
+* [ENHANCEMENT] Addons can export an object instead of a function [#1377](https://github.com/stefanpenner/ember-cli/pull/1377)
+* [ENHANCEMENT] Addons will automatically load a generic addon constructor that includes app/vendor trees based on treesFor property if no main key is specified in package.json. [#1377](https://github.com/stefanpenner/ember-cli/pull/1377)
+* [ENHANCEMENT] Disable `LOG_RESOLVER` flag to reduce console.log noise by default. [#1431](https://github.com/stefanpenner/ember-cli/pull/1431)
+* [ENHANCEMENT] Update `broccoli-asset-rev`to `0.0.17`
+* [ENHANCEMENT] Upgrade `ember-qunit` to `0.1.8`. [#1427](https://github.com/stefanpenner/ember-cli/pull/1427)
+* [BUGFIX] Fix pod based templates (was broken with the advent of the `templates` tree). [#4138](https://github.com/stefanpenner/ember-cli/pull/1438)
+* [ENHANCEMENT] ExpressServer middleware extracted to addons that are always pulled into every Project first [#1446](https://github.com/stefanpenner/ember-cli/pull/1446)
+
 ### 0.0.39
 
 * [BUGFIX] `ember build --watch` should run until SIGTERM. [#1197](https://github.com/stefanpenner/ember-cli/issues/1197)
