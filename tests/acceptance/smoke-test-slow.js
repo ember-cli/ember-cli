@@ -282,7 +282,7 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
-  it.only('ember new foo, server, SIGINT clears tmp/', function() {
+  it('ember new foo, server, SIGINT clears tmp/', function() {
     console.log('    running the slow build tests');
 
     this.timeout(360000);
