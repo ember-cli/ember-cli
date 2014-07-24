@@ -87,3 +87,36 @@ Wipe your vender directory clean then run `bower install`.
 * To use ember-cli without ic-ajax
 
 `npm rm ember-cli-ic-ajax --save-dev`
+
+
+### Solving performance issues on windows
+
+Build times on windows are longer than on linux or mac os. Much of that penalty is not because of node or ember-cli, but because of things monitoring your filesystem. If you can (selectively!) disable your virus scanner and the Search Index Host, you will see a substantial speedup. Here's how:
+
+#### Disable Windows Search Index for temporary files
+
+* Go to your **control panel** (Windows 8: `Win+X`, choose "control panel")
+* Look for **Indexing Options** (Screenshot says "Indizierungsoptionen")
+* Select the location that will most likely contain your project. Usually in **User** (Screenshot: "Benutzer")
+* Click **Change** or "Edit" (Screenshot: "Ändern")
+* This brings up a directory tree with checkboxes. Navigate to your project dir and **remove the checkbox for /tmp** or anywhere else you'd like.
+* Click **OK**
+
+![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/common-issues/search-index.jpg)
+
+
+#### Disable Windows Defender for temporary files
+
+Windows defender will be active by default on any Windows 8 machine. On Windows 7 (or earlier) you might have Windows Security Essentials installed, which works pretty similar.
+
+While you can exclude more than just the temporary files, this would also render a virus scanner pretty useless. Excluding temporary files won't make you any less safe. Everything that ends up there would have been in `/app` or `/vendor` before.
+
+* Hit your Windows Key, then start typing "defen" which should bring up "Defender as first result". Start it.
+* In Windows Defender, Choose the Settings Tab, Then the "excluded files and directories" Line. (screenshot says "Ausgeschlossene Dateien und Sp...")
+* Click "Browse" (first button on the right, screenshot says "Durchsuchen")
+* Navigate to your project's tmp dir.
+* Click OK
+* Click "Add" (Second button, screenshot says "Hinzufügen")
+* Click "Save changes" (Left button at the bottom, screenshot says "Änderungen speichern")
+
+![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/common-issues/win-defender-dir.jpg)
