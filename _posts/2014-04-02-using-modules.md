@@ -209,7 +209,7 @@ instead of:
 {% highlight javascript linenos %}
 // app/views/my-text-field.js
 import Ember from "ember";
-export default Ember.TextField.extend(
+export default Ember.TextField.extend({
   // some custom behaviour
 });
 
