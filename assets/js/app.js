@@ -1,10 +1,11 @@
 (function() {
+
   FastClick.attach(document.body);
 
   (function() {
 
     $(function() {
-      $('#switch').click(function() {
+      $('#viewguide').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
           var target = $(this.hash);
           target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
@@ -35,4 +36,9 @@
       $(this).wrapInner('<a href="#' + this.id + '"></a>');
     }
   });
+
+  $('ul.nav a').click(function() {
+    $('nav.navbar-collapse').height(1).removeClass('in');
+  });
+
 })();
