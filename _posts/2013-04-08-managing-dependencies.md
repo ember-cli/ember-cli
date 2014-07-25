@@ -183,8 +183,8 @@ app.import('vendor/font-awesome/fonts/fontawesome-webfont.ttf', {
 
 ##### Using broccoli-static-compiler
 
-With the [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) package, 
-(parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli 
+With the [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) package,
+(parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli
 packages needed to build are installed:
 
 {% highlight bash %}

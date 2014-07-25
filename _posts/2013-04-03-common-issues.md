@@ -104,7 +104,6 @@ Build times on windows are longer than on linux or mac os. Much of that penalty 
 
 ![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/common-issues/search-index.jpg)
 
-
 #### Disable Windows Defender for temporary files
 
 Windows defender will be active by default on any Windows 8 machine. On Windows 7 (or earlier) you might have Windows Security Essentials installed, which works pretty similar.
