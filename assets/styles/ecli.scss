@@ -447,6 +447,7 @@ body {
         padding: 1em 0;
         background: none;
         &:hover, &:active {background:none;}
+        span {padding-right: .5em;}
       }
     }
   }

@@ -441,4 +441,6 @@ body {
         padding: 1em 0;
         background: none; }
         .sidenav .ectop a:hover, .sidenav .ectop a:active {
-          background: none; } }
+          background: none; }
+        .sidenav .ectop a span {
+          padding-right: .5em; } }
