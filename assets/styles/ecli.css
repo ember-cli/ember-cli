@@ -329,7 +329,12 @@ body {
       font-size: 1.6em; }
     #showcase .content code {
       width: 320px;
-      font-size: 1.1em; } }
+      font-size: 1.1em; }
+
+  .content-section .guide-content h1 {
+    margin-top: 15px; }
+  .content-section .guide-content .edit-page {
+    margin-top: 5px; } }
 @media (min-width: 992px) {
   body {
     background: #f2d1cb; }

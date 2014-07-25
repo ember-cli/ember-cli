@@ -305,7 +305,6 @@ body {
        
       }
       h1 {
-       
         span {
           
         }
@@ -313,6 +312,17 @@ body {
       code {
        width: 320px;
        font-size: 1.1em;
+      }
+    }
+  }
+
+  .content-section {
+    .guide-content {
+      h1 {
+        margin-top: 15px;
+      }
+      .edit-page {
+        margin-top: 5px;
       }
     }
   }
