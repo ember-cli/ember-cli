@@ -66,6 +66,9 @@ BORDER RADIUS
   font-style: normal; }
 
 /*  BASE STYLES   */
+.hidefirst {
+  display: none; }
+
 body {
   background: #fdfaf9;
   -webkit-font-smoothing: antialiased; }
@@ -292,35 +295,17 @@ body {
         .content-section .guide-content pre code .nb, .content-section .guide-content pre code .nv {
           color: #30B6E3; }
 
-/*  INTRO ANIMATION   */
-.h1-animate-in {
-  display: block;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-name: fadeInFromNone; }
+#footer {
+  padding: 1.75em 0 1.5em; }
+  #footer p {
+    width: 100%;
+    text-align: center;
+    color: #cd523d;
+    text-shadow: 0 1px #fcf5f4; }
+    #footer p a {
+      color: #973727; }
 
-.description-animate-in {
-  display: block;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-delay: 0.4s;
-  -webkit-animation-name: fadeInFromNone; }
-
-@-webkit-keyframes fadeInFromNone {
-  0% {
-    display: none;
-    opacity: 0; }
-
-  49% {
-    display: none;
-    opacity: 0; }
-
-  50% {
-    display: block;
-    opacity: 0; }
-
-  100% {
-    display: block;
-    opacity: 1; } }
-
+/*  INTRO ANIMATION  */
 /*  MEDIA QUERIES   */
 @media (min-width: 768px) {
   #showcase {

@@ -41,4 +41,7 @@
     $('nav.navbar-collapse').height(1).removeClass('in');
   });
 
+  $('#showcase h1').fadeIn('slow');
+  $('#info').delay('1000').fadeIn('slow');
+
 })();
