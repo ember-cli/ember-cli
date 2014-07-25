@@ -12,6 +12,7 @@ $exo3:      'exoblack', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 /*  BASE STYLES   */
 
+.hidefirst {display: none;}
 
 body {
   background: $offwhite;
@@ -229,65 +230,44 @@ body {
         color: desaturate($red,40%);
       }
     }
-      pre {
-        background: #2f2a2a;
-        code {
+    pre {
+      background: #2f2a2a;
+      code {
+        color: #efeaea;
+        .lineno {
+          color: #ccc;
+        }
+        .s2,.s1,.s {
+          color: lighten($red,13%);
+        }
+        .nt,.na {
           color: #efeaea;
-          .lineno {
-            color: #ccc;
-          }
-          .s2,.s1,.s {
-            color: lighten($red,13%);
-          }
-          .nt,.na {
-            color: #efeaea;
-          }
-          .nb,.nv {
-            color: #30B6E3;
-          }
+        }
+        .nb,.nv {
+          color: #30B6E3;
         }
       }
+    }
   }
 }
 
 
-/*  INTRO ANIMATION   */
+#footer {
+  padding: 1.75em 0 1.5em;
+  p {
+    width: 100%;
+    text-align: center;
+    color: desaturate($red,30%);
+    text-shadow: 0 1px lighten($lgtred,10%);
+    a { 
+      color: darken(desaturate($red,30%),15%);
 
-
-.h1-animate-in {
-    display: block;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-name: fadeInFromNone;
-}
-
-.description-animate-in {
-  display: block;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-delay: 0.4s;
-  -webkit-animation-name: fadeInFromNone;
-}
-
-@-webkit-keyframes fadeInFromNone {
-  0% {
-    display: none; 
-    opacity: 0;
-  }
-
-  49% {
-    display: none ; 
-    opacity: 0;
-  }
-
-  50% {
-    display: block;
-    opacity: 0;
-  }
-
-  100% {
-    display: block ; 
-    opacity: 1;
+    }
   }
 }
+
+/*  INTRO ANIMATION  */
+
 
 
 /*  MEDIA QUERIES   */
