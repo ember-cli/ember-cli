@@ -294,6 +294,9 @@ body {
           color: #efeaea; }
         .content-section .guide-content pre code .nb, .content-section .guide-content pre code .nv {
           color: #30B6E3; }
+    .content-section .guide-content img {
+      max-width: 100%;
+      height: auto; }
 
 #footer {
   padding: 1.75em 0 1.5em; }

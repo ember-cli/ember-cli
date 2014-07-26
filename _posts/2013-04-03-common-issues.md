@@ -102,7 +102,7 @@ Build times on windows are longer than on linux or mac os. Much of that penalty 
 * This brings up a directory tree with checkboxes. Navigate to your project dir and **remove the checkbox for /tmp** or anywhere else you'd like.
 * Click **OK**
 
-![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/common-issues/search-index.jpg)
+![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/images/common-issues/search-index.jpg)
 
 #### Disable Windows Defender for temporary files
 
@@ -117,5 +117,5 @@ While you can exclude more than just the temporary files, this would also render
 * Click OK
 * Click "Add" (Second button, screenshot says "Hinzufügen")
 * Click "Save changes" (Left button at the bottom, screenshot says "Änderungen speichern")
+![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender-dir.jpg)
 
-![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/common-issues/win-defender-dir.jpg)
