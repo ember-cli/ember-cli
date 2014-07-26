@@ -65,8 +65,8 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('controller foo type:object', function() {
-    return generate(['controller', 'foo', 'type:object']).then(function() {
+  it('controller foo --type=object', function() {
+    return generate(['controller', 'foo', '--type=object']).then(function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
@@ -76,8 +76,8 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('controller foo type:array', function() {
-    return generate(['controller', 'foo', 'type:array']).then(function() {
+  it('controller foo --type=array', function() {
+    return generate(['controller', 'foo', '--type=array']).then(function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
@@ -234,16 +234,16 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('route foo type:resource', function() {
-    return generate(['route', 'foo', 'type:resource']).then(function() {
+  it('route foo --type=resource', function() {
+    return generate(['route', 'foo', '--type=resource']).then(function() {
       assertFile('app/router.js', {
         contains: "this.resource('foo', { path: 'foos/:foo_id' });"
       });
     });
   });
 
-  it('route foos type:resource', function() {
-    return generate(['route', 'foos', 'type:resource']).then(function() {
+  it('route foos --type=resource', function() {
+    return generate(['route', 'foos', '--type=resource']).then(function() {
       assertFile('app/router.js', {
         contains: "this.resource('foos');"
       });

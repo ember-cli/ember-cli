@@ -10,13 +10,7 @@ module.exports = Blueprint.extend({
         name: inflection.singularize(options.entity.name)
       }
     });
-    var routeOptions = merge({}, options, {
-      entity: {
-        options: {
-          type: 'resource'
-        }
-      }
-    });
+    var routeOptions = merge({}, options, { type: 'resource' });
 
     return Promise.all([
       this._installBlueprint('model', modelOptions),

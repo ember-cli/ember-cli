@@ -1,16 +1,25 @@
-var Blueprint  = require('../../lib/models/blueprint');
-var fs         = require('fs-extra');
-var inflection = require('inflection');
-var path       = require('path');
+var Blueprint   = require('../../lib/models/blueprint');
+var SilentError = require('../../lib/errors/silent');
+var fs          = require('fs-extra');
+var inflection  = require('inflection');
+var path        = require('path');
 
 module.exports = Blueprint.extend({
+  beforeInstall: function(options) {
+    var type = options.type;
+
+    if (type && !/^(resource|route)$/.test(type)) {
+      throw new SilentError('Unknown route type "' + type + '". Should be "route" or "resource".\n');
+    }
+  },
+
   afterInstall: function(options) {
-    var entity = options.entity;
+    var entity  = options.entity;
     var isIndex = /index$/.test(entity.name);
 
     if (!isIndex) {
       addRouteToRouter(entity.name, {
-        type: entity.options.type
+        type: options.type
       });
     }
   }
