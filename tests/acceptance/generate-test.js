@@ -128,9 +128,14 @@ describe('Acceptance: ember generate', function() {
     return generate(['helper', 'foo-bar']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
         contains: "import Ember from 'ember';\n\n" +
-                  "export default Ember.Handlebars.makeBoundHelper(function(value) {\n" +
+                  "function fooBar(value) {\n" +
                   "  return value;\n" +
-                  "});"
+                  "}\n\n" +
+                  "export { fooBar };\n\n" +
+                  "export default Ember.Handlebars.makeBoundHelper(fooBar);"
+      });
+      assertFile('tests/unit/helpers/foo-bar-test.js', {
+        contains: "import { fooBar } from 'my-app/helpers/foo-bar';"
       });
     });
   });
@@ -139,9 +144,14 @@ describe('Acceptance: ember generate', function() {
     return generate(['helper', 'foo/bar-baz']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
         contains: "import Ember from 'ember';\n\n" +
-                  "export default Ember.Handlebars.makeBoundHelper(function(value) {\n" +
+                  "function fooBarBaz(value) {\n" +
                   "  return value;\n" +
-                  "});"
+                  "}\n\n" +
+                  "export { fooBarBaz };\n\n" +
+                  "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
+      });
+      assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
+        contains: "import { fooBarBaz } from 'my-app/helpers/foo/bar-baz';"
       });
     });
   });
