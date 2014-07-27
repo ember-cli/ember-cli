@@ -43,6 +43,21 @@ Provide the asset path as the first and only argument:
 app.import('vendor/momentjs/moment.js');
 {% endhighlight %}
 
+From here you would use the package as specified by it's documentation, usually a global variable.
+In this case it would be:
+
+{% highlight javascript linenos %}
+import Ember from 'ember';
+/* global moment */
+// No import for moment, it's a global called `moment`
+
+// ...
+var day = moment('Dec 25, 1995');
+{% endhighlight %}
+
+_Note: Don't forget to make JSHint happy by adding a `/* global MY_GLOBAL */` to your module, or
+by defining it within the `.jshintrc` file._
+
 ##### Standard AMD Asset
 
 Provide the asset path as the first argument, and the list of modules and exports as the second:
