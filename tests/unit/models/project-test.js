@@ -69,7 +69,7 @@ describe('models/project.js', function() {
         'live-reload-middleware', 'serve-files-middleware', 'proxy-server-middleware',
         'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
-        'ember-super-button'
+        'ember-super-button', 'ember-yagni', 'ember-ng'
       ];
 
       assert.deepEqual(Object.keys(project.availableAddons()), expected);

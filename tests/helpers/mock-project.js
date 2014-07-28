@@ -34,6 +34,7 @@ MockProject.prototype.name = function() {
 
 MockProject.prototype.initializeAddons = Project.prototype.initializeAddons;
 MockProject.prototype.availableAddons = Project.prototype.availableAddons;
+MockProject.prototype.discoverAddons = Project.prototype.discoverAddons;
 MockProject.prototype.addIfAddon = Project.prototype.addIfAddon;
 MockProject.prototype.dependencies = function() {
   return [];
