@@ -2,7 +2,7 @@
 layout: post
 title: "Changelog"
 permalink: changelog
-github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-01-changelog.md"
+github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
 ### 0.0.40
