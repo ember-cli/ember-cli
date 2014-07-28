@@ -25,7 +25,6 @@
     "ember-cli-ember-data": "0.1.0",
     "ember-cli-ic-ajax": "0.1.1",
     "express": "^4.1.1",
-    "glob": "^3.2.9",
-    "originate": "0.1.5"
+    "glob": "^3.2.9"
   }
 }
