@@ -9,7 +9,7 @@ function MockProject() {
 }
 
 MockProject.prototype.require = function(file) {
-  if (file === './config/environment') {
+  if (file === './config/test') {
     return function() {
       return function() {
         return { baseURL: '/' };

@@ -19,7 +19,7 @@ describe('models/project.js', function() {
     before(function() {
       tmp.setup(projectPath);
 
-      touch(projectPath + '/config/environment.js', {
+      touch(projectPath + '/config/test.js', {
         baseURL: '/foo/bar'
       });
 
@@ -35,8 +35,8 @@ describe('models/project.js', function() {
       tmp.teardown(projectPath);
     });
 
-    it('config() finds and requires config/environment', function() {
-      project.config('development');
+    it('config() finds and requires config/test', function() {
+      project.config('test');
       assert.equal(called, true);
     });
   });
