@@ -7,9 +7,6 @@ module.exports = function(config) {
 
   config.set('production', false);
   config.set('tests', true);
-  config.set('hinting', true, {
-    js
-  });
 
 
   config.set('wrapInEval', true);
