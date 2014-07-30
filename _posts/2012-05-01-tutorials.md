@@ -14,3 +14,6 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-05-
 
 ### Deploying
 - [Lightning Fast Deployments With Rails (in the Wild).](http://blog.abuiles.com/blog/2014/07/08/lightning-fast-deployments-with-rails)
+
+### Tooling
+- [Installing Node.js/NPM Without Sudo](http://www.wenincode.com/installing-node-jsnpm-without-sudo)
