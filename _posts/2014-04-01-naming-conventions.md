@@ -257,7 +257,7 @@ Test filenames should be suffixed with `-test.js` in order to run.
 
 #### Pod structure
 
-As your app gets bigger, a feature-driven structure may be better. Splitting your application by functionality/resource would give you more power and control to scale and maintain it. As a default, if the file is not found on the POD structure, the Resolver will look up it within the normal structure. 
+As your app gets bigger, a feature-driven structure may be better. Splitting your application by functionality/resource would give you more power and control to scale and maintain it. As a default, if the file is not found on the POD structure, the Resolver will look up it within the normal structure.
 
 In this case, you should name the file as its functionality. Given a resource `User`, the folder structure would be:
 
@@ -269,7 +269,7 @@ Rather than hold your resource folders on the root of your app you can define a 
 
 {% highlight javascript linenos %}
 var App = Ember.Application.extend({
-  podModulePrefix: 'pods' // directory where resolver will look for your resource files
+  podModulePrefix: 'app/pods' // directory where resolver will look for your resource files
 });
 {% endhighlight %}
 
