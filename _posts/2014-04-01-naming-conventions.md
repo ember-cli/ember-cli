@@ -265,10 +265,11 @@ In this case, you should name the file as its functionality. Given a resource `U
 - `app/users/route.js`
 - `app/users/template.hbs`
 
-Rather than hold your resource folders on the root of your app you can define a POD path using the attribute `podModulePrefix` within you app configs.
+Rather than hold your resource folders on the root of your app you can define a POD path using the attribute `podModulePrefix` within your app configs. The POD path should use the following format: `{appname}/{poddir}`.
 
 {% highlight javascript linenos %}
 var App = Ember.Application.extend({
+  modulePrefix: 'app',
   podModulePrefix: 'app/pods' // directory where resolver will look for your resource files
 });
 {% endhighlight %}
@@ -278,3 +279,12 @@ Then your folder structure would be:
 - `app/pods/users/controller.js`
 - `app/pods/users/route.js`
 - `app/pods/users/template.hbs`
+
+If you have any tests for your pod based modules, you will need to add the `podModulePrefix` to `tests/helpers/resolver.js`.
+
+{% highlight javascript linenos %}
+resolver.namespace = {
+  modulePrefix: 'app',
+  podModulePrefix: 'app/pods'
+};
+{% endhighlight %}
