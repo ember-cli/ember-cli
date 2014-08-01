@@ -57,8 +57,8 @@ describe('models/addon.js', function() {
         assert.equal(addon.project.name, project.name);
       });
 
-      it('sets the _root', function() {
-        assert.notEqual(addon._root, undefined);
+      it('sets the root', function() {
+        assert.notEqual(addon.root, undefined);
       });
 
       describe('trees for it\'s treePaths', function() {
@@ -94,7 +94,7 @@ describe('models/addon.js', function() {
       });
 
       it('sets the root', function() {
-        assert.notEqual(addon._root, undefined);
+        assert.notEqual(addon.root, undefined);
       });
 
       describe('trees for it\'s treePaths', function() {
