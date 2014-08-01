@@ -70,6 +70,15 @@ modules.
 npm install --save-dev broccoli-sass
 {% endhighlight %}
 
+#### Compass
+
+To use [Compass](http://compass-style.org/) with your ember-cli app, install
+[ember-cli-compass-compiler](https://github.com/quaertym/ember-cli-compass-compiler) addon using NPM.
+
+{% highlight bash %}
+npm install --save-dev ember-cli-compass-compiler
+{% endhighlight %}
+
 #### Stylus
 
 To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
