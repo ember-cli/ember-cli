@@ -18,6 +18,7 @@
 * [ENHANCEMENT] don't assume value of bowerrc.directory [#1553](https://github.com/stefanpenner/ember-cli/pull/1553)
 * [ENHANCEMENT] es6 namespaced addons [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
 * [ENHANCEMENT] Removed use of `memoize` from EmberApp. Allows multiple EmberApps to be instantiated [#1361](https://github.com/stefanpenner/ember-cli/issues/1361)
+* [ENHANCEMENT] Add `ember destroy` command [#1547](https://github.com/stefanpenner/ember-cli/pull/1547)
 
 ### 0.0.40
 
