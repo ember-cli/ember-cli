@@ -91,24 +91,30 @@ describe('express-server', function() {
         });
       });
 
-      function bypassTest(app, url, done) {
+      function bypassTest(app, url, done, responseCallback) {
         request(app)
           .get(url)
           .set('accept', 'text/html')
-          .end(function(err) {
+          .end(function(err, response) {
             if (err) {
               return done(err);
             }
             assert(!proxy.called);
+            if (responseCallback) { responseCallback(response); }
             done();
           });
       }
+
       it('bypasses proxy for /', function(done) {
         bypassTest(subject.app, '/', done);
       });
+
       it('bypasses proxy for files that exist', function(done) {
-        bypassTest(subject.app, '/test-file.txt', done);
+        bypassTest(subject.app, '/test-file.txt', done, function(response) {
+          assert.equal(response.text, 'some contents\n');
+        });
       });
+
       function apiTest(app, method, url, done) {
         var req = request(app);
         return req[method].call(req, url)
@@ -169,6 +175,30 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
+            done();
+          });
+      });
+
+      it('files that exist in broccoli directory are served up', function(done) {
+        request(subject.app)
+        .get('/test-file.txt')
+        .end(function(err, response) {
+          assert.equal(response.text, 'some contents\n');
+          done();
+        });
+      });
+
+      it('serves static asset up from build output without a period in name', function(done) {
+        request(subject.app)
+          .get('/someurl-without-period')
+          .expect(200)
+          .end(function(err, response) {
+            if (err) {
+              return done(err);
+            }
+
+            assert.equal(response.text, 'some other content\n');
+
             done();
           });
       });
