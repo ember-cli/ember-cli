@@ -11,6 +11,7 @@
 * [ENHANCEMENT] Addons can recursively add other addons [#1509](https://github.com/stefanpenner/ember-cli/pull/1509)
 * [ENHANCEMENT] Upgrade `loader.js` to `1.0.1`. [#1543](https://github.com/stefanpenner/ember-cli/pull/1543)
 * [BUGFIX] Allow `public/` to contain files in the root of the project. [#1549](https://github.com/stefanpenner/ember-cli/pull/1549)
+* [ENHANCEMENT] Add `robots.txt` and `crossdomain.xml` files in the root of the project. [#1550](https://github.com/stefanpenner/ember-cli/pull/1550)
 
 ### 0.0.40
 
