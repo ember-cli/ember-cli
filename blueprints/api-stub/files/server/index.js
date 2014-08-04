@@ -8,6 +8,7 @@
 // };
 
 var bodyParser = require('body-parser');
+var express    = require('express');
 var globSync   = require('glob').sync;
 var routes     = globSync('./routes/**/*.js', { cwd: __dirname }).map(require);
 
@@ -17,5 +18,9 @@ module.exports = function(app) {
     extended: true
   }));
 
-  routes.forEach(function(route) { route(app); });
+  var stubRoutes = express.Router();
+  routes.forEach(function(route) { route(stubRoutes); });
+
+  // A custom route prefix can be added here
+  app.use('/', stubRoutes);
 };
