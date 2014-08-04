@@ -459,6 +459,16 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('mixin foo/bar/baz', function() {
+    return generate(['mixin', 'foo/bar/baz']).then(function() {
+      assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
+        contains: [
+          "import FooBarBazMixin from 'my-app/mixins/foo/bar/baz';"
+        ]
+      });
+    });
+  });
+
   it('adapter foo', function() {
     return generate(['adapter', 'foo']).then(function() {
       assertFile('app/adapters/foo.js', {
