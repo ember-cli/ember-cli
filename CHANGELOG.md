@@ -16,6 +16,7 @@
 * [BREAKING ENHANCEMENT] bower assets moved to bower_components instead of vendor [#1436](https://github.com/stefanpenner/ember-cli/pull/1436)
 * [ENHANCEMENT] Move history support into a separate internal addon. [#1552](https://github.com/stefanpenner/ember-cli/pull/1552)
 * [ENHANCEMENT] don't assume value of bowerrc.directory [#1553](https://github.com/stefanpenner/ember-cli/pull/1553)
+* [ENHANCEMENT] es6 namespaced addons [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
 
 ### 0.0.40
 
