@@ -683,12 +683,13 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('api-stub foo', function() {
-    return generate(['api-stub', 'foo']).then(function() {
+  it('http-mock foo', function() {
+    return generate(['http-mock', 'foo']).then(function() {
       assertFile('server/index.js', {
         contains: "var bodyParser = require('body-parser');\n" +
                   "var globSync   = require('glob').sync;\n" +
-                  "var routes     = globSync('./routes/**/*.js', { cwd: __dirname }).map(require);\n" +
+                  "var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);\n" +
+                  "var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);\n" +
                   "\n" +
                   "module.exports = function(app) {\n" +
                   "  app.use(bodyParser.json());\n" +
@@ -696,10 +697,17 @@ describe('Acceptance: ember generate', function() {
                   "    extended: true\n" +
                   "  }));\n" +
                   "\n" +
-                  "  routes.forEach(function(route) { route(app); });\n" +
+                  "  mocks.forEach(function(route) { route(app)});\n" +
+                  "\n" +
+                  "  // proxy expects a stream, but express will have turned\n" +
+                  "  // the request stream into an object because bodyParser\n" +
+                  "  // has run. We have to convert it back to stream:\n" +
+                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180\n" +
+                  "  app.use(require('connect-restreamer')());\n" +
+                  "  proxies.forEach(function(route) { route(app)});\n" +
                   "};"
       });
-      assertFile('server/routes/foo.js', {
+      assertFile('server/mocks/foo.js', {
         contains: "module.exports = function(app) {\n" +
                   "  var express = require('express');\n" +
                   "  var fooRouter = express.Router();\n" +
@@ -707,6 +715,51 @@ describe('Acceptance: ember generate', function() {
                   "    res.send({foo:[]});\n" +
                   "  });\n" +
                   "  app.use('/api/foo', fooRouter);\n" +
+                  "};"
+      });
+      assertFile('server/.jshintrc', {
+        contains: '{\n  "node": true\n}'
+      });
+    });
+  });
+
+  it('http-proxy foo', function() {
+    return generate(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
+      assertFile('server/index.js', {
+        contains: "var bodyParser = require('body-parser');\n" +
+                  "var globSync   = require('glob').sync;\n" +
+                  "var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);\n" +
+                  "var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);\n" +
+                  "\n" +
+                  "module.exports = function(app) {\n" +
+                  "  app.use(bodyParser.json());\n" +
+                  "  app.use(bodyParser.urlencoded({\n" +
+                  "    extended: true\n" +
+                  "  }));\n" +
+                  "\n" +
+                  "  mocks.forEach(function(route) { route(app)});\n" +
+                  "\n" +
+                  "  // proxy expects a stream, but express will have turned\n" +
+                  "  // the request stream into an object because bodyParser\n" +
+                  "  // has run. We have to convert it back to stream:\n" +
+                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180\n" +
+                  "  app.use(require('connect-restreamer')());\n" +
+                  "  proxies.forEach(function(route) { route(app)});\n" +
+                  "};"
+      });
+      assertFile('server/proxies/foo.js', {
+        contains: "var Proxy = require('http-proxy');\n" +
+                  "\n" +
+                  "// For options, see:\n" +
+                  "// https://github.com/nodejitsu/node-http-proxy\n" +
+                  "var proxy = Proxy.createProxyServer({});\n" +
+                  "\n" +
+                  "module.exports = function(app) {\n" +
+                  "\n" +
+                  "  app.use('/foo', function(req, res, next){\n" +
+                  "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
+                  "  })\n" +
+                  "\n" +
                   "};"
       });
       assertFile('server/.jshintrc', {
