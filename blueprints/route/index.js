@@ -17,7 +17,7 @@ module.exports = Blueprint.extend({
     var entity  = options.entity;
     var isIndex = /index$/.test(entity.name);
 
-    if (!isIndex) {
+    if (!isIndex && !options.dryRun) {
       addRouteToRouter(entity.name, {
         type: options.type
       });
@@ -36,7 +36,7 @@ module.exports = Blueprint.extend({
     var entity  = options.entity;
     var isIndex = /index$/.test(entity.name);
 
-    if (!isIndex) {
+    if (!isIndex && !options.dryRun) {
       removeRouteFromRouter(entity.name, {
         type: options.type
       });

@@ -823,4 +823,12 @@ describe('Acceptance: ember generate', function() {
         });
       });
   });
+
+  it('route foo --dry-run does not change router.js', function() {
+    return generate(['route', 'foo', '--dry-run']).then(function() {
+      assertFile('app/router.js', {
+        doesNotContain: "route('foo')"
+      });
+    });
+  });
 });
