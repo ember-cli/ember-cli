@@ -2,7 +2,7 @@
 layout: post
 title: "Deployments"
 permalink: deployments
-github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-02-deployments.md"
+github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-04-deployments.md"
 ---
 
 You can easily deploy your Ember CLI application to a number of places.
