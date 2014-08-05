@@ -1,5 +1,5 @@
 
-## ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.png?branch=master)](https://travis-ci.org/stefanpenner/ember-cli) [![Dependency Status](https://david-dm.org/stefanpenner/ember-cli.svg)](https://david-dm.org/stefanpenner/ember-cli)
+## ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.png?branch=master)](https://travis-ci.org/stefanpenner/ember-cli) [![Dependency Status](https://david-dm.org/stefanpenner/ember-cli.svg)](https://david-dm.org/stefanpenner/ember-cli) [![Build status](https://ci.appveyor.com/api/projects/status/aj8xls90un6h77lo)](https://ci.appveyor.com/project/stefanpenner/ember-cli) (windows)
 
 An ember command line utility.
 
