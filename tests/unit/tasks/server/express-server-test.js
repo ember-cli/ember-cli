@@ -22,7 +22,8 @@ describe('express-server', function() {
       watcher: new MockWatcher(),
       proxyMiddleware: function() {
         return proxy.handler.bind(proxy);
-      }
+      },
+      environment: 'development'
     });
   });
 
@@ -157,49 +158,109 @@ describe('express-server', function() {
     });
 
     describe('without proxy', function() {
-      beforeEach(function() {
+      function startServer(baseURL) {
         return subject.start({
           host:  '0.0.0.0',
           port: '1337',
-          baseURL: '/'
+          baseURL: baseURL || '/'
         });
+      }
+
+      it('serves index.html when file not found with auto/history location', function(done) {
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/someurl.withperiod')
+              .set('accept', 'text/html')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
       });
 
-      it('serves index.html when period in name', function(done) {
-        request(subject.app)
-          .get('/someurl.withperiod')
-          .set('accept', 'text/html')
-          .expect(200)
-          .expect('Content-Type', /html/)
-          .end(function(err) {
-            if (err) {
-              return done(err);
-            }
-            done();
+      it('serves index.html when file not found (with baseURL) with auto/history location', function(done) {
+        return startServer('/foo')
+          .then(function() {
+            request(subject.app)
+              .get('/foo/someurl')
+              .set('accept', 'text/html')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
+      });
+
+      it('returns a 404 when file not found with hash location', function(done) {
+        project._config = {
+          baseURL: '/',
+          locationType: 'hash'
+        };
+
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/someurl.withperiod')
+              .set('accept', 'text/html')
+              .expect(404)
+              .end(done);
           });
       });
 
       it('files that exist in broccoli directory are served up', function(done) {
-        request(subject.app)
-        .get('/test-file.txt')
-        .end(function(err, response) {
-          assert.equal(response.text, 'some contents\n');
-          done();
-        });
+        return startServer()
+          .then(function() {
+            request(subject.app)
+            .get('/test-file.txt')
+            .end(function(err, response) {
+              assert.equal(response.text, 'some contents\n');
+              done();
+            });
+          });
       });
 
       it('serves static asset up from build output without a period in name', function(done) {
-        request(subject.app)
-          .get('/someurl-without-period')
-          .expect(200)
-          .end(function(err, response) {
-            if (err) {
-              return done(err);
-            }
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/someurl-without-period')
+              .expect(200)
+              .end(function(err, response) {
+                if (err) {
+                  return done(err);
+                }
 
-            assert.equal(response.text, 'some other content\n');
+                assert.equal(response.text, 'some other content\n');
 
-            done();
+                done();
+              });
+          });
+      });
+
+      it('serves static asset up from build output without a period in name (with baseURL)', function(done) {
+        return startServer('/foo')
+          .then(function() {
+            request(subject.app)
+              .get('/foo/someurl-without-period')
+              .expect(200)
+              .end(function(err, response) {
+                if (err) {
+                  return done(err);
+                }
+
+                assert.equal(response.text, 'some other content\n');
+
+                done();
+              });
           });
       });
     });
