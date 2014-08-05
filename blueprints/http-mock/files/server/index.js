@@ -9,7 +9,11 @@
 
 var bodyParser = require('body-parser');
 var globSync   = require('glob').sync;
-var routes     = globSync('./*/**/*.js', { cwd: __dirname }).map(require);
+var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname })
+var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname })
+
+var moxies = mocks.concat(proxies);
+var routes = moxies.map(require);
 
 module.exports = function(app) {
   app.use(bodyParser.json());
