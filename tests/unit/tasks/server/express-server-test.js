@@ -22,7 +22,8 @@ describe('express-server', function() {
       watcher: new MockWatcher(),
       proxyMiddleware: function() {
         return proxy.handler.bind(proxy);
-      }
+      },
+      environment: 'development'
     });
   });
 
@@ -165,7 +166,7 @@ describe('express-server', function() {
         });
       }
 
-      it('serves index.html when period in name', function(done) {
+      it('serves index.html when file not found with auto/history location', function(done) {
         return startServer()
           .then(function() {
             request(subject.app)
@@ -182,7 +183,7 @@ describe('express-server', function() {
           });
       });
 
-      it('serves index.html when file not found (with baseURL)', function(done) {
+      it('serves index.html when file not found (with baseURL) with auto/history location', function(done) {
         return startServer('/foo')
           .then(function() {
             request(subject.app)
@@ -199,6 +200,21 @@ describe('express-server', function() {
           });
       });
 
+      it('returns a 404 when file not found with hash location', function(done) {
+        project._config = {
+          baseURL: '/',
+          locationType: 'hash'
+        };
+
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/someurl.withperiod')
+              .set('accept', 'text/html')
+              .expect(404)
+              .end(done);
+          });
+      });
 
       it('files that exist in broccoli directory are served up', function(done) {
         return startServer()
