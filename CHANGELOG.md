@@ -1,5 +1,6 @@
 # ember-cli Changelog
-
+* [ENHANCEMENT] adds http-proxy for explicit, multi proxy use[#1474](https://github.com/stefanpenner/ember-cli/pull/1530)
+* [BREAKING ENHANCEMENT] renames apiStub to http-mock to match other http-related generators [#1474](https://github.com/stefanpenner/ember-cli/pull/1530)
 * [ENHANCEMENT] Remove chain from express server [#1474](https://github.com/stefanpenner/ember-cli/pull/1474)
 * [ENHANCEMENT] Remove Blueprint lookup failure stacktrace [#1476](https://github.com/stefanpenner/ember-cli/pull/1476)
 * [ENHANCEMENT] --verbose errors option to have SilentError output stacktrace [#1480](https://github.com/stefanpenner/ember-cli/pull/1480)
