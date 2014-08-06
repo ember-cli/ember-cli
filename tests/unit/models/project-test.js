@@ -94,21 +94,21 @@ describe('models/project.js', function() {
     });
 
     it('returns the default blueprints path', function() {
-      var expected = project.root + '/blueprints';
+      var expected = project.root + path.normalize('/blueprints');
 
       assert.equal(project.localBlueprintLookupPath(), expected);
     });
 
     it('returns a listing of all addon blueprints paths', function() {
-      var expected = [ project.root + '/node_modules/ember-random-addon/blueprints' ];
+      var expected = [project.root + path.normalize('/node_modules/ember-random-addon/blueprints')];
 
       assert.deepEqual(project.addonBlueprintLookupPaths(), expected);
     });
 
     it('returns a listing of all blueprints paths', function() {
       var expected = [
-        project.root + '/blueprints',
-        project.root + '/node_modules/ember-random-addon/blueprints'
+        project.root + path.normalize('/blueprints'),
+        project.root + path.normalize('/node_modules/ember-random-addon/blueprints')
       ];
 
       assert.deepEqual(project.blueprintLookupPaths(), expected);
