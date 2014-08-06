@@ -16,7 +16,7 @@ For example
 Uncaught Error: Could not find module ember/resolver loader/loader.js:42
 {% endhighlight %}
 
-can be caused by installing bower with sudo. See [#354](https://github.com/stefanpenner/ember-cli/issues/354) for details.
+can be caused by installing bower with sudo. See https://gist.github.com/isaacs/579814 for a collection of various solutions.
 
 ### Installing from behind a proxy
 
