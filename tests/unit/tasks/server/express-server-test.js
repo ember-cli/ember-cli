@@ -8,6 +8,7 @@ var MockWatcher   = require('../../../helpers/mock-watcher');
 var ProxyServer   = require('../../../helpers/proxy-server');
 var request       = require('supertest');
 var net           = require('net');
+var EOL           = require('os').EOL;
 
 describe('express-server', function() {
   var subject, ui, project, proxy;
@@ -112,7 +113,7 @@ describe('express-server', function() {
 
       it('bypasses proxy for files that exist', function(done) {
         bypassTest(subject.app, '/test-file.txt', done, function(response) {
-          assert.equal(response.text, 'some contents\n');
+          assert.equal(response.text, 'some contents' + EOL);
         });
       });
 
@@ -222,7 +223,7 @@ describe('express-server', function() {
             request(subject.app)
             .get('/test-file.txt')
             .end(function(err, response) {
-              assert.equal(response.text, 'some contents\n');
+              assert.equal(response.text, 'some contents' + EOL);
               done();
             });
           });
@@ -239,7 +240,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                assert.equal(response.text, 'some other content\n');
+                assert.equal(response.text, 'some other content' + EOL);
 
                 done();
               });
@@ -257,7 +258,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                assert.equal(response.text, 'some other content\n');
+                assert.equal(response.text, 'some other content' + EOL);
 
                 done();
               });
