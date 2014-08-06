@@ -1,3 +1,9 @@
 'use strict';
 
-require('mocha-jshint')();
+require('mocha-jshint')([
+  'tests',
+  'lib',
+  'bin',
+  'blueprints',
+  'fixtures'
+]);
