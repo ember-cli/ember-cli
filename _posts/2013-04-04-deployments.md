@@ -45,3 +45,16 @@ For example
 This value is used to set the value of `base` in `index.html`, e.g. `<base href="/path/to/ember/app/" />`,
 as this is required for the History API,
 and thus also the Router, to function correctly.
+
+### TravisCI
+
+TravisCI support is possible by adding `.travis.yml` [configuration file](http://docs.travis-ci.com/user/build-configuration/)
+
+{% highlight bash %}
+language: node_js
+node_js:
+  - "0.11"
+before_script: 
+  - npm install bower
+  - bower install
+{% endhighlight %}
