@@ -3,5 +3,5 @@ install vagrant
 run "vagrant up" in this directory
 wait for the command to finish
 open the command prompt in windows
-run "cd C:\Users\vagrant"
+run "cd C:\Users\vagrant\ember-cli"
 run "npm test"
