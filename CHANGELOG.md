@@ -1,6 +1,8 @@
 # ember-cli Changelog
+
 * [ENHANCEMENT] adds http-proxy for explicit, multi proxy use[#1474](https://github.com/stefanpenner/ember-cli/pull/1530)
-* [BREAKING ENHANCEMENT] renames apiStub to http-mock to match other http-related generators [#1474](https://github.com/stefanpenner/ember-cli/pull/1530)
+* [BREAKING ENHANCEMENT] renames apiStub to http-mock to match other http-related generators [#1474] (https://github.com/stefanpenner/ember-cli/pull/1530)
+* [ENHANCEMENT] Log proxy server traffic when using `ember serve --proxy` [#1583](https://github.com/stefanpenner/ember-cli/pull/1583)
 * [ENHANCEMENT] Remove chain from express server [#1474](https://github.com/stefanpenner/ember-cli/pull/1474)
 * [ENHANCEMENT] Remove Blueprint lookup failure stacktrace [#1476](https://github.com/stefanpenner/ember-cli/pull/1476)
 * [ENHANCEMENT] --verbose errors option to have SilentError output stacktrace [#1480](https://github.com/stefanpenner/ember-cli/pull/1480)
@@ -21,6 +23,7 @@
 * [ENHANCEMENT] Removed use of `memoize` from EmberApp. Allows multiple EmberApps to be instantiated [#1361](https://github.com/stefanpenner/ember-cli/issues/1361)
 * [ENHANCEMENT] Add `ember destroy` command [#1547](https://github.com/stefanpenner/ember-cli/pull/1547)
 * [BUGFIX] Ensure router.js is not modified when ember g route foo --dry-run [#1570](https://github.com/stefanpenner/ember-cli/pull/1570)
+* [ENHANCEMENT] Add possibility to hide #ember-testing-container while testing [#1579](https://github.com/stefanpenner/ember-cli/pull/1579)
 
 ### 0.0.40
 

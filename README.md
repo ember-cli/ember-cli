@@ -53,10 +53,10 @@ Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/
 
 ### Working with the tests
 
-Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
+Use `npm run autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
 
 For a full test run which includes some very slow acceptance tests,
-please run: `npm run-script test-all`. Please note, this is what travis
+please run: `npm run test-all`. Please note, this is what travis
 runs.
 
 To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
