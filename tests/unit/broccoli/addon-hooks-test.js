@@ -129,7 +129,8 @@ describe('broccoli/ember-app', function() {
         it('_processedVendorTree calls addonTreesFor', function() {
           emberApp._processedVendorTree();
 
-          assert.equal(addonTreesForStub.calledWith[0][0], 'vendor');
+          assert.equal(addonTreesForStub.calledWith[0][0], 'addon');
+          assert.equal(addonTreesForStub.calledWith[1][0], 'vendor');
         });
 
         it('_processedAppTree calls addonTreesFor', function() {

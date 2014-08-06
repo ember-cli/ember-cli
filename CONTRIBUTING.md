@@ -120,6 +120,11 @@ All inline documentation is written using YUIDoc. Follow these rules when updati
     8. Wrap long markdown blocks > 80 characters.
     9. Don't include blank lines after `@param` definitions.
 
+#### Website ####
+
+The codebase for the website [ember-cli.com](http://ember-cli.com) is located at: https://github.com/stefanpenner/ember-cli/tree/gh-pages 
+
+
 #### Code Words ####
 
 * `thisPropertyName`

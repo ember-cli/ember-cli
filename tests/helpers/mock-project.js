@@ -9,19 +9,20 @@ function MockProject() {
 }
 
 MockProject.prototype.require = function(file) {
-  if (file === './config/environment') {
-    return function() {
-      return function() {
-        return { baseURL: '/' };
-      };
-    };
-  } else if (file === './server') {
+  if (file === './server') {
     return function() {
       return {
         listen: function() { arguments[arguments.length-1](); }
       };
     };
   }
+};
+
+MockProject.prototype.config = function() {
+  return this._config || {
+    baseURL: '/',
+    locationType: 'auto'
+  };
 };
 
 MockProject.prototype.has = function(key) {
@@ -34,6 +35,7 @@ MockProject.prototype.name = function() {
 
 MockProject.prototype.initializeAddons = Project.prototype.initializeAddons;
 MockProject.prototype.availableAddons = Project.prototype.availableAddons;
+MockProject.prototype.discoverAddons = Project.prototype.discoverAddons;
 MockProject.prototype.addIfAddon = Project.prototype.addIfAddon;
 MockProject.prototype.dependencies = function() {
   return [];

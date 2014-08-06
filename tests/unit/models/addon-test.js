@@ -57,8 +57,8 @@ describe('models/addon.js', function() {
         assert.equal(addon.project.name, project.name);
       });
 
-      it('sets the _root', function() {
-        assert.notEqual(addon._root, undefined);
+      it('sets the root', function() {
+        assert.notEqual(addon.root, undefined);
       });
 
       describe('trees for it\'s treePaths', function() {
@@ -86,15 +86,27 @@ describe('models/addon.js', function() {
 
     describe('generated addon with-export', function() {
       before(function() {
-        addon = project.addons[5];
+        addon = project.addons[6];
       });
 
       it('sets it\'s project', function() {
         assert.equal(addon.project.name, project.name);
       });
 
+      it('sets the app if included', function() {
+        addon.included('app');
+        assert.equal(addon.app, 'app');
+      });
+
+      it('generates a list of es6 modules to ignore', function() {
+        assert.deepEqual(addon.includedModules(), {
+          'ember-cli-generated-with-export/controllers/people': ['default'],
+          'ember-cli-generated-with-export/mixins/thing': ['default']
+        });
+      });
+
       it('sets the root', function() {
-        assert.notEqual(addon._root, undefined);
+        assert.notEqual(addon.root, undefined);
       });
 
       describe('trees for it\'s treePaths', function() {
@@ -115,6 +127,26 @@ describe('models/addon.js', function() {
 
         it('vendor', function() {
           var tree = addon.treeFor('vendor');
+          assert.equal(typeof tree.read, 'function');
+        });
+
+        it('addon', function() {
+          var app = {
+            importWhitelist: {},
+            options: {},
+          };
+          addon.registry = {
+            app: addon,
+            load: function() {
+              return {
+                toTree: function(tree) {
+                  return tree;
+                }
+              };
+            },
+          };
+          addon.included(app);
+          var tree = addon.treeFor('addon');
           assert.equal(typeof tree.read, 'function');
         });
       });

@@ -5,6 +5,21 @@
 * [ENHANCEMENT] --verbose errors option to have SilentError output stacktrace [#1480](https://github.com/stefanpenner/ember-cli/pull/1480)
 * [BUGFIX] Modify service blueprint to create explicit injection [#1493](https://github.com/stefanpenner/ember-cli/pull/1493)
 * [ENHANCEMENT] Generating a helper now also generates a test [#1503](https://github.com/stefanpenner/ember-cli/pull/1503)
+* [BUGFIX] Do not run JSHint against trees returned from an addon.
+* [BREAKING ENHANCEMENT] Addons can pull in test assets into test tree [#1453](https://github.com/stefanpenner/ember-cli/pull/1453)
+* [BREAKING ENHANCEMENT] Addon model's \_root renamed to root [#1537](https://github.com/stefanpenner/ember-cli/pull/1537)
+* [ENHANCEMENT] Addons can recursively add other addons [#1509](https://github.com/stefanpenner/ember-cli/pull/1509)
+* [ENHANCEMENT] Upgrade `loader.js` to `1.0.1`. [#1543](https://github.com/stefanpenner/ember-cli/pull/1543)
+* [BUGFIX] Allow `public/` to contain files in the root of the project. [#1549](https://github.com/stefanpenner/ember-cli/pull/1549)
+* [ENHANCEMENT] Add `robots.txt` and `crossdomain.xml` files in the root of the project. [#1550](https://github.com/stefanpenner/ember-cli/pull/1550)
+* [BUGFIX] Generating mixins and utils with several levels of nesting no longer produces a failing test. [#1551](https://github.com/stefanpenner/ember-cli/pull/1551)
+* [BREAKING ENHANCEMENT] bower assets moved to bower_components instead of vendor [#1436](https://github.com/stefanpenner/ember-cli/pull/1436)
+* [ENHANCEMENT] Move history support into a separate internal addon. [#1552](https://github.com/stefanpenner/ember-cli/pull/1552)
+* [ENHANCEMENT] don't assume value of bowerrc.directory [#1553](https://github.com/stefanpenner/ember-cli/pull/1553)
+* [ENHANCEMENT] es6 namespaced addons [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
+* [ENHANCEMENT] Removed use of `memoize` from EmberApp. Allows multiple EmberApps to be instantiated [#1361](https://github.com/stefanpenner/ember-cli/issues/1361)
+* [ENHANCEMENT] Add `ember destroy` command [#1547](https://github.com/stefanpenner/ember-cli/pull/1547)
+* [BUGFIX] Ensure router.js is not modified when ember g route foo --dry-run [#1570](https://github.com/stefanpenner/ember-cli/pull/1570)
 
 ### 0.0.40
 
