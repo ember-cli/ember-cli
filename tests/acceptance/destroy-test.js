@@ -429,16 +429,28 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('api-stub foo', function() {
-    var commandArgs = ['api-stub', 'foo'];
+  it('http-mock foo', function() {
+    var commandArgs = ['http-mock', 'foo'];
     var files       = [
       'server/index.js',
-      'server/routes/foo.js',
+      'server/mocks/foo.js',
       'server/.jshintrc'
     ];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
+
+  it('http-proxy foo', function() {
+    var commandArgs = ['http-proxy', 'foo'];
+    var files       = [
+      'server/index.js',
+      'server/proxies/foo.js',
+      'server/.jshintrc'
+    ];
+
+    return assertDestroyAfterGenerate(commandArgs, files);
+  });
+
 
   it('acceptance-test foo', function() {
     var commandArgs = ['acceptance-test', 'foo'];
