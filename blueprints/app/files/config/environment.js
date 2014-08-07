@@ -27,7 +27,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-
+    ENV.locationType = 'auto';
   }
 
   if (environment === 'production') {
