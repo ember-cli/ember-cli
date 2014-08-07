@@ -65,6 +65,7 @@
     "leek",
     "lodash-node",
     "minimatch",
+    "morgan",
     "ncp",
     "nopt",
     "npm",
