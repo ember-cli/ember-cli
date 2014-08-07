@@ -75,6 +75,7 @@
     "readline2",
     "resolve",
     "rimraf",
+    "rsvp",
     "semver",
     "through",
     "tiny-lr",
