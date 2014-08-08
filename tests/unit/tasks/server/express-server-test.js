@@ -45,9 +45,10 @@ describe('express-server', function() {
         port: '1337'
       }).then(function() {
         var output = ui.output.trim().split('\n');
-        assert.deepEqual(output[1], 'Serving on http://0.0.0.0:1337');
-        assert.deepEqual(output[0], 'Proxying to http://localhost:3001/');
-        assert.deepEqual(output.length, 2, 'expected only two lines of output');
+        assert.deepEqual(output[0], 'Using ember serve --proxy has been deprecated. To proxy requests to `/api` generate an http-proxy with: `ember generate http-proxy api http://localhost:3001/`.');
+        assert.deepEqual(output[1], 'Proxying to http://localhost:3001/');
+        assert.deepEqual(output[2], 'Serving on http://0.0.0.0:1337');
+        assert.deepEqual(output.length, 3, 'expected only two lines of output');
       });
     });
 
