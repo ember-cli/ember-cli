@@ -316,4 +316,57 @@ describe('Blueprint', function() {
     });
   });
 
+  describe('addPackageToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+    });
+
+    afterEach(function() {
+      rimraf.sync(tmproot);
+    });
+
+    it('calls _exec with the proper command when no version is supplied', function() {
+      blueprint._exec = function(command) {
+        assert.equal(command, 'npm install --save-dev foo-bar');
+      };
+
+      blueprint.addPackageToProject('foo-bar');
+    });
+
+    it('calls _exec with the proper command when a version is supplied', function() {
+      blueprint._exec = function(command) {
+        assert.equal(command, 'npm install --save-dev foo-bar@^123.1.12');
+      };
+
+      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+    });
+
+    it('writes information to the ui log', function() {
+      blueprint._exec = function() { };
+      blueprint.ui = ui;
+
+      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+
+      var output = ui.output.trim();
+
+      assert.match(output, /install package.*foo-bar/);
+    });
+
+    it('does not error if ui is not present', function() {
+      blueprint._exec = function() { };
+      delete blueprint.ui;
+
+      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+
+      var output = ui.output.trim();
+
+      assert(!output.match(/install package.*foo-bar/));
+    });
+  });
 });
