@@ -63,6 +63,25 @@ To exclude a test or test suite append a `.skip` to `it()` or `describe()` respe
 
 Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
 
+## Problems
+
+When running ember cli it could happen that a lack of file watches can occur. You ill get an error message like:
+
+```sh
+Serving on http://0.0.0.0:4200
+watch ENOSPC
+Error: watch ENOSPC
+    at errnoException (fs.js:1019:11)
+    at FSWatcher.start (fs.js:1051:11)
+  ...
+```
+
+This problem will be corrected in future releases. The following line is a workaround to get the server up and running until this problem is fixed. See [Issue 1054](https://github.com/stefanpenner/ember-cli/issues/1054).
+
+```sh
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+
 ## Contribution
 
 [See `CONTRIBUTING.md`](https://github.com/stefanpenner/ember-cli/blob/master/CONTRIBUTING.md)
