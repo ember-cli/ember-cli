@@ -24,6 +24,7 @@
 * [ENHANCEMENT] Add `ember destroy` command [#1547](https://github.com/stefanpenner/ember-cli/pull/1547)
 * [BUGFIX] Ensure router.js is not modified when ember g route foo --dry-run [#1570](https://github.com/stefanpenner/ember-cli/pull/1570)
 * [ENHANCEMENT] Add possibility to hide #ember-testing-container while testing [#1579](https://github.com/stefanpenner/ember-cli/pull/1579)
+* [BUGFIX] Fix EmberAddon vendor tree [#1606](https://github.com/stefanpenner/ember-cli/pull/1606)
 
 ### 0.0.40
 
