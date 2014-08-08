@@ -21,7 +21,7 @@ function buildApp(appName) {
   });
 }
 
-describe.only('Acceptance: blueprint smoke tests', function() {
+describe('Acceptance: blueprint smoke tests', function() {
   before(function() {
     this.timeout(360000);
 
