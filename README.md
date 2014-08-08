@@ -65,7 +65,7 @@ Please read the official [mocha documentation](http://visionmedia.github.io/moch
 
 ## Problems
 
-When running ember cli it could happen that a lack of file watches can occur. You ill get an error message like:
+When running ember cli it could happen that a lack of file watches can occur. You will get an error message like:
 
 ```sh
 Serving on http://0.0.0.0:4200
