@@ -24,7 +24,7 @@ describe('new command', function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
     .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `test`.');
+      assert.equal(command.ui.output, 'We currently do not support a name of `test`.');
     });
   });
 
@@ -33,7 +33,7 @@ describe('new command', function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
     .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `ember`.');
+      assert.equal(command.ui.output, 'We currently do not support a name of `ember`.');
     });
   });
 
@@ -42,7 +42,7 @@ describe('new command', function() {
       assert.ok(false, 'should have rejected with an application name of `vendor`');
     })
     .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `vendor`.');
+      assert.equal(command.ui.output, 'We currently do not support a name of `vendor`.');
     });
   });
 
@@ -51,7 +51,7 @@ describe('new command', function() {
       assert.ok(false, 'should have rejected with period in the application name');
     })
     .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `zomg.awesome`.');
+      assert.equal(command.ui.output, 'We currently do not support a name of `zomg.awesome`.');
     });
   });
 
@@ -60,7 +60,7 @@ describe('new command', function() {
       assert.ok(false, 'should have rejected with a name beginning with a number');
     })
     .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `123-my-bagel`.');
+      assert.equal(command.ui.output, 'We currently do not support a name of `123-my-bagel`.');
     });
   });
 });
