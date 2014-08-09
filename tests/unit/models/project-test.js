@@ -72,7 +72,8 @@ describe('models/project.js', function() {
         'ember-super-button', 'ember-yagni', 'ember-ng'
       ];
 
-      assert.deepEqual(Object.keys(project.availableAddons()), expected);
+      project.buildAddonPackages();
+      assert.deepEqual(Object.keys(project.addonPackages), expected);
     });
 
     it('returns an instance of the addon', function() {
