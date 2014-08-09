@@ -18,6 +18,11 @@
   "keywords": [
     "ember-addon"
   ],
+  "ember-addon": {
+    "paths": [
+      "."
+    ]
+  }
   "author": "",
   "license": "MIT",
   "devDependencies": {
