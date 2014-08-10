@@ -41,19 +41,6 @@ describe('generate command', function() {
       });
   });
 
-  it('complains if no entity name is given', function() {
-    return command.validateAndRun(['controller'])
-      .then(function() {
-        assert.ok(false, 'should not have called run');
-      })
-      .catch(function() {
-        assert.equal(command.ui.output, chalk.yellow(
-            'The `ember generate` command requires an ' +
-            'entity name to be specified. ' +
-            'For more details, use `ember help`.\n'));
-      });
-  });
-
   it('complains if no blueprint name is given', function() {
     return command.validateAndRun([])
       .then(function() {
