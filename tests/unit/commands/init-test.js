@@ -4,8 +4,6 @@ var path          = require('path');
 var assert        = require('../../helpers/assert');
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var rewire        = require('rewire');
-var stubPath      = require('../../helpers/stub').stubPath;
 var Promise       = require('../../../lib/ext/promise');
 var Project       = require('../../../lib/models/project');
 var Task          = require('../../../lib/models/task');
@@ -27,8 +25,7 @@ describe('init command', function() {
     };
 
     project = new Project(process.cwd(), { name: 'some-random-name'});
-    InitCommand = rewire('../../../lib/commands/init');
-    InitCommand.__set__('path', stubPath('test'));
+    InitCommand = require('../../../lib/commands/init');
   });
 
   it('doesn\'t allow to create an application named `test`', function() {

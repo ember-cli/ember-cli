@@ -3,8 +3,7 @@
 var expect  = require('chai').expect;
 var MockUI  = require('../../helpers/mock-ui');
 var MockAnalytics  = require('../../helpers/mock-analytics');
-var rewire  = require('rewire');
-var Command = rewire('../../../lib/models/command');
+var Command = require('../../../lib/models/command');
 var Project       = require('../../../lib/models/project');
 var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
 
@@ -30,7 +29,7 @@ describe('help command', function() {
     })
   };
 
-  var HelpCommand = rewire('../../../lib/commands/help');
+  var HelpCommand = require('../../../lib/commands/help');
 
   beforeEach(function() {
     ui = new MockUI();

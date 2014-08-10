@@ -142,7 +142,6 @@
     "mocha": "^1.18.0",
     "mocha-jshint": "0.0.7",
     "node-require-timings": "^0.0.2",
-    "rewire": "^2.0.0",
     "supertest": "^0.13.0",
     "tmp-sync": "^1.0.1"
   }
