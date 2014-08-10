@@ -135,4 +135,22 @@ describe('models/project.js', function() {
       assert.equal(project.emberCLIVersion(), emberCLIVersion());
     });
   });
+
+  describe('isEmberCLIAddon', function() {
+    it('should return true if `ember-addon` is included in keywords', function() {
+      project.pkg = {
+        keywords: [ 'ember-addon' ]
+      };
+
+      assert.equal(project.isEmberCLIAddon(), true);
+    });
+
+    it('should return false if `ember-addon` is not included in keywords', function() {
+      project.pkg = {
+        keywords: [ ]
+      };
+
+      assert.equal(project.isEmberCLIAddon(), false);
+    });
+  });
 });
