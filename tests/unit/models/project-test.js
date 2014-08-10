@@ -12,7 +12,7 @@ var emberCLIVersion = require('../../../lib/utilities/ember-cli-version');
 describe('models/project.js', function() {
   var project, projectPath;
 
-  describe('Project.prototype.config', function() {
+  describe('Project.prototype.config default', function() {
     var called      = false;
     projectPath = process.cwd() + '/tmp/test-app';
 
@@ -36,6 +36,40 @@ describe('models/project.js', function() {
     });
 
     it('config() finds and requires config/environment', function() {
+      project.config('development');
+      assert.equal(called, true);
+    });
+  });
+
+  describe('Project.prototype.config custom config path from addon', function() {
+    var called      = false;
+    projectPath = process.cwd() + '/tmp/test-app';
+
+    before(function() {
+      tmp.setup(projectPath);
+
+      touch(projectPath + '/tests/dummy/config/environment.js', {
+        baseURL: '/foo/bar'
+      });
+
+      project = new Project(projectPath, { });
+      project.pkg = {
+        'ember-addon': {
+          'configPath': 'tests/dummy/config'
+        }
+      };
+      project.require = function() {
+        called = true;
+        return function() {};
+      };
+
+    });
+
+    after(function() {
+      tmp.teardown(projectPath);
+    });
+
+    it('config() finds and requires tests/dummy/config/environment', function() {
       project.config('development');
       assert.equal(called, true);
     });

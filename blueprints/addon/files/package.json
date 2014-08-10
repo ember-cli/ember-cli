@@ -18,6 +18,9 @@
   "keywords": [
     "ember-addon"
   ],
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  },
   "author": "",
   "license": "MIT",
   "devDependencies": {
