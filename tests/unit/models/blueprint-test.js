@@ -11,6 +11,7 @@ var rimraf            = require('rimraf');
 var root              = process.cwd();
 var tmp               = require('tmp-sync');
 var tmproot           = path.join(root, 'tmp');
+var SilentError       = require('../../../lib/errors/silent');
 
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
@@ -296,6 +297,14 @@ describe('Blueprint', function() {
         blueprint.install(options);
       });
     });
+
+    it('throws error when an entityName is not provided', function(){
+      options.entity = { };
+      assert.throws(function(){
+        blueprint.install(options);
+      }, SilentError, /'The `ember generate` command requires an entity name to be specified./);
+    });
+
 
     it('calls normalizeEntityName hook during install', function(done){
       blueprint.normalizeEntityName = function(){ done(); };
