@@ -1,7 +1,6 @@
 {
   "name": "<%= addonName %>",
   "version": "0.0.0",
-  "private": true,
   "directories": {
     "doc": "doc",
     "test": "test"
