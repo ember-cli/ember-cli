@@ -40,10 +40,10 @@ module.exports = Blueprint.extend({
   },
   fileMap: {
     '^.jshintrc':   'tests/dummy/:path',
-    'app/.gitkeep': 'app/.gitkeep',
-    'app.*':        'tests/dummy/:path',
-    'config.*':     'tests/dummy/:path',
-    'public.*':     'tests/dummy/:path'
+    '^app/.gitkeep': 'app/.gitkeep',
+    '^app.*':        'tests/dummy/:path',
+    '^config.*':     'tests/dummy/:path',
+    '^public.*':     'tests/dummy/:path'
   },
   fileMapper: function(path) {
     for(pattern in this.fileMap) {
