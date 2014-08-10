@@ -1,8 +1,8 @@
 'use strict';
 
-var MockUI   = require('./mock-ui');
-var MockLeek = require('./mock-leek');
-var Cli      = require('../../lib/cli');
+var MockUI        = require('./mock-ui');
+var MockAnalytics = require('./mock-analytics');
+var Cli           = require('../../lib/cli');
 
 var baseArgs = ['node', 'path/to/cli'];
 
@@ -19,7 +19,7 @@ module.exports = function ember(args) {
     inputStream:  [],
     outputStream: [],
     cliArgs:      args,
-    Leek: MockLeek,
+    Leek: MockAnalytics,
     UI: MockUI,
     testing: true
   });
