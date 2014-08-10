@@ -151,4 +151,46 @@ describe('init command', function() {
         assert.equal(reason, 'Called run');
       });
   });
+
+  it('Uses the "app" blueprint by default', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.blueprint, 'app');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['provided-name'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+  it('Uses the "addon" blueprint for addons', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.blueprint, 'addon');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { keywords: [ 'ember-addon' ], name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['provided-name'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
 });
