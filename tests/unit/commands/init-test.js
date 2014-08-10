@@ -39,8 +39,8 @@ describe('init command', function() {
     return command.validateAndRun([]).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
-    .catch(function() {
-      assert.equal(ui.output, 'We currently do not support a name of `test`.');
+    .catch(function(error) {
+      assert.equal(error.message, 'We currently do not support a name of `test`.\n');
     });
   });
 
