@@ -84,55 +84,20 @@ Cyclic dependencies – are not yet supported at the moment, we are depending on
 
 ### Module Directory Naming Structure
 
-`app/adapters/`
-
-Adapters with the convention `adapter-name.js`.
-
-`app/components/`
-
-Components with the convention `component-name.js`. Remember, components are dasherized.
-
-`app/controllers/`
-
-Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
-
-`app/helpers/`
-
-Helpers with the convention `helper-name.js`. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
-
-`app/initializers/`
-
-Initializers with the convention `initializer-name.js`. Initializers are loaded automatically.
-
-`app/mixins/`
-
-Mixins with the convention `mixin-name.js`.
-
-`app/models/`
-
-Models with the convention `model-name.js`.
-
-`app/routes/`
-
-Routes with the convention `route-name.js`. Child routes are defined in sub-directories, `parent/child.js`.
-To provide a custom implementation for generated routes (equivalent to `App.Route` when using globals),
-use `app/routes/basic.js`.
-
-`app/serializers/`
-
-Serializers for your models or adapter, where `model-name.js` or `adapter-name.js`.
-
-`app/transforms/`
-
-Transforms for custom Ember Data attributes, where `attribute-name.js` is the new attribute.
-
-`app/utils`
-
-Utility modules with the convention `utility-name.js`.
-
-`app/views/`
-
-Views with the convention `view-name.js`. Sub-directories can be used for organization.
+Folder              | Purpose
+:------------------ | :----------------------------------
+`app/adapters/`     | Adapters with the convention `adapter-name.js`.
+`app/components/`   | Components with the convention `component-name.js`. Remember, components are dasherized.
+`app/controllers/`  | Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
+`app/helpers/`      | Helpers with the convention `helper-name.js`. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
+`app/initializers/` | Initializers with the convention `initializer-name.js`. Initializers are loaded automatically.
+`app/mixins/`       | Mixins with the convention `mixin-name.js`.
+`app/models/`       | Models with the convention `model-name.js`.
+`app/routes/`       | Routes with the convention `route-name.js`. Child routes are defined in sub-directories, `parent/child.js`. To provide a custom implementation for generated routes (equivalent to `App.Route` when using globals), use `app/routes/basic.js`.
+`app/serializers/`  | Serializers for your models or adapter, where `model-name.js` or `adapter-name.js`.
+`app/transforms/`   | Transforms for custom Ember Data attributes, where `attribute-name.js` is the new attribute.
+`app/utils`         | Utility modules with the convention `utility-name.js`.
+`app/views/`        | Views with the convention `view-name.js`. Sub-directories can be used for organization.
 
 All modules in the `app` folder can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
