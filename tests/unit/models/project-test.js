@@ -100,7 +100,7 @@ describe('models/project.js', function() {
 
     it('returns a listing of all ember-cli-addons', function() {
       var expected = [
-        'live-reload-middleware', 'history-support-middleware', 'serve-files-middleware',
+        'history-support-middleware', 'serve-files-middleware',
         'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
         'ember-yagni', 'ember-ng', 'ember-super-button'
@@ -113,7 +113,7 @@ describe('models/project.js', function() {
     it('returns an instance of the addon', function() {
       var addons = project.addons;
 
-      assert.equal(addons[4].name, 'Ember Non Root Addon');
+      assert.equal(addons[3].name, 'Ember Non Root Addon');
     });
 
     it('addons get passed the project instance', function() {
@@ -125,7 +125,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       var addons = project.addons;
 
-      assert.equal(addons[5].name, 'Ember Random Addon');
+      assert.equal(addons[4].name, 'Ember Random Addon');
     });
 
     it('returns the default blueprints path', function() {
@@ -152,15 +152,15 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       var addons = project.addons;
 
-      assert.ok(addons[6] instanceof Addon);
-      assert.equal(addons[6].name, 'Ember CLI Generated with export');
+      assert.ok(addons[5] instanceof Addon);
+      assert.equal(addons[5].name, 'Ember CLI Generated with export');
     });
 
     it('returns an instance of a generated addon with no export', function() {
       var addons = project.addons;
 
-      assert.ok(addons[7] instanceof Addon);
-      assert.equal(addons[7].name, '(generated ember-generated-no-export-addon addon)');
+      assert.ok(addons[6] instanceof Addon);
+      assert.equal(addons[6].name, '(generated ember-generated-no-export-addon addon)');
     });
   });
 
