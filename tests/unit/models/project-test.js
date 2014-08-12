@@ -103,7 +103,7 @@ describe('models/project.js', function() {
         'live-reload-middleware', 'history-support-middleware', 'serve-files-middleware',
         'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
-        'ember-super-button', 'ember-yagni', 'ember-ng'
+        'ember-yagni', 'ember-ng', 'ember-super-button'
       ];
 
       project.buildAddonPackages();
