@@ -35,6 +35,8 @@ describe('Acceptance: ember destroy', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     process.chdir(root);
     rimraf.sync(tmproot);
   });

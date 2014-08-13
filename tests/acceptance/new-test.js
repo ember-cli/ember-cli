@@ -23,6 +23,8 @@ describe('Acceptance: ember new', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     tmp.teardown('./tmp');
   });
 

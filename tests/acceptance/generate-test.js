@@ -33,6 +33,8 @@ describe('Acceptance: ember generate', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     process.chdir(root);
     rimraf.sync(tmproot);
   });
