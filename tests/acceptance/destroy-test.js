@@ -18,6 +18,9 @@ var tmproot    = path.join(root, 'tmp');
 describe('Acceptance: ember destroy', function() {
   var tmpdir;
 
+  this.timeout(5000);
+
+
   before(function() {
     conf.setup();
   });

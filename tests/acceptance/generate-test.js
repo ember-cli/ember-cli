@@ -737,44 +737,44 @@ describe('Acceptance: ember generate', function() {
   it('http-proxy foo', function() {
     return generate(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
       assertFile('server/index.js', {
-        contains: "var bodyParser = require('body-parser');\n" +
-                  "var globSync   = require('glob').sync;\n" +
-                  "var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);\n" +
-                  "var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);\n" +
-                  "\n" +
-                  "module.exports = function(app) {\n" +
-                  "  app.use(bodyParser.json());\n" +
-                  "  app.use(bodyParser.urlencoded({\n" +
-                  "    extended: true\n" +
-                  "  }));\n" +
-                  "\n" +
-                  "  mocks.forEach(function(route) { route(app)});\n" +
-                  "\n" +
-                  "  // proxy expects a stream, but express will have turned\n" +
-                  "  // the request stream into an object because bodyParser\n" +
-                  "  // has run. We have to convert it back to stream:\n" +
-                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180\n" +
-                  "  app.use(require('connect-restreamer')());\n" +
-                  "  proxies.forEach(function(route) { route(app)});\n" +
+        contains: "var bodyParser = require('body-parser');" + EOL +
+                  "var globSync   = require('glob').sync;" + EOL +
+                  "var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  "var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  EOL +
+                  "module.exports = function(app) {" + EOL +
+                  "  app.use(bodyParser.json());" + EOL +
+                  "  app.use(bodyParser.urlencoded({" + EOL +
+                  "    extended: true" + EOL +
+                  "  }));" + EOL +
+                  EOL +
+                  "  mocks.forEach(function(route) { route(app)});" + EOL +
+                  EOL +
+                  "  // proxy expects a stream, but express will have turned" + EOL +
+                  "  // the request stream into an object because bodyParser" + EOL +
+                  "  // has run. We have to convert it back to stream:" + EOL +
+                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
+                  "  app.use(require('connect-restreamer')());" + EOL +
+                  "  proxies.forEach(function(route) { route(app)});" + EOL +
                   "};"
       });
       assertFile('server/proxies/foo.js', {
-        contains: "var Proxy = require('http-proxy');\n" +
-                  "\n" +
-                  "// For options, see:\n" +
-                  "// https://github.com/nodejitsu/node-http-proxy\n" +
-                  "var proxy = Proxy.createProxyServer({});\n" +
-                  "\n" +
-                  "module.exports = function(app) {\n" +
-                  "\n" +
-                  "  app.use('/foo', function(req, res, next){\n" +
-                  "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
-                  "  })\n" +
-                  "\n" +
+        contains: "var Proxy = require('http-proxy');" + EOL +
+                  EOL +
+                  "// For options, see:" + EOL +
+                  "// https://github.com/nodejitsu/node-http-proxy" + EOL +
+                  "var proxy = Proxy.createProxyServer({});" + EOL +
+                  EOL +
+                  "module.exports = function(app) {" + EOL +
+                  EOL +
+                  "  app.use('/foo', function(req, res, next){" + EOL +
+                  "    proxy.web(req, res, { target: 'http://localhost:5000' });" + EOL +
+                  "  })" + EOL +
+                  EOL +
                   "};"
       });
       assertFile('server/.jshintrc', {
-        contains: '{\n  "node": true\n}'
+        contains: '{' + EOL + '  "node": true' + EOL + '}'
       });
     });
   });
