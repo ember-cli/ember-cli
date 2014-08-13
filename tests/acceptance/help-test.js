@@ -17,9 +17,9 @@ describe('Acceptance: ember help', function() {
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(function(done) {
     process.chdir(root);
-    rimraf.sync(tmproot);
+    rimraf(tmproot, done);
   });
 
   it('generate', function() {
