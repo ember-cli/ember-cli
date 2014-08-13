@@ -60,6 +60,8 @@ describe('Acceptance: blueprint smoke tests', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     tmp.teardown('./tmp');
   });
 

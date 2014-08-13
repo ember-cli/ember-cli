@@ -45,6 +45,8 @@ describe('Acceptance: smoke-test', function() {
   });
 
   after(function() {
+    this.timeout(10000);
+
     tmp.teardown('./common-tmp');
     conf.restore();
   });
@@ -69,6 +71,8 @@ describe('Acceptance: smoke-test', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     assertTmpEmpty();
     tmp.teardown('./tmp');
   });

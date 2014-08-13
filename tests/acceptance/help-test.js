@@ -18,6 +18,8 @@ describe('Acceptance: ember help', function() {
   });
 
   afterEach(function(done) {
+    this.timeout(10000);
+
     process.chdir(root);
     rimraf(tmproot, done);
   });

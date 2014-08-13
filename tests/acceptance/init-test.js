@@ -32,6 +32,8 @@ describe('Acceptance: ember init', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     tmp.teardown('./tmp');
   });
 

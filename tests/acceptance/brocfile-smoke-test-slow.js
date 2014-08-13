@@ -37,12 +37,15 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   after(function() {
+    this.timeout(10000);
+
     tmp.teardown('./common-tmp');
     conf.restore();
   });
 
   beforeEach(function() {
     this.timeout(10000);
+
     tmp.setup('./tmp');
     return ncp('./common-tmp/' + appName, './tmp/' + appName, {
       clobber: true,
@@ -61,6 +64,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     tmp.teardown('./tmp');
   });
 
