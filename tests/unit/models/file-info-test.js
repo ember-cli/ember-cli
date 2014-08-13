@@ -73,7 +73,7 @@ describe('Unit - FileInfo', function(){
       return fileInfo.displayDiff();
     }).then(function(){
       var output = ui.output.trim().split('\n');
-      assert.match(output.shift(), new RegExp('Index: '+testOutputPath));
+      assert.equal(output.shift(), 'Index: ' + testOutputPath);
       assert.match(output.shift(), /=+/);
       assert.match(output.shift(), /---/);
       assert.match(output.shift(), /\+{3}/);
