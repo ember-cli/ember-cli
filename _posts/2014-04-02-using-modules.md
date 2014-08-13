@@ -85,7 +85,7 @@ Cyclic dependencies – are not yet supported at the moment, we are depending on
 ### Module Directory Naming Structure
 
 Folder              | Purpose
-:------------------ | :----------------------------------
+--------------------|
 `app/adapters/`     | Adapters with the convention `adapter-name.js`.
 `app/components/`   | Components with the convention `component-name.js`. Remember, components are dasherized.
 `app/controllers/`  | Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
@@ -109,12 +109,11 @@ Ember has several template helpers that are used to easily resolve and render
 views and their contexts within a template. The resolver works with these
 helpers, too:
 
-`{% raw %}{{partial "foo"}}{% endraw %}` will render the template within `templates/foo.hbs`
-
-`{% raw %}{{view "foo"}}{% endraw %}` will render the view within `views/foo.js`
-
-`{% raw %}{{render "foo"  <context>}}{% endraw %}` will render the view within `views/foo.js` using the
-controller within `controllers/foo.js` and the template `templates/foo.hbs`
+Template Helper | Example                                            | Purpose
+----------------|----------------------------------------------------|
+partial         | `{% raw %}{{partial "foo"}}{% endraw %}`           | Renders the template within `templates/foo.hbs`
+view            | `{% raw %}{{view "foo"}}{% endraw %}`              | Renders the view within `views/foo.js`
+render          | `{% raw %}{{render "foo"  <context>}}{% endraw %}` | Renders the view within `views/foo.js` using the controller within `controllers/foo.js` and the template `templates/foo.hbs`
 
 ### Resolving Handlebars helpers
 
