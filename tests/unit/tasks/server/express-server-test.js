@@ -309,5 +309,24 @@ describe('express-server', function() {
         });
       });
     });
+
+    describe('app middleware', function() {
+      it('calls processAppMiddlewares upon start', function() {
+        var passedOptions;
+
+        subject.processAppMiddlewares = function(options) {
+          passedOptions = options;
+        };
+
+        var realOptions = {
+          host:  '0.0.0.0',
+          port: '1337'
+        };
+
+        return subject.start(realOptions).then(function() {
+          assert(passedOptions === realOptions);
+        });
+      });
+    });
   });
 });
