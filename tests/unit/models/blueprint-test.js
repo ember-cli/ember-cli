@@ -39,19 +39,6 @@ describe('Blueprint', function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
   });
 
-  describe('.mapFile',function(){
-    it('replaces all occurences of __name__ with module name',function(){
-      var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js',{dasherizedModuleName: 'my-blueprint'});
-      assert.equal(path,'my-blueprint/my-blueprint-controller.js');
-
-      path = Blueprint.prototype.mapFile('__name__/controller.js',{dasherizedModuleName: 'my-blueprint'});
-      assert.equal(path,'my-blueprint/controller.js');
-
-      path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
-      assert.equal(path,'my-blueprint/my-blueprint.js');
-    });
-  });
-
   describe('.lookup', function() {
     it('uses an explicit path if one is given', function() {
       var expectedClass = require(basicBlueprint);
