@@ -5,5 +5,8 @@ module.exports = Blueprint.extend({
     return {
       path: '/' + options.entity.name.replace(/^\//, '')
     };
+  },
+  afterInstall: function() {
+    return this.addPackageToProject('connect-restreamer', '^1.0.0');
   }
 });
