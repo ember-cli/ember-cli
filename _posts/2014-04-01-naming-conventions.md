@@ -5,7 +5,7 @@ permalink: naming-conventions
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-01-naming-conventions.md"
 ---
 
-When using Ember CLI its important to keep in mind that the Resolver changes
+When using Ember CLI it's important to keep in mind that the Resolver changes
 some of the naming conventions you would typically use out of the box with Ember,
 Ember Data and Handlebars. In this section we review some of these naming conventions.
 
@@ -151,7 +151,7 @@ export default Ember.TextField.extend({});
 
 It is important to keep in mind that the Resolver uses filenames to create
 the associations correctly. This helps you by not having to namespace everything
-yourself. But there a couple of things you should know.
+yourself. But there are a couple of things you should know.
 
 ##### Overview
 
@@ -257,7 +257,7 @@ Test filenames should be suffixed with `-test.js` in order to run.
 
 #### Pod structure
 
-As your app gets bigger, a feature-driven structure may be better. Splitting your application by functionality/resource would give you more power and control to scale and maintain it. As a default, if the file is not found on the POD structure, the Resolver will look up it within the normal structure.
+As your app gets bigger, a feature-driven structure may be better. Splitting your application by functionality/resource would give you more power and control to scale and maintain it. As a default, if the file is not found on the POD structure, the Resolver will look it up within the normal structure.
 
 In this case, you should name the file as its functionality. Given a resource `User`, the folder structure would be:
 
