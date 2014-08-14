@@ -1,25 +1,10 @@
 'use strict';
 
-var rewire   = require('rewire');
-var Cli      = rewire('../../lib/cli');
+var MockUI        = require('./mock-ui');
+var MockAnalytics = require('./mock-analytics');
+var Cli           = require('../../lib/cli');
+
 var baseArgs = ['node', 'path/to/cli'];
-
-Cli.__set__('Leek', function() {
-  return {
-      track:      function() {},
-      trackEvent: function() {},
-      trackError: function() {}
-    };
-});
-
-Cli.__set__('UI', function() {
-  this.outputStream = [];
-  this.inputStream  = [];
-
-  this.write = function(data) {
-    this.outputStream.push(data);
-  };
-});
 
 module.exports = function ember(args) {
   var argv, cli;
@@ -34,6 +19,8 @@ module.exports = function ember(args) {
     inputStream:  [],
     outputStream: [],
     cliArgs:      args,
+    Leek: MockAnalytics,
+    UI: MockUI,
     testing: true
   });
 

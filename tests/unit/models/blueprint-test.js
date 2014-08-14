@@ -11,6 +11,7 @@ var rimraf            = require('rimraf');
 var root              = process.cwd();
 var tmp               = require('tmp-sync');
 var tmproot           = path.join(root, 'tmp');
+var SilentError       = require('../../../lib/errors/silent');
 
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
@@ -38,6 +39,18 @@ describe('Blueprint', function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
   });
 
+  describe('.mapFile', function() {
+    it('replaces all occurences of __name__ with module name',function(){
+      var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js',{dasherizedModuleName: 'my-blueprint'});
+      assert.equal(path,'my-blueprint/my-blueprint-controller.js');
+
+      path = Blueprint.prototype.mapFile('__name__/controller.js',{dasherizedModuleName: 'my-blueprint'});
+      assert.equal(path,'my-blueprint/controller.js');
+
+      path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
+      assert.equal(path,'my-blueprint/my-blueprint.js');
+    });
+  });
   describe('.lookup', function() {
     it('uses an explicit path if one is given', function() {
       var expectedClass = require(basicBlueprint);
@@ -297,6 +310,14 @@ describe('Blueprint', function() {
       });
     });
 
+    it('throws error when an entityName is not provided', function(){
+      options.entity = { };
+      assert.throws(function(){
+        blueprint.install(options);
+      }, SilentError, /'The `ember generate` command requires an entity name to be specified./);
+    });
+
+
     it('calls normalizeEntityName hook during install', function(done){
       blueprint.normalizeEntityName = function(){ done(); };
       options.entity = { name: 'foo' };
@@ -316,4 +337,57 @@ describe('Blueprint', function() {
     });
   });
 
+  describe('addPackageToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+    });
+
+    afterEach(function() {
+      rimraf.sync(tmproot);
+    });
+
+    it('calls _exec with the proper command when no version is supplied', function() {
+      blueprint._exec = function(command) {
+        assert.equal(command, 'npm install --save-dev foo-bar');
+      };
+
+      blueprint.addPackageToProject('foo-bar');
+    });
+
+    it('calls _exec with the proper command when a version is supplied', function() {
+      blueprint._exec = function(command) {
+        assert.equal(command, 'npm install --save-dev foo-bar@^123.1.12');
+      };
+
+      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+    });
+
+    it('writes information to the ui log', function() {
+      blueprint._exec = function() { };
+      blueprint.ui = ui;
+
+      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+
+      var output = ui.output.trim();
+
+      assert.match(output, /install package.*foo-bar/);
+    });
+
+    it('does not error if ui is not present', function() {
+      blueprint._exec = function() { };
+      delete blueprint.ui;
+
+      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+
+      var output = ui.output.trim();
+
+      assert(!output.match(/install package.*foo-bar/));
+    });
+  });
 });

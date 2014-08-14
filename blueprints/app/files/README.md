@@ -22,4 +22,4 @@ This README outlines the details of collaborating on this Ember application.
 
 * `ember build`
 
-For more information on using ember-cli, visit [http://iamstef.net/ember-cli/](http://iamstef.net/ember-cli/).
+For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).

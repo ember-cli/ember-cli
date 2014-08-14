@@ -12,7 +12,7 @@ var emberCLIVersion = require('../../../lib/utilities/ember-cli-version');
 describe('models/project.js', function() {
   var project, projectPath;
 
-  describe('Project.prototype.config', function() {
+  describe('Project.prototype.config default', function() {
     var called      = false;
     projectPath = process.cwd() + '/tmp/test-app';
 
@@ -37,6 +37,40 @@ describe('models/project.js', function() {
 
     it('config() finds and requires config/test', function() {
       project.config('test');
+      assert.equal(called, true);
+    });
+  });
+
+  describe('Project.prototype.config custom config path from addon', function() {
+    var called      = false;
+    projectPath = process.cwd() + '/tmp/test-app';
+
+    before(function() {
+      tmp.setup(projectPath);
+
+      touch(projectPath + '/tests/dummy/config/environment.js', {
+        baseURL: '/foo/bar'
+      });
+
+      project = new Project(projectPath, { });
+      project.pkg = {
+        'ember-addon': {
+          'configPath': 'tests/dummy/config'
+        }
+      };
+      project.require = function() {
+        called = true;
+        return function() {};
+      };
+
+    });
+
+    after(function() {
+      tmp.teardown(projectPath);
+    });
+
+    it('config() finds and requires tests/dummy/config/environment', function() {
+      project.config('development');
       assert.equal(called, true);
     });
   });
@@ -66,13 +100,14 @@ describe('models/project.js', function() {
 
     it('returns a listing of all ember-cli-addons', function() {
       var expected = [
-        'live-reload-middleware', 'serve-files-middleware', 'proxy-server-middleware',
-        'ember-random-addon', 'ember-non-root-addon',
+        'history-support-middleware', 'serve-files-middleware',
+        'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
-        'ember-super-button'
+        'ember-yagni', 'ember-ng', 'ember-super-button'
       ];
 
-      assert.deepEqual(Object.keys(project.availableAddons()), expected);
+      project.buildAddonPackages();
+      assert.deepEqual(Object.keys(project.addonPackages), expected);
     });
 
     it('returns an instance of the addon', function() {
@@ -94,21 +129,21 @@ describe('models/project.js', function() {
     });
 
     it('returns the default blueprints path', function() {
-      var expected = project.root + '/blueprints';
+      var expected = project.root + path.normalize('/blueprints');
 
       assert.equal(project.localBlueprintLookupPath(), expected);
     });
 
     it('returns a listing of all addon blueprints paths', function() {
-      var expected = [ project.root + '/node_modules/ember-random-addon/blueprints' ];
+      var expected = [project.root + path.normalize('/node_modules/ember-random-addon/blueprints')];
 
       assert.deepEqual(project.addonBlueprintLookupPaths(), expected);
     });
 
     it('returns a listing of all blueprints paths', function() {
       var expected = [
-        project.root + '/blueprints',
-        project.root + '/node_modules/ember-random-addon/blueprints'
+        project.root + path.normalize('/blueprints'),
+        project.root + path.normalize('/node_modules/ember-random-addon/blueprints')
       ];
 
       assert.deepEqual(project.blueprintLookupPaths(), expected);
@@ -132,6 +167,24 @@ describe('models/project.js', function() {
   describe('emberCLIVersion', function() {
     it('should return the same value as the utlity function', function() {
       assert.equal(project.emberCLIVersion(), emberCLIVersion());
+    });
+  });
+
+  describe('isEmberCLIAddon', function() {
+    it('should return true if `ember-addon` is included in keywords', function() {
+      project.pkg = {
+        keywords: [ 'ember-addon' ]
+      };
+
+      assert.equal(project.isEmberCLIAddon(), true);
+    });
+
+    it('should return false if `ember-addon` is not included in keywords', function() {
+      project.pkg = {
+        keywords: [ ]
+      };
+
+      assert.equal(project.isEmberCLIAddon(), false);
     });
   });
 });

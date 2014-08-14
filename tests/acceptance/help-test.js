@@ -17,9 +17,11 @@ describe('Acceptance: ember help', function() {
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(function(done) {
+    this.timeout(10000);
+
     process.chdir(root);
-    rimraf.sync(tmproot);
+    rimraf(tmproot, done);
   });
 
   it('generate', function() {
@@ -33,7 +35,8 @@ describe('Acceptance: ember help', function() {
       assert.include(output, 'ember-cli commands:');
       assert.include(output, '  app');
       assert.include(output, '  adapter');
-      assert.include(output, '  api');
+      assert.include(output, '  http-mock');
+      assert.include(output, '  http-proxy');
       assert.include(output, '  app');
       assert.include(output, '  blueprint');
       assert.include(output, '  component');

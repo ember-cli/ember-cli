@@ -4,9 +4,8 @@ var fs         = require('fs');
 var path       = require('path');
 var assert     = require('../../helpers/assert');
 var MockUI     = require('../../helpers/mock-ui');
-var rewire     = require('rewire');
 var Promise    = require('../../../lib/ext/promise');
-var UpdateTask = rewire('../../../lib/tasks/update');
+var UpdateTask = require('../../../lib/tasks/update');
 
 describe('update task', function() {
   var updateTask;

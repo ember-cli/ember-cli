@@ -1,21 +1,27 @@
 'use strict';
 
-var assert    = require('../../helpers/assert'),
-    MockUI    = require('../../helpers/mock-ui'),
-    FileInfo  = require('../../../lib/models/file-info'),
-    path      = require('path'),
-    fs        = require('fs'),
-    Promise   = require('../../../lib/ext/promise'),
-    writeFile = Promise.denodeify(fs.writeFile),
-    unlink    = Promise.denodeify(fs.unlink);
-
-var testOutputPath = '/tmp/file-into-test-output';
+var assert    = require('../../helpers/assert');
+var MockUI    = require('../../helpers/mock-ui');
+var FileInfo  = require('../../../lib/models/file-info');
+var path      = require('path');
+var fs        = require('fs');
+var Promise   = require('../../../lib/ext/promise');
+var writeFile = Promise.denodeify(fs.writeFile);
+var rimraf     = require('rimraf');
+var root       = process.cwd();
+var tmproot    = path.join(root, 'tmp');
+var tmp        = require('tmp-sync');
+var tmpdir;
+var testOutputPath;
 
 describe('Unit - FileInfo', function(){
 
   var validOptions, ui;
 
   beforeEach(function(){
+    tmpdir = tmp.in(tmproot);
+    testOutputPath = path.join(tmpdir, 'outputfile');
+
     ui = new MockUI();
     validOptions = {
       action: 'write',
@@ -28,10 +34,8 @@ describe('Unit - FileInfo', function(){
     };
   });
 
-  afterEach(function(){
-    if (fs.existsSync(testOutputPath)) {
-      return unlink(testOutputPath);
-    }
+  afterEach(function(done){
+    rimraf(tmproot, done);
   });
 
   it('can instantiate with options', function(){
@@ -69,7 +73,7 @@ describe('Unit - FileInfo', function(){
       return fileInfo.displayDiff();
     }).then(function(){
       var output = ui.output.trim().split('\n');
-      assert.match(output.shift(), new RegExp('Index: '+testOutputPath));
+      assert.equal(output.shift(), 'Index: ' + testOutputPath);
       assert.match(output.shift(), /=+/);
       assert.match(output.shift(), /---/);
       assert.match(output.shift(), /\+{3}/);

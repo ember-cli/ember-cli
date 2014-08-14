@@ -120,6 +120,11 @@ All inline documentation is written using YUIDoc. Follow these rules when updati
     8. Wrap long markdown blocks > 80 characters.
     9. Don't include blank lines after `@param` definitions.
 
+#### Website ####
+
+The codebase for the website [ember-cli.com](http://ember-cli.com) is located at: https://github.com/stefanpenner/ember-cli/tree/gh-pages 
+
+
 #### Code Words ####
 
 * `thisPropertyName`
@@ -131,3 +136,10 @@ All inline documentation is written using YUIDoc. Follow these rules when updati
 And in case we didn't emphasize it enough: **we love tests!**
 
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
+
+#Docs
+
+Have you got enough knowledge in a specific feature and want to help with docs? Ember-cli documentation
+lives at the branch [gh-pages](https://github.com/stefanpenner/ember-cli/tree/gh-pages).
+
+Feel free to contribute and help us to keep an updated, clear and complete documentation.

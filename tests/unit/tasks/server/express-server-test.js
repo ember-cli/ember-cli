@@ -8,6 +8,7 @@ var MockWatcher   = require('../../../helpers/mock-watcher');
 var ProxyServer   = require('../../../helpers/proxy-server');
 var request       = require('supertest');
 var net           = require('net');
+var EOL           = require('os').EOL;
 
 describe('express-server', function() {
   var subject, ui, project, proxy;
@@ -22,7 +23,8 @@ describe('express-server', function() {
       watcher: new MockWatcher(),
       proxyMiddleware: function() {
         return proxy.handler.bind(proxy);
-      }
+      },
+      environment: 'development'
     });
   });
 
@@ -43,9 +45,10 @@ describe('express-server', function() {
         port: '1337'
       }).then(function() {
         var output = ui.output.trim().split('\n');
-        assert.deepEqual(output[1], 'Serving on http://0.0.0.0:1337');
-        assert.deepEqual(output[0], 'Proxying to http://localhost:3001/');
-        assert.deepEqual(output.length, 2, 'expected only two lines of output');
+        assert.deepEqual(output[0], 'Using ember serve --proxy has been deprecated. To proxy requests to `/api` generate an http-proxy with: `ember generate http-proxy api http://localhost:3001/`.');
+        assert.deepEqual(output[1], 'Proxying to http://localhost:3001/');
+        assert.deepEqual(output[2], 'Serving on http://0.0.0.0:1337');
+        assert.deepEqual(output.length, 3, 'expected only two lines of output');
       });
     });
 
@@ -91,24 +94,30 @@ describe('express-server', function() {
         });
       });
 
-      function bypassTest(app, url, done) {
+      function bypassTest(app, url, done, responseCallback) {
         request(app)
           .get(url)
           .set('accept', 'text/html')
-          .end(function(err) {
+          .end(function(err, response) {
             if (err) {
               return done(err);
             }
             assert(!proxy.called);
+            if (responseCallback) { responseCallback(response); }
             done();
           });
       }
+
       it('bypasses proxy for /', function(done) {
         bypassTest(subject.app, '/', done);
       });
+
       it('bypasses proxy for files that exist', function(done) {
-        bypassTest(subject.app, '/test-file.txt', done);
+        bypassTest(subject.app, '/test-file.txt', done, function(response) {
+          assert.equal(response.text, 'some contents' + EOL);
+        });
       });
+
       function apiTest(app, method, url, done) {
         var req = request(app);
         return req[method].call(req, url)
@@ -151,25 +160,109 @@ describe('express-server', function() {
     });
 
     describe('without proxy', function() {
-      beforeEach(function() {
+      function startServer(baseURL) {
         return subject.start({
           host:  '0.0.0.0',
           port: '1337',
-          baseURL: '/'
+          baseURL: baseURL || '/'
         });
+      }
+
+      it('serves index.html when file not found with auto/history location', function(done) {
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/someurl.withperiod')
+              .set('accept', 'text/html')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
       });
 
-      it('serves index.html when period in name', function(done) {
-        request(subject.app)
-          .get('/someurl.withperiod')
-          .set('accept', 'text/html')
-          .expect(200)
-          .expect('Content-Type', /html/)
-          .end(function(err) {
-            if (err) {
-              return done(err);
-            }
-            done();
+      it('serves index.html when file not found (with baseURL) with auto/history location', function(done) {
+        return startServer('/foo')
+          .then(function() {
+            request(subject.app)
+              .get('/foo/someurl')
+              .set('accept', 'text/html')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
+      });
+
+      it('returns a 404 when file not found with hash location', function(done) {
+        project._config = {
+          baseURL: '/',
+          locationType: 'hash'
+        };
+
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/someurl.withperiod')
+              .set('accept', 'text/html')
+              .expect(404)
+              .end(done);
+          });
+      });
+
+      it('files that exist in broccoli directory are served up', function(done) {
+        return startServer()
+          .then(function() {
+            request(subject.app)
+            .get('/test-file.txt')
+            .end(function(err, response) {
+              assert.equal(response.text, 'some contents' + EOL);
+              done();
+            });
+          });
+      });
+
+      it('serves static asset up from build output without a period in name', function(done) {
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/someurl-without-period')
+              .expect(200)
+              .end(function(err, response) {
+                if (err) {
+                  return done(err);
+                }
+
+                assert.equal(response.text, 'some other content' + EOL);
+
+                done();
+              });
+          });
+      });
+
+      it('serves static asset up from build output without a period in name (with baseURL)', function(done) {
+        return startServer('/foo')
+          .then(function() {
+            request(subject.app)
+              .get('/foo/someurl-without-period')
+              .expect(200)
+              .end(function(err, response) {
+                if (err) {
+                  return done(err);
+                }
+
+                assert.equal(response.text, 'some other content' + EOL);
+
+                done();
+              });
           });
       });
     });
@@ -213,6 +306,25 @@ describe('express-server', function() {
         }).then(function() {
           assert(firstCalled);
           assert(secondCalled);
+        });
+      });
+    });
+
+    describe('app middleware', function() {
+      it('calls processAppMiddlewares upon start', function() {
+        var passedOptions;
+
+        subject.processAppMiddlewares = function(options) {
+          passedOptions = options;
+        };
+
+        var realOptions = {
+          host:  '0.0.0.0',
+          port: '1337'
+        };
+
+        return subject.start(realOptions).then(function() {
+          assert(passedOptions === realOptions);
         });
       });
     });

@@ -37,12 +37,15 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   after(function() {
+    this.timeout(10000);
+
     tmp.teardown('./common-tmp');
     conf.restore();
   });
 
   beforeEach(function() {
     this.timeout(10000);
+
     tmp.setup('./tmp');
     return ncp('./common-tmp/' + appName, './tmp/' + appName, {
       clobber: true,
@@ -61,6 +64,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     tmp.teardown('./tmp');
   });
 
@@ -128,6 +133,32 @@ describe('Acceptance: brocfile-smoke-test', function() {
     this.timeout(450000);
 
     return copyFixtureFiles('brocfile-tests/pods-with-prefix-templates')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
+
+  it('addon trees are not jshinted', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('brocfile-tests/jshint-addon')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson['ember-addon'] = {
+          paths: ['./lib/ember-random-thing']
+        };
+
+        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+
+        var horribleRoute = 'var blah = ""\nexport default Blah;';
+        var horribleRoutePath = path.join('.', 'lib', 'ember-random-thing', 'app',
+                                          'routes', 'horrible-route.js');
+
+        fs.writeFileSync(horribleRoutePath, horribleRoute);
+      })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
       });

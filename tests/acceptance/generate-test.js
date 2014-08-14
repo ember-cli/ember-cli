@@ -14,6 +14,7 @@ var rimraf           = require('rimraf');
 var root             = process.cwd();
 var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
+var EOL              = require('os').EOL;
 
 describe('Acceptance: ember generate', function() {
   var tmpdir;
@@ -32,6 +33,8 @@ describe('Acceptance: ember generate', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     process.chdir(root);
     rimraf.sync(tmproot);
   });
@@ -53,7 +56,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({\n});"
+          "export default Ember.Controller.extend({" + EOL + "});"
         ]
       });
       assertFile('tests/unit/controllers/foo-test.js', {
@@ -65,23 +68,23 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('controller foo type:object', function() {
-    return generate(['controller', 'foo', 'type:object']).then(function() {
+  it('controller foo --type=object', function() {
+    return generate(['controller', 'foo', '--type=object']).then(function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.ObjectController.extend({\n});"
+          "export default Ember.ObjectController.extend({" + EOL + "});"
         ]
       });
     });
   });
 
-  it('controller foo type:array', function() {
-    return generate(['controller', 'foo', 'type:array']).then(function() {
+  it('controller foo --type=array', function() {
+    return generate(['controller', 'foo', '--type=array']).then(function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.ArrayController.extend({\n});"
+          "export default Ember.ArrayController.extend({" + EOL + "});"
         ]
       });
     });
@@ -92,7 +95,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/controllers/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({\n});"
+          "export default Ember.Controller.extend({" + EOL + "});"
         ]
       });
       assertFile('tests/unit/controllers/foo/bar-test.js', {
@@ -109,7 +112,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/components/x-foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Component.extend({\n});"
+          "export default Ember.Component.extend({" + EOL + "});"
         ]
       });
       assertFile('app/templates/components/x-foo.hbs', {
@@ -127,10 +130,15 @@ describe('Acceptance: ember generate', function() {
   it('helper foo-bar', function() {
     return generate(['helper', 'foo-bar']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
-        contains: "import Ember from 'ember';\n\n" +
-                  "export default Ember.Handlebars.makeBoundHelper(function(value) {\n" +
-                  "  return value;\n" +
-                  "});"
+        contains: "import Ember from 'ember';" + EOL + EOL +
+                  "function fooBar(value) {" + EOL +
+                  "  return value;" + EOL +
+                  "}" +  EOL + EOL +
+                  "export { fooBar };" + EOL + EOL +
+                  "export default Ember.Handlebars.makeBoundHelper(fooBar);"
+      });
+      assertFile('tests/unit/helpers/foo-bar-test.js', {
+        contains: "import { fooBar } from 'my-app/helpers/foo-bar';"
       });
     });
   });
@@ -138,10 +146,15 @@ describe('Acceptance: ember generate', function() {
   it('helper foo/bar-baz', function() {
     return generate(['helper', 'foo/bar-baz']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
-        contains: "import Ember from 'ember';\n\n" +
-                  "export default Ember.Handlebars.makeBoundHelper(function(value) {\n" +
-                  "  return value;\n" +
-                  "});"
+        contains: "import Ember from 'ember';" + EOL + EOL +
+                  "function fooBarBaz(value) {" + EOL +
+                  "  return value;" + EOL +
+                  "}" + EOL + EOL +
+                  "export { fooBarBaz };" + EOL + EOL +
+                  "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
+      });
+      assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
+        contains: "import { fooBarBaz } from 'my-app/helpers/foo/bar-baz';"
       });
     });
   });
@@ -221,7 +234,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/routes/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Route.extend({\n});"
+          "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
       assertFile('app/templates/foo.hbs');
@@ -234,16 +247,16 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('route foo type:resource', function() {
-    return generate(['route', 'foo', 'type:resource']).then(function() {
+  it('route foo --type=resource', function() {
+    return generate(['route', 'foo', '--type=resource']).then(function() {
       assertFile('app/router.js', {
         contains: "this.resource('foo', { path: 'foos/:foo_id' });"
       });
     });
   });
 
-  it('route foos type:resource', function() {
-    return generate(['route', 'foos', 'type:resource']).then(function() {
+  it('route foos --type=resource', function() {
+    return generate(['route', 'foos', '--type=resource']).then(function() {
       assertFile('app/router.js', {
         contains: "this.resource('foos');"
       });
@@ -270,11 +283,11 @@ describe('Acceptance: ember generate', function() {
   it('route bar does not create duplicates in router.js', function() {
     function checkRoute(testString) {
       var routerDefinition = (
-        "Router.map(function() {\n" +
-        "  this.resource('foo', function() {\n" +
-        "    " + testString + "\n" +
-        "  });\n" +
-        "});\n"
+        "Router.map(function() {" + EOL +
+        "  this.resource('foo', function() {" + EOL+
+        "    " + testString + EOL +
+        "  });" + EOL +
+        "});" + EOL
       );
       return outputFile('app/router.js', routerDefinition)
       .then(function() {
@@ -320,7 +333,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/views/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.View.extend({\n})'
+          "export default Ember.View.extend({" + EOL + "})"
         ]
       });
       assertFile('tests/unit/views/foo-test.js', {
@@ -337,7 +350,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/views/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.View.extend({\n})'
+          "export default Ember.View.extend({" + EOL + "})"
         ]
       });
       assertFile('tests/unit/views/foo/bar-test.js', {
@@ -358,7 +371,7 @@ describe('Acceptance: ember generate', function() {
         contains: 'export default DS.Model.extend'
       });
       assertFile('app/routes/foo.js', {
-        contains: 'export default Ember.Route.extend({\n});'
+        contains: "export default Ember.Route.extend({" + EOL + "});"
       });
       assertFile('app/templates/foo.hbs');
       assertFile('tests/unit/models/foo-test.js', {
@@ -379,7 +392,7 @@ describe('Acceptance: ember generate', function() {
         contains: 'export default DS.Model.extend'
       });
       assertFile('app/routes/foos.js', {
-        contains: 'export default Ember.Route.extend({\n});'
+        contains: 'export default Ember.Route.extend({' + EOL + '});'
       });
       assertFile('app/templates/foos.hbs');
       assertFile('tests/unit/models/foo-test.js', {
@@ -394,11 +407,11 @@ describe('Acceptance: ember generate', function() {
   it('initializer foo', function() {
     return generate(['initializer', 'foo']).then(function() {
       assertFile('app/initializers/foo.js', {
-        contains: "export default {\n" +
-                  "  name: 'foo',\n\n" +
-                  "  initialize: function(/* container, app */) {\n" +
-                  "    // app.register('route', 'foo', 'service:foo');\n" +
-                  "  }\n" +
+        contains: "export default {" + EOL +
+                  "  name: 'foo'," + EOL + EOL +
+                  "  initialize: function(/* container, app */) {" + EOL +
+                  "    // app.register('route', 'foo', 'service:foo');" + EOL +
+                  "  }" + EOL +
                   "};"
       });
     });
@@ -407,11 +420,11 @@ describe('Acceptance: ember generate', function() {
   it('initializer foo/bar', function() {
     return generate(['initializer', 'foo/bar']).then(function() {
       assertFile('app/initializers/foo/bar.js', {
-        contains: "export default {\n" +
-                  "  name: 'foo/bar',\n\n" +
-                  "  initialize: function(/* container, app */) {\n" +
-                  "    // app.register('route', 'foo', 'service:foo');\n" +
-                  "  }\n" +
+        contains: "export default {" + EOL +
+                  "  name: 'foo/bar'," + EOL + EOL +
+                  "  initialize: function(/* container, app */) {" + EOL +
+                  "    // app.register('route', 'foo', 'service:foo');" + EOL +
+                  "  }" + EOL +
                   "};"
       });
     });
@@ -422,7 +435,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/mixins/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Mixin.create({\n});'
+          'export default Ember.Mixin.create({' + EOL + '});'
         ]
       });
       assertFile('tests/unit/mixins/foo-test.js', {
@@ -438,7 +451,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/mixins/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Mixin.create({\n});'
+          'export default Ember.Mixin.create({' + EOL + '});'
         ]
       });
       assertFile('tests/unit/mixins/foo/bar-test.js', {
@@ -449,12 +462,22 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('mixin foo/bar/baz', function() {
+    return generate(['mixin', 'foo/bar/baz']).then(function() {
+      assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
+        contains: [
+          "import FooBarBazMixin from 'my-app/mixins/foo/bar/baz';"
+        ]
+      });
+    });
+  });
+
   it('adapter foo', function() {
     return generate(['adapter', 'foo']).then(function() {
       assertFile('app/adapters/foo.js', {
         contains: [
           "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({\n});"
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
         ]
       });
     });
@@ -465,7 +488,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/adapters/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({\n});"
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
         ]
       });
     });
@@ -476,7 +499,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/serializers/foo.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({\n});'
+          'export default DS.RESTSerializer.extend({' + EOL + '});'
         ]
       });
       assertFile('tests/unit/serializers/foo-test.js', {
@@ -493,7 +516,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/serializers/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({\n});'
+          'export default DS.RESTSerializer.extend({' + EOL + '});'
         ]
       });
       assertFile('tests/unit/serializers/foo/bar-test.js', {
@@ -510,14 +533,14 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/transforms/foo.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({\n' +
-          '  deserialize: function(serialized) {\n' +
-          '    return serialized;\n' +
-          '  },\n' +
-          '\n' +
-          '  serialize: function(deserialized) {\n' +
-          '    return deserialized;\n' +
-          '  }\n' +
+          'export default DS.Transform.extend({' + EOL +
+          '  deserialize: function(serialized) {' + EOL +
+          '    return serialized;' + EOL +
+          '  },' + EOL +
+          EOL +
+          '  serialize: function(deserialized) {' + EOL +
+          '    return deserialized;' + EOL +
+          '  }' + EOL +
           '});'
         ]
       });
@@ -535,14 +558,14 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/transforms/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({\n' +
-          '  deserialize: function(serialized) {\n' +
-          '    return serialized;\n' +
-          '  },\n' +
-          '\n' +
-          '  serialize: function(deserialized) {\n' +
-          '    return deserialized;\n' +
-          '  }\n' +
+          'export default DS.Transform.extend({' + EOL +
+          '  deserialize: function(serialized) {' + EOL +
+          '    return serialized;' + EOL +
+          '  },' + EOL +
+          '' + EOL +
+          '  serialize: function(deserialized) {' + EOL +
+          '    return deserialized;' + EOL +
+          '  }' + EOL +
           '});'
         ]
       });
@@ -558,8 +581,8 @@ describe('Acceptance: ember generate', function() {
   it('util foo-bar', function() {
     return generate(['util', 'foo-bar']).then(function() {
       assertFile('app/utils/foo-bar.js', {
-        contains: 'export default function fooBar() {\n' +
-                  '  return true;\n' +
+        contains: 'export default function fooBar() {' + EOL +
+                  '  return true;' + EOL +
                   '}'
       });
       assertFile('tests/unit/utils/foo-bar-test.js', {
@@ -573,8 +596,8 @@ describe('Acceptance: ember generate', function() {
   it('util foo-bar/baz', function() {
     return generate(['util', 'foo/bar-baz']).then(function() {
       assertFile('app/utils/foo/bar-baz.js', {
-        contains: 'export default function fooBarBaz() {\n' +
-                  '  return true;\n' +
+        contains: 'export default function fooBarBaz() {' + EOL +
+                  '  return true;' + EOL +
                   '}'
       });
       assertFile('tests/unit/utils/foo/bar-baz-test.js', {
@@ -590,15 +613,15 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/services/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Object.extend({\n});'
+          'export default Ember.Object.extend({' + EOL + '});'
         ]
       });
-      assertFile('app/initializers/foo.js', {
-        contains: "export default {\n" +
-                  "  name: 'foo',\n" +
-                  "  initialize: function(container, app) {\n" +
-                  "    app.inject('route', 'foo', 'service:foo');\n" +
-                  "  }\n" +
+      assertFile('app/initializers/foo-service.js', {
+        contains: "export default {" + EOL +
+                  "  name: 'foo-service'," + EOL +
+                  "  initialize: function(container, app) {" + EOL +
+                  "    app.inject('route', 'fooService', 'service:foo');" + EOL +
+                  "  }" + EOL +
                   "};"
       });
       assertFile('tests/unit/services/foo-test.js', {
@@ -615,15 +638,15 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/services/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Object.extend({\n});'
+          'export default Ember.Object.extend({' + EOL + '});'
         ]
       });
-      assertFile('app/initializers/foo/bar.js', {
-        contains: "export default {\n" +
-                  "  name: 'foo/bar',\n" +
-                  "  initialize: function(container, app) {\n" +
-                  "    app.inject('route', 'fooBar', 'service:fooBar');\n" +
-                  "  }\n" +
+      assertFile('app/initializers/foo/bar-service.js', {
+        contains: "export default {" + EOL +
+                  "  name: 'foo/bar-service'," + EOL +
+                  "  initialize: function(container, app) {" + EOL +
+                  "    app.inject('route', 'fooBarService', 'service:foo/bar');" + EOL +
+                  "  }" + EOL +
                   "};"
       });
       assertFile('tests/unit/services/foo/bar-test.js', {
@@ -638,17 +661,17 @@ describe('Acceptance: ember generate', function() {
   it('blueprint foo', function() {
     return generate(['blueprint', 'foo']).then(function() {
       assertFile('blueprints/foo/index.js', {
-        contains: "module.exports = {\n" +
-                  "  // locals: function(options) {\n" +
-                  "  //   // Return custom template variables here.\n" +
-                  "  //   return {\n" +
-                  "  //     foo: options.entity.options.foo\n" +
-                  "  //   };\n" +
-                  "  // }\n" +
-                  "\n" +
-                  "  // afterInstall: function(options) {\n" +
-                  "  //   // Perform extra work here.\n" +
-                  "  // }\n" +
+        contains: "module.exports = {" + EOL +
+                  "  // locals: function(options) {" + EOL +
+                  "  //   // Return custom template variables here." + EOL +
+                  "  //   return {" + EOL +
+                  "  //     foo: options.entity.options.foo" + EOL +
+                  "  //   };" + EOL +
+                  "  // }" + EOL +
+                  EOL +
+                  "  // afterInstall: function(options) {" + EOL +
+                  "  //   // Perform extra work here." + EOL +
+                  "  // }" + EOL +
                   "};"
       });
     });
@@ -657,50 +680,103 @@ describe('Acceptance: ember generate', function() {
   it('blueprint foo/bar', function() {
     return generate(['blueprint', 'foo/bar']).then(function() {
       assertFile('blueprints/foo/bar/index.js', {
-        contains: "module.exports = {\n" +
-                  "  // locals: function(options) {\n" +
-                  "  //   // Return custom template variables here.\n" +
-                  "  //   return {\n" +
-                  "  //     foo: options.entity.options.foo\n" +
-                  "  //   };\n" +
-                  "  // }\n" +
-                  "\n" +
-                  "  // afterInstall: function(options) {\n" +
-                  "  //   // Perform extra work here.\n" +
-                  "  // }\n" +
+        contains: "module.exports = {" + EOL +
+                  "  // locals: function(options) {" + EOL +
+                  "  //   // Return custom template variables here." + EOL +
+                  "  //   return {" + EOL +
+                  "  //     foo: options.entity.options.foo" + EOL +
+                  "  //   };" + EOL +
+                  "  // }" + EOL +
+                  EOL +
+                  "  // afterInstall: function(options) {" + EOL +
+                  "  //   // Perform extra work here." + EOL +
+                  "  // }" + EOL +
                   "};"
       });
     });
   });
 
-  it('api-stub foo', function() {
-    return generate(['api-stub', 'foo']).then(function() {
+  it('http-mock foo', function() {
+    return generate(['http-mock', 'foo']).then(function() {
       assertFile('server/index.js', {
-        contains: "var bodyParser = require('body-parser');\n" +
-                  "var globSync   = require('glob').sync;\n" +
-                  "var routes     = globSync('./routes/**/*.js', { cwd: __dirname }).map(require);\n" +
-                  "\n" +
-                  "module.exports = function(app) {\n" +
-                  "  app.use(bodyParser.json());\n" +
-                  "  app.use(bodyParser.urlencoded({\n" +
-                  "    extended: true\n" +
-                  "  }));\n" +
-                  "\n" +
-                  "  routes.forEach(function(route) { route(app); });\n" +
+        contains: "var bodyParser = require('body-parser');" + EOL +
+                  "var globSync   = require('glob').sync;" + EOL +
+                  "var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  "var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  "" + EOL +
+                  "module.exports = function(app) {" + EOL +
+                  "  app.use(bodyParser.json());" + EOL +
+                  "  app.use(bodyParser.urlencoded({" + EOL +
+                  "    extended: true" + EOL +
+                  "  }));" + EOL +
+                  "" + EOL +
+                  "  mocks.forEach(function(route) { route(app)});" + EOL +
+                  "" + EOL +
+                  "  // proxy expects a stream, but express will have turned" + EOL +
+                  "  // the request stream into an object because bodyParser" + EOL +
+                  "  // has run. We have to convert it back to stream:" + EOL +
+                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
+                  "  app.use(require('connect-restreamer')());" + EOL +
+                  "  proxies.forEach(function(route) { route(app)});" + EOL +
                   "};"
       });
-      assertFile('server/routes/foo.js', {
-        contains: "module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooRouter = express.Router();\n" +
-                  "  fooRouter.get('/', function(req, res) {\n" +
-                  "    res.send({foo:[]});\n" +
-                  "  });\n" +
-                  "  app.use('/api/foo', fooRouter);\n" +
+      assertFile('server/mocks/foo.js', {
+        contains: "module.exports = function(app) {" + EOL +
+                  "  var express = require('express');" + EOL +
+                  "  var fooRouter = express.Router();" + EOL +
+                  "  fooRouter.get('/', function(req, res) {" + EOL +
+                  "    res.send({foo:[]});" + EOL +
+                  "  });" + EOL +
+                  "  app.use('/api/foo', fooRouter);" + EOL +
                   "};"
       });
       assertFile('server/.jshintrc', {
-        contains: '{\n  "node": true\n}'
+        contains: '{' + EOL + '  "node": true' + EOL + '}'
+      });
+    });
+  });
+
+  it('http-proxy foo', function() {
+    return generate(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
+      assertFile('server/index.js', {
+        contains: "var bodyParser = require('body-parser');" + EOL +
+                  "var globSync   = require('glob').sync;" + EOL +
+                  "var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  "var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  EOL +
+                  "module.exports = function(app) {" + EOL +
+                  "  app.use(bodyParser.json());" + EOL +
+                  "  app.use(bodyParser.urlencoded({" + EOL +
+                  "    extended: true" + EOL +
+                  "  }));" + EOL +
+                  EOL +
+                  "  mocks.forEach(function(route) { route(app)});" + EOL +
+                  EOL +
+                  "  // proxy expects a stream, but express will have turned" + EOL +
+                  "  // the request stream into an object because bodyParser" + EOL +
+                  "  // has run. We have to convert it back to stream:" + EOL +
+                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
+                  "  app.use(require('connect-restreamer')());" + EOL +
+                  "  proxies.forEach(function(route) { route(app)});" + EOL +
+                  "};"
+      });
+      assertFile('server/proxies/foo.js', {
+        contains: "var Proxy = require('http-proxy');" + EOL +
+                  EOL +
+                  "// For options, see:" + EOL +
+                  "// https://github.com/nodejitsu/node-http-proxy" + EOL +
+                  "var proxy = Proxy.createProxyServer({});" + EOL +
+                  EOL +
+                  "module.exports = function(app) {" + EOL +
+                  EOL +
+                  "  app.use('/foo', function(req, res, next){" + EOL +
+                  "    proxy.web(req, res, { target: 'http://localhost:5000' });" + EOL +
+                  "  })" + EOL +
+                  EOL +
+                  "};"
+      });
+      assertFile('server/.jshintrc', {
+        contains: '{' + EOL + '  "node": true' + EOL + '}'
       });
     });
   });
@@ -710,8 +786,8 @@ describe('Acceptance: ember generate', function() {
       .then(function() {
         return outputFile(
           'blueprints/foo/files/app/foos/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          'export default Ember.Object.extend({ foo: true });\n'
+          "import Ember from 'ember';" + EOL +
+          'export default Ember.Object.extend({ foo: true });' + EOL
         );
       })
       .then(function() {
@@ -729,8 +805,8 @@ describe('Acceptance: ember generate', function() {
       .then(function() {
         return outputFile(
           'blueprints/controller/files/app/controllers/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          "export default Ember.Controller.extend({ custom: true });\n"
+          "import Ember from 'ember';" + EOL + EOL +
+          "export default Ember.Controller.extend({ custom: true });" + EOL
         );
       })
       .then(function() {
@@ -752,13 +828,13 @@ describe('Acceptance: ember generate', function() {
         );
         return outputFile(
           'blueprints/customblue/index.js',
-          "module.exports = {\n" +
-          "  locals: function(options) {\n" +
-          "    var loc = {};\n" +
-          "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';\n" +
-          "    return loc;\n" +
-          "  },\n" +
-          "};\n"
+          "module.exports = {" + EOL +
+          "  locals: function(options) {" + EOL +
+          "    var loc = {};" + EOL +
+          "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';" + EOL +
+          "    return loc;" + EOL +
+          "  }," + EOL +
+          "};" + EOL
         );
       })
       .then(function() {
@@ -784,8 +860,8 @@ describe('Acceptance: ember generate', function() {
       .then(function() {
         return outputFile(
           'blueprints/controller/files/app/controllers/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          "export default Ember.Controller.extend({ custom: true });\n"
+          "import Ember from 'ember';" + EOL + EOL +
+          "export default Ember.Controller.extend({ custom: true });" + EOL
         );
       })
       .then(function() {
@@ -802,5 +878,13 @@ describe('Acceptance: ember generate', function() {
           contains: 'custom: true'
         });
       });
+  });
+
+  it('route foo --dry-run does not change router.js', function() {
+    return generate(['route', 'foo', '--dry-run']).then(function() {
+      assertFile('app/router.js', {
+        doesNotContain: "route('foo')"
+      });
+    });
   });
 });

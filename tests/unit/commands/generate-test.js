@@ -4,7 +4,6 @@ var GenerateCommand = require('../../../lib/commands/generate');
 var Promise         = require('../../../lib/ext/promise');
 var Task            = require('../../../lib/models/task');
 var assert          = require('../../helpers/assert');
-var chalk           = require('chalk');
 var commandOptions  = require('../../factories/command-options');
 
 describe('generate command', function() {
@@ -41,29 +40,16 @@ describe('generate command', function() {
       });
   });
 
-  it('complains if no entity name is given', function() {
-    return command.validateAndRun(['controller'])
-      .then(function() {
-        assert.ok(false, 'should not have called run');
-      })
-      .catch(function() {
-        assert.equal(command.ui.output, chalk.yellow(
-            'The `ember generate` command requires an ' +
-            'entity name to be specified. ' +
-            'For more details, use `ember help`.\n'));
-      });
-  });
-
   it('complains if no blueprint name is given', function() {
     return command.validateAndRun([])
       .then(function() {
         assert.ok(false, 'should not have called run');
       })
-      .catch(function() {
-        assert.equal(command.ui.output, chalk.yellow(
+      .catch(function(error) {
+        assert.equal(error.message,
             'The `ember generate` command requires a ' +
             'blueprint name to be specified. ' +
-            'For more details, use `ember help`.\n'));
+            'For more details, use `ember help`.\n');
       });
   });
 });

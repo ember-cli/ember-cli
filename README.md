@@ -1,5 +1,5 @@
 
-## ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.png?branch=master)](https://travis-ci.org/stefanpenner/ember-cli) [![Dependency Status](https://david-dm.org/stefanpenner/ember-cli.svg)](https://david-dm.org/stefanpenner/ember-cli)
+## ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.png?branch=master)](https://travis-ci.org/stefanpenner/ember-cli) [![Dependency Status](https://david-dm.org/stefanpenner/ember-cli.svg)](https://david-dm.org/stefanpenner/ember-cli) [![Build status](https://ci.appveyor.com/api/projects/status/aj8xls90un6h77lo)](https://ci.appveyor.com/project/stefanpenner/ember-cli) (windows)
 
 An ember command line utility.
 
@@ -53,15 +53,34 @@ Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/
 
 ### Working with the tests
 
-Use `npm run-script autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
+Use `npm run autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
 
 For a full test run which includes some very slow acceptance tests,
-please run: `npm run-script test-all`. Please note, this is what travis
+please run: `npm run test-all`. Please note, this is what travis
 runs.
 
 To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
 
 Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
+
+## Problems
+
+When running ember cli it could happen that a lack of file watches can occur. You will get an error message like:
+
+```sh
+Serving on http://0.0.0.0:4200
+watch ENOSPC
+Error: watch ENOSPC
+    at errnoException (fs.js:1019:11)
+    at FSWatcher.start (fs.js:1051:11)
+  ...
+```
+
+This problem will be corrected in future releases. The following line is a workaround to get the server up and running until this problem is fixed. See [Issue 1054](https://github.com/stefanpenner/ember-cli/issues/1054).
+
+```sh
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
 
 ## Contribution
 

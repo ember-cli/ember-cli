@@ -4,8 +4,6 @@ var path          = require('path');
 var assert        = require('../../helpers/assert');
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var rewire        = require('rewire');
-var stubPath      = require('../../helpers/stub').stubPath;
 var Promise       = require('../../../lib/ext/promise');
 var Project       = require('../../../lib/models/project');
 var Task          = require('../../../lib/models/task');
@@ -27,8 +25,7 @@ describe('init command', function() {
     };
 
     project = new Project(process.cwd(), { name: 'some-random-name'});
-    InitCommand = rewire('../../../lib/commands/init');
-    InitCommand.__set__('path', stubPath('test'));
+    InitCommand = require('../../../lib/commands/init');
   });
 
   it('doesn\'t allow to create an application named `test`', function() {
@@ -42,8 +39,8 @@ describe('init command', function() {
     return command.validateAndRun([]).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
-    .catch(function() {
-      assert.equal(ui.output, 'We currently do not support an application name of `test`.');
+    .catch(function(error) {
+      assert.equal(error.message, 'We currently do not support a name of `test`.\n');
     });
   });
 
@@ -147,6 +144,48 @@ describe('init command', function() {
     });
 
     return command.validateAndRun(['.'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+  it('Uses the "app" blueprint by default', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.blueprint, 'app');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['provided-name'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+  it('Uses the "addon" blueprint for addons', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.blueprint, 'addon');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { keywords: [ 'ember-addon' ], name: 'some-random-name'}),
+      tasks: tasks
+    });
+
+    return command.validateAndRun(['provided-name'])
       .catch(function(reason) {
         assert.equal(reason, 'Called run');
       });

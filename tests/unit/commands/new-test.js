@@ -23,8 +23,8 @@ describe('new command', function() {
     return command.validateAndRun(['test']).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
-    .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `test`.');
+    .catch(function(error) {
+      assert.equal(error.message, 'We currently do not support a name of `test`.');
     });
   });
 
@@ -32,8 +32,8 @@ describe('new command', function() {
     return command.validateAndRun(['ember']).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
-    .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `ember`.');
+    .catch(function(error) {
+      assert.equal(error.message, 'We currently do not support a name of `ember`.');
     });
   });
 
@@ -41,8 +41,8 @@ describe('new command', function() {
     return command.validateAndRun(['vendor']).then(function() {
       assert.ok(false, 'should have rejected with an application name of `vendor`');
     })
-    .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `vendor`.');
+    .catch(function(error) {
+      assert.equal(error.message, 'We currently do not support a name of `vendor`.');
     });
   });
 
@@ -50,8 +50,8 @@ describe('new command', function() {
     return command.validateAndRun(['zomg.awesome']).then(function() {
       assert.ok(false, 'should have rejected with period in the application name');
     })
-    .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `zomg.awesome`.');
+    .catch(function(error) {
+      assert.equal(error.message, 'We currently do not support a name of `zomg.awesome`.');
     });
   });
 
@@ -59,8 +59,8 @@ describe('new command', function() {
     return command.validateAndRun(['123-my-bagel']).then(function() {
       assert.ok(false, 'should have rejected with a name beginning with a number');
     })
-    .catch(function() {
-      assert.equal(command.ui.output, 'We currently do not support an application name of `123-my-bagel`.');
+    .catch(function(error) {
+      assert.equal(error.message, 'We currently do not support a name of `123-my-bagel`.');
     });
   });
 });

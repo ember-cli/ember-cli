@@ -23,6 +23,8 @@ describe('Acceptance: ember new', function() {
   });
 
   afterEach(function() {
+    this.timeout(10000);
+
     tmp.teardown('./tmp');
   });
 
@@ -131,6 +133,19 @@ describe('Acceptance: ember new', function() {
       '--skip-bower'
     ]).then(function() {
       assert(fs.existsSync('.git'));
+    });
+  });
+
+  it('ember new with --dry-run does not create new directory', function(){
+    return ember([
+      'new',
+      'foo',
+      '--dry-run'
+    ]).then(function(){
+      var cwd = process.cwd();
+      assert(!cwd.match('foo'), 'does not change cwd to foo in a dry run');
+      assert(!fs.existsSync(path.join(cwd, 'foo')), 'does not create new directory');
+      assert(!fs.existsSync(path.join(cwd, '.git')), 'does not create git in current directory');
     });
   });
 });
