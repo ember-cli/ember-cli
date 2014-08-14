@@ -11,6 +11,8 @@ describe('generate command', function() {
 
   beforeEach(function() {
     command = new DestroyCommand(commandOptions({
+      settings: {},
+
       project:   {
         name: function() {
           return 'some-random-name';

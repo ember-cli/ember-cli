@@ -33,7 +33,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: 'test'}),
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun([]).then(function() {
@@ -56,7 +57,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: project,
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun([])
@@ -77,7 +79,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: 'some-random-name'}),
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun(['provided-name'])
@@ -98,7 +101,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: path.basename(process.cwd()) }),
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun([])
@@ -119,7 +123,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: 'some-random-name'}),
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun(['--dry-run'])
@@ -140,7 +145,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: 'some-random-name'}),
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun(['.'])
@@ -161,7 +167,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { name: 'some-random-name'}),
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun(['provided-name'])
@@ -182,7 +189,8 @@ describe('init command', function() {
       ui: ui,
       analytics: analytics,
       project: new Project(process.cwd(), { keywords: [ 'ember-addon' ], name: 'some-random-name'}),
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     return command.validateAndRun(['provided-name'])

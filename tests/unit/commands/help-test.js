@@ -41,7 +41,8 @@ describe('help command', function() {
       ui: ui,
       analytics: analytics,
       commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }}
+      project: { isEmberCLIProject: function(){ return true; }},
+      settings: {}
     }).validateAndRun([]);
 
     expect(ui.output).to.include('ember test-command-1');
@@ -71,7 +72,8 @@ describe('help command', function() {
       ui: ui,
       analytics: analytics,
       commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }}
+      project: { isEmberCLIProject: function(){ return true; }},
+      settings: {}
     }).validateAndRun(['t1']);
 
     expect(ui.output).to.include('test-command-1');
@@ -93,7 +95,8 @@ describe('help command', function() {
         ui: ui,
         analytics: analytics,
         commands: commands,
-        project: projectWithAddons
+        project: projectWithAddons,
+        settings: {}
       }).validateAndRun([]);
 
       expect(ui.output).to.include('Available commands in ember-cli');
@@ -108,7 +111,8 @@ describe('help command', function() {
         ui: ui,
         analytics: analytics,
         commands: commands,
-        project: projectWithAddons
+        project: projectWithAddons,
+        settings: {}
       }).validateAndRun(['addon-command']);
 
       expect(ui.output).to.include('addon-command');
@@ -120,7 +124,8 @@ describe('help command', function() {
         ui: ui,
         analytics: analytics,
         commands: commands,
-        project: projectWithAddons
+        project: projectWithAddons,
+        settings: {}
       }).validateAndRun(['ac']);
 
       expect(ui.output).to.include('addon-command');
@@ -134,7 +139,8 @@ describe('help command', function() {
       ui: ui,
       analytics: analytics,
       commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }}
+      project: { isEmberCLIProject: function(){ return true; }},
+      settings: {}
     }).validateAndRun(['heyyy']);
 
     expect(ui.output).to.include('No help entry for');

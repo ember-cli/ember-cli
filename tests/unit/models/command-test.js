@@ -9,10 +9,14 @@ var Yam           = require('yam');
 
 var ServeCommand = Command.extend({
   name: 'serve',
-  aliases: ['s'],
-  works: 'everywhere',
+  aliases: ['server', 's'],
   availableOptions: [
-    { name: 'port', key: 'port', type: Number, default: 4200, required: true }
+    { name: 'port', type: Number, default: 4200 },
+    { name: 'host', type: String, default: '0.0.0.0' },
+    { name: 'proxy',  type: String },
+    { name: 'live-reload',  type: Boolean, default: true },
+    { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)'},
+    { name: 'environment', type: String, default: 'development' }
   ],
   run: function() {}
 });
@@ -49,8 +53,8 @@ describe('models/command.js', function() {
     analytics = new MockAnalytics();
     project = { isEmberCLIProject: function(){ return true; }};
     config = new Yam('ember-cli', {
-      homePath: process.cwd() + '/tests/fixtures/home',
-      path:     process.cwd() + '/tests/fixtures/project'
+      secondary: process.cwd() + '/tests/fixtures/home',
+      primary:   process.cwd() + '/tests/fixtures/project'
     });
   });
 
@@ -58,7 +62,8 @@ describe('models/command.js', function() {
     expect(new ServeCommand({
       ui: ui,
       analytics: analytics,
-      project: project
+      project: project,
+      settings: {}
     }).parseArgs(['--port', '80'])).to.have.deep.property('options.port', 80);
   });
 
@@ -74,26 +79,19 @@ describe('models/command.js', function() {
         environment: 'mock-development',
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
-        'live-reload': false,
+        liveReload: false,
         checkForUpdates: false
       },
       args: []
     });
   });
 
-  it('parseArgs() should find abbreviated command options.', function() {
-    expect(new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project
-    }).parseArgs(['-p', '80'])).to.have.deep.property('options.port', 80);
-  });
-
   it('parseArgs() should set default option values.', function() {
     expect(new ServeCommand({
       ui: ui,
       analytics: analytics,
-      project: project
+      project: project,
+      settings: {}
     }).parseArgs([])).to.have.deep.property('options.port', 4200);
   });
 
@@ -109,7 +107,7 @@ describe('models/command.js', function() {
         environment: 'mock-development',
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
-        'live-reload': false,
+        liveReload: false,
         port: 80,
         checkForUpdates: false
       }
@@ -120,7 +118,8 @@ describe('models/command.js', function() {
     new DevelopEmberCLICommand({
       ui: ui,
       analytics: analytics,
-      project: project
+      project: project,
+      settings: {}
     }).validateAndRun([]);
     expect(ui.output).to.match(/requires the option.*package-name/);
   });
@@ -129,7 +128,8 @@ describe('models/command.js', function() {
     new InsideProjectCommand({
       ui: ui,
       analytics: analytics,
-      project: { isEmberCLIProject: function(){ return false; }}
+      project: { isEmberCLIProject: function(){ return false; }},
+      settings: {}
     }).validateAndRun([]);
     expect(ui.output).to.match(/You have to be inside an ember-cli project/);
   });
@@ -138,7 +138,8 @@ describe('models/command.js', function() {
     new OutsideProjectCommand({
       ui: ui,
       analytics: analytics,
-      project: { isEmberCLIProject: function(){ return true; }}
+      project: { isEmberCLIProject: function(){ return true; }},
+      settings: {}
     }).validateAndRun([]);
     expect(ui.output).to.match(/You cannot use.*inside an ember-cli project/);
   });

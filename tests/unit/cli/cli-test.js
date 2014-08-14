@@ -22,6 +22,7 @@ function ember(args) {
     tasks:    {},
     commands: commands,
     cliArgs:  args || [],
+    settings: {},
     project: {
       isEmberCLIProject: function() {  // similate being inside or outside of a project
         return isWithinProject;
