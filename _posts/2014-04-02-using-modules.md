@@ -116,8 +116,11 @@ view            | `{% raw %}{{view "foo"}}{% endraw %}`              | Renders t
 render          | `{% raw %}{{render "foo"  <context>}}{% endraw %}` | Renders the view within `views/foo.js` using the controller within `controllers/foo.js` and the template `templates/foo.hbs`
 
 ### Resolving Handlebars helpers
-
-Ember automatically loads files under `app/helpers` if they contain a dash:
+Custom Handlebars helpers are one of the ways that you can use the same HTML multiple
+times in your web application. Registering your custom helper allows it to 
+be invoked from any of your Handlebars templates. Custom helpers are located 
+under `app/helpers`. If your custom helper contains a dash(`upper-case`, 
+`reverse-word`, etc.), it will be found and loaded automatically by the resolver.
 
 {% highlight javascript linenos %}
 // app/helpers/upper-case.js
@@ -128,42 +131,45 @@ export default Ember.Handlebars.makeBoundHelper(function(value, options) {
 });
 {% endhighlight %}
 
-Handlebars helpers will only be found automatically by the resolver if their
-name contains a dash (`reverse-word`, `translate-text`, etc.) This is the
-result of a choice that was made in Ember, to help both disambiguate properties
-from helpers, and to mitigate the performance hit of helper resolution for all
-bindings. The other option is to define only the function used by the helper
-and then load it explicitly, like so:
+In `some-template.hbs`:
 
-In `app/helpers/example.js`:
-
-{% highlight javascript linenos %}
-export default function(value, options) {
-  return value.toUpperCase();
-};
+{% highlight html %}
+{% raw %}
+{{upper-case "foo"}}
+{% endraw %}
 {% endhighlight %}
 
-In `app.js`:
+Limiting automatically-loaded helpers to those that contain dashes is an explicit
+decision made by Ember. It helps disambiguate properties from helpers, and helps 
+mitigate the performance hit of helper resolution for all bindings. The other 
+loading option is to define only the function used by the helper and to load it 
+explicitly:
 
 {% highlight javascript linenos %}
-import Ember from "ember";
-import exampleHelper from './helpers/example';
+// app/helpers/trim.js
+export default function(value, options) {
+  return value.trim();
+};
 
-Ember.Handlebars.registerBoundHelper('example', exampleHelper);
+// app.js
+import Ember from "ember";
+import trimHelper from './helpers/trim';
+
+Ember.Handlebars.registerBoundHelper('trim', trimHelper);
 {% endhighlight %}
 
 In `some-template.hbs`:
 
 {% highlight html %}
 {% raw %}
-{{example "foo"}}
+{{trim "     foo"}}
 {% endraw %}
 {% endhighlight %}
 
-In this example, because the helper is loaded explicitly, it's the first
+In this example the helper is loaded explicitly. It's the first
 argument to `registerBoundHelper` which makes the Handlebars renderer find it.
-The file name (`example.js`) and the name of the variable it's been imported
-into (`exampleHelper`) could have been anything.
+The file name (`trim.js`) and the name of the variable it's been imported
+into (`trimHelper`) could have been anything.
 
 A common pattern with helpers is to define a helper to use your views 
 (e.g. for a custom text field view, `MyTextField` a helper `my-text-field`
