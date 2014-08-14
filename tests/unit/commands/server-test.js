@@ -48,6 +48,19 @@ describe('server command', function() {
     assert.equal(ops.liveReloadPort, 35529,     'has correct liveReload port');
   });
 
+  it('has correct liveLoadPort', function() {
+    new ServeCommand(options).validateAndRun([
+      '--live-reload-port', '4001'
+    ]);
+
+    var serveRun = tasks.Serve.prototype.run;
+    var ops = serveRun.calledWith[0][0];
+
+    assert.equal(serveRun.called, 1, 'expected run to be called once');
+
+    assert.equal(ops.liveReloadPort, 4001,     'has correct liveReload port');
+  });
+  
   it('has correct proxy', function() {
     new ServeCommand(options).validateAndRun([
       '--proxy', 'http://localhost:3000/'
