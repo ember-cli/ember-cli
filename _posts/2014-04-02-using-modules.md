@@ -242,7 +242,7 @@ to add it to your `tests/.jshintrc` file, too.
 
 To prevent errors in import statements from reaching production, this project
 uses [grunt-es6-import-validate](https://github.com/sproutsocial/grunt-es6-import-validate).
-This task parses each module files export and import statements and verifies
+This task parses each module file's export and import statements and verifies
 that what is being imported is actually exported by the referenced module.
 
 If you are referencing a vendor module that is defined outside of the app folder
