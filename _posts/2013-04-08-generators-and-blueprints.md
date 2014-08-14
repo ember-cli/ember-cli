@@ -103,7 +103,7 @@ invokes `ember generate controller foo` then `__name__` becomes
 Variables can be inserted into templates with
 `<%= someVariableName %>`.
 
-For example, in the built-in `util` blueprint
+For example, the built-in `util` blueprint
 `files/app/utils/__name__.js` looks like this:
 
 {% highlight js %}
@@ -115,7 +115,7 @@ export default function <%= camelizedModuleName %>() {
 `<%= camelizedModuleName %>` is replaced with the real
 value at install time.
 
-The following template variables provided by default:
+The following template variables are provided by default:
 
 - `dasherizedPackageName`
 - `classifiedPackageName`
