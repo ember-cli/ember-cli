@@ -87,7 +87,7 @@ icAjaxRaw( /* ... */ );
 
 ##### Environment Specific Assets
 
-If you need to use different assets in different environments, specify an object as the first parameter. That objects keys should be the environment name, and the values should be the asset to use in that environment.
+If you need to use different assets in different environments, specify an object as the first parameter. That object's key should be the environment name, and the value should be the asset to use in that environment.
 
 {% highlight javascript linenos %}
 app.import({
