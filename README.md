@@ -45,6 +45,10 @@ npm link ember-cli
 ember server
 ```
 
+You may also need to run `ember init` immediately after doing npm link ember-cli.
+
+Finally if you are having problems with merge-tree, then check to make sure that you don't have both a vendor and bower-components directory.  
+
 `npm link ember-cli` is needed because by default the globally installed `ember-cli` just loads the local `ember-cli` from the project. `npm link ember-cli` symlinks the global `ember-cli` package to the local `ember-cli` package. Now the `ember-cli` you cloned before is in three places: The folder you cloned it into, npm's folder where it stores global packages and the `ember-cli` project you just created.
 
 If you upgrade an app running against Ember CLI master you will need to re-link to your checkout of Ember CLI by running `npm link ember-cli` in your project again.
