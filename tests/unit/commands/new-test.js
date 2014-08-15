@@ -9,6 +9,8 @@ describe('new command', function() {
 
   beforeEach(function() {
     options = commandOptions({
+      settings: {},
+
       project: {
         isEmberCLIProject: function() {
           return false;

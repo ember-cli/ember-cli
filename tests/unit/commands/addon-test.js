@@ -13,7 +13,8 @@ describe('addon command', function() {
         isEmberCLIProject: function() {
           return false;
         }
-      }
+      },
+      settings: {}
     });
 
     command = new AddonCommand(options);

@@ -11,7 +11,9 @@ describe('generate command', function() {
 
   beforeEach(function() {
     command = new GenerateCommand(commandOptions({
-      project:   {
+      settings: {},
+
+      project: {
         name: function() {
           return 'some-random-name';
         },

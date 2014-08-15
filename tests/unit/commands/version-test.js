@@ -11,7 +11,10 @@ describe('version command', function() {
   beforeEach(function() {
     ui = new MockUI();
     options = commandOptions({
+      settings: {},
+
       ui: ui,
+
       project: {
         isEmberCLIProject: function() {
           return false;

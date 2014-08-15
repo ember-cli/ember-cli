@@ -20,7 +20,8 @@ describe('server command', function() {
     };
 
     options = commandOptions({
-      tasks: tasks
+      tasks: tasks,
+      settings: {}
     });
 
     stub(tasks.Serve.prototype, 'run');
