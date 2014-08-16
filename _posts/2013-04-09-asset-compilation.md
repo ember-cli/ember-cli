@@ -156,8 +156,8 @@ html, js, and css files will be re-written to include the new name. There are
 a few options you can pass in to `EmberApp` in your `Brocfile.js` to customize
 this behavior.
 
-* `enabled` - Default: `app.env !== 'production'` - Boolean. Enables fingerprinting if true,
-otherwise, fingerprinting is disabled. **Noticed that by default it is
+* `enabled` - Default: `app.env === 'production'` - Boolean. Enables fingerprinting if true,
+otherwise, fingerprinting is disabled. **Notice that by default it is
 true only if current environment is production.**
 
 * `exclude` - Default: `[]` - An array of strings. If a filename contains any
