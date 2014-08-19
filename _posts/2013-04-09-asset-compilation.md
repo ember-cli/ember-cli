@@ -32,7 +32,7 @@ it's going to tell `Broccoli` that we want this file to be concatenated with our
 
 To use a CSS preprocessor, you'll need to install the appropriate
 [Broccoli](https://github.com/joliss/broccoli) plugin. When using a
-preprocessor, Broccoli is configured to look for an `app.less`, `app.scss`,
+preprocessor, Broccoli is configured to look for an `app.less`, `app.scss`, `app.sass`,
 or `app.styl` manifest file in `app/styles`. This manifest should import any
 additional stylesheets.
 
@@ -62,9 +62,9 @@ npm install --save-dev broccoli-less-single
 
 #### Sass
 
-To enable [Sass](http://sass-lang.com/) *(SCSS without Sass)*, you'll need to
+To enable [Sass](http://sass-lang.com/), you'll need to
 add [broccoli-sass](https://github.com/joliss/broccoli-sass) to your NPM
-modules.
+modules *(both .scss/.sass are allowed as of broccoli-sass > 0.2.0)*.
 
 {% highlight bash %}
 npm install --save-dev broccoli-sass
