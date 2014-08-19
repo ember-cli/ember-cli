@@ -480,6 +480,12 @@ describe('Acceptance: ember generate', function() {
           "export default DS.RESTAdapter.extend({" + EOL + "});"
         ]
       });
+      assertFile('tests/unit/adapters/foo-test.js', {
+        contains: [
+          "import { test, moduleFor } from 'ember-qunit';",
+          "moduleFor('adapter:foo', 'FooAdapter'"
+        ]
+      });
     });
   });
 
