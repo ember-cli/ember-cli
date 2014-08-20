@@ -184,6 +184,23 @@ describe('express-server', function() {
           });
       });
 
+      it('serves index.html for mime of */* when file not found with auto/history location', function(done) {
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/tests')
+              .set('accept', '*/*')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
+      });
+
       it('serves index.html when file not found (with baseURL) with auto/history location', function(done) {
         return startServer('/foo')
           .then(function() {
