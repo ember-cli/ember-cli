@@ -149,6 +149,14 @@ describe('models/project.js', function() {
       assert.deepEqual(project.blueprintLookupPaths(), expected);
     });
 
+    it('returns an empty list of blueprint paths if outside a project', function() {
+      project.isEmberCLIProject = function() {
+        return false;
+      };
+
+      assert.deepEqual(project.blueprintLookupPaths(), []);
+    });
+
     it('returns an instance of an addon with an object export', function() {
       var addons = project.addons;
 
