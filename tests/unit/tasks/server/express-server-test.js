@@ -218,7 +218,29 @@ describe('express-server', function() {
           });
       });
 
-      it('serves index.html for mime of */* when file not found with auto/history location', function(done) {
+      it('GET /tests serves tests/index.html for mime of */* (hash location)', function(done) {
+        project._config = {
+          baseURL: '/',
+          locationType: 'hash'
+        };
+
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/tests')
+              .set('accept', '*/*')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
+      });
+
+      it('GET /tests serves tests/index.html for mime of */* (auto location)', function(done) {
         return startServer()
           .then(function() {
             request(subject.app)
