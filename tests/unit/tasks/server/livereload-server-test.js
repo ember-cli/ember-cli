@@ -17,7 +17,12 @@ describe('livereload-server', function() {
 
     subject = new LiveReloadServer({
       ui: ui,
-      watcher: watcher
+      watcher: watcher,
+      analytics: {},
+      project: {
+        liveReloadFilterPatterns: [],
+        root: '/home/user/my-project'
+      }
     });
   });
 
@@ -51,6 +56,51 @@ describe('livereload-server', function() {
         .finally(function() {
           preexistingServer.close(done);
         });
+    });
+  });
+
+  describe('filter pattern', function() {
+    var changedCount;
+    var oldChanged;
+    var stubbedChanged = function() {
+      changedCount += 1;
+    };
+
+    var trackCount;
+    var oldTrack;
+    var stubbedTrack = function() {
+      trackCount += 1;
+    };
+
+    beforeEach(function() {
+      changedCount = 0;
+      oldChanged = subject.liveReloadServer.changed;
+      subject.liveReloadServer.changed = stubbedChanged;
+
+      trackCount = 0;
+      oldTrack = subject.analytics.track;
+      subject.analytics.track = stubbedTrack;
+    });
+
+    afterEach(function() {
+      subject.liveReloadServer.changed = oldChanged;
+      subject.analytics.track = oldTrack;
+      subject.project.liveReloadFilterPatterns = [];
+    });
+
+    it('triggers the liverreload server of a change when no pattern matches', function() {
+      subject.didChange({filePath: ''});
+      assert.equal(changedCount, 1);
+      assert.equal(trackCount, 1);
+    });
+
+    it('does not trigger livereoad server of a change when there is a pattern match', function() {
+      subject.project.liveReloadFilterPatterns = [/^test\/fixtures\/proxy/];
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+      });
+      assert.equal(changedCount, 0);
+      assert.equal(trackCount, 0);
     });
   });
 });
