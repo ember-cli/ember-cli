@@ -8,6 +8,7 @@ var glob              = require('glob');
 var path              = require('path');
 var walkSync          = require('walk-sync');
 var rimraf            = require('rimraf');
+var EOL               = require('os').EOL;
 var root              = process.cwd();
 var tmp               = require('tmp-sync');
 var tmproot           = path.join(root, 'tmp');
@@ -159,7 +160,7 @@ describe('Blueprint', function() {
       return blueprint.install(options)
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
 
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /create.* .ember-cli/);
@@ -175,7 +176,7 @@ describe('Blueprint', function() {
     it('re-installing identical files', function() {
       return blueprint.install(options)
         .then(function() {
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           ui.output = '';
 
           assert.match(output.shift(), /^installing/);
@@ -189,7 +190,7 @@ describe('Blueprint', function() {
         })
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
 
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /identical.* \.ember-cli/);
@@ -205,7 +206,7 @@ describe('Blueprint', function() {
     it('re-installing conflicting files', function() {
       return blueprint.install(options)
         .then(function() {
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           ui.output = '';
 
           assert.match(output.shift(), /^installing/);
@@ -218,18 +219,18 @@ describe('Blueprint', function() {
           var blueprintNew = new Blueprint(basicNewBlueprint);
 
           setTimeout(function(){
-            ui.inputStream.write('n\n');
+            ui.inputStream.write('n' + EOL);
           }, 25);
 
           setTimeout(function(){
-            ui.inputStream.write('y\n');
+            ui.inputStream.write('y' + EOL);
           }, 50);
 
           return blueprintNew.install(options);
         })
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /Overwrite.*foo.*\?/); // Prompt
           assert.match(output.shift(), /Overwrite.*foo.*No, skip/);
@@ -253,7 +254,7 @@ describe('Blueprint', function() {
       it('ignores files in ignoredUpdateFiles', function() {
         return blueprint.install(options)
           .then(function() {
-            var output = ui.output.trim().split('\n');
+            var output = ui.output.trim().split(EOL);
             ui.output = '';
 
             assert.match(output.shift(), /^installing/);
@@ -266,11 +267,11 @@ describe('Blueprint', function() {
             var blueprintNew = new Blueprint(basicNewBlueprint);
 
             setTimeout(function(){
-              ui.inputStream.write('n\n');
+              ui.inputStream.write('n' + EOL);
             }, 25);
 
             setTimeout(function(){
-              ui.inputStream.write('n\n');
+              ui.inputStream.write('n'+ EOL);
             }, 50);
 
             options.project.isEmberCLIProject = function() { return true; };
@@ -279,7 +280,7 @@ describe('Blueprint', function() {
           })
           .then(function() {
             var actualFiles = walkSync(tmpdir).sort();
-            var output = ui.output.trim().split('\n');
+            var output = ui.output.trim().split(EOL);
             assert.match(output.shift(), /^installing/);
             assert.match(output.shift(), /Overwrite.*test.*\?/); // Prompt
             assert.match(output.shift(), /Overwrite.*test.*No, skip/);

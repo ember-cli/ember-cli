@@ -41,7 +41,7 @@ describe('init command', function() {
       assert.ok(false, 'should have rejected with an application name of test');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'We currently do not support a name of `test`.\n');
+      assert.equal(error.message, 'We currently do not support a name of `test`.');
     });
   });
 

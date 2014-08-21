@@ -14,6 +14,7 @@ var rimraf     = require('rimraf');
 var root       = process.cwd();
 var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
+var EOL        = require('os').EOL;
 
 describe('Acceptance: ember destroy', function() {
   var tmpdir;
@@ -471,8 +472,8 @@ describe('Acceptance: ember destroy', function() {
       .then(function() {
         return outputFile(
           'blueprints/foo/files/app/foos/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          'export default Ember.Object.extend({ foo: true });\n'
+          "import Ember from 'ember';" + EOL + EOL +
+          'export default Ember.Object.extend({ foo: true });' + EOL
         );
       })
       .then(function() {
@@ -496,8 +497,8 @@ describe('Acceptance: ember destroy', function() {
       .then(function() {
         return outputFile(
           'blueprints/controller/files/app/controllers/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          "export default Ember.Controller.extend({ custom: true });\n"
+          "import Ember from 'ember';" + EOL + EOL +
+          "export default Ember.Controller.extend({ custom: true });" + EOL
         );
       })
       .then(function() {

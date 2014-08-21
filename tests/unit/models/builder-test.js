@@ -45,7 +45,7 @@ describe('models/builder.js', function() {
       trapSignals: function() { },
       cleanupOnExit: function() { }
     });
-    
+
     it('when outputPath is root directory ie., `--output-path=/`', function() {
       var outputPathArg = '--output-path=/';
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
@@ -53,10 +53,10 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported. \n');
+          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
-    
+
     it('when outputPath is project root ie., `--output-path=.`', function() {
       var outputPathArg = '--output-path=.';
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
@@ -64,7 +64,7 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported. \n');
+          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
   });

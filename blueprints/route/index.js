@@ -3,13 +3,14 @@ var SilentError = require('../../lib/errors/silent');
 var fs          = require('fs-extra');
 var inflection  = require('inflection');
 var path        = require('path');
+var EOL         = require('os').EOL;
 
 module.exports = Blueprint.extend({
   beforeInstall: function(options) {
     var type = options.type;
 
     if (type && !/^(resource|route)$/.test(type)) {
-      throw new SilentError('Unknown route type "' + type + '". Should be "route" or "resource".\n');
+      throw new SilentError('Unknown route type "' + type + '". Should be "route" or "resource".');
     }
   },
 
@@ -28,7 +29,7 @@ module.exports = Blueprint.extend({
     var type = options.type;
 
     if (type && !/^(resource|route)$/.test(type)) {
-      throw new SilentError('Unknown route type "' + type + '". Should be "route" or "resource".\n');
+      throw new SilentError('Unknown route type "' + type + '". Should be "route" or "resource".');
     }
   },
 
@@ -97,7 +98,7 @@ function addRouteToRouter(name, options) {
   case 'route':
     newContent = oldContent.replace(
       /(map\(function\(\) {[\s\S]+)}\)/,
-      "$1  this.route('" + name + "');\n})"
+      "$1  this.route('" + name + "');" + EOL + "})"
     );
     break;
   case 'resource':
@@ -106,12 +107,12 @@ function addRouteToRouter(name, options) {
     if (plural === name) {
       newContent = oldContent.replace(
         /(map\(function\(\) {[\s\S]+)}\)/,
-        "$1  this.resource('" + name + "');\n})"
+        "$1  this.resource('" + name + "');" + EOL + "})"
       );
     } else {
       newContent = oldContent.replace(
         /(map\(function\(\) {[\s\S]+)}\)/,
-        "$1  this.resource('" + name + "', { path: '" + plural + "/:" + name + "_id' });\n})"
+        "$1  this.resource('" + name + "', { path: '" + plural + "/:" + name + "_id' });" + EOL + "})"
       );
     }
     break;

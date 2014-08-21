@@ -13,7 +13,7 @@ module.exports = Blueprint.extend({
     var type = options.type;
 
     if (options.type && !TYPE_MAP[options.type]) {
-      throw new SilentError('Unknown controller type "' + type + '". Should be "basic", "object", or "array".\n');
+      throw new SilentError('Unknown controller type "' + type + '". Should be "basic", "object", or "array".');
     }
   },
 
@@ -23,7 +23,7 @@ module.exports = Blueprint.extend({
     if (options.type) {
       baseClass = TYPE_MAP[options.type];
     } else {
-      this.ui.write(chalk.yellow('Warning: no controller type was specified, defaulting to basic.\n'));
+      this.ui.writeLine(chalk.yellow('Warning: no controller type was specified, defaulting to basic.'));
       baseClass = TYPE_MAP.basic;
     }
 

@@ -1,5 +1,6 @@
 'use strict';
 
+var EOL      = require('os').EOL;
 var assert   = require('../../helpers/assert');
 var stub     = require('../../helpers/stub').stub;
 var MockUI   = require('../../helpers/mock-ui');
@@ -79,7 +80,7 @@ describe('Unit: CLI', function() {
 
     return ember().then(function() {
       assert.equal(help.called, 1, 'expected help to be called once');
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assertVersion(output[0]);
       assert.equal(output.length, 1, 'expected no extra output');
     });
@@ -92,7 +93,7 @@ describe('Unit: CLI', function() {
 
         return ember([command]).then(function() {
           assert.equal(help.called, 1, 'expected help to be called once');
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
           assert.equal(output.length, 1, 'expected no extra output');
         });
@@ -104,7 +105,7 @@ describe('Unit: CLI', function() {
 
         return ember(['new', command]).then(function() {
           assert.equal(help.called, 1, 'expected help to be called once');
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
           assert.equal(output.length, 1, 'expected no extra output');
 
@@ -119,7 +120,7 @@ describe('Unit: CLI', function() {
       var version = stubValidateAndRun('version');
 
       return ember([command]).then(function() {
-        var output = ui.output.trim().split('\n');
+        var output = ui.output.trim().split(EOL);
         assertVersion(output[0]);
         assert.equal(output.length, 1, 'expected no extra output');
         assert.equal(version.called, 1, 'expected version to be called once');
@@ -135,7 +136,7 @@ describe('Unit: CLI', function() {
         return ember([command]).then(function() {
           assert.equal(server.called, 1, 'expected the server command to be run');
 
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
           assert.deepEqual(output.length, 1, 'expected no extra of output');
         });
@@ -281,7 +282,7 @@ describe('Unit: CLI', function() {
 
           assert.deepEqual(args, ['foo', 'bar', 'baz']);
 
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
           assert.equal(output.length, 1, 'expected no extra of output');
         });
@@ -308,7 +309,7 @@ describe('Unit: CLI', function() {
           assert.equal(init.called, 1, 'expected the init command to be run');
           assert.deepEqual(args, ['my-blog'], 'expect first arg to be the app name');
 
-          var output = ui.output.trim().split('\n');
+          var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
           assert.equal(output.length, 1, 'expected no extra of output');
         });
@@ -423,7 +424,7 @@ describe('Unit: CLI', function() {
       assert.equal(help.called, 0, 'expected the help command NOT to be run');
       assert.equal(serve.called, 1,  'expected the serve command to be run');
 
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assertVersion(output[0]);
       assert.equal(output.length, 1, 'expected no extra output');
     });
@@ -442,7 +443,7 @@ describe('Unit: CLI', function() {
 
       assert.equal(serve.calledWith[0].length, 2, 'expect foo to receive a total of 4 args');
 
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assertVersion(output[0]);
       assert.equal(output.length, 1, 'expected no extra output');
     });
@@ -452,7 +453,7 @@ describe('Unit: CLI', function() {
     var help = stubValidateAndRun('help');
 
     return ember(['unknownCommand']).then(function() {
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assert(/The specified command .*unknownCommand.* is invalid/.test(output[1]), 'expected an invalid command message');
       assert.equal(help.called, 0, 'expected the help command to be run');
     });

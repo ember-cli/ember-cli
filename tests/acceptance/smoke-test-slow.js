@@ -11,6 +11,7 @@ var assert   = require('assert');
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var ncp      = Promise.denodeify(require('ncp'));
+var EOL      = require('os').EOL;
 
 var runCommand       = require('../helpers/run-command');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -21,7 +22,7 @@ function assertTmpEmpty() {
       return !path.match(/output\//);
     });
 
-  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join('\n'));
+  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
 }
 
 function buildApp(appName) {
@@ -150,7 +151,7 @@ describe('Acceptance: smoke-test', function() {
           return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production')
               .then(function(result) {
                 var exitCode = result.code;
-                var output = result.output.join('\n');
+                var output = result.output.join(EOL);
 
                 assert.equal(exitCode, 0, 'exit code should be 0 for passing tests');
 
@@ -159,7 +160,7 @@ describe('Acceptance: smoke-test', function() {
                 assert(output.match(/pass\s+1/), '1 passing');
               })
               .catch(function(result) {
-                assert(false, 'failed `ember test --environment=production`.  The following output was received:\n' + result.output.join('\n'));
+                assert(false, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL));
               });
         });
   });

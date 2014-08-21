@@ -8,6 +8,7 @@ var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var ncp        = Promise.denodeify(require('ncp'));
 var assert     = require('assert');
+var EOL        = require('os').EOL;
 
 var runCommand       = require('../helpers/run-command');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -112,7 +113,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       .then(function() {
         var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', 'file-to-import.txt'), { encoding: 'utf8' });
 
-        assert.equal(subjectFileContents, 'EXAMPLE TEXT FILE CONTENT\n');
+        assert.equal(subjectFileContents, 'EXAMPLE TEXT FILE CONTENT' + EOL);
       });
   });
 
@@ -153,7 +154,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
 
-        var horribleRoute = 'var blah = ""\nexport default Blah;';
+        var horribleRoute = 'var blah = ""' + EOL + 'export default Blah;';
         var horribleRoutePath = path.join('.', 'lib', 'ember-random-thing', 'app',
                                           'routes', 'horrible-route.js');
 
