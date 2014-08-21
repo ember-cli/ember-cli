@@ -13,6 +13,7 @@ var conf      = require('../helpers/conf');
 var minimatch = require('minimatch');
 var remove    = require('lodash-node/compat/arrays/remove');
 var any       = require('lodash-node/compat/collections/some');
+var EOL       = require('os').EOL;
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -51,8 +52,8 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
-                     '\n but got: ' +  util.inspect(actual));
+    assert.deepEqual(expected, actual, EOL + ' expected: ' +  util.inspect(expected) +
+                     EOL + ' but got: ' +  util.inspect(actual));
   }
 
   function removeIgnored(array) {

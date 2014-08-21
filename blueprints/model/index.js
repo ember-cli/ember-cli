@@ -1,6 +1,7 @@
 var Blueprint   = require('../../lib/models/blueprint');
 var inflection  = require('inflection');
 var stringUtils = require('../../lib/utilities/string');
+var EOL         = require('os').EOL;
 
 module.exports = Blueprint.extend({
   locals: function(options) {
@@ -27,7 +28,7 @@ module.exports = Blueprint.extend({
       }
     }
 
-    attrs = attrs.join(',\n  ');
+    attrs = attrs.join(',' + EOL + '  ');
     needs = '  needs: [' + needs.join(', ') + ']';
 
     return {

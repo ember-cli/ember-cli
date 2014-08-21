@@ -6,6 +6,8 @@ var MockUI = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var MockWatcher  = require('../../helpers/mock-watcher');
 var Watcher = require('../../../lib/models/watcher');
+var EOL = require('os').EOL;
+var chalk = require('chalk');
 
 describe('Watcher', function() {
   var ui;
@@ -68,7 +70,7 @@ describe('Watcher', function() {
     });
 
     it('logs that the build was successful', function() {
-      assert.equal(ui.output, '\u001b[32m\nBuild successful - 12344ms.\n\u001b[39m');
+      assert.equal(ui.output, EOL + chalk.green('Build successful - 12344ms.') + EOL);
     });
   });
 

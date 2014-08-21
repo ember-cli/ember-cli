@@ -10,6 +10,7 @@ var assert     = require('assert');
 var walkSync   = require('walk-sync');
 var addonName  = 'some-cool-addon';
 var ncp        = Promise.denodeify(require('ncp'));
+var EOL        = require('os').EOL;
 
 var runCommand       = require('../helpers/run-command');
 
@@ -19,7 +20,7 @@ function assertTmpEmpty() {
       return !path.match(/output\//);
     });
 
-  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join('\n'));
+  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
 }
 
 function buildAddon(addonName) {

@@ -11,6 +11,7 @@ var tmp       = require('../helpers/tmp');
 var root      = process.cwd();
 var util      = require('util');
 var conf      = require('../helpers/conf');
+var EOL       = require('os').EOL;
 
 describe('Acceptance: ember new', function() {
   before(conf.setup);
@@ -42,8 +43,8 @@ describe('Acceptance: ember new', function() {
       expected.sort();
 
       assert.equal(folder, 'foo');
-      assert.deepEqual(expected, actual, '\n expected: ' +  util.inspect(expected) +
-                       '\n but got: ' +  util.inspect(actual));
+      assert.deepEqual(expected, actual, EOL + ' expected: ' +  util.inspect(expected) +
+                       EOL + ' but got: ' +  util.inspect(actual));
 
     };
   }

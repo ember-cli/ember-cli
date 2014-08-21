@@ -5,6 +5,7 @@ var MockUI    = require('../../helpers/mock-ui');
 var FileInfo  = require('../../../lib/models/file-info');
 var path      = require('path');
 var fs        = require('fs');
+var EOL       = require('os').EOL;
 var Promise   = require('../../../lib/ext/promise');
 var writeFile = Promise.denodeify(fs.writeFile);
 var rimraf     = require('rimraf');
@@ -69,10 +70,10 @@ describe('Unit - FileInfo', function(){
     validOptions.templateVariables.friend = 'Billy';
     var fileInfo = new FileInfo(validOptions);
 
-    return writeFile(testOutputPath, 'Something Old\n').then(function(){
+    return writeFile(testOutputPath, 'Something Old' + EOL).then(function(){
       return fileInfo.displayDiff();
     }).then(function(){
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assert.equal(output.shift(), 'Index: ' + testOutputPath);
       assert.match(output.shift(), /=+/);
       assert.match(output.shift(), /---/);
@@ -87,11 +88,11 @@ describe('Unit - FileInfo', function(){
     var fileInfo = new FileInfo(validOptions);
 
     setTimeout(function(){
-      ui.inputStream.write('Y\n');
+      ui.inputStream.write('Y' + EOL);
     }, 10);
 
     return fileInfo.confirmOverwrite().then(function(action){
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assert.match(output.shift(), /Overwrite.*\?/);
       assert.equal(action, 'overwrite');
     });
@@ -101,11 +102,11 @@ describe('Unit - FileInfo', function(){
     var fileInfo = new FileInfo(validOptions);
 
     setTimeout(function(){
-      ui.inputStream.write('n\n');
+      ui.inputStream.write('n' + EOL);
     }, 10);
 
     return fileInfo.confirmOverwrite().then(function(action){
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assert.match(output.shift(), /Overwrite.*\?/);
       assert.equal(action, 'skip');
     });
@@ -115,11 +116,11 @@ describe('Unit - FileInfo', function(){
     var fileInfo = new FileInfo(validOptions);
 
     setTimeout(function(){
-      ui.inputStream.write('d\n');
+      ui.inputStream.write('d' + EOL);
     }, 10);
 
     return fileInfo.confirmOverwrite().then(function(action){
-      var output = ui.output.trim().split('\n');
+      var output = ui.output.trim().split(EOL);
       assert.match(output.shift(), /Overwrite.*\?/);
       assert.equal(action, 'diff');
     });

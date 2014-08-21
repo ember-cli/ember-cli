@@ -51,7 +51,7 @@ describe('generate command', function() {
         assert.equal(error.message,
             'The `ember generate` command requires a ' +
             'blueprint name to be specified. ' +
-            'For more details, use `ember help`.\n');
+            'For more details, use `ember help`.');
       });
   });
 });

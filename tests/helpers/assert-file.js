@@ -5,6 +5,7 @@ var contains = require('lodash-node/compat/collections/contains');
 var flatten  = require('lodash-node/compat/arrays/flatten');
 var fs       = require('fs-extra');
 var path     = require('path');
+var EOL      = require('os').EOL;
 
 /*
   Asserts that a given file exists.
@@ -56,10 +57,10 @@ module.exports = function assertFile(file, options) {
         pass = contains(actual, expected);
       }
 
-      assert(pass, '\n\nexpected ' + file + ':\n\n' +
+      assert(pass, EOL + EOL + 'expected ' + file + ':' + EOL + EOL +
                    actual +
-                   '\nto contain:\n\n' +
-                   expected + '\n');
+                   EOL + 'to contain:' + EOL + EOL +
+                   expected + EOL);
     });
   }
 
@@ -73,10 +74,10 @@ module.exports = function assertFile(file, options) {
         pass = !contains(actual, unexpected);
       }
 
-      assert(pass, '\n\nexpected ' + file + ':\n\n' +
-                   actual +
-                   '\nnot to contain:\n\n' +
-                   unexpected + '\n');
+      assert(pass, EOL + EOL + 'expected ' + file + ':' + EOL + EOL +
+                   actual + EOL +
+                   'not to contain:' + EOL + EOL +
+                   unexpected + EOL);
     });
   }
 };

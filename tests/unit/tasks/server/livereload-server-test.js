@@ -4,6 +4,7 @@ var assert           = require('../../../helpers/assert');
 var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
 var MockUI           = require('../../../helpers/mock-ui');
 var net              = require('net');
+var EOL              = require('os').EOL;
 
 var MockWatcher  = require('../../../helpers/mock-watcher');
 describe('livereload-server', function() {
@@ -38,7 +39,7 @@ describe('livereload-server', function() {
         liveReloadPort: 1337,
         liveReload: true
       }).then(function() {
-        assert.equal(ui.output, 'Livereload server on port 1337\n');
+        assert.equal(ui.output, 'Livereload server on port 1337' + EOL);
       });
     });
 
@@ -51,7 +52,7 @@ describe('livereload-server', function() {
           liveReload: true
         })
         .catch(function(reason) {
-          assert.equal(reason, 'Livereload failed on port 1337.  It is either in use or you do not have permission.\n');
+          assert.equal(reason, 'Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
         })
         .finally(function() {
           preexistingServer.close(done);
