@@ -18,6 +18,12 @@ function buildApp(appName) {
     onOutput: function() {
       return; // no output for initial application build
     }
+  })
+  .catch(function(result) {
+    console.log(result.output.join('\n'));
+    console.log(result.errors.join('\n'));
+
+    throw result;
   });
 }
 
