@@ -1,11 +1,13 @@
 'use strict';
 
-var fs      = require('fs-extra');
-var Builder = require('../../../lib/models/builder');
-var touch   = require('../../helpers/file-utils').touch;
-var assert  = require('assert');
-var Promise = require('../../../lib/ext/promise');
-var stub    = require('../../helpers/stub').stub;
+var fs              = require('fs-extra');
+var Builder         = require('../../../lib/models/builder');
+var BuildCommand    = require('../../../lib/commands/build');
+var commandOptions  = require('../../factories/command-options');
+var touch           = require('../../helpers/file-utils').touch;
+var assert          = require('assert');
+var Promise         = require('../../../lib/ext/promise');
+var stub            = require('../../helpers/stub').stub;
 
 describe('models/builder.js', function() {
   var builder, outputPath;
@@ -32,6 +34,39 @@ describe('models/builder.js', function() {
         assert(!fs.existsSync(firstFile));
         assert(!fs.existsSync(secondFile));
       });
+  });
+
+  describe('Prevent deletion of files for improper outputPath', function() {
+    var command = new BuildCommand(commandOptions({
+      settings: {}
+    }));
+    var builder = new Builder({
+      setupBroccoliBuilder: function() { },
+      trapSignals: function() { },
+      cleanupOnExit: function() { }
+    });
+    
+    it('when outputPath is root directory ie., `--output-path=/`', function() {
+      var outputPathArg = '--output-path=/';
+      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      builder.outputPath = outputPath;
+
+      return builder.clearOutputPath()
+        .catch(function(error) {
+          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported. \n');
+        });
+    });
+    
+    it('when outputPath is project root ie., `--output-path=.`', function() {
+      var outputPathArg = '--output-path=.';
+      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      builder.outputPath = outputPath;
+
+      return builder.clearOutputPath()
+        .catch(function(error) {
+          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported. \n');
+        });
+    });
   });
 
   describe('addons', function() {
