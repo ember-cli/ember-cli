@@ -67,6 +67,17 @@ describe('models/builder.js', function() {
           assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
+    
+    it('when outputPath is a parent directory ie., `--output-path=../../`', function() {
+      var outputPathArg = '--output-path=../../';
+      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      builder.outputPath = outputPath;
+
+      return builder.clearOutputPath()
+        .catch(function(error) {
+          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
+        });
+    });
   });
 
   describe('addons', function() {
