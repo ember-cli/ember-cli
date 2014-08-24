@@ -336,6 +336,16 @@ describe('Blueprint', function() {
             assert.deepEqual(actualFiles, basicBlueprintFiles);
           });
     });
+
+    it('calls normalizeEntityName before locals hook is called', function(done) {
+      blueprint.normalizeEntityName = function(){ return 'foo'; };
+      blueprint.locals = function(options) {
+        assert.equal(options.entity.name, 'foo');
+        done();
+      };
+      options.entity = { name: 'bar' };
+      blueprint.install(options);
+    });
   });
 
   describe('addPackageToProject', function() {
