@@ -34,6 +34,7 @@
 * [ENHANCEMENT] Upgrade `broccoli-ember-hbs-template-compiler` to `1.6.1`.
 * [ENHANCEMENT] Allow file patterns to be ignored by LiveReload [#1706](https://github.com/stefanpenner/ember-cli/pull/1706)
 * [BUGFIX] Switch to OS-friendly line endings [#1718](https://github.com/stefanpenner/ember-cli/pull/1718)
+* [BUGFIX] Prevent file deletions when the build `--output-path` is a parent directory [#1730](https://github.com/stefanpenner/ember-cli/pull/1730)
 
 ### 0.0.40
 
