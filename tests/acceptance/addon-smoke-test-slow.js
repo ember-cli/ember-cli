@@ -28,10 +28,16 @@ function buildAddon(addonName) {
     onOutput: function() {
       return; // no output for initial application build
     }
+  })
+  .catch(function(result) {
+    console.log(result.output.join('\n'));
+    console.log(result.errors.join('\n'));
+
+    throw result;
   });
 }
 
-describe('Acceptance: smoke-test', function() {
+describe('Acceptance: addon-smoke-test', function() {
   before(function() {
     this.timeout(360000);
 
