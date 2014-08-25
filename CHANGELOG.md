@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+### 0.0.41
+
 * [ENHANCEMENT] Allow calling `this._super.someMethodName()` in subclasses of CoreObject. [#1721](https://github.com/stefanpenner/ember-cli/pull/1721)
 * [ENHANCEMENT] `.jshintrc`: disable esnext Promise global (prevents issues when RSVP Promise was intended but
   (non-universally-implemented) global Promise was used instead. [#1723](https://github.com/stefanpenner/ember-cli/pull/1723)
