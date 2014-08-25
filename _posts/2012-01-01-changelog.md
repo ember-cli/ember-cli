@@ -5,6 +5,66 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.0.41
+
+* [ENHANCEMENT] Allow calling `this._super.someMethodName()` in subclasses of CoreObject. [#1721](https://github.com/stefanpenner/ember-cli/pull/1721)
+* [ENHANCEMENT] `.jshintrc`: disable esnext Promise global (prevents issues when RSVP Promise was intended but
+  (non-universally-implemented) global Promise was used instead. [#1723](https://github.com/stefanpenner/ember-cli/pull/1723)
+* [BUGFIX] Prevent deletion of files when invalid output-path is provided. [#1649](https://github.com/stefanpenner/ember-cli/pull/1649)
+* [BUGFIX] Fix the /tests URL in IE8. [#1707](https://github.com/stefanpenner/ember-cli/pull/1707)
+* [ENHANCEMENT] Remove `.bowerrc` file from application blueprint (will still use directory specified in `.bowerrc`, but uses the default
+  of `bower_components/` if no `.bowerrc` exists). [#1679](https://github.com/stefanpenner/ember-cli/pull/1679)
+* [BUGFIX] Fixes support for `.ember-cli` settings file. [#1676](https://github.com/stefanpenner/ember-cli/pull/1676)
+* [BUGFIX] Blueprint: replace multiple occurences of `__name__` with module name. [#1658](https://github.com/stefanpenner/ember-cli/pull/1658)
+* [ENHANCEMENT] Replace internal live-reload middleware with addon. [#1643](https://github.com/stefanpenner/ember-cli/pull/1643)
+* [ENHANCEMENT] Add .travis.yml to app blueprint. [#1636](https://github.com/stefanpenner/ember-cli/pull/1636)
+* [ENHANCEMENT] Allow individual Blueprints to determine if an entity name is required. [#1631](https://github.com/stefanpenner/ember-cli/pull/1631)
+* [ENHANCEMENT] Move `qunit` support into an addon. [#1295](https://github.com/stefanpenner/ember-cli/pull/1295)
+* [BUGFIX] Running `ember new foo-bar --dry-run` does not create new directory. [#1602](https://github.com/stefanpenner/ember-cli/pull/1602)
+* [ENHANCEMENT] Allow addons to return an `addon` tree that will be namespaced with the addons name. [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
+* [BUGFIX] Ensure non `assets/` files can be served from `public/` or when added via `app.import` (using the `destDir`). [#1549](https://github.com/stefanpenner/ember-cli/pull/1549)
+* [ENHANCEMENT] Update `ember-resolver` version (allows for components and their templates to be grouped together). [#1540](https://github.com/stefanpenner/ember-cli/pull/1540)
+* [ENHANCEMENT] Update `testem` version. [#1539](https://github.com/stefanpenner/ember-cli/pull/1539)
+* [ENHANCEMENT] Remove `originate` from application blueprint.
+* [ENHANCEMENT] Add EditorConfig file to blueprints. [#1507](https://github.com/stefanpenner/ember-cli/pull/1507)
+* [ENHANCEMENT] Add `Blueprint#beforeInstall". [#1498](https://github.com/stefanpenner/ember-cli/pull/1498)
+* [ENHANCEMENT] Add `--type` option (and check) to `controller` and `route` generators. [#1498](https://github.com/stefanpenner/ember-cli/pull/1498)
+* [BUGFIX] Call `normalizeEntityName` hook before `locals` hook [#1717](https://github.com/stefanpenner/ember-cli/pull/1717)
+* [ENHANCEMENT] replace multiple instances of __name__ in blueprints.
+* [ENHANCEMENT] adds http-proxy for explicit, multi proxy use[#1474](https://github.com/stefanpenner/ember-cli/pull/1530)
+* [BREAKING ENHANCEMENT] renames apiStub to http-mock to match other http-related generators [#1474] (https://github.com/stefanpenner/ember-cli/pull/1530)
+* [ENHANCEMENT] Log proxy server traffic when using `ember serve --proxy` [#1583](https://github.com/stefanpenner/ember-cli/pull/1583)
+* [ENHANCEMENT] Remove chain from express server [#1474](https://github.com/stefanpenner/ember-cli/pull/1474)
+* [ENHANCEMENT] Remove Blueprint lookup failure stacktrace [#1476](https://github.com/stefanpenner/ember-cli/pull/1476)
+* [ENHANCEMENT] --verbose errors option to have SilentError output stacktrace [#1480](https://github.com/stefanpenner/ember-cli/pull/1480)
+* [BUGFIX] Modify service blueprint to create explicit injection [#1493](https://github.com/stefanpenner/ember-cli/pull/1493)
+* [ENHANCEMENT] Generating a helper now also generates a test [#1503](https://github.com/stefanpenner/ember-cli/pull/1503)
+* [BUGFIX] Do not run JSHint against trees returned from an addon.
+* [BREAKING ENHANCEMENT] Addons can pull in test assets into test tree [#1453](https://github.com/stefanpenner/ember-cli/pull/1453)
+* [BREAKING ENHANCEMENT] Addon model's \_root renamed to root [#1537](https://github.com/stefanpenner/ember-cli/pull/1537)
+* [ENHANCEMENT] Addons can recursively add other addons [#1509](https://github.com/stefanpenner/ember-cli/pull/1509)
+* [ENHANCEMENT] Upgrade `loader.js` to `1.0.1`. [#1543](https://github.com/stefanpenner/ember-cli/pull/1543)
+* [BUGFIX] Allow `public/` to contain files in the root of the project. [#1549](https://github.com/stefanpenner/ember-cli/pull/1549)
+* [ENHANCEMENT] Add `robots.txt` and `crossdomain.xml` files in the root of the project. [#1550](https://github.com/stefanpenner/ember-cli/pull/1550)
+* [BUGFIX] Generating mixins and utils with several levels of nesting no longer produces a failing test. [#1551](https://github.com/stefanpenner/ember-cli/pull/1551)
+* [BREAKING ENHANCEMENT] bower assets moved to bower_components instead of vendor [#1436](https://github.com/stefanpenner/ember-cli/pull/1436)
+* [ENHANCEMENT] Move history support into a separate internal addon. [#1552](https://github.com/stefanpenner/ember-cli/pull/1552)
+* [ENHANCEMENT] don't assume value of bowerrc.directory [#1553](https://github.com/stefanpenner/ember-cli/pull/1553)
+* [ENHANCEMENT] es6 namespaced addons [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
+* [ENHANCEMENT] Removed use of `memoize` from EmberApp. Allows multiple EmberApps to be instantiated [#1361](https://github.com/stefanpenner/ember-cli/issues/1361)
+* [ENHANCEMENT] Add `ember destroy` command (removes files added by `generate` command). [#1547](https://github.com/stefanpenner/ember-cli/pull/1547)
+* [BUGFIX] Ensure router.js is not modified when ember g route foo --dry-run [#1570](https://github.com/stefanpenner/ember-cli/pull/1570)
+* [ENHANCEMENT] Add possibility to hide #ember-testing-container while testing [#1579](https://github.com/stefanpenner/ember-cli/pull/1579)
+* [BUGFIX] Fix EmberAddon vendor tree [#1606](https://github.com/stefanpenner/ember-cli/pull/1606)
+* [ENHANCEMENT] Addon blueprint [#1374](https://github.com/stefanpenner/ember-cli/pull/1374)
+* [BUGFIX] Fix addons with empty directories [#]()
+* [BUGFIX] Fix tests/helpers/start-app.js location from addon generator [#1626](https://github.com/stefanpenner/ember-cli/pull/1626)
+* [BUGFIX] Allow addons to use history support middleware [#1632](https://github.com/stefanpenner/ember-cli/pull/1632)
+* [ENHANCEMENT] Upgrade `broccoli-ember-hbs-template-compiler` to `1.6.1`.
+* [ENHANCEMENT] Allow file patterns to be ignored by LiveReload [#1706](https://github.com/stefanpenner/ember-cli/pull/1706)
+* [BUGFIX] Switch to OS-friendly line endings [#1718](https://github.com/stefanpenner/ember-cli/pull/1718)
+* [BUGFIX] Prevent file deletions when the build `--output-path` is a parent directory [#1730](https://github.com/stefanpenner/ember-cli/pull/1730)
+
 ### 0.0.40
 
 * [BUGFIX] fix detection of static files to allow periods in urls [#1399](https://github.com/stefanpenner/ember-cli/pull/1399)
