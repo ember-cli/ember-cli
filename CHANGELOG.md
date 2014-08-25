@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] Allow calling `this._super.someMethodName()` in subclasses of CoreObject. [#1721](https://github.com/stefanpenner/ember-cli/pull/1721)
+* [ENHANCEMENT] `.jshintrc`: disable esnext Promise global (prevents issues when RSVP Promise was intended but
+  (non-universally-implemented) global Promise was used instead. [#1723](https://github.com/stefanpenner/ember-cli/pull/1723)
+* [BUGFIX] Prevent deletion of files when invalid output-path is provided. [#1649](https://github.com/stefanpenner/ember-cli/pull/1649)
+* [BUGFIX] Fix the /tests URL in IE8. [#1707](https://github.com/stefanpenner/ember-cli/pull/1707)
+* [ENHANCEMENT] Remove `.bowerrc` file from application blueprint (will still use directory specified in `.bowerrc`, but uses the default
+  of `bower_components/` if no `.bowerrc` exists). [#1679](https://github.com/stefanpenner/ember-cli/pull/1679)
+* [BUGFIX] Fixes support for `.ember-cli` settings file. [#1676](https://github.com/stefanpenner/ember-cli/pull/1676)
+* [BUGFIX] Blueprint: replace multiple occurences of `__name__` with module name. [#1658](https://github.com/stefanpenner/ember-cli/pull/1658)
+* [ENHANCEMENT] Replace internal live-reload middleware with addon. [#1643](https://github.com/stefanpenner/ember-cli/pull/1643)
+* [ENHANCEMENT] Add .travis.yml to app blueprint. [#1636](https://github.com/stefanpenner/ember-cli/pull/1636)
+* [ENHANCEMENT] Allow individual Blueprints to determine if an entity name is required. [#1631](https://github.com/stefanpenner/ember-cli/pull/1631)
+* [ENHANCEMENT] Move `qunit` support into an addon. [#1295](https://github.com/stefanpenner/ember-cli/pull/1295)
 * [BUGFIX] Running `ember new foo-bar --dry-run` does not create new directory. [#1602](https://github.com/stefanpenner/ember-cli/pull/1602)
 * [ENHANCEMENT] Allow addons to return an `addon` tree that will be namespaced with the addons name. [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
 * [BUGFIX] Ensure non `assets/` files can be served from `public/` or when added via `app.import` (using the `destDir`). [#1549](https://github.com/stefanpenner/ember-cli/pull/1549)
