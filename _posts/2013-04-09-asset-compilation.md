@@ -26,7 +26,7 @@ bower install --save-dev bootstrap
 
 In `Brocfile.js` add the following:
 {% highlight bash %}
-app.import('vendor/bootstrap/dist/css/bootstrap.css');
+app.import('bower_components/bootstrap/dist/css/bootstrap.css');
 {% endhighlight %}
 it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
 

@@ -118,19 +118,20 @@ changed dependencies.
 
 ### Folder Layout
 
- File/folder    | Purpose
- :------------- | :-------
- `app/`         | Contains your Ember application's code. Javascript files in this folder are *compiled* through the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
- `dist/`        | Contains the *distributable* (that is, optimized and self-contained) output of your application. Deploy this to your server!
- `public/`      | This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
- `tests/`       | Includes unit and integration tests for your app, as well as various helpers to load and run your tests.
- `tmp/`         | Various temporary output of build steps, as well as the debug output of your application (`tmp/public`).
- `vendor/`      | Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
- `.jshintrc`    | [JSHint](http://jshint.com/) configuration.
- `.gitignore`   | Git configuration for ignored files.
- `Brocfile.js`  | Contains build specification for [Broccoli](https://github.com/joliss/broccoli).
- `bower.json`   | Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
- `package.json` | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
+ File/folder         | Purpose
+ :-------------      | :-------
+ `app/`              | Contains your Ember application's code. Javascript files in this folder are *compiled* through the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
+ `dist/`             | Contains the *distributable* (that is, optimized and self-contained) output of your application. Deploy this to your server!
+ `public/`           | This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
+ `tests/`            | Includes unit and integration tests for your app, as well as various helpers to load and run your tests.
+ `tmp/`              | Various temporary output of build steps, as well as the debug output of your application (`tmp/public`).
+ `bower_components/` | Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
+ `vendor/`           | Your external dependencies not installed with `Bower` or `Npm`.
+ `.jshintrc`         | [JSHint](http://jshint.com/) configuration.
+ `.gitignore`        | Git configuration for ignored files.
+ `Brocfile.js`       | Contains build specification for [Broccoli](https://github.com/joliss/broccoli).
+ `bower.json`        | Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
+ `package.json`      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
 
 ### Layout within `app` folder
 
