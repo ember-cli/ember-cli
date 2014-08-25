@@ -1,5 +1,14 @@
 # ember-cli Changelog
 
+* [BUGFIX] Running `ember new foo-bar --dry-run` does not create new directory. [#1602](https://github.com/stefanpenner/ember-cli/pull/1602)
+* [ENHANCEMENT] Allow addons to return an `addon` tree that will be namespaced with the addons name. [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
+* [BUGFIX] Ensure non `assets/` files can be served from `public/` or when added via `app.import` (using the `destDir`). [#1549](https://github.com/stefanpenner/ember-cli/pull/1549)
+* [ENHANCEMENT] Update `ember-resolver` version (allows for components and their templates to be grouped together). [#1540](https://github.com/stefanpenner/ember-cli/pull/1540)
+* [ENHANCEMENT] Update `testem` version. [#1539](https://github.com/stefanpenner/ember-cli/pull/1539)
+* [ENHANCEMENT] Remove `originate` from application blueprint.
+* [ENHANCEMENT] Add EditorConfig file to blueprints. [#1507](https://github.com/stefanpenner/ember-cli/pull/1507)
+* [ENHANCEMENT] Add `Blueprint#beforeInstall". [#1498](https://github.com/stefanpenner/ember-cli/pull/1498)
+* [ENHANCEMENT] Add `--type` option (and check) to `controller` and `route` generators. [#1498](https://github.com/stefanpenner/ember-cli/pull/1498)
 * [BUGFIX] Call `normalizeEntityName` hook before `locals` hook [#1717](https://github.com/stefanpenner/ember-cli/pull/1717)
 * [ENHANCEMENT] replace multiple instances of __name__ in blueprints.
 * [ENHANCEMENT] adds http-proxy for explicit, multi proxy use[#1474](https://github.com/stefanpenner/ember-cli/pull/1530)
@@ -23,7 +32,7 @@
 * [ENHANCEMENT] don't assume value of bowerrc.directory [#1553](https://github.com/stefanpenner/ember-cli/pull/1553)
 * [ENHANCEMENT] es6 namespaced addons [#1544](https://github.com/stefanpenner/ember-cli/pull/1544)
 * [ENHANCEMENT] Removed use of `memoize` from EmberApp. Allows multiple EmberApps to be instantiated [#1361](https://github.com/stefanpenner/ember-cli/issues/1361)
-* [ENHANCEMENT] Add `ember destroy` command [#1547](https://github.com/stefanpenner/ember-cli/pull/1547)
+* [ENHANCEMENT] Add `ember destroy` command (removes files added by `generate` command). [#1547](https://github.com/stefanpenner/ember-cli/pull/1547)
 * [BUGFIX] Ensure router.js is not modified when ember g route foo --dry-run [#1570](https://github.com/stefanpenner/ember-cli/pull/1570)
 * [ENHANCEMENT] Add possibility to hide #ember-testing-container while testing [#1579](https://github.com/stefanpenner/ember-cli/pull/1579)
 * [BUGFIX] Fix EmberAddon vendor tree [#1606](https://github.com/stefanpenner/ember-cli/pull/1606)
