@@ -88,7 +88,7 @@
     "bower-config": "0.5.2",
     "broccoli": "0.12.3",
     "broccoli-clean-css": "0.2.0",
-    "broccoli-concat": "0.0.8",
+    "broccoli-concat": "0.0.10",
     "broccoli-es3-safe-recast": "0.0.8",
     "broccoli-es6-concatenator": "0.1.7",
     "broccoli-file-mover": "0.3.5",
