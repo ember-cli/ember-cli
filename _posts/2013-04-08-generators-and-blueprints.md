@@ -133,37 +133,54 @@ described below.
 
 ### Index.js
 
-`index.js` contains a subclass of `Blueprint`. Use this
-to customize installation behaviour.
+Custom installation and uninstallation behaviour can be added
+by overriding the hooks documented below. `index.js` should
+export a plain object, which will extend the prototype of the
+`Blueprint` class. If needed, the original `Blueprint` prototype
+can be accessed through the `_super` property.
 
 {% highlight js %}
-var Blueprint = require('ember-cli/lib/models/blueprint');
-
-module.exports = Blueprint.extend({
+module.exports = {
   locals: function(options) {
     // Return custom template variables here.
     return {};
   },
 
-  afterInstall: function(options) {
-    // Perform extra work here.
-  }
-});
+  normalizeEntityName: function(entityName) {
+    // Normalize and validate entity name here.
+    return entityName;
+  },
+
+  beforeInstall: function(options) {},
+  afterInstall: function(options) {},
+  beforeUninstall: function(options) {},
+  afterUninstall: function(options) {}
+};
 {% endhighlight %}
 
-As shown above, there are two hooks available:
-`locals` and `afterInstall`.
 
-### Locals
+### Blueprint Hooks
+
+As shown above, the following hooks are available to
+blueprint authors:
+
+- `locals`
+- `normalizeEntityName`
+- `beforeInstall`
+- `afterInstall`
+- `beforeUninstall`
+- `afterUninstall`
+
+#### locals
 
 Use `locals` to add custom tempate variables. The method
 receives one argument: `options`. Options is an object
-containing general and entity-specific install options.
+containing general and entity-specific options.
 
 When the following is called on the command line:
 
 {% highlight bash %}
-ember generate controller foo type:array --dry-run
+ember generate controller foo --type=array --dry-run
 {% endhighlight %}
 
 The object passed to `locals` looks like this:
@@ -183,10 +200,27 @@ The object passed to `locals` looks like this:
 This hook must return an object. It will be merged with the
 aforementioned default locals.
 
-### afterInstall
+#### normalizeEntityName
 
-The `afterInstall` hook receives the same options as `locals`.
-Use it to perform any custom work after the files are
-installed. For example, the built-in `route` blueprint uses
-the `afterInstall` hook to add relevant route declarations
-to `app/router.js`.
+Use the `normalizeEntityName` hook to add custom normalization and
+validation of the provided entity name. The default hook does not
+make any changes to the entity name, but makes sure an entity name
+is present and that it doesn't have a trailing slash.
+
+This hook receives the entity name as its first argument. The string
+returned by this hook will be used as the new entity name.
+
+#### beforeInstall & beforeUninstall
+
+Called before any of the template files are processed and receives
+the same arguments as `locals`. Typically used for validating any
+additional command line options. As an example, the `controller`
+blueprint validates its `--type` option in this hook.
+
+#### afterInstall & afterUninstall
+
+The `afterInstall` and `afterUninstall` hooks receives the same
+arguments as `locals`. Use it to perform any custom work after the
+files are processed. For example, the built-in `route` blueprint
+uses these hooks to add and remove relevant route declarations in
+`app/router.js`.
