@@ -151,5 +151,14 @@ describe('models/addon.js', function() {
         });
       });
     });
+
+    it('must define a `name` property', function() {
+      var Foo = Addon.extend({ root: 'foo' });
+
+      assert.throws(function() {
+        new Foo(project);
+      },
+      /An addon must define a `name` property./ );
+    });
   });
 });
