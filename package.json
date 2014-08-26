@@ -79,7 +79,8 @@
     "semver",
     "through",
     "tiny-lr",
-    "walk-sync"
+    "walk-sync",
+    "core-object"
   ],
   "dependencies": {
     "abbrev": "^1.0.5",
@@ -104,6 +105,7 @@
     "concat-stream": "^1.4.6",
     "configstore": "0.3.1",
     "connect-livereload": "0.4.0",
+    "core-object": "0.0.1",
     "diff": "^1.0.8",
     "express": "^4.8.5",
     "findup": "0.1.5",
