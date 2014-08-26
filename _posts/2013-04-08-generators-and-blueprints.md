@@ -133,33 +133,33 @@ described below.
 
 ### Index.js
 
-`index.js` contains a subclass of `Blueprint`. Add custom
-installation and uninstallation behaviour by overriding
-the hooks documented below.
+Custom installation and uninstallation behaviour can be added
+by overriding the hooks documented below. `index.js` should
+export a plain object, which will extend the prototype of the
+`Blueprint` class. If needed, the original `Blueprint` prototype
+can be accessed through the `_super` property.
 
 {% highlight js %}
-var Blueprint = require('ember-cli/lib/models/blueprint');
-
-module.exports = Blueprint.extend({
+module.exports = {
   locals: function(options) {
-    // Return custom template variables.
+    // Return custom template variables here.
     return {};
   },
-  
-  normalizeEntityName: function(entityName) {
-  	// Normalize and validate entity name.
-  	return entityName;
-  }
+
+  normalizeEntityName: function(entityName) {
+    // Normalize and validate entity name here.
+    return entityName;
+  },
 
   beforeInstall: function(options) {},
-  
   afterInstall: function(options) {},
-  
   beforeUninstall: function(options) {},
-  
-  afterUninstall: function(options) {}  
-});
+  afterUninstall: function(options) {}
+};
 {% endhighlight %}
+
+
+### Blueprint Hooks
 
 As shown above, the following hooks are available to
 blueprint authors:
@@ -171,7 +171,7 @@ blueprint authors:
 - `beforeUninstall`
 - `afterUninstall`
 
-### Locals
+#### locals
 
 Use `locals` to add custom tempate variables. The method
 receives one argument: `options`. Options is an object
@@ -200,7 +200,7 @@ The object passed to `locals` looks like this:
 This hook must return an object. It will be merged with the
 aforementioned default locals.
 
-### normalizeEntityName
+#### normalizeEntityName
 
 Use the `normalizeEntityName` hook to add custom normalization and
 validation of the provided entity name. The default hook does not
@@ -210,14 +210,14 @@ is present and that it doesn't have a trailing slash.
 This hook receives the entity name as its first argument. The string
 returned by this hook will be used as the new entity name.
 
-### beforeInstall & beforeUninstall
+#### beforeInstall & beforeUninstall
 
 Called before any of the template files are processed and receives
 the same arguments as `locals`. Typically used for validating any
 additional command line options. As an example, the `controller`
 blueprint validates its `--type` option in this hook.
 
-### afterInstall & afterUninstall
+#### afterInstall & afterUninstall
 
 The `afterInstall` and `afterUninstall` hooks receives the same
 arguments as `locals`. Use it to perform any custom work after the
