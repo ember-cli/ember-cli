@@ -160,5 +160,53 @@ describe('models/addon.js', function() {
       },
       /An addon must define a `name` property./ );
     });
+
+    describe('isDevelopingAddon', function() {
+      var originalEnvValue;
+
+      beforeEach(function() {
+        originalEnvValue = process.env.EMBER_ADDON_ENV;
+      });
+
+      afterEach(function() {
+        process.env.EMBER_ADDON_ENV = originalEnvValue;
+      });
+
+      it('returns true when `EMBER_ADDON_ENV` is set to development', function() {
+        process.env.EMBER_ADDON_ENV = 'development';
+
+        assert(addon.isDevelopingAddon());
+      });
+
+      it('returns false when `EMBER_ADDON_ENV` is not set', function() {
+        delete process.env.EMBER_ADDON_ENV;
+
+        assert(!addon.isDevelopingAddon());
+      });
+
+      it('returns false when `EMBER_ADDON_ENV` is something other than `development`', function() {
+        process.env.EMBER_ADDON_ENV = 'production';
+
+        assert(!addon.isDevelopingAddon());
+      });
+    });
+
+    describe('treeGenerator', function() {
+      it('watch tree when developing the addon itself', function() {
+        addon.isDevelopingAddon = function() { return true; };
+
+        var tree = addon.treeGenerator('foo/bar');
+
+        assert.equal(tree, 'foo/bar');
+      });
+
+      it('uses unwatchedTree when not developing the addon itself', function() {
+        addon.isDevelopingAddon = function() { return false; };
+
+        var tree = addon.treeGenerator('foo/bar');
+
+        assert.equal(tree.read(), 'foo/bar');
+      });
+    });
   });
 });
