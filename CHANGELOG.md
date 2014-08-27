@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+### 0.0.42
+
 * [ENHANCEMENT] Throw an error if an Addon does not specify a name. [#1741](https://github.com/stefanpenner/ember-cli/pull/1741)
 * [ENHANCEMENT] Extract `CoreObject` into a standalone package (`core-object`). [#1752](https://github.com/stefanpenner/ember-cli/pull/1752)
 * [ENHANCEMENT] Set a default `baseURL` in `test` to allow `testem` to function properly with a custom `baseURL` specified. [#1748](https://github.com/stefanpenner/ember-cli/pull/1748)
