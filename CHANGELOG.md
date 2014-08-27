@@ -10,8 +10,8 @@
 * [ENHANCEMENT] Update and clarify the default project README. [#1768](https://github.com/stefanpenner/ember-cli/pull/1768)
 * [BUGFIX] Ensure that `app.import`'ed assets can be properly watched (and trigger a reload upon change). [#1774](https://github.com/stefanpenner/ember-cli/pull/1774)
 * [BUGFIX] Ensure that `postBuild` hook is called on addons during `ember build`. [#1775](https://github.com/stefanpenner/ember-cli/pull/1775)
-* [ENHANCEMENT] Enabled automatic reloads on `config/environment.js` changes. [#1777](https://github.com/stefanpenner/ember-cli/pull/1777)
-* [ENHANCEMENT] Export the current configuration to a module (`my-app-name/config/environment'). [#1777](https://github.com/stefanpenner/ember-cli/pull/1777)
+* [BREAKING ENHANCEMENT] Enabled automatic reloads on `config/environment.js` changes. [#1777](https://github.com/stefanpenner/ember-cli/pull/1777)
+* [BREAKING ENHANCEMENT] Export the current configuration to a module (`my-app-name/config/environment'). [#1777](https://github.com/stefanpenner/ember-cli/pull/1777)
 
 ### 0.0.41
 
