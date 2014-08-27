@@ -8,6 +8,7 @@ var touch           = require('../../helpers/file-utils').touch;
 var assert          = require('assert');
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
+var MockProject     = require('../../helpers/mock-project');
 
 describe('models/builder.js', function() {
   var builder, outputPath;
@@ -26,7 +27,8 @@ describe('models/builder.js', function() {
       trapSignals:          function() { },
       cleanupOnExit:        function() { },
 
-      outputPath: outputPath
+      outputPath: outputPath,
+      project: new MockProject()
     });
 
     return builder.clearOutputPath()
@@ -43,7 +45,8 @@ describe('models/builder.js', function() {
     var builder = new Builder({
       setupBroccoliBuilder: function() { },
       trapSignals: function() { },
-      cleanupOnExit: function() { }
+      cleanupOnExit: function() { },
+      project: new MockProject()
     });
 
     it('when outputPath is root directory ie., `--output-path=/`', function() {
@@ -67,7 +70,7 @@ describe('models/builder.js', function() {
           assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
-    
+
     it('when outputPath is a parent directory ie., `--output-path=../../`', function() {
       var outputPathArg = '--output-path=../../';
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
