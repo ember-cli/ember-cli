@@ -25,7 +25,7 @@
     "ember-cli-ember-data": "0.1.0",
     "ember-cli-ic-ajax": "0.1.1",
     "ember-cli-inject-live-reload": "^1.0.2",
-    "ember-cli-qunit": "0.0.5",
+    "ember-cli-qunit": "0.0.7",
     "express": "^4.8.5",
     "glob": "^4.0.5"
   }
