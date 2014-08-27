@@ -75,7 +75,7 @@ And, adding to `resolutions`:
     }
 
 
-Wipe your vender directory clean then run `bower install`.
+Wipe your vendor directory clean then run `bower install`.
 
 
 ### Removing default ember-cli libraries
