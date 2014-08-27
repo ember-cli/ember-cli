@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+* [ENHANCEMENT] Throw an error if an Addon does not specify a name. [#1741](https://github.com/stefanpenner/ember-cli/pull/1741)
+* [ENHANCEMENT] Extract `CoreObject` into a standalone package (`core-object`). [#1752](https://github.com/stefanpenner/ember-cli/pull/1752)
+* [ENHANCEMENT] Set a default `baseURL` in `test` to allow `testem` to function properly with a custom `baseURL` specified. [#1748](https://github.com/stefanpenner/ember-cli/pull/1748)
+* [BUGFIX] Update `broccoli-concat` to solve a performance issue with the recent addon changes (allows better caching when no changes are detected). [#1757](https://github.com/stefanpenner/ember-cli/pull/1757) and [#1766](https://github.com/stefanpenner/ember-cli/pull/1766)
+* [BUGFIX] Bring `.bowerrc` file back for `app` blueprint. Helps alleviate upgrade issues, and ensures a parent directories `.bowerrc` cannot break an ember-cli app. [#1761](https://github.com/stefanpenner/ember-cli/pull/1761)
+* [ENHANCEMENT] Update and clarify the default project README. [#1768](https://github.com/stefanpenner/ember-cli/pull/1768)
+* [BUGFIX] Ensure that `app.import`'ed assets can be properly watched (and trigger a reload upon change). [#1774](https://github.com/stefanpenner/ember-cli/pull/1774)
+* [BUGFIX] Ensure that `postBuild` hook is called on addons during `ember build`. [#1775](https://github.com/stefanpenner/ember-cli/pull/1775)
+* [ENHANCEMENT] Enabled automatic reloads on `config/environment.js` changes. [#1777](https://github.com/stefanpenner/ember-cli/pull/1777)
+* [ENHANCEMENT] Export the current configuration to a module (`my-app-name/config/environment'). [#1777](https://github.com/stefanpenner/ember-cli/pull/1777)
+
 ### 0.0.41
 
 * [ENHANCEMENT] Allow calling `this._super.someMethodName()` in subclasses of CoreObject. [#1721](https://github.com/stefanpenner/ember-cli/pull/1721)
