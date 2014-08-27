@@ -13,13 +13,11 @@
     <link rel="stylesheet" href="assets/<%= name %>.css">
   </head>
   <body>
-    <script>
-      window.<%= namespace %>ENV = {{ENV}};
-      window.EmberENV = window.<%= namespace %>ENV.EmberENV;
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/<%= name %>.js"></script>
     <script>
+      window.<%= namespace %>ENV = require('<%= modulePrefix %>/config/environment')['default'];
+      window.EmberENV = window.<%= namespace %>ENV.EmberENV;
       window.<%= namespace %> = require('<%= modulePrefix %>/app')['default'].create(<%= namespace %>ENV.APP);
     </script>
   </body>
