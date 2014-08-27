@@ -33,15 +33,14 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
 
-    <script>
-      window.<%= namespace %>ENV = {{ENV}};
-      window.EmberENV = window.<%= namespace %>ENV.EmberENV;
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/test-support.js"></script>
     <script src="assets/<%= name %>.js"></script>
     <script src="testem.js"></script>
     <script>
+      window.<%= namespace %>ENV = require('<%= modulePrefix %>/config/environment')['default'];
+      window.EmberENV = window.<%= namespace %>ENV.EmberENV;
+
       require('<%= modulePrefix %>/tests/test-helper');
     </script>
     <script src="assets/test-loader.js"></script>
