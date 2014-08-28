@@ -4,3 +4,4 @@ tmp*
 _posts
 _site
 common-tmp
+*.tgz
