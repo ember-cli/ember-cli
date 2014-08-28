@@ -136,7 +136,7 @@
     "tiny-lr": "0.1.0",
     "tmp-sync": "^1.0.1",
     "walk-sync": "0.1.2",
-    "yam": "0.0.14"
+    "yam": "0.0.15"
   },
   "devDependencies": {
     "chai": "^1.9.1",
