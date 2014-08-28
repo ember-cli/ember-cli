@@ -97,6 +97,14 @@ app.import({
 });
 {% endhighlight %}
 
+If you need to import an asset in one environment but not import it or any alternatives in other environments then you can wrap `app.import` in an `if` statement.
+
+{% highlight javascript linenos %}
+if (app.env === 'development') {
+  app.import('vendor/ember-renderspeed/ember-renderspeed.js');
+}
+{% endhighlight %}
+
 ##### Customizing a built-in Asset
 
 This is somewhat non-standard, but suppose that you have different versions of Ember specified (using the canary builds for example).  You would simply manipulate the vendor tree that is passed in to the `EmberApp` constructor:
