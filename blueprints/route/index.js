@@ -107,7 +107,7 @@ function addRouteToRouter(name, options) {
     if (plural === name) {
       newContent = oldContent.replace(
         /(map\(function\(\) {[\s\S]+)}\)/,
-        "$1  this.resource('" + name + "');" + EOL + "})"
+        "$1  this.resource('" + name + "', function() { });" + EOL + "})"
       );
     } else {
       newContent = oldContent.replace(

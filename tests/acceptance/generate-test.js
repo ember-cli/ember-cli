@@ -258,7 +258,7 @@ describe('Acceptance: ember generate', function() {
   it('route foos --type=resource', function() {
     return generate(['route', 'foos', '--type=resource']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foos');"
+        contains: "this.resource('foos', function() { });"
       });
     });
   });
@@ -386,7 +386,7 @@ describe('Acceptance: ember generate', function() {
   it('resource foos', function() {
     return generate(['resource', 'foos']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foos');"
+        contains: "this.resource('foos', function() { });"
       });
       assertFile('app/models/foo.js', {
         contains: 'export default DS.Model.extend'
