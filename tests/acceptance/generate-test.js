@@ -237,7 +237,9 @@ describe('Acceptance: ember generate', function() {
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/templates/foo.hbs');
+      assertFile('app/templates/foo.hbs', {
+        contains: '{{outlet}}'
+      });
       assertFile('tests/unit/routes/foo-test.js', {
         contains: [
           "import { test, moduleFor } from 'ember-qunit';",
@@ -373,7 +375,9 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/routes/foo.js', {
         contains: "export default Ember.Route.extend({" + EOL + "});"
       });
-      assertFile('app/templates/foo.hbs');
+      assertFile('app/templates/foo.hbs', {
+        contains: '{{outlet}}'
+      });
       assertFile('tests/unit/models/foo-test.js', {
         contains: "moduleForModel('foo', 'Foo'"
       });
@@ -394,7 +398,9 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/routes/foos.js', {
         contains: 'export default Ember.Route.extend({' + EOL + '});'
       });
-      assertFile('app/templates/foos.hbs');
+      assertFile('app/templates/foos.hbs', {
+        contains: '{{outlet}}'
+      });
       assertFile('tests/unit/models/foo-test.js', {
         contains: "moduleForModel('foo', 'Foo'"
       });
