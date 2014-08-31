@@ -1,6 +1,7 @@
 'use strict';
 
 var Blueprint         = require('../../../lib/models/blueprint');
+var Task              = require('../../../lib/models/task');
 var MockProject       = require('../../helpers/mock-project');
 var MockUI            = require('../../helpers/mock-ui');
 var assert            = require('assert');
@@ -399,6 +400,81 @@ describe('Blueprint', function() {
       var output = ui.output.trim();
 
       assert(!output.match(/install package.*foo-bar/));
+    });
+  });
+
+  describe('addBowerPackageToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var BowerInstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new BowerInstallTask();
+      };
+    });
+
+    afterEach(function() {
+      rimraf.sync(tmproot);
+    });
+
+    it('looks up the `bower-install` task', function() {
+      BowerInstallTask = Task.extend({
+        run: function() {}
+      });
+      blueprint.addBowerPackageToProject('foo-bar');
+
+      assert.equal(taskNameLookedUp, 'bower-install');
+    });
+
+    it('calls the task with the package name', function() {
+      var packages;
+
+      BowerInstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.addBowerPackageToProject('foo-bar');
+
+      assert.deepEqual(packages, ['foo-bar']);
+    });
+
+    it('uses the provided target (version, range, sha, etc)', function() {
+      var packages;
+
+      BowerInstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.addBowerPackageToProject('foo-bar', '~1.0.0');
+
+      assert.deepEqual(packages, ['foo-bar#~1.0.0']);
+    });
+
+    it('uses uses verbose mode with the task', function() {
+      var verbose;
+
+      BowerInstallTask = Task.extend({
+        run: function(options) {
+          verbose = options.verbose;
+        }
+      });
+
+      blueprint.addBowerPackageToProject('foo-bar', '~1.0.0');
+
+      assert(verbose);
     });
   });
 });
