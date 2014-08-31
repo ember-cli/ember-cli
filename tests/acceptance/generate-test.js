@@ -506,6 +506,54 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('adapter extends from --base-class=bar', function() {
+    return generate(['adapter', 'foo', '--base-class=bar']).then(function() {
+      assertFile('app/adapters/foo.js', {
+        contains: [
+          "import BarAdapter from './bar';",
+          "export default BarAdapter.extend({" + EOL + "});"
+        ]
+      });
+    });
+  });
+
+  it('adapter extends from --base-class=foo/bar', function() {
+    return generate(['adapter', 'foo/baz', '--base-class=foo/bar']).then(function() {
+      assertFile('app/adapters/foo/baz.js', {
+        contains: [
+          "import FooBarAdapter from './foo/bar';",
+          "export default FooBarAdapter.extend({" + EOL + "});"
+        ]
+      });
+    });
+  });
+
+  it('adapter extends from application adapter if present', function() {
+    return generate(['adapter', 'application']).then(function() {
+      return generate(['adapter', 'foo']).then(function() {
+        assertFile('app/adapters/foo.js', {
+          contains: [
+            "import ApplicationAdapter from './application';",
+            "export default ApplicationAdapter.extend({" + EOL + "});"
+          ]
+        });
+      });
+    });
+  });
+
+  it('adapter favors  --base-class over  application', function() {
+    return generate(['adapter', 'application']).then(function() {
+      return generate(['adapter', 'foo', '--base-class=bar']).then(function() {
+        assertFile('app/adapters/foo.js', {
+          contains: [
+            "import BarAdapter from './bar';",
+            "export default BarAdapter.extend({" + EOL + "});"
+          ]
+        });
+      });
+    });
+  });
+
   it('serializer foo', function() {
     return generate(['serializer', 'foo']).then(function() {
       assertFile('app/serializers/foo.js', {
