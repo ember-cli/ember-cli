@@ -29,7 +29,6 @@ describe('Plugin Loader', function() {
 
   it('returns an array of matching plugins', function() {
     var plugins = registry.load('css');
-    console.log(plugins);
     assert.equal(plugins.length, 2);
   });
 
