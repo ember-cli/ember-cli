@@ -1,5 +1,6 @@
 var fs         = require('fs');
 var path       = require('path');
+var stringUtil = require('../../lib/utilities/string');
 var Blueprint  = require('../../lib/models/blueprint');
 
 module.exports = Blueprint.extend({
@@ -7,11 +8,18 @@ module.exports = Blueprint.extend({
     var baseClass       = 'DS.RESTAdapter';
     var importStatement = 'import DS from \'ember-data\';';
 
-    var applicationAdapterPath = path.resolve(options.target, 'app/adapters/application.js');
+    if (options.baseClass) {
+      baseClass = stringUtil.classify(options.baseClass.replace('\/', '-'));
+      baseClass = baseClass + 'Adapter';
 
-    if (fs.existsSync(applicationAdapterPath)) {
-      importStatement =  'import ApplicationAdapter from \'./application\';',
-      baseClass = 'ApplicationAdapter';
+      importStatement = 'import ' + baseClass + ' from \'./' + options.baseClass + '\';'
+    } else {
+      var applicationAdapterPath = path.resolve(options.target, 'app/adapters/application.js');
+
+      if (fs.existsSync(applicationAdapterPath)) {
+        importStatement =  'import ApplicationAdapter from \'./application\';',
+        baseClass = 'ApplicationAdapter';
+      }
     }
 
     return {
