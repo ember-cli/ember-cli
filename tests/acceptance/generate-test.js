@@ -737,9 +737,49 @@ describe('Acceptance: ember generate', function() {
                   "  var express = require('express');" + EOL +
                   "  var fooRouter = express.Router();" + EOL +
                   "  fooRouter.get('/', function(req, res) {" + EOL +
-                  "    res.send({foo:[]});" + EOL +
+                  "    res.send({\"foo\":[]});" + EOL +
                   "  });" + EOL +
                   "  app.use('/api/foo', fooRouter);" + EOL +
+                  "};"
+      });
+      assertFile('server/.jshintrc', {
+        contains: '{' + EOL + '  "node": true' + EOL + '}'
+      });
+    });
+  });
+
+  it('http-mock foo-bar', function() {
+    return generate(['http-mock', 'foo-bar']).then(function() {
+      assertFile('server/index.js', {
+        contains: "var bodyParser = require('body-parser');" + EOL +
+                  "var globSync   = require('glob').sync;" + EOL +
+                  "var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  "var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
+                  "" + EOL +
+                  "module.exports = function(app) {" + EOL +
+                  "  app.use(bodyParser.json());" + EOL +
+                  "  app.use(bodyParser.urlencoded({" + EOL +
+                  "    extended: true" + EOL +
+                  "  }));" + EOL +
+                  "" + EOL +
+                  "  mocks.forEach(function(route) { route(app)});" + EOL +
+                  "" + EOL +
+                  "  // proxy expects a stream, but express will have turned" + EOL +
+                  "  // the request stream into an object because bodyParser" + EOL +
+                  "  // has run. We have to convert it back to stream:" + EOL +
+                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
+                  "  app.use(require('connect-restreamer')());" + EOL +
+                  "  proxies.forEach(function(route) { route(app)});" + EOL +
+                  "};"
+      });
+      assertFile('server/mocks/foo-bar.js', {
+        contains: "module.exports = function(app) {" + EOL +
+                  "  var express = require('express');" + EOL +
+                  "  var fooBarRouter = express.Router();" + EOL +
+                  "  fooBarRouter.get('/', function(req, res) {" + EOL +
+                  "    res.send({\"foo-bar\":[]});" + EOL +
+                  "  });" + EOL +
+                  "  app.use('/api/foo-bar', fooBarRouter);" + EOL +
                   "};"
       });
       assertFile('server/.jshintrc', {
