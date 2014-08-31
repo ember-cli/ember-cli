@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+<%= importStatement %>
 
-export default DS.RESTAdapter.extend({
+export default <%= baseClass %>.extend({
 });

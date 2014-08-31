@@ -506,6 +506,19 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('adapter extends from application adapter if present', function() {
+    return generate(['adapter', 'application']).then(function() {
+      return generate(['adapter', 'foo']).then(function() {
+        assertFile('app/adapters/foo.js', {
+          contains: [
+            "import ApplicationAdapter from './application';",
+            "export default ApplicationAdapter.extend({" + EOL + "});"
+          ]
+        });
+      });
+    });
+  });
+
   it('serializer foo', function() {
     return generate(['serializer', 'foo']).then(function() {
       assertFile('app/serializers/foo.js', {
