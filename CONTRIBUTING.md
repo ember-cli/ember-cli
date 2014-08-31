@@ -66,7 +66,7 @@ We love pull requests. Here's a quick guide:
 1. Fork the repo.
 
 2. Run the tests. We only take pull requests with passing tests, and it's great
-to know that you have a clean slate: `npm test`.
+to know that you have a clean slate: `npm install && npm test`.
 
 3. Add a test for your change. Only refactoring and documentation changes
 require no new tests. If you are adding functionality or fixing a bug, we need
@@ -122,7 +122,7 @@ All inline documentation is written using YUIDoc. Follow these rules when updati
 
 #### Website ####
 
-The codebase for the website [ember-cli.com](http://ember-cli.com) is located at: https://github.com/stefanpenner/ember-cli/tree/gh-pages 
+The codebase for the website [ember-cli.com](http://ember-cli.com) is located at: https://github.com/stefanpenner/ember-cli/tree/gh-pages
 
 
 #### Code Words ####
