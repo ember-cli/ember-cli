@@ -5,6 +5,9 @@ permalink: tutorials
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-05-01-tutorials.md"
 ---
 
+### Getting Started
+- [Rails + Ember.js (with the Ember CLI)](https://www.devmynd.com/blog/2014-7-rails-ember-js-with-the-ember-cli-redux)
+
 ### Testing
 - [Creating an Integration Test with Ember.js (Video)](https://www.youtube.com/watch?v=2O24ltr0pPU&feature=youtu.be&list=PLxP_o-ABjKLFuDpuJ2Tw_3__OzxE7kFnh)
 
