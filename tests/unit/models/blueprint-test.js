@@ -1,5 +1,6 @@
 'use strict';
 
+var fs                = require('fs');
 var Blueprint         = require('../../../lib/models/blueprint');
 var Task              = require('../../../lib/models/task');
 var MockProject       = require('../../helpers/mock-project');
@@ -475,6 +476,92 @@ describe('Blueprint', function() {
       blueprint.addBowerPackageToProject('foo-bar', '~1.0.0');
 
       assert(verbose);
+    });
+  });
+
+  describe('insertIntoFile', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var project;
+    var filename;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+      project   = new MockProject();
+
+      // normally provided by `install`, but mocked here for testing
+      project.root = tmpdir;
+      blueprint.project = project;
+
+      filename = 'foo-bar-baz.txt';
+    });
+
+    afterEach(function() {
+      rimraf.sync(tmproot);
+    });
+
+    it('will create the file if not already existing', function() {
+      var toInsert = 'blahzorz blammo';
+
+      return blueprint.insertIntoFile(filename, toInsert)
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert(contents.indexOf(toInsert) > -1, 'contents were inserted');
+          assert.equal(result.originalContents, '', 'returned object should contain original contents');
+          assert(result.inserted, 'inserted should indicate that the file was modified');
+          assert.equal(contents, result.contents, 'returned object should contain contents');
+        });
+    });
+
+    it('will insert into the file if it already exists', function() {
+      var toInsert = 'blahzorz blammo';
+      var originalContent = 'some original content\n';
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert)
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, originalContent + toInsert, 'inserted contents should be appended to original');
+          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
+          assert(result.inserted, 'inserted should indicate that the file was modified');
+        });
+    });
+
+    it('will not insert into the file if it already contains the content', function() {
+      var toInsert = 'blahzorz blammo';
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, toInsert, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert)
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, toInsert, 'contents should be unchanged');
+          assert(!result.inserted, 'inserted should indicate that the file was not modified');
+        });
+    });
+
+    it('will insert into the file if it already contains the content if force option is passed', function() {
+      var toInsert = 'blahzorz blammo';
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, toInsert, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert, { force: true })
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, toInsert + toInsert, 'contents should be unchanged');
+          assert(result.inserted, 'inserted should indicate that the file was not modified');
+        });
     });
   });
 });
