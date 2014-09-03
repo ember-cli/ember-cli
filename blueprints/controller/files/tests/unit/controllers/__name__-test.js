@@ -1,4 +1,7 @@
-import { test, moduleFor } from 'ember-qunit';
+import {
+  moduleFor,
+  test
+} from 'ember-qunit';
 
 moduleFor('controller:<%= dasherizedModuleName %>', '<%= classifiedModuleName %>Controller', {
   // Specify the other units that are required for this test.

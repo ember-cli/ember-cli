@@ -4,6 +4,8 @@ function <%= camelizedModuleName %>(value) {
   return value;
 }
 
-export { <%= camelizedModuleName %> };
+export {
+  <%= camelizedModuleName %>
+};
 
 export default Ember.Handlebars.makeBoundHelper(<%= camelizedModuleName %>);
