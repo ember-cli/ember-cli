@@ -1,8 +1,6 @@
-/* global require */
-
-var Application = require('<%= modulePrefix %>/app')['default'];
-var Router = require('<%= modulePrefix %>/router')['default'];
 import Ember from 'ember';
+import Application from '<%= modulePrefix %>/app';
+import Router from '<%= modulePrefix %>/router';
 
 export default function startApp(attrs) {
   var App;
