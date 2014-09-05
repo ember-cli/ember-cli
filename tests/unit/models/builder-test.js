@@ -1,6 +1,7 @@
 'use strict';
 
 var fs              = require('fs-extra');
+var path            = require('path');
 var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
@@ -9,9 +10,40 @@ var assert          = require('assert');
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
+var rimraf          = require('rimraf');
+var tmp             = require('tmp-sync');
+
+var root            = process.cwd();
+var tmproot         = path.join(root, 'tmp');
 
 describe('models/builder.js', function() {
-  var builder, outputPath;
+  var builder, outputPath, tmpdir;
+
+  describe('copyToOutputPath', function() {
+    beforeEach(function() {
+      tmpdir  = tmp.in(tmproot);
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        trapSignals: function() { },
+        cleanupOnExit: function() { },
+        project: new MockProject()
+      });
+    });
+
+    afterEach(function() {
+      rimraf.sync(tmproot);
+    });
+
+    it('allows for non-existent output-paths at arbitrary depth', function() {
+      builder.outputPath = path.join(tmpdir, 'some', 'path', 'that', 'does', 'not', 'exist');
+
+      return builder.copyToOutputPath('tests/fixtures/blueprints/basic_2')
+        .then(function() {
+          assert(fs.existsSync(path.join(builder.outputPath, 'files', 'foo.txt')));
+        });
+    });
+  });
 
   it('clears the outputPath when multiple files are present', function() {
     outputPath     = 'tmp/builder-fixture/';
@@ -39,14 +71,19 @@ describe('models/builder.js', function() {
   });
 
   describe('Prevent deletion of files for improper outputPath', function() {
-    var command = new BuildCommand(commandOptions({
-      settings: {}
-    }));
-    var builder = new Builder({
-      setupBroccoliBuilder: function() { },
-      trapSignals: function() { },
-      cleanupOnExit: function() { },
-      project: new MockProject()
+    var command;
+
+    before(function() {
+      command = new BuildCommand(commandOptions({
+        settings: {}
+      }));
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        trapSignals: function() { },
+        cleanupOnExit: function() { },
+        project: new MockProject()
+      });
     });
 
     it('when outputPath is root directory ie., `--output-path=/`', function() {
