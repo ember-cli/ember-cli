@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+### 0.0.43
+
 #### Applications
 
 * [BUGFIX] Fix ember init command in empty directory. [#1779](https://github.com/stefanpenner/ember-cli/pull/1779)
