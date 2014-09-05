@@ -13,7 +13,8 @@ STEPS:
    as it has a broken zlib which causes it to publish corrupted modules)
 * bump package.json version
 * `rm -rf node_modules`
-* npm cache clear
+* `npm cache clear`
+* `npm install`
 * `npm pack`
 * remove current installed version: `npm uninstall -g ember-cli`
 * install the new package (for testing) `npm install -g ./ember-cli-<version>.tgz`
