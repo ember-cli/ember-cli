@@ -6,6 +6,22 @@ var path        = require('path');
 var EOL         = require('os').EOL;
 
 module.exports = Blueprint.extend({
+  fileMapTokens: function() {
+    return {
+      __templatepath__: function(options) {
+        if (options.pods) {
+          return options.podPath+options.dasherizedModuleName;
+        }
+        return 'templates';
+      },
+      __templatename__: function(options) {
+        if (options.pods) {
+          return 'template';
+        }
+        return options.dasherizedModuleName;
+      }
+    };
+  },
   beforeInstall: function(options) {
     var type = options.type;
 
