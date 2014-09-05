@@ -93,7 +93,7 @@
     "broccoli-caching-writer": "0.4.0",
     "broccoli-clean-css": "0.2.0",
     "broccoli-concat": "0.0.11",
-    "broccoli-es3-safe-recast": "0.0.8",
+    "broccoli-es3-safe-recast": "1.0.0",
     "broccoli-es6-concatenator": "0.1.7",
     "broccoli-file-mover": "0.3.6",
     "broccoli-file-remover": "0.2.3",
