@@ -5,6 +5,52 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.0.43
+
+#### Applications
+
+* [BUGFIX] Fix ember init command in empty directory. [#1779](https://github.com/stefanpenner/ember-cli/pull/1779)
+* [ENHANCEMENT] Add triggerEvent to `tests/.jshintrc`. [#1782](https://github.com/stefanpenner/ember-cli/pull/1782)
+* [ENHANCEMENT] Allow opting out of analytics via `.ember-cli` config file. [#1797](https://github.com/stefanpenner/ember-cli/pull/1797)
+* Bump `ember-cli-qunit` version.
+* [BUGFIX] Update broccoli-caching-writer dependents to allow linking fallback (enables easier usage of ember-cli from within Vagrant). [#1799](https://github.com/stefanpenner/ember-cli/pull/1799)
+* [BUGFIX] Avoid issue where `ember init` stalls on fresh system due to `bower install` prompting for permission to use analytics. [#1805](https://github.com/stefanpenner/ember-cli/pull/1805)
+* [BUGFIX] Allow usage of standard Node.js functionality in `config/environments.js` (fixes a regression in 0.0.42). [#1809](https://github.com/stefanpenner/ember-cli/pull/1809)
+* [ENHANCEMENT] Make current environment available modules. [#1820](https://github.com/stefanpenner/ember-cli/pull/1820)
+* [BUGFIX] Ensures that AppNameENV and EmberENV are setup before the vendor files have been loaded (changes in 0.0.42 caused enabling Ember feature flags impossible from `config/environments.js`). [#1825](https://github.com/stefanpenner/ember-cli/pull/1825)
+* [ENHANCEMENT] Ensures that the `<base>` tag changes when the config file is updated. [#1825](https://github.com/stefanpenner/ember-cli/pull/1825)
+* [ENHANCEMENT] Injects the `/tests/index.html` with the test environment configuration (was previously whatever server was running). [#1825](https://github.com/stefanpenner/ember-cli/pull/1825)
+* [ENHANCEMENT] `bower_components` and `vendor` are kept separate for import purposes. When we moved to separate directories for
+  `bower_components/` and `vendor/` in 0.0.41, to allow for users to upgrade easier we merged those two folders into one single `vendor`
+  tree.  This meant that you would still `app.import('vendor/baz/foo.js')` and `import Foo from 'vendor';` even if the file actually resides in
+  `bower_components/`. This lead to much confusion and forced users to understand the internals that are going on (merging the two directories into `vendor/`).
+  Now you would import things from `bower_components/` or `vendor/` if that is where they were on disk. [#1836](https://github.com/stefanpenner/ember-cli/pull/1836)
+* [BUGFIX] Allow nested output path, if path does not previously exist. [#1872](https://github.com/stefanpenner/ember-cli/pull/1872)
+* [ENHANCEMENT] Update `ember-cli-qunit` to 0.1.0. To avoid vendoring files in the addon and prevent having to run `bower install` within the addon
+  itself (in a `postinstall` hook) the addon now installs its required packages directly into the applications `bower.json` file.
+  This speeds up the build and make addon development much easier.  [#1877](https://github.com/stefanpenner/ember-cli/pull/1877)
+
+#### Blueprints
+
+* [BUGFIX] `ember g http-proxy` does not truncate the base path on proxied requests. [#1874](https://github.com/stefanpenner/ember-cli/pull/1874)
+* [ENHANCEMENT] Add empty function to `ember g resource` generator. [#1817](https://github.com/stefanpenner/ember-cli/pull/1817)
+* [ENHANCEMENT] Add {{outlet}} by default when generating a route template. [#1819](https://github.com/stefanpenner/ember-cli/pull/1819)
+* [ENHANCEMENT] Remove use of deprecated `view.state` property. [#1826](https://github.com/stefanpenner/ember-cli/pull/1826)
+* [BUGFIX] Allow blueprints without files. [#1829](https://github.com/stefanpenner/ember-cli/pull/1829)
+* [ENHANCEMENT] Make `ember g adapter` extend from application adapter if present. [#1831](https://github.com/stefanpenner/ember-cli/pull/1831)
+* [ENHANCEMENT] Add --base-class options to `ember g adapter`. [#1831](https://github.com/stefanpenner/ember-cli/pull/1831)
+* [BUGFIX] Quote module name in object literal for `ember g http-mock`. [#1823](https://github.com/stefanpenner/ember-cli/pull/1823)
+* [ENHANCEMENT] Add `Blueprint.prototype.addBowerPackageToProject`. [#1830](https://github.com/stefanpenner/ember-cli/pull/1830)
+* [ENHANCEMENT] Add `Blueprint.prototype.insertIntoFile`. [#1857](https://github.com/stefanpenner/ember-cli/pull/1857)
+
+#### Addons
+
+* [ENHANCEMENT] Expose Addon.prototype.isDevelopingAddon function. [#1785](https://github.com/stefanpenner/ember-cli/pull/1785)
+* [ENHANCEMENT] Expose Addon.prototype.treeGenerator function, that automatically handles the
+  returning an unwatchedTree vs the bare directory (therefore causing it to be watched). [#1785](https://github.com/stefanpenner/ember-cli/pull/1785)
+* [ENHANCEMENT] Add default `Addon.prototype.blueprintsPath` implementation. Now if an addon has a `blueprints/` folder, it will be automatically used
+  as the `blueprintsPath`. [#1876](https://github.com/stefanpenner/ember-cli/pull/1876)
+
 ### 0.0.42
 
 * [ENHANCEMENT] Throw an error if an Addon does not specify a name. [#1741](https://github.com/stefanpenner/ember-cli/pull/1741)
