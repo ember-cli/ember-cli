@@ -1,9 +1,16 @@
 'use strict';
 
+var fs      = require('fs');
 var path    = require('path');
 var Project = require('../../../lib/models/project');
 var Addon = require('../../../lib/models/addon');
 var assert  = require('assert');
+var rimraf  = require('rimraf');
+var tmp     = require('tmp-sync');
+
+var root    = process.cwd();
+var tmproot = path.join(root, 'tmp');
+
 
 describe('models/addon.js', function() {
   var addon, project, projectPath;
@@ -206,6 +213,35 @@ describe('models/addon.js', function() {
         var tree = addon.treeGenerator('foo/bar');
 
         assert.equal(tree.read(), 'foo/bar');
+      });
+    });
+
+    describe('blueprintsPath', function() {
+      var tmpdir;
+
+      beforeEach(function() {
+        tmpdir  = tmp.in(tmproot);
+
+        addon.root = tmpdir;
+      });
+
+      afterEach(function() {
+        rimraf.sync(tmproot);
+      });
+
+      it('returns undefined if the `blueprint` folder does not exist', function() {
+        var returnedPath = addon.blueprintsPath();
+
+        assert.equal(returnedPath, undefined);
+      });
+
+      it('returns blueprint path if the folder exists', function() {
+        var blueprintsDir = path.join(tmpdir, 'blueprints');
+        fs.mkdirSync(blueprintsDir);
+
+        var returnedPath = addon.blueprintsPath();
+
+        assert.equal(returnedPath, blueprintsDir);
       });
     });
   });
