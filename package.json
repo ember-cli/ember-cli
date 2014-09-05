@@ -138,7 +138,6 @@
     "testem": "0.6.18",
     "through": "^2.3.4",
     "tiny-lr": "0.1.0",
-    "tmp-sync": "^1.0.1",
     "walk-sync": "0.1.2",
     "yam": "0.0.14"
   },
@@ -149,6 +148,7 @@
     "mocha": "^1.18.0",
     "mocha-jshint": "0.0.7",
     "node-require-timings": "0.0.2",
-    "supertest": "0.13.0"
+    "supertest": "0.13.0",
+    "tmp-sync": "^1.0.1"
   }
 }
