@@ -918,9 +918,13 @@ describe('Acceptance: ember generate', function() {
                   "// https://github.com/nodejitsu/node-http-proxy" + EOL +
                   "var proxy = Proxy.createProxyServer({});" + EOL +
                   EOL +
+                  "var proxyPath = '/foo';" + EOL +
+                  EOL +
                   "module.exports = function(app) {" + EOL +
                   EOL +
-                  "  app.use('/foo', function(req, res, next){" + EOL +
+                  "  app.use(proxyPath, function(req, res, next){" + EOL +
+                  "    // include root path in proxied request" + EOL +
+                  "    req.url = path.join(proxyPath, req.url);" + EOL +
                   "    proxy.web(req, res, { target: 'http://localhost:5000' });" + EOL +
                   "  })" + EOL +
                   EOL +

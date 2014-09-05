@@ -16,6 +16,7 @@
 
 #### Blueprints
 
+* [BUGFIX] `ember g http-proxy` does not truncate the base path on proxied requests. [#1874](https://github.com/stefanpenner/ember-cli/pull/1874)
 * [ENHANCEMENT] Add empty function to `ember g resource` generator. [#1817](https://github.com/stefanpenner/ember-cli/pull/1817)
 * [ENHANCEMENT] Add {{outlet}} by default when generating a route template. [#1819](https://github.com/stefanpenner/ember-cli/pull/1819)
 * [ENHANCEMENT] Remove use of deprecated `view.state` property. [#1826](https://github.com/stefanpenner/ember-cli/pull/1826)
