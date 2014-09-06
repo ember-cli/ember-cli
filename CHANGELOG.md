@@ -2,6 +2,8 @@
 
 ### master
 
+### 0.0.44
+
 #### Applications
 
 * [BUGFIX] Provide useful error message when `app/styles/app.ext` is not found. [#1866](https://github.com/stefanpenner/ember-cli/pull/1866) and [#1894](https://github.com/stefanpenner/ember-cli/pull/1894)
