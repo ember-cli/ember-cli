@@ -170,5 +170,33 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
       });
   });
+
+  it('specifying custom output paths works properly', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/custom-output-paths')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var files = [
+          '/css/app.css',
+          '/js/app.js',
+          '/css/vendor.css',
+          '/js/vendor.js',
+          '/css/test-support.css',
+          '/js/test-support.js'
+        ];
+
+        var basePath = path.join('.', 'dist');
+        files.forEach(function(file) {
+          assert(fs.existsSync(path.join(basePath, file)), file + ' exists');
+        });
+      });
+  });
 });
 
