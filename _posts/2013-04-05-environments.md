@@ -9,7 +9,19 @@ Ember-CLI ships with support for managing your application's environment. By def
 
 The ENV object contains two important keys: 1) EmberENV, and 2) APP. The first can be used to define Ember feature flags (see the [Feature Flags guide](http://emberjs.com/guides/configuring-ember/feature-flags/)). The second can be used to pass flags/options to your application instance.
 
-By default, Ember-CLI assigns `ENV.EmberENV` to `window.EmberENV`, which Ember reads on application initialization. Further, it assigns the ENV object to `window.YourApplicationNameENV`. You can access environment variables inside your application by traversing this global window property.
+You can access these environment variables in your application code by importing from `../config/environment` or `app/config/environment` where `app` is your application's namespace.
+
+For example:
+
+{% highlight javascript linenos %}
+import config from 'app/config/environment';
+
+if (config.ENV.environment === "development") {
+  // ...
+}
+{% endhighlight %}
+
+Alternatively, Ember-CLI assigns `ENV.EmberENV` to `window.EmberENV`, which Ember reads on application initialization. Further, it assigns the ENV object to `window.YourApplicationNameENV`. You can access environment variables inside your application by traversing this global window property.
 
 Additionally, Ember-CLI contains a number of environment-dependent helpers for assets:
 
