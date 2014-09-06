@@ -142,7 +142,7 @@
     "yam": "0.0.14"
   },
   "devDependencies": {
-    "broccoli-caching-writer": "0.4.0",
+    "broccoli-caching-writer": "0.4.1",
     "chai": "^1.9.1",
     "chai-as-promised": "^4.1.1",
     "mocha": "^1.18.0",
