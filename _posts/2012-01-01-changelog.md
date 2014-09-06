@@ -5,6 +5,27 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.0.44
+
+#### Applications
+
+* [BUGFIX] Provide useful error message when `app/styles/app.ext` is not found. [#1866](https://github.com/stefanpenner/ember-cli/pull/1866) and [#1894](https://github.com/stefanpenner/ember-cli/pull/1894)
+* [ENHANCEMENT] Updated dependency broccoli-es3-safe-recast. [#1891](https://github.com/stefanpenner/ember-cli/pull/1898) and [#1898](https://github.com/stefanpenner/ember-cli/pull/1898)
+* [ENHANCEMENT] Updated dependency broccoli-merge-trees. [#1891](https://github.com/stefanpenner/ember-cli/pull/1898) and [#1898](https://github.com/stefanpenner/ember-cli/pull/1898)
+* [ENHANCEMENT] Updated dependency fs-extra. [#1891](https://github.com/stefanpenner/ember-cli/pull/1898) and [#1898](https://github.com/stefanpenner/ember-cli/pull/1898)
+* [ENHANCEMENT] Updated dependency proxy-middleware. [#1891](https://github.com/stefanpenner/ember-cli/pull/1898) and [#1898](https://github.com/stefanpenner/ember-cli/pull/1898)
+* [ENHANCEMENT] Updated dependency tiny-lr. [#1891](https://github.com/stefanpenner/ember-cli/pull/1898) and [#1898](https://github.com/stefanpenner/ember-cli/pull/1898)
+* [BUGFIX] Update `broccoli-caching-writer` to fix performance regression. [#1901](https://github.com/stefanpenner/ember-cli/pull/1901)
+* [BUGFIX] Ensure that a `.bowerrc` without `directory` specified does not error. [#1902](https://github.com/stefanpenner/ember-cli/pull/1902)
+
+#### Addons
+
+* [BUGFIX] Allow addons with styles to function properly. [#1892](https://github.com/stefanpenner/ember-cli/pull/1892)
+
+#### Blueprints
+
+* [BUGFIX] Fix `ember g http-mock foo` output to pass JSHint. [#1896](https://github.com/stefanpenner/ember-cli/pull/1896)
+
 ### 0.0.43
 
 #### Applications
