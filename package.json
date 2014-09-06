@@ -139,7 +139,7 @@
     "through": "^2.3.4",
     "tiny-lr": "0.1.1",
     "walk-sync": "0.1.2",
-    "yam": "0.0.14"
+    "yam": "0.0.16"
   },
   "devDependencies": {
     "broccoli-caching-writer": "0.4.1",
