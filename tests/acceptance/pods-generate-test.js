@@ -4,7 +4,7 @@
 
 var Promise          = require('../../lib/ext/promise');
 var assertFile       = require('../helpers/assert-file');
-//var assertFileEquals = require('../helpers/assert-file-equals');
+var assertFileEquals = require('../helpers/assert-file-equals');
 var conf             = require('../helpers/conf');
 var ember            = require('../helpers/ember');
 var fileUtils        = require('../helpers/file-utils');
@@ -932,6 +932,120 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('server/.jshintrc', {
         contains: '{' + EOL + '  "node": true' + EOL + '}'
+      });
+    });
+  });
+
+  it('uses blueprints from the project directory', function() {
+    return initApp()
+      .then(function() {
+        return outputFile(
+          'blueprints/foo/files/app/foos/__name__.js',
+          "import Ember from 'ember';" + EOL +
+          'export default Ember.Object.extend({ foo: true });' + EOL
+        );
+      })
+      .then(function() {
+        return ember(['generate', 'foo', 'bar', '--structure=pod']);
+      })
+      .then(function() {
+        assertFile('app/foos/bar.js', {
+          contains: 'foo: true'
+        });
+      });
+  });
+
+  it('allows custom blueprints to override built-ins', function() {
+    return initApp()
+      .then(function() {
+        return outputFile(
+          'blueprints/controller/files/app/__path__/__name__.js',
+          "import Ember from 'ember';" + EOL + EOL +
+          "export default Ember.Controller.extend({ custom: true });" + EOL
+        );
+      })
+      .then(function() {
+        return ember(['generate', 'controller', 'foo', '--structure=pod']);
+      })
+      .then(function() {
+        assertFile('app/foo/controller.js', {
+          contains: 'custom: true'
+        });
+      });
+  });
+
+  it('passes custom cli arguments to blueprint options', function() {
+    return initApp()
+      .then(function() {
+        outputFile(
+          'blueprints/customblue/files/app/__name__.js',
+          "Q: Can I has custom command? A: <%= hasCustomCommand %>"
+        );
+        return outputFile(
+          'blueprints/customblue/index.js',
+          "module.exports = {" + EOL +
+          "  fileMapTokens: function(options) {" + EOL +
+          "    return {" + EOL +
+          "      __name__: function(options) {" + EOL +
+          "         return options.dasherizedModuleName;" + EOL +
+          "      }" + EOL +
+          "    };" + EOL +
+          "  }," + EOL +
+          "  locals: function(options) {" + EOL +
+          "    var loc = {};" + EOL +
+          "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';" + EOL +
+          "    return loc;" + EOL +
+          "  }," + EOL +
+          "};" + EOL
+        );
+      })
+      .then(function() {
+        return ember(['generate', 'customblue', 'foo', '--custom-command', '--structure=pod']);
+      })
+      .then(function() {
+        assertFile('app/foo.js', {
+          contains: 'A: Yes!'
+        });
+      });
+  });
+
+  it('acceptance-test foo', function() {
+    return generate(['acceptance-test', 'foo', '--structure=pod']).then(function() {
+      var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
+
+      assertFileEquals('tests/acceptance/foo-test.js', expected);
+    });
+  });
+
+  it('correctly identifies the root of the project', function() {
+    return initApp()
+      .then(function() {
+        return outputFile(
+          'blueprints/controller/files/app/__path__/__name__.js',
+          "import Ember from 'ember';" + EOL + EOL +
+          "export default Ember.Controller.extend({ custom: true });" + EOL
+        );
+      })
+      .then(function() {
+        process.chdir(path.join(tmpdir, 'app'));
+      })
+      .then(function() {
+        return ember(['generate', 'controller', 'foo', '--structure=pod']);
+      })
+      .then(function() {
+        process.chdir(tmpdir);
+      })
+      .then(function() {
+        assertFile('app/foo/controller.js', {
+          contains: 'custom: true'
+        });
+      });
+  });
+
+  it('route foo --dry-run does not change router.js', function() {
+    return generate(['route', 'foo', '--dry-run', '--structure=pod']).then(function() {
+      assertFile('app/router.js', {
+        doesNotContain: "route('foo')"
       });
     });
   });

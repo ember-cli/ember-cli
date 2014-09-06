@@ -4,13 +4,6 @@ var stringUtil = require('../../lib/utilities/string');
 var Blueprint  = require('../../lib/models/blueprint');
 
 module.exports = Blueprint.extend({
-  fileMapTokens: function() {
-    return {
-      __name__: function(options) {
-        return options.dasherizedModuleName;
-      }
-    };
-  },
   locals: function(options) {
     var baseClass       = 'DS.RESTAdapter';
     var importStatement = 'import DS from \'ember-data\';';
