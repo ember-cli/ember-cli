@@ -100,6 +100,14 @@ describe('Blueprint', function() {
         Blueprint.lookup('foo');
       }, 'Unknown blueprint: foo');
     });
+
+    it('returns undefined if no blueprint is found and ignoredMissing is passed', function() {
+      var blueprint = Blueprint.lookup('foo', {
+        ignoreMissing: true
+      });
+
+      assert.equal(blueprint, undefined);
+    });
   });
 
   describe('.list', function() {
