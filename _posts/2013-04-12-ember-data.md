@@ -72,3 +72,40 @@ export default DS.RESTSerializer.extend({});
 
 Application-level (default) adapters and serializers should be named
 `adapters/application.js` and `serializers/application.js`, respectively.
+
+### FixtureAdapter
+
+Because ember-cli models aren't attached to the global namespace, you can't
+create fixture data like you normally would. Instead, you can use
+`reopenClass` to attach your fixture data to your model definitions.
+
+First, create a fixture adapter, either for a single model or your entire
+application:
+
+{% highlight javascript linenos %}
+// adapters/application.js
+import DS from "ember-data";
+
+export default DS.FixtureAdapter.extend({});
+{% endhighlight %}
+
+Then add your fixture data within your model definitions:
+
+{% highlight javascript linenos %}
+// models/author.js
+import DS from "ember-data";
+
+var author = DS.Model.extend({
+  firstName: DS.attr('string'),
+  lastName: DS.attr('string')
+});
+
+author.reopenClass({
+  FIXTURES: [
+    {id: 1, firstName: 'Bugs', lastName: 'Bunny'},
+    {id: 2, firstName: 'Wile E.', lastName: 'Coyote'}
+  ]
+});
+
+export default author;
+{% endhighlight %}
