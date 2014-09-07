@@ -5,30 +5,45 @@ var inflection = require('inflection');
 
 module.exports = Blueprint.extend({
   install: function(options) {
-    var modelOptions = merge({}, options, {
-      entity: {
-        name: inflection.singularize(options.entity.name)
-      }
-    });
-    var routeOptions = merge({}, options, { type: 'resource' });
-
-    return Promise.all([
-      this._installBlueprint('model', modelOptions),
-      this._installBlueprint('route', routeOptions)
-    ]);
-  },
-
-  _installBlueprint: function(name, options) {
-    var blueprint = Blueprint.lookup(name, {
-      ui: this.ui,
-      analytics: this.analytics,
-      project: this.project
-    });
-
-    return blueprint.install(options);
+    return this._process('install', options);
   },
 
   uninstall: function(options) {
+    return this._process('uninstall', options);
+  },
+
+  _processBlueprint: function(type, name, options) {
+    var mainBlueprint = Blueprint.lookup(name, {
+      ui: this.ui,
+      analytics: this.analytics,
+      project: this.project
+    });
+
+    return Promise.resolve()
+      .then(function() {
+        return mainBlueprint[type](options);
+      })
+      .then(function() {
+        var testBlueprint = Blueprint.lookup(name + '-test', {
+          ui: this.ui,
+          analytics: this.analytics,
+          project: this.project,
+          ignoreMissing: true
+        });
+
+        if (!testBlueprint) { return; }
+
+        if (testBlueprint.locals === Blueprint.prototype.locals) {
+          testBlueprint.locals = function(options) {
+            return mainBlueprint.locals(options);
+          };
+        }
+
+        return testBlueprint[type](options);
+      });
+  },
+
+  _process: function(type, options) {
     var modelOptions = merge({}, options, {
       entity: {
         name: inflection.singularize(options.entity.name)
@@ -37,18 +52,8 @@ module.exports = Blueprint.extend({
     var routeOptions = merge({}, options, { type: 'resource' });
 
     return Promise.all([
-      this._uninstallBlueprint('model', modelOptions),
-      this._uninstallBlueprint('route', routeOptions)
+      this._processBlueprint(type, 'model', modelOptions),
+      this._processBlueprint(type, 'route', routeOptions)
     ]);
-  },
-
-  _uninstallBlueprint: function(name, options) {
-    var blueprint = Blueprint.lookup(name, {
-      ui: this.ui,
-      analytics: this.analytics,
-      project: this.project
-    });
-
-    return blueprint.uninstall(options);
   }
 });
