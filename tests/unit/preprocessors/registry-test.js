@@ -25,54 +25,64 @@ describe('Plugin Loader', function() {
     registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
   });
 
-  it('returns first plugin when only one', function() {
-    var plugin = registry.load('css');
-    assert.equal(plugin.name, 'broccoli-sass');
+  it('returns array of one plugin when only one', function() {
+    var plugins = registry.load('css');
+
+    assert.equal(plugins.length, 1);
+    assert.equal(plugins[0].name, 'broccoli-sass');
   });
 
-  it('returns the correct plugin when there are more than one', function() {
-    registry.availablePlugins = { 'broccoli-ruby-sass': 'latest' };
-    var plugin = registry.load('css');
-    assert.equal(plugin.name, 'broccoli-ruby-sass');
+  it('returns the correct list of plugins when there are more than one', function() {
+    registry.availablePlugins['broccoli-ruby-sass'] = 'latest';
+    var plugins = registry.load('css');
+
+    assert.equal(plugins.length, 2);
+    assert.equal(plugins[0].name, 'broccoli-sass');
+    assert.equal(plugins[1].name, 'broccoli-ruby-sass');
   });
 
   it('returns plugin of the correct type', function() {
     registry.add('js', 'broccoli-coffee');
-    var plugin = registry.load('js');
-    assert.equal(plugin.name, 'broccoli-coffee');
+    var plugins = registry.load('js');
+
+    assert.equal(plugins.length, 1);
+    assert.equal(plugins[0].name, 'broccoli-coffee');
   });
 
   it('returns plugin that was in dependencies', function() {
     registry.add('template', 'broccoli-emblem');
-    var plugin = registry.load('template');
-    assert.equal(plugin.name, 'broccoli-emblem');
+    var plugins = registry.load('template');
+    assert.equal(plugins[0].name, 'broccoli-emblem');
   });
 
   it('returns null when no plugin available for type', function() {
     registry.add('blah', 'not-available');
-    var plugin = registry.load('blah');
-    assert.notOk(plugin, 'loaded a plugin that wasn\'t in dependencies');
+    var plugins = registry.load('blah');
+    assert.equal(plugins.length, 0);
   });
 
   it('returns the configured extension for the plugin', function() {
     registry.add('css', 'broccoli-less-single', 'less');
     registry.availablePlugins = { 'broccoli-less-single': 'latest' };
-    var plugin = registry.load('css');
-    assert.equal(plugin.ext, 'less');
+    var plugins = registry.load('css');
+
+    assert.equal(plugins[0].ext, 'less');
   });
 
   it('can specify fallback extensions', function() {
     registry.availablePlugins = { 'broccoli-ruby-sass': 'latest' };
-    var plugin = registry.load('css');
+    var plugins = registry.load('css');
+    var plugin  = plugins[0];
+
     assert.equal(plugin.ext[0], 'scss');
     assert.equal(plugin.ext[1], 'sass');
   });
 
   it('provides the application name to each plugin', function() {
     registry.add('js', 'broccoli-coffee');
-    var plugin = registry.load('js');
+    var plugins = registry.load('js');
 
-    assert.equal(plugin.applicationName, 'some-application-name');
+    assert.equal(plugins[0].applicationName, 'some-application-name');
   });
 
   it('adds a plugin directly if it is provided', function() {

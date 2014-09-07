@@ -145,11 +145,11 @@ describe('models/addon.js', function() {
           addon.registry = {
             app: addon,
             load: function() {
-              return {
+              return [{
                 toTree: function(tree) {
                   return tree;
                 }
-              };
+              }];
             },
           };
           addon.included(app);
