@@ -77,7 +77,7 @@ Application-level (default) adapters and serializers should be named
 
 Because ember-cli models aren't attached to the global namespace, you can't
 create fixture data like you normally would. Instead, you can use
-`reopenClass` to attach your fixture data to your model definitions.
+`reopenClass` to attach fixture data to your model definitions.
 
 First, create a fixture adapter, either for a single model or your entire
 application:
