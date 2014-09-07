@@ -54,6 +54,20 @@ describe('Blueprint', function() {
       assert.equal(path,'my-blueprint/my-blueprint.js');
     });
   });
+  describe('.fileMapTokens', function() {
+    it('adds additional tokens from fileMapTokens hook', function() {
+      var blueprint = Blueprint.lookup(basicBlueprint);
+      blueprint.fileMapTokens = function() {
+        return {
+          __foo__: function(){
+            return 'foo';
+          }
+        };
+      };
+      var tokens = blueprint._fileMapTokens();
+      assert.equal(tokens.__foo__(), 'foo');
+    });
+  });
   describe('.lookup', function() {
     it('uses an explicit path if one is given', function() {
       var expectedClass = require(basicBlueprint);
