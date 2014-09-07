@@ -2,8 +2,7 @@
   "predef": {
     "document": true,
     "window": true,
-    "-Promise": true,
-    "<%= namespace %>ENV": true
+    "-Promise": true
   },
   "browser" : true,
   "boss" : true,
