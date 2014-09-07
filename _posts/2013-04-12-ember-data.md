@@ -87,16 +87,16 @@ over fixtures, a primary one being that they interact with your
 application's adapters. Since you'll eventually be hooking your app
 up to a live API, it's wise to be testing your adapters from the onset.
 
-To create a mock for a `posts` model, use
+To create a mock for a `posts` API endpoint, use
 
 ```
 ember g http-mock posts
 ```
 
 A basic [ExpressJS](http://expressjs.com/) server will be scaffolded for
-your model under `/your-app/server/mocks/posts.js`. Once you add the 
+your endpoint under `/your-app/server/mocks/posts.js`. Once you add the 
 appropriate JSON response, you're ready to go. The next time you run
-`ember serve`, your new server will be listening for any API requests
+`ember serve`, your new mock server will be listening for any API requests
 from your Ember app.
 
 > Note: Mocks are just for development and testing. The entire `/server` 
