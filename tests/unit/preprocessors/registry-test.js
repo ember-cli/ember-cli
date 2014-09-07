@@ -84,4 +84,17 @@ describe('Plugin Loader', function() {
     assert.equal(registered[0], randomPlugin);
   });
 
+  describe('adds a plugin directly if it is provided', function() {
+    it('returns an empty array if called on an unknown type', function() {
+      assert.deepEqual(registry.registeredForType('foo'), []);
+    });
+
+    it('returns the current array if type is found', function() {
+      var fooArray = [ 'something', 'else' ];
+
+      registry.registry['foo'] = fooArray;
+
+      assert.equal(registry.registeredForType('foo'), fooArray);
+    });
+  });
 });
