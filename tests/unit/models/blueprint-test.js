@@ -55,7 +55,7 @@ describe('Blueprint', function() {
     });
     it('accepts locals.fileMap with multiple mappings',function(){
       var locals = {};
-      locals.filemap= {
+      locals.fileMap= {
         __name__: 'user',
         __type__: 'controller',
         __path__: 'pods/users',
