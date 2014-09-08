@@ -7,16 +7,10 @@ module.exports = Blueprint.extend({
     var rawName         = entity.name;
     var name            = stringUtil.dasherize(rawName);
     var namespace       = stringUtil.classify(rawName);
-    var podModulePrefix = "";
-
-    if (options.pods) {
-      podModulePrefix = 'podModulePrefix: config.podModulePrefix,';
-    }
 
     return {
       name: name,
       modulePrefix: name,
-      podModulePrefix: podModulePrefix,
       namespace: namespace,
       emberCLIVersion: require('../../package').version
     }
