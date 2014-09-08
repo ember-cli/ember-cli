@@ -9,13 +9,13 @@ module.exports = Blueprint.extend({
   fileMapTokens: function() {
     return {
       __templatepath__: function(options) {
-        if (options.pods) {
+        if (options.pod) {
           return options.podPath+options.dasherizedModuleName;
         }
         return 'templates';
       },
       __templatename__: function(options) {
-        if (options.pods) {
+        if (options.pod) {
           return 'template';
         }
         return options.dasherizedModuleName;

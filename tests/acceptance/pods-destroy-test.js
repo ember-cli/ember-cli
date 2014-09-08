@@ -88,7 +88,7 @@ describe('Acceptance: ember destroy pod', function() {
   }
 
   it('controller foo', function() {
-    var commandArgs = ['controller', 'foo', '--structure=pod'];
+    var commandArgs = ['controller', 'foo', '--pod'];
     var files       = [
       'app/pods/foo/controller.js',
       'tests/unit/controllers/foo-test.js'
@@ -98,7 +98,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('controller foo/bar', function() {
-    var commandArgs = ['controller', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['controller', 'foo/bar', '--pod'];
     var files       = [
       'app/pods/foo/bar/controller.js',
       'tests/unit/controllers/foo/bar-test.js'
@@ -108,7 +108,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('component x-foo', function() {
-    var commandArgs = ['component', 'x-foo', '--structure=pod'];
+    var commandArgs = ['component', 'x-foo', '--pod'];
     var files       = [
       'app/pods/x-foo/component.js',
       'app/pods/x-foo/template.hbs',
@@ -119,7 +119,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('helper foo-bar', function() {
-    var commandArgs = ['helper', 'foo-bar', '--structure=pod'];
+    var commandArgs = ['helper', 'foo-bar', '--pod'];
     var files       = [
       'app/helpers/foo-bar.js',
       'tests/unit/helpers/foo-bar-test.js'
@@ -129,7 +129,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('helper foo/bar-baz', function() {
-    var commandArgs = ['helper', 'foo/bar-baz', '--structure=pod'];
+    var commandArgs = ['helper', 'foo/bar-baz', '--pod'];
     var files       = [
       'app/helpers/foo/bar-baz.js',
       'tests/unit/helpers/foo/bar-baz-test.js'
@@ -139,7 +139,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('model foo', function() {
-    var commandArgs = ['model', 'foo', '--structure=pod'];
+    var commandArgs = ['model', 'foo', '--pod'];
     var files       = [
       'app/pods/foo/model.js',
       'tests/unit/models/foo-test.js'
@@ -149,7 +149,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('model foo/bar', function() {
-    var commandArgs = ['model', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['model', 'foo/bar', '--pod'];
     var files       = [
       'app/pods/foo/bar/model.js',
       'tests/unit/models/foo/bar-test.js'
@@ -159,7 +159,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('route foo', function() {
-    var commandArgs = ['route', 'foo', '--structure=pod'];
+    var commandArgs = ['route', 'foo', '--pod'];
     var files       = [
       'app/pods/foo/route.js',
       'app/pods/foo/template.hbs',
@@ -170,7 +170,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('route foo --type=resource', function() {
-    var commandArgs = ['route', 'foo', '--type=resource', '--structure=pod'];
+    var commandArgs = ['route', 'foo', '--type=resource', '--pod'];
     var files       = [
       'app/pods/foo/route.js',
       'app/pods/foo/template.hbs',
@@ -186,7 +186,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('route foos --type=resource', function() {
-    var commandArgs = ['route', 'foos', '--type=resource', '--structure=pod'];
+    var commandArgs = ['route', 'foos', '--type=resource', '--pod'];
     var files       = [
       'app/pods/foos/route.js',
       'app/pods/foos/template.hbs',
@@ -202,7 +202,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('route index', function() {
-    var commandArgs = ['route', 'index', '--structure=pod'];
+    var commandArgs = ['route', 'index', '--pod'];
     var files       = [
       'app/pods/index/route.js',
       'app/pods/index/template.hbs',
@@ -213,7 +213,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('route basic', function() {
-    var commandArgs = ['route', 'basic', '--structure=pod'];
+    var commandArgs = ['route', 'basic', '--pod'];
     var files       = [
       'app/pods/basic/route.js',
       'app/pods/basic/template.hbs',
@@ -224,7 +224,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('resource foo', function() {
-    var commandArgs = ['resource', 'foo', '--structure=pod'];
+    var commandArgs = ['resource', 'foo', '--pod'];
     var files       = [
       'app/pods/foo/model.js',
       'tests/unit/models/foo-test.js',
@@ -242,7 +242,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('resource foos', function() {
-    var commandArgs = ['resource', 'foos', '--structure=pod'];
+    var commandArgs = ['resource', 'foos', '--pod'];
     var files       = [
       'app/pods/foo/model.js',
       'tests/unit/models/foo-test.js',
@@ -260,21 +260,21 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('template foo', function() {
-    var commandArgs = ['template', 'foo', '--structure=pod'];
+    var commandArgs = ['template', 'foo', '--pod'];
     var files       = ['app/pods/foo/template.hbs'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('template foo/bar', function() {
-    var commandArgs = ['template', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['template', 'foo/bar', '--pod'];
     var files       = ['app/pods/foo/bar/template.hbs'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('view foo', function() {
-    var commandArgs = ['view', 'foo', '--structure=pod'];
+    var commandArgs = ['view', 'foo', '--pod'];
     var files       = [
       'app/pods/foo/view.js',
       'tests/unit/views/foo-test.js'
@@ -284,7 +284,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('view foo/bar', function() {
-    var commandArgs = ['view', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['view', 'foo/bar', '--pod'];
     var files       = [
       'app/pods/foo/bar/view.js',
       'tests/unit/views/foo/bar-test.js'
@@ -294,21 +294,21 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('initializer foo', function() {
-    var commandArgs = ['initializer', 'foo', '--structure=pod'];
+    var commandArgs = ['initializer', 'foo', '--pod'];
     var files       = ['app/initializers/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('initializer foo/bar', function() {
-    var commandArgs = ['initializer', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['initializer', 'foo/bar', '--pod'];
     var files       = ['app/initializers/foo/bar.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('mixin foo', function() {
-    var commandArgs = ['mixin', 'foo', '--structure=pod'];
+    var commandArgs = ['mixin', 'foo', '--pod'];
     var files       = [
       'app/mixins/foo.js',
       'tests/unit/mixins/foo-test.js'
@@ -318,7 +318,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('mixin foo/bar', function() {
-    var commandArgs = ['mixin', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['mixin', 'foo/bar', '--pod'];
     var files       = [
       'app/mixins/foo/bar.js',
       'tests/unit/mixins/foo/bar-test.js'
@@ -328,21 +328,21 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('adapter foo', function() {
-    var commandArgs = ['adapter', 'foo', '--structure=pod'];
+    var commandArgs = ['adapter', 'foo', '--pod'];
     var files       = ['app/adapters/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('adapter foo/bar', function() {
-    var commandArgs = ['adapter', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['adapter', 'foo/bar', '--pod'];
     var files       = ['app/adapters/foo/bar.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('serializer foo', function() {
-    var commandArgs = ['serializer', 'foo', '--structure=pod'];
+    var commandArgs = ['serializer', 'foo', '--pod'];
     var files       = [
       'app/serializers/foo.js',
       'tests/unit/serializers/foo-test.js'
@@ -352,7 +352,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('serializer foo/bar', function() {
-    var commandArgs = ['serializer', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['serializer', 'foo/bar', '--pod'];
     var files       = [
       'app/serializers/foo/bar.js',
       'tests/unit/serializers/foo/bar-test.js'
@@ -362,7 +362,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('transform foo', function() {
-    var commandArgs = ['transform', 'foo', '--structure=pod'];
+    var commandArgs = ['transform', 'foo', '--pod'];
     var files       = [
       'app/transforms/foo.js',
       'tests/unit/transforms/foo-test.js'
@@ -372,7 +372,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('transform foo/bar', function() {
-    var commandArgs = ['transform', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['transform', 'foo/bar', '--pod'];
     var files       = [
       'app/transforms/foo/bar.js',
       'tests/unit/transforms/foo/bar-test.js'
@@ -382,7 +382,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('util foo-bar', function() {
-    var commandArgs = ['util', 'foo-bar', '--structure=pod'];
+    var commandArgs = ['util', 'foo-bar', '--pod'];
     var files       = [
       'app/utils/foo-bar.js',
       'tests/unit/utils/foo-bar-test.js'
@@ -392,7 +392,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('util foo-bar/baz', function() {
-    var commandArgs = ['util', 'foo/bar-baz', '--structure=pod'];
+    var commandArgs = ['util', 'foo/bar-baz', '--pod'];
     var files       = [
       'app/utils/foo/bar-baz.js',
       'tests/unit/utils/foo/bar-baz-test.js'
@@ -402,7 +402,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('service foo', function() {
-    var commandArgs = ['service', 'foo', '--structure=pod'];
+    var commandArgs = ['service', 'foo', '--pod'];
     var files       = [
       'app/services/foo.js',
       'app/initializers/foo-service.js',
@@ -413,7 +413,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('service foo/bar', function() {
-    var commandArgs = ['service', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['service', 'foo/bar', '--pod'];
     var files       = [
       'app/services/foo/bar.js',
       'app/initializers/foo/bar-service.js',
@@ -424,21 +424,21 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('blueprint foo', function() {
-    var commandArgs = ['blueprint', 'foo', '--structure=pod'];
+    var commandArgs = ['blueprint', 'foo', '--pod'];
     var files       = ['blueprints/foo/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('blueprint foo/bar', function() {
-    var commandArgs = ['blueprint', 'foo/bar', '--structure=pod'];
+    var commandArgs = ['blueprint', 'foo/bar', '--pod'];
     var files       = ['blueprints/foo/bar/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-mock foo', function() {
-    var commandArgs = ['http-mock', 'foo', '--structure=pod'];
+    var commandArgs = ['http-mock', 'foo', '--pod'];
     var files       = [
       'server/index.js',
       'server/mocks/foo.js',
@@ -449,7 +449,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('http-proxy foo', function() {
-    var commandArgs = ['http-proxy', 'foo', '--structure=pod'];
+    var commandArgs = ['http-proxy', 'foo', '--pod'];
     var files       = [
       'server/index.js',
       'server/proxies/foo.js',
@@ -461,14 +461,14 @@ describe('Acceptance: ember destroy pod', function() {
 
 
   it('acceptance-test foo', function() {
-    var commandArgs = ['acceptance-test', 'foo', '--structure=pod'];
+    var commandArgs = ['acceptance-test', 'foo', '--pod'];
     var files       = ['tests/acceptance/foo-test.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('deletes files generated using blueprints from the project directory', function() {
-    var commandArgs = ['foo', 'bar', '--structure=pod'];
+    var commandArgs = ['foo', 'bar', '--pod'];
     var files       = ['app/foos/bar.js'];
     return initApp()
       .then(function() {
@@ -493,7 +493,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('correctly identifies the root of the project', function() {
-    var commandArgs = ['controller', 'foo', '--structure=pod'];
+    var commandArgs = ['controller', 'foo', '--pod'];
     var files       = ['app/foo/controller.js'];
     return initApp()
       .then(function() {
