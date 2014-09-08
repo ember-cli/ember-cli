@@ -4,7 +4,7 @@
   "private": true,
   "directories": {
     "doc": "doc",
-    "test": "test"
+    "test": "tests"
   },
   "scripts": {
     "start": "ember server",
