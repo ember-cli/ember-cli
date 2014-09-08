@@ -7,7 +7,7 @@ var assertFile       = require('../helpers/assert-file');
 var assertFileEquals = require('../helpers/assert-file-equals');
 var conf             = require('../helpers/conf');
 var ember            = require('../helpers/ember');
-var fileUtils        = require('../helpers/file-utils');
+var replaceFile      = require('../helpers/file-utils').replaceFile;
 var fs               = require('fs-extra');
 var outputFile       = Promise.denodeify(fs.outputFile);
 var path             = require('path');
@@ -44,18 +44,26 @@ describe('Acceptance: ember generate pod', function() {
     return ember(['init', 'my-app', '--skip-npm', '--skip-bower']);
   }
 
+  function preGenerate(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initApp().then(function() {
+      return ember(generateArgs);
+    });
+  }
+
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
-      fileUtils.touch('app/app.js', "{podModulePrefix: 'app/pods'}");
+      replaceFile('app/app.js', "Resolver: Resolver", "podModulePrefix: 'app/pods', " + EOL + "Resolver: Resolver");
       return ember(generateArgs);
     });
   }
 
   it('controller foo', function() {
     return generate(['controller', 'foo', '--structure=pod']).then(function() {
-      assertFile('app/foo/controller.js', {
+      assertFile('app/pods/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Controller.extend({" + EOL + "});"
@@ -75,7 +83,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('controller foo --type=object', function() {
     return generate(['controller', 'foo', '--type=object', '--structure=pod']).then(function() {
-      assertFile('app/foo/controller.js', {
+      assertFile('app/pods/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.ObjectController.extend({" + EOL + "});"
@@ -86,7 +94,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('controller foo --type=array', function() {
     return generate(['controller', 'foo', '--type=array', '--structure=pod']).then(function() {
-      assertFile('app/foo/controller.js', {
+      assertFile('app/pods/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.ArrayController.extend({" + EOL + "});"
@@ -97,7 +105,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('controller foo/bar', function() {
     return generate(['controller', 'foo/bar', '--structure=pod']).then(function() {
-      assertFile('app/foo/bar/controller.js', {
+      assertFile('app/pods/foo/bar/controller.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Controller.extend({" + EOL + "});"
@@ -117,13 +125,13 @@ describe('Acceptance: ember generate pod', function() {
 
   it('component x-foo', function() {
     return generate(['component', 'x-foo', '--structure=pod']).then(function() {
-      assertFile('app/x-foo/component.js', {
+      assertFile('app/pods/x-foo/component.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Component.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/x-foo/template.hbs', {
+      assertFile('app/pods/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -180,7 +188,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('model foo', function() {
     return generate(['model', 'foo', '--structure=pod']).then(function() {
-      assertFile('app/foo/model.js', {
+      assertFile('app/pods/foo/model.js', {
         contains: [
           "import DS from 'ember-data';",
           "export default DS.Model.extend"
@@ -213,7 +221,7 @@ describe('Acceptance: ember generate pod', function() {
       'bravo:belongs_to',
       '--structure=pod'
     ]).then(function() {
-      assertFile('app/foo/model.js', {
+      assertFile('app/pods/foo/model.js', {
         contains: [
           "noType: DS.attr()",
           "firstName: DS.attr('string')",
@@ -234,7 +242,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('model foo/bar', function() {
     return generate(['model', 'foo/bar', '--structure=pod']).then(function() {
-      assertFile('app/foo/bar/model.js', {
+      assertFile('app/pods/foo/bar/model.js', {
         contains: [
           "import DS from 'ember-data';",
           "export default DS.Model.extend"
@@ -257,13 +265,13 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/router.js', {
         contains: "this.route('foo')"
       });
-      assertFile('app/foo/route.js', {
+      assertFile('app/pods/foo/route.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/foo/template.hbs', {
+      assertFile('app/pods/foo/template.hbs', {
         contains: '{{outlet}}'
       });
       assertFile('tests/unit/routes/foo-test.js', {
@@ -307,7 +315,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/router.js', {
         doesNotContain: "this.route('basic');"
       });
-      assertFile('app/basic/route.js');
+      assertFile('app/pods/basic/route.js');
     });
   });
 
@@ -348,19 +356,19 @@ describe('Acceptance: ember generate pod', function() {
 
   it('template foo', function() {
     return generate(['template', 'foo', '--structure=pod']).then(function() {
-      assertFile('app/foo/template.hbs');
+      assertFile('app/pods/foo/template.hbs');
     });
   });
 
   it('template foo/bar', function() {
     return generate(['template', 'foo/bar', '--structure=pod']).then(function() {
-      assertFile('app/foo/bar/template.hbs');
+      assertFile('app/pods/foo/bar/template.hbs');
     });
   });
 
   it('view foo', function() {
     return generate(['view', 'foo', '--structure=pod']).then(function() {
-      assertFile('app/foo/view.js', {
+      assertFile('app/pods/foo/view.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.View.extend({" + EOL + "})"
@@ -380,7 +388,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('view foo/bar', function() {
     return generate(['view', 'foo/bar', '--structure=pod']).then(function() {
-      assertFile('app/foo/bar/view.js', {
+      assertFile('app/pods/foo/bar/view.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.View.extend({" + EOL + "})"
@@ -403,13 +411,13 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/router.js', {
         contains: "this.resource('foo', { path: 'foos/:foo_id' });"
       });
-      assertFile('app/foo/model.js', {
+      assertFile('app/pods/foo/model.js', {
         contains: 'export default DS.Model.extend'
       });
-      assertFile('app/foo/route.js', {
+      assertFile('app/pods/foo/route.js', {
         contains: "export default Ember.Route.extend({" + EOL + "});"
       });
-      assertFile('app/foo/template.hbs', {
+      assertFile('app/pods/foo/template.hbs', {
         contains: '{{outlet}}'
       });
       assertFile('tests/unit/models/foo-test.js', {
@@ -426,13 +434,13 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/router.js', {
         contains: "this.resource('foos', function() { });"
       });
-      assertFile('app/foo/model.js', {
+      assertFile('app/pods/foo/model.js', {
         contains: 'export default DS.Model.extend'
       });
-      assertFile('app/foos/route.js', {
+      assertFile('app/pods/foos/route.js', {
         contains: 'export default Ember.Route.extend({' + EOL + '});'
       });
-      assertFile('app/foos/template.hbs', {
+      assertFile('app/pods/foos/template.hbs', {
         contains: '{{outlet}}'
       });
       assertFile('tests/unit/models/foo-test.js', {
@@ -566,7 +574,7 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   it('adapter extends from application adapter if present', function() {
-    return generate(['adapter', 'application']).then(function() {
+    return preGenerate(['adapter', 'application']).then(function() {
       return generate(['adapter', 'foo', '--structure=pod']).then(function() {
         assertFile('app/adapters/foo.js', {
           contains: [
@@ -579,7 +587,7 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   it('adapter favors  --base-class over  application', function() {
-    return generate(['adapter', 'application']).then(function() {
+    return preGenerate(['adapter', 'application']).then(function() {
       return generate(['adapter', 'foo', '--base-class=bar', '--structure=pod']).then(function() {
         assertFile('app/adapters/foo.js', {
           contains: [
