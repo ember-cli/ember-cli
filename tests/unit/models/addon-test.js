@@ -68,9 +68,67 @@ describe('models/addon.js', function() {
         assert.notEqual(addon.root, undefined);
       });
 
+      describe('custom treeFor methods', function() {
+        it('can define treeForApp', function() {
+          var called;
+
+          addon.treeForApp = function() {
+            called = true;
+          };
+
+          addon.treeFor('app');
+          assert(called);
+        });
+
+        it('can define treeForStyles', function() {
+          var called;
+
+          addon.treeForStyles = function() {
+            called = true;
+          };
+
+          addon.treeFor('styles');
+          assert(called);
+        });
+
+        it('can define treeForVendor', function() {
+          var called;
+
+          addon.treeForVendor = function() {
+            called = true;
+          };
+
+          addon.treeFor('vendor');
+          assert(called);
+        });
+
+        it('can define treeForTemplates', function() {
+          var called;
+
+          addon.treeForTemplates = function() {
+            called = true;
+          };
+
+          addon.treeFor('templates');
+          assert(called);
+        });
+
+        it('can define treeForPublic', function() {
+          var called;
+
+          addon.treeForPublic = function() {
+            called = true;
+          };
+
+          addon.treeFor('public');
+          assert(called);
+        });
+      });
+
       describe('trees for it\'s treePaths', function() {
         it('app', function() {
           var tree = addon.treeFor('app');
+
           assert.equal(typeof tree.read, 'function');
         });
 
@@ -86,6 +144,11 @@ describe('models/addon.js', function() {
 
         it('vendor', function() {
           var tree = addon.treeFor('vendor');
+          assert.equal(typeof tree.read, 'function');
+        });
+
+        it('public', function() {
+          var tree = addon.treeFor('public');
           assert.equal(typeof tree.read, 'function');
         });
       });

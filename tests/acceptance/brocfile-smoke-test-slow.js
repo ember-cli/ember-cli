@@ -123,6 +123,31 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('addons can have a public tree that is merged and returned namespaced by default', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/public-tree')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['ember-random-addon'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'ember-random-addon', 'some-root-file.txt'), { encoding: 'utf8' });
+
+        assert.equal(subjectFileContents, 'ROOT FILE' + EOL);
+      });
+  });
+
   it('using pods based templates', function() {
     console.log('    running the slow end-to-end it will take some time');
 
