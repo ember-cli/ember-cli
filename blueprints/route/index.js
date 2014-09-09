@@ -112,7 +112,7 @@ function addRouteToRouter(name, options) {
     } else {
       newContent = oldContent.replace(
         /(map\(function\(\) {[\s\S]+)}\)/,
-        "$1  this.resource('" + name + "', { path: '" + plural + "/:" + name + "_id' });" + EOL + "})"
+        "$1  this.resource('" + name + "', { path: '" + plural + "/:" + name + "_id' }, function() { });" + EOL + "})"
       );
     }
     break;
