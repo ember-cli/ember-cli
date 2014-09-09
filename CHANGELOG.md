@@ -2,6 +2,8 @@
 
 ### master
 
+* [ENHANCEMENT] Update `broccoli-asset-rev`to `0.1.1`
+
 ### 0.0.44
 
 #### Applications
