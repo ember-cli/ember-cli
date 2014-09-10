@@ -38,15 +38,4 @@ describe('dependencies', function() {
       assertVersionLock(pkg.devDependencies);
     });
   });
-
-  describe('in blueprints/addon/files/package.json', function() {
-    before(function() {
-      pkg = require('../../../blueprints/addon/files/package.json');
-    });
-
-    it('are locked down for pre-1.0 versions', function() {
-      assertVersionLock(pkg.dependencies);
-      assertVersionLock(pkg.devDependencies);
-    });
-  });
 });
