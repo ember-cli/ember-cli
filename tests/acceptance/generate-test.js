@@ -299,6 +299,22 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('route application', function() {
+    // need to run `initApp` manually here instead of using `generate` helper
+    // because we need to remove the templates/application.hbs file to prevent
+    // a prompt (due to a conflict)
+    return initApp().then(function() {
+      rimraf.sync(path.join('app', 'templates', 'application.hbs'));
+
+      return ember(['generate', 'route', 'application']);
+    })
+    .then(function() {
+      assertFile('app/router.js', {
+        doesNotContain: "this.route('application');"
+      });
+    });
+  });
+
   it('route basic isn\'t added to router', function() {
     return generate(['route', 'basic']).then(function() {
       assertFile('app/router.js', {
