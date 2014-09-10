@@ -14,11 +14,18 @@ module.exports = Blueprint.extend({
     }
   },
 
+  shouldTouchRouter: function(name) {
+    var isIndex = /index$/.test(name);
+    var isBasic = name === 'basic';
+    var isApplication = name === 'application';
+
+    return !isBasic && !isIndex && !isApplication;
+  },
+
   afterInstall: function(options) {
     var entity  = options.entity;
-    var isIndex = /index$/.test(entity.name);
 
-    if (!isIndex && !options.dryRun) {
+    if (this.shouldTouchRouter(entity.name) && !options.dryRun) {
       addRouteToRouter(entity.name, {
         type: options.type
       });
@@ -35,9 +42,8 @@ module.exports = Blueprint.extend({
 
   afterUninstall: function(options) {
     var entity  = options.entity;
-    var isIndex = /index$/.test(entity.name);
 
-    if (!isIndex && !options.dryRun) {
+    if (this.shouldTouchRouter(entity.name) && !options.dryRun) {
       removeRouteFromRouter(entity.name, {
         type: options.type
       });
@@ -56,8 +62,6 @@ function removeRouteFromRouter(name, options) {
   if (!existence.test(oldContent)) {
     return;
   }
-
-  if (name === 'basic') { return; }
 
   switch (type) {
   case 'route':
@@ -91,8 +95,6 @@ function addRouteToRouter(name, options) {
   if (existence.test(oldContent)) {
     return;
   }
-
-  if (name === 'basic') { return; }
 
   switch (type) {
   case 'route':
