@@ -5,7 +5,7 @@ permalink: commonissues
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-03-common-issues.md"
 ---
 
-### npm package manangement with sudo
+### npm package management with sudo
 
 Installing packages such as bower with sudo powers can lead to permissions
 issues and ultimately to problems installing dependencies.
