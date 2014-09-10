@@ -7,6 +7,22 @@ var assign     = require('lodash-node/modern/objects/assign');
 var uniq       = require('lodash-node/underscore/arrays/uniq');
 
 module.exports = Blueprint.extend({
+  afterInstall: function(options) {
+    if (options.dryRun) { return; }
+
+    var packagePath = path.join(options.target, 'package.json');
+    var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
+
+    contents.keywords = contents.keywords || [];
+    contents.keywords.push('ember-addon');
+
+    contents['ember-addon'] = contents['ember-addon'] || {};
+
+    contents['ember-addon'].configPath = 'tests/dummy/config';
+
+    fs.writeFileSync(packagePath, JSON.stringify(contents, null, 2));
+  },
+
   locals: function(options) {
     var entity    = { name: 'dummy' };
     var rawName   = entity.name;
@@ -30,14 +46,18 @@ module.exports = Blueprint.extend({
   },
   files: function() {
     if (this._files) { return this._files; }
+
     var appFiles   = Blueprint.lookup('app').files();
     var addonFiles = walkSync(path.join(this.path, 'files'));
+
     return this._files = uniq(appFiles.concat(addonFiles));
   },
+
   mapFile: function(file, locals) {
     var result = Blueprint.prototype.mapFile.call(this, file, locals);
     return this.fileMapper(result);
   },
+
   fileMap: {
     '^.jshintrc':   'tests/dummy/:path',
     '^app/.gitkeep': 'app/.gitkeep',
@@ -45,6 +65,7 @@ module.exports = Blueprint.extend({
     '^config.*':     'tests/dummy/:path',
     '^public.*':     'tests/dummy/:path'
   },
+
   fileMapper: function(path) {
     for(pattern in this.fileMap) {
       if ((new RegExp(pattern)).test(path)) {
