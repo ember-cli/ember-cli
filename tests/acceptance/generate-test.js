@@ -56,7 +56,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          'export default Ember.Controller.extend({' + EOL + '  actions: { }' + EOL + '});'
         ]
       });
       assertFile('tests/unit/controllers/foo-test.js', {
@@ -76,7 +76,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.ObjectController.extend({" + EOL + "});"
+          'export default Ember.ObjectController.extend({' + EOL + '  actions: { }' + EOL + '});'
         ]
       });
     });
@@ -87,7 +87,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.ArrayController.extend({" + EOL + "});"
+          'export default Ember.ArrayController.extend({' + EOL + '  actions: { }' + EOL + '});'
         ]
       });
     });
@@ -98,7 +98,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/controllers/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          'export default Ember.Controller.extend({' + EOL + '  actions: { }' + EOL + '});'
         ]
       });
       assertFile('tests/unit/controllers/foo/bar-test.js', {
@@ -257,7 +257,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/routes/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Route.extend({" + EOL + "});"
+          'export default Ember.Route.extend({' + EOL + '  actions: { }' + EOL +  '});',
         ]
       });
       assertFile('app/templates/foo.hbs', {
@@ -420,7 +420,7 @@ describe('Acceptance: ember generate', function() {
         contains: 'export default DS.Model.extend'
       });
       assertFile('app/routes/foo.js', {
-        contains: "export default Ember.Route.extend({" + EOL + "});"
+        contains: 'export default Ember.Route.extend({' + EOL + '  actions: { }' + EOL +  '});'
       });
       assertFile('app/templates/foo.hbs', {
         contains: '{{outlet}}'
@@ -443,7 +443,7 @@ describe('Acceptance: ember generate', function() {
         contains: 'export default DS.Model.extend'
       });
       assertFile('app/routes/foos.js', {
-        contains: 'export default Ember.Route.extend({' + EOL + '});'
+        contains: 'export default Ember.Route.extend({' + EOL + '  actions: { }' + EOL +  '});'
       });
       assertFile('app/templates/foos.hbs', {
         contains: '{{outlet}}'
