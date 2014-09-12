@@ -11,6 +11,7 @@ var tmp     = require('tmp-sync');
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
 
+var fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 
 describe('models/addon.js', function() {
   var addon, project, projectPath;
@@ -48,7 +49,7 @@ describe('models/addon.js', function() {
 
   describe('initialized addon', function() {
     before(function() {
-      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
+      projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
 
       project = new Project(projectPath, packageContents);
@@ -305,6 +306,24 @@ describe('models/addon.js', function() {
         var returnedPath = addon.blueprintsPath();
 
         assert.equal(returnedPath, blueprintsDir);
+      });
+    });
+
+    describe('config', function() {
+      it('returns undefined if `config/environment.js` does not exist', function() {
+        addon.root = path.join(fixturePath, 'no-config');
+        var result = addon.config();
+
+        assert.equal(result, undefined);
+      });
+
+      it('returns blueprint path if the folder exists', function() {
+        addon.root = path.join(fixturePath, 'with-config');
+        var appConfig = {};
+
+        addon.config('development', appConfig);
+
+        assert.equal(appConfig.addon, 'with-config');
       });
     });
   });

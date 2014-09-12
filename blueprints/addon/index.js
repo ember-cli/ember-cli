@@ -63,7 +63,9 @@ module.exports = Blueprint.extend({
     '^app/.gitkeep': 'app/.gitkeep',
     '^app.*':        'tests/dummy/:path',
     '^config.*':     'tests/dummy/:path',
-    '^public.*':     'tests/dummy/:path'
+    '^public.*':     'tests/dummy/:path',
+
+    '^addon-config/environment.js': 'config/environment.js'
   },
 
   fileMapper: function(path) {
