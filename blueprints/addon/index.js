@@ -14,7 +14,10 @@ module.exports = Blueprint.extend({
     var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
 
     contents.keywords = contents.keywords || [];
-    contents.keywords.push('ember-addon');
+
+    if (contents.keywords.indexOf('ember-addon') === -1) {
+      contents.keywords.push('ember-addon');
+    }
 
     contents['ember-addon'] = contents['ember-addon'] || {};
 
