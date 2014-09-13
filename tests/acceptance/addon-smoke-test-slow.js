@@ -13,6 +13,7 @@ var ncp        = Promise.denodeify(require('ncp'));
 var EOL        = require('os').EOL;
 
 var runCommand       = require('../helpers/run-command');
+var copyFixtureFiles = require('../helpers/copy-fixture-files');
 
 function assertTmpEmpty() {
   var paths = walkSync('tmp')
@@ -90,6 +91,17 @@ describe('Acceptance: addon-smoke-test', function() {
     this.timeout(450000);
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+  });
+
+  it('can render a component with a manually imported template', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('addon/component-with-template')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
   });
 
 });
