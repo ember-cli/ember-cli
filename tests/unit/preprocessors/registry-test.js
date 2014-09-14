@@ -94,6 +94,15 @@ describe('Plugin Loader', function() {
     assert.equal(registered[0], randomPlugin);
   });
 
+  it('returns plugins added manually even if not present in package deps', function() {
+    var randomPlugin = {name: 'Awesome!'};
+
+    registry.add('foo', randomPlugin);
+    var plugins = registry.load('foo');
+
+    assert.equal(plugins[0], randomPlugin);
+  });
+
   describe('adds a plugin directly if it is provided', function() {
     it('returns an empty array if called on an unknown type', function() {
       assert.deepEqual(registry.registeredForType('foo'), []);
