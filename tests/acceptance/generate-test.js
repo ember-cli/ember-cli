@@ -460,26 +460,34 @@ describe('Acceptance: ember generate', function() {
   it('initializer foo', function() {
     return generate(['initializer', 'foo']).then(function() {
       assertFile('app/initializers/foo.js', {
-        contains: "export default {" + EOL +
+        contains: "export var initialize = function(/* container, app */) {" + EOL +
+                  "  // app.register('route', 'foo', 'service:foo');" + EOL +
+                  "};" + EOL +
+                  "" + EOL+
+                  "export default {" + EOL +
                   "  name: 'foo'," + EOL + EOL +
-                  "  initialize: function(/* container, app */) {" + EOL +
-                  "    // app.register('route', 'foo', 'service:foo');" + EOL +
-                  "  }" + EOL +
+                  "  initialize: initialize" + EOL +
                   "};"
       });
+
+      assertFile('tests/unit/initializers/foo-test.js');
     });
   });
 
   it('initializer foo/bar', function() {
     return generate(['initializer', 'foo/bar']).then(function() {
       assertFile('app/initializers/foo/bar.js', {
-        contains: "export default {" + EOL +
+        contains: "export var initialize = function(/* container, app */) {" + EOL +
+                  "  // app.register('route', 'foo', 'service:foo');" + EOL +
+                  "};" + EOL +
+                  "" + EOL+
+                  "export default {" + EOL +
                   "  name: 'foo/bar'," + EOL + EOL +
-                  "  initialize: function(/* container, app */) {" + EOL +
-                  "    // app.register('route', 'foo', 'service:foo');" + EOL +
-                  "  }" + EOL +
+                  "  initialize: initialize" + EOL +
                   "};"
       });
+
+      assertFile('tests/unit/initializers/foo/bar-test.js');
     });
   });
 
