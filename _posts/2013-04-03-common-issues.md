@@ -88,6 +88,9 @@ Wipe your vendor directory clean then run `bower install`.
 
 `npm rm ember-cli-ic-ajax --save-dev`
 
+* To reinstall latest Ember Data version
+
+`npm install ember-data --save-dev`
 
 ### Solving performance issues on windows
 
