@@ -4,6 +4,7 @@
 
 * [BUGFIX] Fixed an issue where project.config() could be called with undefined environment when starting express server. [#1959](https://github.com/stefanpenner/ember-cli/pull/1959)
 * [ENHANCEMENT] Update `broccoli-asset-rev`to `0.1.1`
+* [ENHANCEMENT] Improve blueprint self-documentation. [#1279](https://github.com/stefanpenner/ember-cli/pull/1279)
 
 ### 0.0.44
 

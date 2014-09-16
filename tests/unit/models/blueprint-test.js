@@ -6,7 +6,6 @@ var Task              = require('../../../lib/models/task');
 var MockProject       = require('../../helpers/mock-project');
 var MockUI            = require('../../helpers/mock-ui');
 var assert            = require('assert');
-var glob              = require('glob');
 var path              = require('path');
 var walkSync          = require('walk-sync');
 var rimraf            = require('rimraf');
@@ -77,7 +76,7 @@ describe('Blueprint', function() {
 
     it('finds blueprints in the ember-cli package', function() {
       var expectedPath = path.resolve(defaultBlueprints, 'app');
-      var expectedClass = require('../../../blueprints/app');
+      var expectedClass = Blueprint;
 
       var blueprint = Blueprint.lookup('app');
 
@@ -112,22 +111,30 @@ describe('Blueprint', function() {
 
   describe('.list', function() {
     it('returns a list of blueprints grouped by lookup path', function() {
-      var expectedDefaults = glob.sync(path.join(defaultBlueprints, '*'));
-      expectedDefaults = expectedDefaults.map(function(blueprint) {
-        return path.basename(blueprint);
-      });
-      var expectedFixtures = glob.sync(path.join(fixtureBlueprints, '*'));
-      expectedFixtures = expectedFixtures.map(function(blueprint) {
-        return path.basename(blueprint);
-      });
-
-      assert.deepEqual(Blueprint.list({ paths: [fixtureBlueprints] }), [{
+      var list = Blueprint.list({ paths: [fixtureBlueprints] });
+      var actual = list[0];
+      var expected = {
         source: 'fixtures',
-        blueprints: expectedFixtures
-      }, {
-        source: 'ember-cli',
-        blueprints: expectedDefaults
-      }]);
+        blueprints: [{
+          name: 'basic',
+          description: 'A basic blueprint',
+          overridden: false
+        }, {
+          name: 'basic_2',
+          description: 'Another basic blueprint',
+          overridden: false
+        }, {
+          name: 'exporting-object',
+          description: 'A blueprint that exports an object',
+          overridden: false
+        }, {
+          name: 'with-templating',
+          description: 'A blueprint with templating',
+          overridden: false
+        }]
+      };
+
+      assert.deepEqual(actual[0], expected[0]);
     });
   });
 

@@ -1,11 +1,16 @@
-var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
 var fs          = require('fs-extra');
 var inflection  = require('inflection');
 var path        = require('path');
 var EOL         = require('os').EOL;
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'Generates a route and registers it with the router.',
+
+  availableOptions: [
+    { name: 'type', values: ['route', 'resource'], default: 'route' }
+  ],
+
   beforeInstall: function(options) {
     var type = options.type;
 
@@ -49,7 +54,7 @@ module.exports = Blueprint.extend({
       });
     }
   }
-});
+};
 
 function removeRouteFromRouter(name, options) {
   var type       = options.type || 'route';

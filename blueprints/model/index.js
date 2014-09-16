@@ -1,9 +1,15 @@
-var Blueprint   = require('../../lib/models/blueprint');
 var inflection  = require('inflection');
 var stringUtils = require('../../lib/utilities/string');
 var EOL         = require('os').EOL;
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'Generates an ember-data model.',
+
+  anonymousOptions: [
+    'name',
+    'attr:type'
+  ],
+
   locals: function(options) {
     var attrs = [];
     var needs = [];
@@ -36,7 +42,7 @@ module.exports = Blueprint.extend({
       needs: needs
     };
   }
-});
+};
 
 function dsAttr(name, type) {
   switch (type) {

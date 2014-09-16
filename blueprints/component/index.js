@@ -1,7 +1,9 @@
 var Blueprint = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'Generates a component. Name must contain a hyphen.',
+
   normalizeEntityName: function(entityName) {
     entityName = Blueprint.prototype.normalizeEntityName.apply(this, arguments);
 
@@ -19,4 +21,4 @@ module.exports = Blueprint.extend({
 
     return entityName;
   }
-});
+};

@@ -1,9 +1,14 @@
 var fs         = require('fs');
 var path       = require('path');
 var stringUtil = require('../../lib/utilities/string');
-var Blueprint  = require('../../lib/models/blueprint');
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'Generates an ember-data adapter.',
+
+  availableOptions: [
+    { name: 'base-class', type: String, default: 'application' }
+  ],
+
   locals: function(options) {
     var baseClass       = 'DS.RESTAdapter';
     var importStatement = 'import DS from \'ember-data\';';
@@ -27,4 +32,4 @@ module.exports = Blueprint.extend({
       baseClass: baseClass
     };
   }
-});
+};

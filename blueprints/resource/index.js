@@ -3,7 +3,9 @@ var Promise    = require('../../lib/ext/promise');
 var merge      = require('lodash-node/compat/objects/merge');
 var inflection = require('inflection');
 
-module.exports = Blueprint.extend({
+module.exports = {
+  description: 'Generates a model and route.',
+
   install: function(options) {
     return this._process('install', options);
   },
@@ -49,6 +51,7 @@ module.exports = Blueprint.extend({
         name: inflection.singularize(options.entity.name)
       }
     });
+
     var routeOptions = merge({}, options, { type: 'resource' });
 
     return Promise.all([
@@ -56,4 +59,4 @@ module.exports = Blueprint.extend({
       this._processBlueprint(type, 'route', routeOptions)
     ]);
   }
-});
+};

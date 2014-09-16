@@ -1,4 +1,3 @@
-var Blueprint = require('../../lib/models/blueprint');
-
-module.exports = Blueprint.extend({
-});
+module.exports = {
+  description: 'Generates an ember-data serializer.'
+};
