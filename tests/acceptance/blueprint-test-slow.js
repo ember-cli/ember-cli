@@ -9,23 +9,10 @@ var fs         = require('fs');
 var ncp        = Promise.denodeify(require('ncp'));
 var assert     = require('assert');
 
+var buildApp         = require('../helpers/build-app');
 var runCommand       = require('../helpers/run-command');
 
 var appName  = 'some-cool-app';
-
-function buildApp(appName) {
-  return runCommand(path.join('..', 'bin', 'ember'), 'new', '--skip-git', appName, {
-    onOutput: function() {
-      return; // no output for initial application build
-    }
-  })
-  .catch(function(result) {
-    console.log(result.output.join('\n'));
-    console.log(result.errors.join('\n'));
-
-    throw result;
-  });
-}
 
 describe('Acceptance: blueprint smoke tests', function() {
   before(function() {
