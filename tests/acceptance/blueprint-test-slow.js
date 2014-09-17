@@ -31,44 +31,50 @@ describe('Acceptance: blueprint smoke tests', function() {
   before(function() {
     this.timeout(360000);
 
-    tmp.setup('./common-tmp');
-    process.chdir('./common-tmp');
-
-    conf.setup();
-    return buildApp(appName)
+    return tmp.setup('./common-tmp')
       .then(function() {
-        return rimraf(path.join(appName, 'node_modules', 'ember-cli'));
+        process.chdir('./common-tmp');
+
+        conf.setup();
+        return buildApp(appName)
+          .then(function() {
+            return rimraf(path.join(appName, 'node_modules', 'ember-cli'));
+          });
       });
   });
 
   after(function() {
-    tmp.teardown('./common-tmp');
-    conf.restore();
+    return tmp.teardown('./common-tmp')
+      .then(function() {
+        conf.restore();
+      });
   });
 
   beforeEach(function() {
     this.timeout(10000);
-    tmp.setup('./tmp');
-    return ncp('./common-tmp/' + appName, './tmp/' + appName, {
-      clobber: true,
-      stopOnErr: true
-    })
-    .then(function() {
-      process.chdir('./tmp');
+    return tmp.setup('./tmp')
+      .then(function() {
+        return ncp('./common-tmp/' + appName, './tmp/' + appName, {
+          clobber: true,
+          stopOnErr: true
+        });
+      })
+      .then(function() {
+        process.chdir('./tmp');
 
-      var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
-      var pwd = process.cwd();
+        var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
+        var pwd = process.cwd();
 
-      fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
 
-      process.chdir(appName);
-    });
+        process.chdir(appName);
+      });
   });
 
   afterEach(function() {
     this.timeout(10000);
 
-    tmp.teardown('./tmp');
+    return tmp.teardown('./tmp');
   });
 
   it('generating an http-proxy installs packages to package.json', function() {

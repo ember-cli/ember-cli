@@ -27,15 +27,18 @@ describe('Acceptance: ember init', function() {
   });
 
   beforeEach(function() {
-    tmp.setup('./tmp');
-    process.chdir('./tmp');
     Blueprint.ignoredFiles = defaultIgnoredFiles;
+
+    return tmp.setup('./tmp')
+      .then(function() {
+        process.chdir('./tmp');
+      });
   });
 
   afterEach(function() {
     this.timeout(10000);
 
-    tmp.teardown('./tmp');
+    return tmp.teardown('./tmp');
   });
 
   function confirmBlueprinted() {
@@ -73,16 +76,21 @@ describe('Acceptance: ember init', function() {
   });
 
   it('ember init can run in created folder', function() {
-    tmp.setup('./tmp/foo');
-    process.chdir('./tmp/foo');
-
-    return ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower'
-    ]).then(confirmBlueprinted).then(function() {
-      tmp.teardown('./tmp/foo');
-    });
+    return tmp.setup('./tmp/foo')
+      .then(function() {
+        process.chdir('./tmp/foo');
+      })
+      .then(function() {
+        return ember([
+          'init',
+          '--skip-npm',
+          '--skip-bower'
+        ]);
+      })
+      .then(confirmBlueprinted)
+      .then(function() {
+        return tmp.teardown('./tmp/foo');
+      });
   });
 
   it('init an already init\'d folder', function() {
@@ -90,12 +98,14 @@ describe('Acceptance: ember init', function() {
       'init',
       '--skip-npm',
       '--skip-bower'
-    ]).then(function() {
+    ])
+    .then(function() {
       return ember([
         'init',
         '--skip-npm',
         '--skip-bower'
-      ]).then(confirmBlueprinted);
-    });
+      ]);
+    })
+    .then(confirmBlueprinted);
   });
 });

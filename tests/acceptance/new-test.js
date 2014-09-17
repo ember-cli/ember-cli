@@ -19,14 +19,16 @@ describe('Acceptance: ember new', function() {
   after(conf.restore);
 
   beforeEach(function() {
-    tmp.setup('./tmp');
-    process.chdir('./tmp');
+    return tmp.setup('./tmp')
+      .then(function() {
+        process.chdir('./tmp');
+      });
   });
 
   afterEach(function() {
     this.timeout(10000);
 
-    tmp.teardown('./tmp');
+    return tmp.teardown('./tmp');
   });
 
   function confirmBlueprintedForDir(dir) {
@@ -111,19 +113,24 @@ describe('Acceptance: ember new', function() {
   });
 
   it('ember new with blueprint uses the specified blueprint directory', function() {
-    tmp.setup('./tmp/my_blueprint');
-    tmp.setup('./tmp/my_blueprint/files');
-    fs.writeFileSync('./tmp/my_blueprint/files/gitignore');
-    process.chdir('./tmp');
+    return tmp.setup('./tmp/my_blueprint')
+      .then(function() {
+        return tmp.setup('./tmp/my_blueprint/files');
+      })
+      .then(function() {
+        fs.writeFileSync('./tmp/my_blueprint/files/gitignore');
+        process.chdir('./tmp');
 
-    return ember([
-      'new',
-      'foo',
-      '--skip-npm',
-      '--skip-bower',
-      '--skip-git',
-      '--blueprint=my_blueprint'
-    ]).then(confirmBlueprintedForDir('tmp/my_blueprint'));
+        return ember([
+          'new',
+          'foo',
+          '--skip-npm',
+          '--skip-bower',
+          '--skip-git',
+          '--blueprint=my_blueprint'
+        ]);
+      })
+      .then(confirmBlueprintedForDir('tmp/my_blueprint'));
   });
 
   it('ember new without skip-git flag creates .git dir', function(){

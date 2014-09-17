@@ -3,11 +3,12 @@
 var fs           = require('fs');
 var path         = require('path');
 var ConfigLoader = require('../../../lib/broccoli/broccoli-config-loader');
+var Promise      = require('../../../lib/ext/promise');
 var assert       = require('assert');
 var root         = process.cwd();
 var tmp          = require('tmp-sync');
 var tmproot      = path.join(root, 'tmp');
-var rimraf       = require('rimraf');
+var rimraf       = Promise.denodeify(require('rimraf'));
 
 describe('broccoli/broccoli-config-loader', function() {
   var configLoader, tmpDestDir, tmpSrcDir,  project, options;
@@ -42,7 +43,7 @@ describe('broccoli/broccoli-config-loader', function() {
   });
 
   afterEach(function() {
-    rimraf.sync(tmpDestDir);
+    return rimraf(tmpDestDir);
   });
 
   describe('updateCache', function() {
