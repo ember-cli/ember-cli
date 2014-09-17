@@ -112,6 +112,23 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
+  it('ember test exits with non-zero when no tests are run', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('smoke-tests/no-testem-launchers')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+          .then(function() {
+            assert(false, 'should have rejected with a failing test');
+          })
+          .catch(function(result) {
+            assert.equal(result.code, 1);
+          });
+      });
+  });
+
   it('ember new foo, build production and verify fingerprint', function() {
     console.log('    running the slow fingerprint it will take some time');
 
