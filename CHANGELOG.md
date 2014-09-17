@@ -2,9 +2,47 @@
 
 ### master
 
+### master
+
+#### Applications
+
+* [BREAKING ENHANCEMENT] Moved `modulePrefix` to `config/environment.js`. [#1933](https://github.com/stefanpenner/ember-cli/pull/1933)
+* [BREAKING ENHANCEMENT] Remove `window.MyAppNameENV`. You will now need to import the configuration instead of relying on using the global.  [#1903](https://github.com/stefanpenner/ember-cli/pull/1903). 
+
+```javascript
+import ENV from '<appName>/config/environment';
+ENV.API_HOST; // example.com
+```
+
+* [ENHANCEMENT] Allowing config of asset output paths. [#1904](https://github.com/stefanpenner/ember-cli/pull/1904)
+* [ENHANCEMENT] Add a default `.ember-cli` file and document disableAnalytics. [#1801](https://github.com/stefanpenner/ember-cli/pull/1801)
+* [BUGFIX] Add location type for test environment. This generally makes using `ember test` with a custom baseURL work properly. [#1915](https://github.com/stefanpenner/ember-cli/pull/1915)
+* [ENHANCEMENT] Allow multiple pre-processors per type (for example, using `broccoli-sass` AND `broccoli-less` is now possible). [#1918](https://github.com/stefanpenner/ember-cli/pull/1918)
+* [ENHANCEMENT] Update `startApp` to provide app configuration. [#1329](https://github.com/stefanpenner/ember-cli/pull/1329)
+* [BUGFIX] Remove manual `env === 'production'` checks. [#1929](https://github.com/stefanpenner/ember-cli/pull/1929)
 * [BUGFIX] Fixed an issue where project.config() could be called with undefined environment when starting express server. [#1959](https://github.com/stefanpenner/ember-cli/pull/1959)
-* [ENHANCEMENT] Update `broccoli-asset-rev`to `0.1.1`
-* [ENHANCEMENT] Improve blueprint self-documentation. [#1279](https://github.com/stefanpenner/ember-cli/pull/1279)
+* [ENHANCEMENT] Improve blueprint self-documentation by adding additional details to `ember help generate`. [#1279](https://github.com/stefanpenner/ember-cli/pull/1279)
+* [ENHANCEMENT] Update `broccoli-asset-rev`to `0.1.1`. [#1945](https://github.com/stefanpenner/ember-cli/pull/1945)
+* [ENHANCEMENT] Update app blueprint's `package.json`/`bower.json` to depend on ember-data. [#1873](https://github.com/stefanpenner/ember-cli/pull/1873)
+* [BUGFIX] Ensure that things loaded by server/index.js override addons. This changes the middleware ordering so that the app's middlewares are loaded *before*
+  the internal middlewares. [#2008](https://github.com/stefanpenner/ember-cli/pull/2008)
+* [BUGFIX] Removed broccoli-sweetjs from the internal preprocessor registry. [#2014](https://github.com/stefanpenner/ember-cli/pull/2014)
+
+#### Addons
+
+* [ENHANCEMENT] Allow addons to return a public tree. By default anything in an addon's `public/` folder will be copied into a folder for that addon's name
+in the output path. [#1930](https://github.com/stefanpenner/ember-cli/pull/1930)
+* [BUGFIX] Remove extra nesting of `addon/styles` tree. Previously, the addon styles tree was looking for `addon/styles/styles/`. [#1964](https://github.com/stefanpenner/ember-cli/pull/1964)
+* [ENHANCEMENT] Add `config` hook for addons. [#1972](https://github.com/stefanpenner/ember-cli/pull/1972)
+* [BUGFIX] Ensure we do not add `ember-addon` twice when running `ember init` (to upgrade an addon). [#1982](https://github.com/stefanpenner/ember-cli/pull/1982)
+* [BUGFIX] Allow `addon/templates` to be properly available inside the `my-addon-name.js` file with the correct module name. [#1983](https://github.com/stefanpenner/ember-cli/pull/1983)
+
+#### Blueprints
+
+* [ENHANCEMENT] Add empty function to resource blueprint when resource is singular. [#1946](https://github.com/stefanpenner/ember-cli/pull/1946)
+* [BUGFIX] Do not inject application route into app/router.js. [#1953](https://github.com/stefanpenner/ember-cli/pull/1953)
+* [ENHANCEMENT] Add `Blueprint.prototype.lookupBlueprint` which allows a blueprint to lookup other Blueprints. This makes it much easier to provide Blueprints that
+  augment existing internal blueprints without having to copy and override them completely. [#2016](https://github.com/stefanpenner/ember-cli/pull/2016)
 
 ### 0.0.44
 
