@@ -48,7 +48,9 @@ describe('models/project.js', function() {
         }
       };
 
-      assert.equal(project.configPath(), 'tests/dummy/config/environment');
+      var expected = path.normalize('tests/dummy/config/environment');
+
+      assert.equal(project.configPath(), expected);
     });
 
     it('calls getAddonsConfig', function() {
