@@ -29,7 +29,14 @@ module.exports = function run(/* command, args, options */) {
   return new RSVP.Promise(function(resolve, reject) {
     console.log('Running: ' + command + ' ' + args.join(' '));
 
-    var child = spawn(command, args);
+    var opts = {};
+    if (process.platform === 'win32') {
+      args = ['"' + command + '"'].concat(args);
+      command = 'node';
+      opts.windowsVerbatimArguments = true;
+    }
+
+    var child = spawn(command, args, opts);
     var result = {
       output: [],
       errors: [],
