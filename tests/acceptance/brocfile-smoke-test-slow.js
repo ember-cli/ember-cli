@@ -16,7 +16,7 @@ var copyFixtureFiles = require('../helpers/copy-fixture-files');
 var appName  = 'some-cool-app';
 
 function buildApp(appName) {
-  return runCommand(path.join('..', 'bin', 'ember'), 'new', appName, {
+  return runCommand(path.join('..', 'bin', 'ember'), 'new', '--skip-git', appName, {
     onOutput: function() {
       return; // no output for initial application build
     }

@@ -25,7 +25,7 @@ function assertTmpEmpty() {
 }
 
 function buildAddon(addonName) {
-  return runCommand(path.join('..', 'bin', 'ember'), 'addon', addonName, {
+  return runCommand(path.join('..', 'bin', 'ember'), 'addon', '--skip-git', addonName, {
     onOutput: function() {
       return; // no output for initial application build
     }
@@ -55,7 +55,7 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   after(function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
     return tmp.teardown('./common-tmp')
       .then(function() {
@@ -64,7 +64,8 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   beforeEach(function() {
-    this.timeout(10000);
+    this.timeout(15000);
+
     return tmp.setup('./tmp')
       .then(function() {
         return ncp('./common-tmp/' + addonName, './tmp/' + addonName, {
@@ -85,7 +86,7 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
     assertTmpEmpty();
     return tmp.teardown('./tmp');
