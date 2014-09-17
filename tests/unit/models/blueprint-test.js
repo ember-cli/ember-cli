@@ -579,4 +579,44 @@ describe('Blueprint', function() {
         });
     });
   });
+
+  describe('lookupBlueprint', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var project;
+    var filename;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+      project   = new MockProject();
+
+      // normally provided by `install`, but mocked here for testing
+      project.root = tmpdir;
+      blueprint.project = project;
+      project.blueprintLookupPaths = function() {
+        return [fixtureBlueprints];
+      };
+
+      filename = 'foo-bar-baz.txt';
+    });
+
+    afterEach(function() {
+      rimraf.sync(tmproot);
+    });
+
+    it('can lookup other Blueprints from the project blueprintLookupPaths', function() {
+      var result = blueprint.lookupBlueprint('basic_2');
+
+      assert.equal(result.description, 'Another basic blueprint');
+    });
+
+    it('can find internal blueprints', function() {
+      var result = blueprint.lookupBlueprint('controller');
+
+      assert.equal(result.description, 'Generates a controller of the given type.');
+    });
+  });
 });
