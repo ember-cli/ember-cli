@@ -5,6 +5,7 @@ var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server')
 var MockUI           = require('../../../helpers/mock-ui');
 var net              = require('net');
 var EOL              = require('os').EOL;
+var path             = require('path');
 
 var MockWatcher  = require('../../../helpers/mock-watcher');
 describe('livereload-server', function() {
@@ -96,7 +97,13 @@ describe('livereload-server', function() {
     });
 
     it('does not trigger livereoad server of a change when there is a pattern match', function() {
-      subject.project.liveReloadFilterPatterns = [/^test\/fixtures\/proxy/];
+      // normalize test regex for windows
+      // path.normalize with change forward slashes to back slashes if test is running on windows
+      // we then replace backslashes with double backslahes to escape the backslash in the regex
+      var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+      var filter = new RegExp('^' + basePath);
+      subject.project.liveReloadFilterPatterns = [filter];
+
       subject.didChange({
         filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
       });
