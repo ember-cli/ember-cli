@@ -1,12 +1,11 @@
 var fs         = require('fs');
 var path       = require('path');
 var walkSync   = require('walk-sync');
-var Blueprint  = require('../../lib/models/blueprint');
 var stringUtil = require('../../lib/utilities/string');
 var assign     = require('lodash-node/modern/objects/assign');
 var uniq       = require('lodash-node/underscore/arrays/uniq');
 
-module.exports = Blueprint.extend({
+module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
   afterInstall: function(options) {
@@ -53,14 +52,14 @@ module.exports = Blueprint.extend({
   files: function() {
     if (this._files) { return this._files; }
 
-    var appFiles   = Blueprint.lookup('app').files();
+    var appFiles   = this.lookupBlueprint('app').files();
     var addonFiles = walkSync(path.join(this.path, 'files'));
 
     return this._files = uniq(appFiles.concat(addonFiles));
   },
 
   mapFile: function(file, locals) {
-    var result = Blueprint.prototype.mapFile.call(this, file, locals);
+    var result = this._super.mapFile.call(this, file, locals);
     return this.fileMapper(result);
   },
 
@@ -89,8 +88,8 @@ module.exports = Blueprint.extend({
     if (fs.existsSync(filePath)) {
       return filePath;
     } else {
-      var appBlueprint = Blueprint.lookup('app');
+      var appBlueprint = this.lookupBlueprint('app');
       return path.resolve(appBlueprint.path, 'files', file);
     }
   }
-});
+};
