@@ -34,12 +34,14 @@ ember generate <blueprint> <options...>
     ember-cli:
       acceptance-test
       adapter
-      api-stub
+      addon
       app
       blueprint
       component
       controller
       helper
+      http-mock
+      http-proxy
       initializer
       mixin
       model
