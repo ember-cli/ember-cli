@@ -247,7 +247,9 @@ describe('Blueprint', function() {
         })
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
-          var output = ui.output.trim().split(EOL);
+          // Prompts contain \n EOL
+          // Split output on \n since it will have the same affect as spliting on OS specific EOL
+          var output = ui.output.trim().split('\n');
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /Overwrite.*foo.*\?/); // Prompt
           assert.match(output.shift(), /Overwrite.*foo.*No, skip/);
@@ -297,7 +299,9 @@ describe('Blueprint', function() {
           })
           .then(function() {
             var actualFiles = walkSync(tmpdir).sort();
-            var output = ui.output.trim().split(EOL);
+            // Prompts contain \n EOL
+            // Split output on \n since it will have the same affect as spliting on OS specific EOL
+            var output = ui.output.trim().split('\n');
             assert.match(output.shift(), /^installing/);
             assert.match(output.shift(), /Overwrite.*test.*\?/); // Prompt
             assert.match(output.shift(), /Overwrite.*test.*No, skip/);
