@@ -10,7 +10,7 @@ var assert          = require('assert');
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
-var rimraf          = require('rimraf');
+var rimraf          = Promise.denodeify(require('rimraf'));
 var tmp             = require('tmp-sync');
 
 var root            = process.cwd();
@@ -32,7 +32,7 @@ describe('models/builder.js', function() {
     });
 
     afterEach(function() {
-      rimraf.sync(tmproot);
+      return rimraf(tmproot);
     });
 
     it('allows for non-existent output-paths at arbitrary depth', function() {

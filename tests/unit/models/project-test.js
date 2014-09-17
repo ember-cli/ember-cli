@@ -18,22 +18,22 @@ describe('models/project.js', function() {
     beforeEach(function() {
       projectPath = process.cwd() + '/tmp/test-app';
       called = false;
-      tmp.setup(projectPath);
+      return tmp.setup(projectPath)
+        .then(function() {
+          touch(projectPath + '/config/environment.js', {
+            baseURL: '/foo/bar'
+          });
 
-      touch(projectPath + '/config/environment.js', {
-        baseURL: '/foo/bar'
-      });
-
-      project = new Project(projectPath, { });
-      project.require = function() {
-        called = true;
-        return function() {};
-      };
-
+          project = new Project(projectPath, { });
+          project.require = function() {
+            called = true;
+            return function() {};
+          };
+        });
     });
 
     after(function() {
-      tmp.teardown(projectPath);
+      return tmp.teardown(projectPath);
     });
 
     it('config() finds and requires config/environment', function() {
@@ -70,13 +70,16 @@ describe('models/project.js', function() {
       var expected = {
         foo: 'bar'
       };
-      tmp.setup(projectPath); // ensure no config/environment.js is present
-      project.getAddonsConfig = function() {
-        return expected;
-      };
 
-      var actual = project.config('development');
-      assert.deepEqual(actual, expected);
+      return tmp.setup(projectPath) // ensure no config/environment.js is present
+        .then(function() {
+          project.getAddonsConfig = function() {
+            return expected;
+          };
+
+          var actual = project.config('development');
+          assert.deepEqual(actual, expected);
+        });
     });
 
     describe('merges getAddonsConfig result with app config', function() {

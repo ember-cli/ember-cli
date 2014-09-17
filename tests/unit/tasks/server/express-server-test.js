@@ -147,7 +147,7 @@ describe('express-server', function() {
 
       it('bypasses proxy for files that exist', function(done) {
         bypassTest(subject.app, '/test-file.txt', done, function(response) {
-          assert.equal(response.text, 'some contents' + EOL);
+          assert.equal(response.text.trim(), 'some contents');
         });
       });
 
@@ -274,7 +274,7 @@ describe('express-server', function() {
             request(subject.app)
             .get('/test-file.txt')
             .end(function(err, response) {
-              assert.equal(response.text, 'some contents' + EOL);
+              assert.equal(response.text.trim(), 'some contents');
               done();
             });
           });
@@ -291,7 +291,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                assert.equal(response.text, 'some other content' + EOL);
+                assert.equal(response.text.trim(), 'some other content');
 
                 done();
               });
@@ -309,7 +309,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                assert.equal(response.text, 'some other content' + EOL);
+                assert.equal(response.text.trim(), 'some other content');
 
                 done();
               });

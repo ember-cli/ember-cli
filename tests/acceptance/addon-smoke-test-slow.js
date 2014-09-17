@@ -25,7 +25,7 @@ function assertTmpEmpty() {
 }
 
 function buildAddon(addonName) {
-  return runCommand(path.join('..', 'bin', 'ember'), 'addon', addonName, {
+  return runCommand(path.join('..', 'bin', 'ember'), 'addon', '--skip-git', addonName, {
     onOutput: function() {
       return; // no output for initial application build
     }
@@ -42,47 +42,54 @@ describe('Acceptance: addon-smoke-test', function() {
   before(function() {
     this.timeout(360000);
 
-    tmp.setup('./common-tmp');
-    process.chdir('./common-tmp');
-
-    conf.setup();
-    return buildAddon(addonName)
+    return tmp.setup('./common-tmp')
       .then(function() {
-        return rimraf(path.join(addonName, 'node_modules', 'ember-cli'));
+        process.chdir('./common-tmp');
+
+        conf.setup();
+        return buildAddon(addonName)
+          .then(function() {
+            return rimraf(path.join(addonName, 'node_modules', 'ember-cli'));
+          });
       });
   });
 
   after(function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
-    tmp.teardown('./common-tmp');
-    conf.restore();
+    return tmp.teardown('./common-tmp')
+      .then(function() {
+        conf.restore();
+      });
   });
 
   beforeEach(function() {
-    this.timeout(10000);
-    tmp.setup('./tmp');
-    return ncp('./common-tmp/' + addonName, './tmp/' + addonName, {
-      clobber: true,
-      stopOnErr: true
-    })
-    .then(function() {
-      process.chdir('./tmp');
+    this.timeout(15000);
 
-      var appsECLIPath = path.join(addonName, 'node_modules', 'ember-cli');
-      var pwd = process.cwd();
+    return tmp.setup('./tmp')
+      .then(function() {
+        return ncp('./common-tmp/' + addonName, './tmp/' + addonName, {
+          clobber: true,
+          stopOnErr: true
+        });
+      })
+      .then(function() {
+        process.chdir('./tmp');
 
-      fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+        var appsECLIPath = path.join(addonName, 'node_modules', 'ember-cli');
+        var pwd = process.cwd();
 
-      process.chdir(addonName);
-    });
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+
+        process.chdir(addonName);
+      });
   });
 
   afterEach(function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
     assertTmpEmpty();
-    tmp.teardown('./tmp');
+    return tmp.teardown('./tmp');
   });
 
   it('ember addon foo, clean from scratch', function() {

@@ -8,7 +8,8 @@ var MockUI            = require('../../helpers/mock-ui');
 var assert            = require('assert');
 var path              = require('path');
 var walkSync          = require('walk-sync');
-var rimraf            = require('rimraf');
+var Promise           = require('../../../lib/ext/promise');
+var rimraf            = Promise.denodeify(require('rimraf'));
 var EOL               = require('os').EOL;
 var root              = process.cwd();
 var tmp               = require('tmp-sync');
@@ -168,7 +169,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      rimraf.sync(tmproot);
+      return rimraf(tmproot);
     });
 
     it('installs basic files', function() {
@@ -381,7 +382,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      rimraf.sync(tmproot);
+      return rimraf(tmproot);
     });
 
     it('calls _exec with the proper command when no version is supplied', function() {
@@ -443,7 +444,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      rimraf.sync(tmproot);
+      return rimraf(tmproot);
     });
 
     it('looks up the `bower-install` task', function() {
@@ -519,7 +520,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      rimraf.sync(tmproot);
+      return rimraf(tmproot);
     });
 
     it('will create the file if not already existing', function() {
@@ -608,7 +609,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      rimraf.sync(tmproot);
+      return rimraf(tmproot);
     });
 
     it('can lookup other Blueprints from the project blueprintLookupPaths', function() {

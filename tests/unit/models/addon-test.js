@@ -3,9 +3,10 @@
 var fs      = require('fs');
 var path    = require('path');
 var Project = require('../../../lib/models/project');
-var Addon = require('../../../lib/models/addon');
+var Addon   = require('../../../lib/models/addon');
+var Promise = require('../../../lib/ext/promise');
 var assert  = require('assert');
-var rimraf  = require('rimraf');
+var rimraf  = Promise.denodeify(require('rimraf'));
 var tmp     = require('tmp-sync');
 
 var root    = process.cwd();
@@ -290,7 +291,7 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        rimraf.sync(tmproot);
+        return rimraf(tmproot);
       });
 
       it('returns undefined if the `blueprint` folder does not exist', function() {
