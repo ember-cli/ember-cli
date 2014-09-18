@@ -1,5 +1,10 @@
 # ember-cli Changelog
 
+### 0.0.46
+
+* [BUGFIX] Addons shared the same `treePaths` and `treeForMethods` listing. This meant that an addon changing `this.treePaths.vendor` (for example) would modify where
+  ALL addons looked for their vendor trees. [#2035](https://github.com/stefanpenner/ember-cli/pull/2035)
+
 ### 0.0.45
 
 #### Applications
