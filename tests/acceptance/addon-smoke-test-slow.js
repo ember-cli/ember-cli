@@ -89,6 +89,26 @@ describe('Acceptance: addon-smoke-test', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
+  it('ember addon without addon/ directory', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return rimraf('addon')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
+          onOutput: function(string, process) {
+            if (string.match(/Build successful/)) {
+              process.kill('SIGINT');
+            }
+          }
+        })
+        .catch(function() {
+          // just eat the rejection as we are testing what happens
+        });
+      });
+  });
+
   it('can render a component with a manually imported template', function() {
     console.log('    running the slow end-to-end it will take some time');
 
