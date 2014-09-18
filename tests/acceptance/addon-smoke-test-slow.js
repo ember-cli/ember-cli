@@ -13,6 +13,7 @@ var ncp        = Promise.denodeify(require('ncp'));
 var EOL        = require('os').EOL;
 
 var runCommand       = require('../helpers/run-command');
+var buildApp         = require('../helpers/build-app');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
 
 function assertTmpEmpty() {
@@ -24,20 +25,6 @@ function assertTmpEmpty() {
   assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
 }
 
-function buildAddon(addonName) {
-  return runCommand(path.join('..', 'bin', 'ember'), 'addon', '--skip-git', addonName, {
-    onOutput: function() {
-      return; // no output for initial application build
-    }
-  })
-  .catch(function(result) {
-    console.log(result.output.join('\n'));
-    console.log(result.errors.join('\n'));
-
-    throw result;
-  });
-}
-
 describe('Acceptance: addon-smoke-test', function() {
   before(function() {
     this.timeout(360000);
@@ -47,7 +34,9 @@ describe('Acceptance: addon-smoke-test', function() {
         process.chdir('./common-tmp');
 
         conf.setup();
-        return buildAddon(addonName)
+        return buildApp(addonName, {
+          command: 'addon'
+        })
           .then(function() {
             return rimraf(path.join(addonName, 'node_modules', 'ember-cli'));
           });
