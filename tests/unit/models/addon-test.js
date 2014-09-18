@@ -17,6 +17,52 @@ var fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 describe('models/addon.js', function() {
   var addon, project, projectPath;
 
+  describe('treePaths and treeForMethods', function() {
+    var FirstAddon, SecondAddon;
+
+    beforeEach(function() {
+      projectPath = path.resolve(fixturePath, 'simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+
+      FirstAddon = Addon.extend({
+        name: 'first',
+
+        init: function() {
+          this.treePaths.vendor = 'blazorz';
+          this.treeForMethods.public = 'huzzah!';
+        }
+      });
+
+      SecondAddon = Addon.extend({
+        name: 'first',
+
+        init: function() {
+          this.treePaths.vendor = 'blammo';
+          this.treeForMethods.public = 'boooo';
+        }
+      });
+
+    });
+
+    it('modifying a treePath does not affect other addons', function() {
+      var first = new FirstAddon(project);
+      var second = new SecondAddon(project);
+
+      assert.equal(first.treePaths.vendor, 'blazorz');
+      assert.equal(second.treePaths.vendor, 'blammo');
+    });
+
+    it('modifying a treeForMethod does not affect other addons', function() {
+      var first = new FirstAddon(project);
+      var second = new SecondAddon(project);
+
+      assert.equal(first.treeForMethods.public, 'huzzah!');
+      assert.equal(second.treeForMethods.public, 'boooo');
+    });
+  });
+
   describe('resolvePath', function() {
     before(function() {
       addon = {
