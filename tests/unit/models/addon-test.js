@@ -262,6 +262,10 @@ describe('models/addon.js', function() {
                 }
               }];
             },
+
+            extensionsForType: function() {
+              return ['js'];
+            }
           };
           addon.included(app);
           var tree = addon.treeFor('addon');
