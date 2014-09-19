@@ -116,4 +116,28 @@ describe('Plugin Loader', function() {
       assert.equal(registry.registeredForType('foo'), fooArray);
     });
   });
+
+  it('allows removal of a specified plugin', function() {
+    registry.availablePlugins['broccoli-ruby-sass'] = 'latest';
+    registry.remove('css', 'broccoli-sass');
+
+    var plugins = registry.load('css');
+    assert.equal(plugins.length, 1);
+    assert.equal(plugins[0].name, 'broccoli-ruby-sass');
+  });
+
+  it('allows removal of plugin added as instantiated objects', function() {
+    var randomPlugin, plugins;
+
+    randomPlugin = {name: 'Awesome!'};
+    registry.add('foo', randomPlugin);
+
+    plugins = registry.load('foo');
+    assert.equal(plugins[0], randomPlugin); // precondition
+
+    registry.remove('foo', randomPlugin);
+
+    plugins = registry.load('foo');
+    assert.equal(plugins.length, 0);
+  });
 });
