@@ -80,13 +80,11 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var indexContents = fs.readFileSync(path.join('dist', 'index.html'), { encoding: 'utf8' });
-        var testIndexContents = fs.readFileSync(path.join('dist', 'tests', 'index.html'), { encoding: 'utf8' });
+        var vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), { encoding: 'utf8' });
 
         var expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
 
-        assert(indexContents.indexOf(expected) > -1, 'EmberENV should be in index.html');
-        assert(testIndexContents.indexOf(expected) > -1, 'EmberENV should be in tests/index.html');
+        assert(vendorContents.indexOf(expected) > -1, 'EmberENV should be in assets/vendor.js');
       });
   });
 
