@@ -103,6 +103,22 @@ describe('Plugin Loader', function() {
     assert.equal(plugins[0], randomPlugin);
   });
 
+  describe('extensionsForType', function() {
+    it('includes all extensions for the given type', function() {
+
+      var extensions = registry.extensionsForType('css');
+
+      assert.deepEqual(extensions, ['scss', 'sass']);
+    });
+
+    it('can handle mixed array and non-array extensions', function() {
+      registry.add('css', 'broccoli-foo', 'foo');
+      var extensions = registry.extensionsForType('css');
+
+      assert.deepEqual(extensions, ['scss', 'sass', 'foo']);
+    });
+  });
+
   describe('adds a plugin directly if it is provided', function() {
     it('returns an empty array if called on an unknown type', function() {
       assert.deepEqual(registry.registeredForType('foo'), []);
