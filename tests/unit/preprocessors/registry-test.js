@@ -108,14 +108,14 @@ describe('Plugin Loader', function() {
 
       var extensions = registry.extensionsForType('css');
 
-      assert.deepEqual(extensions, ['scss', 'sass']);
+      assert.deepEqual(extensions, ['css', 'scss', 'sass']);
     });
 
     it('can handle mixed array and non-array extensions', function() {
       registry.add('css', 'broccoli-foo', 'foo');
       var extensions = registry.extensionsForType('css');
 
-      assert.deepEqual(extensions, ['scss', 'sass', 'foo']);
+      assert.deepEqual(extensions, ['css', 'scss', 'sass', 'foo']);
     });
   });
 
