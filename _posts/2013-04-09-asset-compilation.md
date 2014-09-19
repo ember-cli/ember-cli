@@ -174,19 +174,10 @@ directory as well as add a cloudfront domain to each fingerprinted asset.
 
 {% highlight javascript linenos %}
 var app = new EmberApp({
-  name: require('./package.json').name,
-
-  minifyCSS: {
-    enabled: true,
-    options: {}
-  },
-
   fingerprint: {
     exclude: ['fonts/169929'],
     prepend: 'https://sudomain.cloudfront.net/'
-  },
-
-  getEnvJSON: require('./config/environment')
+  }
 });
 {% endhighlight %}
 
