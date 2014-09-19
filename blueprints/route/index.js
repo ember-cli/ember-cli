@@ -10,6 +10,23 @@ module.exports = {
   availableOptions: [
     { name: 'type', values: ['route', 'resource'], default: 'route' }
   ],
+  
+  fileMapTokens: function() {
+    return {
+      __templatepath__: function(options) {
+        if (options.pod) {
+          return options.podPath+options.dasherizedModuleName;
+        }
+        return 'templates';
+      },
+      __templatename__: function(options) {
+        if (options.pod) {
+          return 'template';
+        }
+        return options.dasherizedModuleName;
+      }
+    };
+  },
 
   beforeInstall: function(options) {
     var type = options.type;

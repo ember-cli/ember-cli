@@ -1,5 +1,10 @@
 # ember-cli Changelog
 
+### Master
+
+* [ENHANCEMENT] Add `--pod` option to blueprints generate and destroy. Add `fileMapTokens` hook to blueprints, and optional
+  blueprint file tokens `__path__` and `__test__` for pod support. [#1994](https://github.com/stefanpenner/ember-cli/pull/1994)
+
 ### 0.0.46
 
 * [BUGFIX] Addons shared the same `treePaths` and `treeForMethods` listing. This meant that an addon changing `this.treePaths.vendor` (for example) would modify where
@@ -10,7 +15,7 @@
 #### Applications
 
 * [BREAKING ENHANCEMENT] Moved `modulePrefix` to `config/environment.js`. [#1933](https://github.com/stefanpenner/ember-cli/pull/1933)
-* [BREAKING ENHANCEMENT] Remove `window.MyAppNameENV`. You will now need to import the configuration instead of relying on using the global.  [#1903](https://github.com/stefanpenner/ember-cli/pull/1903). 
+* [BREAKING ENHANCEMENT] Remove `window.MyAppNameENV`. You will now need to import the configuration instead of relying on using the global.  [#1903](https://github.com/stefanpenner/ember-cli/pull/1903).
 
 ```javascript
 import ENV from '<appName>/config/environment';

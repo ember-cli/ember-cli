@@ -53,6 +53,35 @@ describe('Blueprint', function() {
       path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
       assert.equal(path,'my-blueprint/my-blueprint.js');
     });
+    it('accepts locals.fileMap with multiple mappings',function(){
+      var locals = {};
+      locals.fileMap= {
+        __name__: 'user',
+        __type__: 'controller',
+        __path__: 'pods/users',
+        __plural__: ''
+      };
+
+      var path = Blueprint.prototype.mapFile('__name__/__type____plural__.js',locals);
+      assert.equal(path,'user/controller.js');
+
+      path = Blueprint.prototype.mapFile('__path__/__name__/__type__.js',locals);
+      assert.equal(path,'pods/users/user/controller.js');
+    });
+  });
+  describe('.fileMapTokens', function() {
+    it('adds additional tokens from fileMapTokens hook', function() {
+      var blueprint = Blueprint.lookup(basicBlueprint);
+      blueprint.fileMapTokens = function() {
+        return {
+          __foo__: function(){
+            return 'foo';
+          }
+        };
+      };
+      var tokens = blueprint._fileMapTokens();
+      assert.equal(tokens.__foo__(), 'foo');
+    });
   });
   describe('.lookup', function() {
     it('uses an explicit path if one is given', function() {
