@@ -69,6 +69,27 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return tmp.teardown('./tmp');
   });
 
+  it('a custom EmberENV in config/environment.js is used for window.EmberENV', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+
+    return copyFixtureFiles('brocfile-tests/custom-ember-env')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var indexContents = fs.readFileSync(path.join('dist', 'index.html'), { encoding: 'utf8' });
+        var testIndexContents = fs.readFileSync(path.join('dist', 'tests', 'index.html'), { encoding: 'utf8' });
+
+        var expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
+
+        assert(indexContents.indexOf(expected) > -1, 'EmberENV should be in index.html');
+        assert(testIndexContents.indexOf(expected) > -1, 'EmberENV should be in tests/index.html');
+      });
+  });
+
   it('using wrapInEval: true', function() {
     console.log('    running the slow end-to-end it will take some time');
 
