@@ -33,16 +33,10 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
 
-    <script>
-      window.EmberENV = {{EMBER_ENV}};
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/test-support.js"></script>
     <script src="assets/<%= name %>.js"></script>
     <script src="testem.js"></script>
-    <script>
-      require('<%= modulePrefix %>/tests/test-helper');
-    </script>
     <script src="assets/test-loader.js"></script>
   </body>
 </html>

@@ -13,13 +13,7 @@
     <link rel="stylesheet" href="assets/<%= name %>.css">
   </head>
   <body>
-    <script>
-      window.EmberENV = {{EMBER_ENV}};
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/<%= name %>.js"></script>
-    <script>
-      window.<%= namespace %> = require('<%= modulePrefix %>/app')['default'].create({{APP_CONFIG}});
-    </script>
   </body>
 </html>
