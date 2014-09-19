@@ -57,7 +57,7 @@ var day = moment('Dec 25, 1995');
 {% endhighlight %}
 
 _Note: Don't forget to make JSHint happy by adding a `/* global MY_GLOBAL */` to your module, or
-by defining it within the `.jshintrc` file._
+by defining it within the `predefs` section of your `.jshintrc` file._
 
 ##### Standard AMD Asset
 
@@ -107,27 +107,18 @@ if (app.env === 'development') {
 
 ##### Customizing a built-in Asset
 
-This is somewhat non-standard, but suppose that you have different versions of Ember specified (using the canary builds for example).  You would simply manipulate the vendor tree that is passed in to the `EmberApp` constructor:
+This is somewhat non-standard and discouraged, but suppose that due to a requirement in your application that you need to use the full version of
+Handlebars even in the production environment.  You would simply provide the path to the `EmberApp` constructor:
 
 {% highlight javascript linenos %}
-var EmberApp  = require('ember-cli/lib/broccoli/ember-app');
-var fileMover = require('broccoli-file-mover');
-
-var vendorTree = fileMover('bower_components', {
-  files: {
-    'ember-dev/ember.js': 'ember/ember.js',
-    'ember-prod/ember.prod.js': 'ember/ember.prod.js'
-  }
-});
-
 var app = new EmberApp({
-  name: require('./package.json').name,
-  trees: {
-    vendor: vendorTree
+  vendorFiles: {
+    'handlebars.js': {
+      production: 'bower_components/handlebars/handlebars.js'
+    }
   }
-
-  getEnvJSON: require('./config/environment')
 });
+
 {% endhighlight %}
 
 ##### Test Assets
@@ -137,11 +128,8 @@ You may have additional libraries that should only be included when running test
 {% highlight javascript linenos %}
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var pickFiles = require('broccoli-static-compiler');
-var mergeTrees = require('broccoli-merge-trees');
 
-var app = new EmberApp({
-// snip
-});
+var app = new EmberApp();
 
 var qunitBdd = pickFiles('bower_components/qunit-bdd/lib', {
     srcDir: '/',
@@ -149,7 +137,7 @@ var qunitBdd = pickFiles('bower_components/qunit-bdd/lib', {
     destDir: '/assets'
 });
 
-module.exports = mergeTrees([app.toTree(), qunitBdd]);
+module.exports = app.toTree(qunitBdd);
 {% endhighlight %}
 
 **Notes:**
@@ -209,17 +197,15 @@ app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf', {
 
 With the [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) package,
 (parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli
-packages needed to build are installed:
+package needed to build are installed:
 
 {% highlight bash %}
 npm install --save-dev broccoli-static-compiler
-npm install --save-dev broccoli-merge-trees
 {% endhighlight %}
 
-Add these imports to the top of `Brocfile.js`, just below the `EmberApp` require:
+Add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
 
 {% highlight javascript linenos %}
-var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
 {% endhighlight %}
 
@@ -236,8 +222,9 @@ var extraAssets = pickFiles('bower_components/a-lovely-webfont', {
    destDir: '/assets/fonts'
 });
 
-// Merge the app tree and our new font assets.
-module.exports = mergeTrees([app.toTree(), extraAssets]);
+// Providing additional trees to the `toTree` method will result in those
+// trees being merged in the final output.
+module.exports = app.toTree(extraAssets);
 {% endhighlight %}
 
 In the above example the assets from the fictive bower dependency called `a-lovely-webfont` can now
