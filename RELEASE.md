@@ -11,6 +11,7 @@ STEPS:
 
 1. ensure you using the latest node `v0.10.x` (but not v0.11.x for now,
    as it has a broken zlib which causes it to publish corrupted modules)
+* bump `gh-pages/_config.yml` version
 * bump package.json version
 * `rm -rf node_modules`
 * `npm cache clear`
