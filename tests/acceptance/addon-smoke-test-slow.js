@@ -17,6 +17,10 @@ var buildApp         = require('../helpers/build-app');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
 
 function assertTmpEmpty() {
+  if (!fs.existsSync('tmp')) {
+    return;
+  }
+
   var paths = walkSync('tmp')
     .filter(function(path) {
       return !path.match(/output\//);
@@ -79,6 +83,15 @@ describe('Acceptance: addon-smoke-test', function() {
 
     assertTmpEmpty();
     return tmp.teardown('./tmp');
+  });
+
+  it('uses the correct name in generated package.json', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    var contents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
+
+    assert.equal(contents.name, addonName);
+    assert.equal(contents.private, undefined);
   });
 
   it('ember addon foo, clean from scratch', function() {

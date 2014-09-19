@@ -8,12 +8,12 @@ var uniq       = require('lodash-node/underscore/arrays/uniq');
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
-  afterInstall: function(options) {
-    if (options.dryRun) { return; }
-
-    var packagePath = path.join(options.target, 'package.json');
+  generatePackageJson: function() {
+    var packagePath = path.join(this._appBlueprint.path, 'files', 'package.json');
     var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
 
+    delete contents.private;
+    contents.name = this.project.name();
     contents.keywords = contents.keywords || [];
 
     if (contents.keywords.indexOf('ember-addon') === -1) {
@@ -24,7 +24,15 @@ module.exports = {
 
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
-    fs.writeFileSync(packagePath, JSON.stringify(contents, null, 2));
+    fs.writeFileSync(path.join(this.path, 'files', 'package.json'), JSON.stringify(contents, null, 2));
+  },
+
+  afterInstall: function() {
+    var packagePath = path.join(this.path, 'files', 'package.json');
+
+    if (fs.existsSync(packagePath)) {
+      fs.unlinkSync(packagePath);
+    }
   },
 
   locals: function(options) {
@@ -52,8 +60,12 @@ module.exports = {
   files: function() {
     if (this._files) { return this._files; }
 
-    var appFiles   = this.lookupBlueprint('app').files();
-    var addonFiles = walkSync(path.join(this.path, 'files'));
+    this._appBlueprint   = this.lookupBlueprint('app');
+    var appFiles       = this._appBlueprint.files();
+
+    this.generatePackageJson();
+
+    var addonFiles   = walkSync(path.join(this.path, 'files'));
 
     return this._files = uniq(appFiles.concat(addonFiles));
   },
@@ -88,8 +100,7 @@ module.exports = {
     if (fs.existsSync(filePath)) {
       return filePath;
     } else {
-      var appBlueprint = this.lookupBlueprint('app');
-      return path.resolve(appBlueprint.path, 'files', file);
+      return path.resolve(this._appBlueprint.path, 'files', file);
     }
   }
 };

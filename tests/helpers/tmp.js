@@ -17,5 +17,9 @@ module.exports.setup = function(path) {
 module.exports.teardown = function(path) {
   process.chdir(root);
 
-  return rimraf(path);
+  if (fs.existsSync(path)) {
+    return rimraf(path);
+  } else {
+    return Promise.resolve();
+  }
 };
