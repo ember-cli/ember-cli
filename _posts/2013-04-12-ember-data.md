@@ -14,7 +14,7 @@ within Ember CLI.
 To use ember-cli without Ember Data remove the dependency from package.json
 (the same applies for ic-ajax)
 
-  `npm rm ember-cli-ember-data --save-dev`
+  `npm rm ember-data --save-dev`
 
 
 ### Models

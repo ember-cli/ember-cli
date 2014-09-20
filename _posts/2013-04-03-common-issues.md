@@ -82,7 +82,7 @@ Wipe your vendor directory clean then run `bower install`.
 
 * To use ember-cli without Ember Data
 
-`npm rm ember-cli-ember-data --save-dev`
+`npm rm ember-data --save-dev`
 
 * To use ember-cli without ic-ajax
 
