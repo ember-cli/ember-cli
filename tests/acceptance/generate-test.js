@@ -798,6 +798,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['blueprint', 'foo']).then(function() {
       assertFile('blueprints/foo/index.js', {
         contains: "module.exports = {" + EOL +
+                  "  description: ''"+ EOL +
+                  EOL +
                   "  // locals: function(options) {" + EOL +
                   "  //   // Return custom template variables here." + EOL +
                   "  //   return {" + EOL +
@@ -817,6 +819,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['blueprint', 'foo/bar']).then(function() {
       assertFile('blueprints/foo/bar/index.js', {
         contains: "module.exports = {" + EOL +
+                  "  description: ''"+ EOL +
+                  EOL +
                   "  // locals: function(options) {" + EOL +
                   "  //   // Return custom template variables here." + EOL +
                   "  //   return {" + EOL +
