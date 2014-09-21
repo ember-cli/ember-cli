@@ -1,4 +1,4 @@
-import <%= camelizedModuleName %> from '<%= dasherizedPackageName %>/utils/<%= dasherizedModuleName %>';
+import <%= camelizedModuleName %> from '../../../utils/<%= dasherizedModuleName %>';
 
 module('<%= camelizedModuleName %>');
 
