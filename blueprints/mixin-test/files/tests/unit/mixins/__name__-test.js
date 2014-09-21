@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import <%= classifiedModuleName %>Mixin from '<%= dasherizedPackageName %>/mixins/<%= dasherizedModuleName %>';
+import <%= classifiedModuleName %>Mixin from '../../../mixins/<%= dasherizedModuleName %>';
 
 module('<%= classifiedModuleName %>Mixin');
 

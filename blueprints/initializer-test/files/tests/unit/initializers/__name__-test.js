@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { initialize } from '<%= dasherizedPackageName %>/initializers/<%= dasherizedModuleName %>';
+import { initialize } from '../../../initializers/<%= dasherizedModuleName %>';
 
 var container, application;
 
