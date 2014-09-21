@@ -9,20 +9,34 @@ var stub     = require('../../helpers/stub').stub;
 describe('broccoli/ember-app', function() {
   var project, projectPath, emberApp, addonTreesForStub, addon;
 
-  describe('addons', function() {
-    beforeEach(function() {
-      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
-      var packageContents = require(path.join(projectPath, 'package.json'));
+  beforeEach(function() {
+    projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
+    var packageContents = require(path.join(projectPath, 'package.json'));
 
-      project = new Project(projectPath, packageContents);
-      project.require = function() {
-        return function() {};
-      };
-      project.initializeAddons = function() {
-        this.addons = [];
-      };
+    project = new Project(projectPath, packageContents);
+    project.require = function() {
+      return function() {};
+    };
+    project.initializeAddons = function() {
+      this.addons = [];
+    };
+  });
+
+
+  describe('constructor', function() {
+    it('should override project.configPath if configPath option is specified', function() {
+      project.configPath = function() { return 'original value'; };
+
+      new EmberApp({
+        project: project,
+        configPath: 'custom config path'
+      });
+
+      assert.equal(project.configPath(), 'custom config path');
     });
+  });
 
+  describe('addons', function() {
     describe('included hook', function() {
       it('included hook is called properly on instantiation', function() {
         var called = false;
