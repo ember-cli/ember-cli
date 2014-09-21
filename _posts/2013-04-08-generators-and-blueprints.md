@@ -17,42 +17,10 @@ installing
   create tests/unit/routes/foo-test.js
 {% endhighlight %}
 
-To see a list of all available blueprints, use `ember help generate`:
+To see a list of all available blueprints, use:
 
 {% highlight bash %}
 ember help generate
-
-Requested ember-cli commands:
-
-ember generate <blueprint> <options...>
-  Generates new code from blueprints
-  aliases: g
-  --dry-run (Default: false)
-  --verbose (Default: false)
-
-  Available blueprints:
-    ember-cli:
-      acceptance-test
-      adapter
-      addon
-      app
-      blueprint
-      component
-      controller
-      helper
-      http-mock
-      http-proxy
-      initializer
-      mixin
-      model
-      resource
-      route
-      serializer
-      service
-      template
-      transform
-      util
-      view
 {% endhighlight %}
 
 You can define your own blueprints using `ember generate blueprint <name>`:
