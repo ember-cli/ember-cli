@@ -4,6 +4,7 @@
 
 * [ENHANCEMENT] Add `--pod` option to blueprints generate and destroy. Add `fileMapTokens` hook to blueprints, and optional
   blueprint file tokens `__path__` and `__test__` for pod support. [#1994](https://github.com/stefanpenner/ember-cli/pull/1994)
+* [BUGFIX] Remove duplicate warning when generating controllers. [#2066](https://github.com/stefanpenner/ember-cli/pull/2066)
 
 ### 0.0.46
 
