@@ -56,6 +56,14 @@ describe('Acceptance: ember generate pod', function() {
     var generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
+      return ember(generateArgs);
+    });
+  }
+
+  function generateWithPrefix(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initApp().then(function() {
       replaceFile('config/environment.js', "var ENV = {", "var ENV = {" + EOL + "podModulePrefix: 'app/pods', " + EOL);
       return ember(generateArgs);
     });
@@ -63,6 +71,26 @@ describe('Acceptance: ember generate pod', function() {
 
   it('controller foo --pod', function() {
     return generate(['controller', 'foo', '--pod']).then(function() {
+      assertFile('app/foo/controller.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Controller.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('tests/unit/controllers/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('controller:foo', 'FooController'"
+        ]
+      });
+    });
+  });
+
+  it('controller foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['controller', 'foo', '--pod']).then(function() {
       assertFile('app/pods/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
@@ -83,6 +111,17 @@ describe('Acceptance: ember generate pod', function() {
 
   it('controller foo --type=object --pod', function() {
     return generate(['controller', 'foo', '--type=object', '--pod']).then(function() {
+      assertFile('app/foo/controller.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.ObjectController.extend({" + EOL + "});"
+        ]
+      });
+    });
+  });
+
+  it('controller foo --type=object --pod podModulePrefix', function() {
+    return generateWithPrefix(['controller', 'foo', '--type=object', '--pod']).then(function() {
       assertFile('app/pods/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
@@ -94,6 +133,17 @@ describe('Acceptance: ember generate pod', function() {
 
   it('controller foo --type=array --pod', function() {
     return generate(['controller', 'foo', '--type=array', '--pod']).then(function() {
+      assertFile('app/foo/controller.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.ArrayController.extend({" + EOL + "});"
+        ]
+      });
+    });
+  });
+
+  it('controller foo --type=array --pod podModulePrefix', function() {
+    return generateWithPrefix(['controller', 'foo', '--type=array', '--pod']).then(function() {
       assertFile('app/pods/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
@@ -105,6 +155,26 @@ describe('Acceptance: ember generate pod', function() {
 
   it('controller foo/bar --pod', function() {
     return generate(['controller', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/foo/bar/controller.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Controller.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('tests/unit/controllers/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('controller:foo/bar', 'FooBarController'"
+        ]
+      });
+    });
+  });
+
+  it('controller foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['controller', 'foo/bar', '--pod']).then(function() {
       assertFile('app/pods/foo/bar/controller.js', {
         contains: [
           "import Ember from 'ember';",
@@ -125,6 +195,29 @@ describe('Acceptance: ember generate pod', function() {
 
   it('component x-foo --pod', function() {
     return generate(['component', 'x-foo', '--pod']).then(function() {
+      assertFile('app/x-foo/component.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Component.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('app/x-foo/template.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo', 'XFooComponent'"
+        ]
+      });
+    });
+  });
+
+  it('component x-foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['component', 'x-foo', '--pod']).then(function() {
       assertFile('app/pods/x-foo/component.js', {
         contains: [
           "import Ember from 'ember';",
@@ -166,6 +259,26 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
+  it('helper foo-bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['helper', 'foo-bar', '--pod']).then(function() {
+      assertFile('app/helpers/foo-bar.js', {
+        contains: "import Ember from 'ember';" + EOL + EOL +
+                  "function fooBar(value) {" + EOL +
+                  "  return value;" + EOL +
+                  "}" +  EOL + EOL +
+                  "export {" + EOL +
+                  "  fooBar" + EOL +
+                  "};" + EOL + EOL +
+                  "export default Ember.Handlebars.makeBoundHelper(fooBar);"
+      });
+      assertFile('tests/unit/helpers/foo-bar-test.js', {
+        contains: "import {" + EOL +
+          "  fooBar" + EOL +
+          "} from 'my-app/helpers/foo-bar';"
+      });
+    });
+  });
+
   it('helper foo/bar-baz --pod', function() {
     return generate(['helper', 'foo/bar-baz', '--pod']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
@@ -186,8 +299,48 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
+  it('helper foo/bar-baz --pod podModulePrefix', function() {
+    return generateWithPrefix(['helper', 'foo/bar-baz', '--pod']).then(function() {
+      assertFile('app/helpers/foo/bar-baz.js', {
+        contains: "import Ember from 'ember';" + EOL + EOL +
+                  "function fooBarBaz(value) {" + EOL +
+                  "  return value;" + EOL +
+                  "}" + EOL + EOL +
+                  "export {" + EOL +
+                  "  fooBarBaz" + EOL +
+                  "};" + EOL + EOL +
+                  "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
+      });
+      assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
+        contains: "import {" + EOL +
+          "  fooBarBaz" + EOL +
+          "} from 'my-app/helpers/foo/bar-baz';"
+      });
+    });
+  });
+
   it('model foo --pod', function() {
     return generate(['model', 'foo', '--pod']).then(function() {
+      assertFile('app/foo/model.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          "export default DS.Model.extend"
+        ]
+      });
+      assertFile('tests/unit/models/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForModel," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForModel('foo', 'Foo'"
+        ]
+      });
+    });
+  });
+
+  it('model foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['model', 'foo', '--pod']).then(function() {
       assertFile('app/pods/foo/model.js', {
         contains: [
           "import DS from 'ember-data';",
@@ -221,7 +374,7 @@ describe('Acceptance: ember generate pod', function() {
       'bravo:belongs_to',
       '--pod'
     ]).then(function() {
-      assertFile('app/pods/foo/model.js', {
+      assertFile('app/foo/model.js', {
         contains: [
           "noType: DS.attr()",
           "firstName: DS.attr('string')",
@@ -242,6 +395,26 @@ describe('Acceptance: ember generate pod', function() {
 
   it('model foo/bar --pod', function() {
     return generate(['model', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/foo/bar/model.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          "export default DS.Model.extend"
+        ]
+      });
+      assertFile('tests/unit/models/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForModel," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForModel('foo/bar', 'FooBar'"
+        ]
+      });
+    });
+  });
+
+  it('model foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['model', 'foo/bar', '--pod']).then(function() {
       assertFile('app/pods/foo/bar/model.js', {
         contains: [
           "import DS from 'ember-data';",
@@ -262,6 +435,32 @@ describe('Acceptance: ember generate pod', function() {
 
   it('route foo --pod', function() {
     return generate(['route', 'foo', '--pod']).then(function() {
+      assertFile('app/router.js', {
+        contains: "this.route('foo')"
+      });
+      assertFile('app/foo/route.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('app/foo/template.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('route:foo', 'FooRoute'"
+        ]
+      });
+    });
+  });
+
+  it('route foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['route', 'foo', '--pod']).then(function() {
       assertFile('app/router.js', {
         contains: "this.route('foo')"
       });
@@ -332,7 +531,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/router.js', {
         doesNotContain: "this.route('basic');"
       });
-      assertFile('app/pods/basic/route.js');
+      assertFile('app/basic/route.js');
     });
   });
 
@@ -373,18 +572,50 @@ describe('Acceptance: ember generate pod', function() {
 
   it('template foo --pod', function() {
     return generate(['template', 'foo', '--pod']).then(function() {
+      assertFile('app/foo/template.hbs');
+    });
+  });
+
+  it('template foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['template', 'foo', '--pod']).then(function() {
       assertFile('app/pods/foo/template.hbs');
     });
   });
 
   it('template foo/bar --pod', function() {
     return generate(['template', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/foo/bar/template.hbs');
+    });
+  });
+
+  it('template foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['template', 'foo/bar', '--pod']).then(function() {
       assertFile('app/pods/foo/bar/template.hbs');
     });
   });
 
   it('view foo --pod', function() {
     return generate(['view', 'foo', '--pod']).then(function() {
+      assertFile('app/foo/view.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.View.extend({" + EOL + "})"
+        ]
+      });
+      assertFile('tests/unit/views/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('view:foo', 'FooView'"
+        ]
+      });
+    });
+  });
+
+  it('view foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['view', 'foo', '--pod']).then(function() {
       assertFile('app/pods/foo/view.js', {
         contains: [
           "import Ember from 'ember';",
@@ -405,6 +636,26 @@ describe('Acceptance: ember generate pod', function() {
 
   it('view foo/bar --pod', function() {
     return generate(['view', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/foo/bar/view.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.View.extend({" + EOL + "})"
+        ]
+      });
+      assertFile('tests/unit/views/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('view:foo/bar', 'FooBarView'"
+        ]
+      });
+    });
+  });
+
+  it('view foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['view', 'foo/bar', '--pod']).then(function() {
       assertFile('app/pods/foo/bar/view.js', {
         contains: [
           "import Ember from 'ember';",
@@ -428,6 +679,29 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/router.js', {
         contains: "this.resource('foo', { path: 'foos/:foo_id' }, function() { });"
       });
+      assertFile('app/foo/model.js', {
+        contains: 'export default DS.Model.extend'
+      });
+      assertFile('app/foo/route.js', {
+        contains: "export default Ember.Route.extend({" + EOL + "});"
+      });
+      assertFile('app/foo/template.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/models/foo-test.js', {
+        contains: "moduleForModel('foo', 'Foo'"
+      });
+      assertFile('tests/unit/routes/foo-test.js', {
+        contains: "moduleFor('route:foo', 'FooRoute'"
+      });
+    });
+  });
+
+  it('resource foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['resource', 'foo', '--pod']).then(function() {
+      assertFile('app/router.js', {
+        contains: "this.resource('foo', { path: 'foos/:foo_id' }, function() { });"
+      });
       assertFile('app/pods/foo/model.js', {
         contains: 'export default DS.Model.extend'
       });
@@ -448,6 +722,29 @@ describe('Acceptance: ember generate pod', function() {
 
   it('resource foos --pod', function() {
     return generate(['resource', 'foos', '--pod']).then(function() {
+      assertFile('app/router.js', {
+        contains: "this.resource('foos', function() { });"
+      });
+      assertFile('app/foo/model.js', {
+        contains: 'export default DS.Model.extend'
+      });
+      assertFile('app/foos/route.js', {
+        contains: 'export default Ember.Route.extend({' + EOL + '});'
+      });
+      assertFile('app/foos/template.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/models/foo-test.js', {
+        contains: "moduleForModel('foo', 'Foo'"
+      });
+      assertFile('tests/unit/routes/foos-test.js', {
+        contains: "moduleFor('route:foos', 'FoosRoute'"
+      });
+    });
+  });
+
+  it('resource foos --pod podModulePrefix', function() {
+    return generateWithPrefix(['resource', 'foos', '--pod']).then(function() {
       assertFile('app/router.js', {
         contains: "this.resource('foos', function() { });"
       });
