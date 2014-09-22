@@ -1068,4 +1068,33 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
+
+  it('in-repo-addon foo-bar', function() {
+    return generate(['in-repo-addon', 'foo-bar']).then(function() {
+      assertFile('lib/foo-bar/index.js', {
+        contains: [
+          'module.exports = {',
+          'name: "foo-bar"',
+          '}'
+        ]
+      });
+
+      assertFile('lib/foo-bar/package.json', {
+        contains: [
+          '{',
+          '  "name": "foo-bar"',
+          '  "keywords": [',
+          '    "ember-addon"',
+          '  ]',
+          '}'
+        ]
+      });
+
+      assertFile('package.json', {
+        contains: [
+          '"lib/foo-bar"'
+        ]
+      });
+    });
+  });
 });
