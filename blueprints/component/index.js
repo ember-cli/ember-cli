@@ -1,5 +1,6 @@
-var Blueprint = require('../../lib/models/blueprint');
+var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
+var path        = require('path');
 
 module.exports = {
   description: 'Generates a component. Name must contain a hyphen.',
@@ -8,7 +9,7 @@ module.exports = {
     return {
       __templatepath__: function(options) {
         if (options.pod) {
-          return options.podPath+options.dasherizedModuleName;
+          return path.join(options.podPath, options.dasherizedModuleName);
         }
         return 'templates/components';
       },
@@ -20,7 +21,7 @@ module.exports = {
       }
     };
   },
-  
+
   normalizeEntityName: function(entityName) {
     entityName = Blueprint.prototype.normalizeEntityName.apply(this, arguments);
 
