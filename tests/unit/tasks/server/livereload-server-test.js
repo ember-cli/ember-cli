@@ -30,11 +30,23 @@ describe('livereload-server', function() {
 
   afterEach(function() {
     try {
-      subject.liveReloadServer.close();
+      if (subject._liveReloadServer) {
+        subject._liveReloadServer.close();
+      }
     } catch (err) { }
   });
 
-  describe('output', function() {
+  describe('start', function() {
+    it('does not start the server if `liveReload` option is not true', function() {
+      return subject.start({
+        liveReloadPort: 1337,
+        liveReload: false
+      }).then(function(output) {
+        assert.equal(output, 'Livereload server manually disabled.');
+        assert(!subject._liveReloadServer);
+      });
+    });
+
     it('correctly indicates which port livereload is present on', function() {
       return subject.start({
         liveReloadPort: 1337,
@@ -62,6 +74,7 @@ describe('livereload-server', function() {
   });
 
   describe('filter pattern', function() {
+    var liveReloadServer;
     var changedCount;
     var oldChanged;
     var stubbedChanged = function() {
@@ -75,9 +88,10 @@ describe('livereload-server', function() {
     };
 
     beforeEach(function() {
+      liveReloadServer = subject.liveReloadServer();
       changedCount = 0;
-      oldChanged = subject.liveReloadServer.changed;
-      subject.liveReloadServer.changed = stubbedChanged;
+      oldChanged = liveReloadServer.changed;
+      liveReloadServer.changed = stubbedChanged;
 
       trackCount = 0;
       oldTrack = subject.analytics.track;
@@ -85,7 +99,7 @@ describe('livereload-server', function() {
     });
 
     afterEach(function() {
-      subject.liveReloadServer.changed = oldChanged;
+      liveReloadServer.changed = oldChanged;
       subject.analytics.track = oldTrack;
       subject.project.liveReloadFilterPatterns = [];
     });
