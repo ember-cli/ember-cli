@@ -13,5 +13,7 @@ describe('cleanBaseURL()', function() {
     expect(cleanBaseURL('/ember/')).to.equal('/ember/');
     expect(cleanBaseURL('ember/hamsters')).to.equal('/ember/hamsters/');
     expect(cleanBaseURL('/ember/hamsters/')).to.equal('/ember/hamsters/');
+    expect(cleanBaseURL('app://localhost')).to.equal('app://localhost/');
+    expect(cleanBaseURL('app://localhost/')).to.equal('app://localhost/');
   });
 });
