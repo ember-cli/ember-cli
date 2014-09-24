@@ -55,14 +55,14 @@ describe('broccoli/broccoli-config-loader', function() {
   describe('clearConfigGeneratorCache', function() {
     it('resets the cache', function() {
       configLoader.updateCache(tmpSrcDir, tmpDestDir);
-      var originalConfig = fs.readFileSync(path.join(tmpDestDir, 'environment.js'), { encoding: 'utf8' });
+      var originalConfig = fs.readFileSync(path.join(tmpDestDir, 'environments', 'development.json'), { encoding: 'utf8' });
 
       config.foo = 'blammo';
       writeConfig(config);
       configLoader.clearConfigGeneratorCache();
 
       configLoader.updateCache(tmpSrcDir, tmpDestDir2);
-      var updatedConfig = fs.readFileSync(path.join(tmpDestDir2, 'environment.js'), { encoding: 'utf8' });
+      var updatedConfig = fs.readFileSync(path.join(tmpDestDir2, 'environments', 'development.json'), { encoding: 'utf8' });
 
       assert.notEqual(originalConfig, updatedConfig);
       assert(updatedConfig.match(/blammo/));
@@ -73,11 +73,7 @@ describe('broccoli/broccoli-config-loader', function() {
     it('writes the current environments file', function() {
       configLoader.updateCache(tmpSrcDir, tmpDestDir);
 
-      assert(fs.existsSync(path.join(tmpDestDir, 'environment.js')));
-      assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'development.js')));
       assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-
-      assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'test.js')));
       assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
     });
 
@@ -85,11 +81,7 @@ describe('broccoli/broccoli-config-loader', function() {
       options.tests = false;
       configLoader.updateCache(tmpSrcDir, tmpDestDir);
 
-      assert(fs.existsSync(path.join(tmpDestDir, 'environment.js')));
-      assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'development.js')));
       assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-
-      assert(!fs.existsSync(path.join(tmpDestDir, 'environments', 'test.js')));
       assert(!fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
     });
   });
