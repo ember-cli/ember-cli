@@ -133,6 +133,22 @@ describe('Acceptance: ember new', function() {
       .then(confirmBlueprintedForDir('tmp/my_blueprint'));
   });
 
+
+  it('ember new with git blueprint uses checks out the blueprint and uses it', function(){
+    this.timeout(10000);
+
+    return ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--blueprint=https://github.com/trek/app-blueprint-test.git'
+    ]).then(function() {
+      assert(fs.existsSync('.ember-cli'));
+    });
+  });
+
   it('ember new without skip-git flag creates .git dir', function(){
     return ember([
       'new',
