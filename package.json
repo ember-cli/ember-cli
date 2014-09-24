@@ -8,6 +8,7 @@
     "ember": "./bin/ember"
   },
   "scripts": {
+    "docs": "node bin/generate-docs.js",
     "test": "node tests/runner",
     "test-all": "node tests/runner all",
     "autotest": "mocha --watch --reporter spec tests/**/*-test.js"
@@ -150,6 +151,7 @@
     "mocha-jshint": "0.0.7",
     "node-require-timings": "0.0.2",
     "supertest": "0.13.0",
-    "tmp-sync": "^1.0.1"
+    "tmp-sync": "^1.0.1",
+    "yuidocjs": "0.3.46"
   }
 }

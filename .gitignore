@@ -5,3 +5,4 @@ _posts
 _site
 common-tmp
 *.tgz
+docs/build
