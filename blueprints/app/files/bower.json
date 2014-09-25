@@ -6,7 +6,7 @@
     "ember": "1.7.0",
     "ember-data": "1.0.0-beta.10",
     "ember-resolver": "~0.1.7",
-    "loader": "stefanpenner/loader.js#1.0.1",
+    "loader.js": "stefanpenner/loader.js#1.0.1",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.3",
     "ember-cli-test-loader": "rwjblue/ember-cli-test-loader#0.0.4",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
