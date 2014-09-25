@@ -165,11 +165,11 @@ Variables can be inserted into templates with
 For example, the built-in `util` blueprint
 `files/app/utils/__name__.js` looks like this:
 
-```js
+{% highlight javascript linenos %}
 export default function <%= camelizedModuleName %>() {
   return true;
 }
-```
+{% endhighlight %}
 
 `<%= camelizedModuleName %>` is replaced with the real
 value at install time.
@@ -198,7 +198,7 @@ export a plain object, which will extend the prototype of the
 `Blueprint` class. If needed, the original `Blueprint` prototype
 can be accessed through the `_super` property.
 
-```js
+{% highlight javascript linenos %}
 module.exports = {
   locals: function(options) {
     // Return custom template variables here.
@@ -226,7 +226,7 @@ module.exports = {
   afterUninstall: function(options) {}
 
 };
-```
+{% endhighlight %}
 
 ### Blueprint Hooks
 
@@ -249,13 +249,13 @@ containing general and entity-specific options.
 
 When the following is called on the command line:
 
-```sh
+{% highlight bash %}
 ember generate controller foo --type=array --dry-run
-```
+{% endhighlight %}
 
 The object passed to `locals` looks like this:
 
-```js
+{% highlight javascript linenos %}
 {
   entity: {
     name: 'foo',
@@ -265,7 +265,7 @@ The object passed to `locals` looks like this:
   },
   dryRun: true
 }
-```
+{% endhighlight %}
 
 This hook must return an object. It will be merged with the
 aforementioned default locals.
@@ -286,14 +286,14 @@ Use `fileMapTokens` to add custom fileMap tokens for use
 in the `mapFile` method. The hook must return an object in the
 following pattern:
 
-```js
+{% highlight javascript linenos %}
 {
   __token__: function(options){
     // logic to determine value goes here
     return 'value';
   }
 }
-```
+{% endhighlight %}
 
 It will be merged with the default `fileMapTokens`, and can be used
 to override any of the default tokens.
