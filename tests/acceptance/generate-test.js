@@ -1092,7 +1092,7 @@ describe('Acceptance: ember generate', function() {
 
       assertFile('package.json', {
         contains: [
-          '"lib/foo-bar"'
+          '"' + path.normalize('lib/foo-bar').replace('\\', '\\\\') + '"'
         ]
       });
     });
