@@ -612,6 +612,126 @@ describe('Blueprint', function() {
           assert(result.inserted, 'inserted should indicate that the file was not modified');
         });
     });
+
+    it('will insert into the file after a specified string if options.after is specified', function(){
+      var toInsert = 'blahzorz blammo';
+      var line1 = 'line1 is here';
+      var line2 = 'line2 here';
+      var line3 = 'line3';
+      var originalContent = [line1, line2, line3].join(EOL);
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert, {after: line2 + EOL})
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, [line1, line2, toInsert, line3].join(EOL),
+                       'inserted contents should be inserted after the `after` value');
+          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
+          assert(result.inserted, 'inserted should indicate that the file was modified');
+        });
+    });
+
+    it('will insert into the file after the first instance of options.after only', function(){
+      var toInsert = 'blahzorz blammo';
+      var line1 = 'line1 is here';
+      var line2 = 'line2 here';
+      var line3 = 'line3';
+      var originalContent = [line1, line2, line2, line3].join(EOL);
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert, {after: line2 + EOL})
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, [line1, line2, toInsert, line2, line3].join(EOL),
+                       'inserted contents should be inserted after the `after` value');
+          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
+          assert(result.inserted, 'inserted should indicate that the file was modified');
+        });
+    });
+
+    it('will insert into the file before a specified string if options.before is specified', function(){
+      var toInsert = 'blahzorz blammo';
+      var line1 = 'line1 is here';
+      var line2 = 'line2 here';
+      var line3 = 'line3';
+      var originalContent = [line1, line2, line3].join(EOL);
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert, {before: line2 + EOL})
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, [line1, toInsert, line2, line3].join(EOL),
+                       'inserted contents should be inserted before the `before` value');
+          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
+          assert(result.inserted, 'inserted should indicate that the file was modified');
+        });
+    });
+
+    it('will insert into the file before the first instance of options.before only', function(){
+      var toInsert = 'blahzorz blammo';
+      var line1 = 'line1 is here';
+      var line2 = 'line2 here';
+      var line3 = 'line3';
+      var originalContent = [line1, line2, line2, line3].join(EOL);
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert, {before: line2 + EOL})
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, [line1, toInsert, line2, line2, line3].join(EOL),
+                       'inserted contents should be inserted after the `after` value');
+          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
+          assert(result.inserted, 'inserted should indicate that the file was modified');
+        });
+    });
+
+
+    it('it will make no change if options.after is not found in the original', function(){
+      var toInsert = 'blahzorz blammo';
+      var originalContent = 'the original content';
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert, {after: 'not found' + EOL})
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, originalContent, 'original content is unchanged');
+          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
+          assert(!result.inserted, 'inserted should indicate that the file was not modified');
+        });
+    });
+
+    it('it will make no change if options.before is not found in the original', function(){
+      var toInsert = 'blahzorz blammo';
+      var originalContent = 'the original content';
+      var filePath = path.join(project.root, filename);
+
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+      return blueprint.insertIntoFile(filename, toInsert, {before: 'not found' + EOL})
+        .then(function(result) {
+          var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
+
+          assert.equal(contents, originalContent, 'original content is unchanged');
+          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
+          assert(!result.inserted, 'inserted should indicate that the file was not modified');
+        });
+    });
+
   });
 
   describe('lookupBlueprint', function() {
