@@ -1,3 +1,3 @@
 module.exports = {
-  description: 'Generates a blueprint and defintion.'
+  description: 'Generates a blueprint and definition.'
 };
