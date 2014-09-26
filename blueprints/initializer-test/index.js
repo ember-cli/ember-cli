@@ -1,3 +1,3 @@
 module.exports = {
-  description: 'Generates an initialiser unit test.'
+  description: 'Generates an initializer unit test.'
 };
