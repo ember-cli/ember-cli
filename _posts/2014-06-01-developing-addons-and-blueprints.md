@@ -34,23 +34,13 @@ The Ember CLI addons API currently supports the following scenarios:
 ### Addon CLI options
 Ember CLI comes has an *addon* command with some options:
 
-```bash
-ember addon <addon-name> <options...>
-  Creates a new folder and runs ember init in it.
-  --dry-run (Default: false)
-  --verbose (Default: false)
-  --blueprint (Default: addon)
-  --skip-npm (Default: false)
-  --skip-bower (Default: false)
-  --skip-git (Default: false)
-```
 
-Note that an addon can NOT be created inside an existing application.
+`ember addon <addon-name> <options...>`
+
+Note: An addon can NOT be created inside an existing application.
 
 ### Create addon
 To create a basic addon:
-
-`ember addon <addon-name>`
 
 Running this command should generate something like the following:
 
@@ -61,21 +51,7 @@ installing
   create .bowerrc
   create .editorconfig
   create tests/dummy/.jshintrc
-  create .travis.yml
-  create Brocfile.js
-  create README.md
-
-  create tests/dummy/app/app.js
-  ... more test files
-
-  create bower.json
-  create .gitignore
-  create package.json  
-
   ...
-  create vendor/.gitkeep
-  create addon/.gitkeep
-  create app/.gitkeep
   create index.js
 
 Installing packages for tooling via npm
@@ -180,7 +156,7 @@ Adds bower components to development dependencies
 
 ### Addon Brocfile
 
-Normallu you can leave the `Brocfile.js` as is. Only touch it if you need to customize the merging of trees for the addon and you understand how to use the [Brocfile API](https://www.npmjs.org/package/broccoli).
+Normally you can leave the `Brocfile.js` as is. Only touch it if you need to customize the merging of trees for the addon and you understand how to use the [Brocfile API](https://www.npmjs.org/package/broccoli).
 
 ### Components
 In order to allow the consuming application to use the addon component without manual import statements, put the component under the `app/components` directory.  
@@ -220,6 +196,8 @@ To create a blueprint, add a file `blueprints/xbutton/index.js`. This follows th
 Make sure the dependency files are imported into the consuming application.
 Use the `included` hook to import the files in the correct order. 
 
+We want to register a no-op package in bower called *x-button*. Consume it as `x-button: 0.0.1`. Import `x-button/dist/js/x-button.js` and `x-button/dist/css/x-button.css`.
+
 ```javascript
 module.exports = {
   name: 'ember-cli-xbutton',
@@ -227,22 +205,19 @@ module.exports = {
   included: function(app) {
     this._super.included(app);
 
-    app.import('bower_components/unbutton/dist/unbutton.js');
-    app.import('bower_components/xbutton/dist/js/xbutton.js');
-    app.import('bower_components/xbutton/dist/css/xbutton.css');
+    app.import(app.bowerDirectry + '/xbutton/dist/js/xbutton.js');
+    app.import(app.bowerDirectry + '/xbutton/dist/css/xbutton.css');
   }
 };
 ```
 
-In the example file, the `included` hook is used. This hook is called by the `EmberApp` constructor and gives access to the app as `app`. 
-
-When the consuming application's `Brocfile.js` is processed by Ember CLI to build/serve etc. the addon's `included` function is called passing the `EmberApp` instance.
+In the example file, the `included` hook is used. This hook is called by the `EmberApp` constructor and gives access to the consuming application as `app`. When the consuming application's `Brocfile.js` is processed by Ember CLI to build/serve, the addon's `included` function is called passing the `EmberApp` instance.
 
 ### Advanced customization
 If you want to go beyond the built in customizations or want/need more advanced control in general, the following are some of the hooks (keys) available for your addon Object in the `index.js` file. All hooks expect a function as the value.
 
 ```javascript
-includedCommands: function() {}
+includedCommands: function() {},
 blueprintsPath: // return path as String
 postBuild: 
 treeFor: 
@@ -253,25 +228,21 @@ serverMiddleware:
 
 An example of advanced customization can be found [here](https://github.com/poetic/ember-cli-cordova/blob/master/index.js) and for server middleware [here](https://github.com/rwjblue/ember-cli-inject-live-reload/blob/master/index.js)
 
-### Testing addon
-The addon project contains a `/tests` folder which contains the necessary infrastructure to run and configure tests for the addon.
-The `/tests` folder has the following structure:
+### Testing the addon with QUnit
+The addon project contains a `/tests` folder which contains the necessary infrastructure to run and configure tests for the addon. The `/tests` folder has the following structure:
 
-- `/dummy`
-- `/helpers`
-- `/unit`
-- `index.html`
-- `test_helper.js`
+```bash
+ dummy/
+ helpers/
+ unit/
+ index.html
+ test-helper.js
+```
 
-The `/dummy` folder contains the basic layout of a dummy app to be used for to host your addon for testing. 
+The `/dummy` folder contains the basic layout of a dummy app to be used for to host your addon for testing. The `/helpers` folder contains various *qunit* helpers that are provided and those you define yourself in order to keep your tests concise. The `/unit` folder should contain your unit tests that test your addon in various usage scenarios. 
+To add integration (acceptance) tests add an `integration/' folder. 
 
-The `/helpers` folder contains various *qunit* helpers that are provided and those you define yourself in order to keep your tests concise.
-
-The `/unit` folder should contain your unit tests that test your addon in various usage scenarios. These test may also be full integration tests that test the addon being hosted in the dummy app.
-
-`test_helper.js` is the main helper file that you should reference from any of your unit test files. It imports the `resolver` helper found in `/helpers` used to resolve pages in the `dummy` app.
-
-`index.html` contains the test page that you can load in a browser to display the results of running the unit tests.
+`test_helper.js` is the main helper file that you should reference from any of your unit test files. It imports the `resolver` helper found in `/helpers` used to resolve pages in the `dummy` app. `index.html` contains the test page that you can load in a browser to display the results of running your integration tests.
 
 ### Writing acceptance tests
 The following is an example of a simple *QUnit* acceptance test, placed in `tests/unit/components`.
@@ -343,11 +314,6 @@ blueprints/
       app/
         components/
           __name__/
-  unbutton
-    index.js
-    files/
-      config/
-        __name__.js
 ```
 
 Note that the special file or folder called `__name__` will create a file/folder at that location in your app with the `__name__` replaced by the first argument (name) you pass to the blueprint being generated.
@@ -370,15 +336,6 @@ git push origin master
 git push origin --tags
 npm publish
 ```
-
-See [npm-version](https://www.npmjs.org/doc/cli/npm-version.html) for details. 
-
-These commands will:
-
-- tag with the version number
-- push the committed addon code to your git repo (origin branch)
-- push the new tag to your git repo (origin branch)
-- publish addon to the global npm repository.
 
 ### Install and use addon
 In order to use the addon from you hosting application:
