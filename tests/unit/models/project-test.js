@@ -83,15 +83,19 @@ describe('models/project.js', function() {
     });
 
     describe('merges getAddonsConfig result with app config', function() {
-      var projectConfig, addonsConfig;
+      var projectConfig, addon1Config, addon2Config;
 
       beforeEach(function() {
-        addonsConfig  = { addon: { derp: 'herp' } };
-        projectConfig = { foo: 'bar', baz: 'qux' };
+        addon1Config  = { addon: { derp: 'herp' } };
+        addon2Config  = { addon: { blammo: 'blahzorz' } };
 
-        project.getAddonsConfig = function() {
-          return addonsConfig;
-        };
+        projectConfig = { foo: 'bar', baz: 'qux' };
+        project.addons = [
+          { config: function() { return addon1Config; }},
+          { config: function() { return addon2Config; }}
+        ];
+
+        project._addonsInitialized = true;
 
         project.require = function() {
           return function() {
@@ -105,7 +109,8 @@ describe('models/project.js', function() {
           foo: 'bar',
           baz: 'qux',
           addon: {
-            derp: 'herp'
+            derp: 'herp',
+            blammo: 'blahzorz'
           }
         };
 
@@ -118,11 +123,12 @@ describe('models/project.js', function() {
           foo: 'bar',
           baz: 'qux',
           addon: {
-            derp: 'herp'
+            derp: 'herp',
+            blammo: 'blahzorz'
           }
         };
 
-        addonsConfig.foo = 'NO!!!!!!';
+        addon1Config.foo = 'NO!!!!!!';
 
         var actual = project.config('development');
         assert.deepEqual(actual, expected);
