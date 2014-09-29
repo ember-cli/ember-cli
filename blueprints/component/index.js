@@ -7,9 +7,15 @@ module.exports = {
 
   fileMapTokens: function() {
     return {
+      __path__: function(options) {
+        if (options.pod) {
+          return path.join(options.podPath, 'components', options.dasherizedModuleName);
+        }
+        return 'components';
+      },
       __templatepath__: function(options) {
         if (options.pod) {
-          return path.join(options.podPath, options.dasherizedModuleName);
+          return path.join(options.podPath, 'components', options.dasherizedModuleName);
         }
         return 'templates/components';
       },

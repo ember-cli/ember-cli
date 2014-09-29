@@ -195,13 +195,13 @@ describe('Acceptance: ember generate pod', function() {
 
   it('component x-foo --pod', function() {
     return generate(['component', 'x-foo', '--pod']).then(function() {
-      assertFile('app/x-foo/component.js', {
+      assertFile('app/components/x-foo/component.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Component.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/x-foo/template.hbs', {
+      assertFile('app/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -218,13 +218,13 @@ describe('Acceptance: ember generate pod', function() {
 
   it('component x-foo --pod podModulePrefix', function() {
     return generateWithPrefix(['component', 'x-foo', '--pod']).then(function() {
-      assertFile('app/pods/x-foo/component.js', {
+      assertFile('app/pods/components/x-foo/component.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Component.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/pods/x-foo/template.hbs', {
+      assertFile('app/pods/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
       assertFile('tests/unit/components/x-foo-test.js', {

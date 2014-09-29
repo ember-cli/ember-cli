@@ -110,8 +110,8 @@ describe('Acceptance: ember destroy pod', function() {
   it('component x-foo --pod', function() {
     var commandArgs = ['component', 'x-foo', '--pod'];
     var files       = [
-      'app/pods/x-foo/component.js',
-      'app/pods/x-foo/template.hbs',
+      'app/pods/components/x-foo/component.js',
+      'app/pods/components/x-foo/template.hbs',
       'tests/unit/components/x-foo-test.js'
     ];
 
