@@ -461,8 +461,8 @@ describe('Acceptance: ember generate', function() {
   it('initializer foo', function() {
     return generate(['initializer', 'foo']).then(function() {
       assertFile('app/initializers/foo.js', {
-        contains: "export var initialize = function(/* container, app */) {" + EOL +
-                  "  // app.register('route', 'foo', 'service:foo');" + EOL +
+        contains: "export var initialize = function(/* container, application */) {" + EOL +
+                  "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "};" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
@@ -478,8 +478,8 @@ describe('Acceptance: ember generate', function() {
   it('initializer foo/bar', function() {
     return generate(['initializer', 'foo/bar']).then(function() {
       assertFile('app/initializers/foo/bar.js', {
-        contains: "export var initialize = function(/* container, app */) {" + EOL +
-                  "  // app.register('route', 'foo', 'service:foo');" + EOL +
+        contains: "export var initialize = function(/* container, application */) {" + EOL +
+                  "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "};" + EOL +
                   "" + EOL+
                   "export default {" + EOL +

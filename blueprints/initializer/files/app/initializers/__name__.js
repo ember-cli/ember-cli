@@ -1,5 +1,5 @@
-export var initialize = function(/* container, app */) {
-  // app.register('route', 'foo', 'service:foo');
+export var initialize = function(/* container, application */) {
+  // application.inject('route', 'foo', 'service:foo');
 };
 
 export default {
