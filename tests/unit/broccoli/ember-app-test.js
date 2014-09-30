@@ -1,3 +1,5 @@
+/* global escape */
+
 'use strict';
 
 var path     = require('path');
@@ -33,6 +35,108 @@ describe('broccoli/ember-app', function() {
       });
 
       assert.equal(project.configPath(), 'custom config path');
+    });
+  });
+
+  describe('contentFor', function() {
+    var config, defaultMatch;
+
+    beforeEach(function() {
+      project._addonsInitialized = true;
+      project.addons = [];
+
+      emberApp = new EmberApp({
+        project: project
+      });
+
+      config = {
+        modulePrefix: 'cool-foo'
+      };
+
+      defaultMatch = '{{content-for \'head\'}}';
+    });
+
+    describe('contentFor from addons', function() {
+      it('calls `contentFor` on addon', function() {
+        var calledConfig, calledType;
+
+        project.addons.push({
+          contentFor: function(type, config) {
+            calledType = type;
+            calledConfig = config;
+
+            return 'blammo';
+          }
+        });
+
+        var actual = emberApp.contentFor(config, defaultMatch, 'foo');
+
+        assert.deepEqual(calledConfig, config);
+        assert.equal(calledType, 'foo');
+        assert.equal(actual, 'blammo');
+      });
+
+      it('calls `contentFor` on each addon', function() {
+        project.addons.push({
+          contentFor: function() {
+            return 'blammo';
+          }
+        });
+
+        project.addons.push({
+          contentFor: function() {
+            return 'blahzorz';
+          }
+        });
+
+        var actual = emberApp.contentFor(config, defaultMatch, 'foo');
+
+        assert.equal(actual, 'blammo\nblahzorz');
+      });
+    });
+
+    describe('contentFor("head")', function() {
+      it('includes the `meta` tag in `head`', function() {
+        var escapedConfig = escape(JSON.stringify(config));
+        var metaExpected = '<meta name="cool-foo/config/environment" ' +
+                           'content="' + escapedConfig + '">';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        assert(actual.indexOf(metaExpected) > -1);
+      });
+
+      it('includes the `base` tag in `head` if locationType is auto', function() {
+        config.locationType = 'auto';
+        config.baseURL = '/';
+        var expected = '<base href="/">';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        assert(actual.indexOf(expected) > -1);
+      });
+
+      it('does not include the `base` tag in `head` if locationType is hash', function() {
+        config.locationType = 'hash';
+        config.baseURL = '/foo/bar';
+        var expected = '<base href="/foo/bar/">';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        assert(actual.indexOf(expected) === -1);
+      });
+
+      it('does not include the `base` tag in `head` if locationType is none', function() {
+        config.locationType = 'none';
+        config.baseURL = '/';
+        var expected = '<base href="/">';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        assert(actual.indexOf(expected) === -1);
+      });
+    });
+
+    it('has no default value other than `head`', function() {
+      assert.equal(emberApp.contentFor(config, defaultMatch, 'foo'), '');
+      assert.equal(emberApp.contentFor(config, defaultMatch, 'body'), '');
+      assert.equal(emberApp.contentFor(config, defaultMatch, 'blah'), '');
     });
   });
 
