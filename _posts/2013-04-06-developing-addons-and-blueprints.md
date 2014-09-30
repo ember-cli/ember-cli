@@ -26,14 +26,15 @@ your applications dependencies and search their `package.json` files
 for the presence of `ember-addon` in the `keywords` section (see
 below).
 
-```javascript
+{% highlight javascript %}
   "keywords": [
     "ember-addon"
     ...
   ],
-```
+{% endhighlight %}
 
 ### Addon scenarios
+
 The Ember CLI addons API currently supports the following scenarios:
 
 * Performing operations on the `EmberApp` created in the consuming application's `Brocfile.js`
@@ -43,6 +44,7 @@ The Ember CLI addons API currently supports the following scenarios:
 * Adding custom/extra blueprints, typically for scaffolding application/project files
 
 ### Addon CLI options
+
 Ember CLI comes has an *addon* command with some options:
 
 
@@ -55,7 +57,7 @@ To create a basic addon:
 
 Running this command should generate something like the following:
 
-```bash
+{% highlight bash %}
 ember addon my-x-button
 version x.y.zz
 installing
@@ -67,7 +69,7 @@ installing
 
 Installing packages for tooling via npm
 Installed browser packages via Bower.
-```
+{% endhighlight %}
 
 ### Addon conventions
 The addon infrastructure is based on *"convention over configuration"*
@@ -78,19 +80,19 @@ to better understand your code. The same applies for addon blueprints.
 ### Addon project structure
 The addon project created follows these structure conventions:
 
-`app/` - merged with the application's namespace.
-`addon/` - part of the addon's namespace.
-`blueprints/` - contains any blueprints that come with the addon, each in a separate folder
-`tests/` - test infrastructure including a "dummy" app and acceptance test helpers.
-`vendor/` - vendor specific files, such as stylesheets, fonts, external libs etc.
-`Brocfile.js` - Compilation configuration
-`package.json` - Node meta-data, dependencies etc.
-`index.js` - main Node entry point (as per npm conventions)
+- `app/` - merged with the application's namespace.
+- `addon/` - part of the addon's namespace.
+- `blueprints/` - contains any blueprints that come with the addon, each in a separate folder
+- `tests/` - test infrastructure including a "dummy" app and acceptance test helpers.
+- `vendor/` - vendor specific files, such as stylesheets, fonts, external libs etc.
+- `Brocfile.js` - Compilation configuration
+- `package.json` - Node meta-data, dependencies etc.
+- `index.js` - main Node entry point (as per npm conventions)
 
 ### Package.json
 The generated addon `package.json` file looks something like this:
 
-```javascript
+{% highlight javascript %}
 {
   "name": "ember-cli-x-button", // addon name
   "version": "0.0.1", // version of addon
@@ -121,29 +123,29 @@ The generated addon `package.json` file looks something like this:
     "body-parser": "^1.2.0",
     ... // add specific dev dependencies here!
 }
-```
+{% endhighlight %}
 
 Let's add some meta data to categorize the addon a little better:
 
-```javascript
+{% highlight javascript %}
   "keywords": [
     "ember-addon",
     "x-button",
     "button"
   ],
-```
+{% endhighlight %}
 
 ### Addon entry point
 An addon will leverage the npm conventions, and look for an `index.js` as the entry point unless another entry point is specified via the `"main"` property in the `package.json` file. You are encouraged to use `index.js` as the addon entry point.
 
 The generated `index.js` is a simple Javascript Object (POJO) that you can customize and expand as you see fit.
 
-```javascript
+{% highlight javascript %}
 // index.js
 module.exports = {
   name: 'my-addon'
 };
-```
+{% endhighlight %}
 
 ### Managing addon dependencies
 Install your client side dependencies via Bower.
@@ -155,7 +157,7 @@ bower install --save-dev x-button
 
 Adds bower components to development dependencies
 
-```javascript
+{% highlight javascript %}
 // bower.js
 {
   "name": "ember-x-button",
@@ -165,7 +167,7 @@ Adds bower components to development dependencies
   "devDependencies": {
     "x-button":  "^1.4.0"
   }
-```
+{% endhighlight %}
 
 ### Addon Brocfile
 
@@ -174,20 +176,20 @@ Normally you can leave the `Brocfile.js` as is. Only touch it if you need to cus
 ### Components
 In order to allow the consuming application to use the addon component without manual import statements, put the component under the `app/components` directory.
 
-```javascript
+{% highlight javascript %}
 // app/components/x-button.js
 
 import Ember from 'ember';
 import XButton from 'ember-x-button/components/x-button';
 
 export default XButton;
-```
+{% endhighlight %}
 
 The code imports the component from the addon directory and exports it again. This setup allows others to modify the component by extending it while making the component available in the consuming applications namespace.
 
 The actual code for the addon goes in `addon/components/x-button.js`
 
-```javascript
+{% highlight javascript %}
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -201,7 +203,7 @@ export default Ember.Component.extend({
     this.get('x-button').destroy();
   }.on('willDestroyElement'),
 });
-```
+{% endhighlight %}
 
 ### Blueprints
 To create a blueprint, add a file `blueprints/x-button/index.js`. This follows the usual Ember blueprints naming conventions.
@@ -211,7 +213,7 @@ Use the `included` hook to import the files in the correct order.
 
 We want to register a no-op package in bower called *x-button*. Consume it as `x-button: 0.0.1`. Import `x-button/dist/js/x-button.js` and `x-button/dist/css/x-button.css`.
 
-```javascript
+{% highlight javascript %}
 module.exports = {
   name: 'ember-cli-x-button',
 
@@ -222,14 +224,14 @@ module.exports = {
     app.import(app.bowerDirectry + '/x-button/dist/css/x-button.css');
   }
 };
-```
+{% endhighlight %}
 
 In the example file, the `included` hook is used. This hook is called by the `EmberApp` constructor and gives access to the consuming application as `app`. When the consuming application's `Brocfile.js` is processed by Ember CLI to build/serve, the addon's `included` function is called passing the `EmberApp` instance.
 
 ### Advanced customization
 If you want to go beyond the built in customizations or want/need more advanced control in general, the following are some of the hooks (keys) available for your addon Object in the `index.js` file. All hooks expect a function as the value.
 
-```javascript
+{% highlight javascript %}
 includedCommands: function() {},
 blueprintsPath: // return path as String
 postBuild:
@@ -237,20 +239,20 @@ treeFor:
 included:
 postprocessTree:
 serverMiddleware:
-```
+{% endhighlight %}
 
 An example of advanced customization can be found [here](https://github.com/poetic/ember-cli-cordova/blob/master/index.js) and for server middleware [here](https://github.com/rwjblue/ember-cli-inject-live-reload/blob/master/index.js)
 
 ### Testing the addon with QUnit
 The addon project contains a `/tests` folder which contains the necessary infrastructure to run and configure tests for the addon. The `/tests` folder has the following structure:
 
-```bash
+{% highlight bash %}
  dummy/
  helpers/
  unit/
  index.html
  test-helper.js
-```
+{% endhighlight %}
 
 The `/dummy` folder contains the basic layout of a dummy app to be used for to host your addon for testing. The `/helpers` folder contains various *qunit* helpers that are provided and those you define yourself in order to keep your tests concise. The `/unit` folder should contain your unit tests that test your addon in various usage scenarios.
 To add integration (acceptance) tests add an `integration/' folder.
@@ -260,7 +262,7 @@ To add integration (acceptance) tests add an `integration/' folder.
 ### Writing acceptance tests
 The following is an example of a simple *QUnit* acceptance test, placed in `tests/unit/components`.
 
-```javascript
+{% highlight javascript %}
 // tests/unit/components/button-test.js
 
 import { test, moduleForComponent } from 'ember-qunit';
@@ -285,7 +287,7 @@ test('is a button tag', function() {
 });
 
 // more tests follow...
-```
+{% endhighlight %}
 
 For how to run and configure tests, see the [[Ember CLI Testing]] section.
 
@@ -319,7 +321,7 @@ To dive deeper into blueprints design, please see the [Ember CLI blueprints](htt
 
 ### Blueprints file structure
 
-```bash
+{% highlight bash %}
 blueprints/
   x-button/
     index.js
@@ -327,7 +329,7 @@ blueprints/
       app/
         components/
           __name__/
-```
+{% endhighlight %}
 
 Note that the special file or folder called `__name__` will create a file/folder at that location in your app with the `__name__` replaced by the first argument (name) you pass to the blueprint being generated.
 
@@ -343,12 +345,12 @@ Then run `npm link <addon-name>` in any hosting application project root to make
 ### Publish addon
 Use *npm* and *git* to publish the addon like a normal npm package.
 
-```bash
+{% highlight bash %}
 npm version 0.0.1
 git push origin master
 git push origin --tags
 npm publish
-```
+{% endhighlight %}
 
 ### Install and use addon
 In order to use the addon from you hosting application:
