@@ -20,3 +20,12 @@ test('renders properly', function() {
     equal(element.first().text().trim(), 'WOOT!!');
   });
 });
+
+test('renders imported component', function() {
+  visit('/');
+
+  andThen(function() {
+    var element = find('.second-thing');
+    equal(element.first().text().trim(), 'SECOND!!');
+  });
+});
