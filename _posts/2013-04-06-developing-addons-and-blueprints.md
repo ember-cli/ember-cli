@@ -226,10 +226,17 @@ module.exports = {
 };
 {% endhighlight %}
 
-In the example file, the `included` hook is used. This hook is called by the `EmberApp` constructor and gives access to the consuming application as `app`. When the consuming application's `Brocfile.js` is processed by Ember CLI to build/serve, the addon's `included` function is called passing the `EmberApp` instance.
+In the example file, the `included` hook is used. This hook is called
+by the `EmberApp` constructor and gives access to the consuming
+application as `app`. When the consuming application's `Brocfile.js`
+is processed by Ember CLI to build/serve, the addon's `included`
+function is called passing the `EmberApp` instance.
 
 ### Advanced customization
-If you want to go beyond the built in customizations or want/need more advanced control in general, the following are some of the hooks (keys) available for your addon Object in the `index.js` file. All hooks expect a function as the value.
+If you want to go beyond the built in customizations or want/need more
+advanced control in general, the following are some of the hooks
+(keys) available for your addon Object in the `index.js` file. All
+hooks expect a function as the value.
 
 {% highlight javascript %}
 includedCommands: function() {},
@@ -244,7 +251,9 @@ serverMiddleware:
 An example of advanced customization can be found [here](https://github.com/poetic/ember-cli-cordova/blob/master/index.js) and for server middleware [here](https://github.com/rwjblue/ember-cli-inject-live-reload/blob/master/index.js)
 
 ### Testing the addon with QUnit
-The addon project contains a `/tests` folder which contains the necessary infrastructure to run and configure tests for the addon. The `/tests` folder has the following structure:
+The addon project contains a `/tests` folder which contains the
+necessary infrastructure to run and configure tests for the addon. The
+`/tests` folder has the following structure:
 
 {% highlight bash %}
  dummy/
@@ -254,13 +263,24 @@ The addon project contains a `/tests` folder which contains the necessary infras
  test-helper.js
 {% endhighlight %}
 
-The `/dummy` folder contains the basic layout of a dummy app to be used for to host your addon for testing. The `/helpers` folder contains various *qunit* helpers that are provided and those you define yourself in order to keep your tests concise. The `/unit` folder should contain your unit tests that test your addon in various usage scenarios.
-To add integration (acceptance) tests add an `integration/' folder.
+The `/dummy` folder contains the basic layout of a dummy app to be
+used for to host your addon for testing. The `/helpers` folder
+contains various *qunit* helpers that are provided and those you
+define yourself in order to keep your tests concise. The `/unit`
+folder should contain your unit tests that test your addon in various
+usage scenarios. To add integration (acceptance) tests add an
+`integration/' folder.
 
-`test_helper.js` is the main helper file that you should reference from any of your unit test files. It imports the `resolver` helper found in `/helpers` used to resolve pages in the `dummy` app. `index.html` contains the test page that you can load in a browser to display the results of running your integration tests.
+`test-helper.js` is the main helper file that you should reference
+from any of your unit test files. It imports the `resolver` helper
+found in `/helpers` used to resolve pages in the `dummy` app.
+`index.html` contains the test page that you can load in a browser to
+display the results of running your integration tests.
 
 ### Writing acceptance tests
-The following is an example of a simple *QUnit* acceptance test, placed in `tests/unit/components`.
+
+The following is an example of a simple *QUnit* acceptance test,
+placed in `tests/unit/components`.
 
 {% highlight javascript %}
 // tests/unit/components/button-test.js
@@ -293,14 +313,17 @@ For how to run and configure tests, see the [[Ember CLI Testing]] section.
 
 ### Create blueprint
 A blueprint is a bundle of template files with optional installation logic.
-It is used to scaffold (generate) specific application files based on some arguments and options.
-For more details see [[generators-and-blueprints]]). An addon can have one or more blueprints.
+It is used to scaffold (generate) specific application files based on
+some arguments and options.
+For more details see [[generators-and-blueprints]]). An addon can have
+one or more blueprints.
 
 To create a *blueprint* for your addon:
 
 `ember addon <blueprint-name> --blueprint`
 
-By convention, the main blueprint of the addon should have the same name as the addon itself:
+By convention, the main blueprint of the addon should have the same
+name as the addon itself:
 
 `ember addon <addon-name> --blueprint`
 
@@ -308,12 +331,21 @@ In our example:
 
 `ember addon x-button --blueprint`
 
-This will generate a folder `blueprints/x-button` for the addon where you can define your logic and templates for the blueprint. You can define multiple blueprints for a single addon. The last loaded blueprint wins with respect to overriding existing (same name) blueprints that come with Ember or other addons (according to package load order.)
+This will generate a folder `blueprints/x-button` for the addon where
+you can define your logic and templates for the blueprint. You can
+define multiple blueprints for a single addon. The last loaded
+blueprint wins with respect to overriding existing (same name)
+blueprints that come with Ember or other addons (according to package
+load order.)
 
 ### Blueprint conventions
-Blueprints are expected to be located under the `blueprints` folder in the addon root, just like blueprints overrides in your project root.
 
-If you have your blueprints in another folder in your addon, you need to tell ember-cli where to find them by specifying a `blueprintsPath` property for the addon (see *advanced customization* section below).
+Blueprints are expected to be located under the `blueprints` folder in
+the addon root, just like blueprints overrides in your project root.
+
+If you have your blueprints in another folder in your addon, you need
+to tell ember-cli where to find them by specifying a `blueprintsPath`
+property for the addon (see *advanced customization* section below).
 
 If you are familiar with *Yeoman* (or Rails) generators, blueprints follow very similar conventions and structure.
 
@@ -331,16 +363,27 @@ blueprints/
           __name__/
 {% endhighlight %}
 
-Note that the special file or folder called `__name__` will create a file/folder at that location in your app with the `__name__` replaced by the first argument (name) you pass to the blueprint being generated.
+Note that the special file or folder called `__name__` will create a
+file/folder at that location in your app with the `__name__` replaced
+by the first argument (name) you pass to the blueprint being
+generated.
 
 `ember g x-button my-button``
 
-Will thus generate a folder `app/components/my-button` in the application where the blueprint generator is run.
+Will thus generate a folder `app/components/my-button` in the
+application where the blueprint generator is run.
 
 ### Link to addon while developing
-While you are developing and testing, you can run `npm link` from the root of your addon project. This will make your addon locally available by name.
+While you are developing and testing, you can run `npm link` from the
+root of your addon project. This will make your addon locally
+available by name.
 
-Then run `npm link <addon-name>` in any hosting application project root to make a link to your addon in your `node_modules` folder. Any change in your addon will now directly take effect in any project that links to it this way (see [npm-tricks](http://www.devthought.com/2012/02/17/npm-tricks) for more details.
+Then run `npm link <addon-name>` in any hosting application project
+root to make a link to your addon in your `node_modules` folder. Any
+change in your addon will now directly take effect in any project that
+links to it this way (see
+[npm-tricks](http://www.devthought.com/2012/02/17/npm-tricks) for more
+details.
 
 ### Publish addon
 Use *npm* and *git* to publish the addon like a normal npm package.
@@ -368,8 +411,10 @@ Run the *x-button* blueprint generator via:
 `ember generate x-button`
 
 ### Updating addons
-You can update an addon the same way you update an Ember app by running `ember init` in your project root.
+You can update an addon the same way you update an Ember app by
+running `ember init` in your project root.
 
 ### Full example
-For a good walkthrough of the (recent) development of a real world addon, take a look at:
+For a good walkthrough of the (recent) development of a real world
+addon, take a look at:
 [Creating a DatePicker Ember CLI addon](http://edgycircle.com/blog/2014-creating-a-datepicker-ember-addon)
