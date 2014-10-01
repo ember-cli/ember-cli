@@ -14,7 +14,8 @@ install:
   # Get the latest stable version of Node 0.STABLE.latest
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   # Typical npm stuff.
-  - rd /S /Q C:\Users\appveyor\AppData\Roaming\npm-cache
+  - md C:\nc
+  - npm config set cache C:\nc
   - npm install
 
 # Post-install test scripts.
