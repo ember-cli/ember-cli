@@ -14,6 +14,7 @@ install:
   # Get the latest stable version of Node 0.STABLE.latest
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   # Typical npm stuff.
+  - npm cache clear
   - npm install
 
 # Post-install test scripts.
