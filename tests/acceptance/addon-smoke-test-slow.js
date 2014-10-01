@@ -133,4 +133,20 @@ describe('Acceptance: addon-smoke-test', function() {
       });
   });
 
+  it('can add things to `{{content-for "head"}}` section', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('addon/content-for-head')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var indexPath = path.join('dist', 'index.html');
+        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+
+        assert(contents.indexOf('"SOME AWESOME STUFF"') > -1);
+      });
+  });
 });
