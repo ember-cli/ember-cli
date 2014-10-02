@@ -3,9 +3,57 @@
 ### Master
 
 * [Bugfix] update ember-cli-content-security-policy to 0.1.2 (it actually works now) [#2136](https://github.com/stefanpenner/ember-cli/pull/2136)
-* [ENHANCEMENT] Add `--pod` option to blueprints generate and destroy. Add `fileMapTokens` hook to blueprints, and optional
-  blueprint file tokens `__path__` and `__test__` for pod support. [#1994](https://github.com/stefanpenner/ember-cli/pull/1994)
 * [BUGFIX] Remove duplicate warning when generating controllers. [#2066](https://github.com/stefanpenner/ember-cli/pull/2066)
+
+#### Applications
+
+* [ENHANCEMENT] Add `--pod` option to blueprints for generate and destroy. Add `fileMapTokens` hook to blueprints, and optional
+  blueprint file tokens `__path__` and `__test__` for pod support. [#1994](https://github.com/stefanpenner/ember-cli/pull/1994)
+* [ENHANCEMENT] Provide better error messages when uncaught errors occur during `ember build` and `ember serve`. [#2043](https://github.com/stefanpenner/ember-cli/pull/2043)
+* [ENHANCEMENT] Do not use inline `<script>` tags.  Set the stage for enabling content security policy. [#2058](https://github.com/stefanpenner/ember-cli/pull/2058)
+* [ENHANCEMENT] Add [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy) addon
+  when running development server (see [content-security-policy.com](http://content-security-policy.com/) for details). [#2065](https://github.com/stefanpenner/ember-cli/pull/2065)
+* [BREAKING] Remove `environment` and `getJSON` options to `EmberApp` (in the `Brocfile.js`).
+* [ENHANCEMENT] Add `configPath` option to `EmberApp` (in the `Brocfile.js`) to allow using a custom file for obtaining configuration
+  information. [#2068](https://github.com/stefanpenner/ember-cli/pull/2068)
+* [BUGFIX] Use url.parse instead of manually checking baseURL. This allows `app://localhost/` URLs needed for node-webkit. [#2088](https://github.com/stefanpenner/ember-cli/pull/2088)
+* [BREAKING ENHANCEMENT] Move `config` information out of the `assets/my-app-name.js` file and into a `<meta>` tag in the document `head`. [#2086](https://github.com/stefanpenner/ember-cli/pull/2086)
+  * Removes `<my-app-name>/config/environments/*` from module system output.
+  * Makes build output the same regardless of environment config.
+  * Makes injection of custom config information as simple as adding/modifying/customizing the meta contents.
+* [BREAKING BUGFIX] Update `loader.js` entry in `bower.json` to use the proper name.
+
+  This requires editing `bower.json` to change:
+
+```
+  "loader": "stefanpenner/loader.js#1.0.1",
+```
+
+To:
+
+```
+  "loader.js": "stefanpenner/loader.js#1.0.1",
+```
+* [BREAKING ENHANCEMENT] Replace `{{BASE_TAG}}` in `index.html` with `{{content-for 'head'}}`. [#2153](https://github.com/stefanpenner/ember-cli/pull/2153)
+
+#### Addons
+
+* [BUGFIX] `addon/` directory is no longer required when running local development server inside an addon. [#2044](https://github.com/stefanpenner/ember-cli/pull/2044)
+* [BUGFIX] Use the specified name for the addon (was previously using `dummy` for all addon's names). [#2042](https://github.com/stefanpenner/ember-cli/pull/2042)
+* [ENHANCEMENT] Add `Registry.prototype.remove` to make it easier to remove preprocessor plugins. [#2048](https://github.com/stefanpenner/ember-cli/pull/2048)
+* [ENHANCEMENT] Add `Registry.prototype.extensionsForType` to make it easier to detect what extensions are support for a given type
+  of file (`js`, `css`, or `template` files). [#2050](https://github.com/stefanpenner/ember-cli/pull/2050)
+* [BUGFIX] Allow `addon` tree to contain any filetype that is known by the JS preprocessor registry. [#2054](https://github.com/stefanpenner/ember-cli/pull/2054)
+* [BUGFIX] Ensure that addons cannot override the application configuration (in the `config` hook). [#2133](https://github.com/stefanpenner/ember-cli/pull/2133)
+* [ENHANCEMENT] Allow addons to implement `contentFor` method to add string output into the associated
+  `{{content-for 'foo'}}` section in `index.html`. [#2153](https://github.com/stefanpenner/ember-cli/pull/2153)
+
+#### Blueprints
+
+* [ENHANCEMENT] Add `description` for blueprints created by `ember generate blueprint`. [#2062](https://github.com/stefanpenner/ember-cli/pull/2062)
+* [ENHANCEMENT] Add `in-repo-addon` generator. [#2072](https://github.com/stefanpenner/ember-cli/pull/2072)
+* [ENHANCEMENT] Add `before` and `after` options to `Blueprint.prototype.insertIntoFile`. [#2122](https://github.com/stefanpenner/ember-cli/pull/2122)
+* [ENHANCEMENT] Allow `git` based application blueprints. [#2103](https://github.com/stefanpenner/ember-cli/pull/2103)
 
 ### 0.0.46
 
