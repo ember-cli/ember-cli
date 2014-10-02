@@ -383,7 +383,12 @@ root to make a link to your addon in your `node_modules` folder. Any
 change in your addon will now directly take effect in any project that
 links to it this way (see
 [npm-tricks](http://www.devthought.com/2012/02/17/npm-tricks) for more
-details.
+details).
+
+While testing an addon using npm link, you need an entry in `package.json` with
+your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
+fictional example would require `"x-button": "*"`.  You can now run `ember g
+<addon-name>` in your project.
 
 ### Publish addon
 Use *npm* and *git* to publish the addon like a normal npm package.
@@ -394,6 +399,20 @@ git push origin master
 git push origin --tags
 npm publish
 {% endhighlight %}
+
+### Using a private repository
+You can upload your addon code to a private git repository and call `npm install`
+with a valid [git URL](https://www.npmjs.org/doc/files/package.json.html#git-urls-as-dependencies)
+as the version.
+
+If you are using [bitbucket.org](https://bitbucket.org) the [URL formats can be found here](https://confluence.atlassian.com/display/BITBUCKET/Use+the+SSH+protocol+with+Bitbucket#UsetheSSHprotocolwithBitbucket-RepositoryURLformatsbyconnectionprotocol).
+
+When using the `git+ssh` format, the `npm install` command will require there to
+be an available ssh key with read access to the reposirtory. This can be tested
+by running `git clone ssh://git@github.com:user/project.git`.
+
+When using the `git+https` format, the `npm install` command will ask you for
+the account password.
 
 ### Install and use addon
 In order to use the addon from you hosting application:
