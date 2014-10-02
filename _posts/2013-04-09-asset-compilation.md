@@ -82,11 +82,11 @@ npm install --save-dev ember-cli-compass-compiler
 #### Stylus
 
 To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
-[broccoli-stylus-single](https://github.com/gabrielgrant/broccoli-stylus-single) to your NPM
+[ember-cli-stylus](https://github.com/drewcovi/ember-cli-stylus) to your NPM
 modules:
 
 {% highlight bash %}
-npm install --save-dev broccoli-stylus-single
+npm install --save-dev ember-cli-stylus
 {% endhighlight %}
 
 ### CoffeeScript
