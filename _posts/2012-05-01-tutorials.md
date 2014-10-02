@@ -14,6 +14,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-05-
 ### Addons
 - [Introducing Ember CLI Addons](http://reefpoints.dockyard.com/2014/06/24/introducing_ember_cli_addons.html)
 - [Building Ember CLI Addons Simply](http://hashrocket.com/blog/posts/building-ember-addons)
+- [Updating EmberCLI addons to the latest ember-cli (Video)](https://www.youtube.com/watch?v=XOMGGJ_d4wI)
 
 ### Deploying
 - [Lightning Fast Deployments With Rails (in the Wild).](http://blog.abuiles.com/blog/2014/07/08/lightning-fast-deployments-with-rails)
