@@ -36,6 +36,46 @@ describe('broccoli/ember-app', function() {
 
       assert.equal(project.configPath(), 'custom config path');
     });
+
+    it('should enable tests and hinting in development', function() {
+      var emberApp = new EmberApp({
+        project: project
+      });
+
+      assert.equal(emberApp.tests, true);
+      assert.equal(emberApp.hinting, true);
+    });
+
+    it('should not enable tests and hinting in production', function() {
+      var emberApp = new EmberApp({
+        project: project,
+        environment: 'production'
+      });
+
+      assert.equal(emberApp.tests, false);
+      assert.equal(emberApp.hinting, false);
+    });
+
+    it('uses custom productionEnvironments to determine tests or hinting enabled', function() {
+      var emberApp = new EmberApp({
+        project: project,
+        environment: 'asdflkj',
+        productionEnvironments: ['asdflkj']
+      });
+
+      assert.equal(emberApp.tests, false);
+      assert.equal(emberApp.hinting, false);
+    });
+
+    it('users productionEnvironments to determine to use production builds', function() {
+      var emberApp = new EmberApp({
+        project: project,
+        environment: 'asdflkj',
+        productionEnvironments: ['asdflkj']
+      });
+
+      assert(emberApp.legacyFilesToAppend.indexOf('bower_components/ember/ember.prod.js'))
+    });
   });
 
   describe('contentFor', function() {
