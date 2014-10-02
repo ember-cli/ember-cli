@@ -309,13 +309,13 @@ test('is a button tag', function() {
 // more tests follow...
 {% endhighlight %}
 
-For how to run and configure tests, see the [[Ember CLI Testing]] section.
+For how to run and configure tests, see the [Ember CLI Testing](#testing) section.
 
 ### Create blueprint
 A blueprint is a bundle of template files with optional installation logic.
 It is used to scaffold (generate) specific application files based on
 some arguments and options.
-For more details see [[generators-and-blueprints]]). An addon can have
+For more details see [generators-and-blueprints](#generators-and-blueprints)). An addon can have
 one or more blueprints.
 
 To create a *blueprint* for your addon:
@@ -368,12 +368,13 @@ file/folder at that location in your app with the `__name__` replaced
 by the first argument (name) you pass to the blueprint being
 generated.
 
-`ember g x-button my-button``
+`ember g x-button my-button`
 
 Will thus generate a folder `app/components/my-button` in the
 application where the blueprint generator is run.
 
 ### Link to addon while developing
+
 While you are developing and testing, you can run `npm link` from the
 root of your addon project. This will make your addon locally
 available by name.
@@ -387,8 +388,8 @@ details).
 
 While testing an addon using npm link, you need an entry in `package.json` with
 your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
-fictional example would require `"x-button": "*"`.  You can now run `ember g
-<addon-name>` in your project.
+fictional example would require `"x-button": "*"`.  You can now run `ember g <addon-name>`
+in your project.
 
 ### Publish addon
 Use *npm* and *git* to publish the addon like a normal npm package.
