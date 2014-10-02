@@ -138,7 +138,7 @@ Let's add some meta data to categorize the addon a little better:
 ### Addon entry point
 An addon will leverage the npm conventions, and look for an `index.js` as the entry point unless another entry point is specified via the `"main"` property in the `package.json` file. You are encouraged to use `index.js` as the addon entry point.
 
-The generated `index.js` is a simple Javascript Object (POJO) that you can customize and expand as you see fit.
+The generated `index.js` is a simple JavaScript Object (POJO) that you can customize and expand as you see fit.
 
 {% highlight javascript %}
 // index.js
@@ -220,8 +220,8 @@ module.exports = {
   included: function(app) {
     this._super.included(app);
 
-    app.import(app.bowerDirectry + '/x-button/dist/js/x-button.js');
-    app.import(app.bowerDirectry + '/x-button/dist/css/x-button.css');
+    app.import(app.bowerDirectory + '/x-button/dist/js/x-button.js');
+    app.import(app.bowerDirectory + '/x-button/dist/css/x-button.css');
   }
 };
 {% endhighlight %}
@@ -265,7 +265,7 @@ necessary infrastructure to run and configure tests for the addon. The
 
 The `/dummy` folder contains the basic layout of a dummy app to be
 used for to host your addon for testing. The `/helpers` folder
-contains various *qunit* helpers that are provided and those you
+contains various *QUnit* helpers that are provided and those you
 define yourself in order to keep your tests concise. The `/unit`
 folder should contain your unit tests that test your addon in various
 usage scenarios. To add integration (acceptance) tests add an
