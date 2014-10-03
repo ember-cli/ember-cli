@@ -40,7 +40,7 @@ describe('Acceptance: ember generate', function() {
   });
 
   function initApp() {
-    return ember(['init', 'my-app', '--skip-npm', '--skip-bower']);
+    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
   }
 
   function generate(args) {

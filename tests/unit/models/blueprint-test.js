@@ -7,6 +7,7 @@ var MockProject       = require('../../helpers/mock-project');
 var MockUI            = require('../../helpers/mock-ui');
 var assert            = require('assert');
 var path              = require('path');
+var glob              = require('glob');
 var walkSync          = require('walk-sync');
 var Promise           = require('../../../lib/ext/promise');
 var rimraf            = Promise.denodeify(require('rimraf'));
@@ -314,6 +315,49 @@ describe('Blueprint', function() {
           assert.equal(output.length, 0);
 
           assert.deepEqual(actualFiles, basicBlueprintFiles);
+        });
+    });
+
+    it('installs path globPattern file', function() {
+      options.targetFiles = ['foo.txt'];
+      return blueprint.install(options)
+        .then(function() {
+          var actualFiles = walkSync(tmpdir).sort();
+          var globFiles = glob.sync(path.join('**', 'foo.txt'), {
+              cwd: tmpdir,
+              dot: true,
+              mark: true,
+              strict: true
+            }).sort();
+          var output = ui.output.trim().split(EOL);
+
+          assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /create.* foo.txt/);
+          assert.equal(output.length, 0);
+
+          assert.deepEqual(actualFiles, globFiles);
+        });
+    });
+
+    it('installs multiple globPattern files', function() {
+      options.targetFiles = ['foo.txt','test.txt'];
+      return blueprint.install(options)
+        .then(function() {
+          var actualFiles = walkSync(tmpdir).sort();
+          var globFiles = glob.sync(path.join('**', '*.txt'), {
+              cwd: tmpdir,
+              dot: true,
+              mark: true,
+              strict: true
+            }).sort();
+          var output = ui.output.trim().split(EOL);
+
+          assert.match(output.shift(), /^installing/);
+          assert.match(output.shift(), /create.* foo.txt/);
+          assert.match(output.shift(), /create.* test.txt/);
+          assert.equal(output.length, 0);
+
+          assert.deepEqual(actualFiles, globFiles);
         });
     });
 
