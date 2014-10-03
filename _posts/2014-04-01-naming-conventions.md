@@ -259,19 +259,24 @@ Test filenames should be suffixed with `-test.js` in order to run.
 
 As your app gets bigger, a feature-driven structure may be better. Splitting your application by functionality/resource would give you more power and control to scale and maintain it. As a default, if the file is not found on the POD structure, the Resolver will look it up within the normal structure.
 
-In this case, you should name the file as its functionality. Given a resource `User`, the folder structure would be:
+In this case, you should name the file as its functionality. Given a resource `Users`, the folder structure would be:
 
 - `app/users/controller.js`
 - `app/users/route.js`
 - `app/users/template.hbs`
 
-Rather than hold your resource folders on the root of your app you can define a POD path using the attribute `podModulePrefix` within your app configs. The POD path should use the following format: `{appname}/{poddir}`.
+Rather than hold your resource folders on the root of your app you can define a POD path using the attribute `podModulePrefix` within your environment configs. The POD path should use the following format: `{appname}/{poddir}`.
 
 {% highlight javascript linenos %}
-var App = Ember.Application.extend({
-  modulePrefix: 'app',
-  podModulePrefix: 'app/pods' // directory where resolver will look for your resource files
-});
+// config/environment.js
+module.exports = function(environment) {
+  var ENV = {
+    modulePrefix: 'app',
+    podModulePrefix: 'app/pods' // directory where resolver will look for your resource files
+    environment: environment,
+    baseURL: '/',
+    locationType: 'auto',
+//...
 {% endhighlight %}
 
 Then your folder structure would be:
@@ -279,12 +284,3 @@ Then your folder structure would be:
 - `app/pods/users/controller.js`
 - `app/pods/users/route.js`
 - `app/pods/users/template.hbs`
-
-If you have any tests for your pod based modules, you will need to add the `podModulePrefix` to `tests/helpers/resolver.js`.
-
-{% highlight javascript linenos %}
-resolver.namespace = {
-  modulePrefix: 'app',
-  podModulePrefix: 'app/pods'
-};
-{% endhighlight %}
