@@ -1,9 +1,6 @@
 # ember-cli Changelog
 
-### Master
-
-* [Bugfix] update ember-cli-content-security-policy to 0.1.2 (it actually works now) [#2136](https://github.com/stefanpenner/ember-cli/pull/2136)
-* [BUGFIX] Remove duplicate warning when generating controllers. [#2066](https://github.com/stefanpenner/ember-cli/pull/2066)
+### 0.0.47
 
 #### Applications
 
@@ -17,6 +14,7 @@
 * [ENHANCEMENT] Add `configPath` option to `EmberApp` (in the `Brocfile.js`) to allow using a custom file for obtaining configuration
   information. [#2068](https://github.com/stefanpenner/ember-cli/pull/2068)
 * [BUGFIX] Use url.parse instead of manually checking baseURL. This allows `app://localhost/` URLs needed for node-webkit. [#2088](https://github.com/stefanpenner/ember-cli/pull/2088)
+* [BUGFIX] Remove duplicate warning when generating controllers. [#2066](https://github.com/stefanpenner/ember-cli/pull/2066)
 * [BREAKING ENHANCEMENT] Move `config` information out of the `assets/my-app-name.js` file and into a `<meta>` tag in the document `head`. [#2086](https://github.com/stefanpenner/ember-cli/pull/2086)
   * Removes `<my-app-name>/config/environments/*` from module system output.
   * Makes build output the same regardless of environment config.
