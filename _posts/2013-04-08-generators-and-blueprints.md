@@ -10,6 +10,8 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-
 
 Ember CLI ships with "Blueprints", snippet generators for many of the entities - models, controllers, components, and so on - that you'll need in your app. Blueprints allow us to share common Ember patterns in the community and you can even define your own.
 
+To see a list of all available blueprints run `ember generate --help`
+
 ### Generating Blueprints
 
 This in an example of how to generate a Route Blueprint.
