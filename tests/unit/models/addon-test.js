@@ -203,8 +203,12 @@ describe('models/addon.js', function() {
     });
 
     describe('generated addon with-export', function() {
-      before(function() {
+      beforeEach(function() {
         addon = project.addons[6];
+
+        // Clear the caches
+        delete addon._includedModules;
+        delete addon._moduleName;
       });
 
       it('sets it\'s project', function() {
@@ -221,6 +225,17 @@ describe('models/addon.js', function() {
           'ember-cli-generated-with-export/controllers/people': ['default'],
           'ember-cli-generated-with-export/mixins/thing': ['default']
         });
+      });
+
+      it('generates a list of es6 modules to ignore with custom modulePrefix', function() {
+        addon.modulePrefix = 'custom-addon';
+
+        assert.deepEqual(addon.includedModules(), {
+          'custom-addon/controllers/people': ['default'],
+          'custom-addon/mixins/thing': ['default']
+        });
+
+        delete addon.modulePrefix;
       });
 
       it('sets the root', function() {
