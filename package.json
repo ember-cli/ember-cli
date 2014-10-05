@@ -97,7 +97,7 @@
     "broccoli-es3-safe-recast": "1.0.0",
     "broccoli-es6-concatenator": "0.1.8",
     "broccoli-file-mover": "0.4.1",
-    "broccoli-file-remover": "0.3.0",
+    "broccoli-file-remover": "0.3.1",
     "broccoli-filter": "0.1.7",
     "broccoli-jshint": "0.5.3",
     "broccoli-kitchen-sink-helpers": "0.2.5",
