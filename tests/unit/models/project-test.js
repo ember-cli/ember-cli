@@ -32,7 +32,7 @@ describe('models/project.js', function() {
         });
     });
 
-    after(function() {
+    afterEach(function() {
       return tmp.teardown(projectPath);
     });
 
@@ -137,7 +137,7 @@ describe('models/project.js', function() {
   });
 
   describe('addons', function() {
-    before(function() {
+    beforeEach(function() {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
 
@@ -232,6 +232,22 @@ describe('models/project.js', function() {
       assert.ok(addons[7] instanceof Addon);
       assert.equal(addons[7].name, '(generated ember-generated-no-export-addon addon)');
     });
+
+    it('adds the project itself if it is an addon', function() {
+      var added = false;
+      project.addonPackages = {};
+      project.isEmberCLIAddon = function() { return true; };
+
+      project.addIfAddon = function(path) {
+        if (path === project.root) {
+          added = true;
+        }
+      };
+
+      project.buildAddonPackages();
+
+      assert.ok(added);
+    });
   });
 
   describe('emberCLIVersion', function() {
@@ -241,6 +257,13 @@ describe('models/project.js', function() {
   });
 
   describe('isEmberCLIAddon', function() {
+    beforeEach(function() {
+      projectPath = process.cwd() + '/tmp/test-app';
+
+      project = new Project(projectPath, {});
+      project.initializeAddons();
+    });
+
     it('should return true if `ember-addon` is included in keywords', function() {
       project.pkg = {
         keywords: [ 'ember-addon' ]
