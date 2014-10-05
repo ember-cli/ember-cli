@@ -1,5 +1,9 @@
 # ember-cli Changelog
 
+### 0.1.1
+
+* [BUGFIX] Fix symlink regression in Windows (update broccoli-file-remover to 0.3.1). [#2204](https://github.com/stefanpenner/ember-cli/pull/2204)
+
 ### 0.1.0
 
 * [ENHANCEMENT] Add symlinking to speed up Broccoli builds. [#2125](https://github.com/stefanpenner/ember-cli/pull/2125)
