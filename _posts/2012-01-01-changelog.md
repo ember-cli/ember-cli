@@ -5,6 +5,15 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.1.0
+
+* [ENHANCEMENT] Add symlinking to speed up Broccoli builds. [#2125](https://github.com/stefanpenner/ember-cli/pull/2125)
+* [BUGFIX] Fix issue with livereload in 0.0.47. [#2176](https://github.com/stefanpenner/ember-cli/pull/2176)
+* [BUGFIX] Change content security policy addon to use report only mode by default. [#2190](https://github.com/stefanpenner/ember-cli/pull/2190)
+* [ENHANCEMENT] Allow addons to customize their ES6 module prefix (for `addon` tree). [#2189](https://github.com/stefanpenner/ember-cli/pull/2189)
+* [BUGFIX] Ensure all addon hooks are executed in addon test harness. [#2195](https://github.com/stefanpenner/ember-cli/pull/2195)
+
+
 ### 0.0.47
 
 #### Applications
