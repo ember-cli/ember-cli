@@ -40,5 +40,8 @@ MockProject.prototype.addIfAddon = Project.prototype.addIfAddon;
 MockProject.prototype.dependencies = function() {
   return [];
 };
+MockProject.prototype.isEmberCLIAddon = function() {
+  return false;
+};
 
 module.exports = MockProject;
