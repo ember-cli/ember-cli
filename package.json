@@ -128,7 +128,7 @@
     "morgan": "^1.2.2",
     "ncp": "0.6.0",
     "nopt": "^3.0.1",
-    "npm": "^1.4.6",
+    "npm": "^2.0.0",
     "pleasant-progress": "^1.0.1",
     "proxy-middleware": "0.5.1",
     "quick-temp": "0.1.2",
