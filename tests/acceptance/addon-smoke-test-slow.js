@@ -85,13 +85,15 @@ describe('Acceptance: addon-smoke-test', function() {
     return tmp.teardown('./tmp');
   });
 
-  it('uses the correct name in generated package.json', function() {
+  it('generates package.json with proper metadata', function() {
     console.log('    running the slow end-to-end it will take some time');
 
     var contents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
 
     assert.equal(contents.name, addonName);
     assert.equal(contents.private, undefined);
+    assert.deepEqual(contents.keywords, ['ember-addon']);
+    assert.deepEqual(contents['ember-addon'], { 'configPath': 'tests/dummy/config' });
   });
 
   it('ember addon foo, clean from scratch', function() {
