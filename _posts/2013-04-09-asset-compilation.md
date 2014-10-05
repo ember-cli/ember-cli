@@ -53,11 +53,11 @@ All your preprocessed stylesheets will be compiled into one file and served at
 #### LESS
 
 To enable [LESS](http://lesscss.org/), you'll need to add
-[broccoli-less-single](https://github.com/gabrielgrant/broccoli-less-single) to
+[ember-cli-less](https://github.com/gdub22/ember-cli-less) to
 your NPM modules.
 
 {% highlight bash %}
-npm install --save-dev broccoli-less-single
+npm install --save-dev ember-cli-less
 {% endhighlight %}
 
 #### Sass
