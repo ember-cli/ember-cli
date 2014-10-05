@@ -85,15 +85,19 @@ describe('Acceptance: addon-smoke-test', function() {
     return tmp.teardown('./tmp');
   });
 
-  it('generates package.json with proper metadata', function() {
+  it('generates package.json and bower.json with proper metadata', function() {
     console.log('    running the slow end-to-end it will take some time');
 
-    var contents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
+    var packageContents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
 
-    assert.equal(contents.name, addonName);
-    assert.equal(contents.private, undefined);
-    assert.deepEqual(contents.keywords, ['ember-addon']);
-    assert.deepEqual(contents['ember-addon'], { 'configPath': 'tests/dummy/config' });
+    assert.equal(packageContents.name, addonName);
+    assert.equal(packageContents.private, undefined);
+    assert.deepEqual(packageContents.keywords, ['ember-addon']);
+    assert.deepEqual(packageContents['ember-addon'], { 'configPath': 'tests/dummy/config' });
+
+    var bowerContents = JSON.parse(fs.readFileSync('bower.json', { encoding: 'utf8' }));
+
+    assert.equal(bowerContents.name, addonName);
   });
 
   it('ember addon foo, clean from scratch', function() {

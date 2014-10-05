@@ -27,12 +27,24 @@ module.exports = {
     fs.writeFileSync(path.join(this.path, 'files', 'package.json'), JSON.stringify(contents, null, 2));
   },
 
+  generateBowerJson: function() {
+    var bowerPath = path.join(this._appBlueprint.path, 'files', 'bower.json');
+    var contents  = JSON.parse(fs.readFileSync(bowerPath, { encoding: 'utf8' }));
+
+    contents.name = this.project.name();
+
+    fs.writeFileSync(path.join(this.path, 'files', 'bower.json'), JSON.stringify(contents, null, 2));
+  },
+
   afterInstall: function() {
     var packagePath = path.join(this.path, 'files', 'package.json');
+    var bowerPath = path.join(this.path, 'files', 'bower.json');
 
-    if (fs.existsSync(packagePath)) {
-      fs.unlinkSync(packagePath);
-    }
+    [packagePath, bowerPath].forEach(function(filePath) {
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    });
   },
 
   locals: function(options) {
@@ -64,6 +76,7 @@ module.exports = {
     var appFiles       = this._appBlueprint.files();
 
     this.generatePackageJson();
+    this.generateBowerJson();
 
     var addonFiles   = walkSync(path.join(this.path, 'files'));
 
