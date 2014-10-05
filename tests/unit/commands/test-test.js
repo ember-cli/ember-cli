@@ -1,8 +1,8 @@
 'use strict';
 
 var assert         = require('../../helpers/assert');
-var commandOptions = require('../../factories/command-options');
 var stub           = require('../../helpers/stub').stub;
+var commandOptions = require('../../factories/command-options');
 var Promise        = require('../../../lib/ext/promise');
 var Task           = require('../../../lib/models/task');
 var path           = require('path');
@@ -13,11 +13,13 @@ var TestCommand = require('../../../lib/commands/test');
 describe('test command', function() {
   var tasks;
   var options;
+  var npmValidate;
   var buildRun;
   var testRun;
 
   beforeEach(function(){
     tasks = {
+      NpmValidate: Task.extend(),
       Build: Task.extend(),
       Test: Task.extend()
     };
@@ -28,15 +30,24 @@ describe('test command', function() {
       settings: {}
     });
 
+    stub(tasks.NpmValidate.prototype,  'run', Promise.resolve());
     stub(tasks.Test.prototype,  'run', Promise.resolve());
     stub(tasks.Build.prototype, 'run', Promise.resolve());
 
+    npmValidate = tasks.NpmValidate.prototype.run;
     buildRun = tasks.Build.prototype.run;
     testRun  = tasks.Test.prototype.run;
   });
 
-  it('builds and runs test', function() {
+  afterEach(function() {
+    tasks.NpmValidate.prototype.run.restore();
+    tasks.Build.prototype.run.restore();
+    tasks.Test.prototype.run.restore();
+  });
+
+  it('validates dependencies, then builds and runs test', function() {
     return new TestCommand(options).validateAndRun([]).then(function() {
+      assert.equal(npmValidate.called, 1, 'expected npmValidate to be called once');
       assert.equal(buildRun.called, 1, 'expected build task to be called once');
       assert.equal(testRun.called, 1,  'expected test task to be called once');
     });

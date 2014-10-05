@@ -1,4 +1,5 @@
 node_modules
+!tests/fixtures/**/node_modules
 npm-debug.log
 tmp*
 _posts
