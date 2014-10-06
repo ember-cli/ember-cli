@@ -122,6 +122,23 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
+  it.only('ember test tells you when an error occurred', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('smoke-tests/syntax-error')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+          .then(function(result) {
+            assert(false, 'should have rejected with a failing test');
+          })
+          .catch(function(result) {
+            assert.equal(result.output.indexOf('No tests were ran, please ensure that you have a test launcher (e.g. PhantomJS) enabled.\n'), -1);
+          });
+      });
+  }).only;
+
   it('ember new foo, build production and verify fingerprint', function() {
     console.log('    running the slow fingerprint it will take some time');
 
