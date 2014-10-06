@@ -340,6 +340,6 @@ See the built-in `resource` blueprint for an example of this.
 * HTTP Proxy
   * This blueprint generates a relative proxy to another server. You can use this to forward requests to a local development server, for example.
 * Initializer
-  * Generates an Ember Initializer. Common uses are to setup injection rules, like a current user, services, etc. You shouldn't use them for fetching data via XHR, deferring readiness, or instantiating and using 'container.lookup'. For more about initializers, view the (API docs)[http://emberjs.com/api/classes/Ember.Application.html#method_initializer]
+  * Generates an Ember Initializer. Common uses are to setup injection rules, like a current user, services, etc. You shouldn't use them for fetching data via XHR, deferring readiness, or instantiating and using 'container.lookup'. For more about initializers, view the [API docs](http://emberjs.com/api/classes/Ember.Application.html#method_initializer)
 * Util
   * Used for simple utility modules or functions like ic-ajax, etc.
