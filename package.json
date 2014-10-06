@@ -139,7 +139,7 @@
     "semver": "^3.0.1",
     "symlink-or-copy": "^1.0.0",
     "temp": "0.8.1",
-    "testem": "0.6.19",
+    "testem": "0.6.22",
     "through": "^2.3.4",
     "tiny-lr": "0.1.4",
     "walk-sync": "0.1.3",
