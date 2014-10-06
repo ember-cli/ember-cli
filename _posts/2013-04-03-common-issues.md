@@ -5,6 +5,40 @@ permalink: commonissues
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-03-common-issues.md"
 ---
 
+### Content security policy
+
+Ember-cli comes bundled with the [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy) addon which enables the [Content Security Policy](http://content-security-policy.com/) in modern browsers when running the development server. 
+
+Enabeling the Content Security Policy (by sending the `Content-Security-Policy` header) reduces the risks of XSS attacks. The default header sent by the addon sends a policy where only content from `'self'` is allowed. This means that by default, the browser will restrict your app from loading assets and data outside of `localhost:4200` or doing any inline style or script modifications. If your app does any of these, you'll see a lot of these errors:
+
+{% highlight bash %}
+Refused to execute inline script because it violates the following Content Security Policy directive: ...
+{% endhighlight %}
+
+You can modify the CSP for you app by setting the `contentSecurityPolicy` option in your configuration:
+
+{% highlight javascript %}
+if (environment === 'development') {
+  ENV.contentSecurityPolicy = {
+    'default-src': "'none'",
+    // Allow Google Analytics, Google AJAX CDN, Same Origin and eval statements (needed for ember-cli)
+    'script-src': "'self' 'unsafe-eval' www.google-analytics.com ajax.googleapis.com",
+    'font-src': "'self'",
+    // Allow data (ajax) requests to some-api.local
+    'connect-src': "'self' some-api.local",  
+    'img-src': "'self'",
+    // Allow inline styles
+    'style-src': "'self' 'unsafe-inline'"
+  }
+}
+{% endhighlight %}
+
+**More information**
+
+* More information on the `contentSecurityPolicy` option is available in the [addon readme](https://github.com/rwjblue/ember-cli-content-security-policy).
+* More information on the Content Security Policy can be found on [content-security-policy.com](http://content-security-policy.com/).
+
+
 ### npm package management with sudo
 
 Installing packages such as bower with sudo powers can lead to permissions
