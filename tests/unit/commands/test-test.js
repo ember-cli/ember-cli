@@ -5,6 +5,8 @@ var commandOptions = require('../../factories/command-options');
 var stub           = require('../../helpers/stub').stub;
 var Promise        = require('../../../lib/ext/promise');
 var Task           = require('../../../lib/models/task');
+var path           = require('path');
+var fs             = require('fs');
 
 var TestCommand = require('../../../lib/commands/test');
 
@@ -65,6 +67,54 @@ describe('test command', function() {
       var testOptions  = testRun.calledWith[0][0];
 
       assert.equal(testOptions.port, 5678);
+    });
+  });
+
+  describe('_generateCustomConfigFile', function() {
+    var command;
+    var runOptions;
+    var fixturePath;
+
+    beforeEach(function() {
+      fixturePath = path.join(__dirname, '..', '..', 'fixtures', 'tasks', 'default-testem-config');
+      command = new TestCommand(options);
+      runOptions = {
+        configFile: path.join(fixturePath, 'testem.json')
+      };
+    });
+
+    afterEach(function() {
+      command.rmTmp();
+    });
+
+    it('should return a valid path', function() {
+      var newPath = command._generateCustomConfigFile(runOptions);
+
+      assert.ok(fs.existsSync(newPath));
+    });
+
+    it('should return the original path if filter isn\'t present', function() {
+      var originalPath = runOptions.configFile;
+      var newPath = command._generateCustomConfigFile(runOptions);
+
+      assert.equal(newPath, originalPath);
+    });
+
+    it('when filter option is present the new file path returned exists', function() {
+      var originalPath = runOptions.configFile;
+      runOptions.filter = 'foo';
+      var newPath = command._generateCustomConfigFile(runOptions);
+
+      assert.notEqual(newPath, originalPath);
+      assert.ok(fs.existsSync(newPath), 'file should exist');
+    });
+
+    it('new file returned contains the filter option value in test_page', function() {
+      runOptions.filter = 'foo';
+      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      assert.ok(contents['test_page'].indexOf('foo') > -1);
     });
   });
 });
