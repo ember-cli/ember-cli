@@ -414,42 +414,162 @@ describe('Blueprint', function() {
       return rimraf(tmproot);
     });
 
-    it('calls _exec with the proper command when no version is supplied', function() {
-      blueprint._exec = function(command) {
-        assert.equal(command, 'npm install --save-dev foo-bar');
+    it('passes a packages array for addPackagesToProject', function() {
+      blueprint.addPackagesToProject = function(packages) {
+        assert.deepEqual(packages, [{name: 'foo-bar'}]);
       };
 
       blueprint.addPackageToProject('foo-bar');
     });
 
-    it('calls _exec with the proper command when a version is supplied', function() {
-      blueprint._exec = function(command) {
-        assert.equal(command, 'npm install --save-dev foo-bar@^123.1.12');
+    it('passes a packages array with target for addPackagesToProject', function() {
+      blueprint.addPackagesToProject = function(packages) {
+        assert.deepEqual(packages, [{name: 'foo-bar', target: '^123.1.12'}]);
       };
 
       blueprint.addPackageToProject('foo-bar', '^123.1.12');
     });
+  });
 
-    it('writes information to the ui log', function() {
+  describe('addPackagesToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var NpmInstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new NpmInstallTask();
+      };
+    });
+
+    afterEach(function() {
+      return rimraf(tmproot);
+    });
+
+    it('looks up the `npm-install` task', function() {
+      NpmInstallTask = Task.extend({
+        run: function() {}
+      });
+
+      blueprint.addPackagesToProject([{name: 'foo-bar'}]);
+
+      assert.equal(taskNameLookedUp, 'npm-install');
+    });
+
+    it('calls the task with package names', function() {
+      var packages;
+
+      NpmInstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.addPackagesToProject([
+        {name: 'foo-bar'},
+        {name: 'bar-foo'}
+      ]);
+
+      assert.deepEqual(packages, ['foo-bar', 'bar-foo']);
+    });
+
+    it('calls the task with package names and versions', function() {
+      var packages;
+
+      NpmInstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.addPackagesToProject([
+        {name: 'foo-bar', target: '^123.1.12'},
+        {name: 'bar-foo', target: '0.0.7'}
+      ]);
+
+      assert.deepEqual(packages, ['foo-bar@^123.1.12', 'bar-foo@0.0.7']);
+    });
+
+    it('writes information to the ui log for a single package', function() {
       blueprint._exec = function() { };
       blueprint.ui = ui;
 
-      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+      blueprint.addPackagesToProject([
+        {name: 'foo-bar', target: '^123.1.12'}
+      ]);
 
       var output = ui.output.trim();
 
       assert.match(output, /install package.*foo-bar/);
     });
 
+    it('writes information to the ui log for multiple packages', function() {
+      blueprint._exec = function() { };
+      blueprint.ui = ui;
+
+      blueprint.addPackagesToProject([
+        {name: 'foo-bar', target: '^123.1.12'},
+        {name: 'bar-foo', target: '0.0.7'}
+      ]);
+
+      var output = ui.output.trim();
+
+      assert.match(output, /install packages.*foo-bar, bar-foo/);
+    });
+
     it('does not error if ui is not present', function() {
       blueprint._exec = function() { };
       delete blueprint.ui;
 
-      blueprint.addPackageToProject('foo-bar', '^123.1.12');
+      blueprint.addPackagesToProject([
+        {name: 'foo-bar', target: '^123.1.12'}
+      ]);
 
       var output = ui.output.trim();
 
       assert(!output.match(/install package.*foo-bar/));
+    });
+
+    it('runs task with --save-dev', function() {
+      var saveDev;
+
+      NpmInstallTask = Task.extend({
+        run: function(options) {
+          saveDev = options['save-dev'];
+        }
+      });
+
+      blueprint.addPackagesToProject([
+        {name: 'foo-bar', target: '^123.1.12'},
+        {name: 'bar-foo', target: '0.0.7'}
+      ]);
+
+      assert(saveDev);
+    });
+
+    it('does not use verbose mode with the task', function() {
+      var verbose;
+
+      NpmInstallTask = Task.extend({
+        run: function(options) {
+          verbose = options.verbose;
+        }
+      });
+
+      blueprint.addPackagesToProject([
+        {name: 'foo-bar', target: '^123.1.12'},
+        {name: 'bar-foo', target: '0.0.7'}
+      ]);
+
+      assert(!verbose);
     });
   });
 
