@@ -476,16 +476,56 @@ describe('Blueprint', function() {
       return rimraf(tmproot);
     });
 
+    it('passes a packages array for addBowerPackagesToProject', function() {
+      blueprint.addBowerPackagesToProject = function(packages) {
+        assert.deepEqual(packages, [{name: 'foo-bar'}]);
+      };
+
+      blueprint.addBowerPackageToProject('foo-bar');
+    });
+
+    it('passes a packages array with target for addBowerPackagesToProject', function() {
+      blueprint.addBowerPackagesToProject = function(packages) {
+        assert.deepEqual(packages, [{name: 'foo-bar', target: '1.0.0'}]);
+      };
+
+      blueprint.addBowerPackageToProject('foo-bar', '1.0.0');
+    });
+  });
+
+  describe('addBowerPackagesToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var BowerInstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new BowerInstallTask();
+      };
+    });
+
+    afterEach(function() {
+      return rimraf(tmproot);
+    });
+
     it('looks up the `bower-install` task', function() {
       BowerInstallTask = Task.extend({
         run: function() {}
       });
-      blueprint.addBowerPackageToProject('foo-bar');
+      blueprint.addBowerPackagesToProject([{name: 'foo-bar'}]);
 
       assert.equal(taskNameLookedUp, 'bower-install');
     });
 
-    it('calls the task with the package name', function() {
+    it('calls the task with the package names', function() {
       var packages;
 
       BowerInstallTask = Task.extend({
@@ -494,9 +534,12 @@ describe('Blueprint', function() {
         }
       });
 
-      blueprint.addBowerPackageToProject('foo-bar');
+      blueprint.addBowerPackagesToProject([
+        {name: 'foo-bar'},
+        {name: 'bar-foo'}
+      ]);
 
-      assert.deepEqual(packages, ['foo-bar']);
+      assert.deepEqual(packages, ['foo-bar', 'bar-foo']);
     });
 
     it('uses the provided target (version, range, sha, etc)', function() {
@@ -508,9 +551,12 @@ describe('Blueprint', function() {
         }
       });
 
-      blueprint.addBowerPackageToProject('foo-bar', '~1.0.0');
+      blueprint.addBowerPackagesToProject([
+        {name: 'foo-bar', target: '~1.0.0'},
+        {name: 'bar-foo', target: '0.7.0'}
+      ]);
 
-      assert.deepEqual(packages, ['foo-bar#~1.0.0']);
+      assert.deepEqual(packages, ['foo-bar#~1.0.0', 'bar-foo#0.7.0']);
     });
 
     it('uses uses verbose mode with the task', function() {
@@ -522,7 +568,10 @@ describe('Blueprint', function() {
         }
       });
 
-      blueprint.addBowerPackageToProject('foo-bar', '~1.0.0');
+      blueprint.addBowerPackagesToProject([
+        {name: 'foo-bar', target: '~1.0.0'},
+        {name: 'bar-foo', target: '0.7.0'}
+      ]);
 
       assert(verbose);
     });
