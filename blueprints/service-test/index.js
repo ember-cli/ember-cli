@@ -1,3 +1,3 @@
 module.exports = {
-  description: 'Generates a route unit test.'
+  description: 'Generates a service unit test.'
 };
