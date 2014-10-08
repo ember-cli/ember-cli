@@ -76,6 +76,7 @@ describe('Acceptance: blueprint smoke tests', function() {
 
         assert(packageJson.devDependencies['http-proxy']);
         assert(packageJson.devDependencies['connect-restreamer']);
+        assert(packageJson.devDependencies['morgan']);
       });
   });
 });

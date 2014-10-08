@@ -19,6 +19,7 @@ module.exports = {
   afterInstall: function() {
     return Promise.all([
       this.addPackageToProject('http-proxy', '^1.1.6'),
+      this.addPackageToProject('morgan', '^1.3.2'),
       this.addPackageToProject('connect-restreamer', '^1.0.0')
     ]);
   }
