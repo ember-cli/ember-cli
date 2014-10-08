@@ -455,12 +455,12 @@ describe('Acceptance: ember generate', function() {
   it('initializer foo', function() {
     return generate(['initializer', 'foo']).then(function() {
       assertFile('app/initializers/foo.js', {
-        contains: "export var initialize = function(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "};" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
-                  "  name: 'foo'," + EOL + EOL +
+                  "  name: 'foo'," + EOL +
                   "  initialize: initialize" + EOL +
                   "};"
       });
@@ -472,12 +472,12 @@ describe('Acceptance: ember generate', function() {
   it('initializer foo/bar', function() {
     return generate(['initializer', 'foo/bar']).then(function() {
       assertFile('app/initializers/foo/bar.js', {
-        contains: "export var initialize = function(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "};" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
-                  "  name: 'foo/bar'," + EOL + EOL +
+                  "  name: 'foo/bar'," + EOL +
                   "  initialize: initialize" + EOL +
                   "};"
       });
@@ -741,11 +741,12 @@ describe('Acceptance: ember generate', function() {
         ]
       });
       assertFile('app/initializers/foo-service.js', {
-        contains: "export default {" + EOL +
+        contains: "export function initialize(container, application) {" + EOL +
+                  "  application.inject('route', 'fooService', 'service:foo');" + EOL +
+                  "};" + EOL + EOL +
+                  "export default {" + EOL +
                   "  name: 'foo-service'," + EOL +
-                  "  initialize: function(container, app) {" + EOL +
-                  "    app.inject('route', 'fooService', 'service:foo');" + EOL +
-                  "  }" + EOL +
+                  "  initialize: initialize" + EOL +
                   "};"
       });
       assertFile('tests/unit/services/foo-test.js', {
@@ -769,11 +770,12 @@ describe('Acceptance: ember generate', function() {
         ]
       });
       assertFile('app/initializers/foo/bar-service.js', {
-        contains: "export default {" + EOL +
+        contains: "export function initialize(container, application) {" + EOL +
+                  "  application.inject('route', 'fooBarService', 'service:foo/bar');" + EOL +
+                  "};" + EOL + EOL +
+                  "export default {" + EOL +
                   "  name: 'foo/bar-service'," + EOL +
-                  "  initialize: function(container, app) {" + EOL +
-                  "    app.inject('route', 'fooBarService', 'service:foo/bar');" + EOL +
-                  "  }" + EOL +
+                  "  initialize: initialize" + EOL +
                   "};"
       });
       assertFile('tests/unit/services/foo/bar-test.js', {
