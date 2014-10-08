@@ -140,12 +140,9 @@ describe('Acceptance: ember generate', function() {
     return generate(['helper', 'foo-bar']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "function fooBar(value) {" + EOL +
-                  "  return value;" + EOL +
-                  "}" +  EOL + EOL +
-                  "export {" + EOL +
-                  "  fooBar" + EOL +
-                  "};" + EOL + EOL +
+                  "export function fooBar(input) {" + EOL +
+                  "  return input;" + EOL +
+                  "};" +  EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -160,11 +157,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['helper', 'foo/bar-baz']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "function fooBarBaz(value) {" + EOL +
-                  "  return value;" + EOL +
-                  "}" + EOL + EOL +
-                  "export {" + EOL +
-                  "  fooBarBaz" + EOL +
+                  "export function fooBarBaz(input) {" + EOL +
+                  "  return input;" + EOL +
                   "};" + EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
       });
