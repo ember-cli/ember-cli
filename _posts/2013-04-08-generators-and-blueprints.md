@@ -335,11 +335,28 @@ See the built-in `resource` blueprint for an example of this.
 
 ## Appendix
 
-### Detailed List of Blueprints and Their Use
+### Detailed List of Blueprints and Their Use 
+
+* Acceptance Test
+  * Generates an acceptance test for a given feature.
+  * `ember generate acceptance-test signup`
+  
+* Adapter
+  * Generates an Ember Data Adapter.
+  * Options
+    * Base Class
+  * `ember generate adapter --base-class application`
 
 * HTTP Proxy
   * This blueprint generates a relative proxy to another server. You can use this to forward requests to a local development server, for example.
+  * Options
+    * Local Path
+    * Remote URL
+  * `ember generate http-proxy`
+
 * Initializer
-  * Generates an Ember Initializer. Common uses are to setup injection rules, like a current user, services, etc. You shouldn't use them for fetching data via XHR, deferring readiness, or instantiating and using 'container.lookup'. For more about initializers, view the [API docs](http://emberjs.com/api/classes/Ember.Application.html#method_initializer)
+  * Generates an Ember Initializer.
+  * Common uses are to setup injection rules, like a current user, services, etc. You shouldn't use them for fetching data via XHR, deferring readiness, or instantiating and using 'container.lookup'. For more about initializers, view the [API docs](http://emberjs.com/api/classes/Ember.Application.html#method_initializer)
+  * `ember generate initializer current-user`
 * Util
   * Used for simple utility modules or functions like ic-ajax, etc.
