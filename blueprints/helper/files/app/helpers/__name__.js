@@ -1,11 +1,7 @@
 import Ember from 'ember';
 
-function <%= camelizedModuleName %>(value) {
-  return value;
-}
-
-export {
-  <%= camelizedModuleName %>
+export function <%= camelizedModuleName %>(input) {
+  return input;
 };
 
 export default Ember.Handlebars.makeBoundHelper(<%= camelizedModuleName %>);
