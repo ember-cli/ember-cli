@@ -6,8 +6,10 @@ var MockUI           = require('../../../helpers/mock-ui');
 var net              = require('net');
 var EOL              = require('os').EOL;
 var path             = require('path');
+var chalk            = require('chalk');
+var BuildError       = require('../../../helpers/build-error');
+var MockWatcher      = require('../../../helpers/mock-watcher');
 
-var MockWatcher  = require('../../../helpers/mock-watcher');
 describe('livereload-server', function() {
   var subject;
   var ui;
@@ -20,7 +22,7 @@ describe('livereload-server', function() {
     subject = new LiveReloadServer({
       ui: ui,
       watcher: watcher,
-      analytics: {},
+      analytics: { trackError: function() { } },
       project: {
         liveReloadFilterPatterns: [],
         root: '/home/user/my-project'
@@ -123,6 +125,57 @@ describe('livereload-server', function() {
       });
       assert.equal(changedCount, 0);
       assert.equal(trackCount, 0);
+    });
+
+    it('emits without error.file', function() {
+      subject.didError(new BuildError({
+        file: 'someFile',
+        message: 'buildFailed'
+      }));
+
+      var outs = ui.output.split(EOL);
+
+      assert.equal(outs[0], chalk.red('File: someFile'));
+      assert.equal(outs[1], chalk.red('buildFailed'));
+    });
+
+    it('emits with error.file with error.line without err.col', function() {
+      subject.didError(new BuildError({
+        file: 'someFile',
+        line: 24,
+        message: 'buildFailed'
+      }));
+
+      var outs = ui.output.split(EOL);
+
+      assert.equal(outs[0], chalk.red('File: someFile (24)'));
+      assert.equal(outs[1], chalk.red('buildFailed'));
+    });
+
+    it('emits with error.file without error.line with err.col', function() {
+      subject.didError(new BuildError({
+        file: 'someFile',
+        col: 80,
+        message: 'buildFailed'
+      }));
+      var outs = ui.output.split(EOL);
+
+      assert.equal(outs[0], chalk.red('File: someFile'));
+      assert.equal(outs[1], chalk.red('buildFailed'));
+    });
+
+    it('emits with error.file with error.line with err.col', function() {
+      subject.didError(new BuildError({
+        file: 'someFile',
+        line: 24,
+        col: 80,
+        message: 'buildFailed'
+      }));
+
+      var outs = ui.output.split(EOL);
+
+      assert.equal(outs[0], chalk.red('File: someFile (24:80)'));
+      assert.equal(outs[1], chalk.red('buildFailed'));
     });
   });
 });
