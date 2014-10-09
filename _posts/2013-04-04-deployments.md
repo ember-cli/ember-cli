@@ -45,3 +45,12 @@ For example
 This value is used to set the value of `base` in `index.html`, e.g. `<base href="/path/to/ember/app/" />`,
 as this is required for the History API,
 and thus also the Router, to function correctly.
+
+<a id="deploy-content-security-policy"></a>
+
+### Content security policy
+To enable the Content Security Policy on your production stack, you'll need to copy the
+`Content-Security-Policy` and `X-Content-Security-Policy` (for IE) from the headers generated
+by `ember serve`. If you'd like to enable it in report-only mode, use `Content-Security-Policy-Report-Only`
+and `X-Content-Security-Policy-Report-Only`. Make sure you've set a `report-uri` if you enable
+the CSP in report-only mode.
