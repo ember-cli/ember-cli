@@ -46,6 +46,22 @@ describe('broccoli/ember-app', function() {
       assert.equal(app.bowerDirectory, project.bowerDirectory);
       assert.equal(app.bowerDirectory, 'bower_components');
     });
+
+    describe('_nofifyAddonIncluded', function() {
+      beforeEach(function() {
+        project.initializeAddons = function() { };
+        project.addons = [{name: 'custom-addon'}];
+      });
+
+      it('should set the app on the addons', function() {
+        var app = new EmberApp({
+          project: project
+        });
+
+        var addon = project.addons[0];
+        assert.deepEqual(addon.app, app);
+      });
+    });
   });
 
   describe('contentFor', function() {
@@ -336,6 +352,35 @@ describe('broccoli/ember-app', function() {
 
         assert.equal(emberApp.toTree(), 'blap');
       });
+    });
+
+    describe('isEnabled is called properly', function() {
+      beforeEach(function() {
+        projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
+        var packageContents = require(path.join(projectPath, 'package.json'));
+        project = new Project(projectPath, packageContents);
+      });
+
+      afterEach(function() {
+        process.env.EMBER_ENV = undefined;
+      });
+
+      describe('with environment', function() {
+        it('development', function() {
+          process.env.EMBER_ENV = 'development';
+          emberApp = new EmberApp({ project: project });
+
+          assert.equal(emberApp.project.addons.length, 5);
+        });
+
+        it('foo', function() {
+          process.env.EMBER_ENV = 'foo';
+          emberApp = new EmberApp({ project: project });
+
+          assert.equal(emberApp.project.addons.length, 6);
+        });
+      });
+
     });
   });
 
