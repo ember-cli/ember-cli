@@ -1,13 +1,13 @@
 {
-  "predef": {
-    "console": true,
-    "it": true,
-    "describe": true,
-    "beforeEach": true,
-    "afterEach": true,
-    "before": true,
-    "after": true
-  },
+  "predef": [
+    "console",
+    "it",
+    "describe",
+    "beforeEach",
+    "afterEach",
+    "before",
+    "after"
+  ],
   "proto": true,
   "strict": true,
   "indent": 2,
