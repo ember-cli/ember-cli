@@ -1,5 +1,5 @@
 {
-  "predef": {
-    "console": true
-  }
+  "predef": [
+    "console"
+  ]
 }
