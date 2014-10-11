@@ -42,10 +42,11 @@ describe('express-server', function() {
       return subject.start({
         proxy: 'http://localhost:3001/',
         host:  '0.0.0.0',
-        port: '1337'
+        port: '1337',
+        baseURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
-        assert.deepEqual(output[1], 'Serving on http://0.0.0.0:1337');
+        assert.deepEqual(output[1], 'Serving on http://0.0.0.0:1337/');
         assert.deepEqual(output[0], 'Proxying to http://localhost:3001/');
         assert.deepEqual(output.length, 2, 'expected only two lines of output');
       });
@@ -54,10 +55,23 @@ describe('express-server', function() {
     it('without proxy', function() {
       return subject.start({
         host:  '0.0.0.0',
-        port: '1337'
+        port: '1337',
+        baseURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
-        assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337');
+        assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337/');
+        assert.deepEqual(output.length, 1, 'expected only one line of output');
+      });
+    });
+
+    it('with baseURL', function() {
+      return subject.start({
+        host:  '0.0.0.0',
+        port: '1337',
+        baseURL: '/foo'
+      }).then(function() {
+        var output = ui.output.trim().split(EOL);
+        assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337/foo/');
         assert.deepEqual(output.length, 1, 'expected only one line of output');
       });
     });
