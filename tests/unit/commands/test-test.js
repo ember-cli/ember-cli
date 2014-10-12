@@ -5,6 +5,7 @@ var commandOptions = require('../../factories/command-options');
 var stub           = require('../../helpers/stub').stub;
 var Promise        = require('../../../lib/ext/promise');
 var Task           = require('../../../lib/models/task');
+var CoreObject     = require('core-object');
 var path           = require('path');
 var fs             = require('fs');
 
@@ -15,11 +16,13 @@ describe('test command', function() {
   var options;
   var buildRun;
   var testRun;
+  var testServerRun;
 
   beforeEach(function(){
     tasks = {
       Build: Task.extend(),
-      Test: Task.extend()
+      Test: Task.extend(),
+      TestServer: Task.extend()
     };
 
     options = commandOptions({
@@ -33,6 +36,9 @@ describe('test command', function() {
 
     buildRun = tasks.Build.prototype.run;
     testRun  = tasks.Test.prototype.run;
+
+    stub(tasks.TestServer.prototype, 'run', Promise.resolve());
+    testServerRun = tasks.TestServer.prototype.run;
   });
 
   it('builds and runs test', function() {
@@ -67,6 +73,29 @@ describe('test command', function() {
       var testOptions  = testRun.calledWith[0][0];
 
       assert.equal(testOptions.port, 5678);
+    });
+  });
+
+  describe('--server option', function() {
+    beforeEach(function() {
+      options.Builder = CoreObject.extend();
+      options.Watcher = CoreObject.extend();
+    });
+
+    it('builds a watcher with verbose set to false', function() {
+      return new TestCommand(options).validateAndRun(['--server']).then(function() {
+        var testOptions  = testServerRun.calledWith[0][0];
+
+        assert.equal(testOptions.watcher.verbose, false);
+      });
+    });
+
+    it('builds a watcher with options.watcher set to value provided', function() {
+      return new TestCommand(options).validateAndRun(['--server', '--watcher=polling']).then(function() {
+        var testOptions  = testServerRun.calledWith[0][0];
+
+        assert.equal(testOptions.watcher.options.watcher, 'polling');
+      });
     });
   });
 
