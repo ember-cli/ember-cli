@@ -2,6 +2,7 @@
 
 'use strict';
 
+var fs       = require('fs');
 var path     = require('path');
 var Project  = require('../../../lib/models/project');
 var EmberApp = require('../../../lib/broccoli/ember-app');
@@ -96,13 +97,24 @@ describe('broccoli/ember-app', function() {
     });
 
     describe('contentFor("head")', function() {
-      it('includes the `meta` tag in `head`', function() {
+      it('includes the `meta` tag in `head` by default', function() {
         var escapedConfig = escape(JSON.stringify(config));
         var metaExpected = '<meta name="cool-foo/config/environment" ' +
                            'content="' + escapedConfig + '">';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         assert(actual.indexOf(metaExpected) > -1);
+      });
+
+      it('does not include the `meta` tag in `head` if storeConfigInMeta is false', function() {
+        emberApp.options.storeConfigInMeta = false;
+
+        var escapedConfig = escape(JSON.stringify(config));
+        var metaExpected = '<meta name="cool-foo/config/environment" ' +
+                           'content="' + escapedConfig + '">';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        assert(actual.indexOf(metaExpected) === -1);
       });
 
       it('includes the `base` tag in `head` if locationType is auto', function() {
@@ -130,6 +142,26 @@ describe('broccoli/ember-app', function() {
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         assert(actual.indexOf(expected) === -1);
+      });
+    });
+
+    describe('contentFor("config-module")', function() {
+      it('includes the meta gathering snippet by default', function() {
+        var metaSnippetPath = path.join(__dirname, '..','..','..','lib','broccoli','app-config-from-meta.js');
+        var expected = fs.readFileSync(metaSnippetPath);
+
+        var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
+
+        assert(actual.indexOf(expected) > -1);
+      });
+
+      it('includes the raw config if storeConfigInMeta is false', function() {
+        emberApp.options.storeConfigInMeta = false;
+
+        var expected = JSON.stringify(config);
+        var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
+
+        assert(actual.indexOf(expected) > -1);
       });
     });
 
