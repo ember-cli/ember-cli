@@ -126,7 +126,7 @@
     "nopt": "^3.0.1",
     "npm": "^2.0.0",
     "pleasant-progress": "^1.0.1",
-    "proxy-middleware": "0.5.1",
+    "proxy-middleware": "0.6.0",
     "quick-temp": "0.1.2",
     "readline2": "0.1.0",
     "resolve": "^1.0.0",
