@@ -18,7 +18,6 @@
 * [ENHANCEMENT] Add --watcher=polling option to `ember test --server`. This provides a work around for folks having `EMFILE` errors in some scenarios. [#2296](https://github.com/stefanpenner/ember-cli/pull/2296)
 * [ENHANCEMENT] Allow opting out of storing the applications configuration in the generated `index.html` via `storeConfigInMeta` option in the `Brocfile.js`. [#2298](https://github.com/stefanpenner/ember-cli/pull/2298)
 
-
 #### Addons
 
 * [ENHANCEMENT] Allow addons to inject middleware into testem. [#2128](https://github.com/stefanpenner/ember-cli/pull/2128)
@@ -29,6 +28,7 @@
 * [ENHANCEMENT] Allow adding multiple NPM packages at once via `Blueprint.prototype.addPackagesToProject`. [#2245](https://github.com/stefanpenner/ember-cli/pull/2245)
 * [ENHANCEMENT] Ensure generated addons are in strict mode. [#2295](https://github.com/stefanpenner/ember-cli/pull/2295)
 * [BUGFIX] Ensure that addon's with `addon/styles/app.css` are able to compile properly (copying contents of `addon/styles/app.css` into `vendor.css`). [#2301](https://github.com/stefanpenner/ember-cli/pull/2301)
+* [ENHANCEMENT] Provide the `httpServer` instance to `serverMiddleware` (and `./server/index.js`). [#2302](https://github.com/stefanpenner/ember-cli/issues/2302)
 
 #### Blueprints
 
