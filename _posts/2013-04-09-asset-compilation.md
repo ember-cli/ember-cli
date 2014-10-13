@@ -14,6 +14,19 @@ example you can do `public/assets/images`, and in your templates using
 `/assets/images/logo.png` or from stylesheets using
 `url('/assets/images/background.jpg')`.
 
+### Minifying
+
+The compiled css-files are minified by `broccoli-clean-css` or `broccoli-csso`,
+if it is installed locally. You can pass minifer-specific options to them using
+the `minifyCSS:options` object in your brocfile. Minification is enabled by
+default in the production-env and can be disabled using the `minifyCSS:enabled`
+switch.
+
+Similarly, the js-files are minified with `broccoli-uglify-js` in the
+production-env by default. You can pass custom options to the minifier via the
+`minifyJS:options` object in your brocfile. To enable or disable JS minification
+you may supply a boolean value for `minifyJS:enabled`.
+
 ### Stylesheets
 
 Ember CLI supports plain CSS out of the box. You can add your css styles to
@@ -35,12 +48,6 @@ To use a CSS preprocessor, you'll need to install the appropriate
 preprocessor, Broccoli is configured to look for an `app.less`, `app.scss`, `app.sass`,
 or `app.styl` manifest file in `app/styles`. This manifest should import any
 additional stylesheets.
-
-The compiled css-files are minified by `broccoli-clean-css` or `broccoli-csso`,
-if it is installed locally. You can pass minifer-specific options to them using
-the `minifyCSS:options` object in your brocfile. Minification is enabled by
-default in the production-env and can be disabled using the `minifyCSS:enabled`
-switch.
 
 All your preprocessed stylesheets will be compiled into one file and served at
 `assets/app.css`.
