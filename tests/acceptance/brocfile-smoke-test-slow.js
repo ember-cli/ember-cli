@@ -246,5 +246,29 @@ describe('Acceptance: brocfile-smoke-test', function() {
         });
       });
   });
+
+  it('multiple css files in app/styles/ are output when a preprocessor is not used', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/multiple-css-files')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var files = [
+          '/assets/some-cool-app.css',
+          '/assets/other.css'
+        ];
+
+        var basePath = path.join('.', 'dist');
+        files.forEach(function(file) {
+          assert(fs.existsSync(path.join(basePath, file)), file + ' exists');
+        });
+      });
+  });
 });
 

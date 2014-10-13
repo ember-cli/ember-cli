@@ -293,7 +293,7 @@ describe('broccoli/ember-app', function() {
           var trees = emberApp.styles();
 
           assert.equal(addonTreesForStub.calledWith[0][0], 'styles');
-          assert(trees.inputTrees[0].inputTree.inputTree.inputTrees.indexOf('batman') !== -1, 'contains addon tree');
+          assert(trees.inputTrees[0].inputTree.inputTrees.indexOf('batman') !== -1, 'contains addon tree');
         });
       });
     });
