@@ -6,7 +6,8 @@
     "beforeEach",
     "afterEach",
     "before",
-    "after"
+    "after",
+    "-Promise"
   ],
   "proto": true,
   "strict": true,

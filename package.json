@@ -147,7 +147,7 @@
     "chai": "^1.9.1",
     "chai-as-promised": "^4.1.1",
     "mocha": "^1.18.0",
-    "mocha-jshint": "0.0.7",
+    "mocha-jshint": "0.0.9",
     "node-require-timings": "0.0.2",
     "supertest": "0.13.0",
     "tmp-sync": "^1.0.1",
