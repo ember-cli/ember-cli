@@ -2,7 +2,38 @@
 
 ### Master
 
-* [ENHANCEMENT] Tweak helper blueprint. [#2257](https://github.com/stefanpenner/ember-cli/pull/2257)
+#### Applications
+
+* [BREAKING ENHANCEMENT] Remove hard-coded support for `broccoli-less-single`, use `ember-cli-less` for `.less` support now. [#2210](https://github.com/stefanpenner/ember-cli/pull/2210)
+* [ENHANCEMENT] Provide a helpful error if the configuration info cannot be read from the proper `<meta>` tag. [#2219](https://github.com/stefanpenner/ember-cli/pull/2219)
+* [ENHANCEMENT] Allow test filtering from the command line. Running `ember test --filter "foo bar"` or `ember test --server --filter "foo bar"` will limit test runs
+  to tests that contain "foo bar" in their module name or test name. [#2223](https://github.com/stefanpenner/ember-cli/pull/2223)
+* [ENHANCEMENT] Add a few more `content-for` hooks to `index.html` and `tests/index.html`. [#2236](https://github.com/stefanpenner/ember-cli/pull/2236)
+* [ENHANCEMENT] Properly display the file causing build errors in `ember build --watch` and `ember serve` commands. [#2237](https://github.com/stefanpenner/ember-cli/pull/2237), [#2246](https://github.com/stefanpenner/ember-cli/pull/2246), and [#2297](https://github.com/stefanpenner/ember-cli/pull/2297)
+* [ENHANCEMENT] Update `broccoli-asset-rev` to 0.3.1. [#2250](https://github.com/stefanpenner/ember-cli/pull/2250)
+* [ENHANCEMENT] Add `ember-export-application-global` to allow easier debugging. [#2270](https://github.com/stefanpenner/ember-cli/pull/2270)
+* [BUGFIX] Fix default `.gitignore` to properly match `bower_components`. [#2285](https://github.com/stefanpenner/ember-cli/pull/2285)
+* [ENHANCEMENT] Display `baseURL` in `ember serve` startup messages. [#2291](https://github.com/stefanpenner/ember-cli/pull/2291)
+* [BUGFIX] Fix issues resulting in files outside of `tmp/` being removed due to following of symlinks. [#2290](https://github.com/stefanpenner/ember-cli/pull/2290) and [#2301](https://github.com/stefanpenner/ember-cli/pull/2301)
+* [ENHANCEMENT] Add --watcher=polling option to `ember test --server`. This provides a work around for folks having `EMFILE` errors in some scenarios. [#2296](https://github.com/stefanpenner/ember-cli/pull/2296)
+* [ENHANCEMENT] Allow opting out of storing the applications configuration in the generated `index.html` via `storeConfigInMeta` option in the `Brocfile.js`. [#2298](https://github.com/stefanpenner/ember-cli/pull/2298)
+
+
+#### Addons
+
+* [ENHANCEMENT] Allow addons to inject middleware into testem. [#2128](https://github.com/stefanpenner/ember-cli/pull/2128)
+* [ENHANCEMENT] Add {{content-for 'body'}} to `app/index.html` and `tests/index.html`. [#2236](https://github.com/stefanpenner/ember-cli/pull/2236)
+* [ENHANCEMENT] Add {{content-for 'test-head'}} to `tests/index.html`. [#2236](https://github.com/stefanpenner/ember-cli/pull/2236)
+* [ENHANCEMENT] Add {{content-for 'test-body'}} to `tests/index.html`. [#2236](https://github.com/stefanpenner/ember-cli/pull/2236)
+* [ENHANCEMENT] Allow adding multiple bower packages at once via `Blueprint.prototype.addBowerPackagesToProject`. [#2222](https://github.com/stefanpenner/ember-cli/pull/2222)
+* [ENHANCEMENT] Allow adding multiple NPM packages at once via `Blueprint.prototype.addPackagesToProject`. [#2245](https://github.com/stefanpenner/ember-cli/pull/2245)
+* [ENHANCEMENT] Ensure generated addons are in strict mode. [#2295](https://github.com/stefanpenner/ember-cli/pull/2295)
+* [BUGFIX] Ensure that addon's with `addon/styles/app.css` are able to compile properly (copying contents of `addon/styles/app.css` into `vendor.css`). [#2301](https://github.com/stefanpenner/ember-cli/pull/2301)
+
+#### Blueprints
+
+* [ENHANCEMENT] Tweak helper blueprint to make it easier to test. [#2257](https://github.com/stefanpenner/ember-cli/pull/2257)
+* [ENHANCEMENT] Streamline initializer and service blueprints. [#2260](https://github.com/stefanpenner/ember-cli/pull/2260)
 
 ### 0.1.1
 
