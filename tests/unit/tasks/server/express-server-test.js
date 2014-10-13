@@ -413,6 +413,22 @@ describe('express-server', function() {
           assert(passedOptions === realOptions);
         });
       });
+      it('includes httpServer instance in options', function() {
+        var passedOptions;
+
+        subject.processAppMiddlewares = function(options) {
+          passedOptions = options;
+        };
+
+        var realOptions = {
+          host:  '0.0.0.0',
+          port: '1337'
+        };
+
+        return subject.start(realOptions).then(function() {
+          assert(!!passedOptions.httpServer.listen);
+        });
+      });
     });
   });
 });
