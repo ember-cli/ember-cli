@@ -155,4 +155,21 @@ describe('Acceptance: addon-smoke-test', function() {
         assert(contents.indexOf('"SOME AWESOME STUFF"') > -1);
       });
   });
+
+  it('ember addon with addon/styles directory', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('addon/with-styles')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var cssPath = path.join('dist', 'assets', 'vendor.css');
+        var contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
+
+        assert(contents.indexOf('addon/styles/app.css is present') > -1);
+      });
+  });
 });
