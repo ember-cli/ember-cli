@@ -343,15 +343,36 @@ describe('broccoli/ember-app', function() {
         defaultVendorFiles);
     });
 
+    it('redefines a location of a vendor asset', function() {
+      emberApp = new EmberApp({
+        vendorFiles: {
+          'ember.js': 'vendor/ember.js'
+        }
+      });
+      assert.equal(emberApp.vendorFiles['ember.js'], 'vendor/ember.js');
+    });
+
     it('defines vendorFiles in order even when option for it is passed', function() {
       emberApp = new EmberApp({
         vendorFiles: {
-          'ember.js': 'ember.js'
+          'ember.js': 'vendor/ember.js'
         }
       });
       assert.deepEqual(
         Object.keys(emberApp.vendorFiles),
         defaultVendorFiles);
-    })
+    });
+
+    it('removes dependency in vendorFiles', function() {
+      emberApp = new EmberApp({
+        vendorFiles: {
+          'ember.js': null,
+          'handlebars.js': null
+        }
+      });
+      var vendorFiles = Object.keys(EmberApp);
+      assert.equal(vendorFiles.indexOf('ember.js'), -1);
+      assert.equal(vendorFiles.indexOf('handlebars.js'), -1);
+    });
   });
 });
