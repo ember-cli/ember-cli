@@ -329,4 +329,29 @@ describe('broccoli/ember-app', function() {
       });
     });
   });
+
+  describe('vendorFiles', function() {
+    var defaultVendorFiles = [
+      'loader.js', 'jquery.js', 'handlebars.js', 'ember.js',
+      'app-shims.js', 'ember-resolver.js', 'ember-load-initializers.js'
+    ];
+
+    it('defines vendorFiles by default', function() {
+      emberApp = new EmberApp();
+      assert.deepEqual(
+        Object.keys(emberApp.vendorFiles),
+        defaultVendorFiles);
+    });
+
+    it('defines vendorFiles in order even when option for it is passed', function() {
+      emberApp = new EmberApp({
+        vendorFiles: {
+          'ember.js': 'ember.js'
+        }
+      });
+      assert.deepEqual(
+        Object.keys(emberApp.vendorFiles),
+        defaultVendorFiles);
+    })
+  });
 });
