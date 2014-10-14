@@ -31,6 +31,9 @@ module.exports = function(environment) {
     // Testem prefers this...
     ENV.baseURL = '/';
     ENV.locationType = 'auto';
+    // ENV.mockApiEnabled = false;
+    // ENV.mockApiHost = '0.0.0.0';
+    // ENV.mockApiPort = 4200;
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
