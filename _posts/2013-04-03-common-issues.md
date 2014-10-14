@@ -7,7 +7,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-
 
 ### Content security policy
 
-Ember CLI comes bundled with the [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy) addon which enables the [Content Security Policy](http://content-security-policy.com/) in modern browsers when running the development server. 
+Ember CLI comes bundled with the [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy) addon which enables the [Content Security Policy](http://content-security-policy.com/) in modern browsers when running the development server.
 
 The default header sent by the addon sends a policy where only content from `'self'` is allowed. This means that by default, the browser will restrict your app from loading assets and data outside of `localhost:4200` or doing any inline style or script modifications. If your app does any of these, you'll see a lot of these errors:
 
@@ -28,7 +28,7 @@ For example
 Uncaught Error: Could not find module ember/resolver loader/loader.js:42
 {% endhighlight %}
 
-can be caused by installing bower with sudo. See https://gist.github.com/isaacs/579814 for a collection of various solutions.
+can be caused by installing bower with sudo. See [https://gist.github.com/isaacs/579814](https://gist.github.com/isaacs/579814) for a collection of various solutions.
 
 ### Installing from behind a proxy
 
@@ -38,7 +38,7 @@ You'll probably get an error like this:
 
 {% highlight bash %}
 npm ERR! git clone git://github.com/jgable/esprima.git Cloning into bare repository '/home/<username>/.npm/_git-remotes/git-github-com-jgable-esprima-git-d221af32'...
-npm ERR! git clone git://github.com/jgable/esprima.git 
+npm ERR! git clone git://github.com/jgable/esprima.git
 npm ERR! git clone git://github.com/jgable/esprima.git fatal: unable to connect to github.com:
 npm ERR! git clone git://github.com/jgable/esprima.git github.com[0: 192.30.252.129]: errno=Connection timed out
 npm ERR! Error: Command failed: fatal: unable to connect to github.com:
@@ -130,4 +130,3 @@ While you can exclude more than just the temporary files, this would also render
 * Click "Add" (Second button, screenshot says "Hinzufügen")
 * Click "Save changes" (Left button at the bottom, screenshot says "Änderungen speichern")
 ![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender-dir.jpg)
-
