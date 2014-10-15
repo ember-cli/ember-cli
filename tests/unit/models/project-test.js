@@ -65,7 +65,7 @@ describe('models/project.js', function() {
       project.config('development');
       assert.equal(addonConfigCalled, true);
     });
-    
+
     it('returns getAddonsConfig result when configPath is not present', function() {
       var expected = {
         foo: 'bar'
@@ -278,6 +278,36 @@ describe('models/project.js', function() {
       };
 
       assert.equal(project.isEmberCLIAddon(), false);
+    });
+  });
+
+  describe('bowerDirectory', function() {
+    it('should be initialized in constructor', function() {
+      assert.equal(project.bowerDirectory, 'bower_components');
+    });
+
+    it('should be set to directory property in .bowerrc', function() {
+      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-with-directory');
+      project = new Project(projectPath, {});
+      assert.equal(project.bowerDirectory, 'vendor');
+    });
+
+    it('should default to ‘bower_components’ unless directory property is set in .bowerrc', function() {
+      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-without-directory');
+      project = new Project(projectPath, {});
+      assert.equal(project.bowerDirectory, 'bower_components');
+    });
+
+    it('should default to ‘bower_components’ if .bowerrc is not present', function() {
+      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/no-bowerrc');
+      project = new Project(projectPath, {});
+      assert.equal(project.bowerDirectory, 'bower_components');
+    });
+
+    it('should default to ‘bower_components’ if .bowerrc json is invalid', function() {
+      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/invalid-bowerrc');
+      project = new Project(projectPath, {});
+      assert.equal(project.bowerDirectory, 'bower_components');
     });
   });
 });
