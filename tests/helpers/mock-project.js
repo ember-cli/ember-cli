@@ -3,9 +3,9 @@
 var Project = require('../../lib/models/project');
 
 function MockProject() {
-  Project.apply(this, arguments);
-  this.root = process.cwd();
-  this.pkg = {};
+  var root = process.cwd();
+  var pkg  = {};
+  Project.apply(this, [root, pkg]);
 }
 
 MockProject.prototype.require = function(file) {
@@ -37,6 +37,7 @@ MockProject.prototype.initializeAddons = Project.prototype.initializeAddons;
 MockProject.prototype.buildAddonPackages = Project.prototype.buildAddonPackages;
 MockProject.prototype.discoverAddons = Project.prototype.discoverAddons;
 MockProject.prototype.addIfAddon = Project.prototype.addIfAddon;
+MockProject.prototype.setupBowerDirectory = Project.prototype.setupBowerDirectory;
 MockProject.prototype.dependencies = function() {
   return [];
 };

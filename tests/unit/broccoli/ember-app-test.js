@@ -37,6 +37,15 @@ describe('broccoli/ember-app', function() {
 
       assert.equal(project.configPath(), 'custom config path');
     });
+
+    it('should set bowerDirectory for app', function() {
+      var app = new EmberApp({
+        project: project
+      });
+
+      assert.equal(app.bowerDirectory, project.bowerDirectory);
+      assert.equal(app.bowerDirectory, 'bower_components');
+    });
   });
 
   describe('contentFor', function() {
