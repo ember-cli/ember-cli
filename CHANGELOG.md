@@ -17,6 +17,11 @@
 * [BUGFIX] Fix issues resulting in files outside of `tmp/` being removed due to following of symlinks. [#2290](https://github.com/stefanpenner/ember-cli/pull/2290) and [#2301](https://github.com/stefanpenner/ember-cli/pull/2301)
 * [ENHANCEMENT] Add --watcher=polling option to `ember test --server`. This provides a work around for folks having `EMFILE` errors in some scenarios. [#2296](https://github.com/stefanpenner/ember-cli/pull/2296)
 * [ENHANCEMENT] Allow opting out of storing the applications configuration in the generated `index.html` via `storeConfigInMeta` option in the `Brocfile.js`. [#2298](https://github.com/stefanpenner/ember-cli/pull/2298)
+* [BUGFIX] Update ember-cli-content-security-policy and ember-cli-inject-live-reload packages to latest version. Allows livereload to function properly regardless
+  of host (0.1.0 always assumed `localhost` for the livereload server). [#2306](https://github.com/stefanpenner/ember-cli/pull/2306)
+* [ENHANCEMENT] Update internal dependencies to latest versions. [#2307](https://github.com/stefanpenner/ember-cli/pull/2307)
+* [BUGFIX] Allow overriding of vendor files to not loose required ordering. [#2312](https://github.com/stefanpenner/ember-cli/pull/2312)
+* [ENHANCEMENT] Add `bowerDirectory` to `Project` model (discovered on initialization). [#2287](https://github.com/stefanpenner/ember-cli/pull/2287)
 
 #### Addons
 
