@@ -1,6 +1,6 @@
 # ember-cli Changelog
 
-### Master
+### 0.1.2
 
 #### Applications
 
