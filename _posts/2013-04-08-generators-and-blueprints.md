@@ -345,7 +345,63 @@ See the built-in `resource` blueprint for an example of this.
   * Generates an Ember Data Adapter.
   * Options
     * Base Class
+      * Application
+      * REST
   * `ember generate adapter --base-class application`
+
+* Adapter Test
+  * This blueprint generates a test for your Ember Data adapter.
+  * `ember generate adapter-test application`
+
+* Addon
+  * Generates the default blueprint for ember addons
+  * `ember generate addon example-addon`
+
+
+* App
+  * This is the default blueprint for ember cli projects. 
+
+* Blueprint
+  * Generates a blueprint and definition
+
+* Component
+  * Generates a component.
+  * The only caveat is that name must contain a hyphen.
+  * `ember generate component nav-bar`
+
+* Component Test
+  * Generates a test for a given component
+  * `ember generate component-test nav-bar`
+
+* Controller
+  * Generates a Controller of the given type
+  * Options
+    * Type
+      * Basic
+        * Default
+      * Object
+      * Array
+
+* Controller Test
+  * Generates a unit test for a given Controller
+  * Options
+    * Type
+      * Basic
+        * Default
+      * Object
+      * Array
+
+* Helper
+  * Generates a Helper
+  * `ember generate helper capitalize`
+
+* Helper Test
+  * Generates a test for a given helper
+  * `ember generate helper-test capitalize`
+
+* HTTP Mock
+  * Generates a mock endpoint with an api prefix. It accepts an endpoint path
+  * `ember generate http-mock users`
 
 * HTTP Proxy
   * This blueprint generates a relative proxy to another server. You can use this to forward requests to a local development server, for example.
@@ -354,9 +410,69 @@ See the built-in `resource` blueprint for an example of this.
     * Remote URL
   * `ember generate http-proxy`
 
+* In-Repo Addon
+
 * Initializer
   * Generates an Ember Initializer.
   * Common uses are to setup injection rules, like a current user, services, etc. You shouldn't use them for fetching data via XHR, deferring readiness, or instantiating and using 'container.lookup'. For more about initializers, view the [API docs](http://emberjs.com/api/classes/Ember.Application.html#method_initializer)
   * `ember generate initializer current-user`
+
+* Initializer Test
+  * Generates a test for a given initializer
+
+* Mixin
+  * Generates a Mixin
+
+* Mixin Test
+  * Generates a test for a given mixin 
+
+* Model
+  * Generates an ember data model
+
+* Model Test
+
+* Resource
+  * Generates a model and a route
+
+* Route
+  * Generates a route and registers it with the router
+  * Type
+    * Route (default)
+    * Resource
+
+* Route Test
+  * Generates a test for a given route
+
+* Serializer
+  * Generates an Ember Data serializer
+
+* Serializer Test
+  * Generates a test for a given ember data serializer
+
+* Service
+  * Generates a service and initializer for injections
+
+* Service Test
+  * Generates a route unit test
+
+* Template
+  * Generates a template
+
+* Transform
+  * Generates an Ember Data value transform
+
+* Transform Test
+  * Generates a transform unit test
+
 * Util
+  *  Generates a simple utility module/function.
   * Used for simple utility modules or functions like ic-ajax, etc.
+
+* Util Test
+  *  Generates a util unit test.
+
+* View
+  * Generates a view subclass
+
+* View Test
+  * Generates a view unit test
