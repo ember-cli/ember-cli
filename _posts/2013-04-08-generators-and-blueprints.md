@@ -338,11 +338,12 @@ See the built-in `resource` blueprint for an example of this.
 ### Detailed List of Blueprints and Their Use 
 
 * Acceptance Test
-  * Generates an acceptance test for a given feature.
+  * Generates an acceptance test blueprint for a given feature.
+  * An acceptance test is used to test a flow within your application i.e. a signup, login, editing your account, etc.
   * `ember generate acceptance-test signup`
   
 * Adapter
-  * Generates an Ember Data Adapter.
+  * This blueprint generates an Ember Data Adapter.
   * Options
     * Base Class
       * Application
@@ -356,7 +357,6 @@ See the built-in `resource` blueprint for an example of this.
 * Addon
   * Generates the default blueprint for ember addons
   * `ember generate addon example-addon`
-
 
 * App
   * This is the default blueprint for ember cli projects. 
