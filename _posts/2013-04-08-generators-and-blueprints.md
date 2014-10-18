@@ -338,17 +338,17 @@ See the built-in `resource` blueprint for an example of this.
 ### Detailed List of Blueprints and Their Use 
 
 * Acceptance Test
-  * Generates an acceptance test blueprint for a given feature.
+  * Generates an acceptance test blueprint for a given feature
   * An acceptance test is used to test a flow within your application i.e. a signup, login, editing your account, etc.
   * `ember generate acceptance-test signup`
   
 * Adapter
-  * This blueprint generates an Ember Data Adapter.
+  * This blueprint generates an Ember Data Adapter
   * Options
     * Base Class
-      * Application
-      * REST
-  * `ember generate adapter --base-class application`
+      * Application (default)
+  * `ember generate adapter application` will generate an adapter called 'ApplicationAdapter' based off the DS.RESTAdapter by default
+  * `ember generate adapter user` will in turn call this adapter `UserAdapter and inherit from the application adapter by default unless you specify it using the base class option
 
 * Adapter Test
   * This blueprint generates a test for your Ember Data adapter.
