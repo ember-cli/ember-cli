@@ -337,29 +337,31 @@ See the built-in `resource` blueprint for an example of this.
 
 ### Detailed List of Blueprints and Their Use 
 
-* Acceptance Test
-  * Generates an acceptance test blueprint for a given feature
-  * An acceptance test is used to test a flow within your application i.e. a signup, login, editing your account, etc.
+* **Acceptance Test**
+  * Generates an acceptance test for a given feature
+  * Acceptance Tests are used to test flows within your application i.e. a signup, login, editing your account, etc.
   * `ember generate acceptance-test signup`
   
-* Adapter
-  * This blueprint generates an Ember Data Adapter
+* **Adapter**
+  * This blueprint generates an Ember Data Adapter and its accompanying test
   * Options
     * Base Class
       * Application (default)
   * `ember generate adapter application` will generate an adapter called 'ApplicationAdapter' based off the DS.RESTAdapter by default
-  * `ember generate adapter user` will in turn call this adapter `UserAdapter and inherit from the application adapter by default unless you specify it using the base class option
+  * `ember generate adapter user` will in turn call this adapter `UserAdapter` and inherit from the Application Adapter unless you specify the base class
 
-* Adapter Test
-  * This blueprint generates a test for your Ember Data adapter.
+* **Adapter Test**
+  * This blueprint generates a unit test for a given ember data adapter
   * `ember generate adapter-test application`
 
-* Addon
-  * Generates the default blueprint for ember addons
-  * `ember generate addon example-addon`
+* **Addon**
+  * Generates a blueprint and its definition.
+    * This is the base blueprint for ember-cli addons.
+  * `ember generate addon awesome-addon`
 
-* App
-  * This is the default blueprint for ember cli projects. 
+* **App**
+  * This is the default blueprint for ember-cli projects. It contains a conventional project structure, and everything you will need to develop your ember apps. 
+  * This blueprint is most commonly encountered when starting a new application, as in `ember new`
 
 * Blueprint
   * Generates a blueprint and definition
