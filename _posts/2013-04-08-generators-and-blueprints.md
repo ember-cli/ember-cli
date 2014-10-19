@@ -363,37 +363,36 @@ See the built-in `resource` blueprint for an example of this.
   * This is the default blueprint for ember-cli projects. It contains a conventional project structure, and everything you will need to develop your ember apps. 
   * This blueprint is most commonly encountered when starting a new application, as in `ember new`
 
-* Blueprint
-  * Generates a blueprint and definition
+* **Blueprint**
+  * Generates a Blueprint and its corresponding definition. You can use this to create your own custom Blueprints. A Blueprint is essentially a bundle of templates with optional install logic.
+  * `ember generate blueprint example-blueprint`
 
-* Component
-  * Generates a component.
-  * The only caveat is that name must contain a hyphen.
+* ***Component***
+  * Generates an Ember Component and its accompanying test. 
+  * A Component is your own application specific wide whose behaviour you can implement yourself. They are basically views that are completely isolated.
+  * Caveats
+    * The component's name must contain a hyphen
+    * Slashes are not allowed
   * `ember generate component nav-bar`
 
-* Component Test
+* ***Component Test***
   * Generates a test for a given component
   * `ember generate component-test nav-bar`
 
-* Controller
-  * Generates a Controller of the given type
+* ***Controller***
+  * Generates a Controller of a  given name and type, with accompanying test. 
   * Options
     * Type
       * Basic
         * Default
       * Object
       * Array
+  * `ember generate controller users --type array`
 
-* Controller Test
-  * Generates a unit test for a given Controller
-  * Options
-    * Type
-      * Basic
-        * Default
-      * Object
-      * Array
+* ***Controller Test***
+  * Generates a unit test for a given Controller.
 
-* Helper
+* ***Helper***
   * Generates a Helper
   * `ember generate helper capitalize`
 
