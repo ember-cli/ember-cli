@@ -9,22 +9,22 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-
 
 * `public/assets` vs `app/styles`
 
-For adding images, fonts, or other assets use the `public/assets` folder. For
-example you can do `public/assets/images`, and in your templates using
-`/assets/images/logo.png` or from stylesheets using
-`url('/assets/images/background.jpg')`.
+To add images, fonts, or other assets, place them in the `public/assets` folder. For
+example, if you place `logo.png` in `public/assets/images`, you can reference it in
+templates with `/assets/images/logo.png` or in stylesheets with
+`url('/assets/images/logo.png')`.
 
 ### Minifying
 
 The compiled css-files are minified by `broccoli-clean-css` or `broccoli-csso`,
 if it is installed locally. You can pass minifer-specific options to them using
-the `minifyCSS:options` object in your brocfile. Minification is enabled by
+the `minifyCSS:options` object in your Brocfile. Minification is enabled by
 default in the production-env and can be disabled using the `minifyCSS:enabled`
 switch.
 
 Similarly, the js-files are minified with `broccoli-uglify-js` in the
 production-env by default. You can pass custom options to the minifier via the
-`minifyJS:options` object in your brocfile. To enable or disable JS minification
+`minifyJS:options` object in your Brocfile. To enable or disable JS minification
 you may supply a boolean value for `minifyJS:enabled`.
 
 ### Stylesheets
@@ -41,7 +41,7 @@ In `Brocfile.js` add the following:
 {% highlight bash %}
 app.import('bower_components/bootstrap/dist/css/bootstrap.css');
 {% endhighlight %}
-it's going to tell `Broccoli` that we want this file to be concatenated with our `vendor.css` file.
+it's going to tell [Broccoli](https://github.com/joliss/broccoli) that we want this file to be concatenated with our `vendor.css` file.
 
 To use a CSS preprocessor, you'll need to install the appropriate
 [Broccoli](https://github.com/joliss/broccoli) plugin. When using a
@@ -56,6 +56,9 @@ All your preprocessed stylesheets will be compiled into one file and served at
 
 * Relative pathing gets changed (how to customize?)
 * `@import` statements -> concat
+
+To use one of the following preprocessors, all you need to do is install the appropriate NPM module.
+The respective files will be picked up and processed automatically.
 
 #### LESS
 
@@ -155,7 +158,7 @@ Fingerprinting is done using the addon
 [broccoli-asset-rev](https://github.com/rickharrison/broccoli-asset-rev)
 (which is included by default).
 
-When environment is production (e.g. `ember build --environment=production`),
+When the environment is production (e.g. `ember build --environment=production`),
 the addon will automatically fingerprint your js, css, png, jpg, and gif assets
 by appending an md5 checksum to the end of their filename
 (e.g. `assets/yourapp-9c2cbd818d09a4a742406c6cb8219b3b.js`). In addition, your
@@ -163,10 +166,8 @@ html, js, and css files will be re-written to include the new name. There are
 a few options you can pass in to `EmberApp` in your `Brocfile.js` to customize
 this behavior.
 
-* `enabled` - Default: `app.env === 'production'` - Boolean. Enables fingerprinting if true,
-otherwise, fingerprinting is disabled. **Notice that by default it is
-true only if current environment is production.**
-
+* `enabled` - Default: `app.env === 'production'` - Boolean. Enables fingerprinting
+if true. **True by default if current environment is production.**
 * `exclude` - Default: `[]` - An array of strings. If a filename contains any
 item in the exclude array, it will not be fingerprinted.
 * `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif']` - The file types
