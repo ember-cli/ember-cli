@@ -24,9 +24,9 @@ module.exports = {
 
       if (/has-many/.test(dasherizedType)) {
         var camelizedNamePlural = inflection.pluralize(camelizedName);
-        attrs.push(camelizedNamePlural + ': ' + dsAttr(camelizedName, dasherizedType));
+        attrs.push(camelizedNamePlural + ': ' + dsAttr(dasherizedName, dasherizedType));
       } else {
-        attrs.push(camelizedName + ': ' + dsAttr(camelizedName, dasherizedType));
+        attrs.push(camelizedName + ': ' + dsAttr(dasherizedName, dasherizedType));
       }
 
       if (/has-many|belongs-to/.test(dasherizedType)) {

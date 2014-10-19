@@ -202,7 +202,13 @@ describe('Acceptance: ember generate', function() {
       'bars:has-many',
       'baz:belongs-to',
       'echo:hasMany',
-      'bravo:belongs_to'
+      'bravo:belongs_to',
+      'foo-names:has-many',
+      'barName:has-many',
+      'bazName:belongs-to',
+      'test-name:belongs-to',
+      'echoName:hasMany',
+      'bravoName:belongs_to'
     ]).then(function() {
       assertFile('app/models/foo.js', {
         contains: [
@@ -214,11 +220,30 @@ describe('Acceptance: ember generate', function() {
           "bars: DS.hasMany('bar')",
           "baz: DS.belongsTo('baz')",
           "echos: DS.hasMany('echo')",
-          "bravo: DS.belongsTo('bravo')"
+          "bravo: DS.belongsTo('bravo')",
+          "fooNames: DS.hasMany('foo-name')",
+          "barNames: DS.hasMany('bar-name')",
+          "bazName: DS.belongsTo('baz-name')",
+          "testName: DS.belongsTo('test-name')",
+          "echoNames: DS.hasMany('echo-name')",
+          "bravoName: DS.belongsTo('bravo-name')"
         ]
       });
       assertFile('tests/unit/models/foo-test.js', {
-        contains: "needs: ['model:bar', 'model:baz', 'model:echo', 'model:bravo']"
+        contains: [
+          "needs: [",
+          "'model:bar',",
+          "'model:baz',",
+          "'model:echo',",
+          "'model:bravo',",
+          "'model:foo-name',",
+          "'model:bar-name',",
+          "'model:baz-name',",
+          "'model:echo-name',",
+          "'model:test-name',",
+          "'model:bravo-name'",
+          "]"
+        ]
       });
     });
   });

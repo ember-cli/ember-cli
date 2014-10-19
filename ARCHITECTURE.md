@@ -189,6 +189,7 @@ module.exports = Task.extend({
     - file, folder and package names
     - CSS classes
     - HTML tags and attributes
+    - Model relationships
   - Camel case (`someThing`)
     - JavaScript (and JSON) properties and variables
   - Pascal case (`SomeThing`)

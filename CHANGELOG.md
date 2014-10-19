@@ -1,5 +1,9 @@
 # ember-cli Changelog
 
+### Master
+
+* [BUGFIX] Fix automatic generated model belongs-to and has-many relations to resolve test lookup. [#2351][https://github.com/stefanpenner/ember-cli/pull/2351]
+
 ### 0.1.2
 
 #### Applications
