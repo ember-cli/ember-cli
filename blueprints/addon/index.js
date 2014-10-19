@@ -14,6 +14,7 @@ module.exports = {
 
     delete contents.private;
     contents.name = this.project.name();
+    contents.description = this.description;
     contents.keywords = contents.keywords || [];
 
     if (contents.keywords.indexOf('ember-addon') === -1) {
