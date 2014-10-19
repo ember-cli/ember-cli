@@ -4,8 +4,8 @@
     "window",
     "-Promise"
   ],
-  "browser" : true,
-  "boss" : true,
+  "browser": true,
+  "boss": true,
   "curly": true,
   "debug": false,
   "devel": true,
