@@ -12,7 +12,7 @@ making it easier to use with the Ember resolver. Here's some tips for using it
 within Ember CLI.
 
 To use ember-cli without Ember Data remove the dependency from package.json
-(the same applies for ic-ajax)
+(the same applies for [ic-ajax](https://github.com/rwjblue/ember-cli-ic-ajax))
 
   `npm rm ember-data --save-dev`
 
@@ -22,7 +22,7 @@ To use ember-cli without Ember Data remove the dependency from package.json
 Models are critical in any dynamic web application. Ember Data makes making
 models extremely easy.
 
-For example, we can create a todo model like so:
+For example, we can create a `todo` model like so:
 
 {% highlight javascript linenos %}
 // models/todo.js
