@@ -174,19 +174,6 @@ Adds bower components to development dependencies
 Normally you can leave the `Brocfile.js` as is. Only touch it if you need to customize the merging of trees for the addon and you understand how to use the [Brocfile API](https://www.npmjs.org/package/broccoli).
 
 ### Components
-In order to allow the consuming application to use the addon component without manual import statements, put the component under the `app/components` directory.
-
-{% highlight javascript %}
-// app/components/x-button.js
-
-import Ember from 'ember';
-import XButton from 'ember-x-button/components/x-button';
-
-export default XButton;
-{% endhighlight %}
-
-The code imports the component from the addon directory and exports it again. This setup allows others to modify the component by extending it while making the component available in the consuming applications namespace.
-
 The actual code for the addon goes in `addon/components/x-button.js`
 
 {% highlight javascript %}
@@ -204,6 +191,23 @@ export default Ember.Component.extend({
   }.on('willDestroyElement'),
 });
 {% endhighlight %}
+
+In order to allow the consuming application to use the addon component without manual import statements, put the component under the `app/components` directory.
+
+{% highlight javascript %}
+// app/components/x-button.js
+
+import Ember from 'ember';
+import XButton from 'ember-x-button/components/x-button';
+
+export default XButton;
+{% endhighlight %}
+
+The code imports the component from the addon directory and exports it again.
+This setup allows others to modify the component by extending it while making
+the component available in the consuming applications namespace. This means
+anyone who installs your `x-button` addon can start using the component in their
+templates with `{{x-button}}` without any extra configuration.
 
 ### Blueprints
 To create a blueprint, add a file `blueprints/x-button/index.js`. This follows the usual Ember blueprints naming conventions.
