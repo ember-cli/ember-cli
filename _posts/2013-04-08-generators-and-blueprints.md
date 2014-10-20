@@ -393,19 +393,19 @@ See the built-in `resource` blueprint for an example of this.
   * Generates a unit test for a given Controller.
 
 * ***Helper***
-  * Generates a Helper
+  * Generates a Handlebars Helper and its test. Commonly used for html reuse.
   * `ember generate helper capitalize`
 
-* Helper Test
+* ***Helper Test***
   * Generates a test for a given helper
   * `ember generate helper-test capitalize`
 
-* HTTP Mock
-  * Generates a mock endpoint with an api prefix. It accepts an endpoint path
+* ***HTTP Mock***
+  * This blueprint generates a mock endpoint with an '/api' prefix that you can use to return canned data. This is commonly used as an API stub, which allows you to develop right away with the RESTAdapter instead of using fixtures.
   * `ember generate http-mock users`
 
-* HTTP Proxy
-  * This blueprint generates a relative proxy to another server. You can use this to forward requests to a local development server, for example.
+* ***HTTP Proxy***
+  * Generates a relative proxy to another server. You can use this to forward requests to a local development server, for example.
   * Options
     * Local Path
     * Remote URL
