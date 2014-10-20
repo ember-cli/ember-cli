@@ -411,26 +411,34 @@ See the built-in `resource` blueprint for an example of this.
     * Remote URL
   * `ember generate http-proxy`
 
-* In-Repo Addon
+* ***In-Repo Addon***
+  * Generates an addon within the same repository. Useful for project-specific addons.
+  * The generator also creates a 'lib' folder, in which it stores the new addon.
+  * `ember generate in-repo-addon calendar`
 
-* Initializer
-  * Generates an Ember Initializer.
+* ***Initializer***
+  * Generates an Ember Initializer and its accompanying tests.
   * Common uses are to setup injection rules, like a current user, services, etc. You shouldn't use them for fetching data via XHR, deferring readiness, or instantiating and using 'container.lookup'. For more about initializers, view the [API docs](http://emberjs.com/api/classes/Ember.Application.html#method_initializer)
   * `ember generate initializer current-user`
 
-* Initializer Test
-  * Generates a test for a given initializer
+* ***Initializer Test***
+  * Generates a test for a given initializer.
+  * `ember generate initializer-test current-user`
 
-* Mixin
-  * Generates a Mixin
+* ***Mixin***
+  * Generates a Mixin and its test. A mixin is an object whose properties can be added to other classes, like Controllers, Views, Routes, etc.
+  * `ember generate mixin filterable`
 
-* Mixin Test
+* ***Mixin Test***
   * Generates a test for a given mixin 
 
-* Model
-  * Generates an ember data model
+* ***Model***
+  * Generates an Ember Data model and its test.
+  * `ember generate model user`
 
-* Model Test
+* ***Model Test***
+  * Generates a test for a given model
+  * `ember generate model-test user`
 
 * Resource
   * Generates a model and a route
