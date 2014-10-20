@@ -357,8 +357,11 @@ body {
       padding-left: 0;padding-right: 0;
       .affix {
         top: 0;
+        bottom: 0;
         left: 0;
         width: 25%;
+        overflow-y: auto;
+        overflow-x: hidden;
       }
     }
     .main {
