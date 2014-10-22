@@ -129,4 +129,5 @@ While you can exclude more than just the temporary files, this would also render
 * Click **OK**
 * Click **Add**
 * Click **Save changes**
+
 ![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender.png)
