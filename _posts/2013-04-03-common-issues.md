@@ -108,13 +108,13 @@ Build times on windows are longer than on linux or mac os. Much of that penalty 
 #### Disable Windows Search Index for temporary files
 
 * Go to your **control panel** (Windows 8: `Win+X`, choose "control panel")
-* Look for **Indexing Options** (Screenshot says "Indizierungsoptionen")
-* Select the location that will most likely contain your project. Usually in **User** (Screenshot: "Benutzer")
-* Click **Change** or "Edit" (Screenshot: "Ändern")
-* This brings up a directory tree with checkboxes. Navigate to your project dir and **remove the checkbox for /tmp** or anywhere else you'd like.
+* Look for **Indexing Options** (Use the search bar)
+* Select the location that will most likely contain your project. Usually in **User**
+* Click **Modify**
+* This brings up a directory tree with checkboxes. Navigate to your project directory and **uncheck the checkbox for /tmp** or anywhere else you'd like.
 * Click **OK**
 
-![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/images/common-issues/search-index.jpg)
+![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/images/common-issues/search-index.png)
 
 #### Disable Windows Defender for temporary files
 
@@ -123,10 +123,10 @@ Windows defender will be active by default on any Windows 8 machine. On Windows 
 While you can exclude more than just the temporary files, this would also render a virus scanner pretty useless. Excluding temporary files won't make you any less safe. Everything that ends up there would have been in `/app` or `/vendor` before.
 
 * Hit your Windows Key, then start typing "defen" which should bring up "Defender as first result". Start it.
-* In Windows Defender, Choose the Settings Tab, Then the "excluded files and directories" Line. (screenshot says "Ausgeschlossene Dateien und Sp...")
-* Click "Browse" (first button on the right, screenshot says "Durchsuchen")
-* Navigate to your project's tmp dir.
-* Click OK
-* Click "Add" (Second button, screenshot says "Hinzufügen")
-* Click "Save changes" (Left button at the bottom, screenshot says "Änderungen speichern")
-![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender-dir.jpg)
+* In Windows Defender, choose the **Settings** tab, then click on **Excluded files and locations** on the left.
+* Click **Browse**
+* Navigate to your project's **tmp** directory.
+* Click **OK**
+* Click **Add**
+* Click **Save changes**
+![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender.png)
