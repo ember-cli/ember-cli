@@ -446,7 +446,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate resource user`
 
 * **Route**
-  * Generates a route, its test, and registers it with the router
+  * Generates a route, its test, and then registers it with the router
   * Type
     * Route (default)
     * Resource
@@ -457,34 +457,44 @@ See the built-in `resource` blueprint for an example of this.
 
 * **Serializer**
   * Generates an Ember Data serializer
+  * `ember generate serializer application`
 
 * **Serializer Test**
   * Generates a test for a given ember data serializer
+  * `ember generate serializer-test application`
 
 * **Service**
-  * Generates a service and initializer for injections
+  * Generates a service and initializer for injections. These are commonly used for cases like websocket initialization, geolocation, feature flags, etc.
+  * `ember generate service geolocation`
 
 * **Service Test**
-  * Generates a route unit test
+  * Generates a unit test for a given service
+  * `ember generate service-test geolocation`
 
 * **Template**
   * Generates a template
+  * `ember generate template user`
 
 * **Transform**
-  * Generates an Ember Data value transform
+  * Generates an Ember Data value transform, which are used to serialize and deserialize model attributes as they saved and loaded from the adapter. These can be useful for creating custom attributes.
+  * `ember generate transform foo`
 
 * **Transform Test**
   * Generates a transform unit test
+  * `ember generate transform-test foo`
 
 * **Util**
-  *  Generates a simple utility module/function.
-  * Used for simple utility modules or functions like ic-ajax, etc.
+  * Generates a utility module/function.
+  *  `ember generate util foo`
 
 * **Util Test**
   *  Generates a util unit test.
+  *  `ember generate util-test foo`
 
 * **View**
-  * Generates a view subclass
+  * Generates a View
+  * `ember generate view user`
 
 * **View Test**
   * Generates a view unit test
+  * `ember generate view-test user`
