@@ -180,7 +180,7 @@ The actual code for the addon goes in `addon/components/x-button.js`
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: 'button',
+  tagName: 'x-button',
 
   setupXbutton: function() {
     // ...
