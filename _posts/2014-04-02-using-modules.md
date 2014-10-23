@@ -96,7 +96,7 @@ Folder              | Purpose
 `app/routes/`       | Routes with the convention `route-name.js`. Child routes are defined in sub-directories, `parent/child.js`. To provide a custom implementation for generated routes (equivalent to `App.Route` when using globals), use `app/routes/basic.js`.
 `app/serializers/`  | Serializers for your models or adapter, where `model-name.js` or `adapter-name.js`.
 `app/transforms/`   | Transforms for custom Ember Data attributes, where `attribute-name.js` is the new attribute.
-`app/utils`         | Utility modules with the convention `utility-name.js`.
+`app/utils/`        | Utility modules with the convention `utility-name.js`.
 `app/views/`        | Views with the convention `view-name.js`. Sub-directories can be used for organization.
 
 All modules in the `app` folder can be loaded by the resolver but typically
