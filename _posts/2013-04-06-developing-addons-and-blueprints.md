@@ -147,6 +147,23 @@ module.exports = {
 };
 {% endhighlight %}
 
+During the build process, the `included` hook on your addon will be called, allowing you to perform setup logic or modify the app or including addon:
+
+{% highlight javascript %}
+// index.js
+module.exports = {
+  name: 'my-addon',
+  included: function(app, parentAddon) {
+    var target = (parentAddon || app);
+    // Now you can modify the app / parentAddon. For example, if you wanted
+    // to include a custom preprocessor, you could add it to the target's
+    // registry:
+    //
+    //     target.registry.add('js', myPreprocessor);
+  }
+};
+{% endhighlight %}
+
 ### Managing addon dependencies
 Install your client side dependencies via Bower.
 Here we install a fictional bower dependency `x-button`:
