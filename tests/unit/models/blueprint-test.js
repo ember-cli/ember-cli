@@ -83,6 +83,28 @@ describe('Blueprint', function() {
       assert.equal(tokens.__foo__(), 'foo');
     });
   });
+  describe('.generateFileMap', function() {
+    it('should not have locals in the fileMap', function() {
+      var blueprint = Blueprint.lookup(basicBlueprint);
+
+      var fileMapVariables = {
+        pod: true,
+        podPath: 'pods',
+        blueprintName: 'test',
+        dasherizedModuleName: 'foo-baz',
+        locals: { SOME_LOCAL_ARG: 'ARGH' }
+      };
+
+      var fileMap = blueprint.generateFileMap(fileMapVariables);
+      var expected = {
+        __name__: 'foo-baz',
+        __path__: 'tests',
+        __test__: 'foo-baz-test'
+      };
+
+      assert.deepEqual( fileMap, expected );
+    });
+  });
   describe('.lookup', function() {
     it('uses an explicit path if one is given', function() {
       var expectedClass = require(basicBlueprint);
