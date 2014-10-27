@@ -51,11 +51,11 @@ This is not a `ember-cli` issue _per se_, but here's a workaround. You can confi
 git config --global url."https://".insteadOf git://
 ```
 
-### Usage with SublimeText 3
+### Usage with Sublime Text
 
-If you are using SublimeText 3 with `ember-cli`, by default it will try to index all files in your `tmp` directory for its GoToAnything functionality.  This will cause your computer to come to a screeching halt @ 90%+ CPU usage.  Simply remove these directories from the folders ST3 watches:
+If you are using Sublime Text 2 or 3 with `ember-cli`, by default it will try to index all files in your `tmp` directory for its GoToAnything functionality.  This will cause your computer to come to a screeching halt @ 90%+ CPU usage, and can significantly increase build times.  Simply remove these directories from the folders Sublime Text watches:
 
-`Sublime Text -> Preferences -> Settings -User`
+`Sublime Text -> Preferences -> Settings - User`
 
 {% highlight javascript %}
 // folder_exclude_patterns and file_exclude_patterns control which files
