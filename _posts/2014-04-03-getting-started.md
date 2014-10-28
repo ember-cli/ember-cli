@@ -138,7 +138,7 @@ changed dependencies.
  File/folder    | Purpose
  :------------- | :-------
  `app/app.js` | Your application's entry point. This is the module that is first executed.
- `app/index.html` | The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application.
+ `app/index.html` | The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application. See [app/index.html]((#appindexhtml)).
  `app/router.js` | Your route configuration. The routes defined here correspond to routes in `app/routes/`.
  `app/styles/` | Contains your stylesheets, whether SASS, LESS, Stylus, Compass, or plain CSS (though only one type is allowed, see [Asset Compilation](asset-compilation)). These are all compiled into `app.css`.
  `app/templates/` | Your Handlebars templates. These are compiled to `templates.js`. The templates are named the same as their filename, minus the extension (i.e. `templates/foo/bar.hbs` -> `foo/bar`).
@@ -146,6 +146,10 @@ changed dependencies.
 
 [PhantomJS]: http://phantomjs.org
 [homebrew]: http://brew.sh
+
+#### `app/index.html`
+
+The `app/index.html` file lays the foundation for your actual single-page application.  This is where the basic DOM structure is layed out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{{content-for 'head'}}` and `{{content-for 'body'}}`- that can be used by [Add-ons](#add-ons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular add-on.
 
 ### Add-Ons
 
