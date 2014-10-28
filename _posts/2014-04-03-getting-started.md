@@ -149,7 +149,7 @@ changed dependencies.
 
 #### `app/index.html`
 
-The `app/index.html` file lays the foundation for your actual single-page application.  This is where the basic DOM structure is layed out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{{content-for 'head'}}` and `{{content-for 'body'}}`- that can be used by [Add-ons](#add-ons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular add-on.
+The `app/index.html` file lays the foundation for your application.  This is where the basic DOM structure is laid out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{{content-for 'head'}}` and `{{content-for 'body'}}`- that can be used by [Add-ons](#add-ons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular add-on.
 
 ### Add-Ons
 
