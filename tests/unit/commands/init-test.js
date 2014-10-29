@@ -83,7 +83,7 @@ describe('init command', function() {
       settings: {}
     });
 
-    return command.validateAndRun(['provided-name'])
+    return command.validateAndRun(['--name=provided-name'])
       .catch(function(reason) {
         assert.equal(reason, 'Called run');
       });
@@ -171,7 +171,29 @@ describe('init command', function() {
       settings: {}
     });
 
-    return command.validateAndRun(['provided-name'])
+    return command.validateAndRun(['--name=provided-name'])
+      .catch(function(reason) {
+        assert.equal(reason, 'Called run');
+      });
+  });
+
+  it('Uses arguments to select files to init', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        assert.equal(blueprintOpts.blueprint, 'app');
+        return Promise.reject('Called run');
+      }
+    });
+
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'some-random-name'}),
+      tasks: tasks,
+      settings: {}
+    });
+
+    return command.validateAndRun(['package.json', '--name=provided-name'])
       .catch(function(reason) {
         assert.equal(reason, 'Called run');
       });
@@ -193,7 +215,7 @@ describe('init command', function() {
       settings: {}
     });
 
-    return command.validateAndRun(['provided-name'])
+    return command.validateAndRun(['--name=provided-name'])
       .catch(function(reason) {
         assert.equal(reason, 'Called run');
       });

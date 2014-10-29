@@ -4,6 +4,9 @@
 
 * [BUGFIX] Fix automatic generated model belongs-to and has-many relations to resolve test lookup. [#2351][https://github.com/stefanpenner/ember-cli/pull/2351]
 
+#### Applications
+* [BREAKING ENHANCEMENT] Replace `ember init appName` with `ember init --name=appName` to allow globbing support for `ember init` command. [#2197](https://github.com/stefanpenner/ember-cli/pull/2197)
+
 ### 0.1.2
 
 #### Applications

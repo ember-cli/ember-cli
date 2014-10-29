@@ -26,7 +26,7 @@ describe('Acceptance: ember help', function() {
     this.timeout(10000);
     var output = '';
 
-    return runCommand(ember, 'init', 'my-app', '--skip-npm', '--skip-bower', { verbose: false })
+    return runCommand(ember, 'init', '--name=my-app', '--skip-npm', '--skip-bower', { verbose: false })
       .then(function() {
         return runCommand(ember, 'generate', 'blueprint', 'component', { verbose: false });
       })
