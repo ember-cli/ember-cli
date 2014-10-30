@@ -347,21 +347,21 @@ See the built-in `resource` blueprint for an example of this.
   * Options
     * Base Class
       * Application (default)
-  * `ember generate adapter application` will generate an adapter called 'ApplicationAdapter' based off the DS.RESTAdapter by default
-  * `ember generate adapter user` will in turn call this adapter `UserAdapter` and inherit from the Application Adapter unless you specify the base class
+  * `ember generate adapter application` will generate an adapter called 'ApplicationAdapter' based off the DS.RESTAdapter by default.
+  * `ember generate adapter user` will in turn call this adapter `UserAdapter` and inherit from the Application Adapter unless you specify a base class.
 
 * **Adapter Test**
-  * This blueprint generates a unit test for a given ember data adapter
+  * This blueprint generates a unit test for a given ember data adapter.
   * `ember generate adapter-test application`
 
 * **Addon**
-  * Generates a blueprint and its definition.
+  * Generates an addon blueprint and its definition.
     * This is the base blueprint for ember-cli addons.
   * `ember generate addon awesome-addon`
 
 * **App**
-  * This is the default blueprint for ember-cli projects. It contains a conventional project structure, and everything you will need to develop your ember apps. 
-  * This blueprint is most commonly encountered when starting a new application, as in `ember new`
+  * This is the default blueprint for ember-cli projects. It contains a conventional project structure and everything you will need to develop your ember apps. 
+  * This blueprint is most commonly encountered when starting a new application, as in `ember new`.
 
 * **Blueprint**
   * Generates a Blueprint and its corresponding definition. You can use this to create your own custom Blueprints. A Blueprint is essentially a bundle of templates with optional install logic.
@@ -369,7 +369,7 @@ See the built-in `resource` blueprint for an example of this.
 
 * **Component**
   * Generates an Ember Component and its accompanying test. 
-  * A Component is your own application specific wide whose behaviour you can implement yourself. They are basically views that are completely isolated.
+  * A Component is your own app-specific tag with custom behaviour. They are basically views that are completely isolated. Usually used for building widgets.
   * Caveats
     * The component's name must contain a hyphen
     * Slashes are not allowed
@@ -430,7 +430,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate mixin filterable`
 
 * **Mixin Test**
-  * Generates a test for a given mixin 
+  * Generates a test for a given mixin.
   * `ember generate mixin-test filterable`
 
 * **Model**
@@ -438,7 +438,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate model user`
 
 * **Model Test**
-  * Generates a test for a given model
+  * Generates a test for a given model.
   * `ember generate model-test user`
 
 * **Resource**
@@ -446,7 +446,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate resource user`
 
 * **Route**
-  * Generates a route, its test, and then registers it with the router
+  * Generates a route, its test, and then registers it with the router.
   * Type
     * Route (default)
     * Resource
