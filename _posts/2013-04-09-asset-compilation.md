@@ -215,3 +215,25 @@ var app = new EmberApp({
 
 Or remove the entry from your `EmberApp` and  `broccoli-asset-rev`
 from your `package.json`.
+
+### Application Configuration
+
+Application configurations from your Brocfile.js will be stored inside a special
+meta tag in `dist/index.html`.
+
+sample meta tag:
+
+{% highlight javascript %}
+<meta name="user/config/environment" content="%7B%22modulePre.your.config">
+{% endhighlight %}
+
+This meta tag is required for your ember application to function properly.
+If you prefer to have this tag be part of your compiled javascript files
+instead, you may use the `storeConfigInMeta` flag.
+
+{% highlight javascript %}
+var app = new EmberApp({
+  storeConfigInMeta: false
+});
+{% endhighlight %}
+
