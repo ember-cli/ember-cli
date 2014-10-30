@@ -215,3 +215,21 @@ var app = new EmberApp({
 
 Or remove the entry from your `EmberApp` and  `broccoli-asset-rev`
 from your `package.json`.
+
+### Application Configuration
+
+Application configuration from your Brocfile.js will be stored inside a special meta tag in `dist/index.html`.
+
+sample meta tag:
+
+{% highlight javascript %}
+<meta name="user/config/environment" content="%7B%22modulePrefix%22%3A%22user%22%2C%22environment%22%3A%22development%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27none%27%20localhost%22%2C%22script-src%22%3A%22%27self%27%20%27unsafe-inline%27%20%27unsafe-eval%27%20use.typekit.net%20connect.facebook.net%20maps.googleapis.com%20maps.gstatic.com%22%2C%22font-src%22%3A%22%27self%27%20data%3A%20use.typekit.net%22%2C%22connect-src%22%3A%22%27self%27%20localhost%22%2C%22img-src%22%3A%22%27self%27%20www.facebook.com%20p.typekit.net%22%2C%22style-src%22%3A%22%27self%27%20%27unsafe-inline%27%20use.typekit.net%22%2C%22frame-src%22%3A%22s-static.ak.facebook.com%20static.ak.facebook.com%20www.facebook.com%22%7D%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22LOG_ACTIVE_GENERATION%22%3Atrue%2C%22LOG_VIEW_LOOKUPS%22%3Atrue%7D%2C%22exportApplicationGlobal%22%3Atrue%7D">
+{% endhighlight %}
+
+This meta tag is required for your ember application to function properly. If you prefer to have this tag be part of your compiled javascript files instead, you may use the `storeInMeta` flag.
+
+{% highlight javascript %}
+var app = new EmberApp({
+  storeInMeta: false
+});
+{% endhighlight %}
