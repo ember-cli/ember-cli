@@ -453,10 +453,10 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate route user`
 
 * **Route Test**
-  * Generates a test for a given route
+  * Generates a test for a given route.
 
 * **Serializer**
-  * Generates an Ember Data serializer
+  * Generates an Ember Data serializer.
   * `ember generate serializer application`
 
 * **Serializer Test**
@@ -468,11 +468,11 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate service geolocation`
 
 * **Service Test**
-  * Generates a unit test for a given service
+  * Generates a unit test for a given service.
   * `ember generate service-test geolocation`
 
 * **Template**
-  * Generates a template
+  * Generates a template.
   * `ember generate template user`
 
 * **Transform**
@@ -480,7 +480,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate transform foo`
 
 * **Transform Test**
-  * Generates a transform unit test
+  * Generates a transform unit test.
   * `ember generate transform-test foo`
 
 * **Util**
@@ -492,9 +492,9 @@ See the built-in `resource` blueprint for an example of this.
   *  `ember generate util-test foo`
 
 * **View**
-  * Generates a View
+  * Generates a View.
   * `ember generate view user`
 
 * **View Test**
-  * Generates a view unit test
+  * Generates a view unit test.
   * `ember generate view-test user`
