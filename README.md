@@ -4,7 +4,7 @@ getting started
 
 ```sh
 bundle install
-./run.sh
+ruby run.rb
 ```
 
 you can now view the result at http://localhost:4000/
