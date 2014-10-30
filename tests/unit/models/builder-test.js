@@ -145,7 +145,7 @@ describe('models/builder.js', function() {
       buildResults = 'build results';
     });
 
-    it('allows addons to add promises prebuild', function() {
+    it('allows addons to add promises preBuild', function() {
       var preBuild = stub(addon, 'preBuild');
 
       return builder.build().then(function() {
@@ -154,7 +154,7 @@ describe('models/builder.js', function() {
       });
     });
 
-    it('allows addons to add promises postbuild', function() {
+    it('allows addons to add promises postBuild', function() {
       var postBuild = stub(addon, 'postBuild');
 
       return builder.build().then(function() {
