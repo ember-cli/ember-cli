@@ -17,7 +17,7 @@ var root            = process.cwd();
 var tmproot         = path.join(root, 'tmp');
 
 describe('models/builder.js', function() {
-  var builder, outputPath, tmpdir;
+  var addon, builder, buildResults, outputPath, tmpdir;
 
   describe('copyToOutputPath', function() {
     beforeEach(function() {
@@ -121,19 +121,20 @@ describe('models/builder.js', function() {
   });
 
   describe('addons', function() {
-    it('allows addons to add promises postbuild', function() {
-      var addon = {
+
+    before(function() {
+      addon = {
         name: 'TestAddon',
+        preBuild: function() { },
         postBuild: function() { }
       };
-      var postBuild = stub(addon, 'postBuild');
-      var results = 'build results';
+
       builder = new Builder({
         setupBroccoliBuilder: function() { },
         trapSignals:          function() { },
         cleanupOnExit:        function() { },
         builder: {
-          build: function() { return Promise.resolve(results); }
+          build: function() { return Promise.resolve(buildResults); }
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
         project: {
@@ -141,9 +142,24 @@ describe('models/builder.js', function() {
         }
       });
 
+      buildResults = 'build results';
+    });
+
+    it('allows addons to add promises prebuild', function() {
+      var preBuild = stub(addon, 'preBuild');
+
+      return builder.build().then(function() {
+        assert.equal(preBuild.called, 1, 'expected preBuild to be called');
+        assert.equal(preBuild.calledWith[0][0], buildResults, 'expected preBuild to be called with the results');
+      });
+    });
+
+    it('allows addons to add promises postbuild', function() {
+      var postBuild = stub(addon, 'postBuild');
+
       return builder.build().then(function() {
         assert.equal(postBuild.called, 1, 'expected postBuild to be called');
-        assert.equal(postBuild.calledWith[0][0], results, 'expected postBuild to be called with the results');
+        assert.equal(postBuild.calledWith[0][0], buildResults, 'expected postBuild to be called with the results');
       });
     });
   });
