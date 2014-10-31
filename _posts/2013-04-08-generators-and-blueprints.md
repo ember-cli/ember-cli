@@ -5,8 +5,16 @@ permalink: generators-and-blueprints
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-08-generators-and-blueprints.md"
 ---
 
-Ember CLI ships with blueprints for many of the entities you’ll
-need in your app.
+
+## Blueprints
+
+Ember CLI ships with "Blueprints", snippet generators for many of the entities - models, controllers, components, and so on - that you'll need in your app. Blueprints allow us to share common Ember patterns in the community and you can even define your own.
+
+To see a list of all available blueprints, with a short description of what they do, run `ember generate --help` or `ember g --help`, for short, at any time. For a longer, more detailed description of each blueprint, look in the appendix to this guide.
+
+### Generating Blueprints
+
+This in an example of how to generate a Route Blueprint.
 
 {% highlight bash %}
 ember generate route foo
@@ -18,11 +26,13 @@ installing
   create tests/unit/routes/foo-test.js
 {% endhighlight %}
 
-To see a list of all available blueprints, use:
+For a list of all available blueprints, run:
 
 {% highlight bash %}
 ember help generate
 {% endhighlight %}
+
+### Defining a Custom Blueprint
 
 You can define your own blueprints using `ember generate blueprint <name>`:
 
@@ -323,3 +333,168 @@ If you don't want your blueprint to install the contents of
 same `options` object described above and must return a promise.
 See the built-in `resource` blueprint for an example of this.
 
+## Appendix
+
+### Detailed List of Blueprints and Their Use 
+
+* **Acceptance Test**
+  * Generates an acceptance test for a given feature
+  * Acceptance Tests are used to test flows within your application i.e. a signup, login, editing your account, etc.
+  * `ember generate acceptance-test signup`
+  
+* **Adapter**
+  * This blueprint generates an Ember Data Adapter and its accompanying test
+  * Options
+    * Base Class
+      * Application (default)
+  * `ember generate adapter application` will generate an adapter called 'ApplicationAdapter' based off the DS.RESTAdapter by default.
+  * `ember generate adapter user` will in turn call this adapter `UserAdapter` and inherit from the Application Adapter unless you specify a base class.
+
+* **Adapter Test**
+  * This blueprint generates a unit test for a given ember data adapter.
+  * `ember generate adapter-test application`
+
+* **Addon**
+  * Generates an addon blueprint and its definition.
+    * This is the base blueprint for ember-cli addons.
+  * `ember generate addon awesome-addon`
+
+* **App**
+  * This is the default blueprint for ember-cli projects. It contains a conventional project structure and everything you will need to develop your ember apps. 
+  * This blueprint is most commonly encountered when starting a new application, as in `ember new`.
+
+* **Blueprint**
+  * Generates a Blueprint and its corresponding definition. You can use this to create your own custom Blueprints. A Blueprint is essentially a bundle of templates with optional install logic.
+  * `ember generate blueprint example-blueprint`
+
+* **Component**
+  * Generates an Ember Component and its accompanying test. 
+  * A Component is your own app-specific tag with custom behaviour. They are basically views that are completely isolated. Usually used for building widgets.
+  * Caveats
+    * The component's name must contain a hyphen
+    * Slashes are not allowed
+  * `ember generate component nav-bar`
+
+* **Component Test**
+  * Generates a test for a given component
+  * `ember generate component-test nav-bar`
+
+* **Controller**
+  * Generates a Controller of a  given name and type, with accompanying test. 
+  * Options
+    * Type
+      * Basic
+        * Default
+      * Object
+      * Array
+  * `ember generate controller users --type array`
+
+* **Controller Test**
+  * Generates a unit test for a given Controller.
+
+* **Helper**
+  * Generates a Handlebars Helper and its test. Commonly used for html reuse.
+  * `ember generate helper capitalize`
+
+* **Helper Test**
+  * Generates a test for a given helper
+  * `ember generate helper-test capitalize`
+
+* **HTTP Mock**
+  * This blueprint generates a mock endpoint with an '/api' prefix that you can use to return canned data. This is commonly used as an API stub, which allows you to develop right away with the RESTAdapter instead of using fixtures.
+  * `ember generate http-mock users`
+
+* **HTTP Proxy**
+  * Generates a relative proxy to another server. You can use this to forward requests to a local development server, for example.
+  * Options
+    * Local Path
+    * Remote URL
+  * `ember generate http-proxy`
+
+* **In-Repo Addon**
+  * Generates an addon within the same repository. Useful for project-specific addons.
+  * The generator also creates a 'lib' folder, in which it stores the new addon.
+  * `ember generate in-repo-addon calendar`
+
+* **Initializer**
+  * Generates an Ember Initializer and its accompanying tests.
+  * Common uses are to setup injection rules, like a current user, services, etc. You shouldn't use them for fetching data via XHR, deferring readiness, or instantiating and using 'container.lookup'. For more about initializers, view the [API docs](http://emberjs.com/api/classes/Ember.Application.html#method_initializer)
+  * `ember generate initializer current-user`
+
+* **Initializer Test**
+  * Generates a test for a given initializer.
+  * `ember generate initializer-test current-user`
+
+* **Mixin**
+  * Generates a Mixin and its test. A mixin is an object whose properties can be added to other classes, like Controllers, Views, Routes, etc.
+  * `ember generate mixin filterable`
+
+* **Mixin Test**
+  * Generates a test for a given mixin.
+  * `ember generate mixin-test filterable`
+
+* **Model**
+  * Generates an Ember Data model and its test.
+  * `ember generate model user`
+
+* **Model Test**
+  * Generates a test for a given model.
+  * `ember generate model-test user`
+
+* **Resource**
+  * This blueprint generates a model, route, template, and their accompanying tests.
+  * `ember generate resource user`
+
+* **Route**
+  * Generates a route, its test, and then registers it with the router.
+  * Type
+    * Route (default)
+    * Resource
+  * `ember generate route user`
+
+* **Route Test**
+  * Generates a test for a given route.
+
+* **Serializer**
+  * Generates an Ember Data serializer.
+  * `ember generate serializer application`
+
+* **Serializer Test**
+  * Generates a test for a given ember data serializer
+  * `ember generate serializer-test application`
+
+* **Service**
+  * Generates a service and initializer for injections. These are commonly used for cases like websocket initialization, geolocation, feature flags, etc.
+  * `ember generate service geolocation`
+
+* **Service Test**
+  * Generates a unit test for a given service.
+  * `ember generate service-test geolocation`
+
+* **Template**
+  * Generates a template.
+  * `ember generate template user`
+
+* **Transform**
+  * Generates an Ember Data value transform, which are used to serialize and deserialize model attributes as they saved and loaded from the adapter. These can be useful for creating custom attributes.
+  * `ember generate transform foo`
+
+* **Transform Test**
+  * Generates a transform unit test.
+  * `ember generate transform-test foo`
+
+* **Util**
+  * Generates a utility module/function.
+  *  `ember generate util foo`
+
+* **Util Test**
+  *  Generates a util unit test.
+  *  `ember generate util-test foo`
+
+* **View**
+  * Generates a View.
+  * `ember generate view user`
+
+* **View Test**
+  * Generates a view unit test.
+  * `ember generate view-test user`
