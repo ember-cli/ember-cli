@@ -536,8 +536,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo']).then(function() {
       assertFile('app/adapters/foo.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('tests/unit/adapters/foo-test.js', {
@@ -556,8 +556,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo/bar']).then(function() {
       assertFile('app/adapters/foo/bar.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
     });
@@ -1106,6 +1106,14 @@ describe('Acceptance: ember generate', function() {
     return generate(['server']).then(function() {
       assertFile('server/index.js');
       assertFile('server/.jshintrc');
+    });
+  });
+
+  it('availableOptions work with aliases.', function() {
+    return generate(['route', 'foo', '-resource']).then(function() {
+      assertFile('app/router.js', {
+        contain: ["resource('foo')"]
+      });
     });
   });
 });

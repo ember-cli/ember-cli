@@ -787,8 +787,8 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['adapter', 'foo', '--pod']).then(function() {
       assertFile('app/foo/adapter.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('tests/unit/foo/adapter-test.js', {
@@ -807,8 +807,8 @@ describe('Acceptance: ember generate pod', function() {
     return generateWithPrefix(['adapter', 'foo', '--pod']).then(function() {
       assertFile('app/pods/foo/adapter.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('tests/unit/pods/foo/adapter-test.js', {
@@ -827,8 +827,8 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['adapter', 'foo/bar', '--pod']).then(function() {
       assertFile('app/foo/bar/adapter.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
     });
@@ -838,8 +838,8 @@ describe('Acceptance: ember generate pod', function() {
     return generateWithPrefix(['adapter', 'foo/bar', '--pod']).then(function() {
       assertFile('app/pods/foo/bar/adapter.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
     });
@@ -1448,6 +1448,14 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['route', 'foo', '--dry-run', '--pod']).then(function() {
       assertFile('app/router.js', {
         doesNotContain: "route('foo')"
+      });
+    });
+  });
+
+  it('availableOptions work with aliases.', function() {
+    return generate(['route', 'foo', '-resource', '-p']).then(function() {
+      assertFile('app/router.js', {
+        contain: ["resource('foo')"]
       });
     });
   });

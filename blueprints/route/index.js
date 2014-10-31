@@ -8,7 +8,7 @@ module.exports = {
   description: 'Generates a route and registers it with the router.',
 
   availableOptions: [
-    { name: 'type', values: ['route', 'resource'], default: 'route' }
+    { name: 'type', type: String, values: ['route', 'resource'], default: 'route', aliases:[{'route': 'route'}, {'resource': 'resource'}] }
   ],
 
   fileMapTokens: function() {

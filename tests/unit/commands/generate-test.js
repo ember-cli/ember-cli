@@ -36,6 +36,7 @@ describe('generate command', function() {
   it('runs GenerateFromBlueprint with expected options', function() {
     return command.validateAndRun(['controller', 'foo'])
       .then(function(options) {
+        assert.equal(options.pod, false);
         assert.equal(options.dryRun, false);
         assert.equal(options.verbose, false);
         assert.deepEqual(options.args, ['controller', 'foo']);
