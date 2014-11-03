@@ -142,7 +142,7 @@ describe('Acceptance: ember generate', function() {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBar(input) {" + EOL +
                   "  return input;" + EOL +
-                  "};" +  EOL + EOL +
+                  "}" +  EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
