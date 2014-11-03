@@ -71,7 +71,7 @@ Note, that the name of the variable used in the exported module doesn't have any
 influence on the resolver. It's the filename that is used to resolve modules.
 Similarly, you can give any name to the variable into which you import a module
 when doing so manually; see how the module `mixins/foo` is assigned to variable
-`FooMixin` in the example above. 
+`FooMixin` in the example above.
 
 To use `Ember` or `DS` (for Ember Data) in your modules you must import them:
 
@@ -117,9 +117,9 @@ render          | `{% raw %}{{render "foo"  <context>}}{% endraw %}` | Renders t
 
 ### Resolving Handlebars helpers
 Custom Handlebars helpers are one of the ways that you can use the same HTML multiple
-times in your web application. Registering your custom helper allows it to 
-be invoked from any of your Handlebars templates. Custom helpers are located 
-under `app/helpers`. If your custom helper contains a dash(`upper-case`, 
+times in your web application. Registering your custom helper allows it to
+be invoked from any of your Handlebars templates. Custom helpers are located
+under `app/helpers`. If your custom helper contains a dash(`upper-case`,
 `reverse-word`, etc.), it will be found and loaded automatically by the resolver.
 
 {% highlight javascript linenos %}
@@ -140,9 +140,9 @@ In `some-template.hbs`:
 {% endhighlight %}
 
 Limiting automatically-loaded helpers to those that contain dashes is an explicit
-decision made by Ember. It helps disambiguate properties from helpers, and helps 
-mitigate the performance hit of helper resolution for all bindings. The other 
-loading option is to define only the function used by the helper and to load it 
+decision made by Ember. It helps disambiguate properties from helpers, and helps
+mitigate the performance hit of helper resolution for all bindings. The other
+loading option is to define only the function used by the helper and to load it
 explicitly:
 
 {% highlight javascript linenos %}
@@ -171,7 +171,7 @@ argument to `registerBoundHelper` which makes the Handlebars renderer find it.
 The file name (`trim.js`) and the name of the variable it's been imported
 into (`trimHelper`) could have been anything.
 
-A common pattern with helpers is to define a helper to use your views 
+A common pattern with helpers is to define a helper to use your views
 (e.g. for a custom text field view, `MyTextField` a helper `my-text-field`
 to use it). It is advised to leverage Components instead. More concretely,
 instead of:
