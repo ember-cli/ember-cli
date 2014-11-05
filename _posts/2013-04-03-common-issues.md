@@ -22,15 +22,17 @@ You can get rid of these errors by modifing the CSP for your app. This is descri
 Some platforms that run on open web technology (ex. FirefoxOS) enforce strict CSP restrictions for apps. One of the more common restrictions is the Unsafe-Eval restriction, disallowing use of the eval() function or the eval operator. Since Ember CLI currently uses eval() for part of it's integration with ES6 modules, this can be a problem. 
 
 To disable evals, add the `wrapInEval: false` flag to your `Brocfile.js`, for example:
-```javascript
+
+{% highlight javascript linenos %}
+// Brocfile.js
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 ...
 var app = new EmberApp({
-wrapInEval: false
+  wrapInEval: false
 });
 ...
 module.exports = app.toTree();
-```
+{% endhighlight %}
 
 ### npm package management with sudo
 
