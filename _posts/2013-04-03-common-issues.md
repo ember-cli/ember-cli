@@ -26,7 +26,7 @@ To disable evals, add the `wrapInEval: false` flag to your `Brocfile.js`, for ex
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 ...
 var app = new EmberApp({
-wrapInEval: false
+  wrapInEval: false
 });
 ...
 module.exports = app.toTree();
