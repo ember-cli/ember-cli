@@ -110,6 +110,42 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('using autoRun: true', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/auto-run-true')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var appFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.js'), { encoding: 'utf8' });
+
+        assert.ok(appFileContents.match(/\/app"\)\["default"\]\.create\(/));
+      });
+  });
+
+  it('using autoRun: false', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/auto-run-false')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var appFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.js'), { encoding: 'utf8' });
+
+        assert.ok(!appFileContents.match(/\/app"\)\["default"\]\.create\(/));
+      });
+  });
+
   it('default development build tests', function() {
     console.log('    running the slow end-to-end it will take some time');
 
