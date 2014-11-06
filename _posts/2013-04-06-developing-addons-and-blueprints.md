@@ -45,7 +45,7 @@ The Ember CLI addons API currently supports the following scenarios:
 
 ### Addon CLI options
 
-Ember CLI comes has an *addon* command with some options:
+Ember CLI has an *addon* command with some options:
 
 
 `ember addon <addon-name> <options...>`
