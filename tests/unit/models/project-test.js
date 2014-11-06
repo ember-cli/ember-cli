@@ -159,6 +159,25 @@ describe('models/project.js', function() {
       assert.deepEqual(project.dependencies(), expected);
     });
 
+    it('returns a listing of all dependencies in the projects bower.json', function() {
+      var expected = {
+        'handlebars': '~1.3.0',
+        'jquery': '^1.11.1',
+        'ember': '1.7.0',
+        'ember-data': '1.0.0-beta.10',
+        'ember-resolver': '~0.1.7',
+        'loader.js': 'stefanpenner/loader.js#1.0.1',
+        'ember-cli-shims': 'stefanpenner/ember-cli-shims#0.0.3',
+        'ember-cli-test-loader': 'rwjblue/ember-cli-test-loader#0.0.4',
+        'ember-load-initializers': 'stefanpenner/ember-load-initializers#0.0.2',
+        'ember-qunit': '0.1.8',
+        'ember-qunit-notifications': '0.0.4',
+        'qunit': '~1.15.0'
+      };
+
+      assert.deepEqual(project.bowerDependencies(), expected);
+    });
+
     it('returns a listing of all ember-cli-addons', function() {
       var expected = [
         'tests-server-middleware',
