@@ -1,3 +1,7 @@
 module.exports = {
-  name: "<%= dasherizedModuleName %>"
+  name: "<%= dasherizedModuleName %>",
+
+  isDevelopingAddon: function() {
+    return true;
+  }
 };
