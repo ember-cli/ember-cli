@@ -10,6 +10,9 @@
 #### Addons
 * [ENHANCEMENT] Addons can implement a preBuild hook. [#2411](https://github.com/stefanpenner/ember-cli/pull/2411)
 
+#### Tasks
+* [ENHANCEMENT] `ember test --server` now invokes testem middleware, the same as `ember test`
+
 ### 0.1.2
 
 #### Applications
