@@ -329,14 +329,14 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('adapter foo --pod', function() {
     var commandArgs = ['adapter', 'foo', '--pod'];
-    var files       = ['app/adapters/foo.js'];
+    var files       = ['app/pods/foo/adapter.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('adapter foo/bar --pod', function() {
     var commandArgs = ['adapter', 'foo/bar', '--pod'];
-    var files       = ['app/adapters/foo/bar.js'];
+    var files       = ['app/pods/foo/bar/adapter.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
@@ -344,7 +344,7 @@ describe('Acceptance: ember destroy pod', function() {
   it('serializer foo --pod', function() {
     var commandArgs = ['serializer', 'foo', '--pod'];
     var files       = [
-      'app/serializers/foo.js',
+      'app/pods/foo/serializer.js',
       'tests/unit/serializers/foo-test.js'
     ];
 
@@ -354,7 +354,7 @@ describe('Acceptance: ember destroy pod', function() {
   it('serializer foo/bar --pod', function() {
     var commandArgs = ['serializer', 'foo/bar', '--pod'];
     var files       = [
-      'app/serializers/foo/bar.js',
+      'app/pods/foo/bar/serializer.js',
       'tests/unit/serializers/foo/bar-test.js'
     ];
 
@@ -364,7 +364,7 @@ describe('Acceptance: ember destroy pod', function() {
   it('transform foo --pod', function() {
     var commandArgs = ['transform', 'foo', '--pod'];
     var files       = [
-      'app/transforms/foo.js',
+      'app/pods/foo/transform.js',
       'tests/unit/transforms/foo-test.js'
     ];
 
@@ -374,7 +374,7 @@ describe('Acceptance: ember destroy pod', function() {
   it('transform foo/bar --pod', function() {
     var commandArgs = ['transform', 'foo/bar', '--pod'];
     var files       = [
-      'app/transforms/foo/bar.js',
+      'app/pods/foo/bar/transform.js',
       'tests/unit/transforms/foo/bar-test.js'
     ];
 

@@ -828,7 +828,27 @@ describe('Acceptance: ember generate pod', function() {
 
   it('adapter foo --pod', function() {
     return generate(['adapter', 'foo', '--pod']).then(function() {
-      assertFile('app/adapters/foo.js', {
+      assertFile('app/foo/adapter.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('tests/unit/adapters/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('adapter:foo', 'FooAdapter'"
+        ]
+      });
+    });
+  });
+
+  it('adapter foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['adapter', 'foo', '--pod']).then(function() {
+      assertFile('app/pods/foo/adapter.js', {
         contains: [
           "import DS from 'ember-data';",
           "export default DS.RESTAdapter.extend({" + EOL + "});"
@@ -848,7 +868,18 @@ describe('Acceptance: ember generate pod', function() {
 
   it('adapter foo/bar --pod', function() {
     return generate(['adapter', 'foo/bar', '--pod']).then(function() {
-      assertFile('app/adapters/foo/bar.js', {
+      assertFile('app/foo/bar/adapter.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
+        ]
+      });
+    });
+  });
+
+  it('adapter foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['adapter', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/pods/foo/bar/adapter.js', {
         contains: [
           "import DS from 'ember-data';",
           "export default DS.RESTAdapter.extend({" + EOL + "});"
@@ -859,7 +890,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('adapter --pod extends from --base-class=bar', function() {
     return generate(['adapter', 'foo', '--base-class=bar', '--pod']).then(function() {
-      assertFile('app/adapters/foo.js', {
+      assertFile('app/foo/adapter.js', {
         contains: [
           "import BarAdapter from './bar';",
           "export default BarAdapter.extend({" + EOL + "});"
@@ -870,7 +901,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('adapter --pod extends from --base-class=foo/bar', function() {
     return generate(['adapter', 'foo/baz', '--base-class=foo/bar', '--pod']).then(function() {
-      assertFile('app/adapters/foo/baz.js', {
+      assertFile('app/foo/baz/adapter.js', {
         contains: [
           "import FooBarAdapter from './foo/bar';",
           "export default FooBarAdapter.extend({" + EOL + "});"
@@ -882,7 +913,7 @@ describe('Acceptance: ember generate pod', function() {
   it('adapter --pod extends from application adapter if present', function() {
     return preGenerate(['adapter', 'application']).then(function() {
       return generate(['adapter', 'foo', '--pod']).then(function() {
-        assertFile('app/adapters/foo.js', {
+        assertFile('app/foo/adapter.js', {
           contains: [
             "import ApplicationAdapter from './application';",
             "export default ApplicationAdapter.extend({" + EOL + "});"
@@ -895,7 +926,7 @@ describe('Acceptance: ember generate pod', function() {
   it('adapter --pod favors  --base-class over  application', function() {
     return preGenerate(['adapter', 'application']).then(function() {
       return generate(['adapter', 'foo', '--base-class=bar', '--pod']).then(function() {
-        assertFile('app/adapters/foo.js', {
+        assertFile('app/foo/adapter.js', {
           contains: [
             "import BarAdapter from './bar';",
             "export default BarAdapter.extend({" + EOL + "});"
@@ -907,7 +938,26 @@ describe('Acceptance: ember generate pod', function() {
 
   it('serializer foo --pod', function() {
     return generate(['serializer', 'foo', '--pod']).then(function() {
-      assertFile('app/serializers/foo.js', {
+      assertFile('app/foo/serializer.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          'export default DS.RESTSerializer.extend({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/serializers/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+        ]
+      });
+    });
+  });
+
+  it('serializer foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['serializer', 'foo', '--pod']).then(function() {
+      assertFile('app/pods/foo/serializer.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.RESTSerializer.extend({' + EOL + '});'
@@ -926,7 +976,27 @@ describe('Acceptance: ember generate pod', function() {
 
   it('serializer foo/bar --pod', function() {
     return generate(['serializer', 'foo/bar', '--pod']).then(function() {
-      assertFile('app/serializers/foo/bar.js', {
+      assertFile('app/foo/bar/serializer.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          'export default DS.RESTSerializer.extend({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/serializers/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('serializer:foo/bar', 'FooBarSerializer'"
+        ]
+      });
+    });
+  });
+
+  it('serializer foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['serializer', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/pods/foo/bar/serializer.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.RESTSerializer.extend({' + EOL + '});'
@@ -946,7 +1016,35 @@ describe('Acceptance: ember generate pod', function() {
 
   it('transform foo --pod', function() {
     return generate(['transform', 'foo', '--pod']).then(function() {
-      assertFile('app/transforms/foo.js', {
+      assertFile('app/foo/transform.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          'export default DS.Transform.extend({' + EOL +
+          '  deserialize: function(serialized) {' + EOL +
+          '    return serialized;' + EOL +
+          '  },' + EOL +
+          EOL +
+          '  serialize: function(deserialized) {' + EOL +
+          '    return deserialized;' + EOL +
+          '  }' + EOL +
+          '});'
+        ]
+      });
+      assertFile('tests/unit/transforms/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('transform:foo', 'FooTransform'"
+        ]
+      });
+    });
+  });
+
+  it('transform foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['transform', 'foo', '--pod']).then(function() {
+      assertFile('app/pods/foo/transform.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.Transform.extend({' + EOL +
@@ -974,7 +1072,35 @@ describe('Acceptance: ember generate pod', function() {
 
   it('transform foo/bar --pod', function() {
     return generate(['transform', 'foo/bar', '--pod']).then(function() {
-      assertFile('app/transforms/foo/bar.js', {
+      assertFile('app/foo/bar/transform.js', {
+        contains: [
+          "import DS from 'ember-data';",
+          'export default DS.Transform.extend({' + EOL +
+          '  deserialize: function(serialized) {' + EOL +
+          '    return serialized;' + EOL +
+          '  },' + EOL +
+          '' + EOL +
+          '  serialize: function(deserialized) {' + EOL +
+          '    return deserialized;' + EOL +
+          '  }' + EOL +
+          '});'
+        ]
+      });
+      assertFile('tests/unit/transforms/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('transform:foo/bar', 'FooBarTransform'"
+        ]
+      });
+    });
+  });
+
+  it('transform foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['transform', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/pods/foo/bar/transform.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.Transform.extend({' + EOL +
