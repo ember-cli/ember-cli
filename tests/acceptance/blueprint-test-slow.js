@@ -72,7 +72,7 @@ describe('Acceptance: blueprint smoke tests', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'http-proxy', 'api', 'http://localhost/api')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
 
         assert(packageJson.devDependencies['http-proxy']);
         assert(packageJson.devDependencies['connect-restreamer']);
