@@ -108,6 +108,7 @@
     "concat-stream": "^1.4.6",
     "configstore": "0.3.1",
     "core-object": "0.0.2",
+    "debug": "^2.1.0",
     "diff": "^1.0.8",
     "express": "^4.8.5",
     "findup": "0.1.5",
