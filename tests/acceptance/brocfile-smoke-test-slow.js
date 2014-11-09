@@ -261,6 +261,13 @@ describe('Acceptance: brocfile-smoke-test', function() {
     this.timeout(100000);
 
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
+      .then(function () {
+        // copy app.css to theme.css
+        var appCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'app.css');
+        var themeCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'theme.css');
+        var appCSS = fs.readFileSync(appCSSPath);
+        return fs.writeFileSync(themeCSSPath, appCSS);
+      })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
           verbose: true
@@ -269,6 +276,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       .then(function() {
         var files = [
           '/css/app.css',
+          '/css/theme/a.css',
           '/js/app.js',
           '/css/vendor.css',
           '/js/vendor.js',
@@ -304,6 +312,130 @@ describe('Acceptance: brocfile-smoke-test', function() {
         files.forEach(function(file) {
           assert(fs.existsSync(path.join(basePath, file)), file + ' exists');
         });
+      });
+  });
+
+  it('specifying partial `outputPaths` hash deep merges options correctly', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/custom-output-paths')
+      .then(function () {
+        // copy app.css to theme.css
+        var appCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'app.css');
+        var themeCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'theme.css');
+        var appCSS = fs.readFileSync(appCSSPath);
+
+        fs.writeFileSync(themeCSSPath, appCSS);
+
+        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'Brocfile.js');
+        var brocfile = fs.readFileSync(brocfilePath, 'utf8');
+
+        // remove outputPaths.app.js option
+        brocfile = brocfile.replace(/js: '\/js\/app.js'/, '');
+        // remove outputPaths.app.css.app option
+        brocfile = brocfile.replace(/'app': '\/css\/app\.css',/, '');
+
+        fs.writeFileSync(brocfilePath, brocfile, 'utf8');
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var files = [
+          '/css/theme/a.css',
+          '/assets/some-cool-app.js',
+          '/css/vendor.css',
+          '/js/vendor.js',
+          '/css/test-support.css',
+          '/js/test-support.js'
+        ];
+
+        var basePath = path.join('.', 'dist');
+        files.forEach(function(file) {
+          assert(fs.existsSync(path.join(basePath, file)), file + ' exists');
+        });
+
+        assert(!fs.existsSync(path.join(basePath, '/assets/some-cool-app.css')), 'default app.css should not exist');
+      });
+  });
+
+  it('multiple paths can be CSS preprocessed', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/multiple-sass-files')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['broccoli-sass'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var mainCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'main.css'), { encoding: 'utf8' });
+        var themeCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'theme', 'a.css'), { encoding: 'utf8' });
+
+        assert.equal(mainCSS, 'body { background: black; }' + EOL, 'main.css contains correct content');
+        assert.equal(themeCSS, '.theme { color: red; }' + EOL, 'theme/a.css contains correct content');
+      });
+  });
+
+  it('app.css is output to <app name>.css by default', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+        verbose: true
+      })
+      .then(function() {
+        var exists = fs.existsSync(path.join('.', 'dist', 'assets', appName + '.css'));
+
+        assert.equal(exists, true, appName + '.css exists');
+      });
+  });
+
+  // for backwards compat.
+  it('app.scss is output to <app name>.css by default', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/multiple-sass-files')
+      .then(function() {
+        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'Brocfile.js');
+        var brocfile = fs.readFileSync(brocfilePath, 'utf8');
+
+        // remove custom preprocessCss paths, use app.scss instead
+        brocfile = brocfile.replace(/outputPaths.*/, '');
+
+        fs.writeFileSync(brocfilePath, brocfile, 'utf8');
+
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['broccoli-sass'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        var mainCSS = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.css'), { encoding: 'utf8' });
+
+        assert.equal(mainCSS, 'body { background: green; }' + EOL, appName + '.css contains correct content');
       });
   });
 });
