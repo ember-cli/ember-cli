@@ -50,7 +50,9 @@ or `app.styl` manifest file in `app/styles`. This manifest should import any
 additional stylesheets.
 
 All your preprocessed stylesheets will be compiled into one file and served at
-`assets/app.css`.
+`assets/application-name.css`.
+
+If you would like to change this behavior, or compile to multiple output stylesheets, you can adjust the [Output Paths Configuration](#configuring-output-paths)
 
 #### CSS
 
@@ -237,3 +239,62 @@ var app = new EmberApp({
 });
 {% endhighlight %}
 
+#### Configuring output paths
+
+The compiled files are output to the following paths:
+
+|Assets|Output File|
+|---|---|
+|`app/*.js`|`/assets/application-name.js`|
+|`app/styles/app.css`|`/assets/application-name.css`|
+|other CSS files in `app/styles`|same filename in `/assets` (NOTE: do we want this line? or is it too confusing?)|
+|JavaScript files you import with `app.import()`|`/assets/vendor.js`|
+|CSS files you import with `app.import()`|`/assets/vendor.css`|
+
+To change these paths you can edit the `outputPaths` config option. The default setting is shown here:
+
+{% highlight javascript %}
+var app = new EmberApp({
+  outputPaths: {
+    app: {
+      css: {
+        'app': '/assets/application-name.css'
+      },
+      js: '/assets/application-name.js'
+    },
+    vendor: {
+      css: '/assets/vendor.css',
+      js: '/assets/vendor.js'
+    }
+  }
+});
+{% endhighlight %}
+
+You may edit any of these output paths, but make sure to update your `index.html` and `tests/index.html`.
+
+{% highlight javascript %}
+var app = new EmberApp({
+  outputPaths: {
+    app: {
+      js: '/assets/main.js'
+    }
+  }
+});
+{% endhighlight %}
+
+The `outputPaths.app.css` option uses a key value relationship. The *key* is the input file and the *value* is the output location. Note that we do not include the extension for the input path, because each preprocessor has a different extension.
+
+When using CSS preprocessing, only the `app/styles/app.scss` (or `.less` etc) is compiled. If you need to process multiple files, you must add another key:
+
+{% highlight javascript %}
+var app = new EmberApp({
+  outputPaths: {
+    app: {
+      css: {
+        'app': '/assets/application-name.css',
+        'themes/alpha': '/assets/themes/alpha.css'
+      },
+    }
+  }
+});
+{% endhighlight %}
