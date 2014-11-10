@@ -1269,9 +1269,9 @@ describe('Acceptance: ember generate pod', function() {
                   "  app.use(bodyParser.urlencoded({" + EOL +
                   "    extended: true" + EOL +
                   "  }));" + EOL +
-                  "" + EOL +
+                  EOL +
                   "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  "" + EOL +
+                  EOL +
                   "  // proxy expects a stream, but express will have turned" + EOL +
                   "  // the request stream into an object because bodyParser" + EOL +
                   "  // has run. We have to convert it back to stream:" + EOL +
@@ -1284,9 +1284,37 @@ describe('Acceptance: ember generate pod', function() {
         contains: "module.exports = function(app) {" + EOL +
                   "  var express = require('express');" + EOL +
                   "  var fooRouter = express.Router();" + EOL +
+                  EOL +
                   "  fooRouter.get('/', function(req, res) {" + EOL +
-                  "    res.send({\"foo\":[]});" + EOL +
+                  "    res.send({" + EOL +
+                  "      \"foo\": []" + EOL +
+                  "    });" + EOL +
                   "  });" + EOL +
+                  EOL +
+                  "  fooRouter.post('/', function(req, res) {" + EOL +
+                  "    res.status(201).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooRouter.get('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      \"foo\": {" + EOL +
+                  "        \"id\": req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooRouter.put('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      \"foo\": {" + EOL +
+                  "        \"id\": req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooRouter.delete('/:id', function(req, res) {" + EOL +
+                  "    res.status(204).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
                   "  app.use('/api/foo', fooRouter);" + EOL +
                   "};"
       });
@@ -1309,9 +1337,9 @@ describe('Acceptance: ember generate pod', function() {
                   "  app.use(bodyParser.urlencoded({" + EOL +
                   "    extended: true" + EOL +
                   "  }));" + EOL +
-                  "" + EOL +
+                  EOL +
                   "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  "" + EOL +
+                  EOL +
                   "  // proxy expects a stream, but express will have turned" + EOL +
                   "  // the request stream into an object because bodyParser" + EOL +
                   "  // has run. We have to convert it back to stream:" + EOL +
@@ -1324,9 +1352,37 @@ describe('Acceptance: ember generate pod', function() {
         contains: "module.exports = function(app) {" + EOL +
                   "  var express = require('express');" + EOL +
                   "  var fooBarRouter = express.Router();" + EOL +
+                  EOL +
                   "  fooBarRouter.get('/', function(req, res) {" + EOL +
-                  "    res.send({\"foo-bar\":[]});" + EOL +
+                  "    res.send({" + EOL +
+                  "      \"foo-bar\": []" + EOL +
+                  "    });" + EOL +
                   "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.post('/', function(req, res) {" + EOL +
+                  "    res.status(201).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.get('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      \"foo-bar\": {" + EOL +
+                  "        \"id\": req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.put('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      \"foo-bar\": {" + EOL +
+                  "        \"id\": req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.delete('/:id', function(req, res) {" + EOL +
+                  "    res.status(204).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
                   "  app.use('/api/foo-bar', fooBarRouter);" + EOL +
                   "};"
       });
