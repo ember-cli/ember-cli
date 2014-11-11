@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export function <%= camelizedModuleName %>(input) {
+function <%= camelizedModuleName %>(input) {
   return input;
 };
 
