@@ -7,6 +7,7 @@
 
 #### Applications
 * [BREAKING ENHANCEMENT] Replace `ember init appName` with `ember init --name=appName` to allow globbing support for `ember init` command. [#2197](https://github.com/stefanpenner/ember-cli/pull/2197)
+* [ENHANCEMENT] Commands will warn when invalid options are passed. [#2482](https://github.com/stefanpenner/ember-cli/pull/2482)
 
 #### Addons
 * [ENHANCEMENT] Addons can implement a preBuild hook. [#2411](https://github.com/stefanpenner/ember-cli/pull/2411)
