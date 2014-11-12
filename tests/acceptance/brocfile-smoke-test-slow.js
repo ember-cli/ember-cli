@@ -110,6 +110,20 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('without app/templates', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('brocfile-tests/pods-templates')
+      .then(function(){
+        // remove ./app/templates
+        return rimraf(path.join(process.cwd(), 'app/templates'));
+      }).then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
+
   it('using autoRun: true', function() {
     console.log('    running the slow end-to-end it will take some time');
 
