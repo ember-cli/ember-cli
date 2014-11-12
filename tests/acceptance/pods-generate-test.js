@@ -245,7 +245,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBar(input) {" + EOL +
                   "  return input;" + EOL +
-                  "};" +  EOL + EOL +
+                  "}" +  EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -262,7 +262,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBar(input) {" + EOL +
                   "  return input;" + EOL +
-                  "};" +  EOL + EOL +
+                  "}" +  EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -279,7 +279,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBarBaz(input) {" + EOL +
                   "  return input;" + EOL +
-                  "};" + EOL + EOL +
+                  "}" + EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
@@ -296,7 +296,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBarBaz(input) {" + EOL +
                   "  return input;" + EOL +
-                  "};" + EOL + EOL +
+                  "}" + EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
@@ -759,7 +759,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/initializers/foo.js', {
         contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "};" + EOL +
+                  "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo'," + EOL +
@@ -774,7 +774,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/initializers/foo/bar.js', {
         contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "};" + EOL +
+                  "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo/bar'," + EOL +
@@ -1167,7 +1167,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/initializers/foo-service.js', {
         contains: "export function initialize(container, application) {" + EOL +
                   "  application.inject('route', 'fooService', 'service:foo');" + EOL +
-                  "};" + EOL + EOL +
+                  "}" + EOL + EOL +
                   "export default {" + EOL +
                   "  name: 'foo-service'," + EOL +
                   "  initialize: initialize" + EOL +
@@ -1196,7 +1196,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/initializers/foo/bar-service.js', {
         contains: "export function initialize(container, application) {" + EOL +
                   "  application.inject('route', 'fooBarService', 'service:foo/bar');" + EOL +
-                  "};" + EOL + EOL +
+                  "}" + EOL + EOL +
                   "export default {" + EOL +
                   "  name: 'foo/bar-service'," + EOL +
                   "  initialize: initialize" + EOL +
