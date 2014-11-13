@@ -61,7 +61,7 @@ describe('server command', function() {
 
     assert.equal(ops.liveReloadPort, 4001,     'has correct liveReload port');
   });
-  
+
   it('has correct proxy', function() {
     new ServeCommand(options).validateAndRun([
       '--proxy', 'http://localhost:3000/'
@@ -73,5 +73,19 @@ describe('server command', function() {
     assert.equal(serveRun.called, 1, 'expected run to be called once');
 
     assert.equal(ops.proxy, 'http://localhost:3000/', 'has correct port');
+  });
+
+  it('uses baseURL of correct environment', function() {
+    options.project.config = function(env) {
+      return { baseURL: env };
+    };
+    new ServeCommand(options).validateAndRun([
+      '--environment', 'test'
+    ]);
+
+    var serveRun = tasks.Serve.prototype.run;
+    var ops = serveRun.calledWith[0][0];
+
+    assert.equal(ops.baseURL, 'test', 'Uses the correct environment.');
   });
 });
