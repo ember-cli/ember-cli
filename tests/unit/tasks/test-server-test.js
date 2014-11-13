@@ -1,34 +1,42 @@
 'use strict';
 
 var assert      = require('../../helpers/assert');
-var TestTask    = require('../../../lib/tasks/test');
+var TestServerTask    = require('../../../lib/tasks/test-server');
 var MockProject = require('../../helpers/mock-project');
+var MockUI      = require('../../helpers/mock-ui');
+var MockWatcher = require('../../helpers/mock-watcher');
 
-describe('test', function() {
+describe('test server', function() {
   var subject;
 
-  it('transforms the options and invokes testem properly', function() {
-    subject = new TestTask({
+  it('transforms the options and invokes testem properly', function(done) {
+    var ui = new MockUI();
+    var watcher = new MockWatcher();
+
+    subject = new TestServerTask({
       project: new MockProject(),
+      ui: ui,
       addonMiddlewares: function() {
         return ['middleware1', 'middleware2'];
       },
       testem: {
-        startCI: function(options, cb) {
+        startDev: function(options) {
           assert.equal(options.file, 'blahzorz.conf');
           assert.equal(options.port, 123324);
           assert.equal(options.cwd, 'blerpy-derpy');
           assert.deepEqual(options.middleware, ['middleware1', 'middleware2']);
-          cb(0);
-        },
-        app: { reporter: { total: 1 } }
+          done();
+        }
       }
     });
 
     subject.run({
       configFile: 'blahzorz.conf',
       port: 123324,
-      outputPath: 'blerpy-derpy'
+      outputPath: 'blerpy-derpy',
+      watcher: watcher
     });
+    watcher.emit('change');
   });
 });
+
