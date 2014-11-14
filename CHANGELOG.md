@@ -13,6 +13,7 @@
 
 #### Tasks
 * [ENHANCEMENT] `ember test --server` now invokes testem middleware, the same as `ember test`
+* [ENHANCEMENT] `ember serve` now watches the `Brocfile.js` file and `./server` directory (if it exists) and restarts the server on changes
 
 ### 0.1.2
 
