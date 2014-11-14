@@ -95,7 +95,7 @@
     "broccoli-clean-css": "0.2.0",
     "broccoli-concat": "0.0.12",
     "broccoli-es3-safe-recast": "1.0.0",
-    "broccoli-es6-concatenator": "0.1.10",
+    "broccoli-es6-concatenator": "0.1.11",
     "broccoli-filter": "0.1.7",
     "broccoli-funnel": "0.1.5",
     "broccoli-jshint": "0.5.3",
