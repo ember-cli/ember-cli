@@ -142,6 +142,7 @@
     "through": "^2.3.4",
     "tiny-lr": "0.1.4",
     "walk-sync": "0.1.3",
+    "watch": "0.13.0",
     "yam": "0.0.17"
   },
   "devDependencies": {
