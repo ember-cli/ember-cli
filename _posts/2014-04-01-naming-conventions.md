@@ -271,8 +271,8 @@ Rather than hold your resource folders on the root of your app you can define a 
 // config/environment.js
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'app',
-    podModulePrefix: 'app/pods' // directory where resolver will look for your resource files
+    modulePrefix: 'my-new-app',
+    podModulePrefix: 'my-new-app/pods' // namespaced directory where resolver will look for your resource files
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
