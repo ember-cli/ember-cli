@@ -2,6 +2,7 @@
 
 ### Master
 
+* [ENHANCEMENT] Add `outputPaths.app.html` option [#2523](https://github.com/stefanpenner/ember-cli/pull/2523)
 * [ENHANCEMENT] Allow multiple SASS/LESS files to be built by populating `outputPaths.app.css` option [#1888](https://github.com/stefanpenner/ember-cli/pull/1888)
 * [BUGFIX] Fix automatic generated model belongs-to and has-many relations to resolve test lookup. [#2351][https://github.com/stefanpenner/ember-cli/pull/2351]
 
