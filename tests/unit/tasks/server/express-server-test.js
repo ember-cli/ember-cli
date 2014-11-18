@@ -25,6 +25,7 @@ describe('express-server', function() {
       project: project,
       watcher: new MockWatcher(),
       serverWatcher: new MockServerWatcher(),
+      serverRestartDelayTime: 5,
       serverRoot: './server',
       proxyMiddleware: function() {
         return proxy.handler.bind(proxy);
