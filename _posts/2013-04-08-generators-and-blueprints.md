@@ -60,7 +60,7 @@ installing
   create app/foo/route.js
   create app/foo/template.hbs
 installing
-  create tests/unit/routes/foo-test.js
+  create tests/unit/foo/route-test.js
 
 {% endhighlight %}
 
@@ -74,20 +74,61 @@ installing
   create app/pods/foo/route.js
   create app/pods/foo/template.hbs
 installing
-  create tests/unit/routes/foo-test.js
+  create tests/unit/pods/foo/route-test.js
 {% endhighlight %}
 
 The built-in blueprints that support pods structure are:
 
+ - adapter
  - component
  - controller
  - model
  - route
  - resource
+ - serializer
  - template
+ - transform
  - view
 
 Blueprints that don't support pods structure will simply ignore the `--pod` option and use the default structure.
+
+If you would like to use the pods structure as the default for your project, you can set `usePodsByDefault` in your environment config
+to `true`. When `usePodsByDefault` is `true`, the `--pod` flag is essentially inverted. To generate or destroy a blueprint in the default
+type structure while `usePodsByDefault` is `true`, use the `--pod` flag.
+
+With the `usePodsByDefault` set to `true`.
+{% highlight javascript linenos %}
+// config/environment.js
+module.exports = function(environment) {
+  var ENV = {
+    modulePrefix: 'my-new-app',
+    podModulePrefix: 'my-new-app/pods'
+    usePodsByDefault: true,
+    environment: environment,
+    baseURL: '/',
+    locationType: 'auto',
+//...
+{% endhighlight %}
+
+The following would occur when generating a route:
+
+{% highlight bash %}
+ember generate route taco
+
+installing
+  create app/taco/route.js
+  create app/taco/template.hbs
+installing
+  create tests/unit/taco/route-test.js
+
+ember generate route taco --pod
+
+installing
+  create app/routes/taco.js
+  create app/templates/taco.hbs
+installing
+  create tests/unit/routes/taco-test.js
+{% endhighlight %}
 
 ### Blueprint Structure
 
@@ -131,7 +172,7 @@ Blueprints that support pods structure look a little different. Let's take the b
   ├── files
   │   └── tests
   │       └── unit
-  │           └── controllers
+  │           └── __path__
   │               └── __test__.js
   └── index.js
 {% endhighlight %}
@@ -335,13 +376,13 @@ See the built-in `resource` blueprint for an example of this.
 
 ## Appendix
 
-### Detailed List of Blueprints and Their Use 
+### Detailed List of Blueprints and Their Use
 
 * **Acceptance Test**
   * Generates an acceptance test for a given feature
   * Acceptance Tests are used to test flows within your application i.e. a signup, login, editing your account, etc.
   * `ember generate acceptance-test signup`
-  
+
 * **Adapter**
   * This blueprint generates an Ember Data Adapter and its accompanying test
   * Options
@@ -360,7 +401,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate addon awesome-addon`
 
 * **App**
-  * This is the default blueprint for ember-cli projects. It contains a conventional project structure and everything you will need to develop your ember apps. 
+  * This is the default blueprint for ember-cli projects. It contains a conventional project structure and everything you will need to develop your ember apps.
   * This blueprint is most commonly encountered when starting a new application, as in `ember new`.
 
 * **Blueprint**
@@ -368,7 +409,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate blueprint example-blueprint`
 
 * **Component**
-  * Generates an Ember Component and its accompanying test. 
+  * Generates an Ember Component and its accompanying test.
   * A Component is your own app-specific tag with custom behaviour. They are basically views that are completely isolated. Usually used for building widgets.
   * Caveats
     * The component's name must contain a hyphen
@@ -380,7 +421,7 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate component-test nav-bar`
 
 * **Controller**
-  * Generates a Controller of a  given name and type, with accompanying test. 
+  * Generates a Controller of a  given name and type, with accompanying test.
   * Options
     * Type
       * Basic
