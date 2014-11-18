@@ -215,11 +215,6 @@ describe('models/addon.js', function() {
         assert.equal(addon.project.name, project.name);
       });
 
-      it('sets the app if included', function() {
-        addon.included('app');
-        assert.equal(addon.app, 'app');
-      });
-
       it('generates a list of es6 modules to ignore', function() {
         assert.deepEqual(addon.includedModules(), {
           'ember-cli-generated-with-export/controllers/people': ['default'],
@@ -282,7 +277,7 @@ describe('models/addon.js', function() {
               return ['js'];
             }
           };
-          addon.included(app);
+          addon.app = app;
           var tree = addon.treeFor('addon');
           assert.equal(typeof tree.read, 'function');
         });
