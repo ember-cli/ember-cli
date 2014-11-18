@@ -1004,6 +1004,10 @@ describe('Acceptance: ember generate', function() {
                   "  var proxy = require('http-proxy').createProxyServer({});" + EOL +
                   "  var path = require('path');" + EOL +
                   EOL +
+                  "  // Log proxy requests" + EOL +
+                  "  var morgan  = require('morgan');" + EOL +
+                  "  app.use(morgan('dev'));" + EOL +
+                  EOL +
                   "  app.use(proxyPath, function(req, res, next){" + EOL +
                   "    // include root path in proxied request" + EOL +
                   "    req.url = path.join(proxyPath, req.url);" + EOL +
