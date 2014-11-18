@@ -4,6 +4,7 @@ var walkSync   = require('walk-sync');
 var stringUtil = require('../../lib/utilities/string');
 var assign     = require('lodash-node/modern/objects/assign');
 var uniq       = require('lodash-node/underscore/arrays/uniq');
+var date       = new Date();
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
@@ -66,7 +67,8 @@ module.exports = {
       addonName: addonName,
       addonModulePrefix: addonName,
       addonNamespace: addonNamespace,
-      emberCLIVersion: require('../../package').version
+      emberCLIVersion: require('../../package').version,
+      year: date.getFullYear()
     }
   },
 
