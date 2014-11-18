@@ -71,28 +71,6 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('controller foo --type=object', function() {
-    return generate(['controller', 'foo', '--type=object']).then(function() {
-      assertFile('app/controllers/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ObjectController.extend({" + EOL + "});"
-        ]
-      });
-    });
-  });
-
-  it('controller foo --type=array', function() {
-    return generate(['controller', 'foo', '--type=array']).then(function() {
-      assertFile('app/controllers/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ArrayController.extend({" + EOL + "});"
-        ]
-      });
-    });
-  });
-
   it('controller foo/bar', function() {
     return generate(['controller', 'foo/bar']).then(function() {
       assertFile('app/controllers/foo/bar.js', {

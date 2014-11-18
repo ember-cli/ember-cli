@@ -109,50 +109,6 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
-  it('controller foo --type=object --pod', function() {
-    return generate(['controller', 'foo', '--type=object', '--pod']).then(function() {
-      assertFile('app/foo/controller.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ObjectController.extend({" + EOL + "});"
-        ]
-      });
-    });
-  });
-
-  it('controller foo --type=object --pod podModulePrefix', function() {
-    return generateWithPrefix(['controller', 'foo', '--type=object', '--pod']).then(function() {
-      assertFile('app/pods/foo/controller.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ObjectController.extend({" + EOL + "});"
-        ]
-      });
-    });
-  });
-
-  it('controller foo --type=array --pod', function() {
-    return generate(['controller', 'foo', '--type=array', '--pod']).then(function() {
-      assertFile('app/foo/controller.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ArrayController.extend({" + EOL + "});"
-        ]
-      });
-    });
-  });
-
-  it('controller foo --type=array --pod podModulePrefix', function() {
-    return generateWithPrefix(['controller', 'foo', '--type=array', '--pod']).then(function() {
-      assertFile('app/pods/foo/controller.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ArrayController.extend({" + EOL + "});"
-        ]
-      });
-    });
-  });
-
   it('controller foo/bar --pod', function() {
     return generate(['controller', 'foo/bar', '--pod']).then(function() {
       assertFile('app/foo/bar/controller.js', {
