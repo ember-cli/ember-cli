@@ -295,7 +295,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
           '/css/vendor.css',
           '/js/vendor.js',
           '/css/test-support.css',
-          '/js/test-support.js'
+          '/js/test-support.js',
+          '/my-app.html'
         ];
 
         var basePath = path.join('.', 'dist');
