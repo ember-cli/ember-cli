@@ -114,6 +114,16 @@ describe('models/command.js', function() {
     });
   });
 
+  it('parseArgs() should warn if an option is invalid.', function() {
+    new ServeCommand({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      settings: config.getAll()
+    }).parseArgs(['foo', '--envirmont', 'production']);
+    expect(ui.output).to.match(/The option '--envirmont' is not supported by the serve command. Run `ember serve --help` for a list of supported options./);
+  });
+
   it('validateAndRun() should print a message if a required option is missing.', function() {
     new DevelopEmberCLICommand({
       ui: ui,
