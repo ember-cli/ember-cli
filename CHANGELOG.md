@@ -12,6 +12,11 @@
 #### Addons
 * [ENHANCEMENT] Addons can implement a preBuild hook. [#2411](https://github.com/stefanpenner/ember-cli/pull/2411)
 
+#### Blueprints
+
+* [ENHANCEMENT] Add --pod support for adapters, serializers, and transforms. [#2466](https://github.com/stefanpenner/ember-cli/pull/2466)
+* [ENHANCEMENT] Pod support for test blueprints. [#2472](https://github.com/stefanpenner/ember-cli/pull/2472)
+
 #### Tasks
 * [ENHANCEMENT] `ember test --server` now invokes testem middleware, the same as `ember test`
 
