@@ -5,6 +5,7 @@
 * [ENHANCEMENT] Add `outputPaths.app.html` option [#2523](https://github.com/stefanpenner/ember-cli/pull/2523)
 * [ENHANCEMENT] Allow multiple SASS/LESS files to be built by populating `outputPaths.app.css` option [#1888](https://github.com/stefanpenner/ember-cli/pull/1888)
 * [BUGFIX] Fix automatic generated model belongs-to and has-many relations to resolve test lookup. [#2351][https://github.com/stefanpenner/ember-cli/pull/2351]
+* [ENHANCEMENT] Update `broccoli-asset-rev` to 1.0.0. [#2535](https://github.com/stefanpenner/ember-cli/pull/2535)
 
 #### Applications
 * [BREAKING ENHANCEMENT] Replace `ember init appName` with `ember init --name=appName` to allow globbing support for `ember init` command. [#2197](https://github.com/stefanpenner/ember-cli/pull/2197)
