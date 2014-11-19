@@ -5,6 +5,12 @@ permalink: using-modules
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-02-using-modules.md"
 ---
 
+The Ember Resolver is the mechanism responsible for converting "names" in your
+applications into the actual classes, functions, and templates that Ember needs.
+For an introduction to the Ember Resolver,
+see [this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
+
+
 Rather than use AMD (Require.js) or CommonJS (Browserify) modules, apps built
 using Ember CLI use ES6 modules through the
 [ES6 module transpiler](https://github.com/square/es6-module-transpiler). This
