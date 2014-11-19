@@ -849,6 +849,10 @@ describe('Acceptance: ember generate', function() {
                   "    extended: true" + EOL +
                   "  }));" + EOL +
                   EOL +
+                  "  // Log proxy requests" + EOL +
+                  "  var morgan  = require('morgan');" + EOL +
+                  "  app.use(morgan('dev'));" + EOL +
+                  EOL +
                   "  mocks.forEach(function(route) { route(app); });" + EOL +
                   EOL +
                   "  // proxy expects a stream, but express will have turned" + EOL +
@@ -916,6 +920,10 @@ describe('Acceptance: ember generate', function() {
                   "  app.use(bodyParser.urlencoded({" + EOL +
                   "    extended: true" + EOL +
                   "  }));" + EOL +
+                  EOL +
+                  "  // Log proxy requests" + EOL +
+                  "  var morgan  = require('morgan');" + EOL +
+                  "  app.use(morgan('dev'));" + EOL +
                   EOL +
                   "  mocks.forEach(function(route) { route(app); });" + EOL +
                   EOL +
@@ -985,6 +993,10 @@ describe('Acceptance: ember generate', function() {
                   "    extended: true" + EOL +
                   "  }));" + EOL +
                   EOL +
+                  "  // Log proxy requests" + EOL +
+                  "  var morgan  = require('morgan');" + EOL +
+                  "  app.use(morgan('dev'));" + EOL +
+                  EOL +
                   "  mocks.forEach(function(route) { route(app); });" + EOL +
                   EOL +
                   "  // proxy expects a stream, but express will have turned" + EOL +
@@ -1003,10 +1015,6 @@ describe('Acceptance: ember generate', function() {
                   "  // https://github.com/nodejitsu/node-http-proxy" + EOL +
                   "  var proxy = require('http-proxy').createProxyServer({});" + EOL +
                   "  var path = require('path');" + EOL +
-                  EOL +
-                  "  // Log proxy requests" + EOL +
-                  "  var morgan  = require('morgan');" + EOL +
-                  "  app.use(morgan('dev'));" + EOL +
                   EOL +
                   "  app.use(proxyPath, function(req, res, next){" + EOL +
                   "    // include root path in proxied request" + EOL +

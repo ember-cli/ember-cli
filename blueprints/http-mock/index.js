@@ -13,6 +13,9 @@ module.exports = {
     };
   },
   afterInstall: function() {
-    return this.addPackageToProject('connect-restreamer', '^1.0.0');
+    return this.addPackagesToProject([
+      { name: 'morgan', target: '^1.3.2' },
+      { name: 'connect-restreamer', target: '^1.0.0' }
+    ]);
   }
 };
