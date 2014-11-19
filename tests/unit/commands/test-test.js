@@ -122,7 +122,7 @@ describe('test command', function() {
       assert.ok(fs.existsSync(newPath));
     });
 
-    it('should return the original path if filter isn\'t present', function() {
+    it('should return the original path if filter and module isn\'t present', function() {
       var originalPath = runOptions.configFile;
       var newPath = command._generateCustomConfigFile(runOptions);
 
@@ -138,12 +138,29 @@ describe('test command', function() {
       assert.ok(fs.existsSync(newPath), 'file should exist');
     });
 
+    it('when module option is present the new file path returned exists', function() {
+      var originalPath = runOptions.configFile;
+      runOptions.module = 'fooModule';
+      var newPath = command._generateCustomConfigFile(runOptions);
+
+      assert.notEqual(newPath, originalPath);
+      assert.ok(fs.existsSync(newPath), 'file should exist');
+    });
+
     it('new file returned contains the filter option value in test_page', function() {
       runOptions.filter = 'foo';
       var newPath = command._generateCustomConfigFile(runOptions);
       var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
 
       assert.ok(contents['test_page'].indexOf('foo') > -1);
+    });
+
+    it('new file returned contains the module option value in test_page', function() {
+      runOptions.module = 'fooModule';
+      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      assert.ok(contents['test_page'].indexOf('fooModule') > -1);
     });
   });
 });
