@@ -37,48 +37,48 @@ describe('help command', function() {
   });
 
   it('should generate complete help output, including aliases', function() {
-    new HelpCommand({
+    return new HelpCommand({
       ui: ui,
       analytics: analytics,
       commands: commands,
       project: { isEmberCLIProject: function(){ return true; }},
       settings: {}
-    }).validateAndRun([]);
-
-    expect(ui.output).to.include('ember test-command-1');
-    expect(ui.output).to.include('command-description');
-    expect(ui.output).to.include('option-with-default');
-    expect(ui.output).to.include('(Default: default-value)');
-    expect(ui.output).to.include('required-option');
-    expect(ui.output).to.include('(Required)');
-    expect(ui.output).to.include('ember test-command-2');
-    expect(ui.output).to.include('aliases:');
+    }).validateAndRun([]).then(function() {
+      expect(ui.output).to.include('ember test-command-1');
+      expect(ui.output).to.include('command-description');
+      expect(ui.output).to.include('option-with-default');
+      expect(ui.output).to.include('(Default: default-value)');
+      expect(ui.output).to.include('required-option');
+      expect(ui.output).to.include('(Required)');
+      expect(ui.output).to.include('ember test-command-2');
+      expect(ui.output).to.include('aliases:');
+    });
   });
 
   it('should generate specific help output', function() {
-    new HelpCommand({
+    return new HelpCommand({
       ui: ui,
       analytics: analytics,
       commands: commands,
       project: { isEmberCLIProject: function(){ return true; }},
       settings: {}
-    }).validateAndRun(['test-command-2']);
-
-    expect(ui.output).to.include('test-command-2');
-    expect(ui.output).to.not.include('test-command-1');
+    }).validateAndRun(['test-command-2']).then(function() {
+      expect(ui.output).to.include('test-command-2');
+      expect(ui.output).to.not.include('test-command-1');
+    });
   });
 
   it('should generate specific help output when given an alias', function() {
-    new HelpCommand({
+    return new HelpCommand({
       ui: ui,
       analytics: analytics,
       commands: commands,
       project: { isEmberCLIProject: function(){ return true; }},
       settings: {}
-    }).validateAndRun(['t1']);
-
-    expect(ui.output).to.include('test-command-1');
-    expect(ui.output).to.not.include('test-command-2');
+    }).validateAndRun(['t1']).then(function() {
+      expect(ui.output).to.include('test-command-1');
+      expect(ui.output).to.not.include('test-command-2');
+    });
   });
 
   describe('addon commands', function() {
@@ -92,58 +92,58 @@ describe('help command', function() {
     };
 
     it('should generate complete help output, including aliases', function() {
-      new HelpCommand({
+      return new HelpCommand({
         ui: ui,
         analytics: analytics,
         commands: commands,
         project: projectWithAddons,
         settings: {}
-      }).validateAndRun([]);
-
-      expect(ui.output).to.include('Available commands in ember-cli');
-      expect(ui.output).to.include('test-command-1');
-      expect(ui.output).to.include('Available commands from Ember CLI Addon Command Test');
-      expect(ui.output).to.include('addon-command');
-      expect(ui.output).to.include('aliases:');
+      }).validateAndRun([]).then(function() {
+        expect(ui.output).to.include('Available commands in ember-cli');
+        expect(ui.output).to.include('test-command-1');
+        expect(ui.output).to.include('Available commands from Ember CLI Addon Command Test');
+        expect(ui.output).to.include('addon-command');
+        expect(ui.output).to.include('aliases:');
+      });
     });
 
     it('should generate specific help output', function() {
-      new HelpCommand({
+      return new HelpCommand({
         ui: ui,
         analytics: analytics,
         commands: commands,
         project: projectWithAddons,
         settings: {}
-      }).validateAndRun(['addon-command']);
-
-      expect(ui.output).to.include('addon-command');
-      expect(ui.output).to.not.include('No help entry for');
+      }).validateAndRun(['addon-command']).then(function() {
+        expect(ui.output).to.include('addon-command');
+        expect(ui.output).to.not.include('No help entry for');
+      });
     });
 
     it('should generate specific help output when given an alias', function() {
-      new HelpCommand({
+      return new HelpCommand({
         ui: ui,
         analytics: analytics,
         commands: commands,
         project: projectWithAddons,
         settings: {}
-      }).validateAndRun(['ac']);
-
-      expect(ui.output).to.include('addon-command');
-      expect(ui.output).to.not.include('No help entry for');
+      }).validateAndRun(['ac']).then(function() {
+        expect(ui.output).to.include('addon-command');
+        expect(ui.output).to.not.include('No help entry for');
+      });
     });
 
   });
 
   it('should generate "no help entry" message for non-existent commands', function() {
-    new HelpCommand({
+    return new HelpCommand({
       ui: ui,
       analytics: analytics,
       commands: commands,
       project: { isEmberCLIProject: function(){ return true; }},
       settings: {}
-    }).validateAndRun(['heyyy']);
-
-    expect(ui.output).to.include('No help entry for');
+    }).validateAndRun(['heyyy']).then(function() {
+      expect(ui.output).to.include('No help entry for');
+    });
   });
 });

@@ -138,7 +138,7 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
-          assert.deepEqual(output.length, 1, 'expected no extra of output');
+          assert.deepEqual(output.length, 2, 'expected no extra of output');
         });
       });
 
@@ -199,7 +199,7 @@ describe('Unit: CLI', function() {
 
           var options = server.calledWith[0][0];
 
-          assert.equal(options.watcher, 'events', 'correct watcher type');
+          assert(/node|events/.test(options.watcher), 'correct watcher type');
         });
       });
 
@@ -223,7 +223,7 @@ describe('Unit: CLI', function() {
 
           var options = server.calledWith[0][0];
 
-          assert.equal(options.watcher, 'events', 'correct watcher type');
+          assert(/node|events/.test(options.watcher), 'correct watcher type');
         });
       });
 
@@ -284,7 +284,8 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
-          assert.equal(output.length, 1, 'expected no extra of output');
+          assert(/watchman/.test(output[1]));
+          assert.equal(output.length, 2, 'expected no extra of output');
         });
       });
     });
@@ -311,7 +312,8 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
-          assert.equal(output.length, 1, 'expected no extra of output');
+          assert(/watchman/.test(output[1]));
+          assert.equal(output.length, 2, 'expected no extra of output');
         });
       });
     });

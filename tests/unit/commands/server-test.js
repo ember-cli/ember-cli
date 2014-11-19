@@ -36,56 +36,57 @@ describe('server command', function() {
   });
 
   it('has correct options', function() {
-    new ServeCommand(options).validateAndRun([
+    return new ServeCommand(options).validateAndRun([
       '--port', '4000'
-    ]);
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
 
-    var serveRun = tasks.Serve.prototype.run;
-    var ops = serveRun.calledWith[0][0];
+      assert.equal(serveRun.called, 1, 'expected run to be called once');
 
-    assert.equal(serveRun.called, 1, 'expected run to be called once');
-
-    assert.equal(ops.port,           4000,      'has correct port');
-    assert.equal(ops.liveReloadPort, 35529,     'has correct liveReload port');
+      assert.equal(ops.port,           4000,      'has correct port');
+      assert.equal(ops.liveReloadPort, 35529,     'has correct liveReload port');
+    });
   });
 
   it('has correct liveLoadPort', function() {
-    new ServeCommand(options).validateAndRun([
+    return new ServeCommand(options).validateAndRun([
       '--live-reload-port', '4001'
-    ]);
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
 
-    var serveRun = tasks.Serve.prototype.run;
-    var ops = serveRun.calledWith[0][0];
+      assert.equal(serveRun.called, 1, 'expected run to be called once');
 
-    assert.equal(serveRun.called, 1, 'expected run to be called once');
-
-    assert.equal(ops.liveReloadPort, 4001,     'has correct liveReload port');
+      assert.equal(ops.liveReloadPort, 4001,     'has correct liveReload port');
+    });
   });
 
   it('has correct proxy', function() {
-    new ServeCommand(options).validateAndRun([
+    return new ServeCommand(options).validateAndRun([
       '--proxy', 'http://localhost:3000/'
-    ]);
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
 
-    var serveRun = tasks.Serve.prototype.run;
-    var ops = serveRun.calledWith[0][0];
+      assert.equal(serveRun.called, 1, 'expected run to be called once');
 
-    assert.equal(serveRun.called, 1, 'expected run to be called once');
-
-    assert.equal(ops.proxy, 'http://localhost:3000/', 'has correct port');
+      assert.equal(ops.proxy, 'http://localhost:3000/', 'has correct port');
+    });
   });
 
   it('uses baseURL of correct environment', function() {
     options.project.config = function(env) {
       return { baseURL: env };
     };
-    new ServeCommand(options).validateAndRun([
+
+    return new ServeCommand(options).validateAndRun([
       '--environment', 'test'
-    ]);
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
 
-    var serveRun = tasks.Serve.prototype.run;
-    var ops = serveRun.calledWith[0][0];
-
-    assert.equal(ops.baseURL, 'test', 'Uses the correct environment.');
+      assert.equal(ops.baseURL, 'test', 'Uses the correct environment.');
+    });
   });
 });

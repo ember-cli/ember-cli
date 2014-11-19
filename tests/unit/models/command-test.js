@@ -125,32 +125,35 @@ describe('models/command.js', function() {
   });
 
   it('validateAndRun() should print a message if a required option is missing.', function() {
-    new DevelopEmberCLICommand({
+    return new DevelopEmberCLICommand({
       ui: ui,
       analytics: analytics,
       project: project,
       settings: {}
-    }).validateAndRun([]);
-    expect(ui.output).to.match(/requires the option.*package-name/);
+    }).validateAndRun([]).then(function() {
+      expect(ui.output).to.match(/requires the option.*package-name/);
+    });
   });
 
   it('validateAndRun() should print a message if outside a project and command is not valid there.', function() {
-    new InsideProjectCommand({
+    return new InsideProjectCommand({
       ui: ui,
       analytics: analytics,
       project: { isEmberCLIProject: function(){ return false; }},
       settings: {}
-    }).validateAndRun([]);
-    expect(ui.output).to.match(/You have to be inside an ember-cli project/);
+    }).validateAndRun([]).then(function() {
+      expect(ui.output).to.match(/You have to be inside an ember-cli project/);
+    });
   });
 
   it('validateAndRun() should print a message if inside a project and command is not valid there.', function() {
-    new OutsideProjectCommand({
+    return new OutsideProjectCommand({
       ui: ui,
       analytics: analytics,
       project: { isEmberCLIProject: function(){ return true; }},
       settings: {}
-    }).validateAndRun([]);
-    expect(ui.output).to.match(/You cannot use.*inside an ember-cli project/);
+    }).validateAndRun([]).then(function() {
+      expect(ui.output).to.match(/You cannot use.*inside an ember-cli project/);
+    });
   });
 });

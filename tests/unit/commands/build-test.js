@@ -50,20 +50,20 @@ describe('build command', function() {
   });
 
   it('Build task is provided with the project instance', function() {
-    new BuildCommand(options).validateAndRun([ ]);
+    return new BuildCommand(options).validateAndRun([ ]).then(function() {
+      var buildRun = tasks.Build.prototype.run;
 
-    var buildRun = tasks.Build.prototype.run;
-
-    assert.equal(buildRun.called, 1, 'expected run to be called once');
-    assert.equal(buildTaskInstance.project, options.project, 'has correct project instance');
+      assert.equal(buildRun.called, 1, 'expected run to be called once');
+      assert.equal(buildTaskInstance.project, options.project, 'has correct project instance');
+    });
   });
 
   it('BuildWatch task is provided with the project instance', function() {
-    new BuildCommand(options).validateAndRun([ '--watch' ]);
+    return new BuildCommand(options).validateAndRun([ '--watch' ]).then(function() {
+      var buildWatchRun = tasks.BuildWatch.prototype.run;
 
-    var buildWatchRun = tasks.BuildWatch.prototype.run;
-
-    assert.equal(buildWatchRun.called, 1, 'expected run to be called once');
-    assert.equal(buildWatchTaskInstance.project, options.project, 'has correct project instance');
+      assert.equal(buildWatchRun.called, 1, 'expected run to be called once');
+      assert.equal(buildWatchTaskInstance.project, options.project, 'has correct project instance');
+    });
   });
 });

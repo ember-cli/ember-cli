@@ -836,6 +836,7 @@ describe('Acceptance: ember generate', function() {
   });
 
   it('http-mock foo', function() {
+    this.timeout(10000);
     return generate(['http-mock', 'foo']).then(function() {
       assertFile('server/index.js', {
         contains:"module.exports = function(app) {" + EOL +

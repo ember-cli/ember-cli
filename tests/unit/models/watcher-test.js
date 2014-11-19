@@ -33,17 +33,39 @@ describe('Watcher', function() {
   describe('watcher strategy selection', function() {
     it('selects the events-based watcher by default', function () {
       subject.options = null;
-      assert.ok(!subject.polling());
+
+      assert.deepEqual(subject.buildOptions(), {
+        verbose: true,
+        poll: false,
+        watchman: false,
+        node: false
+      });
     });
 
     it('selects the events-based watcher when given events watcher option', function () {
-      subject.options = { watcher: 'events' };
-      assert.ok(!subject.polling());
+      subject.options = {
+        watcher: 'events'
+      };
+
+      assert.deepEqual(subject.buildOptions(), {
+        verbose: true,
+        poll: false,
+        watchman: true,
+        node: false
+      });
     });
 
     it('selects the polling watcher when given polling watcher option', function () {
-      subject.options = { watcher: 'polling' };
-      assert.ok(subject.polling());
+      subject.options = {
+        watcher: 'polling'
+      };
+
+      assert.deepEqual(subject.buildOptions(), {
+        verbose: true,
+        poll: true,
+        watchman: false,
+        node: false
+      });
     });
   });
 
