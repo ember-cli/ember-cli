@@ -92,7 +92,6 @@ module.exports = {
   },
 
   fileMap: {
-    '^.jshintrc':   'tests/dummy/:path',
     '^app/.gitkeep': 'app/.gitkeep',
     '^app.*':        'tests/dummy/:path',
     '^config.*':     'tests/dummy/:path',
