@@ -188,7 +188,27 @@ Adds bower components to development dependencies
 
 ### Addon Brocfile
 
-Normally you can leave the `Brocfile.js` as is. Only touch it if you need to customize the merging of trees for the addon and you understand how to use the [Brocfile API](https://www.npmjs.org/package/broccoli).
+The addon's `Brocfile.js` is only used to configure the dummy application found in 
+`tests/dummy/`.  It is never referenced by applications which include the addon.
+
+If you need to use `Brocfile.js`, you may have to specify paths relative to the
+addon root directory.  For example to configure
+[ember-cli-less](https://www.npmjs.org/package/ember-cli-less) to use `app.less`
+in the dummy app:
+
+{% highlight javascript %}
+// Brocfile.js
+var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+
+var app = new EmberAddon({
+  lessOptions: {
+    paths: ['tests/dummy/app/styles/'],
+    outputFile: 'dummy.css'
+  }
+});
+
+module.exports = app.toTree();
+{% endhighlight %}
 
 ### Components
 The actual code for the addon goes in `addon/components/x-button.js`
