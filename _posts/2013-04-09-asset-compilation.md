@@ -248,7 +248,7 @@ The compiled files are output to the following paths:
 |`app/index.html`|`/index.html`|
 |`app/*.js`|`/assets/application-name.js`|
 |`app/styles/app.css`|`/assets/application-name.css`|
-|other CSS files in `app/styles`|same filename in `/assets` (NOTE: do we want this line? or is it too confusing?)|
+|other CSS files in `app/styles`|same filename in `/assets`|
 |JavaScript files you import with `app.import()`|`/assets/vendor.js`|
 |CSS files you import with `app.import()`|`/assets/vendor.css`|
 
