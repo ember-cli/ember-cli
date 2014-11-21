@@ -5,11 +5,25 @@ permalink: using-modules
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-02-using-modules.md"
 ---
 
+Ember CLI uses a newer version of the Resolver, jjabrams, whose goal is to
+come up with a new resolver for Ember 2.0
+
 The Ember Resolver is the mechanism responsible for converting "names" in your
 applications into the actual classes, functions, and templates that Ember needs.
-For an introduction to the Ember Resolver,
+It does so by following naming conventions in order to automaticalyl resolve
+its dependencies. For example, App.FooRoute knows to render App.FooView by
+default. For an introduction to the Ember Resolver,
 see [this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
 
+The problem is that it basically stuffs everything into a global namespace.
+By using the new resolver, Ember CLI applications have similar abilities, but
+using es6 modules instead of a global namespace.
+
+
+
+Ember's default Resolver uses the global namespace and follows naming
+conventions in order to automatically resolve its dependencies, Ember CLI uses
+the JJ abrams resolver in order to do this through es6 modules.
 
 Rather than use AMD (Require.js) or CommonJS (Browserify) modules, apps built
 using Ember CLI use ES6 modules through the
