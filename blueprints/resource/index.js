@@ -4,7 +4,7 @@ var merge      = require('lodash-node/compat/objects/merge');
 var inflection = require('inflection');
 
 module.exports = {
-  description: 'Generates a model and route.',
+  description: 'Generates a controller, model and route.',
 
   install: function(options) {
     return this._process('install', options);
@@ -56,8 +56,11 @@ module.exports = {
 
     var self = this;
     return this._processBlueprint(type, 'model', modelOptions)
-              .then(function() {
-                return self._processBlueprint(type, 'route', routeOptions);
-              });
+      .then(function() {
+        return self._processBlueprint(type, 'controller', routeOptions);
+      })
+      .then(function() {
+        return self._processBlueprint(type, 'route', routeOptions);
+      });
   }
 };
