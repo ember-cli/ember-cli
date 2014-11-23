@@ -298,3 +298,26 @@ var app = new EmberApp({
   }
 });
 {% endhighlight %}
+
+#### Tweaking vendor compilation internals
+Libraries such as jQuery and Ember are included by default with your ember-cli
+project. These libraries get automatically compiled into `dist/assets/vendor.js`
+without you having to explicitly specify these in your Brocfile.js. If for
+whatever reason you need to tweak this default behavior, you can do so by by
+configuring the `vendorFiles` object:
+
+{% highlight javascript %}
+var app = new EmberApp({
+  vendorFiles: {
+    'jquery.js': false,
+  }
+});
+{% endhighlight %}
+
+The above code will exlude jQuery from your vendor.js compiled file. This
+will break your app as jQuery is a dependency, however you are now free to
+include your own jQuery version along side it.
+
+_Note: ember-cli does its best to provide you with a stable set of
+dependencies and tweaking this can result in an unstable and/or glitchy
+environment, only perform these modifications if you know what you are doing._
