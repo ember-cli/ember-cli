@@ -7,43 +7,34 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 The Ember Resolver is the mechanism responsible for converting "names" in your
 application into the actual classes, functions, and templates that Ember needs
-to resolve its dependencies. By following a set of naming conventions, Ember
-knows to render the right template for a given route, for example.
+to resolve its dependencies. For an introduction to the Ember Resolver, see
+[this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
 
-In the past, Ember's Default Resolver worked by basically stuffing everything
-into a global namespace, so you may see a lot of tutorials that follow the
-'App.UsersRoute' pattern. Today, Ember CLI uses a newer version of the
-Resolver, JJ Abrams, which plans to replace the default resolver in Ember 2.0.
-
-
-
+In the past, Ember's Default Resolver worked by putting everything
+into a global namespace.  By following a set of naming conventions, Ember
+knows to render the right template for a given route, for example. Today,
+Ember CLI uses a newer version of the Resolver which will replace the default
+resolver in Ember 2.0.
 
 
+In order to resolve its dependencies, Ember CLI uses es6 modules.
 
-In order to resolve its dependencies, Ember CLI uses a new version of the Ember
+
+
+
 Resolver, which rather than use AMD(Require.js) or CommonJS (Browserify),
 instad
-
-Ember CLI uses a newer version of the
-Ember CLI uses a newer version of the Resolver, jjabrams, whose goal is to
-come up with a new resolver for Ember 2.0.
 
 The Ember Resolver is the mechanism responsible for converting "names" in your
 applications into the actual classes, functions, and templates that Ember needs.
 It does so by following naming conventions in order to automaticalyl resolve
 its dependencies. For example, App.FooRoute knows to render App.FooView by
-default. For an introduction to the Ember Resolver,
-see [this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
+default.
 
 The problem is that it basically stuffs everything into a global namespace.
 By using the new resolver, Ember CLI applications have similar abilities, but
 using es6 modules instead of a global namespace.
 
-
-
-Ember's default Resolver uses the global namespace and follows naming
-conventions in order to automatically resolve its dependencies, Ember CLI uses
-the JJ abrams resolver in order to do this through es6 modules.
 
 Rather than use AMD (Require.js) or CommonJS (Browserify) modules, apps built
 using Ember CLI use ES6 modules through the
