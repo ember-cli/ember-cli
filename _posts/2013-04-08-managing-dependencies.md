@@ -121,6 +121,22 @@ var app = new EmberApp({
 
 {% endhighlight %}
 
+Alternatively, if you want to exclude the built-in asset from being
+automatically included in `vendor.js`, you can set its value to `false`:
+
+{% highlight javascript linenos %}
+var app = new EmberApp({
+  vendorFiles: {
+    'handlebars.js': false
+  }
+});
+
+{% endhighlight %}
+
+_Note: The built-in assets are required dependencies needed by the environment
+to run your app. If you use the above method to specifically exclude
+some, you should still be including them in some other way._
+
 ##### Test Assets
 
 You may have additional libraries that should only be included when running tests (such as qunit-bdd or sinon). These can be merged into your assets in your Brocfile.js:
