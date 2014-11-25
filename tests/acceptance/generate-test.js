@@ -17,6 +17,7 @@ var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
 
 describe('Acceptance: ember generate', function() {
+  this.timeout(5000);
   var tmpdir;
 
   before(function() {

@@ -31,6 +31,8 @@ describe('Acceptance: blueprint smoke tests', function() {
   });
 
   after(function() {
+    this.timeout(15000);
+
     return tmp.teardown('./common-tmp')
       .then(function() {
         conf.restore();
@@ -52,7 +54,9 @@ describe('Acceptance: blueprint smoke tests', function() {
         var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
         var pwd = process.cwd();
 
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+        // Need to junction on windows since we likely don't have persmission to symlink
+        // 3rd arg is ignored on systems other than windows
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
 
         process.chdir(appName);
       });

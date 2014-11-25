@@ -15,6 +15,7 @@ var EOL        = require('os').EOL;
 var runCommand       = require('../helpers/run-command');
 var buildApp         = require('../helpers/build-app');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
+var killCliProcess   = require('../helpers/kill-cli-process');
 
 function assertTmpEmpty() {
   if (!fs.existsSync('tmp')) {
@@ -72,8 +73,9 @@ describe('Acceptance: addon-smoke-test', function() {
         var appsECLIPath = path.join(addonName, 'node_modules', 'ember-cli');
         var pwd = process.cwd();
 
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
-
+        // Need to junction on windows since we likely don't have persmission to symlink
+        // 3rd arg is ignored on systems other than windows
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
         process.chdir(addonName);
       });
   });
@@ -116,9 +118,9 @@ describe('Acceptance: addon-smoke-test', function() {
     return rimraf('addon')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
-          onOutput: function(string, process) {
+          onOutput: function(string, child) {
             if (string.match(/Build successful/)) {
-              process.kill('SIGINT');
+              killCliProcess(child);
             }
           }
         })

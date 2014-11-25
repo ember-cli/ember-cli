@@ -70,7 +70,9 @@ describe('Acceptance: express server restart', function () {
         var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
         var pwd = process.cwd();
 
-        return symlink(path.join(pwd, '..'), appsECLIPath);
+        // Need to junction on windows since we likely don't have persmission to symlink
+        // 3rd arg is ignored on systems other than windows
+        return symlink(path.join(pwd, '..'), appsECLIPath, 'junction');
       }).then(function () {
         process.chdir(appName);
         appRoot = process.cwd();
@@ -161,21 +163,21 @@ describe('Acceptance: express server restart', function () {
   it('Server restarts successfully on copy1', function() {
     this.timeout(30000);
 
-    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedSingleCopy('copy1', 'Copy1 contents of A.')));
   });
 
   it('Server restarts successfully on copy2', function() {
     this.timeout(30000);
 
-    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedSingleCopy('copy2', 'Copy2 contents of A. Copy2 contents of B.')));
   });
 
   it('Server restarts successfully on multiple copies', function() {
     this.timeout(60000);
 
-    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedMultipleCopies()));
   });
 });

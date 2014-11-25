@@ -16,6 +16,7 @@ var EOL      = require('os').EOL;
 var runCommand       = require('../helpers/run-command');
 var buildApp         = require('../helpers/build-app');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
+var killCliProcess   = require('../helpers/kill-cli-process');
 
 function assertTmpEmpty() {
   var paths = walkSync('tmp')
@@ -67,7 +68,9 @@ describe('Acceptance: smoke-test', function() {
         var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
         var pwd = process.cwd();
 
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+        // Need to junction on windows since we likely don't have persmission to symlink
+        // 3rd arg is ignored on systems other than windows
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
 
         process.chdir(appName);
       });
@@ -238,13 +241,13 @@ describe('Acceptance: smoke-test', function() {
     var line        = 'console.log("' + text + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput: function(string, process) {
+        onOutput: function(string, child) {
           if (touched) {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
               assert(contents.indexOf(text) > 1, 'must contain changed line after rebuild');
-              process.kill('SIGINT');
+              killCliProcess(child);
             }
           } else {
             if (string.match(/Build successful/)) {
@@ -274,7 +277,7 @@ describe('Acceptance: smoke-test', function() {
     var secondLine  = 'console.log("' + secondText + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput: function(string, process) {
+        onOutput: function(string, child) {
           if (buildCount === 0) {
             if (string.match(/Build successful/)) {
               // first build
@@ -294,7 +297,7 @@ describe('Acceptance: smoke-test', function() {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
               assert(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild');
-              process.kill('SIGINT');
+              killCliProcess(child);
             }
           }
         }
@@ -310,9 +313,9 @@ describe('Acceptance: smoke-test', function() {
     this.timeout(360000);
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
-        onOutput: function(string, process) {
+        onOutput: function(string, child) {
           if (string.match(/Build successful/)) {
-            process.kill('SIGINT');
+            killCliProcess(child);
           }
         }
       })

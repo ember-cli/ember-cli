@@ -1,10 +1,11 @@
 'use strict';
 
-var RSVP     = require('rsvp');
-var Promise  = require('../../lib/ext/promise');
-var chalk    = require('chalk');
-var spawn    = require('child_process').spawn;
-var defaults = require('lodash-node/modern/objects/defaults');
+var RSVP           = require('rsvp');
+var Promise        = require('../../lib/ext/promise');
+var chalk          = require('chalk');
+var spawn          = require('child_process').spawn;
+var defaults       = require('lodash-node/modern/objects/defaults');
+var killCliProcess = require('./kill-cli-process');
 
 module.exports = function run(/* command, args, options */) {
   var command = arguments[0];
@@ -35,6 +36,7 @@ module.exports = function run(/* command, args, options */) {
       args = ['"' + command + '"'].concat(args);
       command = 'node';
       opts.windowsVerbatimArguments = true;
+      opts.stdio = [null, null, null, 'ipc'];
     }
 
     var child = spawn(command, args, opts);
@@ -55,12 +57,12 @@ module.exports = function run(/* command, args, options */) {
       onChildSpawnedPromise
         .then(function () {
           if (options.killAfterChildSpawnedPromiseResolution) {
-            child.kill();
+            killCliProcess(child);
           }
         }, function (err) {
           result.testingError = err;
           if (options.killAfterChildSpawnedPromiseResolution) {
-            child.kill();
+            killCliProcess(child);
           }
         });
     }
