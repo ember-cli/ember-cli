@@ -37,6 +37,19 @@ describe('express-server', function() {
     } catch(err) { }
   });
 
+  describe('processAppMiddlewares', function() {
+    it('has a good error message if a file exists, but does not export a function', function() {
+      subject.project = {
+        has:     function() { return true; },
+        require: function() { return {};   }
+      };
+
+      assert.throws(function() {
+        subject.processAppMiddlewares();
+      }, TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
+    });
+  });
+
   describe('output', function() {
     it('with proxy', function() {
       return subject.start({
