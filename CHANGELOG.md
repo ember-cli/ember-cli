@@ -18,6 +18,7 @@
 
 * [ENHANCEMENT] Add --pod support for adapters, serializers, and transforms. [#2466](https://github.com/stefanpenner/ember-cli/pull/2466)
 * [ENHANCEMENT] Pod support for test blueprints. [#2472](https://github.com/stefanpenner/ember-cli/pull/2472)
+* [ENHANCEMENT] Create a controller when using the resource blueprint. [#2540](https://github.com/stefanpenner/ember-cli/pull/2540)
 
 #### Tasks
 * [ENHANCEMENT] `ember test --server` now invokes testem middleware, the same as `ember test`
