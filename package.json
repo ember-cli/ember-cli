@@ -78,7 +78,6 @@
     "readline2",
     "resolve",
     "rimraf",
-    "rsvp",
     "semver",
     "testem",
     "through",
