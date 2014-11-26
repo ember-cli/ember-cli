@@ -12,7 +12,7 @@ environment:
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node 0.STABLE.latest
-  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
+  - ps: Install-Product node 0.10.30 x86
   # Typical npm stuff.
   - md C:\nc
   - npm config set cache C:\nc
