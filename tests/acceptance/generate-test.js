@@ -839,30 +839,7 @@ describe('Acceptance: ember generate', function() {
     this.timeout(10000);
     return generate(['http-mock', 'foo']).then(function() {
       assertFile('server/index.js', {
-        contains:"module.exports = function(app) {" + EOL +
-                 "  var globSync   = require('glob').sync;" + EOL +
-                 "  var bodyParser = require('body-parser');" + EOL +
-                 "  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                 "  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                 EOL +
-                  "  app.use(bodyParser.json());" + EOL +
-                  "  app.use(bodyParser.urlencoded({" + EOL +
-                  "    extended: true" + EOL +
-                  "  }));" + EOL +
-                  EOL +
-                  "  // Log proxy requests" + EOL +
-                  "  var morgan  = require('morgan');" + EOL +
-                  "  app.use(morgan('dev'));" + EOL +
-                  EOL +
-                  "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  EOL +
-                  "  // proxy expects a stream, but express will have turned" + EOL +
-                  "  // the request stream into an object because bodyParser" + EOL +
-                  "  // has run. We have to convert it back to stream:" + EOL +
-                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
-                  "  app.use(require('connect-restreamer')());" + EOL +
-                  "  proxies.forEach(function(route) { route(app); });" + EOL +
-                  "};"
+        contains:"mocks.forEach(function(route) { route(app); });"
       });
       assertFile('server/mocks/foo.js', {
         contains: "module.exports = function(app) {" + EOL +
@@ -911,30 +888,7 @@ describe('Acceptance: ember generate', function() {
   it('http-mock foo-bar', function() {
     return generate(['http-mock', 'foo-bar']).then(function() {
       assertFile('server/index.js', {
-        contains: "module.exports = function(app) {" + EOL +
-                  "  var globSync   = require('glob').sync;" + EOL +
-                  "  var bodyParser = require('body-parser');" + EOL +
-                  "  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  "  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  EOL +
-                  "  app.use(bodyParser.json());" + EOL +
-                  "  app.use(bodyParser.urlencoded({" + EOL +
-                  "    extended: true" + EOL +
-                  "  }));" + EOL +
-                  EOL +
-                  "  // Log proxy requests" + EOL +
-                  "  var morgan  = require('morgan');" + EOL +
-                  "  app.use(morgan('dev'));" + EOL +
-                  EOL +
-                  "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  EOL +
-                  "  // proxy expects a stream, but express will have turned" + EOL +
-                  "  // the request stream into an object because bodyParser" + EOL +
-                  "  // has run. We have to convert it back to stream:" + EOL +
-                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
-                  "  app.use(require('connect-restreamer')());" + EOL +
-                  "  proxies.forEach(function(route) { route(app); });" + EOL +
-                  "};"
+        contains: "mocks.forEach(function(route) { route(app); });"
       });
       assertFile('server/mocks/foo-bar.js', {
         contains: "module.exports = function(app) {" + EOL +
@@ -983,30 +937,7 @@ describe('Acceptance: ember generate', function() {
   it('http-proxy foo', function() {
     return generate(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
       assertFile('server/index.js', {
-        contains: "module.exports = function(app) {" + EOL +
-                  "  var bodyParser = require('body-parser');" + EOL +
-                  "  var globSync   = require('glob').sync;" + EOL +
-                  "  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  "  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  EOL +
-                  "  app.use(bodyParser.json());" + EOL +
-                  "  app.use(bodyParser.urlencoded({" + EOL +
-                  "    extended: true" + EOL +
-                  "  }));" + EOL +
-                  EOL +
-                  "  // Log proxy requests" + EOL +
-                  "  var morgan  = require('morgan');" + EOL +
-                  "  app.use(morgan('dev'));" + EOL +
-                  EOL +
-                  "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  EOL +
-                  "  // proxy expects a stream, but express will have turned" + EOL +
-                  "  // the request stream into an object because bodyParser" + EOL +
-                  "  // has run. We have to convert it back to stream:" + EOL +
-                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
-                  "  app.use(require('connect-restreamer')());" + EOL +
-                  "  proxies.forEach(function(route) { route(app); });" + EOL +
-                  "};"
+        contains: "proxies.forEach(function(route) { route(app); });"
       });
       assertFile('server/proxies/foo.js', {
         contains: "var proxyPath = '/foo';" + EOL +
