@@ -1,25 +1,29 @@
 'use strict';
 
-var assert           = require('../../../helpers/assert');
-var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
-var MockUI           = require('../../../helpers/mock-ui');
-var net              = require('net');
-var EOL              = require('os').EOL;
-var path             = require('path');
-var MockWatcher      = require('../../../helpers/mock-watcher');
+var assert            = require('../../../helpers/assert');
+var LiveReloadServer  = require('../../../../lib/tasks/server/livereload-server');
+var MockUI            = require('../../../helpers/mock-ui');
+var MockExpressServer = require('../../../helpers/mock-express-server');
+var net               = require('net');
+var EOL               = require('os').EOL;
+var path              = require('path');
+var MockWatcher       = require('../../../helpers/mock-watcher');
 
 describe('livereload-server', function() {
   var subject;
   var ui;
   var watcher;
+  var expressServer;
 
   beforeEach(function() {
     ui = new MockUI();
     watcher = new MockWatcher();
+    expressServer = new MockExpressServer();
 
     subject = new LiveReloadServer({
       ui: ui,
       watcher: watcher,
+      expressServer: expressServer,
       analytics: { trackError: function() { } },
       project: {
         liveReloadFilterPatterns: [],
@@ -69,6 +73,23 @@ describe('livereload-server', function() {
         })
         .finally(function() {
           preexistingServer.close(done);
+        });
+    });
+  });
+
+  describe('express server restart', function() {
+    it('triggers when the express server restarts', function() {
+      var calls = 0;
+      subject.didRestart = function () {
+        calls++;
+      };
+
+      return subject.start({
+          liveReloadPort: 1337,
+          liveReload: true
+        }).then(function () {
+          expressServer.emit('restart');
+          assert.equal(calls, 1);
         });
     });
   });

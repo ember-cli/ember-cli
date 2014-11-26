@@ -1,14 +1,17 @@
 'use strict';
 
-var assert        = require('../../../helpers/assert');
-var ExpressServer = require('../../../../lib/tasks/server/express-server');
-var MockUI        = require('../../../helpers/mock-ui');
-var MockProject   = require('../../../helpers/mock-project');
-var MockWatcher   = require('../../../helpers/mock-watcher');
-var ProxyServer   = require('../../../helpers/proxy-server');
-var request       = require('supertest');
-var net           = require('net');
-var EOL           = require('os').EOL;
+var assert            = require('../../../helpers/assert');
+var ExpressServer     = require('../../../../lib/tasks/server/express-server');
+var Promise           = require('../../../../lib/ext/promise');
+var MockUI            = require('../../../helpers/mock-ui');
+var MockProject       = require('../../../helpers/mock-project');
+var MockWatcher       = require('../../../helpers/mock-watcher');
+var MockServerWatcher = require('../../../helpers/mock-server-watcher');
+var ProxyServer       = require('../../../helpers/proxy-server');
+var chalk             = require('chalk');
+var request           = require('supertest');
+var net               = require('net');
+var EOL               = require('os').EOL;
 
 describe('express-server', function() {
   var subject, ui, project, proxy;
@@ -21,6 +24,9 @@ describe('express-server', function() {
       ui: ui,
       project: project,
       watcher: new MockWatcher(),
+      serverWatcher: new MockServerWatcher(),
+      serverRestartDelayTime: 5,
+      serverRoot: './server',
       proxyMiddleware: function() {
         return proxy.handler.bind(proxy);
       },
@@ -367,56 +373,86 @@ describe('express-server', function() {
     });
 
     describe('addons', function() {
-      it('calls processAddonMiddlewares upon start', function() {
-        var called = false;
+      var calls;
+      beforeEach(function() {
+        calls = 0;
 
         subject.processAddonMiddlewares = function() {
-          called = true;
+          calls++;
         };
+      });
 
+      it('calls processAddonMiddlewares upon start', function() {
         return subject.start({
           host:  '0.0.0.0',
           port: '1337'
         }).then(function() {
-          assert(called);
+          assert.equal(calls, 1);
         });
       });
+    });
 
-      it('calls serverMiddleware on the addons', function() {
-        var firstCalled  = false;
-        var secondCalled = false;
+    describe('addon middleware', function() {
+      var firstCalls;
+      var secondCalls;
+      beforeEach(function() {
+        firstCalls = 0;
+        secondCalls = 0;
 
         project.initializeAddons = function() { };
         project.addons = [{
             serverMiddleware: function() {
-              firstCalled = true;
+              firstCalls++;
             }
           }, {
             serverMiddleware: function() {
-              secondCalled = true;
+              secondCalls++;
             }
           }, {
             doesntGoBoom: null
           }];
 
+      });
+
+      it('calls serverMiddleware on the addons on start', function() {
         return subject.start({
           host:  '0.0.0.0',
           port: '1337'
         }).then(function() {
-          assert(firstCalled);
-          assert(secondCalled);
+          assert.equal(firstCalls, 1);
+          assert.equal(secondCalls, 1);
+        });
+      });
+
+      it('calls serverMiddleware on the addons on restart', function() {
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          subject.changedFiles = ['bar.js'];
+          return subject.restartHttpServer();
+        }).then(function() {
+          assert.equal(firstCalls, 2);
+          assert.equal(secondCalls, 2);
         });
       });
     });
 
     describe('app middleware', function() {
-      it('calls processAppMiddlewares upon start', function() {
-        var passedOptions;
+      var passedOptions;
+      var calls;
+
+      beforeEach(function() {
+        passedOptions = null;
+        calls = 0;
 
         subject.processAppMiddlewares = function(options) {
           passedOptions = options;
+          calls++;
         };
+      });
 
+      it('calls processAppMiddlewares upon start', function() {
         var realOptions = {
           host:  '0.0.0.0',
           port: '1337'
@@ -424,8 +460,32 @@ describe('express-server', function() {
 
         return subject.start(realOptions).then(function() {
           assert(passedOptions === realOptions);
+          assert.equal(calls, 1);
         });
       });
+
+      it('calls processAppMiddlewares upon restart', function() {
+        var realOptions = {
+          host:  '0.0.0.0',
+          port: '1337'
+        };
+
+        var originalApp;
+
+        return subject.start(realOptions)
+          .then(function() {
+            originalApp = subject.app;
+            subject.changedFiles = ['bar.js'];
+            return subject.restartHttpServer();
+          })
+          .then(function() {
+            assert(subject.app);
+            assert.notEqual(originalApp, subject.app);
+            assert(passedOptions === realOptions);
+            assert.equal(calls, 2);
+          });
+      });
+
       it('includes httpServer instance in options', function() {
         var passedOptions;
 
@@ -440,6 +500,124 @@ describe('express-server', function() {
 
         return subject.start(realOptions).then(function() {
           assert(!!passedOptions.httpServer.listen);
+        });
+      });
+    });
+
+    describe('serverWatcherDidChange', function() {
+      it('is called on file change', function() {
+        var calls = 0;
+        subject.serverWatcherDidChange = function() {
+          calls++;
+        };
+
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          subject.serverWatcher.emit('change', 'foo.txt');
+          assert.equal(calls, 1);
+        });
+      });
+
+      it('schedules a server restart', function() {
+        var calls = 0;
+        subject.scheduleServerRestart = function() {
+          calls++;
+        };
+
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          subject.serverWatcher.emit('change', 'foo.txt');
+          subject.serverWatcher.emit('change', 'bar.txt');
+          assert.equal(calls, 2);
+        });
+      });
+    });
+
+    describe('scheduleServerRestart', function() {
+      it('schedules exactly one call of restartHttpServer', function(done) {
+        var calls = 0;
+        subject.restartHttpServer = function() {
+          calls++;
+        };
+
+        subject.serverRestartDelayTime = 10;
+        subject.scheduleServerRestart();
+        assert.equal(calls, 0);
+        setTimeout(function() {
+          assert.equal(calls, 0);
+          subject.scheduleServerRestart();
+        }, 4);
+        setTimeout(function() {
+          assert.equal(calls, 1);
+          done();
+        }, 15);
+      });
+    });
+
+    describe('restartHttpServer', function() {
+      it('restarts the server', function() {
+        var originalHttpServer;
+        var originalApp;
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          ui.output = '';
+          originalHttpServer = subject.httpServer;
+          originalApp = subject.app;
+          subject.changedFiles = ['bar.js'];
+          return subject.restartHttpServer();
+        }).then(function() {
+          assert.equal(ui.output, EOL + chalk.green('Server restarted.') + EOL + EOL);
+          assert(subject.httpServer, 'HTTP server exists');
+          assert.notEqual(subject.httpServer, originalHttpServer, 'HTTP server has changed');
+          assert(subject.app, 'App exists');
+          assert.notEqual(subject.app, originalApp, 'App has changed');
+        });
+      });
+
+      it('restarts the server again if one or more files change during a previous restart', function() {
+        var originalHttpServer;
+        var originalApp;
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          originalHttpServer = subject.httpServer;
+          originalApp = subject.app;
+          subject.serverRestartPromise = new Promise(function(resolve) {
+            setTimeout(function () {
+              subject.serverRestartPromise = null;
+              resolve();
+            }, 20);
+          });
+          subject.changedFiles = ['bar.js'];
+          return subject.restartHttpServer();
+        }).then(function() {
+          assert(subject.httpServer, 'HTTP server exists');
+          assert.notEqual(subject.httpServer, originalHttpServer, 'HTTP server has changed');
+          assert(subject.app, 'App exists');
+          assert.notEqual(subject.app, originalApp, 'App has changed');
+        });
+      });
+
+      it('emits the restart event', function() {
+        var calls = 0;
+        subject.on('restart', function() {
+          calls++;
+        });
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          subject.changedFiles = ['bar.js'];
+          return subject.restartHttpServer();
+        }).then(function() {
+          assert.equal(calls, 1);
         });
       });
     });

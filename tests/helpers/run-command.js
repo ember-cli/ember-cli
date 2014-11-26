@@ -1,6 +1,7 @@
 'use strict';
 
 var RSVP     = require('rsvp');
+var Promise  = require('../../lib/ext/promise');
 var chalk    = require('chalk');
 var spawn    = require('child_process').spawn;
 var defaults = require('lodash-node/modern/objects/defaults');
@@ -42,6 +43,27 @@ module.exports = function run(/* command, args, options */) {
       errors: [],
       code: null
     };
+
+    if (options.onChildSpawned) {
+      var onChildSpawnedPromise = new Promise(function (childSpawnedResolve, childSpawnedReject) {
+        try {
+          options.onChildSpawned(child).then(childSpawnedResolve, childSpawnedReject);
+        } catch (err) {
+          childSpawnedReject(err);
+        }
+      });
+      onChildSpawnedPromise
+        .then(function () {
+          if (options.killAfterChildSpawnedPromiseResolution) {
+            child.kill();
+          }
+        }, function (err) {
+          result.testingError = err;
+          if (options.killAfterChildSpawnedPromiseResolution) {
+            child.kill();
+          }
+        });
+    }
 
     child.stdout.on('data', function (data) {
       var string = data.toString();
