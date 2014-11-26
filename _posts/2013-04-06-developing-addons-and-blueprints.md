@@ -42,6 +42,7 @@ The Ember CLI addons API currently supports the following scenarios:
 * Providing a custom application tree to be merged with the consuming application
 * Providing custom express (server) middlewares
 * Adding custom/extra blueprints, typically for scaffolding application/project files
+* Adding content to consuming applications
 
 ### Addon CLI options
 
@@ -273,6 +274,23 @@ application as `app`. When the consuming application's `Brocfile.js`
 is processed by Ember CLI to build/serve, the addon's `included`
 function is called passing the `EmberApp` instance.
 
+### Content
+Ember CLI uses the `content-for` tag to add content to the `<head>` of `index.html`. Addons can access the `contentFor` hook to insert their own content.
+
+{% highlight javascript %}
+module.exports = {
+  name: 'ember-cli-display-environment',
+
+  contentFor: function(type, config) {
+    if (type === 'environment') {
+      return '<h1>' + config.environment + '</h1>';
+    }
+  }
+};
+{% endhighlight %}
+
+This will insert the current environment the app is running under wherever `{% raw %}{{content-for 'environment'}}{% endraw %}` is placed. The `contentFor` function will be called for each `{% raw %}{{content-for}}{% endraw %}` tag in `index.html`.
+
 ### Advanced customization
 If you want to go beyond the built in customizations or want/need more
 advanced control in general, the following are some of the hooks
@@ -284,6 +302,7 @@ includedCommands: function() {},
 blueprintsPath: // return path as String
 postBuild:
 treeFor:
+contentFor:
 included:
 postprocessTree:
 serverMiddleware:
