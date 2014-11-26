@@ -199,7 +199,7 @@ describe('Unit: CLI', function() {
 
           var options = server.calledWith[0][0];
 
-          assert(/node|events/.test(options.watcher), 'correct watcher type');
+          assert(/node|events|watchman/.test(options.watcher), 'correct watcher type');
         });
       });
 
@@ -223,7 +223,8 @@ describe('Unit: CLI', function() {
 
           var options = server.calledWith[0][0];
 
-          assert(/node|events/.test(options.watcher), 'correct watcher type');
+          console.log(options.watcher);
+          assert(/node|events|watchman/.test(options.watcher), 'correct watcher type');
         });
       });
 
