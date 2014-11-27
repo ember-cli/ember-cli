@@ -92,7 +92,7 @@ ember server
  `ember`                                     | Prints out a list of available commands.
  `ember new <app-name>`                      | Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
  `ember init`                                | Generates an application structure for you in the current folder.
- `ember build`                               | Builds the application depending on the environment.
+ `ember build`                               | Builds the application to `dist/` directory (customize via `--output-path` flag). Use `--environment` flag to specify the environment to build for (defaults to `development`). Use `--watch` flag keep the process running, observing the filesystem and rebuilding when changes occur.
  `ember server`                              | Starts up the server. Default port is `4200`. Use `--proxy` flag to proxy all ajax requests to the given address. For example `ember server --proxy http://127.0.0.1:8080` will proxy all your apps XHR to your server running at port 8080.
  <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
  `ember test`                                | Run tests with Testem on CI mode. You can pass any options to Testem through `testem.json`, by default we'll search for it under your project's root or you can specify `config-file`.
