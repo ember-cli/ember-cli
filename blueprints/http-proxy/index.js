@@ -19,8 +19,7 @@ module.exports = {
   afterInstall: function() {
     return this.addPackagesToProject([
       { name: 'http-proxy', target: '^1.1.6' },
-      { name: 'morgan', target: '^1.3.2' },
-      { name: 'connect-restreamer', target: '^1.0.0' }
+      { name: 'morgan', target: '^1.3.2' }
     ]);
   }
 };

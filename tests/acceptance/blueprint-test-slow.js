@@ -75,7 +75,6 @@ describe('Acceptance: blueprint smoke tests', function() {
         var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
 
         assert(packageJson.devDependencies['http-proxy']);
-        assert(packageJson.devDependencies['connect-restreamer']);
         assert(packageJson.devDependencies['morgan']);
       });
   });

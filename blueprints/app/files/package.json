@@ -18,7 +18,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "body-parser": "^1.2.0",
     "broccoli-asset-rev": "^1.0.0",
     "broccoli-ember-hbs-template-compiler": "^1.6.1",
     "ember-cli": "<%= emberCLIVersion %>",
