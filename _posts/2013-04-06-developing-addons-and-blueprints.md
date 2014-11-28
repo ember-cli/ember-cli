@@ -189,7 +189,7 @@ Adds bower components to development dependencies
 
 ### Addon Brocfile
 
-The addon's `Brocfile.js` is only used to configure the dummy application found in 
+The addon's `Brocfile.js` is only used to configure the dummy application found in
 `tests/dummy/`.  It is never referenced by applications which include the addon.
 
 If you need to use `Brocfile.js`, you may have to specify paths relative to the
@@ -275,7 +275,7 @@ is processed by Ember CLI to build/serve, the addon's `included`
 function is called passing the `EmberApp` instance.
 
 ### Content
-Ember CLI uses the `content-for` tag to add content to the `<head>` of `index.html`. Addons can access the `contentFor` hook to insert their own content.
+If you want to add content to a page directly, you can use the `content-for` tag. An example of this is `{% raw %}{{content-for 'head'}}{% endraw %}` in `app/index.html`, which Ember CLI uses to insert it's own content at build time. Addons can access the `contentFor` hook to insert their own content.
 
 {% highlight javascript %}
 module.exports = {
