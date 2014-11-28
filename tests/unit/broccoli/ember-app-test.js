@@ -151,19 +151,19 @@ describe('broccoli/ember-app', function() {
         assert(actual.indexOf(expected) > -1);
       });
 
+      it('includes the `base` tag in `head` if locationType is none (testem requirement)', function() {
+        config.locationType = 'none';
+        config.baseURL = '/';
+        var expected = '<base href="/">';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        assert(actual.indexOf(expected) > -1);
+      });
+
       it('does not include the `base` tag in `head` if locationType is hash', function() {
         config.locationType = 'hash';
         config.baseURL = '/foo/bar';
         var expected = '<base href="/foo/bar/">';
-        var actual = emberApp.contentFor(config, defaultMatch, 'head');
-
-        assert(actual.indexOf(expected) === -1);
-      });
-
-      it('does not include the `base` tag in `head` if locationType is none', function() {
-        config.locationType = 'none';
-        config.baseURL = '/';
-        var expected = '<base href="/">';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         assert(actual.indexOf(expected) === -1);
