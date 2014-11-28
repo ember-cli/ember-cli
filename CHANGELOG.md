@@ -46,12 +46,12 @@
   * Added support to test the app when built with `--env production`.
   * Update to Ember 1.8.1
   * Update to Ember Data v1.0.0-beta.12 (TODO)
-  * [#2351][https://github.com/stefanpenner/ember-cli/pull/2351] Fix automatic generated model belongs-to and has-many relations to resolve test lookup.
+  * [#2351](https://github.com/stefanpenner/ember-cli/pull/2351) Fix automatic generated model belongs-to and has-many relations to resolve test lookup.
   * [#1888](https://github.com/stefanpenner/ember-cli/pull/1888) Allow multiple SASS/LESS files to be built by populating `outputPaths.app.css` option
   * [#2523](https://github.com/stefanpenner/ember-cli/pull/2523) Added `outputPaths.app.html` option
   * [#2472](https://github.com/stefanpenner/ember-cli/pull/2472) Added Pod support for test blueprints.
 
-  Add much more: [view entire diff][https://github.com/stefanpenner/ember-cli/compare/v0.1.2...v0.1.3]
+  Add much more: [view entire diff](https://github.com/stefanpenner/ember-cli/compare/v0.1.2...v0.1.3)
 
 #### Addons
 
