@@ -1,1 +1,0 @@
-`jekyll server --watch --baseurl ""`

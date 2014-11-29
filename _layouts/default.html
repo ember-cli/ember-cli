@@ -1,56 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  {% include head.html %}
-  <body data-spy="scroll" data-target=".sidebar">
-    {% include header.html %}
-    <div class="content">
-        {% include description.html %}
-      <div id="swap"></div>
-      <div id="guide" class="container">
-        <div class="row">
-           <div id="sidenav" class="col-md-3 hidden-sm hidden-xs sidebar-wrapper">
-            <div class="sidebar">
-              <ul class="nav sidenav">
-                <li class="ectop"> <a href="#showcase"><span class="glyphicon glyphicon-arrow-up"></span>Back to Top</a></li>
-                {% for guide in site.posts %}
-                  {% if guide.hidden != 'true' %}
-                    <li>
-                      <a href="#{{guide.permalink}}">{{guide.title}}</a>
-                    </li>
-                  {% endif %}
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-9 main">
-            <div class="content-section">
-              {% for guide in site.posts %}
-                {% if guide.hidden != 'true' %}
-                <div id="{{guide.permalink}}" class="guide-content">
-                  <a class="edit-page" href="{{guide.github}}" title="Edit this page on GitHub">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                  </a>
-                  <h1>{{guide.title}}</h1>
-                  <p>{{guide.content}}</p>
-                </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {% include footer.html %}
-    {% include scripts.html %}
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  ga('create', 'UA-49225444-3', 'auto');
-  ga('send', 'pageview');
+        <title>{{page.title}}</title>
 
-</script>
-  </body>
+        <meta name="description" content="">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="{{site.baseurl}}/assets/screen.css">
+        <link rel="stylesheet" href="{{site.baseurl}}/assets/syntax.css">
+    </head>
+
+    <body>
+        {{content}}
+    </body>
 </html>

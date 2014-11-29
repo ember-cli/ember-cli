@@ -1,0 +1,9 @@
+links:
+  - text: Getting Started
+    url: /getting-started
+  - text: Documentation
+    url: /docs/using-modules
+  - text: Changelog
+    url: /changelog
+  - text: GitHub
+    url: https://github.com/stefanpenner/ember-cli

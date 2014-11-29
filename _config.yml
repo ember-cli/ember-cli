@@ -1,8 +1,11 @@
-baseurl: ''
-
+baseurl: '/ember-cli'
 highlighter: pygments
 markdown:    kramdown
 exclude: [node_modules]
+
+collections:
+  docs:
+    output: true
 
 # TODO: Automate version bump on release
 version: 0.1.3
