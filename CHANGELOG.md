@@ -6,7 +6,7 @@
 
 #### Applications
 
-  * [#2588](https://github.com/stefanpenner/ember-cli/pull/2592) Add extra contentFor hooks.
+  * [ENHANCEMENT] Add extra contentFor hooks [#2588](https://github.com/stefanpenner/ember-cli/pull/2592) 
     * `{{content-for 'head-footer'}}`
     * `{{content-for 'test-head-footer'}}`
     * `{{content-for 'body-footer'}}`
