@@ -6,6 +6,7 @@
 
 #### Applications
 
+  * [#2586](https://github.com/stefanpenner/ember-cli/pull/2586) Set locationType to none in tests.
   * [#2573](https://github.com/stefanpenner/ember-cli/pull/2574) Added --silent option for quieter UI
   * [#2458](https://github.com/stefanpenner/ember-cli/pull/2458) Added additional file watching mechanism: [Watchman](https://facebook.github.io/watchman/)
     This helps resolve the recent Node + Yosemite file watching issues, but also improves file watching (when available) for all `*nix` systems
