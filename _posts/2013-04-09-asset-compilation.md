@@ -245,9 +245,10 @@ The compiled files are output to the following paths:
 
 |Assets|Output File|
 |---|---|
+|`app/index.html`|`/index.html`|
 |`app/*.js`|`/assets/application-name.js`|
 |`app/styles/app.css`|`/assets/application-name.css`|
-|other CSS files in `app/styles`|same filename in `/assets` (NOTE: do we want this line? or is it too confusing?)|
+|other CSS files in `app/styles`|same filename in `/assets`|
 |JavaScript files you import with `app.import()`|`/assets/vendor.js`|
 |CSS files you import with `app.import()`|`/assets/vendor.css`|
 
@@ -257,6 +258,7 @@ To change these paths you can edit the `outputPaths` config option. The default 
 var app = new EmberApp({
   outputPaths: {
     app: {
+      html: 'index.html'
       css: {
         'app': '/assets/application-name.css'
       },
@@ -270,7 +272,7 @@ var app = new EmberApp({
 });
 {% endhighlight %}
 
-You may edit any of these output paths, but make sure to update your `index.html` and `tests/index.html`.
+You may edit any of these output paths, but make sure to update your `app.outputPaths.app.index`, default it is `index.html`, and `tests/index.html`.
 
 {% highlight javascript %}
 var app = new EmberApp({
