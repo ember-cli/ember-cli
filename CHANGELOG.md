@@ -2,15 +2,18 @@
 
 ### Master
 
-### 0.1.3
-
-#### Applications
+####
 
   * [ENHANCEMENT] Add extra contentFor hooks [#2588](https://github.com/stefanpenner/ember-cli/pull/2592) 
     * `{{content-for 'head-footer'}}`
     * `{{content-for 'test-head-footer'}}`
     * `{{content-for 'body-footer'}}`
     * `{{content-for 'test-body-footer'}}`
+
+### 0.1.3
+
+#### Applications
+
   * [#2586](https://github.com/stefanpenner/ember-cli/pull/2586) Set locationType to none in tests.
   * [#2573](https://github.com/stefanpenner/ember-cli/pull/2574) Added --silent option for quieter UI
   * [#2458](https://github.com/stefanpenner/ember-cli/pull/2458) Added additional file watching mechanism: [Watchman](https://facebook.github.io/watchman/)
