@@ -16,7 +16,7 @@
     Watchman runs as a standalone service, this allows it to manage file-watching for multiple consumers (in our case ember-cli apps)
 
     How do I used it?
-      homebrew: brew install watchman
+      homebrew: `brew install watchman`
       other: https://facebook.github.io/watchman/docs/install.html
       windows: not supported yet, but it [may happen](https://github.com/facebook/watchman/issues/19)
 
