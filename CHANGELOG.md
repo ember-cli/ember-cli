@@ -56,11 +56,11 @@
 
 #### Addons
 
-  [#2505](https://github.com/stefanpenner/ember-cli/pull/2505) Added ability to dynamic add/remove module whitelist entries so that the [ember-browserify](https://github.com/ef4/ember-browserify) addon can work
-  [#2505](https://github.com/stefanpenner/ember-cli/pull/2505) Added an addon postprocess hook for all javascript
-  []() Added Addon.prototype.isEnabled for an addon to exclude itself from the project at runtime.
-  Ensure that in-repo addons are watched.
-  Add preBuild hook for addons
+  * [#2505](https://github.com/stefanpenner/ember-cli/pull/2505) Added ability to dynamic add/remove module whitelist entries so that the [ember-browserify](https://github.com/ef4/ember-browserify) addon can work
+  * [#2505](https://github.com/stefanpenner/ember-cli/pull/2505) Added an addon postprocess hook for all javascript
+  * [#2271](https://github.com/stefanpenner/ember-cli/pull/2271) Added Addon.prototype.isEnabled for an addon to exclude itself from the project at runtime.
+  * [#2451](https://github.com/stefanpenner/ember-cli/pull/2451) Ensure that in-repo addons are watched.
+  * [#2411](https://github.com/stefanpenner/ember-cli/pull/2411) Add preBuild hook for addons.
 
 ### 0.1.2
 
