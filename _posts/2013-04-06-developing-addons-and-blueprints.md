@@ -282,6 +282,7 @@ hooks expect a function as the value.
 {% highlight javascript %}
 includedCommands: function() {},
 blueprintsPath: // return path as String
+preBuild:
 postBuild:
 treeFor:
 included:
