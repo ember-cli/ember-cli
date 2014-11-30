@@ -29,6 +29,9 @@
         zoom: 50%;
       }
     </style>
+
+    {{content-for 'head-footer'}}
+    {{content-for 'test-head-footer'}}
   </head>
   <body>
 
@@ -39,5 +42,8 @@
     <script src="assets/<%= name %>.js"></script>
     <script src="testem.js"></script>
     <script src="assets/test-loader.js"></script>
+
+    {{content-for 'body-footer'}}
+    {{content-for 'test-body-footer'}}
   </body>
 </html>
