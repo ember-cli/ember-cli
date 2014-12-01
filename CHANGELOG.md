@@ -9,6 +9,8 @@
     * `{{content-for 'test-head-footer'}}`
     * `{{content-for 'body-footer'}}`
     * `{{content-for 'test-body-footer'}}`
+ 
+* Update to Ember Data v1.0.0-beta.12
 
 ### 0.1.3
 
@@ -58,7 +60,7 @@
   * Added optional globbing to init with `ember init <glob-pattern>`, this allows you to re-blueprint a single file like: `ember init app/index.html`
   * Added support to test the app when built with `--env production`.
   * Update to Ember 1.8.1
-  * Update to Ember Data v1.0.0-beta.12 (TODO)
+  * Update to Ember Data v1.0.0-beta.11
   * [#2351](https://github.com/stefanpenner/ember-cli/pull/2351) Fix automatic generated model belongs-to and has-many relations to resolve test lookup.
   * [#1888](https://github.com/stefanpenner/ember-cli/pull/1888) Allow multiple SASS/LESS files to be built by populating `outputPaths.app.css` option
   * [#2523](https://github.com/stefanpenner/ember-cli/pull/2523) Added `outputPaths.app.html` option
