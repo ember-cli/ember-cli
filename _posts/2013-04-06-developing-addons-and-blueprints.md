@@ -165,6 +165,24 @@ module.exports = {
 };
 {% endhighlight %}
 
+### Configuring your ember-addon properties
+
+By default, the `"ember-addon"` hash in the `package.json` file has the `"configPath"` property defined to point to the `config` directory of the test dummy application. 
+
+Optionally, you may specify whether your `ember-addon` must run `"before"` or `"after"` any other Ember CLI addons.  Both of these properties can take either a string or an array of strings, where the string is the name of the another Ember CLI addon, as defined in the `package.json` of the other addon.
+
+{% highlight javascript %}
+  "ember-addon": {
+    // addon configuration properties
+    "configPath": "tests/dummy/config",
+    "before": "single-addon",
+    "after": [
+      "after-addon-1",
+      "after-addon-2"
+    ]
+  },
+{% endhighlight %} 
+
 ### Managing addon dependencies
 Install your client side dependencies via Bower.
 Here we install a fictional bower dependency `x-button`:
