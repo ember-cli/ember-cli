@@ -42,6 +42,7 @@
 
   * [#2265](https://github.com/stefanpenner/ember-cli/pull/2265) Added auto-restarting of server and triggering of LR on `server/*` file changes
   * [#2535](https://github.com/stefanpenner/ember-cli/pull/2535) Updated broccoli-asset-rev to 1.0.0
+  * [#2452](https://github.com/stefanpenner/ember-cli/pull/2452) Including [esnext](https://github.com/esnext/esnext) via `ember-cli-esnext` per default
   * [#2518](https://github.com/stefanpenner/ember-cli/pull/2518) improved HTTP logging when using http-mocks and proxy by using [morgan](https://www.npmjs.org/package/morgan)
   * [#2532](https://github.com/stefanpenner/ember-cli/pull/2532) Added support to run specific tests via `ember test --module` and `ember test --filter`
   * [#2514](https://github.com/stefanpenner/ember-cli/pull/2514) Added config.usePodsByDefault for users who wish to have blueprints run in `pod` mode all the time
