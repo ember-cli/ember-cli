@@ -439,22 +439,14 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('http-mock foo --pod', function() {
     var commandArgs = ['http-mock', 'foo', '--pod'];
-    var files       = [
-      'server/index.js',
-      'server/mocks/foo.js',
-      'server/.jshintrc'
-    ];
+    var files       = ['server/mocks/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-proxy foo --pod', function() {
     var commandArgs = ['http-proxy', 'foo', '--pod'];
-    var files       = [
-      'server/index.js',
-      'server/proxies/foo.js',
-      'server/.jshintrc'
-    ];
+    var files       = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });

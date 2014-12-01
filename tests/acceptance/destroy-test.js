@@ -437,22 +437,14 @@ describe('Acceptance: ember destroy', function() {
 
   it('http-mock foo', function() {
     var commandArgs = ['http-mock', 'foo'];
-    var files       = [
-      'server/index.js',
-      'server/mocks/foo.js',
-      'server/.jshintrc'
-    ];
+    var files       = ['server/mocks/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-proxy foo', function() {
     var commandArgs = ['http-proxy', 'foo'];
-    var files       = [
-      'server/index.js',
-      'server/proxies/foo.js',
-      'server/.jshintrc'
-    ];
+    var files       = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
@@ -518,6 +510,17 @@ describe('Acceptance: ember destroy', function() {
       })
       .then(function() {
         assertFilesNotExist(files);
+      });
+  });
+
+  it('http-mock <name> does not remove server/', function() {
+    return initApp()
+      .then(function() { return generate(['http-mock', 'foo']); })
+      .then(function() { return generate(['http-mock', 'bar']); })
+      .then(function() { return destroy(['http-mock', 'foo']); })
+      .then(function() {
+        assertFile('server/index.js');
+        assertFile('server/.jshintrc');
       });
   });
 
