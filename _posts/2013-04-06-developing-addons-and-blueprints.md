@@ -122,6 +122,7 @@ The generated addon `package.json` file looks something like this:
   "devDependencies": {
     "body-parser": "^1.2.0",
     ... // add specific dev dependencies here!
+  }
 }
 {% endhighlight %}
 
