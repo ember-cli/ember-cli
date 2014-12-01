@@ -1005,7 +1005,7 @@ describe('Blueprint', function() {
     it('can find internal blueprints', function() {
       var result = blueprint.lookupBlueprint('controller');
 
-      assert.equal(result.description, 'Generates a controller of the given type.');
+      assert.equal(result.description, 'Generates a controller.');
     });
   });
 });
