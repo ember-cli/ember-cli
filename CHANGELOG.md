@@ -38,7 +38,7 @@
     ember <command> --watcher=node
     ```
     
-    Common problem: `invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0]` this basically means you have an older version of watchman installed. Be sure to install `3.0.0` and run `watchman shutdown-server` before restarting re-starting your ember server.
+    Common problem: `invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0]` this basically means you have an older version of watchman installed. Be sure to install `3.0.0` and run `watchman shutdown-server` before re-starting your ember server.
 
   * [#2265](https://github.com/stefanpenner/ember-cli/pull/2265) Added auto-restarting of server and triggering of LR on `server/*` file changes
   * [#2535](https://github.com/stefanpenner/ember-cli/pull/2535) Updated broccoli-asset-rev to 1.0.0
