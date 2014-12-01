@@ -152,6 +152,20 @@ While you can exclude more than just the temporary files, this would also render
 
 ![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender.png)
 
+### Symlinks on Windows
+
+Many Broccoli plugins and Ember CLI addons can use symlinks to speedup the build process. When working on the Windows platform there are some caveats involved in making sure Ember CLI and other plugins can use symlinks. If symlinks are not available plugins should fall back to copying files. However the speed benefits of symlinking are substantial, so it is worth the effort to make sure Ember CLI can take advantage of them.
+
+In order to create symlinks the account running Ember CLI must have the `SeCreateSymbolicLinkPrivilege`. Users in the Administrators group have this permission already. However if UAC (User Access Control) is enabled users in the Administrators group must run their shell using `Run As Administrator`. This is because UAC strips away certain permissions from the Administrators group, including `SeCreateSymbolicLinkPrivilege`.
+
+![Run As Administrator]({{ site.url }}/assets/images/common-issues/run-as-admin.png)
+
+If the user account is not part of the Administrators group you will need to add the `SeCreateSymbolicLinkPrivilege` in order to allow the creation of symlinks. To do this open the `Local Security Policy` by typing Local Security Policy in the Run Box.
+
+Under `Local Policies` -> `User Rights Assignment` find the `Create symbolic links` policy and double click it to add a new user or group. Once you add your user or group has been added your user should be able to create symlinks. Keep in mind if your user is part of the Administrators group and UAC is enabled you will still need to start your shell using `Run as Administrator`.
+
+![Enabling Symlinks]({{ site.url }}/assets/images/common-issues/enabling-symlinks.png)
+
 ### Usage with Vagrant
 
 [Vagrant](http://vagrantup.com) is a system for automatically creating and setting up development environments that run in a virtual machine (VM). 
