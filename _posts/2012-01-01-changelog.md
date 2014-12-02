@@ -5,6 +5,70 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.1.3
+
+#### Applications
+
+  * [#2586](https://github.com/stefanpenner/ember-cli/pull/2586) Set locationType to none in tests.
+  * [#2573](https://github.com/stefanpenner/ember-cli/pull/2574) Added --silent option for quieter UI
+  * [#2458](https://github.com/stefanpenner/ember-cli/pull/2458) Added additional file watching mechanism: [Watchman](https://facebook.github.io/watchman/)
+    This helps resolve the recent Node + Yosemite file watching issues, but also improves file watching (when available) for all `*nix` systems
+
+    What is Watchman?
+
+    Watchman runs as a standalone service, this allows it to manage file-watching for multiple consumers (in our case ember-cli apps)
+
+    How do I used it?
+      homebrew: `brew install watchman`
+      other: https://facebook.github.io/watchman/docs/install.html
+      windows: not supported yet, but it [may happen](https://github.com/facebook/watchman/issues/19)
+
+    What happens if its not installed?
+
+    We fall back to the existing watcher NodeWatcher
+
+    How do I force it to fallback to NodeWatch
+
+    ```sh
+    ember <command> --watcher=node
+    ```
+    
+    Common problem: `invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0]` this basically means you have an older version of watchman installed. Be sure to install `3.0.0` and run `watchman shutdown-server` before re-starting your ember server.
+
+  * [#2265](https://github.com/stefanpenner/ember-cli/pull/2265) Added auto-restarting of server and triggering of LR on `server/*` file changes
+  * [#2535](https://github.com/stefanpenner/ember-cli/pull/2535) Updated broccoli-asset-rev to 1.0.0
+  * [#2452](https://github.com/stefanpenner/ember-cli/pull/2452) Including [esnext](https://github.com/esnext/esnext) via `ember-cli-esnext` per default
+  * [#2518](https://github.com/stefanpenner/ember-cli/pull/2518) improved HTTP logging when using http-mocks and proxy by using [morgan](https://www.npmjs.org/package/morgan)
+  * [#2532](https://github.com/stefanpenner/ember-cli/pull/2532) Added support to run specific tests via `ember test --module` and `ember test --filter`
+  * [#2514](https://github.com/stefanpenner/ember-cli/pull/2514) Added config.usePodsByDefault for users who wish to have blueprints run in `pod` mode all the time
+  * Warn on invalid command options
+  * Allow array of paths to the preprocessCss phase
+  * Adding --pods support for adapters, serializers, and transforms
+  * As part of the Ember 2.0 push  remove controller types.
+  * http-mock now follows ember-data conventions
+  * many of ember-cli internals now are instrumented with [debug]
+    usage: `DEBUG=ember-cli:* ember <command>` to see ember-cli specific verbose logging.
+  * Added ember-cli-dependency-checker to app's package.json
+  * Added option to disable auto-start of ember app.
+  * Added optional globbing to init with `ember init <glob-pattern>`, this allows you to re-blueprint a single file like: `ember init app/index.html`
+  * Added support to test the app when built with `--env production`.
+  * Update to Ember 1.8.1
+  * Update to Ember Data v1.0.0-beta.11
+  * [#2351](https://github.com/stefanpenner/ember-cli/pull/2351) Fix automatic generated model belongs-to and has-many relations to resolve test lookup.
+  * [#1888](https://github.com/stefanpenner/ember-cli/pull/1888) Allow multiple SASS/LESS files to be built by populating `outputPaths.app.css` option
+  * [#2523](https://github.com/stefanpenner/ember-cli/pull/2523) Added `outputPaths.app.html` option
+  * [#2472](https://github.com/stefanpenner/ember-cli/pull/2472) Added Pod support for test blueprints.
+
+  Add much more: [view entire diff](https://github.com/stefanpenner/ember-cli/compare/v0.1.2...v0.1.3)
+
+#### Addons
+
+  * [#2505](https://github.com/stefanpenner/ember-cli/pull/2505) Added ability to dynamic add/remove module whitelist entries so that the [ember-browserify](https://github.com/ef4/ember-browserify) addon can work
+  * [#2505](https://github.com/stefanpenner/ember-cli/pull/2505) Added an addon postprocess hook for all javascript
+  * [#2271](https://github.com/stefanpenner/ember-cli/pull/2271) Added Addon.prototype.isEnabled for an addon to exclude itself from the project at runtime.
+  * [#2451](https://github.com/stefanpenner/ember-cli/pull/2451) Ensure that in-repo addons are watched.
+  * [#2411](https://github.com/stefanpenner/ember-cli/pull/2411) Add preBuild hook for addons.
+
 ### 0.1.2
 
 #### Applications
