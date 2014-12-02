@@ -1057,6 +1057,18 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('test-helper foo', function() {
+    return generate(['test-helper', 'foo']).then(function() {
+      assertFile('tests/helpers/foo.js', {
+        contains: "import Ember from 'ember';" + EOL +
+                  EOL +
+                  "export default Ember.Test.registerAsyncHelper('foo', function(app) {" + EOL +
+                  EOL +
+                  "});"
+      });
+    });
+  });
+
   it('correctly identifies the root of the project', function() {
     return initApp()
       .then(function() {
