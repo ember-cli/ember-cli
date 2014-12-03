@@ -356,8 +356,7 @@ values when the `mapFile` method is called.
 
 Called before any of the template files are processed and receives
 the same arguments as `locals`. Typically used for validating any
-additional command line options. As an example, the `controller`
-blueprint validates its `--type` option in this hook.
+additional command line options.
 
 ### afterInstall & afterUninstall
 
@@ -421,14 +420,8 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate component-test nav-bar`
 
 * **Controller**
-  * Generates a Controller of a  given name and type, with accompanying test.
-  * Options
-    * Type
-      * Basic
-        * Default
-      * Object
-      * Array
-  * `ember generate controller users --type array`
+  * Generates a Controller of a given name, with accompanying test.
+  * `ember generate controller users`
 
 * **Controller Test**
   * Generates a unit test for a given Controller.
