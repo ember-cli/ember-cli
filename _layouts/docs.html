@@ -1,0 +1,21 @@
+---
+layout: default
+---
+
+<div class="doc-page page">
+    {% include site-nav.html %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                {% include docs-nav.html %}
+            </div>
+
+            <div class="col-sm-9 doc-content">
+                <h1>{{page.title}}</h1>
+
+                {{content}}
+            </div>
+        </div>
+    </div>
+</div>

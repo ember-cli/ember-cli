@@ -1,0 +1,27 @@
+pages:
+  - name: Using Modules
+    permalink: /docs/using-modules
+  - name: Naming Conventions
+    permalink: /docs/naming-conventions
+  - name: Common Issues
+    permalink: /docs/common-issues
+  - name: Asset Compilation
+    permalink: /docs/asset-compilation
+  - name: Managing Dependencies
+    permalink: /docs/managing-dependencies
+  - name: Using With Ember Data
+    permalink: /docs/ember-data
+  - name: Testing
+    permalink: /docs/testing
+  - name: Environments
+    permalink: /docs/environments
+  - name: Deployments
+    permalink: /docs/deployments
+  - name: Upgrading
+    permalink: /docs/upgrading
+  - name: Tutorials
+    permalink: /docs/tutorials
+  - name: Generators & Blueprints
+    permalink: /docs/generators-and-blueprints
+  - name: Developing Addons & Blueprints
+    permalink: /docs/developing-addons-and-blueprints

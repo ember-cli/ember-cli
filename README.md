@@ -1,15 +1,15 @@
-## ember-cli website
+# ember-cli website
 
-getting started
+## Getting started
 
 ```sh
 bundle install
-ruby run.rb
+bundle exec jekyll server --watch
 ```
 
 You can now view the result at [http://localhost:4000/](http://localhost:4000/).
 
-## Windows Users, read on
+## Windows users, read on
 
 On Windows, yajl is a little bit uncooperative. You need to specify `--platform ruby` which is not possible via Gemfile. Run this:
 

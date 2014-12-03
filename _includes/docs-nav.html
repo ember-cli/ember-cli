@@ -1,0 +1,7 @@
+<div class="secondary-nav well">
+    <ul class="list-unstyled">
+        {% for page in site.data.docs-nav.pages %}
+        <li><a href="{{site.baseurl}}{{page.permalink}}">{{page.name}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
