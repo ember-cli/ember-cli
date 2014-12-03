@@ -356,8 +356,7 @@ values when the `mapFile` method is called.
 
 Called before any of the template files are processed and receives
 the same arguments as `locals`. Typically used for validating any
-additional command line options. As an example, the `controller`
-blueprint validates its `--type` option in this hook.
+additional command line options.
 
 ### afterInstall & afterUninstall
 
