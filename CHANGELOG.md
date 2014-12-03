@@ -12,6 +12,7 @@
  
 * Update to Ember Data v1.0.0-beta.12
 * [BUGFIX] Create separate server blueprint to stop http-{mock,proxy} removing files [#2610](https://github.com/stefanpenner/ember-cli/pull/2610)
+* [BUGFIX] Fixes `--proxy` so it proxies correctly to API's under subdomains [#2615](https://github.com/stefanpenner/ember-cli/pull/2615)
 
 ### 0.1.3
 
