@@ -12,9 +12,11 @@ var chalk             = require('chalk');
 var request           = require('supertest');
 var net               = require('net');
 var EOL               = require('os').EOL;
+var nock              = require('nock');
+
 
 describe('express-server', function() {
-  var subject, ui, project, proxy;
+  var subject, ui, project, proxy, nockProxy;
 
   beforeEach(function() {
     ui = new MockUI();
@@ -100,18 +102,18 @@ describe('express-server', function() {
       preexistingServer.listen(1337);
 
       return subject.start({
-          host:  '0.0.0.0',
-          port: '1337'
-        })
+        host:  '0.0.0.0',
+        port: '1337'
+      })
         .then(function() {
           assert(false, 'should have rejected');
         })
         .catch(function(reason) {
           assert.equal(reason, 'Could not serve on http://0.0.0.0:1337. It is either in use or you do not have permission.');
         })
-        .finally(function() {
-          preexistingServer.close(done);
-        });
+          .finally(function() {
+            preexistingServer.close(done);
+          });
     });
   });
 
@@ -133,21 +135,21 @@ describe('express-server', function() {
         port: '1337',
         baseURL: '/'
       })
-      .then(function() {
-        request(subject.app)
-          .get('/foo')
-          .set('accept', 'application/json, */*')
-          .expect(function(res) {
-            assert.equal(res.text, expected);
-          })
-          .end(function(err) {
-            if (err) {
-              return done(err);
-            }
-            assert(!proxy.called);
-            done();
-          });
-      });
+        .then(function() {
+          request(subject.app)
+            .get('/foo')
+            .set('accept', 'application/json, */*')
+            .expect(function(res) {
+              assert.equal(res.text, expected);
+            })
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              assert(!proxy.called);
+              done();
+            });
+        });
     });
 
     describe('with proxy', function() {
@@ -192,6 +194,7 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
+
             assert(proxy.called, 'proxy receives the request');
             assert.equal(proxy.lastReq.method, method.toUpperCase());
             assert.equal(proxy.lastReq.url, url);
@@ -220,6 +223,126 @@ describe('express-server', function() {
               return done(err);
             }
             assert(proxy.called, 'proxy receives the request');
+            done();
+          });
+      });
+    });
+
+    describe('proxy with subdomain', function() {
+      beforeEach(function() {
+        nockProxy = {
+          called: null,
+          method: null,
+          url: null
+        };
+
+        return subject.start({
+          proxy: 'http://api.lvh.me',
+          host:  '0.0.0.0',
+          port: '1337',
+          baseURL: '/'
+        });
+      });
+
+      function apiTest(app, method, url, done) {
+        var req = request(app);
+        return req[method].call(req, url)
+          .set('accept', 'text/json')
+          .end(function(err) {
+            if (err) {
+              return done(err);
+            }
+            assert(nockProxy.called, 'proxy receives the request');
+            assert.equal(nockProxy.method, method.toUpperCase());
+            assert.equal(nockProxy.url, url);
+            done();
+          });
+      }
+
+      it('proxies GET', function(done) {
+        nock('http://api.lvh.me', {
+          reqheaders: {
+            'host': 'api.lvh.me'
+          }
+        }).get('/api/get')
+          .reply(200, function() {
+            nockProxy.called = true;
+            nockProxy.method = 'GET';
+            nockProxy.url = '/api/get';
+
+            return '';
+          });
+
+        apiTest(subject.app, 'get', '/api/get', done);
+      });
+      it('proxies PUT', function(done) {
+        nock('http://api.lvh.me', {
+          reqheaders: {
+            'host': 'api.lvh.me'
+          }
+        }).put('/api/put')
+          .reply(204, function() {
+            nockProxy.called = true;
+            nockProxy.method = 'PUT';
+            nockProxy.url = '/api/put';
+
+            return '';
+          });
+
+        apiTest(subject.app, 'put', '/api/put', done);
+      });
+      it('proxies POST', function(done) {
+        nock('http://api.lvh.me', {
+          reqheaders: {
+            'host': 'api.lvh.me'
+          }
+        }).post('/api/post')
+          .reply(201, function() {
+            nockProxy.called = true;
+            nockProxy.method = 'POST';
+            nockProxy.url = '/api/post';
+
+            return '';
+          });
+
+        apiTest(subject.app, 'post', '/api/post', done);
+      });
+      it('proxies DELETE', function(done) {
+        nock('http://api.lvh.me', {
+          reqheaders: {
+            'host': 'api.lvh.me'
+          }
+        }).delete('/api/delete')
+          .reply(204, function() {
+            nockProxy.called = true;
+            nockProxy.method = 'DELETE';
+            nockProxy.url = '/api/delete';
+
+            return '';
+          });
+
+        apiTest(subject.app, 'delete', '/api/delete', done);
+      });
+      // test for #1263
+      it('proxies when accept contains */*', function(done) {
+        nock('http://api.lvh.me')
+          .get('/api/get')
+          .reply(200, function() {
+            nockProxy.called = true;
+            nockProxy.method = 'GET';
+            nockProxy.url = '/api/get';
+
+            return '';
+          });
+
+        request(subject.app)
+          .get('/api/get')
+          .set('accept', 'application/json, */*')
+          .end(function(err) {
+            if (err) {
+              return done(err);
+            }
+            assert(nockProxy.called, 'proxy receives the request');
             done();
           });
       });
