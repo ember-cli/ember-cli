@@ -44,6 +44,7 @@ describe('help command', function() {
       project: { isEmberCLIProject: function(){ return true; }},
       settings: {}
     }).validateAndRun([]).then(function() {
+      expect(ui.output).to.include('Usage: ember');
       expect(ui.output).to.include('ember test-command-1');
       expect(ui.output).to.include('command-description');
       expect(ui.output).to.include('option-with-default');
