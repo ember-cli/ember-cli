@@ -3,10 +3,10 @@ layout: default
 title: "Ember CLI"
 ---
 
-<body class="expand">
-    <div class="home">
-        {% include site-nav.html %}
+<div class="home">
+    {% include site-nav.html %}
 
+    <div class="hero">
         <div class="container">
             <h1>
                 The command line interface for building ambitious web applications.
@@ -27,4 +27,42 @@ title: "Ember CLI"
             </div>
         </div>
     </div>
-</body>
+
+    <div class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Fast Build Pipeline</h2>
+
+                    <p>Ember CLI uses <a href="https://github.com/broccolijs/broccoli" title="Broccoli">Broccoli</a>, a fast and reliable asset pipeline that's easy to extend and supports <a href="https://www.npmjs.org/browse/keyword/broccoli-plugin">many plugins</a>.</p>
+                </div>
+
+                <div class="col-sm-6">
+                    <h2>Seamless Addons</h2>
+
+                    <p>Choose from <a href="http://www.emberaddons.com/" title="Ember Addons">hundreds of addons</a> that extend your Ember application, and install them with a single command.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3>Strong Conventions</h3>
+
+                    <p>Simplify development and focus on what matters with sensible defaults, without losing flexibility</p>
+                </div>
+
+                <div class="col-sm-4">
+                    <h3>ES6, Today</h3>
+
+                    <p>Ember CLI applications make use of next-generation JavaScript features, like modules, while still providing support for legacy browsers.</p>
+                </div>
+
+                <div class="col-sm-4">
+                    <h3>Painless Testing</h3>
+
+                    <p><a href="{{site.baseurl}}/docs/testing/" title="Testing">Test your Ember app</a> with minimal boilerplate. Run tests in development or for continuous integration.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

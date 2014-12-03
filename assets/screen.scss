@@ -20,6 +20,12 @@ h1, h2, h3, h4 {
     font-family: $heading-font;
 }
 
+p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+
 table {
     margin-bottom: 20px;
 
@@ -33,6 +39,10 @@ pre {
     color: $clouds;
     background-color: $almost-black;
     border: 1px solid black;
+}
+
+.highlight {
+    background: none;
 }
 
 @media (min-width: 1200px) {
@@ -60,9 +70,9 @@ pre {
         color: $alizarin;
     }
 
-    p {
-        font-size: 16px;
-        margin-bottom: 15px;
+    h1 {
+        font-size: 42px;
+        margin-bottom: 20px;
     }
 
     img {
@@ -76,16 +86,13 @@ pre {
     background-color: white;
     border-bottom: 1px solid $clouds;
 
-    img {
+    img.brand {
         width: 225px;
     }
 
     ul {
-        margin-top: 30px;
-
-        li {
-            margin-bottom: 15px;
-        }
+        position: relative;
+        margin-top: 15px;
 
         a {
             padding: 7px 10px;
@@ -103,14 +110,28 @@ pre {
             color: $clouds;
         }
 
+        li.github {
+            position: relative;
+            top: 9px;
+
+            a {
+                display: block;
+                width: 32px;
+                height: 32px;
+                background-image: url('images/github.png');
+
+                &:hover {
+                    background-color: initial;
+                    opacity: 0.6;
+                }
+            }
+        }
     }
 }
 
-.home {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
+.home .hero {
     background-image: radial-gradient(ellipse farthest-corner at 45px 45px , $pumpkin 0%, $pomegranate 50%);
+    padding: 70px 0 40px 0;
 
     > .container {
         position: relative;
@@ -123,8 +144,8 @@ pre {
 
     h1 {
         max-width: 600px;
-        margin: 110px auto 0 auto;
-        color: $clouds;
+        color: white;
+        margin: 0 auto;
     }
 
     .version {
@@ -135,7 +156,7 @@ pre {
 
     .first-steps {
         max-width: 400px;
-        margin: 30px auto 70px auto;
+        margin: 20px auto 50px auto;
 
     }
 
@@ -143,7 +164,7 @@ pre {
         font-family: $heading-font;
         font-weight: 700;
         text-transform: uppercase;
-        margin-bottom: 70px;
+        margin-bottom: 60px;
 
         a {
             padding: 20px 30px;
@@ -168,6 +189,19 @@ pre {
                 background-color: $clouds - 30;
             }
         }
+    }
+}
+
+.home .features {
+    margin-top: 30px;
+    margin-bottom: 60px;
+
+    .row {
+        margin-bottom: 30px;
+    }
+
+    h2, h3 {
+        text-align: center;
     }
 }
 

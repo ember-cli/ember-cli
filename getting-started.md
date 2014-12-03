@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+title: Getting Started With Ember CLI
 layout: page
 permalink: /getting-started/
 ---
@@ -134,3 +134,7 @@ The `app/index.html` file lays the foundation for your application.  This is whe
 ### Add-Ons
 
 Add-ons are registered in NPM with a keyword of `ember-addon`. See a full list of existing add-ons registered in NPM [here](https://www.npmjs.org/browse/keyword/ember-addon).
+
+## Next Steps
+
+Read [the documentation]({{site.baseurl}}/docs/using-modules/) next.

@@ -5,5 +5,3 @@ links:
     url: /docs/using-modules
   - text: Changelog
     url: /changelog
-  - text: GitHub
-    url: https://github.com/stefanpenner/ember-cli
