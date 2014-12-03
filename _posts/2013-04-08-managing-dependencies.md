@@ -123,33 +123,24 @@ var app = new EmberApp({
 
 ##### Test Assets
 
-You may have additional libraries that should only be included when running tests (such as qunit-bdd or sinon). These can be merged into your assets in your Brocfile.js:
+You may have additional libraries that should only be included when running tests (such as qunit-bdd or sinon). These can be imported into your app in your Brocfile.js:
 
 {% highlight javascript linenos %}
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-var pickFiles = require('broccoli-static-compiler');
+var EmberApp = require('ember-cli/lib/broccoli/ember-app'),
+    isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production';
 
 var app = new EmberApp();
 
-var qunitBdd = pickFiles('bower_components/qunit-bdd/lib', {
-    srcDir: '/',
-    files: ['qunit-bdd.js'],
-    destDir: '/assets'
-});
+if ( !isProduction ) {
+    app.import( app.bowerDirectory + '/sinonjs/sinon.js', { type: 'test' } );
+    app.import( app.bowerDirectory + '/sinon-qunit/lib/sinon-qunit.js', { type: 'test' } );
+}
 
-module.exports = app.toTree(qunitBdd);
+module.exports = app.toTree();
 {% endhighlight %}
 
 **Notes:**
-- Be sure to add the appropriate script tag for your test library.
-- The first argument to `pickFiles` is a tree. This means that doing `pickFiles('bower_components', ...)` will cause **all files in `/bower_components`** to be watched. If you get a `Error: watch EMFILE` during build, this could be the culprit. Consider using a more specific path as tree or use `pickFiles(unwatchedTree('bower_components'),...)` from `broccoli-unwatched-tree`.
-
-{% highlight html %}
-...
-<script src="assets/qunit.js"></script>
-<script src="assets/qunit-bdd.js"></script>
-...
-{% endhighlight %}
+- Be sure to pass `{ type: 'test' }` as the second argument to `app.import`.  This will ensure that your libraries are compiled into the `test-support.js` file.
 
 #### Styles
 
