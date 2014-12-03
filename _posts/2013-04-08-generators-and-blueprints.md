@@ -421,14 +421,8 @@ See the built-in `resource` blueprint for an example of this.
   * `ember generate component-test nav-bar`
 
 * **Controller**
-  * Generates a Controller of a  given name and type, with accompanying test.
-  * Options
-    * Type
-      * Basic
-        * Default
-      * Object
-      * Array
-  * `ember generate controller users --type array`
+  * Generates a Controller of a given name, with accompanying test.
+  * `ember generate controller users`
 
 * **Controller Test**
   * Generates a unit test for a given Controller.
