@@ -1100,4 +1100,11 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
+
+  it('server', function() {
+    return generate(['server']).then(function() {
+      assertFile('server/index.js');
+      assertFile('server/.jshintrc');
+    });
+  });
 });
