@@ -196,6 +196,31 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('app.import fails when options.type is not `vendor` or `test`', function(){
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/app-import')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        packageJson.devDependencies['ember-bad-addon'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          verbose: true
+        });
+      })
+      .then(function() {
+        assert( false, 'Build passed when it should have failed!' );
+      }, function() {
+        assert.ok( true, 'Build failed with invalid options type.' );
+      });
+  });
+
   it('addons can have a public tree that is merged and returned namespaced by default', function() {
     console.log('    running the slow end-to-end it will take some time');
 
