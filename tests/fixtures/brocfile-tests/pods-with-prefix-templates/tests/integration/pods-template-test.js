@@ -2,16 +2,16 @@
 /* globals test, expect, equal, visit, andThen */
 
 import Ember from 'ember';
-import startApp    from '../helpers/start-app';
+import startApp from '../helpers/start-app';
 
-var App;
+var application;
 
 module('pods based templates', {
   setup: function() {
-    App = startApp();
+    application = startApp();
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    Ember.run(application, 'destroy');
   }
 });
 
