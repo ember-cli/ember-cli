@@ -9,6 +9,10 @@ var fs         = require('fs');
 var expect     = require('chai').expect;
 var addonName  = 'some-cool-addon';
 var ncp        = Promise.denodeify(require('ncp'));
+var Promise    = require('../../lib/ext/promise');
+var spawn      = require('child_process').spawn;
+var chalk      = require('chalk');
+var expect     = require('chai').expect;
 
 var runCommand       = require('../helpers/run-command');
 var buildApp         = require('../helpers/build-app');
@@ -162,5 +166,53 @@ describe('Acceptance: addon-smoke-test', function() {
 
         expect(contents).to.contain('tests/dummy/public/robots.txt is present');
       });
+  });
+
+  it('npm pack does not include unnecessary files', function() {
+    console.log('    running the slow end-to-end it will take some time');
+    this.timeout(450000);
+
+    var handleError = function(error, commandName) {
+      if(error.code === 'ENOENT') {
+        console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
+      } else {
+        throw new Error(error);
+      }
+    };
+
+    return new Promise(function(resolve, reject) {
+      var npmPack = spawn('npm', ['pack']);
+      npmPack.on('error', function(error) {
+        reject(error);
+      });
+      npmPack.on('close', function() {
+        resolve();
+      });
+    }).then(function() {
+      return new Promise(function(resolve, reject) {
+        var output;
+        var tar = spawn('tar', ['-tf', addonName + '-0.0.0.tgz']);
+        tar.on('error', function(error) {
+          reject(error);
+        });
+        tar.stdout.on('data', function(data) {
+          output = data.toString();
+        });
+        tar.on('close', function() {
+          resolve(output);
+        });
+      }).then(function(output) {
+        var unnecessaryFiles = ['.gitkeep', '.travis.yml', 'Brocfile.js', '.editorconfig', 'testem.json', '.ember-cli', 'bower.json', '.bowerrc'];
+        var unnecessaryFolders = ['tests/', 'bower_components/'];
+
+        unnecessaryFiles.concat(unnecessaryFolders).forEach(function(file) {
+          expect(output).to.not.match(new RegExp(file), 'expected packaged addon to not contain file or folder \'' + file + '\'');
+        });
+      }, function(error) {
+        handleError(error, 'tar');
+      });
+    }, function(error) {
+      handleError(error, 'npm');
+    });
   });
 });
