@@ -2,17 +2,21 @@
 
 ### Master
 
-####
+### 0.1.4
 
-  * [ENHANCEMENT] Add extra contentFor hooks [#2588](https://github.com/stefanpenner/ember-cli/pull/2592)
-    * `{{content-for 'head-footer'}}`
-    * `{{content-for 'test-head-footer'}}`
-    * `{{content-for 'body-footer'}}`
-    * `{{content-for 'test-body-footer'}}`
+#### Applications
 
-* Update to Ember Data v1.0.0-beta.12
+* [BUGFIX] Use the container from the created Ember.Application for initializer tests. [#2582](https://github.com/stefanpenner/ember-cli/pull/2582)
+* [ENHANCEMENT] Add extra contentFor hooks [#2588](https://github.com/stefanpenner/ember-cli/pull/2592)
+  * `{{content-for 'head-footer'}}`
+  * `{{content-for 'test-head-footer'}}`
+  * `{{content-for 'body-footer'}}`
+  * `{{content-for 'test-body-footer'}}`
+
 * [BUGFIX] Create separate server blueprint to stop http-{mock,proxy} removing files [#2610](https://github.com/stefanpenner/ember-cli/pull/2610)
 * [BUGFIX] Fixes `--proxy` so it proxies correctly to API's under subdomains [#2615](https://github.com/stefanpenner/ember-cli/pull/2615)
+* [BUGFIX] Ensure `watchman` does not conflict with NPM's `watchman` package. [#2645](https://github.com/stefanpenner/ember-cli/pull/2645)
+* [BUGFIX] Ensure that the generated meta tag is now self closing. [#2661](https://github.com/stefanpenner/ember-cli/pull/2661)
 
 ### 0.1.3
 
