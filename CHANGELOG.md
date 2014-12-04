@@ -4,12 +4,12 @@
 
 ####
 
-  * [ENHANCEMENT] Add extra contentFor hooks [#2588](https://github.com/stefanpenner/ember-cli/pull/2592) 
+  * [ENHANCEMENT] Add extra contentFor hooks [#2588](https://github.com/stefanpenner/ember-cli/pull/2592)
     * `{{content-for 'head-footer'}}`
     * `{{content-for 'test-head-footer'}}`
     * `{{content-for 'body-footer'}}`
     * `{{content-for 'test-body-footer'}}`
- 
+
 * Update to Ember Data v1.0.0-beta.12
 * [BUGFIX] Create separate server blueprint to stop http-{mock,proxy} removing files [#2610](https://github.com/stefanpenner/ember-cli/pull/2610)
 * [BUGFIX] Fixes `--proxy` so it proxies correctly to API's under subdomains [#2615](https://github.com/stefanpenner/ember-cli/pull/2615)
@@ -41,7 +41,7 @@
     ```sh
     ember <command> --watcher=node
     ```
-    
+
     Common problem: `invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0]` this basically means you have an older version of watchman installed. Be sure to install `3.0.0` and run `watchman shutdown-server` before re-starting your ember server.
 
   * [#2265](https://github.com/stefanpenner/ember-cli/pull/2265) Added auto-restarting of server and triggering of LR on `server/*` file changes
