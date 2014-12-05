@@ -42,6 +42,7 @@ The Ember CLI addons API currently supports the following scenarios:
 * Providing a custom application tree to be merged with the consuming application
 * Providing custom express (server) middlewares
 * Adding custom/extra blueprints, typically for scaffolding application/project files
+* Adding content to consuming applications
 
 ### Addon CLI options
 
@@ -207,7 +208,7 @@ Adds bower components to development dependencies
 
 ### Addon Brocfile
 
-The addon's `Brocfile.js` is only used to configure the dummy application found in 
+The addon's `Brocfile.js` is only used to configure the dummy application found in
 `tests/dummy/`.  It is never referenced by applications which include the addon.
 
 If you need to use `Brocfile.js`, you may have to specify paths relative to the
@@ -292,6 +293,23 @@ application as `app`. When the consuming application's `Brocfile.js`
 is processed by Ember CLI to build/serve, the addon's `included`
 function is called passing the `EmberApp` instance.
 
+### Content
+If you want to add content to a page directly, you can use the `content-for` tag. An example of this is `{% raw %}{{content-for 'head'}}{% endraw %}` in `app/index.html`, which Ember CLI uses to insert it's own content at build time. Addons can access the `contentFor` hook to insert their own content.
+
+{% highlight javascript %}
+module.exports = {
+  name: 'ember-cli-display-environment',
+
+  contentFor: function(type, config) {
+    if (type === 'environment') {
+      return '<h1>' + config.environment + '</h1>';
+    }
+  }
+};
+{% endhighlight %}
+
+This will insert the current environment the app is running under wherever `{% raw %}{{content-for 'environment'}}{% endraw %}` is placed. The `contentFor` function will be called for each `{% raw %}{{content-for}}{% endraw %}` tag in `index.html`.
+
 ### Advanced customization
 If you want to go beyond the built in customizations or want/need more
 advanced control in general, the following are some of the hooks
@@ -304,6 +322,7 @@ blueprintsPath: // return path as String
 preBuild:
 postBuild:
 treeFor:
+contentFor:
 included:
 postprocessTree:
 serverMiddleware:

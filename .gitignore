@@ -3,3 +3,4 @@ _site
 *.swp
 node_modules
 .bundle
+.ruby-*
