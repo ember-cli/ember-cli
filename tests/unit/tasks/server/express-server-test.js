@@ -19,6 +19,7 @@ describe('express-server', function() {
   var subject, ui, project, proxy, nockProxy;
 
   beforeEach(function() {
+    this.timeout(10000);
     ui = new MockUI();
     project = new MockProject();
     proxy = new ProxyServer();
@@ -27,7 +28,7 @@ describe('express-server', function() {
       project: project,
       watcher: new MockWatcher(),
       serverWatcher: new MockServerWatcher(),
-      serverRestartDelayTime: 5,
+      serverRestartDelayTime: 100,
       serverRoot: './server',
       proxyMiddleware: function() {
         return proxy.handler.bind(proxy);
@@ -667,17 +668,16 @@ describe('express-server', function() {
           calls++;
         };
 
-        subject.serverRestartDelayTime = 10;
         subject.scheduleServerRestart();
         assert.equal(calls, 0);
         setTimeout(function() {
           assert.equal(calls, 0);
           subject.scheduleServerRestart();
-        }, 4);
+        }, 50);
         setTimeout(function() {
           assert.equal(calls, 1);
           done();
-        }, 15);
+        }, 175);
       });
     });
 

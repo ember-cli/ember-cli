@@ -71,6 +71,7 @@ function assertVersion(string, message) {
 }
 
 describe('Unit: CLI', function() {
+  this.timeout(10000);
   it('exists', function() {
     assert(CLI);
   });

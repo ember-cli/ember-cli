@@ -33,7 +33,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   after(function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
     return tmp.teardown('./common-tmp')
       .then(function() {
@@ -42,7 +42,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   beforeEach(function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
     return tmp.setup('./tmp')
       .then(function() {
@@ -57,14 +57,14 @@ describe('Acceptance: brocfile-smoke-test', function() {
         var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
         var pwd = process.cwd();
 
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
 
         process.chdir(appName);
       });
   });
 
   afterEach(function() {
-    this.timeout(10000);
+    this.timeout(15000);
 
     return tmp.teardown('./tmp');
   });

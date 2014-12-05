@@ -5,6 +5,7 @@
 process.title = 'ember';
 
 var resolve = require('resolve');
+var exit = require('exit');
 
 resolve('ember-cli', {
   basedir: process.cwd()
@@ -26,5 +27,5 @@ resolve('ember-cli', {
     cliArgs: process.argv.slice(2),
     inputStream: process.stdin,
     outputStream: process.stdout
-  }).then(process.exit);
+  }).then(exit);
 });
