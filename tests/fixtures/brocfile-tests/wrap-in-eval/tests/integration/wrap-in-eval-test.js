@@ -2,16 +2,16 @@
 /* globals test, expect, equal, visit, andThen */
 
 import Ember from 'ember';
-import startApp    from '../helpers/start-app';
+import startApp from '../helpers/start-app';
 
-var App;
+var application;
 
 module('wrapInEval in-app test', {
   setup: function() {
-    App = startApp();
+    application = startApp();
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    Ember.run(application, 'destroy');
   }
 });
 
