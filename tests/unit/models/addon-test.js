@@ -204,7 +204,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon with-export', function() {
       beforeEach(function() {
-        addon = project.addons[6];
+        addon = project.addons[4];
 
         // Clear the caches
         delete addon._includedModules;
