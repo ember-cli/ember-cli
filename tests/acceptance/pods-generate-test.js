@@ -17,15 +17,19 @@ var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
 
+var BlueprintNpmTask = require('../fixtures/disable-npm-on-blueprint');
+
 describe('Acceptance: ember generate pod', function() {
   this.timeout(5000);
   var tmpdir;
 
   before(function() {
+    BlueprintNpmTask.disableNPM();
     conf.setup();
   });
 
   after(function() {
+    BlueprintNpmTask.restoreNPM();
     conf.restore();
   });
 
