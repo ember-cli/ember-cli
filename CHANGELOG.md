@@ -2,6 +2,8 @@
 
 ### Master
 
+* [BUGFIX] Updates `broccoli-asset-rev` to 1.1.1 [#2687](https://github.com/stefanpenner/ember-cli/pull/2687)
+
 ### 0.1.4
 
 #### Applications
