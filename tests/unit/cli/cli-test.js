@@ -139,7 +139,11 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
-          assert.deepEqual(output.length, 2, 'expected no extra of output');
+          if (/win/.test(process.platform)) {
+            assert.deepEqual(output.length, 1, 'expected no extra of output');
+          } else {
+            assert.deepEqual(output.length, 2, 'expected no extra of output');
+          }
         });
       });
 
@@ -286,8 +290,13 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
-          assert(/watchman/.test(output[1]));
-          assert.equal(output.length, 2, 'expected no extra of output');
+
+          if (/win/.test(process.platform)) {
+            assert.equal(output.length, 1, 'expected no extra of output');
+          } else {
+            assert(/watchman/.test(output[1]));
+            assert.equal(output.length, 2, 'expected no extra of output');
+          }
         });
       });
     });
@@ -314,8 +323,13 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
-          assert(/watchman/.test(output[1]));
-          assert.equal(output.length, 2, 'expected no extra of output');
+
+          if (/win/.test(process.platform)) {
+          } else {
+            assert.equal(output.length, 1, 'expected no extra of output');
+            assert(/watchman/.test(output[1]));
+            assert.equal(output.length, 2, 'expected no extra of output');
+          }
         });
       });
     });
