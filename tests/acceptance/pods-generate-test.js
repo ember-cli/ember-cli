@@ -17,7 +17,7 @@ var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
 
-var BlueprintNpmTask = require('../fixtures/disable-npm-on-blueprint');
+var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 
 describe('Acceptance: ember generate pod', function() {
   this.timeout(5000);
@@ -46,7 +46,12 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
+    return ember([
+      'init',
+      '--name=my-app',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
   }
 
   function preGenerate(args) {

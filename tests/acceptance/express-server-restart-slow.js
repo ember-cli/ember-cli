@@ -145,7 +145,10 @@ describe('Acceptance: express server restart', function () {
   function runServer(commandOptions) {
     return new Promise(function(resolve, reject) {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
-        'serve', '--live-reload-port', '32580', '--port', '49741', commandOptions)
+        'serve',
+        '--silent',
+        '--live-reload-port', '32580',
+        '--port', '49741', commandOptions)
         .then(function() {
           throw new Error('The server should not have exited successfully.');
         })

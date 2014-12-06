@@ -15,7 +15,7 @@ var root             = process.cwd();
 var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
-var BlueprintNpmTask = require('../fixtures/disable-npm-on-blueprint');
+var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 
 
 describe('Acceptance: ember generate', function() {

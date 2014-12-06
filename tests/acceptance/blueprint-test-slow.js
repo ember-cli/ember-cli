@@ -8,9 +8,8 @@ var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var ncp        = Promise.denodeify(require('ncp'));
 var assert     = require('assert');
-
-var buildApp         = require('../helpers/build-app');
-var runCommand       = require('../helpers/run-command');
+var buildApp   = require('../helpers/build-app');
+var runCommand = require('../helpers/run-command');
 
 var appName  = 'some-cool-app';
 
@@ -69,14 +68,16 @@ describe('Acceptance: blueprint smoke tests', function() {
   });
 
   it('generating an http-proxy installs packages to package.json', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'http-proxy', 'api', 'http://localhost/api')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
+                      'http-proxy',
+                      'api',
+                      'http://localhost/api',
+                      '--silent')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
         assert(packageJson.devDependencies['http-proxy']);
         assert(packageJson.devDependencies['morgan']);

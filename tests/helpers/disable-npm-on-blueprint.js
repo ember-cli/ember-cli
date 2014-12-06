@@ -1,6 +1,8 @@
-var Blueprint  = require('../../lib/models/blueprint');
+'use strict';
+var Blueprint     = require('../../lib/models/blueprint');
 var originTaskFor = Blueprint.prototype.taskFor;
-var assert           = require('../helpers/assert');
+var assert        = require('../helpers/assert');
+var Promise       = require('../../lib/ext/promise');
 
 module.exports = {
   disableNPM: function() {
@@ -20,5 +22,4 @@ module.exports = {
   restoreNPM: function() {
     Blueprint.prototype.taskFor = originTaskFor;
   }
-}
-
+};
