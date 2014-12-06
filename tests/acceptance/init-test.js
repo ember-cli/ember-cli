@@ -86,7 +86,9 @@ describe('Acceptance: ember init', function() {
   function removeIgnored(array) {
     remove(array, function(fn) {
       return any(Blueprint.ignoredFiles, function(ignoredFile) {
-        return minimatch(fn, ignoredFile, { matchBase: true });
+        return minimatch(fn, ignoredFile, {
+          matchBase: true
+        });
       });
     });
   }

@@ -15,16 +15,19 @@ var root             = process.cwd();
 var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
+var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
+
 
 describe('Acceptance: ember generate', function() {
-  this.timeout(5000);
   var tmpdir;
 
   before(function() {
+    BlueprintNpmTask.disableNPM();
     conf.setup();
   });
 
   after(function() {
+    BlueprintNpmTask.restoreNPM();
     conf.restore();
   });
 
@@ -41,7 +44,12 @@ describe('Acceptance: ember generate', function() {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
+    return ember([
+      'init',
+      '--name=my-app',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
   }
 
   function generate(args) {

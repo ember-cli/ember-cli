@@ -84,21 +84,17 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, clean from scratch', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
   });
 
   it('ember test exits with non-zero when tests fail', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('smoke-tests/failing-test')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
             assert(false, 'should have rejected with a failing test');
           })
@@ -109,13 +105,11 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember test exits with non-zero when no tests are run', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('smoke-tests/no-testem-launchers')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
             assert(false, 'should have rejected with a failing test');
           })
@@ -126,11 +120,9 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build production and verify fingerprint', function() {
-    console.log('    running the slow fingerprint it will take some time');
-
     this.timeout(360000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production', '--silent')
       .then(function() {
         var dirPath = path.join('.', 'dist', 'assets');
         var dir = fs.readdirSync(dirPath);
@@ -161,13 +153,11 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember test --environment=production', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('smoke-tests/passing-test')
         .then(function() {
-          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production')
+          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production', '--silent')
               .then(function(result) {
                 var exitCode = result.code;
                 var output = result.output.join(EOL);
@@ -185,11 +175,9 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build development, and verify generated files', function() {
-    console.log('    running the slow build tests');
-
     this.timeout(360000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent')
       .then(function() {
         var dirPath = path.join('.', 'dist');
         var paths = walkSync(dirPath);
@@ -199,13 +187,12 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember build exits with non-zero code when build fails', function () {
-    console.log('    running the slow build tests');
     this.timeout(360000);
 
     var appJsPath   = path.join('.', 'app', 'app.js');
     var ouputContainsBuildFailed = false;
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent')
       .then(function (result) {
         assert(result.code === 0, 'expected exit code to be zero, but got ' + result.code);
 
@@ -231,7 +218,6 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
-    console.log('    running the slow build --watch tests');
     this.timeout(360000);
 
     var touched     = false;
@@ -264,7 +250,6 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', function() {
-    console.log('    running the slow build --watch tests');
     this.timeout(360000);
 
     var buildCount  = 0;
@@ -308,8 +293,6 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, server, SIGINT clears tmp/', function() {
-    console.log('    running the slow build tests');
-
     this.timeout(360000);
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {

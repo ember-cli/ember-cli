@@ -88,8 +88,6 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     var packageContents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
 
     assert.equal(packageContents.name, addonName);
@@ -103,16 +101,12 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('ember addon foo, clean from scratch', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
   });
 
   it('ember addon without addon/ directory', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return rimraf('addon')
@@ -131,24 +125,20 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('can render a component with a manually imported template', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('addon/component-with-template')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
       });
   });
 
   it('can add things to `{{content-for "head"}}` section', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('addon/content-for-head')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
       })
       .then(function() {
         var indexPath = path.join('dist', 'index.html');
@@ -159,13 +149,11 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('ember addon with addon/styles directory', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('addon/with-styles')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
       })
       .then(function() {
         var cssPath = path.join('dist', 'assets', 'vendor.css');
@@ -176,13 +164,11 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('ember addon with tests/dummy/public directory', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('addon/with-dummy-public')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
       })
       .then(function() {
         var robotsPath = path.join('dist', 'robots.txt');
