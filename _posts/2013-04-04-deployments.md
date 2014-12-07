@@ -54,3 +54,58 @@ To enable the Content Security Policy on your production stack, you'll need to c
 by `ember serve`. If you'd like to enable it in report-only mode, use `Content-Security-Policy-Report-Only`
 and `X-Content-Security-Policy-Report-Only`. Make sure you've set a `report-uri` if you enable
 the CSP in report-only mode.
+
+### Deploying an HTTPS server using Nginx on a Unix/Linux/MacOSx machine
+
+The following is a simple deployment with https using nginx.  Http just redirects to the https server here.  Don't forget to include your ssl keys in your config.
+
+Before deployment make sure you run this command to populate the dist directory:
+```
+ember build --environment="production"
+```
+
+```File: nginx.conf
+    ## Nginx Production Https Ember Server Configuration
+
+    ## https site##
+    server {
+        listen      443 default;
+        server_name <your-server-name>;
+        #root        /usr/share/nginx/html;
+        root        <root path to an ember /dist directory>;
+        index       index.html index.htm;
+    
+        # log files
+        access_log  /var/log/nginx/<your-server-name>.access.log;
+        error_log   /var/log/nginx/<your-server-name>.error.log;
+    
+        # ssl files
+        ssl on;
+        keepalive_timeout   60;
+    
+        # limit ciphers
+        ssl_ciphers             HIGH:!ADH:!MD5;
+        ssl_protocols           SSLv3 TLSv1;
+        ssl_prefer_server_ciphers on;
+    
+        # proxy buffers
+        proxy_buffers 16 64k;
+        proxy_buffer_size 128k;
+    
+        ## default location ##
+        location / {
+            try_files $uri $uri/ /index.html?/$request_uri;
+        }
+
+    }
+    
+    ## http redirects to https ##
+    server {
+        listen      80;
+        server_name <your-server-name>;
+    
+        # Strict Transport Security
+        add_header Strict-Transport-Security max-age=2592000;
+        rewrite ^/.*$ https://$host$request_uri? permanent;
+    }
+```
