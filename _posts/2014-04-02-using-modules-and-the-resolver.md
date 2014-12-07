@@ -21,6 +21,7 @@ App.IndexRoute = Ember.Route.extend({
 
 Today, Ember CLI uses a newer version of the Resolver, which uses the[ES6 module transpiler](https://github.com/square/es6-module-transpiler) in order to make the container aware of es6 modules via the AMD output. This means that you can build your apps using syntax from future JavaScript versions, but output AMD modules that can be used by existing JavaScript libraries today. This variant of the Resolver will replace the default resolver in Ember 2.0.
 
+
 ### Examples
 
 For example, this route definition in `app/routes/index.js` would result in a module called `routes/index`. Using the resolver, when Ember looks up the index route, it will find this module and use the object that it exports.
