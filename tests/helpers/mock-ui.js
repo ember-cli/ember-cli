@@ -17,3 +17,6 @@ function MockUI() {
 
 MockUI.prototype = Object.create(UI.prototype);
 MockUI.prototype.constructor = MockUI;
+MockUI.prototype.clear = function(){
+  this.output = '';
+};
