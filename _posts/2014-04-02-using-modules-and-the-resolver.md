@@ -21,7 +21,8 @@ App.IndexRoute = Ember.Route.extend({
 
 Today, Ember CLI uses a newer version of the Resolver, JJ Abrams, which uses the[ES6 module transpiler](https://github.com/square/es6-module-transpiler) in order to make the container aware of es6 modules via the AMD output. This means that you can build your apps using syntax from future JavaScript versions, but output AMD modules that can be used by existing JavaScript libraries today.
 
-Also, the new version of the Resolver does not resolve by name, but by the filename and directory.
+Note, that the name of the variable used in the exported module doesn't have any
+influence on the resolver. It's the filename that is used to resolve modules.
 
 For example, this route definition in `app/routes/index.js` would result in a module called `routes/index`. Using the resolver, when Ember looks up the index route, it will find this module and use the object that it exports.
 
@@ -70,8 +71,7 @@ the path with the name defined in `package.json`:
 import FooMixin from "appname/mixins/foo";
 {% endhighlight %}
 
-Note, that the name of the variable used in the exported module doesn't have any
-influence on the resolver. It's the filename that is used to resolve modules.
+
 
 Similarly, you can give any name to the variable into which you import a module
 when doing so manually; see how the module `mixins/foo` is assigned to variable
