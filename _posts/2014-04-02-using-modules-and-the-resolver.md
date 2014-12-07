@@ -5,63 +5,25 @@ permalink: using-modules
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-02-using-modules.md"
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 The Ember Resolver is the mechanism responsible for looking up code in your
-application and converting naming conventions into the actual classes,
-functions, and templates that Ember needs to resolve its dependencies.
-For an introduction to the Ember Resolver, see
-[this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
+application and converting its naming conventions into the actual classes,
+functions, and templates that Ember needs to resolve its dependencies, for example, what template to render for a given route. For an introduction to the Ember Resolver, and a basic example of how it actually works, see [this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
 
-In the past, Ember's Default Resolver worked by putting everything
-into a global namespace.  By following a set of naming conventions, Ember
-knows to render the right template for a given route, for example. Today,
-Ember CLI uses a newer version of the Resolver which will replace the default
-resolver in Ember 2.0.
+In the past, Ember's Default Resolver worked by putting everything into a global namespace, so you will come across the following pattern:
 
+{% highlight javascript linenos %}
+App.IndexRoute = Ember.Route.extend({
+  model: function() {
+    return ['red', 'yellow', 'blue'];
+  }
+});
+{% endhighlight %}
 
-In order to resolve its dependencies, Ember CLI uses es6 modules.
-Resolver, which rather than use AMD(Require.js) or CommonJS (Browserify),
-instad
+Today, Ember CLI uses a newer version of the Resolver, which uses the[ES6 module transpiler](https://github.com/square/es6-module-transpiler) in order to make the container aware of es6 modules via the AMD output. This means that you can build your apps using syntax from future JavaScript versions, but output AMD modules that can be used by existing JavaScript libraries today. This variant of the Resolver will replace the default resolver in Ember 2.0.
 
-The Ember Resolver is the mechanism responsible for converting "names" in your
-applications into the actual classes, functions, and templates that Ember needs.
-It does so by following naming conventions in order to automaticalyl resolve
-its dependencies. For example, App.FooRoute knows to render App.FooView by
-default.
+### Examples
 
-The problem is that it basically stuffs everything into a global namespace.
-By using the new resolver, Ember CLI applications have similar abilities, but
-using es6 modules instead of a global namespace.
-
-
-Rather than use AMD (Require.js) or CommonJS (Browserify) modules, apps built
-using Ember CLI use ES6 modules through the
-[ES6 module transpiler](https://github.com/square/es6-module-transpiler). This
-means that you can build your apps using syntax from future JavaScript versions,
-but output AMD modules that can be used by existing JavaScript libraries today.
-
-If you've built Ember.js apps before, you're probably used to stuffing
-everything into a global namespace, following naming conventions so the app can
-automatically resolve its dependencies: `App.FooRoute` would know
-to render `App.FooView` by default. Using the custom resolver, Ember CLI
-applications have similar abilities, but using ES6 modules instead of a global
-namespace.
-
-For example, this route definition in `app/routes/index.js`:
+For example, this route definition in `app/routes/index.js` would result in a module called `routes/index`. Using the resolver, when Ember looks up the index route, it will find this module and use the object that it exports.
 
 {% highlight javascript linenos %}
 import Ember from "ember";
@@ -75,11 +37,7 @@ var IndexRoute = Ember.Route.extend({
 export default IndexRoute;
 {% endhighlight %}
 
-Would result in a module called `routes/index`. Using the resolver, when Ember
-looks up the index route, it will find this module and use the object that it
-exports.
-
-You can also export directly, i.e., without having to declare a variable:
+You can also export modules directly without having to declare a variable:
 
 {% highlight javascript linenos %}
 import Ember from "ember";
@@ -91,17 +49,13 @@ export default Ember.Route.extend({
 });
 {% endhighlight %}
 
-Of course, while automatic resolving is awesome, you can always manually
-require dependencies with the following syntax:
+Also, you can require modules directly with the following syntax:
 
 {% highlight javascript linenos %}
 import FooMixin from "./mixins/foo";
 {% endhighlight %}
 
-Which will load the `default` export (aliased as `FooMixin`) from
-`./mixins/foo.js`.
-
-If you like you can also use an absolute path to reference a module. But keep in
+If you like you can reference a module by an absolute path, but keep in
 mind that using relative paths is considered best practice for accessing modules
 within the same package. To reference a module using an absolute path begin
 the path with the name defined in `package.json`:
@@ -112,9 +66,13 @@ import FooMixin from "appname/mixins/foo";
 
 Note, that the name of the variable used in the exported module doesn't have any
 influence on the resolver. It's the filename that is used to resolve modules.
+
 Similarly, you can give any name to the variable into which you import a module
 when doing so manually; see how the module `mixins/foo` is assigned to variable
 `FooMixin` in the example above.
+
+
+### Using Ember or Ember Data
 
 To use `Ember` or `DS` (for Ember Data) in your modules you must import them:
 
@@ -123,6 +81,8 @@ import Ember from "ember";
 import DS from "ember-data";
 {% endhighlight %}
 
+
+### Cyclic Dependencies
 Cyclic dependencies – are not yet supported at the moment, we are depending on [es6-module-transpiler/pull/126](https://github.com/square/es6-module-transpiler/pull/126)
 
 ### Module Directory Naming Structure
@@ -144,6 +104,7 @@ Folder              | Purpose
 
 All modules in the `app` folder can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
+
 For more information, see [Naming Conventions](#naming-conventions).
 
 ### Resolving from template helpers
