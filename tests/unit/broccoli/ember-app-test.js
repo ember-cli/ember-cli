@@ -384,6 +384,21 @@ describe('broccoli/ember-app', function() {
     });
   });
 
+  describe('import', function() {
+    it('appends dependencies', function() {
+      emberApp = new EmberApp({
+      });
+      emberApp.import('vendor/moment.js', {type: 'vendor'});
+      assert.equal(emberApp.legacyFilesToAppend.indexOf('vendor/moment.js'), emberApp.legacyFilesToAppend.length - 1);
+    });
+    it('prepends dependencies', function() {
+      emberApp = new EmberApp({
+      });
+      emberApp.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
+      assert.equal(emberApp.legacyFilesToAppend.indexOf('vendor/es5-shim.js'), 0);
+    });
+  });
+
   describe('vendorFiles', function() {
     var defaultVendorFiles = [
       'loader.js', 'jquery.js', 'handlebars.js', 'ember.js',
