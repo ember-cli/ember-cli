@@ -83,8 +83,14 @@ import DS from "ember-data";
 {% endhighlight %}
 
 
+### Using Pods
+
+One of the enhancements that the JJ Abrams Resolver brings is that it will first look for Pods before a more traditional structure.
+
+
 ### Cyclic Dependencies
 Cyclic dependencies – are not yet supported at the moment, we are depending on [es6-module-transpiler/pull/126](https://github.com/square/es6-module-transpiler/pull/126)
+
 
 ### Module Directory Naming Structure
 
