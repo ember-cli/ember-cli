@@ -365,6 +365,25 @@ describe('Acceptance: ember generate', function() {
       return checkRoute('this.route("bar");');
     });
   });
+  
+  // Issue #2692: Generator inserts routes outside Router.map if the Router is reopened
+  it('routes are not placed outside Router.map when the router is reopened', function() {
+    // Bypassing generate() to override default functionality
+    return initApp().then(function() {
+      return fs.appendFile('app/router.js', EOL + 'Router.reopen({});');
+    })
+    .then(function() {
+      return ember(['generate', 'route', 'foo']);
+    })
+    .then(function() {
+      assertFile('app/router.js', {
+        // A malformed regex would insert `this.route('foo'` instead of `this.route('foo');`
+        contains: "this.route('foo');",
+        // If the new route exists but was placed outside the Router.map(), it should remain empty
+        doesNotContain: "Router.map(function() {" + EOL + "});"
+      });
+    });
+  });
 
   it('template foo', function() {
     return generate(['template', 'foo']).then(function() {
