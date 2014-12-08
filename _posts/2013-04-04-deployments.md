@@ -64,7 +64,9 @@ Before deployment make sure you run this command to populate the dist directory:
 ember build --environment="production"
 ```
 
-```File: nginx.conf
+#### File: nginx.conf
+
+```
     ## Nginx Production Https Ember Server Configuration
 
     ## https site##
