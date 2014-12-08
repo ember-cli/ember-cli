@@ -123,7 +123,7 @@ function addRouteToRouter(name, options) {
   switch (type) {
   case 'route':
     newContent = oldContent.replace(
-      /map\(function\(\)(\s+|){(.|)(([\s\S]+?))(\s|)/,
+      /map\(function\(\)(\s+|){(.|)(([\s\S]+?))(\s|)?/,
       "map(function() {" + EOL + "  this.route('" + name + "');" + EOL + "$1"
     );
     break;
@@ -132,12 +132,12 @@ function addRouteToRouter(name, options) {
 
     if (plural === name) {
       newContent = oldContent.replace(
-        /map\(function\(\)(\s+|){(.|)(([\s\S]+?))(\s|)/,
+        /map\(function\(\)(\s+|){(.|)(([\s\S]+?))(\s|)?/,
         "map(function() {" + EOL + "  this.resource('" + name + "', function() { });" + EOL + "$1"
       );
     } else {
       newContent = oldContent.replace(
-        /map\(function\(\)(\s+|){(.|)(([\s\S]+?))(\s|)/,
+        /map\(function\(\)(\s+|){(.|)(([\s\S]+?))(\s|)?/,
         "map(function() {" + EOL + "  this.resource('" + name + "', { path: '" + plural + "/:" + name + "_id' }, function() { });" + EOL + "$1"
       );
     }
