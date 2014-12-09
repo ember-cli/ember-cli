@@ -65,4 +65,14 @@ describe('new command', function() {
       assert.equal(error.message, 'We currently do not support a name of `123-my-bagel`.');
     });
   });
+
+  it('shows a suggestion messages when the application name is a period', function() {
+    return command.validateAndRun(['.']).then(function() {
+      assert.ok(false, 'should have rejected with a name `.`');
+    })
+    .catch(function(error) {
+      assert.equal(error.message, 'Trying to generate an application structure on this folder? Use `ember init` instead.');
+    });
+  });
+
 });
