@@ -148,7 +148,7 @@ Note that the ES6 module transpiler is not directly supported with Emberscript, 
 
 ### Emblem
 
-For Emblem, run the following commands:
+For [Emblem](http://emblemjs.com/), run the following commands:
 
 {% highlight bash %}
 npm install --save-dev broccoli-emblem-compiler
