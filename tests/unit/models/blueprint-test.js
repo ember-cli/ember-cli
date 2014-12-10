@@ -27,6 +27,7 @@ var defaultIgnoredFiles = Blueprint.ignoredFiles;
 var basicBlueprintFiles = [
   '.ember-cli',
   '.gitignore',
+  'bar',
   'foo.txt',
   'test.txt'
 ];
@@ -235,6 +236,7 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /create.* .ember-cli/);
           assert.match(output.shift(), /create.* .gitignore/);
+          assert.match(output.shift(), /create.* bar/);
           assert.match(output.shift(), /create.* foo.txt/);
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
@@ -252,6 +254,7 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /create.* \.ember-cli/);
           assert.match(output.shift(), /create.* \.gitignore/);
+          assert.match(output.shift(), /create.* bar/);
           assert.match(output.shift(), /create.* foo.txt/);
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
@@ -265,6 +268,7 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /identical.* \.ember-cli/);
           assert.match(output.shift(), /identical.* \.gitignore/);
+          assert.match(output.shift(), /identical.* bar/);
           assert.match(output.shift(), /identical.* foo.txt/);
           assert.match(output.shift(), /identical.* test.txt/);
           assert.equal(output.length, 0);
@@ -282,6 +286,7 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /^installing/);
           assert.match(output.shift(), /create.* \.ember-cli/);
           assert.match(output.shift(), /create.* \.gitignore/);
+          assert.match(output.shift(), /create.* bar/);
           assert.match(output.shift(), /create.* foo.txt/);
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
@@ -373,6 +378,7 @@ describe('Blueprint', function() {
             assert.match(output.shift(), /^installing/);
             assert.match(output.shift(), /create.* \.ember-cli/);
             assert.match(output.shift(), /create.* \.gitignore/);
+            assert.match(output.shift(), /create.* bar/);
             assert.match(output.shift(), /create.* foo.txt/);
             assert.match(output.shift(), /create.* test.txt/);
             assert.equal(output.length, 0);
