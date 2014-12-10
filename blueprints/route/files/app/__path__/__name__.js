@@ -1,4 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+var <%= classifiedModuleName %>Route = Ember.Route.extend({
 });
+
+export default <%= classifiedModuleName %>Route;

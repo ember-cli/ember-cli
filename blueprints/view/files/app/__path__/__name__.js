@@ -1,4 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.View.extend({
+var <%= classifiedModuleName %>View = Ember.View.extend({
 });
+
+export default <%= classifiedModuleName %>View;
