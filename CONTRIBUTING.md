@@ -96,29 +96,29 @@ give the ticket a review.
 Some things that will increase the chance that your pull request is accepted,
 taken straight from the Ruby on Rails guide:
 
-    * Use Node idioms and helpers.
-    * Include tests that fail without your code, and pass with it.
-    * Update the documentation, the surrounding one, examples elsewhere, guides, whatever is affected by your contribution.
+* Use Node idioms and helpers.
+* Include tests that fail without your code, and pass with it.
+* Update the documentation, the surrounding one, examples elsewhere, guides, whatever is affected by your contribution.
 
 #### Syntax ####
 
-    * Two spaces, no tabs.
-    * No trailing whitespace. Blank lines should not have any space.
-    * Follow the conventions you see used in the source already.
+* Two spaces, no tabs.
+* No trailing whitespace. Blank lines should not have any space.
+* Follow the conventions you see used in the source already.
 
 #### Inline Documentation Guidelines ####
 
 All inline documentation is written using YUIDoc. Follow these rules when updating or writing new documentation:
 
-    1. All code blocks must be fenced.
-    2. All code blocks must have a language declared.
-    3. All code blocks must be valid code for syntax highlighting.
-    4. All examples in code blocks must be aligned.
-    5. Use two spaces between the code and the example: `foo(); // result`.
-    6. All references to code words must be enclosed in backticks.
-    7. Prefer a single space between sentences.
-    8. Wrap long markdown blocks > 80 characters.
-    9. Don't include blank lines after `@param` definitions.
+1. All code blocks must be fenced.
+2. All code blocks must have a language declared.
+3. All code blocks must be valid code for syntax highlighting.
+4. All examples in code blocks must be aligned.
+5. Use two spaces between the code and the example: `foo(); // result`.
+6. All references to code words must be enclosed in backticks.
+7. Prefer a single space between sentences.
+8. Wrap long markdown blocks > 80 characters.
+9. Don't include blank lines after `@param` definitions.
 
 #### Website ####
 
