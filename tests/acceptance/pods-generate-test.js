@@ -1234,7 +1234,7 @@ describe('Acceptance: ember generate pod', function() {
                   EOL +
                   "  fooRouter.get('/', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
-                  "      \"foo\": []" + EOL +
+                  "      'foo': []" + EOL +
                   "    });" + EOL +
                   "  });" + EOL +
                   EOL +
@@ -1244,16 +1244,16 @@ describe('Acceptance: ember generate pod', function() {
                   EOL +
                   "  fooRouter.get('/:id', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
-                  "      \"foo\": {" + EOL +
-                  "        \"id\": req.params.id" + EOL +
+                  "      'foo': {" + EOL +
+                  "        id: req.params.id" + EOL +
                   "      }" + EOL +
                   "    });" + EOL +
                   "  });" + EOL +
                   EOL +
                   "  fooRouter.put('/:id', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
-                  "      \"foo\": {" + EOL +
-                  "        \"id\": req.params.id" + EOL +
+                  "      'foo': {" + EOL +
+                  "        id: req.params.id" + EOL +
                   "      }" + EOL +
                   "    });" + EOL +
                   "  });" + EOL +
@@ -1283,7 +1283,7 @@ describe('Acceptance: ember generate pod', function() {
                   EOL +
                   "  fooBarRouter.get('/', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
-                  "      \"foo-bar\": []" + EOL +
+                  "      'foo-bar': []" + EOL +
                   "    });" + EOL +
                   "  });" + EOL +
                   EOL +
@@ -1293,16 +1293,16 @@ describe('Acceptance: ember generate pod', function() {
                   EOL +
                   "  fooBarRouter.get('/:id', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
-                  "      \"foo-bar\": {" + EOL +
-                  "        \"id\": req.params.id" + EOL +
+                  "      'foo-bar': {" + EOL +
+                  "        id: req.params.id" + EOL +
                   "      }" + EOL +
                   "    });" + EOL +
                   "  });" + EOL +
                   EOL +
                   "  fooBarRouter.put('/:id', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
-                  "      \"foo-bar\": {" + EOL +
-                  "        \"id\": req.params.id" + EOL +
+                  "      'foo-bar': {" + EOL +
+                  "        id: req.params.id" + EOL +
                   "      }" + EOL +
                   "    });" + EOL +
                   "  });" + EOL +
