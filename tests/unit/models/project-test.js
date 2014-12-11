@@ -153,6 +153,8 @@ describe('models/project.js', function() {
         'ember-generated-with-export-addon': 'latest',
         'ember-generated-no-export-addon': 'latest',
         'non-ember-thingy': 'latest',
+        'ember-before-blueprint-addon': 'latest',
+        'ember-after-blueprint-addon': 'latest',
         'something-else': 'latest'
       };
 
@@ -184,6 +186,7 @@ describe('models/project.js', function() {
         'history-support-middleware', 'serve-files-middleware',
         'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
+        'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
         'ember-yagni', 'ember-ng', 'ember-super-button'
       ];
 
@@ -194,7 +197,7 @@ describe('models/project.js', function() {
     it('returns an instance of the addon', function() {
       var addons = project.addons;
 
-      assert.equal(addons[4].name, 'Ember Non Root Addon');
+      assert.equal(addons[6].name, 'Ember Non Root Addon');
     });
 
     it('addons get passed the project instance', function() {
@@ -206,7 +209,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       var addons = project.addons;
 
-      assert.equal(addons[5].name, 'Ember Random Addon');
+      assert.equal(addons[8].name, 'Ember Random Addon');
     });
 
     it('returns the default blueprints path', function() {
@@ -215,8 +218,15 @@ describe('models/project.js', function() {
       assert.equal(project.localBlueprintLookupPath(), expected);
     });
 
-    it('returns a listing of all addon blueprints paths', function() {
-      var expected = [project.root + path.normalize('/node_modules/ember-random-addon/blueprints')];
+    it('returns a listing of all addon blueprints paths ordered by last loaded', function() {
+      var loadedBlueprintPaths = [
+        project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
+        project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
+        project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints')
+      ];
+
+      // the first found addon blueprint should be the last one defined
+      var expected = loadedBlueprintPaths.reverse();
 
       assert.deepEqual(project.addonBlueprintLookupPaths(), expected);
     });
@@ -224,7 +234,9 @@ describe('models/project.js', function() {
     it('returns a listing of all blueprints paths', function() {
       var expected = [
         project.root + path.normalize('/blueprints'),
-        project.root + path.normalize('/node_modules/ember-random-addon/blueprints')
+        project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
+        project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
+        project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints')
       ];
 
       assert.deepEqual(project.blueprintLookupPaths(), expected);
@@ -241,15 +253,15 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       var addons = project.addons;
 
-      assert.ok(addons[6] instanceof Addon);
-      assert.equal(addons[6].name, 'Ember CLI Generated with export');
+      assert.ok(addons[4] instanceof Addon);
+      assert.equal(addons[4].name, 'Ember CLI Generated with export');
     });
 
     it('returns an instance of a generated addon with no export', function() {
       var addons = project.addons;
 
-      assert.ok(addons[7] instanceof Addon);
-      assert.equal(addons[7].name, '(generated ember-generated-no-export-addon addon)');
+      assert.ok(addons[5] instanceof Addon);
+      assert.equal(addons[5].name, '(generated ember-generated-no-export-addon addon)');
     });
 
     it('adds the project itself if it is an addon', function() {
