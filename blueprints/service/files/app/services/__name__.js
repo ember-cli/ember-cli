@@ -1,4 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Object.extend({
+var <%= classifiedModuleName %>Service = Ember.Object.extend({
 });
+
+export default <%= classifiedModuleName %>Service;

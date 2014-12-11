@@ -1,4 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+var <%= classifiedModuleName %>Component = Ember.Component.extend({
 });
+
+export default <%= classifiedModuleName %>Component;

@@ -1,4 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+var <%= classifiedModuleName %>Controller = Ember.Controller.extend({
 });
+
+export default <%= classifiedModuleName %>Controller;

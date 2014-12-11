@@ -1,4 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
+var <%= classifiedModuleName %>Mixin = Ember.Mixin.create({
 });
+
+export default <%= classifiedModuleName %>Mixin;
