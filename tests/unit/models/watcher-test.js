@@ -93,7 +93,9 @@ describe('Watcher', function() {
     });
 
     it('logs that the build was successful', function() {
-      assert.equal(ui.output, EOL + chalk.green('Build successful - 12344ms.') + EOL);
+      var successRegex = /Build successful - 12344ms @ \w*\s\w*\s\d*\s\d{4}\s\d*:\d*:\d*\s\w*-\d{4}\s\(\w*\)\./i;
+
+      assert(successRegex.test(ui.output));
     });
   });
 
