@@ -27,10 +27,10 @@ for the presence of `ember-addon` in the `keywords` section (see
 below).
 
 {% highlight javascript %}
-  "keywords": [
-    "ember-addon"
-    ...
-  ],
+"keywords": [
+  "ember-addon",
+  ...
+]
 {% endhighlight %}
 
 ### Addon scenarios
@@ -130,11 +130,11 @@ The generated addon `package.json` file looks something like this:
 Let's add some meta data to categorize the addon a little better:
 
 {% highlight javascript %}
-  "keywords": [
-    "ember-addon",
-    "x-button",
-    "button"
-  ],
+"keywords": [
+  "ember-addon",
+  "x-button",
+  "button"
+]
 {% endhighlight %}
 
 ### Addon entry point
@@ -173,15 +173,15 @@ By default, the `"ember-addon"` hash in the `package.json` file has the `"config
 Optionally, you may specify whether your `ember-addon` must run `"before"` or `"after"` any other Ember CLI addons.  Both of these properties can take either a string or an array of strings, where the string is the name of the another Ember CLI addon, as defined in the `package.json` of the other addon.
 
 {% highlight javascript %}
-  "ember-addon": {
-    // addon configuration properties
-    "configPath": "tests/dummy/config",
-    "before": "single-addon",
-    "after": [
-      "after-addon-1",
-      "after-addon-2"
-    ]
-  },
+"ember-addon": {
+  // addon configuration properties
+  "configPath": "tests/dummy/config",
+  "before": "single-addon",
+  "after": [
+    "after-addon-1",
+    "after-addon-2"
+  ]
+}
 {% endhighlight %} 
 
 ### Managing addon dependencies
@@ -204,6 +204,7 @@ Adds bower components to development dependencies
   "devDependencies": {
     "x-button":  "^1.4.0"
   }
+}
 {% endhighlight %}
 
 ### Addon Brocfile
