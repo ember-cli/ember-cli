@@ -64,9 +64,9 @@ npm ERR! github.com[0: 192.30.252.129]: errno=Connection timed out
 
 This is not a `ember-cli` issue _per se_, but here's a workaround. You can configure `git` to make the translation:
 
-```bash
+{% highlight bash %}
 git config --global url."https://".insteadOf git://
-```
+{% endhighlight %}
 
 ### Usage with Sublime Text
 
