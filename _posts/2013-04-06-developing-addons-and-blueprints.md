@@ -188,9 +188,9 @@ Optionally, you may specify whether your `ember-addon` must run `"before"` or `"
 Install your client side dependencies via Bower.
 Here we install a fictional bower dependency `x-button`:
 
-```
+{% highlight bash %}
 bower install --save-dev x-button
-```
+{% endhighlight %}
 
 Adds bower components to development dependencies
 

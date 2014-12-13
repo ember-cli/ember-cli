@@ -60,13 +60,13 @@ the CSP in report-only mode.
 The following is a simple deployment with https using nginx.  Http just redirects to the https server here.  Don't forget to include your ssl keys in your config.
 
 Before deployment make sure you run this command to populate the dist directory:
-```
+
+{% highlight bash %}
 ember build --environment="production"
-```
+{% endhighlight %}
 
 #### File: nginx.conf
 
-```
     ## Nginx Production Https Ember Server Configuration
 
     ## https site##
@@ -110,4 +110,3 @@ ember build --environment="production"
         add_header Strict-Transport-Security max-age=2592000;
         rewrite ^/.*$ https://$host$request_uri? permanent;
     }
-```

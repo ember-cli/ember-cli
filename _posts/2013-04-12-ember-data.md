@@ -89,9 +89,9 @@ up to a live API, it's wise to be testing your adapters from the onset.
 
 To create a mock for a `posts` API endpoint, use
 
-```
+{% highlight bash %}
 ember g http-mock posts
-```
+{% endhighlight %}
 
 A basic [ExpressJS](http://expressjs.com/) server will be scaffolded for
 your endpoint under `/your-app/server/mocks/posts.js`. Once you add the 

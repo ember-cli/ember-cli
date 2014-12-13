@@ -32,9 +32,8 @@ It is now also possible to override command line options by creating a file in y
 
 For example, a common desire is to [change the port](http://stackoverflow.com/questions/24003944/save-port-number-for-ember-cli-in-a-config-file) that ember-cli serves the app from. It's possible to pass the port number directly to ember server in the command line, e.g. `ember serve --port 8080`. If you wish to make this change a permanent configuration change, make the `.ember-cli` file and add the options you wish to pass to the server in a hash.
 
-```json
+{% highlight javascript %}
 {
   "port": 8080
 }
-```
-
+{% endhighlight %}
