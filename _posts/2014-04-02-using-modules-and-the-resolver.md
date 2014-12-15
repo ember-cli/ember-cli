@@ -5,38 +5,45 @@ permalink: using-modules
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-02-using-modules.md"
 ---
 
-Rather than use AMD (Require.js) or CommonJS (Browserify) modules, apps built
-using Ember CLI use ES6 modules through the
-[ES6 module transpiler](https://github.com/square/es6-module-transpiler). This
-means that you can build your apps using syntax from future JavaScript versions,
-but output AMD modules that can be used by existing JavaScript libraries today.
+The Ember Resolver is the mechanism responsible for looking up code in your
+application and converting its naming conventions into the actual classes,
+functions, and templates that Ember needs to resolve its dependencies, for example, what template to render for a given route. For an introduction to the Ember Resolver, and a basic example of how it actually works, see [this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
 
-If you've built Ember.js apps before, you're probably used to stuffing
-everything into a global namespace, following naming conventions so the app can
-automatically resolve its dependencies: `App.FooRoute` would know
-to render `App.FooView` by default. Using the custom resolver, Ember CLI
-applications have similar abilities, but using ES6 modules instead of a global
-namespace.
-
-For example, this route definition in `app/routes/index.js`:
+In the past, Ember's Default Resolver worked by putting everything into a global namespace, so you will come across the following pattern:
 
 {% highlight javascript linenos %}
+App.IndexRoute = Ember.Route.extend({
+  model: function() {
+    return ['red', 'yellow', 'blue'];
+  }
+});
+{% endhighlight %}
+
+Today, Ember CLI uses a [newer version of the Resolver](https://github.com/stefanpenner/ember-resolver) based on ES6 semantics. This means that you can build your apps using syntax from future JavaScript versions, but output AMD modules that can be used by existing JavaScript libraries today.
+
+For example, this route definition in `app/routes/index.js` would result in a module called `routes/index`. Using the resolver, when Ember looks up the index route, it will find this module and use the object that it exports.
+
+{% highlight javascript linenos %}
+// app/routes/index.js
 import Ember from "ember";
 
 var IndexRoute = Ember.Route.extend({
   model: function() {
     return ['red', 'yellow', 'blue'];
   }
-});
+  });
 
-export default IndexRoute;
+  export default IndexRoute;
 {% endhighlight %}
 
-Would result in a module called `routes/index`. Using the resolver, when Ember
-looks up the index route, it will find this module and use the object that it
-exports.
+Note, that the name of the variable used in the exported module doesn't have any
+influence on the resolver. It's the filename that is used to resolve modules.
 
-You can also export directly, i.e., without having to declare a variable:
+This variant of the Resolver will replace the default resolver in Ember 2.0.
+
+### Additional Examples
+
+You can also export modules directly without having to declare a variable:
 
 {% highlight javascript linenos %}
 import Ember from "ember";
@@ -48,17 +55,13 @@ export default Ember.Route.extend({
 });
 {% endhighlight %}
 
-Of course, while automatic resolving is awesome, you can always manually
-require dependencies with the following syntax:
+Also, you can require modules directly with the following syntax:
 
 {% highlight javascript linenos %}
 import FooMixin from "./mixins/foo";
 {% endhighlight %}
 
-Which will load the `default` export (aliased as `FooMixin`) from
-`./mixins/foo.js`.
-
-If you like you can also use an absolute path to reference a module. But keep in
+If you like you can reference a module by an absolute path, but keep in
 mind that using relative paths is considered best practice for accessing modules
 within the same package. To reference a module using an absolute path begin
 the path with the name defined in `package.json`:
@@ -67,11 +70,14 @@ the path with the name defined in `package.json`:
 import FooMixin from "appname/mixins/foo";
 {% endhighlight %}
 
-Note, that the name of the variable used in the exported module doesn't have any
-influence on the resolver. It's the filename that is used to resolve modules.
+
+
 Similarly, you can give any name to the variable into which you import a module
 when doing so manually; see how the module `mixins/foo` is assigned to variable
-`FooMixin` in the example above. 
+`FooMixin` in the example above.
+
+
+### Using Ember or Ember Data
 
 To use `Ember` or `DS` (for Ember Data) in your modules you must import them:
 
@@ -80,7 +86,15 @@ import Ember from "ember";
 import DS from "ember-data";
 {% endhighlight %}
 
+
+### Using Pods
+
+One of the enhancements that the JJ Abrams Resolver brings is that it will first look for Pods before a more traditional structure.
+
+
+### Cyclic Dependencies
 Cyclic dependencies – are not yet supported at the moment, we are depending on [es6-module-transpiler/pull/126](https://github.com/square/es6-module-transpiler/pull/126)
+
 
 ### Module Directory Naming Structure
 
@@ -101,6 +115,7 @@ Folder              | Purpose
 
 All modules in the `app` folder can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
+
 For more information, see [Naming Conventions](#naming-conventions).
 
 ### Resolving from template helpers
@@ -117,9 +132,9 @@ render          | `{% raw %}{{render "foo"  <context>}}{% endraw %}` | Renders t
 
 ### Resolving Handlebars helpers
 Custom Handlebars helpers are one of the ways that you can use the same HTML multiple
-times in your web application. Registering your custom helper allows it to 
-be invoked from any of your Handlebars templates. Custom helpers are located 
-under `app/helpers`. If your custom helper contains a dash(`upper-case`, 
+times in your web application. Registering your custom helper allows it to
+be invoked from any of your Handlebars templates. Custom helpers are located
+under `app/helpers`. If your custom helper contains a dash(`upper-case`,
 `reverse-word`, etc.), it will be found and loaded automatically by the resolver.
 
 {% highlight javascript linenos %}
@@ -140,9 +155,9 @@ In `some-template.hbs`:
 {% endhighlight %}
 
 Limiting automatically-loaded helpers to those that contain dashes is an explicit
-decision made by Ember. It helps disambiguate properties from helpers, and helps 
-mitigate the performance hit of helper resolution for all bindings. The other 
-loading option is to define only the function used by the helper and to load it 
+decision made by Ember. It helps disambiguate properties from helpers, and helps
+mitigate the performance hit of helper resolution for all bindings. The other
+loading option is to define only the function used by the helper and to load it
 explicitly:
 
 {% highlight javascript linenos %}
@@ -171,7 +186,7 @@ argument to `registerBoundHelper` which makes the Handlebars renderer find it.
 The file name (`trim.js`) and the name of the variable it's been imported
 into (`trimHelper`) could have been anything.
 
-A common pattern with helpers is to define a helper to use your views 
+A common pattern with helpers is to define a helper to use your views
 (e.g. for a custom text field view, `MyTextField` a helper `my-text-field`
 to use it). It is advised to leverage Components instead. More concretely,
 instead of:
