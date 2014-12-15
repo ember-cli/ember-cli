@@ -3,6 +3,8 @@
 ### Master
 
 * [BUGFIX] Updates `broccoli-asset-rev` to 2.0.0 [#2741](https://github.com/stefanpenner/ember-cli/pull/2741)
+* [BUGFIX] Generates correct entry in `app/router.js` for nested routes and resources when running `ember generate route` [2748](https://github.com/stefanpenner/ember-cli/pull/2748).
+* [ENHANCEMENT] Add option `--path` to route generator: `ember generate route friends/edit --path=:friend_id/edit` [2748](https://github.com/stefanpenner/ember-cli/pull/2748)
 
 ### 0.1.4
 
