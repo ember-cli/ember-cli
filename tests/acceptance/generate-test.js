@@ -258,7 +258,7 @@ describe('Acceptance: ember generate', function() {
   it('route foo', function() {
     return generate(['route', 'foo']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.route('foo')"
+        contains: "this.route(\"foo\")"
       });
       assertFile('app/routes/foo.js', {
         contains: [
@@ -281,10 +281,14 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('route foo --type=resource', function() {
-    return generate(['route', 'foo', '--type=resource']).then(function() {
+  it('route foo with --path', function() {
+    return generate(['route', 'foo', '--path=:foo_id/show']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foo', { path: 'foos/:foo_id' }, function() { });"
+        contains: [
+          'this.route("foo", {',
+          'path: ":foo_id/show"',
+          '});'
+        ]
       });
     });
   });
@@ -292,7 +296,7 @@ describe('Acceptance: ember generate', function() {
   it('route foos --type=resource', function() {
     return generate(['route', 'foos', '--type=resource']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foos', function() { });"
+        contains: 'this.resource("foos", function() {});'
       });
     });
   });
@@ -328,41 +332,6 @@ describe('Acceptance: ember generate', function() {
         doesNotContain: "this.route('basic');"
       });
       assertFile('app/routes/basic.js');
-    });
-  });
-
-  it('route bar does not create duplicates in router.js', function() {
-    function checkRoute(testString) {
-      var routerDefinition = (
-        "Router.map(function() {" + EOL +
-        "  this.resource('foo', function() {" + EOL+
-        "    " + testString + EOL +
-        "  });" + EOL +
-        "});" + EOL
-      );
-      return outputFile('app/router.js', routerDefinition)
-      .then(function() {
-        return ember(['generate', 'route', 'bar']);
-      })
-      .then(function() {
-        return assertFile('app/router.js', {
-          contains: routerDefinition
-        });
-      });
-    }
-
-    return initApp()
-    .then(function() {
-      return checkRoute("this.route('bar');");
-    })
-    .then(function() {
-      return checkRoute("this.route ('bar');");
-    })
-    .then(function() {
-      return checkRoute("this.route ( 'bar' );");
-    })
-    .then(function() {
-      return checkRoute('this.route("bar");');
     });
   });
 
@@ -418,33 +387,10 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('resource foo', function() {
-    return generate(['resource', 'foo']).then(function() {
-      assertFile('app/router.js', {
-        contains: "this.resource('foo', { path: 'foos/:foo_id' }, function() { });"
-      });
-      assertFile('app/models/foo.js', {
-        contains: 'export default DS.Model.extend'
-      });
-      assertFile('app/routes/foo.js', {
-        contains: "export default Ember.Route.extend({" + EOL + "});"
-      });
-      assertFile('app/templates/foo.hbs', {
-        contains: '{{outlet}}'
-      });
-      assertFile('tests/unit/models/foo-test.js', {
-        contains: "moduleForModel('foo', 'Foo'"
-      });
-      assertFile('tests/unit/routes/foo-test.js', {
-        contains: "moduleFor('route:foo', 'FooRoute'"
-      });
-    });
-  });
-
   it('resource foos', function() {
     return generate(['resource', 'foos']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foos', function() { });"
+        contains: 'this.resource("foos", function() {});'
       });
       assertFile('app/models/foo.js', {
         contains: 'export default DS.Model.extend'
@@ -460,6 +406,18 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/routes/foos-test.js', {
         contains: "moduleFor('route:foos', 'FoosRoute'"
+      });
+    });
+  });
+
+  it('resource foos with --path', function() {
+    return generate(['resource', 'foos', '--path=app/foos']).then(function() {
+      assertFile('app/router.js', {
+        contains: [
+          'this.resource("foos", {',
+          'path: "app/foos"',
+          '}, function() {});'
+        ]
       });
     });
   });

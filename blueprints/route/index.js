@@ -3,12 +3,27 @@ var fs          = require('fs-extra');
 var inflection  = require('inflection');
 var path        = require('path');
 var EOL         = require('os').EOL;
+var EmberRouterGenerator = require('ember-router-generator');
 
 module.exports = {
   description: 'Generates a route and registers it with the router.',
 
   availableOptions: [
-    { name: 'type', type: String, values: ['route', 'resource'], default: 'route', aliases:[{'route': 'route'}, {'resource': 'resource'}] }
+    {
+      name: 'type',
+      type: String,
+      values: ['route', 'resource'],
+      default: 'route',
+      aliases:[
+        {'route': 'route'},
+        {'resource': 'resource'}
+      ]
+    },
+    {
+      name: 'path',
+      type: String,
+      default: ''
+    }
   ],
 
   fileMapTokens: function() {
@@ -50,7 +65,8 @@ module.exports = {
     if (this.shouldTouchRouter(entity.name) && !options.dryRun) {
       addRouteToRouter(entity.name, {
         type: options.type,
-        root: options.project.root
+        root: options.project.root,
+        path: options.path
       });
     }
   },
@@ -112,37 +128,18 @@ function addRouteToRouter(name, options) {
   var type       = options.type || 'route';
   var routerPath = path.join(options.root, 'app', 'router.js');
   var oldContent = fs.readFileSync(routerPath, 'utf-8');
-  var existence  = new RegExp("(?:route|resource)\\s*\\(\\s*(['\"])" + name + "\\1");
-  var newContent;
-  var plural;
 
-  if (existence.test(oldContent)) {
-    return;
-  }
+  var routes = new EmberRouterGenerator(oldContent);
+  var newRoutes;
 
   switch (type) {
   case 'route':
-    newContent = oldContent.replace(
-      /(map\(function\(\) {[\s\S]+)}\)/,
-      "$1  this.route('" + name + "');" + EOL + "})"
-    );
+    newRoutes = routes.add(name, options);
     break;
   case 'resource':
-    plural = inflection.pluralize(name);
-
-    if (plural === name) {
-      newContent = oldContent.replace(
-        /(map\(function\(\) {[\s\S]+)}\)/,
-        "$1  this.resource('" + name + "', function() { });" + EOL + "})"
-      );
-    } else {
-      newContent = oldContent.replace(
-        /(map\(function\(\) {[\s\S]+)}\)/,
-        "$1  this.resource('" + name + "', { path: '" + plural + "/:" + name + "_id' }, function() { });" + EOL + "})"
-      );
-    }
+    newRoutes = routes.add(name, options);
     break;
   }
 
-  fs.writeFileSync(routerPath, newContent);
+  fs.writeFileSync(routerPath, newRoutes.code());
 }
