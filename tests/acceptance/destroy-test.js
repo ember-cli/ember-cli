@@ -184,7 +184,7 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo', { path: 'foos/:foo_id' });"
+          doesNotContain: "this.resource('foo');"
         });
       });
   });
@@ -240,7 +240,7 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo', { path: 'foos/:foo_id' });"
+          doesNotContain: "this.resource('foo');"
         });
       });
   });
