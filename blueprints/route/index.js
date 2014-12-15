@@ -92,54 +92,21 @@ module.exports = {
 };
 
 function removeRouteFromRouter(name, options) {
-  var type       = options.type || 'route';
   var routerPath = path.join(options.root, 'app', 'router.js');
-  var oldContent = fs.readFileSync(routerPath, 'utf-8');
-  var existence  = new RegExp("(?:route|resource)\\s*\\(\\s*(['\"])" + name + "\\1");
-  var newContent;
-  var plural;
+  var source = fs.readFileSync(routerPath, 'utf-8');
 
-  if (!existence.test(oldContent)) {
-    return;
-  }
+  var routes = new EmberRouterGenerator(source);
+  var newRoutes = routes.remove(name);
 
-  switch (type) {
-  case 'route':
-    var re = new RegExp('\\s*this.route\\((["\'])'+ name +'(["\'])\\);');
-    newContent = oldContent.replace(re, '');
-    break;
-  case 'resource':
-    plural = inflection.pluralize(name);
-
-    if (plural === name) {
-      var re = new RegExp('\\s*this.resource\\((["\'])'+ name +'(["\'])\\);');
-      newContent = oldContent.replace(re, '');
-    } else {
-      var re = new RegExp('\\s*this.resource\\((["\'])'+ name +'(["\']),.*\\);');
-      newContent = oldContent.replace(re, '');
-    }
-    break;
-  }
-
-  fs.writeFileSync(routerPath, newContent);
+  fs.writeFileSync(routerPath, newRoutes.code());
 }
 
 function addRouteToRouter(name, options) {
-  var type       = options.type || 'route';
   var routerPath = path.join(options.root, 'app', 'router.js');
-  var oldContent = fs.readFileSync(routerPath, 'utf-8');
+  var source = fs.readFileSync(routerPath, 'utf-8');
 
-  var routes = new EmberRouterGenerator(oldContent);
-  var newRoutes;
-
-  switch (type) {
-  case 'route':
-    newRoutes = routes.add(name, options);
-    break;
-  case 'resource':
-    newRoutes = routes.add(name, options);
-    break;
-  }
+  var routes = new EmberRouterGenerator(source);
+  var newRoutes = routes.add(name, options);
 
   fs.writeFileSync(routerPath, newRoutes.code());
 }
