@@ -44,7 +44,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   after(function() {
-    this.timeout(10000);
+    this.timeout(20000);
 
     return tmp.teardown('./common-tmp')
       .then(function() {
@@ -53,7 +53,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   beforeEach(function() {
-    this.timeout(10000);
+    this.timeout(20000);
 
     return tmp.setup('./tmp')
       .then(function() {
@@ -77,7 +77,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
+    this.timeout(20000);
 
     assertTmpEmpty();
     return tmp.teardown('./tmp');
