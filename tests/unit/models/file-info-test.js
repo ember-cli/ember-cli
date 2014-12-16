@@ -87,9 +87,9 @@ describe('Unit - FileInfo', function(){
   it('renders a menu with an overwrite option', function(){
     var fileInfo = new FileInfo(validOptions);
 
-    setTimeout(function(){
+    ui.waitForPrompt().then(function(){
       ui.inputStream.write('Y' + EOL);
-    }, 10);
+    });
 
     return fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
@@ -101,9 +101,9 @@ describe('Unit - FileInfo', function(){
   it('renders a menu with an skip option', function(){
     var fileInfo = new FileInfo(validOptions);
 
-    setTimeout(function(){
+    ui.waitForPrompt().then(function(){
       ui.inputStream.write('n' + EOL);
-    }, 10);
+    });
 
     return fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
@@ -115,9 +115,9 @@ describe('Unit - FileInfo', function(){
   it('renders a menu with an diff option', function(){
     var fileInfo = new FileInfo(validOptions);
 
-    setTimeout(function(){
+    ui.waitForPrompt().then(function(){
       ui.inputStream.write('d' + EOL);
-    }, 10);
+    });
 
     return fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
