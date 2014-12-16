@@ -285,16 +285,15 @@ describe('Blueprint', function() {
           assert.match(output.shift(), /create.* foo.txt/);
           assert.match(output.shift(), /create.* test.txt/);
           assert.equal(output.length, 0);
-
           var blueprintNew = new Blueprint(basicNewBlueprint);
 
           setTimeout(function(){
             ui.inputStream.write('n' + EOL);
-          }, 25);
+          }, 500);
 
           setTimeout(function(){
             ui.inputStream.write('y' + EOL);
-          }, 50);
+          }, 1000);
 
           return blueprintNew.install(options);
         })

@@ -178,7 +178,7 @@ describe('Acceptance: express server restart', function () {
   });
 
   it('Server restarts successfully on multiple copies', function() {
-    this.timeout(60000);
+    this.timeout(90000);
 
     ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedMultipleCopies()));
