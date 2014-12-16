@@ -16,7 +16,7 @@ For example:
 {% highlight javascript linenos %}
 import ENV from 'your-application-name/config/environment';
 
-if (ENV.environment === "development") {
+if (ENV.environment === 'development') {
   // ...
 }
 {% endhighlight %}
