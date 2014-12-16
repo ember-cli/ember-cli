@@ -287,13 +287,12 @@ describe('Blueprint', function() {
           assert.equal(output.length, 0);
           var blueprintNew = new Blueprint(basicNewBlueprint);
 
-          setTimeout(function(){
+          ui.waitForPrompt().then(function(){
             ui.inputStream.write('n' + EOL);
-          }, 500);
-
-          setTimeout(function(){
+            return ui.waitForPrompt();
+          }).then(function(){
             ui.inputStream.write('y' + EOL);
-          }, 1000);
+          });
 
           return blueprintNew.install(options);
         })
@@ -380,13 +379,12 @@ describe('Blueprint', function() {
 
             var blueprintNew = new Blueprint(basicNewBlueprint);
 
-            setTimeout(function(){
+            ui.waitForPrompt().then(function(){
               ui.inputStream.write('n' + EOL);
-            }, 25);
-
-            setTimeout(function(){
-              ui.inputStream.write('n'+ EOL);
-            }, 50);
+              return ui.waitForPrompt();
+            }).then(function(){
+              ui.inputStream.write('n' + EOL);
+            });
 
             options.project.isEmberCLIProject = function() { return true; };
 
