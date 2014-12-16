@@ -1,6 +1,7 @@
 {
   "name": "<%= name %>",
   "version": "0.0.0",
+  "description": "Small description for <%= name %> goes here",
   "private": true,
   "directories": {
     "doc": "doc",
