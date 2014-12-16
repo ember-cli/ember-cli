@@ -14,10 +14,6 @@ Supports node 0.10.5 and npm 1.4.6.
 [![ScreenShot](http://static.iamstef.net/ember-conf-2014-video.jpg)](https://www.youtube.com/watch?v=4D8z3972h64)
 
 
-## Warning
-
-Although potentially exciting, this is still really a WIP, use at your own risk.
-
 ## Project Elements
 Additional components of this project which are used runtime in your application:
 * [ember-jj-abrams-resolver](https://github.com/stefanpenner/ember-jj-abrams-resolver)
