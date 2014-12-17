@@ -18,7 +18,8 @@
     "url": "https://github.com/stefanpenner/ember-cli.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.10.0",
+    "npm": ">= 2.0.0"
   },
   "keywords": [
     "ember.js",
