@@ -4,7 +4,7 @@ module.exports = function(app) {
 
   <%= camelizedModuleName %>Router.get('/', function(req, res) {
     res.send({
-      "<%= dasherizedModuleName %>": []
+      '<%= dasherizedModuleName %>': []
     });
   });
 
@@ -14,16 +14,16 @@ module.exports = function(app) {
 
   <%= camelizedModuleName %>Router.get('/:id', function(req, res) {
     res.send({
-      "<%= dasherizedModuleName %>": {
-        "id": req.params.id
+      '<%= dasherizedModuleName %>': {
+        id: req.params.id
       }
     });
   });
 
   <%= camelizedModuleName %>Router.put('/:id', function(req, res) {
     res.send({
-      "<%= dasherizedModuleName %>": {
-        "id": req.params.id
+      '<%= dasherizedModuleName %>': {
+        id: req.params.id
       }
     });
   });
