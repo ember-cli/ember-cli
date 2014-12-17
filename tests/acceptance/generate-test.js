@@ -1040,7 +1040,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('lib/foo-bar/index.js', {
         contains: [
           'module.exports = {',
-          'name: "foo-bar"',
+          'name: \'foo-bar\'',
           '',
           'isDevelopingAddon: function() {',
           'return true;',
