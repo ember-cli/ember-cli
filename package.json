@@ -140,7 +140,7 @@
     "readline2": "0.1.0",
     "resolve": "^1.0.0",
     "rimraf": "^2.2.8",
-    "rsvp": "^3.0.14",
+    "rsvp": "3.0.14",
     "sane": "0.8.0",
     "semver": "^4.0.3",
     "symlink-or-copy": "^1.0.0",
