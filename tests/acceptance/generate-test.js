@@ -1065,6 +1065,8 @@ describe('Acceptance: ember generate', function() {
           '"' + path.normalize('lib/foo-bar').replace('\\', '\\\\') + '"'
         ]
       });
+
+      assertFile('lib/.jshintrc');
     });
   });
 
@@ -1080,6 +1082,12 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/router.js', {
         contain: ["resource('foo')"]
       });
+    });
+  });
+
+  it('lib', function() {
+    return generate(['lib']).then(function() {
+      assertFile('lib/.jshintrc');
     });
   });
 });
