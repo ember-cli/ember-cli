@@ -1272,6 +1272,10 @@ describe('Acceptance: ember generate pod', function() {
                   "  var proxy = require('http-proxy').createProxyServer({});" + EOL +
                   "  var path = require('path');" + EOL +
                   EOL +
+                  "  proxy.on('error', function(err, req) {" + EOL +
+                  "    console.error(err, req.url);" + EOL +
+                  "  });" + EOL +
+                  EOL +
                   "  app.use(proxyPath, function(req, res, next){" + EOL +
                   "    // include root path in proxied request" + EOL +
                   "    req.url = path.join(proxyPath, req.url);" + EOL +
