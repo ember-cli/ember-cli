@@ -7,7 +7,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 The Ember Resolver is the mechanism responsible for looking up code in your
 application and converting its naming conventions into the actual classes,
-functions, and templates that Ember needs to resolve its dependencies, for example, what template to render for a given route. For an introduction to the Ember Resolver, and a basic example of how it actually works, see [this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by @rwjblue.
+functions, and templates that Ember needs to resolve its dependencies, for example, what template to render for a given route. For an introduction to the Ember Resolver, and a basic example of how it actually works, see [this video](https://www.youtube.com/watch?v=OY0PzrltMYc#t=51) by [Robert Jackson](https://www.twitter.com/@rwjblue).
 
 In the past, Ember's Default Resolver worked by putting everything into a global namespace, so you will come across the following pattern:
 
@@ -21,7 +21,7 @@ App.IndexRoute = Ember.Route.extend({
 
 Today, Ember CLI uses a [newer version of the Resolver](https://github.com/stefanpenner/ember-resolver) based on ES6 semantics. This means that you can build your apps using syntax from future JavaScript versions, but output AMD modules that can be used by existing JavaScript libraries today.
 
-For example, this route definition in `app/routes/index.js` would result in a module called `routes/index`. Using the resolver, when Ember looks up the index route, it will find this module and use the object that it exports.
+For example, this route definition in `app/routes/index.js` would result in a module called `your-app/routes/index`. Using the resolver, when Ember looks up the index route, it will find this module and use the object that it exports.
 
 {% highlight javascript linenos %}
 // app/routes/index.js
@@ -55,7 +55,7 @@ export default Ember.Route.extend({
 });
 {% endhighlight %}
 
-Also, you can require modules directly with the following syntax:
+You can also require modules directly with the following syntax:
 
 {% highlight javascript linenos %}
 import FooMixin from "./mixins/foo";
@@ -69,7 +69,6 @@ the path with the name defined in `package.json`:
 {% highlight javascript linenos %}
 import FooMixin from "appname/mixins/foo";
 {% endhighlight %}
-
 
 
 Similarly, you can give any name to the variable into which you import a module
@@ -89,7 +88,7 @@ import DS from "ember-data";
 
 ### Using Pods
 
-One of the enhancements that the JJ Abrams Resolver brings is that it will first look for Pods before a more traditional structure.
+One of the enhancements that the new Resolver brings is that it will first look for Pods before the traditional project structure.
 
 
 ### Cyclic Dependencies
