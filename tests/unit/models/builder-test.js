@@ -121,12 +121,23 @@ describe('models/builder.js', function() {
   });
 
   describe('addons', function() {
+    var hooksCalled;
 
-    before(function() {
+    beforeEach(function() {
+      hooksCalled = [];
       addon = {
         name: 'TestAddon',
-        preBuild: function() { },
-        postBuild: function() { }
+        preBuild: function() {
+          hooksCalled.push('preBuild');
+
+          return Promise.resolve();
+        },
+
+        postBuild: function() {
+          hooksCalled.push('postBuild');
+
+          return Promise.resolve();
+        },
       };
 
       builder = new Builder({
@@ -134,7 +145,11 @@ describe('models/builder.js', function() {
         trapSignals:          function() { },
         cleanupOnExit:        function() { },
         builder: {
-          build: function() { return Promise.resolve(buildResults); }
+          build: function() {
+            hooksCalled.push('build');
+
+            return Promise.resolve(buildResults);
+          }
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
         project: {
@@ -146,11 +161,10 @@ describe('models/builder.js', function() {
     });
 
     it('allows addons to add promises preBuild', function() {
-      var preBuild = stub(addon, 'preBuild');
+      var preBuild = stub(addon, 'preBuild', Promise.resolve());
 
       return builder.build().then(function() {
         assert.equal(preBuild.called, 1, 'expected preBuild to be called');
-        assert.equal(preBuild.calledWith[0][0], buildResults, 'expected preBuild to be called with the results');
       });
     });
 
@@ -160,6 +174,12 @@ describe('models/builder.js', function() {
       return builder.build().then(function() {
         assert.equal(postBuild.called, 1, 'expected postBuild to be called');
         assert.equal(postBuild.calledWith[0][0], buildResults, 'expected postBuild to be called with the results');
+      });
+    });
+
+    it('hooks are called in the right order', function() {
+      return builder.build().then(function() {
+        assert.deepEqual(hooksCalled, ['preBuild', 'build', 'postBuild']);
       });
     });
   });
