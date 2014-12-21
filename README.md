@@ -1,15 +1,14 @@
 
-## ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.svg?branch=master)](https://travis-ci.org/stefanpenner/ember-cli) [![Dependency Status](https://david-dm.org/stefanpenner/ember-cli.svg)](https://david-dm.org/stefanpenner/ember-cli)[![Build status](https://ci.appveyor.com/api/projects/status/7owf61lo8uujbjok/branch/master?svg=true)](https://ci.appveyor.com/project/embercli/ember-cli/branch/master)
+## ember-cli [![Build Status](https://travis-ci.org/ember-cli/ember-cli.svg?branch=master)](https://travis-ci.org/stefanpenner/ember-cli) [![Dependency Status](https://david-dm.org/ember-cli/ember-cli.svg)](https://david-dm.org/ember-cli/ember-cli)[![Build status](https://ci.appveyor.com/api/projects/status/7owf61lo8uujbjok/branch/master?svg=true)](https://ci.appveyor.com/project/embercli/ember-cli/branch/master)
 
 An ember command line utility.
 
-Supports node 0.10.5 and npm 1.4.6.
+Supports node 0.10.5 and npm 2.1.8.
 
 ## Community
 * irc: #ember-cli on freenode
-* issues: [ember-cli/issues](https://github.com/stefanpenner/ember-cli/issues)
+* issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
 * website: [ember-cli.com](http://www.ember-cli.com)
-
 
 [![ScreenShot](http://static.iamstef.net/ember-conf-2014-video.jpg)](https://www.youtube.com/watch?v=4D8z3972h64)
 
@@ -18,14 +17,14 @@ Supports node 0.10.5 and npm 1.4.6.
 Additional components of this project which are used runtime in your application:
 * [ember-resolver](https://github.com/stefanpenner/ember-resolver)
 * [loader](https://github.com/stefanpenner/loader.js)
-* [ember-cli-shims](https://github.com/stefanpenner/ember-cli-shims)
+* [ember-cli-shims](https://github.com/ember-cli/ember-cli-shims)
 * [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
 
 ## Development Hints
 ### Working with master
 
 ``` sh
-git clone https://github.com/stefanpenner/ember-cli.git
+git clone https://github.com/ember-cli/ember-cli.git
 cd ember-cli
 npm link
 ```
@@ -90,7 +89,7 @@ Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it
 
 ## Contribution
 
-[See `CONTRIBUTING.md`](https://github.com/stefanpenner/ember-cli/blob/master/CONTRIBUTING.md)
+[See `CONTRIBUTING.md`](https://github.com/ember-cli/ember-cli/blob/master/CONTRIBUTING.md)
 
 
 ## Donating
@@ -101,4 +100,4 @@ All donations will support this project and treats for contributors.
 
 ## License
 
-ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
+ember-cli is [MIT Licensed](https://github.com/ember-cli/ember-cli/blob/master/LICENSE.md).
