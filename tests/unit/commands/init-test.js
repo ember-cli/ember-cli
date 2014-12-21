@@ -28,6 +28,25 @@ describe('init command', function() {
     InitCommand = require('../../../lib/commands/init');
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: 'test'}),
+      tasks: tasks,
+      settings: {}
+    });
+
+    assert.equal(command.availableOptions.length, 7);
+    assert.deepEqual(command.availableOptions[6], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('doesn\'t allow to create an application named `test`', function() {
     var command = new InitCommand({
       ui: ui,

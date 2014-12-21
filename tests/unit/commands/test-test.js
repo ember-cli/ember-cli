@@ -41,6 +41,19 @@ describe('test command', function() {
     testServerRun = tasks.TestServer.prototype.run;
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    var testCommand = new TestCommand(options);
+
+    assert.equal(testCommand.availableOptions.length, 8);
+    assert.deepEqual(testCommand.availableOptions[7], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('builds and runs test', function() {
     return new TestCommand(options).validateAndRun([]).then(function() {
       assert.equal(buildRun.called, 1, 'expected build task to be called once');

@@ -21,6 +21,17 @@ describe('new command', function() {
     command = new NewCommand(options);
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    assert.equal(command.availableOptions.length, 7);
+    assert.deepEqual(command.availableOptions[6], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('doesn\'t allow to create an application named `test`', function() {
     return command.validateAndRun(['test']).then(function() {
       assert.ok(false, 'should have rejected with an application name of test');

@@ -33,6 +33,17 @@ describe('generate command', function() {
     }));
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    assert.equal(command.availableOptions.length, 4);
+    assert.deepEqual(command.availableOptions[3], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('runs GenerateFromBlueprint with expected options', function() {
     return command.validateAndRun(['controller', 'foo'])
       .then(function(options) {

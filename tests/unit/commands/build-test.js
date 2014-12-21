@@ -49,6 +49,19 @@ describe('build command', function() {
     tasks.BuildWatch.prototype.run.restore();
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    var buildCommand = new BuildCommand(options);
+
+    assert.equal(buildCommand.availableOptions.length, 4);
+    assert.deepEqual(buildCommand.availableOptions[3], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('Build task is provided with the project instance', function() {
     return new BuildCommand(options).validateAndRun([ ]).then(function() {
       var buildRun = tasks.Build.prototype.run;

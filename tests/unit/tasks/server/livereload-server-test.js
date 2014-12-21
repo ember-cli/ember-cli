@@ -23,6 +23,7 @@ describe('livereload-server', function() {
     subject = new LiveReloadServer({
       ui: ui,
       watcher: watcher,
+      options: {},
       expressServer: expressServer,
       analytics: { trackError: function() { } },
       project: {

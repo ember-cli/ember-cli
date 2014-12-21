@@ -26,6 +26,17 @@ describe('version command', function() {
     command = new VersionCommand(options);
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    assert.equal(command.availableOptions.length, 2);
+    assert.deepEqual(command.availableOptions[1], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('reports node and npm versions', function() {
     return command.validateAndRun().then(function() {
       var lines = ui.output.split(EOL);
