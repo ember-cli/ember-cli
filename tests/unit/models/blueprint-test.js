@@ -679,6 +679,80 @@ describe('Blueprint', function() {
     });
   });
 
+  describe('removeBowerPackageFromProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+    });
+
+    afterEach(function() {
+      return rimraf(tmproot);
+    });
+
+    it('passes a packages array for removeBowerPackagesFromProject', function() {
+      blueprint.removeBowerPackagesFromProject = function(packages) {
+        assert.deepEqual(packages, ['foo-bar']);
+      };
+
+      blueprint.removeBowerPackageFromProject('foo-bar');
+    });
+  });
+
+  describe('removeBowerPackagesFromProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var BowerUninstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new BowerUninstallTask();
+      };
+    });
+
+    afterEach(function() {
+      return rimraf(tmproot);
+    });
+
+    it('looks up the `bower-uninstall` task', function() {
+      BowerUninstallTask = Task.extend({
+        run: function() {}
+      });
+      blueprint.removeBowerPackagesFromProject([{name: 'foo-bar'}]);
+
+      assert.equal(taskNameLookedUp, 'bower-uninstall');
+    });
+
+    it('calls the task with the package names', function() {
+      var packages;
+
+      BowerUninstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.removeBowerPackagesFromProject([
+        'foo-bar',
+        'bar-foo'
+      ]);
+
+      assert.deepEqual(packages, ['foo-bar', 'bar-foo']);
+    });
+  });
+
   describe('addBowerPackagesToProject', function() {
     var blueprint;
     var ui;
