@@ -15,10 +15,10 @@ Supports node 0.10.5 and npm 2.1.8.
 
 ## Project Elements
 Additional components of this project which are used runtime in your application:
-* [ember-resolver](https://github.com/stefanpenner/ember-resolver)
-* [loader](https://github.com/stefanpenner/loader.js)
+* [ember-resolver](https://github.com/ember-cli/ember-resolver)
+* [loader](https://github.com/ember-cli/loader.js)
 * [ember-cli-shims](https://github.com/ember-cli/ember-cli-shims)
-* [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
+* [ember-load-initializers](https://github.com/ember-cli/ember-load-initializers)
 
 ## Development Hints
 ### Working with master
@@ -71,7 +71,7 @@ Error: watch ENOSPC
   ...
 ```
 
-This problem will be corrected in future releases. The following line is a workaround to get the server up and running until this problem is fixed. See [Issue 1054](https://github.com/stefanpenner/ember-cli/issues/1054).
+This problem will be corrected in future releases. The following line is a workaround to get the server up and running until this problem is fixed. See [Issue 1054](https://github.com/ember-cli/ember-cli/issues/1054).
 
 ```sh
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
