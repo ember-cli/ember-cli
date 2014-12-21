@@ -3,9 +3,10 @@
 var path    = require('path');
 var Project = require('../../../lib/models/project');
 var Addon   = require('../../../lib/models/addon');
+var stub    = require('../../helpers/stub').stub;
 var tmp     = require('../../helpers/tmp');
 var touch   = require('../../helpers/file-utils').touch;
-var assert  = require('assert');
+var assert  = require('../../helpers/assert');
 
 var emberCLIVersion = require('../../../lib/utilities/ember-cli-version');
 
@@ -279,6 +280,62 @@ describe('models/project.js', function() {
 
       assert.ok(added);
     });
+
+
+  });
+
+  describe('reloadAddon', function() {
+    beforeEach(function() {
+      projectPath         = path.resolve(__dirname, '../../fixtures/addon/simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+      project.initializeAddons();
+
+      stub(Project.prototype, 'initializeAddons');
+      stub(Project.prototype, 'reloadPkg');
+
+      project.reloadAddons();
+    });
+
+    afterEach(function() {
+      Project.prototype.initializeAddons.restore();
+      Project.prototype.reloadPkg.restore();
+    });
+
+    it('sets _addonsInitialized to false', function() {
+      assert.equal(project._addonsInitialized, false);
+    });
+
+    it('reloads the package', function() {
+      assert(Project.prototype.reloadPkg.called, 'reloadPkg was called');
+    });
+
+    it('initializes the addons', function() {
+      assert(Project.prototype.initializeAddons.called, 'initialize addons was called');
+    });
+  });
+
+  describe('reloadPkg', function() {
+    var newProjectPath, oldPkg;
+    beforeEach(function() {
+      projectPath         = path.resolve(__dirname, '../../fixtures/addon/simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+      project.initializeAddons();
+
+      newProjectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
+      oldPkg         = project.pkg;
+
+      project.root = newProjectPath;
+    });
+
+    it('reloads the package from disk', function() {
+      project.reloadPkg();
+
+      assert.notDeepEqual(oldPkg, project.pkg);
+    });
   });
 
   describe('emberCLIVersion', function() {
@@ -309,6 +366,47 @@ describe('models/project.js', function() {
       };
 
       assert.equal(project.isEmberCLIAddon(), false);
+    });
+  });
+
+  describe('findAddonByName', function() {
+    beforeEach(function() {
+      projectPath = process.cwd() + '/tmp/test-app';
+
+      project = new Project(projectPath, {});
+
+      stub(Project.prototype, 'initializeAddons');
+
+      project.addons = [{
+        name: 'foo',
+        pkg: { name: 'foo' }
+      }, {
+        pkg: { name: 'bar-pkg' }
+      }];
+    });
+
+    afterEach(function() {
+      Project.prototype.initializeAddons.restore();
+    });
+
+    it('should call initialize addons', function() {
+      project.findAddonByName('foo');
+      assert.ok(project.initializeAddons.called, 'should have called initializeAddons');
+    });
+
+    it('should return the foo addon from name', function() {
+      var addon = project.findAddonByName('foo');
+      assert.equal(addon.name, 'foo', 'should have found the foo addon');
+    });
+
+    it('should return the bar-pkg addon from package name', function() {
+      var addon = project.findAddonByName('bar-pkg');
+      assert.equal(addon.pkg.name, 'bar-pkg', 'should have found the bar-pkg addon');
+    });
+
+    it('should return undefined if adddon doesn\'t exist', function() {
+      var addon = project.findAddonByName('not-an-addon');
+      assert.equal(addon, undefined, 'not found addon should be undefined');
     });
   });
 
