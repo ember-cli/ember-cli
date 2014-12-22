@@ -140,7 +140,11 @@ describe('Unit: CLI', function() {
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
           var options = server.calledWith[0][0];
-          assert.equal(output.length, (options.watcher === 'watchman' ? 1 : 2), 'expected no extra output');
+          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
+            assert.equal(output.length, 1, 'expected no extra output');
+          } else {
+            assert.equal(output.length, 2, 'expected no extra output');
+          }
         });
       });
 
@@ -287,9 +291,12 @@ describe('Unit: CLI', function() {
           var output = ui.output.trim().split(EOL);
           assertVersion(output[0]);
 
-          console.log(process.platform);
           var options = generate.calledWith[0][0];
-          assert.equal(output.length, (options.watcher === 'watchman' ? 1 : 2), 'expected no extra output');
+          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
+            assert.equal(output.length, 1, 'expected no extra output');
+          } else {
+            assert.equal(output.length, 2, 'expected no extra output');
+          }
         });
       });
     });
@@ -318,7 +325,11 @@ describe('Unit: CLI', function() {
           assertVersion(output[0]);
 
           var options = init.calledWith[0][0];
-          assert.equal(output.length, (options.watcher === 'watchman' ? 1 : 2), 'expected no extra output');
+          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
+            assert.equal(output.length, 1, 'expected no extra output');
+          } else {
+            assert.equal(output.length, 2, 'expected no extra output');
+          }
         });
       });
     });
