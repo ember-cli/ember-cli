@@ -167,6 +167,21 @@ describe('test command', function() {
       assert.ok(contents['test_page'].indexOf('bar') > -1);
     });
 
+    it('when module and filter option is present uses buildTestPageQueryString for test_page queryString', function() {
+      runOptions.filter = 'bar';
+      command.buildTestPageQueryString = function(options) {
+        assert.deepEqual(options, runOptions);
+
+        return '?blah=zorz';
+      };
+
+      var newPath = command._generateCustomConfigFile(runOptions);
+
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      assert.ok(contents['test_page'].indexOf('?blah=zorz') > -1);
+    });
+
     it('new file returned contains the filter option value in test_page', function() {
       runOptions.filter = 'foo';
       var newPath = command._generateCustomConfigFile(runOptions);
