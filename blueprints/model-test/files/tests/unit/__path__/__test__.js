@@ -5,7 +5,7 @@ import {
 
 moduleForModel('<%= dasherizedModuleName %>', '<%= classifiedModuleName %>', {
   // Specify the other units that are required for this test.
-<%= needs %>
+<%= typeof needs !== 'undefined' ? needs : '' %>
 });
 
 test('it exists', function() {

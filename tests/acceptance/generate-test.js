@@ -255,6 +255,21 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('model-test foo', function() {
+    return generate(['model-test', 'foo']).then(function() {
+      assertFile('tests/unit/models/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForModel," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForModel('foo', 'Foo'"
+        ],
+        doesNotContain: 'needs'
+      });
+    });
+  });
+
   it('route foo', function() {
     return generate(['route', 'foo']).then(function() {
       assertFile('app/router.js', {
