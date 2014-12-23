@@ -1,10 +1,179 @@
 # ember-cli Changelog
 
-### Master
+# Master
 
-* [BUGFIX] Updates `broccoli-asset-rev` to 2.0.0 [#2741](https://github.com/stefanpenner/ember-cli/pull/2741)
-* [BUGFIX] Generates correct entry in `app/router.js` for nested routes and resources when running `ember generate route` [2748](https://github.com/stefanpenner/ember-cli/pull/2748).
-* [ENHANCEMENT] Add option `--path` to route generator: `ember generate route friends/edit --path=:friend_id/edit` [2748](https://github.com/stefanpenner/ember-cli/pull/2748)
+### Applications
+### Addons
+### Blueprints
+
+### 0.1.5
+
+### Applications
+
+- [#2727](https://github.com/ember-cli/ember-cli/pull/2727) Added
+  sourcemap support to the JS concatenation and minification steps of
+  the build. This eliminates the need for the wrapInEval hack. Any
+  Javascript preprocessors that produce sourcemaps will also be
+  automatically incorporated into the final result. Sourcemaps are
+  enabled by default in dev, to enable them in production pass
+  `{sourcemaps: { enabled: true, extensions: ['js']}}` to your
+  EmberApp constructor.
+
+- [#2741](https://github.com/ember-cli/ember-cli/pull/2741) allowed
+  the creation of components with slashes in their names since this is
+  supported in Handlebars 2.0.
+
+- [#2800](https://github.com/ember-cli/ember-cli/pull/2800) Added 3 new commands
+
+  ```
+  ember install
+  ember install:bower moment
+  ember install:npm ember-browserify
+  ```
+
+  They behave exactly as you'd expect. Install runs npm and bower
+  install on the project. The last two simply pass in the package names
+  you give it to the underlying task to do it.
+
+- [#2805](https://github.com/ember-cli/ember-cli/pull/2805) Added the
+  `install:addon` command, which installs an addon with NPM and then
+  runs the included generator of the same name  if it provides one.
+
+  If the blueprint for the installed addon requires arguments, then
+  you can pass them too, for example, the `ember-cli-cordova` addon
+  needs an extra argument which you can pass running the command as
+  follows: `ember install:addon ember-cli-cordova com.myapp.app`.
+
+- [#2565](https://github.com/ember-cli/ember-cli/pull/2565) added
+  support for command options aliases, as well as aliases for
+  predefined options, this means that some commands can use aliases
+  for their existing options, for example, instead of running `ember g
+  route foo --type route` we can now use the -route alias: `ember g
+  route foo -route`.
+
+  You can see available aliases for each command running `ember help`,
+  they will show as `aliases: ` follow by the alias.
+
+- [#2668](https://github.com/ember-cli/ember-cli/pull/2668) added the
+  `prepend` flag to `app.import` in `Brocfile.js`, allowing to prepend
+  a file to the vendor bundle rather than appended which is the
+  default behaviour.
+
+   ```
+   // Brocfile.js
+   app.import('bower_components/es5-shim/es5-shim.js', {
+     type: 'vendor',
+     prepend: true
+   });
+   ```
+
+- [#2694](https://github.com/ember-cli/ember-cli/pull/2694) disabled
+  default lookup & active generation logging in
+  `config/environment.js`.
+
+- [#2748](https://github.com/ember-cli/ember-cli/pull/2748) improved
+  the router generator to support properly nested routes and
+  resources, previously if you had a route similar like:
+
+  ```
+  Router.map(function() {
+    this.route("foo");
+  });
+  ```
+
+  And you did `ember g route foo/bar` the generated routes would be
+
+  ```
+  Router.map(function() {
+    this.route("foo");
+    this.route("foo/bar");
+  });
+  ```
+
+  Now it keeps manages nested routes properly so the result would be:
+
+  ```
+  Router.map(function() {
+    this.route("foo", function() {
+      this.route("bar");
+    });
+  });
+  ```
+
+  Additionally the option `--path` was added so you can do things like
+  `ember g route friends/edit --path=:friend_id/id` creating a nested
+  route under `friends` like: `this.route('edit', {path: ':friend_id/edit'})`
+
+- [#2734](https://github.com/ember-cli/ember-cli/pull/2734) changed
+  the options for editorconfig so it won't remove trailing whitespace
+  on .diff files.
+
+- [#2788](https://github.com/ember-cli/ember-cli/pull/2788) added an
+  `on('error')` handler to the proxy blueprint, with this your `ember
+  server` won't be killed when receiving `socket hang up` from the
+  `http-proxy`.
+
+- [#2741](https://github.com/stefanpenner/ember-cli/pull/2741) updated `broccoli-asset-rev` to 2.0.0.
+
+- [#2779](https://github.com/ember-cli/ember-cli/pull/2779) fixed a
+  bug in your `.ember-cli` file, if you had a liveReloadPort of say
+  "4200" it would not actually end up as that port. This casts the
+  string to a number so that the port is set correctly.
+
+- [#2817](https://github.com/ember-cli/ember-cli/pull/2817) added a
+  new feature so [Leek](https://github.com/twokul/leek) can be
+  configured through your `.ember-cli` file. It means you will be able
+  to configure the URLs Leek sends requests to, with this you can plug
+  internal tools and track usage patterns.
+
+- [#2828](https://github.com/ember-cli/ember-cli/pull/2828) added the
+  option to consume `app.env` before app instance creation in your
+  Brocfile, this is useful if you want to pass environment-dependent
+  options to the EmberApp constructor in your Brocfile:
+
+  ```
+  new EmberApp({
+    someOption: EmberApp.env() === 'production' ? 'foo' : 'bar';
+  });
+  ```
+- [#2829](https://github.com/ember-cli/ember-cli/pull/2829) fixed an
+  issue on the model-test blueprint which was causing the build to fail
+  when the options `needs` wasn't present.
+
+- [#2832](https://github.com/ember-cli/ember-cli/pull/2832) added a
+  buildError hook which will be called when an error occurs during the
+  `preBuild` or `postBuild` hooks for addons, or when `builder#build`
+  fails hook.
+
+- [#2836](https://github.com/ember-cli/ember-cli/pull/2836) added a
+  check when passing `--proxy` to `ember server`. If the URL doesn't
+  include `http` or `https` then the command will fail since it
+  requires the protocol in order to get the proxy working correctly.
+
+#### Addons
+
+- [#2693](https://github.com/ember-cli/ember-cli/pull/2693) fixed an
+  issue with blueprints ensuring that last loaded blueprint takes
+  precedence.
+
+- [#2805](https://github.com/ember-cli/ember-cli/pull/2805) Added the
+  `install:addon` command, which installs an addon with NPM and then
+  runs the included generator of the same name if it provides one,
+  additionally if you addon generator's name is different to the addon
+  name, you can pass the option `defaultBlueprint` in your
+  `package.json` and the command will run the generator after
+  installed. The following will run `ember g cordova-starter-kit`
+  after it has successfully installed `ember-cli-cordova`
+
+  ```
+  name: 'ember-cli-cordova',
+  'ember-addon': {
+    defaultBlueprint: 'cordova-starter-kit'
+  }
+  ```
+- [#2775](https://github.com/ember-cli/ember-cli/pull/2775) added a
+  default `.jshintrc` for `in-repo-addons` so they are treated as
+  `Node` applications.
 
 ### 0.1.4
 
