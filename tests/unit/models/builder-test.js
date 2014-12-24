@@ -138,6 +138,10 @@ describe('models/builder.js', function() {
 
           return Promise.resolve();
         },
+
+        buildError: function() {
+          hooksCalled.push('buildError');
+        },
       };
 
       builder = new Builder({
@@ -180,6 +184,69 @@ describe('models/builder.js', function() {
     it('hooks are called in the right order', function() {
       return builder.build().then(function() {
         assert.deepEqual(hooksCalled, ['preBuild', 'build', 'postBuild']);
+      });
+    });
+
+    it('buildError receives the error object from the errored step', function() {
+      var thrownBuildError = new Error('buildError');
+      var receivedBuildError;
+
+      addon.buildError = function(errorThrown) {
+        receivedBuildError = errorThrown;
+      };
+
+      builder.builder.build = function() {
+        hooksCalled.push('build');
+
+        return Promise.reject(thrownBuildError);
+      };
+
+      return builder.build().then(function() {
+        assert(false, 'should not succeed');
+      }).catch(function() {
+        assert.equal(receivedBuildError, thrownBuildError);
+      });
+    });
+
+    it('calls buildError and does not call build or postBuild when preBuild fails', function() {
+      addon.preBuild = function() {
+        hooksCalled.push('preBuild');
+
+        return Promise.reject(new Error('preBuild Error'));
+      };
+
+      return builder.build().then(function() {
+        assert(false, 'should not succeed');
+      }).catch(function() {
+        assert.deepEqual(hooksCalled, ['preBuild', 'buildError']);
+      });
+    });
+
+    it('calls buildError and does not call postBuild when build fails', function() {
+      builder.builder.build = function() {
+        hooksCalled.push('build');
+
+        return Promise.reject(new Error('build Error'));
+      };
+
+      return builder.build().then(function() {
+        assert(false, 'should not succeed');
+      }).catch(function() {
+        assert.deepEqual(hooksCalled, ['preBuild', 'build', 'buildError']);
+      });
+    });
+
+    it('calls buildError when postBuild fails', function() {
+      addon.postBuild = function() {
+        hooksCalled.push('postBuild');
+
+        return Promise.reject(new Error('preBuild Error'));
+      };
+
+      return builder.build().then(function() {
+        assert(false, 'should not succeed');
+      }).catch(function() {
+        assert.deepEqual(hooksCalled, ['preBuild', 'build', 'postBuild', 'buildError']);
       });
     });
   });
