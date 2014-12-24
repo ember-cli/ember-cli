@@ -116,6 +116,10 @@ describe('models/addon.js', function() {
         assert.notEqual(addon.root, undefined);
       });
 
+      it('sets the pkg', function() {
+        assert.notEqual(addon.pkg, undefined);
+      });
+
       describe('custom treeFor methods', function() {
         it('can define treeForApp', function() {
           var called;
@@ -235,6 +239,10 @@ describe('models/addon.js', function() {
 
       it('sets the root', function() {
         assert.notEqual(addon.root, undefined);
+      });
+
+      it('sets the pkg', function() {
+        assert.notEqual(addon.pkg, undefined);
       });
 
       describe('trees for it\'s treePaths', function() {
