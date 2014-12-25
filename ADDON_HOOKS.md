@@ -6,6 +6,7 @@ Table of Contents:
 - [serverMiddleware](#servermiddleware)
 - [postBuild](#postbuild)
 - [preBuild](#prebuild)
+- [buildError](#builderror)
 - [included](#included)
 - [postProcess](#postprocess)
 - [treeFor](#treefor)
@@ -119,7 +120,7 @@ Allows the specification of custom addon commands.  Expects you to return an obj
   includedCommands: function() {
     return {
       'divshot': require('./lib/commands/divshot')
-    }
+    };
   }
 ```
 
@@ -193,6 +194,26 @@ Hook called before build takes place.
   - In this case we are using this in tandem with a rails middleware to create a lock file.
   *[See postBuild]*
 
+<a name='builderror'></a>
+## buildError
+
+buildError hook will be called on when an error occurs during the
+preBuild or postBuild hooks for addons, or when builder#build
+fails
+
+**Received arguments:**
+
+- The error that was caught during the processes listed above
+
+**Source:** [lib/models/builder.js:122](https://github.com/rwjblue/ember-cli/blob/pre-build-duh/lib/models/builder.js#L11://github.com/ember-cli/ember-cli/blob/ffd52b584a0fb3201878431339744acdabb0fa24/lib/models/builder.js#L122)
+
+**Default implementation:** None
+
+**Uses:**
+
+- Custom error handling during build process
+
+**Examples:**
 
 <a name='included'></a>
 ## included
