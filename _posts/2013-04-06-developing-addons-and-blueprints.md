@@ -265,7 +265,7 @@ The code imports the component from the addon directory and exports it again.
 This setup allows others to modify the component by extending it while making
 the component available in the consuming applications namespace. This means
 anyone who installs your `x-button` addon can start using the component in their
-templates with `{{x-button}}` without any extra configuration.
+templates with `{% raw %}{{x-button}}{% endraw %}` without any extra configuration.
 
 ### Blueprints
 To create a blueprint, add a file `blueprints/x-button/index.js`. This follows the usual Ember blueprints naming conventions.
