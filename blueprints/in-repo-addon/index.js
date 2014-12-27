@@ -1,9 +1,20 @@
 var fs   = require('fs-extra');
 var path = require('path');
 var stringUtil = require('../../lib/utilities/string');
+var Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',
+
+  beforeInstall: function(options) {
+    var libBlueprint = Blueprint.lookup('lib', {
+      ui: this.ui,
+      analytics: this.analytics,
+      project: this.project
+    });
+
+    return libBlueprint.install(options);
+  },
 
   afterInstall: function(options) {
     var packagePath = path.join(this.project.root, 'package.json');
