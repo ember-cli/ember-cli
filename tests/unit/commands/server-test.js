@@ -75,6 +75,23 @@ describe('server command', function() {
     });
   });
 
+  it('requires proxy URL to include protocol', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--proxy', 'localhost:3000'
+    ]).then(function() {
+      assert.ok(
+        false,
+        'it rejects when proxy URL doesn\'t include protocol'
+      );
+    })
+    .catch(function(error) {
+      assert.equal(
+        error.message,
+        'You need to include a protocol with the proxy URL.\nTry --proxy http://localhost:3000'
+      );
+    });
+  });
+
   it('uses baseURL of correct environment', function() {
     options.project.config = function(env) {
       return { baseURL: env };
