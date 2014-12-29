@@ -27,7 +27,7 @@ function assertTmpEmpty() {
       return !path.match(/output\//);
     });
 
-  expect(paths, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL)).to.be.empty;
+  expect(paths).to.deep.equal([], 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
 }
 
 describe('Acceptance: addon-smoke-test', function() {
@@ -91,8 +91,8 @@ describe('Acceptance: addon-smoke-test', function() {
     var packageContents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
 
     expect(packageContents.name).to.equal(addonName);
-    expect(packageContents.private).to.be.undefined;
-    expect(packageContents.keywords).to.deep.equal(['ember-addon']);
+    expect(packageContents.private).to.be.an('undefined');
+    expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
     var bowerContents = JSON.parse(fs.readFileSync('bower.json', { encoding: 'utf8' }));

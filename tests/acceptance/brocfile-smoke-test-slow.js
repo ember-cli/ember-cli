@@ -84,7 +84,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
 
-        expect(vendorContents, 'EmberENV should be in assets/vendor.js').to.contain(expected);
+        expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
       });
   });
 
@@ -197,9 +197,9 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
       })
       .then(function() {
-        expect(true, 'Build passed when it should have failed!' ).to.be.false;
+        expect(false).to.equal(false, 'Build passed when it should have failed!');
       }, function() {
-        expect(true, 'Build failed with invalid options type.' ).to.be.true;
+        expect(true).to.equal(true, 'Build failed with invalid options type.');
       });
   });
 
@@ -296,7 +296,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(fs.existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
+          expect(fs.existsSync(path.join(basePath, file))).to.equal(true, file + ' exists');
         });
       });
   });
@@ -316,7 +316,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(fs.existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
+          expect(fs.existsSync(path.join(basePath, file))).to.equal(true, file + ' exists');
         });
       });
   });
@@ -359,10 +359,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(fs.existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
+          expect(fs.existsSync(path.join(basePath, file))).to.equal(true, file + ' exists');
         });
 
-        expect(fs.existsSync(path.join(basePath, '/assets/some-cool-app.css')), 'default app.css should not exist').to.be.false;
+        expect(fs.existsSync(path.join(basePath, '/assets/some-cool-app.css'))).to.equal(false, 'default app.css should not exist');
       });
   });
 
@@ -388,8 +388,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(mainCSS, 'main.css contains correct content').to.equal('body { background: black; }' + EOL);
-        expect(themeCSS, 'theme/a.css contains correct content').to.equal('.theme { color: red; }' + EOL);
+        expect(mainCSS).to.equal('body { background: black; }' + EOL, 'main.css contains correct content');
+        expect(themeCSS).to.equal('.theme { color: red; }' + EOL, 'theme/a.css contains correct content');
       });
   });
 
@@ -400,7 +400,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       .then(function() {
         var exists = fs.existsSync(path.join('.', 'dist', 'assets', appName + '.css'));
 
-        expect(exists, appName + '.css exists').to.be.true;
+        expect(exists).to.equal(true, appName + '.css exists');
       });
   });
 
@@ -432,7 +432,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(mainCSS, appName + '.css contains correct content').to.equal('body { background: green; }' + EOL);
+        expect(mainCSS).to.equal('body { background: green; }' + EOL, appName + '.css contains correct content');
       });
   });
 });

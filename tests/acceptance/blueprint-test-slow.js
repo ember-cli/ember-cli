@@ -79,8 +79,8 @@ describe('Acceptance: blueprint smoke tests', function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
-        expect(packageJson.devDependencies['http-proxy']).to.exist;
-        expect(packageJson.devDependencies['morgan']).to.exist;
+        expect(packageJson.devDependencies['http-proxy']).to.not.be.an('undefined');
+        expect(packageJson.devDependencies['morgan']).to.not.be.an('undefined');
       });
   });
 });

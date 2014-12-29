@@ -57,8 +57,8 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected, EOL + ' expected: ' +  util.inspect(expected) +
-                     EOL + ' but got: ' +  util.inspect(actual)).to.deep.equal(actual);
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
+                                           EOL + ' but got: ' +  util.inspect(actual));
   }
 
   function confirmGlobBlueprinted(pattern) {
@@ -71,8 +71,8 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected, EOL + ' expected: ' +  util.inspect(expected) +
-                     EOL + ' but got: ' +  util.inspect(actual)).to.deep.equal(actual);
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
+                                           EOL + ' but got: ' +  util.inspect(actual));
   }
 
   function pickSync(filePath, pattern) {

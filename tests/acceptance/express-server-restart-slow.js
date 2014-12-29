@@ -21,7 +21,7 @@ function assertTmpEmpty() {
       return !path.match(/output\//);
     });
 
-  expect(paths, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL)).to.be.empty;
+  expect(paths).to.deep.equal([], 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
 }
 
 describe('Acceptance: express server restart', function () {
@@ -97,8 +97,7 @@ describe('Acceptance: express server restart', function () {
   var initialRoot = process.cwd();
   function ensureTestFileContents(expectedContents, message) {
     var contents = fs.readFileSync(path.join(initialRoot, 'tmp', appName, 'foo.txt'), { encoding: 'utf8' });
-    //assert.equal(contents, expectedContents, message);
-    expect(contents, message).to.equal(expectedContents);
+    expect(contents).to.equal(expectedContents, message);
   }
 
   function onChildSpawnedSingleCopy(copySrc, expectedContents) {

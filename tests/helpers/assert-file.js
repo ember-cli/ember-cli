@@ -39,7 +39,7 @@ var EOL      = require('os').EOL;
 module.exports = function assertFile(file, options) {
   var filePath = path.join(process.cwd(), file);
 
-  expect(fs.existsSync(filePath), 'expected ' + file + ' to exist').to.be.true;
+  expect(fs.existsSync(filePath)).to.equal(true, 'expected ' + file + ' to exist');
 
   if (!options) {
     return;
@@ -57,10 +57,10 @@ module.exports = function assertFile(file, options) {
         pass = contains(actual, expected);
       }
 
-      expect(pass, EOL + EOL + 'expected ' + file + ':' + EOL + EOL +
-                   actual +
-                   EOL + 'to contain:' + EOL + EOL +
-                   expected + EOL).to.be.true;
+      expect(pass).to.equal(true, EOL + EOL + 'expected ' + file + ':' + EOL + EOL +
+                                  actual +
+                                  EOL + 'to contain:' + EOL + EOL +
+                                  expected + EOL);
     });
   }
 
@@ -74,10 +74,10 @@ module.exports = function assertFile(file, options) {
         pass = !contains(actual, unexpected);
       }
 
-      expect(pass, EOL + EOL + 'expected ' + file + ':' + EOL + EOL +
-                   actual + EOL +
-                   'not to contain:' + EOL + EOL +
-                   unexpected + EOL).to.be.true;
+      expect(pass).to.equal(true, EOL + EOL + 'expected ' + file + ':' + EOL + EOL +
+                                  actual + EOL +
+                                  'not to contain:' + EOL + EOL +
+                                  unexpected + EOL);
     });
   }
 };

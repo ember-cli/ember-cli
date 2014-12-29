@@ -67,7 +67,7 @@ describe('Acceptance: ember destroy pod', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    expect(fs.existsSync(filePath), 'expected ' + file + ' not to exist').to.be.false;
+    expect(fs.existsSync(filePath)).to.equal(false, 'expected ' + file + ' not to exist');
   }
 
   function assertFilesExist(files) {

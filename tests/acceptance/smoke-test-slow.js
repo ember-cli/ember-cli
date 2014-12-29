@@ -24,7 +24,7 @@ function assertTmpEmpty() {
       return !path.match(/output\//);
     });
 
-  expect(paths, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL)).to.be.empty;
+  expect(paths).to.deep.equal([], 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
 }
 
 describe('Acceptance: smoke-test', function() {
@@ -96,7 +96,7 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
-            expect(true, 'should have rejected with a failing test').to.be.false;
+            expect(false).to.equal(false, 'should have rejected with a failing test');
           })
           .catch(function(result) {
             expect(result.code).to.equal(1);
@@ -111,7 +111,7 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
-            expect(true, 'should have rejected with a failing test').to.be.false;
+            expect(true).to.equal(false, 'should have rejected with a failing test');
           })
           .catch(function(result) {
             expect(result.code).to.equal(1);
@@ -141,7 +141,7 @@ describe('Acceptance: smoke-test', function() {
           md5.update(file);
           var hex = md5.digest('hex');
 
-          expect(filepath, filepath + ' contains the fingerprint (' + hex + ')').to.contain(hex);
+          expect(filepath).to.contain(hex, filepath + ' contains the fingerprint (' + hex + ')');
         });
 
         var indexHtml = fs.readFileSync(path.join('.', 'dist', 'index.html'), { encoding: 'utf8' });
@@ -162,13 +162,13 @@ describe('Acceptance: smoke-test', function() {
                 var exitCode = result.code;
                 var output = result.output.join(EOL);
 
-                expect(exitCode, 'exit code should be 0 for passing tests').to.equal(0);
-                expect(output, 'JSHint should not be run on production assets').to.not.match(/JSHint/);
-                expect(output, 'no failures').to.match(/fail\s+0/);
-                expect(output, '1 passing').to.match(/pass\s+1/);
+                expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
+                expect(output).to.not.match(/JSHint/, 'JSHint should not be run on production assets');
+                expect(output).to.match(/fail\s+0/, 'no failures');
+                expect(output).to.match(/pass\s+1/, '1 passing');
               })
               .catch(function(result) {
-                expect(true, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL)).to.be.false;
+                expect(false).to.equal(false, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL));
               });
         });
   });
@@ -181,7 +181,7 @@ describe('Acceptance: smoke-test', function() {
         var dirPath = path.join('.', 'dist');
         var paths = walkSync(dirPath);
 
-        expect(paths, 'expected fewer than 21 files in dist, found ' + paths.length).to.have.length.below(21);
+        expect(paths).to.have.length.below(21, 'expected fewer than 21 files in dist, found ' + paths.length);
       });
   });
 
@@ -193,7 +193,7 @@ describe('Acceptance: smoke-test', function() {
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent')
       .then(function (result) {
-        expect(result.code, 'expected exit code to be zero, but got ' + result.code).to.equal(0);
+        expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
 
         // add something broken to the project to make build fail
         fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
@@ -209,10 +209,10 @@ describe('Acceptance: smoke-test', function() {
         });
 
       }).then(function () {
-        expect(true, 'should have rejected with a failing build').to.be.false;
+        expect(false).to.equal(false, 'should have rejected with a failing build');
       }).catch(function (result) {
-        expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.true;
-        expect(result.code, 'expected exit code to be non-zero, but got ' + result.code).to.not.equal(0);
+        expect(ouputContainsBuildFailed).to.equal(true, 'command output must contain "Build failed" text');
+        expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
       });
   });
 
@@ -231,7 +231,7 @@ describe('Acceptance: smoke-test', function() {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
-              expect(contents, 'must contain changed line after rebuild').to.contain(text);
+              expect(contents).to.contain(text, 'must contain changed line after rebuild');
               killCliProcess(child);
             }
           } else {
@@ -280,7 +280,7 @@ describe('Acceptance: smoke-test', function() {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
-              expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild').to.be.true;
+              expect(contents.indexOf(secondText) > 1).to.equal(true, 'must contain second changed line after rebuild');
               killCliProcess(child);
             }
           }
