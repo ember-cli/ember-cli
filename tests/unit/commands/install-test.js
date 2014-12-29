@@ -1,6 +1,6 @@
 'use strict';
 
-var assert         = require('../../helpers/assert');
+var expect         = require('chai').expect;
 var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var InstallCommand = require('../../../lib/commands/install');
@@ -55,37 +55,37 @@ describe('install command', function() {
   it('runs the bower install task and npm install task', function() {
     return command.validateAndRun([]).then(function() {
       var bowerRun = tasks.BowerInstall.prototype.run;
-      assert.equal(bowerRun.called, 1, 'expected bower install run was called once');
-      assert.deepEqual(bowerRun.calledWith[0][0], {}, 'expected bower install called with empty options');
+      expect(bowerRun.called).to.equal(1, 'expected bower install run was called once');
+      expect(bowerRun.calledWith[0][0]).to.deep.equal({}, 'expected bower install called with empty options');
 
       var npmRun = tasks.NpmInstall.prototype.run;
-      assert.equal(npmRun.called, 1, 'expected npm install run was called once');
-      assert.deepEqual(npmRun.calledWith[0][0], {}, 'expected npm install called with empty options');
+      expect(npmRun.called).to.equal(1, 'expected npm install run was called once');
+      expect(npmRun.calledWith[0][0]).to.deep.equal({}, 'expected npm install called with empty options');
     });
   });
 
   it('initializes npm task with ui, project and analytics', function() {
     return command.validateAndRun([]).then(function() {
-      assert.ok(npmInstance.ui, 'ui was set');
-      assert.ok(npmInstance.project, 'project was set');
-      assert.ok(npmInstance.analytics, 'analytics was set');
+      expect(npmInstance.ui, 'ui was set');
+      expect(npmInstance.project, 'project was set');
+      expect(npmInstance.analytics, 'analytics was set');
     });
   });
 
   it('initializes bower task with ui, project and analytics', function() {
     return command.validateAndRun([]).then(function() {
-      assert.ok(bowerInstance.ui, 'ui was set');
-      assert.ok(bowerInstance.project, 'project was set');
-      assert.ok(bowerInstance.analytics, 'analytics was set');
+      expect(bowerInstance.ui, 'ui was set');
+      expect(bowerInstance.project, 'project was set');
+      expect(bowerInstance.analytics, 'analytics was set');
     });
   });
 
   it('warns when passing args', function() {
     return command.validateAndRun(['moment']).then(function() {
-      assert.ok(false, 'should have rejected with a warning');
+      expect(false, 'should have rejected with a warning');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'The `install` command does not take any arguments. You must use `install:npm` or `install:bower` to install a specific package.');
+      expect(error.message).to.equal('The `install` command does not take any arguments. You must use `install:npm` or `install:bower` to install a specific package.');
     });
   });
 });

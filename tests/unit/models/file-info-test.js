@@ -1,6 +1,6 @@
 'use strict';
 
-var assert    = require('../../helpers/assert');
+var expect    = require('chai').expect;
 var MockUI    = require('../../helpers/mock-ui');
 var FileInfo  = require('../../../lib/models/file-info');
 var path      = require('path');
@@ -48,7 +48,7 @@ describe('Unit - FileInfo', function(){
     var fileInfo = new FileInfo(validOptions);
 
     return fileInfo.render().then(function(output){
-      assert.equal(output.trim(), 'Howdy Billy',
+      expect(output.trim()).to.equal('Howdy Billy',
         'expects the template to have been run');
     });
   });
@@ -61,8 +61,7 @@ describe('Unit - FileInfo', function(){
     var fileInfo = new FileInfo(validOptions);
 
     return fileInfo.render().then(function(output){
-      assert(output,
-        'expects the file to be processed without error');
+      expect(!!output, 'expects the file to be processed without error').to.equal(true);
     });
   });
 
@@ -74,13 +73,13 @@ describe('Unit - FileInfo', function(){
       return fileInfo.displayDiff();
     }).then(function(){
       var output = ui.output.trim().split(EOL);
-      assert.equal(output.shift(), 'Index: ' + testOutputPath);
-      assert.match(output.shift(), /=+/);
-      assert.match(output.shift(), /---/);
-      assert.match(output.shift(), /\+{3}/);
-      assert.match(output.shift(), /.*/);
-      assert.match(output.shift(), /\+Howdy Billy/);
-      assert.match(output.shift(), /-Something Old/);
+      expect(output.shift()).to.equal('Index: ' + testOutputPath);
+      expect(output.shift()).to.match(/=+/);
+      expect(output.shift()).to.match(/---/);
+      expect(output.shift()).to.match(/\+{3}/);
+      expect(output.shift()).to.match(/.*/);
+      expect(output.shift()).to.match(/\+Howdy Billy/);
+      expect(output.shift()).to.match(/-Something Old/);
     });
   });
 
@@ -93,8 +92,8 @@ describe('Unit - FileInfo', function(){
 
     return fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
-      assert.match(output.shift(), /Overwrite.*\?/);
-      assert.equal(action, 'overwrite');
+      expect(output.shift()).to.match(/Overwrite.*\?/);
+      expect(action).to.equal('overwrite');
     });
   });
 
@@ -107,8 +106,8 @@ describe('Unit - FileInfo', function(){
 
     return fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
-      assert.match(output.shift(), /Overwrite.*\?/);
-      assert.equal(action, 'skip');
+      expect(output.shift()).to.match(/Overwrite.*\?/);
+      expect(action).to.equal('skip');
     });
   });
 
@@ -121,8 +120,8 @@ describe('Unit - FileInfo', function(){
 
     return fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
-      assert.match(output.shift(), /Overwrite.*\?/);
-      assert.equal(action, 'diff');
+      expect(output.shift()).to.match(/Overwrite.*\?/);
+      expect(action).to.equal('diff');
     });
   });
 

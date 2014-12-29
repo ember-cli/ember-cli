@@ -1,10 +1,10 @@
 'use strict';
 
-var assert      = require('../../helpers/assert');
-var TestServerTask    = require('../../../lib/tasks/test-server');
-var MockProject = require('../../helpers/mock-project');
-var MockUI      = require('../../helpers/mock-ui');
-var MockWatcher = require('../../helpers/mock-watcher');
+var expect         = require('chai').expect;
+var TestServerTask = require('../../../lib/tasks/test-server');
+var MockProject    = require('../../helpers/mock-project');
+var MockUI         = require('../../helpers/mock-ui');
+var MockWatcher    = require('../../helpers/mock-watcher');
 
 describe('test server', function() {
   var subject;
@@ -21,10 +21,10 @@ describe('test server', function() {
       },
       testem: {
         startDev: function(options) {
-          assert.equal(options.file, 'blahzorz.conf');
-          assert.equal(options.port, 123324);
-          assert.equal(options.cwd, 'blerpy-derpy');
-          assert.deepEqual(options.middleware, ['middleware1', 'middleware2']);
+          expect(options.file).to.equal('blahzorz.conf');
+          expect(options.port).to.equal(123324);
+          expect(options.cwd).to.equal('blerpy-derpy');
+          expect(options.middleware).to.deep.equal(['middleware1', 'middleware2']);
           done();
         }
       }

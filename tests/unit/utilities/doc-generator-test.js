@@ -2,7 +2,7 @@
 
 var DocGenerator = require('../../../lib/utilities/doc-generator.js');
 var calculateVersion = require('../../../lib/utilities/ember-cli-version.js');
-var assert = require('assert');
+var expect = require('chai').expect;
 var path = require('path');
 
 describe('generateDocs', function(){
@@ -16,7 +16,7 @@ describe('generateDocs', function(){
       console.log('Pattern:  ' + pattern);
       console.log('Argument: ' + arguments[0]);
 
-      assert.ok((new RegExp(pattern)).test(arguments[0]));
+      expect((new RegExp(pattern)).test(arguments[0])).to.equal(true);
     };
 
     var generator = new DocGenerator({exec: execFunc});

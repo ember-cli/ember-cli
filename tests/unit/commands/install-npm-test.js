@@ -1,6 +1,6 @@
 'use strict';
 
-var assert         = require('../../helpers/assert');
+var expect         = require('chai').expect;
 var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var InstallCommand = require('../../../lib/commands/install-npm');
@@ -45,9 +45,9 @@ describe('install:npm command', function() {
 
   it('initializes npm task with ui, project and analytics', function() {
     return command.validateAndRun([]).then(function() {
-      assert.ok(npmInstance.ui, 'ui was set');
-      assert.ok(npmInstance.project, 'project was set');
-      assert.ok(npmInstance.analytics, 'analytics was set');
+      expect(npmInstance.ui, 'ui was set');
+      expect(npmInstance.project, 'project was set');
+      expect(npmInstance.analytics, 'analytics was set');
     });
   });
 
@@ -55,8 +55,8 @@ describe('install:npm command', function() {
     it('runs the npm install task with no packages and save-dev true', function() {
       return command.validateAndRun([]).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
-        assert.equal(npmRun.called, 1, 'expected npm install run was called once');
-        assert.deepEqual(npmRun.calledWith[0][0], {
+        expect(npmRun.called).to.equal(1, 'expected npm install run was called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: [],
           'save-dev': true
         }, 'expected npm install called with no packages and save-dev true');
@@ -68,8 +68,8 @@ describe('install:npm command', function() {
     it('runs the npm install task with given packages', function() {
       return command.validateAndRun(['moment', 'lodash']).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
-        assert.equal(npmRun.called, 1, 'expected npm install run was called once');
-        assert.deepEqual(npmRun.calledWith[0][0], {
+        expect(npmRun.called).to.equal(1, 'expected npm install run was called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['moment', 'lodash'],
           'save-dev': true
         }, 'expected npm install called with given packages and save-dev true');

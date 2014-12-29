@@ -2,7 +2,7 @@
 
 var fs         = require('fs');
 var path       = require('path');
-var assert     = require('../../helpers/assert');
+var expect     = require('chai').expect;
 var MockUI     = require('../../helpers/mock-ui');
 var Promise    = require('../../../lib/ext/promise');
 var UpdateTask = require('../../../lib/tasks/update');
@@ -60,8 +60,8 @@ describe('update task', function() {
       }, {
         newestVersion: '100.0.0'
       }).then(function() {
-        assert.include(ui.output, 'A new version of ember-cli is available');
-        assert.include(ui.output, 'Are you sure you want to update ember-cli?');
+        expect(ui.output).to.include('A new version of ember-cli is available');
+        expect(ui.output).to.include('Are you sure you want to update ember-cli?');
       });
     });
   });
@@ -120,14 +120,14 @@ describe('update task', function() {
       }, {
         newestVersion: '100.0.0'
       }).then(function() {
-        assert.include(ui.output, 'A new version of ember-cli is available');
-        assert.include(ui.output, 'Are you sure you want to update ember-cli?');
-        assert.deepEqual(installCalledWith, [ 'ember-cli' ], '');
-        assert.deepEqual(loadCalledWith, {
+        expect(ui.output).to.include('A new version of ember-cli is available');
+        expect(ui.output).to.include('Are you sure you want to update ember-cli?');
+        expect(installCalledWith).to.deep.equal([ 'ember-cli' ], '');
+        expect(loadCalledWith).to.deep.equal({
           'global': true,
           'loglevel': 'silent'
         }, '');
-        assert(initCommandWasRun);
+        expect(initCommandWasRun);
       });
     });
 
@@ -137,9 +137,8 @@ describe('update task', function() {
       }, {
         newestVersion: '100.0.0'
       }).then(function() {
-        assert.equal(pkg.devDependencies['ember-cli'], '100.0.0');
+        expect(pkg.devDependencies['ember-cli']).to.equal('100.0.0');
       });
     });
-
   });
 });

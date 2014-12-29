@@ -1,7 +1,7 @@
 'use strict';
 
 var path          = require('path');
-var assert        = require('../../helpers/assert');
+var expect        = require('chai').expect;
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var Promise       = require('../../../lib/ext/promise');
@@ -38,17 +38,17 @@ describe('init command', function() {
     });
 
     return command.validateAndRun([]).then(function() {
-      assert.ok(false, 'should have rejected with an application name of test');
+      expect(false, 'should have rejected with an application name of test');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'We currently do not support a name of `test`.');
+      expect(error.message).to.equal('We currently do not support a name of `test`.');
     });
   });
 
   it('Uses the name of the closest project to when calling installBlueprint', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.rawName, 'some-random-name');
+        expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
       }
     });
@@ -63,14 +63,14 @@ describe('init command', function() {
 
     return command.validateAndRun([])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 
   it('Uses the provided app name over the closest found project', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.rawName, 'provided-name');
+        expect(blueprintOpts.rawName).to.equal('provided-name');
         return Promise.reject('Called run');
       }
     });
@@ -85,7 +85,7 @@ describe('init command', function() {
 
     return command.validateAndRun(['--name=provided-name'])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 
@@ -93,7 +93,7 @@ describe('init command', function() {
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.rawName, path.basename(process.cwd()));
+        expect(blueprintOpts.rawName).to.equal(path.basename(process.cwd()));
         return Promise.reject('Called run');
       }
     });
@@ -107,14 +107,14 @@ describe('init command', function() {
 
     return command.validateAndRun([])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 
   it('doesn\'t use --dry-run or any other command option as the name', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.rawName, 'some-random-name');
+        expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
       }
     });
@@ -129,14 +129,14 @@ describe('init command', function() {
 
     return command.validateAndRun(['--dry-run'])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 
   it('doesn\'t use . as the name', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.rawName, 'some-random-name');
+        expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
       }
     });
@@ -151,14 +151,14 @@ describe('init command', function() {
 
     return command.validateAndRun(['.'])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 
   it('Uses the "app" blueprint by default', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.blueprint, 'app');
+        expect(blueprintOpts.blueprint).to.equal('app');
         return Promise.reject('Called run');
       }
     });
@@ -173,14 +173,14 @@ describe('init command', function() {
 
     return command.validateAndRun(['--name=provided-name'])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 
   it('Uses arguments to select files to init', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.blueprint, 'app');
+        expect(blueprintOpts.blueprint).to.equal('app');
         return Promise.reject('Called run');
       }
     });
@@ -195,14 +195,14 @@ describe('init command', function() {
 
     return command.validateAndRun(['package.json', '--name=provided-name'])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 
   it('Uses the "addon" blueprint for addons', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
-        assert.equal(blueprintOpts.blueprint, 'addon');
+        expect(blueprintOpts.blueprint).to.equal('addon');
         return Promise.reject('Called run');
       }
     });
@@ -217,7 +217,7 @@ describe('init command', function() {
 
     return command.validateAndRun(['--name=provided-name'])
       .catch(function(reason) {
-        assert.equal(reason, 'Called run');
+        expect(reason).to.equal('Called run');
       });
   });
 });

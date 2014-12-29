@@ -1,6 +1,6 @@
 'use strict';
 
-var assert         = require('../../helpers/assert');
+var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
 var NewCommand     = require('../../../lib/commands/new');
 
@@ -23,55 +23,55 @@ describe('new command', function() {
 
   it('doesn\'t allow to create an application named `test`', function() {
     return command.validateAndRun(['test']).then(function() {
-      assert.ok(false, 'should have rejected with an application name of test');
+      expect(false, 'should have rejected with an application name of test');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'We currently do not support a name of `test`.');
+      expect(error.message).to.equal('We currently do not support a name of `test`.');
     });
   });
 
   it('doesn\'t allow to create an application named `ember`', function() {
     return command.validateAndRun(['ember']).then(function() {
-      assert.ok(false, 'should have rejected with an application name of test');
+      expect(false, 'should have rejected with an application name of test');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'We currently do not support a name of `ember`.');
+      expect(error.message).to.equal('We currently do not support a name of `ember`.');
     });
   });
 
   it('doesn\'t allow to create an application named `vendor`', function() {
     return command.validateAndRun(['vendor']).then(function() {
-      assert.ok(false, 'should have rejected with an application name of `vendor`');
+      expect(false, 'should have rejected with an application name of `vendor`');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'We currently do not support a name of `vendor`.');
+      expect(error.message).to.equal('We currently do not support a name of `vendor`.');
     });
   });
 
   it('doesn\'t allow to create an application with a period in the name', function() {
     return command.validateAndRun(['zomg.awesome']).then(function() {
-      assert.ok(false, 'should have rejected with period in the application name');
+      expect(false, 'should have rejected with period in the application name');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'We currently do not support a name of `zomg.awesome`.');
+      expect(error.message).to.equal('We currently do not support a name of `zomg.awesome`.');
     });
   });
 
   it('doesn\'t allow to create an application with a name beginning with a number', function() {
     return command.validateAndRun(['123-my-bagel']).then(function() {
-      assert.ok(false, 'should have rejected with a name beginning with a number');
+      expect(false, 'should have rejected with a name beginning with a number');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'We currently do not support a name of `123-my-bagel`.');
+      expect(error.message).to.equal('We currently do not support a name of `123-my-bagel`.');
     });
   });
 
   it('shows a suggestion messages when the application name is a period', function() {
     return command.validateAndRun(['.']).then(function() {
-      assert.ok(false, 'should have rejected with a name `.`');
+      expect(false, 'should have rejected with a name `.`');
     })
     .catch(function(error) {
-      assert.equal(error.message, 'Trying to generate an application structure on this folder? Use `ember init` instead.');
+      expect(error.message).to.equal('Trying to generate an application structure on this folder? Use `ember init` instead.');
     });
   });
 

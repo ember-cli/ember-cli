@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('../../helpers/assert');
+var expect = require('chai').expect;
 var semver = require('semver');
 
 function assertVersionLock(_deps) {
@@ -11,7 +11,7 @@ function assertVersionLock(_deps) {
         semver.valid(deps[name]) &&
         semver.gtr('1.0.0', deps[name])) {
       // only valid if the version is fixed
-      assert(semver.valid(deps[name]), '"' + name + '" has a valid version');
+      expect(semver.valid(deps[name]), '"' + name + '" has a valid version');
     }
   });
 }
