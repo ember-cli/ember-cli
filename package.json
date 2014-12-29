@@ -113,7 +113,7 @@
     "core-object": "0.0.2",
     "debug": "^2.1.0",
     "diff": "^1.0.8",
-    "ember-router-generator": "0.1.0",
+    "ember-router-generator": "^0.1.1",
     "es6-module-transpiler": "^0.3.6",
     "exit": "^0.1.2",
     "express": "^4.8.5",
