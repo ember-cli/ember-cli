@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('../helpers/assert');
+var expect = require('chai').expect;
 var fs     = require('fs');
 
 /*
@@ -14,5 +14,5 @@ module.exports = function assertFileEquals(pathToActual, pathToExpected) {
   var actual = fs.readFileSync(pathToActual, { encoding: 'utf-8' });
   var expected = fs.readFileSync(pathToExpected, { encoding: 'utf-8' });
 
-  assert.equal(actual, expected);
+  expect(actual).to.equal(expected);
 };

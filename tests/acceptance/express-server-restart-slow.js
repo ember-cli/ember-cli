@@ -1,7 +1,7 @@
 'use strict';
 
 var path       = require('path');
-var assert     = require('assert');
+var expect     = require('chai').expect;
 var fs         = require('fs');
 var walkSync   = require('walk-sync');
 var EOL        = require('os').EOL;
@@ -21,7 +21,7 @@ function assertTmpEmpty() {
       return !path.match(/output\//);
     });
 
-  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
+  expect(paths, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL)).to.be.empty;
 }
 
 describe('Acceptance: express server restart', function () {
@@ -97,7 +97,8 @@ describe('Acceptance: express server restart', function () {
   var initialRoot = process.cwd();
   function ensureTestFileContents(expectedContents, message) {
     var contents = fs.readFileSync(path.join(initialRoot, 'tmp', appName, 'foo.txt'), { encoding: 'utf8' });
-    assert.equal(contents, expectedContents, message);
+    //assert.equal(contents, expectedContents, message);
+    expect(contents, message).to.equal(expectedContents);
   }
 
   function onChildSpawnedSingleCopy(copySrc, expectedContents) {

@@ -7,7 +7,7 @@ var path     = require('path');
 var rimraf   = Promise.denodeify(require('rimraf'));
 var fs       = require('fs');
 var crypto   = require('crypto');
-var assert   = require('assert');
+var expect   = require('chai').expect;
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var ncp      = Promise.denodeify(require('ncp'));
@@ -24,7 +24,7 @@ function assertTmpEmpty() {
       return !path.match(/output\//);
     });
 
-  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
+  expect(paths, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL)).to.be.empty;
 }
 
 describe('Acceptance: smoke-test', function() {
@@ -96,10 +96,10 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
-            assert(false, 'should have rejected with a failing test');
+            expect(true, 'should have rejected with a failing test').to.be.false;
           })
           .catch(function(result) {
-            assert.equal(result.code, 1);
+            expect(result.code).to.equal(1);
           });
       });
   });
@@ -111,10 +111,10 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
-            assert(false, 'should have rejected with a failing test');
+            expect(true, 'should have rejected with a failing test').to.be.false;
           })
           .catch(function(result) {
-            assert.equal(result.code, 1);
+            expect(result.code).to.equal(1);
           });
       });
   });
@@ -141,13 +141,13 @@ describe('Acceptance: smoke-test', function() {
           md5.update(file);
           var hex = md5.digest('hex');
 
-          assert(filepath.indexOf(hex) > -1, filepath + ' contains the fingerprint (' + hex + ')');
+          expect(filepath, filepath + ' contains the fingerprint (' + hex + ')').to.contain(hex);
         });
 
         var indexHtml = fs.readFileSync(path.join('.', 'dist', 'index.html'), { encoding: 'utf8' });
 
         files.forEach(function (filename) {
-          assert(indexHtml.indexOf(filename) > -1);
+          expect(indexHtml).to.contain(filename);
         });
       });
   });
@@ -162,14 +162,13 @@ describe('Acceptance: smoke-test', function() {
                 var exitCode = result.code;
                 var output = result.output.join(EOL);
 
-                assert.equal(exitCode, 0, 'exit code should be 0 for passing tests');
-
-                assert(!output.match('JSHint'), 'JSHint should not be run on production assets');
-                assert(output.match(/fail\s+0/), 'no failures');
-                assert(output.match(/pass\s+1/), '1 passing');
+                expect(exitCode, 'exit code should be 0 for passing tests').to.equal(0);
+                expect(output, 'JSHint should not be run on production assets').to.not.match(/JSHint/);
+                expect(output, 'no failures').to.match(/fail\s+0/);
+                expect(output, '1 passing').to.match(/pass\s+1/);
               })
               .catch(function(result) {
-                assert(false, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL));
+                expect(true, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL)).to.be.false;
               });
         });
   });
@@ -182,7 +181,7 @@ describe('Acceptance: smoke-test', function() {
         var dirPath = path.join('.', 'dist');
         var paths = walkSync(dirPath);
 
-        assert(paths.length < 21, 'expected fewer than 21 files in dist, found ' + paths.length);
+        expect(paths, 'expected fewer than 21 files in dist, found ' + paths.length).to.have.length.below(21);
       });
   });
 
@@ -194,7 +193,7 @@ describe('Acceptance: smoke-test', function() {
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent')
       .then(function (result) {
-        assert(result.code === 0, 'expected exit code to be zero, but got ' + result.code);
+        expect(result.code, 'expected exit code to be zero, but got ' + result.code).to.equal(0);
 
         // add something broken to the project to make build fail
         fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
@@ -210,10 +209,10 @@ describe('Acceptance: smoke-test', function() {
         });
 
       }).then(function () {
-        assert(false, 'should have rejected with a failing build');
+        expect(true, 'should have rejected with a failing build').to.be.false;
       }).catch(function (result) {
-        assert(ouputContainsBuildFailed, 'command output must contain "Build failed" text');
-        assert(result.code !== 0, 'expected exit code to be non-zero, but got ' + result.code);
+        expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.true;
+        expect(result.code, 'expected exit code to be non-zero, but got ' + result.code).to.not.equal(0);
       });
   });
 
@@ -232,7 +231,7 @@ describe('Acceptance: smoke-test', function() {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
-              assert(contents.indexOf(text) > 1, 'must contain changed line after rebuild');
+              expect(contents, 'must contain changed line after rebuild').to.contain(text);
               killCliProcess(child);
             }
           } else {
@@ -281,7 +280,7 @@ describe('Acceptance: smoke-test', function() {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
-              assert(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild');
+              expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild').to.be.true;
               killCliProcess(child);
             }
           }
@@ -319,8 +318,8 @@ describe('Acceptance: smoke-test', function() {
           dir.forEach(function (filepath) {
             if(cssNameRE.test(filepath)) {
               var appCss = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
-              assert(appCss.indexOf('.some-weird-selector')>-1);
-              assert(appCss.indexOf('.some-even-weirder-selector')>-1);
+              expect(appCss).to.contain('.some-weird-selector');
+              expect(appCss).to.contain('.some-even-weirder-selector');
             }
           });
         });
