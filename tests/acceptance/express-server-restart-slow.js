@@ -3,7 +3,6 @@
 var path       = require('path');
 var expect     = require('chai').expect;
 var fs         = require('fs');
-var walkSync   = require('walk-sync');
 var EOL        = require('os').EOL;
 var tmp        = require('../helpers/tmp');
 var conf       = require('../helpers/conf');
@@ -13,16 +12,9 @@ var Promise    = require('../../lib/ext/promise');
 var ncp        = Promise.denodeify(require('ncp'));
 var rimraf     = Promise.denodeify(require('rimraf'));
 var symlink    = Promise.denodeify(fs.symlink);
+
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
-
-function assertTmpEmpty() {
-  var paths = walkSync('./tmp')
-    .filter(function(path) {
-      return !path.match(/output\//);
-    });
-
-  expect(paths).to.deep.equal([], 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
-}
+var assertDirEmpty   = require('../helpers/assert-dir-empty');
 
 describe('Acceptance: express server restart', function () {
   var appName = 'express-server-restart-test-app';
@@ -83,7 +75,7 @@ describe('Acceptance: express server restart', function () {
     this.timeout(15000);
 
     process.chdir(appRoot);
-    assertTmpEmpty();
+    assertDirEmpty('tmp');
     return tmp.teardown('./tmp');
   });
 

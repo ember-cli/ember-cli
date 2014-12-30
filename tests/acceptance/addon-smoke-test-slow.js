@@ -7,28 +7,14 @@ var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var expect     = require('chai').expect;
-var walkSync   = require('walk-sync');
 var addonName  = 'some-cool-addon';
 var ncp        = Promise.denodeify(require('ncp'));
-var EOL        = require('os').EOL;
 
 var runCommand       = require('../helpers/run-command');
 var buildApp         = require('../helpers/build-app');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
 var killCliProcess   = require('../helpers/kill-cli-process');
-
-function assertTmpEmpty() {
-  if (!fs.existsSync('tmp')) {
-    return;
-  }
-
-  var paths = walkSync('tmp')
-    .filter(function(path) {
-      return !path.match(/output\//);
-    });
-
-  expect(paths).to.deep.equal([], 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
-}
+var assertDirEmpty   = require('../helpers/assert-dir-empty');
 
 describe('Acceptance: addon-smoke-test', function() {
   before(function() {
@@ -83,7 +69,7 @@ describe('Acceptance: addon-smoke-test', function() {
   afterEach(function() {
     this.timeout(15000);
 
-    assertTmpEmpty();
+    assertDirEmpty('tmp');
     return tmp.teardown('./tmp');
   });
 
