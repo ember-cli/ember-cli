@@ -1,9 +1,8 @@
 'use strict';
 
 var path       = require('path');
-var assert     = require('assert');
+var expect     = require('chai').expect;
 var fs         = require('fs');
-var walkSync   = require('walk-sync');
 var EOL        = require('os').EOL;
 var tmp        = require('../helpers/tmp');
 var conf       = require('../helpers/conf');
@@ -13,16 +12,9 @@ var Promise    = require('../../lib/ext/promise');
 var ncp        = Promise.denodeify(require('ncp'));
 var rimraf     = Promise.denodeify(require('rimraf'));
 var symlink    = Promise.denodeify(fs.symlink);
+
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
-
-function assertTmpEmpty() {
-  var paths = walkSync('./tmp')
-    .filter(function(path) {
-      return !path.match(/output\//);
-    });
-
-  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
-}
+var assertDirEmpty   = require('../helpers/assert-dir-empty');
 
 describe('Acceptance: express server restart', function () {
   var appName = 'express-server-restart-test-app';
@@ -83,7 +75,7 @@ describe('Acceptance: express server restart', function () {
     this.timeout(15000);
 
     process.chdir(appRoot);
-    assertTmpEmpty();
+    assertDirEmpty('tmp');
     return tmp.teardown('./tmp');
   });
 
@@ -97,7 +89,7 @@ describe('Acceptance: express server restart', function () {
   var initialRoot = process.cwd();
   function ensureTestFileContents(expectedContents, message) {
     var contents = fs.readFileSync(path.join(initialRoot, 'tmp', appName, 'foo.txt'), { encoding: 'utf8' });
-    assert.equal(contents, expectedContents, message);
+    expect(contents).to.equal(expectedContents, message);
   }
 
   function onChildSpawnedSingleCopy(copySrc, expectedContents) {

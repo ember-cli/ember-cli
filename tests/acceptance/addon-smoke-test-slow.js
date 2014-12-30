@@ -6,29 +6,15 @@ var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
-var assert     = require('assert');
-var walkSync   = require('walk-sync');
+var expect     = require('chai').expect;
 var addonName  = 'some-cool-addon';
 var ncp        = Promise.denodeify(require('ncp'));
-var EOL        = require('os').EOL;
 
 var runCommand       = require('../helpers/run-command');
 var buildApp         = require('../helpers/build-app');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
 var killCliProcess   = require('../helpers/kill-cli-process');
-
-function assertTmpEmpty() {
-  if (!fs.existsSync('tmp')) {
-    return;
-  }
-
-  var paths = walkSync('tmp')
-    .filter(function(path) {
-      return !path.match(/output\//);
-    });
-
-  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
-}
+var assertDirEmpty   = require('../helpers/assert-dir-empty');
 
 describe('Acceptance: addon-smoke-test', function() {
   before(function() {
@@ -83,21 +69,21 @@ describe('Acceptance: addon-smoke-test', function() {
   afterEach(function() {
     this.timeout(15000);
 
-    assertTmpEmpty();
+    assertDirEmpty('tmp');
     return tmp.teardown('./tmp');
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
     var packageContents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
 
-    assert.equal(packageContents.name, addonName);
-    assert.equal(packageContents.private, undefined);
-    assert.deepEqual(packageContents.keywords, ['ember-addon']);
-    assert.deepEqual(packageContents['ember-addon'], { 'configPath': 'tests/dummy/config' });
+    expect(packageContents.name).to.equal(addonName);
+    expect(packageContents.private).to.be.an('undefined');
+    expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
+    expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
     var bowerContents = JSON.parse(fs.readFileSync('bower.json', { encoding: 'utf8' }));
 
-    assert.equal(bowerContents.name, addonName);
+    expect(bowerContents.name).to.equal(addonName);
   });
 
   it('ember addon foo, clean from scratch', function() {
@@ -144,7 +130,7 @@ describe('Acceptance: addon-smoke-test', function() {
         var indexPath = path.join('dist', 'index.html');
         var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
 
-        assert(contents.indexOf('"SOME AWESOME STUFF"') > -1);
+        expect(contents).to.contain('"SOME AWESOME STUFF"');
       });
   });
 
@@ -159,7 +145,7 @@ describe('Acceptance: addon-smoke-test', function() {
         var cssPath = path.join('dist', 'assets', 'vendor.css');
         var contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
 
-        assert(contents.indexOf('addon/styles/app.css is present') > -1);
+        expect(contents).to.contain('addon/styles/app.css is present');
       });
   });
 
@@ -174,7 +160,7 @@ describe('Acceptance: addon-smoke-test', function() {
         var robotsPath = path.join('dist', 'robots.txt');
         var contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
 
-        assert(contents.indexOf('tests/dummy/public/robots.txt is present') > -1);
+        expect(contents).to.contain('tests/dummy/public/robots.txt is present');
       });
   });
 });

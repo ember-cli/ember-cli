@@ -7,7 +7,7 @@ var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var ncp        = Promise.denodeify(require('ncp'));
-var assert     = require('assert');
+var expect     = require('chai').expect;
 var buildApp   = require('../helpers/build-app');
 var runCommand = require('../helpers/run-command');
 
@@ -79,8 +79,8 @@ describe('Acceptance: blueprint smoke tests', function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
-        assert(packageJson.devDependencies['http-proxy']);
-        assert(packageJson.devDependencies['morgan']);
+        expect(!packageJson.devDependencies['http-proxy']).to.not.be.an('undefined');
+        expect(!packageJson.devDependencies['morgan']).to.not.be.an('undefined');
       });
   });
 });

@@ -3,7 +3,7 @@
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
-var assert     = require('../helpers/assert');
+var expect     = require('chai').expect;
 var assertFile = require('../helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
@@ -64,7 +64,7 @@ describe('Acceptance: ember destroy', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    assert(!fs.existsSync(filePath), 'expected ' + file + ' not to exist');
+    expect(!fs.existsSync(filePath), 'expected ' + file + ' not to exist');
   }
 
   function assertFilesExist(files) {
