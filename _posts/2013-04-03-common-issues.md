@@ -104,7 +104,7 @@ And, adding to `resolutions`:
     }
 
 
-Wipe your vendor directory clean then run `bower install`.
+Wipe your vendor directory clean then run `ember install`.
 
 
 ### Removing default ember-cli libraries
@@ -119,7 +119,7 @@ Wipe your vendor directory clean then run `bower install`.
 
 * To reinstall latest Ember Data version
 
-`npm install ember-data --save-dev`
+`ember install:npm ember-data`
 
 ### Solving performance issues on windows
 
@@ -194,7 +194,7 @@ The way Vagrant syncs folders between your desktop and the VM will break the def
 
 #### VM Setup
 
-When setting up your VM, install ember-cli dependencies as you normally would. If you've already run `npm install` in your project's folder from your host machine, you'll have to delete the `node_modules` folder and re-install those dependencies from the VM. This is particularly necessary if you have node dependencies that use native libraries (e.g., [broccoli-sass](#sass), which uses the libsass C library).
+When setting up your VM, install ember-cli dependencies as you normally would. If you've already run `ember install` in your project's folder from your host machine, you'll have to delete the `node_modules` folder and re-install those dependencies from the VM. This is particularly necessary if you have node dependencies that use native libraries (e.g., [broccoli-sass](#sass), which uses the libsass C library).
 
 #### Provider 
 

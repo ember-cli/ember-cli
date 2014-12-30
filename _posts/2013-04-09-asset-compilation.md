@@ -34,7 +34,7 @@ Ember CLI supports plain CSS out of the box. You can add your css styles to
 
 For example, to add bootstrap in your project you need to do the following:
 {% highlight bash %}
-bower install --save-dev bootstrap
+ember install:bower bootstrap
 {% endhighlight %}
 
 In `Brocfile.js` add the following:
@@ -69,7 +69,7 @@ To enable [LESS](http://lesscss.org/), you'll need to add
 your NPM modules.
 
 {% highlight bash %}
-npm install --save-dev ember-cli-less
+ember install:addon ember-cli-less
 {% endhighlight %}
 
 #### Sass
@@ -79,7 +79,7 @@ add [broccoli-sass](https://github.com/joliss/broccoli-sass) to your NPM
 modules *(both .scss/.sass are allowed as of broccoli-sass > 0.2.0)*.
 
 {% highlight bash %}
-npm install --save-dev broccoli-sass
+ember install:npm broccoli-sass
 {% endhighlight %}
 
 #### Compass
@@ -88,7 +88,7 @@ To use [Compass](http://compass-style.org/) with your ember-cli app, install
 [ember-cli-compass-compiler](https://github.com/quaertym/ember-cli-compass-compiler) addon using NPM.
 
 {% highlight bash %}
-npm install --save-dev ember-cli-compass-compiler
+ember install:addon ember-cli-compass-compiler
 {% endhighlight %}
 
 #### Stylus
@@ -98,7 +98,7 @@ To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
 modules:
 
 {% highlight bash %}
-npm install --save-dev ember-cli-stylus
+ember install:addon ember-cli-stylus
 {% endhighlight %}
 
 ### CoffeeScript
@@ -108,7 +108,7 @@ first add [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeesc
 NPM modules:
 
 {% highlight bash %}
-npm install --save-dev ember-cli-coffeescript
+ember install:addon ember-cli-coffeescript
 {% endhighlight %}
 
 The modified `package.json` should be checked into source control. CoffeeScript
@@ -141,7 +141,7 @@ first add [broccoli-ember-script](https://github.com/aradabaugh/broccoli-ember-s
 NPM modules:
 
 {% highlight bash %}
-npm install --save-dev broccoli-ember-script
+ember install:npm broccoli-ember-script
 {% endhighlight %}
 
 Note that the ES6 module transpiler is not directly supported with Emberscript, to allow use of ES6 modules use the `` ` `` character to escape raw Javascript similar to the CoffeeScript example above.
@@ -151,7 +151,7 @@ Note that the ES6 module transpiler is not directly supported with Emberscript, 
 For [Emblem](http://emblemjs.com/), run the following commands:
 
 {% highlight bash %}
-npm install --save-dev broccoli-emblem-compiler
+ember install:npm broccoli-emblem-compiler
 {% endhighlight %}
 
 ### Fingerprinting and CDN URLs

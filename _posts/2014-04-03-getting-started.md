@@ -81,7 +81,7 @@ you will need to install dependencies yourself before running the server:
 
 {% highlight bash %}
 git clone git@github.com:me/my-app.git
-cd my-app && npm install && bower install
+cd my-app && ember install
 ember server
 {% endhighlight %}
 
@@ -96,6 +96,10 @@ ember server
  `ember server`                              | Starts up the server. Default port is `4200`. Use `--proxy` flag to proxy all ajax requests to the given address. For example `ember server --proxy http://127.0.0.1:8080` will proxy all your apps XHR to your server running at port 8080.
  <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
  `ember test`                                | Run tests with Testem on CI mode. You can pass any options to Testem through `testem.json`, by default we'll search for it under your project's root or you can specify `config-file`.
+ `ember install`                             | Installs npm and bower dependencies
+ `ember install:npm <packages>`              | Installs the given npm dependencies to your project and saves them to the `package.json`
+ `ember install:bower <packages>`            | Installs the given bower dependencies to your project and saves them to the `bower.json`
+ `ember install:addon <addon-name>`          | Installs the given addon to your project and saves it to the `package.json`. It will run the addon's `defaultBlueprint` if it provides one.
 
 ### Folder Layout
 

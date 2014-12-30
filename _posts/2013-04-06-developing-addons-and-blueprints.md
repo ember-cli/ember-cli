@@ -11,13 +11,13 @@ This guide will walk through the development cycle of a fictional
 addon `ember-cli-x-button`.
 
 ### Installation
-An addon can be installed like any other npm package:
+An addon can be installed with the `install:addon` command:
 
-`npm install --save-dev <package name>`
+`ember install:addon <package name>`
 
 To install the (fictional) x-button addon package:
 
-`npm install --save-dev ember-cli-x-button`
+`ember install:addon ember-cli-x-button`
 
 ### Discovery
 
@@ -172,11 +172,14 @@ By default, the `"ember-addon"` hash in the `package.json` file has the `"config
 
 Optionally, you may specify whether your `ember-addon` must run `"before"` or `"after"` any other Ember CLI addons.  Both of these properties can take either a string or an array of strings, where the string is the name of the another Ember CLI addon, as defined in the `package.json` of the other addon.
 
+Optionally, you may specify a different name for the `"defaultBlueprint"`. It defaults to the name in the `package.json`. This blueprint will be run automatically when your addon is installed with the `ember install:addon` command.
+
 {% highlight javascript %}
 "ember-addon": {
   // addon configuration properties
   "configPath": "tests/dummy/config",
   "before": "single-addon",
+  "defaultBlueprint": "blueprint-that-isnt-package-name",
   "after": [
     "after-addon-1",
     "after-addon-2"
@@ -189,7 +192,7 @@ Install your client side dependencies via Bower.
 Here we install a fictional bower dependency `x-button`:
 
 {% highlight bash %}
-bower install --save-dev x-button
+ember install:bower x-button
 {% endhighlight %}
 
 Adds bower components to development dependencies
@@ -483,17 +486,17 @@ npm publish
 {% endhighlight %}
 
 ### Using a private repository
-You can upload your addon code to a private git repository and call `npm install`
+You can upload your addon code to a private git repository and call `ember install:addon`
 with a valid [git URL](https://www.npmjs.org/doc/files/package.json.html#git-urls-as-dependencies)
 as the version.
 
 If you are using [bitbucket.org](https://bitbucket.org) the [URL formats can be found here](https://confluence.atlassian.com/display/BITBUCKET/Use+the+SSH+protocol+with+Bitbucket#UsetheSSHprotocolwithBitbucket-RepositoryURLformatsbyconnectionprotocol).
 
-When using the `git+ssh` format, the `npm install` command will require there to
-be an available ssh key with read access to the reposirtory. This can be tested
+When using the `git+ssh` format, the `ember install:addon` command will require there to
+be an available ssh key with read access to the repository. This can be tested
 by running `git clone ssh://git@github.com:user/project.git`.
 
-When using the `git+https` format, the `npm install` command will ask you for
+When using the `git+https` format, the `ember install:addon` command will ask you for
 the account password.
 
 ### Install and use addon
@@ -501,15 +504,22 @@ In order to use the addon from you hosting application:
 
 To install your addon from the [npm.org](https://www.npmjs.org/) repository:
 
-`npm install ember-cli-<your-addon-name-here> --save-dev`.
+`ember install:addon <your-addon-name-here>`.
 
 For our *x-button* sample addon:
 
-`npm install ember-cli-x-button --save-dev`.
+`ember install:addon x-button my-button`.
 
-Run the *x-button* blueprint generator via:
+This will first install the x-button addon from npm. Then, because we have
+a blueprint with the same name as our addon, it will run the blueprint
+automatically with the passed in arguments.
 
-`ember generate x-button`
+This is equivalent of running:
+
+{% highlight bash %}
+ember install:npm x-button
+ember generate x-button my-button
+{% endhighlight %}
 
 ### Updating addons
 You can update an addon the same way you update an Ember app by
