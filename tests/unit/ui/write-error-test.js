@@ -1,6 +1,6 @@
 'use strict';
 
-var assert     = require('assert');
+var expect     = require('chai').expect;
 var writeError = require('../../../lib/ui/write-error');
 var MockUI     = require('../../helpers/mock-ui');
 var BuildError = require('../../helpers/build-error');
@@ -23,7 +23,7 @@ describe('writeError', function() {
       message: 'build error'
     }));
 
-    assert.equal(ui.output, chalk.red('build error') + EOL);
+    expect(ui.output).to.equal(chalk.red('build error') + EOL);
   });
 
   it('error with stack', function() {
@@ -31,7 +31,7 @@ describe('writeError', function() {
       stack: 'the stack'
     }));
 
-    assert.equal(ui.output, chalk.red('Error') + EOL + 'the stack' + EOL);
+    expect(ui.output).to.equal(chalk.red('Error') + EOL + 'the stack' + EOL);
   });
 
   it('error with file', function() {
@@ -39,7 +39,7 @@ describe('writeError', function() {
       file: 'the file'
     }));
 
-    assert.equal(ui.output, chalk.red('File: the file') + EOL + chalk.red('Error') + EOL);
+    expect(ui.output).to.equal(chalk.red('File: the file') + EOL + chalk.red('Error') + EOL);
   });
 
   it('error with file + line', function() {
@@ -48,7 +48,7 @@ describe('writeError', function() {
       line: 'the line'
     }));
 
-    assert.equal(ui.output, chalk.red('File: the file (the line)') + EOL + chalk.red('Error') + EOL);
+    expect(ui.output).to.equal(chalk.red('File: the file (the line)') + EOL + chalk.red('Error') + EOL);
   });
 
   it('error with file + col', function() {
@@ -57,7 +57,7 @@ describe('writeError', function() {
       col: 'the col'
     }));
 
-    assert.equal(ui.output, chalk.red('File: the file') + EOL + chalk.red('Error') + EOL);
+    expect(ui.output).to.equal(chalk.red('File: the file') + EOL + chalk.red('Error') + EOL);
   });
 
   it('error with file + line + col', function() {
@@ -67,6 +67,6 @@ describe('writeError', function() {
       col:  'the col'
     }));
 
-    assert.equal(ui.output, chalk.red('File: the file (the line:the col)') + EOL + chalk.red('Error') + EOL);
+    expect(ui.output).to.equal(chalk.red('File: the file (the line:the col)') + EOL + chalk.red('Error') + EOL);
   });
 });
