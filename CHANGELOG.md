@@ -19,7 +19,7 @@
   `{sourcemaps: { enabled: true, extensions: ['js']}}` to your
   EmberApp constructor.
 
-- [#2741](https://github.com/ember-cli/ember-cli/pull/2741) allowed
+- [#2777](https://github.com/ember-cli/ember-cli/pull/2777) allowed
   the creation of components with slashes in their names since this is
   supported in Handlebars 2.0.
 
