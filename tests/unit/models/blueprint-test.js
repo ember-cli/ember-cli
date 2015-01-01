@@ -438,6 +438,27 @@ describe('Blueprint', function() {
       }, SilentError, /'The `ember generate` command requires an entity name to be specified./);
     });
 
+    it('does not throw error when validateOptions is overriden', function() {
+      options.entity = { };
+      blueprint.validateOptions = function() { };
+      assert.doesNotThrow(function(){
+        blueprint.install(options);
+      });
+    });
+
+    it('calls validateOptions before normalizeEntityName', function(done) {
+      blueprint.normalizeEntityName = function(name) {
+        assert.equal(name, 'bar');
+        done();
+      };
+
+      blueprint.validateOptions = function(options) {
+        options.entity.name = 'bar';
+      };
+
+      options.entity = { name: 'foo' };
+      blueprint.install(options);
+    });
 
     it('calls normalizeEntityName hook during install', function(done){
       blueprint.normalizeEntityName = function(){ done(); };

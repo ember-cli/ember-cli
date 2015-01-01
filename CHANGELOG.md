@@ -294,6 +294,7 @@
 
 * [ENHANCEMENT] Tweak helper blueprint to make it easier to test. [#2257](https://github.com/stefanpenner/ember-cli/pull/2257)
 * [ENHANCEMENT] Streamline initializer and service blueprints. [#2260](https://github.com/stefanpenner/ember-cli/pull/2260)
+* [BREAKING ENHANCEMENT] Added `validateOptions` hook to blueprints [#2281](https://github.com/stefanpenner/ember-cli/issues/2281)
 
 ### 0.1.1
 
