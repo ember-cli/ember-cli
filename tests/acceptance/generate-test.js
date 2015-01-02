@@ -16,7 +16,7 @@ var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
-
+var expect           = require('chai').expect;
 
 describe('Acceptance: ember generate', function() {
   var tmpdir;
@@ -513,6 +513,26 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('adapter application', function() {
+    return generate(['adapter', 'application']).then(function() {
+      assertFile('app/adapters/application.js', {
+        contains: [
+          "import DS from \'ember-data\';",
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('tests/unit/adapters/application-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('adapter:application', 'ApplicationAdapter'"
+        ]
+      });
+    });
+  });
+
   it('adapter foo', function() {
     return generate(['adapter', 'foo']).then(function() {
       assertFile('app/adapters/foo.js', {
@@ -541,6 +561,22 @@ describe('Acceptance: ember generate', function() {
           "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
+    });
+  });
+
+  it('adapter application cannot extend from --base-class=application', function() {
+    return generate(['adapter', 'application', '--base-class=application']).then(function() {
+      expect(false);
+    }, function(err) {
+      expect(err.message).to.match(/Adapters cannot extend from themself/);
+    });
+  });
+
+  it('adapter foo cannot extend from --base-class=foo', function() {
+    return generate(['adapter', 'foo', '--base-class=foo']).then(function() {
+      expect(false);
+    }, function(err) {
+      expect(err.message).to.match(/Adapters cannot extend from themself/);
     });
   });
 
