@@ -2,6 +2,9 @@
 
 # Master
 
+- [ENHANCEMENT] Add option `--insecure-proxy` to `serve` to allow for proxying
+  self signed SSL certificates.
+
 ### Applications
 ### Addons
 ### Blueprints
