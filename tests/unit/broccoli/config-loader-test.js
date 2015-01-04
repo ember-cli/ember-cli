@@ -5,7 +5,7 @@ var path         = require('path');
 var ConfigLoader = require('../../../lib/broccoli/broccoli-config-loader');
 var Project      = require('../../../lib/models/project');
 var Promise      = require('../../../lib/ext/promise');
-var assert       = require('assert');
+var expect       = require('chai').expect;
 var root         = process.cwd();
 var tmp          = require('tmp-sync');
 var tmproot      = path.join(root, 'tmp');
@@ -64,8 +64,8 @@ describe('broccoli/broccoli-config-loader', function() {
       configLoader.updateCache(tmpSrcDir, tmpDestDir2);
       var updatedConfig = fs.readFileSync(path.join(tmpDestDir2, 'environments', 'development.json'), { encoding: 'utf8' });
 
-      assert.notEqual(originalConfig, updatedConfig);
-      assert(updatedConfig.match(/blammo/));
+      expect(originalConfig).to.not.equal(updatedConfig);
+      expect(true, updatedConfig.match(/blammo/));
     });
   });
 
@@ -73,16 +73,16 @@ describe('broccoli/broccoli-config-loader', function() {
     it('writes the current environments file', function() {
       configLoader.updateCache(tmpSrcDir, tmpDestDir);
 
-      assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-      assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
+      expect(true, fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
+      expect(true, fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
     });
 
     it('does not generate test environment files if testing is disabled', function() {
       options.tests = false;
       configLoader.updateCache(tmpSrcDir, tmpDestDir);
 
-      assert(fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-      assert(!fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
+      expect(true, fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
+      expect(true, !fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
     });
   });
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-var assert        = require('../../helpers/assert');
+var expect        = require('chai').expect;
 var MockUI        = require('../../helpers/mock-ui');
 var UpdateChecker = require('../../../lib/models/update-checker');
 var Promise       = require('../../../lib/ext/promise');
@@ -42,7 +42,7 @@ describe('Update Checker', function() {
     };
 
     return updateChecker.checkForUpdates().then(function(updateInfo) {
-      assert.isFalse(updateInfo.updateNeeded, 'updateNeeded should be false');
+      expect(updateInfo.updateNeeded).to.equal(false, 'updateNeeded should be false');
     });
   });
 
@@ -66,7 +66,7 @@ describe('Update Checker', function() {
     };
 
     return updateChecker.checkForUpdates().then(function() {
-      assert.include(ui.output, 'A new version of ember-cli is available');
+      expect(ui.output).to.include('A new version of ember-cli is available');
     });
   });
 
@@ -93,7 +93,7 @@ describe('Update Checker', function() {
     };
 
     return updateChecker.checkForUpdates().then(function() {
-      assert.isFalse(npmCalled, 'NPM should not be called if the last check was less than a day ago');
+      expect(npmCalled).to.equal(false, 'NPM should not be called if the last check was less than a day ago');
     });
   });
 
@@ -107,8 +107,8 @@ describe('Update Checker', function() {
 
     var now = new Date().getTime();
 
-    assert.equal(updateChecker.versionConfig.store.newestVersion, '1000.0.0', 'should store newest version in configstore');
-    assert.closeTo(updateChecker.versionConfig.store.lastVersionCheckAt, now, 100, 'should store lastVersionCheckAt in configstore');
+    expect(updateChecker.versionConfig.store.newestVersion).to.equal('1000.0.0', 'should store newest version in configstore');
+    expect(updateChecker.versionConfig.store.lastVersionCheckAt).to.be.closeTo(now, 100, 'should store lastVersionCheckAt in configstore');
   });
 
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('assert');
+var expect = require('chai').expect;
 var EOL = require('os').EOL;
 var MockUI = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
@@ -28,17 +28,17 @@ describe('Server Watcher', function() {
   describe('watcher strategy selection', function() {
     it('selects the events-based watcher by default', function () {
       subject.options = null;
-      assert.ok(!subject.polling());
+      expect(!!subject.polling()).to.equal(false);
     });
 
     it('selects the events-based watcher when given events watcher option', function () {
       subject.options = { watcher: 'events' };
-      assert.ok(!subject.polling());
+      expect(!!subject.polling()).to.equal(false);
     });
 
     it('selects the polling watcher when given polling watcher option', function () {
       subject.options = { watcher: 'polling' };
-      assert.ok(subject.polling());
+      expect(!!subject.polling());
     });
   });
 
@@ -48,11 +48,11 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was changed', function() {
-      assert.equal(ui.output, 'Server file changed: foo.txt' + EOL);
+      expect(ui.output).to.equal('Server file changed: foo.txt' + EOL);
     });
 
     it('tracks changes', function() {
-      assert.deepEqual(analytics.tracks, [{
+      expect(analytics.tracks).to.deep.equal([{
         name: 'server file change',
         description: 'File changed: "foo.txt"'
       }]);
@@ -65,11 +65,11 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was added', function() {
-      assert.equal(ui.output, 'Server file added: foo.txt' + EOL);
+      expect(ui.output).to.equal('Server file added: foo.txt' + EOL);
     });
 
     it('tracks additions', function() {
-      assert.deepEqual(analytics.tracks, [{
+      expect(analytics.tracks).to.deep.equal([{
         name: 'server file addition',
         description: 'File added: "foo.txt"'
       }]);
@@ -82,11 +82,11 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was deleted', function() {
-      assert.equal(ui.output, 'Server file deleted: foo.txt' + EOL);
+      expect(ui.output).to.equal('Server file deleted: foo.txt' + EOL);
     });
 
     it('tracks deletions', function() {
-      assert.deepEqual(analytics.tracks, [{
+      expect(analytics.tracks).to.deep.equal([{
         name: 'server file deletion',
         description: 'File deleted: "foo.txt"'
       }]);

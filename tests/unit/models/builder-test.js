@@ -6,7 +6,7 @@ var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
 var touch           = require('../../helpers/file-utils').touch;
-var assert          = require('assert');
+var expect          = require('chai').expect;
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
@@ -40,7 +40,7 @@ describe('models/builder.js', function() {
 
       return builder.copyToOutputPath('tests/fixtures/blueprints/basic_2')
         .then(function() {
-          assert(fs.existsSync(path.join(builder.outputPath, 'files', 'foo.txt')));
+          expect(fs.existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
         });
     });
   });
@@ -65,8 +65,8 @@ describe('models/builder.js', function() {
 
     return builder.clearOutputPath()
       .then(function() {
-        assert(!fs.existsSync(firstFile));
-        assert(!fs.existsSync(secondFile));
+        expect(fs.existsSync(firstFile)).to.equal(false);
+        expect(fs.existsSync(secondFile)).to.equal(false);
       });
   });
 
@@ -93,7 +93,7 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
+          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
 
@@ -104,7 +104,7 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
+          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
 
@@ -115,7 +115,7 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
+          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
   });
@@ -168,7 +168,7 @@ describe('models/builder.js', function() {
       var preBuild = stub(addon, 'preBuild', Promise.resolve());
 
       return builder.build().then(function() {
-        assert.equal(preBuild.called, 1, 'expected preBuild to be called');
+        expect(preBuild.called).to.equal(1, 'expected preBuild to be called');
       });
     });
 
@@ -176,14 +176,14 @@ describe('models/builder.js', function() {
       var postBuild = stub(addon, 'postBuild');
 
       return builder.build().then(function() {
-        assert.equal(postBuild.called, 1, 'expected postBuild to be called');
-        assert.equal(postBuild.calledWith[0][0], buildResults, 'expected postBuild to be called with the results');
+        expect(postBuild.called).to.equal(1, 'expected postBuild to be called');
+        expect(postBuild.calledWith[0][0]).to.equal(buildResults, 'expected postBuild to be called with the results');
       });
     });
 
     it('hooks are called in the right order', function() {
       return builder.build().then(function() {
-        assert.deepEqual(hooksCalled, ['preBuild', 'build', 'postBuild']);
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild']);
       });
     });
 
@@ -202,9 +202,9 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        assert(false, 'should not succeed');
+        expect(false, 'should not succeed');
       }).catch(function() {
-        assert.equal(receivedBuildError, thrownBuildError);
+        expect(receivedBuildError).to.equal(thrownBuildError);
       });
     });
 
@@ -216,9 +216,9 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        assert(false, 'should not succeed');
+        expect(false, 'should not succeed');
       }).catch(function() {
-        assert.deepEqual(hooksCalled, ['preBuild', 'buildError']);
+        expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
       });
     });
 
@@ -230,9 +230,9 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        assert(false, 'should not succeed');
+        expect(false, 'should not succeed');
       }).catch(function() {
-        assert.deepEqual(hooksCalled, ['preBuild', 'build', 'buildError']);
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
       });
     });
 
@@ -244,9 +244,9 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        assert(false, 'should not succeed');
+        expect(false, 'should not succeed');
       }).catch(function() {
-        assert.deepEqual(hooksCalled, ['preBuild', 'build', 'postBuild', 'buildError']);
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
       });
     });
   });

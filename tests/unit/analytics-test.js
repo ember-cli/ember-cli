@@ -1,6 +1,6 @@
 'use strict';
 
-var assert  = require('../helpers/assert');
+var expect  = require('chai').expect;
 var Command = require('../../lib/models/command');
 var MockUI = require('../helpers/mock-ui');
 var command;
@@ -32,7 +32,7 @@ afterEach(function() {
 describe('analytics', function() {
   it('track gets invoked on command.validateAndRun()', function() {
     return command.validateAndRun([]).then(function() {
-      assert.ok(called, 'expected analytics.track to be called');
+      expect(called, 'expected analytics.track to be called');
     });
   });
 });

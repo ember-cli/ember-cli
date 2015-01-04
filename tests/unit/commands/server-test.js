@@ -1,6 +1,6 @@
 'use strict';
 
-var assert         = require('../../helpers/assert');
+var expect         = require('chai').expect;
 var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
@@ -42,10 +42,10 @@ describe('server command', function() {
       var serveRun = tasks.Serve.prototype.run;
       var ops = serveRun.calledWith[0][0];
 
-      assert.equal(serveRun.called, 1, 'expected run to be called once');
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-      assert.equal(ops.port,           4000,      'has correct port');
-      assert.equal(ops.liveReloadPort, 35529,     'has correct liveReload port');
+      expect(ops.port).to.equal(4000,            'has correct port');
+      expect(ops.liveReloadPort).to.equal(35529, 'has correct liveReload port');
     });
   });
 
@@ -56,9 +56,9 @@ describe('server command', function() {
       var serveRun = tasks.Serve.prototype.run;
       var ops = serveRun.calledWith[0][0];
 
-      assert.equal(serveRun.called, 1, 'expected run to be called once');
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-      assert.equal(ops.liveReloadPort, 4001,     'has correct liveReload port');
+      expect(ops.liveReloadPort).to.equal(4001, 'has correct liveReload port');
     });
   });
 
@@ -69,9 +69,9 @@ describe('server command', function() {
       var serveRun = tasks.Serve.prototype.run;
       var ops = serveRun.calledWith[0][0];
 
-      assert.equal(serveRun.called, 1, 'expected run to be called once');
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-      assert.equal(ops.proxy, 'http://localhost:3000/', 'has correct port');
+      expect(ops.proxy).to.equal('http://localhost:3000/', 'has correct port');
     });
   });
 
@@ -79,14 +79,10 @@ describe('server command', function() {
     return new ServeCommand(options).validateAndRun([
       '--proxy', 'localhost:3000'
     ]).then(function() {
-      assert.ok(
-        false,
-        'it rejects when proxy URL doesn\'t include protocol'
-      );
+      expect(false, 'it rejects when proxy URL doesn\'t include protocol');
     })
     .catch(function(error) {
-      assert.equal(
-        error.message,
+      expect(error.message).to.equal(
         'You need to include a protocol with the proxy URL.\nTry --proxy http://localhost:3000'
       );
     });
@@ -103,7 +99,7 @@ describe('server command', function() {
       var serveRun = tasks.Serve.prototype.run;
       var ops = serveRun.calledWith[0][0];
 
-      assert.equal(ops.baseURL, 'test', 'Uses the correct environment.');
+      expect(ops.baseURL).to.equal('test', 'Uses the correct environment.');
     });
   });
 });
