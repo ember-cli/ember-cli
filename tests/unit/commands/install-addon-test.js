@@ -99,7 +99,8 @@ describe('install:addon command', function() {
 
         expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['ember-data'],
-          'save-dev': true
+          'save-dev': true,
+          'save-exact': true
         }, 'expected npm install called with given name and save-dev true');
       });
     });
