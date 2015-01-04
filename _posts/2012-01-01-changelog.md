@@ -100,7 +100,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-
   ```
 
   Additionally the option `--path` was added so you can do things like
-  `ember g route friends/edit --path=:friend_id/id` creating a nested
+  `ember g route friends/edit --path=:friend_id/edit` creating a nested
   route under `friends` like: `this.route('edit', {path: ':friend_id/edit'})`
 
 - [#2734](https://github.com/ember-cli/ember-cli/pull/2734) changed
