@@ -52,14 +52,15 @@ describe('install:npm command', function() {
   });
 
   describe('with no args', function() {
-    it('runs the npm install task with no packages and save-dev true', function() {
+    it('runs the npm install task with no packages, save-dev true and save-exact true', function() {
       return command.validateAndRun([]).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
         expect(npmRun.called).to.equal(1, 'expected npm install run was called once');
         expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: [],
-          'save-dev': true
-        }, 'expected npm install called with no packages and save-dev true');
+          'save-dev': true,
+          'save-exact': true
+        }, 'expected npm install called with no packages, save-dev true, and save-exact true');
       });
     });
   });
@@ -71,8 +72,9 @@ describe('install:npm command', function() {
         expect(npmRun.called).to.equal(1, 'expected npm install run was called once');
         expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['moment', 'lodash'],
-          'save-dev': true
-        }, 'expected npm install called with given packages and save-dev true');
+          'save-dev': true,
+          'save-exact': true
+        }, 'expected npm install called with given packages, save-dev true, and save-exact true');
       });
     });
   });
