@@ -1,6 +1,6 @@
 'use strict';
 
-var assert      = require('../../helpers/assert');
+var expect     = require('chai').expect;
 var TestTask    = require('../../../lib/tasks/test');
 var MockProject = require('../../helpers/mock-project');
 
@@ -15,10 +15,10 @@ describe('test', function() {
       },
       testem: {
         startCI: function(options, cb) {
-          assert.equal(options.file, 'blahzorz.conf');
-          assert.equal(options.port, 123324);
-          assert.equal(options.cwd, 'blerpy-derpy');
-          assert.deepEqual(options.middleware, ['middleware1', 'middleware2']);
+          expect(options.file).to.equal('blahzorz.conf');
+          expect(options.port).to.equal(123324);
+          expect(options.cwd).to.equal('blerpy-derpy');
+          expect(options.middleware).to.deep.equal(['middleware1', 'middleware2']);
           cb(0);
         },
         app: { reporter: { total: 1 } }
