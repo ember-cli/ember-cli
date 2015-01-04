@@ -1,6 +1,6 @@
 'use strict';
 
-var assert      = require('../../helpers/assert');
+var expect      = require('chai').expect;
 var StylePlugin = require('../../../lib/preprocessors/style-plugin');
 
 describe('Style Plugin', function(){
@@ -16,22 +16,22 @@ describe('Style Plugin', function(){
       plugin = new StylePlugin('california-stylesheets', 'cass', options);
     });
     it('sets type', function(){
-      assert.equal(plugin.type, 'css');
+      expect(plugin.type).to.equal('css');
     });
     it('sets name', function(){
-      assert.equal(plugin.name, 'california-stylesheets');
+      expect(plugin.name).to.equal('california-stylesheets');
     });
     it('sets ext', function(){
-      assert.equal(plugin.ext, 'cass');
+      expect(plugin.ext).to.equal('cass');
     });
     it('sets options', function(){
-      assert.equal(plugin.options, options);
+      expect(plugin.options).to.equal(options);
     });
     it('sets registry', function(){
-      assert.equal(plugin.registry, 'some/registry');
+      expect(plugin.registry).to.equal('some/registry');
     });
     it('sets applicationName', function(){
-      assert.equal(plugin.applicationName, 'some/application');
+      expect(plugin.applicationName).to.equal('some/application');
     });
   });
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-var assert            = require('../../../helpers/assert');
+var expect            = require('chai').expect;
 var ExpressServer     = require('../../../../lib/tasks/server/express-server');
 var Promise           = require('../../../../lib/ext/promise');
 var MockUI            = require('../../../helpers/mock-ui');
@@ -53,9 +53,9 @@ describe('express-server', function() {
         require: function() { return {};   }
       };
 
-      assert.throws(function() {
+      expect(function() {
         subject.processAppMiddlewares();
-      }, TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
+      }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
     });
   });
 
@@ -68,9 +68,12 @@ describe('express-server', function() {
         baseURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
-        assert.deepEqual(output[1], 'Serving on http://0.0.0.0:1337/');
-        assert.deepEqual(output[0], 'Proxying to http://localhost:3001/');
-        assert.deepEqual(output.length, 2, 'expected only two lines of output');
+        // assert.deepEqual(output[1], 'Serving on http://0.0.0.0:1337/');
+        // assert.deepEqual(output[0], 'Proxying to http://localhost:3001/');
+        // assert.deepEqual(output.length, 2, 'expected only two lines of output');
+        expect(output[1]).to.equal('Serving on http://0.0.0.0:1337/');
+        expect(output[0]).to.equal('Proxying to http://localhost:3001/');
+        expect(output.length).to.equal(2);
       });
     });
 
@@ -81,8 +84,10 @@ describe('express-server', function() {
         baseURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
-        assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337/');
-        assert.deepEqual(output.length, 1, 'expected only one line of output');
+        // assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337/');
+        // assert.deepEqual(output.length, 1, 'expected only one line of output');
+        expect(output[0]).to.equal('Serving on http://0.0.0.0:1337/');
+        expect(output.length).to.equal(1);
       });
     });
 
@@ -93,8 +98,10 @@ describe('express-server', function() {
         baseURL: '/foo'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
-        assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337/foo/');
-        assert.deepEqual(output.length, 1, 'expected only one line of output');
+        // assert.deepEqual(output[0], 'Serving on http://0.0.0.0:1337/foo/');
+        // assert.deepEqual(output.length, 1, 'expected only one line of output');
+        expect(output[0]).to.equal('Serving on http://0.0.0.0:1337/foo/');
+        expect(output.length).to.equal(1);
       });
     });
 
@@ -107,10 +114,10 @@ describe('express-server', function() {
         port: '1337'
       })
         .then(function() {
-          assert(false, 'should have rejected');
+          expect(true, 'should have rejected').to.equal(false);
         })
         .catch(function(reason) {
-          assert.equal(reason, 'Could not serve on http://0.0.0.0:1337. It is either in use or you do not have permission.');
+          expect(reason).to.equal('Could not serve on http://0.0.0.0:1337. It is either in use or you do not have permission.');
         })
           .finally(function() {
             preexistingServer.close(done);
@@ -141,13 +148,13 @@ describe('express-server', function() {
             .get('/foo')
             .set('accept', 'application/json, */*')
             .expect(function(res) {
-              assert.equal(res.text, expected);
+              expect(res.text).to.equal(expected);
             })
             .end(function(err) {
               if (err) {
                 return done(err);
               }
-              assert(!proxy.called);
+              expect(proxy.called).to.equal(false);
               done();
             });
         });
@@ -171,7 +178,7 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
-            assert(!proxy.called);
+            expect(proxy.called).to.equal(false);
             if (responseCallback) { responseCallback(response); }
             done();
           });
@@ -183,7 +190,7 @@ describe('express-server', function() {
 
       it('bypasses proxy for files that exist', function(done) {
         bypassTest(subject.app, '/test-file.txt', done, function(response) {
-          assert.equal(response.text.trim(), 'some contents');
+          expect(response.text.trim()).to.equal('some contents');
         });
       });
 
@@ -196,9 +203,9 @@ describe('express-server', function() {
               return done(err);
             }
 
-            assert(proxy.called, 'proxy receives the request');
-            assert.equal(proxy.lastReq.method, method.toUpperCase());
-            assert.equal(proxy.lastReq.url, url);
+            expect(proxy.called).to.equal(true);
+            expect(proxy.lastReq.method).to.equal(method.toUpperCase());
+            expect(proxy.lastReq.url).to.equal(url);
             done();
           });
       }
@@ -223,7 +230,7 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
-            assert(proxy.called, 'proxy receives the request');
+            expect(proxy.called).to.equal(true);
             done();
           });
       });
@@ -253,9 +260,9 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
-            assert(nockProxy.called, 'proxy receives the request');
-            assert.equal(nockProxy.method, method.toUpperCase());
-            assert.equal(nockProxy.url, url);
+            expect(nockProxy.called).to.equal(true);
+            expect(nockProxy.method).to.equal(method.toUpperCase());
+            expect(nockProxy.url).to.equal(url);
             done();
           });
       }
@@ -343,7 +350,7 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
-            assert(nockProxy.called, 'proxy receives the request');
+            expect(nockProxy.called).to.equal(true);
             done();
           });
       });
@@ -453,7 +460,7 @@ describe('express-server', function() {
             request(subject.app)
             .get('/test-file.txt')
             .end(function(err, response) {
-              assert.equal(response.text.trim(), 'some contents');
+              expect(response.text.trim()).to.equal('some contents');
               done();
             });
           });
@@ -470,7 +477,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                assert.equal(response.text.trim(), 'some other content');
+                expect(response.text.trim()).to.equal('some other content');
 
                 done();
               });
@@ -488,7 +495,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                assert.equal(response.text.trim(), 'some other content');
+                expect(response.text.trim()).to.equal('some other content');
 
                 done();
               });
@@ -511,7 +518,7 @@ describe('express-server', function() {
           host:  '0.0.0.0',
           port: '1337'
         }).then(function() {
-          assert.equal(calls, 1);
+          expect(calls).to.equal(1);
         });
       });
     });
@@ -543,8 +550,8 @@ describe('express-server', function() {
           host:  '0.0.0.0',
           port: '1337'
         }).then(function() {
-          assert.equal(firstCalls, 1);
-          assert.equal(secondCalls, 1);
+          expect(firstCalls).to.equal(1);
+          expect(secondCalls).to.equal(1);
         });
       });
 
@@ -556,8 +563,8 @@ describe('express-server', function() {
           subject.changedFiles = ['bar.js'];
           return subject.restartHttpServer();
         }).then(function() {
-          assert.equal(firstCalls, 2);
-          assert.equal(secondCalls, 2);
+          expect(firstCalls).to.equal(2);
+          expect(secondCalls).to.equal(2);
         });
       });
     });
@@ -583,8 +590,8 @@ describe('express-server', function() {
         };
 
         return subject.start(realOptions).then(function() {
-          assert(passedOptions === realOptions);
-          assert.equal(calls, 1);
+          expect(passedOptions).to.equal(realOptions);
+          expect(calls).to.equal(1);
         });
       });
 
@@ -603,10 +610,10 @@ describe('express-server', function() {
             return subject.restartHttpServer();
           })
           .then(function() {
-            assert(subject.app);
-            assert.notEqual(originalApp, subject.app);
-            assert(passedOptions === realOptions);
-            assert.equal(calls, 2);
+            expect(!subject.app).to.equal(false);
+            expect(originalApp).not.to.equal(subject.app);
+            expect(passedOptions).to.equal(realOptions);
+            expect(calls).to.equal(2);
           });
       });
 
@@ -623,7 +630,7 @@ describe('express-server', function() {
         };
 
         return subject.start(realOptions).then(function() {
-          assert(!!passedOptions.httpServer.listen);
+          expect(!passedOptions.httpServer.listen).to.equal(false);
         });
       });
     });
@@ -640,7 +647,7 @@ describe('express-server', function() {
           port: '1337'
         }).then(function() {
           subject.serverWatcher.emit('change', 'foo.txt');
-          assert.equal(calls, 1);
+          expect(calls).to.equal(1);
         });
       });
 
@@ -656,7 +663,7 @@ describe('express-server', function() {
         }).then(function() {
           subject.serverWatcher.emit('change', 'foo.txt');
           subject.serverWatcher.emit('change', 'bar.txt');
-          assert.equal(calls, 2);
+          expect(calls).to.equal(2);
         });
       });
     });
@@ -669,13 +676,13 @@ describe('express-server', function() {
         };
 
         subject.scheduleServerRestart();
-        assert.equal(calls, 0);
+        expect(calls).to.equal(0);
         setTimeout(function() {
-          assert.equal(calls, 0);
+          expect(calls).to.equal(0);
           subject.scheduleServerRestart();
         }, 50);
         setTimeout(function() {
-          assert.equal(calls, 1);
+          expect(calls).to.equal(1);
           done();
         }, 175);
       });
@@ -695,11 +702,11 @@ describe('express-server', function() {
           subject.changedFiles = ['bar.js'];
           return subject.restartHttpServer();
         }).then(function() {
-          assert.equal(ui.output, EOL + chalk.green('Server restarted.') + EOL + EOL);
-          assert(subject.httpServer, 'HTTP server exists');
-          assert.notEqual(subject.httpServer, originalHttpServer, 'HTTP server has changed');
-          assert(subject.app, 'App exists');
-          assert.notEqual(subject.app, originalApp, 'App has changed');
+          expect(ui.output).to.equal(EOL + chalk.green('Server restarted.') + EOL + EOL);
+          expect(!subject.httpServer).to.equal(false);
+          expect(subject.httpServer).not.to.equal(originalHttpServer, 'HTTP server has changed');
+          expect(!subject.app).to.equal(false);
+          expect(subject.app).not.to.equal(originalApp);
         });
       });
 
@@ -721,10 +728,10 @@ describe('express-server', function() {
           subject.changedFiles = ['bar.js'];
           return subject.restartHttpServer();
         }).then(function() {
-          assert(subject.httpServer, 'HTTP server exists');
-          assert.notEqual(subject.httpServer, originalHttpServer, 'HTTP server has changed');
-          assert(subject.app, 'App exists');
-          assert.notEqual(subject.app, originalApp, 'App has changed');
+          expect(!subject.httpServer).to.equal(false);
+          expect(subject.httpServer).not.to.equal(originalHttpServer, 'HTTP server has changed');
+          expect(!subject.app).to.equal(false);
+          expect(subject.app).not.to.equal(originalApp);
         });
       });
 
@@ -740,7 +747,7 @@ describe('express-server', function() {
           subject.changedFiles = ['bar.js'];
           return subject.restartHttpServer();
         }).then(function() {
-          assert.equal(calls, 1);
+          expect(calls).to.equal(1);
         });
       });
     });
