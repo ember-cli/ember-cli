@@ -22,7 +22,7 @@ var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 describe('Acceptance: ember destroy pod', function() {
   var tmpdir;
 
-  this.timeout(5000);
+  this.timeout(20000);
 
   before(function() {
     BlueprintNpmTask.disableNPM();
