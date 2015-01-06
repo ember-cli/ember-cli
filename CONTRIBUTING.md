@@ -2,7 +2,7 @@
 
 There are many ways to contribute to the project, you can fix issues,
 improve documentation or work on any of the features on the
-[wish list](https://github.com/stefanpenner/ember-cli/wiki/Wish-List).
+[wish list](https://github.com/ember-cli/ember-cli/wiki/Wish-List).
 
 #Questions
 
@@ -122,7 +122,7 @@ All inline documentation is written using YUIDoc. Follow these rules when updati
 
 #### Website ####
 
-The codebase for the website [ember-cli.com](http://ember-cli.com) is located at: https://github.com/stefanpenner/ember-cli/tree/gh-pages
+The codebase for the website [ember-cli.com](http://ember-cli.com) is located at: https://github.com/ember-cli/ember-cli/tree/gh-pages
 
 
 #### Code Words ####
@@ -140,6 +140,6 @@ NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/m
 #Docs
 
 Have you got enough knowledge in a specific feature and want to help with docs? Ember-cli documentation
-lives at the branch [gh-pages](https://github.com/stefanpenner/ember-cli/tree/gh-pages).
+lives at the branch [gh-pages](https://github.com/ember-cli/ember-cli/tree/gh-pages).
 
 Feel free to contribute and help us to keep an updated, clear and complete documentation.

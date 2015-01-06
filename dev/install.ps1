@@ -12,6 +12,6 @@ cinst git.install
 $ENV:PATH += ";C:\Program Files (x86)\Git\cmd"
 
 cd C:\Users\vagrant
-git clone https://github.com/stefanpenner/ember-cli.git
+git clone https://github.com/ember-cli/ember-cli.git
 cd ember-cli
 npm install
