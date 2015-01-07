@@ -100,7 +100,7 @@
     "broccoli-kitchen-sink-helpers": "0.2.5",
     "broccoli-merge-trees": "0.2.1",
     "broccoli-sane-watcher": "krisselden/broccoli-sane-watcher",
-    "broccoli-sourcemap-concat": "^0.4.0",
+    "broccoli-sourcemap-concat": "^0.4.3",
     "broccoli-static-compiler": "0.2.1",
     "broccoli-uglify-sourcemap": "^0.2.1",
     "broccoli-unwatched-tree": "0.1.1",
