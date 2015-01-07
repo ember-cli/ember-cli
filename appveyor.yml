@@ -19,14 +19,15 @@ install:
   - dir C:\tools\PhantomJS
   # Typical npm stuff.
   - md C:\nc
+  - npm install -g npm@^2"
   - npm config set cache C:\nc
+  - npm version
   - npm install
 
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
-  - node --version
-  - npm --version
+  - npm version
   - cmd: npm run-script test-all
 
 # Don't actually build.
