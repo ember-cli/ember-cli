@@ -382,6 +382,9 @@ describe('models/project.js', function() {
         pkg: { name: 'foo' }
       }, {
         pkg: { name: 'bar-pkg' }
+      }, {
+        name: 'foo-bar',
+        pkg: { name: 'foo-bar' }
       }];
     });
 
@@ -397,6 +400,11 @@ describe('models/project.js', function() {
     it('should return the foo addon from name', function() {
       var addon = project.findAddonByName('foo');
       expect(addon.name).to.equal('foo', 'should have found the foo addon');
+    });
+
+    it('should return the foo-bar addon from name when a foo also exists', function() {
+      var addon = project.findAddonByName('foo-bar');
+      expect(addon.name).to.equal('foo-bar', 'should have found the foo-bar addon');
     });
 
     it('should return the bar-pkg addon from package name', function() {
