@@ -26,7 +26,8 @@ describe('Watcher', function() {
       ui: ui,
       analytics: analytics,
       builder: builder,
-      watcher: watcher
+      watcher: watcher,
+      options: {}
     });
   });
 
@@ -97,6 +98,35 @@ describe('Watcher', function() {
     });
   });
 
+  describe('watcher:change --disable-analytics', function() {
+    var tracksLength, timingsLength;
+
+    before(function() {
+      tracksLength  = analytics.tracks.length;
+      timingsLength = analytics.trackTimings.length;
+
+      subject.options.disableAnalytics = true;
+    });
+
+    after(function() {
+      subject.options.disableAnalytics = false;
+    });
+
+    beforeEach(function() {
+      watcher.emit('change', {
+        totalTime: 12344000000
+      });
+    });
+
+    it('does not track events if --disable-analytics=true', function() {
+      assert.equal(analytics.tracks.length, tracksLength);
+    });
+
+    it('does not track timings if --disable-analytics=true', function() {
+      assert.equal(analytics.trackTimings.length, timingsLength);
+    });
+  });
+
   describe('watcher:error', function() {
     it('tracks errors', function() {
       watcher.emit('error', {
@@ -158,6 +188,31 @@ describe('Watcher', function() {
 
       expect(outs[0]).to.equal(chalk.red('File: someFile (24:80)'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
+    });
+  });
+
+  describe('watcher:error --disable-analytics', function() {
+    var trackErrorsLength;
+
+    before(function() {
+      trackErrorsLength = analytics.trackErrors.length;
+
+      subject.options.disableAnalytics = true;
+    });
+
+    after(function() {
+      subject.options.disableAnalytics = false;
+    });
+
+    beforeEach(function() {
+      watcher.emit('error', {
+        message: 'foo',
+        stack: new Error().stack
+      });
+    });
+
+    it('does not track errors if --disable-analytics=true', function() {
+      assert.equal(analytics.trackErrors.length, trackErrorsLength);
     });
   });
 

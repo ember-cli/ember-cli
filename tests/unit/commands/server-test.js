@@ -35,6 +35,19 @@ describe('server command', function() {
     tasks.Serve.prototype.run.restore();
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    var serveCommand = new ServeCommand(options);
+
+    assert.equal(serveCommand.availableOptions.length, 9);
+    assert.deepEqual(serveCommand.availableOptions[8], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('has correct options', function() {
     return new ServeCommand(options).validateAndRun([
       '--port', '4000'

@@ -34,6 +34,34 @@ describe('update command', function() {
     };
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    var updateChecker = new UpdateChecker(ui, {
+      checkForUpdates: true
+    }, '100.0.0');
+
+    updateChecker.checkNPM = function() {
+      return Promise.resolve('0.0.1');
+    };
+
+    var updateCommand = new UpdateCommand({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      tasks: tasks,
+      updateChecker: updateChecker,
+      environment: { }
+    });
+
+    assert.equal(updateCommand.availableOptions.length, 1);
+    assert.deepEqual(updateCommand.availableOptions[0], {
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('says \'you have the latest version\' if no update is needed', function() {
     var updateChecker = new UpdateChecker(ui, {
       checkForUpdates: true
@@ -49,7 +77,8 @@ describe('update command', function() {
       project: project,
       tasks: tasks,
       updateChecker: updateChecker,
-      environment: { }
+      environment: { },
+      settings: {}
     }).validateAndRun([]).then(function() {
       expect(ui.output).to.include('You have the latest version of ember-cli');
     });
@@ -70,7 +99,8 @@ describe('update command', function() {
       project: project,
       tasks: tasks,
       updateChecker: updateChecker,
-      environment: { }
+      environment: { },
+      settings: {}
     }).validateAndRun([]).then(function() {
       expect(updateTaskWasRun, 'update task should have been run');
     });

@@ -21,7 +21,8 @@ describe('Server Watcher', function() {
     subject = new ServerWatcher({
       ui: ui,
       analytics: analytics,
-      watcher: watcher
+      watcher: watcher,
+      options: {}
     });
   });
 

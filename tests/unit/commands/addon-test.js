@@ -1,7 +1,8 @@
 'use strict';
-var expect         = require('chai').expect ;
+
+var expect         = require('chai').expect;
+var AddonCommand   = require('../../../lib/commands/addon');
 var commandOptions = require('../../factories/command-options');
-var AddonCommand     = require('../../../lib/commands/addon');
 
 describe('addon command', function() {
   var command, options;
@@ -17,6 +18,17 @@ describe('addon command', function() {
     });
 
     command = new AddonCommand(options);
+  });
+
+  it('should contain `disableAnalytics` option', function() {
+    expect(command.availableOptions.length).to.equal(7);
+    expect(command.availableOptions[6]).to.deep.equal({
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
   });
 
   it('doesn\'t allow to create an addon named `test`', function() {

@@ -21,7 +21,8 @@ beforeEach(function() {
   command = new FakeCommand({
     ui: new MockUI(),
     analytics: analytics,
-    project: { isEmberCLIProject: function(){ return true; }}
+    project: { isEmberCLIProject: function(){ return true; }},
+    settings: {}
   });
 });
 

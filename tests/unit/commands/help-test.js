@@ -36,6 +36,25 @@ describe('help command', function() {
     analytics = new MockAnalytics();
   });
 
+  it('should contain `disableAnalytics` option', function() {
+    var helpCommand = new HelpCommand({
+      ui: ui,
+      analytics: analytics,
+      commands: commands,
+      project: { isEmberCLIProject: function(){ return true; }},
+      settings: {}
+    });
+
+    expect(helpCommand.availableOptions.length).to.equal(2);
+    expect(helpCommand.availableOptions[1]).to.deep.equal({
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    });
+  });
+
   it('should generate complete help output, including aliases', function() {
     return new HelpCommand({
       ui: ui,

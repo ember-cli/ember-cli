@@ -80,6 +80,46 @@ describe('models/command.js', function() {
     });
   });
 
+  it('should contain `disableAnalytics` option by default', function() {
+    var command = new Command({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      settings: {}
+    });
+
+    expect(command.availableOptions.length).to.equal(1);
+    expect(command.availableOptions).to.deep.equal([{
+      key: 'disableAnalytics',
+      type: Boolean,
+      name: 'disable-analytics',
+      required: false,
+      default: false
+    }]);
+  });
+
+  it('parseArgs() should parse --disable-analytics option', function() {
+    expect(new Command({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      settings: {}
+    }).parseArgs(['--disable-analytics'])).to.have.deep.property('options.disableAnalytics', true);
+  });
+
+  it('should not call track functions if --disable-analytics=true', function() {
+    var l = analytics.tracks.length;
+
+    expect(new Command({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      settings: {}
+    }).validateAndRun(['--disable-analytics']));
+
+    expect(l).to.equal(analytics.tracks.length);
+  });
+
   it('parseArgs() should parse the command options.', function() {
     expect(new ServeCommand({
       ui: ui,
@@ -102,7 +142,8 @@ describe('models/command.js', function() {
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
         liveReload: false,
-        checkForUpdates: false
+        checkForUpdates: false,
+        disableAnalytics: false
       },
       args: []
     });
@@ -131,7 +172,8 @@ describe('models/command.js', function() {
         proxy: 'http://iamstef.net/ember-cli',
         liveReload: false,
         port: 80,
-        checkForUpdates: false
+        checkForUpdates: false,
+        disableAnalytics: false
       }
     });
   });
@@ -199,7 +241,8 @@ describe('models/command.js', function() {
     }).parseArgs(['-soft-shell'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
-        spicy: true
+        spicy: true,
+        disableAnalytics: false
       },
       args: []
     });
@@ -214,7 +257,8 @@ describe('models/command.js', function() {
     }).parseArgs(['-so'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
-        spicy: true
+        spicy: true,
+        disableAnalytics: false
       },
       args: []
     });
@@ -244,7 +288,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'adobada'
+        filling: 'adobada',
+        disableAnalytics: false
       },
       args: []
     });
@@ -253,7 +298,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carne-asada'
+        filling: 'carne-asada',
+        disableAnalytics: false
       },
       args: []
     });
@@ -262,7 +308,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'fish'
+        filling: 'fish',
+        disableAnalytics: false
       },
       args: []
     });
@@ -299,22 +346,24 @@ describe('models/command.js', function() {
     optionsAlias.registerOptions( { availableOptions : extendedAvailableOptions } );
     // default
     expect(optionsAlias.parseArgs([])).to.deep.equal({
-        options: {
-          taco: 'traditional',
-          spicy: true,
-          filling: 'adobada'
-        },
-        args: []
-      });
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        filling: 'adobada',
+        disableAnalytics: false
+      },
+      args: []
+    });
     // shorthand
     expect(optionsAlias.parseArgs(['-carne'])).to.deep.equal({
-        options: {
-          taco: 'traditional',
-          spicy: true,
-          filling: 'carne-asada'
-        },
-        args: []
-      });
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        filling: 'carne-asada',
+        disableAnalytics: false
+      },
+      args: []
+    });
 
     optionsAlias.registerOptions( { availableOptions : duplicateExtendedAvailableOptions } );
     // override default
@@ -322,20 +371,21 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carnitas'
+        filling: 'carnitas',
+        disableAnalytics: false
       },
       args: []
     });
     // last argument wins
     expect(optionsAlias.parseArgs(['-fish', '-pollo'])).to.deep.equal({
-        options: {
-          taco: 'traditional',
-          spicy: true,
-          filling: 'pollo-asado'
-        },
-        args: []
-      });
-
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        filling: 'pollo-asado',
+        disableAnalytics: false
+      },
+      args: []
+    });
   });
 
   it('registerOptions() should not allow aliases with the same name.', function() {
@@ -542,7 +592,7 @@ describe('models/command.js', function() {
     optionsAlias.registerOptions( { availableOptions : extendedAvailableOptions });
     optionsAlias.availableOptions.push(duplicateExtendedAvailableOptions[0]);
 
-    expect(optionsAlias.mergeDuplicateOption( 'filling' )).to.deep.equal([
+    expect(JSON.stringify(optionsAlias.mergeDuplicateOption( 'filling' ))).to.equal(JSON.stringify([
       {
         name: 'taco',
         type: String,
@@ -555,11 +605,18 @@ describe('models/command.js', function() {
         required: false
       },
       {
+        name: 'disable-analytics',
+        default: false,
+        key: 'disableAnalytics',
+        required: false
+      },
+      {
         name: 'spicy',
         type: Boolean,
         default: true,
         aliases: [
-          {'mild' : false}
+          {'mild' : false},
+          null
         ],
         key: 'spicy',
         required: false
@@ -577,7 +634,7 @@ describe('models/command.js', function() {
         key: 'filling',
         required: false
       }
-    ]);
+    ]));
   });
 
   it('implicit shorthands work with values.', function() {
@@ -589,7 +646,8 @@ describe('models/command.js', function() {
     }).parseArgs(['-s', 'false', '-t', 'hard-shell'])).to.deep.equal({
       options: {
         taco: 'hard-shell',
-        spicy: false
+        spicy: false,
+        disableAnalytics: false
       },
       args: []
     });
