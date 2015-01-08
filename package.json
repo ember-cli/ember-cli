@@ -151,8 +151,10 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "chai-as-promised": "^4.1.1",
+    "github": "^0.2.3",
     "mocha": "^1.18.0",
     "mocha-jshint": "0.0.9",
+    "multiline": "^1.0.1",
     "nock": "^0.51.0",
     "node-require-timings": "0.0.2",
     "supertest": "0.14.0",
