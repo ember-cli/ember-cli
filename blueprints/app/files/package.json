@@ -13,8 +13,10 @@
     "test": "ember test"
   },
   "repository": "",
+  "engineStrict": true,
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.10.0",
+    "npm": ">= 2.0.0"
   },
   "author": "",
   "license": "MIT",
