@@ -7,12 +7,14 @@ var InstallCommand = require('../../../lib/commands/install-addon');
 var Task           = require('../../../lib/models/task');
 var Project        = require('../../../lib/models/project');
 var Promise        = require('../../../lib/ext/promise');
+var AddonInstall   = require('../../../lib/tasks/addon-install');
 
 describe('install:addon command', function() {
   var command, options, tasks, generateBlueprintInstance, npmInstance;
 
   beforeEach(function() {
     tasks = {
+      AddonInstall: AddonInstall,
       NpmInstall: Task.extend({
         init: function() {
           npmInstance = this;

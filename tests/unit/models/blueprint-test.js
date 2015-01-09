@@ -758,6 +758,101 @@ describe('Blueprint', function() {
     });
   });
 
+  describe('addAddonToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var AddonInstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new AddonInstallTask();
+      };
+    });
+
+    afterEach(function() {
+      return rimraf(tmproot);
+    });
+
+    it('looks up the `addon-install` task', function() {
+      AddonInstallTask = Task.extend({
+        run: function() {}
+      });
+
+      blueprint.addAddonToProject('foo-bar');
+
+      expect(taskNameLookedUp).to.equal('addon-install');
+    });
+
+    it('calls the task with package name', function() {
+      var pkg;
+
+      AddonInstallTask = Task.extend({
+        run: function(options) {
+          pkg = options['package'];
+        }
+      });
+
+      blueprint.addAddonToProject('foo-bar');
+
+      expect(pkg).to.equal('foo-bar');
+    });
+
+    it('calls the task with correctly parsed options', function() {
+      var pkg, args;
+
+      AddonInstallTask = Task.extend({
+        run: function(options) {
+          pkg  = options['package'];
+          args = options['extraArgs'];
+        }
+      });
+
+      blueprint.addAddonToProject({
+        name: 'foo-bar',
+        target: '1.0.0',
+        extraArgs: ['baz']
+      });
+
+      expect(pkg).to.equal('foo-bar@1.0.0');
+      expect(args).to.deep.equal(['baz']);
+    });
+
+    it('writes information to the ui log for a single package', function() {
+      blueprint._exec = function() { };
+      blueprint.ui = ui;
+
+      blueprint.addAddonToProject({
+        name: 'foo-bar',
+        target: '^123.1.12'
+      });
+
+      var output = ui.output.trim();
+
+      expect(output).to.match(/install addon.*foo-bar/);
+    });
+
+    it('does not error if ui is not present', function() {
+      blueprint._exec = function() { };
+      delete blueprint.ui;
+
+      blueprint.addAddonToProject({
+        name: 'foo-bar', target: '^123.1.12'}
+      );
+
+      var output = ui.output.trim();
+
+      expect(output).to.not.match(/install addon.*foo-bar/);
+    });
+  });
+
   describe('insertIntoFile', function() {
     var blueprint;
     var ui;
