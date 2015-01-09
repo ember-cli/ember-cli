@@ -104,7 +104,6 @@
     "broccoli-static-compiler": "0.2.1",
     "broccoli-uglify-sourcemap": "^0.2.1",
     "broccoli-unwatched-tree": "0.1.1",
-    "broccoli-writer": "0.1.1",
     "chalk": "0.5.1",
     "concat-stream": "^1.4.6",
     "configstore": "0.3.1",
