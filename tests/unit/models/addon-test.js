@@ -9,6 +9,7 @@ var expect  = require('chai').expect;
 var rimraf  = Promise.denodeify(require('rimraf'));
 var tmp     = require('tmp-sync');
 var path    = require('path');
+var findWhere = require('lodash-node/modern/collections/find');
 
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
@@ -130,7 +131,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon no-export', function() {
       before(function() {
-        addon = project.addons[7];
+        addon = findWhere(project.addons, { name: '(generated ember-generated-no-export-addon addon)' });
       });
 
       it('sets it\'s project', function() {
@@ -233,7 +234,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon with-export', function() {
       beforeEach(function() {
-        addon = project.addons[4];
+        addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
 
         // Clear the caches
         delete addon._includedModules;
@@ -314,6 +315,21 @@ describe('models/addon.js', function() {
           var tree = addon.treeFor('addon');
           expect(typeof tree.read).to.equal('function');
         });
+      });
+    });
+
+    describe('addon with dependencies', function() {
+      beforeEach(function() {
+        addon = findWhere(project.addons, { name: 'Ember Addon With Dependencies' });
+      });
+
+      it('returns a listing of all dependencies in the addon\'s package.json', function() {
+        var expected = {
+          'ember-cli': 'latest',
+          'something-else': 'latest'
+        };
+
+        expect(addon.dependencies()).to.deep.equal(expected);
       });
     });
 
