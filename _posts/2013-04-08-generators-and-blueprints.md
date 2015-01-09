@@ -102,7 +102,7 @@ With the `usePodsByDefault` set to `true`.
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'my-new-app',
-    podModulePrefix: 'my-new-app/pods'
+    podModulePrefix: 'my-new-app/pods',
     usePodsByDefault: true,
     environment: environment,
     baseURL: '/',
