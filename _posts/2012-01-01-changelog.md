@@ -5,6 +5,46 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.1.6
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + Use `expect` over `assert` in tests going forward
+
+#### Community Contributions
+
+- [#2885](https://github.com/ember-cli/ember-cli/pull/2885) [ENHANCEMENT] NPM should use save-exact flags [@chadhietala](https://github.com/chadhietala)
+- [#2840](https://github.com/ember-cli/ember-cli/pull/2840) [INTERNAL ]using 'expect' vs. assert. [@Mawaheb](https://github.com/Mawaheb)
+- [#2669](https://github.com/ember-cli/ember-cli/pull/2669) [ENHANCEMENT] add .npmignore to addon blueprint [@pogopaule](https://github.com/pogopaule)
+- [#2909](https://github.com/ember-cli/ember-cli/pull/2909) [INTERNAL] Use lib/ext/promise instead of RSVP directly [@zeppelin](https://github.com/zeppelin)
+- [#2857](https://github.com/ember-cli/ember-cli/pull/2857) [ENHANCEMENT] Add descriptions to more Broccoli trees. [@rwjblue](https://github.com/rwjblue)
+- [#2842](https://github.com/ember-cli/ember-cli/pull/2842) [INTERNAL] Prefer `expect` over `assert` for testing [@stavarotti](https://github.com/stavarotti)
+- [#2847](https://github.com/ember-cli/ember-cli/pull/2847) [BUGFIX] Bump ember-router-generator (fixes WARN on description not present). [@abuiles](https://github.com/abuiles)
+- [#2843](https://github.com/ember-cli/ember-cli/pull/2843) [INTERNAL] Unify using chai.expect [@twokul](https://github.com/twokul)
+- [#2900](https://github.com/ember-cli/ember-cli/pull/2900) [INTERNAL] update some CI stuff [@ember-cli](https://github.com/ember-cli)
+- [#2876](https://github.com/ember-cli/ember-cli/pull/2876) [BUGFIX] make sure adapter cannot extend from itself [@jakecraige](https://github.com/jakecraige)
+- [#2869](https://github.com/ember-cli/ember-cli/pull/2869) [BUGFIX] Tolerate before & after references to missing addons [@ef4](https://github.com/ef4)
+- [#2864](https://github.com/ember-cli/ember-cli/pull/2864) [ENHANCEMENT] the .gitkeep in /public can now be removed [@kellyselden](https://github.com/kellyselden)
+- [#2887](https://github.com/ember-cli/ember-cli/pull/2887) [INTERNAL] I don’t think we need this anymore. [@ember-cli](https://github.com/ember-cli)
+- [#2910](https://github.com/ember-cli/ember-cli/pull/2910) [DOCS] Update org references to ember-cli [@zeppelin](https://github.com/zeppelin)
+- [#2911](https://github.com/ember-cli/ember-cli/pull/2911) [DOCS] More org updates to reference ember-cli [@Dhaulagiri](https://github.com/Dhaulagiri)
+- [#2916](https://github.com/ember-cli/ember-cli/pull/2916) [BUGFIX] findAddonByName returning incorrect matches [@jakecraige](https://github.com/jakecraige)
+- [#2918](https://github.com/ember-cli/ember-cli/pull/2918) [ENHANCEMENT] Updated testem [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#2919](https://github.com/ember-cli/ember-cli/pull/2919) [ENHANCEMENT] implement Blueprint.prototype.addAddonToProject [@jakecraige](https://github.com/jakecraige)
+- [#2920](https://github.com/ember-cli/ember-cli/pull/2920) [BUGFIX] explicitly bump broccoli-sourcemap-concat to fix #2890 [@krisselden](https://github.com/krisselden)
+- [#2929](https://github.com/ember-cli/ember-cli/pull/2929) [BUGFIX] Bump ember-router-generator. [@abuiles](https://github.com/abuiles)
+- [#2939](https://github.com/ember-cli/ember-cli/pull/2939) [ENHANCEMENT] Add a hook for postprocessing tests tree [@ef4](https://github.com/ef4)
+- [#2941](https://github.com/ember-cli/ember-cli/pull/2941) [ENHANCEMENT] Bumped testem [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#2944](https://github.com/ember-cli/ember-cli/pull/2944) [INTERNAL] update CONTRIBUTING.md [@jakecraige](https://github.com/jakecraige)
+
+Thank you to all who took the time to contribute!
+
 ### 0.1.5
 
 ### Applications
