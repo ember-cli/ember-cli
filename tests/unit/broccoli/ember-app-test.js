@@ -346,6 +346,18 @@ describe('broccoli/ember-app', function() {
 
         expect(emberApp.toTree()).to.equal('blap');
       });
+
+      it('calls each addon postprocessTree hook', function() {
+        stub(emberApp, '_processedTemplatesTree', 'x');
+        stub(addon, 'postprocessTree', 'blap');
+        expect(emberApp.toTree()).to.equal('blap');
+        expect(
+          addon.postprocessTree.calledWith.map(function(args){
+            return args[0];
+          }).sort()
+        ).to.deep.equal(['all', 'js', 'test']);
+      });
+
     });
 
     describe('isEnabled is called properly', function() {
