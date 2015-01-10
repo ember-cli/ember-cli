@@ -14,7 +14,7 @@ var ServeCommand = Command.extend({
     { name: 'port', type: Number, default: 4200 },
     { name: 'host', type: String, default: '0.0.0.0' },
     { name: 'proxy',  type: String },
-    { name: 'live-reload',  type: Boolean, default: true },
+    { name: 'live-reload',  type: Boolean, default: true, aliases: ['lr']},
     { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)'},
     { name: 'environment', type: String, default: 'development' }
   ],
@@ -152,7 +152,7 @@ describe('models/command.js', function() {
       project: project,
       settings: config.getAll()
     }).parseArgs(['foo', '--envirmont', 'production']);
-    expect(ui.output).to.match(/The option '--envirmont' is not supported by the serve command. Run `ember serve --help` for a list of supported options./);
+    expect(ui.output).to.match(/The option '--envirmont' is not registered with the serve command. Run `ember serve --help` for a list of supported options./);
   });
 
   it('parseArgs() should parse shorthand options.', function() {
@@ -162,6 +162,15 @@ describe('models/command.js', function() {
       project: project,
       settings: {}
     }).parseArgs(['-e', 'tacotown'])).to.have.deep.property('options.environment', 'tacotown');
+  });
+
+  it('parseArgs() should parse shorthand dasherized options.', function() {
+    expect(new ServeCommand({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      settings: {}
+    }).parseArgs(['-lr', 'false'])).to.have.deep.property('options.liveReload', false);
   });
 
   it('validateAndRun() should print a message if a required option is missing.', function() {
