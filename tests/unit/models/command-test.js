@@ -60,6 +60,14 @@ var OptionsAliasCommand = Command.extend({
     aliases:[
       {'mild' : false}
     ]
+  },
+  {
+    name: 'display-message',
+    type: String,
+    aliases:[
+      'dm',
+      { 'hw': 'Hello world' }
+    ]
   }],
   run: function() {}
 });
@@ -215,6 +223,36 @@ describe('models/command.js', function() {
       options: {
         taco: 'soft-shell',
         spicy: true
+      },
+      args: []
+    });
+  });
+
+  it('availableOptions with aliases should work with hyphenated options', function() {
+    expect(new OptionsAliasCommand({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      settings: {}
+    }).parseArgs(['-dm', 'hi'])).to.deep.equal({
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        displayMessage: 'hi'
+      },
+      args: []
+    });
+
+    expect(new OptionsAliasCommand({
+      ui: ui,
+      analytics: analytics,
+      project: project,
+      settings: {}
+    }).parseArgs(['-hw'])).to.deep.equal({
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        displayMessage: 'Hello world'
       },
       args: []
     });
@@ -552,6 +590,16 @@ describe('models/command.js', function() {
           {'soft-shell' : 'soft-shell'}
         ],
         key: 'taco',
+        required: false
+      },
+      {
+        name: 'display-message',
+        type: String,
+        aliases:[
+          'dm',
+          { 'hw': 'Hello world' }
+        ],
+        key: 'displayMessage',
         required: false
       },
       {
