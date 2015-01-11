@@ -54,9 +54,8 @@ Ember CLI has an *addon* command with some options:
 Note: An addon can NOT be created inside an existing application.
 
 ### Create addon
-To create a basic addon:
-
-Running this command should generate something like the following:
+To create a basic addon, run the `ember addon [your-addon-name]` command.
+This will generate something like the following:
 
 {% highlight bash %}
 ember addon my-x-button
