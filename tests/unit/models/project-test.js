@@ -156,7 +156,8 @@ describe('models/project.js', function() {
         'non-ember-thingy': 'latest',
         'ember-before-blueprint-addon': 'latest',
         'ember-after-blueprint-addon': 'latest',
-        'something-else': 'latest'
+        'something-else': 'latest',
+        'ember-devDeps-addon': 'latest'
       };
 
       expect(project.dependencies()).to.deep.equal(expected);
@@ -188,7 +189,7 @@ describe('models/project.js', function() {
         'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
-        'ember-yagni', 'ember-ng', 'ember-super-button'
+        'ember-devDeps-addon', 'ember-yagni', 'ember-ng', 'ember-super-button'
       ];
 
       project.buildAddonPackages();
