@@ -1,5 +1,5 @@
 
-## ember-cli [![Build Status](https://travis-ci.org/ember-cli/ember-cli.svg?branch=master)](https://travis-ci.org/ember-cli/ember-cli) [![Dependency Status](https://david-dm.org/ember-cli/ember-cli.svg)](https://david-dm.org/ember-cli/ember-cli)[![Build status](https://ci.appveyor.com/api/projects/status/7owf61lo8uujbjok/branch/master?svg=true)](https://ci.appveyor.com/project/embercli/ember-cli/branch/master)
+## ember-cli [![Build Status][travis-badge]][travis-badge-url] [![Dependency Status][david-badge]][david-badge-url] [![Build status][appveyor-badge]][appveyor-badge-url]
 
 An ember command line utility.
 
@@ -101,3 +101,11 @@ All donations will support this project and treats for contributors.
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/ember-cli/ember-cli/blob/master/LICENSE.md).
+
+
+[travis-badge]: https://travis-ci.org/ember-cli/ember-cli.svg?branch=master
+[travis-badge-url]: https://travis-ci.org/ember-cli/ember-cli
+[david-badge]: https://david-dm.org/ember-cli/ember-cli.svg
+[david-badge-url]: https://david-dm.org/ember-cli/ember-cli
+[appveyor-badge]: https://ci.appveyor.com/api/projects/status/7owf61lo8uujbjok/branch/master?svg=true
+[appveyor-badge-url]: https://ci.appveyor.com/project/embercli/ember-cli/branch/master
