@@ -8,6 +8,7 @@ var Promise = require('../../../lib/ext/promise');
 var expect  = require('chai').expect;
 var rimraf  = Promise.denodeify(require('rimraf'));
 var tmp     = require('tmp-sync');
+var path    = require('path');
 
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
@@ -45,6 +46,30 @@ describe('models/addon.js', function() {
       });
 
     });
+
+    describe('.jshintAddonTree', function() {
+      it('it uses the fullPath', function() {
+        var addon = new FirstAddon(project);
+
+        // TODO: fix config story...
+        addon.app = { options: { jshintrc: {} } };
+
+        addon.jshintTrees = function(){};
+        addon.pickFiles   = function(){};
+
+        var addonPath;
+        addon.addonJsFiles = function(_path) {
+          addonPath = _path;
+        };
+
+        var root = path.join(fixturePath, 'with-styles');
+        addon.root = root;
+
+        addon.jshintAddonTree();
+        expect(addonPath).to.eql(path.join(root, 'addon'));
+      });
+    });
+
 
     it('modifying a treePath does not affect other addons', function() {
       var first = new FirstAddon(project);
