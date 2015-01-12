@@ -5,6 +5,7 @@ var stringUtil = require('../../lib/utilities/string');
 var assign     = require('lodash-node/modern/objects/assign');
 var uniq       = require('lodash-node/underscore/arrays/uniq');
 var date       = new Date();
+var debug      = require('debug')('blueprints:addon');
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
@@ -75,15 +76,20 @@ module.exports = {
   files: function() {
     if (this._files) { return this._files; }
 
-    this._appBlueprint   = this.lookupBlueprint('app');
-    var appFiles       = this._appBlueprint.files();
+    this._appBlueprint = this.lookupBlueprint('app');
+
+    var appFiles = this._appBlueprint.files();
 
     this.generatePackageJson();
     this.generateBowerJson();
 
-    var addonFiles   = walkSync(path.join(this.path, 'files'));
+    var addonFiles = walkSync(path.join(this.path, 'files'));
 
-    return this._files = uniq(appFiles.concat(addonFiles));
+    this._files = uniq(appFiles.concat(addonFiles));
+
+    debug('Addon#files %s files: %o', this.name, this._files);
+
+    return this._files;
   },
 
   mapFile: function(file, locals) {
@@ -103,9 +109,13 @@ module.exports = {
   },
 
   fileMapper: function(path) {
+    var remap;
+
     for(pattern in this.fileMap) {
       if ((new RegExp(pattern)).test(path)) {
-        return this.fileMap[pattern].replace(':path', path);
+        remap = this.fileMap[pattern].replace(':path', path);
+        debug('fileMapper (%o) remap: %s -> %s', pattern, path, remap);
+        return remap;
       }
     }
 
@@ -114,10 +124,15 @@ module.exports = {
 
   srcPath: function(file) {
     var filePath = path.resolve(this.path, 'files', file);
+    var src ;
     if (fs.existsSync(filePath)) {
-      return filePath;
+      src = filePath;
     } else {
-      return path.resolve(this._appBlueprint.path, 'files', file);
+      src =path.resolve(this._appBlueprint.path, 'files', file);
     }
+
+    debug('srcPath: %s src: %s', src);
+
+    return src;
   }
 };
