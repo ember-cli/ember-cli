@@ -75,6 +75,30 @@ describe('server command', function() {
     });
   });
 
+  it('has correct insecure proxy option', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--insecure-proxy'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(ops.insecureProxy).to.equal(true, 'has correct insecure proxy option');
+    });
+  });
+
+  it('has correct default value for insecure proxy', function() {
+    return new ServeCommand(options).validateAndRun().then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(ops.insecureProxy).to.equal(false, 'has correct insecure proxy option when not set');
+    });
+  });
+
   it('requires proxy URL to include protocol', function() {
     return new ServeCommand(options).validateAndRun([
       '--proxy', 'localhost:3000'

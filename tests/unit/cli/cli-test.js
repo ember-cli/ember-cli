@@ -196,6 +196,30 @@ describe('Unit: CLI', function() {
         });
       });
 
+      it('ember ' + command + ' --proxy https://localhost:3009/ --insecure-proxy', function () {
+        var server = stubRun('serve');
+
+        return ember([command, '--insecure-proxy']).then(function() {
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.insecureProxy).to.equal(true, 'correct `secure` option for http-proxy');
+        });
+      });
+
+      it('ember ' + command + ' --proxy https://localhost:3009/ --no-insecure-proxy', function () {
+        var server = stubRun('serve');
+
+        return ember([command, '--no-insecure-proxy']).then(function() {
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.insecureProxy).to.equal(false, 'correct `secure` option for http-proxy');
+        });
+      });
+
       it('ember ' + command + ' --watcher events', function() {
         var server = stubRun('serve');
 
