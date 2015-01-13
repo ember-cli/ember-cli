@@ -1,4 +1,4 @@
 import Ember from 'ember';
 
-export default Ember.<%= baseClass %>.extend({
+export default Ember.Controller.extend({
 });

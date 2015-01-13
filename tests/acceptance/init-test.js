@@ -1,7 +1,7 @@
 'use strict';
 
 var ember     = require('../helpers/ember');
-var assert    = require('assert');
+var expect    = require('chai').expect;
 var forEach   = require('lodash-node/compat/collections/forEach');
 var walkSync  = require('walk-sync');
 var glob      = require('glob');
@@ -57,8 +57,8 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    assert.deepEqual(expected, actual, EOL + ' expected: ' +  util.inspect(expected) +
-                     EOL + ' but got: ' +  util.inspect(actual));
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
+                                           EOL + ' but got: ' +  util.inspect(actual));
   }
 
   function confirmGlobBlueprinted(pattern) {
@@ -71,8 +71,8 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    assert.deepEqual(expected, actual, EOL + ' expected: ' +  util.inspect(expected) +
-                     EOL + ' but got: ' +  util.inspect(actual));
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
+                                           EOL + ' but got: ' +  util.inspect(actual));
   }
 
   function pickSync(filePath, pattern) {
@@ -86,7 +86,9 @@ describe('Acceptance: ember init', function() {
   function removeIgnored(array) {
     remove(array, function(fn) {
       return any(Blueprint.ignoredFiles, function(ignoredFile) {
-        return minimatch(fn, ignoredFile, { matchBase: true });
+        return minimatch(fn, ignoredFile, {
+          matchBase: true
+        });
       });
     });
   }

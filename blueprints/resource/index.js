@@ -54,9 +54,10 @@ module.exports = {
 
     var routeOptions = merge({}, options, { type: 'resource' });
 
-    return Promise.all([
-      this._processBlueprint(type, 'model', modelOptions),
-      this._processBlueprint(type, 'route', routeOptions)
-    ]);
+    var self = this;
+    return this._processBlueprint(type, 'model', modelOptions)
+              .then(function() {
+                return self._processBlueprint(type, 'route', routeOptions);
+              });
   }
 };

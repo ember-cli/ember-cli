@@ -1,6 +1,6 @@
 'use strict';
 
-var assert         = require('../../helpers/assert');
+var expect         = require('chai').expect;
 var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
@@ -36,42 +36,94 @@ describe('server command', function() {
   });
 
   it('has correct options', function() {
-    new ServeCommand(options).validateAndRun([
+    return new ServeCommand(options).validateAndRun([
       '--port', '4000'
-    ]);
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
 
-    var serveRun = tasks.Serve.prototype.run;
-    var ops = serveRun.calledWith[0][0];
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-    assert.equal(serveRun.called, 1, 'expected run to be called once');
-
-    assert.equal(ops.port,           4000,      'has correct port');
-    assert.equal(ops.liveReloadPort, 35529,     'has correct liveReload port');
+      expect(ops.port).to.equal(4000,            'has correct port');
+      expect(ops.liveReloadPort).to.equal(35529, 'has correct liveReload port');
+    });
   });
 
   it('has correct liveLoadPort', function() {
-    new ServeCommand(options).validateAndRun([
+    return new ServeCommand(options).validateAndRun([
       '--live-reload-port', '4001'
-    ]);
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
 
-    var serveRun = tasks.Serve.prototype.run;
-    var ops = serveRun.calledWith[0][0];
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-    assert.equal(serveRun.called, 1, 'expected run to be called once');
-
-    assert.equal(ops.liveReloadPort, 4001,     'has correct liveReload port');
+      expect(ops.liveReloadPort).to.equal(4001, 'has correct liveReload port');
+    });
   });
-  
+
   it('has correct proxy', function() {
-    new ServeCommand(options).validateAndRun([
+    return new ServeCommand(options).validateAndRun([
       '--proxy', 'http://localhost:3000/'
-    ]);
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
 
-    var serveRun = tasks.Serve.prototype.run;
-    var ops = serveRun.calledWith[0][0];
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-    assert.equal(serveRun.called, 1, 'expected run to be called once');
+      expect(ops.proxy).to.equal('http://localhost:3000/', 'has correct port');
+    });
+  });
 
-    assert.equal(ops.proxy, 'http://localhost:3000/', 'has correct port');
+  it('has correct insecure proxy option', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--insecure-proxy'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(ops.insecureProxy).to.equal(true, 'has correct insecure proxy option');
+    });
+  });
+
+  it('has correct default value for insecure proxy', function() {
+    return new ServeCommand(options).validateAndRun().then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(ops.insecureProxy).to.equal(false, 'has correct insecure proxy option when not set');
+    });
+  });
+
+  it('requires proxy URL to include protocol', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--proxy', 'localhost:3000'
+    ]).then(function() {
+      expect(false, 'it rejects when proxy URL doesn\'t include protocol');
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal(
+        'You need to include a protocol with the proxy URL.\nTry --proxy http://localhost:3000'
+      );
+    });
+  });
+
+  it('uses baseURL of correct environment', function() {
+    options.project.config = function(env) {
+      return { baseURL: env };
+    };
+
+    return new ServeCommand(options).validateAndRun([
+      '--environment', 'test'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(ops.baseURL).to.equal('test', 'Uses the correct environment.');
+    });
   });
 });

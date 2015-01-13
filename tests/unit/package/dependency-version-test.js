@@ -1,15 +1,17 @@
 'use strict';
 
-var assert = require('../../helpers/assert');
+var expect = require('chai').expect;
 var semver = require('semver');
 
-function assertVersionLock(deps) {
-  deps = deps || {};
+function assertVersionLock(_deps) {
+  var deps = _deps || {};
 
   Object.keys(deps).forEach(function(name) {
-    if (name !== 'ember-cli' && semver.gtr('1.0.0', deps[name])) {
+    if (name !== 'ember-cli' &&
+        semver.valid(deps[name]) &&
+        semver.gtr('1.0.0', deps[name])) {
       // only valid if the version is fixed
-      assert(semver.valid(deps[name]), '"' + name + '" has a valid version');
+      expect(semver.valid(deps[name]), '"' + name + '" has a valid version');
     }
   });
 }

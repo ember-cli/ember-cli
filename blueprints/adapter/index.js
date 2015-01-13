@@ -1,30 +1,33 @@
-var fs         = require('fs');
-var path       = require('path');
-var stringUtil = require('../../lib/utilities/string');
+var fs          = require('fs');
+var path        = require('path');
+var stringUtil  = require('../../lib/utilities/string');
+var SilentError = require('../../lib/errors/silent');
 
 module.exports = {
   description: 'Generates an ember-data adapter.',
 
   availableOptions: [
-    { name: 'base-class', type: String, default: 'application' }
+    { name: 'base-class', type: String }
   ],
 
   locals: function(options) {
+    var adapterName     = options.entity.name;
     var baseClass       = 'DS.RESTAdapter';
     var importStatement = 'import DS from \'ember-data\';';
+
+    if (!options.baseClass && adapterName !== 'application') {
+      options.baseClass = 'application';
+    }
+
+    if (options.baseClass === adapterName) {
+      throw new SilentError('Adapters cannot extend from themself. To resolve this, remove the `--base-class` option or change to a different base-class.')
+    }
 
     if (options.baseClass) {
       baseClass = stringUtil.classify(options.baseClass.replace('\/', '-'));
       baseClass = baseClass + 'Adapter';
 
       importStatement = 'import ' + baseClass + ' from \'./' + options.baseClass + '\';'
-    } else {
-      var applicationAdapterPath = path.resolve(options.target, 'app/adapters/application.js');
-
-      if (fs.existsSync(applicationAdapterPath)) {
-        importStatement =  'import ApplicationAdapter from \'./application\';',
-        baseClass = 'ApplicationAdapter';
-      }
     }
 
     return {

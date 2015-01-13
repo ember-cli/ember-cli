@@ -1,6 +1,6 @@
 'use strict';
 
-var assert        = require('../../helpers/assert');
+var expect        = require('chai').expect;
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var Task          = require('../../../lib/models/task');
@@ -51,7 +51,7 @@ describe('update command', function() {
       updateChecker: updateChecker,
       environment: { }
     }).validateAndRun([]).then(function() {
-      assert.include(ui.output, 'You have the latest version of ember-cli');
+      expect(ui.output).to.include('You have the latest version of ember-cli');
     });
   });
 
@@ -72,7 +72,7 @@ describe('update command', function() {
       updateChecker: updateChecker,
       environment: { }
     }).validateAndRun([]).then(function() {
-      assert(updateTaskWasRun, 'update task should have been run');
+      expect(updateTaskWasRun, 'update task should have been run');
     });
   });
 });

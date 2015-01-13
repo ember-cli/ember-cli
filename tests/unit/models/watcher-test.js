@@ -1,6 +1,6 @@
 'use strict';
 
-var assert = require('assert');
+var expect = require('chai').expect;
 
 var MockUI = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
@@ -33,17 +33,39 @@ describe('Watcher', function() {
   describe('watcher strategy selection', function() {
     it('selects the events-based watcher by default', function () {
       subject.options = null;
-      assert.ok(!subject.polling());
+
+      expect(subject.buildOptions()).to.deep.equal({
+        verbose: true,
+        poll: false,
+        watchman: false,
+        node: false
+      });
     });
 
     it('selects the events-based watcher when given events watcher option', function () {
-      subject.options = { watcher: 'events' };
-      assert.ok(!subject.polling());
+      subject.options = {
+        watcher: 'events'
+      };
+
+      expect(subject.buildOptions()).to.deep.equal({
+        verbose: true,
+        poll: false,
+        watchman: true,
+        node: false
+      });
     });
 
     it('selects the polling watcher when given polling watcher option', function () {
-      subject.options = { watcher: 'polling' };
-      assert.ok(subject.polling());
+      subject.options = {
+        watcher: 'polling'
+      };
+
+      expect(subject.buildOptions()).to.deep.equal({
+        verbose: true,
+        poll: true,
+        watchman: false,
+        node: false
+      });
     });
   });
 
@@ -55,14 +77,14 @@ describe('Watcher', function() {
     });
 
     it('tracks events', function() {
-      assert.deepEqual(analytics.tracks, [{
+      expect(analytics.tracks).to.deep.equal([{
         name: 'ember rebuild',
         message: 'broccoli rebuild time: 12344ms'
       }]);
     });
 
     it('tracks timings', function() {
-      assert.deepEqual(analytics.trackTimings, [{
+      expect(analytics.trackTimings).to.deep.equal([{
         category: 'rebuild',
         variable: 'rebuild time',
         label:    'broccoli rebuild time',
@@ -71,7 +93,7 @@ describe('Watcher', function() {
     });
 
     it('logs that the build was successful', function() {
-      assert.equal(ui.output, EOL + chalk.green('Build successful - 12344ms.') + EOL);
+      expect(ui.output).to.equal(EOL + chalk.green('Build successful - 12344ms.') + EOL);
     });
   });
 
@@ -82,7 +104,7 @@ describe('Watcher', function() {
         stack: new Error().stack
       });
 
-      assert.deepEqual(analytics.trackErrors, [{
+      expect(analytics.trackErrors).to.deep.equal([{
         description: 'foo'
       }]);
     });
@@ -95,8 +117,8 @@ describe('Watcher', function() {
 
       var outs = ui.output.split(EOL);
 
-      assert.equal(outs[0], chalk.red('File: someFile'));
-      assert.equal(outs[1], chalk.red('buildFailed'));
+      expect(outs[0]).to.equal(chalk.red('File: someFile'));
+      expect(outs[1]).to.equal(chalk.red('buildFailed'));
     });
 
     it('emits with error.file with error.line without err.col', function() {
@@ -108,8 +130,8 @@ describe('Watcher', function() {
 
       var outs = ui.output.split(EOL);
 
-      assert.equal(outs[0], chalk.red('File: someFile (24)'));
-      assert.equal(outs[1], chalk.red('buildFailed'));
+      expect(outs[0]).to.equal(chalk.red('File: someFile (24)'));
+      expect(outs[1]).to.equal(chalk.red('buildFailed'));
     });
 
     it('emits with error.file without error.line with err.col', function() {
@@ -120,8 +142,8 @@ describe('Watcher', function() {
       }));
       var outs = ui.output.split(EOL);
 
-      assert.equal(outs[0], chalk.red('File: someFile'));
-      assert.equal(outs[1], chalk.red('buildFailed'));
+      expect(outs[0]).to.equal(chalk.red('File: someFile'));
+      expect(outs[1]).to.equal(chalk.red('buildFailed'));
     });
 
     it('emits with error.file with error.line with err.col', function() {
@@ -134,8 +156,8 @@ describe('Watcher', function() {
 
       var outs = ui.output.split(EOL);
 
-      assert.equal(outs[0], chalk.red('File: someFile (24:80)'));
-      assert.equal(outs[1], chalk.red('buildFailed'));
+      expect(outs[0]).to.equal(chalk.red('File: someFile (24:80)'));
+      expect(outs[1]).to.equal(chalk.red('buildFailed'));
     });
   });
 
@@ -152,11 +174,11 @@ describe('Watcher', function() {
     });
 
     it('log that the build was green', function() {
-      assert(/Build successful./.test(ui.output), 'has successful build output');
+      expect(ui.output).to.match(/Build successful./, 'has successful build output');
     });
 
     it('keep tracking analytics', function() {
-      assert.deepEqual(analytics.tracks, [{
+      expect(analytics.tracks).to.deep.equal([{
         name: 'ember rebuild',
         message: 'broccoli rebuild time: 12344ms'
       }]);
