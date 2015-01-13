@@ -4,6 +4,8 @@
 
 ### Applications
 ### Addons
+* [ENHANCEMENT] Addons can now use nested addons. This enables things like addons using their own preprocessors. [#2354](https://github.com/stefanpenner/ember-cli/issues/2354)
+
 ### Blueprints
 
 ### 0.1.7
