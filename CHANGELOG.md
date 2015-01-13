@@ -2,12 +2,41 @@
 
 # Master
 
-- [ENHANCEMENT] Add option `--insecure-proxy` to `serve` to allow for proxying
-  self signed SSL certificates.
-
 ### Applications
 ### Addons
 ### Blueprints
+
+### 0.1.7
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Uninstall ember-cli-esnext. It has been replaced by ember-cli-6to5 which will be added to your project from the upgrade steps.
+
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Using 6to5.
+
+The module transpile step is still es3 safe, if you are concern about using
+6to5 you can remove it from package.json.
+
+
+#### Community Contributions
+
+- [#2841](https://github.com/ember-cli/ember-cli/pull/2841) Add insecure-proxy option to `serve` command [@matthewlehner](https://github.com/matthewlehner)
+- [#2922](https://github.com/ember-cli/ember-cli/pull/2922) 0.1.6 changelog [@ember-cli](https://github.com/ember-cli)
+- [#2927](https://github.com/ember-cli/ember-cli/pull/2927) Cleanup badges [@knownasilya](https://github.com/knownasilya)
+- [#2937](https://github.com/ember-cli/ember-cli/pull/2937) [BUGFIX] only include dependencies(not devDependencies) of included addons [@jakecraige](https://github.com/jakecraige)
+- [#2951](https://github.com/ember-cli/ember-cli/pull/2951) Fix for aliases for hyphenated options [@marcioj](https://github.com/marcioj)
+- [#2952](https://github.com/ember-cli/ember-cli/pull/2952) Fixes validation of shorthand commandOptions [@trabus](https://github.com/trabus)
+- [#2960](https://github.com/ember-cli/ember-cli/pull/2960) Move from esnext to 6to5 [@ember-cli](https://github.com/ember-cli)
+- [#2964](https://github.com/ember-cli/ember-cli/pull/2964) [Bugfix] when developing an add-on, it’s jshint tests would be duplicate... [@ember-cli](https://github.com/ember-cli)
+- [#2965](https://github.com/ember-cli/ember-cli/pull/2965) Remove Hardcoded test-loader [@chadhietala](https://github.com/chadhietala)
+- [#2976](https://github.com/ember-cli/ember-cli/pull/2976) debug logging for add-ons + projects [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
 
 ### 0.1.6
 
