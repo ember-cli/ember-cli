@@ -6,7 +6,7 @@ var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
 var touch           = require('../../helpers/file-utils').touch;
-var assert          = require('assert');
+var expect          = require('chai').expect;
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
@@ -40,7 +40,7 @@ describe('models/builder.js', function() {
 
       return builder.copyToOutputPath('tests/fixtures/blueprints/basic_2')
         .then(function() {
-          assert(fs.existsSync(path.join(builder.outputPath, 'files', 'foo.txt')));
+          expect(fs.existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
         });
     });
   });
@@ -65,8 +65,8 @@ describe('models/builder.js', function() {
 
     return builder.clearOutputPath()
       .then(function() {
-        assert(!fs.existsSync(firstFile));
-        assert(!fs.existsSync(secondFile));
+        expect(fs.existsSync(firstFile)).to.equal(false);
+        expect(fs.existsSync(secondFile)).to.equal(false);
       });
   });
 
@@ -93,7 +93,7 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
+          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
 
@@ -104,7 +104,7 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
+          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
 
@@ -115,18 +115,33 @@ describe('models/builder.js', function() {
 
       return builder.clearOutputPath()
         .catch(function(error) {
-          assert.equal(error.message, 'Using a build destination path of `' + outputPath + '` is not supported.');
+          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
         });
     });
   });
 
   describe('addons', function() {
+    var hooksCalled;
 
-    before(function() {
+    beforeEach(function() {
+      hooksCalled = [];
       addon = {
         name: 'TestAddon',
-        preBuild: function() { },
-        postBuild: function() { }
+        preBuild: function() {
+          hooksCalled.push('preBuild');
+
+          return Promise.resolve();
+        },
+
+        postBuild: function() {
+          hooksCalled.push('postBuild');
+
+          return Promise.resolve();
+        },
+
+        buildError: function() {
+          hooksCalled.push('buildError');
+        },
       };
 
       builder = new Builder({
@@ -134,7 +149,11 @@ describe('models/builder.js', function() {
         trapSignals:          function() { },
         cleanupOnExit:        function() { },
         builder: {
-          build: function() { return Promise.resolve(buildResults); }
+          build: function() {
+            hooksCalled.push('build');
+
+            return Promise.resolve(buildResults);
+          }
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
         project: {
@@ -146,11 +165,10 @@ describe('models/builder.js', function() {
     });
 
     it('allows addons to add promises preBuild', function() {
-      var preBuild = stub(addon, 'preBuild');
+      var preBuild = stub(addon, 'preBuild', Promise.resolve());
 
       return builder.build().then(function() {
-        assert.equal(preBuild.called, 1, 'expected preBuild to be called');
-        assert.equal(preBuild.calledWith[0][0], buildResults, 'expected preBuild to be called with the results');
+        expect(preBuild.called).to.equal(1, 'expected preBuild to be called');
       });
     });
 
@@ -158,8 +176,77 @@ describe('models/builder.js', function() {
       var postBuild = stub(addon, 'postBuild');
 
       return builder.build().then(function() {
-        assert.equal(postBuild.called, 1, 'expected postBuild to be called');
-        assert.equal(postBuild.calledWith[0][0], buildResults, 'expected postBuild to be called with the results');
+        expect(postBuild.called).to.equal(1, 'expected postBuild to be called');
+        expect(postBuild.calledWith[0][0]).to.equal(buildResults, 'expected postBuild to be called with the results');
+      });
+    });
+
+    it('hooks are called in the right order', function() {
+      return builder.build().then(function() {
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild']);
+      });
+    });
+
+    it('buildError receives the error object from the errored step', function() {
+      var thrownBuildError = new Error('buildError');
+      var receivedBuildError;
+
+      addon.buildError = function(errorThrown) {
+        receivedBuildError = errorThrown;
+      };
+
+      builder.builder.build = function() {
+        hooksCalled.push('build');
+
+        return Promise.reject(thrownBuildError);
+      };
+
+      return builder.build().then(function() {
+        expect(false, 'should not succeed');
+      }).catch(function() {
+        expect(receivedBuildError).to.equal(thrownBuildError);
+      });
+    });
+
+    it('calls buildError and does not call build or postBuild when preBuild fails', function() {
+      addon.preBuild = function() {
+        hooksCalled.push('preBuild');
+
+        return Promise.reject(new Error('preBuild Error'));
+      };
+
+      return builder.build().then(function() {
+        expect(false, 'should not succeed');
+      }).catch(function() {
+        expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
+      });
+    });
+
+    it('calls buildError and does not call postBuild when build fails', function() {
+      builder.builder.build = function() {
+        hooksCalled.push('build');
+
+        return Promise.reject(new Error('build Error'));
+      };
+
+      return builder.build().then(function() {
+        expect(false, 'should not succeed');
+      }).catch(function() {
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
+      });
+    });
+
+    it('calls buildError when postBuild fails', function() {
+      addon.postBuild = function() {
+        hooksCalled.push('postBuild');
+
+        return Promise.reject(new Error('preBuild Error'));
+      };
+
+      return builder.build().then(function() {
+        expect(false, 'should not succeed');
+      }).catch(function() {
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
       });
     });
   });
@@ -185,19 +272,19 @@ describe('models/builder.js', function() {
       var buildResult = {directory: 'tests/fixtures/builder/first'};
       return builder.processBuildResult(buildResult)
         .then(function(results) {
-          assert(results.outputChanges.indexOf('output.js') !== -1, 'output.js is changed');
-          assert(results.outputChanges.indexOf('output.css') !== -1, 'output.css is changed');
+          expect(results.outputChanges.indexOf('output.js')).to.not.equal(-1, 'output.js is changed');
+          expect(results.outputChanges.indexOf('output.css')).to.not.equal(-1, 'output.css is changed');
           return builder.processBuildResult(buildResult);
         })
         .then(function(results) {
-          assert(results.outputChanges.length === 0, 'no files are changed');
+          expect(results.outputChanges.length).to.equal(0, 'no files are changed');
           return builder.processBuildResult({
             directory: 'tests/fixtures/builder/second'
           });
         })
         .then(function(results) {
-          assert(results.outputChanges.indexOf('output.js') !== -1, 'output.js is changed');
-          assert.equal(results.outputChanges.length, 1, 'no other files are changed');
+          expect(results.outputChanges.indexOf('output.js')).to.not.equal(-1, 'output.js is changed');
+          expect(results.outputChanges.length).to.equal(1, 'no other files are changed');
         });
     });
   });

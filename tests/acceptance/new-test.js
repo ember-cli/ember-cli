@@ -2,7 +2,7 @@
 
 var fs        = require('fs-extra');
 var ember     = require('../helpers/ember');
-var assert    = require('assert');
+var expect    = require('chai').expect;
 var forEach   = require('lodash-node/compat/collections/forEach');
 var walkSync  = require('walk-sync');
 var Blueprint = require('../../lib/models/blueprint');
@@ -44,9 +44,9 @@ describe('Acceptance: ember new', function() {
 
       expected.sort();
 
-      assert.equal(folder, 'foo');
-      assert.deepEqual(expected, actual, EOL + ' expected: ' +  util.inspect(expected) +
-                       EOL + ' but got: ' +  util.inspect(actual));
+      expect(folder).to.equal('foo');
+      expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
+                                             EOL + ' but got: ' +  util.inspect(actual));
 
     };
   }
@@ -85,10 +85,10 @@ describe('Acceptance: ember new', function() {
       '--skip-bower',
       '--skip-git'
     ]).then(function() {
-      assert(!fs.existsSync('FooApp'));
+      expect(!fs.existsSync('FooApp'));
 
       var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-      assert.equal(pkgJson.name, 'foo-app');
+      expect(pkgJson.name).to.equal('foo-app');
     });
   });
 
@@ -107,7 +107,7 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
         '--skip-git'
       ]).then(function() {
-        assert(!fs.existsSync('foo'));
+        expect(!fs.existsSync('foo'));
       });
     }).then(confirmBlueprinted);
   });
@@ -145,7 +145,7 @@ describe('Acceptance: ember new', function() {
       '--skip-git',
       '--blueprint=https://github.com/trek/app-blueprint-test.git'
     ]).then(function() {
-      assert(fs.existsSync('.ember-cli'));
+      expect(fs.existsSync('.ember-cli'));
     });
   });
 
@@ -156,7 +156,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower'
     ]).then(function() {
-      assert(fs.existsSync('.git'));
+      expect(fs.existsSync('.git'));
     });
   });
 
@@ -167,9 +167,9 @@ describe('Acceptance: ember new', function() {
       '--dry-run'
     ]).then(function(){
       var cwd = process.cwd();
-      assert(!cwd.match('foo'), 'does not change cwd to foo in a dry run');
-      assert(!fs.existsSync(path.join(cwd, 'foo')), 'does not create new directory');
-      assert(!fs.existsSync(path.join(cwd, '.git')), 'does not create git in current directory');
+      expect(cwd).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
+      expect(!fs.existsSync(path.join(cwd, 'foo')), 'does not create new directory');
+      expect(!fs.existsSync(path.join(cwd, '.git')), 'does not create git in current directory');
     });
   });
 });

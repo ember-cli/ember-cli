@@ -3,7 +3,7 @@
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
-var assert     = require('../helpers/assert');
+var expect     = require('chai').expect;
 var assertFile = require('../helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
@@ -16,17 +16,18 @@ var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
 var EOL        = require('os').EOL;
 
+var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
+
 describe('Acceptance: ember destroy', function() {
   var tmpdir;
 
-  this.timeout(5000);
-
-
   before(function() {
+    BlueprintNpmTask.disableNPM();
     conf.setup();
   });
 
   after(function() {
+    BlueprintNpmTask.restoreNPM();
     conf.restore();
   });
 
@@ -43,7 +44,12 @@ describe('Acceptance: ember destroy', function() {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
+    return ember([
+      'init',
+      '--name=my-app',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
   }
 
   function generate(args) {
@@ -58,7 +64,7 @@ describe('Acceptance: ember destroy', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    assert(!fs.existsSync(filePath), 'expected ' + file + ' not to exist');
+    expect(!fs.existsSync(filePath), 'expected ' + file + ' not to exist');
   }
 
   function assertFilesExist(files) {
@@ -178,7 +184,7 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo', { path: 'foos/:foo_id' });"
+          doesNotContain: "this.resource('foo');"
         });
       });
   });
@@ -234,7 +240,7 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo', { path: 'foos/:foo_id' });"
+          doesNotContain: "this.resource('foo');"
         });
       });
   });
@@ -437,22 +443,14 @@ describe('Acceptance: ember destroy', function() {
 
   it('http-mock foo', function() {
     var commandArgs = ['http-mock', 'foo'];
-    var files       = [
-      'server/index.js',
-      'server/mocks/foo.js',
-      'server/.jshintrc'
-    ];
+    var files       = ['server/mocks/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-proxy foo', function() {
     var commandArgs = ['http-proxy', 'foo'];
-    var files       = [
-      'server/index.js',
-      'server/proxies/foo.js',
-      'server/.jshintrc'
-    ];
+    var files       = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
@@ -518,6 +516,17 @@ describe('Acceptance: ember destroy', function() {
       })
       .then(function() {
         assertFilesNotExist(files);
+      });
+  });
+
+  it('http-mock <name> does not remove server/', function() {
+    return initApp()
+      .then(function() { return generate(['http-mock', 'foo']); })
+      .then(function() { return generate(['http-mock', 'bar']); })
+      .then(function() { return destroy(['http-mock', 'foo']); })
+      .then(function() {
+        assertFile('server/index.js');
+        assertFile('server/.jshintrc');
       });
   });
 

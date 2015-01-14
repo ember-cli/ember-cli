@@ -15,15 +15,19 @@ var root             = process.cwd();
 var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
+var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
+var expect           = require('chai').expect;
 
 describe('Acceptance: ember generate', function() {
   var tmpdir;
 
   before(function() {
+    BlueprintNpmTask.disableNPM();
     conf.setup();
   });
 
   after(function() {
+    BlueprintNpmTask.restoreNPM();
     conf.restore();
   });
 
@@ -40,7 +44,12 @@ describe('Acceptance: ember generate', function() {
   });
 
   function initApp() {
-    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
+    return ember([
+      'init',
+      '--name=my-app',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
   }
 
   function generate(args) {
@@ -66,28 +75,6 @@ describe('Acceptance: ember generate', function() {
           "  test" + EOL +
           "} from 'ember-qunit';",
           "moduleFor('controller:foo', 'FooController'"
-        ]
-      });
-    });
-  });
-
-  it('controller foo --type=object', function() {
-    return generate(['controller', 'foo', '--type=object']).then(function() {
-      assertFile('app/controllers/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ObjectController.extend({" + EOL + "});"
-        ]
-      });
-    });
-  });
-
-  it('controller foo --type=array', function() {
-    return generate(['controller', 'foo', '--type=array']).then(function() {
-      assertFile('app/controllers/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.ArrayController.extend({" + EOL + "});"
         ]
       });
     });
@@ -142,7 +129,7 @@ describe('Acceptance: ember generate', function() {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBar(input) {" + EOL +
                   "  return input;" + EOL +
-                  "};" +  EOL + EOL +
+                  "}" +  EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -159,7 +146,7 @@ describe('Acceptance: ember generate', function() {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBarBaz(input) {" + EOL +
                   "  return input;" + EOL +
-                  "};" + EOL + EOL +
+                  "}" + EOL + EOL +
                   "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
@@ -268,10 +255,25 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('model-test foo', function() {
+    return generate(['model-test', 'foo']).then(function() {
+      assertFile('tests/unit/models/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForModel," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForModel('foo', 'Foo'"
+        ],
+        doesNotContain: 'needs'
+      });
+    });
+  });
+
   it('route foo', function() {
     return generate(['route', 'foo']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.route('foo')"
+        contains: "this.route(\"foo\")"
       });
       assertFile('app/routes/foo.js', {
         contains: [
@@ -294,10 +296,14 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('route foo --type=resource', function() {
-    return generate(['route', 'foo', '--type=resource']).then(function() {
+  it('route foo with --path', function() {
+    return generate(['route', 'foo', '--path=:foo_id/show']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foo', { path: 'foos/:foo_id' }, function() { });"
+        contains: [
+          'this.route("foo", {',
+          'path: ":foo_id/show"',
+          '});'
+        ]
       });
     });
   });
@@ -305,7 +311,7 @@ describe('Acceptance: ember generate', function() {
   it('route foos --type=resource', function() {
     return generate(['route', 'foos', '--type=resource']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foos', function() { });"
+        contains: 'this.resource("foos", function() {});'
       });
     });
   });
@@ -341,41 +347,6 @@ describe('Acceptance: ember generate', function() {
         doesNotContain: "this.route('basic');"
       });
       assertFile('app/routes/basic.js');
-    });
-  });
-
-  it('route bar does not create duplicates in router.js', function() {
-    function checkRoute(testString) {
-      var routerDefinition = (
-        "Router.map(function() {" + EOL +
-        "  this.resource('foo', function() {" + EOL+
-        "    " + testString + EOL +
-        "  });" + EOL +
-        "});" + EOL
-      );
-      return outputFile('app/router.js', routerDefinition)
-      .then(function() {
-        return ember(['generate', 'route', 'bar']);
-      })
-      .then(function() {
-        return assertFile('app/router.js', {
-          contains: routerDefinition
-        });
-      });
-    }
-
-    return initApp()
-    .then(function() {
-      return checkRoute("this.route('bar');");
-    })
-    .then(function() {
-      return checkRoute("this.route ('bar');");
-    })
-    .then(function() {
-      return checkRoute("this.route ( 'bar' );");
-    })
-    .then(function() {
-      return checkRoute('this.route("bar");');
     });
   });
 
@@ -431,33 +402,10 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('resource foo', function() {
-    return generate(['resource', 'foo']).then(function() {
-      assertFile('app/router.js', {
-        contains: "this.resource('foo', { path: 'foos/:foo_id' }, function() { });"
-      });
-      assertFile('app/models/foo.js', {
-        contains: 'export default DS.Model.extend'
-      });
-      assertFile('app/routes/foo.js', {
-        contains: "export default Ember.Route.extend({" + EOL + "});"
-      });
-      assertFile('app/templates/foo.hbs', {
-        contains: '{{outlet}}'
-      });
-      assertFile('tests/unit/models/foo-test.js', {
-        contains: "moduleForModel('foo', 'Foo'"
-      });
-      assertFile('tests/unit/routes/foo-test.js', {
-        contains: "moduleFor('route:foo', 'FooRoute'"
-      });
-    });
-  });
-
   it('resource foos', function() {
     return generate(['resource', 'foos']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource('foos', function() { });"
+        contains: 'this.resource("foos", function() {});'
       });
       assertFile('app/models/foo.js', {
         contains: 'export default DS.Model.extend'
@@ -477,12 +425,24 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('resource foos with --path', function() {
+    return generate(['resource', 'foos', '--path=app/foos']).then(function() {
+      assertFile('app/router.js', {
+        contains: [
+          'this.resource("foos", {',
+          'path: "app/foos"',
+          '}, function() {});'
+        ]
+      });
+    });
+  });
+
   it('initializer foo', function() {
     return generate(['initializer', 'foo']).then(function() {
       assertFile('app/initializers/foo.js', {
         contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "};" + EOL +
+                  "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo'," + EOL +
@@ -499,7 +459,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/initializers/foo/bar.js', {
         contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "};" + EOL +
+                  "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo/bar'," + EOL +
@@ -553,12 +513,32 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('adapter application', function() {
+    return generate(['adapter', 'application']).then(function() {
+      assertFile('app/adapters/application.js', {
+        contains: [
+          "import DS from \'ember-data\';",
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('tests/unit/adapters/application-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('adapter:application', 'ApplicationAdapter'"
+        ]
+      });
+    });
+  });
+
   it('adapter foo', function() {
     return generate(['adapter', 'foo']).then(function() {
       assertFile('app/adapters/foo.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('tests/unit/adapters/foo-test.js', {
@@ -577,10 +557,26 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo/bar']).then(function() {
       assertFile('app/adapters/foo/bar.js', {
         contains: [
-          "import DS from 'ember-data';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "import ApplicationAdapter from \'./application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
+    });
+  });
+
+  it('adapter application cannot extend from --base-class=application', function() {
+    return generate(['adapter', 'application', '--base-class=application']).then(function() {
+      expect(false);
+    }, function(err) {
+      expect(err.message).to.match(/Adapters cannot extend from themself/);
+    });
+  });
+
+  it('adapter foo cannot extend from --base-class=foo', function() {
+    return generate(['adapter', 'foo', '--base-class=foo']).then(function() {
+      expect(false);
+    }, function(err) {
+      expect(err.message).to.match(/Adapters cannot extend from themself/);
     });
   });
 
@@ -768,7 +764,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/initializers/foo-service.js', {
         contains: "export function initialize(container, application) {" + EOL +
                   "  application.inject('route', 'fooService', 'service:foo');" + EOL +
-                  "};" + EOL + EOL +
+                  "}" + EOL + EOL +
                   "export default {" + EOL +
                   "  name: 'foo-service'," + EOL +
                   "  initialize: initialize" + EOL +
@@ -797,7 +793,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/initializers/foo/bar-service.js', {
         contains: "export function initialize(container, application) {" + EOL +
                   "  application.inject('route', 'fooBarService', 'service:foo/bar');" + EOL +
-                  "};" + EOL + EOL +
+                  "}" + EOL + EOL +
                   "export default {" + EOL +
                   "  name: 'foo/bar-service'," + EOL +
                   "  initialize: initialize" + EOL +
@@ -858,36 +854,46 @@ describe('Acceptance: ember generate', function() {
   });
 
   it('http-mock foo', function() {
+    this.timeout(10000);
     return generate(['http-mock', 'foo']).then(function() {
       assertFile('server/index.js', {
-        contains:"module.exports = function(app) {" + EOL +
-                 "  var globSync   = require('glob').sync;" + EOL +
-                 "  var bodyParser = require('body-parser');" + EOL +
-                 "  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                 "  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                 EOL +
-                  "  app.use(bodyParser.json());" + EOL +
-                  "  app.use(bodyParser.urlencoded({" + EOL +
-                  "    extended: true" + EOL +
-                  "  }));" + EOL +
-                  "" + EOL +
-                  "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  "" + EOL +
-                  "  // proxy expects a stream, but express will have turned" + EOL +
-                  "  // the request stream into an object because bodyParser" + EOL +
-                  "  // has run. We have to convert it back to stream:" + EOL +
-                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
-                  "  app.use(require('connect-restreamer')());" + EOL +
-                  "  proxies.forEach(function(route) { route(app); });" + EOL +
-                  "};"
+        contains:"mocks.forEach(function(route) { route(app); });"
       });
       assertFile('server/mocks/foo.js', {
         contains: "module.exports = function(app) {" + EOL +
                   "  var express = require('express');" + EOL +
                   "  var fooRouter = express.Router();" + EOL +
+                  EOL +
                   "  fooRouter.get('/', function(req, res) {" + EOL +
-                  "    res.send({\"foo\":[]});" + EOL +
+                  "    res.send({" + EOL +
+                  "      'foo': []" + EOL +
+                  "    });" + EOL +
                   "  });" + EOL +
+                  EOL +
+                  "  fooRouter.post('/', function(req, res) {" + EOL +
+                  "    res.status(201).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooRouter.get('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      'foo': {" + EOL +
+                  "        id: req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooRouter.put('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      'foo': {" + EOL +
+                  "        id: req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooRouter.delete('/:id', function(req, res) {" + EOL +
+                  "    res.status(204).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
                   "  app.use('/api/foo', fooRouter);" + EOL +
                   "};"
       });
@@ -900,34 +906,43 @@ describe('Acceptance: ember generate', function() {
   it('http-mock foo-bar', function() {
     return generate(['http-mock', 'foo-bar']).then(function() {
       assertFile('server/index.js', {
-        contains: "module.exports = function(app) {" + EOL +
-                  "  var globSync   = require('glob').sync;" + EOL +
-                  "  var bodyParser = require('body-parser');" + EOL +
-                  "  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  "  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  EOL +
-                  "  app.use(bodyParser.json());" + EOL +
-                  "  app.use(bodyParser.urlencoded({" + EOL +
-                  "    extended: true" + EOL +
-                  "  }));" + EOL +
-                  "" + EOL +
-                  "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  "" + EOL +
-                  "  // proxy expects a stream, but express will have turned" + EOL +
-                  "  // the request stream into an object because bodyParser" + EOL +
-                  "  // has run. We have to convert it back to stream:" + EOL +
-                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
-                  "  app.use(require('connect-restreamer')());" + EOL +
-                  "  proxies.forEach(function(route) { route(app); });" + EOL +
-                  "};"
+        contains: "mocks.forEach(function(route) { route(app); });"
       });
       assertFile('server/mocks/foo-bar.js', {
         contains: "module.exports = function(app) {" + EOL +
                   "  var express = require('express');" + EOL +
                   "  var fooBarRouter = express.Router();" + EOL +
+                  EOL +
                   "  fooBarRouter.get('/', function(req, res) {" + EOL +
-                  "    res.send({\"foo-bar\":[]});" + EOL +
+                  "    res.send({" + EOL +
+                  "      'foo-bar': []" + EOL +
+                  "    });" + EOL +
                   "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.post('/', function(req, res) {" + EOL +
+                  "    res.status(201).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.get('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      'foo-bar': {" + EOL +
+                  "        id: req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.put('/:id', function(req, res) {" + EOL +
+                  "    res.send({" + EOL +
+                  "      'foo-bar': {" + EOL +
+                  "        id: req.params.id" + EOL +
+                  "      }" + EOL +
+                  "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "  fooBarRouter.delete('/:id', function(req, res) {" + EOL +
+                  "    res.status(204).end();" + EOL +
+                  "  });" + EOL +
+                  EOL +
                   "  app.use('/api/foo-bar', fooBarRouter);" + EOL +
                   "};"
       });
@@ -940,26 +955,7 @@ describe('Acceptance: ember generate', function() {
   it('http-proxy foo', function() {
     return generate(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
       assertFile('server/index.js', {
-        contains: "module.exports = function(app) {" + EOL +
-                  "  var bodyParser = require('body-parser');" + EOL +
-                  "  var globSync   = require('glob').sync;" + EOL +
-                  "  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  "  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);" + EOL +
-                  EOL +
-                  "  app.use(bodyParser.json());" + EOL +
-                  "  app.use(bodyParser.urlencoded({" + EOL +
-                  "    extended: true" + EOL +
-                  "  }));" + EOL +
-                  EOL +
-                  "  mocks.forEach(function(route) { route(app); });" + EOL +
-                  EOL +
-                  "  // proxy expects a stream, but express will have turned" + EOL +
-                  "  // the request stream into an object because bodyParser" + EOL +
-                  "  // has run. We have to convert it back to stream:" + EOL +
-                  "  // https://github.com/nodejitsu/node-http-proxy/issues/180" + EOL +
-                  "  app.use(require('connect-restreamer')());" + EOL +
-                  "  proxies.forEach(function(route) { route(app); });" + EOL +
-                  "};"
+        contains: "proxies.forEach(function(route) { route(app); });"
       });
       assertFile('server/proxies/foo.js', {
         contains: "var proxyPath = '/foo';" + EOL +
@@ -969,6 +965,10 @@ describe('Acceptance: ember generate', function() {
                   "  // https://github.com/nodejitsu/node-http-proxy" + EOL +
                   "  var proxy = require('http-proxy').createProxyServer({});" + EOL +
                   "  var path = require('path');" + EOL +
+                  EOL +
+                  "  proxy.on('error', function(err, req) {" + EOL +
+                  "    console.error(err, req.url);" + EOL +
+                  "  });" + EOL +
                   EOL +
                   "  app.use(proxyPath, function(req, res, next){" + EOL +
                   "    // include root path in proxied request" + EOL +
@@ -1095,7 +1095,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('lib/foo-bar/index.js', {
         contains: [
           'module.exports = {',
-          'name: "foo-bar"',
+          'name: \'foo-bar\'',
           '',
           'isDevelopingAddon: function() {',
           'return true;',
@@ -1120,6 +1120,29 @@ describe('Acceptance: ember generate', function() {
           '"' + path.normalize('lib/foo-bar').replace('\\', '\\\\') + '"'
         ]
       });
+
+      assertFile('lib/.jshintrc');
+    });
+  });
+
+  it('server', function() {
+    return generate(['server']).then(function() {
+      assertFile('server/index.js');
+      assertFile('server/.jshintrc');
+    });
+  });
+
+  it('availableOptions work with aliases.', function() {
+    return generate(['route', 'foo', '-resource']).then(function() {
+      assertFile('app/router.js', {
+        contain: ["resource('foo')"]
+      });
+    });
+  });
+
+  it('lib', function() {
+    return generate(['lib']).then(function() {
+      assertFile('lib/.jshintrc');
     });
   });
 });

@@ -1,25 +1,29 @@
 'use strict';
 
-var assert           = require('../../../helpers/assert');
-var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
-var MockUI           = require('../../../helpers/mock-ui');
-var net              = require('net');
-var EOL              = require('os').EOL;
-var path             = require('path');
-var MockWatcher      = require('../../../helpers/mock-watcher');
+var expect            = require('chai').expect;
+var LiveReloadServer  = require('../../../../lib/tasks/server/livereload-server');
+var MockUI            = require('../../../helpers/mock-ui');
+var MockExpressServer = require('../../../helpers/mock-express-server');
+var net               = require('net');
+var EOL               = require('os').EOL;
+var path              = require('path');
+var MockWatcher       = require('../../../helpers/mock-watcher');
 
 describe('livereload-server', function() {
   var subject;
   var ui;
   var watcher;
+  var expressServer;
 
   beforeEach(function() {
     ui = new MockUI();
     watcher = new MockWatcher();
+    expressServer = new MockExpressServer();
 
     subject = new LiveReloadServer({
       ui: ui,
       watcher: watcher,
+      expressServer: expressServer,
       analytics: { trackError: function() { } },
       project: {
         liveReloadFilterPatterns: [],
@@ -42,8 +46,8 @@ describe('livereload-server', function() {
         liveReloadPort: 1337,
         liveReload: false
       }).then(function(output) {
-        assert.equal(output, 'Livereload server manually disabled.');
-        assert(!subject._liveReloadServer);
+        expect(output).to.equal('Livereload server manually disabled.');
+        expect(!!subject._liveReloadServer).to.equal(false);
       });
     });
 
@@ -52,7 +56,7 @@ describe('livereload-server', function() {
         liveReloadPort: 1337,
         liveReload: true
       }).then(function() {
-        assert.equal(ui.output, 'Livereload server on port 1337' + EOL);
+        expect(ui.output).to.equal('Livereload server on port 1337' + EOL);
       });
     });
 
@@ -65,10 +69,27 @@ describe('livereload-server', function() {
           liveReload: true
         })
         .catch(function(reason) {
-          assert.equal(reason, 'Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
+          expect(reason).to.equal('Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
         })
         .finally(function() {
           preexistingServer.close(done);
+        });
+    });
+  });
+
+  describe('express server restart', function() {
+    it('triggers when the express server restarts', function() {
+      var calls = 0;
+      subject.didRestart = function () {
+        calls++;
+      };
+
+      return subject.start({
+          liveReloadPort: 1337,
+          liveReload: true
+        }).then(function () {
+          expressServer.emit('restart');
+          expect(calls).to.equal(1);
         });
     });
   });
@@ -106,8 +127,8 @@ describe('livereload-server', function() {
 
     it('triggers the liverreload server of a change when no pattern matches', function() {
       subject.didChange({outputChanges: ['']});
-      assert.equal(changedCount, 1);
-      assert.equal(trackCount, 1);
+      expect(changedCount).to.equal(1);
+      expect(trackCount).to.equal(1);
     });
 
     it('does not trigger livereoad server of a change when there is a pattern match', function() {
@@ -121,8 +142,8 @@ describe('livereload-server', function() {
       subject.didChange({
         outputChanges: ['test/fixtures/proxy/file-a.js']
       });
-      assert.equal(changedCount, 0);
-      assert.equal(trackCount, 0);
+      expect(changedCount).to.equal(0);
+      expect(trackCount).to.equal(0);
     });
   });
 
@@ -156,7 +177,7 @@ describe('livereload-server', function() {
       subject.didChange({
         outputChanges: files
       });
-      assert.equal(changedFiles[0], files[0]);
+      expect(changedFiles[0]).to.equal(files[0]);
     });
   });
 

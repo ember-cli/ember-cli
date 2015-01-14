@@ -1,7 +1,7 @@
 'use strict';
 
-var assert         = require('../../helpers/assert');
-var preprocessJs   = require('../../../lib/preprocessors').preprocessJs;
+var expect       = require('chai').expect;
+var preprocessJs = require('../../../lib/preprocessors').preprocessJs;
 
 var registry, plugins;
 
@@ -36,7 +36,7 @@ describe('preprocessJs', function() {
       registry: registry
     });
 
-    assert.deepEqual(pluginsCalled, ['foo', 'bar']);
+    expect(pluginsCalled).to.deep.equal(['foo', 'bar']);
   });
 
   it('passes the previously returned value into the next plugin', function() {
@@ -56,7 +56,7 @@ describe('preprocessJs', function() {
       registry: registry
     });
 
-    assert.deepEqual(treeValues, ['app', 'foo']);
-    assert.equal(output, 'bar');
+    expect(treeValues).to.deep.equal(['app', 'foo']);
+    expect(output).to.equal('bar');
   });
 });

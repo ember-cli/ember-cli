@@ -1,4 +1,4 @@
-var Promise   = require('../../lib/ext/promise');
+var Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {
   description: 'Generates a relative proxy to another server.',
@@ -16,10 +16,19 @@ module.exports = {
     };
   },
 
+  beforeInstall: function(options) {
+    var serverBlueprint = Blueprint.lookup('server', {
+      ui: this.ui,
+      analytics: this.analytics,
+      project: this.project
+    });
+
+    return serverBlueprint.install(options);
+  },
+
   afterInstall: function() {
-    return Promise.all([
-      this.addPackageToProject('http-proxy', '^1.1.6'),
-      this.addPackageToProject('connect-restreamer', '^1.0.0')
+    return this.addPackagesToProject([
+      { name: 'http-proxy', target: '^1.1.6' }
     ]);
   }
 };

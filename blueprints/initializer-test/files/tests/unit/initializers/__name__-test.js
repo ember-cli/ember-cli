@@ -6,8 +6,8 @@ var container, application;
 module('<%= classifiedModuleName %>Initializer', {
   setup: function() {
     Ember.run(function() {
-      container = new Ember.Container();
       application = Ember.Application.create();
+      container = application.__container__;
       application.deferReadiness();
     });
   }

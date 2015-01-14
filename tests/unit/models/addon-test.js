@@ -5,9 +5,10 @@ var path    = require('path');
 var Project = require('../../../lib/models/project');
 var Addon   = require('../../../lib/models/addon');
 var Promise = require('../../../lib/ext/promise');
-var assert  = require('assert');
+var expect  = require('chai').expect;
 var rimraf  = Promise.denodeify(require('rimraf'));
 var tmp     = require('tmp-sync');
+var path    = require('path');
 
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
@@ -46,20 +47,44 @@ describe('models/addon.js', function() {
 
     });
 
+    describe('.jshintAddonTree', function() {
+      it('it uses the fullPath', function() {
+        var addon = new FirstAddon(project);
+
+        // TODO: fix config story...
+        addon.app = { options: { jshintrc: {} } };
+
+        addon.jshintTrees = function(){};
+        addon.pickFiles   = function(){};
+
+        var addonPath;
+        addon.addonJsFiles = function(_path) {
+          addonPath = _path;
+        };
+
+        var root = path.join(fixturePath, 'with-styles');
+        addon.root = root;
+
+        addon.jshintAddonTree();
+        expect(addonPath).to.eql(path.join(root, 'addon'));
+      });
+    });
+
+
     it('modifying a treePath does not affect other addons', function() {
       var first = new FirstAddon(project);
       var second = new SecondAddon(project);
 
-      assert.equal(first.treePaths.vendor, 'blazorz');
-      assert.equal(second.treePaths.vendor, 'blammo');
+      expect(first.treePaths.vendor).to.equal('blazorz');
+      expect(second.treePaths.vendor).to.equal('blammo');
     });
 
     it('modifying a treeForMethod does not affect other addons', function() {
       var first = new FirstAddon(project);
       var second = new SecondAddon(project);
 
-      assert.equal(first.treeForMethods.public, 'huzzah!');
-      assert.equal(second.treeForMethods.public, 'boooo');
+      expect(first.treeForMethods.public).to.equal('huzzah!');
+      expect(second.treeForMethods.public).to.equal('boooo');
     });
   });
 
@@ -78,19 +103,19 @@ describe('models/addon.js', function() {
     it('adds .js if not present', function() {
       addon.pkg['ember-addon']['main'] = 'index';
       var resolvedFile = path.basename(Addon.resolvePath(addon));
-      assert.equal(resolvedFile, 'index.js');
+      expect(resolvedFile).to.equal('index.js');
     });
 
     it('doesn\'t add .js if it is .js', function() {
       addon.pkg['ember-addon']['main'] = 'index.js';
       var resolvedFile = path.basename(Addon.resolvePath(addon));
-      assert.equal(resolvedFile, 'index.js');
+      expect(resolvedFile).to.equal('index.js');
     });
 
     it('doesn\'t add .js if it has another extension', function() {
       addon.pkg['ember-addon']['main'] = 'index.coffee';
       var resolvedFile = path.basename(Addon.resolvePath(addon));
-      assert.equal(resolvedFile, 'index.coffee');
+      expect(resolvedFile).to.equal('index.coffee');
     });
   });
 
@@ -109,11 +134,15 @@ describe('models/addon.js', function() {
       });
 
       it('sets it\'s project', function() {
-        assert.equal(addon.project.name, project.name);
+        expect(addon.project.name).to.equal(project.name);
       });
 
       it('sets the root', function() {
-        assert.notEqual(addon.root, undefined);
+        expect(addon.root).to.not.equal(undefined);
+      });
+
+      it('sets the pkg', function() {
+        expect(addon.pkg).to.not.equal(undefined);
       });
 
       describe('custom treeFor methods', function() {
@@ -125,7 +154,7 @@ describe('models/addon.js', function() {
           };
 
           addon.treeFor('app');
-          assert(called);
+          expect(called);
         });
 
         it('can define treeForStyles', function() {
@@ -136,7 +165,7 @@ describe('models/addon.js', function() {
           };
 
           addon.treeFor('styles');
-          assert(called);
+          expect(called);
         });
 
         it('can define treeForVendor', function() {
@@ -147,7 +176,7 @@ describe('models/addon.js', function() {
           };
 
           addon.treeFor('vendor');
-          assert(called);
+          expect(called);
         });
 
         it('can define treeForTemplates', function() {
@@ -158,7 +187,7 @@ describe('models/addon.js', function() {
           };
 
           addon.treeFor('templates');
-          assert(called);
+          expect(called);
         });
 
         it('can define treeForPublic', function() {
@@ -169,7 +198,7 @@ describe('models/addon.js', function() {
           };
 
           addon.treeFor('public');
-          assert(called);
+          expect(called);
         });
       });
 
@@ -177,34 +206,34 @@ describe('models/addon.js', function() {
         it('app', function() {
           var tree = addon.treeFor('app');
 
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('styles', function() {
           var tree = addon.treeFor('styles');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('templates', function() {
           var tree = addon.treeFor('templates');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('vendor', function() {
           var tree = addon.treeFor('vendor');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('public', function() {
           var tree = addon.treeFor('public');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
       });
     });
 
     describe('generated addon with-export', function() {
       beforeEach(function() {
-        addon = project.addons[6];
+        addon = project.addons[4];
 
         // Clear the caches
         delete addon._includedModules;
@@ -212,16 +241,11 @@ describe('models/addon.js', function() {
       });
 
       it('sets it\'s project', function() {
-        assert.equal(addon.project.name, project.name);
-      });
-
-      it('sets the app if included', function() {
-        addon.included('app');
-        assert.equal(addon.app, 'app');
+        expect(addon.project.name).to.equal(project.name);
       });
 
       it('generates a list of es6 modules to ignore', function() {
-        assert.deepEqual(addon.includedModules(), {
+        expect(addon.includedModules()).to.deep.equal({
           'ember-cli-generated-with-export/controllers/people': ['default'],
           'ember-cli-generated-with-export/mixins/thing': ['default']
         });
@@ -230,7 +254,7 @@ describe('models/addon.js', function() {
       it('generates a list of es6 modules to ignore with custom modulePrefix', function() {
         addon.modulePrefix = 'custom-addon';
 
-        assert.deepEqual(addon.includedModules(), {
+        expect(addon.includedModules()).to.deep.equal({
           'custom-addon/controllers/people': ['default'],
           'custom-addon/mixins/thing': ['default']
         });
@@ -239,28 +263,32 @@ describe('models/addon.js', function() {
       });
 
       it('sets the root', function() {
-        assert.notEqual(addon.root, undefined);
+        expect(addon.root).to.not.equal(undefined);
+      });
+
+      it('sets the pkg', function() {
+        expect(addon.pkg).to.not.equal(undefined);
       });
 
       describe('trees for it\'s treePaths', function() {
         it('app', function() {
           var tree = addon.treeFor('app');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('styles', function() {
           var tree = addon.treeFor('styles');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('templates', function() {
           var tree = addon.treeFor('templates');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('vendor', function() {
           var tree = addon.treeFor('vendor');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
 
         it('addon', function() {
@@ -282,9 +310,9 @@ describe('models/addon.js', function() {
               return ['js'];
             }
           };
-          addon.included(app);
+          addon.app = app;
           var tree = addon.treeFor('addon');
-          assert.equal(typeof tree.read, 'function');
+          expect(typeof tree.read).to.equal('function');
         });
       });
     });
@@ -292,10 +320,9 @@ describe('models/addon.js', function() {
     it('must define a `name` property', function() {
       var Foo = Addon.extend({ root: 'foo' });
 
-      assert.throws(function() {
+      expect(function() {
         new Foo(project);
-      },
-      /An addon must define a `name` property./ );
+      }).to.throw(/An addon must define a `name` property./);
     });
 
     describe('isDevelopingAddon', function() {
@@ -312,19 +339,19 @@ describe('models/addon.js', function() {
       it('returns true when `EMBER_ADDON_ENV` is set to development', function() {
         process.env.EMBER_ADDON_ENV = 'development';
 
-        assert(addon.isDevelopingAddon());
+        expect(addon.isDevelopingAddon());
       });
 
       it('returns false when `EMBER_ADDON_ENV` is not set', function() {
         delete process.env.EMBER_ADDON_ENV;
 
-        assert(!addon.isDevelopingAddon());
+        expect(!addon.isDevelopingAddon());
       });
 
       it('returns false when `EMBER_ADDON_ENV` is something other than `development`', function() {
         process.env.EMBER_ADDON_ENV = 'production';
 
-        assert(!addon.isDevelopingAddon());
+        expect(!addon.isDevelopingAddon());
       });
     });
 
@@ -334,7 +361,7 @@ describe('models/addon.js', function() {
 
         var tree = addon.treeGenerator('foo/bar');
 
-        assert.equal(tree, 'foo/bar');
+        expect(tree).to.equal('foo/bar');
       });
 
       it('uses unwatchedTree when not developing the addon itself', function() {
@@ -342,7 +369,7 @@ describe('models/addon.js', function() {
 
         var tree = addon.treeGenerator('foo/bar');
 
-        assert.equal(tree.read(), 'foo/bar');
+        expect(tree.read()).to.equal('foo/bar');
       });
     });
 
@@ -362,7 +389,7 @@ describe('models/addon.js', function() {
       it('returns undefined if the `blueprint` folder does not exist', function() {
         var returnedPath = addon.blueprintsPath();
 
-        assert.equal(returnedPath, undefined);
+        expect(returnedPath).to.equal(undefined);
       });
 
       it('returns blueprint path if the folder exists', function() {
@@ -371,7 +398,7 @@ describe('models/addon.js', function() {
 
         var returnedPath = addon.blueprintsPath();
 
-        assert.equal(returnedPath, blueprintsDir);
+        expect(returnedPath).to.equal(blueprintsDir);
       });
     });
 
@@ -380,7 +407,7 @@ describe('models/addon.js', function() {
         addon.root = path.join(fixturePath, 'no-config');
         var result = addon.config();
 
-        assert.equal(result, undefined);
+        expect(result).to.equal(undefined);
       });
 
       it('returns blueprint path if the folder exists', function() {
@@ -389,7 +416,7 @@ describe('models/addon.js', function() {
 
         addon.config('development', appConfig);
 
-        assert.equal(appConfig.addon, 'with-config');
+        expect(appConfig.addon).to.equal('with-config');
       });
     });
   });

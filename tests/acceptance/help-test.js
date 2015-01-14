@@ -3,7 +3,7 @@
 var path       = require('path');
 var rimraf     = require('rimraf');
 var tmp        = require('tmp-sync');
-var assert     = require('../helpers/assert');
+var expect     = require('chai').expect;
 var runCommand = require('../helpers/run-command');
 
 var root       = process.cwd();
@@ -26,9 +26,13 @@ describe('Acceptance: ember help', function() {
     this.timeout(10000);
     var output = '';
 
-    return runCommand(ember, 'init', '--name=my-app', '--skip-npm', '--skip-bower', { verbose: false })
+    return runCommand(ember, 'init',
+                      '--name=my-app',
+                      '--silent',
+                      '--skip-npm',
+                      '--skip-bower')
       .then(function() {
-        return runCommand(ember, 'generate', 'blueprint', 'component', { verbose: false });
+        return runCommand(ember, 'generate', 'blueprint', 'component', '--silent');
       })
       .then(function() {
         return runCommand(ember, 'help', 'generate', '--verbose', {
@@ -38,26 +42,26 @@ describe('Acceptance: ember help', function() {
         });
       })
       .then(function() {
-        assert.include(output, 'my-app:');
-        assert.include(output, '  component');
-        assert.include(output, 'ember-cli:');
-        assert.include(output, '  acceptance-test');
-        assert.include(output, '  adapter');
-        assert.include(output, '  app');
-        assert.include(output, '  blueprint');
-        assert.include(output, '  (overridden) component');
-        assert.include(output, '  controller');
-        assert.include(output, '  helper');
-        assert.include(output, '  http-mock');
-        assert.include(output, '  http-proxy');
-        assert.include(output, '  initializer');
-        assert.include(output, '  mixin');
-        assert.include(output, '  resource');
-        assert.include(output, '  route');
-        assert.include(output, '  service');
-        assert.include(output, '  template');
-        assert.include(output, '  util');
-        assert.include(output, '  view');
+        expect(output).to.include('my-app:');
+        expect(output).to.include('  component');
+        expect(output).to.include('ember-cli:');
+        expect(output).to.include('  acceptance-test');
+        expect(output).to.include('  adapter');
+        expect(output).to.include('  app');
+        expect(output).to.include('  blueprint');
+        expect(output).to.include('  (overridden) component');
+        expect(output).to.include('  controller');
+        expect(output).to.include('  helper');
+        expect(output).to.include('  http-mock');
+        expect(output).to.include('  http-proxy');
+        expect(output).to.include('  initializer');
+        expect(output).to.include('  mixin');
+        expect(output).to.include('  resource');
+        expect(output).to.include('  route');
+        expect(output).to.include('  service');
+        expect(output).to.include('  template');
+        expect(output).to.include('  util');
+        expect(output).to.include('  view');
       });
   });
 });

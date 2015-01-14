@@ -37,12 +37,6 @@ module.exports = {
                             'a hyphen.');
     }
 
-    if(/\//.test(entityName)) {
-      throw new SilentError('You specified "' + entityName + '", but due to a bug in ' +
-                            'Handlebars (< 2.0) slashes within components/helpers are not ' +
-                            'allowed.');
-    }
-
     return entityName;
   }
 };

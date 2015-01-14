@@ -5,7 +5,7 @@ var Blueprint         = require('../../../lib/models/blueprint');
 var Task              = require('../../../lib/models/task');
 var MockProject       = require('../../helpers/mock-project');
 var MockUI            = require('../../helpers/mock-ui');
-var assert            = require('assert');
+var expect            = require('chai').expect;
 var path              = require('path');
 var glob              = require('glob');
 var walkSync          = require('walk-sync');
@@ -27,16 +27,10 @@ var defaultIgnoredFiles = Blueprint.ignoredFiles;
 var basicBlueprintFiles = [
   '.ember-cli',
   '.gitignore',
+  'bar',
   'foo.txt',
   'test.txt'
 ];
-
-assert.match = function(actual, matcher) {
-  assert(matcher.test(actual), 'expected: ' +
-                                actual +
-                                ' to match ' +
-                                matcher);
-};
 
 describe('Blueprint', function() {
   beforeEach(function() {
@@ -46,13 +40,13 @@ describe('Blueprint', function() {
   describe('.mapFile', function() {
     it('replaces all occurences of __name__ with module name',function(){
       var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js',{dasherizedModuleName: 'my-blueprint'});
-      assert.equal(path,'my-blueprint/my-blueprint-controller.js');
+      expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
       path = Blueprint.prototype.mapFile('__name__/controller.js',{dasherizedModuleName: 'my-blueprint'});
-      assert.equal(path,'my-blueprint/controller.js');
+      expect(path).to.equal('my-blueprint/controller.js');
 
       path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
-      assert.equal(path,'my-blueprint/my-blueprint.js');
+      expect(path).to.equal('my-blueprint/my-blueprint.js');
     });
     it('accepts locals.fileMap with multiple mappings',function(){
       var locals = {};
@@ -64,10 +58,10 @@ describe('Blueprint', function() {
       };
 
       var path = Blueprint.prototype.mapFile('__name__/__type____plural__.js',locals);
-      assert.equal(path,'user/controller.js');
+      expect(path).to.equal('user/controller.js');
 
       path = Blueprint.prototype.mapFile('__path__/__name__/__type__.js',locals);
-      assert.equal(path,'pods/users/user/controller.js');
+      expect(path).to.equal('pods/users/user/controller.js');
     });
   });
   describe('.fileMapTokens', function() {
@@ -81,7 +75,7 @@ describe('Blueprint', function() {
         };
       };
       var tokens = blueprint._fileMapTokens();
-      assert.equal(tokens.__foo__(), 'foo');
+      expect(tokens.__foo__()).to.equal('foo');
     });
   });
   describe('.generateFileMap', function() {
@@ -103,7 +97,7 @@ describe('Blueprint', function() {
         __test__: 'foo-baz-test'
       };
 
-      assert.deepEqual( fileMap, expected );
+      expect(fileMap).to.deep.equal(expected);
     });
   });
   describe('.lookup', function() {
@@ -111,9 +105,9 @@ describe('Blueprint', function() {
       var expectedClass = require(basicBlueprint);
       var blueprint = Blueprint.lookup(basicBlueprint);
 
-      assert.equal(blueprint.name, 'basic');
-      assert.equal(blueprint.path, basicBlueprint);
-      assert(blueprint instanceof expectedClass);
+      expect(blueprint.name).to.equal('basic');
+      expect(blueprint.path).to.equal(basicBlueprint);
+      expect(blueprint instanceof expectedClass).to.equal(true);
     });
 
     it('finds blueprints within given lookup paths', function() {
@@ -122,9 +116,9 @@ describe('Blueprint', function() {
         paths: [fixtureBlueprints]
       });
 
-      assert.equal(blueprint.name, 'basic');
-      assert.equal(blueprint.path, basicBlueprint);
-      assert(blueprint instanceof expectedClass);
+      expect(blueprint.name).to.equal('basic');
+      expect(blueprint.path).to.equal(basicBlueprint);
+      expect(blueprint instanceof expectedClass).to.equal(true);
     });
 
     it('finds blueprints in the ember-cli package', function() {
@@ -133,9 +127,9 @@ describe('Blueprint', function() {
 
       var blueprint = Blueprint.lookup('app');
 
-      assert.equal(blueprint.name, 'app');
-      assert.equal(blueprint.path, expectedPath);
-      assert(blueprint instanceof expectedClass);
+      expect(blueprint.name).to.equal('app');
+      expect(blueprint.path).to.equal(expectedPath);
+      expect(blueprint instanceof expectedClass).to.equal(true);
     });
 
     it('can instantiate a blueprint that exports an object instead of a constructor', function() {
@@ -143,14 +137,14 @@ describe('Blueprint', function() {
         paths: [fixtureBlueprints]
       });
 
-      assert.equal(blueprint.woot, 'someValueHere');
-      assert(blueprint instanceof Blueprint);
+      expect(blueprint.woot).to.equal('someValueHere');
+      expect(blueprint instanceof Blueprint).to.equal(true);
     });
 
     it('throws an error if no blueprint is found', function() {
-      assert.throws(function() {
+      expect(function() {
         Blueprint.lookup('foo');
-      }, 'Unknown blueprint: foo');
+      }).to.throw('Unknown blueprint: foo');
     });
 
     it('returns undefined if no blueprint is found and ignoredMissing is passed', function() {
@@ -158,7 +152,7 @@ describe('Blueprint', function() {
         ignoreMissing: true
       });
 
-      assert.equal(blueprint, undefined);
+      expect(blueprint).to.equal(undefined);
     });
   });
 
@@ -187,18 +181,18 @@ describe('Blueprint', function() {
         }]
       };
 
-      assert.deepEqual(actual[0], expected[0]);
+      expect(actual[0]).to.deep.equal(expected[0]);
     });
   });
 
   it('exists', function() {
     var blueprint = new Blueprint(basicBlueprint);
-    assert(blueprint);
+    expect(!!blueprint).to.equal(true);
   });
 
   it('derives name from path', function() {
     var blueprint = new Blueprint(basicBlueprint);
-    assert.equal(blueprint.name, 'basic');
+    expect(blueprint.name).to.equal('basic');
   });
 
   describe('basic blueprint installation', function() {
@@ -225,21 +219,22 @@ describe('Blueprint', function() {
     });
 
     it('installs basic files', function() {
-      assert(blueprint);
+      expect(!!blueprint).to.equal(true);
 
       return blueprint.install(options)
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split(EOL);
 
-          assert.match(output.shift(), /^installing/);
-          assert.match(output.shift(), /create.* .ember-cli/);
-          assert.match(output.shift(), /create.* .gitignore/);
-          assert.match(output.shift(), /create.* foo.txt/);
-          assert.match(output.shift(), /create.* test.txt/);
-          assert.equal(output.length, 0);
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/create.* .ember-cli/);
+          expect(output.shift()).to.match(/create.* .gitignore/);
+          expect(output.shift()).to.match(/create.* bar/);
+          expect(output.shift()).to.match(/create.* foo.txt/);
+          expect(output.shift()).to.match(/create.* test.txt/);
+          expect(output.length).to.equal(0);
 
-          assert.deepEqual(actualFiles, basicBlueprintFiles);
+          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
         });
     });
 
@@ -249,12 +244,13 @@ describe('Blueprint', function() {
           var output = ui.output.trim().split(EOL);
           ui.output = '';
 
-          assert.match(output.shift(), /^installing/);
-          assert.match(output.shift(), /create.* \.ember-cli/);
-          assert.match(output.shift(), /create.* \.gitignore/);
-          assert.match(output.shift(), /create.* foo.txt/);
-          assert.match(output.shift(), /create.* test.txt/);
-          assert.equal(output.length, 0);
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/create.* .ember-cli/);
+          expect(output.shift()).to.match(/create.* .gitignore/);
+          expect(output.shift()).to.match(/create.* bar/);
+          expect(output.shift()).to.match(/create.* foo.txt/);
+          expect(output.shift()).to.match(/create.* test.txt/);
+          expect(output.length).to.equal(0);
 
           return blueprint.install(options);
         })
@@ -262,14 +258,15 @@ describe('Blueprint', function() {
           var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split(EOL);
 
-          assert.match(output.shift(), /^installing/);
-          assert.match(output.shift(), /identical.* \.ember-cli/);
-          assert.match(output.shift(), /identical.* \.gitignore/);
-          assert.match(output.shift(), /identical.* foo.txt/);
-          assert.match(output.shift(), /identical.* test.txt/);
-          assert.equal(output.length, 0);
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/identical.* .ember-cli/);
+          expect(output.shift()).to.match(/identical.* .gitignore/);
+          expect(output.shift()).to.match(/identical.* bar/);
+          expect(output.shift()).to.match(/identical.* foo.txt/);
+          expect(output.shift()).to.match(/identical.* test.txt/);
+          expect(output.length).to.equal(0);
 
-          assert.deepEqual(actualFiles, basicBlueprintFiles);
+          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
         });
     });
 
@@ -279,22 +276,21 @@ describe('Blueprint', function() {
           var output = ui.output.trim().split(EOL);
           ui.output = '';
 
-          assert.match(output.shift(), /^installing/);
-          assert.match(output.shift(), /create.* \.ember-cli/);
-          assert.match(output.shift(), /create.* \.gitignore/);
-          assert.match(output.shift(), /create.* foo.txt/);
-          assert.match(output.shift(), /create.* test.txt/);
-          assert.equal(output.length, 0);
-
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/create.* .ember-cli/);
+          expect(output.shift()).to.match(/create.* .gitignore/);
+          expect(output.shift()).to.match(/create.* bar/);
+          expect(output.shift()).to.match(/create.* foo.txt/);
+          expect(output.shift()).to.match(/create.* test.txt/);
+          expect(output.length).to.equal(0);
           var blueprintNew = new Blueprint(basicNewBlueprint);
 
-          setTimeout(function(){
+          ui.waitForPrompt().then(function(){
             ui.inputStream.write('n' + EOL);
-          }, 25);
-
-          setTimeout(function(){
+            return ui.waitForPrompt();
+          }).then(function(){
             ui.inputStream.write('y' + EOL);
-          }, 50);
+          });
 
           return blueprintNew.install(options);
         })
@@ -303,18 +299,18 @@ describe('Blueprint', function() {
           // Prompts contain \n EOL
           // Split output on \n since it will have the same affect as spliting on OS specific EOL
           var output = ui.output.trim().split('\n');
-          assert.match(output.shift(), /^installing/);
-          assert.match(output.shift(), /Overwrite.*foo.*\?/); // Prompt
-          assert.match(output.shift(), /Overwrite.*foo.*No, skip/);
-          assert.match(output.shift(), /Overwrite.*test.*\?/); // Prompt
-          assert.match(output.shift(), /Overwrite.*test.*Yes, overwrite/);
-          assert.match(output.shift(), /identical.* \.ember-cli/);
-          assert.match(output.shift(), /identical.* \.gitignore/);
-          assert.match(output.shift(), /skip.* foo.txt/);
-          assert.match(output.shift(), /overwrite.* test.txt/);
-          assert.equal(output.length, 0);
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/Overwrite.*foo.*\?/); // Prompt
+          expect(output.shift()).to.match(/Overwrite.*foo.*No, skip/);
+          expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
+          expect(output.shift()).to.match(/Overwrite.*test.*Yes, overwrite/);
+          expect(output.shift()).to.match(/identical.* \.ember-cli/);
+          expect(output.shift()).to.match(/identical.* \.gitignore/);
+          expect(output.shift()).to.match(/skip.* foo.txt/);
+          expect(output.shift()).to.match(/overwrite.* test.txt/);
+          expect(output.length).to.equal(0);
 
-          assert.deepEqual(actualFiles, basicBlueprintFiles);
+          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
         });
     });
 
@@ -331,11 +327,11 @@ describe('Blueprint', function() {
             }).sort();
           var output = ui.output.trim().split(EOL);
 
-          assert.match(output.shift(), /^installing/);
-          assert.match(output.shift(), /create.* foo.txt/);
-          assert.equal(output.length, 0);
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/create.* foo.txt/);
+          expect(output.length).to.equal(0);
 
-          assert.deepEqual(actualFiles, globFiles);
+          expect(actualFiles).to.deep.equal(globFiles);
         });
     });
 
@@ -352,12 +348,12 @@ describe('Blueprint', function() {
             }).sort();
           var output = ui.output.trim().split(EOL);
 
-          assert.match(output.shift(), /^installing/);
-          assert.match(output.shift(), /create.* foo.txt/);
-          assert.match(output.shift(), /create.* test.txt/);
-          assert.equal(output.length, 0);
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/create.* foo.txt/);
+          expect(output.shift()).to.match(/create.* test.txt/);
+          expect(output.length).to.equal(0);
 
-          assert.deepEqual(actualFiles, globFiles);
+          expect(actualFiles).to.deep.equal(globFiles);
         });
     });
 
@@ -372,22 +368,22 @@ describe('Blueprint', function() {
             var output = ui.output.trim().split(EOL);
             ui.output = '';
 
-            assert.match(output.shift(), /^installing/);
-            assert.match(output.shift(), /create.* \.ember-cli/);
-            assert.match(output.shift(), /create.* \.gitignore/);
-            assert.match(output.shift(), /create.* foo.txt/);
-            assert.match(output.shift(), /create.* test.txt/);
-            assert.equal(output.length, 0);
+            expect(output.shift()).to.match(/^installing/);
+            expect(output.shift()).to.match(/create.* .ember-cli/);
+            expect(output.shift()).to.match(/create.* .gitignore/);
+            expect(output.shift()).to.match(/create.* bar/);
+            expect(output.shift()).to.match(/create.* foo.txt/);
+            expect(output.shift()).to.match(/create.* test.txt/);
+            expect(output.length).to.equal(0);
 
             var blueprintNew = new Blueprint(basicNewBlueprint);
 
-            setTimeout(function(){
+            ui.waitForPrompt().then(function(){
               ui.inputStream.write('n' + EOL);
-            }, 25);
-
-            setTimeout(function(){
-              ui.inputStream.write('n'+ EOL);
-            }, 50);
+              return ui.waitForPrompt();
+            }).then(function(){
+              ui.inputStream.write('n' + EOL);
+            });
 
             options.project.isEmberCLIProject = function() { return true; };
 
@@ -398,43 +394,42 @@ describe('Blueprint', function() {
             // Prompts contain \n EOL
             // Split output on \n since it will have the same affect as spliting on OS specific EOL
             var output = ui.output.trim().split('\n');
-            assert.match(output.shift(), /^installing/);
-            assert.match(output.shift(), /Overwrite.*test.*\?/); // Prompt
-            assert.match(output.shift(), /Overwrite.*test.*No, skip/);
-            assert.match(output.shift(), /identical.* \.ember-cli/);
-            assert.match(output.shift(), /identical.* \.gitignore/);
-            assert.match(output.shift(), /skip.* test.txt/);
-            assert.equal(output.length, 0);
+            expect(output.shift()).to.match(/^installing/);
+            expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
+            expect(output.shift()).to.match(/Overwrite.*test.*No, skip/);
+            expect(output.shift()).to.match(/identical.* \.ember-cli/);
+            expect(output.shift()).to.match(/identical.* \.gitignore/);
+            expect(output.shift()).to.match(/skip.* test.txt/);
+            expect(output.length).to.equal(0);
 
-            assert.deepEqual(actualFiles, basicBlueprintFiles);
+            expect(actualFiles).to.deep.equal(basicBlueprintFiles);
           });
       });
     });
 
     it('throws error when there is a trailing forward slash in entityName', function(){
       options.entity = { name: 'foo/' };
-      assert.throws(function(){
+      expect(function() {
         blueprint.install(options);
-      }, /You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
+      }).to.throw(/You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
 
       options.entity = { name: 'foo\\' };
-      assert.throws(function(){
+      expect(function() {
         blueprint.install(options);
-      }, /You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
+      }).to.throw(/You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
 
       options.entity = { name: 'foo' };
-      assert.doesNotThrow(function(){
+      expect(function() {
         blueprint.install(options);
-      });
+      }).not.to.throw();
     });
 
     it('throws error when an entityName is not provided', function(){
       options.entity = { };
-      assert.throws(function(){
+      expect(function() {
         blueprint.install(options);
-      }, SilentError, /'The `ember generate` command requires an entity name to be specified./);
+      }).to.throw(SilentError, /The `ember generate` command requires an entity name to be specified./);
     });
-
 
     it('calls normalizeEntityName hook during install', function(done){
       blueprint.normalizeEntityName = function(){ done(); };
@@ -450,14 +445,14 @@ describe('Blueprint', function() {
           .then(function() {
             var actualFiles = walkSync(tmpdir).sort();
 
-            assert.deepEqual(actualFiles, basicBlueprintFiles);
+            expect(actualFiles).to.deep.equal(basicBlueprintFiles);
           });
     });
 
     it('calls normalizeEntityName before locals hook is called', function(done) {
       blueprint.normalizeEntityName = function(){ return 'foo'; };
       blueprint.locals = function(options) {
-        assert.equal(options.entity.name, 'foo');
+        expect(options.entity.name).to.equal('foo');
         done();
       };
       options.entity = { name: 'bar' };
@@ -482,7 +477,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array for addPackagesToProject', function() {
       blueprint.addPackagesToProject = function(packages) {
-        assert.deepEqual(packages, [{name: 'foo-bar'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar'}]);
       };
 
       blueprint.addPackageToProject('foo-bar');
@@ -490,7 +485,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array with target for addPackagesToProject', function() {
       blueprint.addPackagesToProject = function(packages) {
-        assert.deepEqual(packages, [{name: 'foo-bar', target: '^123.1.12'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar', target: '^123.1.12'}]);
       };
 
       blueprint.addPackageToProject('foo-bar', '^123.1.12');
@@ -527,7 +522,7 @@ describe('Blueprint', function() {
 
       blueprint.addPackagesToProject([{name: 'foo-bar'}]);
 
-      assert.equal(taskNameLookedUp, 'npm-install');
+      expect(taskNameLookedUp).to.equal('npm-install');
     });
 
     it('calls the task with package names', function() {
@@ -544,7 +539,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo'}
       ]);
 
-      assert.deepEqual(packages, ['foo-bar', 'bar-foo']);
+      expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
     });
 
     it('calls the task with package names and versions', function() {
@@ -561,7 +556,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo', target: '0.0.7'}
       ]);
 
-      assert.deepEqual(packages, ['foo-bar@^123.1.12', 'bar-foo@0.0.7']);
+      expect(packages).to.deep.equal(['foo-bar@^123.1.12', 'bar-foo@0.0.7']);
     });
 
     it('writes information to the ui log for a single package', function() {
@@ -574,7 +569,7 @@ describe('Blueprint', function() {
 
       var output = ui.output.trim();
 
-      assert.match(output, /install package.*foo-bar/);
+      expect(output).to.match(/install package.*foo-bar/);
     });
 
     it('writes information to the ui log for multiple packages', function() {
@@ -588,7 +583,7 @@ describe('Blueprint', function() {
 
       var output = ui.output.trim();
 
-      assert.match(output, /install packages.*foo-bar, bar-foo/);
+      expect(output).to.match(/install packages.*foo-bar, bar-foo/);
     });
 
     it('does not error if ui is not present', function() {
@@ -601,7 +596,7 @@ describe('Blueprint', function() {
 
       var output = ui.output.trim();
 
-      assert(!output.match(/install package.*foo-bar/));
+      expect(output).to.not.match(/install package.*foo-bar/);
     });
 
     it('runs task with --save-dev', function() {
@@ -618,7 +613,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo', target: '0.0.7'}
       ]);
 
-      assert(saveDev);
+      expect(!!saveDev).to.equal(true);
     });
 
     it('does not use verbose mode with the task', function() {
@@ -635,7 +630,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo', target: '0.0.7'}
       ]);
 
-      assert(!verbose);
+      expect(verbose).to.equal(false);
     });
   });
 
@@ -664,7 +659,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        assert.deepEqual(packages, [{name: 'foo-bar'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar'}]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar');
@@ -672,7 +667,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array with target for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        assert.deepEqual(packages, [{name: 'foo-bar', target: '1.0.0'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar', target: '1.0.0'}]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar', '1.0.0');
@@ -708,7 +703,7 @@ describe('Blueprint', function() {
       });
       blueprint.addBowerPackagesToProject([{name: 'foo-bar'}]);
 
-      assert.equal(taskNameLookedUp, 'bower-install');
+      expect(taskNameLookedUp).to.equal('bower-install');
     });
 
     it('calls the task with the package names', function() {
@@ -725,7 +720,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo'}
       ]);
 
-      assert.deepEqual(packages, ['foo-bar', 'bar-foo']);
+      expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
     });
 
     it('uses the provided target (version, range, sha, etc)', function() {
@@ -742,7 +737,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo', target: '0.7.0'}
       ]);
 
-      assert.deepEqual(packages, ['foo-bar#~1.0.0', 'bar-foo#0.7.0']);
+      expect(packages).to.deep.equal(['foo-bar#~1.0.0', 'bar-foo#0.7.0']);
     });
 
     it('uses uses verbose mode with the task', function() {
@@ -759,7 +754,102 @@ describe('Blueprint', function() {
         {name: 'bar-foo', target: '0.7.0'}
       ]);
 
-      assert(verbose);
+      expect(verbose).to.equal(true);
+    });
+  });
+
+  describe('addAddonToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var AddonInstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new AddonInstallTask();
+      };
+    });
+
+    afterEach(function() {
+      return rimraf(tmproot);
+    });
+
+    it('looks up the `addon-install` task', function() {
+      AddonInstallTask = Task.extend({
+        run: function() {}
+      });
+
+      blueprint.addAddonToProject('foo-bar');
+
+      expect(taskNameLookedUp).to.equal('addon-install');
+    });
+
+    it('calls the task with package name', function() {
+      var pkg;
+
+      AddonInstallTask = Task.extend({
+        run: function(options) {
+          pkg = options['package'];
+        }
+      });
+
+      blueprint.addAddonToProject('foo-bar');
+
+      expect(pkg).to.equal('foo-bar');
+    });
+
+    it('calls the task with correctly parsed options', function() {
+      var pkg, args;
+
+      AddonInstallTask = Task.extend({
+        run: function(options) {
+          pkg  = options['package'];
+          args = options['extraArgs'];
+        }
+      });
+
+      blueprint.addAddonToProject({
+        name: 'foo-bar',
+        target: '1.0.0',
+        extraArgs: ['baz']
+      });
+
+      expect(pkg).to.equal('foo-bar@1.0.0');
+      expect(args).to.deep.equal(['baz']);
+    });
+
+    it('writes information to the ui log for a single package', function() {
+      blueprint._exec = function() { };
+      blueprint.ui = ui;
+
+      blueprint.addAddonToProject({
+        name: 'foo-bar',
+        target: '^123.1.12'
+      });
+
+      var output = ui.output.trim();
+
+      expect(output).to.match(/install addon.*foo-bar/);
+    });
+
+    it('does not error if ui is not present', function() {
+      blueprint._exec = function() { };
+      delete blueprint.ui;
+
+      blueprint.addAddonToProject({
+        name: 'foo-bar', target: '^123.1.12'}
+      );
+
+      var output = ui.output.trim();
+
+      expect(output).to.not.match(/install addon.*foo-bar/);
     });
   });
 
@@ -794,10 +884,10 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert(contents.indexOf(toInsert) > -1, 'contents were inserted');
-          assert.equal(result.originalContents, '', 'returned object should contain original contents');
-          assert(result.inserted, 'inserted should indicate that the file was modified');
-          assert.equal(contents, result.contents, 'returned object should contain contents');
+          expect(contents.indexOf(toInsert) > -1).to.equal(true, 'contents were inserted');
+          expect(result.originalContents).to.equal('', 'returned object should contain original contents');
+          expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+          expect(contents).to.equal(result.contents, 'returned object should contain contents');
         });
     });
 
@@ -812,9 +902,9 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, originalContent + toInsert, 'inserted contents should be appended to original');
-          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
-          assert(result.inserted, 'inserted should indicate that the file was modified');
+          expect(contents).to.equal(originalContent + toInsert, 'inserted contents should be appended to original');
+          expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+          expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
         });
     });
 
@@ -828,8 +918,8 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, toInsert, 'contents should be unchanged');
-          assert(!result.inserted, 'inserted should indicate that the file was not modified');
+          expect(contents).to.equal(toInsert, 'contents should be unchanged');
+          expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
         });
     });
 
@@ -843,8 +933,8 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, toInsert + toInsert, 'contents should be unchanged');
-          assert(result.inserted, 'inserted should indicate that the file was not modified');
+          expect(contents).to.equal(toInsert + toInsert, 'contents should be unchanged');
+          expect(result.inserted).to.equal(true, 'inserted should indicate that the file was not modified');
         });
     });
 
@@ -862,10 +952,10 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, [line1, line2, toInsert, line3].join(EOL),
+          expect(contents).to.equal([line1, line2, toInsert, line3].join(EOL),
                        'inserted contents should be inserted after the `after` value');
-          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
-          assert(result.inserted, 'inserted should indicate that the file was modified');
+          expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+          expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
         });
     });
 
@@ -883,10 +973,10 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, [line1, line2, toInsert, line2, line3].join(EOL),
+          expect(contents).to.equal([line1, line2, toInsert, line2, line3].join(EOL),
                        'inserted contents should be inserted after the `after` value');
-          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
-          assert(result.inserted, 'inserted should indicate that the file was modified');
+          expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+          expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
         });
     });
 
@@ -904,10 +994,10 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, [line1, toInsert, line2, line3].join(EOL),
+          expect(contents).to.equal([line1, toInsert, line2, line3].join(EOL),
                        'inserted contents should be inserted before the `before` value');
-          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
-          assert(result.inserted, 'inserted should indicate that the file was modified');
+          expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+          expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
         });
     });
 
@@ -925,10 +1015,10 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, [line1, toInsert, line2, line2, line3].join(EOL),
+          expect(contents).to.equal([line1, toInsert, line2, line2, line3].join(EOL),
                        'inserted contents should be inserted after the `after` value');
-          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
-          assert(result.inserted, 'inserted should indicate that the file was modified');
+          expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+          expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
         });
     });
 
@@ -944,9 +1034,9 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, originalContent, 'original content is unchanged');
-          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
-          assert(!result.inserted, 'inserted should indicate that the file was not modified');
+          expect(contents).to.equal(originalContent, 'original content is unchanged');
+          expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+          expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
         });
     });
 
@@ -961,9 +1051,9 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          assert.equal(contents, originalContent, 'original content is unchanged');
-          assert.equal(result.originalContents, originalContent, 'returned object should contain original contents');
-          assert(!result.inserted, 'inserted should indicate that the file was not modified');
+          expect(contents).to.equal(originalContent, 'original content is unchanged');
+          expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+          expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
         });
     });
 
@@ -999,13 +1089,13 @@ describe('Blueprint', function() {
     it('can lookup other Blueprints from the project blueprintLookupPaths', function() {
       var result = blueprint.lookupBlueprint('basic_2');
 
-      assert.equal(result.description, 'Another basic blueprint');
+      expect(result.description).to.equal('Another basic blueprint');
     });
 
     it('can find internal blueprints', function() {
       var result = blueprint.lookupBlueprint('controller');
 
-      assert.equal(result.description, 'Generates a controller of the given type.');
+      expect(result.description).to.equal('Generates a controller.');
     });
   });
 });

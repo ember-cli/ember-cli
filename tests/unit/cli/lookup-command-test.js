@@ -131,7 +131,8 @@ describe('cli/lookup-command.js', function() {
       ui: ui,
       project: project
     });
-    command.validateAndRun([]);
-    expect(ui.output).to.match(/command.*something-else.*is invalid/);
+    expect(function() {
+      command.validateAndRun([]);
+    }).to.throw(/command.*something-else.*is invalid/);
   });
 });

@@ -1,35 +1,30 @@
 
-## ember-cli [![Build Status](https://travis-ci.org/stefanpenner/ember-cli.svg?branch=master)](https://travis-ci.org/stefanpenner/ember-cli) [![Dependency Status](https://david-dm.org/stefanpenner/ember-cli.svg)](https://david-dm.org/stefanpenner/ember-cli) [![Build status](https://ci.appveyor.com/api/projects/status/aj8xls90un6h77lo)](https://ci.appveyor.com/project/stefanpenner/ember-cli) (windows)
+## ember-cli [![Build Status][travis-badge]][travis-badge-url] [![Dependency Status][david-badge]][david-badge-url] [![Build status][appveyor-badge]][appveyor-badge-url]
 
 An ember command line utility.
 
-Supports node 0.10.5 and npm 1.4.6.
+Supports node 0.10.5 and npm 2.1.8.
 
 ## Community
 * irc: #ember-cli on freenode
-* issues: [ember-cli/issues](https://github.com/stefanpenner/ember-cli/issues)
+* issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
 * website: [ember-cli.com](http://www.ember-cli.com)
-
 
 [![ScreenShot](http://static.iamstef.net/ember-conf-2014-video.jpg)](https://www.youtube.com/watch?v=4D8z3972h64)
 
 
-## Warning
-
-Although potentially exciting, this is still really a WIP, use at your own risk.
-
 ## Project Elements
 Additional components of this project which are used runtime in your application:
-* [ember-jj-abrams-resolver](https://github.com/stefanpenner/ember-jj-abrams-resolver)
-* [loader](https://github.com/stefanpenner/loader.js)
-* [ember-cli-shims](https://github.com/stefanpenner/ember-cli-shims)
-* [ember-load-initializers](https://github.com/stefanpenner/ember-load-initializers)
+* [ember-resolver](https://github.com/ember-cli/ember-resolver)
+* [loader](https://github.com/ember-cli/loader.js)
+* [ember-cli-shims](https://github.com/ember-cli/ember-cli-shims)
+* [ember-load-initializers](https://github.com/ember-cli/ember-load-initializers)
 
 ## Development Hints
 ### Working with master
 
 ``` sh
-git clone https://github.com/stefanpenner/ember-cli.git
+git clone https://github.com/ember-cli/ember-cli.git
 cd ember-cli
 npm link
 ```
@@ -61,7 +56,7 @@ runs.
 
 To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
 
-Please read the official [mocha documentation](http://visionmedia.github.io/mocha) for more information.
+Please read the official [mocha documentation](http://mochajs.org/) for more information.
 
 ## Problems
 
@@ -76,10 +71,16 @@ Error: watch ENOSPC
   ...
 ```
 
-This problem will be corrected in future releases. The following line is a workaround to get the server up and running until this problem is fixed. See [Issue 1054](https://github.com/stefanpenner/ember-cli/issues/1054).
+This problem will be corrected in future releases. The following line is a workaround to get the server up and running until this problem is fixed. See [Issue 1054](https://github.com/ember-cli/ember-cli/issues/1054).
 
 ```sh
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+
+For Arch Linux or Manjaro Linux, in order for the parameters to be loaded at boot, the kernel sysctl parameters have to be saved in a drop-in directory instead of `sysctl.conf`.
+
+```sh
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.conf && sudo sysctl --system
 ```
 
 ## Inline Documentation
@@ -88,7 +89,7 @@ Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it
 
 ## Contribution
 
-[See `CONTRIBUTING.md`](https://github.com/stefanpenner/ember-cli/blob/master/CONTRIBUTING.md)
+[See `CONTRIBUTING.md`](https://github.com/ember-cli/ember-cli/blob/master/CONTRIBUTING.md)
 
 
 ## Donating
@@ -99,4 +100,12 @@ All donations will support this project and treats for contributors.
 
 ## License
 
-ember-cli is [MIT Licensed](https://github.com/stefanpenner/ember-cli/blob/master/LICENSE.md).
+ember-cli is [MIT Licensed](https://github.com/ember-cli/ember-cli/blob/master/LICENSE.md).
+
+
+[travis-badge]: https://travis-ci.org/ember-cli/ember-cli.svg?branch=master
+[travis-badge-url]: https://travis-ci.org/ember-cli/ember-cli
+[david-badge]: https://david-dm.org/ember-cli/ember-cli.svg
+[david-badge-url]: https://david-dm.org/ember-cli/ember-cli
+[appveyor-badge]: https://ci.appveyor.com/api/projects/status/7owf61lo8uujbjok/branch/master?svg=true
+[appveyor-badge-url]: https://ci.appveyor.com/project/embercli/ember-cli/branch/master

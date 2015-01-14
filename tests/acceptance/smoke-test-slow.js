@@ -7,7 +7,7 @@ var path     = require('path');
 var rimraf   = Promise.denodeify(require('rimraf'));
 var fs       = require('fs');
 var crypto   = require('crypto');
-var assert   = require('assert');
+var expect   = require('chai').expect;
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var ncp      = Promise.denodeify(require('ncp'));
@@ -16,15 +16,8 @@ var EOL      = require('os').EOL;
 var runCommand       = require('../helpers/run-command');
 var buildApp         = require('../helpers/build-app');
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
-
-function assertTmpEmpty() {
-  var paths = walkSync('tmp')
-    .filter(function(path) {
-      return !path.match(/output\//);
-    });
-
-  assert(paths.length === 0, 'tmp/ should be empty after `ember` tasks. Contained: ' + paths.join(EOL));
-}
+var killCliProcess   = require('../helpers/kill-cli-process');
+var assertDirEmpty   = require('../helpers/assert-dir-empty');
 
 describe('Acceptance: smoke-test', function() {
   before(function() {
@@ -43,7 +36,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   after(function() {
-    this.timeout(10000);
+    this.timeout(20000);
 
     return tmp.teardown('./common-tmp')
       .then(function() {
@@ -52,7 +45,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   beforeEach(function() {
-    this.timeout(10000);
+    this.timeout(20000);
 
     return tmp.setup('./tmp')
       .then(function() {
@@ -67,67 +60,61 @@ describe('Acceptance: smoke-test', function() {
         var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
         var pwd = process.cwd();
 
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+        // Need to junction on windows since we likely don't have persmission to symlink
+        // 3rd arg is ignored on systems other than windows
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
 
         process.chdir(appName);
       });
   });
 
   afterEach(function() {
-    this.timeout(10000);
+    this.timeout(20000);
 
-    assertTmpEmpty();
+    assertDirEmpty('tmp');
     return tmp.teardown('./tmp');
   });
 
   it('ember new foo, clean from scratch', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
   });
 
   it('ember test exits with non-zero when tests fail', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('smoke-tests/failing-test')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
-            assert(false, 'should have rejected with a failing test');
+            expect(false, 'should have rejected with a failing test');
           })
           .catch(function(result) {
-            assert.equal(result.code, 1);
+            expect(result.code).to.equal(1);
           });
       });
   });
 
   it('ember test exits with non-zero when no tests are run', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('smoke-tests/no-testem-launchers')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent')
           .then(function() {
-            assert(false, 'should have rejected with a failing test');
+            expect(false, 'should have rejected with a failing test');
           })
           .catch(function(result) {
-            assert.equal(result.code, 1);
+            expect(result.code).to.equal(1);
           });
       });
   });
 
   it('ember new foo, build production and verify fingerprint', function() {
-    console.log('    running the slow fingerprint it will take some time');
-
     this.timeout(360000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production', '--silent')
       .then(function() {
         var dirPath = path.join('.', 'dist', 'assets');
         var dir = fs.readdirSync(dirPath);
@@ -146,65 +133,59 @@ describe('Acceptance: smoke-test', function() {
           md5.update(file);
           var hex = md5.digest('hex');
 
-          assert(filepath.indexOf(hex) > -1, filepath + ' contains the fingerprint (' + hex + ')');
+          expect(filepath).to.contain(hex, filepath + ' contains the fingerprint (' + hex + ')');
         });
 
         var indexHtml = fs.readFileSync(path.join('.', 'dist', 'index.html'), { encoding: 'utf8' });
 
         files.forEach(function (filename) {
-          assert(indexHtml.indexOf(filename) > -1);
+          expect(indexHtml).to.contain(filename);
         });
       });
   });
 
   it('ember test --environment=production', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
     return copyFixtureFiles('smoke-tests/passing-test')
         .then(function() {
-          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production')
+          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production', '--silent')
               .then(function(result) {
                 var exitCode = result.code;
                 var output = result.output.join(EOL);
 
-                assert.equal(exitCode, 0, 'exit code should be 0 for passing tests');
-
-                assert(!output.match('JSHint'), 'JSHint should not be run on production assets');
-                assert(output.match(/fail\s+0/), 'no failures');
-                assert(output.match(/pass\s+1/), '1 passing');
+                expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
+                expect(output).to.not.match(/JSHint/, 'JSHint should not be run on production assets');
+                expect(output).to.match(/fail\s+0/, 'no failures');
+                expect(output).to.match(/pass\s+1/, '1 passing');
               })
               .catch(function(result) {
-                assert(false, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL));
+                expect(false, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL));
               });
         });
   });
 
   it('ember new foo, build development, and verify generated files', function() {
-    console.log('    running the slow build tests');
-
     this.timeout(360000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent')
       .then(function() {
         var dirPath = path.join('.', 'dist');
         var paths = walkSync(dirPath);
 
-        assert(paths.length < 20, 'expected fewer than 20 files in dist, found ' + paths.length);
+        expect(paths).to.have.length.below(21, 'expected fewer than 21 files in dist, found ' + paths.length);
       });
   });
 
   it('ember build exits with non-zero code when build fails', function () {
-    console.log('    running the slow build tests');
     this.timeout(360000);
 
     var appJsPath   = path.join('.', 'app', 'app.js');
     var ouputContainsBuildFailed = false;
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent')
       .then(function (result) {
-        assert(result.code === 0, 'expected exit code to be zero, but got ' + result.code);
+        expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
 
         // add something broken to the project to make build fail
         fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
@@ -220,15 +201,14 @@ describe('Acceptance: smoke-test', function() {
         });
 
       }).then(function () {
-        assert(false, 'should have rejected with a failing build');
+        expect(false, 'should have rejected with a failing build');
       }).catch(function (result) {
-        assert(ouputContainsBuildFailed, 'command output must contain "Build failed" text');
-        assert(result.code !== 0, 'expected exit code to be non-zero, but got ' + result.code);
+        expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text');
+        expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
       });
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
-    console.log('    running the slow build --watch tests');
     this.timeout(360000);
 
     var touched     = false;
@@ -238,13 +218,13 @@ describe('Acceptance: smoke-test', function() {
     var line        = 'console.log("' + text + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput: function(string, process) {
+        onOutput: function(string, child) {
           if (touched) {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
-              assert(contents.indexOf(text) > 1, 'must contain changed line after rebuild');
-              process.kill('SIGINT');
+              expect(contents).to.contain(text, 'must contain changed line after rebuild');
+              killCliProcess(child);
             }
           } else {
             if (string.match(/Build successful/)) {
@@ -261,7 +241,6 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', function() {
-    console.log('    running the slow build --watch tests');
     this.timeout(360000);
 
     var buildCount  = 0;
@@ -274,7 +253,7 @@ describe('Acceptance: smoke-test', function() {
     var secondLine  = 'console.log("' + secondText + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput: function(string, process) {
+        onOutput: function(string, child) {
           if (buildCount === 0) {
             if (string.match(/Build successful/)) {
               // first build
@@ -293,8 +272,8 @@ describe('Acceptance: smoke-test', function() {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
-              assert(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild');
-              process.kill('SIGINT');
+              expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild');
+              killCliProcess(child);
             }
           }
         }
@@ -305,14 +284,12 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, server, SIGINT clears tmp/', function() {
-    console.log('    running the slow build tests');
-
     this.timeout(360000);
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
-        onOutput: function(string, process) {
+        onOutput: function(string, child) {
           if (string.match(/Build successful/)) {
-            process.kill('SIGINT');
+            killCliProcess(child);
           }
         }
       })
@@ -333,8 +310,8 @@ describe('Acceptance: smoke-test', function() {
           dir.forEach(function (filepath) {
             if(cssNameRE.test(filepath)) {
               var appCss = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
-              assert(appCss.indexOf('.some-weird-selector')>-1);
-              assert(appCss.indexOf('.some-even-weirder-selector')>-1);
+              expect(appCss).to.contain('.some-weird-selector');
+              expect(appCss).to.contain('.some-even-weirder-selector');
             }
           });
         });

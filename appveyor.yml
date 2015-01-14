@@ -2,7 +2,7 @@
 
 # Fix line endings in Windows. (runs before repo cloning)
 init:
-  - git config --global core.autocrlf input
+  - git config --global core.autocrlf true
 
 # Test against these versions of Node.js.
 environment:
@@ -12,18 +12,22 @@ environment:
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node 0.STABLE.latest
-  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
+  - ps: Install-Product node 0.10.30 x86
+  # Install PhantomJS
+  - cinst PhantomJS
+  - set path=%path%;C:\tools\PhantomJS\
+  - dir C:\tools\PhantomJS
   # Typical npm stuff.
+  - md C:\nc
+  - npm install -g npm@^2"
+  - npm config set cache C:\nc
+  - npm version
   - npm install
 
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
-  - node --version
-  - npm --version
-  # We test multiple Windows shells because of prior stdout buffering issues
-  # filed against Grunt. https://github.com/joyent/node/issues/3584
-  - ps: "npm run-script test-all # PowerShell" # Pass comment to PS for easier debugging
+  - npm version
   - cmd: npm run-script test-all
 
 # Don't actually build.

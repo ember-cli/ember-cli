@@ -7,10 +7,9 @@ var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var ncp        = Promise.denodeify(require('ncp'));
-var assert     = require('assert');
-
-var buildApp         = require('../helpers/build-app');
-var runCommand       = require('../helpers/run-command');
+var expect     = require('chai').expect;
+var buildApp   = require('../helpers/build-app');
+var runCommand = require('../helpers/run-command');
 
 var appName  = 'some-cool-app';
 
@@ -31,6 +30,8 @@ describe('Acceptance: blueprint smoke tests', function() {
   });
 
   after(function() {
+    this.timeout(15000);
+
     return tmp.teardown('./common-tmp')
       .then(function() {
         conf.restore();
@@ -52,7 +53,9 @@ describe('Acceptance: blueprint smoke tests', function() {
         var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
         var pwd = process.cwd();
 
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath);
+        // Need to junction on windows since we likely don't have persmission to symlink
+        // 3rd arg is ignored on systems other than windows
+        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
 
         process.chdir(appName);
       });
@@ -65,17 +68,19 @@ describe('Acceptance: blueprint smoke tests', function() {
   });
 
   it('generating an http-proxy installs packages to package.json', function() {
-    console.log('    running the slow end-to-end it will take some time');
-
     this.timeout(450000);
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'http-proxy', 'api', 'http://localhost/api')
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
+                      'http-proxy',
+                      'api',
+                      'http://localhost/api',
+                      '--silent')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
-        assert(packageJson.devDependencies['http-proxy']);
-        assert(packageJson.devDependencies['connect-restreamer']);
+        expect(!packageJson.devDependencies['http-proxy']).to.not.be.an('undefined');
+        expect(!packageJson.devDependencies['morgan']).to.not.be.an('undefined');
       });
   });
 });
