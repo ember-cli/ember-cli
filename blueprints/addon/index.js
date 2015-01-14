@@ -97,7 +97,9 @@ module.exports = {
     '^config.*':     'tests/dummy/:path',
     '^public.*':     'tests/dummy/:path',
 
-    '^addon-config/environment.js': 'config/environment.js'
+    '^addon-config/environment.js': 'config/environment.js',
+
+    '^npmignore': '.npmignore'
   },
 
   fileMapper: function(path) {
