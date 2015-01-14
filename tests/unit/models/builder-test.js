@@ -272,19 +272,19 @@ describe('models/builder.js', function() {
       var buildResult = {directory: 'tests/fixtures/builder/first'};
       return builder.processBuildResult(buildResult)
         .then(function(results) {
-          assert(results.outputChanges.indexOf('output.js') !== -1, 'output.js is changed');
-          assert(results.outputChanges.indexOf('output.css') !== -1, 'output.css is changed');
+          expect(results.outputChanges.indexOf('output.js')).to.not.equal(-1, 'output.js is changed');
+          expect(results.outputChanges.indexOf('output.css')).to.not.equal(-1, 'output.css is changed');
           return builder.processBuildResult(buildResult);
         })
         .then(function(results) {
-          assert(results.outputChanges.length === 0, 'no files are changed');
+          expect(results.outputChanges.length).to.equal(0, 'no files are changed');
           return builder.processBuildResult({
             directory: 'tests/fixtures/builder/second'
           });
         })
         .then(function(results) {
-          assert(results.outputChanges.indexOf('output.js') !== -1, 'output.js is changed');
-          assert.equal(results.outputChanges.length, 1, 'no other files are changed');
+          expect(results.outputChanges.indexOf('output.js')).to.not.equal(-1, 'output.js is changed');
+          expect(results.outputChanges.length).to.equal(1, 'no other files are changed');
         });
     });
   });
