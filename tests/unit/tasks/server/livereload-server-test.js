@@ -126,7 +126,7 @@ describe('livereload-server', function() {
     });
 
     it('triggers the liverreload server of a change when no pattern matches', function() {
-      subject.didChange({filePath: ''});
+      subject.didChange({outputChanges: ['']});
       expect(changedCount).to.equal(1);
       expect(trackCount).to.equal(1);
     });
@@ -140,10 +140,45 @@ describe('livereload-server', function() {
       subject.project.liveReloadFilterPatterns = [filter];
 
       subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+        outputChanges: ['test/fixtures/proxy/file-a.js']
       });
       expect(changedCount).to.equal(0);
       expect(trackCount).to.equal(0);
     });
   });
+
+  describe('watcher', function() {
+    var liveReloadServer;
+    var changedFiles;
+    var oldChanged;
+    var stubbedChanged = function(changed) {
+      changedFiles = changed.body.files;
+    };
+    var oldTrack;
+    var stubbedTrack = function() {};
+
+    beforeEach(function() {
+      liveReloadServer = subject.liveReloadServer();
+      changedFiles = null;
+      oldChanged = liveReloadServer.changed;
+      liveReloadServer.changed = stubbedChanged;
+
+      oldTrack = subject.analytics.track;
+      subject.analytics.track = stubbedTrack;
+    });
+
+    afterEach(function() {
+      liveReloadServer.changed = oldChanged;
+      subject.analytics.track = oldTrack;
+    });
+
+    it('reports which files have changed', function() {
+      var files = ['output.css'];
+      subject.didChange({
+        outputChanges: files
+      });
+      assert.equal(changedFiles[0], files[0]);
+    });
+  });
+
 });
