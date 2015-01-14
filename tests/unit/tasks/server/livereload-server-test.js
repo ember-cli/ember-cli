@@ -177,7 +177,7 @@ describe('livereload-server', function() {
       subject.didChange({
         outputChanges: files
       });
-      assert.equal(changedFiles[0], files[0]);
+      expect(changedFiles[0]).to.equal(files[0]);
     });
   });
 
