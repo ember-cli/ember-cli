@@ -11,7 +11,7 @@ describe('blueprint - component', function(){
       expect(function() {
         var nonConformantComponentName = 'form';
         blueprint.normalizeEntityName(nonConformantComponentName);
-      }).to.throw(/must have a hyphen/);
+      }).to.throw(/must include a hyphen in the component name/);
     });
 
 

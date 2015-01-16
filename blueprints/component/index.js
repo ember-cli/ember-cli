@@ -33,8 +33,8 @@ module.exports = {
 
     if(! /\-/.test(entityName)) {
       throw new SilentError('You specified "' + entityName + '", but in order to prevent ' +
-                            'clashes with current or future HTML element names you must have ' +
-                            'a hyphen.');
+                            'clashes with current or future HTML element names, you must include ' +
+                            'a hyphen in the component name.');
     }
 
     return entityName;
