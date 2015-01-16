@@ -495,7 +495,8 @@ describe('Unit: CLI', function() {
 
     return ember(['unknownCommand']).then(function() {
       var output = ui.output.trim().split(EOL);
-      expect(true, /The specified command .*unknownCommand.* is invalid/.test(output[1]), 'expected an invalid command message');
+      var helpfulMessage = /The specified command .*unknownCommand.* is invalid\. For available options/;
+      expect(true, helpfulMessage.test(output[1]), 'expected an invalid command message');
       expect(help.called).to.equal(0, 'expected the help command to be run');
     });
   });
