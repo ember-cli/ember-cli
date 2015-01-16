@@ -1,17 +1,18 @@
 'use strict';
 
-var path       = require('path');
-var expect     = require('chai').expect;
-var fs         = require('fs');
-var EOL        = require('os').EOL;
-var tmp        = require('../helpers/tmp');
-var conf       = require('../helpers/conf');
-var buildApp   = require('../helpers/build-app');
-var runCommand = require('../helpers/run-command');
-var Promise    = require('../../lib/ext/promise');
-var ncp        = Promise.denodeify(require('ncp'));
-var rimraf     = Promise.denodeify(require('rimraf'));
-var symlink    = Promise.denodeify(fs.symlink);
+var path                = require('path');
+var expect              = require('chai').expect;
+var fs                  = require('fs');
+var EOL                 = require('os').EOL;
+var Promise             = require('../../lib/ext/promise');
+var acceptance          = require('../helpers/acceptance');
+var runCommand          = require('../helpers/run-command');
+var rimraf              = Promise.denodeify(require('rimraf'));
+var createTestTargets   = acceptance.createTestTargets;
+var teardownTestTargets = acceptance.teardownTestTargets;
+var linkDependencies    = acceptance.linkDependencies;
+var cleanupRun          = acceptance.cleanupRun;
+
 
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
 var assertDirEmpty   = require('../helpers/assert-dir-empty');
@@ -22,61 +23,27 @@ describe('Acceptance: express server restart', function () {
   before(function() {
     this.timeout(360000);
 
-    return tmp.setup('./common-tmp')
-      .then(function() {
-        process.chdir('./common-tmp');
-
-        conf.setup();
-        return buildApp(appName);
-      }).then(function() {
-        return rimraf(path.join(appName, 'node_modules', 'ember-cli'));
-      }).then(function() {
-        process.chdir(appName);
-        return copyFixtureFiles('restart-express-server/app-root');
-      });
+    return createTestTargets(appName).then(function() {
+      process.chdir(appName);
+      return copyFixtureFiles('restart-express-server/app-root');
+    });
   });
 
   after(function() {
     this.timeout(15000);
-
-    return tmp.teardown('./common-tmp')
-      .then(function() {
-        conf.restore();
-      });
+    return teardownTestTargets();
   });
 
-  var appRoot;
   beforeEach(function() {
     this.timeout(15000);
-
-    return tmp.setup('./tmp')
-      .then(function() {
-        return ncp('./common-tmp/' + appName, './tmp/' + appName, {
-          clobber: true,
-          stopOnErr: true
-        });
-      })
-      .then(function() {
-        process.chdir('./tmp');
-
-        var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
-        var pwd = process.cwd();
-
-        // Need to junction on windows since we likely don't have persmission to symlink
-        // 3rd arg is ignored on systems other than windows
-        return symlink(path.join(pwd, '..'), appsECLIPath, 'junction');
-      }).then(function () {
-        process.chdir(appName);
-        appRoot = process.cwd();
-      });
+    return linkDependencies(appName);
   });
 
   afterEach(function() {
     this.timeout(15000);
-
-    process.chdir(appRoot);
-    assertDirEmpty('tmp');
-    return tmp.teardown('./tmp');
+    return cleanupRun(function() {
+      assertDirEmpty('tmp');
+    });
   });
 
   function getRunCommandOptions(onChildSpawned) {

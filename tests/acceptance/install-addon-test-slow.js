@@ -53,7 +53,7 @@ describe('Acceptance: ember install:addon', function() {
   }
 
   it('installs via npm and runs generator', function() {
-    this.timeout(5000);
+    this.timeout(7000);
 
     return installAddon(['ember-cli-fastclick']).then(function() {
       assertFile('package.json', {

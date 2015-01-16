@@ -1,80 +1,49 @@
 'use strict';
 
-var tmp        = require('../helpers/tmp');
-var conf       = require('../helpers/conf');
 var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
 var expect     = require('chai').expect;
 var addonName  = 'some-cool-addon';
-var ncp        = Promise.denodeify(require('ncp'));
-var Promise    = require('../../lib/ext/promise');
 var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');
 var expect     = require('chai').expect;
 
-var runCommand       = require('../helpers/run-command');
-var buildApp         = require('../helpers/build-app');
-var copyFixtureFiles = require('../helpers/copy-fixture-files');
-var killCliProcess   = require('../helpers/kill-cli-process');
-var assertDirEmpty   = require('../helpers/assert-dir-empty');
+var runCommand          = require('../helpers/run-command');
+var copyFixtureFiles    = require('../helpers/copy-fixture-files');
+var killCliProcess      = require('../helpers/kill-cli-process');
+var assertDirEmpty      = require('../helpers/assert-dir-empty');
+var acceptance          = require('../helpers/acceptance');
+var createTestTargets   = acceptance.createTestTargets;
+var teardownTestTargets = acceptance.teardownTestTargets;
+var linkDependencies    = acceptance.linkDependencies;
+var cleanupRun          = acceptance.cleanupRun;
 
 describe('Acceptance: addon-smoke-test', function() {
+
   before(function() {
     this.timeout(360000);
-
-    return tmp.setup('./common-tmp')
-      .then(function() {
-        process.chdir('./common-tmp');
-
-        conf.setup();
-        return buildApp(addonName, {
-          command: 'addon'
-        })
-          .then(function() {
-            return rimraf(path.join(addonName, 'node_modules', 'ember-cli'));
-          });
-      });
+    return createTestTargets(addonName, {
+      command: 'addon'
+    });
   });
 
   after(function() {
     this.timeout(15000);
-
-    return tmp.teardown('./common-tmp')
-      .then(function() {
-        conf.restore();
-      });
+    return teardownTestTargets();
   });
 
   beforeEach(function() {
-    this.timeout(15000);
-
-    return tmp.setup('./tmp')
-      .then(function() {
-        return ncp('./common-tmp/' + addonName, './tmp/' + addonName, {
-          clobber: true,
-          stopOnErr: true
-        });
-      })
-      .then(function() {
-        process.chdir('./tmp');
-
-        var appsECLIPath = path.join(addonName, 'node_modules', 'ember-cli');
-        var pwd = process.cwd();
-
-        // Need to junction on windows since we likely don't have persmission to symlink
-        // 3rd arg is ignored on systems other than windows
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
-        process.chdir(addonName);
-      });
+    this.timeout(360000);
+    return linkDependencies(addonName);
   });
 
   afterEach(function() {
     this.timeout(15000);
-
-    assertDirEmpty('tmp');
-    return tmp.teardown('./tmp');
+    return cleanupRun(function() {
+      assertDirEmpty('tmp');
+    });
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
@@ -92,7 +61,6 @@ describe('Acceptance: addon-smoke-test', function() {
 
   it('ember addon foo, clean from scratch', function() {
     this.timeout(450000);
-
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
   });
 
