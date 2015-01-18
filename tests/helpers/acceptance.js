@@ -48,7 +48,8 @@ function mvRm(from, to) {
 
 function symLinkDir(projectPath, from, to) {
   var isWin = /^win/.test(process.platform);
-  // TODO figure out if the windows check is needed
+
+  // Need to junction on windows since we likely don't have persmission to symlink
   var type = isWin ? 'junction' : 'dir';
   fs.symlinkSync(path.resolve(root, from), path.resolve(projectPath, to), type);
 }
@@ -82,29 +83,34 @@ function createTmp(command) {
  * @return {Promise}  The result of the running the command
  */
 function createTestTargets(projectName, options) {
+  var command;
   options = options || {};
   options.command = options.command || 'new';
 
   // Fresh install
   if (!downloaded('node_modules') && !downloaded('bower_components')) {
-    return createTmp(function() {
+    command = function() {
       return applyCommand(options.command, projectName);
-    }).catch(handleResult);
+    };
     // bower_components but no node_modules
   } else if (!downloaded('node_modules') && downloaded('bower_components')) {
-    return createTmp(function() {
+    command = function() {
       return applyCommand(options.command, projectName, '--skip-bower');
-    }).catch(handleResult);
+    };
     // node_modules but no bower_components
   } else if (!downloaded('bower_components') && downloaded('node_modules')) {
-    return createTmp(function() {
-      applyCommand(options.command, projectName, '--skip-npm');
-    }).catch(handleResult);
+    command = function() {
+      return applyCommand(options.command, projectName, '--skip-npm');
+    };
+  } else {
+    // Everything is already there
+    command = function() {
+      return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower');
+    };
   }
 
-  // Everything is already there
   return createTmp(function() {
-    return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower');
+    return command();
   }).catch(handleResult);
 }
 
