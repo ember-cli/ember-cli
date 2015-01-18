@@ -38,8 +38,9 @@ For example
 
 {% highlight javascript linenos %}
 // config/environment.js
-  if (environment === 'production') {
-    ENV.baseURL = '/path/to/ember/app/';
+if (environment === 'production') {
+  ENV.baseURL = '/path/to/ember/app/';
+}
 {% endhighlight %}
 
 This value is used to set the value of `base` in `index.html`, e.g. `<base href="/path/to/ember/app/" />`,
