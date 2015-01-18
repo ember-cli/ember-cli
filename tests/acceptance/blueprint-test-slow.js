@@ -1,70 +1,37 @@
 'use strict';
 
-var tmp        = require('../helpers/tmp');
-var conf       = require('../helpers/conf');
-var Promise    = require('../../lib/ext/promise');
-var path       = require('path');
-var rimraf     = Promise.denodeify(require('rimraf'));
-var fs         = require('fs');
-var ncp        = Promise.denodeify(require('ncp'));
-var expect     = require('chai').expect;
-var buildApp   = require('../helpers/build-app');
-var runCommand = require('../helpers/run-command');
+var path                = require('path');
+var fs                  = require('fs');
+var expect              = require('chai').expect;
+var acceptance          = require('../helpers/acceptance');
+var runCommand          = require('../helpers/run-command');
+var createTestTargets   = acceptance.createTestTargets;
+var teardownTestTargets = acceptance.teardownTestTargets;
+var linkDependencies    = acceptance.linkDependencies;
+var cleanupRun          = acceptance.cleanupRun;
+
 
 var appName  = 'some-cool-app';
 
 describe('Acceptance: blueprint smoke tests', function() {
   before(function() {
     this.timeout(360000);
-
-    return tmp.setup('./common-tmp')
-      .then(function() {
-        process.chdir('./common-tmp');
-
-        conf.setup();
-        return buildApp(appName)
-          .then(function() {
-            return rimraf(path.join(appName, 'node_modules', 'ember-cli'));
-          });
-      });
+    return createTestTargets(appName);
   });
 
   after(function() {
     this.timeout(15000);
-
-    return tmp.teardown('./common-tmp')
-      .then(function() {
-        conf.restore();
-      });
+    return teardownTestTargets();
   });
 
   beforeEach(function() {
     this.timeout(10000);
-    return tmp.setup('./tmp')
-      .then(function() {
-        return ncp('./common-tmp/' + appName, './tmp/' + appName, {
-          clobber: true,
-          stopOnErr: true
-        });
-      })
-      .then(function() {
-        process.chdir('./tmp');
-
-        var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
-        var pwd = process.cwd();
-
-        // Need to junction on windows since we likely don't have persmission to symlink
-        // 3rd arg is ignored on systems other than windows
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
-
-        process.chdir(appName);
-      });
+    return linkDependencies(appName);
   });
 
   afterEach(function() {
     this.timeout(10000);
-
-    return tmp.teardown('./tmp');
+    return cleanupRun();
   });
 
   it('generating an http-proxy installs packages to package.json', function() {

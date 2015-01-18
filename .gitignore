@@ -6,3 +6,5 @@ _site
 common-tmp
 *.tgz
 docs/build
+.node_modules-tmp
+.bower_components-tmp

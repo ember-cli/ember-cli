@@ -38,7 +38,6 @@ module.exports = function run(/* command, args, options */) {
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];
     }
-
     var child = spawn(command, args, opts);
     var result = {
       output: [],

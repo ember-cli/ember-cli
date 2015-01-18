@@ -1,72 +1,41 @@
 'use strict';
 
-var tmp        = require('../helpers/tmp');
-var conf       = require('../helpers/conf');
 var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var rimraf     = Promise.denodeify(require('rimraf'));
 var fs         = require('fs');
-var ncp        = Promise.denodeify(require('ncp'));
 var expect     = require('chai').expect;
 var EOL        = require('os').EOL;
 
-var runCommand       = require('../helpers/run-command');
-var buildApp         = require('../helpers/build-app');
-var copyFixtureFiles = require('../helpers/copy-fixture-files');
+var runCommand          = require('../helpers/run-command');
+var acceptance          = require('../helpers/acceptance');
+var copyFixtureFiles    = require('../helpers/copy-fixture-files');
+var createTestTargets   = acceptance.createTestTargets;
+var teardownTestTargets = acceptance.teardownTestTargets;
+var linkDependencies    = acceptance.linkDependencies;
+var cleanupRun          = acceptance.cleanupRun;
 
 var appName  = 'some-cool-app';
 
 describe('Acceptance: brocfile-smoke-test', function() {
   before(function() {
     this.timeout(360000);
-
-    return tmp.setup('./common-tmp')
-      .then(function() {
-        process.chdir('./common-tmp');
-
-        conf.setup();
-        return buildApp(appName)
-          .then(function() {
-            return rimraf(path.join(appName, 'node_modules', 'ember-cli'));
-          });
-      });
+    return createTestTargets(appName);
   });
 
   after(function() {
     this.timeout(15000);
-
-    return tmp.teardown('./common-tmp')
-      .then(function() {
-        conf.restore();
-      });
+    return teardownTestTargets();
   });
 
   beforeEach(function() {
-    this.timeout(15000);
-
-    return tmp.setup('./tmp')
-      .then(function() {
-        return ncp('./common-tmp/' + appName, './tmp/' + appName, {
-          clobber: true,
-          stopOnErr: true
-        });
-      })
-      .then(function() {
-        process.chdir('./tmp');
-
-        var appsECLIPath = path.join(appName, 'node_modules', 'ember-cli');
-        var pwd = process.cwd();
-
-        fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
-
-        process.chdir(appName);
-      });
+    this.timeout(360000);
+    return linkDependencies(appName);
   });
 
   afterEach(function() {
     this.timeout(15000);
-
-    return tmp.teardown('./tmp');
+    return cleanupRun();
   });
 
   it('a custom EmberENV in config/environment.js is used for window.EmberENV', function() {
@@ -83,7 +52,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
         });
 
         var expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
-
         expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
       });
   });

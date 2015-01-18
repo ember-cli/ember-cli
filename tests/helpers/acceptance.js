@@ -1,0 +1,178 @@
+'use strict';
+
+var path       = require('path');
+var fs         = require('fs-extra');
+var runCommand = require('./run-command');
+var RSVP       = require('rsvp');
+var tmp        = require('./tmp');
+var conf       = require('./conf');
+var copy       = RSVP.denodeify(fs.copy);
+var root       = process.cwd();
+
+var onOutput = {
+  onOutput: function() {
+    return; // no output for initial application build
+  }
+};
+
+function handleResult(result) {
+  console.log(result.output.join('\n'));
+  console.log(result.errors.join('\n'));
+  throw result;
+}
+
+function downloaded(item) {
+  var exists = false;
+  switch (item) {
+    case 'node_modules':
+      exists = fs.existsSync(path.join(root, '.node_modules-tmp'));
+      break;
+    case 'bower_components':
+      exists = fs.existsSync(path.join(root, '.bower_components-tmp'));
+      break;
+  }
+
+  return exists;
+}
+
+function mvRm(from, to) {
+  var dir = path.join(root, to);
+  from = path.resolve(from);
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirsSync(dir);
+    fs.copySync(from, to);
+    fs.removeSync(from);
+  }
+}
+
+function symLinkDir(projectPath, from, to) {
+  var isWin = /^win/.test(process.platform);
+  // TODO figure out if the windows check is needed
+  var type = isWin ? 'junction' : 'dir';
+  fs.symlinkSync(path.resolve(root, from), path.resolve(projectPath, to), type);
+}
+
+function applyCommand(command, name /*, ...flags*/) {
+  var flags = [].slice.call(arguments, 2, arguments.length);
+  var args = [path.join('..', 'bin', 'ember'), command, '--skip-git', name, onOutput];
+
+  flags.forEach(function(flag) {
+    args.splice(2, 0, flag);
+  });
+
+  return runCommand.apply(undefined, args);
+}
+
+function createTmp(command) {
+  return tmp.setup('./common-tmp').then(function() {
+    process.chdir('./common-tmp');
+    conf.setup();
+    return command();
+  });
+}
+
+/**
+ * Use `createTestTargets` in the before hook to do the initial
+ * setup of a project. This will ensure that we limit the amount of times
+ * we go to the network to fetch dependencies.
+ * @param  {String} projectName The name of the project. Can be a app or addon.
+ * @param  {Object} options
+ * @property {String} options.command The command you want to run
+ * @return {Promise}  The result of the running the command
+ */
+function createTestTargets(projectName, options) {
+  options = options || {};
+  options.command = options.command || 'new';
+
+  // Fresh install
+  if (!downloaded('node_modules') && !downloaded('bower_components')) {
+    return createTmp(function() {
+      return applyCommand(options.command, projectName);
+    }).catch(handleResult);
+    // bower_components but no node_modules
+  } else if (!downloaded('node_modules') && downloaded('bower_components')) {
+    return createTmp(function() {
+      return applyCommand(options.command, projectName, '--skip-bower');
+    }).catch(handleResult);
+    // node_modules but no bower_components
+  } else if (!downloaded('bower_components') && downloaded('node_modules')) {
+    return createTmp(function() {
+      applyCommand(options.command, projectName, '--skip-npm');
+    }).catch(handleResult);
+  }
+
+  // Everything is already there
+  return createTmp(function() {
+    return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower');
+  }).catch(handleResult);
+}
+
+/**
+ * Tears down the targeted project download directory
+ * and restores conf.
+ * @return {Promise}
+ */
+function teardownTestTargets() {
+  return tmp.teardown('./common-tmp').then(function() {
+    conf.restore();
+  });
+}
+
+/**
+ * Creates symbolic links from the dependency temp directories
+ * to the project that is under test.
+ * @param  {String} projectName The name of the project under test
+ * @return {Promise}
+ */
+function linkDependencies(projectName) {
+  var targetPath = './tmp/' + projectName;
+  return tmp.setup('./tmp').then(function() {
+    return copy('./common-tmp/' + projectName, targetPath);
+  }).then(function() {
+    var nodeModulesPath = targetPath + '/node_modules/';
+    var bowerComponentsPath = targetPath + '/bower_components/';
+
+    mvRm(nodeModulesPath, '.node_modules-tmp');
+    mvRm(bowerComponentsPath, '.bower_components-tmp');
+
+
+    if (!fs.existsSync(nodeModulesPath)) {
+      symLinkDir(targetPath, '.node_modules-tmp', 'node_modules');
+    }
+
+    if (!fs.existsSync(bowerComponentsPath)) {
+      symLinkDir(targetPath, '.bower_components-tmp', 'bower_components');
+    }
+
+    process.chdir('./tmp');
+    var appsECLIPath = path.join(projectName, 'node_modules', 'ember-cli');
+    var pwd = process.cwd();
+    fs.removeSync(projectName + '/node_modules/ember-cli');
+
+    // Need to junction on windows since we likely don't have persmission to symlink
+    // 3rd arg is ignored on systems other than windows
+    fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
+    process.chdir(projectName);
+
+  });
+}
+
+/**
+ * Clean a test run and optionally assert.
+ * @param  {Function} [assertion] An assertion that gets ran at the end of a run
+ * @return {Promise}
+ */
+function cleanupRun(assertion) {
+  if (assertion) {
+    assertion();
+  }
+  return tmp.teardown('./tmp');
+}
+
+module.exports = {
+  createTestTargets: createTestTargets,
+  linkDependencies: linkDependencies,
+  teardownTestTargets: teardownTestTargets,
+  cleanupRun: cleanupRun
+};
