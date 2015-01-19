@@ -27,6 +27,16 @@ production-env by default. You can pass custom options to the minifier via the
 `minifyJS:options` object in your Brocfile. To enable or disable JS minification
 you may supply a boolean value for `minifyJS:enabled`.
 
+For example, to disable minifying of CSS and JS, add in `Brocfile.js`:
+{% highlight bash %}
+minifyCSS: {
+  enabled: false
+},
+minifyJS: {
+  enabled: false
+}
+{% endhighlight %}
+
 ### Stylesheets
 
 Ember CLI supports plain CSS out of the box. You can add your css styles to
