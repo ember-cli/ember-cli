@@ -1,5 +1,5 @@
-// To use it create some files under `routes/`
-// e.g. `server/routes/ember-hamsters.js`
+// To use it create some files under `mocks/`
+// e.g. `server/mocks/ember-hamsters.js`
 //
 // module.exports = function(app) {
 //   app.get('/ember-hamsters', function(req, res) {
