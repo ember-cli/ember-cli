@@ -376,14 +376,14 @@ describe('broccoli/ember-app', function() {
           process.env.EMBER_ENV = 'development';
           emberApp = new EmberApp({ project: project });
 
-          expect(emberApp.project.addons.length).to.equal(5);
+          expect(emberApp.project.addons.length).to.equal(6);
         });
 
         it('foo', function() {
           process.env.EMBER_ENV = 'foo';
           emberApp = new EmberApp({ project: project });
 
-          expect(emberApp.project.addons.length).to.equal(6);
+          expect(emberApp.project.addons.length).to.equal(7);
         });
       });
 
