@@ -1,13 +1,14 @@
 'use strict';
 
-var path       = require('path');
-var fs         = require('fs-extra');
-var runCommand = require('./run-command');
-var RSVP       = require('rsvp');
-var tmp        = require('./tmp');
-var conf       = require('./conf');
-var copy       = RSVP.denodeify(fs.copy);
-var root       = process.cwd();
+var symlinkOrCopySync = require('symlink-or-copy').sync;
+var path              = require('path');
+var fs                = require('fs-extra');
+var runCommand        = require('./run-command');
+var RSVP              = require('rsvp');
+var tmp               = require('./tmp');
+var conf              = require('./conf');
+var copy              = RSVP.denodeify(fs.copy);
+var root              = process.cwd();
 
 var onOutput = {
   onOutput: function() {
@@ -47,11 +48,7 @@ function mvRm(from, to) {
 }
 
 function symLinkDir(projectPath, from, to) {
-  var isWin = /^win/.test(process.platform);
-
-  // Need to junction on windows since we likely don't have persmission to symlink
-  var type = isWin ? 'junction' : 'dir';
-  fs.symlinkSync(path.resolve(root, from), path.resolve(projectPath, to), type);
+  symlinkOrCopySync(path.resolve(root, from), path.resolve(projectPath, to));
 }
 
 function applyCommand(command, name /*, ...flags*/) {
