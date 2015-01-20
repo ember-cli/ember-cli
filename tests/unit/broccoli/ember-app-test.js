@@ -1,5 +1,4 @@
 /* global escape */
-
 'use strict';
 
 var fs       = require('fs');
@@ -441,9 +440,38 @@ describe('broccoli/ember-app', function() {
           'handlebars.js': null
         }
       });
-      var vendorFiles = Object.keys(EmberApp);
+      var vendorFiles = Object.keys(emberApp.vendorFiles);
       expect(vendorFiles.indexOf('ember.js')).to.equal(-1);
       expect(vendorFiles.indexOf('handlebars.js')).to.equal(-1);
+    });
+
+    it('defaults to ember.debug.js if exists in bower_components', function () {
+      var root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
+
+      emberApp = new EmberApp({
+        project: new Project(root, {})
+      });
+
+      var emberFiles = emberApp.vendorFiles['ember.js'];
+      expect(emberFiles.development).to.equal('bower_components/ember/ember.debug.js');
+    });
+
+    it('switches the default ember.debug.js to ember.js if it does not exist', function () {
+      emberApp = new EmberApp();
+      var emberFiles = emberApp.vendorFiles['ember.js'];
+      expect(emberFiles.development).to.equal('bower_components/ember/ember.js');
+    });
+
+    it('does not clobber an explicitly configured ember development file', function () {
+      emberApp = new EmberApp({
+        vendorFiles: {
+          'ember.js': {
+            development: 'vendor/ember.debug.js'
+          }
+        }
+      });
+      var emberFiles = emberApp.vendorFiles['ember.js'];
+      expect(emberFiles.development).to.equal('vendor/ember.debug.js');
     });
   });
 });
