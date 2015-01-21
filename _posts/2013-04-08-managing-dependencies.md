@@ -143,7 +143,7 @@ You may have additional libraries that should only be included when running test
 
 {% highlight javascript linenos %}
 var EmberApp = require('ember-cli/lib/broccoli/ember-app'),
-    isProduction = ( process.env.EMBER_ENV || 'development' ) === 'production';
+    isProduction = EmberApp.env() === 'production';
 
 var app = new EmberApp();
 
