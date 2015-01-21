@@ -163,13 +163,9 @@ function linkDependencies(projectName) {
 
 /**
  * Clean a test run and optionally assert.
- * @param  {Function} [assertion] An assertion that gets ran at the end of a run
  * @return {Promise}
  */
-function cleanupRun(assertion) {
-  if (assertion) {
-    assertion();
-  }
+function cleanupRun() {
   return tmp.teardown('./tmp');
 }
 

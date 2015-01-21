@@ -5,6 +5,7 @@ var fs                  = require('fs');
 var expect              = require('chai').expect;
 var acceptance          = require('../helpers/acceptance');
 var runCommand          = require('../helpers/run-command');
+var assertDirEmpty      = require('../helpers/assert-dir-empty');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -31,7 +32,9 @@ describe('Acceptance: blueprint smoke tests', function() {
 
   afterEach(function() {
     this.timeout(10000);
-    return cleanupRun();
+    return cleanupRun().then(function() {
+      assertDirEmpty('tmp');
+    });
   });
 
   it('generating an http-proxy installs packages to package.json', function() {

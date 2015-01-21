@@ -37,7 +37,7 @@ describe('Acceptance: smoke-test', function() {
   afterEach(function() {
     this.timeout(20000);
 
-    return cleanupRun(function() {
+    return cleanupRun().then(function() {
       assertDirEmpty('tmp');
     });
   });

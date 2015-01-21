@@ -10,6 +10,7 @@ var EOL        = require('os').EOL;
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
+var assertDirEmpty      = require('../helpers/assert-dir-empty');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -35,7 +36,9 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   afterEach(function() {
     this.timeout(15000);
-    return cleanupRun();
+    return cleanupRun().then(function() {
+      assertDirEmpty('tmp');
+    });
   });
 
   it('a custom EmberENV in config/environment.js is used for window.EmberENV', function() {
