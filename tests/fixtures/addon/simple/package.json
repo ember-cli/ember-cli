@@ -16,8 +16,7 @@
     "non-ember-thingy": "latest",
     "ember-before-blueprint-addon": "latest",
     "ember-after-blueprint-addon": "latest",
-    "ember-devDeps-addon": "latest",
-    "ember-addon-with-dependencies": "latest"
+    "ember-devDeps-addon": "latest"
   }
 }
 
