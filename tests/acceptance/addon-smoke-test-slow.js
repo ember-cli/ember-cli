@@ -59,7 +59,7 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(bowerContents.name).to.equal(addonName);
   });
 
-  it.only('ember addon foo, clean from scratch', function() {
+  it('ember addon foo, clean from scratch', function() {
     this.timeout(450000);
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
