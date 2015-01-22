@@ -8,6 +8,7 @@ var Project       = require('../../../lib/models/project');
 var MockUI        = require('../../helpers/mock-ui');
 var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
 var OtherCommand  = require('../../fixtures/addon/commands/other-addon-command');
+var ClassCommand  = require('../../fixtures/addon/commands/addon-command-class');
 
 var commands = {
   serve: Command.extend({
@@ -36,7 +37,7 @@ describe('cli/lookup-command.js', function() {
   var project = {
     isEmberCLIProject: function(){ return true; },
     initializeAddons: function() {
-      this.addons = [new AddonCommand(), new OtherCommand()];
+      this.addons = [new AddonCommand(), new OtherCommand(), new ClassCommand()];
     },
     addonCommands: Project.prototype.addonCommands,
     eachAddonCommand: Project.prototype.eachAddonCommand
@@ -102,6 +103,19 @@ describe('cli/lookup-command.js', function() {
     });
 
     expect(command.name).to.equal('other-addon-command');
+
+    Command = lookupCommand(commands, 'class-addon-command', [], {
+      project: project,
+      ui: ui
+    });
+
+    command = new Command({
+      ui: ui,
+      project: project
+    });
+
+    expect(command.name).to.equal('class-addon-command');
+
   });
 
   it('lookupCommand() should write out a warning when overriding a core command', function() {
