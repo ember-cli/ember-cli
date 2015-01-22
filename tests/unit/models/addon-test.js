@@ -130,7 +130,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon no-export', function() {
       before(function() {
-        addon = project.addons[7];
+        addon = project.addons[5];
       });
 
       it('sets it\'s project', function() {

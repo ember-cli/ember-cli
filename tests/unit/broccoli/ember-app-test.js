@@ -208,7 +208,7 @@ describe('broccoli/ember-app', function() {
         };
 
         project.initializeAddons = function() {
-          this.addons = [ addon ];
+          this.addonGraph.map('test-addon', { addon: addon });
         };
 
         emberApp = new EmberApp({
@@ -217,6 +217,30 @@ describe('broccoli/ember-app', function() {
 
         expect(true, called);
         expect(passedApp).to.equal(emberApp);
+      });
+
+      it('included hook is passed the parentAddon, if present', function() {
+        var called = false;
+        var parentAddon = {
+          name: 'parent-addon'
+        };
+        var passedApp;
+
+        addon = {
+          included: function(app) { called = true; passedApp = app; },
+          treeFor: function() { }
+        };
+
+        project.initializeAddons = function() {
+          this.addonGraph.map('test-addon', { addon: addon, parentAddon: parentAddon });
+        };
+
+        emberApp = new EmberApp({
+          project: project
+        });
+
+        assert.ok(called);
+        assert.equal(passedApp, parentAddon);
       });
 
       it('does not throw an error if the addon does not implement `included`', function() {

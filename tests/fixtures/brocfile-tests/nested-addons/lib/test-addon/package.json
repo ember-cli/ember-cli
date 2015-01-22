@@ -1,0 +1,10 @@
+{
+  "name": "test-addon",
+  "keywords": [
+    "ember-addon"
+  ],
+  "ember-addon": {
+    "paths": ["./lib/ember-test-preprocessor"]
+  }
+}
+

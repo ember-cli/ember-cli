@@ -149,10 +149,11 @@ describe('models/project.js', function() {
     it('returns a listing of all dependencies in the projects package.json', function() {
       var expected = {
         'ember-cli': 'latest',
-        'ember-random-addon': 'latest',
-        'ember-non-root-addon': 'latest',
-        'ember-generated-with-export-addon': 'latest',
+        'ember-contains-nested-addon': 'latest',
         'ember-generated-no-export-addon': 'latest',
+        'ember-generated-with-export-addon': 'latest',
+        'ember-non-root-addon': 'latest',
+        'ember-random-addon': 'latest',
         'non-ember-thingy': 'latest',
         'ember-before-blueprint-addon': 'latest',
         'ember-after-blueprint-addon': 'latest',
@@ -182,24 +183,44 @@ describe('models/project.js', function() {
       expect(project.bowerDependencies()).to.deep.equal(expected);
     });
 
-    it('returns a listing of all ember-cli-addons', function() {
+    it('project.addons includes all top-level ember-cli-addons', function() {
       var expected = [
         'tests-server-middleware',
-        'history-support-middleware', 'serve-files-middleware',
-        'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
-        'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
-        'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
-        'ember-devDeps-addon', 'ember-yagni', 'ember-ng', 'ember-super-button'
+        'history-support-middleware',
+        'serve-files-middleware',
+        'proxy-server-middleware',
+        'ember-contains-nested-addon',
+        '(generated ember-generated-no-export-addon addon)',
+        'Ember CLI Generated with export',
+        'Ember Non Root Addon',
+        'Ember Random Addon',
+        'Ember Super Button'
       ];
-
+      project.initializeAddons();
       project.buildAddonPackages();
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
+    });
+
+    it('project.addons does not include nested addons', function() {
+      project.initializeAddons();
+
+      assert.equal(project.addons.indexOf('ember-is-nested-addon'), -1);
+    });
+
+    it('project.addonGraph does include nested addons', function() {
+      project.initializeAddons();
+
+      var observedAddons = [];
+      project.addonGraph.topsort(function(vertex) {
+        observedAddons.push(vertex.value.pkg.name);
+      });
+      assert(observedAddons.indexOf('ember-is-nested-addon') > -1);
     });
 
     it('returns an instance of the addon', function() {
       var addons = project.addons;
 
-      expect(addons[6].name).to.equal('Ember Non Root Addon');
+      assert.equal(addons[7].name, 'Ember Non Root Addon');
     });
 
     it('addons get passed the project instance', function() {
@@ -268,7 +289,6 @@ describe('models/project.js', function() {
 
     it('adds the project itself if it is an addon', function() {
       var added = false;
-      project.addonPackages = {};
       project.isEmberCLIAddon = function() { return true; };
 
       project.addIfAddon = function(path) {

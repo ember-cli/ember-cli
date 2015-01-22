@@ -239,6 +239,32 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('nested addons', function() {
+    console.log('    running the slow end-to-end it will take some time');
+
+    this.timeout(450000);
+
+    return copyFixtureFiles('brocfile-tests/nested-addons')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson['ember-addon'] = {
+          paths: ['./lib/test-addon']
+        };
+
+        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        // No need to positively assert the result below - the fixture that is being built contains
+        // an import that attempts to import the result of the preprocessor, which will fail if the
+        // preprocessor fails to run. Essentially, the successful build is our assertion here.
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .catch(function(e) {
+        assert(!e, 'nested addon build failed');
+      });
+  });
+
   it('specifying custom output paths works properly', function() {
     this.timeout(100000);
 
