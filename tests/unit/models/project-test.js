@@ -137,6 +137,30 @@ describe('models/project.js', function() {
     });
   });
 
+  describe('isEmberCLIProject', function() {
+    beforeEach(function() {
+      projectPath = process.cwd() + '/tmp/test-app';
+
+      project = new Project(projectPath, {});
+    });
+
+    it('should return true if `ember-cli` is included in devDependencies', function(){
+      project.pkg.devDependencies = { 'ember-cli': '^1.0.0' };
+      expect(project.isEmberCLIProject()).to.equal(true);
+    });
+
+    it('should return true if `ember-cli` is included in dependencies', function(){
+      project.pkg.dependencies = { 'ember-cli': '^1.0.0' };
+      expect(project.isEmberCLIProject()).to.equal(true);
+    });
+
+    it('should return false if `ember-cli` is not included in dependencies or devDependencies', function(){
+      project.pkg.devDependencies = {};
+      project.pkg.dependencies = {};
+      expect(project.isEmberCLIProject()).to.equal(false);
+    });
+  });
+
   describe('addons', function() {
     beforeEach(function() {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
