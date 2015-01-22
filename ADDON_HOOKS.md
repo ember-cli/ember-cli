@@ -9,6 +9,7 @@ Table of Contents:
 - [buildError](#builderror)
 - [included](#included)
 - [postProcess](#postprocess)
+- [contentFor](#contentfor)
 - [treeFor](#treefor)
   1. [treeForApp](#treefor-cont)
   - [treeForStyles](#treefor-cont)
@@ -271,6 +272,29 @@ included: function colpick_included(app) {
 **Examples:**
 
 - [broccoli-asset-rev](https://github.com/rickharrison/broccoli-asset-rev/blob/c82c3580855554a31f7d6600b866aecf69cdaa6d/index.js#L29)
+
+<a name='contentfor'></a>
+## contentFor
+
+Allow addons to implement contentFor method to add string output into the associated {{content-for 'foo'}} section in index.html
+
+**Received arguments:**
+
+- config
+- match
+- type
+
+**Source:** [lib/broccoli/ember-app.js:953](https://github.com/ember-cli/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js#L953)
+
+**Default implementation:** None
+
+**Uses:**
+
+- For instance, to inject analytics code into index.html
+
+**Examples:**
+
+- [ember-cli-google-analytics](https://github.com/pgrippi/ember-cli-google-analytics/blob/v1.2.0/index.js#L80)
 
 <a name='treefor'></a>
 ## treeFor
