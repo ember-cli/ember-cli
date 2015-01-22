@@ -8,7 +8,7 @@ var MockAnalytics   = require('../../helpers/mock-analytics');
 var CLI      = require('../../../lib/cli/cli');
 var ui;
 var analytics;
-var commands;
+var commands = {};
 var argv;
 
 var isWithinProject;
@@ -405,6 +405,15 @@ describe('Unit: CLI', function() {
       });
     });
 
+    it('ember build --disable-analytics', function() {
+      var build = stubRun('build');
+
+      return ember(['build', '--disable-analytics']).then(function() {
+        var options = build.calledWith[0][0];
+        expect(options.disableAnalytics).to.equal(true, 'expected the disableAnalytics flag to be true');
+      });
+    });
+
     it('ember build --watch', function() {
       var build = stubRun('build');
 
@@ -511,34 +520,6 @@ describe('Unit: CLI', function() {
         var options = build.calledWith[0][1].cliOptions;
 
         expect(options.output).to.equal(process.cwd());
-      });
-    });
-  });
-
-  describe.skip('analytics tracking', function() {
-    var track;
-
-    beforeEach(function() {
-      stubValidateAndRun(['build']);
-    });
-
-    it('tracks the command that was run', function() {
-
-      return ember(['build']).then(function() {
-        expect(true, track.called);
-        expect(track.calledWith[0][1]).to.equal('ember');
-        expect(track.calledWith[0][2]).to.equal('build');
-      });
-    });
-
-    it('tracks given options as JSON string', function() {
-      return ember(['build', 'production', '--output', '/blah']).then(function() {
-
-        var args = JSON.parse(track.calledWith[1][0]);
-
-        expect(true, track.called);
-        expect(args[0]).to.equal('production');
-        expect(args[1].output).to.equal('/blah');
       });
     });
   });
