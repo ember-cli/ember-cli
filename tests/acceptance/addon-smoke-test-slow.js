@@ -59,9 +59,9 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(bowerContents.name).to.equal(addonName);
   });
 
-  it('ember addon foo, clean from scratch', function() {
+  it.only('ember addon foo, clean from scratch', function() {
     this.timeout(450000);
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
   it('ember addon without addon/ directory', function() {
@@ -87,7 +87,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
     return copyFixtureFiles('addon/component-with-template')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
       });
   });
 
@@ -96,7 +96,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
     return copyFixtureFiles('addon/content-for-head')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var indexPath = path.join('dist', 'index.html');
@@ -111,7 +111,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
     return copyFixtureFiles('addon/with-styles')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var cssPath = path.join('dist', 'assets', 'vendor.css');
@@ -126,7 +126,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
     return copyFixtureFiles('addon/with-dummy-public')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var robotsPath = path.join('dist', 'robots.txt');
