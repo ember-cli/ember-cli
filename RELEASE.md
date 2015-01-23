@@ -11,7 +11,8 @@ STEPS:
 
 1. ensure you using the latest node `v0.10.x` (but not v0.11.x for now,
    as it has a broken zlib which causes it to publish corrupted modules)
-* update `CHANGELOG.md`
+* run `./bin/changelog` and add output to `CHANGELOG.md`
+* edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes etc.)
 * bump `package.json` version
 * `rm -rf node_modules`
 * `npm cache clear`
@@ -33,8 +34,8 @@ STEPS:
 
 If everything went well, release:
 
-Please note, we have must have an extremely low tollerance for quirks
-and failures we do not want our users to endure any extra pain
+Please note, we have must have an extremely low tolerance for quirks
+and failures we do not want our users to endure any extra pain.
 
 1. go back to ember-cli directory
 * `npm publish ./ember-cli-<version>.tgz`
