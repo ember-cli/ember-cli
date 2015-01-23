@@ -105,7 +105,7 @@ describe('test command', function() {
     var fixturePath;
 
     beforeEach(function() {
-      fixturePath = path.join(__dirname, '..', '..', 'fixtures', 'tasks', 'default-testem-config');
+      fixturePath = path.join(__dirname, '..', '..', 'fixtures', 'tasks', 'testem-config');
       command = new TestCommand(options);
       runOptions = {
         configFile: path.join(fixturePath, 'testem.json')
@@ -163,8 +163,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
       var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
 
-      expect(contents['test_page'].indexOf('fooModule') > -1);
-      expect(contents['test_page'].indexOf('bar') > -1);
+      expect(contents['test_page']).to.be.equal('tests/index.html?module=fooModule&filter=bar');
     });
 
     it('when module and filter option is present uses buildTestPageQueryString for test_page queryString', function() {
@@ -172,14 +171,14 @@ describe('test command', function() {
       command.buildTestPageQueryString = function(options) {
         expect(options).to.deep.equal(runOptions);
 
-        return '?blah=zorz';
+        return 'blah=zorz';
       };
 
       var newPath = command._generateCustomConfigFile(runOptions);
 
       var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
 
-      expect(contents['test_page'].indexOf('?blah=zorz') > -1);
+      expect(contents['test_page']).to.be.equal('tests/index.html?blah=zorz');
     });
 
     it('new file returned contains the filter option value in test_page', function() {
@@ -187,7 +186,16 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
       var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
 
-      expect(contents['test_page'].indexOf('foo') > -1);
+      expect(contents['test_page']).to.be.equal('tests/index.html?filter=foo');
+    });
+
+    it('adds with a `&` if query string contains `?` already', function() {
+      runOptions.filter = 'foo';
+      runOptions.configFile = path.join(fixturePath, 'testem-with-query-string.json');
+      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      expect(contents['test_page']).to.be.equal('tests/index.html?hidepassed&filter=foo');
     });
 
     it('new file returned contains the module option value in test_page', function() {
@@ -195,7 +203,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
       var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
 
-      expect(contents['test_page'].indexOf('fooModule') > -1);
+      expect(contents['test_page']).to.be.equal('tests/index.html?module=fooModule');
     });
   });
 });
