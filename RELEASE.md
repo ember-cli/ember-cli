@@ -30,7 +30,8 @@ STEPS:
 * install bower deps: `bower install`
 * test the server: `ember s`
 * test other things like generators
-* test upgrades of other apps.
+* generate an http-mock and test again
+* test upgrades of other apps
 
 If everything went well, release:
 
