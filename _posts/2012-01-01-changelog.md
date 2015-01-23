@@ -5,6 +5,26 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.1.9
+
+This release fixes a regression in 0.1.8. See [#3075](https://github.com/ember-cli/ember-cli/issues/3075) for details.
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#3077](https://github.com/ember-cli/ember-cli/pull/3077) [BUGFIX] Fix error `Cannot call method 'bind' of undefined` [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
+
 ### 0.1.8
 
 The following changes are required if you are upgrading from the previous
