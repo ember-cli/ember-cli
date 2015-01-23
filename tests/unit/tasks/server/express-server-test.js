@@ -2,13 +2,11 @@
 
 var expect            = require('chai').expect;
 var ExpressServer     = require('../../../../lib/tasks/server/express-server');
-var Promise           = require('../../../../lib/ext/promise');
 var MockUI            = require('../../../helpers/mock-ui');
 var MockProject       = require('../../../helpers/mock-project');
 var MockWatcher       = require('../../../helpers/mock-watcher');
 var MockServerWatcher = require('../../../helpers/mock-server-watcher');
 var ProxyServer       = require('../../../helpers/proxy-server');
-var chalk             = require('chalk');
 var request           = require('supertest');
 var net               = require('net');
 var EOL               = require('os').EOL;
@@ -44,19 +42,6 @@ describe('express-server', function() {
     try {
       proxy.httpServer.close();
     } catch(err) { }
-  });
-
-  describe('processAppMiddlewares', function() {
-    it('has a good error message if a file exists, but does not export a function', function() {
-      subject.project = {
-        has:     function() { return true; },
-        require: function() { return {};   }
-      };
-
-      expect(function() {
-        subject.processAppMiddlewares();
-      }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
-    });
   });
 
   describe('output', function() {
@@ -119,40 +104,6 @@ describe('express-server', function() {
   });
 
   describe('behaviour', function() {
-    it('app middlewares are processed before the proxy', function(done) {
-      var expected = '/foo was hit';
-
-      project.require = function() {
-        return function(app) {
-          app.use('/foo', function(req,res) {
-            res.send(expected);
-          });
-        };
-      };
-
-      subject.start({
-        proxy: 'http://localhost:3001/',
-        host:  '0.0.0.0',
-        port: '1337',
-        baseURL: '/'
-      })
-        .then(function() {
-          request(subject.app)
-            .get('/foo')
-            .set('accept', 'application/json, */*')
-            .expect(function(res) {
-              expect(res.text).to.equal(expected);
-            })
-            .end(function(err) {
-              if (err) {
-                return done(err);
-              }
-              expect(proxy.called).to.equal(false);
-              done();
-            });
-        });
-    });
-
     describe('with proxy', function() {
       beforeEach(function() {
         return subject.start({
@@ -562,187 +513,5 @@ describe('express-server', function() {
       });
     });
 
-    describe('app middleware', function() {
-      var passedOptions;
-      var calls;
-
-      beforeEach(function() {
-        passedOptions = null;
-        calls = 0;
-
-        subject.processAppMiddlewares = function(options) {
-          passedOptions = options;
-          calls++;
-        };
-      });
-
-      it('calls processAppMiddlewares upon start', function() {
-        var realOptions = {
-          host:  '0.0.0.0',
-          port: '1337'
-        };
-
-        return subject.start(realOptions).then(function() {
-          expect(passedOptions === realOptions).to.equal(true);
-          expect(calls).to.equal(1);
-        });
-      });
-
-      it('calls processAppMiddlewares upon restart', function() {
-        var realOptions = {
-          host:  '0.0.0.0',
-          port: '1337'
-        };
-
-        var originalApp;
-
-        return subject.start(realOptions)
-          .then(function() {
-            originalApp = subject.app;
-            subject.changedFiles = ['bar.js'];
-            return subject.restartHttpServer();
-          })
-          .then(function() {
-            expect(subject.app);
-            expect(originalApp).to.not.equal(subject.app);
-            expect(passedOptions === realOptions).to.equal(true);
-            expect(calls).to.equal(2);
-          });
-      });
-
-      it('includes httpServer instance in options', function() {
-        var passedOptions;
-
-        subject.processAppMiddlewares = function(options) {
-          passedOptions = options;
-        };
-
-        var realOptions = {
-          host:  '0.0.0.0',
-          port: '1337'
-        };
-
-        return subject.start(realOptions).then(function() {
-          expect(!!passedOptions.httpServer.listen);
-        });
-      });
-    });
-
-    describe('serverWatcherDidChange', function() {
-      it('is called on file change', function() {
-        var calls = 0;
-        subject.serverWatcherDidChange = function() {
-          calls++;
-        };
-
-        return subject.start({
-          host:  '0.0.0.0',
-          port: '1337'
-        }).then(function() {
-          subject.serverWatcher.emit('change', 'foo.txt');
-          expect(calls).to.equal(1);
-        });
-      });
-
-      it('schedules a server restart', function() {
-        var calls = 0;
-        subject.scheduleServerRestart = function() {
-          calls++;
-        };
-
-        return subject.start({
-          host:  '0.0.0.0',
-          port: '1337'
-        }).then(function() {
-          subject.serverWatcher.emit('change', 'foo.txt');
-          subject.serverWatcher.emit('change', 'bar.txt');
-          expect(calls).to.equal(2);
-        });
-      });
-    });
-
-    describe('scheduleServerRestart', function() {
-      it('schedules exactly one call of restartHttpServer', function(done) {
-        var calls = 0;
-        subject.restartHttpServer = function() {
-          calls++;
-        };
-
-        subject.scheduleServerRestart();
-        expect(calls).to.equal(0);
-        setTimeout(function() {
-          expect(calls).to.equal(0);
-          subject.scheduleServerRestart();
-        }, 50);
-        setTimeout(function() {
-          expect(calls).to.equal(1);
-          done();
-        }, 175);
-      });
-    });
-
-    describe('restartHttpServer', function() {
-      it('restarts the server', function() {
-        var originalHttpServer;
-        var originalApp;
-        return subject.start({
-          host:  '0.0.0.0',
-          port: '1337'
-        }).then(function() {
-          ui.output = '';
-          originalHttpServer = subject.httpServer;
-          originalApp = subject.app;
-          subject.changedFiles = ['bar.js'];
-          return subject.restartHttpServer();
-        }).then(function() {
-          expect(ui.output).to.equal(EOL + chalk.green('Server restarted.') + EOL + EOL);
-          expect(subject.httpServer, 'HTTP server exists');
-          expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
-          expect(!!subject.app).to.equal(true, 'App exists');
-          expect(subject.app).to.not.equal(originalApp, 'App has changed');
-        });
-      });
-
-      it('restarts the server again if one or more files change during a previous restart', function() {
-        var originalHttpServer;
-        var originalApp;
-        return subject.start({
-          host:  '0.0.0.0',
-          port: '1337'
-        }).then(function() {
-          originalHttpServer = subject.httpServer;
-          originalApp = subject.app;
-          subject.serverRestartPromise = new Promise(function(resolve) {
-            setTimeout(function () {
-              subject.serverRestartPromise = null;
-              resolve();
-            }, 20);
-          });
-          subject.changedFiles = ['bar.js'];
-          return subject.restartHttpServer();
-        }).then(function() {
-          expect(!!subject.httpServer).to.equal(true, 'HTTP server exists');
-          expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
-          expect(!!subject.app).to.equal(true, 'App exists');
-          expect(subject.app).to.not.equal(originalApp, 'App has changed');
-        });
-      });
-
-      it('emits the restart event', function() {
-        var calls = 0;
-        subject.on('restart', function() {
-          calls++;
-        });
-        return subject.start({
-          host:  '0.0.0.0',
-          port: '1337'
-        }).then(function() {
-          subject.changedFiles = ['bar.js'];
-          return subject.restartHttpServer();
-        }).then(function() {
-          expect(calls).to.equal(1);
-        });
-      });
-    });
   });
 });
