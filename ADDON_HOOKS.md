@@ -8,7 +8,7 @@ Table of Contents:
 - [preBuild](#prebuild)
 - [buildError](#builderror)
 - [included](#included)
-- [postProcessTree](#postprocesstree)
+- [postprocessTree](#postprocesstree)
 - [contentFor](#contentfor)
 - [treeFor](#treefor)
   1. [treeForApp](#treefor-cont)
@@ -253,7 +253,7 @@ included: function colpick_included(app) {
 - [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/master/index.js#L6)
 
 <a name='postprocesstree'></a>
-## postProcessTree
+## postprocessTree
 
 **Received arguments:**
 
