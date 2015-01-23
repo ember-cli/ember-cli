@@ -1,10 +1,41 @@
 # ember-cli Changelog
 
-# Master
+### 0.1.8
 
-### Applications
-### Addons
-### Blueprints
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#3072](https://github.com/ember-cli/ember-cli/pull/3072) [BUGFIX] Update to app blueprint to use QUnit 1.17.1 [@rwjblue](https://github.com/rwjblue)
+- [#3069](https://github.com/ember-cli/ember-cli/pull/3069) [BUGFIX] Fix style preprocessors for included addons [@pzuraq](https://github.com/pzuraq)
+- [#3068](https://github.com/ember-cli/ember-cli/pull/3068) [ENHANCEMENT] Hide passed tests by default [@rwjblue](https://github.com/rwjblue)
+- [#3036](https://github.com/ember-cli/ember-cli/pull/3036) [BUGFIX] Fix platform dependent path separator [@KarimBaaba](https://github.com/KarimBaaba)
+- [#2754](https://github.com/ember-cli/ember-cli/pull/2754) [FEATURE] Allow addon commands to be classes [@chadhietala](https://github.com/chadhietala)
+- [#2923](https://github.com/ember-cli/ember-cli/pull/2923) [ENHANCEMENT] Add disable-analytics option to all commands [@twokul](https://github.com/twokul)
+- [#2901](https://github.com/ember-cli/ember-cli/pull/2901) [ENHANCEMENT] Improve boot by 300–400ms [@stefanpenner](https://github.com/stefanpenner)
+- [#3049](https://github.com/ember-cli/ember-cli/pull/3049) [FEATURE] Add Test helper blueprint [@stefanpenner](https://github.com/stefanpenner)
+- [#2826](https://github.com/ember-cli/ember-cli/pull/2826) [BUGFIX] Remove path.join from http-mock bluerint urls [@knownasilya](https://github.com/knownasilya)
+- [#2983](https://github.com/ember-cli/ember-cli/pull/2983) [ENHANCEMENT] Update QUnit version [@wagenet](https://github.com/wagenet)
+- [#2814](https://github.com/ember-cli/ember-cli/pull/2814) [ENHANCEMENT] Add listing of available addons [@rondale-sc](https://github.com/rondale-sc)
+- [#3007](https://github.com/ember-cli/ember-cli/pull/3007) [FEATURE] Add a watcher option to the build command [@rauhryan](https://github.com/rauhryan)
+- [#3039](https://github.com/ember-cli/ember-cli/pull/3039) [BUGFIX] Move static file check earlier so it only affects the default value [@krisselden](https://github.com/krisselden)
+- [#3028](https://github.com/ember-cli/ember-cli/pull/3028) [BUGFIX] Update Testem (fixes timeouts and reloads with Pretender) [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#3026](https://github.com/ember-cli/ember-cli/pull/3026) [BUGFIX] Correct comment in server blueprint [@ohcibi](https://github.com/ohcibi)
+- [#3008](https://github.com/ember-cli/ember-cli/pull/3008) [BUGFIX] Clarify error message for ensuring hyphen presence in component name [@artfuldodger](https://github.com/artfuldodger)
+- [#3009](https://github.com/ember-cli/ember-cli/pull/3009) [BUGFIX] Tweak error message for executing `ember unknownCommand` [@artfuldodger](https://github.com/artfuldodger)
+- [#2996](https://github.com/ember-cli/ember-cli/pull/2996) [BUGFIX] Rename .npmignore in addon blueprint (fixes broken package) [@jgwhite](https://github.com/jgwhite)
+- [#2995](https://github.com/ember-cli/ember-cli/pull/2995) [BUGFIX] Correct package.json ordering in app blueprint [@kellyselden](https://github.com/kellyselden)
+- [#2984](https://github.com/ember-cli/ember-cli/pull/2984) [ENHANCEMENT] Add `"strict": false` to blueprint .jshintrc [@quaertym](https://github.com/quaertym)
+
+Thank you to all who took the time to contribute!
 
 ### 0.1.7
 
