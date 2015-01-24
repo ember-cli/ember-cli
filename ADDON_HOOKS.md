@@ -280,9 +280,8 @@ Allow addons to implement contentFor method to add string output into the associ
 
 **Received arguments:**
 
-- config
-- match
 - type
+- config
 
 **Source:** [lib/broccoli/ember-app.js:953](https://github.com/ember-cli/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js#L953)
 
