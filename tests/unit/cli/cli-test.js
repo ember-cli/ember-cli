@@ -394,73 +394,75 @@ describe('Unit: CLI', function() {
   });
 
   describe('build', function() {
-    it('ember build', function() {
-      var build = stubRun('build');
-
-      return ember(['build']).then(function() {
-        expect(build.called).to.equal(1, 'expected the build command to be run');
-
-        var options = build.calledWith[0][0];
-        expect(options.watch).to.equal(false, 'expected the default watch flag to be false');
-      });
-    });
-
-    it('ember build --disable-analytics', function() {
-      var build = stubRun('build');
-
-      return ember(['build', '--disable-analytics']).then(function() {
-        var options = build.calledWith[0][0];
-        expect(options.disableAnalytics).to.equal(true, 'expected the disableAnalytics flag to be true');
-      });
-    });
-
-    it('ember build --watch', function() {
-      var build = stubRun('build');
-
-      return ember(['build', '--watch']).then(function() {
-        var options = build.calledWith[0][0];
-        expect(options.watch).to.equal(true, 'expected the watch flag to be true');
-      });
-    });
-
-    ['production', 'development', 'baz'].forEach(function(env){
-      it('ember build --environment ' + env, function() {
+    ['build','b'].forEach(function(command) {
+      it('ember ' + command, function() {
         var build = stubRun('build');
 
-        return ember(['build', '--environment', env]).then(function() {
+        return ember([command]).then(function() {
           expect(build.called).to.equal(1, 'expected the build command to be run');
 
           var options = build.calledWith[0][0];
-
-          expect(options.environment).to.equal(env, 'correct environment');
+          expect(options.watch).to.equal(false, 'expected the default watch flag to be false');
         });
       });
-    });
 
-    ['development', 'baz'].forEach(function(env){
-      it('EMBER_ENV=production ember build --environment ' + env, function() {
+      it('ember ' + command + ' --disable-analytics', function() {
         var build = stubRun('build');
 
-        process.env.EMBER_ENV = 'production';
-
-        return ember(['build', '--environment', env]).then(function() {
-          expect(build.called).to.equal(1, 'expected the build command to be run');
-
-          expect(process.env.EMBER_ENV).to.equal('production', 'uses EMBER_ENV over environment');
+        return ember([command, '--disable-analytics']).then(function() {
+          var options = build.calledWith[0][0];
+          expect(options.disableAnalytics).to.equal(true, 'expected the disableAnalytics flag to be true');
         });
       });
-    });
 
-    ['production', 'development', 'baz'].forEach(function(env){
-      it('EMBER_ENV=' + env + ' ember build ', function() {
+      it('ember ' + command + ' --watch', function() {
         var build = stubRun('build');
 
-        process.env.EMBER_ENV=env;
+        return ember([command, '--watch']).then(function() {
+          var options = build.calledWith[0][0];
+          expect(options.watch).to.equal(true, 'expected the watch flag to be true');
+        });
+      });
 
-        return ember(['build']).then(function() {
-          expect(build.called).to.equal(1, 'expected the build command to be run');
+      ['production', 'development', 'baz'].forEach(function(env){
+        it('ember ' + command + ' --environment ' + env, function() {
+          var build = stubRun('build');
 
-          expect(process.env.EMBER_ENV).to.equal(env, 'correct environment');
+          return ember([command, '--environment', env]).then(function() {
+            expect(build.called).to.equal(1, 'expected the build command to be run');
+
+            var options = build.calledWith[0][0];
+
+            expect(options.environment).to.equal(env, 'correct environment');
+          });
+        });
+      });
+
+      ['development', 'baz'].forEach(function(env){
+        it('EMBER_ENV=production ember ' + command + ' --environment ' + env, function() {
+          var build = stubRun('build');
+
+          process.env.EMBER_ENV = 'production';
+
+          return ember([command, '--environment', env]).then(function() {
+            expect(build.called).to.equal(1, 'expected the build command to be run');
+
+            expect(process.env.EMBER_ENV).to.equal('production', 'uses EMBER_ENV over environment');
+          });
+        });
+      });
+
+      ['production', 'development', 'baz'].forEach(function(env){
+        it('EMBER_ENV=' + env + ' ember ' + command + ' ', function() {
+          var build = stubRun('build');
+
+          process.env.EMBER_ENV=env;
+
+          return ember([command]).then(function() {
+            expect(build.called).to.equal(1, 'expected the build command to be run');
+
+            expect(process.env.EMBER_ENV).to.equal(env, 'correct environment');
+          });
         });
       });
     });
