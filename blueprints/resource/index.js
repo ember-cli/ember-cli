@@ -26,7 +26,7 @@ module.exports = {
         return mainBlueprint[type](options);
       })
       .then(function() {
-        var testBlueprint = Blueprint.lookup(name + '-test', {
+        var testBlueprint = mainBlueprint.lookupBlueprint(name + '-test', {
           ui: this.ui,
           analytics: this.analytics,
           project: this.project,
