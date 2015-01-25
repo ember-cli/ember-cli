@@ -1020,6 +1020,42 @@ describe('Acceptance: ember generate', function() {
       });
   });
 
+  it('uses custom model-test blueprint when generating resources', function() {
+    return initApp()
+      .then(function() {
+        return outputFile(
+          'blueprints/model-test/files/tests/unit/models/__test__.js',
+          "// custom model-test" + EOL
+        );
+      })
+      .then(function() {
+        return ember(['generate', 'resource', 'foo']);
+      })
+      .then(function() {
+        assertFile('tests/unit/models/foo-test.js', {
+          contains: '// custom model-test'
+        });
+      });
+  });
+
+  it('uses custom route-test blueprint when generating resources', function() {
+    return initApp()
+      .then(function() {
+        return outputFile(
+          'blueprints/route-test/files/tests/unit/routes/__test__.js',
+          "// custom route-test" + EOL
+        );
+      })
+      .then(function() {
+        return ember(['generate', 'resource', 'foo']);
+      })
+      .then(function() {
+        assertFile('tests/unit/routes/foo-test.js', {
+          contains: '// custom route-test'
+        });
+      });
+  });
+
   it('passes custom cli arguments to blueprint options', function() {
     return initApp()
       .then(function() {
