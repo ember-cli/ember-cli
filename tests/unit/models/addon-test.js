@@ -53,7 +53,10 @@ describe('models/addon.js', function() {
         var addon = new FirstAddon(project);
 
         // TODO: fix config story...
-        addon.app = { options: { jshintrc: {} } };
+        addon.app = {
+          options: { jshintrc: {} },
+          addonLintTree: function(type, tree) { return tree; }
+        };
 
         addon.jshintTrees = function(){};
         addon.pickFiles   = function(){};
