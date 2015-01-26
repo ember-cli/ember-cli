@@ -2,12 +2,12 @@
 
 var path                = require('path');
 var expect              = require('chai').expect;
-var fs                  = require('fs');
+var fs                  = require('fs-extra');
 var EOL                 = require('os').EOL;
 var Promise             = require('../../lib/ext/promise');
 var acceptance          = require('../helpers/acceptance');
 var runCommand          = require('../helpers/run-command');
-var rimraf              = Promise.denodeify(require('rimraf'));
+var remove              = Promise.denodeify(fs.remove);
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -90,7 +90,7 @@ describe('Acceptance: express server restart', function () {
           return delay(4000);
         }).then(function() {
           ensureTestFileContents('Copy2 contents of A. Copy2 contents of B.', 'Test file has correct contents after second copy.');
-          return rimraf(path.join('restart-express-server', 'subfolder'));
+          return remove(path.join('restart-express-server', 'subfolder'));
         }).then(function() {
           return copyFixtureFiles(path.join('restart-express-server', 'copy3'));
         }).then(function() {

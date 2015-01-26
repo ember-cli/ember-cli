@@ -2,8 +2,9 @@
 
 var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
-var rimraf     = Promise.denodeify(require('rimraf'));
-var fs         = require('fs');
+var fs         = require('fs-extra');
+var remove     = Promise.denodeify(fs.remove);
+
 var expect     = require('chai').expect;
 var EOL        = require('os').EOL;
 
@@ -83,7 +84,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/pods-templates')
       .then(function(){
         // remove ./app/templates
-        return rimraf(path.join(process.cwd(), 'app/templates'));
+        return remove(path.join(process.cwd(), 'app/templates'));
       }).then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
       });

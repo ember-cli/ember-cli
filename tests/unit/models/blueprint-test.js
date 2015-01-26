@@ -1,6 +1,6 @@
 'use strict';
 
-var fs                = require('fs');
+var fs                = require('fs-extra');
 var Blueprint         = require('../../../lib/models/blueprint');
 var Task              = require('../../../lib/models/task');
 var MockProject       = require('../../helpers/mock-project');
@@ -10,7 +10,7 @@ var path              = require('path');
 var glob              = require('glob');
 var walkSync          = require('walk-sync');
 var Promise           = require('../../../lib/ext/promise');
-var rimraf            = Promise.denodeify(require('rimraf'));
+var remove            = Promise.denodeify(fs.remove);
 var EOL               = require('os').EOL;
 var root              = process.cwd();
 var tmp               = require('tmp-sync');
@@ -215,7 +215,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('installs basic files', function() {
@@ -472,7 +472,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('passes a packages array for addPackagesToProject', function() {
@@ -512,7 +512,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('looks up the `npm-install` task', function() {
@@ -654,7 +654,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('passes a packages array for addBowerPackagesToProject', function() {
@@ -694,7 +694,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('looks up the `bower-install` task', function() {
@@ -778,7 +778,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('looks up the `addon-install` task', function() {
@@ -874,7 +874,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('will create the file if not already existing', function() {
@@ -1083,7 +1083,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('can lookup other Blueprints from the project blueprintLookupPaths', function() {

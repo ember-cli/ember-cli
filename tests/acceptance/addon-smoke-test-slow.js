@@ -2,8 +2,8 @@
 
 var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
-var rimraf     = Promise.denodeify(require('rimraf'));
-var fs         = require('fs');
+var fs         = require('fs-extra');
+var remove     = Promise.denodeify(fs.remove);
 var expect     = require('chai').expect;
 var addonName  = 'some-cool-addon';
 var spawn      = require('child_process').spawn;
@@ -67,7 +67,7 @@ describe('Acceptance: addon-smoke-test', function() {
   it('ember addon without addon/ directory', function() {
     this.timeout(450000);
 
-    return rimraf('addon')
+    return remove('addon')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
           onOutput: function(string, child) {

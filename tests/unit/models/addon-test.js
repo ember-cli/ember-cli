@@ -1,12 +1,12 @@
 'use strict';
 
-var fs      = require('fs');
+var fs      = require('fs-extra');
 var path    = require('path');
 var Project = require('../../../lib/models/project');
 var Addon   = require('../../../lib/models/addon');
 var Promise = require('../../../lib/ext/promise');
 var expect  = require('chai').expect;
-var rimraf  = Promise.denodeify(require('rimraf'));
+var remove  = Promise.denodeify(fs.remove);
 var tmp     = require('tmp-sync');
 var path    = require('path');
 var findWhere = require('lodash-node/modern/collections/find');
@@ -399,7 +399,7 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        return rimraf(tmproot);
+        return remove(tmproot);
       });
 
       it('returns undefined if the `blueprint` folder does not exist', function() {
