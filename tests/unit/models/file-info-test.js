@@ -4,11 +4,10 @@ var expect    = require('chai').expect;
 var MockUI    = require('../../helpers/mock-ui');
 var FileInfo  = require('../../../lib/models/file-info');
 var path      = require('path');
-var fs        = require('fs');
+var fs        = require('fs-extra');
 var EOL       = require('os').EOL;
 var Promise   = require('../../../lib/ext/promise');
 var writeFile = Promise.denodeify(fs.writeFile);
-var rimraf     = require('rimraf');
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
 var tmp        = require('tmp-sync');
@@ -36,7 +35,7 @@ describe('Unit - FileInfo', function(){
   });
 
   afterEach(function(done){
-    rimraf(tmproot, done);
+    fs.remove(tmproot, done);
   });
 
   it('can instantiate with options', function(){

@@ -1,7 +1,7 @@
 'use strict';
 
 var path       = require('path');
-var rimraf     = require('rimraf');
+var remove     = require('fs-extra').remove;
 var tmp        = require('tmp-sync');
 var expect     = require('chai').expect;
 var runCommand = require('../helpers/run-command');
@@ -19,7 +19,7 @@ describe('Acceptance: ember help', function() {
 
   afterEach(function(done) {
     process.chdir(root);
-    rimraf(tmproot, done);
+    remove(tmproot, done);
   });
 
   it('generate lists blueprints', function() {

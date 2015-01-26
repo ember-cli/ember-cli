@@ -10,7 +10,7 @@ var expect          = require('chai').expect;
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
-var rimraf          = Promise.denodeify(require('rimraf'));
+var remove          = Promise.denodeify(fs.remove);
 var tmp             = require('tmp-sync');
 
 var root            = process.cwd();
@@ -32,7 +32,7 @@ describe('models/builder.js', function() {
     });
 
     afterEach(function() {
-      return rimraf(tmproot);
+      return remove(tmproot);
     });
 
     it('allows for non-existent output-paths at arbitrary depth', function() {

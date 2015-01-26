@@ -1,6 +1,6 @@
 'use strict';
 
-var fs           = require('fs');
+var fs           = require('fs-extra');
 var path         = require('path');
 var ConfigLoader = require('../../../lib/broccoli/broccoli-config-loader');
 var Project      = require('../../../lib/models/project');
@@ -9,7 +9,7 @@ var expect       = require('chai').expect;
 var root         = process.cwd();
 var tmp          = require('tmp-sync');
 var tmproot      = path.join(root, 'tmp');
-var rimraf       = Promise.denodeify(require('rimraf'));
+var remove       = Promise.denodeify(fs.remove);
 
 describe('broccoli/broccoli-config-loader', function() {
   var configLoader, tmpDestDir, tmpDestDir2, tmpSrcDir,  project, options, config;
@@ -47,8 +47,8 @@ describe('broccoli/broccoli-config-loader', function() {
 
   afterEach(function() {
     return Promise.all([
-      rimraf(tmpDestDir),
-      rimraf(tmpDestDir2)
+      remove(tmpDestDir),
+      remove(tmpDestDir2)
     ]);
   });
 

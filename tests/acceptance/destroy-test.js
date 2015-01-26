@@ -10,7 +10,7 @@ var ember      = require('../helpers/ember');
 var fs         = require('fs-extra');
 var outputFile = Promise.denodeify(fs.outputFile);
 var path       = require('path');
-var rimraf     = Promise.denodeify(require('rimraf'));
+var remove     = Promise.denodeify(fs.remove);
 var root       = process.cwd();
 var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
@@ -40,7 +40,7 @@ describe('Acceptance: ember destroy', function() {
     this.timeout(10000);
 
     process.chdir(root);
-    return rimraf(tmproot);
+    return remove(tmproot);
   });
 
   function initApp() {

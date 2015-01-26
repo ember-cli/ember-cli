@@ -7,7 +7,7 @@ var assertFile = require('../helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
 var path       = require('path');
-var rimraf     = Promise.denodeify(require('rimraf'));
+var remove     = Promise.denodeify(require('fs-extra').remove);
 var root       = process.cwd();
 var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
@@ -32,7 +32,7 @@ describe('Acceptance: ember install:addon', function() {
     this.timeout(10000);
 
     process.chdir(root);
-    return rimraf(tmproot);
+    return remove(tmproot);
   });
 
   function initApp() {
