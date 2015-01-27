@@ -86,7 +86,24 @@ describe('Acceptance: brocfile-smoke-test', function() {
         // remove ./app/templates
         return remove(path.join(process.cwd(), 'app/templates'));
       }).then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      });
+  });
+
+  it('strips app/styles or app/templates from JS', function() {
+    this.timeout(450000);
+
+    return copyFixtureFiles('brocfile-tests/styles-and-templates-stripped')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var appFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.js'), {
+          encoding: 'utf8'
+        });
+
+        expect(appFileContents).to.include('//app/templates-stuff.js');
+        expect(appFileContents).to.include('//app/styles-manager.js');
       });
   });
 
