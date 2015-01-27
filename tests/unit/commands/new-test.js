@@ -32,10 +32,19 @@ describe('new command', function() {
 
   it('doesn\'t allow to create an application named `ember`', function() {
     return command.validateAndRun(['ember']).then(function() {
-      expect(false, 'should have rejected with an application name of test');
+      expect(false, 'should have rejected with an application name of ember');
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `ember`.');
+    });
+  });
+
+  it('doesn\'t allow to create an application named `Ember`', function() {
+    return command.validateAndRun(['Ember']).then(function() {
+      expect(false, 'should have rejected with an application name of Ember');
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal('We currently do not support a name of `Ember`.');
     });
   });
 
