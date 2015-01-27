@@ -7,7 +7,7 @@ var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var conf              = require('./conf');
-var copy              = Promise.denodeify(require('ncp'));
+var copy              = Promise.denodeify(require('ember-cli-ncp'));
 var root              = process.cwd();
 
 var onOutput = {

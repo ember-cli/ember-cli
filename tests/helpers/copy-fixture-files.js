@@ -2,7 +2,7 @@
 
 var path    = require('path');
 var Promise = require('../../lib/ext/promise');
-var ncp     = Promise.denodeify(require('ncp'));
+var ncp     = Promise.denodeify(require('ember-cli-ncp'));
 
 var rootPath = process.cwd();
 
