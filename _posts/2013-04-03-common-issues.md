@@ -153,6 +153,21 @@ Under `Local Policies` -> `User Rights Assignment` find the `Create symbolic lin
 
 ![Enabling Symlinks]({{ site.url }}/assets/images/common-issues/enabling-symlinks.png)
 
+### PhantomJS on Windows
+
+When running tests on windows via PhantomJS the following error can occur:
+
+	events.js:72
+	throw er; // Unhandled 'error' event
+	^
+	Error: spawn ENOENT
+	at errnoException (child_process.js:988:11)
+	at Process.ChildProcess._handle.onexit (child_process.js:779:34)
+
+In order to fix this ensure the following is added to your `PATH`:
+
+`C:\Users\USER_NAME\AppData\Roaming\npm\node_modules\phantomjs\lib\phantom`
+
 ### Usage with Vagrant
 
 [Vagrant](http://vagrantup.com) is a system for automatically creating and setting up development environments that run in a virtual machine (VM). 
