@@ -4,10 +4,10 @@ var symlinkOrCopySync = require('symlink-or-copy').sync;
 var path              = require('path');
 var fs                = require('fs-extra');
 var runCommand        = require('./run-command');
-var RSVP              = require('rsvp');
+var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var conf              = require('./conf');
-var copy              = RSVP.denodeify(fs.copy);
+var copy              = Promise.denodeify(require('ncp'));
 var root              = process.cwd();
 
 var onOutput = {
@@ -108,7 +108,8 @@ function createTestTargets(projectName, options) {
 
   return createTmp(function() {
     return command();
-  }).catch(handleResult);
+  }).catch(handleResult).finally(function () {
+  });
 }
 
 /**
