@@ -9,6 +9,7 @@ Table of Contents:
 - [buildError](#builderror)
 - [included](#included)
 - [postprocessTree](#postprocesstree)
+- [lintTree](#linttree)
 - [contentFor](#contentfor)
 - [treeFor](#treefor)
   1. [treeForApp](#treefor-cont)
@@ -272,6 +273,32 @@ included: function colpick_included(app) {
 **Examples:**
 
 - [broccoli-asset-rev](https://github.com/rickharrison/broccoli-asset-rev/blob/c82c3580855554a31f7d6600b866aecf69cdaa6d/index.js#L29)
+
+<a name='linttree'></a>
+## lintTree
+
+Return value is merged into the **tests** tree. This lets you inject
+linter output as test results.
+
+**Received arguments:**
+
+- tree type ('app', 'tests', or 'addon')
+- tree of Javascript files
+
+**Source:** [lib/broccoli/ember-app.js:326](https://github.com/ef4/ember-cli/blob/be3e4461157e416e18953d84032897b218be6820/lib/broccoli/ember-app.js#L326-L347)
+
+**Default implementation:** None
+
+**Uses:**
+
+- JSHint
+- any other form of automated test generation that turns code into tests
+
+**Examples:**
+
+- [ember-cli-qunit](https://github.com/ember-cli/ember-cli-qunit/blob/6513bbcc4a4eb567e1d477cb8ea24f31197b7c34/index.js#L88-L94)
+- [ember-cli-mocha](https://github.com/ef4/ember-cli-mocha/blob/ec5a7cd064aabbfe47fbcb3389383f80cde8b668/index.js#L83-L89)
+
 
 <a name='contentfor'></a>
 ## contentFor
