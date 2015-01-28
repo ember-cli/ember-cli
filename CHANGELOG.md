@@ -1,5 +1,45 @@
 # ember-cli Changelog
 
+### 0.1.10
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + `package.json` changes:
+    + Add `ember-cli-app-version` at 0.3.0.
+    + Add `ember-cli-uglify` at 1.0.1.
+    + Update `ember-cli-qunit` to 0.3.0.
+    + Update `ember-cli-6to5` to 3.0.0.
+  + `bower.json` changes:
+    + Update `ember-cli-test-loader` to 0.1.0.
+
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#2970](https://github.com/ember-cli/ember-cli/pull/2970) [ENHANCEMENT] - Added ember-cli-app-version to app blueprint - Close 2524 [@taras](https://github.com/taras)
+- [#3086](https://github.com/ember-cli/ember-cli/pull/3086) [BUGFIX] Ensure that addon test-support trees are not JSHinted in the app. [@rwjblue](https://github.com/rwjblue)
+- [#3085](https://github.com/ember-cli/ember-cli/pull/3085) [ENHANCEMENT] Better ASCII art [@johnnyshields](https://github.com/johnnyshields)
+- [#3084](https://github.com/ember-cli/ember-cli/pull/3084) [ENHANCEMENT] Add `ember b` as `ember build` command alias. [@cbrock](https://github.com/cbrock)
+- [#3092](https://github.com/ember-cli/ember-cli/pull/3092) [BUGFIX] Fix issues with running ember-cli in iojs. [@stefanpenner](https://github.com/stefanpenner)
+- [#3096](https://github.com/ember-cli/ember-cli/pull/3096) [BUGFIX] Ensure that `ember g resource` uses custom blueprints (i.e. ember-cli-coffeescript or ember-cli-mocha) properly.  [@jluckyiv](https://github.com/jluckyiv)
+- [#3106](https://github.com/ember-cli/ember-cli/pull/3106) [BUGFIX] Fixes file stat related crashes (i.e. using Sublime Text with atomic save enabled). [@raytiley](https://github.com/raytiley)
+- [#3114](https://github.com/ember-cli/ember-cli/pull/3114) [BUGFIX] Update version of ES2015 module transpiler (Esperanto). Fixes many transpilation issues (including shadowed declarations and re-exports). [@rwjblue](https://github.com/rwjblue)
+- [#3116](https://github.com/ember-cli/ember-cli/pull/3116) [Bugfix] Ensure that files starting with `app/styles*` and `app/templates*` are still available in the app tree. [@stefanpenner](https://github.com/stefanpenner)
+- [#3119](https://github.com/ember-cli/ember-cli/pull/3110) [ENHANCEMENT] Update ember-cli-qunit to 0.2.0. [@rwjblue](https://github.com/rwjblue)
+- [#3117](https://github.com/ember-cli/ember-cli/pull/3117) [ENHANCEMENT] Replace builtin minification with ember-cli-uglify [@jkarsrud](https://github.com/jkarsrud)
+- [#3119](https://github.com/ember-cli/ember-cli/pull/3119) & [#3121](https://github.com/ember-cli/ember-cli/pull/3121) [ENHANCEMENT] Update ember-cli-qunit to v0.3.0. [@rwjblue](https://github.com/rwjblue)
+- [#3122](https://github.com/ember-cli/ember-cli/pull/3122) [ENHANCEMENT] Make linting pluggable. [@ef4](https://github.com/ef4)
+- [#3123](https://github.com/ember-cli/ember-cli/pull/3123) [ENHANCEMENT] Update ember-cli-6to5 to v3.0.0. [@stefanpenner](https://github.com/stefanpenner)
+
+
+Thank you to all who took the time to contribute!
+
 ### 0.1.9
 
 This release fixes a regression in 0.1.8. See [#3075](https://github.com/ember-cli/ember-cli/issues/3075) for details.
