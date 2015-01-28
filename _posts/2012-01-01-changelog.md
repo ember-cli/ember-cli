@@ -5,6 +5,10 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.1.11
+
+* [#3126](https://github.com/ember-cli/ember-cli/pull/3126) hot-fix tomster ` -> ., prevents breaking the initial git commit
+
 ### 0.1.10
 
 The following changes are required if you are upgrading from the previous
