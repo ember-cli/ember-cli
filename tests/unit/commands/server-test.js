@@ -126,4 +126,16 @@ describe('server command', function() {
       expect(ops.baseURL).to.equal('test', 'Uses the correct environment.');
     });
   });
+
+  it('host alias does not conflict with help alias', function() {
+    return new ServeCommand(options).validateAndRun([
+      '-H', 'hostname'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+      expect(ops.host).to.equal('hostname', 'has correct hostname');
+    });
+  });
 });
