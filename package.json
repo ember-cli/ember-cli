@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "main": "lib/cli/index.js",
   "description": "Command line tool for developing ambitious ember.js apps",
   "trackingCode": "UA-49225444-1",
