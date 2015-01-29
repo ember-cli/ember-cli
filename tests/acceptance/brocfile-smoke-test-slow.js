@@ -265,11 +265,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
       .then(function () {
-        // copy app.css to theme.css
-        var appCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'app.css');
         var themeCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'theme.css');
-        var appCSS = fs.readFileSync(appCSSPath);
-        return fs.writeFileSync(themeCSSPath, appCSS);
+        return fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
@@ -319,12 +316,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
       .then(function () {
-        // copy app.css to theme.css
-        var appCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'app.css');
         var themeCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'theme.css');
-        var appCSS = fs.readFileSync(appCSSPath);
-
-        fs.writeFileSync(themeCSSPath, appCSS);
+        fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
 
         var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'Brocfile.js');
         var brocfile = fs.readFileSync(brocfilePath, 'utf8');
