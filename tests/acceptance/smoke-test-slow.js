@@ -115,21 +115,18 @@ describe('Acceptance: smoke-test', function() {
     this.timeout(450000);
 
     return copyFixtureFiles('smoke-tests/passing-test')
-        .then(function() {
-          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production', '--silent')
-              .then(function(result) {
-                var exitCode = result.code;
-                var output = result.output.join(EOL);
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production', '--silent');
+      })
+      .then(function(result) {
+        var exitCode = result.code;
+        var output = result.output.join(EOL);
 
-                expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
-                expect(output).to.not.match(/JSHint/, 'JSHint should not be run on production assets');
-                expect(output).to.match(/fail\s+0/, 'no failures');
-                expect(output).to.match(/pass\s+1/, '1 passing');
-              })
-              .catch(function(result) {
-                expect(false, 'failed `ember test --environment=production`.  The following output was received:' + EOL + result.output.join(EOL));
-              });
-        });
+        expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
+        expect(output).to.match(/JSHint/, 'JSHint should be run on production assets');
+        expect(output).to.match(/fail\s+0/, 'no failures');
+        expect(output).to.match(/pass\s+7/, '1 passing');
+      });
   });
 
   it('ember new foo, build development, and verify generated files', function() {
