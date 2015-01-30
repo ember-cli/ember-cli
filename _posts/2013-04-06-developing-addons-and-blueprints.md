@@ -5,7 +5,7 @@ permalink: developing-addons-and-blueprints
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-06-developing-addons-and-blueprints.md"
 ---
 Addons make it possible to easily share common code between
-applications.
+applications. However, if an addon only covers a very project specific use-case, [an In-Repo Addon](#detailed-list-of-blueprints-and-their-use) could be considered instead.
 
 This guide will walk through the development cycle of a fictional
 addon `ember-cli-x-button`.
