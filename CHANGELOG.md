@@ -1,5 +1,32 @@
 # ember-cli Changelog
 
+### 0.1.12
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + `package.json` changes:
+    + Update `ember-cli-qunit` to 0.3.1.
+    + Update `ember-cli-app-version` to 0.3.1.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#3118](https://github.com/ember-cli/ember-cli/pull/3118) [BUGFIX] Fix conflicting aliases. The `serve` command `host` alias is now `H` [@taddeimania](https://github.com/taddeimania)
+- [#3130](https://github.com/ember-cli/ember-cli/pull/3130) [ENHANCEMENT] Tomster looks fabulous without breaking `ember new`[@johnnyshields](https://github.com/johnnyshields)
+- [#3132](https://github.com/ember-cli/ember-cli/pull/3132) [BUGFIX] Update ember-cli-qunit to v0.3.1. Fixes `tests/.jshintrc` being used instead of app `.jshintrc`. [@rwjblue](https://github.com/rwjblue)
+- [#3133](https://github.com/ember-cli/ember-cli/pull/3133) [BUGFIX] Fix analytics being disabled by default. Users can opt out of anylytics with `--disable-analytics` [@stefanpenner](https://github.com/stefanpenner)
+- [#3153](https://github.com/ember-cli/ember-cli/pull/3153) [ENHANCEMENT]  Remove deafult css from `app/styles/app.css` [@mattjmorrison](https://github.com/mattjmorrison)
+- [#3132](https://github.com/ember-cli/ember-cli/pull/3157) [BUGFIX] Ensure `ember test --environment=production` runs JSHint. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ### 0.1.11
 
 * [#3126](https://github.com/ember-cli/ember-cli/pull/3126) hot-fix tomster ` -> ., prevents breaking the initial git commit
