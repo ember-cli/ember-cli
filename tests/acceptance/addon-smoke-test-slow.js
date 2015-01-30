@@ -82,7 +82,7 @@ describe('Acceptance: addon-smoke-test', function() {
       });
   });
 
-  it('can render a component with a manually imported template', function() {
+  it.only('can render a component with a manually imported template', function() {
     this.timeout(450000);
 
     return copyFixtureFiles('addon/component-with-template')
