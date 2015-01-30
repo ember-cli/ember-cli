@@ -34,9 +34,9 @@ MockProject.prototype.name = function() {
 };
 
 MockProject.prototype.initializeAddons = Project.prototype.initializeAddons;
-MockProject.prototype.buildAddonPackages = Project.prototype.buildAddonPackages;
 MockProject.prototype.discoverAddons = Project.prototype.discoverAddons;
 MockProject.prototype.addIfAddon = Project.prototype.addIfAddon;
+MockProject.prototype.supportedInternalAddonPaths = Project.prototype.supportedInternalAddonPaths;
 MockProject.prototype.setupBowerDirectory = Project.prototype.setupBowerDirectory;
 MockProject.prototype.dependencies = function() {
   return [];
