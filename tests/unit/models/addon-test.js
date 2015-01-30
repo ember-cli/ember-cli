@@ -137,6 +137,10 @@ describe('models/addon.js', function() {
         addon = findWhere(project.addons, { name: '(generated ember-generated-no-export-addon addon)' });
       });
 
+      it('sets it\'s parent', function() {
+        expect(addon.parent.name).to.equal(project.name);
+      });
+
       it('sets it\'s project', function() {
         expect(addon.project.name).to.equal(project.name);
       });
@@ -246,6 +250,10 @@ describe('models/addon.js', function() {
 
       it('sets it\'s project', function() {
         expect(addon.project.name).to.equal(project.name);
+      });
+
+      it('sets it\'s parent', function() {
+        expect(addon.parent.name).to.equal(project.name);
       });
 
       it('generates a list of es6 modules to ignore', function() {
