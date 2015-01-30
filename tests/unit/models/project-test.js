@@ -190,11 +190,11 @@ describe('models/project.js', function() {
         'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
-        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-yagni', 
-        'ember-ng', 'ember-super-button'
+        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button',
+        'ember-yagni', 'ember-ng'
       ];
 
-      project.buildAddonPackages();
+      project.discoverAddons();
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
 
@@ -273,13 +273,13 @@ describe('models/project.js', function() {
       project.addonPackages = {};
       project.isEmberCLIAddon = function() { return true; };
 
-      project.addIfAddon = function(path) {
+      project.addonDiscovery.discoverAtPath = function(path) {
         if (path === project.root) {
           added = true;
         }
       };
 
-      project.buildAddonPackages();
+      project.discoverAddons();
 
       expect(added);
     });
