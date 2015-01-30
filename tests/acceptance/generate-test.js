@@ -135,7 +135,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('tests/unit/helpers/foo-bar-test.js', {
         contains: "import {" + EOL +
           "  fooBar" + EOL +
-          "} from 'my-app/helpers/foo-bar';"
+          "} from '../../../helpers/foo-bar';"
       });
     });
   });
@@ -152,7 +152,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import {" + EOL +
           "  fooBarBaz" + EOL +
-          "} from 'my-app/helpers/foo/bar-baz';"
+          "} from '../../../helpers/foo/bar-baz';"
       });
     });
   });
@@ -481,7 +481,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/mixins/foo-test.js', {
         contains: [
-          "import FooMixin from 'my-app/mixins/foo';"
+          "import FooMixin from '../../../mixins/foo';"
         ]
       });
     });
@@ -497,7 +497,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/mixins/foo/bar-test.js', {
         contains: [
-          "import FooBarMixin from 'my-app/mixins/foo/bar';"
+          "import FooBarMixin from '../../../mixins/foo/bar';"
         ]
       });
     });
@@ -507,7 +507,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['mixin', 'foo/bar/baz']).then(function() {
       assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
         contains: [
-          "import FooBarBazMixin from 'my-app/mixins/foo/bar/baz';"
+          "import FooBarBazMixin from '../../../mixins/foo/bar/baz';"
         ]
       });
     });
@@ -732,7 +732,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/utils/foo-bar-test.js', {
         contains: [
-          "import fooBar from 'my-app/utils/foo-bar';"
+          "import fooBar from '../../../utils/foo-bar';"
         ]
       });
     });
@@ -747,7 +747,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/utils/foo/bar-baz-test.js', {
         contains: [
-          "import fooBarBaz from 'my-app/utils/foo/bar-baz';"
+          "import fooBarBaz from '../../../utils/foo/bar-baz';"
         ]
       });
     });

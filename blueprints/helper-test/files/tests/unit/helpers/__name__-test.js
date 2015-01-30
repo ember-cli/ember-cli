@@ -1,6 +1,6 @@
 import {
   <%= camelizedModuleName %>
-} from '<%= dasherizedPackageName %>/helpers/<%= dasherizedModuleName %>';
+} from '../../../helpers/<%= dasherizedModuleName %>';
 
 module('<%= classifiedModuleName %>Helper');
 
