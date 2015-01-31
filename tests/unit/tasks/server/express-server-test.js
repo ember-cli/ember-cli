@@ -414,6 +414,41 @@ describe('express-server', function() {
           });
       });
 
+      it('GET /tests/whatever serves tests/index.html when file not found', function(done) {
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/tests/whatever')
+              .set('accept', 'text/html')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
+      });
+
+      it('GET /tests/an-existing-file.tla serves tests/an-existing-file.tla if it is found', function(done) {
+        return startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/tests/test-file.txt')
+              .set('accept', 'text/html')
+              .expect(200)
+              .expect('some contents')
+              .expect('Content-Type', /text/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
+      });
+
       it('serves index.html when file not found (with baseURL) with auto/history location', function(done) {
         return startServer('/foo')
           .then(function() {
