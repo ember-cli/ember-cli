@@ -57,6 +57,17 @@ describe('express-server', function() {
         subject.processAppMiddlewares();
       }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
     });
+
+    it('returns values returned by server/index', function(){
+      subject.project = {
+        has: function() { return true; },
+        require: function() {
+          return function(){ return 'foo'; };
+        }
+      };
+
+      expect(subject.processAppMiddlewares()).to.equal('foo');
+    });
   });
 
   describe('output', function() {
@@ -594,6 +605,66 @@ describe('express-server', function() {
           expect(firstCalls).to.equal(2);
           expect(secondCalls).to.equal(2);
         });
+      });
+    });
+
+    describe('addon middleware is async', function(){
+      var order = [];
+      beforeEach(function() {
+        project.initializeAddons = function() { };
+        project.addons = [
+          {
+            serverMiddleware: function () {
+              order.push('first');
+            }
+          },
+          {
+            serverMiddleware: function() {
+              return new Promise(function(resolve) {
+                setTimeout(function(){
+                  order.push('second');
+                  resolve();
+                }, 50);
+              });
+            }
+          }, {
+            serverMiddleware: function() {
+              order.push('third');
+            }
+          }
+        ];
+      });
+
+      it('waits for async middleware to complete before the next middleware', function(){
+        return subject.start({
+          host:  '0.0.0.0',
+          port: '1337'
+        }).then(function() {
+          expect(order[0]).to.equal('first');
+          expect(order[1]).to.equal('second');
+          expect(order[2]).to.equal('third');
+        });
+      });
+    });
+
+    describe('addon middleware bubble errors', function(){
+      beforeEach(function() {
+        project.initializeAddons = function() { };
+        project.addons = [{
+          serverMiddleware: function() {
+            return Promise.reject('addon middleware fail');
+          }
+        }
+        ];
+      });
+      it('up to server start', function(){
+        return subject.start({
+          host: '0.0.0.0',
+          port: '1337'
+        })
+          .catch(function(reason){
+            expect(reason).to.equal('addon middleware fail');
+          });
       });
     });
 
