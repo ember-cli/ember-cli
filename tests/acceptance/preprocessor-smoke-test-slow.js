@@ -95,4 +95,33 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         expect(vendorCSS).to.contain('addon styles included');
       });
   });
+
+  
+  it('App with multiple preprocessors compile correctly', function() {
+    this.timeout(100000);
+
+    return copyFixtureFiles('preprocessor-tests/app-with-multiple-preprocessors')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['broccoli-sass'] = 'latest';
+        packageJson.devDependencies['broccoli-stylus-single'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+      })
+      .then(function() {
+        var mainCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.css'), {
+          encoding: 'utf8'
+        });
+        var themeCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'theme.css'), {
+          encoding: 'utf8'
+        });
+
+        expect(mainCSS).to.contain('stylus styles included');
+        expect(themeCSS).to.contain('sass styles included');
+      });
+  });
 });
