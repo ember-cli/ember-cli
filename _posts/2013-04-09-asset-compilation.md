@@ -268,7 +268,7 @@ To change these paths you can edit the `outputPaths` config option. The default 
 var app = new EmberApp({
   outputPaths: {
     app: {
-      html: 'index.html'
+      html: 'index.html',
       css: {
         'app': '/assets/application-name.css'
       },
@@ -305,7 +305,7 @@ var app = new EmberApp({
       css: {
         'app': '/assets/application-name.css',
         'themes/alpha': '/assets/themes/alpha.css'
-      },
+      }
     }
   }
 });
