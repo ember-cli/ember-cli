@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('controller:<%= dasherizedModuleName %>', '<%= classifiedModuleName %>Controller', {
+moduleFor('controller:<%= dasherizedModuleName %>', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });
