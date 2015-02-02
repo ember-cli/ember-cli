@@ -38,7 +38,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     });
   });
 
-  it('addons with preprocessors compile correctly', function() {
+  it('addons with standard preprocessors compile correctly', function() {
     this.timeout(100000);
 
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors')
@@ -95,4 +95,35 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         expect(vendorCSS).to.contain('addon styles included');
       });
   });
+
+  it('addons depending on preprocessor addon preprocesses addon but not app', function() {
+    this.timeout(100000);
+
+    return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-2')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['ember-cool-addon'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+      })
+      .then(function() {
+        var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
+          encoding: 'utf8'
+        });
+
+        var vendorJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'vendor.js'), {
+          encoding: 'utf8'
+        });
+
+        expect(appJs).to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__');
+        expect(appJs).to.not.contain('replacedByPreprocessor');
+        expect(vendorJs).to.not.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__');
+        expect(vendorJs).to.contain('replacedByPreprocessor');
+      });
+  });
+
 });
