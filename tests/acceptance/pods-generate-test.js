@@ -94,7 +94,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('controller:foo', 'FooController'"
+          "moduleFor('controller:foo'"
         ]
       });
     });
@@ -114,7 +114,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('controller:foo', 'FooController'"
+          "moduleFor('controller:foo'"
         ]
       });
     });
@@ -134,7 +134,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('controller:foo/bar', 'FooBarController'"
+          "moduleFor('controller:foo/bar'"
         ]
       });
     });
@@ -154,7 +154,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('controller:foo/bar', 'FooBarController'"
+          "moduleFor('controller:foo/bar'"
         ]
       });
     });
@@ -177,7 +177,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleForComponent," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForComponent('x-foo', 'XFooComponent'"
+          "moduleForComponent('x-foo'"
         ]
       });
     });
@@ -200,7 +200,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleForComponent," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForComponent('x-foo', 'XFooComponent'"
+          "moduleForComponent('x-foo'"
         ]
       });
     });
@@ -288,7 +288,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForModel('foo', 'Foo'"
+          "moduleForModel('foo'"
         ]
       });
     });
@@ -308,7 +308,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForModel('foo', 'Foo'"
+          "moduleForModel('foo'"
         ]
       });
     });
@@ -362,7 +362,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForModel('foo/bar', 'FooBar'"
+          "moduleForModel('foo/bar'"
         ]
       });
     });
@@ -382,7 +382,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForModel('foo/bar', 'FooBar'"
+          "moduleForModel('foo/bar'"
         ]
       });
     });
@@ -408,7 +408,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('route:foo', 'FooRoute'"
+          "moduleFor('route:foo'"
         ]
       });
     });
@@ -448,7 +448,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('route:foo', 'FooRoute'"
+          "moduleFor('route:foo'"
         ]
       });
     });
@@ -534,7 +534,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('view:foo', 'FooView'"
+          "moduleFor('view:foo'"
         ]
       });
     });
@@ -554,7 +554,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('view:foo', 'FooView'"
+          "moduleFor('view:foo'"
         ]
       });
     });
@@ -574,7 +574,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('view:foo/bar', 'FooBarView'"
+          "moduleFor('view:foo/bar'"
         ]
       });
     });
@@ -594,7 +594,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('view:foo/bar', 'FooBarView'"
+          "moduleFor('view:foo/bar'"
         ]
       });
     });
@@ -615,10 +615,10 @@ describe('Acceptance: ember generate pod', function() {
         contains: '{{outlet}}'
       });
       assertFile('tests/unit/foo/model-test.js', {
-        contains: "moduleForModel('foo', 'Foo'"
+        contains: "moduleForModel('foo'"
       });
       assertFile('tests/unit/foos/route-test.js', {
-        contains: "moduleFor('route:foos', 'FoosRoute'"
+        contains: "moduleFor('route:foos'"
       });
     });
   });
@@ -651,10 +651,10 @@ describe('Acceptance: ember generate pod', function() {
         contains: '{{outlet}}'
       });
       assertFile('tests/unit/pods/foo/model-test.js', {
-        contains: "moduleForModel('foo', 'Foo'"
+        contains: "moduleForModel('foo'"
       });
       assertFile('tests/unit/pods/foos/route-test.js', {
-        contains: "moduleFor('route:foos', 'FoosRoute'"
+        contains: "moduleFor('route:foos'"
       });
     });
   });
@@ -745,7 +745,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('adapter:application', 'ApplicationAdapter'"
+          "moduleFor('adapter:application'"
         ]
       });
     });
@@ -765,7 +765,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('adapter:foo', 'FooAdapter'"
+          "moduleFor('adapter:foo'"
         ]
       });
     });
@@ -785,7 +785,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('adapter:foo', 'FooAdapter'"
+          "moduleFor('adapter:foo'"
         ]
       });
     });
@@ -929,7 +929,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('serializer:foo/bar', 'FooBarSerializer'"
+          "moduleFor('serializer:foo/bar'"
         ]
       });
     });
@@ -949,7 +949,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('serializer:foo/bar', 'FooBarSerializer'"
+          "moduleFor('serializer:foo/bar'"
         ]
       });
     });
@@ -977,7 +977,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('transform:foo', 'FooTransform'"
+          "moduleFor('transform:foo'"
         ]
       });
     });
@@ -1005,7 +1005,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('transform:foo', 'FooTransform'"
+          "moduleFor('transform:foo'"
         ]
       });
     });
@@ -1033,7 +1033,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('transform:foo/bar', 'FooBarTransform'"
+          "moduleFor('transform:foo/bar'"
         ]
       });
     });
@@ -1061,7 +1061,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('transform:foo/bar', 'FooBarTransform'"
+          "moduleFor('transform:foo/bar'"
         ]
       });
     });
@@ -1120,7 +1120,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('service:foo', 'FooService'"
+          "moduleFor('service:foo'"
         ]
       });
     });
@@ -1149,7 +1149,7 @@ describe('Acceptance: ember generate pod', function() {
           "  moduleFor," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('service:foo/bar', 'FooBarService'"
+          "moduleFor('service:foo/bar'"
         ]
       });
     });

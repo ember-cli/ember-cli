@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('<%= dasherizedModuleName %>', '<%= classifiedModuleName %>', {
+moduleForModel('<%= dasherizedModuleName %>', {
   // Specify the other units that are required for this test.
 <%= typeof needs !== 'undefined' ? needs : '' %>
 });

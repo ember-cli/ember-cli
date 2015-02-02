@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('<%= dasherizedModuleName %>', '<%= classifiedModuleName %>Component', {
+moduleForComponent('<%= dasherizedModuleName %>', {
   // specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
 });
@@ -15,7 +15,7 @@ test('it renders', function() {
   var component = this.subject();
   equal(component._state, 'preRender');
 
-  // appends the component to the page
-  this.append();
+  // renders the component to the page
+  this.render();
   equal(component._state, 'inDOM');
 });
