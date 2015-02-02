@@ -273,7 +273,7 @@ describe('Acceptance: ember generate', function() {
   it('route foo', function() {
     return generate(['route', 'foo']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.route(\"foo\")"
+        contains: 'this.route(\'foo\')'
       });
       assertFile('app/routes/foo.js', {
         contains: [
@@ -300,8 +300,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['route', 'foo', '--path=:foo_id/show']).then(function() {
       assertFile('app/router.js', {
         contains: [
-          'this.route("foo", {',
-          'path: ":foo_id/show"',
+          'this.route(\'foo\', {',
+          'path: \':foo_id/show\'',
           '});'
         ]
       });
@@ -311,7 +311,7 @@ describe('Acceptance: ember generate', function() {
   it('route foos --type=resource', function() {
     return generate(['route', 'foos', '--type=resource']).then(function() {
       assertFile('app/router.js', {
-        contains: 'this.resource("foos", function() {});'
+        contains: 'this.resource(\'foos\', function() {});'
       });
     });
   });
@@ -405,7 +405,7 @@ describe('Acceptance: ember generate', function() {
   it('resource foos', function() {
     return generate(['resource', 'foos']).then(function() {
       assertFile('app/router.js', {
-        contains: 'this.resource("foos", function() {});'
+        contains: 'this.resource(\'foos\', function() {});'
       });
       assertFile('app/models/foo.js', {
         contains: 'export default DS.Model.extend'
@@ -429,8 +429,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['resource', 'foos', '--path=app/foos']).then(function() {
       assertFile('app/router.js', {
         contains: [
-          'this.resource("foos", {',
-          'path: "app/foos"',
+          'this.resource(\'foos\', {',
+          'path: \'app/foos\'',
           '}, function() {});'
         ]
       });

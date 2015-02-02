@@ -104,7 +104,7 @@
     "core-object": "0.0.2",
     "debug": "^2.1.0",
     "diff": "^1.0.8",
-    "ember-router-generator": "^0.2.0",
+    "ember-router-generator": "^0.3.0",
     "exit": "^0.1.2",
     "express": "^4.8.5",
     "findup": "0.1.5",

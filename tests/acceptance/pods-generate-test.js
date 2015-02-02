@@ -391,7 +391,7 @@ describe('Acceptance: ember generate pod', function() {
   it('route foo --pod', function() {
     return generate(['route', 'foo', '--pod']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.route(\"foo\")"
+        contains: 'this.route(\'foo\')'
       });
       assertFile('app/foo/route.js', {
         contains: [
@@ -419,8 +419,8 @@ describe('Acceptance: ember generate pod', function() {
       .then(function() {
         assertFile('app/router.js', {
           contains: [
-            'this.route("foo", {',
-            'path: ":foo_id/show"',
+            'this.route(\'foo\', {',
+            'path: \':foo_id/show\'',
             '});'
           ]
         });
@@ -431,7 +431,7 @@ describe('Acceptance: ember generate pod', function() {
   it('route foo --pod podModulePrefix', function() {
     return generateWithPrefix(['route', 'foo', '--pod']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.route(\"foo\")"
+        contains: 'this.route(\'foo\')'
       });
       assertFile('app/pods/foo/route.js', {
         contains: [
@@ -457,7 +457,7 @@ describe('Acceptance: ember generate pod', function() {
   it('route foos --type=resource --pod', function() {
     return generate(['route', 'foos', '--type=resource', '--pod']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource(\"foos\", function() {});"
+        contains: 'this.resource(\'foos\', function() {});'
       });
     });
   });
@@ -603,7 +603,7 @@ describe('Acceptance: ember generate pod', function() {
   it('resource foos --pod', function() {
     return generate(['resource', 'foos', '--pod']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource(\"foos\", function() {});"
+        contains: 'this.resource(\'foos\', function() {});'
       });
       assertFile('app/foo/model.js', {
         contains: 'export default DS.Model.extend'
@@ -628,8 +628,8 @@ describe('Acceptance: ember generate pod', function() {
       .then(function() {
         assertFile('app/router.js', {
           contains: [
-            'this.resource("foos", {',
-            'path: "app/foos"',
+            'this.resource(\'foos\', {',
+            'path: \'app/foos\'',
             '}, function() {});'
           ]
         });
@@ -639,7 +639,7 @@ describe('Acceptance: ember generate pod', function() {
   it('resource foos --pod podModulePrefix', function() {
     return generateWithPrefix(['resource', 'foos', '--pod']).then(function() {
       assertFile('app/router.js', {
-        contains: "this.resource(\"foos\", function() {});"
+        contains: 'this.resource(\'foos\', function() {});'
       });
       assertFile('app/pods/foo/model.js', {
         contains: 'export default DS.Model.extend'
