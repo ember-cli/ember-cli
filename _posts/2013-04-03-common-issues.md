@@ -108,9 +108,9 @@ Wipe your vendor directory clean then run `ember install`.
 
 `ember install:npm ember-data`
 
-### Solving performance issues on windows
+### Solving performance issues on Windows
 
-Build times on windows are longer than on linux or mac os. Much of that penalty is not because of node or ember-cli, but because of things monitoring your filesystem. If you can (selectively!) disable your virus scanner and the Search Index Host, you will see a substantial speedup. Here's how:
+Build times on Windows are longer than on Linux or Mac OS X. Much of that penalty is not because of node or ember-cli, but because of things monitoring your filesystem. If you can (selectively!) disable your virus scanner and the Search Index Host, you will see a substantial speedup. Here's how:
 
 #### Disable Windows Search Index for temporary files
 
@@ -155,7 +155,7 @@ Under `Local Policies` -> `User Rights Assignment` find the `Create symbolic lin
 
 ### PhantomJS on Windows
 
-When running tests on windows via PhantomJS the following error can occur:
+When running tests on Windows via PhantomJS the following error can occur:
 
 	events.js:72
 	throw er; // Unhandled 'error' event
