@@ -119,10 +119,10 @@ describe('Acceptance: preprocessor-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(appJs).to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__');
-        expect(appJs).to.not.contain('replacedByPreprocessor');
-        expect(vendorJs).to.not.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__');
-        expect(vendorJs).to.contain('replacedByPreprocessor');
+        expect(appJs).to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle');
+        expect(appJs).to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
+        expect(vendorJs).to.not.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should have been replaced in vendor bundle');
+        expect(vendorJs).to.contain('replacedByPreprocessor', 'token should have been replaced in vendor bundle');
       });
   });
 
