@@ -21,8 +21,8 @@ describe('Plugin Loader', function() {
 
     app = { name: 'some-application-name' };
     registry = new PluginRegistry(assign(pkg.devDependencies, pkg.dependencies), app);
-    registry.add('css', 'broccoli-sass', ['scss', 'sass']);
     registry.add('css', 'broccoli-ruby-sass', ['scss', 'sass']);
+    registry.add('css', 'broccoli-sass', ['scss', 'sass']);
   });
 
   it('returns array of one plugin when only one', function() {
@@ -115,7 +115,7 @@ describe('Plugin Loader', function() {
       registry.add('css', 'broccoli-foo', 'foo');
       var extensions = registry.extensionsForType('css');
 
-      expect(extensions).to.deep.equal(['css', 'scss', 'sass', 'foo']);
+      expect(extensions).to.deep.equal(['css', 'foo', 'scss', 'sass']);
     });
   });
 
