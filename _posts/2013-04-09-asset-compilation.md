@@ -196,7 +196,7 @@ directory as well as add a cloudfront domain to each fingerprinted asset.
 var app = new EmberApp({
   fingerprint: {
     exclude: ['fonts/169929'],
-    prepend: 'https://sudomain.cloudfront.net/'
+    prepend: 'https://subdomain.cloudfront.net/'
   }
 });
 {% endhighlight %}
