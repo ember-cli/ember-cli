@@ -173,7 +173,7 @@ import Ember from "ember";
 export default Ember.Model.extend();
 {% endhighlight %}
 
-##### Dasherized file and folder names are recommended
+##### Dasherized file and folder names are required
 
 {% highlight javascript %}
 // controllers/sign-up.js
