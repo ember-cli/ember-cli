@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import startApp from '../helpers/start-app';
+import startApp from '<%= dasherizedPackageName %>/tests/helpers/start-app';
 
 var application;
 
