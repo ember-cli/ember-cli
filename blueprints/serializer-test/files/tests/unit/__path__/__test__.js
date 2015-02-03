@@ -9,7 +9,7 @@ moduleFor('serializer:<%= dasherizedModuleName %>', {
 });
 
 // Replace this with your real tests.
-test('it exists', function() {
+test('it exists', function(assert) {
   var serializer = this.subject();
-  ok(serializer);
+  assert.ok(serializer);
 });

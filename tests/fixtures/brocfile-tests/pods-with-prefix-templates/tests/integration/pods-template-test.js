@@ -6,22 +6,22 @@ import startApp from '../helpers/start-app';
 
 var application;
 
-module('pods based templates', {
-  setup: function() {
+QUnit.module('pods based templates', {
+  beforeEach: function() {
     application = startApp();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
 
-test('the application boots properly with pods based templates with a podModulePrefix set', function() {
-  expect(1);
+QUnit.test('the application boots properly with pods based templates with a podModulePrefix set', function(assert) {
+  assert.expect(1);
 
   visit('/');
 
   andThen(function() {
-    equal(Ember.$('#title').text(), 'ZOMG, PODS WORKS!!');
+    assert.equal(Ember.$('#title').text(), 'ZOMG, PODS WORKS!!');
   });
 });

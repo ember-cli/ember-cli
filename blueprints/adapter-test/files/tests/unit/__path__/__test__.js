@@ -9,7 +9,7 @@ moduleFor('adapter:<%= dasherizedModuleName %>', '<%= classifiedModuleName %>Ada
 });
 
 // Replace this with your real tests.
-test('it exists', function() {
+test('it exists', function(assert) {
   var adapter = this.subject();
-  ok(adapter);
+  assert.ok(adapter);
 });

@@ -6,22 +6,22 @@ import startApp from '../helpers/start-app';
 
 var application;
 
-module('default-development - Integration', {
-  setup: function() {
+QUnit.module('default-development - Integration', {
+  beforeEach: function() {
     application = startApp();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
 
-test('the application boots properly', function() {
-  expect(1);
+QUnit.test('the application boots properly', function(assert) {
+  assert.expect(1);
 
   visit('/');
 
   andThen(function() {
-    equal(Ember.$('#title').text(), 'Welcome to Ember.js');
+    assert.equal(Ember.$('#title').text(), 'Welcome to Ember.js');
   });
 });
