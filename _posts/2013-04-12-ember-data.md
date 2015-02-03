@@ -96,7 +96,7 @@ ember g http-mock posts
 A basic [ExpressJS](http://expressjs.com/) server will be scaffolded for
 your endpoint under `/your-app/server/mocks/posts.js`. Once you add the 
 appropriate JSON response, you're ready to go. The next time you run
-`ember serve`, your new mock server will be listening for any API requests
+`ember server`, your new mock server will be listening for any API requests
 from your Ember app.
 
 > Note: Mocks are just for development and testing. The entire `/server` 
