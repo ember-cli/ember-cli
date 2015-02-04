@@ -1,7 +1,7 @@
 /*jshint strict:false */
-/* globals test, ok */
+/* globals QUnit */
 
-test('passing test', function() {
-  ok(true, 'test should pass');
+QUnit.test('passing test', function(assert) {
+  assert.ok(true, 'test should pass');
 });
 
