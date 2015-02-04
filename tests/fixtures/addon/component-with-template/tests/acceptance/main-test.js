@@ -3,29 +3,29 @@ import startApp from '../helpers/start-app';
 
 var application;
 
-module('Acceptance', {
-  setup: function() {
+QUnit.module('Acceptance', {
+  beforeEach: function() {
     application = startApp();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
-test('renders properly', function() {
+QUnit.test('renders properly', function(assert) {
   visit('/');
 
   andThen(function() {
     var element = find('.basic-thing');
-    equal(element.first().text().trim(), 'WOOT!!');
+    assert.equal(element.first().text().trim(), 'WOOT!!');
   });
 });
 
-test('renders imported component', function() {
+QUnit.test('renders imported component', function(assert) {
   visit('/');
 
   andThen(function() {
     var element = find('.second-thing');
-    equal(element.first().text().trim(), 'SECOND!!');
+    assert.equal(element.first().text().trim(), 'SECOND!!');
   });
 });

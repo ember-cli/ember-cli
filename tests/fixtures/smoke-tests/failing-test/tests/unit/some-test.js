@@ -1,7 +1,7 @@
 /*jshint strict:false */
-/* globals test, ok */
+/* globals QUnit */
 
-test('failing test', function() {
-  ok(false, 'test should fail to confirm ember test exit code');
+QUnit.test('failing test', function(assert) {
+  assert.ok(false, 'test should fail to confirm ember test exit code');
 });
 

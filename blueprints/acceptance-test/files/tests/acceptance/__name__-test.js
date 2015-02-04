@@ -3,19 +3,20 @@ import startApp from '../helpers/start-app';
 
 var application;
 
-module('Acceptance: <%= classifiedModuleName %>', {
-  setup: function() {
+QUnit.module('Acceptance: <%= classifiedModuleName %>', {
+  beforeEach: function() {
     application = startApp();
   },
-  teardown: function() {
+
+  afterEach: function() {
     Ember.run(application, 'destroy');
   }
 });
 
-test('visiting /<%= dasherizedModuleName %>', function() {
+QUnit.test('visiting /<%= dasherizedModuleName %>', function(assert) {
   visit('/<%= dasherizedModuleName %>');
 
   andThen(function() {
-    equal(currentPath(), '<%= dasherizedModuleName %>');
+    assert.equal(currentPath(), '<%= dasherizedModuleName %>');
   });
 });
