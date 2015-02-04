@@ -226,7 +226,7 @@ describe('Blueprint', function() {
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split(EOL);
-          
+
           expect(output.shift()).to.match(/^installing/);
           expect(output.shift()).to.match(/create.* .ember-cli/);
           expect(output.shift()).to.match(/create.* .gitignore/);
