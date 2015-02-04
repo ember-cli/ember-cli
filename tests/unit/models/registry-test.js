@@ -2,7 +2,7 @@
 
 var assign         = require('lodash-node/modern/objects/assign');
 var expect         = require('chai').expect;
-var PluginRegistry = require('../../../lib/preprocessors/registry');
+var PluginRegistry = require('../../../lib/models/registry');
 
 var pkg, registry, app;
 
