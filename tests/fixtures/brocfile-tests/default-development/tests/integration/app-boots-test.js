@@ -1,5 +1,5 @@
 /*jshint strict:false */
-/* globals test, expect, equal, visit, andThen */
+/* globals QUnit, visit, andThen */
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
