@@ -870,16 +870,29 @@ describe('Acceptance: ember generate', function() {
                   "    });" + EOL +
                   "  });" + EOL +
                   EOL +
-                  "  fooRouter.post('/', function(req, res) {" + EOL +
-                  "    res.status(201).end();" + EOL +
-                  "  });" + EOL +
-                  EOL +
                   "  fooRouter.get('/:id', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
                   "      'foo': {" + EOL +
                   "        id: req.params.id" + EOL +
                   "      }" + EOL +
                   "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "/**" + EOL +
+                  "  The POST and PUT call will not contain a request body" + EOL +
+                  "  because the body-parser is not included by default." + EOL +
+                  "  To use req.body, run:" + EOL +
+                  EOL +                       
+                  "     npm install --save-dev body-parser" + EOL +
+                  EOL +                       
+                  "  After installing, you need to `use` the body-parser for" + EOL +
+                  "  this mock by appending:" + EOL +
+                  EOL +                       
+                  "     app.use('/api/foo', require('body-parser'));" + EOL +
+                  EOL +
+                  "*/   " + EOL +
+                  "  fooRouter.post('/', function(req, res) {" + EOL +
+                  "    res.status(201).end();" + EOL +
                   "  });" + EOL +
                   EOL +
                   "  fooRouter.put('/:id', function(req, res) {" + EOL +
@@ -919,16 +932,29 @@ describe('Acceptance: ember generate', function() {
                   "    });" + EOL +
                   "  });" + EOL +
                   EOL +
-                  "  fooBarRouter.post('/', function(req, res) {" + EOL +
-                  "    res.status(201).end();" + EOL +
-                  "  });" + EOL +
-                  EOL +
                   "  fooBarRouter.get('/:id', function(req, res) {" + EOL +
                   "    res.send({" + EOL +
                   "      'foo-bar': {" + EOL +
                   "        id: req.params.id" + EOL +
                   "      }" + EOL +
                   "    });" + EOL +
+                  "  });" + EOL +
+                  EOL +
+                  "/**" + EOL +
+                  "  The POST and PUT call will not contain a request body" + EOL +
+                  "  because the body-parser is not included by default." + EOL +
+                  "  To use req.body, run:" + EOL +
+                  EOL +                       
+                  "     npm install --save-dev body-parser" + EOL +
+                  EOL +                       
+                  "  After installing, you need to `use` the body-parser for" + EOL +
+                  "  this mock by appending:" + EOL +
+                  EOL +                       
+                  "     app.use('/api/foo-bar', require('body-parser'));" + EOL +
+                  EOL +
+                  "*/   " + EOL +
+                  "  fooBarRouter.post('/', function(req, res) {" + EOL +
+                  "    res.status(201).end();" + EOL +
                   "  });" + EOL +
                   EOL +
                   "  fooBarRouter.put('/:id', function(req, res) {" + EOL +
