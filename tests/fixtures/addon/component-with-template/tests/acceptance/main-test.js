@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
+import { module, test } from 'qunit';
 
 var application;
 
-QUnit.module('Acceptance', {
+module('Acceptance', {
   beforeEach: function() {
     application = startApp();
   },
@@ -12,7 +13,7 @@ QUnit.module('Acceptance', {
   }
 });
 
-QUnit.test('renders properly', function(assert) {
+test('renders properly', function(assert) {
   visit('/');
 
   andThen(function() {
@@ -21,7 +22,7 @@ QUnit.test('renders properly', function(assert) {
   });
 });
 
-QUnit.test('renders imported component', function(assert) {
+test('renders imported component', function(assert) {
   visit('/');
 
   andThen(function() {

@@ -1,11 +1,12 @@
 import {
   <%= camelizedModuleName %>
 } from '../../../helpers/<%= dasherizedModuleName %>';
+import { module, test } from 'qunit';
 
-QUnit.module('<%= classifiedModuleName %>Helper');
+module('<%= classifiedModuleName %>Helper');
 
 // Replace this with your real tests.
-QUnit.test('it works', function(assert) {
+test('it works', function(assert) {
   var result = <%= camelizedModuleName %>(42);
   assert.ok(result);
 });
