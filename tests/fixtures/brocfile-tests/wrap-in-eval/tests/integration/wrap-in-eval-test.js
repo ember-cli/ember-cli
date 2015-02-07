@@ -3,10 +3,11 @@
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
+import { module, test } from 'qunit';
 
 var application;
 
-QUnit.module('wrapInEval in-app test', {
+module('wrapInEval in-app test', {
   beforeEach: function() {
     application = startApp();
   },
@@ -16,7 +17,7 @@ QUnit.module('wrapInEval in-app test', {
 });
 
 
-QUnit.test('the application boots properly with wrapInEval', function(assert) {
+test('the application boots properly with wrapInEval', function(assert) {
   assert.expect(1);
 
   visit('/');
