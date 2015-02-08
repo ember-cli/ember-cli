@@ -100,7 +100,7 @@
     "concat-stream": "^1.4.6",
     "configstore": "0.3.1",
     "ember-cli-copy-dereference": "^1.0.0",
-    "ember-cli-testem": "^0.1.0",
+    "ember-cli-testem": "^0.1.1",
     "core-object": "0.0.2",
     "debug": "^2.1.0",
     "diff": "^1.0.8",
