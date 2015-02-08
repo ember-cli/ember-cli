@@ -1,1 +1,1 @@
-I AM TEST
+I AM <%= replacementTest %>

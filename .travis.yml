@@ -3,6 +3,7 @@ sudo: false
 node_js:
   - "0.10.18"
   - "0.11"
+  - "iojs"
 before_install:
   - "npm config set spin false"
   - "npm install -g npm@^2"

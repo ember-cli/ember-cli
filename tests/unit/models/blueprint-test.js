@@ -196,6 +196,7 @@ describe('Blueprint', function() {
   });
 
   describe('basic blueprint installation', function() {
+    var BasicBlueprintClass = require(basicBlueprint);
     var blueprint;
     var ui;
     var project;
@@ -204,7 +205,7 @@ describe('Blueprint', function() {
 
     beforeEach(function() {
       tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
+      blueprint = new BasicBlueprintClass(basicBlueprint);
       ui        = new MockUI();
       project   = new MockProject();
       options   = {
@@ -235,6 +236,18 @@ describe('Blueprint', function() {
           expect(output.length).to.equal(0);
 
           expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+
+          expect( function(){
+            fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8',
+                function(err, content){
+                    if(err){
+                        throw 'error';
+                    }
+                    expect(content).to.match(/I AM TESTY/);
+                });
+            }
+          ).not.to.throw();
+
         });
     });
 
