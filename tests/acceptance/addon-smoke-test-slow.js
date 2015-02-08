@@ -59,11 +59,6 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(bowerContents.name).to.equal(addonName);
   });
 
-  it('ember addon foo, clean from scratch', function() {
-    this.timeout(450000);
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-  });
-
   it('ember addon without addon/ directory', function() {
     this.timeout(450000);
 
@@ -79,15 +74,6 @@ describe('Acceptance: addon-smoke-test', function() {
         .catch(function() {
           // just eat the rejection as we are testing what happens
         });
-      });
-  });
-
-  it('can render a component with a manually imported template', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('addon/component-with-template')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
       });
   });
 
@@ -170,7 +156,7 @@ describe('Acceptance: addon-smoke-test', function() {
           resolve(output);
         });
       }).then(function(output) {
-        var unnecessaryFiles = ['.gitkeep', '.travis.yml', 'Brocfile.js', '.editorconfig', 'testem.json', '.ember-cli', 'bower.json', '.bowerrc'];
+        var unnecessaryFiles = ['.gitkeep', '.travis.yml', 'Brocfile.js', '.editorconfig', '.ember-cli', 'bower.json', '.bowerrc'];
         var unnecessaryFolders = ['tests/', 'bower_components/'];
 
         unnecessaryFiles.concat(unnecessaryFolders).forEach(function(file) {

@@ -1,9 +1,7 @@
 'use strict';
 
-var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var fs         = require('fs-extra');
-var remove     = Promise.denodeify(fs.remove);
 
 var expect     = require('chai').expect;
 var EOL        = require('os').EOL;
@@ -60,36 +58,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('a custom environment config can be used in Brocfile.js', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('brocfile-tests/custom-environment-config')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
-      });
-  });
-
-  it('using wrapInEval: true', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('brocfile-tests/wrap-in-eval')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
-      });
-  });
-
-  it('without app/templates', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('brocfile-tests/pods-templates')
-      .then(function(){
-        // remove ./app/templates
-        return remove(path.join(process.cwd(), 'app/templates'));
-      }).then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-      });
-  });
-
   it('strips app/styles or app/templates from JS', function() {
     this.timeout(450000);
 
@@ -137,15 +105,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         expect(appFileContents).to.not.match(/\/app"\)\["default"\]\.create\(/);
       });
-  });
-
-  it('default development build tests', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('brocfile-tests/default-development')
-    .then(function() {
-      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
-    });
   });
 
   it('app.import works properly with non-js/css files', function() {
@@ -212,51 +171,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
         });
 
         expect(subjectFileContents).to.equal('ROOT FILE' + EOL);
-      });
-  });
-
-  it('using pods based templates', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('brocfile-tests/pods-templates')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
-      });
-  });
-
-  it('using pods based templates with a podModulePrefix', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('brocfile-tests/pods-with-prefix-templates')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
-      });
-  });
-
-  it('addon trees are not jshinted', function() {
-    this.timeout(450000);
-
-    return copyFixtureFiles('brocfile-tests/jshint-addon')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
-        packageJson['ember-addon'] = {
-          paths: ['./lib/ember-random-thing']
-        };
-
-        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
-
-        var badContent = 'var blah = ""' + EOL + 'export default Blah;';
-        var appPath = path.join('.', 'lib', 'ember-random-thing', 'app',
-                                          'routes', 'horrible-route.js');
-        var testSupportPath = path.join('.', 'lib', 'ember-random-thing', 'test-support',
-                                          'unit', 'routes', 'horrible-route-test.js');
-
-        fs.writeFileSync(appPath, badContent);
-        fs.writeFileSync(testSupportPath, badContent);
-      })
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
       });
   });
 

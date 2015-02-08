@@ -42,12 +42,6 @@ describe('Acceptance: smoke-test', function() {
     });
   });
 
-  it('ember new foo, clean from scratch', function() {
-    this.timeout(450000);
-
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
-  });
-
   it('ember test exits with non-zero when tests fail', function() {
     this.timeout(450000);
 
