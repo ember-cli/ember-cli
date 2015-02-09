@@ -12,14 +12,16 @@ environment:
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node 0.STABLE.latest
-  - ps: Install-Product node 0.10.30 x86
+  - ps: Install-Product node $env:nodejs_version
   # Install PhantomJS
   - cinst PhantomJS
   - set path=%path%;C:\tools\PhantomJS\
   - dir C:\tools\PhantomJS
   # Typical npm stuff.
   - md C:\nc
-  - npm install -g npm@^2"
+  - npm install -g npm@^2
+  # Workaround https://github.com/npm/npm/wiki/Troubleshooting#upgrading-on-windows
+  - set PATH=%APPDATA%\npm;%PATH%
   - npm config set cache C:\nc
   - npm version
   - npm install
