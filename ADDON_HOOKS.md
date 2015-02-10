@@ -8,6 +8,7 @@ Table of Contents:
 - [preBuild](#prebuild)
 - [buildError](#builderror)
 - [included](#included)
+- [setupPreprocessorRegistry](#setuppreprocessorregistry)
 - [postprocessTree](#postprocesstree)
 - [lintTree](#linttree)
 - [contentFor](#contentfor)
@@ -252,6 +253,42 @@ included: function colpick_included(app) {
 ```
 
 - [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/master/index.js#L6)
+
+<a name='setuppreprocessorregistry'></a>
+## setupPreprocessorRegistry
+
+Used to add preprocessors to the preprocessor registry. This is often used by addons like [ember-cli-htmlbars](https://github.com/ember-cli/ember-cli-htmlbars)
+and [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeescript) to add a `template` or `js` preprocessor to the registry.
+
+**Received arguments**
+
+- `type` either `"self"` or `"parent"`
+- `registry` the registry to be set up
+
+**Source:** [lib/preprocessors:36](https://github.com/ember-cli/ember-cli/blob/master/lib/preprocessors.js#L36)
+
+**Default implementation:** None
+
+**Uses:**
+
+- Adding preprocessors to the registry.
+
+**Examples:**
+
+```js
+// https://github.com/ember-cli/ember-cli-htmlbars/blob/master/ember-addon-main.js
+setupPreprocessorRegistry: function(type, registry) {
+  var addonContext = this;
+
+  registry.add('template', {
+    name: 'ember-cli-htmlbars',
+    ext: 'hbs',
+    toTree: function(tree) {
+      return htmlbarsCompile(tree, addonContext.htmlbarsOptions());
+    }
+  });
+}
+```
 
 <a name='postprocesstree'></a>
 ## postprocessTree
