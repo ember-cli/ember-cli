@@ -1102,7 +1102,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/services/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Object.extend({' + EOL + '});'
+          'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
       assertFile('app/initializers/foo-service.js', {
@@ -1131,7 +1131,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/services/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Object.extend({' + EOL + '});'
+          'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
       assertFile('app/initializers/foo/bar-service.js', {
