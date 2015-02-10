@@ -68,19 +68,43 @@ describe('test command', function() {
     });
   });
 
+  it('does not pass any port options', function() {
+    return new TestCommand(options).validateAndRun([]).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(7357);
+    });
+  });
+
+  it('passes through a custom test port option', function() {
+    return new TestCommand(options).validateAndRun(['--test-port=5679']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(5679);
+    });
+  });
+
+  it('only passes through the port option', function() {
+    return new TestCommand(options).validateAndRun(['--port=5678']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(5679);
+    });
+  });
+
+  it('passes both the port and the test port options', function() {
+    return new TestCommand(options).validateAndRun(['--port=5678', '--test-port=5900']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(5900);
+    });
+  });
+
   it('passes through custom host option', function() {
     return new TestCommand(options).validateAndRun(['--host=greatwebsite.com']).then(function() {
       var testOptions  = testRun.calledWith[0][0];
 
       expect(testOptions.host).to.equal('greatwebsite.com');
-    });
-  });
-
-  it('passes through custom port option', function() {
-    return new TestCommand(options).validateAndRun(['--port=5678']).then(function() {
-      var testOptions  = testRun.calledWith[0][0];
-
-      expect(testOptions.port).to.equal(5678);
     });
   });
 
