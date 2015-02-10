@@ -11,6 +11,7 @@ var writeFile = Promise.denodeify(fs.writeFile);
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
 var tmp        = require('tmp-sync');
+var assign     = require('lodash-node/modern/objects/assign');
 var tmpdir;
 var testOutputPath;
 
@@ -49,6 +50,19 @@ describe('Unit - FileInfo', function(){
     return fileInfo.render().then(function(output){
       expect(output.trim()).to.equal('Howdy Billy',
         'expects the template to have been run');
+    });
+  });
+
+  it('falls back to raw text if template throws', function(){
+    var templateWithUndefinedVariable = path.resolve(__dirname,
+      '../../fixtures/blueprints/with-templating/files/with-undefined-variable.txt');
+    var options = {};
+    assign(options, validOptions, { inputPath: templateWithUndefinedVariable });
+    var fileInfo = new FileInfo(options);
+
+    return fileInfo.render().then(function(output){
+      expect(output.trim()).to.equal('Howdy <%= enemy %>',
+        'expects to fall back to raw text');
     });
   });
 
