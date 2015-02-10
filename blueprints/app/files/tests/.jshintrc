@@ -6,7 +6,6 @@
     "setTimeout",
     "$",
     "-Promise",
-    "QUnit",
     "define",
     "console",
     "visit",
