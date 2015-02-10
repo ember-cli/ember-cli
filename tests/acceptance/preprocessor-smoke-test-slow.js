@@ -142,7 +142,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       |
       |-- preprocessor should not apply to this
   */
-  it.only('addon N levels deep depending on preprocessor preprocesses that parent addon only', function() {
+  it('addon N levels deep depending on preprocessor preprocesses that parent addon only', function() {
     this.timeout(100000);
 
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-3')
@@ -154,7 +154,6 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
       })
       .then(function() {
-        debugger
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
       })
       .then(function() {
