@@ -42,6 +42,7 @@ version:
 - [#3242](https://github.com/ember-cli/ember-cli/pull/3242) [DOCS] Add `isDevelopingAddon` to `ADDON_HOOKS.md`. [@matthiasleitner](https://github.com/matthiasleitner)
 - [#3244](https://github.com/ember-cli/ember-cli/pull/3244) [BUGFIX] Ensure that Blueprints are returned in a consistent order when looking them up. [@nathanpalmer](https://github.com/nathanpalmer)
 - [#3251](https://github.com/ember-cli/ember-cli/pull/3251) Update ember-export-application-global to v1.0.2. [@rwjblue](https://github.com/rwjblue)
+- [#3167](https://github.com/ember-cli/ember-cli/pull/3167) [ENHANCEMENT]`usePodsByDefault` in app config deprecated in favor of `usePods` in .ember-cli [@trabus](https://github.com/trabus)
 
 Thank you to all who took the time to contribute!
 
