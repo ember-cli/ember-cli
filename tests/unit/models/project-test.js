@@ -222,7 +222,7 @@ describe('models/project.js', function() {
       expect(project.localBlueprintLookupPath()).to.equal(expected);
     });
 
-    it('returns a listing of all addon blueprints paths ordered by last loaded', function() {
+    it('returns a listing of all addon blueprints paths ordered by last loaded when called once', function() {
       var loadedBlueprintPaths = [
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
@@ -231,8 +231,24 @@ describe('models/project.js', function() {
 
       // the first found addon blueprint should be the last one defined
       var expected = loadedBlueprintPaths.reverse();
+      var first = project.addonBlueprintLookupPaths();
 
-      expect(project.addonBlueprintLookupPaths()).to.deep.equal(expected);
+      expect(first).to.deep.equal(expected);
+    });
+
+    it('returns a listing of all addon blueprints paths ordered by last loaded when called twice', function() {
+      var loadedBlueprintPaths = [
+        project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
+        project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
+        project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints')
+      ];
+
+      // the first found addon blueprint should be the last one defined
+      var expected = loadedBlueprintPaths.reverse();
+      /*var first = */project.addonBlueprintLookupPaths();
+      var second = project.addonBlueprintLookupPaths();
+
+      expect(second).to.deep.equal(expected);
     });
 
     it('returns a listing of all blueprints paths', function() {
@@ -283,8 +299,6 @@ describe('models/project.js', function() {
 
       expect(added);
     });
-
-
   });
 
   describe('reloadAddon', function() {
