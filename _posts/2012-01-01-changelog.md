@@ -17,7 +17,7 @@ version:
     * Updated `ember-export-application-global` to 1.0.2. Install with `npm install --save-dev ember-export-application-global@^1.0.2`.
   + Update the following packages in your `bower.json`:
     * Updated `ember-data` to 1.0.0-beta.14.1. Install with `bower install --save ember-data#1.0.0-beta.14.1`.
-    * Updated `ember-cli-test-loader` to 1.0.1.  Install with `bower install --save ember-cli-test-loader#1.0.1`.
+    * Updated `ember-cli-test-loader` to 0.1.1.  Install with `bower install --save ember-cli-test-loader#0.1.1`.
     * Updated `ember-qunit` to 0.2.8. Install with `bower install --save ember-qunit#0.2.8`. Please review [Ember QUnit 0.2.x](http://reefpoints.dockyard.com/2015/02/06/ember-qunit-0-2.html) for background and impact.
     * Updated `ember-qunit-notifications` to 0.0.7. Install with `bower install --save ember-qunit-notifications#0.0.7`.
 - Addon Developers
