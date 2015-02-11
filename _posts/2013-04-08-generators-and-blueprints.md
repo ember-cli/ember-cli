@@ -92,22 +92,16 @@ The built-in blueprints that support pods structure are:
 
 Blueprints that don't support pods structure will simply ignore the `--pod` option and use the default structure.
 
-If you would like to use the pods structure as the default for your project, you can set `usePodsByDefault` in your environment config
-to `true`. When `usePodsByDefault` is `true`, the `--pod` flag is essentially inverted. To generate or destroy a blueprint in the default
-type structure while `usePodsByDefault` is `true`, use the `--pod` flag.
+If you would like to use the pods structure as the default for your project, you can set `usePods` in your `.ember-cli` config file
+to `true` (setting was previously named `usePodsByDefault`). When `usePods` is `true`, the `--pod` flag is essentially inverted. To generate or destroy a blueprint in the default
+type structure while `usePods` is `true`, use the `--pod` flag.
 
-With the `usePodsByDefault` set to `true`.
+With the `usePods` set to `true`.
 {% highlight javascript linenos %}
-// config/environment.js
-module.exports = function(environment) {
-  var ENV = {
-    modulePrefix: 'my-new-app',
-    podModulePrefix: 'my-new-app/pods',
-    usePodsByDefault: true,
-    environment: environment,
-    baseURL: '/',
-    locationType: 'auto',
-//...
+// .ember-cli
+{
+    "usePods": true
+}
 {% endhighlight %}
 
 The following would occur when generating a route:
