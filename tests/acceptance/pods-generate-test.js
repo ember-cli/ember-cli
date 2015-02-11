@@ -80,6 +80,55 @@ describe('Acceptance: ember generate pod', function() {
     });
   }
 
+  function generateWithUsePods(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initApp().then(function() {
+      replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,' + EOL + '"usePods" : true' + EOL);
+      return ember(generateArgs);
+    });
+  }
+
+  it('.ember-cli usePods setting generates in pod structure without --pod flag', function() {
+    return generateWithUsePods(['controller', 'foo']).then(function() {
+      assertFile('app/foo/controller.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Controller.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('tests/unit/foo/controller-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('controller:foo'"
+        ]
+      });
+    });
+  });
+
+  it('.ember-cli usePods setting generates in basic structure with --pod flag', function() {
+    return generateWithUsePods(['controller', 'foo', '--pod']).then(function() {
+      assertFile('app/controllers/foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Controller.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('tests/unit/controllers/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('controller:foo'"
+        ]
+      });
+    });
+  });
+
   it('controller foo --pod', function() {
     return generate(['controller', 'foo', '--pod']).then(function() {
       assertFile('app/foo/controller.js', {

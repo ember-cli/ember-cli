@@ -3,10 +3,11 @@
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
+import { module, test } from 'qunit';
 
 var application;
 
-QUnit.module('default-development - Integration', {
+module('default-development - Integration', {
   beforeEach: function() {
     application = startApp();
   },
@@ -16,7 +17,7 @@ QUnit.module('default-development - Integration', {
 });
 
 
-QUnit.test('the application boots properly', function(assert) {
+test('the application boots properly', function(assert) {
   assert.expect(1);
 
   visit('/');

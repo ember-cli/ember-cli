@@ -410,4 +410,26 @@ Instead of overriding `treeFor` and acting only if the tree you receive matches 
 - treeForTestSupport
 - treeForPublic
 
+<a name='isDevelopingAddon'></a>
+## isDevelopingAddon
+
+Allows to mark the addon as developing, triggering live-reload in the project the addon is linked to
+
+**Received arguments:** None
+
+**Default implementation:** None
+
+**Uses:**
+
+- Working on projects with internal addons
+
+**Examples:**
+
+```js
+  // addon index.js
+  isDevelopingAddon: function() {
+    return true;
+  }
+```
+
 See more [here](https://github.com/ember-cli/ember-cli/blob/b12e0023dc653316f68aa58b9bb14ade3037e9e6/lib/models/addon.js#L38)

@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import { initialize } from '../../../initializers/<%= dasherizedModuleName %>';
+import { module, test } from 'qunit';
 
 var container, application;
 
-QUnit.module('<%= classifiedModuleName %>Initializer', {
+module('<%= classifiedModuleName %>Initializer', {
   beforeEach: function() {
     Ember.run(function() {
       application = Ember.Application.create();
@@ -14,7 +15,7 @@ QUnit.module('<%= classifiedModuleName %>Initializer', {
 });
 
 // Replace this with your real tests.
-QUnit.test('it works', function(assert) {
+test('it works', function(assert) {
   initialize(container, application);
 
   // you would normally confirm the results of the initializer here
