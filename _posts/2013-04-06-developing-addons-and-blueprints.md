@@ -376,16 +376,16 @@ import Ember from 'ember';
 var App;
 
 moduleForComponent('x-button', 'XButtonComponent', {
-  setup: function() {
+  beforeEach: function() {
     App = startApp();
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.run(App, 'destroy');
   }
 });
 
-test('is a button tag', function() {
-  equal('BUTTON', this.$().prop('tagName'));
+test('is a button tag', function(assert) {
+  assert.equal('BUTTON', this.$().prop('tagName'));
 
   this.subject().teardownXButton();
 });
