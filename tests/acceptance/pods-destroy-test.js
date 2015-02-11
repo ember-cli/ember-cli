@@ -95,6 +95,41 @@ describe('Acceptance: ember destroy pod', function() {
       });
   }
 
+  function assertDestroyAfterGenerateWithUsePods(args, files) {
+    return initApp()
+      .then(function() {
+        replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,' + EOL + '"usePods" : true' + EOL);
+        return generate(args);
+      })
+      .then(function() {
+        assertFilesExist(files);
+      })
+      .then(function() {
+        return destroy(args);
+      })
+      .then(function() {
+        assertFilesNotExist(files);
+      });
+  }
+
+  it('.ember-cli usePods setting destroys in pod structure without --pod flag', function() {
+    var commandArgs = ['controller', 'foo'];
+    var files       = [
+      'app/pods/foo/controller.js',
+      'tests/unit/pods/foo/controller-test.js'
+    ];
+    assertDestroyAfterGenerateWithUsePods(commandArgs, files);
+  });
+
+  it('.ember-cli usePods setting destroys in basic structure with --pod flag', function() {
+    var commandArgs = ['controller', 'foo', '--pod'];
+    var files       = [
+      'app/controllers/foo.js',
+      'tests/unit/controllers/foo-test.js'
+    ];
+    assertDestroyAfterGenerateWithUsePods(commandArgs, files);
+  });
+
   it('controller foo --pod', function() {
     var commandArgs = ['controller', 'foo', '--pod'];
     var files       = [
