@@ -4,6 +4,52 @@ title: "Changelog"
 permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
+### 0.1.13
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Update the following packages in your `package.json`:
+    * Updated `ember-cli-qunit` to 0.3.7.  Install with `npm install --save-dev ember-cli-qunit@0.3.7`.
+    * Updated `ember-data` to 1.0.0-beta.14.1. Install with `npm install --save-dev ember-data@1.0.0-beta.14.1`.
+    * Updated `ember-export-application-global` to 1.0.2. Install with `npm install --save-dev ember-export-application-global@^1.0.2`.
+  + Update the following packages in your `bower.json`:
+    * Updated `ember-data` to 1.0.0-beta.14.1. Install with `bower install --save ember-data#1.0.0-beta.14.1`.
+    * Updated `ember-cli-test-loader` to 1.0.1.  Install with `bower install --save ember-cli-test-loader#1.0.1`.
+    * Updated `ember-qunit` to 0.2.8. Install with `bower install --save ember-qunit#0.2.8`. Please review [Ember QUnit 0.2.x](http://reefpoints.dockyard.com/2015/02/06/ember-qunit-0-2.html) for background and impact.
+    * Updated `ember-qunit-notifications` to 0.0.7. Install with `bower install --save ember-qunit-notifications#0.0.7`.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#3218](https://github.com/ember-cli/ember-cli/pull/3218) [ENHANCEMENT] Add JS context {{content-for}} hooks. This allows addons to inject things into `vendor.js`/`my-app-name.js` without violating CSP or having to do crazy hacks. [@rwjblue](https://github.com/rwjblue)
+- [#3156](https://github.com/ember-cli/ember-cli/pull/3156) [BUGFIX] Serve static files from `/test` if they exist. [@trek](https://github.com/trek)
+- [#3155](https://github.com/ember-cli/ember-cli/pull/3155) [BUGFIX] Guard against rawArgs being `undefined` [@chadhietala](https://github.com/chadhietala)
+- [#3183](https://github.com/ember-cli/ember-cli/pull/3183) [BUGFIX] Use recent Esperanto update to allow ES3 safe output. [@rwjblue](https://github.com/rwjblue)
+- [#3170](https://github.com/ember-cli/ember-cli/pull/3170) / [#3184](https://github.com/ember-cli/ember-cli/pull/3184) [#3255](https://github.com/ember-cli/ember-cli/pull/3255) [ENHANCEMENT] Update ember-qunit to 0.2.8. [@rwjblue](https://github.com/rwjblue) / [@jbrown](https://github.com/jbrown)
+- [#3165](https://github.com/ember-cli/ember-cli/pull/3165) [BUGFIX] Fix `npm install --save-dev` ordering of default `package.json`. [@kellyselden](https://github.com/kellyselden)
+- [#3164](https://github.com/ember-cli/ember-cli/pull/3164) [ENHANCEMENT] Enable asynchronous `Addon.prototype.serverMiddleware` hooks by returning a promise from the hook. [@taras](https://github.com/taras)
+- [#3182](https://github.com/ember-cli/ember-cli/pull/3182) [INTERNAL ENHANCEMENT] Update `ember-router-generator` to ensure routes are injected into `router.js` with single quotes. [@abuiles](https://github.com/abuiles)
+- [#3232](https://github.com/ember-cli/ember-cli/pull/3232) / [#3212](https://github.com/ember-cli/ember-cli/pull/3212) / [#3243](https://github.com/ember-cli/ember-cli/pull/3243) [INTERNAL ENHANCEMENT] Update testem to 0.6.39. [@joostdevries](https://github.com/joostdevries) / [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#3203](https://github.com/ember-cli/ember-cli/pull/3203) / [#3252](https://github.com/ember-cli/ember-cli/pull/3252) [INTERNAL ENHANCEMENT] Bump broccoli-es6modules to v0.5.0. [@rwjblue](https://github.com/rwjblue)
+- [#3197](https://github.com/ember-cli/ember-cli/pull/3197) [ENHANCEMENT] Update test blueprints to use [QUnit 2.0 compatible](http://qunitjs.com/upgrade-guide-2.x/) output. [@rwjblue](https://github.com/rwjblue)
+- [#3199](https://github.com/ember-cli/ember-cli/pull/3199) [ENHANCEMENT] Provide locals to `Blueprint.prototype.beforeInstall`/`Blueprint.prototype.beforeUninstall` hooks. [@mattmarcum](https://github.com/mattmarcum)
+- [#3188](https://github.com/ember-cli/ember-cli/pull/3188) [ENHANCEMENT] Update Ember Data version to 1.0.0-beta.14.1. [@abuiles](https://github.com/abuiles)
+- [#3245](https://github.com/ember-cli/ember-cli/pull/3245) [ENHANCEMENT] Update ember-cli-qunit to v0.3.7. [@rwjblue](https://github.com/rwjblue)
+- [#3231](https://github.com/ember-cli/ember-cli/pull/3231) [INTERNAL ENHANCEMENT] Remove extra Addon build steps. [@rwjblue](https://github.com/rwjblue)
+- [#3236](https://github.com/ember-cli/ember-cli/pull/3236) [INTERNAL ENHANCEMENT] Remove module transpilation from Addon model. [@rwjblue](https://github.com/rwjblue)
+- [#3242](https://github.com/ember-cli/ember-cli/pull/3242) [DOCS] Add `isDevelopingAddon` to `ADDON_HOOKS.md`. [@matthiasleitner](https://github.com/matthiasleitner)
+- [#3244](https://github.com/ember-cli/ember-cli/pull/3244) [BUGFIX] Ensure that Blueprints are returned in a consistent order when looking them up. [@nathanpalmer](https://github.com/nathanpalmer)
+- [#3251](https://github.com/ember-cli/ember-cli/pull/3251) Update ember-export-application-global to v1.0.2. [@rwjblue](https://github.com/rwjblue)
+- [#3167](https://github.com/ember-cli/ember-cli/pull/3167) [ENHANCEMENT]`usePodsByDefault` in app config deprecated in favor of `usePods` in .ember-cli [@trabus](https://github.com/trabus)
+- [#3260](https://github.com/ember-cli/ember-cli/pull/3260) [BUGFIX] Ensure newly generated project has an `app/styles/app.css` file (prevents a 404 on a newly generated project). [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
 
 ### 0.1.12
 
