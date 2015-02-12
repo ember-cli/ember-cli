@@ -4,6 +4,22 @@ title: "Changelog"
 permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
+### 0.1.15
+
+This release fixes a regression in 0.1.13. See [#3271](https://github.com/ember-cli/ember-cli/issues/3271) for details.
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+- [#3271](https://github.com/ember-cli/ember-cli/pull/3271) [HOTFIX] Update broccoli-funnel to v0.2.2.  [@rwjblue](https://github.com/rwjblue)
+
 ### 0.1.14
 
 This release fixes a regression in 0.1.13. See [#3267](https://github.com/ember-cli/ember-cli/issues/3267) for details.
