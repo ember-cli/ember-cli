@@ -89,7 +89,7 @@
     "broccoli-es3-safe-recast": "1.0.0",
     "broccoli-es6modules": "^0.5.0",
     "broccoli-filter": "0.1.7",
-    "broccoli-funnel": "0.2.1",
+    "broccoli-funnel": "0.2.2",
     "broccoli-kitchen-sink-helpers": "0.2.5",
     "broccoli-merge-trees": "0.2.1",
     "broccoli-sane-watcher": "^0.1.1",
