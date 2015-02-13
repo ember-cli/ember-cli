@@ -12,8 +12,8 @@ For the majority of apps, the update from 0.1.15 to 0.2.0 is non-breaking and sh
 
 For addon creators, make sure to update to use the `setupPreprocessorRegistry` hook (documented [here](https://github.com/ember-cli/ember-cli/blob/master/ADDON_HOOKS.md))
 if you need to add a preprocessor to the registry.  You can review the update process in
-[ember-cli-htmlbars#38](https://github.com/ember-cli/ember-cli-htmlbars/pull/38) which shows how to maintain support for both
-0.1.x and 0.2.0 in an addon.
+[ember-cli-htmlbars#38](https://github.com/ember-cli/ember-cli-htmlbars/pull/38) or [ember-cli-coffeescript#60](https://github.com/kimroen/ember-cli-coffeescript/pull/60)
+which show how to maintain support for both 0.1.x and 0.2.0 in an addon.
 
 ### 0.1.15
 
