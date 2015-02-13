@@ -1,4 +1,37 @@
 # ember-cli Changelog
+### 0.1.15
+
+This release fixes a regression in 0.1.13. See [#3271](https://github.com/ember-cli/ember-cli/issues/3271) for details.
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+- [#3271](https://github.com/ember-cli/ember-cli/pull/3271) [HOTFIX] Update broccoli-funnel to v0.2.2.  [@rwjblue](https://github.com/rwjblue)
+
+
+### 0.1.14
+
+This release fixes a regression in 0.1.13. See [#3267](https://github.com/ember-cli/ember-cli/issues/3267) for details.
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+- [#3267](https://github.com/ember-cli/ember-cli/pull/3267) [HOTFIX] Ensure reexports work to not cause an error on rebuild. [@rwjblue](https://github.com/rwjblue)
+
 
 ### 0.1.13
 
@@ -13,7 +46,7 @@ version:
     * Updated `ember-export-application-global` to 1.0.2. Install with `npm install --save-dev ember-export-application-global@^1.0.2`.
   + Update the following packages in your `bower.json`:
     * Updated `ember-data` to 1.0.0-beta.14.1. Install with `bower install --save ember-data#1.0.0-beta.14.1`.
-    * Updated `ember-cli-test-loader` to 1.0.1.  Install with `bower install --save ember-cli-test-loader#1.0.1`.
+    * Updated `ember-cli-test-loader` to 0.1.1.  Install with `bower install --save ember-cli-test-loader#0.1.1`.
     * Updated `ember-qunit` to 0.2.8. Install with `bower install --save ember-qunit#0.2.8`. Please review [Ember QUnit 0.2.x](http://reefpoints.dockyard.com/2015/02/06/ember-qunit-0-2.html) for background and impact.
     * Updated `ember-qunit-notifications` to 0.0.7. Install with `bower install --save ember-qunit-notifications#0.0.7`.
 - Addon Developers
