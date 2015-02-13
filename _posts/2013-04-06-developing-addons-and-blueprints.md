@@ -59,7 +59,7 @@ To create a basic addon:
 Running this command should generate something like the following:
 
 {% highlight bash %}
-ember addon my-x-button
+ember addon ember-cli-x-button
 version x.y.zz
 installing
   create .bowerrc
@@ -201,7 +201,7 @@ Move it to `devDependencies`.
 {% highlight javascript %}
 // bower.js
 {
-  "name": "ember-x-button",
+  "name": "ember-cli-x-button",
   "dependencies": {
     // ...
   },
@@ -262,7 +262,7 @@ Just import your component, and re-export it:
 // app/components/x-button.js
 
 import Ember from 'ember';
-import XButton from 'ember-x-button/components/x-button';
+import XButton from 'ember-cli-x-button/components/x-button';
 
 export default XButton;
 {% endhighlight %}
@@ -498,7 +498,7 @@ Remember that `npm link` will not run the default blueprint in the same way that
 
 While testing an addon using npm link, you need an entry in `package.json` with
 your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
-fictional example would require `"x-button": "*"`.  You can now run `ember g <addon-name>`
+fictional example would require `"ember-cli-x-button": "*"`.  You can now run `ember g <addon-name>`
 in your project.
 
 ### Publish addon
@@ -534,7 +534,7 @@ To install your addon from the [npm.org](https://www.npmjs.org/) repository:
 
 For our *x-button* sample addon:
 
-`ember install:addon x-button my-button`.
+`ember install:addon ember-cli-x-button my-button`.
 
 This will first install the x-button addon from npm. Then, because we have
 a blueprint with the same name as our addon, it will run the blueprint
@@ -544,7 +544,7 @@ This is equivalent of running:
 
 {% highlight bash %}
 ember install:npm x-button
-ember generate x-button my-button
+ember generate ember-cli-x-button my-button
 {% endhighlight %}
 
 ### Updating addons
