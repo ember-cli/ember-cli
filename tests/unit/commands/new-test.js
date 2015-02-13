@@ -48,6 +48,15 @@ describe('new command', function() {
     });
   });
 
+  it('doesn\'t allow to create an application named `ember-cli`', function() {
+    return command.validateAndRun(['ember-cli']).then(function() {
+      expect(false, 'should have rejected with an application name of ember-cli');
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal('We currently do not support a name of `ember-cli`.');
+    });
+  });
+
   it('doesn\'t allow to create an application named `vendor`', function() {
     return command.validateAndRun(['vendor']).then(function() {
       expect(false, 'should have rejected with an application name of `vendor`');
