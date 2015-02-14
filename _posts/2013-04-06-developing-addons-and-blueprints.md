@@ -59,7 +59,7 @@ To create a basic addon:
 Running this command should generate something like the following:
 
 {% highlight bash %}
-ember addon my-x-button
+ember addon ember-cli-x-button
 version x.y.zz
 installing
   create .bowerrc
@@ -145,7 +145,7 @@ The generated `index.js` is a simple JavaScript Object (POJO) that you can custo
 {% highlight javascript %}
 // index.js
 module.exports = {
-  name: 'my-addon'
+  name: 'ember-cli-x-button'
 };
 {% endhighlight %}
 
@@ -154,7 +154,7 @@ During the build process, the `included` hook on your addon will be called, allo
 {% highlight javascript %}
 // index.js
 module.exports = {
-  name: 'my-addon',
+  name: 'ember-cli-x-button',
   included: function(app, parentAddon) {
     var target = (parentAddon || app);
     // Now you can modify the app / parentAddon. For example, if you wanted
@@ -195,12 +195,13 @@ Here we install a fictional bower dependency `x-button`:
 ember install:bower x-button
 {% endhighlight %}
 
-Adds bower components to development dependencies
+Note that currently this will add the component to the main `dependencies` hash.
+Move it to `devDependencies`.
 
 {% highlight javascript %}
 // bower.js
 {
-  "name": "ember-x-button",
+  "name": "ember-cli-x-button",
   "dependencies": {
     // ...
   },
@@ -253,32 +254,54 @@ export default Ember.Component.extend({
 });
 {% endhighlight %}
 
-In order to allow the consuming application to use the addon component without manual import statements, put the component under the `app/components` directory.
+In order to allow the consuming application to use the addon component in a template
+directly you need to bridge the component via your addon's `app/components` directory.
+Just import your component, and re-export it:
 
 {% highlight javascript %}
 // app/components/x-button.js
 
 import Ember from 'ember';
-import XButton from 'ember-x-button/components/x-button';
+import XButton from 'ember-cli-x-button/components/x-button';
 
 export default XButton;
 {% endhighlight %}
 
-The code imports the component from the addon directory and exports it again.
 This setup allows others to modify the component by extending it while making
 the component available in the consuming applications namespace. This means
 anyone who installs your `x-button` addon can start using the component in their
 templates with `{% raw %}{{x-button}}{% endraw %}` without any extra configuration.
 
-### Blueprints
-To create a blueprint, add a file `blueprints/x-button/index.js`. This follows the usual Ember blueprints naming conventions.
+### Default Blueprint
+A blueprint with the same name as the addon (unless explicitly changed, see above) will
+be automatically run after install (in development, it must be manually run after
+linking). This is where you can tie your addon's bower dependencies into the client app
+so that they actually get installed.
 
-Make sure the dependency files are imported into the consuming application.
-Use the `included` hook to import the files in the correct order.
-
-We want to register a no-op package in bower called *x-button*. Consume it as `x-button: 0.0.1`. Import `x-button/dist/js/x-button.js` and `x-button/dist/css/x-button.css`.
+To create the blueprint, add the file `blueprints/ember-cli-x-button/index.js`.
+This follows the usual Ember blueprints naming conventions.
 
 {% highlight javascript %}
+//blueprints/ember-cli-x-button/index.js
+module.exports = {
+  normalizeEntityName: function() {}, // no-op since we're just adding dependencies
+
+  afterInstall: function() {
+    return this.addBowerPackageToProject('x-button'); // is a promise
+  }
+};
+{% endhighlight %}
+
+### Importing Dependency Files 
+
+As stated earlier the `included` hook on your addon's main entry point is run during
+the build process. This is where you want to add `import` statements to actually
+bring in the dependency files for inclusion. Note that this is a separate step from
+adding the actual dependency itself---done in the default blueprint---which merely
+makes the dependency available for inclusion.
+
+{% highlight javascript %}
+// index.js
 module.exports = {
   name: 'ember-cli-x-button',
 
@@ -470,9 +493,12 @@ links to it this way (see
 [npm-tricks](http://www.devthought.com/2012/02/17/npm-tricks) for more
 details).
 
+Remember that `npm link` will not run the default blueprint in the same way that
+`addon:install` will, so you will have to do that manually via `ember g`.
+
 While testing an addon using npm link, you need an entry in `package.json` with
 your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
-fictional example would require `"x-button": "*"`.  You can now run `ember g <addon-name>`
+fictional example would require `"ember-cli-x-button": "*"`.  You can now run `ember g <addon-name>`
 in your project.
 
 ### Publish addon
@@ -508,7 +534,7 @@ To install your addon from the [npm.org](https://www.npmjs.org/) repository:
 
 For our *x-button* sample addon:
 
-`ember install:addon x-button my-button`.
+`ember install:addon ember-cli-x-button my-button`.
 
 This will first install the x-button addon from npm. Then, because we have
 a blueprint with the same name as our addon, it will run the blueprint
@@ -518,7 +544,7 @@ This is equivalent of running:
 
 {% highlight bash %}
 ember install:npm x-button
-ember generate x-button my-button
+ember generate ember-cli-x-button my-button
 {% endhighlight %}
 
 ### Updating addons
