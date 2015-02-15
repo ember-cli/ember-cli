@@ -256,7 +256,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         fs.writeFileSync(testSupportPath, badContent);
       })
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--silent', '--filter=jshint');
       });
   });
 
