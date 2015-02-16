@@ -166,7 +166,6 @@ describe('models/project.js', function() {
 
     it('returns a listing of all dependencies in the projects bower.json', function() {
       var expected = {
-        'handlebars': '~1.3.0',
         'jquery': '^1.11.1',
         'ember': '1.7.0',
         'ember-data': '1.0.0-beta.10',
