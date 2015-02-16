@@ -11,19 +11,24 @@ var stub     = require('../../helpers/stub').stub;
 describe('broccoli/ember-app', function() {
   var project, projectPath, emberApp, addonTreesForStub, addon;
 
-  beforeEach(function() {
-    projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
-    var packageContents = require(path.join(projectPath, 'package.json'));
+  function setupProject(rootPath) {
+    var packageContents = require(path.join(rootPath, 'package.json'));
 
-    project = new Project(projectPath, packageContents);
+    project = new Project(rootPath, packageContents);
     project.require = function() {
       return function() {};
     };
     project.initializeAddons = function() {
       this.addons = [];
     };
-  });
 
+    return project;
+  }
+
+  beforeEach(function() {
+    projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
+    project = setupProject(projectPath);
+  });
 
   describe('constructor', function() {
     it('should override project.configPath if configPath option is specified', function() {
@@ -420,11 +425,8 @@ describe('broccoli/ember-app', function() {
       });
 
       it('includes handlebars if present in bower.json', function() {
-        project.bowerDependencies = function() {
-          return {
-            'handlebars.js': '1.3.0'
-          };
-        };
+        projectPath = path.resolve(__dirname, '../../fixtures/project-with-handlebars');
+        project = setupProject(projectPath);
 
         var app = new EmberApp({
           project: project
