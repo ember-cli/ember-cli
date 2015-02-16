@@ -1,7 +1,6 @@
 {
   "name": "<%= name %>",
   "dependencies": {
-    "handlebars": "~1.3.0",
     "jquery": "^1.11.1",
     "ember": "1.10.0",
     "ember-data": "1.0.0-beta.15",

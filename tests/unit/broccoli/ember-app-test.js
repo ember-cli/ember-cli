@@ -406,9 +406,44 @@ describe('broccoli/ember-app', function() {
 
   describe('vendorFiles', function() {
     var defaultVendorFiles = [
-      'loader.js', 'jquery.js', 'handlebars.js', 'ember.js',
+      'loader.js', 'jquery.js', 'ember.js',
       'app-shims.js', 'ember-resolver.js', 'ember-load-initializers.js'
     ];
+
+    describe('handlebars.js', function() {
+      it('does not app.import handlebars if not present in bower.json', function() {
+        var app = new EmberApp({
+          project: project
+        });
+
+        expect(app.vendorFiles).not.to.include.keys('handlebars.js');
+      });
+
+      it('includes handlebars if present in bower.json', function() {
+        project.bowerDependencies = function() {
+          return {
+            'handlebars.js': '1.3.0'
+          };
+        };
+
+        var app = new EmberApp({
+          project: project
+        });
+
+        expect(app.vendorFiles).to.include.keys('handlebars.js');
+      });
+
+      it('includes handlebars if present in provided `vendorFiles`', function() {
+        var app = new EmberApp({
+          project: project,
+          vendorFiles: {
+            'handlebars.js': 'some/path/whatever.js'
+          }
+        });
+
+        expect(app.vendorFiles).to.include.keys('handlebars.js');
+      });
+    });
 
     it('defines vendorFiles by default', function() {
       emberApp = new EmberApp();
