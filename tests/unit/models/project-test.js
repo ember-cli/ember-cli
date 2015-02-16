@@ -183,25 +183,25 @@ describe('models/project.js', function() {
       expect(project.bowerDependencies()).to.deep.equal(expected);
     });
 
-    it('returns a listing of all ember-cli-addons', function() {
+    it('returns a listing of all ember-cli-addons directly depended on by the project', function() {
       var expected = [
         'tests-server-middleware',
         'history-support-middleware', 'serve-files-middleware',
         'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon', 'ember-generated-no-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
-        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-yagni', 
-        'ember-ng', 'ember-super-button'
+        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button'
       ];
-
-      project.buildAddonPackages();
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
 
-    it('returns an instance of the addon', function() {
+    it('returns instances of the addons', function() {
       var addons = project.addons;
 
       expect(addons[6].name).to.equal('Ember Non Root Addon');
+      expect(addons[12].name).to.equal('Ember Super Button');
+      expect(addons[12].addons[0].name).to.equal('Ember Yagni');
+      expect(addons[12].addons[1].name).to.equal('Ember Ng');
     });
 
     it('addons get passed the project instance', function() {
@@ -289,13 +289,13 @@ describe('models/project.js', function() {
       project.addonPackages = {};
       project.isEmberCLIAddon = function() { return true; };
 
-      project.addIfAddon = function(path) {
+      project.addonDiscovery.discoverAtPath = function(path) {
         if (path === project.root) {
           added = true;
         }
       };
 
-      project.buildAddonPackages();
+      project.discoverAddons();
 
       expect(added);
     });

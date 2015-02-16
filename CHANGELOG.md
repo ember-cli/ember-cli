@@ -1,4 +1,20 @@
 # ember-cli Changelog
+
+### 0.2.0
+
+This release updates the way that addons can be nested, and contains some breaking changes in non-default addon configurations.
+
+Prior versions of Ember CLI maintained a flat addon structure, so that all addons (of any depth) would be added to the consuming
+application. This has led to many issues, like the inability to use preprocessors (i.e. ember-cli-htmlbars, ember-cli-sass, etc)
+in nested addons.
+
+For the majority of apps, the update from 0.1.15 to 0.2.0 is non-breaking and should not cause significant concern.
+
+For addon creators, make sure to update to use the `setupPreprocessorRegistry` hook (documented [here](https://github.com/ember-cli/ember-cli/blob/master/ADDON_HOOKS.md))
+if you need to add a preprocessor to the registry.  You can review the update process in
+[ember-cli-htmlbars#38](https://github.com/ember-cli/ember-cli-htmlbars/pull/38) or [ember-cli-coffeescript#60](https://github.com/kimroen/ember-cli-coffeescript/pull/60)
+which show how to maintain support for both 0.1.x and 0.2.0 in an addon.
+
 ### 0.1.15
 
 This release fixes a regression in 0.1.13. See [#3271](https://github.com/ember-cli/ember-cli/issues/3271) for details.
