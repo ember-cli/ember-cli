@@ -38,7 +38,7 @@ Augments the applications configuration settings.  Object returned from this hoo
 
 **Received arguments:**
 
-  - env - name of current environment (ie "developement")
+  - env - name of current environment (ie "development")
   - baseConfig - Initial application config
 
 **Source:** [lib/models/addon.js:312](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/models/addon.js#L312)
