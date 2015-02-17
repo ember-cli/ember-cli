@@ -1,7 +1,7 @@
 Table of Contents:
 
 1. [config](#config)
-- [bluprintsPath](#blueprintspath)
+- [blueprintsPath](#blueprintspath)
 - [includedCommands](#includedcommands)
 - [serverMiddleware](#servermiddleware)
 - [postBuild](#postbuild)
