@@ -11,8 +11,8 @@ export default function startApp(attrs, cb) {
 
   Ember.run(function() {
     application = Application.extend({
-      init() {
-        this._super(...arguments);
+      init: function() {
+        this._super(arguments);
         if (typeof cb === 'function') { cb(this); }
       }
     }).create(attributes);
