@@ -1151,17 +1151,8 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/services/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Object.extend({' + EOL + '});'
+          'export default Ember.Service.extend({' + EOL + '});'
         ]
-      });
-      assertFile('app/initializers/foo-service.js', {
-        contains: "export function initialize(container, application) {" + EOL +
-                  "  application.inject('route', 'fooService', 'service:foo');" + EOL +
-                  "}" + EOL + EOL +
-                  "export default {" + EOL +
-                  "  name: 'foo-service'," + EOL +
-                  "  initialize: initialize" + EOL +
-                  "};"
       });
       assertFile('tests/unit/services/foo-test.js', {
         contains: [
@@ -1180,17 +1171,8 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/services/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Object.extend({' + EOL + '});'
+          'export default Ember.Service.extend({' + EOL + '});'
         ]
-      });
-      assertFile('app/initializers/foo/bar-service.js', {
-        contains: "export function initialize(container, application) {" + EOL +
-                  "  application.inject('route', 'fooBarService', 'service:foo/bar');" + EOL +
-                  "}" + EOL + EOL +
-                  "export default {" + EOL +
-                  "  name: 'foo/bar-service'," + EOL +
-                  "  initialize: initialize" + EOL +
-                  "};"
       });
       assertFile('tests/unit/services/foo/bar-test.js', {
         contains: [

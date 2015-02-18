@@ -450,7 +450,6 @@ describe('Acceptance: ember destroy pod', function() {
     var commandArgs = ['service', 'foo', '--pod'];
     var files       = [
       'app/services/foo.js',
-      'app/initializers/foo-service.js',
       'tests/unit/services/foo-test.js'
     ];
 
@@ -461,7 +460,6 @@ describe('Acceptance: ember destroy pod', function() {
     var commandArgs = ['service', 'foo/bar', '--pod'];
     var files       = [
       'app/services/foo/bar.js',
-      'app/initializers/foo/bar-service.js',
       'tests/unit/services/foo/bar-test.js'
     ];
 

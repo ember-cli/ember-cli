@@ -409,7 +409,6 @@ describe('Acceptance: ember destroy', function() {
     var commandArgs = ['service', 'foo'];
     var files       = [
       'app/services/foo.js',
-      'app/initializers/foo-service.js',
       'tests/unit/services/foo-test.js'
     ];
 
@@ -420,7 +419,6 @@ describe('Acceptance: ember destroy', function() {
     var commandArgs = ['service', 'foo/bar'];
     var files       = [
       'app/services/foo/bar.js',
-      'app/initializers/foo/bar-service.js',
       'tests/unit/services/foo/bar-test.js'
     ];
 
