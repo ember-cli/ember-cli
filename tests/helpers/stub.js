@@ -16,7 +16,6 @@ module.exports = {
 
     obj[name].called = 0;
     obj[name].calledWith = [];
-
     return obj[name];
   },
   stubPath: function stubPath(path) {
