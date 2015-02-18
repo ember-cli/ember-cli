@@ -29,7 +29,7 @@ For each hook we'll cover the following (if applicable):
 - Uses
 - Examples
 
-<small>Compendium is largely based of a talk by [@rwjblue](https://github.com/rwjblue) which can be found [here](https://www.youtube.com/watch?v=e1l07N0ukzY&feature=youtu.be&t=1h40m53s)</small>
+<small>Compendium is largely based of a talk by [@rwjblue](https://github.com/rwjblue) which can be found [here](https://www.youtube.com/watch?v=e1l07N0ukzY&feature=youtu.be&t=1h40m53s).</small>
 
 <a name='config'></a>
 ## Config
@@ -41,7 +41,7 @@ Augments the applications configuration settings.  Object returned from this hoo
   - env - name of current environment (ie "development")
   - baseConfig - Initial application config
 
-**Source:** [lib/models/addon.js:312](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/models/addon.js#L312)
+**Source:** [lib/models/addon.js:485](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/models/addon.js#L485)
 
 **Default implementation:**
 
@@ -59,7 +59,7 @@ Addon.prototype.config = function (env, baseConfig) {
 
 **Uses:**
 
-- Modifying configuration options (see list of defaults [here](https://github.com/ember-cli/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js#L83))
+- Modifying configuration options (see list of defaults [here](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L96))
   - For example
     - `minifyJS`
     - `storeConfigInMeta`
@@ -68,7 +68,7 @@ Addon.prototype.config = function (env, baseConfig) {
 
 **Examples:**
 
-- Setting `storeConfigInMeta` to false in [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.4/index.js#L7)
+- Setting `storeConfigInMeta` to false in [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L24)
 
 <a name='blueprintspath'></a>
 ## blueprintsPath
@@ -77,7 +77,7 @@ Tells the application where your blueprints exist.
 
 **Received arguments:** None
 
-**Source:** [lib/models/addon.js:304](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/models/addon.js#L304)
+**Source:** [lib/models/addon.js:457](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/models/addon.js#L457)
 
 **Default implementation:**
 
@@ -97,7 +97,7 @@ Addon.prototype.blueprintsPath = function() {
 
 **Examples:**
 
-- [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeescript/blob/v0.6.0/index.js#L29)
+- [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeescript/blob/v0.9.1/index.js#L26)
 
 <a name='includedcommands'></a>
 ## includedCommands
@@ -106,7 +106,7 @@ Allows the specification of custom addon commands.  Expects you to return an obj
 
 **Received arguments:** None
 
-**Source:** [lib/models/project.js:234](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/models/project.js#L234)
+**Source:** [lib/models/project.js:388](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/models/project.js#L388)
 
 **Default implementation:** None
 
@@ -135,7 +135,7 @@ Designed to manipulate requests in development mode.
 **Received arguments:**
   - options (eg express_instance, project, watcher, environment)
 
-**Source:** [lib/tasks/server/express-server.js:63](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/tasks/server/express-server.js#L63)
+**Source:** [lib/tasks/server/express-server.js:64](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/tasks/server/express-server.js#L64)
 
 **Default implementation:** None
 
@@ -151,7 +151,7 @@ Designed to manipulate requests in development mode.
 
 - [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy/blob/v0.3.0/index.js#L25)
 
-- [history-support-addon](https://github.com/stefanpenner/ember-cli/blob/master/lib/tasks/server/middleware/history-support/index.js#L13)
+- [history-support-addon](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/tasks/server/middleware/history-support/index.js#L13)
 
 <a name='postbuild'></a>
 ## postBuild
@@ -163,7 +163,7 @@ Gives access to the result of the tree, and the location of the output.
 - Result object from broccoli build
   - `result.directory` - final output path
 
-**Source:** [lib/models/builder.js:111](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/models/builder.js#L111)
+**Source:** [lib/models/builder.js:117](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/models/builder.js#L117)
 
 **Default implementation:** None
 
@@ -175,7 +175,7 @@ Gives access to the result of the tree, and the location of the output.
 
 **Examples:**
 
-- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/master/index.js#L14)
+- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L47)
   - In this case we are using this in tandem with a rails middleware to remove a lock file.  This allows our ruby gem to block incoming requests until after the build happens reliably.
 
 <a name='prebuild'></a>
@@ -185,7 +185,7 @@ Hook called before build takes place.
 
 **Received arguments:**
 
-**Source:** [lib/models/builder.js:114](https://github.com/rwjblue/ember-cli/blob/pre-build-duh/lib/models/builder.js#L114)
+**Source:** [lib/models/builder.js:112](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/models/builder.js#L112)
 
 **Default implementation:** None
 
@@ -193,7 +193,7 @@ Hook called before build takes place.
 
 **Examples:**
 
-- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/master/index.js#L14)
+- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L41)
   - In this case we are using this in tandem with a rails middleware to create a lock file.
   *[See postBuild]*
 
@@ -208,7 +208,7 @@ fails
 
 - The error that was caught during the processes listed above
 
-**Source:** [lib/models/builder.js:122](https://github.com/rwjblue/ember-cli/blob/pre-build-duh/lib/models/builder.js#L11://github.com/ember-cli/ember-cli/blob/ffd52b584a0fb3201878431339744acdabb0fa24/lib/models/builder.js#L122)
+**Source:** [lib/models/builder.js:119](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/models/builder.js#L119)
 
 **Default implementation:** None
 
@@ -218,6 +218,8 @@ fails
 
 **Examples:**
 
+- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L19)
+
 <a name='included'></a>
 ## included
 
@@ -225,9 +227,9 @@ Usually used to import assets into the application.
 
 **Received arguments:**
 
-- `EmberApp` instance [see ember-app.js](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js)
+- `EmberApp` instance [see ember-app.js](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js)
 
-**Source:** [lib/broccoi/ember-app.js:216](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js#L216)
+**Source:** [lib/broccoi/ember-app.js:268](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L268)
 
 **Default implementation:** None
 
@@ -252,7 +254,7 @@ included: function colpick_included(app) {
 }
 ```
 
-- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/master/index.js#L6)
+- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L23)
 
 <a name='setuppreprocessorregistry'></a>
 ## setupPreprocessorRegistry
@@ -265,7 +267,7 @@ and [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeescript) 
 - `type` either `"self"` or `"parent"`
 - `registry` the registry to be set up
 
-**Source:** [lib/preprocessors:36](https://github.com/ember-cli/ember-cli/blob/master/lib/preprocessors.js#L36)
+**Source:** [lib/preprocessors:7](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/preprocessors.js#L7)
 
 **Default implementation:** None
 
@@ -298,7 +300,7 @@ setupPreprocessorRegistry: function(type, registry) {
 - post processing type (eg all)
 - receives tree after build
 
-**Source:** [lib/broccoli/ember-app.js:251](https://github.com/stefanpenner/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js#L251)
+**Source:** [lib/broccoli/ember-app.js:313](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L313)
 
 **Default implementation:** None
 
@@ -322,7 +324,7 @@ linter output as test results.
 - tree type ('app', 'tests', or 'addon')
 - tree of Javascript files
 
-**Source:** [lib/broccoli/ember-app.js:326](https://github.com/ef4/ember-cli/blob/be3e4461157e416e18953d84032897b218be6820/lib/broccoli/ember-app.js#L326-L347)
+**Source:** [lib/broccoli/ember-app.js:335](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L335)
 
 **Default implementation:** None
 
@@ -333,7 +335,7 @@ linter output as test results.
 
 **Examples:**
 
-- [ember-cli-qunit](https://github.com/ember-cli/ember-cli-qunit/blob/6513bbcc4a4eb567e1d477cb8ea24f31197b7c34/index.js#L88-L94)
+- [ember-cli-qunit](https://github.com/ember-cli/ember-cli-qunit/blob/v0.3.8/index.js#L94)
 - [ember-cli-mocha](https://github.com/ef4/ember-cli-mocha/blob/ec5a7cd064aabbfe47fbcb3389383f80cde8b668/index.js#L83-L89)
 
 
@@ -347,7 +349,7 @@ Allow addons to implement contentFor method to add string output into the associ
 - type
 - config
 
-**Source:** [lib/broccoli/ember-app.js:953](https://github.com/ember-cli/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js#L953)
+**Source:** [lib/broccoli/ember-app.js:1167](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L1167)
 
 **Default implementation:** None
 
@@ -357,7 +359,7 @@ Allow addons to implement contentFor method to add string output into the associ
 
 **Examples:**
 
-- [ember-cli-google-analytics](https://github.com/pgrippi/ember-cli-google-analytics/blob/v1.2.0/index.js#L80)
+- [ember-cli-google-analytics](https://github.com/pgrippi/ember-cli-google-analytics/blob/v1.3.1/index.js#L79)
 
 <a name='treefor'></a>
 ## treeFor
@@ -368,7 +370,7 @@ Return value is merged with application tree of same type
 
 - returns given type of tree (eg app, vendor, bower)
 
-**Source:** [lib/broccoli/ember-app.js:240](https://github.com/ember-cli/ember-cli/blob/v0.1.4/lib/broccoli/ember-app.js#L240)
+**Source:** [lib/broccoli/ember-app.js:296](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L296)
 
 **Default implementation:**
 
@@ -432,4 +434,4 @@ Allows to mark the addon as developing, triggering live-reload in the project th
   }
 ```
 
-See more [here](https://github.com/ember-cli/ember-cli/blob/b12e0023dc653316f68aa58b9bb14ade3037e9e6/lib/models/addon.js#L38)
+See more [here](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/models/addon.js#L62).
