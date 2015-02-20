@@ -14,7 +14,7 @@ install:
   # Get the latest stable version of Node 0.STABLE.latest
   - ps: Install-Product node $env:nodejs_version
   # Install PhantomJS
-  - cinst PhantomJS
+  - cinst PhantomJS -Version 1.9.8
   - set path=%path%;C:\tools\PhantomJS\
   - dir C:\tools\PhantomJS
   # Typical npm stuff.
