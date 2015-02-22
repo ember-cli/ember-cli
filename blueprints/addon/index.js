@@ -13,6 +13,15 @@ module.exports = {
     var packagePath = path.join(this._appBlueprint.path, 'files', 'package.json');
     var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
 
+    // preprocessors should be under dependencies
+    var preprocessors = ['ember-cli-htmlbars'];
+    preprocessors.forEach(function(name) {
+      var version = contents.devDependencies[name];
+      delete contents.devDependencies[name];
+      contents.dependencies = contents.dependencies || {};
+      contents.dependencies[name] = version;
+    });
+
     delete contents.private;
     contents.name = this.project.name();
     contents.description = this.description;
