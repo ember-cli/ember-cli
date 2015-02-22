@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+### 0.2.0-beta.2
+
+Support for addon's without an entry point script (either `index.js` by default or the script specified by ember-addon main in the addon's `package.json`
+has been removed. An addon must have at least the following:
+
+```javascript
+module.exports = {
+  name: "addons-name-here"
+};
+```
+
+This should *not* pose a problem for the vast majority of addons.
+
 ### 0.2.0-beta.1
 
 This release updates the way that addons can be nested, and contains some breaking changes in non-default addon configurations.

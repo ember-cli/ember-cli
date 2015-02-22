@@ -179,7 +179,30 @@ describe('models/addon-discovery.js', function() {
       };
     });
 
+    it('does not error when dependencies are not found', function() {
+      var root = path.join(fixturePath, 'shared-package', 'base');
+      var actualPaths = [];
+      var discovery = new AddonDiscovery();
+
+      deps['blah-zorz'] = 'latest';
+      discovery.discoverAtPath = function(providedPath) {
+        actualPaths.push(providedPath);
+
+        return providedPath;
+      };
+
+      discovery.discoverFromDependencies(root, mockPkg, true);
+
+      var expectedPaths = [
+        path.join(root, 'node_modules', 'foo-bar'),
+        path.join(root, 'node_modules', 'blah-blah')
+      ];
+
+      expect(actualPaths).to.be.eql(expectedPaths);
+    });
+
     it('calls discoverAtPath for each entry in dependencies', function() {
+      var root = path.join(fixturePath, 'shared-package', 'base');
       var actualPaths = [];
       var discovery = new AddonDiscovery();
 
@@ -189,18 +212,19 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(fixturePath, mockPkg);
+      discovery.discoverFromDependencies(root, mockPkg);
 
       var expectedPaths = [
-        path.join(fixturePath, 'node_modules', 'dev-foo-bar'),
-        path.join(fixturePath, 'node_modules', 'foo-bar'),
-        path.join(fixturePath, 'node_modules', 'blah-blah')
+        path.join(root, '..', 'node_modules', 'dev-foo-bar'),
+        path.join(root, 'node_modules', 'foo-bar'),
+        path.join(root, 'node_modules', 'blah-blah')
       ];
 
       expect(actualPaths).to.be.eql(expectedPaths);
     });
 
     it('excludes devDeps if `excludeDevDeps` is true', function() {
+      var root = path.join(fixturePath, 'shared-package', 'base');
       var actualPaths = [];
       var discovery = new AddonDiscovery();
 
@@ -210,11 +234,11 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(fixturePath, mockPkg, true);
+      discovery.discoverFromDependencies(root, mockPkg, true);
 
       var expectedPaths = [
-        path.join(fixturePath, 'node_modules', 'foo-bar'),
-        path.join(fixturePath, 'node_modules', 'blah-blah')
+        path.join(root, 'node_modules', 'foo-bar'),
+        path.join(root, 'node_modules', 'blah-blah')
       ];
 
       expect(actualPaths).to.be.eql(expectedPaths);

@@ -12,7 +12,6 @@
     "ember-random-addon": "latest",
     "ember-non-root-addon": "latest",
     "ember-generated-with-export-addon": "latest",
-    "ember-generated-no-export-addon": "latest",
     "non-ember-thingy": "latest",
     "ember-before-blueprint-addon": "latest",
     "ember-after-blueprint-addon": "latest",
