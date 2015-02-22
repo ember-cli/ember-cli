@@ -119,6 +119,8 @@
     "js-string-escape": "^1.0.0",
     "leek": "0.0.17",
     "lodash-node": "^2.4.1",
+    "marked": "^0.3.3",
+    "marked-terminal": "^1.1.3",
     "minimatch": "^1.0.0",
     "morgan": "^1.2.2",
     "node-uuid": "^1.4.1",

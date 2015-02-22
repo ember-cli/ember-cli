@@ -1,5 +1,6 @@
 var inflection  = require('inflection');
 var stringUtils = require('../../lib/utilities/string');
+var MarkdownColor = require('../../lib/utilities/markdown-color');
 var EOL         = require('os').EOL;
 var chalk       = require('chalk');
 
@@ -45,32 +46,8 @@ module.exports = {
   },
 
   printDetailedHelp: function() {
-    // TODO: update this with a proper help for the model blueprint
-    var output = '';
-    var indent = '        ';
-    output += indent + chalk.grey('You may generate models with as many attrs as you would like to pass.');
-    output += chalk.grey(' The following attribute types are supported:') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:array') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:boolean') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:date') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:object') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:number') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:string') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:belongs-to:<model-name>') + EOL;
-    output += indent + '  ' + chalk.yellow('<attr-name>:has-many:<model-name>') + EOL + EOL;
-    output += indent + chalk.grey('For instance: ');
-    output += chalk.green('`ember generate model taco filling:belongs-to:protein toppings:has-many:toppings name:string price:number misc`') + EOL;
-    output += indent + chalk.grey('would result in the following model:') + EOL + EOL;
-    output += indent + 'import DS from \'ember-data\';' + EOL;
-    output += indent + 'export default DS.Model.extend({' + EOL;
-    output += indent + '  filling: DS.belongsTo(\'protein\'),' + EOL;
-    output += indent + '  toppings: DS.hasMany(\'topping\')' + EOL;
-    output += indent + '  name: DS.attr(\'string\'),' + EOL;
-    output += indent + '  price: DS.attr(\'number\')' + EOL;
-    output += indent + '  misc: DS.attr()' + EOL;
-    output += indent + '});' + EOL;
-    return output;
+    var markdownColor = new MarkdownColor();
+    return markdownColor.renderFile(this.srcPath('../HELP.md'));
   }
 };
 
