@@ -9,7 +9,8 @@ release.
 STEPS:
 ------
 
-1. ensure you using the latest node `v0.10.x` (but not v0.11.x for now,
+1. let other contributors know that you are preparing a release and to hold off on merging PRs or pushing new code
+* ensure you using the latest node `v0.10.x` (but not v0.11.x for now,
    as it has a broken zlib which causes it to publish corrupted modules)
 * run `./bin/changelog` and add output to `CHANGELOG.md`
 * edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes etc.)
@@ -39,6 +40,9 @@ Please note, we have must have an extremely low tolerance for quirks
 and failures we do not want our users to endure any extra pain.
 
 1. go back to ember-cli directory
+* `git add` the modified `package.json` and `CHANGELOG.md`
+* Commit the changes `git commit -m "Release 0.x.x"` and push `git push`
+* publish to npm
 * `npm publish ./ember-cli-<version>.tgz`
 
 Test published version
@@ -49,6 +53,13 @@ Test published version
 * ensure version is as expected `ember version`
 * ensure new project generates
 * ensure old project upgrades nicely
+
+Tag the release
+1. Under `Releases` on GitHub choose `Draft New Release`
+* enter the new version number as the tag prefixed with `v` e.g. (`v0.1.12`)
+* for release title choose a great name, no pressure
+* in the description paste the upgrade instructions from the previous release, followed by the new CHANGELOG entry
+* publish the release
 
 Update the site
 
