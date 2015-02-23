@@ -179,6 +179,29 @@ describe('models/addon-discovery.js', function() {
       };
     });
 
+    it('can find a package without a main entry point [DEPRECATED]', function() {
+      var root = path.join(fixturePath, 'shared-package', 'base');
+      var actualPaths = [];
+      var discovery = new AddonDiscovery();
+
+      deps['invalid-package'] = 'latest';
+      discovery.discoverAtPath = function(providedPath) {
+        actualPaths.push(providedPath);
+
+        return providedPath;
+      };
+
+      discovery.discoverFromDependencies(root, mockPkg, true);
+
+      var expectedPaths = [
+        path.join(root, 'node_modules', 'foo-bar'),
+        path.join(root, 'node_modules', 'blah-blah'),
+        path.join(root, 'node_modules', 'invalid-package')
+      ];
+
+      expect(actualPaths).to.be.eql(expectedPaths);
+    });
+
     it('does not error when dependencies are not found', function() {
       var root = path.join(fixturePath, 'shared-package', 'base');
       var actualPaths = [];
@@ -195,7 +218,8 @@ describe('models/addon-discovery.js', function() {
 
       var expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
-        path.join(root, 'node_modules', 'blah-blah')
+        path.join(root, 'node_modules', 'blah-blah'),
+        path.join(root, 'node_modules', 'blah-zorz')
       ];
 
       expect(actualPaths).to.be.eql(expectedPaths);
