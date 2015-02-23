@@ -1,6 +1,5 @@
 var inflection  = require('inflection');
 var stringUtils = require('../../lib/utilities/string');
-var MarkdownColor = require('../../lib/utilities/markdown-color');
 var EOL         = require('os').EOL;
 var chalk       = require('chalk');
 
@@ -43,11 +42,6 @@ module.exports = {
       attrs: attrs,
       needs: needs
     };
-  },
-
-  printDetailedHelp: function() {
-    var markdownColor = new MarkdownColor();
-    return markdownColor.renderFile(this.srcPath('../HELP.md'));
   }
 };
 

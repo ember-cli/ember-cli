@@ -1,6 +1,4 @@
-      model <name> <attr:type>
-        ^gr^Generates an ember-data model.^gr^
-        ^gr^You may generate models with as many attrs as you would like to pass. The following attribute types are supported:^gr^
+         ^gr^You may generate models with as many attrs as you would like to pass. The following attribute types are supported:^gr^
           <attr-name>
           <attr-name>:array
           <attr-name>:boolean
