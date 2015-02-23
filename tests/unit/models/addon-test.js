@@ -132,114 +132,7 @@ describe('models/addon.js', function() {
       project.initializeAddons();
     });
 
-    describe('generated addon no-export', function() {
-      before(function() {
-        addon = findWhere(project.addons, { name: '(generated ember-generated-no-export-addon addon)' });
-      });
-
-      it('sets it\'s parent', function() {
-        expect(addon.parent.name).to.equal(project.name);
-      });
-
-      it('sets it\'s project', function() {
-        expect(addon.project.name).to.equal(project.name);
-      });
-
-      it('sets the root', function() {
-        expect(addon.root).to.not.equal(undefined);
-      });
-
-      it('sets the pkg', function() {
-        expect(addon.pkg).to.not.equal(undefined);
-      });
-
-      describe('custom treeFor methods', function() {
-        it('can define treeForApp', function() {
-          var called;
-
-          addon.treeForApp = function() {
-            called = true;
-          };
-
-          addon.treeFor('app');
-          expect(called);
-        });
-
-        it('can define treeForStyles', function() {
-          var called;
-
-          addon.treeForStyles = function() {
-            called = true;
-          };
-
-          addon.treeFor('styles');
-          expect(called);
-        });
-
-        it('can define treeForVendor', function() {
-          var called;
-
-          addon.treeForVendor = function() {
-            called = true;
-          };
-
-          addon.treeFor('vendor');
-          expect(called);
-        });
-
-        it('can define treeForTemplates', function() {
-          var called;
-
-          addon.treeForTemplates = function() {
-            called = true;
-          };
-
-          addon.treeFor('templates');
-          expect(called);
-        });
-
-        it('can define treeForPublic', function() {
-          var called;
-
-          addon.treeForPublic = function() {
-            called = true;
-          };
-
-          addon.treeFor('public');
-          expect(called);
-        });
-      });
-
-      describe('trees for it\'s treePaths', function() {
-        it('app', function() {
-          var tree = addon.treeFor('app');
-
-          expect(typeof tree.read).to.equal('function');
-        });
-
-        it('styles', function() {
-          var tree = addon.treeFor('styles');
-          expect(typeof tree.read).to.equal('function');
-        });
-
-        it('templates', function() {
-          var tree = addon.treeFor('templates');
-          expect(typeof tree.read).to.equal('function');
-        });
-
-        it('vendor', function() {
-          var tree = addon.treeFor('vendor');
-          expect(typeof tree.read).to.equal('function');
-        });
-
-        it('public', function() {
-          var tree = addon.treeFor('public');
-          expect(typeof tree.read).to.equal('function');
-        });
-      });
-    });
-
-    describe('generated addon with-export', function() {
+    describe('generated addon', function() {
       beforeEach(function() {
         addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
 
@@ -325,6 +218,63 @@ describe('models/addon.js', function() {
           addon.app = app;
           var tree = addon.treeFor('addon');
           expect(typeof tree.read).to.equal('function');
+        });
+      });
+
+      describe('custom treeFor methods', function() {
+        it('can define treeForApp', function() {
+          var called;
+
+          addon.treeForApp = function() {
+            called = true;
+          };
+
+          addon.treeFor('app');
+          expect(called);
+        });
+
+        it('can define treeForStyles', function() {
+          var called;
+
+          addon.treeForStyles = function() {
+            called = true;
+          };
+
+          addon.treeFor('styles');
+          expect(called);
+        });
+
+        it('can define treeForVendor', function() {
+          var called;
+
+          addon.treeForVendor = function() {
+            called = true;
+          };
+
+          addon.treeFor('vendor');
+          expect(called);
+        });
+
+        it('can define treeForTemplates', function() {
+          var called;
+
+          addon.treeForTemplates = function() {
+            called = true;
+          };
+
+          addon.treeFor('templates');
+          expect(called);
+        });
+
+        it('can define treeForPublic', function() {
+          var called;
+
+          addon.treeForPublic = function() {
+            called = true;
+          };
+
+          addon.treeFor('public');
+          expect(called);
         });
       });
     });
