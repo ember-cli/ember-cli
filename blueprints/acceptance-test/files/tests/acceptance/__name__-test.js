@@ -1,5 +1,8 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import {
+  module,
+  test
+} from 'qunit';
 import startApp from '<%= dasherizedPackageName %>/tests/helpers/start-app';
 
 var application;
