@@ -20,6 +20,9 @@ describe('generate command', function() {
 
         isEmberCLIProject: function isEmberCLIProject() {
           return true;
+        },
+        blueprintLookupPaths: function() {
+          return [];
         }
       },
 
@@ -53,6 +56,14 @@ describe('generate command', function() {
             'The `ember generate` command requires a ' +
             'blueprint name to be specified. ' +
             'For more details, use `ember help`.');
+      });
+  });
+
+  it('complains if --help is called for non-existent blueprint.', function() {
+    return Promise.resolve(command.printDetailedHelp({rawArgs:['foo','-h']}))
+      .then(function() {
+        expect(command.ui.output).to.include(
+            'The \'foo\' blueprint does not exist in this project.');
       });
   });
 });
