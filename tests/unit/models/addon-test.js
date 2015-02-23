@@ -397,4 +397,20 @@ describe('models/addon.js', function() {
       });
     });
   });
+
+  describe('Addon.lookup', function() {
+    it('should throw an error if an addon could not be found', function() {
+      var addon = {
+        path: 'foo/bar-baz/blah/doesnt-exist',
+        pkg: {
+          name: 'dummy-addon',
+          'ember-addon': { }
+        }
+      };
+
+      expect(function() {
+        Addon.lookup(addon);
+      }).to.throw(/The `dummy-addon` addon could not be found at `foo\/bar-baz\/blah\/doesnt-exist`\./);
+    });
+  });
 });
