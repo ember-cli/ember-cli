@@ -40,6 +40,27 @@ azure-deploy init
 
 Next, set up your Azure Website's source control to point to your repo - [either via GitHub, BitBucket, VSO or any of the other available options](http://azure.microsoft.com/en-us/documentation/articles/web-sites-publish-source-control/#Step4). As soon as you push a new commit to your repository, Azure Websites will automatically run `ember build` and deploy the contents of the created `dist` folder to your website's `wwwroot`.
 
+### Firebase
+To deploy your Ember CLI application to Firebase, you'll first need to enable hosting from your Firebase's Dashboard. Then, install the [Firebase Tools](https://github.com/firebase/firebase-tools):
+
+{% highlight bash %}
+npm install -g firebase-tools
+{% endhighlight %}
+
+You can then configure your application for deployment by running the following in your app's root folder and following the prompts:
+
+{% highlight bash %}
+firebase init
+{% endhighlight %}
+
+Finally, to deploy your application, run:
+
+{% highlight bash %}
+firebase deploy
+{% endhighlight %}
+
+For more configuration options, check out Firebase's [Hosting Guide](https://www.firebase.com/docs/hosting/guide/).
+
 ### History API and Base URL
 
 If you are deploying the app to somewhere other than the root URL (`/`),
