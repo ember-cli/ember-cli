@@ -7,6 +7,7 @@ var stub    = require('../../helpers/stub').stub;
 var tmp     = require('../../helpers/tmp');
 var touch   = require('../../helpers/file-utils').touch;
 var expect  = require('chai').expect;
+var MockUI = require('../../helpers/mock-ui');
 
 var emberCLIVersion = require('../../../lib/utilities/ember-cli-version');
 
@@ -25,7 +26,7 @@ describe('models/project.js', function() {
             baseURL: '/foo/bar'
           });
 
-          project = new Project(projectPath, { });
+          project = new Project(projectPath, { }, new MockUI());
           project.require = function() {
             called = true;
             return function() {};
@@ -142,7 +143,7 @@ describe('models/project.js', function() {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, new MockUI());
       project.initializeAddons();
     });
 
@@ -297,7 +298,7 @@ describe('models/project.js', function() {
       projectPath         = path.resolve(__dirname, '../../fixtures/addon/simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, new MockUI());
       project.initializeAddons();
 
       stub(Project.prototype, 'initializeAddons');
@@ -330,7 +331,7 @@ describe('models/project.js', function() {
       projectPath         = path.resolve(__dirname, '../../fixtures/addon/simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, new MockUI());
       project.initializeAddons();
 
       newProjectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
@@ -356,7 +357,7 @@ describe('models/project.js', function() {
     beforeEach(function() {
       projectPath = process.cwd() + '/tmp/test-app';
 
-      project = new Project(projectPath, {});
+      project = new Project(projectPath, {}, new MockUI());
       project.initializeAddons();
     });
 
@@ -381,7 +382,7 @@ describe('models/project.js', function() {
     beforeEach(function() {
       projectPath = process.cwd() + '/tmp/test-app';
 
-      project = new Project(projectPath, {});
+      project = new Project(projectPath, {}, new MockUI());
 
       stub(Project.prototype, 'initializeAddons');
 
@@ -433,25 +434,25 @@ describe('models/project.js', function() {
 
     it('should be set to directory property in .bowerrc', function() {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-with-directory');
-      project = new Project(projectPath, {});
+      project = new Project(projectPath, {}, new MockUI());
       expect(project.bowerDirectory).to.equal('vendor');
     });
 
     it('should default to ‘bower_components’ unless directory property is set in .bowerrc', function() {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-without-directory');
-      project = new Project(projectPath, {});
+      project = new Project(projectPath, {}, new MockUI());
       expect(project.bowerDirectory).to.equal('bower_components');
     });
 
     it('should default to ‘bower_components’ if .bowerrc is not present', function() {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/no-bowerrc');
-      project = new Project(projectPath, {});
+      project = new Project(projectPath, {}, new MockUI());
       expect(project.bowerDirectory).to.equal('bower_components');
     });
 
     it('should default to ‘bower_components’ if .bowerrc json is invalid', function() {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/invalid-bowerrc');
-      project = new Project(projectPath, {});
+      project = new Project(projectPath, {}, new MockUI());
       expect(project.bowerDirectory).to.equal('bower_components');
     });
   });
