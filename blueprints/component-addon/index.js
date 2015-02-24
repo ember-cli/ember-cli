@@ -1,5 +1,6 @@
 var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
+var stringUtil  = require('../../lib/utilities/string');
 var path        = require('path');
 
 module.exports = {
@@ -41,15 +42,18 @@ module.exports = {
   },
 
   locals: function(options) {
+    var addonEntity    = options.entity;
+    var addonRawName   = addonEntity.name;
+    var addonName      = stringUtil.dasherize(addonRawName);
     var fileName = options.dasherizedModuleName;
-    var pathName = 'templates/components';
+    var pathName = 'components';
 
     if (options.pod) {
-      fileName = 'template';
-      pathName = path.join(options.podPath, 'components', options.dasherizedModuleName);
+      fileName = 'component';
+      pathName = path.join(addonName, 'components', options.dasherizedModuleName);
     }
     return {
-      templatePath: pathName + fileName
+      modulePath: pathName + fileName
     };
   }
 };
