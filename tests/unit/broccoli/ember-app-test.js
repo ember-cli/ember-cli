@@ -407,6 +407,28 @@ describe('broccoli/ember-app', function() {
       emberApp.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
       expect(emberApp.legacyFilesToAppend.indexOf('vendor/es5-shim.js')).to.equal(0);
     });
+    it('defaults to development if production is not set', function() {
+      process.env.EMBER_ENV = 'production';
+      emberApp = new EmberApp({
+      });
+      emberApp.import({
+        'development': 'vendor/jquery.js'
+      });
+      expect(emberApp.legacyFilesToAppend.indexOf('vendor/jquery.js')).to.equal(emberApp.legacyFilesToAppend.length -1);
+      process.env.EMBER_ENV = undefined;
+
+    });
+    it('honors explicitly set to null in environment', function() {
+      process.env.EMBER_ENV = 'production';
+      emberApp = new EmberApp({
+      });
+      emberApp.import({
+        'development': 'vendor/jquery.js',
+        'production':  null
+      });
+      expect(emberApp.legacyFilesToAppend.indexOf('vendor/jquery.js')).to.equal(-1);
+      process.env.EMBER_ENV = undefined;
+    });
   });
 
   describe('vendorFiles', function() {
