@@ -45,15 +45,15 @@ module.exports = {
     var addonEntity    = options.entity;
     var addonRawName   = addonEntity.name;
     var addonName      = stringUtil.dasherize(addonRawName);
-    var fileName = options.dasherizedModuleName;
-    var pathName = 'components';
+    var fileName       = stringUtil.dasherize(options.entity.name);
+    var pathName       = 'components';
 
     if (options.pod) {
       fileName = 'component';
-      pathName = path.join(addonName, 'components', options.dasherizedModuleName);
+      pathName = path.join(addonName, 'components', fileName);
     }
     return {
-      modulePath: pathName + fileName
+      modulePath: path.join(pathName, fileName)
     };
   }
 };
