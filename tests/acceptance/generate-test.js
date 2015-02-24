@@ -105,7 +105,10 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/components/x-foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Component.extend({" + EOL + "});"
+          "import layout from '../templates/components/x-foo';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
         ]
       });
       assertFile('app/templates/components/x-foo.hbs', {
