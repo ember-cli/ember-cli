@@ -310,3 +310,16 @@ var app = new EmberApp({
   }
 });
 {% endhighlight %}
+
+#### Integration
+
+When using Ember inside another project, you may want to launch Ember only when a specific route is accessed. If you're preloading the Ember javascript before you access the route, you have to disable `autoRun`:
+
+{% highlight javascript %}
+var app = new EmberApp({
+  autoRun: false
+});
+{% endhighlight %}
+
+To manually run Ember:
+`require("app-name/app")["default"].create({/* app settings */});`
