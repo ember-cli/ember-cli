@@ -55,9 +55,26 @@ describe('Acceptance: ember destroy pod', function() {
     ]);
   }
 
+  function initAddon() {
+    return ember([
+      'addon',
+      'my-addon',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
+  }
+
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
     return ember(generateArgs);
+  }
+
+  function generateInAddon(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initAddon().then(function() {
+      return ember(generateArgs);
+    });
   }
 
   function destroy(args) {
@@ -100,6 +117,22 @@ describe('Acceptance: ember destroy pod', function() {
       .then(function() {
         replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,' + EOL + '"usePods" : true' + EOL);
         return generate(args);
+      })
+      .then(function() {
+        assertFilesExist(files);
+      })
+      .then(function() {
+        return destroy(args);
+      })
+      .then(function() {
+        assertFilesNotExist(files);
+      });
+  }
+
+  function assertDestroyAfterGenerateInAddon(args, files) {
+    return initAddon()
+      .then(function() {
+        return generateInAddon(args);
       })
       .then(function() {
         assertFilesExist(files);
@@ -494,6 +527,17 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
+  it('in-addon component x-foo', function() {
+    var commandArgs = ['component', 'x-foo', '--pod'];
+    var files       = [
+      'addon/components/x-foo/component.js',
+      'addon/components/x-foo/template.hbs',
+      'app/components/x-foo/component.js',
+      'tests/unit/components/x-foo/component-test.js'
+    ];
+
+    return assertDestroyAfterGenerateInAddon(commandArgs, files);
+  });
 
   it('acceptance-test foo --pod', function() {
     var commandArgs = ['acceptance-test', 'foo', '--pod'];

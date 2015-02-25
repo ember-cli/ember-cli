@@ -89,6 +89,23 @@ describe('Acceptance: ember generate pod', function() {
     });
   }
 
+  function initAddon() {
+    return ember([
+      'addon',
+      'my-addon',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
+  }
+
+  function generateInAddon(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initAddon().then(function() {
+      return ember(generateArgs);
+    });
+  }
+
   it('.ember-cli usePods setting generates in pod structure without --pod flag', function() {
     return generateWithUsePods(['controller', 'foo']).then(function() {
       assertFile('app/foo/controller.js', {
@@ -1358,6 +1375,38 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('server/.jshintrc', {
         contains: '{' + EOL + '  "node": true' + EOL + '}'
+      });
+    });
+  });
+
+  it('in-addon component x-foo --pod', function() {
+    return generateInAddon(['component', 'x-foo', '--pod']).then(function() {
+      assertFile('addon/components/x-foo/component.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "import layout from './template';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
+        ]
+      });
+      assertFile('addon/components/x-foo/template.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('app/components/x-foo/component.js', {
+        contains: [
+          "import xFoo from 'my-addon/components/x-foo/component';",
+          "export default xFoo;"
+        ]
+      });
+      assertFile('tests/unit/components/x-foo/component-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
       });
     });
   });

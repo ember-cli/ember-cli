@@ -1,7 +1,6 @@
 var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
 var stringUtil  = require('../../lib/utilities/string');
-var pathPosix   = require('path-posix');
 var path        = require('path');
 
 module.exports = {
@@ -43,9 +42,8 @@ module.exports = {
   },
 
   locals: function(options) {
-    var fileName        = stringUtil.dasherize(options.entity.name);
-    var pathName        = '../templates/components';
-    var templatePath    = pathPosix.join(pathName, fileName);
+    var templatePath = '../templates/components/' + stringUtil.dasherize(options.entity.name);
+
     if (options.pod) {
       templatePath = './template';
     }

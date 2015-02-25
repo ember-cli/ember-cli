@@ -14,18 +14,12 @@ module.exports = {
         }
         return 'components';
       },
-      __templatepath__: function(options) {
+      __name__: function(options) {
         if (options.pod) {
-          return path.join(options.podPath, 'components', options.dasherizedModuleName);
-        }
-        return 'templates/components';
-      },
-      __templatename__: function(options) {
-        if (options.pod) {
-          return 'template';
+          return 'component';
         }
         return options.dasherizedModuleName;
-      }
+      },
     };
   },
 
@@ -42,18 +36,17 @@ module.exports = {
   },
 
   locals: function(options) {
-    var addonEntity    = options.entity;
-    var addonRawName   = addonEntity.name;
+    var addonRawName   = options.project.pkg.name;
     var addonName      = stringUtil.dasherize(addonRawName);
     var fileName       = stringUtil.dasherize(options.entity.name);
-    var pathName       = 'components';
+    var pathName       = [addonName, 'components', fileName].join('/');
 
     if (options.pod) {
-      fileName = 'component';
-      pathName = path.join(addonName, 'components', fileName);
+      pathName = [addonName, 'components', fileName,'component'].join('/');
     }
+
     return {
-      modulePath: path.join(pathName, fileName)
+      modulePath: pathName
     };
   }
 };
