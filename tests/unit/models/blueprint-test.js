@@ -85,6 +85,7 @@ describe('Blueprint', function() {
       var fileMapVariables = {
         pod: true,
         podPath: 'pods',
+        isAddon: false,
         blueprintName: 'test',
         dasherizedModuleName: 'foo-baz',
         locals: { SOME_LOCAL_ARG: 'ARGH' }
@@ -94,6 +95,7 @@ describe('Blueprint', function() {
       var expected = {
         __name__: 'foo-baz',
         __path__: 'tests',
+        __root__: 'app',
         __test__: 'foo-baz-test'
       };
 

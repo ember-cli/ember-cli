@@ -52,9 +52,26 @@ describe('Acceptance: ember destroy', function() {
     ]);
   }
 
+  function initAddon() {
+    return ember([
+      'addon',
+      'my-addon',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
+  }
+
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
     return ember(generateArgs);
+  }
+
+  function generateInAddon(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initAddon().then(function() {
+      return ember(generateArgs);
+    });
   }
 
   function destroy(args) {
@@ -79,6 +96,22 @@ describe('Acceptance: ember destroy', function() {
     return initApp()
       .then(function() {
         return generate(args);
+      })
+      .then(function() {
+        assertFilesExist(files);
+      })
+      .then(function() {
+        return destroy(args);
+      })
+      .then(function() {
+        assertFilesNotExist(files);
+      });
+  }
+
+  function assertDestroyAfterGenerateInAddon(args, files) {
+    return initAddon()
+      .then(function() {
+        return generateInAddon(args);
       })
       .then(function() {
         assertFilesExist(files);
@@ -453,6 +486,17 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
+  it('in-addon component x-foo', function() {
+    var commandArgs = ['component', 'x-foo'];
+    var files       = [
+      'addon/components/x-foo.js',
+      'addon/templates/components/x-foo.hbs',
+      'app/components/x-foo.js',
+      'tests/unit/components/x-foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerateInAddon(commandArgs, files);
+  });
 
   it('acceptance-test foo', function() {
     var commandArgs = ['acceptance-test', 'foo'];

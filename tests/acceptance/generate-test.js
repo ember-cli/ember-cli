@@ -52,10 +52,27 @@ describe('Acceptance: ember generate', function() {
     ]);
   }
 
+  function initAddon() {
+    return ember([
+      'addon',
+      'my-addon',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
+  }
+
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
+      return ember(generateArgs);
+    });
+  }
+
+  function generateInAddon(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initAddon().then(function() {
       return ember(generateArgs);
     });
   }
@@ -105,7 +122,10 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/components/x-foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Component.extend({" + EOL + "});"
+          "import layout from '../templates/components/x-foo';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
         ]
       });
       assertFile('app/templates/components/x-foo.hbs', {
@@ -1158,6 +1178,38 @@ describe('Acceptance: ember generate', function() {
     return generate(['server']).then(function() {
       assertFile('server/index.js');
       assertFile('server/.jshintrc');
+    });
+  });
+
+  it('in-addon component x-foo', function() {
+    return generateInAddon(['component', 'x-foo']).then(function() {
+      assertFile('addon/components/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "import layout from '../templates/components/x-foo';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
+        ]
+      });
+      assertFile('addon/templates/components/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('app/components/x-foo.js', {
+        contains: [
+          "import xFoo from 'my-addon/components/x-foo';",
+          "export default xFoo;"
+        ]
+      });
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
     });
   });
 
