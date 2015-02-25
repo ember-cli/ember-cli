@@ -1,5 +1,7 @@
 'use strict';
 
+var fs            = require('fs');
+var os            = require('os');
 var path          = require('path');
 var expect        = require('chai').expect;
 var MockUI        = require('../../helpers/mock-ui');
@@ -91,12 +93,23 @@ describe('init command', function() {
 
 
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
+    // change the working dir so `process.cwd` can't be a invalid path for base directories 
+    // named `ember-cli`.
+
+    var tmpDir = os.tmpdir();
+    var workingDir = tmpDir + '/ember-cli-test-project';
+    var currentWorkingDir = process.cwd();
+
+    fs.mkdirSync(workingDir);
+    process.chdir(workingDir);
+
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal(path.basename(process.cwd()));
         return Promise.reject('Called run');
       }
     });
+
     var command = new InitCommand({
       ui: ui,
       analytics: analytics,
@@ -108,6 +121,10 @@ describe('init command', function() {
     return command.validateAndRun([])
       .catch(function(reason) {
         expect(reason).to.equal('Called run');
+      })
+      .then(function() {
+        process.chdir(currentWorkingDir);
+        fs.rmdirSync(workingDir);
       });
   });
 
