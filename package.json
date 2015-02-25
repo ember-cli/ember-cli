@@ -10,7 +10,9 @@
   "scripts": {
     "docs": "node bin/generate-docs.js",
     "test": "node tests/runner",
+    "test:debug": "node debug tests/runner",
     "test-all": "node tests/runner all",
+    "test-all:debug": "node debug tests/runner all",
     "autotest": "mocha --watch --reporter spec tests/**/*-test.js"
   },
   "repository": {
