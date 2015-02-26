@@ -319,9 +319,20 @@ describe('models/addon.js', function() {
     });
 
     describe('isDevelopingAddon', function() {
-      var originalEnvValue;
+      var originalEnvValue, addon, project;
 
       beforeEach(function() {
+        var MyAddon = Addon.extend({
+          name: 'test-project'
+        });
+
+        var projectPath = path.resolve(fixturePath, 'simple');
+        var packageContents = require(path.join(projectPath, 'package.json'));
+
+        project = new Project(projectPath, packageContents);
+
+        addon = new MyAddon(project);
+
         originalEnvValue = process.env.EMBER_ADDON_ENV;
       });
 
@@ -332,19 +343,26 @@ describe('models/addon.js', function() {
       it('returns true when `EMBER_ADDON_ENV` is set to development', function() {
         process.env.EMBER_ADDON_ENV = 'development';
 
-        expect(addon.isDevelopingAddon());
+        expect(addon.isDevelopingAddon(), 'addon is being developed').to.eql(true);
       });
 
       it('returns false when `EMBER_ADDON_ENV` is not set', function() {
         delete process.env.EMBER_ADDON_ENV;
 
-        expect(!addon.isDevelopingAddon());
+        expect(addon.isDevelopingAddon()).to.eql(false);
       });
 
       it('returns false when `EMBER_ADDON_ENV` is something other than `development`', function() {
         process.env.EMBER_ADDON_ENV = 'production';
 
-        expect(!addon.isDevelopingAddon());
+        expect(addon.isDevelopingAddon()).to.equal(false);
+      });
+
+      it('returns false when the addon is not the one being developed', function() {
+        process.env.EMBER_ADDON_ENV = 'development';
+
+        addon.name = 'my-addon';
+        expect(addon.isDevelopingAddon(), 'addon is not being developed').to.eql(false);
       });
     });
 
