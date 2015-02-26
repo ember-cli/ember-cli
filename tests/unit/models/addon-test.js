@@ -49,8 +49,10 @@ describe('models/addon.js', function() {
     });
 
     describe('.jshintAddonTree', function() {
-      it('it uses the fullPath', function() {
-        var addon = new FirstAddon(project);
+      var addon;
+
+      beforeEach(function() {
+        addon = new FirstAddon(project);
 
         // TODO: fix config story...
         addon.app = {
@@ -61,6 +63,9 @@ describe('models/addon.js', function() {
         addon.jshintTrees = function(){};
         addon.pickFiles   = function(){};
 
+      });
+
+      it('uses the fullPath', function() {
         var addonPath;
         addon.addonJsFiles = function(_path) {
           addonPath = _path;
@@ -72,8 +77,19 @@ describe('models/addon.js', function() {
         addon.jshintAddonTree();
         expect(addonPath).to.eql(path.join(root, 'addon'));
       });
-    });
 
+      it('lints the files before preprocessing', function() {
+        addon.preprocessJs = function() {
+          expect(false, 'should not preprocess files').to.eql(true);
+        };
+
+        var root = path.join(fixturePath, 'with-styles');
+        addon.root = root;
+
+        addon.jshintAddonTree();
+      });
+
+    });
 
     it('modifying a treePath does not affect other addons', function() {
       var first = new FirstAddon(project);
