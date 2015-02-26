@@ -413,4 +413,30 @@ describe('models/addon.js', function() {
       }).to.throw(/The `dummy-addon` addon could not be found at `foo\/bar-baz\/blah\/doesnt-exist`\./);
     });
   });
+
+  describe('compileTemplates', function() {
+    beforeEach(function() {
+      projectPath = path.resolve(fixturePath, 'simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+      project.initializeAddons();
+
+      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+    });
+
+    it('should throw a useful error if a template compiler is not present', function() {
+        var tree = path.join(fixturePath, 'simple');
+
+        expect(function() {
+          addon.compileTemplates(tree);
+        }).to.throw(
+          'An `addon/templates` tree was detected, but there ' +
+          'are no template compilers registered for `' + addon.name + '`. ' +
+          'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
+          'is listed in `dependencies` (NOT `devDependencies`) in ' +
+          '`' + addon.name + '`\'s `package.json`.'
+        );
+    });
+  });
 });
