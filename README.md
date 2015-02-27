@@ -63,7 +63,7 @@ Please read the official [mocha documentation](http://mochajs.org/) for more inf
 When running ember cli it could happen that a lack of file watches can occur. You will get an error message like:
 
 ```sh
-Serving on http://0.0.0.0:4200
+Serving on http://localhost:4200
 watch ENOSPC
 Error: watch ENOSPC
     at errnoException (fs.js:1019:11)
