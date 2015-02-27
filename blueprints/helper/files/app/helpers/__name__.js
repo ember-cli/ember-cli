@@ -4,4 +4,4 @@ export function <%= camelizedModuleName %>(input) {
   return input;
 }
 
-export default Ember.Handlebars.makeBoundHelper(<%= camelizedModuleName %>);
+export default Ember.HTMLBars.makeBoundHelper(<%= camelizedModuleName %>);

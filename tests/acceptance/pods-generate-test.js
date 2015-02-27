@@ -285,7 +285,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBar(input) {" + EOL +
                   "  return input;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.Handlebars.makeBoundHelper(fooBar);"
+                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
         contains: "import {" + EOL +
@@ -302,7 +302,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBar(input) {" + EOL +
                   "  return input;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.Handlebars.makeBoundHelper(fooBar);"
+                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
         contains: "import {" + EOL +
@@ -319,7 +319,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBarBaz(input) {" + EOL +
                   "  return input;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import {" + EOL +
@@ -336,7 +336,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBarBaz(input) {" + EOL +
                   "  return input;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.Handlebars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import {" + EOL +
