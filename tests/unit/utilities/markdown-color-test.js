@@ -3,16 +3,32 @@
 var MarkdownColor = require('../../../lib/utilities/markdown-color');
 var expect        = require('chai').expect;
 var path          = require('path');
+var chalk         = require('chalk');
 
-describe('MarkdownColor', function() {
+function isAnsiSupported() {
+  // when ansi is supported this should be
+  return chalk.red('a') !== 'a';
+}
+
+(isAnsiSupported() ? describe : describe.skip)('MarkdownColor', function() {
   var mc;
 
   beforeEach(function() {
+    /*
+    // check to make sure ansi is supported
+    // can use this.skip() after Mocha 2.1.1
+    // see https://github.com/mochajs/mocha/pull/946
+    if (isAnsiSupported()) {
+      this.skip();
+    }
+    */
     mc = new MarkdownColor();
   });
 
   it('parses default markdown', function() {
-
+    expect(mc.render('# foo\n__bold__ words\n* un\n* ordered\n* list')).to.equal(
+      '\u001b[1m\u001b[4m\u001b[35m# foo\u001b[39m\u001b[24m\u001b[22m\n\u001b[0m\u001b[1m' +
+      'bold\u001b[22m words\u001b[0m\n\n   \u001b[0m* un\u001b[0m\n   \u001b[0m* ordered\u001b[0m\n   \u001b[0m* list\u001b[0m\n\n');
   });
 
   it('parses color tokens', function() {
@@ -55,7 +71,7 @@ describe('MarkdownColor', function() {
   });
 
   it('parses markdown files', function() {
-    console.log('\u001b[0m  \u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them \u001b[39m\u001b[0m\n\n');
+    // console.log('\u001b[0m  \u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them \u001b[39m\u001b[0m\n\n');
     expect(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md'))).to
       .equal('\u001b[0m  \u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them \u001b[39m\u001b[0m\n\n');
   });
