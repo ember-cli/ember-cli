@@ -3,7 +3,6 @@ var expect           = require('chai').expect;
 var CheckVersions    = require('../../../../lib/tasks/doctor/check-versions');
 var MockUI           = require('../../../helpers/mock-ui');
 var MockProject      = require('../../../helpers/mock-project');
-var processVersions  = require('../../../../lib/utilities/get-versions').versions;
 var Table            = require('cli-table');
 var os               = require('os');
 
@@ -26,7 +25,7 @@ describe('check supported versions', function() {
     };
 
     project.pkg = {
-      os: ['darwin', 'linux'],
+      os: ['darwin', 'linux', os.platform()],
       engines: {
         node: '>= 0.10.0'
       },
@@ -42,6 +41,7 @@ describe('check supported versions', function() {
   });
 
   it('should not write anything if the versions match', function() {
+    uiWrote = undefined;
     return checkVersions.run().then(function() {
       expect(uiWrote).to.deep.equal(undefined);
     });
@@ -61,22 +61,18 @@ describe('check supported versions', function() {
   it('should prompt the developer with non compatable npm', function() {
     checkVersions.project.pkg.dependencies.npm = '^3.0.0';
     return checkVersions.run().then(function() {
-      var table = new Table({
-        head: ['Name', 'Yours', 'Expected']
-      });
-      table.push(['npm', processVersions().npm, '^3.0.0']);
-      expect(uiWrote).to.equal(table.toString());
+      expect(uiWrote).to.have.string('npm');
+      expect(uiWrote).to.have.string('2.1.8');
+      expect(uiWrote).to.have.string('^3.0.0');
     });
   });
   
   it('should prompt the developer with non compatable node version', function() {
     checkVersions.project.pkg.engines.node = '>= 1.0.0';
     return checkVersions.run().then(function() {
-      var table = new Table({
-        head: ['Name', 'Yours', 'Expected']
-      });
-      table.push(['node', processVersions().node, '>= 1.0.0']);
-      expect(uiWrote).to.equal(table.toString());
+      expect(uiWrote).to.have.string('node');
+      expect(uiWrote).to.have.string(process.versions.node);
+      expect(uiWrote).to.have.string('>= 1.0.0');
     });
   });
 });
