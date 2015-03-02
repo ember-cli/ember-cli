@@ -139,7 +139,7 @@
     "through": "^2.3.4",
     "tiny-lr": "0.1.5",
     "walk-sync": "0.1.3",
-    "yam": "0.0.17"
+    "yam": "0.0.18"
   },
   "devDependencies": {
     "chai": "^1.9.1",
