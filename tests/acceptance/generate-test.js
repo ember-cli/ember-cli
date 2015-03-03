@@ -147,8 +147,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['helper', 'foo-bar']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBar(input) {" + EOL +
-                  "  return input;" + EOL +
+                  "export function fooBar(/*params, hash*/) {" + EOL +
                   "}" +  EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
       });
@@ -164,8 +163,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['helper', 'foo/bar-baz']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBarBaz(input) {" + EOL +
-                  "  return input;" + EOL +
+                  "export function fooBarBaz(/*params, hash*/) {" + EOL +
                   "}" + EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
       });
