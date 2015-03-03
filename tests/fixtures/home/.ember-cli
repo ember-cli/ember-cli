@@ -4,5 +4,5 @@
   "host": "0.1.0.1",
   "liveReload": true,
   "environment": "mock-development",
-  "checkForUpdates": false
+  "checkForUpdates": true
 }
