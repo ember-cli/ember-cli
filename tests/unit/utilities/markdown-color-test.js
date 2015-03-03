@@ -6,7 +6,7 @@ var path          = require('path');
 var chalk         = require('chalk');
 
 function isAnsiSupported() {
-  // when ansi is supported this should be
+  // when ansi is supported this should be '\u001b[0m\u001b[31ma\u001b[39m\u001b[0m\n\n'
   return chalk.red('a') !== 'a';
 }
 
@@ -32,22 +32,23 @@ function isAnsiSupported() {
   });
 
   it('parses color tokens', function() {
-    expect(mc.render('^r^red^r^')).to.equal('\u001b[0m\u001b[31mred\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('^g^green^g^')).to.equal('\u001b[0m\u001b[32mgreen\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('^b^blue^b^')).to.equal('\u001b[0m\u001b[34mblue\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('^c^cyan^c^')).to.equal('\u001b[0m\u001b[36mcyan\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('^m^magenta^m^')).to.equal('\u001b[0m\u001b[35mmagenta\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('^y^yellow^y^')).to.equal('\u001b[0m\u001b[33myellow\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('^k^black^k^')).to.equal('\u001b[0m\u001b[30mblack\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('^gr^grey^gr^')).to.equal('\u001b[0m\u001b[90mgrey\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^red^red^red^')).to.equal('\u001b[0m\u001b[31mred\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^green^green^green^')).to.equal('\u001b[0m\u001b[32mgreen\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^blue^blue^blue^')).to.equal('\u001b[0m\u001b[34mblue\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^cyan^cyan^cyan^')).to.equal('\u001b[0m\u001b[36mcyan\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^magenta^magenta^magenta^')).to.equal('\u001b[0m\u001b[35mmagenta\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^yellow^yellow^yellow^')).to.equal('\u001b[0m\u001b[33myellow\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^black^black^black^')).to.equal('\u001b[0m\u001b[30mblack\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^gray^gray^gray^')).to.equal('\u001b[0m\u001b[90mgray\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^grey^grey^grey^')).to.equal('\u001b[0m\u001b[90mgrey\u001b[39m\u001b[0m\n\n');
 
-    expect(mc.render('^br^bgRed^br^')).to.equal('\u001b[0m\u001b[41mbgRed\u001b[49m\u001b[0m\n\n');
-    expect(mc.render('^bg^bgGreen^bg^')).to.equal('\u001b[0m\u001b[42mbgGreen\u001b[49m\u001b[0m\n\n');
-    expect(mc.render('^bb^bgBlue^bb^')).to.equal('\u001b[0m\u001b[44mbgBlue\u001b[49m\u001b[0m\n\n');
-    expect(mc.render('^bc^bgCyan^bc^')).to.equal('\u001b[0m\u001b[46mbgCyan\u001b[49m\u001b[0m\n\n');
-    expect(mc.render('^bm^bgMagenta^bm^')).to.equal('\u001b[0m\u001b[45mbgMagenta\u001b[49m\u001b[0m\n\n');
-    expect(mc.render('^by^bgYellow^by^')).to.equal('\u001b[0m\u001b[43mbgYellow\u001b[49m\u001b[0m\n\n');
-    expect(mc.render('^bk^bgBlack^bk^')).to.equal('\u001b[0m\u001b[40mbgBlack\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('^bgRed^bgRed^bgRed^')).to.equal('\u001b[0m\u001b[41mbgRed\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('^bgGreen^bgGreen^bgGreen^')).to.equal('\u001b[0m\u001b[42mbgGreen\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('^bgBlue^bgBlue^bgBlue^')).to.equal('\u001b[0m\u001b[44mbgBlue\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('^bgCyan^bgCyan^bgCyan^')).to.equal('\u001b[0m\u001b[46mbgCyan\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('^bgMagenta^bgMagenta^bgMagenta^')).to.equal('\u001b[0m\u001b[45mbgMagenta\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('^bgYellow^bgYellow^bgYellow^')).to.equal('\u001b[0m\u001b[43mbgYellow\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('^bgBlack^bgBlack^bgBlack^')).to.equal('\u001b[0m\u001b[40mbgBlack\u001b[49m\u001b[0m\n\n');
   });
 
   it('parses custom tokens', function() {
@@ -77,7 +78,7 @@ function isAnsiSupported() {
   });
 
   it('allows tokens inside other token bounds', function() {
-    expect(mc.render('^c^tacos are ^y^delicious^y^ and I enjoy eating them ^c^')).to.equal('\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m and I enjoy eating them \u001b[39m\u001b[0m\n\n');
+    expect(mc.render('^cyan^tacos are ^yellow^delicious^yellow^ and I enjoy eating them ^cyan^')).to.equal('\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m and I enjoy eating them \u001b[39m\u001b[0m\n\n');
   });
 });
 /* Chalk supported styles -
@@ -108,4 +109,6 @@ styles:
      bgCyan: { open: '\u001b[46m', close: '\u001b[49m', closeRe: /[49m/g },
      bgWhite: { open: '\u001b[47m', close: '\u001b[49m', closeRe: /[49m/g },
      grey: { open: '\u001b[90m', close: '\u001b[39m', closeRe: /[39m/g } },
+
+Use strip-ansi to check content in environments that don't support it?
 */

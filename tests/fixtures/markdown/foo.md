@@ -1,1 +1,1 @@
-  ^c^tacos are ^y^delicious^y^ ^b^and I^b^ enjoy eating them ^c^
+  ^cyan^tacos are ^yellow^delicious^yellow^ ^blue^and I^blue^ enjoy eating them ^cyan^
