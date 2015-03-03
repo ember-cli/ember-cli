@@ -139,6 +139,15 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('default development build does not fail', function() {
+    this.timeout(100000);
+
+    return copyFixtureFiles('brocfile-tests/query')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+      });
+  });
+
   it('default development build tests', function() {
     this.timeout(450000);
 
