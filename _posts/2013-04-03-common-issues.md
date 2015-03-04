@@ -168,6 +168,20 @@ In order to fix this ensure the following is added to your `PATH`:
 
 `C:\Users\USER_NAME\AppData\Roaming\npm\node_modules\phantomjs\lib\phantom`
 
+### Cygwin on Windows
+
+When running ember cli command within cygwin the following error can occur:
+
+net.js:156
+    this._handle.open(options.fd);
+                 ^
+Error: EINVAL, invalid argument
+    at new Socket (net.js:156:18)
+    at process.stdin (node.js:664:19)
+
+Try to launch cygwin using the following command:
+C:\cygwin\bin\bash.exe --login -i -c "cd /cygdrive/c/Users/username/; exec bash"
+
 ### Usage with Vagrant
 
 [Vagrant](http://vagrantup.com) is a system for automatically creating and setting up development environments that run in a virtual machine (VM). 
