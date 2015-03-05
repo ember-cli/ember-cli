@@ -4,7 +4,7 @@
   <body data-spy="scroll" data-target=".sidebar">
     {% include header.html %}
     <div class="content">
-        {% include description.html %}
+      {% include description.html %}
       <div id="swap"></div>
       <div id="guide" class="container">
         <div class="row">
@@ -13,7 +13,7 @@
               <ul class="nav sidenav">
                 <li class="ectop"> <a href="#showcase"><span class="glyphicon glyphicon-arrow-up"></span>Back to Top</a></li>
                 {% for guide in site.posts %}
-                  {% if guide.hidden != 'true' %}
+                  {% if guide.hidden != 'true' and guide.category == page.category %}
                     <li>
                       <a href="#{{guide.permalink}}">{{guide.title}}</a>
                     </li>

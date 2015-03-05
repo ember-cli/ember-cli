@@ -2,6 +2,7 @@
 layout: post
 title: "Using With Ember Data"
 permalink: ember-data
+category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-12-ember-data.md"
 ---
 

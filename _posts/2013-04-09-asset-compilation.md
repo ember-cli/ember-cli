@@ -2,6 +2,7 @@
 layout: post
 title: "Asset Compilation"
 permalink: asset-compilation
+category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-09-asset-compilation.md"
 ---
 

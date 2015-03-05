@@ -2,6 +2,7 @@
 layout: post
 title: "Using Modules & the Resolver"
 permalink: using-modules
+category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-02-using-modules.md"
 ---
 

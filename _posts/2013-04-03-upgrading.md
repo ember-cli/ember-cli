@@ -2,6 +2,7 @@
 layout: post
 title: "Upgrading"
 permalink: upgrading
+category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-03-upgrading.md"
 ---
 

@@ -1,4 +1,4 @@
- /******************************************************************
+/******************************************************************
 Site Name:
 Author:
 
@@ -46,22 +46,22 @@ BORDER RADIUS
 /* @include border-radius(5px); */
 @font-face {
   font-family: 'exomedium';
-  src: url("../fonts/exo-medium-webfont.eot");
-  src: url("../fonts/exo-medium-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-medium-webfont.woff") format("woff"), url("../fonts/exo-medium-webfont.ttf") format("truetype"), url("../fonts/exo-medium-webfont.svg#exomedium") format("svg");
+  src: url('../fonts/exo-medium-webfont.eot');
+  src: url('../fonts/exo-medium-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/exo-medium-webfont.woff') format('woff'), url('../fonts/exo-medium-webfont.ttf') format('truetype'), url('../fonts/exo-medium-webfont.svg#exomedium') format('svg');
   font-weight: normal;
   font-style: normal; }
 
 @font-face {
   font-family: 'exoblack';
-  src: url("../fonts/exo-black-webfont.eot");
-  src: url("../fonts/exo-black-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-black-webfont.woff") format("woff"), url("../fonts/exo-black-webfont.ttf") format("truetype"), url("../fonts/exo-black-webfont.svg#exoblack") format("svg");
+  src: url('../fonts/exo-black-webfont.eot');
+  src: url('../fonts/exo-black-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/exo-black-webfont.woff') format('woff'), url('../fonts/exo-black-webfont.ttf') format('truetype'), url('../fonts/exo-black-webfont.svg#exoblack') format('svg');
   font-weight: normal;
   font-style: normal; }
 
 @font-face {
   font-family: 'exolight';
-  src: url("../fonts/exo-light-webfont.eot");
-  src: url("../fonts/exo-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-light-webfont.woff") format("woff"), url("../fonts/exo-light-webfont.ttf") format("truetype"), url("../fonts/exo-light-webfont.svg#exolight") format("svg");
+  src: url('../fonts/exo-light-webfont.eot');
+  src: url('../fonts/exo-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/exo-light-webfont.woff') format('woff'), url('../fonts/exo-light-webfont.ttf') format('truetype'), url('../fonts/exo-light-webfont.svg#exolight') format('svg');
   font-weight: normal;
   font-style: normal; }
 
@@ -127,7 +127,7 @@ body {
       text-align: center; }
     #showcase .content p.tagline {
       text-align: center;
-      font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: 'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       letter-spacing: .02em;
       line-height: 1.3em;
       font-size: 1.3em;
@@ -140,7 +140,7 @@ body {
       letter-spacing: .04em;
       text-shadow: 0 1px #4a170e; }
     #showcase .content h1 {
-      font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: 'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       line-height: 1.4em;
       font-size: 3.5em;
       color: white;
@@ -158,11 +158,11 @@ body {
         -khtml-border-radius: 7px;
         border-radius: 7px;
         background-color: #f9a091;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f9a091));
-        background-image: -webkit-linear-gradient(top, white, #f9a091);
-        background-image: -moz-linear-gradient(top, white, #f9a091);
-        background-image: -o-linear-gradient(top, white, #f9a091);
-        background-image: linear-gradient(to bottom, white, #f9a091); }
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f9a091));
+        background-image: -webkit-linear-gradient(top, #ffffff, #f9a091);
+        background-image: -moz-linear-gradient(top, #ffffff, #f9a091);
+        background-image: -o-linear-gradient(top, #ffffff, #f9a091);
+        background-image: linear-gradient(to bottom, #ffffff, #f9a091); }
     #showcase .content code {
       text-align: center;
       display: block;
@@ -182,7 +182,7 @@ body {
       margin: 0 auto;
       display: block; }
   #showcase #viewguide {
-    display: block;
+    display: inline-block;
     height: auto;
     float: none;
     margin: 3em auto 4em;
@@ -191,7 +191,7 @@ body {
     padding: .95em .35em;
     letter-spacing: .04em;
     font-size: 1.1em;
-    font-family: "exomedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'exomedium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     text-align: center;
     text-shadow: 0 1px #fefcfc;
@@ -241,7 +241,7 @@ body {
       font-size: 1.65em;
       letter-spacing: .06em;
       color: #c66c5d;
-      font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: 'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       text-transform: uppercase;
       text-shadow: 0 1px white;
       margin-top: 65px;
@@ -318,22 +318,20 @@ body {
     #showcase .content code {
       width: 320px;
       font-size: 1.1em; }
-
   .content-section .guide-content h1 {
     margin-top: 15px; }
   .content-section .guide-content .edit-page {
     margin-top: 5px; } }
+
 @media (min-width: 992px) {
   body {
     background: #f2d1cb; }
-
   .container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     width: 100%; }
-
   #showcase {
     padding-top: 10%; }
     #showcase .content p.tagline {
@@ -341,7 +339,6 @@ body {
     #showcase .content code {
       width: 360px;
       font-size: 1.3em; }
-
   .row {
     margin-top: 0; }
     .row div {
@@ -354,20 +351,20 @@ body {
       padding-right: 0; }
       .row .sidebar-wrapper .affix {
         top: 0;
+        bottom: 0;
         left: 0;
-        width: 25%; }
+        width: 25%;
+        overflow-y: auto;
+        overflow-x: hidden; }
     .row .main {
       padding-top: 3%;
       padding-left: 3%;
       padding-right: 3%;
       background: white; }
-
   .sidebar {
     padding-left: 0px; }
-
   .sidebar.affix {
     top: 20px; }
-
   .sidenav {
     margin-bottom: 0;
     padding-left: 0;
@@ -381,11 +378,11 @@ body {
       font-weight: 500;
       margin-right: -6px;
       background-color: #f7e3df;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f7e3df));
-      background-image: -webkit-linear-gradient(top, white, #f7e3df);
-      background-image: -moz-linear-gradient(top, white, #f7e3df);
-      background-image: -o-linear-gradient(top, white, #f7e3df);
-      background-image: linear-gradient(to bottom, white, #f7e3df);
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7e3df));
+      background-image: -webkit-linear-gradient(top, #ffffff, #f7e3df);
+      background-image: -moz-linear-gradient(top, #ffffff, #f7e3df);
+      background-image: -o-linear-gradient(top, #ffffff, #f7e3df);
+      background-image: linear-gradient(to bottom, #ffffff, #f7e3df);
       border-bottom: 1px solid white; }
       .sidenav li.active a, .sidenav li.active:hover a {
         color: #9c3422;
@@ -416,11 +413,11 @@ body {
           background-image: linear-gradient(to bottom, #fbf1f0, #f4d8d3); }
     .sidenav .ectop {
       background-color: #f7e3df;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f7e3df));
-      background-image: -webkit-linear-gradient(top, white, #f7e3df);
-      background-image: -moz-linear-gradient(top, white, #f7e3df);
-      background-image: -o-linear-gradient(top, white, #f7e3df);
-      background-image: linear-gradient(to bottom, white, #f7e3df);
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7e3df));
+      background-image: -webkit-linear-gradient(top, #ffffff, #f7e3df);
+      background-image: -moz-linear-gradient(top, #ffffff, #f7e3df);
+      background-image: -o-linear-gradient(top, #ffffff, #f7e3df);
+      background-image: linear-gradient(to bottom, #ffffff, #f7e3df);
       border-bottom: 2px solid #eab4aa;
       border-top: none; }
       .sidenav .ectop a {
@@ -432,3 +429,4 @@ body {
           background: none; }
         .sidenav .ectop a span {
           padding-right: .5em; } }
+

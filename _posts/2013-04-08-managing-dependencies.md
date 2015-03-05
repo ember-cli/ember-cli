@@ -2,6 +2,7 @@
 layout: post
 title: "Managing Dependencies"
 permalink: managing-dependencies
+category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-08-managing-dependencies.md"
 ---
 
