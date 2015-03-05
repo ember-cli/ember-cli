@@ -51,7 +51,7 @@ describe('broccoli/ember-app', function() {
       expect(app.bowerDirectory).to.equal('bower_components');
     });
 
-    describe('_nofifyAddonIncluded', function() {
+    describe('_notifyAddonIncluded', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
         project.addons = [{name: 'custom-addon'}];
