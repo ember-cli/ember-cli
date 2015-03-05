@@ -1,15 +1,15 @@
-^grey^You may generate models with as many attrs as you would like to pass. The following attribute types are supported:^grey^
-  <attr-name>
-  <attr-name>:array
-  <attr-name>:boolean
-  <attr-name>:date
-  <attr-name>:object
-  <attr-name>:number
-  <attr-name>:string
-  <attr-name>:belongs-to:<model-name>
-  <attr-name>:has-many:<model-name>
+<grey>You may generate models with as many attrs as you would like to pass. The following attribute types are supported:</grey>
+  <yellow><attr-name></yellow>
+  <yellow><attr-name></yellow>:array
+  <yellow><attr-name></yellow>:boolean
+  <yellow><attr-name></yellow>:date
+  <yellow><attr-name></yellow>:object
+  <yellow><attr-name></yellow>:number
+  <yellow><attr-name></yellow>:string
+  <yellow><attr-name></yellow>:belongs-to:<yellow><model-name></yellow>
+  <yellow><attr-name></yellow>:has-many:<yellow><model-name></yellow>
 
-For instance: ^green^\`ember generate model taco filling:belongs-to:protein toppings:has-many:toppings name:string price:number misc\`^green^
+For instance: <green>\`ember generate model taco filling:belongs-to:protein toppings:has-many:toppings name:string price:number misc\`</green>
 would result in the following model:
 
 ```js
