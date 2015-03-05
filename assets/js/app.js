@@ -25,11 +25,13 @@
 
   $('#swap').height(sheight);
 
-  $('.sidebar').affix({
-    offset: {
-      top: $('.sidebar').offset().top
-    }
-  });
+  if($('.sidebar').length) {
+    $('.sidebar').affix({
+      offset: {
+        top: $('.sidebar').offset().top
+      }
+    });
+  }
 
   $('h1, h2, h3, h4, h5, h6').each(function() {
     if (this.id) {

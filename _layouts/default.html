@@ -4,20 +4,32 @@
   <body data-spy="scroll" data-target=".sidebar">
     {% include header.html %}
     <div class="content">
-      {% include description.html %}
-      <div id="swap"></div>
       <div id="guide" class="container">
         <div class="row">
            <div id="sidenav" class="col-md-3 hidden-sm hidden-xs sidebar-wrapper">
             <div class="sidebar">
               <ul class="nav sidenav">
-                <li class="ectop"> <a href="#showcase"><span class="glyphicon glyphicon-arrow-up"></span>Back to Top</a></li>
-                {% for guide in site.posts %}
-                  {% if guide.hidden != 'true' and guide.category == page.category %}
-                    <li>
-                      <a href="#{{guide.permalink}}">{{guide.title}}</a>
-                    </li>
+                <li class="ectop"><a href="/">Home</a></li>
+                {% for category in site.categories %}      
+                <li class="ectop">
+                    {% if page.category == category[0] %}
+                    <a href="#top">
+                      <span class="glyphicon glyphicon-arrow-up"></span>
+                    {% else %}
+                    <a href="/{{ category | first }}">
+                    {% endif %}
+                      {{ category | first }}
+                    </a>
+                  {% if page.category == category[0] %}
+                    {% for guide in site.posts %}
+                      {% if guide.hidden != 'true' and guide.category == page.category %}
+                        <li>
+                          <a href="#{{guide.permalink}}">{{guide.title}}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
                   {% endif %}
+                </li>
                 {% endfor %}
               </ul>
             </div>

@@ -116,21 +116,28 @@ body {
       display: block;
     }
   }
-  #viewguide {
+  .primary-nav {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+  }
+  .primary-nav li {
+    display: inline-block;
+  }
+  .primary-nav a {
     display: inline-block;
     height: auto;
     float: none;
     margin: 3em auto 4em;
     border: 1px solid desaturate(darken($drkred,5%),35%);
     border-bottom: 4px solid desaturate(lighten($drkred,10%),20%);
-    padding:.95em .35em;
+    padding:.95em 1.45em;
     letter-spacing: .04em;
     font-size: 1.1em;
     font-family: $exo2;
     text-transform: uppercase;
     text-align: center;
     text-shadow: 0 1px lighten($lgtred,12%);
-    width: 256px;
     color: darken(desaturate($red,35%),10%);
     @include css-gradient(lighten($lgtred,5%),darken($lgtred,10%));
     @include border-radius(7px);
@@ -352,7 +359,7 @@ body {
       margin: 0;
     }
     .sidebar-wrapper {
-      padding-top: 3%;
+      
       border-right: 1px solid rgba(75,45,75,.1);
       padding-left: 0;padding-right: 0;
       .affix {
@@ -435,6 +442,9 @@ body {
         background: none;
         &:hover, &:active {background:none;}
         span {padding-right: .5em;}
+      }
+      .categories a {
+        display:inline-block;
       }
     }
   }
