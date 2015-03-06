@@ -37,7 +37,7 @@
           <div class="col-md-9 main">
             <div class="content-section">
               {% for guide in site.posts %}
-                {% if guide.hidden != 'true' %}
+                {% if guide.hidden != 'true' and guide.category == page.category %}
                 <div id="{{guide.permalink}}" class="guide-content">
                   <a class="edit-page" href="{{guide.github}}" title="Edit this page on GitHub">
                     <span class="glyphicon glyphicon-pencil"></span>
