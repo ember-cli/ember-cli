@@ -67,6 +67,32 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       });
   });
 
+  it.only('addon registry entries are added in the proper order', function() {
+    this.timeout(100000);
+
+    return copyFixtureFiles('preprocessor-tests/app-registry-ordering')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.devDependencies['first-dummy-preprocessor'] = 'latest';
+        packageJson.devDependencies['second-dummy-preprocessor'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
+          encoding: 'utf8'
+        });
+
+        expect(appJs).to.not.contain('__SECOND_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained');
+        expect(appJs).to.not.contain('__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained');
+        expect(appJs).to.contain('replacedByPreprocessor', 'token should have been replaced in app bundle');
+      });
+  });
+
   it('addons without preprocessors compile correctly', function() {
     this.timeout(100000);
 
