@@ -10,7 +10,9 @@ describe('setupRegistry', function() {
     setupPreprocessorRegistryCalled = [];
 
     fakeAddon = {
-      registry: 'fake-registry',
+      registry: {
+        add: function() { }
+      },
       addons: [],
       initializeAddons: function() { },
 
@@ -25,7 +27,7 @@ describe('setupRegistry', function() {
 
     expect(setupPreprocessorRegistryCalled.length).to.equal(1);
     expect(setupPreprocessorRegistryCalled[0][0]).to.equal('self');
-    expect(setupPreprocessorRegistryCalled[0][1]).to.equal('fake-registry');
+    expect(setupPreprocessorRegistryCalled[0][1]).to.equal(fakeAddon.registry);
   });
 
   it('does not error if addon does not have `addons` property', function() {
