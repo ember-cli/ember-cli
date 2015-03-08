@@ -119,7 +119,7 @@ ember build --environment="production"
     
         # limit ciphers
         ssl_ciphers             HIGH:!ADH:!MD5;
-        ssl_protocols           SSLv3 TLSv1;
+        ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
         ssl_prefer_server_ciphers on;
     
         # proxy buffers
