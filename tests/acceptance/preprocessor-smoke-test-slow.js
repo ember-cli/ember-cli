@@ -67,7 +67,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       });
   });
 
-  it.only('addon registry entries are added in the proper order', function() {
+  it('addon registry entries are added in the proper order', function() {
     this.timeout(100000);
 
     return copyFixtureFiles('preprocessor-tests/app-registry-ordering')
@@ -80,7 +80,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
       })
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
       })
       .then(function() {
         var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
