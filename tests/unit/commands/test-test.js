@@ -166,6 +166,14 @@ describe('test command', function() {
       expect(contents['test_page']).to.be.equal('tests/index.html?module=fooModule&filter=bar');
     });
 
+    it('when provided filter is all lowercase to match the test name', function() {
+      runOptions.filter = 'BAR';
+      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      expect(contents['test_page']).to.be.equal('tests/index.html?filter=bar');
+    });
+
     it('when module and filter option is present uses buildTestPageQueryString for test_page queryString', function() {
       runOptions.filter = 'bar';
       command.buildTestPageQueryString = function(options) {
