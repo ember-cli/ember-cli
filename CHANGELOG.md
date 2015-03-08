@@ -45,6 +45,7 @@ version:
     * Updated `ember-cli-qunit` to 0.3.9.  Install with `npm install --save-dev ember-cli-qunit@0.3.9`.
     * Updated `ember-data` to 1.0.0-beta.15. Install with `npm install --save-dev ember-data@1.0.0-beta.15`.
     * Updated `ember-cli-dependency-checker` to 0.0.8. Install with `npm install --save-dev ember-cli-dependency-checker@0.0.8`.
+    * Updated `ember-cli-app-version` to 0.3.2. Install with `npm install --save-dev ember-cli-app-version@0.3.2`.
   + Update the following packages in your `bower.json`:
     * Removed `handlebars`. Uninstall with `bower uninstall --save handlebars`.
     * Updated `ember` to 1.10.0. Install with `bower install --save ember#1.10.0`.
@@ -94,6 +95,7 @@ version:
 - [#3435](https://github.com/ember-cli/ember-cli/pull/3435) [ENHANCEMENT] Update bundled npm [@ember-cli](https://github.com/ember-cli)
 - [#3436](https://github.com/ember-cli/ember-cli/pull/3436) [ENHANCEMENT] Update Broccoli to 0.13.6 to provide errors on new API. [@rwjblue](https://github.com/rwjblue)
 - [#3438](https://github.com/ember-cli/ember-cli/pull/3438) [BUGFIX] Ensure nested addon registry matches addon order. [@rwjblue](https://github.com/rwjblue)
+- [#3456](https://github.com/ember-cli/ember-cli/pull/3456) [BUGFIX] Update ember-cli-app-version to 0.3.2 [@taras](https://github.com/taras)
 
 Thank you to all who took the time to contribute!
 
