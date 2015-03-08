@@ -156,4 +156,32 @@ describe('Plugin Loader', function() {
     plugins = registry.load('foo');
     expect(plugins.length).to.equal(0);
   });
+
+  it('an unfound item does not affect the registered list', function() {
+    var plugins;
+
+    function pluginNames(plugins) {
+      return plugins.map(function(p) { return p.name; });
+    }
+
+    registry.availablePlugins['blah-zorz'] = 'latest';
+    registry.availablePlugins['blammo'] = 'latest';
+
+    registry.add('foo', 'blah-zorz', 'zorz');
+    registry.add('foo', 'blammo', 'blam');
+
+    plugins = registry.load('foo');
+
+    expect(pluginNames(plugins)).to.eql(['blah-zorz', 'blammo']); // precondition
+
+    registry.remove('foo', 'nothing I know');
+    plugins = registry.load('foo');
+
+    expect(pluginNames(plugins)).to.eql(['blah-zorz', 'blammo']);
+
+    registry.remove('foo', 'blah-zorz');
+    plugins = registry.load('foo');
+
+    expect(pluginNames(plugins)).to.eql(['blammo']);
+  });
 });
