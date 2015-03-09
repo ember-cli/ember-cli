@@ -10,6 +10,7 @@ var remove  = Promise.denodeify(fs.remove);
 var tmp     = require('tmp-sync');
 var path    = require('path');
 var findWhere = require('lodash-node/modern/collections/find');
+var MockUI = require('../../helpers/mock-ui');
 
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
@@ -471,6 +472,29 @@ describe('models/addon.js', function() {
           'is listed in `dependencies` (NOT `devDependencies`) in ' +
           '`' + addon.name + '`\'s `package.json`.'
         );
+    });
+  });
+
+  describe('addonDiscovery', function() {
+    var discovery, addon, ui;
+
+    beforeEach(function() {
+      projectPath = path.resolve(fixturePath, 'simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      ui = new MockUI();
+      project = new Project(projectPath, packageContents, ui);
+
+      var AddonTemp = Addon.extend({
+        name: 'temp'
+      });
+
+      addon = new AddonTemp(project, project);
+      discovery = addon.addonDiscovery;
+    });
+
+    it('is provided with the addon\'s `ui` object', function() {
+      expect(discovery.ui).to.equal(ui);
     });
   });
 });
