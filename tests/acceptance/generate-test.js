@@ -122,9 +122,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/components/x-foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "import layout from '../templates/components/x-foo';",
           "export default Ember.Component.extend({",
-          "layout: layout",
           "});"
         ]
       });
