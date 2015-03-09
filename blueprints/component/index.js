@@ -44,7 +44,7 @@ module.exports = {
   locals: function(options) {
     var templatePath = '../templates/components/' + stringUtil.dasherize(options.entity.name);
 
-    if (options.usePods) {
+    if (options.pod) {
       templatePath = './template';
     }
     return {
