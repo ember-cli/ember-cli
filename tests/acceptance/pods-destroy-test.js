@@ -165,6 +165,17 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
   });
 
+  it('.ember-cli usePods setting correctly destroys component', function() {
+    var commandArgs = ['component', 'x-foo'];
+    var files       = [
+      'app/components/x-foo/component.js',
+      'app/components/x-foo/template.hbs',
+      'tests/unit/components/x-foo/component-test.js'
+    ];
+
+    return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
+  });
+
   it('controller foo --pod', function() {
     var commandArgs = ['controller', 'foo', '--pod'];
     var files       = [

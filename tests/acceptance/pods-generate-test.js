@@ -146,6 +146,32 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
+  it('.ember-cli usePods setting generates correct component structure', function() {
+    return generateWithUsePods(['component', 'x-foo']).then(function() {
+      assertFile('app/components/x-foo/component.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "import layout from './template';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
+        ]
+      });
+      assertFile('app/components/x-foo/template.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('tests/unit/components/x-foo/component-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
+
   it('controller foo --pod', function() {
     return generate(['controller', 'foo', '--pod']).then(function() {
       assertFile('app/foo/controller.js', {
