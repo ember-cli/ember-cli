@@ -117,10 +117,9 @@ ember build --environment="production"
         ssl on;
         keepalive_timeout   60;
     
-        # limit ciphers
-        ssl_ciphers             HIGH:!ADH:!MD5;
-        ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
-        ssl_prefer_server_ciphers on;
+        # include information on SSL keys, cert, protocols and ciphers
+        # SSLLabs.com is a great resource for this, along with testing
+        # your SSL configuration: https://www.ssllabs.com/projects/documentation/
     
         # proxy buffers
         proxy_buffers 16 64k;
