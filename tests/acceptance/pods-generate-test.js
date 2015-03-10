@@ -308,7 +308,8 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['helper', 'foo-bar', '--pod']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBar(/*params, hash*/) {" + EOL +
+                  "export function fooBar(params/*, hash*/) {" + EOL +
+                  "  return params;" + EOL +
                   "}" +  EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
       });
@@ -324,7 +325,8 @@ describe('Acceptance: ember generate pod', function() {
     return generateWithPrefix(['helper', 'foo-bar', '--pod']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBar(/*params, hash*/) {" + EOL +
+                  "export function fooBar(params/*, hash*/) {" + EOL +
+                  "  return params;" + EOL +
                   "}" +  EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
       });
@@ -340,7 +342,8 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['helper', 'foo/bar-baz', '--pod']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBarBaz(/*params, hash*/) {" + EOL +
+                  "export function fooBarBaz(params/*, hash*/) {" + EOL +
+                  "  return params;" + EOL +
                   "}" + EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
       });
@@ -356,7 +359,8 @@ describe('Acceptance: ember generate pod', function() {
     return generateWithPrefix(['helper', 'foo/bar-baz', '--pod']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBarBaz(/*params, hash*/) {" + EOL +
+                  "export function fooBarBaz(params/*, hash*/) {" + EOL +
+                  "  return params;" + EOL +
                   "}" + EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
       });
