@@ -51,13 +51,14 @@ project directory.
   ember-cli, replacing X.X.X with the version of ember-cli you want to install
 
     {% highlight bash %}
-    ember install:npm ember-cli@X.X.X
+    npm install ember-cli@X.X.X --save-dev
     {% endhighlight %}
 
 * Reinstall NPM and Bower dependencies
 
     {% highlight bash %}
-    ember install
+    npm install
+    bower install
     {% endhighlight %}
 
 * Run the new project blueprint on your projects directory. Please follow the
