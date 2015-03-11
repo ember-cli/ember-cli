@@ -151,9 +151,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/x-foo/component.js', {
         contains: [
           "import Ember from 'ember';",
-          "import layout from './template';",
           "export default Ember.Component.extend({",
-          "layout: layout",
           "});"
         ]
       });
@@ -257,9 +255,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/x-foo/component.js', {
         contains: [
           "import Ember from 'ember';",
-          "import layout from './template';",
           "export default Ember.Component.extend({",
-          "layout: layout",
           "});"
         ]
       });
@@ -283,9 +279,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/components/x-foo/component.js', {
         contains: [
           "import Ember from 'ember';",
-          "import layout from './template';",
           "export default Ember.Component.extend({",
-          "layout: layout",
           "});"
         ]
       });

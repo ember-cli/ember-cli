@@ -42,13 +42,19 @@ module.exports = {
   },
 
   locals: function(options) {
-    var templatePath = '../templates/components/' + stringUtil.dasherize(options.entity.name);
-
-    if (options.pod) {
-      templatePath = './template';
+    var templatePath   = '';
+    var importTemplate = '';
+    var contents       = '';
+    // if we're in an addon, build import statement
+    if (options.project.isEmberCLIAddon()) {
+      templatePath = options.pod ? './template' : '../templates/components/' + stringUtil.dasherize(options.entity.name);
+      importTemplate = 'import layout from \'' + templatePath + '\';\n';
+      contents = '\n  layout: layout';
     }
+
     return {
-      templatePath: templatePath
+      importTemplate: importTemplate,
+      contents: contents
     };
   }
 };
