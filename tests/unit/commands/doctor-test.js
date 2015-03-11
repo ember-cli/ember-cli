@@ -40,6 +40,7 @@ describe('doctor command', function() {
 
   afterEach(function() {
     tasks.Doctor.prototype.run.restore();
+    doctorInstance = null;
   });
 
   it('initializes doctor task with ui, project and analytics', function() {

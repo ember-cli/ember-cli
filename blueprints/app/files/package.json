@@ -16,7 +16,7 @@
   "engineStrict": true,
   "engines": {
     "node": ">= 0.10.0",
-    "npm": ">= 2.0.0"
+    "npm": ">= 2.6.0"
   },
   "author": "",
   "license": "MIT",
