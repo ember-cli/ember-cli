@@ -184,3 +184,44 @@ When setting up your VM, install ember-cli dependencies as you normally would. I
 #### Provider 
 
 The two most common Vagrant providers, VirtualBox and VMware Fusion, will both work. However, VMware Fusion is substantially faster and will use less battery life if you're on a laptop. As of now, VirtualBox will use 100% of a single CPU core to poll for file system changes inside of the VM. 
+
+### Broken Glob npm package issue
+
+The glob package is required by many of ember-cli packages, however there is a version mismatch between various includes which currently is an issue.
+
+{% highlight bash %}
+undefined is not a function
+TypeError: undefined is not a function
+    at rimraf (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rimraf/rimraf.js:57:13)
+    at lib$rsvp$node$$tryApply (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rsvp/dist/rsvp.js:1467:11)
+    at lib$rsvp$node$$handleValueInput (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rsvp/dist/rsvp.js:1567:20)
+    at fn (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rsvp/dist/rsvp.js:1555:18)
+    at /home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/index.js:100:14
+    at lib$rsvp$$internal$$tryCatch (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:489:16)
+    at lib$rsvp$$internal$$invokeCallback (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:501:17)
+    at lib$rsvp$$internal$$publish (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:472:11)
+    at lib$rsvp$asap$$flush (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:1290:9)
+    at process._tickCallback (node.js:355:11)
+{% endhighlight %}
+
+To fix the issue there are two solutions:
+- Update to ember-cli@0.2.0
+- Lock rimraf@2.2.8 and glob@4.0.5
+
+#### Locking package versions
+Adding dependency versions into your package.json fixes the dependency issue:
+{% highlight javascript %}
+  "dependencies": {
+    "glob": "4.0.5",
+    "rimraf": "2.2.8"
+  },
+  "bundledDependencies": [
+    "glob",
+    "rimraf"
+  ]
+{% endhighlight %}
+
+Clear out old packages and reinstall them with the following:
+{% highlight bash %}
+rm -rf node_modules; npm cache clear; npm install;
+{% endhighlight %}
