@@ -1,3 +1,7 @@
+## Architecture
+
+![embercli architecture](./assets/architecture/Ember-CLI architecture.png)
+
 ## Overview
 - **cli** parses args and calls the respective **command**
 - **command** calls a sequence of **tasks**
