@@ -84,6 +84,7 @@ The addon project created follows these structure conventions:
 - `app/` - merged with the application's namespace.
 - `addon/` - part of the addon's namespace.
 - `blueprints/` - contains any blueprints that come with the addon, each in a separate folder
+- `public/` - static files which will be available in the application as `/your-addon/*`
 - `tests/` - test infrastructure including a "dummy" app and acceptance test helpers.
 - `vendor/` - vendor specific files, such as stylesheets, fonts, external libs etc.
 - `Brocfile.js` - Compilation configuration
@@ -319,6 +320,18 @@ by the `EmberApp` constructor and gives access to the consuming
 application as `app`. When the consuming application's `Brocfile.js`
 is processed by Ember CLI to build/serve, the addon's `included`
 function is called passing the `EmberApp` instance.
+
+### Importing Static Files
+To import static files such as images or fonts in the application
+include them in `/public`. The consuming application will have access
+to them via a directory with your addon's name.
+
+For example, to add an image, save it in `/public/images/foo.png`. Then
+from the consuming application access it as:
+
+{% highlight css %}
+  .foo {background: url("/your-addon/images/foo.png");}
+{% endhighlight %}
 
 ### Content
 If you want to add content to a page directly, you can use the `content-for` tag. An example of this is `{% raw %}{{content-for 'head'}}{% endraw %}` in `app/index.html`, which Ember CLI uses to insert it's own content at build time. Addons can access the `contentFor` hook to insert their own content.
