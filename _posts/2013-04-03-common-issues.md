@@ -108,9 +108,18 @@ Wipe your vendor directory clean then run `ember install`.
 
 `ember install:npm ember-data`
 
-### Solving performance issues on Windows
+### Configure Windows for Better Performance
 
-Build times on Windows are longer than on Linux or Mac OS X. Much of that penalty is not because of node or ember-cli, but because of things monitoring your filesystem. If you can (selectively!) disable your virus scanner and the Search Index Host, you will see a substantial speedup. Here's how:
+Build times on Windows are longer than on Linux or Mac OS X. Much of that penalty is not because of node or ember-cli, but because of things monitoring your filesystem. If you can (selectively!) disable your virus scanner and the Search Index Host, you will see a substantial speedup.
+
+[Microsoft wrote a small Node script](http://www.felixrieseberg.com/improved-ember-cli-performance-with-windows/) to automate the correct configuration of Windows Search and Windows Defender. To use it, simply run the following to commands from the root of your project (using Powershell). 
+
+{% highlight bash %}
+npm install ember-cli-windows -g
+ember-cli-windows
+{% endhighlight %}
+
+The script automatically configures Search and Defender to ignore your project's tmp folder and is minimally invasive. Therefore, run `ember-cli-windows` in every project that you're working on. If you'd rather configure Windows Search and Windows Defender manually, follow the steps below.
 
 #### Disable Windows Search Index for temporary files
 
