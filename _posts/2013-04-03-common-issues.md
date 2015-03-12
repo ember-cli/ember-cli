@@ -108,46 +108,6 @@ Wipe your vendor directory clean then run `ember install`.
 
 `ember install:npm ember-data`
 
-### Configure Windows for Better Performance
-
-Build times on Windows are longer than on Linux or Mac OS X. Much of that penalty is not because of node or ember-cli, but because of things monitoring your filesystem. If you can (selectively!) disable your virus scanner and the Search Index Host, you will see a substantial speedup.
-
-[Microsoft wrote a small Node script](http://www.felixrieseberg.com/improved-ember-cli-performance-with-windows/) to automate the correct configuration of Windows Search and Windows Defender. To use it, simply run the following to commands from the root of your project (using Powershell). 
-
-{% highlight bash %}
-npm install ember-cli-windows -g
-ember-cli-windows
-{% endhighlight %}
-
-The script automatically configures Search and Defender to ignore your project's tmp folder and is minimally invasive. Therefore, run `ember-cli-windows` in every project that you're working on. If you'd rather configure Windows Search and Windows Defender manually, follow the steps below.
-
-#### Disable Windows Search Index for temporary files
-
-* Go to your **control panel** (Windows 8: `Win+X`, choose "control panel")
-* Look for **Indexing Options** (Use the search bar)
-* Select the location that will most likely contain your project. Usually in **User**
-* Click **Modify**
-* This brings up a directory tree with checkboxes. Navigate to your project directory and **uncheck the checkbox for /tmp** or anywhere else you'd like.
-* Click **OK**
-
-![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/images/common-issues/search-index.png)
-
-#### Disable Windows Defender for temporary files
-
-Windows defender will be active by default on any Windows 8 machine. On Windows 7 (or earlier) you might have Windows Security Essentials installed, which works pretty similar.
-
-While you can exclude more than just the temporary files, this would also render a virus scanner pretty useless. Excluding temporary files won't make you any less safe. Everything that ends up there would have been in `/app` or `/vendor` before.
-
-* Hit your Windows Key, then start typing "defen" which should bring up "Defender as first result". Start it.
-* In Windows Defender, choose the **Settings** tab, then click on **Excluded files and locations** on the left.
-* Click **Browse**
-* Navigate to your project's **tmp** directory.
-* Click **OK**
-* Click **Add**
-* Click **Save changes**
-
-![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender.png)
-
 ### Symlinks on Windows
 
 Many Broccoli plugins and Ember CLI addons can use symlinks to speedup the build process. When working on the Windows platform there are some caveats involved in making sure Ember CLI and other plugins can use symlinks. If symlinks are not available plugins should fall back to copying files. However the speed benefits of symlinking are substantial, so it is worth the effort to make sure Ember CLI can take advantage of them.
