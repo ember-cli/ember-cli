@@ -1211,6 +1211,38 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('in-addon component nested/x-foo', function() {
+    return generateInAddon(['component', 'nested/x-foo']).then(function() {
+      assertFile('addon/components/nested/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "import layout from '../../templates/components/nested/x-foo';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
+        ]
+      });
+      assertFile('addon/templates/components/nested/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('app/components/nested/x-foo.js', {
+        contains: [
+          "import nestedXFoo from 'my-addon/components/nested/x-foo';",
+          "export default nestedXFoo;"
+        ]
+      });
+      assertFile('tests/unit/components/nested/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('nested/x-foo'"
+        ]
+      });
+    });
+  });
+
   it('availableOptions work with aliases.', function() {
     return generate(['route', 'foo', '-resource']).then(function() {
       assertFile('app/router.js', {

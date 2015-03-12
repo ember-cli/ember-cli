@@ -47,9 +47,14 @@ module.exports = {
     var contents       = '';
     // if we're in an addon, build import statement
     if (options.project.isEmberCLIAddon()) {
-      templatePath = options.pod ? './template' : '../templates/components/' + stringUtil.dasherize(options.entity.name);
-      importTemplate = 'import layout from \'' + templatePath + '\';\n';
-      contents = '\n  layout: layout';
+      if(options.pod) {
+        templatePath   = './template'
+      } else {
+        templatePath   = getPathLevel(options.entity.name) +
+          'templates/components/' + stringUtil.dasherize(options.entity.name);
+      }
+      importTemplate   = 'import layout from \'' + templatePath + '\';\n';
+      contents         = '\n  layout: layout';
     }
 
     return {
@@ -58,3 +63,7 @@ module.exports = {
     };
   }
 };
+
+function getPathLevel(name) {
+  return new Array(name.split('/').length + 1).join('../');
+}
