@@ -61,10 +61,9 @@ You can also require modules directly with the following syntax:
 import FooMixin from "./mixins/foo";
 {% endhighlight %}
 
-If you like you can reference a module by an absolute path, but keep in
-mind that using relative paths is considered best practice for accessing modules
-within the same package. To reference a module using an absolute path begin
-the path with the name defined in `package.json`:
+You can reference a module by using either a relative or absolute path.
+If you would like to reference a module using absolute begin
+the path with the app name defined in `package.json`:
 
 {% highlight javascript linenos %}
 import FooMixin from "appname/mixins/foo";
