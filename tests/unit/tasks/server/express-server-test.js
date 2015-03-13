@@ -119,7 +119,7 @@ describe('express-server', function() {
       });
     });
 
-    it('address in use', function(done) {
+    it('address in use', function() {
       var preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
@@ -131,10 +131,10 @@ describe('express-server', function() {
           expect(false, 'should have rejected');
         })
         .catch(function(reason) {
-          expect(reason).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
+          expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
         })
         .finally(function() {
-          preexistingServer.close(done);
+          preexistingServer.close();
         });
     });
   });
