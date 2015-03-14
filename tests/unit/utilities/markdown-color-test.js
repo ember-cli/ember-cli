@@ -26,29 +26,32 @@ function isAnsiSupported() {
   });
 
   it('parses default markdown', function() {
+    
+    // console.log(mc.render('# foo\n__bold__ **words**\n* un\n* ordered\n* list'))
     expect(mc.render('# foo\n__bold__ words\n* un\n* ordered\n* list')).to.equal(
-      '\u001b[1m\u001b[4m\u001b[35m# foo\u001b[39m\u001b[24m\u001b[22m\n\u001b[0m\u001b[1m' +
-      'bold\u001b[22m words\u001b[0m\n\n   \u001b[0m* un\u001b[0m\n   \u001b[0m* ordered\u001b[0m\n   \u001b[0m* list\u001b[0m\n\n');
+      '\u001b[35m\u001b[4m\u001b[1m\nfoo\u001b[22m\u001b[24m\u001b[39m\n\u001b[0m'+
+      '\u001b[1mbold\u001b[22m words\u001b[0m\n\n   \u001b[0m* un\u001b[0m\n   '+
+      '\u001b[0m* ordered\u001b[0m\n   \u001b[0m* list\u001b[0m\n\n');
   });
 
   it('parses color tokens', function() {
-    expect(mc.render('<red>red</red>')).to.equal('\u001b[90m\u001b[31mred\u001b[39m\u001b[39m');
-    expect(mc.render('<green>green</green>')).to.equal('\u001b[90m\u001b[32mgreen\u001b[39m\u001b[39m');
-    expect(mc.render('<blue>blue</blue>')).to.equal('\u001b[90m\u001b[34mblue\u001b[39m\u001b[39m');
-    expect(mc.render('<cyan>cyan</cyan>')).to.equal('\u001b[90m\u001b[36mcyan\u001b[39m\u001b[39m');
-    expect(mc.render('<magenta>magenta</magenta>')).to.equal('\u001b[90m\u001b[35mmagenta\u001b[39m\u001b[39m');
-    expect(mc.render('<yellow>yellow</yellow>')).to.equal('\u001b[90m\u001b[33myellow\u001b[39m\u001b[39m');
-    expect(mc.render('<black>black</black>')).to.equal('\u001b[90m\u001b[30mblack\u001b[39m\u001b[39m');
-    expect(mc.render('<gray>gray</gray>')).to.equal('\u001b[90m\u001b[90mgray\u001b[39m\u001b[39m');
-    expect(mc.render('<grey>grey</grey>')).to.equal('\u001b[90m\u001b[90mgrey\u001b[39m\u001b[39m');
+    expect(mc.render('<red>red</red>')).to.equal('\u001b[0m\u001b[31mred\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<green>green</green>')).to.equal('\u001b[0m\u001b[32mgreen\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<blue>blue</blue>')).to.equal('\u001b[0m\u001b[34mblue\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<cyan>cyan</cyan>')).to.equal('\u001b[0m\u001b[36mcyan\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<magenta>magenta</magenta>')).to.equal('\u001b[0m\u001b[35mmagenta\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<yellow>yellow</yellow>')).to.equal('\u001b[0m\u001b[33myellow\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<black>black</black>')).to.equal('\u001b[0m\u001b[30mblack\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<gray>gray</gray>')).to.equal('\u001b[0m\u001b[90mgray\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<grey>grey</grey>')).to.equal('\u001b[0m\u001b[90mgrey\u001b[39m\u001b[0m\n\n');
 
-    expect(mc.render('<bgRed>bgRed</bgRed>')).to.equal('\u001b[90m\u001b[41mbgRed\u001b[49m\u001b[39m');
-    expect(mc.render('<bgGreen>bgGreen</bgGreen>')).to.equal('\u001b[90m\u001b[42mbgGreen\u001b[49m\u001b[39m');
-    expect(mc.render('<bgBlue>bgBlue</bgBlue>')).to.equal('\u001b[90m\u001b[44mbgBlue\u001b[49m\u001b[39m');
-    expect(mc.render('<bgCyan>bgCyan</bgCyan>')).to.equal('\u001b[90m\u001b[46mbgCyan\u001b[49m\u001b[39m');
-    expect(mc.render('<bgMagenta>bgMagenta</bgMagenta>')).to.equal('\u001b[90m\u001b[45mbgMagenta\u001b[49m\u001b[39m');
-    expect(mc.render('<bgYellow>bgYellow</bgYellow>')).to.equal('\u001b[90m\u001b[43mbgYellow\u001b[49m\u001b[39m');
-    expect(mc.render('<bgBlack>bgBlack</bgBlack>')).to.equal('\u001b[90m\u001b[40mbgBlack\u001b[49m\u001b[39m');
+    expect(mc.render('<bgRed>bgRed</bgRed>')).to.equal('\u001b[0m\u001b[41mbgRed\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('<bgGreen>bgGreen</bgGreen>')).to.equal('\u001b[0m\u001b[42mbgGreen\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('<bgBlue>bgBlue</bgBlue>')).to.equal('\u001b[0m\u001b[44mbgBlue\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('<bgCyan>bgCyan</bgCyan>')).to.equal('\u001b[0m\u001b[46mbgCyan\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('<bgMagenta>bgMagenta</bgMagenta>')).to.equal('\u001b[0m\u001b[45mbgMagenta\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('<bgYellow>bgYellow</bgYellow>')).to.equal('\u001b[0m\u001b[43mbgYellow\u001b[49m\u001b[0m\n\n');
+    expect(mc.render('<bgBlack>bgBlack</bgBlack>')).to.equal('\u001b[0m\u001b[40mbgBlack\u001b[49m\u001b[0m\n\n');
   });
 
   it('parses custom tokens', function() {
@@ -73,11 +76,14 @@ function isAnsiSupported() {
   it('parses markdown files', function() {
     // console.log(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md')))
     expect(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md'))).to
-      .equal('\u001b[90m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them\u001b[39m\n\u001b[39m');
+      .equal('\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them\u001b[39m\u001b[0m\n\n');
   });
 
   it('allows tokens inside other token bounds', function() {
-    expect(mc.render('<cyan>tacos are <yellow>delicious</yellow> and I enjoy eating them</cyan>')).to.equal('\u001b[90m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m and I enjoy eating them\u001b[39m\u001b[39m');
+    // console.log(mc.render('<cyan>tacos are <yellow>delicious</yellow> and I enjoy eating them</cyan>'))
+    expect(mc.render('<cyan>tacos are <yellow>delicious</yellow> and I enjoy eating them</cyan>'))
+      .to.equal('\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m and I enjoy eating'+
+      ' them\u001b[39m\u001b[0m\n\n');
   });
 });
 /* Chalk supported styles -
