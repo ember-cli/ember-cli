@@ -138,6 +138,14 @@ describe('models/addon.js', function() {
       var resolvedFile = path.basename(Addon.resolvePath(addon));
       expect(resolvedFile).to.equal('index.coffee');
     });
+
+    it('allows lookup of non-`index.js` `main` entry points', function() {
+      delete addon.pkg['ember-addon'];
+      addon.pkg['main'] = 'some/other/path.js';
+
+      var resolvedFile = path.basename(Addon.resolvePath(addon));
+      expect(resolvedFile).to.equal('some/other/path.js');
+    });
   });
 
   describe('initialized addon', function() {
