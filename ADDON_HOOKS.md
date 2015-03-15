@@ -229,7 +229,7 @@ Usually used to import assets into the application.
 
 - `EmberApp` instance [see ember-app.js](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js)
 
-**Source:** [lib/broccoi/ember-app.js:268](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L268)
+**Source:** [lib/broccoli/ember-app.js:268](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L268)
 
 **Default implementation:** None
 
