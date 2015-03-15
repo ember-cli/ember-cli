@@ -45,6 +45,18 @@ npm install -g bower
 
 This will give you access to the `bower` command-line runner.
 
+#### Watchman
+
+If you are on a UNIX-like operating system, it is recommended to install
+[Watchman](https://facebook.github.io/watchman/) version 3.x, which provides
+a more effective way for ember-cli to watch for project changes by hooking
+into your system's native filesystem events.
+
+For installation instructions refer to the docs on the watchman website.
+
+There is also a conflicting npm package named watchman, so make sure that
+it is not in your PATH to avoid conflicts.
+
 #### PhantomJS
 
 By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
