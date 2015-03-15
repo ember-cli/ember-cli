@@ -34,7 +34,7 @@ Need to make a custom nginx configuration change? No problem. In your Ember CLI 
 Continuous deployment with [Azure Websites](http://www.azure.com) is enabled through Microsoft's module [ember-cli-azure-deploy](https://github.com/felixrieseberg/ember-cli-azure-deploy). The installation is simple - just run the following commands in your Ember Cli app's root folder:
 
 {% highlight bash %}
-npm install --save-dev -g ember-cli-deploy-azure
+npm install --save-dev -g ember-cli-azure-deploy
 azure-deploy init
 {% endhighlight %}
 
