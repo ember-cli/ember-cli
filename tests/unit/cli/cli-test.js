@@ -151,7 +151,7 @@ describe('Unit: CLI', function() {
           if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
             expect(output.length).to.equal(1, 'expected no extra output');
           } else {
-            expect(output.length).to.equal(2, 'expected no extra output');
+            expect(output.length).to.equal(3, 'expected no extra output');
           }
         });
       });
@@ -327,7 +327,7 @@ describe('Unit: CLI', function() {
           if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
             expect(output.length).to.equal(1, 'expected no extra output');
           } else {
-            expect(output.length).to.equal(2, 'expected no extra output');
+            expect(output.length).to.equal(3, 'expected no extra output');
           }
         });
       });
@@ -360,7 +360,7 @@ describe('Unit: CLI', function() {
           if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
             expect(output.length).to.equal(1, 'expected no extra output');
           } else {
-            expect(output.length).to.equal(2, 'expected no extra output');
+            expect(output.length).to.equal(3, 'expected no extra output');
           }
         });
       });
