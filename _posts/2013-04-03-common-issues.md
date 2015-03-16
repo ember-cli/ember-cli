@@ -205,20 +205,22 @@ TypeError: undefined is not a function
 {% endhighlight %}
 
 To fix the issue there are two solutions:
+
 - Update to ember-cli@0.2.0
 - Lock rimraf@2.2.8 and glob@4.0.5
 
 #### Locking package versions
 Adding dependency versions into your package.json fixes the dependency issue:
 {% highlight javascript %}
-  "dependencies": {
-    "glob": "4.0.5",
-    "rimraf": "2.2.8"
-  },
-  "bundledDependencies": [
-    "glob",
-    "rimraf"
-  ]
+"dependencies": {
+  "glob": "4.0.5",
+  "rimraf": "2.2.8"
+},
+"bundledDependencies": [
+  "glob",
+  "rimraf"
+]
+...
 {% endhighlight %}
 
 Clear out old packages and reinstall them with the following:
