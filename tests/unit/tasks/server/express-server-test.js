@@ -85,6 +85,21 @@ describe('express-server', function() {
   describe('output', function() {
     this.timeout(40000);
 
+    it('with ssl', function() {
+      return subject.start({
+        host:  '0.0.0.0',
+        port: '1337',
+        ssl: true
+        sslCert: 'tests/fixtures/ssl/server.crt',
+        sslKey: 'tests/fixtures/ssl/server.key'
+      }).then(function() {
+        var output = ui.output.trim().split(EOL);
+        expect(output[1]).to.equal('Serving on https://0.0.0.0:1337/');
+        expect(output[0]).to.equal('Proxying to http://localhost:3001/');
+        expect(output.length).to.equal(2, 'expected only two lines of output');
+      });
+    });
+
     it('with proxy', function() {
       return subject.start({
         proxy: 'http://localhost:3001/',
@@ -144,6 +159,24 @@ describe('express-server', function() {
   });
 
   describe('behaviour', function() {
+    it('starts with ssl if ssl option is passed', function(done) {
+      request = request('https://localhost:5555');
+
+      return subject.start({
+        host:  'localhost',
+        port: '1337',
+        ssl: true,
+        sslCert: 'tests/fixtures/ssl/server.crt',
+        sslKey: 'tests/fixtures/ssl/server.key'
+      })
+        .then(function() {
+          request.get('/').expect(200, function(err){
+            console.log(err);
+          });
+        });
+    }),
+
+
     it('app middlewares are processed before the proxy', function(done) {
       var expected = '/foo was hit';
 
