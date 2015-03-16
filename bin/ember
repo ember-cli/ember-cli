@@ -28,6 +28,7 @@ resolve('ember-cli', {
     inputStream: process.stdin,
     outputStream: process.stdout
   }).then(function(result) {
-    exit(result && result.exitCode || result);
+    var exitCode = typeof result === 'object' ? result.exitCode : result;
+    exit(exitCode);
   });
 });
