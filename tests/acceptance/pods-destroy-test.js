@@ -128,7 +128,7 @@ describe('Acceptance: ember destroy pod', function() {
         assertFilesNotExist(files);
       });
   }
-
+  
   function assertDestroyAfterGenerateInAddon(args, files) {
     return initAddon()
       .then(function() {
@@ -142,6 +142,28 @@ describe('Acceptance: ember destroy pod', function() {
       })
       .then(function() {
         assertFilesNotExist(files);
+      });
+  }
+  
+  function destroyAfterGenerateWithPodsByDefault(args) {
+    return initApp()
+      .then(function() {
+        replaceFile('config/environment.js', "var ENV = {", "var ENV = {" + EOL + "usePodsByDefault: true, " + EOL);
+        return generate(args);
+      })
+      .then(function() {
+        return destroy(args);
+      });
+  }
+  
+  function destroyAfterGenerate(args) {
+    return initApp()
+      .then(function() {
+        replaceFile('config/environment.js', "var ENV = {", "var ENV = {" + EOL + "podModulePrefix: 'app/pods', " + EOL);
+        return generate(args);
+      })
+      .then(function() {
+        return destroy(args);
       });
   }
 
@@ -611,6 +633,21 @@ describe('Acceptance: ember destroy pod', function() {
       .then(function() {
         assertFilesNotExist(files);
       });
+  });
+  
+  it('podModulePrefix deprecation warning', function() {
+    return destroyAfterGenerate(['controller', 'foo', '--pod']).then(function(result) {
+      expect(result.ui.output).to.include("`podModulePrefix` is deprecated and will be"+
+      " removed from future versions of ember-cli. Please move existing pods from"+
+      " 'app/pods/' to 'app/'.");
+    });
+  });
+  
+  it('usePodsByDefault deprecation warning', function() {
+    return destroyAfterGenerateWithPodsByDefault(['controller', 'foo', '--pod']).then(function(result) {
+      expect(result.ui.output).to.include('`usePodsByDefault` is no longer supported in'+
+        ' \'config/environment.js\', use `usePods` in \'.ember-cli\' instead.');
+    });
   });
 
 });
