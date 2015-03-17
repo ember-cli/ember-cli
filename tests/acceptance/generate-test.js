@@ -1242,7 +1242,39 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
+  
+  it('in-addon mixin foo', function() {
+    return generateInAddon(['mixin', 'foo']).then(function() {
+      assertFile('addon/mixins/foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Mixin.create({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/mixins/foo-test.js', {
+        contains: [
+          "import FooMixin from '../../../mixins/foo';"
+        ]
+      });
+    });
+  });
 
+  it('in-addon mixin foo/bar', function() {
+    return generateInAddon(['mixin', 'foo/bar']).then(function() {
+      assertFile('addon/mixins/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Mixin.create({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/mixins/foo/bar-test.js', {
+        contains: [
+          "import FooBarMixin from '../../../mixins/foo/bar';"
+        ]
+      });
+    });
+  });
+  
   it('availableOptions work with aliases.', function() {
     return generate(['route', 'foo', '-resource']).then(function() {
       assertFile('app/router.js', {
