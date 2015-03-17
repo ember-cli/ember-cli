@@ -110,7 +110,7 @@ describe('models/addon.js', function() {
   });
 
   describe('resolvePath', function() {
-    before(function() {
+    beforeEach(function() {
       addon = {
         pkg: {
           'ember-addon': {
@@ -137,6 +137,28 @@ describe('models/addon.js', function() {
       addon.pkg['ember-addon']['main'] = 'index.coffee';
       var resolvedFile = path.basename(Addon.resolvePath(addon));
       expect(resolvedFile).to.equal('index.coffee');
+    });
+
+    it('allows lookup of non-`index.js` `main` entry points', function() {
+      delete addon.pkg['ember-addon'];
+      addon.pkg['main'] = 'some/other/path.js';
+
+      var resolvedFile = Addon.resolvePath(addon);
+      expect(resolvedFile).to.equal(path.join(process.cwd(), 'some/other/path.js'));
+    });
+
+    it('falls back to `index.js` if `main` and `ember-addon` are not found', function() {
+      delete addon.pkg['ember-addon'];
+
+      var resolvedFile = Addon.resolvePath(addon);
+      expect(resolvedFile).to.equal(path.join(process.cwd(), 'index.js'));
+    });
+
+    it('falls back to `index.js` if `main` and `ember-addon.main` are not found', function() {
+      delete addon.pkg['ember-addon'].main;
+
+      var resolvedFile = Addon.resolvePath(addon);
+      expect(resolvedFile).to.equal(path.join(process.cwd(), 'index.js'));
     });
   });
 
