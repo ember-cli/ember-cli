@@ -19,13 +19,17 @@ module.exports = {
     contents.name = this.project.name();
     contents.description = this.description;
     contents.keywords = contents.keywords || [];
+    contents.dependencies = contents.dependencies || {}
+    // npm doesn't like it when we have something in both deps and devDeps
+    // and dummy app still uses it when in deps
+    contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
+    delete contents.devDependencies['ember-cli-babel'];
 
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
     }
 
     contents['ember-addon'] = contents['ember-addon'] || {};
-
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
     fs.writeFileSync(path.join(this.path, 'files', 'package.json'), JSON.stringify(contents, null, 2));
