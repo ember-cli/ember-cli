@@ -635,7 +635,8 @@ describe('Acceptance: ember destroy pod', function() {
       });
   });
   
-  it('podModulePrefix deprecation warning', function() {
+  // Skip until podModulePrefix is deprecated
+  it.skip('podModulePrefix deprecation warning', function() {
     return destroyAfterGenerate(['controller', 'foo', '--pod']).then(function(result) {
       expect(result.ui.output).to.include("`podModulePrefix` is deprecated and will be"+
       " removed from future versions of ember-cli. Please move existing pods from"+
