@@ -93,8 +93,8 @@ Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it
 
 ## Upgrading
 
-[Change history of new Ember-CLI apps](https://github.com/kellyselden/ember-cli-output)
-[Change history of new Ember-CLI addons](https://github.com/kellyselden/ember-addon-output)
+* [Change history of new Ember-CLI apps](https://github.com/kellyselden/ember-cli-output)
+* [Change history of new Ember-CLI addons](https://github.com/kellyselden/ember-addon-output)
 
 ## Donating
 
