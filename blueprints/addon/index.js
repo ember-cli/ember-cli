@@ -1,10 +1,12 @@
-var fs         = require('fs');
-var path       = require('path');
-var walkSync   = require('walk-sync');
-var stringUtil = require('../../lib/utilities/string');
-var assign     = require('lodash-node/modern/objects/assign');
-var uniq       = require('lodash-node/underscore/arrays/uniq');
-var date       = new Date();
+var fs          = require('fs');
+var path        = require('path');
+var walkSync    = require('walk-sync');
+var stringUtil  = require('../../lib/utilities/string');
+var assign      = require('lodash-node/modern/objects/assign');
+var uniq        = require('lodash-node/underscore/arrays/uniq');
+var Blueprint   = require('../../lib/models/blueprint');
+var SilentError = require('../../lib/errors/silent');
+var date        = new Date();
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
@@ -119,5 +121,15 @@ module.exports = {
     } else {
       return path.resolve(this._appBlueprint.path, 'files', file);
     }
+  },
+
+  normalizeEntityName: function(entityName) {
+    entityName = Blueprint.prototype.normalizeEntityName.apply(this, arguments);
+
+    if(this.project.isEmberCLIProject()) {
+      throw new SilentError('Generating an addon in an existing ember-cli project is not supported.');
+    }
+
+    return entityName;
   }
 };
