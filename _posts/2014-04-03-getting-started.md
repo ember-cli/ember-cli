@@ -86,6 +86,18 @@ navigate to `http://localhost:4200` to see your new app in action.
 
 navigate to `http://localhost:4200/tests` to see your test results in action.
 
+#### Migrating an existing project that doesn't yet use Ember CLI
+
+If your app uses Ember App Kit, there is a [migration guide](https://github.com/stefanpenner/ember-app-kit#migrating-to-ember-cli) located
+on the README.
+
+If your app uses globals (e.g. `App.Post`) from a different build pipeline such as Grunt, Ember-Rails, or Gulp,
+you can try using the [Ember CLI migrator](https://github.com/fivetanley/ember-cli-migrator). The
+Ember CLI migrator is a command line tool that looks at your JavaScript code using
+a JavaScript parser and rewrites your code to ES6 following Ember CLI's conventions.
+The migrator keeps your code style and keeps git history available via
+`git log --follow`.
+
 #### Cloning an existing project
 
 Alternatively, if you are checking out an existing Ember project created with ember-cli,
