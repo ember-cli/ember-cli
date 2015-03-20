@@ -288,7 +288,7 @@ blueprint authors:
 
 ### locals
 
-Use `locals` to add custom tempate variables. The method
+Use `locals` to add custom template variables. The method
 receives one argument: `options`. Options is an object
 containing general and entity-specific options.
 
