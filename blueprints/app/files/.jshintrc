@@ -2,6 +2,8 @@
   "predef": [
     "document",
     "window",
+    "DS",
+    "Ember",
     "-Promise"
   ],
   "browser": true,
