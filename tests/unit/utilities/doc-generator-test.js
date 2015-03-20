@@ -1,7 +1,8 @@
 'use strict';
 
 var DocGenerator = require('../../../lib/utilities/doc-generator.js');
-var calculateVersion = require('../../../lib/utilities/ember-cli-version.js');
+var versionUtils = require('../../../lib/utilities/version-utils');
+var calculateVersion = versionUtils.emberCLIVersion;
 var expect = require('chai').expect;
 var path = require('path');
 

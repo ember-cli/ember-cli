@@ -9,7 +9,8 @@ var touch   = require('../../helpers/file-utils').touch;
 var expect  = require('chai').expect;
 var MockUI = require('../../helpers/mock-ui');
 
-var emberCLIVersion = require('../../../lib/utilities/ember-cli-version');
+var versionUtils = require('../../../lib/utilities/version-utils');
+var emberCLIVersion = versionUtils.emberCLIVersion;
 
 describe('models/project.js', function() {
   var project, projectPath;
