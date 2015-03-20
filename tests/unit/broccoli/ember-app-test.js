@@ -359,7 +359,7 @@ describe('broccoli/ember-app', function() {
           addon.postprocessTree.calledWith.map(function(args){
             return args[0];
           }).sort()
-        ).to.deep.equal(['all', 'js', 'test']);
+        ).to.deep.equal(['all', 'css', 'js', 'test']);
       });
 
     });
