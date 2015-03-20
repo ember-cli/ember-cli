@@ -13,6 +13,7 @@ var request           = require('supertest');
 var net               = require('net');
 var EOL               = require('os').EOL;
 var nock              = require('nock');
+var express           = require('express');
 
 
 describe('express-server', function() {
@@ -173,7 +174,39 @@ describe('express-server', function() {
             });
         });
     });
+    it('works with a regular express app', function(done) {
+      var expected = '/foo was hit';
 
+      project.require = function() {
+        var app = express();
+        app.use('/foo', function(req,res) {
+          res.send(expected);
+        });
+        return app;
+      };
+
+      subject.start({
+        proxy: 'http://localhost:3001/',
+        host:  '0.0.0.0',
+        port: '1337',
+        baseURL: '/'
+      })
+        .then(function() {
+          request(subject.app)
+            .get('/foo')
+            .set('accept', 'application/json, */*')
+            .expect(function(res) {
+              expect(res.text).to.equal(expected);
+            })
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              expect(proxy.called).to.equal(false);
+              done();
+            });
+        });
+    });
     describe('with proxy', function() {
       beforeEach(function() {
         return subject.start({
