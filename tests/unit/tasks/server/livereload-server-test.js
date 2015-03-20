@@ -94,14 +94,13 @@ describe('livereload-server', function() {
     });
   });
 
-  describe('filter pattern', function() {
+  describe('livereload changes', function () {
     var liveReloadServer;
     var changedCount;
     var oldChanged;
     var stubbedChanged = function() {
       changedCount += 1;
     };
-
     var trackCount;
     var oldTrack;
     var stubbedTrack = function() {
@@ -125,25 +124,55 @@ describe('livereload-server', function() {
       subject.project.liveReloadFilterPatterns = [];
     });
 
-    it('triggers the liverreload server of a change when no pattern matches', function() {
-      subject.didChange({filePath: ''});
-      expect(changedCount).to.equal(1);
-      expect(trackCount).to.equal(1);
+    describe('watcher events', function () {
+      function watcherEventTest(eventName, expectedCount) {
+        subject.project.liveReloadFilterPatterns = [];
+        return subject.start({
+          liveReloadPort: 1337,
+          liveReload: true,
+        }).then(function () {
+            watcher.emit(eventName, {
+              filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+            });
+          }).finally(function () {
+            expect(changedCount).to.equal(expectedCount);
+          });
+      }
+
+      it('triggers a livereload change on a watcher change event', function () {
+        return watcherEventTest('change', 1);
+      });
+
+      it('triggers a livereload change on a watcher error event', function () {
+        return watcherEventTest('error', 1);
+      });
+
+      it('does not trigger a livereload change on other watcher events', function () {
+        return watcherEventTest('not-an-event', 0);
+      });
     });
 
-    it('does not trigger livereoad server of a change when there is a pattern match', function() {
-      // normalize test regex for windows
-      // path.normalize with change forward slashes to back slashes if test is running on windows
-      // we then replace backslashes with double backslahes to escape the backslash in the regex
-      var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-      var filter = new RegExp('^' + basePath);
-      subject.project.liveReloadFilterPatterns = [filter];
-
-      subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+    describe('filter pattern', function() {
+      it('triggers the liverreload server of a change when no pattern matches', function() {
+        subject.didChange({filePath: ''});
+        expect(changedCount).to.equal(1);
+        expect(trackCount).to.equal(1);
       });
-      expect(changedCount).to.equal(0);
-      expect(trackCount).to.equal(0);
+
+      it('does not trigger livereoad server of a change when there is a pattern match', function() {
+        // normalize test regex for windows
+        // path.normalize with change forward slashes to back slashes if test is running on windows
+        // we then replace backslashes with double backslahes to escape the backslash in the regex
+        var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+        var filter = new RegExp('^' + basePath);
+        subject.project.liveReloadFilterPatterns = [filter];
+
+        subject.didChange({
+          filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+        });
+        expect(changedCount).to.equal(0);
+        expect(trackCount).to.equal(0);
+      });
     });
   });
 });
