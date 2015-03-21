@@ -1,6 +1,6 @@
 'use strict';
 
-var broccoli = require('broccoli');
+var broccoli = require('ember-cli-broccoli');
 var walkSync = require('walk-sync');
 var expect   = require('chai').expect;
 var Reexporter = require('../../../lib/utilities/reexport');
