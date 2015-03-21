@@ -54,6 +54,25 @@ describe('Acceptance: ember generate pod', function() {
       '--skip-bower'
     ]);
   }
+  
+  function initAddon() {
+    return ember([
+      'addon',
+      'my-addon',
+      '--skip-npm',
+      '--skip-bower'
+    ]);
+  }
+  
+  function initInRepoAddon() {
+    return initApp().then(function() {
+      return ember([
+        'generate',
+        'in-repo-addon',
+        'my-addon'
+      ]);
+    });
+  }
 
   function preGenerate(args) {
     var generateArgs = ['generate'].concat(args);
@@ -97,20 +116,19 @@ describe('Acceptance: ember generate pod', function() {
       return ember(generateArgs);
     });
   }
-  
-  function initAddon() {
-    return ember([
-      'addon',
-      'my-addon',
-      '--skip-npm',
-      '--skip-bower'
-    ]);
-  }
 
   function generateInAddon(args) {
     var generateArgs = ['generate'].concat(args);
 
     return initAddon().then(function() {
+      return ember(generateArgs);
+    });
+  }
+
+  function generateInRepoAddon(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initInRepoAddon().then(function() {
       return ember(generateArgs);
     });
   }
@@ -1435,6 +1453,70 @@ describe('Acceptance: ember generate pod', function() {
           "  test" + EOL +
           "} from 'ember-qunit';",
           "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
+  
+  it('in-repo-addon component x-foo --pod', function() {
+    return generateInRepoAddon(['component', 'x-foo', '--in-repo-addon=my-addon', '--pod']).then(function() {
+      assertFile('lib/my-addon/addon/components/x-foo/component.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "import layout from './template';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
+        ]
+      });
+      assertFile('lib/my-addon/addon/components/x-foo/template.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('lib/my-addon/app/components/x-foo/component.js', {
+        contains: [
+          "import xFoo from 'my-addon/components/x-foo/component';",
+          "export default xFoo;"
+        ]
+      });
+      assertFile('tests/unit/components/x-foo/component-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
+  
+  it('in-repo-addon component nested/x-foo', function() {
+    return generateInRepoAddon(['component', 'nested/x-foo', '--in-repo-addon=my-addon', '--pod']).then(function() {
+      assertFile('lib/my-addon/addon/components/nested/x-foo/component.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "import layout from './template';",
+          "export default Ember.Component.extend({",
+          "layout: layout",
+          "});"
+        ]
+      });
+      assertFile('lib/my-addon/addon/components/nested/x-foo/template.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('lib/my-addon/app/components/nested/x-foo/component.js', {
+        contains: [
+          "import nestedXFoo from 'my-addon/components/nested/x-foo/component';",
+          "export default nestedXFoo;"
+        ]
+      });
+      assertFile('tests/unit/components/nested/x-foo/component-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('nested/x-foo'"
         ]
       });
     });
