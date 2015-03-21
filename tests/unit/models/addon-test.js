@@ -473,23 +473,48 @@ describe('models/addon.js', function() {
       var packageContents = require(path.join(projectPath, 'package.json'));
 
       project = new Project(projectPath, packageContents);
-      project.initializeAddons();
 
-      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+      var TestAddon = Addon.extend({
+        name: 'test-addon'
+      });
+
+      addon = new TestAddon(project);
     });
 
-    it('should throw a useful error if a template compiler is not present', function() {
-        var tree = path.join(fixturePath, 'simple');
+    it('should throw a useful error if a template compiler is not present -- non-pods', function() {
+      addon.root = path.join(fixturePath, 'with-addon-templates');
 
-        expect(function() {
-          addon.compileTemplates(tree);
-        }).to.throw(
-          'An `addon/templates` tree was detected, but there ' +
-          'are no template compilers registered for `' + addon.name + '`. ' +
-          'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
-          'is listed in `dependencies` (NOT `devDependencies`) in ' +
-          '`' + addon.name + '`\'s `package.json`.'
-        );
+      expect(function() {
+        addon.compileTemplates();
+      }).to.throw(
+        'Addon templates were detected, but there ' +
+        'are no template compilers registered for `' + addon.name + '`. ' +
+        'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
+        'is listed in `dependencies` (NOT `devDependencies`) in ' +
+        '`' + addon.name + '`\'s `package.json`.'
+      );
+    });
+
+    it('should throw a useful error if a template compiler is not present -- pods', function() {
+      addon.root = path.join(fixturePath, 'with-addon-pod-templates');
+
+      expect(function() {
+        addon.compileTemplates();
+      }).to.throw(
+        'Addon templates were detected, but there ' +
+        'are no template compilers registered for `' + addon.name + '`. ' +
+        'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
+        'is listed in `dependencies` (NOT `devDependencies`) in ' +
+        '`' + addon.name + '`\'s `package.json`.'
+      );
+    });
+
+    it('should not throw an error if addon/templates is present but empty', function() {
+      addon.root = path.join(fixturePath, 'with-empty-addon-templates');
+
+      expect(function() {
+        addon.compileTemplates();
+      }).not.to.throw();
     });
   });
 
