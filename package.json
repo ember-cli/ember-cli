@@ -36,6 +36,7 @@
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli/issues"
   },
+  "files": ["bin/ember", "blueprints", "lib"],
   "bundledDependencies": [
     "bower",
     "bower-config",
