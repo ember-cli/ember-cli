@@ -22,6 +22,30 @@ describe('Update Checker', function() {
     };
   });
 
+  it('returns { updatedNeeded: false } if local version is a dev build', function() {
+    var updateChecker = new UpdateChecker(ui, {
+      checkForUpdates: true
+    }, '0.0.5-master-237cc6024d');
+
+    // overwrite doCheck so it ignores any existing configstore
+    updateChecker.doCheck = (function() {
+        var doCheck = updateChecker.doCheck;
+
+        return function() {
+          updateChecker.versionConfig = versionConfig;
+          return doCheck.apply(this);
+        };
+      }());
+
+    updateChecker.checkNPM = function() {
+      return Promise.resolve('0.0.5');
+    };
+
+    return updateChecker.checkForUpdates().then(function(updateInfo) {
+      expect(updateInfo.updateNeeded).to.equal(false, 'updateNeeded should be false');
+    });
+  });
+
   it('returns { updatedNeeded: false } if no update is needed', function() {
     var updateChecker = new UpdateChecker(ui, {
       checkForUpdates: true
