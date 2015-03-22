@@ -507,7 +507,7 @@ links to it this way (see
 details).
 
 Remember that `npm link` will not run the default blueprint in the same way that
-`addon:install` will, so you will have to do that manually via `ember g`.
+`install:addon` will, so you will have to do that manually via `ember g`.
 
 While testing an addon using npm link, you need an entry in `package.json` with
 your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
