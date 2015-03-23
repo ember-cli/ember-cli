@@ -1,4 +1,59 @@
 # ember-cli Changelog
+### 0.2.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Mostly just bug-fixes and "Nice things"
+  + build errors now live-reload and correctly display build failure in the browser. [more-details](https://github.com/ember-cli/ember-cli/pull/3576)
+- Addon Developers
+  + UI is now provided to the AddonDiscovery
+  + ember-cli-babel is now included in the default blueprint, this is still optional but enabled by default
+
+#### Community Contributions
+
+- [#3555](https://github.com/ember-cli/ember-cli/pull/3555) [BUGFIX] Generate mixin in addon/mixins when inside an addon project [@trabus](https://github.com/trabus)
+- [#3476](https://github.com/ember-cli/ember-cli/pull/3476) Removes initializer mention from service generator help text [@corpulentcoffee](https://github.com/corpulentcoffee)
+- [#3433](https://github.com/ember-cli/ember-cli/pull/3433) [ENHANCEMENT] Prevent addon generation in existing ember-cli project [@cbrock](https://github.com/cbrock)
+- [#3463](https://github.com/ember-cli/ember-cli/pull/3463) disable visual progress effect in dumb terminals [@jesse-black](https://github.com/jesse-black)
+- [#3440](https://github.com/ember-cli/ember-cli/pull/3440) Enforcing newlines in template files results in unwanted Nodes [@jclem](https://github.com/jclem)
+- [#3484](https://github.com/ember-cli/ember-cli/pull/3484) Component blueprint only import layout when generated inside addon [@trabus](https://github.com/trabus)
+- [#3505](https://github.com/ember-cli/ember-cli/pull/3505) Update testem to 0.7.5 [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#3481](https://github.com/ember-cli/ember-cli/pull/3481) BUGFIX Fixes #3472 Check for 'usePods' instead of 'pod'. [@jankrueger](https://github.com/jankrueger)
+- [#3493](https://github.com/ember-cli/ember-cli/pull/3493) Fix helper test failing by default [@kimroen](https://github.com/kimroen)
+- [#3488](https://github.com/ember-cli/ember-cli/pull/3488) ENHANCEMENT: update-checker.js should use environment http_proxy if detected [@xomaczar](https://github.com/xomaczar)
+- [#3483](https://github.com/ember-cli/ember-cli/pull/3483) Ensure that addons pass the `ui` into their AddonDiscovery. [@rwjblue](https://github.com/rwjblue)
+- [#3501](https://github.com/ember-cli/ember-cli/pull/3501) [Enhancement] Architecture Diagram [@visheshjoshi](https://github.com/visheshjoshi)
+- [#3562](https://github.com/ember-cli/ember-cli/pull/3562) dist can be watched, it really is just tmp that matters. This prevents p... [@ember-cli](https://github.com/ember-cli)
+- [#3540](https://github.com/ember-cli/ember-cli/pull/3540) [fixes #3520, #3174] disable ES3SafeFilter if babel is present, as babel... [@ember-cli](https://github.com/ember-cli)
+- [#3508](https://github.com/ember-cli/ember-cli/pull/3508) Update ember-cli-app-version [@btecu](https://github.com/btecu)
+- [#3518](https://github.com/ember-cli/ember-cli/pull/3518) [BUGFIX] Add missing bind when server already in use [@bdvholmes](https://github.com/bdvholmes)
+- [#3539](https://github.com/ember-cli/ember-cli/pull/3539) add tmp dir to npmignore [@ahmadsoe](https://github.com/ahmadsoe)
+- [#3515](https://github.com/ember-cli/ember-cli/pull/3515) [BUGFIX] Fixes nested component generation in addons with correct relative path for template import [@trabus](https://github.com/trabus)
+- [#3517](https://github.com/ember-cli/ember-cli/pull/3517) Use node 0.12 on Windows CI [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#3535](https://github.com/ember-cli/ember-cli/pull/3535) Update ADDON_HOOKS.md [@ahmadsoe](https://github.com/ahmadsoe)
+- [#3533](https://github.com/ember-cli/ember-cli/pull/3533) [BUGFIX] Replace marked with markdown-it [@trabus](https://github.com/trabus)
+- [#3583](https://github.com/ember-cli/ember-cli/pull/3583) Updated license copyright date range [@jayphelps](https://github.com/jayphelps)
+- [#3546](https://github.com/ember-cli/ember-cli/pull/3546) [ENHANCEMENT] Add podModulePrefix deprecation for generate and destroy commands [@trabus](https://github.com/trabus)
+- [#3544](https://github.com/ember-cli/ember-cli/pull/3544) Add links with watchman info to cli output [@felixbuenemann](https://github.com/felixbuenemann)
+- [#3545](https://github.com/ember-cli/ember-cli/pull/3545) [BUGFIX] Ensure `package.json` `main` entry point is used for addon lookup. [@rwjblue](https://github.com/rwjblue)
+- [#3541](https://github.com/ember-cli/ember-cli/pull/3541) [fixes #3520, #3174] bump es3-safe-recast [@ember-cli](https://github.com/ember-cli)
+- [#3594](https://github.com/ember-cli/ember-cli/pull/3594) fix broken link [@kellyselden](https://github.com/kellyselden)
+- [#3564](https://github.com/ember-cli/ember-cli/pull/3564) Added babel to addons package.json dependencies by default [@jayphelps](https://github.com/jayphelps)
+- [#3559](https://github.com/ember-cli/ember-cli/pull/3559) [Documentation] add ref to ember-cli-output and ember-addon-output [@kellyselden](https://github.com/kellyselden)
+- [#3571](https://github.com/ember-cli/ember-cli/pull/3571) [BREAKING ENHANCEMENT] Update ember-cli-content-security-policy to v0.4.0 [@sir-dunxalot/enhancement](https://github.com/sir-dunxalot/enhancement)
+- [#3572](https://github.com/ember-cli/ember-cli/pull/3572) Specify node version (0.12) for CI [@quaertym](https://github.com/quaertym)
+- [#3576](https://github.com/ember-cli/ember-cli/pull/3576) ensure a build-failure is “live-reloaded” to the user. [@ember-cli](https://github.com/ember-cli)
+- [#3578](https://github.com/ember-cli/ember-cli/pull/3578) Teaches updateChecker about dev builds [@twokul](https://github.com/twokul)
+- [#3579](https://github.com/ember-cli/ember-cli/pull/3579) allow for ./server to export express app [@calvinmetcalf](https://github.com/calvinmetcalf)
+- [#3581](https://github.com/ember-cli/ember-cli/pull/3581) Resolves #3534 - addon postprocessTrees for styles [@jschilli](https://github.com/jschilli)
+- [#3593](https://github.com/ember-cli/ember-cli/pull/3593) add command uninstall:npm [@kellyselden](https://github.com/kellyselden)
+- [#3604](https://github.com/ember-cli/ember-cli/pull/3604) Testem update [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#3611](https://github.com/ember-cli/ember-cli/pull/3611) Bump ember-data to beta-16 [@bmac](https://github.com/bmac)
+
+Thank you to all who took the time to contribute!
 
 ### 0.2.0
 
