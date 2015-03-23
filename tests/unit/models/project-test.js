@@ -7,7 +7,7 @@ var stub    = require('../../helpers/stub').stub;
 var tmp     = require('../../helpers/tmp');
 var touch   = require('../../helpers/file-utils').touch;
 var expect  = require('chai').expect;
-var MockUI = require('../../helpers/mock-ui');
+var MockUI  = require('../../helpers/mock-ui');
 
 var emberCLIVersion = require('../../../lib/utilities/ember-cli-version');
 
@@ -186,7 +186,7 @@ describe('models/project.js', function() {
       var expected = [
         'tests-server-middleware',
         'history-support-middleware', 'serve-files-middleware',
-        'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
+        'proxy-server-middleware', 'check-npm-outdated', 'check-versions', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
         'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button'
@@ -197,10 +197,10 @@ describe('models/project.js', function() {
     it('returns instances of the addons', function() {
       var addons = project.addons;
 
-      expect(addons[5].name).to.equal('Ember Non Root Addon');
-      expect(addons[11].name).to.equal('Ember Super Button');
-      expect(addons[11].addons[0].name).to.equal('Ember Yagni');
-      expect(addons[11].addons[1].name).to.equal('Ember Ng');
+      expect(addons[7].name).to.equal('Ember Non Root Addon');
+      expect(addons[13].name).to.equal('Ember Super Button');
+      expect(addons[13].addons[0].name).to.equal('Ember Yagni');
+      expect(addons[13].addons[1].name).to.equal('Ember Ng');
     });
 
     it('addons get passed the project instance', function() {
@@ -212,7 +212,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       var addons = project.addons;
 
-      expect(addons[7].name).to.equal('Ember Random Addon');
+      expect(addons[9].name).to.equal('Ember Random Addon');
     });
 
     it('returns the default blueprints path', function() {
@@ -272,8 +272,8 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       var addons = project.addons;
 
-      expect(addons[4] instanceof Addon).to.equal(true);
-      expect(addons[4].name).to.equal('Ember CLI Generated with export');
+      expect(addons[6] instanceof Addon).to.equal(true);
+      expect(addons[6].name).to.equal('Ember CLI Generated with export');
     });
 
     it('adds the project itself if it is an addon', function() {
