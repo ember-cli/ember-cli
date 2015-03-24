@@ -44,7 +44,6 @@
     "broccoli-funnel",
     "broccoli-kitchen-sink-helpers",
     "broccoli-merge-trees",
-    "broccoli-static-compiler",
     "broccoli-unwatched-tree",
     "chalk",
     "concat-stream",
