@@ -320,6 +320,24 @@ describe('broccoli/ember-app', function() {
         });
       });
     });
+    describe('postprocessTree is called properly', function() {
+        var postprocessTreeStub;
+        beforeEach(function() {
+          emberApp = new EmberApp({
+            project: project
+          });
+
+          postprocessTreeStub = stub(emberApp, 'addonPostprocessTree', ['batman']);
+        });
+
+
+        it('styles calls addonTreesFor', function() {
+          emberApp.styles();
+
+          expect(postprocessTreeStub.calledWith[0][0]).to.equal('css');
+          expect(postprocessTreeStub.calledWith[0][1].description).to.equal('styles', 'should be called with consolidated tree');
+        });
+    });
     describe('toTree', function() {
       beforeEach(function() {
         addon = {
