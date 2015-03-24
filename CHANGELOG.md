@@ -5,10 +5,12 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/e4d36aa2ce99ebb288cd596270e7b38da90f535e)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + Mostly just bug-fixes and "Nice things"
   + build errors now live-reload and correctly display build failure in the browser. [more-details](https://github.com/ember-cli/ember-cli/pull/3576)
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/5d87ed789651b1fbecf9a30d7b82eb86e0629bd2)
   + UI is now provided to the AddonDiscovery
   + ember-cli-babel is now included in the default blueprint, this is still optional but enabled by default
 
