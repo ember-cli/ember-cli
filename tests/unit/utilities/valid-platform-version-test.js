@@ -26,4 +26,10 @@ describe('platform-version-check', function() {
     expect(checkValidPlatform('v0.12.15')).to.be.equal(true);
     expect(checkValidPlatform('v0.12.30')).to.be.equal(true);
   });
+
+  it('should return true if running on node v0.13', function() {
+    expect(checkValidPlatform('v0.13.0')).to.be.equal(true);
+    expect(checkValidPlatform('v0.13.15')).to.be.equal(true);
+    expect(checkValidPlatform('v0.13.30')).to.be.equal(true);
+  });
 });
