@@ -41,17 +41,17 @@ project directory.
 
 #### Project Update
 
-* Delete temporary development folders
-
-    {% highlight bash %}
-    rm -rf node_modules bower_components dist tmp
-    {% endhighlight %}
-
 * Update your project's `package.json` file to use the latest version of
   ember-cli, replacing X.X.X with the version of ember-cli you want to install
 
     {% highlight bash %}
     npm install ember-cli@X.X.X --save-dev
+    {% endhighlight %}
+
+* Delete temporary development folders
+
+    {% highlight bash %}
+    rm -rf node_modules bower_components dist tmp
     {% endhighlight %}
 
 * Reinstall NPM and Bower dependencies
