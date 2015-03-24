@@ -1,3 +1,9 @@
+/* 
+ * For enabling pointer cursor on all elements with an action.
+ *
+ * Required if expecting using action on non-buttons,
+ * and expecting to work in iOS.
+ */
 [data-ember-action] {
   cursor: pointer;
 }
