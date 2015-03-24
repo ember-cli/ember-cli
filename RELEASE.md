@@ -18,6 +18,7 @@ STEPS:
 * `rm -rf node_modules`
 * `npm cache clear`
 * `npm install`
+* `npm link`
 * `npm pack`
 * remove current installed version: `npm uninstall -g ember-cli`
 * install the new package (for testing) `npm install -g ./ember-cli-<version>.tgz`
