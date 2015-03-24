@@ -10,7 +10,7 @@ STEPS:
 ------
 
 1. let other contributors know that you are preparing a release and to hold off on merging PRs or pushing new code
-* ensure you using the latest node `v0.10.x` (but not v0.11.x for now,
+* ensure you using the latest stable node and iojs (but not v0.13.x for now)
    as it has a broken zlib which causes it to publish corrupted modules)
 * run `./bin/changelog` and add output to `CHANGELOG.md`
 * edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes etc.)
