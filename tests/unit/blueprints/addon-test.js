@@ -27,6 +27,17 @@ describe('blueprint - addon', function(){
       }).to.throw('Generating an addon in an existing ember-cli project is not supported.');
     });
 
+    it('works when current project is an existing ember-cli addon', function(){
+      mockProject.isEmberCLIAddon = function() { return true; };
+      var blueprint = Blueprint.lookup('addon');
+
+      blueprint.project = mockProject;
+
+      expect(function() {
+        blueprint.normalizeEntityName('foo');
+      }).not.to.throw('Generating an addon in an existing ember-cli project is not supported.');
+    });
+
     it('keeps existing behavior by calling Blueprint.normalizeEntityName', function(){
       var blueprint = Blueprint.lookup('addon');
 

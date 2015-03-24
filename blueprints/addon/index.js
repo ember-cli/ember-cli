@@ -130,7 +130,7 @@ module.exports = {
   normalizeEntityName: function(entityName) {
     entityName = Blueprint.prototype.normalizeEntityName.apply(this, arguments);
 
-    if(this.project.isEmberCLIProject()) {
+    if(this.project.isEmberCLIProject() && !this.project.isEmberCLIAddon()) {
       throw new SilentError('Generating an addon in an existing ember-cli project is not supported.');
     }
 
