@@ -1,8 +1,5 @@
 /* 
- * For enabling pointer cursor on all elements with an action.
- *
- * Required if expecting to use actions on elements other then buttons,
- * and expecting to work in iOS.
+ * This makes touch events work for all elements that have Ember actions.
  */
 [data-ember-action] {
   cursor: pointer;
