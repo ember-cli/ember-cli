@@ -24,6 +24,6 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-05-
 - [Installing Node.js/NPM Without Sudo](http://www.wenincode.com/installing-node-jsnpm-without-sudo)
 
 ### Example Apps
-- [WMeldon/ember-cli-todos](https://github.com/WMeldon/ember-cli-todos)
+- [ember-cli/ember-cli-todos](https://github.com/ember-cli/ember-cli-todos)
 - [stefanpenner/ember-cli-ember-fire](https://github.com/stefanpenner/ember-cli-ember-fire)
 - [abuiles/facturas-client](https://github.com/abuiles/facturas-client)
