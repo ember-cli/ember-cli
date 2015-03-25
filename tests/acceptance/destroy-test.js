@@ -60,7 +60,17 @@ describe('Acceptance: ember destroy', function() {
       '--skip-bower'
     ]);
   }
-
+  
+  function initInRepoAddon() {
+    return initApp().then(function() {
+      return ember([
+        'generate',
+        'in-repo-addon',
+        'my-addon'
+      ]);
+    });
+  }
+  
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
     return ember(generateArgs);
@@ -70,6 +80,14 @@ describe('Acceptance: ember destroy', function() {
     var generateArgs = ['generate'].concat(args);
 
     return initAddon().then(function() {
+      return ember(generateArgs);
+    });
+  }
+  
+  function generateInRepoAddon(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initInRepoAddon().then(function() {
       return ember(generateArgs);
     });
   }
@@ -113,6 +131,19 @@ describe('Acceptance: ember destroy', function() {
       .then(function() {
         return generateInAddon(args);
       })
+      .then(function() {
+        assertFilesExist(files);
+      })
+      .then(function() {
+        return destroy(args);
+      })
+      .then(function() {
+        assertFilesNotExist(files);
+      });
+  }
+  
+  function assertDestroyAfterGenerateInRepoAddon(args, files) {
+    return generateInRepoAddon(args)
       .then(function() {
         assertFilesExist(files);
       })
@@ -496,6 +527,30 @@ describe('Acceptance: ember destroy', function() {
     ];
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
+  });
+
+  it('in-repo-addon component x-foo', function() {
+    var commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon'];
+    var files       = [
+      'lib/my-addon/addon/components/x-foo.js',
+      'lib/my-addon/addon/templates/components/x-foo.hbs',
+      'lib/my-addon/app/components/x-foo.js',
+      'tests/unit/components/x-foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
+  });
+  
+  it('in-repo-addon component nested/x-foo', function() {
+    var commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon'];
+    var files       = [
+      'lib/my-addon/addon/components/nested/x-foo.js',
+      'lib/my-addon/addon/templates/components/nested/x-foo.hbs',
+      'lib/my-addon/app/components/nested/x-foo.js',
+      'tests/unit/components/nested/x-foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
 
   it('acceptance-test foo', function() {

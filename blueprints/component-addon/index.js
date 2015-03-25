@@ -20,6 +20,12 @@ module.exports = {
         }
         return options.dasherizedModuleName;
       },
+      __root__: function(options) {
+        if (options.inRepoAddon) {
+          return path.join('lib', options.inRepoAddon, 'app');
+        }
+        return 'app';
+      }
     };
   },
 
@@ -36,7 +42,7 @@ module.exports = {
   },
 
   locals: function(options) {
-    var addonRawName   = options.project.pkg.name;
+    var addonRawName   = options.inRepoAddon ? options.inRepoAddon : options.project.pkg.name;
     var addonName      = stringUtil.dasherize(addonRawName);
     var fileName       = stringUtil.dasherize(options.entity.name);
     var pathName       = [addonName, 'components', fileName].join('/');

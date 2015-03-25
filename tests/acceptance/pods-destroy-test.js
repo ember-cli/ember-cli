@@ -63,6 +63,16 @@ describe('Acceptance: ember destroy pod', function() {
       '--skip-bower'
     ]);
   }
+  
+  function initInRepoAddon() {
+    return initApp().then(function() {
+      return ember([
+        'generate',
+        'in-repo-addon',
+        'my-addon'
+      ]);
+    });
+  }
 
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
@@ -73,6 +83,14 @@ describe('Acceptance: ember destroy pod', function() {
     var generateArgs = ['generate'].concat(args);
 
     return initAddon().then(function() {
+      return ember(generateArgs);
+    });
+  }
+  
+  function generateInRepoAddon(args) {
+    var generateArgs = ['generate'].concat(args);
+
+    return initInRepoAddon().then(function() {
       return ember(generateArgs);
     });
   }
@@ -134,6 +152,19 @@ describe('Acceptance: ember destroy pod', function() {
       .then(function() {
         return generateInAddon(args);
       })
+      .then(function() {
+        assertFilesExist(files);
+      })
+      .then(function() {
+        return destroy(args);
+      })
+      .then(function() {
+        assertFilesNotExist(files);
+      });
+  }
+  
+  function assertDestroyAfterGenerateInRepoAddon(args, files) {
+    return generateInRepoAddon(args)
       .then(function() {
         assertFilesExist(files);
       })
@@ -560,7 +591,7 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('in-addon component x-foo', function() {
+  it('in-addon component x-foo --pod', function() {
     var commandArgs = ['component', 'x-foo', '--pod'];
     var files       = [
       'addon/components/x-foo/component.js',
@@ -570,6 +601,30 @@ describe('Acceptance: ember destroy pod', function() {
     ];
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
+  });
+  
+  it('in-repo-addon component x-foo --pod', function(){
+    var commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon', '--pod'];
+    var files       = [
+      'lib/my-addon/addon/components/x-foo/component.js',
+      'lib/my-addon/addon/components/x-foo/template.hbs',
+      'lib/my-addon/app/components/x-foo/component.js',
+      'tests/unit/components/x-foo/component-test.js'
+    ];
+    
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
+  });
+
+  it('in-repo-addon component nested/x-foo --pod', function(){
+    var commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon', '--pod'];
+    var files       = [
+      'lib/my-addon/addon/components/nested/x-foo/component.js',
+      'lib/my-addon/addon/components/nested/x-foo/template.hbs',
+      'lib/my-addon/app/components/nested/x-foo/component.js',
+      'tests/unit/components/nested/x-foo/component-test.js'
+    ];
+    
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
 
   it('acceptance-test foo --pod', function() {
