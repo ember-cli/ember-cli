@@ -20,6 +20,7 @@ module.exports = {
     contents.description = this.description;
     contents.keywords = contents.keywords || [];
     contents.dependencies = contents.dependencies || {}
+
     // npm doesn't like it when we have something in both deps and devDeps
     // and dummy app still uses it when in deps
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
@@ -28,6 +29,9 @@ module.exports = {
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
     }
+
+    // add `ember-disable-prototype-extensions` to addons by default
+    contents.devDependencies['ember-disable-prototype-extensions'] = '^1.0.0';
 
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
