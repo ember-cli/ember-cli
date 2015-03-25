@@ -156,6 +156,7 @@ describe('Acceptance: ember destroy', function() {
   }
 
   it('controller foo', function() {
+    this.timeout(20000);
     var commandArgs = ['controller', 'foo'];
     var files       = [
       'app/controllers/foo.js',
@@ -166,6 +167,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('controller foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['controller', 'foo/bar'];
     var files       = [
       'app/controllers/foo/bar.js',
@@ -176,6 +178,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('component x-foo', function() {
+    this.timeout(20000);
     var commandArgs = ['component', 'x-foo'];
     var files       = [
       'app/components/x-foo.js',
@@ -187,6 +190,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('helper foo-bar', function() {
+    this.timeout(20000);
     var commandArgs = ['helper', 'foo-bar'];
     var files       = [
       'app/helpers/foo-bar.js',
@@ -197,6 +201,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('helper foo/bar-baz', function() {
+    this.timeout(20000);
     var commandArgs = ['helper', 'foo/bar-baz'];
     var files       = [
       'app/helpers/foo/bar-baz.js',
@@ -207,6 +212,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('model foo', function() {
+    this.timeout(20000);
     var commandArgs = ['model', 'foo'];
     var files       = [
       'app/models/foo.js',
@@ -217,6 +223,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('model foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['model', 'foo/bar'];
     var files       = [
       'app/models/foo/bar.js',
@@ -227,6 +234,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('route foo', function() {
+    this.timeout(20000);
     var commandArgs = ['route', 'foo'];
     var files       = [
       'app/routes/foo.js',
@@ -238,6 +246,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('route foo --type=resource', function() {
+    this.timeout(20000);
     var commandArgs = ['route', 'foo', '--type=resource'];
     var files       = [
       'app/routes/foo.js',
@@ -254,6 +263,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('route foos --type=resource', function() {
+    this.timeout(20000);
     var commandArgs = ['route', 'foos', '--type=resource'];
     var files       = [
       'app/routes/foos.js',
@@ -270,6 +280,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('route index', function() {
+    this.timeout(20000);
     var commandArgs = ['route', 'index'];
     var files       = [
       'app/routes/index.js',
@@ -281,6 +292,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('route basic', function() {
+    this.timeout(20000);
     var commandArgs = ['route', 'basic'];
     var files       = [
       'app/routes/basic.js',
@@ -292,6 +304,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('resource foo', function() {
+    this.timeout(20000);
     var commandArgs = ['resource', 'foo'];
     var files       = [
       'app/models/foo.js',
@@ -310,6 +323,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('resource foos', function() {
+    this.timeout(20000);
     var commandArgs = ['resource', 'foos'];
     var files       = [
       'app/models/foo.js',
@@ -328,6 +342,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('template foo', function() {
+    this.timeout(20000);
     var commandArgs = ['template', 'foo'];
     var files       = ['app/templates/foo.hbs'];
 
@@ -335,6 +350,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('template foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['template', 'foo/bar'];
     var files       = ['app/templates/foo/bar.hbs'];
 
@@ -342,6 +358,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('view foo', function() {
+    this.timeout(20000);
     var commandArgs = ['view', 'foo'];
     var files       = [
       'app/views/foo.js',
@@ -352,6 +369,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('view foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['view', 'foo/bar'];
     var files       = [
       'app/views/foo/bar.js',
@@ -362,6 +380,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('initializer foo', function() {
+    this.timeout(20000);
     var commandArgs = ['initializer', 'foo'];
     var files       = ['app/initializers/foo.js'];
 
@@ -369,6 +388,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('initializer foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['initializer', 'foo/bar'];
     var files       = ['app/initializers/foo/bar.js'];
 
@@ -376,6 +396,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('mixin foo', function() {
+    this.timeout(20000);
     var commandArgs = ['mixin', 'foo'];
     var files       = [
       'app/mixins/foo.js',
@@ -386,6 +407,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('mixin foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['mixin', 'foo/bar'];
     var files       = [
       'app/mixins/foo/bar.js',
@@ -396,6 +418,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('adapter foo', function() {
+    this.timeout(20000);
     var commandArgs = ['adapter', 'foo'];
     var files       = ['app/adapters/foo.js'];
 
@@ -403,6 +426,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('adapter foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['adapter', 'foo/bar'];
     var files       = ['app/adapters/foo/bar.js'];
 
@@ -410,6 +434,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('serializer foo', function() {
+    this.timeout(20000);
     var commandArgs = ['serializer', 'foo'];
     var files       = [
       'app/serializers/foo.js',
@@ -420,6 +445,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('serializer foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['serializer', 'foo/bar'];
     var files       = [
       'app/serializers/foo/bar.js',
@@ -430,6 +456,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('transform foo', function() {
+    this.timeout(20000);
     var commandArgs = ['transform', 'foo'];
     var files       = [
       'app/transforms/foo.js',
@@ -440,6 +467,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('transform foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['transform', 'foo/bar'];
     var files       = [
       'app/transforms/foo/bar.js',
@@ -450,6 +478,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('util foo-bar', function() {
+    this.timeout(20000);
     var commandArgs = ['util', 'foo-bar'];
     var files       = [
       'app/utils/foo-bar.js',
@@ -460,6 +489,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('util foo-bar/baz', function() {
+    this.timeout(20000);
     var commandArgs = ['util', 'foo/bar-baz'];
     var files       = [
       'app/utils/foo/bar-baz.js',
@@ -470,6 +500,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('service foo', function() {
+    this.timeout(20000);
     var commandArgs = ['service', 'foo'];
     var files       = [
       'app/services/foo.js',
@@ -480,6 +511,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('service foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['service', 'foo/bar'];
     var files       = [
       'app/services/foo/bar.js',
@@ -490,6 +522,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('blueprint foo', function() {
+    this.timeout(20000);
     var commandArgs = ['blueprint', 'foo'];
     var files       = ['blueprints/foo/index.js'];
 
@@ -497,6 +530,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('blueprint foo/bar', function() {
+    this.timeout(20000);
     var commandArgs = ['blueprint', 'foo/bar'];
     var files       = ['blueprints/foo/bar/index.js'];
 
@@ -504,6 +538,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('http-mock foo', function() {
+    this.timeout(20000);
     var commandArgs = ['http-mock', 'foo'];
     var files       = ['server/mocks/foo.js'];
 
@@ -511,6 +546,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('http-proxy foo', function() {
+    this.timeout(20000);
     var commandArgs = ['http-proxy', 'foo'];
     var files       = ['server/proxies/foo.js'];
 
@@ -518,6 +554,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('in-addon component x-foo', function() {
+    this.timeout(20000);
     var commandArgs = ['component', 'x-foo'];
     var files       = [
       'addon/components/x-foo.js',
@@ -554,6 +591,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('acceptance-test foo', function() {
+    this.timeout(20000);
     var commandArgs = ['acceptance-test', 'foo'];
     var files       = ['tests/acceptance/foo-test.js'];
 
@@ -561,6 +599,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('deletes files generated using blueprints from the project directory', function() {
+    this.timeout(20000);
     var commandArgs = ['foo', 'bar'];
     var files       = ['app/foos/bar.js'];
     return initApp()
@@ -586,6 +625,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('correctly identifies the root of the project', function() {
+    this.timeout(20000);
     var commandArgs = ['controller', 'foo'];
     var files       = ['app/controllers/foo.js'];
     return initApp()
@@ -617,6 +657,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('http-mock <name> does not remove server/', function() {
+    this.timeout(20000);
     return initApp()
       .then(function() { return generate(['http-mock', 'foo']); })
       .then(function() { return generate(['http-mock', 'bar']); })
