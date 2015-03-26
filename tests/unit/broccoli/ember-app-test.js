@@ -6,6 +6,7 @@ var path     = require('path');
 var Project  = require('../../../lib/models/project');
 var EmberApp = require('../../../lib/broccoli/ember-app');
 var expect   = require('chai').expect;
+var MockUI   = require('../../helpers/mock-ui');
 var stub     = require('../../helpers/stub').stub;
 
 describe('broccoli/ember-app', function() {
@@ -14,7 +15,7 @@ describe('broccoli/ember-app', function() {
   function setupProject(rootPath) {
     var packageContents = require(path.join(rootPath, 'package.json'));
 
-    project = new Project(rootPath, packageContents);
+    project = new Project(rootPath, packageContents, new MockUI());
     project.require = function() {
       return function() {};
     };
@@ -386,7 +387,7 @@ describe('broccoli/ember-app', function() {
       beforeEach(function() {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
         var packageContents = require(path.join(projectPath, 'package.json'));
-        project = new Project(projectPath, packageContents);
+        project = new Project(projectPath, packageContents, new MockUI());
       });
 
       afterEach(function() {
@@ -397,15 +398,13 @@ describe('broccoli/ember-app', function() {
         it('development', function() {
           process.env.EMBER_ENV = 'development';
           emberApp = new EmberApp({ project: project });
-
-          expect(emberApp.project.addons.length).to.equal(5);
+          expect(emberApp.project.addons.length).to.equal(7);
         });
 
         it('foo', function() {
           process.env.EMBER_ENV = 'foo';
           emberApp = new EmberApp({ project: project });
-
-          expect(emberApp.project.addons.length).to.equal(6);
+          expect(emberApp.project.addons.length).to.equal(8);
         });
       });
 
@@ -415,12 +414,14 @@ describe('broccoli/ember-app', function() {
   describe('import', function() {
     it('appends dependencies', function() {
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import('vendor/moment.js', {type: 'vendor'});
       expect(emberApp.legacyFilesToAppend.indexOf('vendor/moment.js')).to.equal(emberApp.legacyFilesToAppend.length - 1);
     });
     it('prepends dependencies', function() {
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
       expect(emberApp.legacyFilesToAppend.indexOf('vendor/es5-shim.js')).to.equal(0);
@@ -428,6 +429,7 @@ describe('broccoli/ember-app', function() {
     it('defaults to development if production is not set', function() {
       process.env.EMBER_ENV = 'production';
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import({
         'development': 'vendor/jquery.js'
@@ -439,6 +441,7 @@ describe('broccoli/ember-app', function() {
     it('honors explicitly set to null in environment', function() {
       process.env.EMBER_ENV = 'production';
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import({
         'development': 'vendor/jquery.js',
@@ -488,12 +491,15 @@ describe('broccoli/ember-app', function() {
     });
 
     it('defines vendorFiles by default', function() {
-      emberApp = new EmberApp();
+      emberApp = new EmberApp({
+        project:project
+      });
       expect(Object.keys(emberApp.vendorFiles)).to.deep.equal(defaultVendorFiles);
     });
 
     it('redefines a location of a vendor asset', function() {
       emberApp = new EmberApp({
+        project: project,
         vendorFiles: {
           'ember.js': 'vendor/ember.js'
         }
@@ -503,6 +509,7 @@ describe('broccoli/ember-app', function() {
 
     it('defines vendorFiles in order even when option for it is passed', function() {
       emberApp = new EmberApp({
+        project: project,
         vendorFiles: {
           'ember.js': 'vendor/ember.js'
         }
@@ -512,6 +519,7 @@ describe('broccoli/ember-app', function() {
 
     it('removes dependency in vendorFiles', function() {
       emberApp = new EmberApp({
+        project: project,
         vendorFiles: {
           'ember.js': null,
           'handlebars.js': null
@@ -526,7 +534,7 @@ describe('broccoli/ember-app', function() {
       var root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
 
       emberApp = new EmberApp({
-        project: new Project(root, {})
+        project: new Project(root, {}, new MockUI())
       });
 
       var emberFiles = emberApp.vendorFiles['ember.js'];
@@ -534,13 +542,16 @@ describe('broccoli/ember-app', function() {
     });
 
     it('switches the default ember.debug.js to ember.js if it does not exist', function () {
-      emberApp = new EmberApp();
+      emberApp = new EmberApp({
+        project: project
+      });
       var emberFiles = emberApp.vendorFiles['ember.js'];
       expect(emberFiles.development).to.equal('bower_components/ember/ember.js');
     });
 
     it('does not clobber an explicitly configured ember development file', function () {
       emberApp = new EmberApp({
+        project: project,
         vendorFiles: {
           'ember.js': {
             development: 'vendor/ember.debug.js'
