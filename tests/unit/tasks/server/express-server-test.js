@@ -18,6 +18,7 @@ var express           = require('express');
 
 describe('express-server', function() {
   var subject, ui, project, proxy, nockProxy;
+  nock.enableNetConnect();
 
   beforeEach(function() {
     this.timeout(10000);
