@@ -62,7 +62,6 @@ describe('models/addon.js', function() {
         };
 
         addon.jshintTrees = function(){};
-        addon.pickFiles   = function(){};
 
       });
 
