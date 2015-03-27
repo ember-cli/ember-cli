@@ -2,7 +2,7 @@
 
 var ember     = require('../helpers/ember');
 var expect    = require('chai').expect;
-var forEach   = require('lodash-node/compat/collections/forEach');
+var forEach   = require('lodash/collection/forEach');
 var walkSync  = require('walk-sync');
 var glob      = require('glob');
 var Blueprint = require('../../lib/models/blueprint');
@@ -12,9 +12,9 @@ var root      = process.cwd();
 var util      = require('util');
 var conf      = require('../helpers/conf');
 var minimatch = require('minimatch');
-var remove    = require('lodash-node/compat/arrays/remove');
-var any       = require('lodash-node/compat/collections/some');
-var intersect = require('lodash-node/compat/arrays/intersection');
+var remove    = require('lodash/array/remove');
+var any       = require('lodash/collection/some');
+var intersect = require('lodash/array/intersection');
 var EOL       = require('os').EOL;
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;

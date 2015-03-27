@@ -1,6 +1,6 @@
 'use strict';
 
-var defaults      = require('lodash-node/modern/objects/defaults');
+var defaults      = require('lodash/object/defaults');
 var MockUI        = require('../helpers/mock-ui');
 var MockAnalytics = require('../helpers/mock-analytics');
 
