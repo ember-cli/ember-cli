@@ -216,22 +216,22 @@ describe('models/addon.js', function() {
       describe('trees for it\'s treePaths', function() {
         it('app', function() {
           var tree = addon.treeFor('app');
-          expect(typeof tree.read).to.equal('function');
+          expect(typeof (tree.read || tree.rebuild)).to.equal('function');
         });
 
         it('styles', function() {
           var tree = addon.treeFor('styles');
-          expect(typeof tree.read).to.equal('function');
+          expect(typeof (tree.read || tree.rebuild)).to.equal('function');
         });
 
         it('templates', function() {
           var tree = addon.treeFor('templates');
-          expect(typeof tree.read).to.equal('function');
+          expect(typeof (tree.read || tree.rebuild)).to.equal('function');
         });
 
         it('vendor', function() {
           var tree = addon.treeFor('vendor');
-          expect(typeof tree.read).to.equal('function');
+          expect(typeof (tree.read || tree.rebuild)).to.equal('function');
         });
 
         it('addon', function() {
@@ -255,7 +255,7 @@ describe('models/addon.js', function() {
           };
           addon.app = app;
           var tree = addon.treeFor('addon');
-          expect(typeof tree.read).to.equal('function');
+          expect(typeof (tree.read || tree.rebuild)).to.equal('function');
         });
       });
 
