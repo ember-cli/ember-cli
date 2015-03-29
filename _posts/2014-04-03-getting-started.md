@@ -80,7 +80,7 @@ invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0], falling back 
 The following command will let you inspect which watchmans you have.
 
 {% highlight bash %}
-which -a
+which -a watchman
 {% endhighlight %}
 
 If you have installed the wrong watchman, you can use npm uninstall to remove it.
