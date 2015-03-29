@@ -285,8 +285,8 @@ describe('Blueprint', function() {
         });
     });
 
-    it('re-installing conflicting files', function() {
-      return blueprint.install(options)
+    it('re-installing conflicting files', function(done) {
+      blueprint.install(options)
         .then(function() {
           var output = ui.output.trim().split(EOL);
           ui.output = '';
@@ -327,6 +327,8 @@ describe('Blueprint', function() {
 
           expect(actualFiles).to.deep.equal(basicBlueprintFiles);
         });
+
+      return done();
     });
 
     it('installs path globPattern file', function() {
@@ -377,8 +379,8 @@ describe('Blueprint', function() {
         Blueprint.ignoredUpdateFiles.push('foo.txt');
       });
 
-      it('ignores files in ignoredUpdateFiles', function() {
-        return blueprint.install(options)
+      it('ignores files in ignoredUpdateFiles', function(done) {
+        blueprint.install(options)
           .then(function() {
             var output = ui.output.trim().split(EOL);
             ui.output = '';
@@ -419,6 +421,8 @@ describe('Blueprint', function() {
 
             expect(actualFiles).to.deep.equal(basicBlueprintFiles);
           });
+
+        return done();
       });
     });
 
