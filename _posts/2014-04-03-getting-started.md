@@ -47,15 +47,47 @@ This will give you access to the `bower` command-line runner.
 
 #### Watchman
 
-If you are on a UNIX-like operating system, it is recommended to install
+On OSX and UNIX-like operating systems, we recommended installing
 [Watchman](https://facebook.github.io/watchman/) version 3.x, which provides
 a more effective way for ember-cli to watch for project changes by hooking
 into your system's native filesystem events.
 
-For installation instructions refer to the docs on the watchman website.
+{% highlight bash %}
+brew install watchman
+{% endhighlight %}
 
-There is also a conflicting npm package named watchman, so make sure that
-it is not in your PATH to avoid conflicts.
+OSX filewatching has issues that can result in it easily entering a broken state,
+while Node's built in `NodeWatcher` has trouble observing large trees. Watchman
+is developed and used by Facebook to make file-watching work even on extremely massive
+file trees.  You can read more about their motivations in their [announcement here](https://www.facebook.com/notes/facebook-engineering/watchman-faster-builds-with-large-source-trees/10151457195103920).
+
+For complete installation instructions refer to the docs on the [watchman website](https://facebook.github.io/watchman/).
+
+When Watchman is not installed, you will see this notice which can be safely ignored.
+
+{% highlight bash %}
+Could not find watchman, falling back to NodeWatcher for file system events
+{% endhighlight %}
+
+There is also a conflicting `npm` package named `watchman`, so make sure that
+it is not in your `PATH` to avoid conflicts.  If the `npm` package is installed, you may see the
+following warning.
+
+{% highlight bash %}
+invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0], falling back to NodeWatcher
+{% endhighlight %}
+
+The following command will let you inspect which watchmans you have.
+
+{% highlight bash %}
+which -a watchman
+{% endhighlight %}
+
+If you have installed the wrong watchman, you can use npm uninstall to remove it.
+
+{% highlight bash %}
+npm uninstall -g watchman
+{% endhighlight %}
 
 #### PhantomJS
 
