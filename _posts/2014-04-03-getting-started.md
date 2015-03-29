@@ -59,7 +59,13 @@ it is not in your PATH to avoid conflicts.
 
 #### PhantomJS
 
-By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
+You can use the automated test runner of your choice with Ember CLI, however most testing
+services will recommend or require [PhantomJS](http://phantomjs.org/), which you can install
+via [npm](https://www.npmjs.org/).
+
+PhantomJS is the default test runner for [Testem](https://github.com/airportyh/testem) and [Karma](http://karma-runner.github.io/0.12/index.html).
+
+If you want to use PhantomJS to run your integration tests, it needs to be installed globally.
 
 {% highlight bash %}
 npm install -g phantomjs
