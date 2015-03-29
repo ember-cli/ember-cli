@@ -3,7 +3,7 @@ iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.p
 
 cinst nodejs.install
 $ENV:PATH += ";C:\Program Files\nodejs"
-npm install -g npm
+npm i -g npm
 del "C:\Program Files\nodejs\npm*"
 rd "C:\Program Files\nodejs\node_modules" -recurse
 $ENV:PATH += ";C:\Users\vagrant\AppData\Roaming\npm"
@@ -14,4 +14,4 @@ $ENV:PATH += ";C:\Program Files (x86)\Git\cmd"
 cd C:\Users\vagrant
 git clone https://github.com/ember-cli/ember-cli.git
 cd ember-cli
-npm install
+npm i
