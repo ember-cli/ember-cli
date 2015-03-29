@@ -1,7 +1,7 @@
 'use strict';
 
 var expect         = require('chai').expect;
-var merge          = require('lodash-node/modern/objects/merge');
+var merge          = require('lodash/object/merge');
 var MockUI         = require('../../helpers/mock-ui');
 var MockAnalytics  = require('../../helpers/mock-analytics');
 var Command        = require('../../../lib/models/command');

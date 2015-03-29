@@ -11,7 +11,7 @@ var writeFile = Promise.denodeify(fs.writeFile);
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
 var tmp        = require('tmp-sync');
-var assign     = require('lodash-node/modern/objects/assign');
+var assign     = require('lodash/object/assign');
 var tmpdir;
 var testOutputPath;
 

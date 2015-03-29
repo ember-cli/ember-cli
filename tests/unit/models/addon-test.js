@@ -9,7 +9,7 @@ var expect  = require('chai').expect;
 var remove  = Promise.denodeify(fs.remove);
 var tmp     = require('tmp-sync');
 var path    = require('path');
-var findWhere = require('lodash-node/modern/collections/find');
+var findWhere = require('lodash/collection/find');
 var MockUI = require('../../helpers/mock-ui');
 
 var root    = process.cwd();

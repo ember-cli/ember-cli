@@ -1,6 +1,6 @@
 'use strict';
 
-var assign         = require('lodash-node/modern/objects/assign');
+var assign         = require('lodash/object/assign');
 var expect         = require('chai').expect;
 var PluginRegistry = require('../../../lib/models/registry');
 
