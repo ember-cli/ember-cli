@@ -30,7 +30,7 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   after(function() {
-    this.timeout(15000);
+    this.timeout(360000);
     return teardownTestTargets();
   });
 

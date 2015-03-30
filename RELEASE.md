@@ -15,24 +15,17 @@ STEPS:
 * run `./bin/changelog` and add output to `CHANGELOG.md`
 * edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes etc.)
 * bump `package.json` version
-* `rm -rf node_modules`
-* `npm cache clear`
-* `npm install`
-* `npm link`
-* `npm pack`
-* remove current installed version: `npm uninstall -g ember-cli`
-* install the new package (for testing) `npm install -g ./ember-cli-<version>.tgz`
+* `./bin/prepare-release`
 * `cd to/someplace/to/test/`
 * ensure `ember version` is the newly packaged version
 * ensure new project generation works  `ember new my-cool-test-project`
   this will fail with: `version not found: ember-cli@version`
 * fixup deps: `cd my-cool-test-project`
 * link your local ember-cli  `npm link ember-cli`
-* install other deps: `npm install`
-* install bower deps: `bower install`
+* install other deps: `ember init`
 * test the server: `ember s`
-* test other things like generators
-* generate an http-mock and test again
+* test other things like generators and live-reload
+* generate a http mock `ember g http-mock my-http-mock`
 * test upgrades of other apps
 
 If everything went well, release:
