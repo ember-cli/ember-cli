@@ -19,6 +19,8 @@ var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 var expect           = require('chai').expect;
 
 describe('Acceptance: ember generate', function() {
+  this.timeout(10000);
+
   var tmpdir;
 
   before(function() {
@@ -37,8 +39,6 @@ describe('Acceptance: ember generate', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
-
     process.chdir(root);
     return remove(tmproot);
   });
@@ -60,7 +60,7 @@ describe('Acceptance: ember generate', function() {
       '--skip-bower'
     ]);
   }
-  
+
   function initInRepoAddon() {
     return initApp().then(function() {
       return ember([
@@ -86,7 +86,7 @@ describe('Acceptance: ember generate', function() {
       return ember(generateArgs);
     });
   }
-  
+
   function generateInRepoAddon(args) {
     var generateArgs = ['generate'].concat(args);
 
@@ -872,7 +872,6 @@ describe('Acceptance: ember generate', function() {
   });
 
   it('http-mock foo', function() {
-    this.timeout(10000);
     return generate(['http-mock', 'foo']).then(function() {
       assertFile('server/index.js', {
         contains:"mocks.forEach(function(route) { route(app); });"
@@ -1260,7 +1259,7 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
-  
+
   it('in-addon mixin foo', function() {
     return generateInAddon(['mixin', 'foo']).then(function() {
       assertFile('addon/mixins/foo.js', {
@@ -1292,7 +1291,7 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
-  
+
   it('in-repo-addon component x-foo', function() {
     return generateInRepoAddon(['component', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/components/x-foo.js', {
@@ -1324,7 +1323,7 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
-  
+
   it('in-repo-addon component nested/x-foo', function() {
     return generateInRepoAddon(['component', 'nested/x-foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/components/nested/x-foo.js', {
@@ -1356,7 +1355,7 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
-  
+
   it('availableOptions work with aliases.', function() {
     return generate(['route', 'foo', '-resource']).then(function() {
       assertFile('app/router.js', {
