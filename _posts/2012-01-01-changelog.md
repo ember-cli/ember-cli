@@ -4,6 +4,85 @@ title: "Changelog"
 permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
+
+### 0.2.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + updated to ember 1.11.0
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + `ember init` once again works inside an addon.
+  + error live-reloading now actually works!
+  + npm WARN for `makeError` and `tmpl` have been fixed
+  + ember-qunit was updated from `0.2.8` -> `0.3.0`, `this.render()` in a test now no-longer returns a jQuery object.
+
+- Addon Developers
+  + Addons now have `ember-disable-prototype-extensions` included by default,
+    this ensures add-ons are written in a way that works regardless of the
+    consumers prototype extension preference.
+
+  + the following addon API's in has been deprecated:
+    * `this.mergeTrees`       -> `require('mergeTrees');`
+    * `this.Funnel`           -> `require('broccoli-funnel');`
+    * `this.pickFiles`        -> `require('broccoli-funnel');`
+    * `this.walkSync`         -> `require('walk-sync');`
+    * `this.transpileModules` -> `require('broccoli-es6modules');`
+
+  Rather then relying on them from ember-cli, add-ons should require them via NPM.
+
+  + We now are using broccoli v0.15.3, which is a backwards compatible upgrade,
+    but it does expose the new `rebuild` api, that will soon superseed the `read`
+    api. TL;DR among other things, this paves the path to having a configurable
+    tmp directory.
+
+    We recommend broccoli-plugin authors to update as soon as they are able to.
+
+    For more information checkout: [new rebuild api](https://github.com/broccolijs/broccoli/blob/master/docs/new-rebuild-api.md)
+
+- Core Contributors
+
+  + Keep being awesome!
+
+#### Community Contributions
+
+- [#3560](https://github.com/ember-cli/ember-cli/pull/3560) fixing the formatting from one line to two [@kellyselden](https://github.com/kellyselden)
+- [#3622](https://github.com/ember-cli/ember-cli/pull/3622) [BUGFIX] Fix ember init inside an existing addon [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#3469](https://github.com/ember-cli/ember-cli/pull/3469) [ENHANCEMENT] Update component-test test.js blueprint [@simonprev](https://github.com/simonprev)
+- [#3565](https://github.com/ember-cli/ember-cli/pull/3565) [BUGFIX] temporarily disable podModulePrefix deprecation [@trabus](https://github.com/trabus)
+- [#3601](https://github.com/ember-cli/ember-cli/pull/3601) Allow Node 0.13 in platform deprecation check. [@rwjblue](https://github.com/rwjblue)
+- [#3585](https://github.com/ember-cli/ember-cli/pull/3585) [ENHANCEMENT] Add in-repo-addon generate and destroy support [@trabus](https://github.com/trabus)
+- [#3674](https://github.com/ember-cli/ember-cli/pull/3674) Update nock dependency [@btecu](https://github.com/btecu)
+- [#3636](https://github.com/ember-cli/ember-cli/pull/3636) [fixes #3618] we will add some acceptance tests in this area soon (rushi... [@ember-cli](https://github.com/ember-cli)
+- [#3634](https://github.com/ember-cli/ember-cli/pull/3634) Resolves #3628 postprocessTree for styles with vendor + app [@jschilli](https://github.com/jschilli)
+- [#3630](https://github.com/ember-cli/ember-cli/pull/3630) Fix minor typo's [@QuantumInformation](https://github.com/QuantumInformation)
+- [#3631](https://github.com/ember-cli/ember-cli/pull/3631) [Documentation] adding new ember new and ember addon diffs [@kellyselden](https://github.com/kellyselden)
+- [#3680](https://github.com/ember-cli/ember-cli/pull/3680) Updates [@ember-cli](https://github.com/ember-cli)
+- [#3645](https://github.com/ember-cli/ember-cli/pull/3645) Add ember-disable-prototype-extensions to addons by default. [@rwjblue](https://github.com/rwjblue)
+- [#3642](https://github.com/ember-cli/ember-cli/pull/3642) Check if style file with project name exists [@btecu](https://github.com/btecu)
+- [#3639](https://github.com/ember-cli/ember-cli/pull/3639) Bump ember-data to beta-16.1 [@bmac](https://github.com/bmac)
+- [#3682](https://github.com/ember-cli/ember-cli/pull/3682) strip ansi from babel errors for now. [@ember-cli](https://github.com/ember-cli)
+- [#3655](https://github.com/ember-cli/ember-cli/pull/3655) Uses Ember.keys instead of Object.keys in reexport [@danmcclain](https://github.com/danmcclain)
+- [#3646](https://github.com/ember-cli/ember-cli/pull/3646) Add `chai` as dependency. [@rwjblue](https://github.com/rwjblue)
+- [#3647](https://github.com/ember-cli/ember-cli/pull/3647) add timeouts until we improve the mocha <-> custom runner timeout stuff [@ember-cli](https://github.com/ember-cli)
+- [#3648](https://github.com/ember-cli/ember-cli/pull/3648) Update broccoli-sane-watcher. [@rwjblue](https://github.com/rwjblue)
+- [#3691](https://github.com/ember-cli/ember-cli/pull/3691) Update Ember to 1.11.0. [@rwjblue](https://github.com/rwjblue)
+- [#3675](https://github.com/ember-cli/ember-cli/pull/3675) Restore addon pick files [@ember-cli](https://github.com/ember-cli)
+- [#3673](https://github.com/ember-cli/ember-cli/pull/3673) Update Broccoli to 0.15.3 [@joliss](https://github.com/joliss)
+- [#3672](https://github.com/ember-cli/ember-cli/pull/3672) Use broccoli-funnel instead of broccoli-static-compiler [@joliss](https://github.com/joliss)
+- [#3666](https://github.com/ember-cli/ember-cli/pull/3666) Tweaks [@ember-cli](https://github.com/ember-cli)
+- [#3669](https://github.com/ember-cli/ember-cli/pull/3669) Update dependencies [@btecu](https://github.com/btecu)
+- [#3677](https://github.com/ember-cli/ember-cli/pull/3677) Export return value from Router.map (closes #3676). [@abuiles](https://github.com/abuiles)
+- [#3681](https://github.com/ember-cli/ember-cli/pull/3681) Deprecate funnel and pickfiles [@ember-cli](https://github.com/ember-cli)
+- [#3692](https://github.com/ember-cli/ember-cli/pull/3692) Replace lodash-node with lodash [@btecu](https://github.com/btecu)
+- [#3696](https://github.com/ember-cli/ember-cli/pull/3696) Update markdown-it and markdown-it-terminal [@ember-cli](https://github.com/ember-cli)
+- [#3704](https://github.com/ember-cli/ember-cli/pull/3704) Live reload fix [@ember-cli](https://github.com/ember-cli)
+- [#3705](https://github.com/ember-cli/ember-cli/pull/3705) Fix initial commit message [@xymbol](https://github.com/xymbol)
+
+Thank you to all who took the time to contribute!
+
+
 ### 0.2.1
 
 The following changes are required if you are upgrading from the previous
