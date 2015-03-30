@@ -1,0 +1,10 @@
+#!/bin/sh
+
+rm -rf node_modules
+rm -rf ./ember-cli-*.tgz
+npm cache clear
+npm i
+npm link
+npm pack
+npm uninstall -g ember-cli
+npm i -g ./ember-cli-*.tgz
