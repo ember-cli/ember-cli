@@ -375,6 +375,8 @@ Return value is merged with application tree of same type
 **Default implementation:**
 
 ```js
+var mergeTrees = require('broccoli-merge-trees');
+
 Addon.prototype.treeFor = function treeFor(name) {
   this._requireBuildPackages();
 
@@ -389,7 +391,7 @@ Addon.prototype.treeFor = function treeFor(name) {
     trees.push(this.jshintAddonTree());
   }
 
-  return this.mergeTrees(trees.filter(Boolean));
+  return mergeTrees(trees.filter(Boolean));
 };
 ```
 
