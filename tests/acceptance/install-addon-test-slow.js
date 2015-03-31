@@ -13,6 +13,7 @@ var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
 
 describe('Acceptance: ember install:addon', function() {
+  this.timeout(30000);
   var tmpdir;
 
   before(function() {
@@ -29,8 +30,6 @@ describe('Acceptance: ember install:addon', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
-
     process.chdir(root);
     return remove(tmproot);
   });
@@ -53,8 +52,6 @@ describe('Acceptance: ember install:addon', function() {
   }
 
   it('installs via npm and runs generator', function() {
-    this.timeout(7000);
-
     return installAddon(['ember-cli-fastclick']).then(function() {
       assertFile('package.json', {
         contains: [
