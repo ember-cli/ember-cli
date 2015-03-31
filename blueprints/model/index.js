@@ -1,7 +1,8 @@
+/*jshint node:true*/
+
 var inflection  = require('inflection');
 var stringUtils = require('../../lib/utilities/string');
 var EOL         = require('os').EOL;
-var chalk       = require('chalk');
 
 module.exports = {
   description: 'Generates an ember-data model.',

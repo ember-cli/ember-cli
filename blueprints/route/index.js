@@ -1,8 +1,8 @@
+/*jshint node:true*/
+
 var SilentError = require('../../lib/errors/silent');
 var fs          = require('fs-extra');
-var inflection  = require('inflection');
 var path        = require('path');
-var EOL         = require('os').EOL;
 var EmberRouterGenerator = require('ember-router-generator');
 
 module.exports = {

@@ -1,21 +1,6 @@
 {
   "predef": [
-    "document",
-    "window",
-    "location",
-    "setTimeout",
-    "Ember",
-    "Em",
-    "DS",
-    "$",
-    "ENV",
-    "module",
-    "moduleFor",
-    "moduleForComponent",
-    "moduleForModel",
-    "test",
-    "ok",
-    "equal"
+    "-Promise"
   ],
   "node": false,
   "browser": false,

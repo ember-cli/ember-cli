@@ -1,3 +1,5 @@
+/*jshint node:true*/
+
 var stringUtil = require('../../lib/utilities/string');
 
 module.exports = {
@@ -14,6 +16,6 @@ module.exports = {
       modulePrefix: name,
       namespace: namespace,
       emberCLIVersion: require('../../package').version
-    }
+    };
   }
 };
