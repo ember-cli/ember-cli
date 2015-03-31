@@ -122,17 +122,18 @@ describe('test command', function() {
       expect(fs.existsSync(newPath));
     });
 
-    it('should return the original path if filter or module isn\'t present', function() {
+    it('should return the original path if filter or module or launch isn\'t present', function() {
       var originalPath = runOptions.configFile;
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.equal(originalPath);
     });
 
-    it('when module and filter option is present the new file path returned exists', function() {
+    it('when module and filter and launch option is present the new file path returned exists', function() {
       var originalPath = runOptions.configFile;
       runOptions.module = 'fooModule';
       runOptions.filter = 'bar';
+      runOptions.launch = 'fooLauncher';
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
@@ -157,6 +158,15 @@ describe('test command', function() {
       expect(fs.existsSync(newPath), 'file should exist');
     });
 
+    it('when launch option is present the new file path returned exists', function() {
+      var originalPath = runOptions.configFile;
+      runOptions.launch = 'fooLauncher';
+      var newPath = command._generateCustomConfigFile(runOptions);
+
+      expect(newPath).to.not.equal(originalPath);
+      expect(fs.existsSync(newPath), 'file should exist');
+    });
+
     it('when provided filter and module the new file returned contains the both option values in test_page', function() {
       runOptions.module = 'fooModule';
       runOptions.filter = 'bar';
@@ -164,6 +174,14 @@ describe('test command', function() {
       var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
 
       expect(contents['test_page']).to.be.equal('tests/index.html?module=fooModule&filter=bar');
+    });
+
+    it('when provided launch the new file returned contains the value in launch', function() {
+      runOptions.launch = 'fooLauncher';
+      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      expect(contents['launch']).to.be.equal('fooLauncher');
     });
 
     it('when provided filter is all lowercase to match the test name', function() {
