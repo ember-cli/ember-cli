@@ -21,26 +21,23 @@ var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
 describe('Acceptance: addon-smoke-test', function() {
+  this.timeout(450000);
 
   before(function() {
-    this.timeout(360000);
     return createTestTargets(addonName, {
       command: 'addon'
     });
   });
 
   after(function() {
-    this.timeout(360000);
     return teardownTestTargets();
   });
 
   beforeEach(function() {
-    this.timeout(360000);
     return linkDependencies(addonName);
   });
 
   afterEach(function() {
-    this.timeout(15000);
     return cleanupRun().then(function() {
       assertDirEmpty('tmp');
     });
@@ -60,13 +57,10 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('ember addon foo, clean from scratch', function() {
-    this.timeout(450000);
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
   it('ember addon without addon/ directory', function() {
-    this.timeout(450000);
-
     return remove('addon')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
@@ -83,8 +77,6 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('can render a component with a manually imported template', function() {
-    this.timeout(450000);
-
     return copyFixtureFiles('addon/component-with-template')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
@@ -100,8 +92,6 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('can add things to `{{content-for "head"}}` section', function() {
-    this.timeout(450000);
-
     return copyFixtureFiles('addon/content-for-head')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -115,8 +105,6 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('ember addon with addon/styles directory', function() {
-    this.timeout(450000);
-
     return copyFixtureFiles('addon/with-styles')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -130,8 +118,6 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('ember addon with tests/dummy/public directory', function() {
-    this.timeout(450000);
-
     return copyFixtureFiles('addon/with-dummy-public')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -146,8 +132,6 @@ describe('Acceptance: addon-smoke-test', function() {
 
   it('npm pack does not include unnecessary files', function() {
     console.log('    running the slow end-to-end it will take some time');
-    this.timeout(450000);
-
     var handleError = function(error, commandName) {
       if(error.code === 'ENOENT') {
         console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
