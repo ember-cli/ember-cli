@@ -1,7 +1,7 @@
 
 ## ember-cli [![Build Status][travis-badge]][travis-badge-url] [![Dependency Status][david-badge]][david-badge-url] [![Build status][appveyor-badge]][appveyor-badge-url]
 
-An ember command line utility.
+The Ember.js command line utility.
 
 Supports node 0.12.x and npm 2.6.x.
 
