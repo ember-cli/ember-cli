@@ -200,20 +200,20 @@ app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf', {
 });
 {% endhighlight %}
 
-##### Using broccoli-static-compiler
+##### Using broccoli-funnel
 
-With the [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) package,
+With the [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) package,
 (parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli
 package needed to build are installed:
 
 {% highlight bash %}
-ember install:npm broccoli-static-compiler
+ember install:npm broccoli-funnel
 {% endhighlight %}
 
 Add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
 
 {% highlight javascript linenos %}
-var pickFiles = require('broccoli-static-compiler');
+var Funnel = require('broccoli-funnel');
 {% endhighlight %}
 
 At the bottom of `Brocfile.js` we merge assets from a bower dependency with the main app tree:
@@ -223,7 +223,7 @@ At the bottom of `Brocfile.js` we merge assets from a bower dependency with the 
 // module.exports = app.toTree()
 
 // Copy only the relevant files. For example the WOFF-files and stylesheets for a webfont:
-var extraAssets = pickFiles('bower_components/a-lovely-webfont', {
+var extraAssets = new Funnel('bower_components/a-lovely-webfont', {
    srcDir: '/',
    files: ['**/*.woff', '**/stylesheet.css'],
    destDir: '/assets/fonts'
@@ -240,3 +240,5 @@ be found under `/assets/fonts/`, and might be linked to from `index.html` like s
 {% highlight html %}
 <link rel="stylesheet" href="assets/fonts/lovelyfont_bold/stylesheet.css">
 {% endhighlight %}
+
+_Note: [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) is deprecated. Use [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) instead._
