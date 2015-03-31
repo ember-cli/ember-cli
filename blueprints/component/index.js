@@ -1,3 +1,5 @@
+/*jshint node:true*/
+
 var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
 var stringUtil  = require('../../lib/utilities/string');
@@ -48,7 +50,7 @@ module.exports = {
     // if we're in an addon, build import statement
     if (options.project.isEmberCLIAddon() || options.inRepoAddon) {
       if(options.pod) {
-        templatePath   = './template'
+        templatePath   = './template';
       } else {
         templatePath   = getPathLevel(options.entity.name) +
           'templates/components/' + stringUtil.dasherize(options.entity.name);

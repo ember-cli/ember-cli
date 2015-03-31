@@ -1,3 +1,5 @@
+/*jshint node:true*/
+
 var Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {

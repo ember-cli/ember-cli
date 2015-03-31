@@ -1,3 +1,5 @@
+/*jshint node:true*/
+
 var fs   = require('fs-extra');
 var path = require('path');
 var stringUtil = require('../../lib/utilities/string');

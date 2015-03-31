@@ -1,9 +1,10 @@
+/*jshint node:true*/
+
 var fs          = require('fs');
 var path        = require('path');
 var walkSync    = require('walk-sync');
 var stringUtil  = require('../../lib/utilities/string');
 var uniq        = require('lodash/array/uniq');
-var assign      = require('lodash/object/assign');
 var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
 var date        = new Date();
@@ -19,7 +20,7 @@ module.exports = {
     contents.name = this.project.name();
     contents.description = this.description;
     contents.keywords = contents.keywords || [];
-    contents.dependencies = contents.dependencies || {}
+    contents.dependencies = contents.dependencies || {};
 
     // npm doesn't like it when we have something in both deps and devDeps
     // and dummy app still uses it when in deps
@@ -79,7 +80,7 @@ module.exports = {
       addonNamespace: addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear()
-    }
+    };
   },
 
   files: function() {
@@ -113,7 +114,7 @@ module.exports = {
   },
 
   fileMapper: function(path) {
-    for(pattern in this.fileMap) {
+    for (var pattern in this.fileMap) {
       if ((new RegExp(pattern)).test(path)) {
         return this.fileMap[pattern].replace(':path', path);
       }

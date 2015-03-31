@@ -1,3 +1,5 @@
+/*jshint node:true*/
+
 var Blueprint  = require('../../lib/models/blueprint');
 var Promise    = require('../../lib/ext/promise');
 var merge      = require('lodash/object/merge');
