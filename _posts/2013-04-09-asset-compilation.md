@@ -161,8 +161,10 @@ Note that the ES6 module transpiler is not directly supported with Emberscript, 
 For [Emblem](http://emblemjs.com/), run the following commands:
 
 {% highlight bash %}
-ember install:npm broccoli-emblem-compiler
+ember install:npm ember-cli-emblem-hbs-printer
 {% endhighlight %}
+
+If you're using the older broccoli-emblem-compiler addon, you need to switch over the above ember-cli-emblem-hbs-printer. The older broccoli-emblem-compiler compiles directly to JS instead of Handlebars and therefore is broken on all newer version of HTMLBars.
 
 ### Fingerprinting and CDN URLs
 
