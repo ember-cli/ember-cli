@@ -6,6 +6,7 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/1c47557e629d88ec399786bd3f06995a251e6f0f)
   + updated to ember 1.11.0
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + `ember init` once again works inside an addon.
@@ -14,6 +15,7 @@ version:
   + ember-qunit was updated from `0.2.8` -> `0.3.0`, `this.render()` in a test now no-longer returns a jQuery object.
 
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/4bb6c82e5411560c6d21517755d6a2276bad9a39)
   + Addons now have `ember-disable-prototype-extensions` included by default,
     this ensures add-ons are written in a way that works regardless of the
     consumers prototype extension preference.
