@@ -1442,8 +1442,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('app/components/x-foo/component.js', {
         contains: [
-          "import xFoo from 'my-addon/components/x-foo/component';",
-          "export default xFoo;"
+          "export { default } from 'my-addon/components/x-foo/component';"
         ]
       });
       assertFile('tests/unit/components/x-foo/component-test.js', {
@@ -1474,8 +1473,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('lib/my-addon/app/components/x-foo/component.js', {
         contains: [
-          "import xFoo from 'my-addon/components/x-foo/component';",
-          "export default xFoo;"
+          "export { default } from 'my-addon/components/x-foo/component';"
         ]
       });
       assertFile('tests/unit/components/x-foo/component-test.js', {
@@ -1506,8 +1504,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('lib/my-addon/app/components/nested/x-foo/component.js', {
         contains: [
-          "import nestedXFoo from 'my-addon/components/nested/x-foo/component';",
-          "export default nestedXFoo;"
+          "export { default } from 'my-addon/components/nested/x-foo/component';"
         ]
       });
       assertFile('tests/unit/components/nested/x-foo/component-test.js', {

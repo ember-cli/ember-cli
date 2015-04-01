@@ -1,3 +1,1 @@
-import <%= camelizedModuleName %> from '<%= modulePath %>';
-
-export default <%= camelizedModuleName %>;
+export { default } from '<%= modulePath %>';

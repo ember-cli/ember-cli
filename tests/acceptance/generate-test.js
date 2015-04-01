@@ -1244,8 +1244,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('app/components/nested/x-foo.js', {
         contains: [
-          "import nestedXFoo from 'my-addon/components/nested/x-foo';",
-          "export default nestedXFoo;"
+          "export { default } from 'my-addon/components/nested/x-foo';"
         ]
       });
       assertFile('tests/unit/components/nested/x-foo-test.js', {
@@ -1340,8 +1339,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('lib/my-addon/app/components/nested/x-foo.js', {
         contains: [
-          "import nestedXFoo from 'my-addon/components/nested/x-foo';",
-          "export default nestedXFoo;"
+          "export { default } from 'my-addon/components/nested/x-foo';"
         ]
       });
       assertFile('tests/unit/components/nested/x-foo-test.js', {
