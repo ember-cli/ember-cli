@@ -64,7 +64,6 @@
     "readline2",
     "resolve",
     "semver",
-    "testem",
     "through",
     "tiny-lr"
   ],
