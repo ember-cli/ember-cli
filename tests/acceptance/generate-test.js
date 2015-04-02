@@ -657,7 +657,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('tests/unit/serializers/foo-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
         ]
@@ -676,10 +676,10 @@ describe('Acceptance: ember generate', function() {
       assertFile('tests/unit/serializers/foo/bar-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('serializer:foo/bar'"
+          "moduleForModel('foo/bar'"
         ]
       });
     });
