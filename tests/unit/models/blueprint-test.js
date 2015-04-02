@@ -446,6 +446,14 @@ describe('Blueprint', function() {
       }).to.throw(SilentError, /The `ember generate` command requires an entity name to be specified./);
     });
 
+    it('throws error when an action does not exist', function() {
+      blueprint._actions = {};
+      return blueprint.install(options)
+        .catch(function(err) {
+          expect(err.message).to.equal('Tried to call action "write" but it does not exist');
+        });
+    });
+
     it('calls normalizeEntityName hook during install', function(done){
       blueprint.normalizeEntityName = function(){ done(); };
       options.entity = { name: 'foo' };
@@ -575,7 +583,6 @@ describe('Blueprint', function() {
     });
 
     it('writes information to the ui log for a single package', function() {
-      blueprint._exec = function() { };
       blueprint.ui = ui;
 
       blueprint.addPackagesToProject([
@@ -588,7 +595,6 @@ describe('Blueprint', function() {
     });
 
     it('writes information to the ui log for multiple packages', function() {
-      blueprint._exec = function() { };
       blueprint.ui = ui;
 
       blueprint.addPackagesToProject([
@@ -602,7 +608,6 @@ describe('Blueprint', function() {
     });
 
     it('does not error if ui is not present', function() {
-      blueprint._exec = function() { };
       delete blueprint.ui;
 
       blueprint.addPackagesToProject([
@@ -841,7 +846,6 @@ describe('Blueprint', function() {
     });
 
     it('writes information to the ui log for a single package', function() {
-      blueprint._exec = function() { };
       blueprint.ui = ui;
 
       blueprint.addAddonToProject({
@@ -855,7 +859,6 @@ describe('Blueprint', function() {
     });
 
     it('does not error if ui is not present', function() {
-      blueprint._exec = function() { };
       delete blueprint.ui;
 
       blueprint.addAddonToProject({
