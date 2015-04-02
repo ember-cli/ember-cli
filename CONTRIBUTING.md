@@ -66,20 +66,26 @@ We love pull requests. Here's a quick guide:
 
 1. Fork the repo.
 
-2. Run the tests. We only take pull requests with passing tests, and it's great
+2. Ensure you have the development requirements:
+
+   * node (0.12 recommended) or io.js (1.x) -- *do not install node using sudo*
+   * npm (2.x)
+   * phantomjs
+
+3. Run the tests. We only take pull requests with passing tests, and it's great
    to know that you have a clean slate: `npm install && npm run test-all`.
 
-3. Add a test for your change. Only refactoring and documentation changes
+4. Add a test for your change. Only refactoring and documentation changes
    require no new tests. If you are adding functionality or fixing a bug, we
    need a test!
 
-4. Make the test pass.
+5. Make the test pass.
 
-5. Commit your changes. If your pull request fixes an issue specify it in the
+6. Commit your changes. If your pull request fixes an issue specify it in the
    commit message. Here's an example: `git commit - m "Close #52  Fix
    generators"`
 
-6. Push to your fork and submit a pull request. In the pull-request title,
+7. Push to your fork and submit a pull request. In the pull-request title,
    please prefix it with one of our tags: BUGFIX, FEATURE, ENHANCEMENT or
    INTERNAL
 
