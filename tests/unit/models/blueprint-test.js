@@ -483,6 +483,63 @@ describe('Blueprint', function() {
     });
   });
 
+  describe('basic blueprint uninstallation', function() {
+    var BasicBlueprintClass = require(basicBlueprint);
+    var blueprint;
+    var ui;
+    var project;
+    var options;
+    var tmpdir;
+
+    function refreshUI() {
+      ui = new MockUI();
+      options.ui = ui;
+    }
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new BasicBlueprintClass(basicBlueprint);
+      project   = new MockProject();
+      options   = {
+        project: project,
+        target: tmpdir
+      };
+
+      refreshUI();
+      return blueprint.install(options)
+        .then(refreshUI);
+    });
+
+    afterEach(function() {
+      return remove(tmproot);
+    });
+
+    it('uninstalls basic files', function() {
+      expect(!!blueprint).to.equal(true);
+
+      return blueprint.uninstall(options)
+        .then(function() {
+          var actualFiles = walkSync(tmpdir);
+          var output = ui.output.trim().split(EOL);
+
+          expect(output.shift()).to.match(/^uninstalling/);
+          expect(output.shift()).to.match(/remove.* .ember-cli/);
+          expect(output.shift()).to.match(/remove.* .gitignore/);
+          expect(output.shift()).to.match(/remove.* bar/);
+          expect(output.shift()).to.match(/remove.* foo.txt/);
+          expect(output.shift()).to.match(/remove.* test.txt/);
+          expect(output.length).to.equal(0);
+
+          expect(actualFiles.length).to.equal(0);
+
+          fs.exists(path.join(tmpdir, 'test.txt'),
+            function(exists) {
+              expect(exists).to.be.false;
+            });
+        });
+    });
+  });
+
   describe('addPackageToProject', function() {
     var blueprint;
     var ui;
