@@ -419,6 +419,7 @@ See the built-in `resource` blueprint for an example of this.
 
 * **Controller Test**
   * Generates a unit test for a given Controller.
+  * `ember generate controller-test index`
 
 * **Helper**
   * Generates a Handlebars Helper and its test. Commonly used for html reuse.
