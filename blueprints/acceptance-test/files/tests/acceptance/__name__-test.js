@@ -21,6 +21,6 @@ test('visiting /<%= dasherizedModuleName %>', function(assert) {
   visit('/<%= dasherizedModuleName %>');
 
   andThen(function() {
-    assert.equal(currentPath(), '<%= dasherizedModuleName %>');
+    assert.equal(currentURL(), '/<%= dasherizedModuleName %>');
   });
 });

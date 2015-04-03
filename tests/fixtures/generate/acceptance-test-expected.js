@@ -21,6 +21,6 @@ test('visiting /foo', function(assert) {
   visit('/foo');
 
   andThen(function() {
-    assert.equal(currentPath(), 'foo');
+    assert.equal(currentURL(), '/foo');
   });
 });
