@@ -236,7 +236,7 @@ var app = new EmberAddon({
 module.exports = app.toTree();
 {% endhighlight %}
 
-### Components
+### Addon Components
 The actual code for the addon goes in `addon/components/x-button.js`
 
 {% highlight javascript %}
