@@ -19,7 +19,7 @@ Executing `ember install:bower` will install all of the dependencies listed in
 
 Ember CLI is configured to have git ignore your `bower_components` directory by
 default. Using the Bower configuration file allows collaborators to fork your
-repo and get their dependencies installed locally by executing 
+repo and get their dependencies installed locally by executing
 `ember install:bower` themselves.
 
 Ember CLI watches `bower.json` for changes. Thus it reloads your app if you
@@ -225,7 +225,7 @@ At the bottom of `Brocfile.js` we merge assets from a bower dependency with the 
 // Copy only the relevant files. For example the WOFF-files and stylesheets for a webfont:
 var extraAssets = new Funnel('bower_components/a-lovely-webfont', {
    srcDir: '/',
-   files: ['**/*.woff', '**/stylesheet.css'],
+   include: ['**/*.woff', '**/stylesheet.css'],
    destDir: '/assets/fonts'
 });
 
