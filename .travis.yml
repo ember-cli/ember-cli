@@ -24,9 +24,5 @@ install:
   - git --version
   - npm install
 
-addons:
-  code_climate:
-    repo_token: d349d39a60a008df5ae452af716ad6b8b45d82bf21ff3b60c230af2b34fcc759
-
 after_script:
   - cat coverage/lcov.info | codeclimate
