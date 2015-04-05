@@ -17,6 +17,7 @@ var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 var expect           = require('chai').expect;
 
 describe('Acceptance: ember generate in-addon', function() {
+  this.timeout(20000);
   var tmpdir;
 
   before(function() {
@@ -35,8 +36,6 @@ describe('Acceptance: ember generate in-addon', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
-
     process.chdir(root);
     return remove(tmproot);
   });

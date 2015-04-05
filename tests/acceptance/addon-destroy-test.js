@@ -17,6 +17,8 @@ var tmproot    = path.join(root, 'tmp');
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 
 describe('Acceptance: ember destroy in-addon', function() {
+  this.timeout(20000);
+
   var tmpdir;
 
   before(function() {
@@ -35,8 +37,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
-
     process.chdir(root);
     return remove(tmproot);
   });
@@ -93,7 +93,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   }
 
   it('in-addon controller foo', function() {
-    this.timeout(20000);
     var commandArgs = ['controller', 'foo'];
     var files       = [
       'addon/controllers/foo.js',
@@ -105,7 +104,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon controller foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['controller', 'foo/bar'];
     var files       = [
       'addon/controllers/foo/bar.js',
@@ -117,7 +115,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon component x-foo', function() {
-    this.timeout(20000);
     var commandArgs = ['component', 'x-foo'];
     var files       = [
       'addon/components/x-foo.js',
@@ -130,7 +127,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon helper foo-bar', function() {
-    this.timeout(20000);
     var commandArgs = ['helper', 'foo-bar'];
     var files       = [
       'addon/helpers/foo-bar.js',
@@ -142,7 +138,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon helper foo/bar-baz', function() {
-    this.timeout(20000);
     var commandArgs = ['helper', 'foo/bar-baz'];
     var files       = [
       'addon/helpers/foo/bar-baz.js',
@@ -154,7 +149,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon model foo', function() {
-    this.timeout(20000);
     var commandArgs = ['model', 'foo'];
     var files       = [
       'addon/models/foo.js',
@@ -166,7 +160,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon model foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['model', 'foo/bar'];
     var files       = [
       'addon/models/foo/bar.js',
@@ -176,9 +169,8 @@ describe('Acceptance: ember destroy in-addon', function() {
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
   });
-  
+
   it('in-addon template foo', function() {
-    this.timeout(20000);
     var commandArgs = ['template', 'foo'];
     var files       = [
       'addon/templates/foo.hbs',
@@ -188,7 +180,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon template foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['template', 'foo/bar'];
     var files       = [
       'addon/templates/foo/bar.hbs',
@@ -198,7 +189,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon view foo', function() {
-    this.timeout(20000);
     var commandArgs = ['view', 'foo'];
     var files       = [
       'addon/views/foo.js',
@@ -210,7 +200,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon view foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['view', 'foo/bar'];
     var files       = [
       'addon/views/foo/bar.js',
@@ -222,7 +211,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon initializer foo', function() {
-    this.timeout(20000);
     var commandArgs = ['initializer', 'foo'];
     var files       = [
       'addon/initializers/foo.js',
@@ -233,7 +221,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon initializer foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['initializer', 'foo/bar'];
     var files       = [
       'addon/initializers/foo/bar.js',
@@ -244,7 +231,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon mixin foo', function() {
-    this.timeout(20000);
     var commandArgs = ['mixin', 'foo'];
     var files       = [
       'addon/mixins/foo.js',
@@ -255,7 +241,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon mixin foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['mixin', 'foo/bar'];
     var files       = [
       'addon/mixins/foo/bar.js',
@@ -266,7 +251,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon adapter foo', function() {
-    this.timeout(20000);
     var commandArgs = ['adapter', 'foo'];
     var files       = [
       'addon/adapters/foo.js',
@@ -277,7 +261,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon adapter foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['adapter', 'foo/bar'];
     var files       = [
       'addon/adapters/foo/bar.js',
@@ -288,7 +271,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon serializer foo', function() {
-    this.timeout(20000);
     var commandArgs = ['serializer', 'foo'];
     var files       = [
       'addon/serializers/foo.js',
@@ -300,7 +282,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon serializer foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['serializer', 'foo/bar'];
     var files       = [
       'addon/serializers/foo/bar.js',
@@ -312,7 +293,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon transform foo', function() {
-    this.timeout(20000);
     var commandArgs = ['transform', 'foo'];
     var files       = [
       'addon/transforms/foo.js',
@@ -324,7 +304,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon transform foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['transform', 'foo/bar'];
     var files       = [
       'addon/transforms/foo/bar.js',
@@ -336,7 +315,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon util foo-bar', function() {
-    this.timeout(20000);
     var commandArgs = ['util', 'foo-bar'];
     var files       = [
       'addon/utils/foo-bar.js',
@@ -348,7 +326,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon util foo-bar/baz', function() {
-    this.timeout(20000);
     var commandArgs = ['util', 'foo/bar-baz'];
     var files       = [
       'addon/utils/foo/bar-baz.js',
@@ -360,7 +337,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon service foo', function() {
-    this.timeout(20000);
     var commandArgs = ['service', 'foo'];
     var files       = [
       'addon/services/foo.js',
@@ -372,7 +348,6 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   it('in-addon service foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['service', 'foo/bar'];
     var files       = [
       'addon/services/foo/bar.js',
