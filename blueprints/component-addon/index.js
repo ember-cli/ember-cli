@@ -1,3 +1,5 @@
+/*jshint node:true*/
+
 var Blueprint   = require('../../lib/models/blueprint');
 var SilentError = require('../../lib/errors/silent');
 var stringUtil  = require('../../lib/utilities/string');
