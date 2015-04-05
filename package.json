@@ -12,7 +12,8 @@
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner",
     "test-all": "node tests/runner all",
-    "test-all:debug": "node debug tests/runner all"
+    "test-all:debug": "node debug tests/runner all",
+    "test-all:cover": "istanbul cover tests/runner.js all"
   },
   "repository": {
     "type": "git",
@@ -132,8 +133,10 @@
   "devDependencies": {
     "chai": "^2.1.2",
     "chai-as-promised": "^4.3.0",
+    "codeclimate-test-reporter": "0.0.4",
     "ember-cli-ncp": "1.0.2",
     "github": "^0.2.3",
+    "istanbul": "^0.3.13",
     "mocha": "^2.2.1",
     "mocha-jshint": "1.0.0",
     "multiline": "^1.0.2",
