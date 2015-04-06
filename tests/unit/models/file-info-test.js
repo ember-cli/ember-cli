@@ -96,46 +96,52 @@ describe('Unit - FileInfo', function(){
     });
   });
 
-  it('renders a menu with an overwrite option', function(){
+  it('renders a menu with an overwrite option', function(done){
     var fileInfo = new FileInfo(validOptions);
 
     ui.waitForPrompt().then(function(){
       ui.inputStream.write('Y' + EOL);
     });
 
-    return fileInfo.confirmOverwrite().then(function(action){
+    fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
       expect(output.shift()).to.match(/Overwrite.*\?/);
       expect(action).to.equal('overwrite');
     });
+
+    return done();
   });
 
-  it('renders a menu with an skip option', function(){
+  it('renders a menu with a skip option', function(done){
     var fileInfo = new FileInfo(validOptions);
 
     ui.waitForPrompt().then(function(){
       ui.inputStream.write('n' + EOL);
     });
 
-    return fileInfo.confirmOverwrite().then(function(action){
+    fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
       expect(output.shift()).to.match(/Overwrite.*\?/);
       expect(action).to.equal('skip');
     });
+
+    return done();
   });
 
-  it('renders a menu with an diff option', function(){
+  it('renders a menu with a diff option', function(done){
     var fileInfo = new FileInfo(validOptions);
 
     ui.waitForPrompt().then(function(){
       ui.inputStream.write('d' + EOL);
     });
 
-    return fileInfo.confirmOverwrite().then(function(action){
+    fileInfo.confirmOverwrite().then(function(action){
       var output = ui.output.trim().split(EOL);
       expect(output.shift()).to.match(/Overwrite.*\?/);
       expect(action).to.equal('diff');
     });
+
+    return done();
   });
 
 });

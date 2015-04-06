@@ -285,8 +285,11 @@ describe('Blueprint', function() {
         });
     });
 
-    it('re-installing conflicting files', function() {
+    it('re-installing conflicting files', function(done) {
       return blueprint.install(options)
+        .then(function() {
+          done();
+        })
         .then(function() {
           var output = ui.output.trim().split(EOL);
           ui.output = '';
@@ -377,8 +380,11 @@ describe('Blueprint', function() {
         Blueprint.ignoredUpdateFiles.push('foo.txt');
       });
 
-      it('ignores files in ignoredUpdateFiles', function() {
+      it('ignores files in ignoredUpdateFiles', function(done) {
         return blueprint.install(options)
+          .then(function() {
+            done();
+          })
           .then(function() {
             var output = ui.output.trim().split(EOL);
             ui.output = '';
