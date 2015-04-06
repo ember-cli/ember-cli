@@ -89,7 +89,7 @@ describe('express-server', function() {
       return subject.start({
         host:  '0.0.0.0',
         port: '1337',
-        ssl: true
+        ssl: true,
         sslCert: 'tests/fixtures/ssl/server.crt',
         sslKey: 'tests/fixtures/ssl/server.key'
       }).then(function() {
