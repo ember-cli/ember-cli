@@ -1007,7 +1007,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/unit/foo/serializer-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
         ]
@@ -1026,7 +1026,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/unit/pods/foo/serializer-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
         ]
@@ -1045,10 +1045,10 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/unit/foo/bar/serializer-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('serializer:foo/bar'"
+          "moduleForModel('foo/bar'"
         ]
       });
     });
@@ -1065,10 +1065,10 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/unit/pods/foo/bar/serializer-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('serializer:foo/bar'"
+          "moduleForModel('foo/bar'"
         ]
       });
     });
