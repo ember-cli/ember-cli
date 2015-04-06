@@ -17,6 +17,7 @@ var tmproot    = path.join(root, 'tmp');
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 
 describe('Acceptance: ember destroy in-repo-addon', function() {
+  this.timeout(20000);
   var tmpdir;
 
   before(function() {
@@ -35,8 +36,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
-
     process.chdir(root);
     return remove(tmproot);
   });
@@ -49,7 +48,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
       '--skip-bower'
     ]);
   }
-  
+
   function initInRepoAddon() {
     return initApp().then(function() {
       return ember([
@@ -59,7 +58,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
       ]);
     });
   }
-  
+
   function generateInRepoAddon(args) {
     var generateArgs = ['generate'].concat(args);
 
@@ -85,7 +84,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   function assertFilesNotExist(files) {
     files.forEach(assertFileNotExists);
   }
-  
+
   function assertDestroyAfterGenerateInRepoAddon(args, files) {
     return generateInRepoAddon(args)
       .then(function() {
@@ -100,7 +99,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   }
 
   it('in-repo-addon controller foo', function() {
-    this.timeout(20000);
     var commandArgs = ['controller', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/controllers/foo.js',
@@ -112,7 +110,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon controller foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['controller', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/controllers/foo/bar.js',
@@ -124,7 +121,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon component x-foo', function() {
-    this.timeout(20000);
     var commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/components/x-foo.js',
@@ -135,7 +131,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
-  
+
   it('in-repo-addon component nested/x-foo', function() {
     var commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon'];
     var files       = [
@@ -149,7 +145,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon helper foo-bar', function() {
-    this.timeout(20000);
     var commandArgs = ['helper', 'foo-bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/helpers/foo-bar.js',
@@ -161,7 +156,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon helper foo/bar-baz', function() {
-    this.timeout(20000);
     var commandArgs = ['helper', 'foo/bar-baz', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/helpers/foo/bar-baz.js',
@@ -173,7 +167,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon model foo', function() {
-    this.timeout(20000);
     var commandArgs = ['model', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/models/foo.js',
@@ -185,7 +178,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon model foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['model', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/models/foo/bar.js',
@@ -197,7 +189,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 /*
   it('in-repo-addon route foo', function() {
-    this.timeout(20000);
     var commandArgs = ['route', 'foo'];
     var files       = [
       'lib/my-addon/app/routes/foo.js',
@@ -209,7 +200,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon route foo --type=resource', function() {
-    this.timeout(20000);
     var commandArgs = ['route', 'foo', '--type=resource'];
     var files       = [
       'lib/my-addon/app/routes/foo.js',
@@ -226,7 +216,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon route foos --type=resource', function() {
-    this.timeout(20000);
     var commandArgs = ['route', 'foos', '--type=resource'];
     var files       = [
       'lib/my-addon/app/routes/foos.js',
@@ -243,7 +232,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon route index', function() {
-    this.timeout(20000);
     var commandArgs = ['route', 'index'];
     var files       = [
       'lib/my-addon/app/routes/index.js',
@@ -255,7 +243,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon route basic', function() {
-    this.timeout(20000);
     var commandArgs = ['route', 'basic'];
     var files       = [
       'lib/my-addon/app/routes/basic.js',
@@ -267,7 +254,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon resource foo', function() {
-    this.timeout(20000);
     var commandArgs = ['resource', 'foo'];
     var files       = [
       'lib/my-addon/app/models/foo.js',
@@ -286,7 +272,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon resource foos', function() {
-    this.timeout(20000);
     var commandArgs = ['resource', 'foos'];
     var files       = [
       'lib/my-addon/app/models/foo.js',
@@ -305,7 +290,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 */
   it('in-repo-addon template foo', function() {
-    this.timeout(20000);
     var commandArgs = ['template', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/templates/foo.hbs',
@@ -315,7 +299,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon template foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['template', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/templates/foo/bar.hbs',
@@ -325,7 +308,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon view foo', function() {
-    this.timeout(20000);
     var commandArgs = ['view', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/views/foo.js',
@@ -337,7 +319,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon view foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['view', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/views/foo/bar.js',
@@ -349,7 +330,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon initializer foo', function() {
-    this.timeout(20000);
     var commandArgs = ['initializer', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/initializers/foo.js',
@@ -360,7 +340,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon initializer foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['initializer', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/initializers/foo/bar.js',
@@ -371,7 +350,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon mixin foo', function() {
-    this.timeout(20000);
     var commandArgs = ['mixin', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/mixins/foo.js',
@@ -382,7 +360,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon mixin foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['mixin', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/mixins/foo/bar.js',
@@ -393,7 +370,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon adapter foo', function() {
-    this.timeout(20000);
     var commandArgs = ['adapter', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/adapters/foo.js',
@@ -404,7 +380,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon adapter foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['adapter', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/adapters/foo/bar.js',
@@ -415,7 +390,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon serializer foo', function() {
-    this.timeout(20000);
     var commandArgs = ['serializer', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/serializers/foo.js',
@@ -427,7 +401,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon serializer foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['serializer', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/serializers/foo/bar.js',
@@ -439,7 +412,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon transform foo', function() {
-    this.timeout(20000);
     var commandArgs = ['transform', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/transforms/foo.js',
@@ -451,7 +423,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon transform foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['transform', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/transforms/foo/bar.js',
@@ -463,7 +434,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon util foo-bar', function() {
-    this.timeout(20000);
     var commandArgs = ['util', 'foo-bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/utils/foo-bar.js',
@@ -475,7 +445,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon util foo-bar/baz', function() {
-    this.timeout(20000);
     var commandArgs = ['util', 'foo/bar-baz', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/utils/foo/bar-baz.js',
@@ -487,7 +456,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon service foo', function() {
-    this.timeout(20000);
     var commandArgs = ['service', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/services/foo.js',
@@ -499,7 +467,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon service foo/bar', function() {
-    this.timeout(20000);
     var commandArgs = ['service', 'foo/bar', '--in-repo-addon=my-addon'];
     var files       = [
       'lib/my-addon/addon/services/foo/bar.js',

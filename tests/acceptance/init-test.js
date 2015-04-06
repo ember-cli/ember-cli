@@ -20,6 +20,8 @@ var EOL       = require('os').EOL;
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
 
 describe('Acceptance: ember init', function() {
+  this.timeout(20000);
+
   before(function() {
     conf.setup();
   });
@@ -38,8 +40,6 @@ describe('Acceptance: ember init', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
-
     return tmp.teardown('./tmp');
   });
 
