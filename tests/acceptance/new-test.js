@@ -112,7 +112,7 @@ describe('Acceptance: ember new', function() {
     }).then(confirmBlueprinted);
   });
 
-  it('ember new with blueprint uses the specified blueprint directory', function() {
+  it('ember new with blueprint uses the specified blueprint directory with a relative path', function() {
     return tmp.setup('./tmp/my_blueprint')
       .then(function() {
         return tmp.setup('./tmp/my_blueprint/files');
@@ -127,7 +127,28 @@ describe('Acceptance: ember new', function() {
           '--skip-npm',
           '--skip-bower',
           '--skip-git',
-          '--blueprint=my_blueprint'
+          '--blueprint=./my_blueprint'
+        ]);
+      })
+      .then(confirmBlueprintedForDir('tmp/my_blueprint'));
+  });
+
+  it('ember new with blueprint uses the specified blueprint directory with an absolute path', function() {
+    return tmp.setup('./tmp/my_blueprint')
+      .then(function() {
+        return tmp.setup('./tmp/my_blueprint/files');
+      })
+      .then(function() {
+        fs.writeFileSync('./tmp/my_blueprint/files/gitignore');
+        process.chdir('./tmp');
+
+        return ember([
+          'new',
+          'foo',
+          '--skip-npm',
+          '--skip-bower',
+          '--skip-git',
+          '--blueprint=' + path.resolve(process.cwd(), './my_blueprint')
         ]);
       })
       .then(confirmBlueprintedForDir('tmp/my_blueprint'));
