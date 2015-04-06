@@ -70,35 +70,6 @@ describe('models/builder.js', function() {
       });
   });
 
-  describe('build', function () {
-    it('cleans babel errors', function() {
-      var error = new Error('Bad things are bad');
-      error._babel = true;
-      error.stack = [ '  2 | function {',
-                      '> 3 | ', 
-                      '    | ^',
-                      '  4 | }',
-                      'at somewhere.js:1:3'].join('\n');
-
-      builder = new Builder({
-        builder: { build: function () { throw error; } },
-        processAddonBuildSteps: function () { return Promise.resolve(); },
-        setupBroccoliBuilder: function() {},
-        trapSignals: function() { },
-        cleanupOnExit: function() { },
-        project: new MockProject()
-      });
-
-      return builder.build()
-        .then(function () {
-          expect(false).to.true;
-        })
-        .catch(function (error) {
-          expect(error.stack).to.equal('at somewhere.js:1:3');
-        });
-    });
-  });
-
   describe('Prevent deletion of files for improper outputPath', function() {
     var command;
 
