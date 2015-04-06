@@ -159,8 +159,7 @@ describe('express-server', function() {
   });
 
   describe('behaviour', function() {
-    it('starts with ssl if ssl option is passed', function(done) {
-      request = request('https://localhost:5555');
+    it('starts with ssl if ssl option is passed', function() {
 
       return subject.start({
         host:  'localhost',
@@ -170,8 +169,12 @@ describe('express-server', function() {
         sslKey: 'tests/fixtures/ssl/server.key'
       })
         .then(function() {
-          request.get('/').expect(200, function(err){
-            console.log(err);
+          return new Promise(function(resolve, reject) {
+            request('https://localhost:1337').
+              get('/').expect(200, function(err, value) {
+                if(err) { reject(err);    }
+                else    { resolve(value); }
+              });
           });
         });
     }),
