@@ -5,6 +5,71 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 0.2.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + `ember install <addon-name>` now is the correct way to install an add-on (not `ember install:npm <addon-name>`)
+  + babel has been upgraded to `5.0.0`, be sure any configuration to babel is updated accordingly
+  + bundled ember is now 1.11.1
+  + when existing test --server, tmp files should once again be correctly cleaned up.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+  + Code Climate was added: https://codeclimate.com/github/ember-cli/ember-cli,
+    we have been making steady progress in improving our code quality and coverage.
+    As new code enters the system, we should ensure we continue to improve.
+
+#### Community Contributions
+
+- [#3782](https://github.com/ember-cli/ember-cli/pull/3782) add OS X as a CI target for travis [@ember-cli](https://github.com/ember-cli)
+- [#3711](https://github.com/ember-cli/ember-cli/pull/3711) adding changelog diffs [@kellyselden](https://github.com/kellyselden)
+- [#3703](https://github.com/ember-cli/ember-cli/pull/3703) [ENHANCEMENT] Add testem --launch option to ember test command [@jrjohnson](https://github.com/jrjohnson)
+- [#3598](https://github.com/ember-cli/ember-cli/pull/3598) [ENHANCEMENT] Replace install:addon with install, remove install:bower and install:npm [@DanielOchoa](https://github.com/DanielOchoa)
+- [#3690](https://github.com/ember-cli/ember-cli/pull/3690) [ENHANCEMENT] Addon-import support for built-in blueprints [@trabus](https://github.com/trabus)
+- [#3700](https://github.com/ember-cli/ember-cli/pull/3700) fixes #3613 - added path.normalize [@swelham](https://github.com/swelham)
+- [#3412](https://github.com/ember-cli/ember-cli/pull/3412) Changes match application regex [@twokul](https://github.com/twokul)
+- [#3789](https://github.com/ember-cli/ember-cli/pull/3789) Code Quality: ember-app.js F -> D [@kellyselden](https://github.com/kellyselden)
+- [#3731](https://github.com/ember-cli/ember-cli/pull/3731) Promise cleanup [@ember-cli](https://github.com/ember-cli)
+- [#3722](https://github.com/ember-cli/ember-cli/pull/3722) Updated included hook example [@RSSchermer](https://github.com/RSSchermer)
+- [#3713](https://github.com/ember-cli/ember-cli/pull/3713) The unbundling [@ember-cli](https://github.com/ember-cli)
+- [#3725](https://github.com/ember-cli/ember-cli/pull/3725) increase timeouts, and use mocha’s inheriting config strategy to prevent... [@ember-cli](https://github.com/ember-cli)
+- [#3727](https://github.com/ember-cli/ember-cli/pull/3727) misc cleanup [@ember-cli](https://github.com/ember-cli)
+- [#3794](https://github.com/ember-cli/ember-cli/pull/3794) BUGFIX fixes vars-on-top error in ESLint [@jonathanKingston](https://github.com/jonathanKingston)
+- [#3759](https://github.com/ember-cli/ember-cli/pull/3759) Order bower dependencies alphabetically [@pmdarrow](https://github.com/pmdarrow)
+- [#3736](https://github.com/ember-cli/ember-cli/pull/3736) [fixes #3732] configure YAM with the Project.root. [@ember-cli](https://github.com/ember-cli)
+- [#3743](https://github.com/ember-cli/ember-cli/pull/3743) no longer bundle testem, allow it to drift along semver [@ember-cli](https://github.com/ember-cli)
+- [#3756](https://github.com/ember-cli/ember-cli/pull/3756) adding a blueprint uninstall test [@kellyselden](https://github.com/kellyselden)
+- [#3750](https://github.com/ember-cli/ember-cli/pull/3750) add developer requirements to CONTRIBUTING.md [@jakehow](https://github.com/jakehow)
+- [#3748](https://github.com/ember-cli/ember-cli/pull/3748) Fix wording [@jbrown](https://github.com/jbrown)
+- [#3740](https://github.com/ember-cli/ember-cli/pull/3740) Remove dead code [@IanVS](https://github.com/IanVS)
+- [#3747](https://github.com/ember-cli/ember-cli/pull/3747) code quality refactor of blueprint model [@kellyselden](https://github.com/kellyselden)
+- [#3755](https://github.com/ember-cli/ember-cli/pull/3755) return currentURL() rather than path, ref #3719 [@mariogintili](https://github.com/mariogintili)
+- [#3800](https://github.com/ember-cli/ember-cli/pull/3800) [fixes #3799] fix jshint [@ember-cli](https://github.com/ember-cli)
+- [#3780](https://github.com/ember-cli/ember-cli/pull/3780) Upgrade to npm 2.7.6 [@davewasmer](https://github.com/davewasmer)
+- [#3775](https://github.com/ember-cli/ember-cli/pull/3775) Code quality blueprint duplicates [@kellyselden](https://github.com/kellyselden)
+- [#3762](https://github.com/ember-cli/ember-cli/pull/3762) Improved serializer-test blueprint [@bmac](https://github.com/bmac)
+- [#3778](https://github.com/ember-cli/ember-cli/pull/3778) bump to babel 5.0 [@ember-cli](https://github.com/ember-cli)
+- [#3764](https://github.com/ember-cli/ember-cli/pull/3764) Version bump ember-load-initializers to handle instance initializers [@jasonmit](https://github.com/jasonmit)
+- [#3769](https://github.com/ember-cli/ember-cli/pull/3769) Babel 5.0 now separates codeFrame from error.{message, stack} [@ember-cli](https://github.com/ember-cli)
+- [#3804](https://github.com/ember-cli/ember-cli/pull/3804) increase some timeouts and prefer mocha’s inheriting timers [@ember-cli](https://github.com/ember-cli)
+- [#3798](https://github.com/ember-cli/ember-cli/pull/3798) adding coverage badge to readme [@ember-cli](https://github.com/ember-cli)
+- [#3781](https://github.com/ember-cli/ember-cli/pull/3781) bump to a non-vulnerable semver module [@ember-cli](https://github.com/ember-cli)
+- [#3784](https://github.com/ember-cli/ember-cli/pull/3784) Add ember-try for addons. [@rwjblue](https://github.com/rwjblue)
+- [#3795](https://github.com/ember-cli/ember-cli/pull/3795) Code Climate: adding test coverage [@kellyselden](https://github.com/kellyselden)
+- [#3797](https://github.com/ember-cli/ember-cli/pull/3797) Update to ember-qunit 0.3.1. [@rwjblue](https://github.com/rwjblue)
+- [#3801](https://github.com/ember-cli/ember-cli/pull/3801) moving coverage repo key to travis env variable [@kellyselden](https://github.com/kellyselden)
+- [#3802](https://github.com/ember-cli/ember-cli/pull/3802) remove pre-mature process.exit when existing `ember test —server` [@ember-cli](https://github.com/ember-cli)
+- [#3803](https://github.com/ember-cli/ember-cli/pull/3803) update testem [@ember-cli](https://github.com/ember-cli)
+- [#3809](https://github.com/ember-cli/ember-cli/pull/3809) Fix url format of isGitRepo [@ember-cli](https://github.com/ember-cli)
+- [#3812](https://github.com/ember-cli/ember-cli/pull/3812) update ember to 1.11.1 in the default blueprint [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
 ### 0.2.2
 
 The following changes are required if you are upgrading from the previous
