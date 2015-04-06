@@ -45,7 +45,6 @@
     "concat-stream",
     "configstore",
     "diff",
-    "ember-router-generator",
     "express",
     "findup",
     "fs-extra",
