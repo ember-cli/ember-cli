@@ -472,4 +472,30 @@ describe('models/project.js', function() {
       expect(project.bowerDirectory).to.equal('bower_components');
     });
   });
+
+  describe('nodeModulesPath', function() {
+    function makeProject() {
+      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
+      project = new Project(projectPath, {}, new MockUI());
+    }
+
+    afterEach(function() {
+      delete process.env.EMBER_NODE_PATH;
+    });
+
+    it('should equal env.EMBER_NODE_PATH when it is set', function() {
+      var nodePath = '/my/path/node_modules';
+      process.env.EMBER_NODE_PATH = nodePath;
+
+      makeProject();
+
+      expect(project.nodeModulesPath).to.equal(nodePath);
+    });
+
+    it('should equal project.root joined with "node_modules" when EMBER_NODE_PATH is not set', function() {
+      makeProject();
+
+      expect(project.nodeModulesPath).to.equal(path.join(projectPath, 'node_modules'));
+    });
+  });
 });

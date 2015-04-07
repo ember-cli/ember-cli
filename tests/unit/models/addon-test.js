@@ -20,6 +20,15 @@ var fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 describe('models/addon.js', function() {
   var addon, project, projectPath;
 
+  describe('root property', function() {
+    it('is required', function() {
+      expect(function() {
+        var TheAddon = Addon.extend({root:undefined});
+        new TheAddon();
+      }).to.throw(/root/);
+    });
+  });
+
   describe('treePaths and treeForMethods', function() {
     var FirstAddon, SecondAddon;
 
@@ -31,6 +40,7 @@ describe('models/addon.js', function() {
 
       FirstAddon = Addon.extend({
         name: 'first',
+        root: projectPath,
 
         init: function() {
           this.treePaths.vendor = 'blazorz';
@@ -40,6 +50,7 @@ describe('models/addon.js', function() {
 
       SecondAddon = Addon.extend({
         name: 'first',
+        root: projectPath,
 
         init: function() {
           this.treePaths.vendor = 'blammo';
@@ -345,7 +356,8 @@ describe('models/addon.js', function() {
 
       beforeEach(function() {
         var MyAddon = Addon.extend({
-          name: 'test-project'
+          name: 'test-project',
+          root: 'foo'
         });
 
         var projectPath = path.resolve(fixturePath, 'simple');
@@ -507,7 +519,8 @@ describe('models/addon.js', function() {
       project = new Project(projectPath, packageContents, ui);
 
       var AddonTemp = Addon.extend({
-        name: 'temp'
+        name: 'temp',
+        root: 'foo'
       });
 
       addon = new AddonTemp(project, project);

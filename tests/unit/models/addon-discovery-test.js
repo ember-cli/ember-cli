@@ -184,6 +184,7 @@ describe('models/addon-discovery.js', function() {
 
     it('can find a package without a main entry point [DEPRECATED]', function() {
       var root = path.join(fixturePath, 'shared-package', 'base');
+      var addonNodeModulesPath = path.join(root, 'node_modules');
       var actualPaths = [];
       var discovery = new AddonDiscovery(ui);
 
@@ -194,7 +195,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, mockPkg, true);
+      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
 
       var expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
@@ -211,6 +212,7 @@ describe('models/addon-discovery.js', function() {
 
     it('does not error when dependencies are not found', function() {
       var root = path.join(fixturePath, 'shared-package', 'base');
+      var addonNodeModulesPath = path.join(root, 'node_modules');
       var actualPaths = [];
       var discovery = new AddonDiscovery(ui);
 
@@ -221,7 +223,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, mockPkg, true);
+      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
 
       var expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
@@ -234,6 +236,7 @@ describe('models/addon-discovery.js', function() {
 
     it('calls discoverAtPath for each entry in dependencies', function() {
       var root = path.join(fixturePath, 'shared-package', 'base');
+      var addonNodeModulesPath = path.join(root, 'node_modules');
       var actualPaths = [];
       var discovery = new AddonDiscovery(ui);
 
@@ -243,7 +246,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, mockPkg);
+      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg);
 
       var expectedPaths = [
         path.join(root, '..', 'node_modules', 'dev-foo-bar'),
@@ -256,6 +259,7 @@ describe('models/addon-discovery.js', function() {
 
     it('excludes devDeps if `excludeDevDeps` is true', function() {
       var root = path.join(fixturePath, 'shared-package', 'base');
+      var addonNodeModulesPath = path.join(root, 'node_modules');
       var actualPaths = [];
       var discovery = new AddonDiscovery(ui);
 
@@ -265,7 +269,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, mockPkg, true);
+      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
 
       var expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
