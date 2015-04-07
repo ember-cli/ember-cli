@@ -11,6 +11,7 @@ var fs               = require('fs-extra');
 var outputFile       = Promise.denodeify(fs.outputFile);
 var path             = require('path');
 var remove           = Promise.denodeify(fs.remove);
+var replaceFile      = require('../helpers/file-utils').replaceFile;
 var root             = process.cwd();
 var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
@@ -1135,5 +1136,36 @@ describe('Acceptance: ember generate', function() {
     return generate(['lib']).then(function() {
       assertFile('lib/.jshintrc');
     });
+  });
+  
+  it('custom blueprint availableOptions', function() {
+    return initApp()
+      .then(function() {
+        return ember(['generate', 'blueprint', 'foo'])
+          .then(function() {
+            replaceFile('blueprints/foo/index.js', 'module.exports = {',
+              'module.exports = {' + EOL + 'availableOptions: [ ' + EOL +
+              '{ name: \'foo\',' + EOL + 'type: String, '+ EOL +
+              'values: [\'one\', \'two\'],' + EOL +
+              'default: \'one\',' + EOL + 
+              'aliases: [ {\'one\': \'one\'}, {\'two\': \'two\'} ] } ],' + EOL +
+              'locals: function(options) {' + EOL +
+              'return { foo: options.foo };' + EOL +
+              '},');
+            return outputFile(
+              'blueprints/foo/files/app/foos/__name__.js',
+              "import Ember from 'ember';" + EOL +
+              'export default Ember.Object.extend({ foo: <%= foo %> });' + EOL
+            )
+              .then(function() {
+                return ember(['generate','foo','bar','-two']);
+              });
+      });
+    })
+      .then(function() {
+        assertFile('app/foos/bar.js', {
+          contain: ['export default Ember.Object.extend({ foo: two });']
+        });
+      });
   });
 });
