@@ -1,6 +1,7 @@
 bower_components/
 tests/
 tmp/
+dist/
 
 .bowerrc
 .editorconfig
