@@ -6,12 +6,14 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/0aaabc98378600e116da0fcc5b75c1a8b00ce541)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + `ember install <addon-name>` now is the correct way to install an add-on (not `ember install:npm <addon-name>`)
   + babel has been upgraded to `5.0.0`, be sure any configuration to babel is updated accordingly
   + bundled ember is now 1.11.1
   + when existing test --server, tmp files should once again be correctly cleaned up.
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/567f9f2db157ce835c116ffde1567cc8c709ae0c)
   + No changes required
 - Core Contributors
   + No changes required
