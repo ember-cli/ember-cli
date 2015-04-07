@@ -159,9 +159,8 @@ ember server
  <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
  `ember test`                                | Run tests with Testem on CI mode. You can pass any options to Testem through `testem.json`, by default we'll search for it under your project's root or you can specify `config-file`.
  `ember install`                             | Installs npm and bower dependencies
- `ember install:npm <packages>`              | Installs the given npm dependencies to your project and saves them to the `package.json`
  `ember install:bower <packages>`            | Installs the given bower dependencies to your project and saves them to the `bower.json`
- `ember install:addon <addon-name>`          | Installs the given addon to your project and saves it to the `package.json`. It will run the addon's `defaultBlueprint` if it provides one.
+ `ember install <addon-name>`                | Installs the given addon to your project and saves it to the `package.json`. It will run the addon's `defaultBlueprint` if it provides one.
 
 ### Folder Layout
 
