@@ -31,9 +31,9 @@ var IndexRoute = Ember.Route.extend({
   model: function() {
     return ['red', 'yellow', 'blue'];
   }
-  });
+});
 
-  export default IndexRoute;
+export default IndexRoute;
 {% endhighlight %}
 
 Note, that the name of the variable used in the exported module doesn't have any
