@@ -489,7 +489,7 @@ describe('models/project.js', function() {
 
       makeProject();
 
-      expect(project.nodeModulesPath).to.equal(nodePath);
+      expect(project.nodeModulesPath).to.equal(path.resolve(nodePath));
     });
 
     it('should equal project.root joined with "node_modules" when EMBER_NODE_PATH is not set', function() {
