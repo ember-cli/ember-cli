@@ -1,4 +1,8 @@
 sudo: false
+cache:
+  directories:
+    - node_modules
+    - bower_components
 env:
   - NODE_VERSION=0.10
   - NODE_VERSION=0.12
