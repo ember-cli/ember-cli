@@ -85,11 +85,11 @@ ember install:addon ember-cli-less
 #### Sass
 
 To enable [Sass](http://sass-lang.com/), you'll need to
-add [broccoli-sass](https://github.com/joliss/broccoli-sass) to your NPM
-modules *(both .scss/.sass are allowed as of broccoli-sass > 0.2.0)*.
+install the [ember-cli-sass](https://github.com/aexmachina/ember-cli-sass) addon
+to your project *(both .scss/.sass are allowed)*.
 
 {% highlight bash %}
-ember install:npm broccoli-sass
+ember install:addon ember-cli-sass
 {% endhighlight %}
 
 #### Compass
