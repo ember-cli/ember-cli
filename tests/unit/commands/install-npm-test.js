@@ -23,7 +23,7 @@ describe('install:npm command', function() {
     });
 
     command  = new InstallCommand(options);
-    msg      = 'This command has been deprecated. Please use `npm install ';
+    msg      = 'This command has been removed. Please use `npm install ';
     msg     += '<packageName> --save-dev --save-exact` instead.';
   });
 
