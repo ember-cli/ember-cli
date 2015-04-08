@@ -22,7 +22,7 @@ STEPS:
   this will fail with: `version not found: ember-cli@version`
 * fixup deps: `cd my-cool-test-project`
 * link your local ember-cli  `npm link ember-cli`
-* install other deps: `ember init`
+* install other deps: `npm i && bower i`
 * test the server: `ember s`
 * test other things like generators and live-reload
 * generate a http mock `ember g http-mock my-http-mock`

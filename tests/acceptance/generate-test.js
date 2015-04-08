@@ -52,45 +52,10 @@ describe('Acceptance: ember generate', function() {
     ]);
   }
 
-  function initAddon() {
-    return ember([
-      'addon',
-      'my-addon',
-      '--skip-npm',
-      '--skip-bower'
-    ]);
-  }
-
-  function initInRepoAddon() {
-    return initApp().then(function() {
-      return ember([
-        'generate',
-        'in-repo-addon',
-        'my-addon'
-      ]);
-    });
-  }
-
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
-      return ember(generateArgs);
-    });
-  }
-
-  function generateInAddon(args) {
-    var generateArgs = ['generate'].concat(args);
-
-    return initAddon().then(function() {
-      return ember(generateArgs);
-    });
-  }
-
-  function generateInRepoAddon(args) {
-    var generateArgs = ['generate'].concat(args);
-
-    return initInRepoAddon().then(function() {
       return ember(generateArgs);
     });
   }
@@ -675,7 +640,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('tests/unit/serializers/foo-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
         ]
@@ -694,10 +659,10 @@ describe('Acceptance: ember generate', function() {
       assertFile('tests/unit/serializers/foo/bar-test.js', {
         contains: [
           "import {" + EOL +
-          "  moduleFor," + EOL +
+          "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleFor('serializer:foo/bar'"
+          "moduleForModel('foo/bar'"
         ]
       });
     });
@@ -1154,205 +1119,10 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('in-repo-addon foo-bar', function() {
-    return generate(['in-repo-addon', 'foo-bar']).then(function() {
-      assertFile('lib/foo-bar/index.js', {
-        contains: [
-          'module.exports = {',
-          'name: \'foo-bar\'',
-          '',
-          'isDevelopingAddon: function() {',
-          'return true;',
-          '}',
-          '}'
-        ]
-      });
-
-      assertFile('lib/foo-bar/package.json', {
-        contains: [
-          '{',
-          '  "name": "foo-bar"',
-          '  "keywords": [',
-          '    "ember-addon"',
-          '  ]',
-          '}'
-        ]
-      });
-
-      assertFile('package.json', {
-        contains: [
-          '"' + path.normalize('lib/foo-bar').replace('\\', '\\\\') + '"'
-        ]
-      });
-
-      assertFile('lib/.jshintrc');
-    });
-  });
-
   it('server', function() {
     return generate(['server']).then(function() {
       assertFile('server/index.js');
       assertFile('server/.jshintrc');
-    });
-  });
-
-  it('in-addon component x-foo', function() {
-    return generateInAddon(['component', 'x-foo']).then(function() {
-      assertFile('addon/components/x-foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "import layout from '../templates/components/x-foo';",
-          "export default Ember.Component.extend({",
-          "layout: layout",
-          "});"
-        ]
-      });
-      assertFile('addon/templates/components/x-foo.hbs', {
-        contains: "{{yield}}"
-      });
-      assertFile('app/components/x-foo.js', {
-        contains: [
-          "import xFoo from 'my-addon/components/x-foo';",
-          "export default xFoo;"
-        ]
-      });
-      assertFile('tests/unit/components/x-foo-test.js', {
-        contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
-        ]
-      });
-    });
-  });
-
-  it('in-addon component nested/x-foo', function() {
-    return generateInAddon(['component', 'nested/x-foo']).then(function() {
-      assertFile('addon/components/nested/x-foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "import layout from '../../templates/components/nested/x-foo';",
-          "export default Ember.Component.extend({",
-          "layout: layout",
-          "});"
-        ]
-      });
-      assertFile('addon/templates/components/nested/x-foo.hbs', {
-        contains: "{{yield}}"
-      });
-      assertFile('app/components/nested/x-foo.js', {
-        contains: [
-          "import nestedXFoo from 'my-addon/components/nested/x-foo';",
-          "export default nestedXFoo;"
-        ]
-      });
-      assertFile('tests/unit/components/nested/x-foo-test.js', {
-        contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
-        ]
-      });
-    });
-  });
-
-  it('in-addon mixin foo', function() {
-    return generateInAddon(['mixin', 'foo']).then(function() {
-      assertFile('addon/mixins/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          'export default Ember.Mixin.create({' + EOL + '});'
-        ]
-      });
-      assertFile('tests/unit/mixins/foo-test.js', {
-        contains: [
-          "import FooMixin from '../../../mixins/foo';"
-        ]
-      });
-    });
-  });
-
-  it('in-addon mixin foo/bar', function() {
-    return generateInAddon(['mixin', 'foo/bar']).then(function() {
-      assertFile('addon/mixins/foo/bar.js', {
-        contains: [
-          "import Ember from 'ember';",
-          'export default Ember.Mixin.create({' + EOL + '});'
-        ]
-      });
-      assertFile('tests/unit/mixins/foo/bar-test.js', {
-        contains: [
-          "import FooBarMixin from '../../../mixins/foo/bar';"
-        ]
-      });
-    });
-  });
-
-  it('in-repo-addon component x-foo', function() {
-    return generateInRepoAddon(['component', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
-      assertFile('lib/my-addon/addon/components/x-foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "import layout from '../templates/components/x-foo';",
-          "export default Ember.Component.extend({",
-          "layout: layout",
-          "});"
-        ]
-      });
-      assertFile('lib/my-addon/addon/templates/components/x-foo.hbs', {
-        contains: "{{yield}}"
-      });
-      assertFile('lib/my-addon/app/components/x-foo.js', {
-        contains: [
-          "import xFoo from 'my-addon/components/x-foo';",
-          "export default xFoo;"
-        ]
-      });
-      assertFile('tests/unit/components/x-foo-test.js', {
-        contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
-        ]
-      });
-    });
-  });
-
-  it('in-repo-addon component nested/x-foo', function() {
-    return generateInRepoAddon(['component', 'nested/x-foo', '--in-repo-addon=my-addon']).then(function() {
-      assertFile('lib/my-addon/addon/components/nested/x-foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "import layout from '../../templates/components/nested/x-foo';",
-          "export default Ember.Component.extend({",
-          "layout: layout",
-          "});"
-        ]
-      });
-      assertFile('lib/my-addon/addon/templates/components/nested/x-foo.hbs', {
-        contains: "{{yield}}"
-      });
-      assertFile('lib/my-addon/app/components/nested/x-foo.js', {
-        contains: [
-          "import nestedXFoo from 'my-addon/components/nested/x-foo';",
-          "export default nestedXFoo;"
-        ]
-      });
-      assertFile('tests/unit/components/nested/x-foo-test.js', {
-        contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
-        ]
-      });
     });
   });
 

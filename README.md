@@ -1,5 +1,5 @@
 
-## ember-cli [![Build Status][travis-badge]][travis-badge-url] [![Dependency Status][david-badge]][david-badge-url] [![Build status][appveyor-badge]][appveyor-badge-url] [![Code Climate](https://codeclimate.com/github/ember-cli/ember-cli/badges/gpa.svg)](https://codeclimate.com/github/ember-cli/ember-cli)
+## ember-cli [![Build Status][travis-badge]][travis-badge-url] [![Dependency Status][david-badge]][david-badge-url] [![Build status][appveyor-badge]][appveyor-badge-url] [![Code Climate](https://codeclimate.com/github/ember-cli/ember-cli/badges/gpa.svg)](https://codeclimate.com/github/ember-cli/ember-cli) [![Test Coverage](https://codeclimate.com/github/ember-cli/ember-cli/badges/coverage.svg)](https://codeclimate.com/github/ember-cli/ember-cli) [![Inline docs](http://inch-ci.org/github/ember-cli/ember-cli.svg?branch=master)](http://inch-ci.org/github/ember-cli/ember-cli)
 
 The Ember.js command line utility.
 

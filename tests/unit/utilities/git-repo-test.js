@@ -1,6 +1,6 @@
 'use strict';
 
-var isGitRepo = require('../../../lib/utilities/git-repo');
+var isGitRepo = require('is-git-url');
 var expect    = require('chai').expect;
 
 describe('cleanBaseURL()', function() {

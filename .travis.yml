@@ -12,7 +12,7 @@ before_install:
 os:
   - osx
   - linux
-script: npm run-script test-all
+script: npm run-script test-all:cover
 matrix:
   fast_finish: true
 
@@ -23,3 +23,6 @@ install:
   - npm --version
   - git --version
   - npm install
+
+after_script:
+  - cat coverage/lcov.info | codeclimate
