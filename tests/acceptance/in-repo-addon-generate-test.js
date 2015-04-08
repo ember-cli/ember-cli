@@ -135,8 +135,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/components/x-foo.js', {
         contains: [
-          "import xFoo from 'my-addon/components/x-foo';",
-          "export default xFoo;"
+          "export { default } from 'my-addon/components/x-foo';"
         ]
       });
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -167,8 +166,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/components/nested/x-foo.js', {
         contains: [
-          "import nestedXFoo from 'my-addon/components/nested/x-foo';",
-          "export default nestedXFoo;"
+          "export { default } from 'my-addon/components/nested/x-foo';"
         ]
       });
       assertFile('tests/unit/components/nested/x-foo-test.js', {
