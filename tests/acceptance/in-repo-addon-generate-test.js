@@ -147,6 +147,20 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
+  
+  it('in-repo-addon component-test x-foo', function() {
+    return generateInRepoAddon(['component-test', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
 
   it('in-repo-addon component nested/x-foo', function() {
     return generateInRepoAddon(['component', 'nested/x-foo', '--in-repo-addon=my-addon']).then(function() {
