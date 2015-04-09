@@ -391,7 +391,7 @@ See the built-in `resource` blueprint for an example of this.
 * **Addon**
   * Generates an addon blueprint and its definition.
     * This is the base blueprint for ember-cli addons.
-  * `ember generate addon awesome-addon`
+  * `ember addon awesome-addon`
 
 * **App**
   * This is the default blueprint for ember-cli projects. It contains a conventional project structure and everything you will need to develop your ember apps.
