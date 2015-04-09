@@ -188,30 +188,6 @@ Optionally, you may specify a different name for the `"defaultBlueprint"`. It de
 }
 {% endhighlight %} 
 
-### Managing addon dependencies
-Install your client side dependencies via Bower.
-Here we install a fictional bower dependency `x-button`:
-
-{% highlight bash %}
-ember install:bower x-button
-{% endhighlight %}
-
-Note that currently this will add the component to the main `dependencies` hash.
-Move it to `devDependencies`.
-
-{% highlight javascript %}
-// bower.js
-{
-  "name": "ember-cli-x-button",
-  "dependencies": {
-    // ...
-  },
-  "devDependencies": {
-    "x-button":  "^1.4.0"
-  }
-}
-{% endhighlight %}
-
 ### Addon Brocfile
 
 The addon's `Brocfile.js` is only used to configure the dummy application found in
@@ -552,13 +528,6 @@ For our *x-button* sample addon:
 This will first install the x-button addon from npm. Then, because we have
 a blueprint with the same name as our addon, it will run the blueprint
 automatically with the passed in arguments.
-
-This is equivalent of running:
-
-{% highlight bash %}
-ember install:npm x-button
-ember generate ember-cli-x-button my-button
-{% endhighlight %}
 
 ### Updating addons
 You can update an addon the same way you update an Ember app by
