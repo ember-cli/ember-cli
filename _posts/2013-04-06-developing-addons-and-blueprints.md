@@ -11,13 +11,13 @@ This guide will walk through the development cycle of a fictional
 addon `ember-cli-x-button`.
 
 ### Installation
-An addon can be installed with the `install:addon` command:
+An addon can be installed with the `install` command:
 
-`ember install:addon <package name>`
+`ember install <package name>`
 
 To install the (fictional) x-button addon package:
 
-`ember install:addon ember-cli-x-button`
+`ember install ember-cli-x-button`
 
 ### Discovery
 
@@ -173,7 +173,7 @@ By default, the `"ember-addon"` hash in the `package.json` file has the `"config
 
 Optionally, you may specify whether your `ember-addon` must run `"before"` or `"after"` any other Ember CLI addons.  Both of these properties can take either a string or an array of strings, where the string is the name of the another Ember CLI addon, as defined in the `package.json` of the other addon.
 
-Optionally, you may specify a different name for the `"defaultBlueprint"`. It defaults to the name in the `package.json`. This blueprint will be run automatically when your addon is installed with the `ember install:addon` command.
+Optionally, you may specify a different name for the `"defaultBlueprint"`. It defaults to the name in the `package.json`. This blueprint will be run automatically when your addon is installed with the `ember install` command.
 
 {% highlight javascript %}
 "ember-addon": {
@@ -507,7 +507,7 @@ links to it this way (see
 details).
 
 Remember that `npm link` will not run the default blueprint in the same way that
-`install:addon` will, so you will have to do that manually via `ember g`.
+`install` will, so you will have to do that manually via `ember g`.
 
 While testing an addon using npm link, you need an entry in `package.json` with
 your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
@@ -525,17 +525,17 @@ npm publish
 {% endhighlight %}
 
 ### Using a private repository
-You can upload your addon code to a private git repository and call `ember install:addon`
+You can upload your addon code to a private git repository and call `ember install`
 with a valid [git URL](https://www.npmjs.org/doc/files/package.json.html#git-urls-as-dependencies)
 as the version.
 
 If you are using [bitbucket.org](https://bitbucket.org) the [URL formats can be found here](https://confluence.atlassian.com/display/BITBUCKET/Use+the+SSH+protocol+with+Bitbucket#UsetheSSHprotocolwithBitbucket-RepositoryURLformatsbyconnectionprotocol).
 
-When using the `git+ssh` format, the `ember install:addon` command will require there to
+When using the `git+ssh` format, the `ember install` command will require there to
 be an available ssh key with read access to the repository. This can be tested
 by running `git clone ssh://git@github.com:user/project.git`.
 
-When using the `git+https` format, the `ember install:addon` command will ask you for
+When using the `git+https` format, the `ember install` command will ask you for
 the account password.
 
 ### Install and use addon
@@ -543,11 +543,11 @@ In order to use the addon from you hosting application:
 
 To install your addon from the [npm.org](https://www.npmjs.org/) repository:
 
-`ember install:addon <your-addon-name-here>`.
+`ember install <your-addon-name-here>`.
 
 For our *x-button* sample addon:
 
-`ember install:addon ember-cli-x-button my-button`.
+`ember install ember-cli-x-button my-button`.
 
 This will first install the x-button addon from npm. Then, because we have
 a blueprint with the same name as our addon, it will run the blueprint
