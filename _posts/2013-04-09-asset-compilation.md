@@ -79,7 +79,7 @@ To enable [LESS](http://lesscss.org/), you'll need to add
 your NPM modules.
 
 {% highlight bash %}
-ember install:addon ember-cli-less
+ember install ember-cli-less
 {% endhighlight %}
 
 #### Sass
@@ -89,7 +89,7 @@ install the [ember-cli-sass](https://github.com/aexmachina/ember-cli-sass) addon
 to your project *(both .scss/.sass are allowed)*.
 
 {% highlight bash %}
-ember install:addon ember-cli-sass
+ember install ember-cli-sass
 {% endhighlight %}
 
 #### Compass
@@ -98,7 +98,7 @@ To use [Compass](http://compass-style.org/) with your ember-cli app, install
 [ember-cli-compass-compiler](https://github.com/quaertym/ember-cli-compass-compiler) addon using NPM.
 
 {% highlight bash %}
-ember install:addon ember-cli-compass-compiler
+ember install ember-cli-compass-compiler
 {% endhighlight %}
 
 #### Stylus
@@ -108,7 +108,7 @@ To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
 modules:
 
 {% highlight bash %}
-ember install:addon ember-cli-stylus
+ember install ember-cli-stylus
 {% endhighlight %}
 
 ### CoffeeScript
@@ -118,7 +118,7 @@ first add [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeesc
 NPM modules:
 
 {% highlight bash %}
-ember install:addon ember-cli-coffeescript
+ember install ember-cli-coffeescript
 {% endhighlight %}
 
 The modified `package.json` should be checked into source control. CoffeeScript
