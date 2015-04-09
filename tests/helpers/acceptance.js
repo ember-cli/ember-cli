@@ -17,8 +17,12 @@ var onOutput = {
 };
 
 function handleResult(result) {
-  console.log(result.output.join('\n'));
-  console.log(result.errors.join('\n'));
+  if (result.output) {
+    console.log(result.output.join('\n'));
+  }
+  if (result.errors) {
+    console.log(result.errors.join('\n'));
+  }
   throw result;
 }
 
