@@ -22,7 +22,7 @@ module.exports = {
     var packagePath = path.join(this.project.root, 'package.json');
     var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
     var name        = stringUtil.dasherize(options.entity.name);
-    var newPath     = path.join('lib', name);
+    var newPath     = ['lib', name].join('/');
     var paths;
 
     contents['ember-addon'] = contents['ember-addon'] || {};

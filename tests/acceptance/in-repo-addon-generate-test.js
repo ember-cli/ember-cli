@@ -821,5 +821,15 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
+  
+  it('in-repo-addon adds path to lib', function() {
+    return initInRepoAddon().then(function() {
+      assertFile('package.json', {
+        contains: [
+          'lib/my-addon'
+        ]
+      });
+    });
+  });
 
 });
