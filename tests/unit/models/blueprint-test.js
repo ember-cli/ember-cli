@@ -446,6 +446,14 @@ describe('Blueprint', function() {
       }).to.throw(SilentError, /The `ember generate` command requires an entity name to be specified./);
     });
 
+    it('does not throw when an entityName is not provided, but is not required', function(){
+      options.entity = { };
+      options.entityNameRequired = false;
+      expect(function() {
+        blueprint.install(options);
+      }).to.not.throw(SilentError, /The `ember generate` command requires an entity name to be specified./);
+    })
+
     it('throws error when an action does not exist', function() {
       blueprint._actions = {};
       return blueprint.install(options)
