@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForComponent('<%= dasherizedModuleName %>', {
+moduleForComponent('<%= dasherizedModuleName %>', '<%=friendlyDescription %>', {
   // Specify the other units that are required for this test
   // needs: ['component:foo', 'helper:bar']
 });

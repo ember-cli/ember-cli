@@ -3,7 +3,7 @@ import {
 } from '../../../helpers/<%= dasherizedModuleName %>';
 import { module, test } from 'qunit';
 
-module('<%= classifiedModuleName %>Helper');
+module('<%= friendlyPrefix %> <%= dasherizedModuleName %>');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
