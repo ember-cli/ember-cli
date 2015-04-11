@@ -7,6 +7,8 @@ process.title = 'ember';
 var resolve = require('resolve');
 var exit = require('exit');
 
+console.log(require('../lib/banner')() + '\n\n');
+
 resolve('ember-cli', {
   basedir: process.cwd()
 }, function(error, projectLocalCli) {
