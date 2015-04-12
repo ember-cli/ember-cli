@@ -52,7 +52,7 @@ module.exports = {
   },
 
   shouldTouchRouter: function(name) {
-    var isIndex = /index$/.test(name);
+    var isIndex = name === 'index';
     var isBasic = name === 'basic';
     var isApplication = name === 'application';
 
