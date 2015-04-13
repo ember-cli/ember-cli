@@ -180,7 +180,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('app/helpers/foo-bar.js', {
         contains: [
-          "export { default } from 'my-addon/helpers/foo-bar';"
+          "export { default, fooBar } from 'my-addon/helpers/foo-bar';"
         ]
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -202,13 +202,13 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('app/helpers/foo/bar-baz.js', {
         contains: [
-          "export { default } from 'my-addon/helpers/foo/bar-baz';"
+          "export { default, fooBarBaz } from 'my-addon/helpers/foo/bar-baz';"
         ]
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import {" + EOL +
           "  fooBarBaz" + EOL +
-          "} from '../../../helpers/foo/bar-baz';"
+          "} from '../../../../helpers/foo/bar-baz';"
       });
     });
   });
@@ -416,7 +416,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('app/initializers/foo.js', {
         contains: [
-          "export { default } from 'my-addon/initializers/foo';"
+          "export { default, initialize } from 'my-addon/initializers/foo';"
         ]
       });
       assertFile('tests/unit/initializers/foo-test.js');
@@ -437,7 +437,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('app/initializers/foo/bar.js', {
         contains: [
-          "export { default } from 'my-addon/initializers/foo/bar';"
+          "export { default, initialize } from 'my-addon/initializers/foo/bar';"
         ]
       });
       assertFile('tests/unit/initializers/foo/bar-test.js');
