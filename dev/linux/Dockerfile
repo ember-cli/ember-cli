@@ -1,6 +1,7 @@
-FROM       node:latest
+FROM node:latest
 
 RUN npm i -g npm
+RUN npm i -g phantomjs
 
 RUN apt-get update && apt-get install -y git
 
