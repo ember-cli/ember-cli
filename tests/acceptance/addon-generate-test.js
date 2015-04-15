@@ -72,10 +72,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/controllers/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('controller:foo'"
         ]
       });
@@ -97,10 +94,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/controllers/foo/bar-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('controller:foo/bar'"
         ]
       });
@@ -128,10 +122,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('x-foo'"
         ]
       });
@@ -142,10 +133,7 @@ describe('Acceptance: ember generate in-addon', function() {
     return generateInAddon(['component-test', 'x-foo']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('x-foo'"
         ]
       });
@@ -173,10 +161,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/components/nested/x-foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('nested/x-foo'"
         ]
       });
@@ -187,10 +172,7 @@ describe('Acceptance: ember generate in-addon', function() {
     return generateInAddon(['component-test', 'x-foo']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('x-foo'"
         ]
       });
@@ -212,9 +194,7 @@ describe('Acceptance: ember generate in-addon', function() {
         ]
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
-        contains: "import {" + EOL +
-          "  fooBar" + EOL +
-          "} from '../../../helpers/foo-bar';"
+        contains: "import { fooBar } from '../../../helpers/foo-bar';"
       });
     });
   });
@@ -234,9 +214,7 @@ describe('Acceptance: ember generate in-addon', function() {
         ]
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
-        contains: "import {" + EOL +
-          "  fooBarBaz" + EOL +
-          "} from '../../../../helpers/foo/bar-baz';"
+        contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
       });
     });
   });
@@ -256,10 +234,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/models/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForModel," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForModel, test } from 'ember-qunit';",
           "moduleForModel('foo'"
         ]
       });
@@ -344,10 +319,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/models/foo/bar-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForModel," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForModel, test } from 'ember-qunit';",
           "moduleForModel('foo/bar'"
         ]
       });
@@ -367,10 +339,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/routes/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('route:foo'"
         ]
       });
@@ -390,10 +359,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/routes/foo/bar-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('route:foo/bar'"
         ]
       });
@@ -427,10 +393,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/views/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('view:foo'"
         ]
       });
@@ -452,10 +415,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/views/foo/bar-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('view:foo/bar'"
         ]
       });
@@ -568,10 +528,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/adapters/application-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('adapter:application'"
         ]
       });
@@ -593,10 +550,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/adapters/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('adapter:foo'"
         ]
       });
@@ -635,10 +589,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/serializers/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForModel," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForModel, test } from 'ember-qunit';",
         ]
       });
     });
@@ -659,10 +610,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/serializers/foo/bar-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForModel," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForModel, test } from 'ember-qunit';",
           "moduleForModel('foo/bar'"
         ]
       });
@@ -692,10 +640,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/transforms/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('transform:foo'"
         ]
       });
@@ -725,10 +670,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/transforms/foo/bar-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('transform:foo/bar'"
         ]
       });
@@ -790,10 +732,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/services/foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('service:foo'"
         ]
       });
@@ -815,10 +754,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/services/foo/bar-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleFor," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('service:foo/bar'"
         ]
       });
