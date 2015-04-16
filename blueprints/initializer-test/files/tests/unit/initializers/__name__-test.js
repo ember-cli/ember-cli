@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { initialize } from '../../../initializers/<%= dasherizedModuleName %>';
+import { initialize } from '<%= dependencyDepth %>/initializers/<%= dasherizedModuleName %>';
 import { module, test } from 'qunit';
 
 var container, application;
