@@ -27,7 +27,6 @@ module.exports = {
 
   afterInstall: function() {
     return this.addPackagesToProject([
-      { name: 'connect-restreamer', target: '^1.0.0' },
       { name: 'express', target: '^4.8.5' }
     ]);
   }
