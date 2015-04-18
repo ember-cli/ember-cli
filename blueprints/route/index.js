@@ -39,6 +39,12 @@ module.exports = {
           return 'template';
         }
         return options.dasherizedModuleName;
+      },
+      __root__: function(options) {
+        if (options.inRepoAddon) {
+          return path.join('lib', options.inRepoAddon, 'app');
+        }
+        return 'app';
       }
     };
   },
@@ -62,7 +68,7 @@ module.exports = {
   afterInstall: function(options) {
     var entity  = options.entity;
 
-    if (this.shouldTouchRouter(entity.name) && !options.dryRun) {
+    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon) {
       addRouteToRouter(entity.name, {
         type: options.type,
         root: options.project.root,
@@ -82,7 +88,7 @@ module.exports = {
   afterUninstall: function(options) {
     var entity  = options.entity;
 
-    if (this.shouldTouchRouter(entity.name) && !options.dryRun) {
+    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon) {
       removeRouteFromRouter(entity.name, {
         type: options.type,
         root: options.project.root

@@ -355,9 +355,48 @@ describe('Acceptance: ember generate in-addon', function() {
   });
 
   it('in-addon route foo', function() {
-    return generateInAddon(['route', 'foo']).catch(function(error) {
-      expect(error.message).to.include('blueprint does not support ' +
-        'generating inside addons.');
+    return generateInAddon(['route', 'foo']).then(function() {
+      assertFile('app/routes/foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('app/templates/foo.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('route:foo'"
+        ]
+      });
+    });
+  });
+
+  it('in-addon route foo/bar', function() {
+    return generateInAddon(['route', 'foo/bar']).then(function() {
+      assertFile('app/routes/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('app/templates/foo/bar.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('route:foo/bar'"
+        ]
+      });
     });
   });
 
