@@ -11,6 +11,7 @@ var remove     = Promise.denodeify(require('fs-extra').remove);
 var root       = process.cwd();
 var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
+var expect     = require('chai').expect;
 
 describe('Acceptance: ember install', function() {
   this.timeout(30000);
@@ -52,7 +53,7 @@ describe('Acceptance: ember install', function() {
   }
 
   it('installs via npm and runs generator', function() {
-    return installAddon(['ember-cli-fastclick']).then(function() {
+    return installAddon(['ember-cli-fastclick']).then(function(result) {
       assertFile('package.json', {
         contains: [
           /"ember-cli-fastclick": ".*"/
@@ -64,6 +65,11 @@ describe('Acceptance: ember install', function() {
           /"fastclick": ".*"/
         ]
       });
+      
+      expect(result.ui.output).not.to.include('The `ember generate` command '+
+        'requires an entity name to be specified. For more details, use `ember help`.');
+        
     });
   });
+  
 });
