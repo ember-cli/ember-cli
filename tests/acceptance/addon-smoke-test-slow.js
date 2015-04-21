@@ -175,4 +175,39 @@ describe('Acceptance: addon-smoke-test', function() {
       handleError(error, 'npm');
     });
   });
+
+  function wait(time) {
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        resolve();
+      }, time);
+    });
+  }
+
+  it('doesn\'t fail to build new files', function() {
+    var testemOutput = '';
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--launch=PhantomJS', '--server', {
+      onOutput: function(string) {
+        testemOutput += string;
+      },
+      onChildSpawned: function(child) {
+        return wait(12000).then(function() {
+
+          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'initializer', 'foo')
+          .then(function() {
+            return wait(5000);
+          })
+          .then(function() {
+            child.stdin.write('q'); // quit test server
+            child.stdin.end();
+            expect(testemOutput).to.contain('✔');
+            expect(testemOutput).to.not.contain('✘');
+          });
+
+        });
+
+      }
+    });
+
+  });
 });
