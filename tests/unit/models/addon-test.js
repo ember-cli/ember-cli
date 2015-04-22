@@ -359,7 +359,11 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        process.env.EMBER_ADDON_ENV = originalEnvValue;
+        if(originalEnvValue === undefined) {
+          delete process.env.EMBER_ADDON_ENV;
+        } else {
+          process.env.EMBER_ADDON_ENV = originalEnvValue;
+        }
       });
 
       it('returns true when `EMBER_ADDON_ENV` is set to development', function() {
