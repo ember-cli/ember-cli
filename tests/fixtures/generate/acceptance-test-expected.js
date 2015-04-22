@@ -7,7 +7,7 @@ import startApp from 'my-app/tests/helpers/start-app';
 
 var application;
 
-module('Acceptance: Foo', {
+module('Acceptance | foo', {
   beforeEach: function() {
     application = startApp();
   },

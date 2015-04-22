@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('service:<%= dasherizedModuleName %>', {
+moduleFor('service:<%= dasherizedModuleName %>', '<%= friendlyTestDescription %>', {
   // Specify the other units that are required for this test.
   // needs: ['service:foo']
 });

@@ -172,7 +172,8 @@ describe('Acceptance: ember generate', function() {
           "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForModel('foo'"
+          "moduleForModel('foo'",
+          "needs: []",
         ]
       });
     });
@@ -264,9 +265,9 @@ describe('Acceptance: ember generate', function() {
           "  moduleForModel," + EOL +
           "  test" + EOL +
           "} from 'ember-qunit';",
-          "moduleForModel('foo'"
-        ],
-        doesNotContain: 'needs'
+          "moduleForModel('foo'",
+          "needs: []",
+        ]
       });
     });
   });
