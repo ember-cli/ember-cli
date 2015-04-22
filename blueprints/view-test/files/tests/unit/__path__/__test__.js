@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('view:<%= dasherizedModuleName %>');
+moduleFor('view:<%= dasherizedModuleName %>', '<%= friendlyDescription %>');
 
 // Replace this with your real tests.
 test('it exists', function(assert) {

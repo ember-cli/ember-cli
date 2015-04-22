@@ -1,7 +1,7 @@
 import <%= camelizedModuleName %> from '../../../utils/<%= dasherizedModuleName %>';
 import { module, test } from 'qunit';
 
-module('<%= camelizedModuleName %>');
+module('<%= friendlyPrefix %> <%= camelizedModuleName %>');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
