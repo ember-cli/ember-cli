@@ -68,6 +68,14 @@ describe('test command', function() {
     });
   });
 
+  it('passes through custom host option', function() {
+    return new TestCommand(options).validateAndRun(['--host=greatwebsite.com']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.host).to.equal('greatwebsite.com');
+    });
+  });
+
   it('passes through custom port option', function() {
     return new TestCommand(options).validateAndRun(['--port=5678']).then(function() {
       var testOptions  = testRun.calledWith[0][0];
