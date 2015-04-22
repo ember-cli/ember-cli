@@ -5,7 +5,7 @@
 1. Wait for the command to finish
 1. Open the command prompt in the Windows VM
 1. Run `cd C:\Users\vagrant\ember-cli`
-1. Run `npm test`
+1. Run `npm run-script test-all`
 1. When you're done, close the VM
 
 ##### Cleanup

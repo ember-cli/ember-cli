@@ -371,7 +371,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import {" + EOL +
           "  fooBarBaz" + EOL +
-          "} from '../../../helpers/foo/bar-baz';"
+          "} from '../../../../helpers/foo/bar-baz';"
       });
     });
   });
@@ -388,7 +388,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import {" + EOL +
           "  fooBarBaz" + EOL +
-          "} from '../../../helpers/foo/bar-baz';"
+          "} from '../../../../helpers/foo/bar-baz';"
       });
     });
   });

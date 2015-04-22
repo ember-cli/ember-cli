@@ -77,8 +77,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/controllers/foo.js', {
         contains: [
-          "import foo from 'my-addon/controllers/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/controllers/foo';"
         ]
       });
       assertFile('tests/unit/controllers/foo-test.js', {
@@ -103,8 +102,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/controllers/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/controllers/foo/bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/controllers/foo/bar';"
         ]
       });
       assertFile('tests/unit/controllers/foo/bar-test.js', {
@@ -192,8 +190,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/helpers/foo-bar.js', {
         contains: [
-          "import fooBar from 'my-addon/helpers/foo-bar';",
-          "export default fooBar;"
+          "export { default, fooBar } from 'my-addon/helpers/foo-bar';"
         ]
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -215,14 +212,13 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/helpers/foo/bar-baz.js', {
         contains: [
-          "import fooBarBaz from 'my-addon/helpers/foo/bar-baz';",
-          "export default fooBarBaz;"
+          "export { default, fooBarBaz } from 'my-addon/helpers/foo/bar-baz';"
         ]
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import {" + EOL +
           "  fooBarBaz" + EOL +
-          "} from '../../../helpers/foo/bar-baz';"
+          "} from '../../../../helpers/foo/bar-baz';"
       });
     });
   });
@@ -237,8 +233,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/models/foo.js', {
         contains: [
-          "import foo from 'my-addon/models/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/models/foo';"
         ]
       });
       assertFile('tests/unit/models/foo-test.js', {
@@ -295,8 +290,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/models/foo.js', {
         contains: [
-          "import foo from 'my-addon/models/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/models/foo';"
         ]
       });
       assertFile('tests/unit/models/foo-test.js', {
@@ -328,8 +322,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/models/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/models/foo/bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/models/foo/bar';"
         ]
       });
       assertFile('tests/unit/models/foo/bar-test.js', {
@@ -373,8 +366,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/views/foo.js', {
         contains: [
-          "import foo from 'my-addon/views/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/views/foo';"
         ]
       });
       assertFile('tests/unit/views/foo-test.js', {
@@ -399,8 +391,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/views/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/views/foo/bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/views/foo/bar';"
         ]
       });
       assertFile('tests/unit/views/foo/bar-test.js', {
@@ -436,8 +427,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/initializers/foo.js', {
         contains: [
-          "import foo from 'my-addon/initializers/foo';",
-          "export default foo;"
+          "export { default, initialize } from 'my-addon/initializers/foo';"
         ]
       });
       assertFile('tests/unit/initializers/foo-test.js');
@@ -458,8 +448,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/initializers/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/initializers/foo/bar';",
-          "export default fooBar;"
+          "export { default, initialize } from 'my-addon/initializers/foo/bar';"
         ]
       });
       assertFile('tests/unit/initializers/foo/bar-test.js');
@@ -518,8 +507,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/adapters/application.js', {
         contains: [
-          "import application from 'my-addon/adapters/application';",
-          "export default application;"
+          "export { default } from 'my-addon/adapters/application';"
         ]
       });
       assertFile('tests/unit/adapters/application-test.js', {
@@ -544,8 +532,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/adapters/foo.js', {
         contains: [
-          "import foo from 'my-addon/adapters/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/adapters/foo';"
         ]
       });
       assertFile('tests/unit/adapters/foo-test.js', {
@@ -570,8 +557,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/adapters/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/adapters/foo/bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/adapters/foo/bar';"
         ]
       });
     });
@@ -588,8 +574,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/serializers/foo.js', {
         contains: [
-          "import foo from 'my-addon/serializers/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/serializers/foo';"
         ]
       });
       assertFile('tests/unit/serializers/foo-test.js', {
@@ -613,8 +598,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/serializers/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/serializers/foo/bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/serializers/foo/bar';"
         ]
       });
       assertFile('tests/unit/serializers/foo/bar-test.js', {
@@ -647,8 +631,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/transforms/foo.js', {
         contains: [
-          "import foo from 'my-addon/transforms/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/transforms/foo';"
         ]
       });
       assertFile('tests/unit/transforms/foo-test.js', {
@@ -681,8 +664,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/transforms/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/transforms/foo/bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/transforms/foo/bar';"
         ]
       });
       assertFile('tests/unit/transforms/foo/bar-test.js', {
@@ -706,8 +688,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/utils/foo-bar.js', {
         contains: [
-          "import fooBar from 'my-addon/utils/foo-bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/utils/foo-bar';"
         ]
       });
       assertFile('tests/unit/utils/foo-bar-test.js', {
@@ -727,8 +708,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/utils/foo/bar-baz.js', {
         contains: [
-          "import fooBarBaz from 'my-addon/utils/foo/bar-baz';",
-          "export default fooBarBaz;"
+          "export { default } from 'my-addon/utils/foo/bar-baz';"
         ]
       });
       assertFile('tests/unit/utils/foo/bar-baz-test.js', {
@@ -749,8 +729,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/services/foo.js', {
         contains: [
-          "import foo from 'my-addon/services/foo';",
-          "export default foo;"
+          "export { default } from 'my-addon/services/foo';"
         ]
       });
       assertFile('tests/unit/services/foo-test.js', {
@@ -775,8 +754,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('lib/my-addon/app/services/foo/bar.js', {
         contains: [
-          "import fooBar from 'my-addon/services/foo/bar';",
-          "export default fooBar;"
+          "export { default } from 'my-addon/services/foo/bar';"
         ]
       });
       assertFile('tests/unit/services/foo/bar-test.js', {

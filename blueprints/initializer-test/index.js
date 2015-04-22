@@ -1,12 +1,15 @@
 /*jshint node:true*/
 
+var getDependencyDepth = require('../../lib/utilities/get-dependency-depth');
+var friendlyPrefix = 'Unit | Initializers |';
+
 module.exports = {
   description: 'Generates an initializer unit test.',
 
   locals: function(options) {
-    var friendlyPrefix = 'Unit | Initializers |';
     return {
-      friendlyPrefix: friendlyPrefix
+      friendlyPrefix: friendlyPrefix,
+      dependencyDepth: getDependencyDepth(options)
     };
-  },
+  }
 };

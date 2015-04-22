@@ -312,11 +312,12 @@ describe('broccoli/ember-app', function() {
           expect(addonTreesForStub.calledWith[0][0]).to.equal('app');
         });
 
-        it('styles calls addonTreesFor', function() {
+        it('styles calls addonTreesFor and merges with overwrite', function() {
           var trees = emberApp.styles();
 
           expect(addonTreesForStub.calledWith[0][0]).to.equal('styles');
           expect(true, trees.inputTrees[0].inputTree.inputTrees.indexOf('batman') !== -1, 'contains addon tree');
+          expect(trees.inputTrees[0].inputTree.options.overwrite).to.equal(true);
         });
       });
     });
