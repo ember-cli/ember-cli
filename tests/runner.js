@@ -2,6 +2,9 @@
 
 var glob = require('glob');
 var Mocha = require('mocha');
+if (process.env.EOLNEWLINE) {
+  require('os').EOL = '\n';
+}
 
 var mocha = new Mocha({
   timeout: 5000,
