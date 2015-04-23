@@ -15,8 +15,12 @@ var emberCLIVersion = versionUtils.emberCLIVersion;
 describe('models/project.js', function() {
   var project, projectPath;
 
+  afterEach(function() {
+    if (project) { project = null; }
+  });
+
   describe('Project.prototype.config', function() {
-    var called      = false;
+    var called;
 
     beforeEach(function() {
       projectPath = process.cwd() + '/tmp/test-app';
@@ -36,6 +40,7 @@ describe('models/project.js', function() {
     });
 
     afterEach(function() {
+      called = null;
       return tmp.teardown(projectPath);
     });
 
@@ -349,6 +354,11 @@ describe('models/project.js', function() {
   });
 
   describe('emberCLIVersion', function() {
+    beforeEach(function() {
+      projectPath = process.cwd() + '/tmp/test-app';
+      project = new Project(projectPath, {}, new MockUI());
+    });
+
     it('should return the same value as the utlity function', function() {
       expect(project.emberCLIVersion()).to.equal(emberCLIVersion());
     });
@@ -429,6 +439,11 @@ describe('models/project.js', function() {
   });
 
   describe('bowerDirectory', function() {
+    beforeEach(function() {
+      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
+      project = new Project(projectPath, {}, new MockUI());
+    });
+
     it('should be initialized in constructor', function() {
       expect(project.bowerDirectory).to.equal('bower_components');
     });
@@ -455,6 +470,32 @@ describe('models/project.js', function() {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/invalid-bowerrc');
       project = new Project(projectPath, {}, new MockUI());
       expect(project.bowerDirectory).to.equal('bower_components');
+    });
+  });
+
+  describe('nodeModulesPath', function() {
+    function makeProject() {
+      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
+      project = new Project(projectPath, {}, new MockUI());
+    }
+
+    afterEach(function() {
+      delete process.env.EMBER_NODE_PATH;
+    });
+
+    it('should equal env.EMBER_NODE_PATH when it is set', function() {
+      var nodePath = '/my/path/node_modules';
+      process.env.EMBER_NODE_PATH = nodePath;
+
+      makeProject();
+
+      expect(project.nodeModulesPath).to.equal(path.resolve(nodePath));
+    });
+
+    it('should equal project.root joined with "node_modules" when EMBER_NODE_PATH is not set', function() {
+      makeProject();
+
+      expect(project.nodeModulesPath).to.equal(path.join(projectPath, 'node_modules'));
     });
   });
 });
