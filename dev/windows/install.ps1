@@ -11,9 +11,7 @@ $ENV:PATH += ";C:\Users\vagrant\AppData\Roaming\npm"
 cinst git.install -y
 $ENV:PATH += ";C:\Program Files (x86)\Git\cmd"
 
-cinst phantomjs -y
+# cinst git isn't permanently adding to PATH for some reason
+[Environment]::SetEnvironmentVariable("Path", $env:Path, [EnvironmentVariableTarget]::Machine)
 
-cd C:\Users\vagrant
-git clone https://github.com/ember-cli/ember-cli.git
-cd ember-cli
-npm i
+cinst phantomjs -y
