@@ -138,6 +138,20 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
+  it('in-addon component-test x-foo', function() {
+    return generateInAddon(['component-test', 'x-foo']).then(function() {
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
+
   it('in-addon component nested/x-foo', function() {
     return generateInAddon(['component', 'nested/x-foo']).then(function() {
       assertFile('addon/components/nested/x-foo.js', {
@@ -168,7 +182,21 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-
+  
+  it('in-addon component-test x-foo', function() {
+    return generateInAddon(['component-test', 'x-foo']).then(function() {
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
+  
   it('in-addon helper foo-bar', function() {
     return generateInAddon(['helper', 'foo-bar']).then(function() {
       assertFile('addon/helpers/foo-bar.js', {
@@ -327,9 +355,48 @@ describe('Acceptance: ember generate in-addon', function() {
   });
 
   it('in-addon route foo', function() {
-    return generateInAddon(['route', 'foo']).catch(function(error) {
-      expect(error.message).to.include('blueprint does not support ' +
-        'generating inside addons.');
+    return generateInAddon(['route', 'foo']).then(function() {
+      assertFile('app/routes/foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('app/templates/foo.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('route:foo'"
+        ]
+      });
+    });
+  });
+
+  it('in-addon route foo/bar', function() {
+    return generateInAddon(['route', 'foo/bar']).then(function() {
+      assertFile('app/routes/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('app/templates/foo/bar.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('route:foo/bar'"
+        ]
+      });
     });
   });
 
@@ -758,4 +825,181 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
+  
+    it('in-addon blueprint foo', function() {
+      return generateInAddon(['blueprint', 'foo']).then(function() {
+        assertFile('blueprints/foo/index.js', {
+          contains: "module.exports = {" + EOL +
+                    "  description: ''"+ EOL +
+                    EOL +
+                    "  // locals: function(options) {" + EOL +
+                    "  //   // Return custom template variables here." + EOL +
+                    "  //   return {" + EOL +
+                    "  //     foo: options.entity.options.foo" + EOL +
+                    "  //   };" + EOL +
+                    "  // }" + EOL +
+                    EOL +
+                    "  // afterInstall: function(options) {" + EOL +
+                    "  //   // Perform extra work here." + EOL +
+                    "  // }" + EOL +
+                    "};"
+        });
+      });
+    });
+  
+    it('in-addon blueprint foo/bar', function() {
+      return generateInAddon(['blueprint', 'foo/bar']).then(function() {
+        assertFile('blueprints/foo/bar/index.js', {
+          contains: "module.exports = {" + EOL +
+                    "  description: ''"+ EOL +
+                    EOL +
+                    "  // locals: function(options) {" + EOL +
+                    "  //   // Return custom template variables here." + EOL +
+                    "  //   return {" + EOL +
+                    "  //     foo: options.entity.options.foo" + EOL +
+                    "  //   };" + EOL +
+                    "  // }" + EOL +
+                    EOL +
+                    "  // afterInstall: function(options) {" + EOL +
+                    "  //   // Perform extra work here." + EOL +
+                    "  // }" + EOL +
+                    "};"
+        });
+      });
+    });
+  
+    it('in-addon http-mock foo', function() {
+      return generateInAddon(['http-mock', 'foo']).then(function() {
+        assertFile('server/index.js', {
+          contains:"mocks.forEach(function(route) { route(app); });"
+        });
+        assertFile('server/mocks/foo.js', {
+          contains: "module.exports = function(app) {" + EOL +
+                    "  var express = require('express');" + EOL +
+                    "  var fooRouter = express.Router();" + EOL +
+                    EOL +
+                    "  fooRouter.get('/', function(req, res) {" + EOL +
+                    "    res.send({" + EOL +
+                    "      'foo': []" + EOL +
+                    "    });" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooRouter.post('/', function(req, res) {" + EOL +
+                    "    res.status(201).end();" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooRouter.get('/:id', function(req, res) {" + EOL +
+                    "    res.send({" + EOL +
+                    "      'foo': {" + EOL +
+                    "        id: req.params.id" + EOL +
+                    "      }" + EOL +
+                    "    });" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooRouter.put('/:id', function(req, res) {" + EOL +
+                    "    res.send({" + EOL +
+                    "      'foo': {" + EOL +
+                    "        id: req.params.id" + EOL +
+                    "      }" + EOL +
+                    "    });" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooRouter.delete('/:id', function(req, res) {" + EOL +
+                    "    res.status(204).end();" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  app.use('/api/foo', fooRouter);" + EOL +
+                    "};"
+        });
+        assertFile('server/.jshintrc', {
+          contains: '{' + EOL + '  "node": true' + EOL + '}'
+        });
+      });
+    });
+  
+    it('in-addon http-mock foo-bar', function() {
+      return generateInAddon(['http-mock', 'foo-bar']).then(function() {
+        assertFile('server/index.js', {
+          contains: "mocks.forEach(function(route) { route(app); });"
+        });
+        assertFile('server/mocks/foo-bar.js', {
+          contains: "module.exports = function(app) {" + EOL +
+                    "  var express = require('express');" + EOL +
+                    "  var fooBarRouter = express.Router();" + EOL +
+                    EOL +
+                    "  fooBarRouter.get('/', function(req, res) {" + EOL +
+                    "    res.send({" + EOL +
+                    "      'foo-bar': []" + EOL +
+                    "    });" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooBarRouter.post('/', function(req, res) {" + EOL +
+                    "    res.status(201).end();" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooBarRouter.get('/:id', function(req, res) {" + EOL +
+                    "    res.send({" + EOL +
+                    "      'foo-bar': {" + EOL +
+                    "        id: req.params.id" + EOL +
+                    "      }" + EOL +
+                    "    });" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooBarRouter.put('/:id', function(req, res) {" + EOL +
+                    "    res.send({" + EOL +
+                    "      'foo-bar': {" + EOL +
+                    "        id: req.params.id" + EOL +
+                    "      }" + EOL +
+                    "    });" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  fooBarRouter.delete('/:id', function(req, res) {" + EOL +
+                    "    res.status(204).end();" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  app.use('/api/foo-bar', fooBarRouter);" + EOL +
+                    "};"
+        });
+        assertFile('server/.jshintrc', {
+          contains: '{' + EOL + '  "node": true' + EOL + '}'
+        });
+      });
+    });
+  
+    it('in-addon http-proxy foo', function() {
+      return generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
+        assertFile('server/index.js', {
+          contains: "proxies.forEach(function(route) { route(app); });"
+        });
+        assertFile('server/proxies/foo.js', {
+          contains: "var proxyPath = '/foo';" + EOL +
+                    EOL +
+                    "module.exports = function(app) {" + EOL +
+                    "  // For options, see:" + EOL +
+                    "  // https://github.com/nodejitsu/node-http-proxy" + EOL +
+                    "  var proxy = require('http-proxy').createProxyServer({});" + EOL +
+                    EOL +
+                    "  proxy.on('error', function(err, req) {" + EOL +
+                    "    console.error(err, req.url);" + EOL +
+                    "  });" + EOL +
+                    EOL +
+                    "  app.use(proxyPath, function(req, res, next){" + EOL +
+                    "    // include root path in proxied request" + EOL +
+                    "    req.url = proxyPath + '/' + req.url;" + EOL +
+                    "    proxy.web(req, res, { target: 'http://localhost:5000' });" + EOL +
+                    "  });" + EOL +
+                    "};"
+        });
+        assertFile('server/.jshintrc', {
+          contains: '{' + EOL + '  "node": true' + EOL + '}'
+        });
+      });
+    });
+
+    it('in-addon server', function() {
+      return generateInAddon(['server']).then(function() {
+        assertFile('server/index.js');
+        assertFile('server/.jshintrc');
+      });
+    });
 });

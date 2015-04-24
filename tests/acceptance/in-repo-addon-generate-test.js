@@ -147,6 +147,20 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
+  
+  it('in-repo-addon component-test x-foo', function() {
+    return generateInRepoAddon(['component-test', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
 
   it('in-repo-addon component nested/x-foo', function() {
     return generateInRepoAddon(['component', 'nested/x-foo', '--in-repo-addon=my-addon']).then(function() {
@@ -338,12 +352,51 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   });
 
   it('in-repo-addon route foo', function() {
-    return generateInRepoAddon(['route', 'foo', '--in-repo-addon=my-addon']).catch(function(error) {
-      expect(error.message).to.include('blueprint does not support ' +
-        'generating inside addons.');
+    return generateInRepoAddon(['route', 'foo', '--in-repo-addon=my-addon']).then(function() {
+      assertFile('lib/my-addon/app/routes/foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('lib/my-addon/app/templates/foo.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('route:foo'"
+        ]
+      });
     });
   });
 
+  it('in-repo-addon route foo/bar', function() {
+    return generateInRepoAddon(['route', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
+      assertFile('lib/my-addon/app/routes/foo/bar.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('lib/my-addon/app/templates/foo/bar.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo/bar-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleFor," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleFor('route:foo/bar'"
+        ]
+      });
+    });
+  });
+  
   it('in-repo-addon template foo', function() {
     return generateInRepoAddon(['template', 'foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/templates/foo.hbs');
