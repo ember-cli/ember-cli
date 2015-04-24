@@ -12,14 +12,16 @@ module.exports = {
     {
       name: 'path',
       type: String,
-      default: 'components'
+      default: 'components',
+      aliases:[
+        {'no-path': ''}
+      ]
     }
   ],
 
   fileMapTokens: function() {
     return {
       __path__: function(options) {
-        console.log(options.locals.path);
         if (options.pod) {
           return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
         }

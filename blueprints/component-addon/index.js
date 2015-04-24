@@ -12,7 +12,7 @@ module.exports = {
     return {
       __path__: function(options) {
         if (options.pod) {
-          return path.join(options.podPath, 'components', options.dasherizedModuleName);
+          return path.join(options.podPath, options.locals.path, options.dasherizedModuleName);
         }
         return 'components';
       },
@@ -54,7 +54,8 @@ module.exports = {
     }
 
     return {
-      modulePath: pathName
+      modulePath: pathName,
+      path: options.path
     };
   }
 };
