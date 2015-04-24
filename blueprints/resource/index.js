@@ -54,7 +54,7 @@ module.exports = {
       }
     });
 
-    var routeOptions = merge({}, options, { type: 'resource' });
+    var routeOptions = merge({}, options);
 
     var self = this;
     return this._processBlueprint(type, 'model', modelOptions)
