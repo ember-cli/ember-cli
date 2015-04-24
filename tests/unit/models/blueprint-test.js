@@ -711,6 +711,163 @@ describe('Blueprint', function() {
     });
   });
 
+  describe('removePackageFromProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var NpmUninstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new NpmUninstallTask();
+      };
+    });
+
+    afterEach(function() {
+      return remove(tmproot);
+    });
+
+    it('looks up the `npm-uninstall` task', function() {
+      NpmUninstallTask = Task.extend({
+        run: function() {}
+      });
+
+      blueprint.removePackageFromProject({name: 'foo-bar'});
+
+      expect(taskNameLookedUp).to.equal('npm-uninstall');
+    });
+
+  });
+
+  describe('removePackagesFromProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
+    var NpmUninstallTask;
+    var taskNameLookedUp;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+
+        return new NpmUninstallTask();
+      };
+    });
+
+    afterEach(function() {
+      return remove(tmproot);
+    });
+
+    it('looks up the `npm-uninstall` task', function() {
+      NpmUninstallTask = Task.extend({
+        run: function() {}
+      });
+
+      blueprint.removePackagesFromProject([{name: 'foo-bar'}]);
+
+      expect(taskNameLookedUp).to.equal('npm-uninstall');
+    });
+
+    it('calls the task with package names', function() {
+      var packages;
+
+      NpmUninstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.removePackagesFromProject([
+        {name: 'foo-bar'},
+        {name: 'bar-foo'}
+      ]);
+
+      expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
+    });
+
+    it('writes information to the ui log for a single package', function() {
+      blueprint.ui = ui;
+
+      blueprint.removePackagesFromProject([
+        {name: 'foo-bar'}
+      ]);
+
+      var output = ui.output.trim();
+
+      expect(output).to.match(/uninstall package.*foo-bar/);
+    });
+
+    it('writes information to the ui log for multiple packages', function() {
+      blueprint.ui = ui;
+
+      blueprint.removePackagesFromProject([
+        {name: 'foo-bar'},
+        {name: 'bar-foo'}
+      ]);
+
+      var output = ui.output.trim();
+
+      expect(output).to.match(/uninstall packages.*foo-bar, bar-foo/);
+    });
+
+    it('does not error if ui is not present', function() {
+      delete blueprint.ui;
+
+      blueprint.removePackagesFromProject([
+        {name: 'foo-bar'}
+      ]);
+
+      var output = ui.output.trim();
+
+      expect(output).to.not.match(/uninstall package.*foo-bar/);
+    });
+
+    it('runs task with --save-dev', function() {
+      var saveDev;
+
+      NpmUninstallTask = Task.extend({
+        run: function(options) {
+          saveDev = options['save-dev'];
+        }
+      });
+
+      blueprint.removePackagesFromProject([
+        {name: 'foo-bar'},
+        {name: 'bar-foo'}
+      ]);
+
+      expect(!!saveDev).to.equal(true);
+    });
+
+    it('does not use verbose mode with the task', function() {
+      var verbose;
+
+      NpmUninstallTask = Task.extend({
+        run: function(options) {
+          verbose = options.verbose;
+        }
+      });
+
+      blueprint.removePackagesFromProject([
+        {name: 'foo-bar'},
+        {name: 'bar-foo'}
+      ]);
+
+      expect(verbose).to.equal(false);
+    });
+  });
+
   describe('addBowerPackageToProject', function() {
     var blueprint;
     var ui;
