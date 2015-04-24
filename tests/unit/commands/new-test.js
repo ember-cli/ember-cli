@@ -89,7 +89,7 @@ describe('new command', function() {
       expect(false, 'should have rejected with a name `.`');
     })
     .catch(function(error) {
-      expect(error.message).to.equal('Trying to generate an application structure on this folder? Use `ember init` instead.');
+      expect(error.message).to.equal('Trying to generate an application structure in this directory? Use `ember init` instead.');
     });
   });
 

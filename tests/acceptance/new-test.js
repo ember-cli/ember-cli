@@ -36,7 +36,7 @@ describe('Acceptance: ember new', function() {
       var blueprintPath = path.join(root, dir, 'files');
       var expected      = walkSync(blueprintPath);
       var actual        = walkSync('.').sort();
-      var folder        = path.basename(process.cwd());
+      var directory     = path.basename(process.cwd());
 
       forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
         expected[expected.indexOf(srcFile)] = destFile;
@@ -44,7 +44,7 @@ describe('Acceptance: ember new', function() {
 
       expected.sort();
 
-      expect(folder).to.equal('foo');
+      expect(directory).to.equal('foo');
       expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
                                              EOL + ' but got: ' +  util.inspect(actual));
 
@@ -191,6 +191,27 @@ describe('Acceptance: ember new', function() {
       expect(cwd).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
       expect(!fs.existsSync(path.join(cwd, 'foo')), 'does not create new directory');
       expect(!fs.existsSync(path.join(cwd, '.git')), 'does not create git in current directory');
+    });
+  });
+
+  it('ember new with --directory uses given directory name and has correct package name', function() {
+    return ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--directory=bar'
+    ]).then(function() {
+      var cwd = process.cwd();
+      expect(cwd).to.not.match(/foo/, 'does not use app name for directory name');
+      expect(!fs.existsSync(path.join(cwd, 'foo')), 'does not create new directory with app name');
+
+      expect(cwd).to.match(/bar/, 'uses given directory name');
+      expect(fs.existsSync(path.join(cwd, 'bar')), 'creates new directory with specified name');
+
+      var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
     });
   });
 });
