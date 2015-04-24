@@ -54,7 +54,7 @@ describe('Acceptance: ember generate pod', function() {
       '--skip-bower'
     ]);
   }
-  
+
   function initAddon() {
     return ember([
       'addon',
@@ -63,7 +63,7 @@ describe('Acceptance: ember generate pod', function() {
       '--skip-bower'
     ]);
   }
-  
+
   function initInRepoAddon() {
     return initApp().then(function() {
       return ember([
@@ -107,7 +107,7 @@ describe('Acceptance: ember generate pod', function() {
       return ember(generateArgs);
     });
   }
-  
+
   function generateWithUsePodsDeprecated(args) {
     var generateArgs = ['generate'].concat(args);
 
@@ -573,14 +573,6 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
-  it('route foos --type=resource --pod', function() {
-    return generate(['route', 'foos', '--type=resource', '--pod']).then(function() {
-      assertFile('app/router.js', {
-        contains: 'this.resource(\'foos\', function() {});'
-      });
-    });
-  });
-
   it('route index --pod', function() {
     return generate(['route', 'index', '--pod']).then(function() {
       assertFile('app/router.js', {
@@ -722,7 +714,7 @@ describe('Acceptance: ember generate pod', function() {
   it('resource foos --pod', function() {
     return generate(['resource', 'foos', '--pod']).then(function() {
       assertFile('app/router.js', {
-        contains: 'this.resource(\'foos\', function() {});'
+        contains: 'this.route(\'foos\');'
       });
       assertFile('app/foo/model.js', {
         contains: 'export default DS.Model.extend'
@@ -742,14 +734,14 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
-  it('resource foos --pod', function() {
+  it('resource foos --pod with --path', function() {
     return generate(['resource', 'foos', '--pod', '--path=app/foos'])
       .then(function() {
         assertFile('app/router.js', {
           contains: [
-            'this.resource(\'foos\', {',
+            'this.route(\'foos\', {',
             'path: \'app/foos\'',
-            '}, function() {});'
+            '});'
           ]
         });
       });
@@ -758,7 +750,7 @@ describe('Acceptance: ember generate pod', function() {
   it('resource foos --pod podModulePrefix', function() {
     return generateWithPrefix(['resource', 'foos', '--pod']).then(function() {
       assertFile('app/router.js', {
-        contains: 'this.resource(\'foos\', function() {});'
+        contains: 'this.route(\'foos\');'
       });
       assertFile('app/pods/foo/model.js', {
         contains: 'export default DS.Model.extend'
@@ -1456,7 +1448,7 @@ describe('Acceptance: ember generate pod', function() {
       });
     });
   });
-  
+
   it('in-repo-addon component x-foo --pod', function() {
     return generateInRepoAddon(['component', 'x-foo', '--in-repo-addon=my-addon', '--pod']).then(function() {
       assertFile('lib/my-addon/addon/components/x-foo/component.js', {
@@ -1487,7 +1479,7 @@ describe('Acceptance: ember generate pod', function() {
       });
     });
   });
-  
+
   it('in-repo-addon component nested/x-foo', function() {
     return generateInRepoAddon(['component', 'nested/x-foo', '--in-repo-addon=my-addon', '--pod']).then(function() {
       assertFile('lib/my-addon/addon/components/nested/x-foo/component.js', {
@@ -1624,7 +1616,7 @@ describe('Acceptance: ember generate pod', function() {
         });
       });
   });
-  
+
   // Skip until podModulePrefix is deprecated
   it.skip('podModulePrefix deprecation warning', function() {
     return generateWithPrefix(['controller', 'foo', '--pod']).then(function(result) {
@@ -1633,7 +1625,7 @@ describe('Acceptance: ember generate pod', function() {
       " 'app/pods/' to 'app/'.");
     });
   });
-  
+
   it('usePodsByDefault deprecation warning', function() {
     return generateWithUsePodsDeprecated(['controller', 'foo', '--pod']).then(function(result) {
       expect(result.ui.output).to.include('`usePodsByDefault` is no longer supported in'+
@@ -1650,9 +1642,9 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   it('availableOptions work with aliases.', function() {
-    return generate(['route', 'foo', '-resource', '-p']).then(function() {
+    return generate(['route', 'foo', '-d', '-p']).then(function() {
       assertFile('app/router.js', {
-        contain: ["resource('foo')"]
+        doesNotContain: "route('foo')"
       });
     });
   });

@@ -60,7 +60,7 @@ describe('Acceptance: ember destroy', function() {
       '--skip-bower'
     ]);
   }
-  
+
   function initInRepoAddon() {
     return initApp().then(function() {
       return ember([
@@ -70,7 +70,7 @@ describe('Acceptance: ember destroy', function() {
       ]);
     });
   }
-  
+
   function generate(args) {
     var generateArgs = ['generate'].concat(args);
     return ember(generateArgs);
@@ -83,7 +83,7 @@ describe('Acceptance: ember destroy', function() {
       return ember(generateArgs);
     });
   }
-  
+
   function generateInRepoAddon(args) {
     var generateArgs = ['generate'].concat(args);
 
@@ -141,7 +141,7 @@ describe('Acceptance: ember destroy', function() {
         assertFilesNotExist(files);
       });
   }
-  
+
   function assertDestroyAfterGenerateInRepoAddon(args, files) {
     return generateInRepoAddon(args)
       .then(function() {
@@ -242,39 +242,10 @@ describe('Acceptance: ember destroy', function() {
       'tests/unit/routes/foo-test.js'
     ];
 
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
-
-  it('route foo --type=resource', function() {
-    this.timeout(20000);
-    var commandArgs = ['route', 'foo', '--type=resource'];
-    var files       = [
-      'app/routes/foo.js',
-      'app/templates/foo.hbs',
-      'tests/unit/routes/foo-test.js'
-    ];
-
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo');"
-        });
-      });
-  });
-
-  it('route foos --type=resource', function() {
-    this.timeout(20000);
-    var commandArgs = ['route', 'foos', '--type=resource'];
-    var files       = [
-      'app/routes/foos.js',
-      'app/templates/foos.hbs',
-      'tests/unit/routes/foos-test.js'
-    ];
-
-    return assertDestroyAfterGenerate(commandArgs, files)
-      .then(function() {
-        assertFile('app/router.js', {
-          doesNotContain: "this.resource('foos');"
+          doesNotContain: "this.route('foo');"
         });
       });
   });
@@ -317,7 +288,7 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo');"
+          doesNotContain: "this.route('foo');"
         });
       });
   });
@@ -336,7 +307,7 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foos');"
+          doesNotContain: "this.route('foos');"
         });
       });
   });
@@ -577,7 +548,7 @@ describe('Acceptance: ember destroy', function() {
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
-  
+
   it('in-repo-addon component nested/x-foo', function() {
     var commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon'];
     var files       = [

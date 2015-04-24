@@ -63,7 +63,7 @@ describe('Acceptance: ember destroy pod', function() {
       '--skip-bower'
     ]);
   }
-  
+
   function initInRepoAddon() {
     return initApp().then(function() {
       return ember([
@@ -86,7 +86,7 @@ describe('Acceptance: ember destroy pod', function() {
       return ember(generateArgs);
     });
   }
-  
+
   function generateInRepoAddon(args) {
     var generateArgs = ['generate'].concat(args);
 
@@ -146,7 +146,7 @@ describe('Acceptance: ember destroy pod', function() {
         assertFilesNotExist(files);
       });
   }
-  
+
   function assertDestroyAfterGenerateInAddon(args, files) {
     return initAddon()
       .then(function() {
@@ -162,7 +162,7 @@ describe('Acceptance: ember destroy pod', function() {
         assertFilesNotExist(files);
       });
   }
-  
+
   function assertDestroyAfterGenerateInRepoAddon(args, files) {
     return generateInRepoAddon(args)
       .then(function() {
@@ -175,7 +175,7 @@ describe('Acceptance: ember destroy pod', function() {
         assertFilesNotExist(files);
       });
   }
-  
+
   function destroyAfterGenerateWithPodsByDefault(args) {
     return initApp()
       .then(function() {
@@ -186,7 +186,7 @@ describe('Acceptance: ember destroy pod', function() {
         return destroy(args);
       });
   }
-  
+
   function destroyAfterGenerate(args) {
     return initApp()
       .then(function() {
@@ -308,37 +308,10 @@ describe('Acceptance: ember destroy pod', function() {
       'tests/unit/pods/foo/route-test.js'
     ];
 
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
-
-  it('route foo --type=resource --pod', function() {
-    var commandArgs = ['route', 'foo', '--type=resource', '--pod'];
-    var files       = [
-      'app/pods/foo/route.js',
-      'app/pods/foo/template.hbs',
-      'tests/unit/pods/foo/route-test.js'
-    ];
-
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo', { path: 'foos/:foo_id' });"
-        });
-      });
-  });
-
-  it('route foos --type=resource --pod', function() {
-    var commandArgs = ['route', 'foos', '--type=resource', '--pod'];
-    var files       = [
-      'app/pods/foos/route.js',
-      'app/pods/foos/template.hbs',
-      'tests/unit/pods/foos/route-test.js'
-    ];
-
-    return assertDestroyAfterGenerate(commandArgs, files)
-      .then(function() {
-        assertFile('app/router.js', {
-          doesNotContain: "this.resource('foos');"
+          doesNotContain: "this.route('foo');"
         });
       });
   });
@@ -378,25 +351,7 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerate(commandArgs, files)
       .then(function() {
         assertFile('app/router.js', {
-          doesNotContain: "this.resource('foo', { path: 'foos/:foo_id' });"
-        });
-      });
-  });
-
-  it('resource foos --pod', function() {
-    var commandArgs = ['resource', 'foos', '--pod'];
-    var files       = [
-      'app/pods/foo/model.js',
-      'tests/unit/pods/foo/model-test.js',
-      'app/pods/foos/route.js',
-      'tests/unit/pods/foos/route-test.js',
-      'app/pods/foos/template.hbs'
-    ];
-
-    return assertDestroyAfterGenerate(commandArgs, files)
-      .then(function() {
-        assertFile('app/router.js', {
-          doesNotContain: "this.resource('foos');"
+          doesNotContain: "this.route('foo');"
         });
       });
   });
@@ -602,7 +557,7 @@ describe('Acceptance: ember destroy pod', function() {
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
   });
-  
+
   it('in-repo-addon component x-foo --pod', function(){
     var commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon', '--pod'];
     var files       = [
@@ -611,7 +566,7 @@ describe('Acceptance: ember destroy pod', function() {
       'lib/my-addon/app/components/x-foo/component.js',
       'tests/unit/components/x-foo/component-test.js'
     ];
-    
+
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
 
@@ -623,7 +578,7 @@ describe('Acceptance: ember destroy pod', function() {
       'lib/my-addon/app/components/nested/x-foo/component.js',
       'tests/unit/components/nested/x-foo/component-test.js'
     ];
-    
+
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
 
@@ -689,7 +644,7 @@ describe('Acceptance: ember destroy pod', function() {
         assertFilesNotExist(files);
       });
   });
-  
+
   // Skip until podModulePrefix is deprecated
   it.skip('podModulePrefix deprecation warning', function() {
     return destroyAfterGenerate(['controller', 'foo', '--pod']).then(function(result) {
@@ -698,7 +653,7 @@ describe('Acceptance: ember destroy pod', function() {
       " 'app/pods/' to 'app/'.");
     });
   });
-  
+
   it('usePodsByDefault deprecation warning', function() {
     return destroyAfterGenerateWithPodsByDefault(['controller', 'foo', '--pod']).then(function(result) {
       expect(result.ui.output).to.include('`usePodsByDefault` is no longer supported in'+

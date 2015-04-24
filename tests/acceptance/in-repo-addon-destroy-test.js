@@ -196,37 +196,10 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
       'tests/unit/routes/foo-test.js'
     ];
 
-    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
-  });
-
-  it('in-repo-addon route foo --type=resource', function() {
-    var commandArgs = ['route', 'foo', '--type=resource'];
-    var files       = [
-      'lib/my-addon/app/routes/foo.js',
-      'lib/my-addon/app/templates/foo.hbs',
-      'tests/unit/routes/foo-test.js'
-    ];
-
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files)
       .then(function() {
         assertFile('lib/my-addon/app/router.js', {
-          doesNotContain: "this.resource('foo');"
-        });
-      });
-  });
-
-  it('in-repo-addon route foos --type=resource', function() {
-    var commandArgs = ['route', 'foos', '--type=resource'];
-    var files       = [
-      'lib/my-addon/app/routes/foos.js',
-      'lib/my-addon/app/templates/foos.hbs',
-      'tests/unit/routes/foos-test.js'
-    ];
-
-    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files)
-      .then(function() {
-        assertFile('lib/my-addon/app/router.js', {
-          doesNotContain: "this.resource('foos');"
+          doesNotContain: "this.route('foo');"
         });
       });
   });
@@ -266,7 +239,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files)
       .then(function() {
         assertFile('lib/my-addon/app/router.js', {
-          doesNotContain: "this.resource('foo');"
+          doesNotContain: "this.route('foo');"
         });
       });
   });
@@ -284,7 +257,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files)
       .then(function() {
         assertFile('lib/my-addon/app/router.js', {
-          doesNotContain: "this.resource('foos');"
+          doesNotContain: "this.route('foos');"
         });
       });
   });

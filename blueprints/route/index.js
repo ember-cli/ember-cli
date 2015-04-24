@@ -10,16 +10,6 @@ module.exports = {
 
   availableOptions: [
     {
-      name: 'type',
-      type: String,
-      values: ['route', 'resource'],
-      default: 'route',
-      aliases:[
-        {'route': 'route'},
-        {'resource': 'resource'}
-      ]
-    },
-    {
       name: 'path',
       type: String,
       default: ''
@@ -49,14 +39,6 @@ module.exports = {
     };
   },
 
-  beforeInstall: function(options) {
-    var type = options.type;
-
-    if (type && !/^(resource|route)$/.test(type)) {
-      throw new SilentError('Unknown route type "' + type + '". Should be "route" or "resource".');
-    }
-  },
-
   shouldTouchRouter: function(name) {
     var isIndex = name === 'index';
     var isBasic = name === 'basic';
@@ -70,18 +52,9 @@ module.exports = {
 
     if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon) {
       addRouteToRouter(entity.name, {
-        type: options.type,
         root: options.project.root,
         path: options.path
       });
-    }
-  },
-
-  beforeUninstall: function(options) {
-    var type = options.type;
-
-    if (type && !/^(resource|route)$/.test(type)) {
-      throw new SilentError('Unknown route type "' + type + '". Should be "route" or "resource".');
     }
   },
 
@@ -90,7 +63,6 @@ module.exports = {
 
     if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon) {
       removeRouteFromRouter(entity.name, {
-        type: options.type,
         root: options.project.root
       });
     }

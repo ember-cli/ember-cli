@@ -309,14 +309,6 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('route foos --type=resource', function() {
-    return generate(['route', 'foos', '--type=resource']).then(function() {
-      assertFile('app/router.js', {
-        contains: 'this.resource(\'foos\', function() {});'
-      });
-    });
-  });
-
   it('route index', function() {
     return generate(['route', 'index']).then(function() {
       assertFile('app/router.js', {
@@ -406,7 +398,7 @@ describe('Acceptance: ember generate', function() {
   it('resource foos', function() {
     return generate(['resource', 'foos']).then(function() {
       assertFile('app/router.js', {
-        contains: 'this.resource(\'foos\', function() {});'
+        contains: 'this.route(\'foos\');'
       });
       assertFile('app/models/foo.js', {
         contains: 'export default DS.Model.extend'
@@ -430,9 +422,9 @@ describe('Acceptance: ember generate', function() {
     return generate(['resource', 'foos', '--path=app/foos']).then(function() {
       assertFile('app/router.js', {
         contains: [
-          'this.resource(\'foos\', {',
+          'this.route(\'foos\', {',
           'path: \'app/foos\'',
-          '}, function() {});'
+          '});'
         ]
       });
     });
@@ -1131,9 +1123,9 @@ describe('Acceptance: ember generate', function() {
   });
 
   it('availableOptions work with aliases.', function() {
-    return generate(['route', 'foo', '-resource']).then(function() {
+    return generate(['route', 'foo', '-d']).then(function() {
       assertFile('app/router.js', {
-        contain: ["resource('foo')"]
+        doesNotContain: "route('foo')"
       });
     });
   });
