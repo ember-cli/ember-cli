@@ -125,7 +125,7 @@
     "strip-ansi": "^2.0.1",
     "symlink-or-copy": "^1.0.1",
     "temp": "0.8.1",
-    "testem": "^0.8.2",
+    "testem": "^0.8.3",
     "through": "^2.3.6",
     "tiny-lr": "0.1.5",
     "walk-sync": "0.1.3",
