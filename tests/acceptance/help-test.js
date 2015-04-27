@@ -12,6 +12,8 @@ var ember      = path.join(root, 'bin', 'ember');
 var tmpdir;
 
 describe('Acceptance: ember help', function() {
+  this.timeout(40000);
+
   beforeEach(function() {
     tmpdir = tmp.in(tmproot);
     process.chdir(tmpdir);
@@ -23,7 +25,6 @@ describe('Acceptance: ember help', function() {
   });
 
   it('generate lists blueprints', function() {
-    this.timeout(10000);
     var output = '';
 
     return runCommand(ember, 'init',
@@ -66,7 +67,6 @@ describe('Acceptance: ember help', function() {
   });
 
   it('generate single blueprint', function() {
-    this.timeout(10000);
     var output = '';
 
     return runCommand(ember, 'init',
@@ -98,7 +98,6 @@ describe('Acceptance: ember help', function() {
   });
 
   it('generate single blueprint --help', function() {
-    this.timeout(10000);
     var output = '';
 
     return runCommand(ember, 'init',
@@ -130,7 +129,6 @@ describe('Acceptance: ember help', function() {
   });
 
   it('generate single blueprint -h', function() {
-    this.timeout(10000);
     var output = '';
 
     return runCommand(ember, 'init',
