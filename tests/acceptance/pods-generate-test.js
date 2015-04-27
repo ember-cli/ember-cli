@@ -1432,7 +1432,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('addon/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('app/components/x-foo/component.js', {
+      assertFile('app/components/x-foo.js', {
         contains: [
           "export { default } from 'my-addon/components/x-foo/component';"
         ]

@@ -551,7 +551,7 @@ describe('Acceptance: ember destroy pod', function() {
     var files       = [
       'addon/components/x-foo/component.js',
       'addon/components/x-foo/template.hbs',
-      'app/components/x-foo/component.js',
+      'app/components/x-foo.js',
       'tests/unit/components/x-foo/component-test.js'
     ];
 
