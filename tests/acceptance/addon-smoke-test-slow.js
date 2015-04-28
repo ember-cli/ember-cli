@@ -210,4 +210,19 @@ describe('Acceptance: addon-smoke-test', function() {
     });
 
   });
+
+  it('doesn\'t include non javascript files in es6 trees', function() {
+    return copyFixtureFiles('addon/component-with-invalid-file')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.dependencies = packageJson.dependencies || {};
+        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      });
+  });
 });
