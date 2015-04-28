@@ -3,7 +3,7 @@ import {
   test
 } from 'ember-qunit';
 
-moduleForModel('<%= dasherizedModuleName %>', {
+moduleForModel('<%= dasherizedModuleName %>', '<%= friendlyTestDescription %>', {
   // Specify the other units that are required for this test.
   needs: ['serializer:<%= dasherizedModuleName %>']
 });

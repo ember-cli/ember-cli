@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 
 var container, application;
 
-module('<%= classifiedModuleName %>Initializer', {
+module('<%= friendlyTestName %>', {
   beforeEach: function() {
     Ember.run(function() {
       application = Ember.Application.create();

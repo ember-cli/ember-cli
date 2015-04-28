@@ -7,7 +7,7 @@ import startApp from '<%= dasherizedPackageName %>/tests/helpers/start-app';
 
 var application;
 
-module('Acceptance: <%= classifiedModuleName %>', {
+module('<%= friendlyTestName %>', {
   beforeEach: function() {
     application = startApp();
   },
