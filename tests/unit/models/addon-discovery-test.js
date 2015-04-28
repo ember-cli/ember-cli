@@ -11,6 +11,7 @@ var chalk = require('chalk');
 
 describe('models/addon-discovery.js', function() {
   var project, projectPath, ui;
+  this.timeout(40000);
 
   beforeEach(function() {
     ui = new MockUI();
