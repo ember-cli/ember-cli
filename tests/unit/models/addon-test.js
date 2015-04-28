@@ -173,10 +173,10 @@ describe('models/addon.js', function() {
   });
 
   describe('initialized addon', function() {
+    this.timeout(40000);
     before(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
-
       project = new Project(projectPath, packageContents);
       project.initializeAddons();
     });
@@ -186,7 +186,6 @@ describe('models/addon.js', function() {
         addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
 
         // Clear the caches
-        delete addon._includedModules;
         delete addon._moduleName;
       });
 
@@ -196,24 +195,6 @@ describe('models/addon.js', function() {
 
       it('sets it\'s parent', function() {
         expect(addon.parent.name).to.equal(project.name);
-      });
-
-      it('generates a list of es6 modules to ignore', function() {
-        expect(addon.includedModules()).to.deep.equal({
-          'ember-cli-generated-with-export/controllers/people': ['default'],
-          'ember-cli-generated-with-export/mixins/thing': ['default']
-        });
-      });
-
-      it('generates a list of es6 modules to ignore with custom modulePrefix', function() {
-        addon.modulePrefix = 'custom-addon';
-
-        expect(addon.includedModules()).to.deep.equal({
-          'custom-addon/controllers/people': ['default'],
-          'custom-addon/mixins/thing': ['default']
-        });
-
-        delete addon.modulePrefix;
       });
 
       it('sets the root', function() {
