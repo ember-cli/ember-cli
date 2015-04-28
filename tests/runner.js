@@ -18,10 +18,14 @@ function addFiles(mocha, files) {
   glob.sync(root + files).forEach(mocha.addFile.bind(mocha));
 }
 
-addFiles(mocha, '/**/*-test.js');
 
 if (arg === 'all') {
+  addFiles(mocha, '/**/*-test.js');
   addFiles(mocha, '/**/*-slow.js');
+} else if (arg)  {
+  mocha.addFile(arg);
+} else {
+  addFiles(mocha, '/**/*-test.js');
 }
 
 mocha.run(function(failures) {

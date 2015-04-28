@@ -1,11 +1,11 @@
 'use strict';
 
 var path       = require('path');
-var remove     = require('fs-extra').remove;
 var tmp        = require('tmp-sync');
 var expect     = require('chai').expect;
 var runCommand = require('../helpers/run-command');
-
+var Promise    = require('../../lib/ext/promise');
+var remove     = Promise.denodeify(require('fs-extra').remove);
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
 var ember      = path.join(root, 'bin', 'ember');
@@ -19,9 +19,9 @@ describe('Acceptance: ember help', function() {
     process.chdir(tmpdir);
   });
 
-  afterEach(function(done) {
+  afterEach(function() {
     process.chdir(root);
-    remove(tmproot, done);
+    return remove(tmproot);
   });
 
   it('generate lists blueprints', function() {

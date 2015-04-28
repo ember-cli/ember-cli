@@ -59,12 +59,12 @@ describe('broccoli/broccoli-config-loader', function() {
 
       config.foo = 'blammo';
       writeConfig(config);
-      configLoader.clearConfigGeneratorCache();
 
       configLoader.updateCache(tmpSrcDir, tmpDestDir2);
       var updatedConfig = fs.readFileSync(path.join(tmpDestDir2, 'environments', 'development.json'), { encoding: 'utf8' });
 
-      expect(originalConfig).to.not.equal(updatedConfig);
+      expect(originalConfig, 'config/environment.json should have been updated').to.not.equal(updatedConfig);
+
       expect(true, updatedConfig.match(/blammo/));
     });
   });
