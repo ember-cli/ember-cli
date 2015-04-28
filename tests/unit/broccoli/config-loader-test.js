@@ -59,7 +59,6 @@ describe('broccoli/broccoli-config-loader', function() {
 
       config.foo = 'blammo';
       writeConfig(config);
-      configLoader.clearConfigGeneratorCache();
 
       configLoader.updateCache(tmpSrcDir, tmpDestDir2);
       var updatedConfig = fs.readFileSync(path.join(tmpDestDir2, 'environments', 'development.json'), { encoding: 'utf8' });
