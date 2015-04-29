@@ -25,5 +25,5 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-05-
 
 ### Example Apps
 - [ember-cli/ember-cli-todos](https://github.com/ember-cli/ember-cli-todos)
-- [stefanpenner/ember-jobs (firebase example)]https://github.com/stefanpenner/ember-jobs
+- [stefanpenner/ember-jobs (firebase example)] (https://github.com/stefanpenner/ember-jobs)
 - [abuiles/facturas-client](https://github.com/abuiles/facturas-client)
