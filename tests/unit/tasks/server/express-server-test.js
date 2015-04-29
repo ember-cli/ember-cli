@@ -83,6 +83,8 @@ describe('express-server', function() {
   });
 
   describe('output', function() {
+    this.timeout(40000);
+
     it('with proxy', function() {
       return subject.start({
         proxy: 'http://localhost:3001/',
