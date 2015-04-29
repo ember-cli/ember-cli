@@ -74,7 +74,7 @@
     "broccoli-caching-writer": "0.5.5",
     "broccoli-clean-css": "0.2.0",
     "broccoli-es3-safe-recast": "^2.0.0",
-    "broccoli-es6modules": "^0.5.1",
+    "broccoli-es6modules": "^0.6.0",
     "broccoli-filter": "0.1.12",
     "broccoli-funnel": "0.2.2",
     "broccoli-kitchen-sink-helpers": "0.2.6",
