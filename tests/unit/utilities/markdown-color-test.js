@@ -37,7 +37,7 @@ function isAnsiSupported() {
   it('parses color tokens', function() {
     expect(mc.render('<red>red</red>')).to.equal('\u001b[0m\u001b[31mred\u001b[39m\u001b[0m\n\n');
     expect(mc.render('<green>green</green>')).to.equal('\u001b[0m\u001b[32mgreen\u001b[39m\u001b[0m\n\n');
-    expect(mc.render('<blue>blue</blue>')).to.equal('\u001b[0m\u001b[94mblue\u001b[39m\u001b[0m\n\n');
+    expect(mc.render('<blue>blue</blue>')).to.equal('\u001b[0m\u001b[34mblue\u001b[39m\u001b[0m\n\n');
     expect(mc.render('<cyan>cyan</cyan>')).to.equal('\u001b[0m\u001b[36mcyan\u001b[39m\u001b[0m\n\n');
     expect(mc.render('<magenta>magenta</magenta>')).to.equal('\u001b[0m\u001b[35mmagenta\u001b[39m\u001b[0m\n\n');
     expect(mc.render('<yellow>yellow</yellow>')).to.equal('\u001b[0m\u001b[33myellow\u001b[39m\u001b[0m\n\n');
@@ -70,13 +70,13 @@ function isAnsiSupported() {
         }
       }
     });
-    expect(mctemp.render('^foo^foo^foo^')).to.equal('\u001b[0m\u001b[94m\u001b[47mfoo\u001b[49m\u001b[39m\u001b[0m\n\n');
+    expect(mctemp.render('^foo^foo^foo^')).to.equal('\u001b[0m\u001b[34m\u001b[47mfoo\u001b[49m\u001b[39m\u001b[0m\n\n');
   });
 
   it('parses markdown files', function() {
     // console.log(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md')))
     expect(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md'))).to
-      .equal('\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[94mand I\u001b[39m enjoy eating them\u001b[39m\u001b[0m\n\n');
+      .equal('\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them\u001b[39m\u001b[0m\n\n');
   });
 
   it('allows tokens inside other token bounds', function() {
