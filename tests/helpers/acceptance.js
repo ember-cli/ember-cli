@@ -81,7 +81,7 @@ function createTmp(command) {
  */
 function createTestTargets(projectName, options) {
   var command;
-  options = options || {};
+  options = options || {verbose: true};
   options.command = options.command || 'new';
 
   // Fresh install
