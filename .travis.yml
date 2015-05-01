@@ -10,13 +10,13 @@ env:
 
 before_install:
   - "npm config set spin false"
-  - "npm install -g npm@^2"
+  - "npm install -g npm@2.9.0"
   - "npm config set spin false"
 
 os:
   - osx
   - linux
-script: npm run-script test-all:cover
+script: npm run-script test-all
 matrix:
   fast_finish: true
 
