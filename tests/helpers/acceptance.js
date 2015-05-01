@@ -63,6 +63,7 @@ function applyCommand(command, name /*, ...flags*/) {
 }
 
 function createTmp(command) {
+  console.log('Creating tmp');
   return tmp.setup('./common-tmp').then(function() {
     process.chdir('./common-tmp');
     conf.setup();
@@ -86,6 +87,7 @@ function createTestTargets(projectName, options) {
 
   // Fresh install
   if (!downloaded('node_modules') && !downloaded('bower_components')) {
+    console.log('Doing fresh install');
     command = function() {
       return applyCommand(options.command, projectName);
     };
