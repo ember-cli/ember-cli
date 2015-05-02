@@ -17,6 +17,7 @@ var onOutput = {
 };
 
 function handleResult(result) {
+  console.log('handling error');
   console.log(result.output.join('\n'));
   console.log(result.errors.join('\n'));
   throw result;
