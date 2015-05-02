@@ -117,6 +117,7 @@ Once the generation process finishes, launch the app:
 
 {% highlight bash %}
 cd my-new-app
+npm install && bower install
 ember server
 {% endhighlight %}
 
