@@ -34,7 +34,7 @@ module.exports = function run(/* command, args, options */) {
     var opts = {};
     if (process.platform === 'win32') {
       console.log('Running on windows');
-      args = ['"' + command + '"'].concat(args);
+      args = ['-dd', '"' + command + '"'].concat(args);
       command = 'node';
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];
