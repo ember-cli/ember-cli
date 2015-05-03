@@ -18,7 +18,7 @@ install:
   # Typical npm stuff.
   - md C:\nc
   - npm install -g npm@^2
-  - npm config set loglevel silly --global
+  - npm config set loglevel verbose --global
   - npm install -g can-symlink
   # Workaround https://github.com/npm/npm/wiki/Troubleshooting#upgrading-on-windows
   - set PATH=%APPDATA%\npm;%PATH%
