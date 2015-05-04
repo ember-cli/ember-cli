@@ -33,6 +33,7 @@ module.exports = function run(/* command, args, options */) {
 
     var opts = {};
     if (process.platform === 'win32') {
+      console.log('Running on windows');
       args = ['"' + command + '"'].concat(args);
       command = 'node';
       opts.windowsVerbatimArguments = true;
@@ -68,7 +69,7 @@ module.exports = function run(/* command, args, options */) {
 
     child.stdout.on('data', function (data) {
       var string = data.toString();
-
+      console.log(string);
       options.onOutput(string, child);
 
       result.output.push(string);
@@ -76,7 +77,7 @@ module.exports = function run(/* command, args, options */) {
 
     child.stderr.on('data', function (data) {
       var string = data.toString();
-
+      console.log(string);
       options.onError(string, child);
 
       result.errors.push(string);

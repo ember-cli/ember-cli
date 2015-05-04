@@ -18,6 +18,8 @@ install:
   # Typical npm stuff.
   - md C:\nc
   - npm install -g npm@^2
+  - rename C:\Python27 Python27hidden
+  - npm install -g can-symlink
   # Workaround https://github.com/npm/npm/wiki/Troubleshooting#upgrading-on-windows
   - set PATH=%APPDATA%\npm;%PATH%
   - npm config set cache C:\nc
@@ -28,6 +30,7 @@ install:
 test_script:
   # Output useful info for debugging.
   - npm version
+  - can-symlink
   - cmd: npm run-script test-all
 
 # Don't actually build.

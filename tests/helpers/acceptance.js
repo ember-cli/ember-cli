@@ -17,6 +17,7 @@ var onOutput = {
 };
 
 function handleResult(result) {
+  console.log('handling error');
   console.log(result.output.join('\n'));
   console.log(result.errors.join('\n'));
   throw result;
@@ -63,6 +64,7 @@ function applyCommand(command, name /*, ...flags*/) {
 }
 
 function createTmp(command) {
+  console.log('Creating tmp');
   return tmp.setup('./common-tmp').then(function() {
     process.chdir('./common-tmp');
     conf.setup();
@@ -81,11 +83,12 @@ function createTmp(command) {
  */
 function createTestTargets(projectName, options) {
   var command;
-  options = options || {};
+  options = options || {verbose: true};
   options.command = options.command || 'new';
 
   // Fresh install
   if (!downloaded('node_modules') && !downloaded('bower_components')) {
+    console.log('Doing fresh install');
     command = function() {
       return applyCommand(options.command, projectName);
     };

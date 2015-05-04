@@ -21,7 +21,7 @@ var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
 describe('Acceptance: addon-smoke-test', function() {
-  this.timeout(450000);
+  this.timeout(18000000);
 
   before(function() {
     return createTestTargets(addonName, {
