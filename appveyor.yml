@@ -18,7 +18,7 @@ install:
   # Typical npm stuff.
   - md C:\nc
   - npm install -g npm@^2
-  - npm uninstall -g node-gyp
+  - rename C:\Python27 Python27hidden
   - npm install -g can-symlink
   # Workaround https://github.com/npm/npm/wiki/Troubleshooting#upgrading-on-windows
   - set PATH=%APPDATA%\npm;%PATH%
