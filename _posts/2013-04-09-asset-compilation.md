@@ -264,7 +264,7 @@ The compiled files are output to the following paths:
 |JavaScript files you import with `app.import()`|`/assets/vendor.js`|
 |CSS files you import with `app.import()`|`/assets/vendor.css`|
 
-To change these paths you can edit the `outputPaths` config option. The default setting is shown here:
+To change these paths, specify the `outputPaths` config option in `Brocfile.js`. The default setting is shown here:
 
 {% highlight javascript %}
 var app = new EmberApp({
