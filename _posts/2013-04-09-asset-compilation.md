@@ -44,7 +44,7 @@ Ember CLI supports plain CSS out of the box. You can add your css styles to
 
 For example, to add bootstrap in your project you need to do the following:
 {% highlight bash %}
-ember install:bower bootstrap
+bower install bootstrap --save
 {% endhighlight %}
 
 In `Brocfile.js` add the following:
@@ -151,7 +151,7 @@ first add [broccoli-ember-script](https://github.com/aradabaugh/broccoli-ember-s
 NPM modules:
 
 {% highlight bash %}
-ember install:npm broccoli-ember-script
+npm install broccoli-ember-script --save-dev
 {% endhighlight %}
 
 Note that the ES6 module transpiler is not directly supported with Emberscript, to allow use of ES6 modules use the `` ` `` character to escape raw Javascript similar to the CoffeeScript example above.

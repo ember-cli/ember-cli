@@ -14,16 +14,16 @@ CLI project, and lists the dependencies for your project. Changes to your
 dependencies should be managed through this file, rather than manually
 installing packages individually.
 
-Executing `ember install:bower` will install all of the dependencies listed in
+Executing `bower install` will install all of the dependencies listed in
 `bower.json` in one step.
 
 Ember CLI is configured to have git ignore your `bower_components` directory by
 default. Using the Bower configuration file allows collaborators to fork your
 repo and get their dependencies installed locally by executing
-`ember install:bower` themselves.
+`bower install` themselves.
 
 Ember CLI watches `bower.json` for changes. Thus it reloads your app if you
-install new dependencies via `ember install:bower <dependencies>`.
+install new dependencies via `bower install <dependencies> --save`.
 
 Further documentation about Bower is available at their
 [official documentation page](http://bower.io/).
@@ -207,7 +207,7 @@ With the [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) packag
 package needed to build are installed:
 
 {% highlight bash %}
-ember install:npm broccoli-funnel
+npm install broccoli-funnel --save-dev
 {% endhighlight %}
 
 Add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
