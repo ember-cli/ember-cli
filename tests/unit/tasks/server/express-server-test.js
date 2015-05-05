@@ -91,12 +91,11 @@ describe('express-server', function() {
         port: '1337',
         ssl: true,
         sslCert: 'tests/fixtures/ssl/server.crt',
-        sslKey: 'tests/fixtures/ssl/server.key'
+        sslKey: 'tests/fixtures/ssl/server.key',
+        baseURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
-        expect(output[1]).to.equal('Serving on https://0.0.0.0:1337/');
-        expect(output[0]).to.equal('Proxying to http://localhost:3001/');
-        expect(output.length).to.equal(2, 'expected only two lines of output');
+        expect(output[0]).to.equal('Serving on https://localhost:1337/');
       });
     });
 
@@ -166,12 +165,15 @@ describe('express-server', function() {
         port: '1337',
         ssl: true,
         sslCert: 'tests/fixtures/ssl/server.crt',
-        sslKey: 'tests/fixtures/ssl/server.key'
+        sslKey: 'tests/fixtures/ssl/server.key',
+        baseURL: '/'
       })
         .then(function() {
           return new Promise(function(resolve, reject) {
-            request('https://localhost:1337').
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+            request('https://localhost:1337', {strictSSL: false}).
               get('/').expect(200, function(err, value) {
+                process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
                 if(err) { reject(err);    }
                 else    { resolve(value); }
               });
