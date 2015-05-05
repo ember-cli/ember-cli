@@ -31,12 +31,13 @@ describe('Acceptance: ember help', function() {
                       '--name=my-app',
                       '--silent',
                       '--skip-npm',
-                      '--skip-bower')
+                      '--skip-bower',
+                      '--skip-installation-check')
       .then(function() {
-        return runCommand(ember, 'generate', 'blueprint', 'component', '--silent');
+        return runCommand(ember, 'generate', 'blueprint', 'component', '--silent', '--skip-installation-check');
       })
       .then(function() {
-        return runCommand(ember, 'help', 'generate', '--verbose', {
+        return runCommand(ember, 'help', 'generate', '--verbose', '--skip-installation-check', {
           onOutput: function(string) {
             output += string;
           }
@@ -73,9 +74,10 @@ describe('Acceptance: ember help', function() {
                       '--name=my-app',
                       '--silent',
                       '--skip-npm',
-                      '--skip-bower')
+                      '--skip-bower',
+                      '--skip-installation-check')
       .then(function() {
-        return runCommand(ember, 'help', 'generate', 'model', {
+        return runCommand(ember, 'help', 'generate', 'model', '--skip-installation-check', {
           onOutput: function(string) {
             output += string;
           }
@@ -106,7 +108,7 @@ describe('Acceptance: ember help', function() {
                       '--skip-npm',
                       '--skip-bower')
       .then(function() {
-        return runCommand(ember, 'generate', 'model', '--help', {
+        return runCommand(ember, 'generate', 'model', '--help', '--skip-installation-check', {
           onOutput: function(string) {
             output += string;
           }
@@ -137,7 +139,7 @@ describe('Acceptance: ember help', function() {
                       '--skip-npm',
                       '--skip-bower')
       .then(function() {
-        return runCommand(ember, 'generate', 'model', '-h', {
+        return runCommand(ember, 'generate', 'model', '-h', '--skip-installation-check', {
           onOutput: function(string) {
             output += string;
           }
