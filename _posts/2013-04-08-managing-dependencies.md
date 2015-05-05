@@ -204,7 +204,7 @@ app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf', {
 
 With the [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) package,
 (parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli
-package needed to build are installed:
+package needed to build is installed:
 
 {% highlight bash %}
 ember install:npm broccoli-funnel
@@ -239,6 +239,24 @@ be found under `/assets/fonts/`, and might be linked to from `index.html` like s
 
 {% highlight html %}
 <link rel="stylesheet" href="assets/fonts/lovelyfont_bold/stylesheet.css">
+{% endhighlight %}
+
+You can exclude assets from the final output in a similar fashion. For example, to exclude all `.gitkeep` files from the final output:
+
+{% highlight javascript linenos %}
+// Again, add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
+var Funnel = require('broccoli-funnel');
+
+// Normal Brocfile contents
+
+// Filter toTree()'s output
+var filteredAssets = new Funnel(app.toTree(), {
+  // Exclude gitkeeps from output
+  exclude: ['**/.gitkeep']
+});
+
+// Export filtered tree
+module.exports = filteredAssets;
 {% endhighlight %}
 
 _Note: [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) is deprecated. Use [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) instead._
