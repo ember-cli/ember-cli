@@ -143,7 +143,9 @@ you will need to install dependencies yourself before running the server:
 
 {% highlight bash %}
 git clone git@github.com:me/my-app.git
-cd my-app && ember install
+cd my-app
+npm install
+bower install
 ember server
 {% endhighlight %}
 
