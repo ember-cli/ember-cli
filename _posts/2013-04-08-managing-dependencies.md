@@ -207,7 +207,7 @@ With the [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) packag
 package needed to build are installed:
 
 {% highlight bash %}
-ember install:npm broccoli-funnel
+npm install broccoli-funnel --save-dev
 {% endhighlight %}
 
 Add this import to the top of `Brocfile.js`, just below the `EmberApp` require:

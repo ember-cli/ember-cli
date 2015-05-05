@@ -151,7 +151,7 @@ first add [broccoli-ember-script](https://github.com/aradabaugh/broccoli-ember-s
 NPM modules:
 
 {% highlight bash %}
-ember install:npm broccoli-ember-script
+npm install broccoli-ember-script --save-dev
 {% endhighlight %}
 
 Note that the ES6 module transpiler is not directly supported with Emberscript, to allow use of ES6 modules use the `` ` `` character to escape raw Javascript similar to the CoffeeScript example above.

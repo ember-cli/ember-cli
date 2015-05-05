@@ -19,7 +19,7 @@ You can get rid of these errors by modifing the CSP for your app. This is descri
 
 #### Unsafe-Eval (CSP)
 
-Some platforms that run on open web technology (ex. FirefoxOS) enforce strict CSP restrictions for apps. One of the more common restrictions is the Unsafe-Eval restriction, disallowing use of the eval() function or the eval operator. Since Ember CLI currently uses eval() for part of it's integration with ES6 modules, this can be a problem. 
+Some platforms that run on open web technology (ex. FirefoxOS) enforce strict CSP restrictions for apps. One of the more common restrictions is the Unsafe-Eval restriction, disallowing use of the eval() function or the eval operator. Since Ember CLI currently uses eval() for part of it's integration with ES6 modules, this can be a problem.
 
 To disable evals, add the `wrapInEval: false` flag to your `Brocfile.js`, for example:
 
@@ -106,7 +106,7 @@ Wipe your vendor directory clean then run `npm install && bower install`.
 
 * To reinstall latest Ember Data version
 
-`ember install:npm ember-data`
+`npm update ember-data`
 
 ### Symlinks on Windows
 
@@ -153,9 +153,9 @@ C:\cygwin\bin\bash.exe --login -i -c "cd /cygdrive/c/Users/username/; exec bash"
 
 ### Usage with Vagrant
 
-[Vagrant](http://vagrantup.com) is a system for automatically creating and setting up development environments that run in a virtual machine (VM). 
+[Vagrant](http://vagrantup.com) is a system for automatically creating and setting up development environments that run in a virtual machine (VM).
 
-Running your ember-cli development environment from inside of a Vagrant VM will require some additional configuration and will carry a few caveats. 
+Running your ember-cli development environment from inside of a Vagrant VM will require some additional configuration and will carry a few caveats.
 
 #### Ports
 
@@ -163,7 +163,7 @@ In order to access your ember-cli application from your desktop's web browser, y
 
 {% highlight ruby %}
 Vagrant.configure("2") do |config|
-  # ... 
+  # ...
   config.vm.network "forwarded_port", guest: 4200, host: 4200
   config.vm.network "forwarded_port", guest: 35729, host: 35729
 end
@@ -171,19 +171,19 @@ end
 
 #### Watched Files
 
-The way Vagrant syncs folders between your desktop and the VM will break the default mechanism ember-cli uses to watch files and cause issues when updates are subsequently compiled. To restore this functionality, you'll have to make two changes: 
+The way Vagrant syncs folders between your desktop and the VM will break the default mechanism ember-cli uses to watch files and cause issues when updates are subsequently compiled. To restore this functionality, you'll have to make two changes:
 
-1. Fall back to polling when invoking the serve command: `ember serve --watcher polling`. 
+1. Fall back to polling when invoking the serve command: `ember serve --watcher polling`.
 
-2. Use [nfs for synced folders](https://docs.vagrantup.com/v2/synced-folders/nfs.html). 
+2. Use [nfs for synced folders](https://docs.vagrantup.com/v2/synced-folders/nfs.html).
 
 #### VM Setup
 
 When setting up your VM, install ember-cli dependencies as you normally would. If you've already run `ember install` in your project's folder from your host machine, you'll have to delete the `node_modules` folder and re-install those dependencies from the VM. This is particularly necessary if you have node dependencies that use native libraries (e.g., [broccoli-sass](#sass), which uses the libsass C library).
 
-#### Provider 
+#### Provider
 
-The two most common Vagrant providers, VirtualBox and VMware Fusion, will both work. However, VMware Fusion is substantially faster and will use less battery life if you're on a laptop. As of now, VirtualBox will use 100% of a single CPU core to poll for file system changes inside of the VM. 
+The two most common Vagrant providers, VirtualBox and VMware Fusion, will both work. However, VMware Fusion is substantially faster and will use less battery life if you're on a laptop. As of now, VirtualBox will use 100% of a single CPU core to poll for file system changes inside of the VM.
 
 ### Broken Glob npm package issue
 
