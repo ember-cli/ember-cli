@@ -5,6 +5,7 @@ var versionUtils = require('../../../lib/utilities/version-utils');
 var calculateVersion = versionUtils.emberCLIVersion;
 var expect = require('chai').expect;
 var path = require('path');
+var escapeRegExp = require('escape-string-regexp');
 
 describe('generateDocs', function(){
   it('calls the the appropriate command', function(){
@@ -28,7 +29,3 @@ describe('generateDocs', function(){
     }).generate();
   });
 });
-
-function escapeRegExp(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-}
