@@ -101,7 +101,7 @@ Folder              | Purpose
 `app/adapters/`     | Adapters with the convention `adapter-name.js`.
 `app/components/`   | Components with the convention `component-name.js`. Components must have a dash in their name. So `blog-post` is an acceptable name, but `post` is not.
 `app/controllers/`  | Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
-`app/helpers/`      | Helpers with the convention `helper-name.js`. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
+`app/helpers/`      | Helpers with the convention `helper-name.js`. Helpers must have a dash in their name. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
 `app/initializers/` | Initializers with the convention `initializer-name.js`. Initializers are loaded automatically.
 `app/mixins/`       | Mixins with the convention `mixin-name.js`.
 `app/models/`       | Models with the convention `model-name.js`.
