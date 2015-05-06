@@ -4,7 +4,7 @@ var expect              = require('chai').expect;
 var InstallationChecker = require('../../../lib/models/installation-checker');
 var path                = require('path');
 
-describe.only('Installation Checker', function() {
+describe('Installation Checker', function() {
   var installationChecker;
 
   function fixturePath(pathToFile) {
