@@ -523,6 +523,29 @@ describe('express-server', function() {
           });
       });
 
+      it('serves index.html when file not found (with baseURL) with custom history location', function(done) {
+        project._config = {
+          baseURL: '/',
+          locationType: 'blahr',
+          historySupportMiddleware: true
+        };
+
+        return startServer('/foo')
+          .then(function() {
+            request(subject.app)
+              .get('/foo/someurl')
+              .set('accept', 'text/html')
+              .expect(200)
+              .expect('Content-Type', /html/)
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                done();
+              });
+          });
+      });
+
       it('returns a 404 when file not found with hash location', function(done) {
         project._config = {
           baseURL: '/',
