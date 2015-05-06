@@ -42,6 +42,14 @@ describe('writeError', function() {
     expect(ui.output).to.equal(chalk.red('File: the file') + EOL + chalk.red('Error') + EOL);
   });
 
+  it('error with filename (as from Uglify)', function() {
+    writeError(ui, new BuildError({
+      filename: 'the file'
+    }));
+
+    expect(ui.output).to.equal(chalk.red('File: the file') + EOL + chalk.red('Error') + EOL);
+  });
+
   it('error with file + line', function() {
     writeError(ui, new BuildError({
       file: 'the file',
