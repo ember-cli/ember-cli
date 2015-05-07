@@ -187,6 +187,22 @@ describe('models/builder.js', function() {
       });
     });
 
+    it('should call postBuild before processBuildResult', function() {
+      var called = [];
+      
+      addon.postBuild = function() {
+        called.push('postBuild');
+      };
+      
+      builder.processBuildResult = function() {
+        called.push('processBuildResult');
+      };
+
+      return builder.build().then(function() {
+        expect(called).to.deep.equal(['postBuild', 'processBuildResult']);
+      });
+    });
+
     it('buildError receives the error object from the errored step', function() {
       var thrownBuildError = new Error('buildError');
       var receivedBuildError;
