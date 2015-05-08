@@ -9,8 +9,11 @@
   },
   "scripts": {
     "docs": "node bin/generate-docs.js",
+    "lint": "eslint tests lib bin blueprints",
+    "pretest": "npm run lint",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner",
+    "pretest-all": "npm run lint",
     "test-all": "node tests/runner all",
     "test-all:debug": "node debug tests/runner all",
     "test-all:cover": "istanbul cover tests/runner.js all"
@@ -133,14 +136,15 @@
     "yam": "0.0.18"
   },
   "devDependencies": {
+    "babel-eslint": "^3.1.1",
     "chai": "^2.1.2",
     "chai-as-promised": "^4.3.0",
     "codeclimate-test-reporter": "0.0.4",
     "coveralls": "^2.11.2",
     "ember-cli-ncp": "1.0.2",
+    "eslint": "^0.20.0",
     "istanbul": "^0.3.13",
     "mocha": "^2.2.1",
-    "mocha-jshint": "1.0.0",
     "multiline": "^1.0.2",
     "nock": "^1.2.1",
     "node-require-timings": "0.0.2",
