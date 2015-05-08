@@ -32,7 +32,7 @@ describe('broccoli/ember-app', function() {
 
   describe('constructor', function() {
     it('should override project.configPath if configPath option is specified', function() {
-      project.configPath = function() { return 'original value'; };
+      project.setConfigPath('original value');
 
       new EmberApp({
         project: project,
