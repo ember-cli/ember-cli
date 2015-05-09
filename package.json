@@ -16,6 +16,7 @@
     "pretest-all": "npm run lint",
     "test-all": "node tests/runner all",
     "test-all:debug": "node debug tests/runner all",
+    "pretest-all:cover": "npm run lint",
     "test-all:cover": "istanbul cover tests/runner.js all"
   },
   "repository": {
