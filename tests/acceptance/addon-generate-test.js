@@ -167,7 +167,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon component-test x-foo', function() {
     return generateInAddon(['component-test', 'x-foo']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -178,7 +178,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon helper foo-bar', function() {
     return generateInAddon(['helper', 'foo-bar']).then(function() {
       assertFile('addon/helpers/foo-bar.js', {
@@ -328,14 +328,22 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon route foo', function() {
     return generateInAddon(['route', 'foo']).then(function() {
-      assertFile('app/routes/foo.js', {
+      assertFile('addon/routes/foo.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/templates/foo.hbs', {
+      assertFile('app/routes/foo.js', {
+        contains: [
+          "export { default } from 'my-addon/routes/foo';"
+        ]
+      });
+      assertFile('addon/templates/foo.hbs', {
         contains: '{{outlet}}'
+      });
+      assertFile('app/templates/foo.js', {
+        contains: "export { default } from 'my-addon/templates/foo';"
       });
       assertFile('tests/unit/routes/foo-test.js', {
         contains: [
@@ -348,14 +356,17 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon route foo/bar', function() {
     return generateInAddon(['route', 'foo/bar']).then(function() {
-      assertFile('app/routes/foo/bar.js', {
+      assertFile('addon/routes/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/templates/foo/bar.hbs', {
-        contains: '{{outlet}}'
+      assertFile('app/routes/foo/bar.js', {
+        contains: "export { default } from 'my-addon/routes/foo/bar';"
+      });
+      assertFile('app/templates/foo/bar.js', {
+        contains: "export { default } from 'my-addon/templates/foo/bar';"
       });
       assertFile('tests/unit/routes/foo/bar-test.js', {
         contains: [
@@ -761,7 +772,7 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  
+
     it('in-addon blueprint foo', function() {
       return generateInAddon(['blueprint', 'foo']).then(function() {
         assertFile('blueprints/foo/index.js', {
@@ -782,7 +793,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon blueprint foo/bar', function() {
       return generateInAddon(['blueprint', 'foo/bar']).then(function() {
         assertFile('blueprints/foo/bar/index.js', {
@@ -803,7 +814,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon http-mock foo', function() {
       return generateInAddon(['http-mock', 'foo']).then(function() {
         assertFile('server/index.js', {
@@ -852,7 +863,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon http-mock foo-bar', function() {
       return generateInAddon(['http-mock', 'foo-bar']).then(function() {
         assertFile('server/index.js', {
@@ -901,7 +912,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon http-proxy foo', function() {
       return generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
         assertFile('server/index.js', {
