@@ -484,7 +484,7 @@ describe('models/addon.js', function() {
         expect(function() {
           addon.compileTemplates(tree);
         }).to.throw(
-          'An `addon/templates` tree was detected, but there ' +
+          'Templates were detected in the addon tree, but there ' +
           'are no template compilers registered for `' + addon.name + '`. ' +
           'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
           'is listed in `dependencies` (NOT `devDependencies`) in ' +

@@ -11,13 +11,13 @@ module.exports = {
   fileMapTokens: function() {
     return {
       __path__: function(options) {
-        if (options.pod) {
+        if (options.pod && options.inRepoAddon) {
           return path.join(options.podPath, 'components', options.dasherizedModuleName);
         }
         return 'components';
       },
       __name__: function(options) {
-        if (options.pod) {
+        if (options.pod && options.inRepoAddon) {
           return 'component';
         }
         return options.dasherizedModuleName;
@@ -50,7 +50,14 @@ module.exports = {
     var pathName       = [addonName, 'components', fileName].join('/');
 
     if (options.pod) {
-      pathName = [addonName, 'components', fileName,'component'].join('/');
+      var podModulePrefix = options.project.config().podModulePrefix || '';
+      var podPath = podModulePrefix.substr(podModulePrefix.lastIndexOf('/') + 1);
+      if (podPath) {
+        pathName = [addonName, podPath, 'components', fileName,'component'].join('/');
+      }
+      else {
+        pathName = [addonName, 'components', fileName,'component'].join('/');
+      }
     }
 
     return {
