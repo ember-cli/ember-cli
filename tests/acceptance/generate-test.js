@@ -130,10 +130,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/components/foo/x-foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('foo/x-foo'"
         ]
       });
@@ -154,10 +151,7 @@ describe('Acceptance: ember generate', function() {
       });
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('x-foo'"
         ]
       });
