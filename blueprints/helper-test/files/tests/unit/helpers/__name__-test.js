@@ -1,6 +1,4 @@
-import {
-  <%= camelizedModuleName %>
-} from '<%= dependencyDepth %>/helpers/<%= dasherizedModuleName %>';
+import { <%= camelizedModuleName %> } from '<%= dependencyDepth %>/helpers/<%= dasherizedModuleName %>';
 import { module, test } from 'qunit';
 
 module('<%= friendlyTestName %>');
