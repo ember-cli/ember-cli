@@ -312,10 +312,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/components/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('foo/x-foo'"
         ]
       });
@@ -336,10 +333,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/pods/components/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('foo/x-foo'"
         ]
       });
@@ -360,10 +354,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/bar/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/x-foo'"
         ]
       });
@@ -384,10 +375,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/pods/bar/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/x-foo'"
         ]
       });
@@ -408,10 +396,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/bar/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/foo/x-foo'"
         ]
       });
@@ -432,10 +417,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/pods/bar/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/foo/x-foo'"
         ]
       });
@@ -456,10 +438,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/bar/baz/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/baz/x-foo'"
         ]
       });
@@ -480,10 +459,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/pods/bar/baz/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/baz/x-foo'"
         ]
       });
@@ -504,10 +480,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/bar/baz/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/baz/foo/x-foo'"
         ]
       });
@@ -528,10 +501,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/pods/bar/baz/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('bar/baz/foo/x-foo'"
         ]
       });
@@ -552,10 +522,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('x-foo'"
         ]
       });
@@ -576,10 +543,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/pods/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('x-foo'"
         ]
       });
@@ -600,10 +564,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('foo/x-foo'"
         ]
       });
@@ -624,10 +585,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/pods/foo/x-foo/component-test.js', {
         contains: [
-          "import {" + EOL +
-          "  moduleForComponent," + EOL +
-          "  test" + EOL +
-          "} from 'ember-qunit';",
+          "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('foo/x-foo'"
         ]
       });
