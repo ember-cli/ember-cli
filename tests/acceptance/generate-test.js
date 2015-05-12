@@ -124,6 +124,54 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
+  
+  it('component foo/x-foo', function() {
+    return generate(['component', 'foo/x-foo']).then(function() {
+      assertFile('app/components/foo/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Component.extend({",
+          "});"
+        ]
+      });
+      assertFile('app/templates/components/foo/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('tests/unit/components/foo/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('foo/x-foo'"
+        ]
+      });
+    });
+  });
+  
+  it('component x-foo ignores --path option', function() {
+    return generate(['component', 'x-foo', '--path', 'foo']).then(function() {
+      assertFile('app/components/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Component.extend({",
+          "});"
+        ]
+      });
+      assertFile('app/templates/components/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import {" + EOL +
+          "  moduleForComponent," + EOL +
+          "  test" + EOL +
+          "} from 'ember-qunit';",
+          "moduleForComponent('x-foo'"
+        ]
+      });
+    });
+  });
 
   it('helper foo-bar', function() {
     return generate(['helper', 'foo-bar']).then(function() {
