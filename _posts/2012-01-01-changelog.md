@@ -10,6 +10,7 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/f49b35bbb243b6e3b8e20fb2a9c69a2fa13a6aec)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + package.json
      + Upgrade `ember-cli-qunit` to `0.3.13`.
@@ -17,6 +18,7 @@ version:
   + bower.json
      + Upgrade `ember-qunit` to `0.3.3`.
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/8ef831d2df8abad6445ca7bfa732518c6d8777af)
   + No changes required
 - Core Contributors
 + No changes required
