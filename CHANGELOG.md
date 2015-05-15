@@ -9,7 +9,7 @@ version:
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + package.json
      + Upgrade `ember-cli-qunit` to `0.3.13`.
-     + Make sure that `ember-dependency-checker` is using caret `^1.0.0`.
+     + Make sure that `ember-cli-dependency-checker` is using caret `^1.0.0`.
   + bower.json
      + Upgrade `ember-qunit` to `0.3.3`.
 - Addon Developers
