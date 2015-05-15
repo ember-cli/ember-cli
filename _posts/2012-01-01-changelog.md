@@ -4,6 +4,28 @@ title: "Changelog"
 permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
+### 0.2.5
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + package.json
+     + Upgrade `ember-cli-qunit` to `0.3.13`.
+     + Make sure that `ember-dependency-checker` is using caret `^1.0.0`.
+  + bower.json
+     + Upgrade `ember-qunit` to `0.3.3`.
+- Addon Developers
+  + No changes required
+- Core Contributors
++ No changes required
+
+
+#### Community Contributions
+
+- [#4076](https://github.com/ember-cli/ember-cli/pull/4076) Use caret version for stable dependencies in project blueprint. [@abuiles](https://github.com/abuiles)
+- [#4087](https://github.com/ember-cli/ember-cli/pull/4087) Bump ember-cli-qunit to v0.3.13 (ember-qunit@0.3.3). [@rwjblue](https://github.com/rwjblue)
 
 ### 0.2.4
 
