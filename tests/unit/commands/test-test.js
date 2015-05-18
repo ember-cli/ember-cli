@@ -84,6 +84,14 @@ describe('test command', function() {
     });
   });
 
+  it('passes through custom reporter option', function() {
+    return new TestCommand(options).validateAndRun(['--reporter=xunit']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.reporter).to.equal('xunit');
+    });
+  });
+
   describe('--server option', function() {
     beforeEach(function() {
       options.Builder = CoreObject.extend();
