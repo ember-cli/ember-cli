@@ -220,13 +220,3 @@ If you want to use external libraries that write to a global namespace (e.g.
 [moment.js](http://momentjs.com/)), you need to add those to the `predef`
 section of your project's `.jshintrc` file and set its value to true. If you use the lib in tests, you need
 to add it to your `tests/.jshintrc` file, too.
-
-### Module import validation
-
-To prevent errors in import statements from reaching production, this project
-uses [grunt-es6-import-validate](https://github.com/sproutsocial/grunt-es6-import-validate).
-This task parses each module file's export and import statements and verifies
-that what is being imported is actually exported by the referenced module.
-
-If you are referencing a vendor module that is defined outside of the app folder
-you may have to add it to the whitelist in `tasks/options/validate-imports.js`.
