@@ -51,7 +51,7 @@ version:
   + All blueprints have been updated to use shorthand ES6 syntax for importing and exporting.
   + package.json
      + Upgrade `ember-cli-qunit` to `0.3.12`
-     + Upgrade `ember-dependency-checker` to `1.0.0`
+     + Upgrade `ember-cli-dependency-checker` to `1.0.0`
   + bower.json
      + Bundled ember `v1.12`
      + Upgrade bower.json `ember-qunit` to `0.3.2` for glimmer support.
