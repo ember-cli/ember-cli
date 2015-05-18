@@ -2,7 +2,7 @@
 layout: post
 title: "Using Modules & the Resolver"
 permalink: using-modules
-github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-02-using-modules.md"
+github: "https://github.com/ember-cli/ember-cli/edit/gh-pages/_posts/2014-04-02-using-modules-and-the-resolver.md"
 ---
 
 The Ember Resolver is the mechanism responsible for looking up code in your
