@@ -37,6 +37,24 @@ minifyJS: {
 }
 {% endhighlight %}
 
+### Source Maps
+
+Ember CLI supports producing source maps from your CSS and JS files.
+Source maps are configured by the `sourcemaps` option and
+are disabled in production by default.
+
+In dev, the default setting is equal to:
+
+{% highlight bash %}
+sourcemaps: {
+  enabled: true,
+  extensions: ['js']
+}
+{% endhighlight %}
+
+Pass `{enabled: true}` to your EmberApp constructor to enable source maps for javascript.
+Use the `extensions` option to configure CSS.
+
 ### Stylesheets
 
 Ember CLI supports plain CSS out of the box. You can add your css styles to
