@@ -91,8 +91,8 @@ describe('Unit - FileInfo', function(){
       expect(output.shift()).to.match(/---/);
       expect(output.shift()).to.match(/\+{3}/);
       expect(output.shift()).to.match(/.*/);
-      expect(output.shift()).to.match(/\+Howdy Billy/);
       expect(output.shift()).to.match(/-Something Old/);
+      expect(output.shift()).to.match(/\+Howdy Billy/);
     });
   });
 
