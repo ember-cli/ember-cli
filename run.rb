@@ -1,1 +1,1 @@
-`jekyll server --watch --baseurl ""`
+exec('jekyll server --watch --baseurl ""')
