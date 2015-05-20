@@ -485,6 +485,15 @@ details).
 Remember that `npm link` will not run the default blueprint in the same way that
 `install` will, so you will have to do that manually via `ember g`.
 
+For live reload when developing an addon use the `isDevelopingAddon` hook:
+
+{% highlight javascript %}
+// addon index.js
+isDevelopingAddon: function() {
+  return true;
+}
+{% endhighlight %}
+
 While testing an addon using npm link, you need an entry in `package.json` with
 your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
 fictional example would require `"ember-cli-x-button": "*"`.  You can now run `ember g <addon-name>`
