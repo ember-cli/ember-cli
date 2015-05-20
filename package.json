@@ -140,6 +140,7 @@
     "coveralls": "^2.11.2",
     "ember-cli-ncp": "1.0.2",
     "istanbul": "^0.3.13",
+    "isbinaryfile": "^2.0.3",
     "mocha": "^2.2.1",
     "mocha-jshint": "1.0.0",
     "multiline": "^1.0.2",

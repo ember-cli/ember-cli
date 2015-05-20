@@ -53,16 +53,19 @@ describe('Unit - FileInfo', function(){
     });
   });
 
-  it('falls back to raw text if template throws', function(){
+  it('rejects if templating throws', function(){
     var templateWithUndefinedVariable = path.resolve(__dirname,
       '../../fixtures/blueprints/with-templating/files/with-undefined-variable.txt');
     var options = {};
     assign(options, validOptions, { inputPath: templateWithUndefinedVariable });
     var fileInfo = new FileInfo(options);
 
-    return fileInfo.render().then(function(output){
-      expect(output.trim()).to.equal('Howdy <%= enemy %>',
-        'expects to fall back to raw text');
+    return fileInfo.render().then(function() {
+      throw new Error('FileInfo.render should reject if templating throws');
+    }).catch(function(e) {
+      if (!e.toString().match(/ReferenceError/)) {
+        throw e;
+      }
     });
   });
 

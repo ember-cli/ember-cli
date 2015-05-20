@@ -518,7 +518,7 @@ describe('Acceptance: ember destroy', function() {
 
   it('http-proxy foo', function() {
     this.timeout(20000);
-    var commandArgs = ['http-proxy', 'foo'];
+    var commandArgs = ['http-proxy', 'foo', 'bar'];
     var files       = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);

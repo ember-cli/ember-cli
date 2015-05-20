@@ -540,7 +540,7 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   it('http-proxy foo --pod', function() {
-    var commandArgs = ['http-proxy', 'foo', '--pod'];
+    var commandArgs = ['http-proxy', 'foo', 'bar', '--pod'];
     var files       = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
