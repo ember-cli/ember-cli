@@ -85,6 +85,20 @@ describe('express-server', function() {
   describe('output', function() {
     this.timeout(40000);
 
+    it('with ssl', function() {
+      return subject.start({
+        host:  '0.0.0.0',
+        port: '1337',
+        ssl: true,
+        sslCert: 'tests/fixtures/ssl/server.crt',
+        sslKey: 'tests/fixtures/ssl/server.key',
+        baseURL: '/'
+      }).then(function() {
+        var output = ui.output.trim().split(EOL);
+        expect(output[0]).to.equal('Serving on https://localhost:1337/');
+      });
+    });
+
     it('with proxy', function() {
       return subject.start({
         proxy: 'http://localhost:3001/',
@@ -144,6 +158,30 @@ describe('express-server', function() {
   });
 
   describe('behaviour', function() {
+    it('starts with ssl if ssl option is passed', function() {
+
+      return subject.start({
+        host:  'localhost',
+        port: '1337',
+        ssl: true,
+        sslCert: 'tests/fixtures/ssl/server.crt',
+        sslKey: 'tests/fixtures/ssl/server.key',
+        baseURL: '/'
+      })
+        .then(function() {
+          return new Promise(function(resolve, reject) {
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+            request('https://localhost:1337', {strictSSL: false}).
+              get('/').expect(200, function(err, value) {
+                process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+                if(err) { reject(err);    }
+                else    { resolve(value); }
+              });
+          });
+        });
+    }),
+
+
     it('app middlewares are processed before the proxy', function(done) {
       var expected = '/foo was hit';
 
