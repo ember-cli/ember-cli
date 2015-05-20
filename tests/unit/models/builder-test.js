@@ -91,10 +91,7 @@ describe('models/builder.js', function() {
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       builder.outputPath = outputPath;
 
-      return builder.clearOutputPath()
-        .catch(function(error) {
-          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
-        });
+      expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
     });
 
     it('when outputPath is project root ie., `--output-path=.`', function() {
@@ -102,10 +99,7 @@ describe('models/builder.js', function() {
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       builder.outputPath = outputPath;
 
-      return builder.clearOutputPath()
-        .catch(function(error) {
-          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
-        });
+      expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
     });
 
     it('when outputPath is a parent directory ie., `--output-path=../../`', function() {
@@ -113,10 +107,16 @@ describe('models/builder.js', function() {
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       builder.outputPath = outputPath;
 
-      return builder.clearOutputPath()
-        .catch(function(error) {
-          expect(error.message).to.equal('Using a build destination path of `' + outputPath + '` is not supported.');
-        });
+      expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
+    });
+
+    it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function() {
+      var outputPathArg = '--output-path=.';
+      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      outputPath = outputPath.substr(0, outputPath.length - 1);
+      builder.outputPath = outputPath;
+
+      expect(builder.canDeleteOutputPath(outputPath)).to.equal(true);
     });
   });
 
