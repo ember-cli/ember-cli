@@ -9,6 +9,8 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-
 
 Build times on Windows are longer than on Linux or Mac OS X. Much of that penalty is not because of node or ember-cli, but because of Windows services monitoring your filesystem. [Microsoft wrote a configuration tool as well as an Ember Addon](http://www.felixrieseberg.com/improved-ember-cli-performance-with-windows/) to automatically configure Windows to optimize build performance. The automatic configuration instructs Windows Search and Windows Defender to ignore Ember Cli's `tmp` folder.
 
+*Remember to always open the terminal with admin privileges
+
 #### Ember Addon
 
 The addon has the benefit of being shippable with your project, meaning that other developers on the project do not need to install anything to use the automatic configuration. To install the addon, run the following in the root of your project folder:
