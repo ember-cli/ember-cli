@@ -160,6 +160,7 @@ ember server
  `ember build`                               | Builds the application to `dist/` directory (customize via `--output-path` flag). Use `--environment` flag to specify the environment to build for (defaults to `development`). Use `--watch` flag keep the process running, observing the filesystem and rebuilding when changes occur.
  `ember server`                              | Starts up the server. Default port is `4200`. Use `--proxy` flag to proxy all ajax requests to the given address. For example `ember server --proxy http://127.0.0.1:8080` will proxy all your apps XHR to your server running at port 8080.
  <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
+ <span style="white-space:nowrap">`ember destroy <generator-name> <options>`</span> | Uninstalls a module created by the generator command.  If the module was generated with the `--pod` option, then its removal needs to also include `--pod`.
  `ember test`                                | Run tests with Testem on CI mode. You can pass any options to Testem through `testem.json`, by default we'll search for it under your project's root or you can specify `config-file`.
  `ember install <addon-name>`                | Installs the given addon to your project and saves it to the `package.json`. It will run the addon's `defaultBlueprint` if it provides one.
 
