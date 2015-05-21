@@ -200,6 +200,15 @@ app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf', {
 });
 {% endhighlight %}
 
+If you need to load certain dependencies before others, you can set the `prepend` property equal to `true` on the second argument of `import()`. This will prepend the dependency to the vendor file instead of appending it, which is the default behavior. 
+
+{% highlight javascript linenos %}
+app.import('bower_components/es5-shim/es5-shim.js', {
+  type: 'vendor',
+  prepend: true
+});
+{% endhighlight %}
+
 ##### Using broccoli-funnel
 
 With the [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) package,
