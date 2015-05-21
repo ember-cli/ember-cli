@@ -43,6 +43,7 @@ The Ember CLI addons API currently supports the following scenarios:
 * Providing custom express (server) middlewares
 * Adding custom/extra blueprints, typically for scaffolding application/project files
 * Adding content to consuming applications
+* Adding content to the consuming application's tests directory (via `test-support/`)
 
 ### Addon CLI options
 
@@ -85,6 +86,7 @@ The addon project created follows these structure conventions:
 - `addon/` - part of the addon's namespace.
 - `blueprints/` - contains any blueprints that come with the addon, each in a separate folder
 - `public/` - static files which will be available in the application as `/your-addon/*`
+- `test-support/` - merged with the application's `tests/`
 - `tests/` - test infrastructure including a "dummy" app and acceptance test helpers.
 - `vendor/` - vendor specific files, such as stylesheets, fonts, external libs etc.
 - `Brocfile.js` - Compilation configuration
@@ -169,7 +171,7 @@ module.exports = {
 
 ### Configuring your ember-addon properties
 
-By default, the `"ember-addon"` hash in the `package.json` file has the `"configPath"` property defined to point to the `config` directory of the test dummy application. 
+By default, the `"ember-addon"` hash in the `package.json` file has the `"configPath"` property defined to point to the `config` directory of the test dummy application.
 
 Optionally, you may specify whether your `ember-addon` must run `"before"` or `"after"` any other Ember CLI addons.  Both of these properties can take either a string or an array of strings, where the string is the name of the another Ember CLI addon, as defined in the `package.json` of the other addon.
 
@@ -186,7 +188,7 @@ Optionally, you may specify a different name for the `"defaultBlueprint"`. It de
     "after-addon-2"
   ]
 }
-{% endhighlight %} 
+{% endhighlight %}
 
 ### Addon Brocfile
 
@@ -269,7 +271,7 @@ module.exports = {
 };
 {% endhighlight %}
 
-### Importing Dependency Files 
+### Importing Dependency Files
 
 As stated earlier the `included` hook on your addon's main entry point is run during
 the build process. This is where you want to add `import` statements to actually
