@@ -34,7 +34,7 @@ describe('Installation Checker', function() {
       };
       installationChecker = new InstallationChecker({ project: project });
 
-      expect(checkInstallations).to.throw('No dependencies installed. Run `bower install` to install missing dependencies.');
+      expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*bower.json/);
     });
 
   });
@@ -58,7 +58,7 @@ describe('Installation Checker', function() {
       };
       installationChecker = new InstallationChecker({ project: project });
 
-      expect(checkInstallations).to.throw('No dependencies installed. Run `npm install` to install missing dependencies.');
+      expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*package.json/);
     });
 
   });
@@ -73,7 +73,7 @@ describe('Installation Checker', function() {
       };
       installationChecker = new InstallationChecker({ project: project });
 
-      expect(checkInstallations).to.throw('No dependencies installed. Run `npm install` and `bower install` to install missing dependencies.');
+      expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*package.json/);
     });
 
     it('ignores directories without bower.js and package.json files', function() {
