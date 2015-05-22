@@ -364,6 +364,29 @@ describe('models/project.js', function() {
     });
   });
 
+  describe('isEmberCLIProject', function() {
+    beforeEach(function() {
+      projectPath = process.cwd() + '/tmp/test-app';
+      project = new Project(projectPath, {}, new MockUI());
+    });
+
+    it('returns false when `ember-cli` is not a dependency', function(){
+      expect(project.isEmberCLIProject()).to.equal(false);
+    });
+
+    it('returns true when `ember-cli` is a devDependency', function(){
+      project.pkg.devDependencies = {'ember-cli': '*'};
+
+      expect(project.isEmberCLIProject()).to.equal(true);
+    });
+
+    it('returns true when `ember-cli` is a dependency', function(){
+      project.pkg.dependencies = {'ember-cli': '*'};
+
+      expect(project.isEmberCLIProject()).to.equal(true);
+    });
+  });
+
   describe('isEmberCLIAddon', function() {
     beforeEach(function() {
       projectPath = process.cwd() + '/tmp/test-app';
