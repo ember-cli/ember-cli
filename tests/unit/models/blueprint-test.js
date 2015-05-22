@@ -1084,6 +1084,18 @@ describe('Blueprint', function() {
       expect(output).to.not.match(/install addon.*foo-bar/);
     });
   });
+  
+  describe('load', function(){
+    var blueprint;
+    it('loads and returns a blueprint object', function() {
+      blueprint = Blueprint.load(basicBlueprint);
+      expect(blueprint).to.be.an('object');
+      expect(blueprint.name).to.equal('basic');
+    });
+    it('loads only blueprints with an index.js', function() {
+      expect(Blueprint.load(path.join(fixtureBlueprints, '.notablueprint'))).to.be.empty;      
+    });
+  });
 
   describe('insertIntoFile', function() {
     var blueprint;
