@@ -93,7 +93,8 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
       .then(function() {
         return destroy(args);
       })
-      .then(function() {
+      .then(function(result) {
+        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
         assertFilesNotExist(files);
       });
   }

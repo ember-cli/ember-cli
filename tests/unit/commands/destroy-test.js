@@ -67,4 +67,14 @@ describe('generate command', function() {
             'For more details, use `ember help`.');
       });
   });
+  
+  it('rethrows errors from beforeRun', function() {
+    return Promise.resolve(function(){ return command.beforeRun(['controller', 'foo']);})
+    .then(function() {
+      expect(false, 'should not have called run');
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal('undefined is not a function');
+    });
+  });
 });
