@@ -28,4 +28,23 @@ describe('SilentError', function() {
       expect(error.suppressStacktrace, 'suppressesStacktrace should be true');
     });
   });
+
+  describe('debugOrThrow', function() {
+    it('throws non SilentError', function() {
+      expect(function() {
+        SilentError.debugOrThrow('label', new Error('I AM ERROR'));
+      }).to.throw('I AM ERROR');
+    });
+
+    it('throws false|null|undefined', function() {
+      expect(function() { SilentError.debugOrThrow('label', false);     }).to.throw(false);
+      expect(function() { SilentError.debugOrThrow('label', true);      }).to.throw(true);
+      expect(function() { SilentError.debugOrThrow('label', undefined); }).to.throw(undefined);
+      expect(function() { SilentError.debugOrThrow('label', null);      }).to.throw(null);
+    });
+
+    it('doesnt throw with SilentError', function() {
+      expect(function() { SilentError.debugOrThrow('label', new SilentError('ERROR')); }).to.not.throw();
+    });
+  });
 });
