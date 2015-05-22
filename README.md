@@ -48,7 +48,7 @@ Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/
 
 ### Working with the tests
 
-Use `npm run autotest` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
+Use `npm test` to run the tests after every file change (Runs only fast tests). Use `npm test` to run them once.
 
 For a full test run which includes some very slow acceptance tests,
 please run: `npm run test-all`. Please note, this is what travis
