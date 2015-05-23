@@ -167,7 +167,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon component-test x-foo', function() {
     return generateInAddon(['component-test', 'x-foo']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -178,7 +178,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon helper foo-bar', function() {
     return generateInAddon(['helper', 'foo-bar']).then(function() {
       assertFile('addon/helpers/foo-bar.js', {
@@ -539,8 +539,8 @@ describe('Acceptance: ember generate in-addon', function() {
     return generateInAddon(['adapter', 'foo']).then(function() {
       assertFile('addon/adapters/foo.js', {
         contains: [
-          "import ApplicationAdapter from \'./application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "import DS from \'ember-data\';",
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('app/adapters/foo.js', {
@@ -557,17 +557,23 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  it('in-addon adapter foo/bar', function() {
-    return generateInAddon(['adapter', 'foo/bar']).then(function() {
+  it('in-addon adapter foo/bar (with base class foo)', function() {
+    return generateInAddon(['adapter', 'foo/bar', '--base-class=foo']).then(function() {
       assertFile('addon/adapters/foo/bar.js', {
         contains: [
-          "import ApplicationAdapter from \'./application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "import FooAdapter from \'./foo\';",
+          "export default FooAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('app/adapters/foo/bar.js', {
         contains: [
           "export { default } from 'my-addon/adapters/foo/bar';"
+        ]
+      });
+      assertFile('tests/unit/adapters/foo/bar-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('adapter:foo/bar'"
         ]
       });
     });
@@ -761,7 +767,7 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  
+
     it('in-addon blueprint foo', function() {
       return generateInAddon(['blueprint', 'foo']).then(function() {
         assertFile('blueprints/foo/index.js', {
@@ -782,7 +788,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon blueprint foo/bar', function() {
       return generateInAddon(['blueprint', 'foo/bar']).then(function() {
         assertFile('blueprints/foo/bar/index.js', {
@@ -803,7 +809,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon http-mock foo', function() {
       return generateInAddon(['http-mock', 'foo']).then(function() {
         assertFile('server/index.js', {
@@ -852,7 +858,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon http-mock foo-bar', function() {
       return generateInAddon(['http-mock', 'foo-bar']).then(function() {
         assertFile('server/index.js', {
@@ -901,7 +907,7 @@ describe('Acceptance: ember generate in-addon', function() {
         });
       });
     });
-  
+
     it('in-addon http-proxy foo', function() {
       return generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
         assertFile('server/index.js', {
