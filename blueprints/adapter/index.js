@@ -14,8 +14,9 @@ module.exports = {
     var adapterName     = options.entity.name;
     var baseClass       = 'DS.RESTAdapter';
     var importStatement = 'import DS from \'ember-data\';';
+    var isAddon         = options.inRepoAddon || options.project.isEmberCLIAddon();
 
-    if (!options.baseClass && adapterName !== 'application') {
+    if (!isAddon && !options.baseClass && adapterName !== 'application') {
       options.baseClass = 'application';
     }
 

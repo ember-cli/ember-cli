@@ -138,7 +138,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
-  
+
   it('in-repo-addon component-test x-foo', function() {
     return generateInRepoAddon(['component-test', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -365,7 +365,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
-  
+
   it('in-repo-addon template foo', function() {
     return generateInRepoAddon(['template', 'foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/templates/foo.hbs');
@@ -539,8 +539,8 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     return generateInRepoAddon(['adapter', 'foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/adapters/foo.js', {
         contains: [
-          "import ApplicationAdapter from \'./application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "import DS from \'ember-data\';",
+          "export default DS.RESTAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('lib/my-addon/app/adapters/foo.js', {
@@ -557,17 +557,23 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     });
   });
 
-  it('in-repo-addon adapter foo/bar', function() {
-    return generateInRepoAddon(['adapter', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
+  it('in-repo-addon adapter foo/bar (with base class foo)', function() {
+    return generateInRepoAddon(['adapter', 'foo/bar', '--in-repo-addon=my-addon', '--base-class=foo']).then(function() {
       assertFile('lib/my-addon/addon/adapters/foo/bar.js', {
         contains: [
-          "import ApplicationAdapter from \'./application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "import FooAdapter from \'./foo\';",
+          "export default FooAdapter.extend({" + EOL + "});"
         ]
       });
       assertFile('lib/my-addon/app/adapters/foo/bar.js', {
         contains: [
           "export { default } from 'my-addon/adapters/foo/bar';"
+        ]
+      });
+      assertFile('tests/unit/adapters/foo/bar-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('adapter:foo/bar'"
         ]
       });
     });
@@ -760,7 +766,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
-  
+
   it('in-repo-addon adds path to lib', function() {
     return initInRepoAddon().then(function() {
       assertFile('package.json', {
