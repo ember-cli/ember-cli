@@ -221,6 +221,11 @@ describe('models/addon.js', function() {
           expect(typeof (tree.read || tree.rebuild)).to.equal('function');
         });
 
+        it('addon-templates', function() {
+          var tree = addon.treeFor('addon-templates');
+          expect(typeof (tree.read || tree.rebuild)).to.equal('function');
+        });
+
         it('vendor', function() {
           var tree = addon.treeFor('vendor');
           expect(typeof (tree.read || tree.rebuild)).to.equal('function');
@@ -253,58 +258,69 @@ describe('models/addon.js', function() {
 
       describe('custom treeFor methods', function() {
         it('can define treeForApp', function() {
-          var called;
+          var called = false;
 
           addon.treeForApp = function() {
             called = true;
           };
 
           addon.treeFor('app');
-          expect(called);
+          expect(called).to.equal(true);
         });
 
         it('can define treeForStyles', function() {
-          var called;
+          var called = false;
 
           addon.treeForStyles = function() {
             called = true;
           };
 
           addon.treeFor('styles');
-          expect(called);
+          expect(called).to.equal(true);
         });
 
         it('can define treeForVendor', function() {
-          var called;
+          var called = false;
 
           addon.treeForVendor = function() {
             called = true;
           };
 
           addon.treeFor('vendor');
-          expect(called);
+          expect(called).to.equal(true);
         });
 
         it('can define treeForTemplates', function() {
-          var called;
+          var called = false;
 
           addon.treeForTemplates = function() {
             called = true;
           };
 
           addon.treeFor('templates');
-          expect(called);
+          expect(called).to.equal(true);
+        });
+
+        it('can define treeForAddonTemplates', function() {
+          var called = false;
+
+          addon.treeForAddonTemplates = function() {
+            called = true;
+          };
+
+          addon.treeFor('addon-templates');
+          expect(called).to.equal(true);
         });
 
         it('can define treeForPublic', function() {
-          var called;
+          var called = false;
 
           addon.treeForPublic = function() {
             called = true;
           };
 
           addon.treeFor('public');
-          expect(called);
+          expect(called).to.equal(true);
         });
       });
     });
