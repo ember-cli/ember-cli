@@ -474,11 +474,9 @@ describe('models/addon.js', function() {
 
       project = new Project(projectPath, packageContents);
 
-      var TestAddon = Addon.extend({
-        name: 'test-addon'
-      });
+      project.initializeAddons();
 
-      addon = new TestAddon(project);
+      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
     });
 
     it('should throw a useful error if a template compiler is not present -- non-pods', function() {
