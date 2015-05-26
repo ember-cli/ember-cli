@@ -521,4 +521,10 @@ describe('models/project.js', function() {
       expect(project.nodeModulesPath).to.equal(path.join(projectPath, 'node_modules'));
     });
   });
+
+  describe('.nullProject', function (){
+    it('is a singleton', function() {
+      expect(Project.nullProject()).to.equal(Project.nullProject())
+    });
+  });
 });
