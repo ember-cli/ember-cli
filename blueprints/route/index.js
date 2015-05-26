@@ -32,8 +32,13 @@ module.exports = {
       },
       __root__: function(options) {
         if (options.inRepoAddon) {
-          return path.join('lib', options.inRepoAddon, 'app');
+          return path.join('lib', options.inRepoAddon, 'addon');
         }
+
+        if (options.inAddon) {
+          return 'addon';
+        }
+
         return 'app';
       }
     };

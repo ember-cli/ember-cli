@@ -328,14 +328,20 @@ describe('Acceptance: ember generate in-repo-addon', function() {
 
   it('in-repo-addon route foo', function() {
     return generateInRepoAddon(['route', 'foo', '--in-repo-addon=my-addon']).then(function() {
-      assertFile('lib/my-addon/app/routes/foo.js', {
+      assertFile('lib/my-addon/addon/routes/foo.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('lib/my-addon/app/templates/foo.hbs', {
+      assertFile('lib/my-addon/app/routes/foo.js', {
+        contains: "export { default } from 'my-addon/routes/foo';"
+      });
+      assertFile('lib/my-addon/addon/templates/foo.hbs', {
         contains: '{{outlet}}'
+      });
+      assertFile('lib/my-addon/app/templates/foo.js', {
+        contains: "export { default } from 'my-addon/templates/foo';"
       });
       assertFile('tests/unit/routes/foo-test.js', {
         contains: [
@@ -348,14 +354,20 @@ describe('Acceptance: ember generate in-repo-addon', function() {
 
   it('in-repo-addon route foo/bar', function() {
     return generateInRepoAddon(['route', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
-      assertFile('lib/my-addon/app/routes/foo/bar.js', {
+      assertFile('lib/my-addon/addon/routes/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('lib/my-addon/app/templates/foo/bar.hbs', {
+      assertFile('lib/my-addon/app/routes/foo/bar.js', {
+        contains: "export { default } from 'my-addon/routes/foo/bar';"
+      });
+      assertFile('lib/my-addon/addon/templates/foo/bar.hbs', {
         contains: '{{outlet}}'
+      });
+      assertFile('lib/my-addon/app/templates/foo/bar.js', {
+        contains: "export { default } from 'my-addon/templates/foo/bar';"
       });
       assertFile('tests/unit/routes/foo/bar-test.js', {
         contains: [

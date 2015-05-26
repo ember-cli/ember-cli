@@ -328,14 +328,22 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon route foo', function() {
     return generateInAddon(['route', 'foo']).then(function() {
-      assertFile('app/routes/foo.js', {
+      assertFile('addon/routes/foo.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/templates/foo.hbs', {
+      assertFile('app/routes/foo.js', {
+        contains: [
+          "export { default } from 'my-addon/routes/foo';"
+        ]
+      });
+      assertFile('addon/templates/foo.hbs', {
         contains: '{{outlet}}'
+      });
+      assertFile('app/templates/foo.js', {
+        contains: "export { default } from 'my-addon/templates/foo';"
       });
       assertFile('tests/unit/routes/foo-test.js', {
         contains: [
@@ -348,14 +356,17 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon route foo/bar', function() {
     return generateInAddon(['route', 'foo/bar']).then(function() {
-      assertFile('app/routes/foo/bar.js', {
+      assertFile('addon/routes/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/templates/foo/bar.hbs', {
-        contains: '{{outlet}}'
+      assertFile('app/routes/foo/bar.js', {
+        contains: "export { default } from 'my-addon/routes/foo/bar';"
+      });
+      assertFile('app/templates/foo/bar.js', {
+        contains: "export { default } from 'my-addon/templates/foo/bar';"
       });
       assertFile('tests/unit/routes/foo/bar-test.js', {
         contains: [
