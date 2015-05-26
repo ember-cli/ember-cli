@@ -145,7 +145,7 @@
     "mocha-jshint": "1.0.0",
     "multiline": "^1.0.2",
     "nock": "^1.2.1",
-    "node-require-timings": "0.0.2",
+    "node-require-timings": "1.0.0",
     "supertest": "0.15.0",
     "tmp-sync": "^1.0.1",
     "yuidocjs": "0.6.0"
