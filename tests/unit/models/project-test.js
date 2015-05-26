@@ -524,7 +524,7 @@ describe('models/project.js', function() {
 
   describe('.nullProject', function (){
     it('is a singleton', function() {
-      expect(Project.nullProject()).to.equal(Project.nullProject())
+      expect(Project.nullProject()).to.equal(Project.nullProject());
     });
   });
 });
