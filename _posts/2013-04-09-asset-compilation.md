@@ -202,7 +202,7 @@ this behavior.
 if true. **True by default if current environment is production.**
 * `exclude` - Default: `[]` - An array of strings. If a filename contains any
 item in the exclude array, it will not be fingerprinted.
-* `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif']` - The file types
+* `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif', 'map']` - The file types
 to add md5 checksums.
 * `prepend` - Default: `''` - A string to prepend to all of the assets. Useful
 for CDN urls like `https://subdomain.cloudfront.net/`
