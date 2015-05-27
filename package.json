@@ -143,6 +143,7 @@
     "isbinaryfile": "^2.0.3",
     "mocha": "^2.2.1",
     "mocha-jshint": "1.0.0",
+    "mocha-only-detector": "0.0.2",
     "multiline": "^1.0.2",
     "nock": "^1.2.1",
     "node-require-timings": "1.0.0",
