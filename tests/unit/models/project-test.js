@@ -267,12 +267,12 @@ describe('models/project.js', function() {
       expect(project.blueprintLookupPaths()).to.deep.equal(expected);
     });
 
-    it('returns an empty list of blueprint paths if outside a project', function() {
+    it('does not include blueprint path relative to root if outside a project', function() {
       project.isEmberCLIProject = function() {
         return false;
       };
 
-      expect(project.blueprintLookupPaths()).to.deep.equal([]);
+      expect(project.blueprintLookupPaths()).to.deep.equal(project.addonBlueprintLookupPaths());
     });
 
     it('returns an instance of an addon with an object export', function() {
@@ -519,6 +519,12 @@ describe('models/project.js', function() {
       makeProject();
 
       expect(project.nodeModulesPath).to.equal(path.join(projectPath, 'node_modules'));
+    });
+  });
+
+  describe('.nullProject', function (){
+    it('is a singleton', function() {
+      expect(Project.nullProject()).to.equal(Project.nullProject());
     });
   });
 });
