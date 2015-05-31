@@ -6,6 +6,7 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/734a6b49d4c88ea6431d2793b49477aed70fc220)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + `ember server` can now be started over `https`. Default ssl
     certificate and ssl key paths are `ssl/server.crt` and
@@ -20,6 +21,7 @@ version:
   + Updated `ember-data` to `1.0.0-beta.18`. Install with `npm install --save-dev ember-data@1.0.0-beta.18`.
   + Unit tests for components are now flagged as such [#4177](https://github.com/ember-cli/ember-cli/pull/4177).
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/c5db8de5351628f532535f5f6e76e6da8d259299)
   + A new hook is available: `treeForAddonTemplates` which allows you to specify the templates tree. For more info on how to use this hook see [the following issue](https://github.com/yapplabs/ember-modal-dialog/issues/34).
   + Route blueprint now works within addons [#4152](https://github.com/ember-cli/ember-cli/pull/4152).
   + A new generator is available, `ember g route-addon` allows you to create import wrappers for your addon's routes.
