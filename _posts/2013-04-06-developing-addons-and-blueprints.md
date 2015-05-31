@@ -177,12 +177,15 @@ Optionally, you may specify whether your `ember-addon` must run `"before"` or `"
 
 Optionally, you may specify a different name for the `"defaultBlueprint"`. It defaults to the name in the `package.json`. This blueprint will be run automatically when your addon is installed with the `ember install` command.
 
+Optinally, you may specify the `"demoURL"` property with the fully qualified URL of a website showing your addon in action. Sites likes [Ember Addons](http://emberaddons.com/) and [Ember Observer](http://emberobserver.com/) will display a link to `"demoURL"`.
+
 {% highlight javascript %}
 "ember-addon": {
   // addon configuration properties
   "configPath": "tests/dummy/config",
   "before": "single-addon",
   "defaultBlueprint": "blueprint-that-isnt-package-name",
+  "demoURL": "http://example.com/ember-addon/demo.html",
   "after": [
     "after-addon-1",
     "after-addon-2"
