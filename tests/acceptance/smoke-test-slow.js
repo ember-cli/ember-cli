@@ -296,4 +296,18 @@ describe('Acceptance: smoke-test', function() {
         });
     });
   });
+  
+  it('ember can override and reuse the built-in blueprints', function() {
+    return copyFixtureFiles('addon/with-blueprint-override')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar', '-p');
+      })
+      .then(function() {
+        // because we're overriding, the fileMapTokens is default, sans 'component'
+        var componentPath = path.join('app','foo-bar','component.js');
+        var contents = fs.readFileSync(componentPath, { encoding: 'utf8' });
+
+        expect(contents).to.contain('generated component successfully');
+      });
+  });
 });

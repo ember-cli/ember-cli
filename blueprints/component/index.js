@@ -68,7 +68,7 @@ module.exports = {
     return {
       importTemplate: importTemplate,
       contents: contents,
-      path: options.path
+      path: options.path || 'components'
     };
   }
 };

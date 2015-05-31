@@ -24,7 +24,7 @@ module.exports = {
       componentPathName = [options.path, dasherizedModuleName].join('/');
     }
     return {
-      path: options.path,
+      path: options.path || 'components',
       componentPathName: componentPathName,
       friendlyTestDescription: testInfo.description(options.entity.name, "Unit", "Component")
     };
