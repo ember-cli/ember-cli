@@ -21,6 +21,13 @@ module.exports = {
         }
         return options.dasherizedModuleName;
       },
+      __name__: function (options) {
+        if (options.pod) {
+          return 'route';
+        }
+
+        return options.dasherizedModuleName;
+      },
       __path__: function(options) {
         var blueprintName = options.originBlueprintName;
 

@@ -318,7 +318,7 @@ describe('Acceptance: ember generate pod', function() {
       });
     });
   });
-  
+
   it('component foo/x-foo --pod podModulePrefix', function() {
     return generateWithPrefix(['component', 'foo/x-foo', '--pod']).then(function() {
       assertFile('app/pods/components/foo/x-foo/component.js', {
@@ -339,7 +339,7 @@ describe('Acceptance: ember generate pod', function() {
       });
     });
   });
-  
+
   it('component x-foo --pod --path', function() {
     return generate(['component', 'x-foo', '--pod', '--path', 'bar']).then(function() {
       assertFile('app/bar/x-foo/component.js', {
@@ -402,7 +402,7 @@ describe('Acceptance: ember generate pod', function() {
       });
     });
   });
-  
+
   it('component foo/x-foo --pod --path podModulePrefix', function() {
     return generateWithPrefix(['component', 'foo/x-foo', '--pod', '--path', 'bar']).then(function() {
       assertFile('app/pods/bar/foo/x-foo/component.js', {
@@ -486,7 +486,7 @@ describe('Acceptance: ember generate pod', function() {
       });
     });
   });
-  
+
   it('component foo/x-foo --pod --path nested podModulePrefix', function() {
     return generateWithPrefix(['component', 'foo/x-foo', '--pod', '--path', 'bar/baz']).then(function() {
       assertFile('app/pods/bar/baz/foo/x-foo/component.js', {
@@ -570,7 +570,7 @@ describe('Acceptance: ember generate pod', function() {
       });
     });
   });
-  
+
   it('component foo/x-foo --pod -no-path podModulePrefix', function() {
     return generateWithPrefix(['component', 'foo/x-foo', '--pod', '-no-path']).then(function() {
       assertFile('app/pods/foo/x-foo/component.js', {
@@ -749,6 +749,36 @@ describe('Acceptance: ember generate pod', function() {
         contains: [
           "import { moduleForModel, test } from 'ember-qunit';",
           "moduleForModel('foo/bar'"
+        ]
+      });
+    });
+  });
+
+  it('in-addon route foo --pod', function() {
+    return generateInAddon(['route', 'foo', '--pod']).then(function() {
+      assertFile('addon/foo/route.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('addon/foo/template.hbs', {
+        contains: "{{outlet}}"
+      });
+      assertFile('app/foo/route.js', {
+        contains: [
+          "export { default } from 'my-addon/foo/route';"
+        ]
+      });
+      assertFile('app/foo/template.js', {
+        contains: [
+          "export { default } from 'my-addon/foo/template';"
+        ]
+      });
+      assertFile('tests/unit/foo/route-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('route:foo'"
         ]
       });
     });
