@@ -104,6 +104,25 @@ describe('Acceptance: addon-smoke-test', function() {
       });
   });
 
+  it('build with only pod templates', function() {
+    return copyFixtureFiles('addon/pod-templates-only')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
+        var packageJson = require(packageJsonPath);
+        packageJson.dependencies = packageJson.dependencies || {};
+        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      }).then(function(){
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var indexPath = path.join('dist', 'assets', 'vendor.js');
+        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+        expect(contents).to.contain('MY-COMPONENT-TEMPLATE-CONTENT');
+      });
+  });
+
   it('ember addon with addon/styles directory', function() {
     return copyFixtureFiles('addon/with-styles')
       .then(function() {
