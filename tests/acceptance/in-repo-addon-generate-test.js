@@ -2,19 +2,21 @@
 
 'use strict';
 
-var Promise          = require('../../lib/ext/promise');
-var assertFile       = require('../helpers/assert-file');
-var conf             = require('../helpers/conf');
-var ember            = require('../helpers/ember');
-var fs               = require('fs-extra');
-var path             = require('path');
-var remove           = Promise.denodeify(fs.remove);
-var root             = process.cwd();
-var tmp              = require('tmp-sync');
-var tmproot          = path.join(root, 'tmp');
-var EOL              = require('os').EOL;
-var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
-var expect           = require('chai').expect;
+var Promise              = require('../../lib/ext/promise');
+var assertFile           = require('../helpers/assert-file');
+var assertFileEquals     = require('../helpers/assert-file-equals');
+var assertFileToNotExist = require('../helpers/assert-file-to-not-exist');
+var conf                 = require('../helpers/conf');
+var ember                = require('../helpers/ember');
+var fs                   = require('fs-extra');
+var path                 = require('path');
+var remove               = Promise.denodeify(fs.remove);
+var root                 = process.cwd();
+var tmp                  = require('tmp-sync');
+var tmproot              = path.join(root, 'tmp');
+var EOL                  = require('os').EOL;
+var BlueprintNpmTask     = require('../helpers/disable-npm-on-blueprint');
+var expect               = require('chai').expect;
 
 describe('Acceptance: ember generate in-repo-addon', function() {
   this.timeout(20000);
@@ -776,6 +778,14 @@ describe('Acceptance: ember generate in-repo-addon', function() {
           "moduleFor('service:foo/bar'"
         ]
       });
+    });
+  });
+  it('in-addon acceptance-test foo', function() {
+    return generateInRepoAddon(['acceptance-test', 'foo']).then(function() {
+      var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
+
+      assertFileEquals('tests/acceptance/foo-test.js', expected);
+      assertFileToNotExist('app/acceptance-tests/foo.js');
     });
   });
 
