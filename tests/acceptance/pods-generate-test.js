@@ -1156,7 +1156,7 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['adapter', 'foo/bar', '--pod']).then(function() {
       assertFile('app/foo/bar/adapter.js', {
         contains: [
-          "import ApplicationAdapter from \'./application\';",
+          "import ApplicationAdapter from \'../application\';",
           "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
@@ -1167,7 +1167,7 @@ describe('Acceptance: ember generate pod', function() {
     return generateWithPrefix(['adapter', 'foo/bar', '--pod']).then(function() {
       assertFile('app/pods/foo/bar/adapter.js', {
         contains: [
-          "import ApplicationAdapter from \'./application\';",
+          "import ApplicationAdapter from \'../application\';",
           "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
@@ -1205,7 +1205,7 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['adapter', 'foo/baz', '--base-class=foo/bar', '--pod']).then(function() {
       assertFile('app/foo/baz/adapter.js', {
         contains: [
-          "import FooBarAdapter from './foo/bar';",
+          "import FooBarAdapter from '../foo/bar';",
           "export default FooBarAdapter.extend({" + EOL + "});"
         ]
       });

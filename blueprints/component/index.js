@@ -2,6 +2,7 @@
 
 var Blueprint          = require('../../lib/models/blueprint');
 var stringUtil         = require('../../lib/utilities/string');
+var pathUtil           = require('../../lib/utilities/path');
 var validComponentName = require('../../lib/utilities/valid-component-name');
 var path               = require('path');
 
@@ -57,7 +58,7 @@ module.exports = {
       if(options.pod) {
         templatePath   = './template';
       } else {
-        templatePath   = getPathLevel(options.entity.name) +
+        templatePath   = pathUtil.getRelativeParentPath(options.entity.name) +
           'templates/components/' + stringUtil.dasherize(options.entity.name);
       }
       importTemplate   = 'import layout from \'' + templatePath + '\';\n';
@@ -71,7 +72,3 @@ module.exports = {
     };
   }
 };
-
-function getPathLevel(name) {
-  return new Array(name.split('/').length + 1).join('../');
-}

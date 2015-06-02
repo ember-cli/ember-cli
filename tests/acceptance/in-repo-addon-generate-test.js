@@ -575,7 +575,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     return generateInRepoAddon(['adapter', 'foo/bar', '--in-repo-addon=my-addon', '--base-class=foo']).then(function() {
       assertFile('lib/my-addon/addon/adapters/foo/bar.js', {
         contains: [
-          "import FooAdapter from \'./foo\';",
+          "import FooAdapter from \'../foo\';",
           "export default FooAdapter.extend({" + EOL + "});"
         ]
       });
