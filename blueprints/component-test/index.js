@@ -1,8 +1,10 @@
 /*jshint node:true*/
 
-var path = require('path');
-var testInfo = require('../../lib/utilities/test-info');
-var stringUtil  = require('../../lib/utilities/string');
+var path          = require('path');
+var testInfo      = require('../../lib/utilities/test-info');
+var stringUtil    = require('../../lib/utilities/string');
+var getPathOption = require('../../lib/utilities/get-component-path-option');
+
 
 module.exports = {
   description: 'Generates a component unit test.',
@@ -24,7 +26,7 @@ module.exports = {
       componentPathName = [options.path, dasherizedModuleName].join('/');
     }
     return {
-      path: options.path || 'components',
+      path: getPathOption(options),
       componentPathName: componentPathName,
       friendlyTestDescription: testInfo.description(options.entity.name, "Unit", "Component")
     };

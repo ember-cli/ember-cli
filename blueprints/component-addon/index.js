@@ -3,6 +3,7 @@
 var Blueprint          = require('../../lib/models/blueprint');
 var stringUtil         = require('../../lib/utilities/string');
 var validComponentName = require('../../lib/utilities/valid-component-name');
+var getPathOption      = require('../../lib/utilities/get-component-path-option');
 var path               = require('path');
 
 module.exports = {
@@ -49,7 +50,7 @@ module.exports = {
 
     return {
       modulePath: importPathName,
-      path: options.path || 'components'
+      path: getPathOption(options)
     };
   }
 };

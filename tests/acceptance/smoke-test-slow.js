@@ -296,8 +296,9 @@ describe('Acceptance: smoke-test', function() {
         });
     });
   });
-  
+
   it('ember can override and reuse the built-in blueprints', function() {
+    this.timeout(450000);
     return copyFixtureFiles('addon/with-blueprint-override')
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar', '-p');
