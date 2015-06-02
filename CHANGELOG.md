@@ -16,9 +16,9 @@ version:
 
 - [#4196](https://github.com/ember-cli/ember-cli/pull/4196) [BUGFIX] Adding fileMapToken __name__ for route-addon blueprint. [@gmurphey](https://github.com/gmurphey)
 - [#4203](https://github.com/ember-cli/ember-cli/pull/4203) [BUGFIX] acceptance-test blueprint no longer generates addon re-export in app folder [@trabus](https://github.com/trabus)
-- [#4206](https://github.com/ember-cli/ember-cli/pull/4206) [Bugfix] Addon.prototype.compileTemplates should not use deprecated t… [@ember-cli](https://github.com/ember-cli)
+- [#4206](https://github.com/ember-cli/ember-cli/pull/4206) [Bugfix] Addon.prototype.compileTemplates should not use deprecated t… [@stefanpenner(https://github.com/stefanpenner)
 - [#4207](https://github.com/ember-cli/ember-cli/pull/4207) [fixes #4205] allow null addonTemplates. [@ember-cli](https://github.com/ember-cli)
-- [#4208](https://github.com/ember-cli/ember-cli/pull/4208) Drop ncp for cpr [@ember-cli](https://github.com/ember-cli)
+- [#4208](https://github.com/ember-cli/ember-cli/pull/4208) Drop ncp for cpr [@stefanpenner](https://github.com/stefanpenner)
 - [#4210](https://github.com/ember-cli/ember-cli/pull/4210) Upgrade ember-try dependency in addon blueprint [@kategengler](https://github.com/kategengler)
 
 Thank you to all who took the time to contribute!
