@@ -2,12 +2,12 @@
 
 var path    = require('path');
 var Promise = require('../../lib/ext/promise');
-var ncp     = Promise.denodeify(require('ember-cli-ncp'));
+var copy    = Promise.denodeify(require('cpr'));
 
 var rootPath = process.cwd();
 
 module.exports = function copyFixtureFiles(sourceDir) {
-  return ncp(path.join(rootPath, 'tests', 'fixtures', sourceDir), '.', {
+  return copy(path.join(rootPath, 'tests', 'fixtures', sourceDir), '.', {
     clobber: true,
     stopOnErr: true
   });
