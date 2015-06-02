@@ -139,6 +139,7 @@ describe('Acceptance: ember generate in-addon', function() {
           "moduleForComponent('x-foo'"
         ]
       });
+      assertFileToNotExist('app/component-test/x-foo.js');
     });
   });
 
@@ -165,17 +166,6 @@ describe('Acceptance: ember generate in-addon', function() {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
           "moduleForComponent('nested/x-foo'"
-        ]
-      });
-    });
-  });
-
-  it('in-addon component-test x-foo', function() {
-    return generateInAddon(['component-test', 'x-foo']).then(function() {
-      assertFile('tests/unit/components/x-foo-test.js', {
-        contains: [
-          "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
         ]
       });
     });
@@ -328,6 +318,18 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
+  it('in-addon model-test foo', function() {
+    return generateInAddon(['model-test', 'foo']).then(function() {
+      assertFile('tests/unit/models/foo-test.js', {
+        contains: [
+          "import { moduleForModel, test } from 'ember-qunit';",
+          "moduleForModel('foo'"
+        ]
+      });
+      assertFileToNotExist('app/model-test/foo.js');
+    });
+  });
+
   it('in-addon route foo', function() {
     return generateInAddon(['route', 'foo']).then(function() {
       assertFile('addon/routes/foo.js', {
@@ -376,6 +378,18 @@ describe('Acceptance: ember generate in-addon', function() {
           "moduleFor('route:foo/bar'"
         ]
       });
+    });
+  });
+  
+  it('in-addon route-test foo', function() {
+    return generateInAddon(['route-test', 'foo']).then(function() {
+      assertFile('tests/unit/routes/foo-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('route:foo'"
+        ]
+      });
+      assertFileToNotExist('app/route-test/foo.js');
     });
   });
 
@@ -594,7 +608,18 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-
+  
+  it('in-addon adapter-test foo', function() {
+    return generateInAddon(['adapter-test', 'foo']).then(function() {
+      assertFile('tests/unit/adapters/foo-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('adapter:foo'"
+        ]
+      });
+      assertFileToNotExist('app/adapter-test/foo.js');
+    });
+  });
 
   it('in-addon serializer foo', function() {
     return generateInAddon(['serializer', 'foo']).then(function() {
@@ -636,6 +661,18 @@ describe('Acceptance: ember generate in-addon', function() {
           "moduleForModel('foo/bar'"
         ]
       });
+    });
+  });
+  
+  it('in-addon serializer-test foo', function() {
+    return generateInAddon(['serializer-test', 'foo']).then(function() {
+      assertFile('tests/unit/serializers/foo-test.js', {
+        contains: [
+          "import { moduleForModel, test } from 'ember-qunit';",
+          "moduleForModel('foo'"
+        ]
+      });
+      assertFileToNotExist('app/serializer-test/foo.js');
     });
   });
 
@@ -783,24 +820,36 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
+  
+  it('in-addon service-test foo', function() {
+    return generateInAddon(['service-test', 'foo']).then(function() {
+      assertFile('tests/unit/services/foo-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('service:foo'"
+        ]
+      });
+      assertFileToNotExist('app/service-test/foo.js');
+    });
+  });
 
-    it('in-addon blueprint foo', function() {
-      return generateInAddon(['blueprint', 'foo']).then(function() {
-        assertFile('blueprints/foo/index.js', {
-          contains: "module.exports = {" + EOL +
-                    "  description: ''"+ EOL +
-                    EOL +
-                    "  // locals: function(options) {" + EOL +
-                    "  //   // Return custom template variables here." + EOL +
-                    "  //   return {" + EOL +
-                    "  //     foo: options.entity.options.foo" + EOL +
-                    "  //   };" + EOL +
-                    "  // }" + EOL +
-                    EOL +
-                    "  // afterInstall: function(options) {" + EOL +
-                    "  //   // Perform extra work here." + EOL +
-                    "  // }" + EOL +
-                    "};"
+  it('in-addon blueprint foo', function() {
+    return generateInAddon(['blueprint', 'foo']).then(function() {
+      assertFile('blueprints/foo/index.js', {
+        contains: "module.exports = {" + EOL +
+                  "  description: ''"+ EOL +
+                  EOL +
+                  "  // locals: function(options) {" + EOL +
+                  "  //   // Return custom template variables here." + EOL +
+                  "  //   return {" + EOL +
+                  "  //     foo: options.entity.options.foo" + EOL +
+                  "  //   };" + EOL +
+                  "  // }" + EOL +
+                  EOL +
+                  "  // afterInstall: function(options) {" + EOL +
+                  "  //   // Perform extra work here." + EOL +
+                  "  // }" + EOL +
+                  "};"
         });
       });
     });
