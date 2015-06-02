@@ -35,7 +35,9 @@ and failures we do not want our users to endure any extra pain.
 
 1. go back to ember-cli directory
 * `git add` the modified `package.json` and `CHANGELOG.md`
-* Commit the changes `git commit -m "Release 0.x.x"` and push `git push`
+* Commit the changes `git commit -m "Release vx.y.z"` and push `git push`
+* `git tag "vx.y.z"`
+* `git push --tags`
 * publish to npm
 * `npm publish ./ember-cli-<version>.tgz`
 
