@@ -3,6 +3,7 @@
 var Blueprint          = require('../../lib/models/blueprint');
 var stringUtil         = require('../../lib/utilities/string');
 var validComponentName = require('../../lib/utilities/valid-component-name');
+var getPathOption      = require('../../lib/utilities/get-component-path-option');
 var path               = require('path');
 
 module.exports = {
@@ -41,15 +42,15 @@ module.exports = {
     var addonRawName   = options.inRepoAddon ? options.inRepoAddon : options.project.pkg.name;
     var addonName      = stringUtil.dasherize(addonRawName);
     var fileName       = stringUtil.dasherize(options.entity.name);
-    var pathName       = [addonName, 'components', fileName].join('/');
+    var importPathName       = [addonName, 'components', fileName].join('/');
 
     if (options.pod) {
-      pathName = [addonName, 'components', fileName,'component'].join('/');
+      importPathName = [addonName, 'components', fileName,'component'].join('/');
     }
 
     return {
-      modulePath: pathName,
-      path: options.path
+      modulePath: importPathName,
+      path: getPathOption(options)
     };
   }
 };
