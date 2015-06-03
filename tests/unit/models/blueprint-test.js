@@ -15,7 +15,7 @@ var EOL               = require('os').EOL;
 var root              = process.cwd();
 var tmp               = require('tmp-sync');
 var tmproot           = path.join(root, 'tmp');
-var SilentError       = require('../../../lib/errors/silent');
+var SilentError       = require('silent-error');
 
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
@@ -1084,7 +1084,7 @@ describe('Blueprint', function() {
       expect(output).to.not.match(/install addon.*foo-bar/);
     });
   });
-  
+
   describe('load', function(){
     var blueprint;
     it('loads and returns a blueprint object', function() {
@@ -1093,7 +1093,7 @@ describe('Blueprint', function() {
       expect(blueprint.name).to.equal('basic');
     });
     it('loads only blueprints with an index.js', function() {
-      expect(Blueprint.load(path.join(fixtureBlueprints, '.notablueprint'))).to.be.empty;      
+      expect(Blueprint.load(path.join(fixtureBlueprints, '.notablueprint'))).to.be.empty;
     });
   });
 
