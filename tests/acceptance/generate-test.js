@@ -620,6 +620,44 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('instance-initializer foo', function() {
+    return generate(['instance-initializer', 'foo']).then(function() {
+      assertFile('app/instance-initializers/foo.js', {
+        contains: "export function initialize(/* appInstance */) {" + EOL +
+                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "}" + EOL +
+                  "" + EOL+
+                  "export default {" + EOL +
+                  "  name: 'foo'," + EOL +
+                  "  initialize: initialize" + EOL +
+                  "};"
+      });
+
+      assertFile('tests/unit/instance-initializers/foo-test.js', {
+        contains: "import { initialize } from '../../../instance-initializers/foo';"
+      });
+    });
+  });
+
+  it('instance-initializer foo/bar', function() {
+    return generate(['instance-initializer', 'foo/bar']).then(function() {
+      assertFile('app/instance-initializers/foo/bar.js', {
+        contains: "export function initialize(/* appInstance */) {" + EOL +
+                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "}" + EOL +
+                  "" + EOL+
+                  "export default {" + EOL +
+                  "  name: 'foo/bar'," + EOL +
+                  "  initialize: initialize" + EOL +
+                  "};"
+      });
+
+      assertFile('tests/unit/instance-initializers/foo/bar-test.js', {
+        contains: "import { initialize } from '../../../../instance-initializers/foo/bar';"
+      });
+    });
+  });
+
   it('mixin foo', function() {
     return generate(['mixin', 'foo']).then(function() {
       assertFile('app/mixins/foo.js', {

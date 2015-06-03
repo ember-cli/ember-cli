@@ -230,6 +230,26 @@ describe('Acceptance: ember destroy in-addon', function() {
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
   });
 
+  it('in-addon instance-initializer foo', function() {
+    var commandArgs = ['instance-initializer', 'foo'];
+    var files       = [
+      'addon/instance-initializers/foo.js',
+      'app/instance-initializers/foo.js'
+    ];
+
+    return assertDestroyAfterGenerateInAddon(commandArgs, files);
+  });
+
+  it('in-addon instance-initializer foo/bar', function() {
+    var commandArgs = ['instance-initializer', 'foo/bar'];
+    var files       = [
+      'addon/instance-initializers/foo/bar.js',
+      'app/instance-initializers/foo/bar.js'
+    ];
+
+    return assertDestroyAfterGenerateInAddon(commandArgs, files);
+  });
+
   it('in-addon mixin foo', function() {
     var commandArgs = ['mixin', 'foo'];
     var files       = [
