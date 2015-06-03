@@ -6,7 +6,7 @@ var walkSync    = require('walk-sync');
 var stringUtil  = require('../../lib/utilities/string');
 var uniq        = require('lodash/array/uniq');
 var Blueprint   = require('../../lib/models/blueprint');
-var SilentError = require('silent-error');
+var SilentError = require('../../lib/errors/silent');
 var date        = new Date();
 
 module.exports = {

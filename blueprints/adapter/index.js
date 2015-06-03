@@ -1,7 +1,7 @@
 /*jshint node:true*/
 
 var stringUtil  = require('../../lib/utilities/string');
-var SilentError = require('silent-error');
+var SilentError = require('../../lib/errors/silent');
 
 module.exports = {
   description: 'Generates an ember-data adapter.',
