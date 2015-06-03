@@ -591,7 +591,7 @@ describe('Acceptance: ember generate in-addon', function() {
     return generateInAddon(['adapter', 'foo/bar', '--base-class=foo']).then(function() {
       assertFile('addon/adapters/foo/bar.js', {
         contains: [
-          "import FooAdapter from \'./foo\';",
+          "import FooAdapter from \'../foo\';",
           "export default FooAdapter.extend({" + EOL + "});"
         ]
       });

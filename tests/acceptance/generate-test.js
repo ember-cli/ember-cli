@@ -115,7 +115,7 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
-  
+
   it('component foo/x-foo', function() {
     return generate(['component', 'foo/x-foo']).then(function() {
       assertFile('app/components/foo/x-foo.js', {
@@ -136,7 +136,7 @@ describe('Acceptance: ember generate', function() {
       });
     });
   });
-  
+
   it('component x-foo ignores --path option', function() {
     return generate(['component', 'x-foo', '--path', 'foo']).then(function() {
       assertFile('app/components/x-foo.js', {
@@ -561,7 +561,18 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo/bar']).then(function() {
       assertFile('app/adapters/foo/bar.js', {
         contains: [
-          "import ApplicationAdapter from \'./application\';",
+          "import ApplicationAdapter from \'../application\';",
+          "export default ApplicationAdapter.extend({" + EOL + "});"
+        ]
+      });
+    });
+  });
+
+  it('adapter foo/bar/baz', function() {
+    return generate(['adapter', 'foo/bar/baz']).then(function() {
+      assertFile('app/adapters/foo/bar/baz.js', {
+        contains: [
+          "import ApplicationAdapter from \'../../application\';",
           "export default ApplicationAdapter.extend({" + EOL + "});"
         ]
       });
@@ -599,7 +610,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo/baz', '--base-class=foo/bar']).then(function() {
       assertFile('app/adapters/foo/baz.js', {
         contains: [
-          "import FooBarAdapter from './foo/bar';",
+          "import FooBarAdapter from '../foo/bar';",
           "export default FooBarAdapter.extend({" + EOL + "});"
         ]
       });
@@ -1124,7 +1135,7 @@ describe('Acceptance: ember generate', function() {
       assertFile('lib/.jshintrc');
     });
   });
-  
+
   it('custom blueprint availableOptions', function() {
     return initApp()
       .then(function() {
@@ -1134,7 +1145,7 @@ describe('Acceptance: ember generate', function() {
               'module.exports = {' + EOL + 'availableOptions: [ ' + EOL +
               '{ name: \'foo\',' + EOL + 'type: String, '+ EOL +
               'values: [\'one\', \'two\'],' + EOL +
-              'default: \'one\',' + EOL + 
+              'default: \'one\',' + EOL +
               'aliases: [ {\'one\': \'one\'}, {\'two\': \'two\'} ] } ],' + EOL +
               'locals: function(options) {' + EOL +
               'return { foo: options.foo };' + EOL +
