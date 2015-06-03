@@ -195,6 +195,16 @@ used in pod structure. If the blueprint does not require pod
 support, simply use the blueprint name instead of the
 `__path__` token.
 
+The __`__root__`__ token is substituted with either `app` or
+`addon` depending upon where it is being generated. This token
+is used to provide support for generating blueprints inside
+addons, and is only necessary if the blueprint needs to be
+generated into the `addon` folder of an addon. The
+presence of this token will cause an additional addon-import
+blueprint to be generated, which is simply a wrapper that
+re-exports the module in the `addon` folder to allow consumers
+to override addon modules easier.
+
 The __`__test__`__ token is substituted with the dasherized
 entity name and appended with `-test` at install time.
 This token is primarily for pod support and only necessary
