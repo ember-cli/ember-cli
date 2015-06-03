@@ -1,7 +1,7 @@
 /*jshint node:true*/
 
 var stringUtil  = require('../../lib/utilities/string');
-var SilentError = require('../../lib/errors/silent');
+var SilentError = require('silent-error');
 var pathUtil    = require('../../lib/utilities/path');
 
 module.exports = {

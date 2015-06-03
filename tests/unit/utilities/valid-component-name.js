@@ -1,7 +1,7 @@
 'use strict';
 
 var validComponentName = require('../../../lib/utilities/valid-component-name');
-var SilentError        = require('../../../lib/errors/silent');
+var SilentError        = require('silent-error');
 var expect             = require('chai').expect;
 
 describe('validate component name', function(){
