@@ -84,6 +84,7 @@
     "broccoli-unwatched-tree": "0.1.1",
     "broccoli-writer": "0.1.1",
     "chalk": "1.0.0",
+    "clean-base-url": "^1.0.0",
     "compression": "^1.4.4",
     "concat-stream": "^1.4.7",
     "configstore": "0.3.2",
