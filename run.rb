@@ -1,1 +1,1 @@
-exec('jekyll server --watch --baseurl ""')
+exec('bundle exec jekyll server --watch --baseurl ""')
