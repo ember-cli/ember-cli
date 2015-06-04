@@ -85,8 +85,29 @@ If you would like to change this behavior, or compile to multiple output stylesh
 
 #### CSS
 
+To use plain CSS with `app.css`:
+
+* Write your styles in `app.css` and/or organize your CSS into multiple stylesheet files and import these files with `@import` from within `app.css`.
+* [CSS `@import` statements](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) (e.g. `@import 'typography.css';`) must be valid CSS, meaning `@import` statements *must* precede all other rules and so be placed at the *top* of `app.css`.
+* In the production build, the `@import` statements are replaced with the contents of their files and the final minified, concatenated single CSS file is built to `dist/assets/yourappname-FINGERPRINT_GOES_HERE.css`.
+* Any individual CSS files are also built and minified into `dist/assets/` in case you need them as standalone stylesheets.
 * Relative pathing gets changed (how to customize?)
-* `@import` statements -> concat
+
+Example `app.css` with valid `@import` usage:
+
+{% highlight css linenos %}
+/* @imports must appear at top of stylesheet to be valid CSS */
+@import 'typography.css';
+@import 'forms.css';
+
+/* Any CSS rules must go *after* any @imports */
+.first-css-rule {
+  color: red;
+}
+...
+{% endhighlight %}
+
+#### CSS Preprocessors
 
 To use one of the following preprocessors, all you need to do is install the appropriate NPM module.
 The respective files will be picked up and processed automatically.
@@ -203,7 +224,7 @@ this behavior.
 if true. **True by default if current environment is production.**
 * `exclude` - Default: `[]` - An array of strings. If a filename contains any
 item in the exclude array, it will not be fingerprinted.
-* `ignore` - Default: `[]` - An array of strings.  If a filename contains any item in the 
+* `ignore` - Default: `[]` - An array of strings.  If a filename contains any item in the
 ignore array, the contents of the file will not be processed for fingerprinting.
 * `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif', 'map']` - The file types
 to add md5 checksums.
