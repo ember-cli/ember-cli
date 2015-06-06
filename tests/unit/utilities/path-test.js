@@ -16,6 +16,7 @@ describe('path.getRelativeParentPath', function() {
     expect(pathUtils.getRelativeParentPath('foo',1)).to.equal('');
     expect(pathUtils.getRelativeParentPath('foo/bar', 1)).to.equal('../');
     expect(pathUtils.getRelativeParentPath('foo/bar/baz', 2)).to.equal('../');
+    expect(pathUtils.getRelativeParentPath('foo', -1)).to.equal('../../');
   });
 });
 
