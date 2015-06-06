@@ -780,8 +780,8 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
-  it('in-addon acceptance-test foo', function() {
-    return generateInRepoAddon(['acceptance-test', 'foo']).then(function() {
+  it('in-repo-addon acceptance-test foo', function() {
+    return generateInRepoAddon(['acceptance-test', 'foo', '--in-repo-addon=my-addon']).then(function() {
       var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
 
       assertFileEquals('tests/acceptance/foo-test.js', expected);
