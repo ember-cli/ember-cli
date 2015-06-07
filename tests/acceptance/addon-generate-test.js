@@ -1018,5 +1018,14 @@ describe('Acceptance: ember generate in-addon', function() {
         assertFileToNotExist('app/acceptance-tests/foo.js');
       });
     });
+    
+    it('in-addon acceptance-test foo/bar', function() {
+      return generateInAddon(['acceptance-test', 'foo/bar']).then(function() {
+        var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-nested-expected.js');
+
+        assertFileEquals('tests/acceptance/foo/bar-test.js', expected);
+        assertFileToNotExist('app/acceptance-tests/foo/bar.js');
+      });
+    });
 
 });
