@@ -25,6 +25,8 @@ describe('install:npm command', function() {
     command  = new InstallCommand(options);
     msg      = 'This command has been removed. Please use `npm install ';
     msg     += '<packageName> --save-dev --save-exact` instead.';
+    msg     += 'Add `--cache-min=999999` to make npm use locally cached ';
+    msg     += 'packages where possible';
   });
 
   describe('with args', function() {

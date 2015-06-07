@@ -25,6 +25,7 @@ describe('install:bower command', function() {
     command  = new InstallCommand(options);
     msg      = 'This command has been deprecated. Please use `bower install ';
     msg     += '<packageName> --save-dev --save-exact` instead.';
+    msg     += 'Add `--offline` to make bower use only locally cached packages.';
   });
 
   describe('with args', function() {
