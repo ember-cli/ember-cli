@@ -26,6 +26,13 @@ describe('help command', function() {
       name: 'test-command-2',
       aliases: ['t2', 'test-2'],
       run: function() {}
+    }),
+    'TestCommand3': Command.extend({
+      name: 'test-command-3',
+      description: 'This is test command 3 description',
+      skipHelp: true,
+      aliases: ['t3', 'test-3'],
+      run: function() {}
     })
   };
 
@@ -53,6 +60,7 @@ describe('help command', function() {
       expect(ui.output).to.include('(Required)');
       expect(ui.output).to.include('ember test-command-2');
       expect(ui.output).to.include('aliases:');
+      expect(ui.output).to.not.include('ember test-command-3');
     });
   });
 
@@ -66,6 +74,7 @@ describe('help command', function() {
     }).validateAndRun(['test-command-2']).then(function() {
       expect(ui.output).to.include('test-command-2');
       expect(ui.output).to.not.include('test-command-1');
+      expect(ui.output).to.not.include('test-command-3');
     });
   });
 
@@ -79,6 +88,7 @@ describe('help command', function() {
     }).validateAndRun(['t1']).then(function() {
       expect(ui.output).to.include('test-command-1');
       expect(ui.output).to.not.include('test-command-2');
+      expect(ui.output).to.not.include('test-command-3');
     });
   });
 
@@ -133,7 +143,6 @@ describe('help command', function() {
         expect(ui.output).to.not.include('No help entry for');
       });
     });
-
   });
 
   it('should generate "no help entry" message for non-existent commands', function() {
@@ -145,6 +154,20 @@ describe('help command', function() {
       settings: {}
     }).validateAndRun(['heyyy']).then(function() {
       expect(ui.output).to.include('No help entry for');
+    });
+  });
+
+  it('should generate specific help output for commands with skipHelp', function() {
+    return new HelpCommand({
+      ui: ui,
+      analytics: analytics,
+      commands: commands,
+      project: { isEmberCLIProject: function(){ return true; }},
+      settings: {}
+    }).validateAndRun(['test-command-3']).then(function() {
+      expect(ui.output).to.include('test-command-3');
+      expect(ui.output).to.not.include('test-command-1');
+      expect(ui.output).to.not.include('test-command-2');
     });
   });
 });

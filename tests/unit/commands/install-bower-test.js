@@ -23,7 +23,7 @@ describe('install:bower command', function() {
     });
 
     command  = new InstallCommand(options);
-    msg      = 'This command has been deprecated. Please use `bower install ';
+    msg      = 'This command has been removed. Please use `bower install ';
     msg     += '<packageName> --save-dev --save-exact` instead.';
   });
 

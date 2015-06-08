@@ -23,7 +23,7 @@ describe('uninstall:npm command', function() {
     });
 
     command  = new UninstallCommand(options);
-    msg      = 'This command has been deprecated. Please use `npm uninstall ';
+    msg      = 'This command has been removed Please use `npm uninstall ';
     msg     += '<packageName> --save-dev` instead.';
   });
 
