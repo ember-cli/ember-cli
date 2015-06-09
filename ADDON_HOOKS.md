@@ -299,8 +299,7 @@ setupPreprocessorRegistry: function(type, registry) {
 
 - post processing type (eg all)
 - receives tree after build
-- receives tree for a given type  after preprocessors (like HTMLBars or babel) run.
-
+- receives tree for a given type after preprocessors (like HTMLBars or babel) run.
 
 available types:
 
