@@ -353,7 +353,7 @@ describe('broccoli/ember-app', function() {
                   }
                 }];
             } else {
-              return load.call(emberApp.registry, type);
+              return oldLoad.call(emberApp.registry, type);
             }
           };
 
