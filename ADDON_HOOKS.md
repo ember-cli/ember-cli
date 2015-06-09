@@ -300,6 +300,15 @@ setupPreprocessorRegistry: function(type, registry) {
 - post processing type (eg all)
 - receives tree after build
 
+
+available types:
+
+* js
+* template
+* all
+* css
+* test
+
 **Source:** [lib/broccoli/ember-app.js:313](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L313)
 
 **Default implementation:** None
