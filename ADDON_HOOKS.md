@@ -299,6 +299,7 @@ setupPreprocessorRegistry: function(type, registry) {
 
 - post processing type (eg all)
 - receives tree after build
+- receives tree for a given type  after preprocessors (like HTMLBars or babel) run.
 
 
 available types:
@@ -313,10 +314,26 @@ available types:
 
 **Default implementation:** None
 
+<a name='preprocesstree'></a>
+## preprocessTree
+
+**Received arguments:**
+
+- type of tree (eg template, js)
+- receives tree for a given type before preprocessors (like HTMLBars or babel) run.
+
+available types:
+
+* js
+* template
+* css
+* test
+
+**Default implementation:** None
+
 **Uses:**
 
-- fingerprint assets
-- running processes after build but before toTree
+- removing / adding files from the build.
 
 **Examples:**
 
