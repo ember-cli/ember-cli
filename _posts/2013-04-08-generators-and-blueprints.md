@@ -110,18 +110,18 @@ The following would occur when generating a route:
 ember generate route taco
 
 installing
-  create app/taco/route.js
-  create app/taco/template.hbs
-installing
-  create tests/unit/taco/route-test.js
-
-ember generate route taco --pod
-
-installing
   create app/routes/taco.js
   create app/templates/taco.hbs
 installing
   create tests/unit/routes/taco-test.js
+
+ember generate route taco --pod
+
+installing
+  create app/taco/route.js
+  create app/taco/template.hbs
+installing
+  create tests/unit/taco/route-test.js
 {% endhighlight %}
 
 ### Blueprint Structure
