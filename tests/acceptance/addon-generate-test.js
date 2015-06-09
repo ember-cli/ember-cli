@@ -42,19 +42,24 @@ describe('Acceptance: ember generate in-addon', function() {
     return remove(tmproot);
   });
 
-  function initAddon() {
+  function initAddon(name) {
     return ember([
       'addon',
-      'my-addon',
+      name,
       '--skip-npm',
       '--skip-bower'
     ]);
   }
 
   function generateInAddon(args) {
+    var name = 'my-addon';
     var generateArgs = ['generate'].concat(args);
 
-    return initAddon().then(function() {
+    if (arguments.length > 1) {
+      name = arguments[1];
+    }
+
+    return initAddon(name).then(function() {
       return ember(generateArgs);
     });
   }
@@ -380,7 +385,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon route-test foo', function() {
     return generateInAddon(['route-test', 'foo']).then(function() {
       assertFile('tests/unit/routes/foo-test.js', {
@@ -608,7 +613,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon adapter-test foo', function() {
     return generateInAddon(['adapter-test', 'foo']).then(function() {
       assertFile('tests/unit/adapters/foo-test.js', {
@@ -663,7 +668,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon serializer-test foo', function() {
     return generateInAddon(['serializer-test', 'foo']).then(function() {
       assertFile('tests/unit/serializers/foo-test.js', {
@@ -820,7 +825,7 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  
+
   it('in-addon service-test foo', function() {
     return generateInAddon(['service-test', 'foo']).then(function() {
       assertFile('tests/unit/services/foo-test.js', {
@@ -1018,7 +1023,7 @@ describe('Acceptance: ember generate in-addon', function() {
         assertFileToNotExist('app/acceptance-tests/foo.js');
       });
     });
-    
+
     it('in-addon acceptance-test foo/bar', function() {
       return generateInAddon(['acceptance-test', 'foo/bar']).then(function() {
         var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-nested-expected.js');
