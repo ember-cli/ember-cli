@@ -56,7 +56,7 @@ describe('livereload-server', function() {
         liveReloadPort: 1337,
         liveReload: true
       }).then(function() {
-        expect(ui.output).to.equal('Livereload server on port 1337' + EOL);
+        expect(ui.output).to.equal('Livereload server on port 1337 (http)' + EOL);
       });
     });
 
@@ -67,6 +67,39 @@ describe('livereload-server', function() {
       return subject.start({
           liveReloadPort: 1337,
           liveReload: true
+        })
+        .catch(function(reason) {
+          expect(reason).to.equal('Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
+        })
+        .finally(function() {
+          preexistingServer.close(done);
+        });
+    });
+  });
+
+  describe('start with https', function() {
+    it('correctly indicates which port livereload is present on and running in https mode', function() {
+      return subject.start({
+        liveReloadPort: 1337,
+        liveReload: true,
+        ssl: true,
+        sslKey: 'tests/fixtures/ssl/server.key',
+        sslCert: 'tests/fixtures/ssl/server.crt'
+      }).then(function() {
+        expect(ui.output).to.equal('Livereload server on port 1337 (https)' + EOL);
+      });
+    });
+
+    it('informs of error during startup', function(done) {
+      var preexistingServer = net.createServer();
+      preexistingServer.listen(1337);
+
+      return subject.start({
+          liveReloadPort: 1337,
+          liveReload: true,
+          ssl: true,
+          sslKey: 'tests/fixtures/ssl/server.key',
+          sslCert: 'tests/fixtures/ssl/server.crt'
         })
         .catch(function(reason) {
           expect(reason).to.equal('Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
