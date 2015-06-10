@@ -47,6 +47,23 @@ describe('init command', function() {
     });
   });
 
+  it('doesn\'t allow to create an application without project name', function() {
+    var command = new InitCommand({
+      ui: ui,
+      analytics: analytics,
+      project: new Project(process.cwd(), { name: undefined}),
+      tasks: tasks,
+      settings: {}
+    });
+
+    return command.validateAndRun([]).then(function() {
+      expect(false, 'should have rejected with an application without project name');
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal('The `ember init` command requires a package.json in current folder with name attribute or a specified name via arguments. For more details, use `ember help`.');
+    });
+  });
+
   it('Uses the name of the closest project to when calling installBlueprint', function() {
     tasks.InstallBlueprint = Task.extend({
       run: function(blueprintOpts) {
@@ -93,7 +110,7 @@ describe('init command', function() {
 
 
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
-    // change the working dir so `process.cwd` can't be a invalid path for base directories 
+    // change the working dir so `process.cwd` can't be a invalid path for base directories
     // named `ember-cli`.
 
     var tmpDir = os.tmpdir();
