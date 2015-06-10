@@ -127,7 +127,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
       'lib/my-addon/addon/components/x-foo.js',
       'lib/my-addon/addon/templates/components/x-foo.hbs',
       'lib/my-addon/app/components/x-foo.js',
-      'tests/unit/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
@@ -139,7 +139,7 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
       'lib/my-addon/addon/components/nested/x-foo.js',
       'lib/my-addon/addon/templates/components/nested/x-foo.hbs',
       'lib/my-addon/app/components/nested/x-foo.js',
-      'tests/unit/components/nested/x-foo-test.js'
+      'tests/integration/components/nested/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);

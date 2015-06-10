@@ -445,10 +445,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/baz/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/baz/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/baz/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/x-foo'"
+          "moduleForComponent('bar/baz/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -1707,10 +1708,11 @@ describe('Acceptance: ember generate pod', function() {
           "export { default } from 'my-addon/components/x-foo/component';"
         ]
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -1735,10 +1737,11 @@ describe('Acceptance: ember generate pod', function() {
           "export { default } from 'my-addon/components/x-foo/component';"
         ]
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -1763,10 +1766,11 @@ describe('Acceptance: ember generate pod', function() {
           "export { default } from 'my-addon/components/nested/x-foo/component';"
         ]
       });
-      assertFile('tests/unit/components/nested/x-foo/component-test.js', {
+      assertFile('tests/integration/components/nested/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
+          "moduleForComponent('nested/x-foo'",
+          "integration: true"
         ]
       });
     });

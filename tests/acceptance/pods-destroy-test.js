@@ -227,7 +227,7 @@ describe('Acceptance: ember destroy pod', function() {
     var files       = [
       'app/components/x-foo/component.js',
       'app/components/x-foo/template.hbs',
-      'tests/unit/components/x-foo/component-test.js'
+      'tests/integration/components/x-foo/component-test.js'
     ];
 
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
@@ -258,7 +258,7 @@ describe('Acceptance: ember destroy pod', function() {
     var files       = [
       'app/pods/components/x-foo/component.js',
       'app/pods/components/x-foo/template.hbs',
-      'tests/unit/pods/components/x-foo/component-test.js'
+      'tests/integration/pods/components/x-foo/component-test.js'
     ];
 
     return assertDestroyAfterGenerate(commandArgs, files);
@@ -556,7 +556,7 @@ describe('Acceptance: ember destroy pod', function() {
       'addon/components/x-foo/component.js',
       'addon/components/x-foo/template.hbs',
       'app/components/x-foo/component.js',
-      'tests/unit/components/x-foo/component-test.js'
+      'tests/integration/components/x-foo/component-test.js'
     ];
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
@@ -568,7 +568,7 @@ describe('Acceptance: ember destroy pod', function() {
       'lib/my-addon/addon/components/x-foo/component.js',
       'lib/my-addon/addon/components/x-foo/template.hbs',
       'lib/my-addon/app/components/x-foo/component.js',
-      'tests/unit/components/x-foo/component-test.js'
+      'tests/integration/components/x-foo/component-test.js'
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
@@ -580,7 +580,7 @@ describe('Acceptance: ember destroy pod', function() {
       'lib/my-addon/addon/components/nested/x-foo/component.js',
       'lib/my-addon/addon/components/nested/x-foo/template.hbs',
       'lib/my-addon/app/components/nested/x-foo/component.js',
-      'tests/unit/components/nested/x-foo/component-test.js'
+      'tests/integration/components/nested/x-foo/component-test.js'
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
