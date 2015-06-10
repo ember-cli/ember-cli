@@ -41,6 +41,12 @@ module.exports = {
     var componentPathName = dasherizedModuleName;
     var testTypeDefinition = "integration: true";
     var friendlyTestDescription = testInfo.description(options.entity.name, "Integration", "Component");
+    var testContent = "assert.expect(1);" + EOL + EOL +
+      "  // Set any properties with this.set('myProperty', 'value');" + EOL +
+      "  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+      "  // Provide a template (string or precompiled) for this.render()" + EOL +
+      "  this.render();" + EOL + EOL +
+      "  assert.equal(this.$().text(), '')";
 
     if (options.pod && options.path !== 'components' && options.path !== '') {
       componentPathName = [options.path, dasherizedModuleName].join('/');
@@ -49,13 +55,22 @@ module.exports = {
     if (options.testType === 'unit') {
       testTypeDefinition = "// Specify the other units that are required for this test" +
         EOL + "  // needs: ['component:foo', 'helper:bar']," + EOL + "  unit: true";
-        
+
+      testContent = "assert.expect(2);" + EOL + EOL +
+        "  // Creates the component instance" + EOL +
+        "  var component = this.subject();" + EOL +
+        "  assert.equal(component._state, 'preRender');" + EOL + EOL +
+        "  // Renders the component to the page" + EOL +
+        "  this.render();" + EOL +
+        "  assert.equal(component._state, 'inDOM');";
+
       friendlyTestDescription = testInfo.description(options.entity.name, "Unit", "Component");
     }
 
     return {
       path: getPathOption(options),
-      testType: options.testType ,
+      testType: options.testType,
+      testContent: testContent,
       componentPathName: componentPathName,
       testTypeDefinition: testTypeDefinition,
       friendlyTestDescription: friendlyTestDescription
