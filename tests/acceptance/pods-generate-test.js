@@ -179,10 +179,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -268,10 +269,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -289,10 +291,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/components/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -310,10 +313,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/components/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -331,10 +335,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/components/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/components/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/components/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -352,10 +357,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/x-foo'"
+          "moduleForComponent('bar/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -373,10 +379,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/x-foo'"
+          "moduleForComponent('bar/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -394,10 +401,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/foo/x-foo'"
+          "moduleForComponent('bar/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -415,10 +423,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/foo/x-foo'"
+          "moduleForComponent('bar/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -457,10 +466,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/baz/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/baz/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/baz/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/x-foo'"
+          "moduleForComponent('bar/baz/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -478,10 +488,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/baz/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/baz/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/baz/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/foo/x-foo'"
+          "moduleForComponent('bar/baz/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -499,10 +510,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/baz/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/baz/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/baz/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/foo/x-foo'"
+          "moduleForComponent('bar/baz/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -520,10 +532,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/x-foo/component-test.js', {
+      assertFile('tests/integration/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -541,10 +554,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -562,10 +576,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -583,10 +598,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
