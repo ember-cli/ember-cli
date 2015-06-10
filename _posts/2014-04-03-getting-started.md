@@ -197,7 +197,7 @@ ember server
 
 #### `app/index.html`
 
-The `app/index.html` file lays the foundation for your application.  This is where the basic DOM structure is laid out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{% raw %}{{content-for 'head'}}{% endraw %}` and `{% raw %}{{content-for 'body'}}{% endraw %}` - that can be used by [Addons](#addons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular addons.
+The `app/index.html` file lays the foundation for your application.  This is where the basic DOM structure is laid out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{% raw %}{{content-for 'head'}}{% endraw %}` and `{% raw %}{{content-for 'body'}}{% endraw %}` - that can be used by [Addons](#addons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular addon.
 
 ### Addons
 
