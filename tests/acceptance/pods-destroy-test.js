@@ -505,8 +505,8 @@ describe('Acceptance: ember destroy pod', function() {
   it('service foo --pod', function() {
     var commandArgs = ['service', 'foo', '--pod'];
     var files       = [
-      'app/services/foo.js',
-      'tests/unit/services/foo-test.js'
+      'app/pods/foo/service.js',
+      'tests/unit/pods/foo/service-test.js'
     ];
 
     return assertDestroyAfterGenerate(commandArgs, files);
@@ -515,8 +515,8 @@ describe('Acceptance: ember destroy pod', function() {
   it('service foo/bar --pod', function() {
     var commandArgs = ['service', 'foo/bar', '--pod'];
     var files       = [
-      'app/services/foo/bar.js',
-      'tests/unit/services/foo/bar-test.js'
+      'app/pods/foo/bar/service.js',
+      'tests/unit/pods/foo/bar/service-test.js'
     ];
 
     return assertDestroyAfterGenerate(commandArgs, files);

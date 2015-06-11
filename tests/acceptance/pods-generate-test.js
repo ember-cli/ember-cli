@@ -1435,14 +1435,14 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   it('service foo --pod', function() {
-    return generate(['service', 'foo']).then(function() {
-      assertFile('app/services/foo.js', {
+    return generate(['service', 'foo', '--pod']).then(function() {
+      assertFile('app/foo/service.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
-      assertFile('tests/unit/services/foo-test.js', {
+      assertFile('tests/unit/foo/service-test.js', {
         contains: [
           "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('service:foo'"
@@ -1452,14 +1452,48 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   it('service foo/bar --pod', function() {
-    return generate(['service', 'foo/bar']).then(function() {
-      assertFile('app/services/foo/bar.js', {
+    return generate(['service', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/foo/bar/service.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
-      assertFile('tests/unit/services/foo/bar-test.js', {
+      assertFile('tests/unit/foo/bar/service-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('service:foo/bar'"
+        ]
+      });
+    });
+  });
+
+  it('service foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['service', 'foo', '--pod']).then(function() {
+      assertFile('app/pods/foo/service.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Service.extend({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/pods/foo/service-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('service:foo'"
+        ]
+      });
+    });
+  });
+
+  it('service foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['service', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/pods/foo/bar/service.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Service.extend({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/pods/foo/bar/service-test.js', {
         contains: [
           "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('service:foo/bar'"
