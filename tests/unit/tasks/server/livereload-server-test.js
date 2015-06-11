@@ -56,7 +56,7 @@ describe('livereload-server', function() {
         liveReloadPort: 1337,
         liveReload: true
       }).then(function() {
-        expect(ui.output).to.equal('Livereload server on port 1337 (http)' + EOL);
+        expect(ui.output).to.equal('Livereload server on http://localhost:1337' + EOL);
       });
     });
 
@@ -69,7 +69,7 @@ describe('livereload-server', function() {
           liveReload: true
         })
         .catch(function(reason) {
-          expect(reason).to.equal('Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
+          expect(reason).to.equal('Livereload failed on http://localhost:1337.  It is either in use or you do not have permission.' + EOL);
         })
         .finally(function() {
           preexistingServer.close(done);
@@ -86,7 +86,7 @@ describe('livereload-server', function() {
         sslKey: 'tests/fixtures/ssl/server.key',
         sslCert: 'tests/fixtures/ssl/server.crt'
       }).then(function() {
-        expect(ui.output).to.equal('Livereload server on port 1337 (https)' + EOL);
+        expect(ui.output).to.equal('Livereload server on https://localhost:1337' + EOL);
       });
     });
 
@@ -102,7 +102,7 @@ describe('livereload-server', function() {
           sslCert: 'tests/fixtures/ssl/server.crt'
         })
         .catch(function(reason) {
-          expect(reason).to.equal('Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
+          expect(reason).to.equal('Livereload failed on https://localhost:1337.  It is either in use or you do not have permission.' + EOL);
         })
         .finally(function() {
           preexistingServer.close(done);
