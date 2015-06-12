@@ -404,7 +404,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return copyFixtureFiles('brocfile-tests/multiple-sass-files')
       .then(function() {
-        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'Brocfile.js');
+        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'ember-cli-build.js');
         var brocfile = fs.readFileSync(brocfilePath, 'utf8');
 
         // remove custom preprocessCss paths, use app.scss instead
