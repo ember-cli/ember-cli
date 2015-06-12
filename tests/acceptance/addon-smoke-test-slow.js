@@ -181,7 +181,7 @@ describe('Acceptance: addon-smoke-test', function() {
           resolve(output);
         });
       }).then(function(output) {
-        var unnecessaryFiles = ['.gitkeep', '.travis.yml', 'Brocfile.js', '.editorconfig', 'testem.json', '.ember-cli', 'bower.json', '.bowerrc'];
+        var unnecessaryFiles = ['.gitkeep', '.travis.yml', 'ember-cli-build.js', '.editorconfig', 'testem.json', '.ember-cli', 'bower.json', '.bowerrc'];
         var unnecessaryFolders = ['tests/', 'bower_components/'];
 
         unnecessaryFiles.concat(unnecessaryFolders).forEach(function(file) {
