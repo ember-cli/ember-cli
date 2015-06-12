@@ -8,7 +8,7 @@
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.4",
     "ember-qunit": "0.3.3",
     "ember-qunit-notifications": "0.0.7",
-    "ember-resolver": "~0.1.15",
+    "ember-resolver": "~0.1.17",
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "qunit": "~1.17.1"
