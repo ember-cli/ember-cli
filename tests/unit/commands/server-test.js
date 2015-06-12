@@ -62,6 +62,19 @@ describe('server command', function() {
     });
   });
 
+  it('has correct liveLoadHost', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--live-reload-host', '127.0.0.1'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(ops.liveReloadHost).to.equal('127.0.0.1', 'has correct liveReload host');
+    });
+  });
+
   it('has correct proxy', function() {
     return new ServeCommand(options).validateAndRun([
       '--proxy', 'http://localhost:3000/'
