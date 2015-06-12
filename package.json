@@ -98,6 +98,7 @@
     "exit": "^0.1.2",
     "express": "^4.12.3",
     "findup": "0.1.5",
+    "findup-sync": "^0.2.1",
     "fs-extra": "0.16.5",
     "git-repo-info": "^1.0.4",
     "github": "^0.2.3",
