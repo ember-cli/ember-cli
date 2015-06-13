@@ -42,19 +42,24 @@ describe('Acceptance: ember generate in-addon', function() {
     return remove(tmproot);
   });
 
-  function initAddon() {
+  function initAddon(name) {
     return ember([
       'addon',
-      'my-addon',
+      name,
       '--skip-npm',
       '--skip-bower'
     ]);
   }
 
   function generateInAddon(args) {
+    var name = 'my-addon';
     var generateArgs = ['generate'].concat(args);
 
-    return initAddon().then(function() {
+    if (arguments.length > 1) {
+      name = arguments[1];
+    }
+
+    return initAddon(name).then(function() {
       return ember(generateArgs);
     });
   }

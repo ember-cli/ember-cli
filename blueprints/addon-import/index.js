@@ -6,7 +6,7 @@ var inflector   = require('inflection');
 
 module.exports = {
   description: 'Generates an import wrapper.',
-  
+
   fileMapTokens: function() {
     return {
       __name__: function(options) {
@@ -32,7 +32,7 @@ module.exports = {
     };
   },
   locals: function(options) {
-    var addonRawName   = options.inRepoAddon ? options.inRepoAddon : options.project.pkg.name;
+    var addonRawName   = options.inRepoAddon ? options.inRepoAddon : options.project.name();
     var addonName      = stringUtil.dasherize(addonRawName);
     var fileName       = stringUtil.dasherize(options.entity.name);
     var pathName       = [addonName, inflector.pluralize(options.originBlueprintName), fileName].join('/');
