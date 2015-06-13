@@ -299,15 +299,40 @@ setupPreprocessorRegistry: function(type, registry) {
 
 - post processing type (eg all)
 - receives tree after build
+- receives tree for a given type after preprocessors (like HTMLBars or babel) run.
+
+available types:
+
+* js
+* template
+* all
+* css
+* test
 
 **Source:** [lib/broccoli/ember-app.js:313](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L313)
 
 **Default implementation:** None
 
+<a name='preprocesstree'></a>
+## preprocessTree
+
+**Received arguments:**
+
+- type of tree (eg template, js)
+- receives tree for a given type before preprocessors (like HTMLBars or babel) run.
+
+available types:
+
+* js
+* template
+* css
+* test
+
+**Default implementation:** None
+
 **Uses:**
 
-- fingerprint assets
-- running processes after build but before toTree
+- removing / adding files from the build.
 
 **Examples:**
 
