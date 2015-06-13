@@ -35,6 +35,10 @@ module.exports = {
           return path.join('lib', options.inRepoAddon, 'addon');
         }
 
+        if (options.inDummy) {
+          return path.join('tests','dummy','app');
+        }
+
         if (options.inAddon) {
           return 'addon';
         }

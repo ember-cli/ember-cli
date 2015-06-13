@@ -18,7 +18,7 @@ var EOL                  = require('os').EOL;
 var BlueprintNpmTask     = require('../helpers/disable-npm-on-blueprint');
 var expect               = require('chai').expect;
 
-describe('Acceptance: ember generate in-addon', function() {
+describe('Acceptance: ember generate in-addon-dummy', function() {
   this.timeout(20000);
   var tmpdir;
 
@@ -59,80 +59,51 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   }
 
-  it('in-addon controller foo', function() {
-    return generateInAddon(['controller', 'foo']).then(function() {
-      assertFile('addon/controllers/foo.js', {
+  it('dummy controller foo', function() {
+    return generateInAddon(['controller', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Controller.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/controllers/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/controllers/foo';"
-        ]
-      });
-      assertFile('tests/unit/controllers/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('controller:foo'"
-        ]
-      });
+      assertFileToNotExist('app/controllers/foo-test.js');
+      assertFileToNotExist('tests/unit/controllers/foo-test.js');
     });
   });
 
-  it('in-addon controller foo/bar', function() {
-    return generateInAddon(['controller', 'foo/bar']).then(function() {
-      assertFile('addon/controllers/foo/bar.js', {
+  it('dummy controller foo/bar', function() {
+    return generateInAddon(['controller', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/controllers/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Controller.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/controllers/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/controllers/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/controllers/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('controller:foo/bar'"
-        ]
-      });
+      assertFileToNotExist('app/controllers/foo/bar.js');
+      assertFileToNotExist('tests/unit/controllers/foo/bar-test.js');
     });
   });
 
-  it('in-addon component x-foo', function() {
-    return generateInAddon(['component', 'x-foo']).then(function() {
-      assertFile('addon/components/x-foo.js', {
+  it('dummy component x-foo', function() {
+    return generateInAddon(['component', 'x-foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/components/x-foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "import layout from '../templates/components/x-foo';",
           "export default Ember.Component.extend({",
-          "layout: layout",
           "});"
         ]
       });
-      assertFile('addon/templates/components/x-foo.hbs', {
+      assertFile('tests/dummy/app/templates/components/x-foo.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('app/components/x-foo.js', {
-        contains: [
-          "export { default } from 'my-addon/components/x-foo';"
-        ]
-      });
-      assertFile('tests/unit/components/x-foo-test.js', {
-        contains: [
-          "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
-        ]
-      });
+      assertFileToNotExist('app/components/x-foo.js');
+      assertFileToNotExist('tests/unit/components/x-foo-test.js');
     });
   });
 
-  it('in-addon component-test x-foo', function() {
-    return generateInAddon(['component-test', 'x-foo']).then(function() {
+  it('dummy component-test x-foo', function() {
+    return generateInAddon(['component-test', 'x-foo', '--dummy']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
@@ -143,97 +114,65 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  it('in-addon component nested/x-foo', function() {
-    return generateInAddon(['component', 'nested/x-foo']).then(function() {
-      assertFile('addon/components/nested/x-foo.js', {
+  it('dummy component nested/x-foo', function() {
+    return generateInAddon(['component', 'nested/x-foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/components/nested/x-foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "import layout from '../../templates/components/nested/x-foo';",
           "export default Ember.Component.extend({",
-          "layout: layout",
           "});"
         ]
       });
-      assertFile('addon/templates/components/nested/x-foo.hbs', {
+      assertFile('tests/dummy/app/templates/components/nested/x-foo.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('app/components/nested/x-foo.js', {
-        contains: [
-          "export { default } from 'my-addon/components/nested/x-foo';"
-        ]
-      });
-      assertFile('tests/unit/components/nested/x-foo-test.js', {
-        contains: [
-          "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
-        ]
-      });
+      assertFileToNotExist('app/components/nested/x-foo.js');
+      assertFileToNotExist('tests/unit/components/nested/x-foo-test.js');
     });
   });
 
-  it('in-addon helper foo-bar', function() {
-    return generateInAddon(['helper', 'foo-bar']).then(function() {
-      assertFile('addon/helpers/foo-bar.js', {
+  it('dummy helper foo-bar', function() {
+    return generateInAddon(['helper', 'foo-bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/helpers/foo-bar.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
       });
-      assertFile('app/helpers/foo-bar.js', {
-        contains: [
-          "export { default, fooBar } from 'my-addon/helpers/foo-bar';"
-        ]
-      });
-      assertFile('tests/unit/helpers/foo-bar-test.js', {
-        contains: "import { fooBar } from '../../../helpers/foo-bar';"
-      });
+      assertFileToNotExist('app/helpers/foo-bar.js');
+      assertFileToNotExist('tests/unit/helpers/foo-bar-test.js');
     });
   });
 
-  it('in-addon helper foo/bar-baz', function() {
-    return generateInAddon(['helper', 'foo/bar-baz']).then(function() {
-      assertFile('addon/helpers/foo/bar-baz.js', {
+  it('dummy helper foo/bar-baz', function() {
+    return generateInAddon(['helper', 'foo/bar-baz', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/helpers/foo/bar-baz.js', {
         contains: "import Ember from 'ember';" + EOL + EOL +
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
                   "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
       });
-      assertFile('app/helpers/foo/bar-baz.js', {
-        contains: [
-          "export { default, fooBarBaz } from 'my-addon/helpers/foo/bar-baz';"
-        ]
-      });
-      assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
-        contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
-      });
+      assertFileToNotExist('app/helpers/foo/bar-baz.js');
+      assertFileToNotExist('tests/unit/helpers/foo/bar-baz-test.js');
     });
   });
 
-  it('in-addon model foo', function() {
-    return generateInAddon(['model', 'foo']).then(function() {
-      assertFile('addon/models/foo.js', {
+  it('dummy model foo', function() {
+    return generateInAddon(['model', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/models/foo.js', {
         contains: [
           "import DS from 'ember-data';",
           "export default DS.Model.extend"
         ]
       });
-      assertFile('app/models/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/models/foo';"
-        ]
-      });
-      assertFile('tests/unit/models/foo-test.js', {
-        contains: [
-          "import { moduleForModel, test } from 'ember-qunit';",
-          "moduleForModel('foo'"
-        ]
-      });
+      assertFileToNotExist('app/models/foo.js');
+      assertFileToNotExist('tests/unit/models/foo-test.js');
     });
   });
 
-  it('in-addon model foo with attributes', function() {
+  it('dummy model foo with attributes', function() {
     return generateInAddon([
       'model',
       'foo',
@@ -251,9 +190,10 @@ describe('Acceptance: ember generate in-addon', function() {
       'bazName:belongs-to',
       'test-name:belongs-to',
       'echoName:hasMany',
-      'bravoName:belongs_to'
+      'bravoName:belongs_to',
+      '--dummy'
     ]).then(function() {
-      assertFile('addon/models/foo.js', {
+      assertFile('tests/dummy/app/models/foo.js', {
         contains: [
           "noType: DS.attr()",
           "firstName: DS.attr('string')",
@@ -272,54 +212,26 @@ describe('Acceptance: ember generate in-addon', function() {
           "bravoName: DS.belongsTo('bravo-name')"
         ]
       });
-      assertFile('app/models/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/models/foo';"
-        ]
-      });
-      assertFile('tests/unit/models/foo-test.js', {
-        contains: [
-          "needs: [",
-          "'model:bar',",
-          "'model:baz',",
-          "'model:echo',",
-          "'model:bravo',",
-          "'model:foo-name',",
-          "'model:bar-name',",
-          "'model:baz-name',",
-          "'model:echo-name',",
-          "'model:test-name',",
-          "'model:bravo-name'",
-          "]"
-        ]
-      });
+      assertFileToNotExist('app/models/foo.js');
+      assertFileToNotExist('tests/unit/models/foo-test.js');
     });
   });
 
-  it('in-addon model foo/bar', function() {
-    return generateInAddon(['model', 'foo/bar']).then(function() {
-      assertFile('addon/models/foo/bar.js', {
+  it('dummy model foo/bar', function() {
+    return generateInAddon(['model', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/models/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
           "export default DS.Model.extend"
         ]
       });
-      assertFile('app/models/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/models/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/models/foo/bar-test.js', {
-        contains: [
-          "import { moduleForModel, test } from 'ember-qunit';",
-          "moduleForModel('foo/bar'"
-        ]
-      });
+      assertFileToNotExist('app/models/foo/bar.js');
+      assertFileToNotExist('tests/unit/models/foo/bar-test.js');
     });
   });
 
-  it('in-addon model-test foo', function() {
-    return generateInAddon(['model-test', 'foo']).then(function() {
+  it('dummy model-test foo', function() {
+    return generateInAddon(['model-test', 'foo', '--dummy']).then(function() {
       assertFile('tests/unit/models/foo-test.js', {
         contains: [
           "import { moduleForModel, test } from 'ember-qunit';",
@@ -330,58 +242,40 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  it('in-addon route foo', function() {
-    return generateInAddon(['route', 'foo']).then(function() {
-      assertFile('addon/routes/foo.js', {
+  it('dummy route foo', function() {
+    return generateInAddon(['route', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/routes/foo.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/routes/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/routes/foo';"
-        ]
-      });
-      assertFile('addon/templates/foo.hbs', {
+      assertFileToNotExist('app/routes/foo.js');
+      assertFile('tests/dummy/app/templates/foo.hbs', {
         contains: '{{outlet}}'
       });
-      assertFile('app/templates/foo.js', {
-        contains: "export { default } from 'my-addon/templates/foo';"
-      });
-      assertFile('tests/unit/routes/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('route:foo'"
-        ]
-      });
+      assertFileToNotExist('app/templates/foo.js');
+      assertFileToNotExist('tests/unit/routes/foo-test.js');
     });
   });
 
-  it('in-addon route foo/bar', function() {
-    return generateInAddon(['route', 'foo/bar']).then(function() {
-      assertFile('addon/routes/foo/bar.js', {
+  it('dummy route foo/bar', function() {
+    return generateInAddon(['route', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/routes/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.Route.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/routes/foo/bar.js', {
-        contains: "export { default } from 'my-addon/routes/foo/bar';"
+      assertFileToNotExist('app/routes/foo/bar.js');
+      assertFile('tests/dummy/app/templates/foo/bar.hbs', {
+        contains: '{{outlet}}'
       });
-      assertFile('app/templates/foo/bar.js', {
-        contains: "export { default } from 'my-addon/templates/foo/bar';"
-      });
-      assertFile('tests/unit/routes/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('route:foo/bar'"
-        ]
-      });
+      assertFileToNotExist('tests/unit/routes/foo/bar-test.js');
     });
   });
 
-  it('in-addon route-test foo', function() {
+  it('dummy route-test foo', function() {
     return generateInAddon(['route-test', 'foo']).then(function() {
       assertFile('tests/unit/routes/foo-test.js', {
         contains: [
@@ -393,72 +287,54 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  it('in-addon template foo', function() {
-    return generateInAddon(['template', 'foo']).then(function() {
-      assertFile('addon/templates/foo.hbs');
+  it('dummy template foo', function() {
+    return generateInAddon(['template', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/templates/foo.hbs');
     });
   });
 
-  it('in-addon template foo/bar', function() {
-    return generateInAddon(['template', 'foo/bar']).then(function() {
-      assertFile('addon/templates/foo/bar.hbs');
+  it('dummy template foo/bar', function() {
+    return generateInAddon(['template', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/templates/foo/bar.hbs');
     });
   });
 
-  it('in-addon view foo', function() {
-    return generateInAddon(['view', 'foo']).then(function() {
-      assertFile('addon/views/foo.js', {
+  it('dummy view foo', function() {
+    return generateInAddon(['view', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/views/foo.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.View.extend({" + EOL + "})"
         ]
       });
-      assertFile('app/views/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/views/foo';"
-        ]
-      });
-      assertFile('tests/unit/views/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('view:foo'"
-        ]
-      });
+      assertFileToNotExist('app/views/foo.js');
+      assertFileToNotExist('tests/unit/views/foo-test.js');
     });
   });
 
-  it('in-addon view foo/bar', function() {
-    return generateInAddon(['view', 'foo/bar']).then(function() {
-      assertFile('addon/views/foo/bar.js', {
+  it('dummy view foo/bar', function() {
+    return generateInAddon(['view', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/views/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           "export default Ember.View.extend({" + EOL + "})"
         ]
       });
-      assertFile('app/views/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/views/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/views/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('view:foo/bar'"
-        ]
-      });
+      assertFileToNotExist('app/views/foo/bar.js');
+      assertFileToNotExist('tests/unit/views/foo/bar-test.js');
     });
   });
 
-  it('in-addon resource foos', function() {
-    return generateInAddon(['resource', 'foos']).catch(function(error) {
+  it('dummy resource foos', function() {
+    return generateInAddon(['resource', 'foos', '--dummy']).catch(function(error) {
       expect(error.message).to.include('blueprint does not support ' +
         'generating inside addons.');
     });
   });
 
-  it('in-addon initializer foo', function() {
-    return generateInAddon(['initializer', 'foo']).then(function() {
-      assertFile('addon/initializers/foo.js', {
+  it('dummy initializer foo', function() {
+    return generateInAddon(['initializer', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/initializers/foo.js', {
         contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
@@ -468,18 +344,14 @@ describe('Acceptance: ember generate in-addon', function() {
                   "  initialize: initialize" + EOL +
                   "};"
       });
-      assertFile('app/initializers/foo.js', {
-        contains: [
-          "export { default, initialize } from 'my-addon/initializers/foo';"
-        ]
-      });
-      assertFile('tests/unit/initializers/foo-test.js');
+      assertFileToNotExist('app/initializers/foo.js');
+      assertFileToNotExist('tests/unit/initializers/foo-test.js');
     });
   });
 
-  it('in-addon initializer foo/bar', function() {
-    return generateInAddon(['initializer', 'foo/bar']).then(function() {
-      assertFile('addon/initializers/foo/bar.js', {
+  it('dummy initializer foo/bar', function() {
+    return generateInAddon(['initializer', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/initializers/foo/bar.js', {
         contains: "export function initialize(/* container, application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
@@ -489,134 +361,91 @@ describe('Acceptance: ember generate in-addon', function() {
                   "  initialize: initialize" + EOL +
                   "};"
       });
-      assertFile('app/initializers/foo/bar.js', {
-        contains: [
-          "export { default, initialize } from 'my-addon/initializers/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/initializers/foo/bar-test.js');
+      assertFileToNotExist('app/initializers/foo/bar.js');
+      assertFileToNotExist('tests/unit/initializers/foo/bar-test.js');
     });
   });
 
-  it('in-addon mixin foo', function() {
-    return generateInAddon(['mixin', 'foo']).then(function() {
-      assertFile('addon/mixins/foo.js', {
+  it('dummy mixin foo', function() {
+    return generateInAddon(['mixin', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/mixins/foo.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Mixin.create({' + EOL + '});'
         ]
       });
-      assertFile('tests/unit/mixins/foo-test.js', {
-        contains: [
-          "import FooMixin from '../../../mixins/foo';"
-        ]
-      });
+      assertFileToNotExist('tests/unit/mixins/foo-test.js');
       assertFileToNotExist('app/mixins/foo.js');
     });
   });
 
-  it('in-addon mixin foo/bar', function() {
-    return generateInAddon(['mixin', 'foo/bar']).then(function() {
-      assertFile('addon/mixins/foo/bar.js', {
+  it('dummy mixin foo/bar', function() {
+    return generateInAddon(['mixin', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/mixins/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Mixin.create({' + EOL + '});'
         ]
       });
-      assertFile('tests/unit/mixins/foo/bar-test.js', {
-        contains: [
-          "import FooBarMixin from '../../../mixins/foo/bar';"
-        ]
-      });
+      assertFileToNotExist('tests/unit/mixins/foo/bar-test.js');
       assertFileToNotExist('app/mixins/foo/bar.js');
     });
   });
 
-  it('in-addon mixin foo/bar/baz', function() {
-    return generateInAddon(['mixin', 'foo/bar/baz']).then(function() {
-      assertFile('addon/mixins/foo/bar/baz.js', {
+  it('dummy mixin foo/bar/baz', function() {
+    return generateInAddon(['mixin', 'foo/bar/baz', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/mixins/foo/bar/baz.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Mixin.create({' + EOL + '});'
         ]
       });
-      assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
-        contains: [
-          "import FooBarBazMixin from '../../../mixins/foo/bar/baz';"
-        ]
-      });
+      assertFileToNotExist('tests/unit/mixins/foo/bar/baz-test.js');
       assertFileToNotExist('app/mixins/foo/bar/baz.js');
     });
   });
 
-  it('in-addon adapter application', function() {
-    return generateInAddon(['adapter', 'application']).then(function() {
-      assertFile('addon/adapters/application.js', {
+  it('dummy adapter application', function() {
+    return generateInAddon(['adapter', 'application', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/adapters/application.js', {
         contains: [
           "import DS from \'ember-data\';",
           "export default DS.RESTAdapter.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/adapters/application.js', {
-        contains: [
-          "export { default } from 'my-addon/adapters/application';"
-        ]
-      });
-      assertFile('tests/unit/adapters/application-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('adapter:application'"
-        ]
-      });
+      assertFileToNotExist('app/adapters/application.js');
+      assertFileToNotExist('tests/unit/adapters/application-test.js');
     });
   });
 
-  it('in-addon adapter foo', function() {
-    return generateInAddon(['adapter', 'foo']).then(function() {
-      assertFile('addon/adapters/foo.js', {
+  it('dummy adapter foo', function() {
+    return generateInAddon(['adapter', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/adapters/foo.js', {
         contains: [
           "import DS from \'ember-data\';",
           "export default DS.RESTAdapter.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/adapters/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/adapters/foo';"
-        ]
-      });
-      assertFile('tests/unit/adapters/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('adapter:foo'"
-        ]
-      });
+      assertFileToNotExist('app/adapters/foo.js');
+      assertFileToNotExist('tests/unit/adapters/foo-test.js');
     });
   });
 
-  it('in-addon adapter foo/bar (with base class foo)', function() {
-    return generateInAddon(['adapter', 'foo/bar', '--base-class=foo']).then(function() {
-      assertFile('addon/adapters/foo/bar.js', {
+  it('dummy adapter foo/bar (with base class foo)', function() {
+    return generateInAddon(['adapter', 'foo/bar', '--base-class=foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/adapters/foo/bar.js', {
         contains: [
           "import FooAdapter from \'../foo\';",
           "export default FooAdapter.extend({" + EOL + "});"
         ]
       });
-      assertFile('app/adapters/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/adapters/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/adapters/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('adapter:foo/bar'"
-        ]
-      });
+      assertFileToNotExist('app/adapters/foo/bar.js');
+      assertFileToNotExist('tests/unit/adapters/foo/bar-test.js');
     });
   });
 
-  it('in-addon adapter-test foo', function() {
-    return generateInAddon(['adapter-test', 'foo']).then(function() {
+  it('dummy adapter-test foo', function() {
+    return generateInAddon(['adapter-test', 'foo', '--dummy']).then(function() {
       assertFile('tests/unit/adapters/foo-test.js', {
         contains: [
           "import { moduleFor, test } from 'ember-qunit';",
@@ -627,51 +456,34 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  it('in-addon serializer foo', function() {
-    return generateInAddon(['serializer', 'foo']).then(function() {
-      assertFile('addon/serializers/foo.js', {
+  it('dummy serializer foo', function() {
+    return generateInAddon(['serializer', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/serializers/foo.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.RESTSerializer.extend({' + EOL + '});'
         ]
       });
-      assertFile('app/serializers/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/serializers/foo';"
-        ]
-      });
-      assertFile('tests/unit/serializers/foo-test.js', {
-        contains: [
-          "import { moduleForModel, test } from 'ember-qunit';",
-        ]
-      });
+      assertFileToNotExist('app/serializers/foo.js');
+      assertFileToNotExist('tests/unit/serializers/foo-test.js');
     });
   });
 
-  it('in-addon serializer foo/bar', function() {
-    return generateInAddon(['serializer', 'foo/bar']).then(function() {
-      assertFile('addon/serializers/foo/bar.js', {
+  it('dummy serializer foo/bar', function() {
+    return generateInAddon(['serializer', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/serializers/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.RESTSerializer.extend({' + EOL + '});'
         ]
       });
-      assertFile('app/serializers/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/serializers/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/serializers/foo/bar-test.js', {
-        contains: [
-          "import { moduleForModel, test } from 'ember-qunit';",
-          "moduleForModel('foo/bar'"
-        ]
-      });
+      assertFileToNotExist('app/serializers/foo/bar.js');
+      assertFileToNotExist('tests/unit/serializers/foo/bar-test.js');
     });
   });
 
-  it('in-addon serializer-test foo', function() {
-    return generateInAddon(['serializer-test', 'foo']).then(function() {
+  it('dummy serializer-test foo', function() {
+    return generateInAddon(['serializer-test', 'foo', '--dummy']).then(function() {
       assertFile('tests/unit/serializers/foo-test.js', {
         contains: [
           "import { moduleForModel, test } from 'ember-qunit';",
@@ -682,9 +494,9 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  it('in-addon transform foo', function() {
-    return generateInAddon(['transform', 'foo']).then(function() {
-      assertFile('addon/transforms/foo.js', {
+  it('dummy transform foo', function() {
+    return generateInAddon(['transform', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/transforms/foo.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.Transform.extend({' + EOL +
@@ -698,23 +510,14 @@ describe('Acceptance: ember generate in-addon', function() {
           '});'
         ]
       });
-      assertFile('app/transforms/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/transforms/foo';"
-        ]
-      });
-      assertFile('tests/unit/transforms/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('transform:foo'"
-        ]
-      });
+      assertFileToNotExist('app/transforms/foo.js');
+      assertFileToNotExist('tests/unit/transforms/foo-test.js');
     });
   });
 
-  it('in-addon transform foo/bar', function() {
-    return generateInAddon(['transform', 'foo/bar']).then(function() {
-      assertFile('addon/transforms/foo/bar.js', {
+  it('dummy transform foo/bar', function() {
+    return generateInAddon(['transform', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/transforms/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
           'export default DS.Transform.extend({' + EOL +
@@ -728,107 +531,64 @@ describe('Acceptance: ember generate in-addon', function() {
           '});'
         ]
       });
-      assertFile('app/transforms/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/transforms/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/transforms/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('transform:foo/bar'"
-        ]
-      });
+      assertFileToNotExist('app/transforms/foo/bar.js');
+      assertFileToNotExist('tests/unit/transforms/foo/bar-test.js');
     });
   });
 
-  it('in-addon util foo-bar', function() {
-    return generateInAddon(['util', 'foo-bar']).then(function() {
-      assertFile('addon/utils/foo-bar.js', {
+  it('dummy util foo-bar', function() {
+    return generateInAddon(['util', 'foo-bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/utils/foo-bar.js', {
         contains: 'export default function fooBar() {' + EOL +
                   '  return true;' + EOL +
                   '}'
       });
-      assertFile('app/utils/foo-bar.js', {
-        contains: [
-          "export { default } from 'my-addon/utils/foo-bar';"
-        ]
-      });
-      assertFile('tests/unit/utils/foo-bar-test.js', {
-        contains: [
-          "import fooBar from '../../../utils/foo-bar';"
-        ]
-      });
+      assertFileToNotExist('app/utils/foo-bar.js');
+      assertFileToNotExist('tests/unit/utils/foo-bar-test.js');
     });
   });
 
-  it('in-addon util foo-bar/baz', function() {
-    return generateInAddon(['util', 'foo/bar-baz']).then(function() {
-      assertFile('addon/utils/foo/bar-baz.js', {
+  it('dummy util foo-bar/baz', function() {
+    return generateInAddon(['util', 'foo/bar-baz', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/utils/foo/bar-baz.js', {
         contains: 'export default function fooBarBaz() {' + EOL +
                   '  return true;' + EOL +
                   '}'
       });
-      assertFile('app/utils/foo/bar-baz.js', {
-        contains: [
-          "export { default } from 'my-addon/utils/foo/bar-baz';"
-        ]
-      });
-      assertFile('tests/unit/utils/foo/bar-baz-test.js', {
-        contains: [
-          "import fooBarBaz from '../../../utils/foo/bar-baz';"
-        ]
-      });
+      assertFileToNotExist('app/utils/foo/bar-baz.js');
+      assertFileToNotExist('tests/unit/utils/foo/bar-baz-test.js');
     });
   });
 
-  it('in-addon service foo', function() {
-    return generateInAddon(['service', 'foo']).then(function() {
-      assertFile('addon/services/foo.js', {
+  it('dummy service foo', function() {
+    return generateInAddon(['service', 'foo', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/services/foo.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
-      assertFile('app/services/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/services/foo';"
-        ]
-      });
-      assertFile('tests/unit/services/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('service:foo'"
-        ]
-      });
+      assertFileToNotExist('app/services/foo.js');
+      assertFileToNotExist('tests/unit/services/foo-test.js');
     });
   });
 
-  it('in-addon service foo/bar', function() {
-    return generateInAddon(['service', 'foo/bar']).then(function() {
-      assertFile('addon/services/foo/bar.js', {
+  it('dummy service foo/bar', function() {
+    return generateInAddon(['service', 'foo/bar', '--dummy']).then(function() {
+      assertFile('tests/dummy/app/services/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
-      assertFile('app/services/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/services/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/services/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('service:foo/bar'"
-        ]
-      });
+      assertFileToNotExist('app/services/foo/bar.js');
+      assertFileToNotExist('tests/unit/services/foo/bar-test.js');
     });
   });
 
 
-  it('in-addon service-test foo', function() {
-    return generateInAddon(['service-test', 'foo']).then(function() {
+  it('dummy service-test foo', function() {
+    return generateInAddon(['service-test', 'foo', '--dummy']).then(function() {
       assertFile('tests/unit/services/foo-test.js', {
         contains: [
           "import { moduleFor, test } from 'ember-qunit';",
@@ -839,8 +599,8 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  it('in-addon blueprint foo', function() {
-    return generateInAddon(['blueprint', 'foo']).then(function() {
+  it('dummy blueprint foo', function() {
+    return generateInAddon(['blueprint', 'foo', '--dummy']).then(function() {
       assertFile('blueprints/foo/index.js', {
         contains: "module.exports = {" + EOL +
                   "  description: ''"+ EOL +
@@ -860,8 +620,8 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
 
-    it('in-addon blueprint foo/bar', function() {
-      return generateInAddon(['blueprint', 'foo/bar']).then(function() {
+    it('dummy blueprint foo/bar', function() {
+      return generateInAddon(['blueprint', 'foo/bar', '--dummy']).then(function() {
         assertFile('blueprints/foo/bar/index.js', {
           contains: "module.exports = {" + EOL +
                     "  description: ''"+ EOL +
@@ -881,8 +641,8 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
 
-    it('in-addon http-mock foo', function() {
-      return generateInAddon(['http-mock', 'foo']).then(function() {
+    it('dummy http-mock foo', function() {
+      return generateInAddon(['http-mock', 'foo', '--dummy']).then(function() {
         assertFile('server/index.js', {
           contains:"mocks.forEach(function(route) { route(app); });"
         });
@@ -930,8 +690,8 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
 
-    it('in-addon http-mock foo-bar', function() {
-      return generateInAddon(['http-mock', 'foo-bar']).then(function() {
+    it('dummy http-mock foo-bar', function() {
+      return generateInAddon(['http-mock', 'foo-bar', '--dummy']).then(function() {
         assertFile('server/index.js', {
           contains: "mocks.forEach(function(route) { route(app); });"
         });
@@ -979,8 +739,8 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
 
-    it('in-addon http-proxy foo', function() {
-      return generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
+    it('dummy http-proxy foo', function() {
+      return generateInAddon(['http-proxy', 'foo', 'http://localhost:5000', '--dummy']).then(function() {
         assertFile('server/index.js', {
           contains: "proxies.forEach(function(route) { route(app); });"
         });
@@ -1009,15 +769,15 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
 
-    it('in-addon server', function() {
-      return generateInAddon(['server']).then(function() {
+    it('dummy server', function() {
+      return generateInAddon(['server', '--dummy']).then(function() {
         assertFile('server/index.js');
         assertFile('server/.jshintrc');
       });
     });
 
-    it('in-addon acceptance-test foo', function() {
-      return generateInAddon(['acceptance-test', 'foo']).then(function() {
+    it('dummy acceptance-test foo', function() {
+      return generateInAddon(['acceptance-test', 'foo', '--dummy']).then(function() {
         var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-expected.js');
 
         assertFileEquals('tests/acceptance/foo-test.js', expected);
@@ -1025,8 +785,8 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
 
-    it('in-addon acceptance-test foo/bar', function() {
-      return generateInAddon(['acceptance-test', 'foo/bar']).then(function() {
+    it('dummy acceptance-test foo/bar', function() {
+      return generateInAddon(['acceptance-test', 'foo/bar', '--dummy']).then(function() {
         var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-nested-expected.js');
 
         assertFileEquals('tests/acceptance/foo/bar-test.js', expected);
