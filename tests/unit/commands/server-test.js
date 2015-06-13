@@ -45,7 +45,8 @@ describe('server command', function() {
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
       expect(ops.port).to.equal(4000,            'has correct port');
-      expect(ops.liveReloadPort).to.equal(35529, 'has correct liveReload port');
+      expect(ops.liveReloadPort).to.equal(35729, 'has correct liveReload port');
+      expect(ops.liveReloadHost).to.equal('0.0.0.0', 'has correct liveReload host');
     });
   });
 
@@ -59,6 +60,19 @@ describe('server command', function() {
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
       expect(ops.liveReloadPort).to.equal(4001, 'has correct liveReload port');
+    });
+  });
+
+  it('has correct liveLoadHost', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--live-reload-host', '127.0.0.1'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(ops.liveReloadHost).to.equal('127.0.0.1', 'has correct liveReload host');
     });
   });
 
