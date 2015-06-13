@@ -75,6 +75,16 @@ describe('livereload-server', function() {
           preexistingServer.close(done);
         });
     });
+
+    it('starts with custom host', function() {
+      return subject.start({
+        liveReloadHost: '127.0.0.1',
+        liveReloadPort: 1337,
+        liveReload: true
+      }).then(function() {
+        expect(ui.output).to.equal('Livereload server on http://127.0.0.1:1337' + EOL);
+      });
+    });
   });
 
   describe('start with https', function() {
