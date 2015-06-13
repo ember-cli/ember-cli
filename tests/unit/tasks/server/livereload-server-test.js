@@ -44,7 +44,7 @@ describe('livereload-server', function() {
     it('does not start the server if `liveReload` option is not true', function() {
       return subject.start({
         liveReloadPort: 1337,
-        liveReload: false
+        liveReload: false,
       }).then(function(output) {
         expect(output).to.equal('Livereload server manually disabled.');
         expect(!!subject._liveReloadServer).to.equal(false);
@@ -54,6 +54,7 @@ describe('livereload-server', function() {
     it('correctly indicates which port livereload is present on', function() {
       return subject.start({
         liveReloadPort: 1337,
+        liveReloadHost: 'localhost',
         liveReload: true
       }).then(function() {
         expect(ui.output).to.equal('Livereload server on http://localhost:1337' + EOL);
@@ -91,6 +92,7 @@ describe('livereload-server', function() {
     it('correctly indicates which port livereload is present on and running in https mode', function() {
       return subject.start({
         liveReloadPort: 1337,
+        liveReloadHost: 'localhost',
         liveReload: true,
         ssl: true,
         sslKey: 'tests/fixtures/ssl/server.key',
