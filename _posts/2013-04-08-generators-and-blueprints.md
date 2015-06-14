@@ -398,6 +398,12 @@ See the built-in `resource` blueprint for an example of this.
   * This blueprint generates a unit test for a given ember data adapter.
   * `ember generate adapter-test application`
 
+* **Addon Import**
+  * This blueprint generates an import wrapper in the `app` folder.
+    * Import wrappers simply import a corresponding module from `addon` to allow easier overriding of
+    a module in a project using the addon.
+  * Used by ember-cli internally, it is only used when generating from inside addon projects.
+
 * **Addon**
   * Generates an addon blueprint and its definition.
     * This is the base blueprint for ember-cli addons.
