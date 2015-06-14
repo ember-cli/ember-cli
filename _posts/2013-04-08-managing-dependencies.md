@@ -15,16 +15,16 @@ CLI project, and lists the dependencies for your project. Changes to your
 dependencies should be managed through this file, rather than manually
 installing packages individually.
 
-Executing `ember install:bower` will install all of the dependencies listed in
+Executing `bower install` will install all of the dependencies listed in
 `bower.json` in one step.
 
 Ember CLI is configured to have git ignore your `bower_components` directory by
 default. Using the Bower configuration file allows collaborators to fork your
-repo and get their dependencies installed locally by executing 
-`ember install:bower` themselves.
+repo and get their dependencies installed locally by executing
+`bower install` themselves.
 
 Ember CLI watches `bower.json` for changes. Thus it reloads your app if you
-install new dependencies via `ember install:bower <dependencies>`.
+install new dependencies via `bower install <dependencies> --save`.
 
 Further documentation about Bower is available at their
 [official documentation page](http://bower.io/).
@@ -201,20 +201,29 @@ app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf', {
 });
 {% endhighlight %}
 
-##### Using broccoli-static-compiler
+If you need to load certain dependencies before others, you can set the `prepend` property equal to `true` on the second argument of `import()`. This will prepend the dependency to the vendor file instead of appending it, which is the default behavior. 
 
-With the [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) package,
+{% highlight javascript linenos %}
+app.import('bower_components/es5-shim/es5-shim.js', {
+  type: 'vendor',
+  prepend: true
+});
+{% endhighlight %}
+
+##### Using broccoli-funnel
+
+With the [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) package,
 (parts of) a bower-installed package can be used as assets as-is. First ensure that the Broccoli
-package needed to build are installed:
+package needed to build is installed:
 
 {% highlight bash %}
-ember install:npm broccoli-static-compiler
+npm install broccoli-funnel --save-dev
 {% endhighlight %}
 
 Add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
 
 {% highlight javascript linenos %}
-var pickFiles = require('broccoli-static-compiler');
+var Funnel = require('broccoli-funnel');
 {% endhighlight %}
 
 At the bottom of `Brocfile.js` we merge assets from a bower dependency with the main app tree:
@@ -224,9 +233,9 @@ At the bottom of `Brocfile.js` we merge assets from a bower dependency with the 
 // module.exports = app.toTree()
 
 // Copy only the relevant files. For example the WOFF-files and stylesheets for a webfont:
-var extraAssets = pickFiles('bower_components/a-lovely-webfont', {
+var extraAssets = new Funnel('bower_components/a-lovely-webfont', {
    srcDir: '/',
-   files: ['**/*.woff', '**/stylesheet.css'],
+   include: ['**/*.woff', '**/stylesheet.css'],
    destDir: '/assets/fonts'
 });
 
@@ -241,3 +250,23 @@ be found under `/assets/fonts/`, and might be linked to from `index.html` like s
 {% highlight html %}
 <link rel="stylesheet" href="assets/fonts/lovelyfont_bold/stylesheet.css">
 {% endhighlight %}
+
+You can exclude assets from the final output in a similar fashion. For example, to exclude all `.gitkeep` files from the final output:
+
+{% highlight javascript linenos %}
+// Again, add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
+var Funnel = require('broccoli-funnel');
+
+// Normal Brocfile contents
+
+// Filter toTree()'s output
+var filteredAssets = new Funnel(app.toTree(), {
+  // Exclude gitkeeps from output
+  exclude: ['**/.gitkeep']
+});
+
+// Export filtered tree
+module.exports = filteredAssets;
+{% endhighlight %}
+
+_Note: [broccoli-static-compiler](https://github.com/joliss/broccoli-static-compiler) is deprecated. Use [broccoli-funnel](https://github.com/broccolijs/broccoli-funnel) instead._

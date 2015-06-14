@@ -12,13 +12,13 @@ This guide will walk through the development cycle of a fictional
 addon `ember-cli-x-button`.
 
 ### Installation
-An addon can be installed with the `install:addon` command:
+An addon can be installed with the `install` command:
 
-`ember install:addon <package name>`
+`ember install <package name>`
 
 To install the (fictional) x-button addon package:
 
-`ember install:addon ember-cli-x-button`
+`ember install ember-cli-x-button`
 
 ### Discovery
 
@@ -44,6 +44,7 @@ The Ember CLI addons API currently supports the following scenarios:
 * Providing custom express (server) middlewares
 * Adding custom/extra blueprints, typically for scaffolding application/project files
 * Adding content to consuming applications
+* Adding content to the consuming application's tests directory (via `test-support/`)
 
 ### Addon CLI options
 
@@ -85,6 +86,8 @@ The addon project created follows these structure conventions:
 - `app/` - merged with the application's namespace.
 - `addon/` - part of the addon's namespace.
 - `blueprints/` - contains any blueprints that come with the addon, each in a separate folder
+- `public/` - static files which will be available in the application as `/your-addon/*`
+- `test-support/` - merged with the application's `tests/`
 - `tests/` - test infrastructure including a "dummy" app and acceptance test helpers.
 - `vendor/` - vendor specific files, such as stylesheets, fonts, external libs etc.
 - `Brocfile.js` - Compilation configuration
@@ -169,11 +172,13 @@ module.exports = {
 
 ### Configuring your ember-addon properties
 
-By default, the `"ember-addon"` hash in the `package.json` file has the `"configPath"` property defined to point to the `config` directory of the test dummy application. 
+By default, the `"ember-addon"` hash in the `package.json` file has the `"configPath"` property defined to point to the `config` directory of the test dummy application.
 
 Optionally, you may specify whether your `ember-addon` must run `"before"` or `"after"` any other Ember CLI addons.  Both of these properties can take either a string or an array of strings, where the string is the name of the another Ember CLI addon, as defined in the `package.json` of the other addon.
 
-Optionally, you may specify a different name for the `"defaultBlueprint"`. It defaults to the name in the `package.json`. This blueprint will be run automatically when your addon is installed with the `ember install:addon` command.
+Optionally, you may specify a different name for the `"defaultBlueprint"`. It defaults to the name in the `package.json`. This blueprint will be run automatically when your addon is installed with the `ember install` command.
+
+Optionally, you may specify the `"demoURL"` property with the fully qualified URL of a website showing your addon in action. Sites likes [Ember Addons](http://emberaddons.com/) and [Ember Observer](http://emberobserver.com/) will display a link to `"demoURL"`.
 
 {% highlight javascript %}
 "ember-addon": {
@@ -181,34 +186,11 @@ Optionally, you may specify a different name for the `"defaultBlueprint"`. It de
   "configPath": "tests/dummy/config",
   "before": "single-addon",
   "defaultBlueprint": "blueprint-that-isnt-package-name",
+  "demoURL": "http://example.com/ember-addon/demo.html",
   "after": [
     "after-addon-1",
     "after-addon-2"
   ]
-}
-{% endhighlight %} 
-
-### Managing addon dependencies
-Install your client side dependencies via Bower.
-Here we install a fictional bower dependency `x-button`:
-
-{% highlight bash %}
-ember install:bower x-button
-{% endhighlight %}
-
-Note that currently this will add the component to the main `dependencies` hash.
-Move it to `devDependencies`.
-
-{% highlight javascript %}
-// bower.js
-{
-  "name": "ember-cli-x-button",
-  "dependencies": {
-    // ...
-  },
-  "devDependencies": {
-    "x-button":  "^1.4.0"
-  }
 }
 {% endhighlight %}
 
@@ -236,7 +218,7 @@ var app = new EmberAddon({
 module.exports = app.toTree();
 {% endhighlight %}
 
-### Components
+### Addon Components
 The actual code for the addon goes in `addon/components/x-button.js`
 
 {% highlight javascript %}
@@ -293,7 +275,7 @@ module.exports = {
 };
 {% endhighlight %}
 
-### Importing Dependency Files 
+### Importing Dependency Files
 
 As stated earlier the `included` hook on your addon's main entry point is run during
 the build process. This is where you want to add `import` statements to actually
@@ -320,6 +302,18 @@ by the `EmberApp` constructor and gives access to the consuming
 application as `app`. When the consuming application's `Brocfile.js`
 is processed by Ember CLI to build/serve, the addon's `included`
 function is called passing the `EmberApp` instance.
+
+### Importing Static Files
+To import static files such as images or fonts in the application
+include them in `/public`. The consuming application will have access
+to them via a directory with your addon's name.
+
+For example, to add an image, save it in `/public/images/foo.png`. Then
+from the consuming application access it as:
+
+{% highlight css %}
+  .foo {background: url("/your-addon/images/foo.png");}
+{% endhighlight %}
 
 ### Content
 If you want to add content to a page directly, you can use the `content-for` tag. An example of this is `{% raw %}{{content-for 'head'}}{% endraw %}` in `app/index.html`, which Ember CLI uses to insert it's own content at build time. Addons can access the `contentFor` hook to insert their own content.
@@ -495,7 +489,16 @@ links to it this way (see
 details).
 
 Remember that `npm link` will not run the default blueprint in the same way that
-`addon:install` will, so you will have to do that manually via `ember g`.
+`install` will, so you will have to do that manually via `ember g`.
+
+For live reload when developing an addon use the `isDevelopingAddon` hook:
+
+{% highlight javascript %}
+// addon index.js
+isDevelopingAddon: function() {
+  return true;
+}
+{% endhighlight %}
 
 While testing an addon using npm link, you need an entry in `package.json` with
 your addon name, with any valid npm version: `"<addon-name>":"version"`.  Our
@@ -513,17 +516,17 @@ npm publish
 {% endhighlight %}
 
 ### Using a private repository
-You can upload your addon code to a private git repository and call `ember install:addon`
+You can upload your addon code to a private git repository and call `ember install`
 with a valid [git URL](https://www.npmjs.org/doc/files/package.json.html#git-urls-as-dependencies)
 as the version.
 
 If you are using [bitbucket.org](https://bitbucket.org) the [URL formats can be found here](https://confluence.atlassian.com/display/BITBUCKET/Use+the+SSH+protocol+with+Bitbucket#UsetheSSHprotocolwithBitbucket-RepositoryURLformatsbyconnectionprotocol).
 
-When using the `git+ssh` format, the `ember install:addon` command will require there to
+When using the `git+ssh` format, the `ember install` command will require there to
 be an available ssh key with read access to the repository. This can be tested
 by running `git clone ssh://git@github.com:user/project.git`.
 
-When using the `git+https` format, the `ember install:addon` command will ask you for
+When using the `git+https` format, the `ember install` command will ask you for
 the account password.
 
 ### Install and use addon
@@ -531,22 +534,15 @@ In order to use the addon from you hosting application:
 
 To install your addon from the [npm.org](https://www.npmjs.org/) repository:
 
-`ember install:addon <your-addon-name-here>`.
+`ember install <your-addon-name-here>`.
 
 For our *x-button* sample addon:
 
-`ember install:addon ember-cli-x-button my-button`.
+`ember install ember-cli-x-button my-button`.
 
 This will first install the x-button addon from npm. Then, because we have
 a blueprint with the same name as our addon, it will run the blueprint
 automatically with the passed in arguments.
-
-This is equivalent of running:
-
-{% highlight bash %}
-ember install:npm x-button
-ember generate ember-cli-x-button my-button
-{% endhighlight %}
 
 ### Updating addons
 You can update an addon the same way you update an Ember app by

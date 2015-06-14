@@ -42,10 +42,7 @@
   $('ul.nav a').click(function() {
     $('nav.navbar-collapse').height(1).removeClass('in');
   });
-  
-  $('.content-section table').addClass('table'); // TODO Remove this after tables are styled in CSS
 
-  $('#showcase h1').fadeIn('slow');
-  $('#info').delay('1000').fadeIn('slow');
+  $('.content-section table').addClass('table'); // TODO Remove this after tables are styled in CSS
 
 })();

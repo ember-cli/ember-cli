@@ -37,7 +37,7 @@ export default Ember.TextField.extend({});
 // app/controllers/stop-watch.js
 import Ember from "ember";
 
-export default Ember.ObjectController.extend({});
+export default Ember.Controller.extend({});
 {% endhighlight %}
 
 And if it's a nested controller, we can declare nested/child controllers

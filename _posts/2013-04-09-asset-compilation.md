@@ -38,6 +38,24 @@ minifyJS: {
 }
 {% endhighlight %}
 
+### Source Maps
+
+Ember CLI supports producing source maps from your CSS and JS files.
+Source maps are configured by the `sourcemaps` option and
+are disabled in production by default.
+
+In dev, the default setting is equal to:
+
+{% highlight bash %}
+sourcemaps: {
+  enabled: true,
+  extensions: ['js']
+}
+{% endhighlight %}
+
+Pass `{enabled: true}` to your EmberApp constructor to enable source maps for javascript.
+Use the `extensions` option to configure CSS.
+
 ### Stylesheets
 
 Ember CLI supports plain CSS out of the box. You can add your css styles to
@@ -45,7 +63,7 @@ Ember CLI supports plain CSS out of the box. You can add your css styles to
 
 For example, to add bootstrap in your project you need to do the following:
 {% highlight bash %}
-ember install:bower bootstrap
+bower install bootstrap --save
 {% endhighlight %}
 
 In `Brocfile.js` add the following:
@@ -80,17 +98,17 @@ To enable [LESS](http://lesscss.org/), you'll need to add
 your NPM modules.
 
 {% highlight bash %}
-ember install:addon ember-cli-less
+ember install ember-cli-less
 {% endhighlight %}
 
 #### Sass
 
 To enable [Sass](http://sass-lang.com/), you'll need to
-add [broccoli-sass](https://github.com/joliss/broccoli-sass) to your NPM
-modules *(both .scss/.sass are allowed as of broccoli-sass > 0.2.0)*.
+install the [ember-cli-sass](https://github.com/aexmachina/ember-cli-sass) addon
+to your project *(both .scss/.sass are allowed)*.
 
 {% highlight bash %}
-ember install:npm broccoli-sass
+ember install ember-cli-sass
 {% endhighlight %}
 
 #### Compass
@@ -99,7 +117,7 @@ To use [Compass](http://compass-style.org/) with your ember-cli app, install
 [ember-cli-compass-compiler](https://github.com/quaertym/ember-cli-compass-compiler) addon using NPM.
 
 {% highlight bash %}
-ember install:addon ember-cli-compass-compiler
+ember install ember-cli-compass-compiler
 {% endhighlight %}
 
 #### Stylus
@@ -109,7 +127,7 @@ To enable [Stylus](http://learnboost.github.io/stylus/), you must first add
 modules:
 
 {% highlight bash %}
-ember install:addon ember-cli-stylus
+ember install ember-cli-stylus
 {% endhighlight %}
 
 ### CoffeeScript
@@ -119,7 +137,7 @@ first add [ember-cli-coffeescript](https://github.com/kimroen/ember-cli-coffeesc
 NPM modules:
 
 {% highlight bash %}
-ember install:addon ember-cli-coffeescript
+ember install ember-cli-coffeescript
 {% endhighlight %}
 
 The modified `package.json` should be checked into source control. CoffeeScript
@@ -152,7 +170,7 @@ first add [broccoli-ember-script](https://github.com/aradabaugh/broccoli-ember-s
 NPM modules:
 
 {% highlight bash %}
-ember install:npm broccoli-ember-script
+npm install broccoli-ember-script --save-dev
 {% endhighlight %}
 
 Note that the ES6 module transpiler is not directly supported with Emberscript, to allow use of ES6 modules use the `` ` `` character to escape raw Javascript similar to the CoffeeScript example above.
@@ -162,8 +180,10 @@ Note that the ES6 module transpiler is not directly supported with Emberscript, 
 For [Emblem](http://emblemjs.com/), run the following commands:
 
 {% highlight bash %}
-ember install:npm broccoli-emblem-compiler
+ember install ember-cli-emblem-hbs-printer
 {% endhighlight %}
+
+If you're using the older broccoli-emblem-compiler addon, you need to switch over the above ember-cli-emblem-hbs-printer. The older broccoli-emblem-compiler compiles directly to JS instead of Handlebars and therefore is broken on all newer version of HTMLBars.
 
 ### Fingerprinting and CDN URLs
 
@@ -183,7 +203,7 @@ this behavior.
 if true. **True by default if current environment is production.**
 * `exclude` - Default: `[]` - An array of strings. If a filename contains any
 item in the exclude array, it will not be fingerprinted.
-* `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif']` - The file types
+* `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif', 'map']` - The file types
 to add md5 checksums.
 * `prepend` - Default: `''` - A string to prepend to all of the assets. Useful
 for CDN urls like `https://subdomain.cloudfront.net/`
@@ -263,7 +283,7 @@ The compiled files are output to the following paths:
 |JavaScript files you import with `app.import()`|`/assets/vendor.js`|
 |CSS files you import with `app.import()`|`/assets/vendor.css`|
 
-To change these paths you can edit the `outputPaths` config option. The default setting is shown here:
+To change these paths, specify the `outputPaths` config option in `Brocfile.js`. The default setting is shown here:
 
 {% highlight javascript %}
 var app = new EmberApp({

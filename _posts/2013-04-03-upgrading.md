@@ -42,23 +42,24 @@ project directory.
 
 #### Project Update
 
+* Update your project's `package.json` file to use the latest version of
+  ember-cli, replacing X.X.X with the version of ember-cli you want to install
+
+    {% highlight bash %}
+    npm install ember-cli@X.X.X --save-dev
+    {% endhighlight %}
+
 * Delete temporary development folders
 
     {% highlight bash %}
     rm -rf node_modules bower_components dist tmp
     {% endhighlight %}
 
-* Update your project's `package.json` file to use the latest version of
-  ember-cli, replacing X.X.X with the version of ember-cli you want to install
-
-    {% highlight bash %}
-    ember install:npm ember-cli@X.X.X
-    {% endhighlight %}
-
 * Reinstall NPM and Bower dependencies
 
     {% highlight bash %}
-    ember install
+    npm install
+bower install
     {% endhighlight %}
 
 * Run the new project blueprint on your projects directory. Please follow the

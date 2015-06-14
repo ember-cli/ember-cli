@@ -10,7 +10,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 #### Node
 
-First, install the latest stable version of Node (version 0.10.x).
+First, install the latest stable version of Node (version 0.12.x).
 
 To do so, either follow the installation instructions on
 [nodejs.org](http://nodejs.org/), or use your preferred package manager (such
@@ -46,9 +46,59 @@ npm install -g bower
 
 This will give you access to the `bower` command-line runner.
 
+#### Watchman
+
+On OSX and UNIX-like operating systems, we recommended installing
+[Watchman](https://facebook.github.io/watchman/) version 3.x, which provides
+a more effective way for ember-cli to watch for project changes by hooking
+into your system's native filesystem events.
+
+{% highlight bash %}
+brew install watchman
+{% endhighlight %}
+
+OSX filewatching has issues that can result in it easily entering a broken state,
+while Node's built in `NodeWatcher` has trouble observing large trees. Watchman
+is developed and used by Facebook to make file-watching work even on extremely massive
+file trees.  You can read more about their motivations in their [announcement here](https://www.facebook.com/notes/facebook-engineering/watchman-faster-builds-with-large-source-trees/10151457195103920).
+
+For complete installation instructions refer to the docs on the [watchman website](https://facebook.github.io/watchman/).
+
+When Watchman is not installed, you will see this notice which can be safely ignored.
+
+{% highlight bash %}
+Could not find watchman, falling back to NodeWatcher for file system events
+{% endhighlight %}
+
+There is also a conflicting `npm` package named `watchman`, so make sure that
+it is not in your `PATH` to avoid conflicts.  If the `npm` package is installed, you may see the
+following warning.
+
+{% highlight bash %}
+invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0], falling back to NodeWatcher
+{% endhighlight %}
+
+The following command will let you inspect which watchmans you have.
+
+{% highlight bash %}
+which -a watchman
+{% endhighlight %}
+
+If you have installed the wrong watchman, you can use npm uninstall to remove it.
+
+{% highlight bash %}
+npm uninstall -g watchman
+{% endhighlight %}
+
 #### PhantomJS
 
-By default, your integration tests will run on [PhantomJS](http://phantomjs.org/).  You can install via [npm](https://www.npmjs.org/):
+You can use the automated test runner of your choice with Ember CLI, however most testing
+services will recommend or require [PhantomJS](http://phantomjs.org/), which you can install
+via [npm](https://www.npmjs.org/).
+
+PhantomJS is the default test runner for [Testem](https://github.com/airportyh/testem) and [Karma](http://karma-runner.github.io/0.12/index.html).
+
+If you want to use PhantomJS to run your integration tests, it needs to be installed globally.
 
 {% highlight bash %}
 npm install -g phantomjs
@@ -68,12 +118,25 @@ Once the generation process finishes, launch the app:
 
 {% highlight bash %}
 cd my-new-app
+npm install && bower install
 ember server
 {% endhighlight %}
 
 navigate to `http://localhost:4200` to see your new app in action.
 
 navigate to `http://localhost:4200/tests` to see your test results in action.
+
+#### Migrating an existing project that doesn't yet use Ember CLI
+
+If your app uses Ember App Kit, there is a [migration guide](https://github.com/stefanpenner/ember-app-kit#migrating-to-ember-cli) located
+on the README.
+
+If your app uses globals (e.g. `App.Post`) from a different build pipeline such as Grunt, Ember-Rails, or Gulp,
+you can try using the [Ember CLI migrator](https://github.com/fivetanley/ember-cli-migrator). The
+Ember CLI migrator is a command line tool that looks at your JavaScript code using
+a JavaScript parser and rewrites your code to ES6 following Ember CLI's conventions.
+The migrator keeps your code style and keeps git history available via
+`git log --follow`.
 
 #### Cloning an existing project
 
@@ -82,7 +145,9 @@ you will need to install dependencies yourself before running the server:
 
 {% highlight bash %}
 git clone git@github.com:me/my-app.git
-cd my-app && ember install
+cd my-app
+npm install
+bower install
 ember server
 {% endhighlight %}
 
@@ -96,11 +161,9 @@ ember server
  `ember build`                               | Builds the application to `dist/` directory (customize via `--output-path` flag). Use `--environment` flag to specify the environment to build for (defaults to `development`). Use `--watch` flag keep the process running, observing the filesystem and rebuilding when changes occur.
  `ember server`                              | Starts up the server. Default port is `4200`. Use `--proxy` flag to proxy all ajax requests to the given address. For example `ember server --proxy http://127.0.0.1:8080` will proxy all your apps XHR to your server running at port 8080.
  <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
+ <span style="white-space:nowrap">`ember destroy <generator-name> <options>`</span> | Uninstalls a module created by the generator command.  If the module was generated with the `--pod` option, then its removal needs to also include `--pod`.
  `ember test`                                | Run tests with Testem on CI mode. You can pass any options to Testem through `testem.json`, by default we'll search for it under your project's root or you can specify `config-file`.
- `ember install`                             | Installs npm and bower dependencies
- `ember install:npm <packages>`              | Installs the given npm dependencies to your project and saves them to the `package.json`
- `ember install:bower <packages>`            | Installs the given bower dependencies to your project and saves them to the `bower.json`
- `ember install:addon <addon-name>`          | Installs the given addon to your project and saves it to the `package.json`. It will run the addon's `defaultBlueprint` if it provides one.
+ `ember install <addon-name>`                | Installs the given addon to your project and saves it to the `package.json`. It will run the addon's `defaultBlueprint` if it provides one.
 
 ### Folder Layout
 
@@ -127,7 +190,7 @@ ember server
  `app/index.html` | The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application. See [app/index.html](#appindexhtml).
  `app/router.js` | Your route configuration. The routes defined here correspond to routes in `app/routes/`.
  `app/styles/` | Contains your stylesheets, whether SASS, LESS, Stylus, Compass, or plain CSS (though only one type is allowed, see [Asset Compilation](#asset-compilation)). These are all compiled into `app.css`.
- `app/templates/` | Your Handlebars templates. These are compiled to `templates.js`. The templates are named the same as their filename, minus the extension (i.e. `templates/foo/bar.hbs` -> `foo/bar`).
+ `app/templates/` | Your Handlebars templates. These are compiled to `/dist/assets/<yourapp>.js`. The templates are named the same as their filename, minus the extension (i.e. `templates/foo/bar.hbs` -> `foo/bar`).
  `app/controllers/`, `app/models/`, etc. | Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules).
 
 [PhantomJS]: http://phantomjs.org
@@ -135,8 +198,8 @@ ember server
 
 #### `app/index.html`
 
-The `app/index.html` file lays the foundation for your application.  This is where the basic DOM structure is laid out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{% raw %}{{content-for 'head'}}{% endraw %}` and `{% raw %}{{content-for 'body'}}{% endraw %}` - that can be used by [Add-ons](#add-ons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular add-on.
+The `app/index.html` file lays the foundation for your application.  This is where the basic DOM structure is laid out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{% raw %}{{content-for 'head'}}{% endraw %}` and `{% raw %}{{content-for 'body'}}{% endraw %}` - that can be used by [Addons](#addons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular addon.
 
-### Add-Ons
+### Addons
 
-Add-ons are registered in NPM with a keyword of `ember-addon`. See a full list of existing add-ons registered in NPM [here](https://www.npmjs.org/browse/keyword/ember-addon).
+Addons are registered in NPM with a keyword of `ember-addon`. See a full list of existing addons registered in NPM [here](https://www.npmjs.org/browse/keyword/ember-addon).

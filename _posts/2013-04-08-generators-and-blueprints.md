@@ -111,18 +111,18 @@ The following would occur when generating a route:
 ember generate route taco
 
 installing
-  create app/taco/route.js
-  create app/taco/template.hbs
-installing
-  create tests/unit/taco/route-test.js
-
-ember generate route taco --pod
-
-installing
   create app/routes/taco.js
   create app/templates/taco.hbs
 installing
   create tests/unit/routes/taco-test.js
+
+ember generate route taco --pod
+
+installing
+  create app/taco/route.js
+  create app/taco/template.hbs
+installing
+  create tests/unit/taco/route-test.js
 {% endhighlight %}
 
 ### Blueprint Structure
@@ -195,6 +195,16 @@ pod support, and is only necessary if the blueprint can be
 used in pod structure. If the blueprint does not require pod
 support, simply use the blueprint name instead of the
 `__path__` token.
+
+The __`__root__`__ token is substituted with either `app` or
+`addon` depending upon where it is being generated. This token
+is used to provide support for generating blueprints inside
+addons, and is only necessary if the blueprint needs to be
+generated into the `addon` folder of an addon. The
+presence of this token will cause an additional addon-import
+blueprint to be generated, which is simply a wrapper that
+re-exports the module in the `addon` folder to allow consumers
+to override addon modules easier.
 
 The __`__test__`__ token is substituted with the dasherized
 entity name and appended with `-test` at install time.
@@ -289,7 +299,7 @@ blueprint authors:
 
 ### locals
 
-Use `locals` to add custom tempate variables. The method
+Use `locals` to add custom template variables. The method
 receives one argument: `options`. Options is an object
 containing general and entity-specific options.
 
@@ -392,7 +402,7 @@ See the built-in `resource` blueprint for an example of this.
 * **Addon**
   * Generates an addon blueprint and its definition.
     * This is the base blueprint for ember-cli addons.
-  * `ember generate addon awesome-addon`
+  * `ember addon awesome-addon`
 
 * **App**
   * This is the default blueprint for ember-cli projects. It contains a conventional project structure and everything you will need to develop your ember apps.
@@ -420,6 +430,7 @@ See the built-in `resource` blueprint for an example of this.
 
 * **Controller Test**
   * Generates a unit test for a given Controller.
+  * `ember generate controller-test index`
 
 * **Helper**
   * Generates a Handlebars Helper and its test. Commonly used for html reuse.

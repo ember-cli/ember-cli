@@ -3,7 +3,7 @@ layout: post
 title: "Using Modules & the Resolver"
 permalink: using-modules
 category: user-guide
-github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-02-using-modules.md"
+github: "https://github.com/ember-cli/ember-cli/edit/gh-pages/_posts/2014-04-02-using-modules-and-the-resolver.md"
 ---
 
 The Ember Resolver is the mechanism responsible for looking up code in your
@@ -32,9 +32,9 @@ var IndexRoute = Ember.Route.extend({
   model: function() {
     return ['red', 'yellow', 'blue'];
   }
-  });
+});
 
-  export default IndexRoute;
+export default IndexRoute;
 {% endhighlight %}
 
 Note, that the name of the variable used in the exported module doesn't have any
@@ -62,10 +62,9 @@ You can also require modules directly with the following syntax:
 import FooMixin from "./mixins/foo";
 {% endhighlight %}
 
-If you like you can reference a module by an absolute path, but keep in
-mind that using relative paths is considered best practice for accessing modules
-within the same package. To reference a module using an absolute path begin
-the path with the name defined in `package.json`:
+You can reference a module by using either a relative or absolute path.
+If you would like to reference a module using absolute begin
+the path with the app name defined in `package.json`:
 
 {% highlight javascript linenos %}
 import FooMixin from "appname/mixins/foo";
@@ -103,7 +102,7 @@ Folder              | Purpose
 `app/adapters/`     | Adapters with the convention `adapter-name.js`.
 `app/components/`   | Components with the convention `component-name.js`. Components must have a dash in their name. So `blog-post` is an acceptable name, but `post` is not.
 `app/controllers/`  | Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
-`app/helpers/`      | Helpers with the convention `helper-name.js`. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
+`app/helpers/`      | Helpers with the convention `helper-name.js`. Helpers must have a dash in their name. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
 `app/initializers/` | Initializers with the convention `initializer-name.js`. Initializers are loaded automatically.
 `app/mixins/`       | Mixins with the convention `mixin-name.js`.
 `app/models/`       | Models with the convention `model-name.js`.
@@ -222,13 +221,3 @@ If you want to use external libraries that write to a global namespace (e.g.
 [moment.js](http://momentjs.com/)), you need to add those to the `predef`
 section of your project's `.jshintrc` file and set its value to true. If you use the lib in tests, you need
 to add it to your `tests/.jshintrc` file, too.
-
-### Module import validation
-
-To prevent errors in import statements from reaching production, this project
-uses [grunt-es6-import-validate](https://github.com/sproutsocial/grunt-es6-import-validate).
-This task parses each module file's export and import statements and verifies
-that what is being imported is actually exported by the referenced module.
-
-If you are referencing a vendor module that is defined outside of the app folder
-you may have to add it to the whitelist in `tasks/options/validate-imports.js`.

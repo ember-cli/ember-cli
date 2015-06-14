@@ -20,7 +20,7 @@ You can get rid of these errors by modifing the CSP for your app. This is descri
 
 #### Unsafe-Eval (CSP)
 
-Some platforms that run on open web technology (ex. FirefoxOS) enforce strict CSP restrictions for apps. One of the more common restrictions is the Unsafe-Eval restriction, disallowing use of the eval() function or the eval operator. Since Ember CLI currently uses eval() for part of it's integration with ES6 modules, this can be a problem. 
+Some platforms that run on open web technology (ex. FirefoxOS) enforce strict CSP restrictions for apps. One of the more common restrictions is the Unsafe-Eval restriction, disallowing use of the eval() function or the eval operator. Since Ember CLI currently uses eval() for part of it's integration with ES6 modules, this can be a problem.
 
 To disable evals, add the `wrapInEval: false` flag to your `Brocfile.js`, for example:
 
@@ -92,7 +92,7 @@ And, adding to `resolutions`:
     }
 
 
-Wipe your vendor directory clean then run `ember install`.
+Wipe your vendor directory clean then run `npm install && bower install`.
 
 
 ### Removing default ember-cli libraries
@@ -107,38 +107,7 @@ Wipe your vendor directory clean then run `ember install`.
 
 * To reinstall latest Ember Data version
 
-`ember install:npm ember-data`
-
-### Solving performance issues on Windows
-
-Build times on Windows are longer than on Linux or Mac OS X. Much of that penalty is not because of node or ember-cli, but because of things monitoring your filesystem. If you can (selectively!) disable your virus scanner and the Search Index Host, you will see a substantial speedup. Here's how:
-
-#### Disable Windows Search Index for temporary files
-
-* Go to your **control panel** (Windows 8: `Win+X`, choose "control panel")
-* Look for **Indexing Options** (Use the search bar)
-* Select the location that will most likely contain your project. Usually in **User**
-* Click **Modify**
-* This brings up a directory tree with checkboxes. Navigate to your project directory and **uncheck the checkbox for /tmp** or anywhere else you'd like.
-* Click **OK**
-
-![Partially Disable Search Index on Windows 8]({{ site.url }}/assets/images/common-issues/search-index.png)
-
-#### Disable Windows Defender for temporary files
-
-Windows defender will be active by default on any Windows 8 machine. On Windows 7 (or earlier) you might have Windows Security Essentials installed, which works pretty similar.
-
-While you can exclude more than just the temporary files, this would also render a virus scanner pretty useless. Excluding temporary files won't make you any less safe. Everything that ends up there would have been in `/app` or `/vendor` before.
-
-* Hit your Windows Key, then start typing "defen" which should bring up "Defender as first result". Start it.
-* In Windows Defender, choose the **Settings** tab, then click on **Excluded files and locations** on the left.
-* Click **Browse**
-* Navigate to your project's **tmp** directory.
-* Click **OK**
-* Click **Add**
-* Click **Save changes**
-
-![Exclude Temp Files from Windows Defender]({{ site.url }}/assets/images/common-issues/win-defender.png)
+`npm update ember-data`
 
 ### Symlinks on Windows
 
@@ -185,9 +154,9 @@ C:\cygwin\bin\bash.exe --login -i -c "cd /cygdrive/c/Users/username/; exec bash"
 
 ### Usage with Vagrant
 
-[Vagrant](http://vagrantup.com) is a system for automatically creating and setting up development environments that run in a virtual machine (VM). 
+[Vagrant](http://vagrantup.com) is a system for automatically creating and setting up development environments that run in a virtual machine (VM).
 
-Running your ember-cli development environment from inside of a Vagrant VM will require some additional configuration and will carry a few caveats. 
+Running your ember-cli development environment from inside of a Vagrant VM will require some additional configuration and will carry a few caveats.
 
 #### Ports
 
@@ -195,7 +164,7 @@ In order to access your ember-cli application from your desktop's web browser, y
 
 {% highlight ruby %}
 Vagrant.configure("2") do |config|
-  # ... 
+  # ...
   config.vm.network "forwarded_port", guest: 4200, host: 4200
   config.vm.network "forwarded_port", guest: 35729, host: 35729
 end
@@ -203,16 +172,59 @@ end
 
 #### Watched Files
 
-The way Vagrant syncs folders between your desktop and the VM will break the default mechanism ember-cli uses to watch files and cause issues when updates are subsequently compiled. To restore this functionality, you'll have to make two changes: 
+The way Vagrant syncs folders between your desktop and the VM will break the default mechanism ember-cli uses to watch files and cause issues when updates are subsequently compiled. To restore this functionality, you'll have to make two changes:
 
-1. Fall back to polling when invoking the serve command: `ember serve --watcher polling`. 
+1. Fall back to polling when invoking the serve command: `ember serve --watcher polling`.
 
-2. Use [nfs for synced folders](https://docs.vagrantup.com/v2/synced-folders/nfs.html). 
+2. Use [nfs for synced folders](https://docs.vagrantup.com/v2/synced-folders/nfs.html).
 
 #### VM Setup
 
 When setting up your VM, install ember-cli dependencies as you normally would. If you've already run `ember install` in your project's folder from your host machine, you'll have to delete the `node_modules` folder and re-install those dependencies from the VM. This is particularly necessary if you have node dependencies that use native libraries (e.g., [broccoli-sass](#sass), which uses the libsass C library).
 
-#### Provider 
+#### Provider
 
-The two most common Vagrant providers, VirtualBox and VMware Fusion, will both work. However, VMware Fusion is substantially faster and will use less battery life if you're on a laptop. As of now, VirtualBox will use 100% of a single CPU core to poll for file system changes inside of the VM. 
+The two most common Vagrant providers, VirtualBox and VMware Fusion, will both work. However, VMware Fusion is substantially faster and will use less battery life if you're on a laptop. As of now, VirtualBox will use 100% of a single CPU core to poll for file system changes inside of the VM.
+
+### Broken Glob npm package issue
+
+The glob package is required by many of ember-cli packages, however there is a version mismatch between various includes which currently is an issue.
+
+{% highlight bash %}
+undefined is not a function
+TypeError: undefined is not a function
+    at rimraf (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rimraf/rimraf.js:57:13)
+    at lib$rsvp$node$$tryApply (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rsvp/dist/rsvp.js:1467:11)
+    at lib$rsvp$node$$handleValueInput (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rsvp/dist/rsvp.js:1567:20)
+    at fn (/home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/node_modules/rsvp/dist/rsvp.js:1555:18)
+    at /home/username/emberApp/node_modules/ember-cli/node_modules/broccoli-caching-writer/index.js:100:14
+    at lib$rsvp$$internal$$tryCatch (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:489:16)
+    at lib$rsvp$$internal$$invokeCallback (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:501:17)
+    at lib$rsvp$$internal$$publish (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:472:11)
+    at lib$rsvp$asap$$flush (/home/username/emberApp/node_modules/ember-cli/node_modules/promise-map-series/node_modules/rsvp/dist/rsvp.js:1290:9)
+    at process._tickCallback (node.js:355:11)
+{% endhighlight %}
+
+To fix the issue there are two solutions:
+
+- Update to ember-cli@0.2.0
+- Lock rimraf@2.2.8 and glob@4.0.5
+
+#### Locking package versions
+Adding dependency versions into your package.json fixes the dependency issue:
+{% highlight javascript %}
+"dependencies": {
+  "glob": "4.0.5",
+  "rimraf": "2.2.8"
+},
+"bundledDependencies": [
+  "glob",
+  "rimraf"
+]
+...
+{% endhighlight %}
+
+Clear out old packages and reinstall them with the following:
+{% highlight bash %}
+rm -rf node_modules; npm cache clear; npm install;
+{% endhighlight %}
