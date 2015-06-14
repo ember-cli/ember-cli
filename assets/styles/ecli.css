@@ -11,7 +11,7 @@ tell you is that this will help speed up simple changes like
 changing a color or adding CSS3 techniques gradients.
 
 A WORD OF WARNING: It's very easy to overdo it here. Be careful and
-remember less is more. 
+remember less is more.
 
 Helpful:
 http://sachagreif.com/useful-sass-mixins/
@@ -137,13 +137,15 @@ body {
       font-size: .9em;
       letter-spacing: .04em;
       text-shadow: 0 1px #4a170e; }
-    #showcase .content h1 {
+    #showcase .content h1,
+    #sidenav h1 {
       font-family: 'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       line-height: 1.4em;
       font-size: 3.5em;
       color: white;
       text-shadow: 0 2px #742416; }
-      #showcase .content h1 span {
+      #showcase .content h1 span,
+      #sidenav h1 span {
         width: 56px;
         top: -15px;
         color: #b3230a;
@@ -365,6 +367,12 @@ body {
       background: white; }
   .sidebar {
     padding-left: 0px; }
+  #sidenav h1 {
+    background: rgb(216, 74, 50);
+    font-size: 2em;
+    margin: 0;
+    padding: 20px;
+  }
   .sidebar.affix {
     top: 20px; }
   .sidenav {

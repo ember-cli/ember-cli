@@ -8,12 +8,13 @@
         <div class="row">
            <div id="sidenav" class="col-md-3 hidden-sm hidden-xs sidebar-wrapper">
             <div class="sidebar">
+              <h1>ember <span>CLI</span></h1>
               <ul class="nav sidenav">
                 <li class="ectop"><a href="/">Home</a></li>
-                {% for category in site.categories %}      
+                {% for category in site.categories %}
                 <li class="ectop">
                     {% if page.category == category[0] %}
-                    <a href="#top">
+                    <a href="#guide">
                       <span class="glyphicon glyphicon-arrow-up"></span>
                     {% else %}
                     <a href="/{{ category | first }}">

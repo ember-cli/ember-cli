@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html>
   {% include head.html %}
-  <body>
+  <body data-spy="scroll" data-target=".sidebar">
     {% include header.html %}
     <div class="content">
       {% include description.html %}
       <div id="swap"></div>
+      <div id="guide" class="container">
+        <div class="row">
+           <div id="sidenav" class="col-md-3 hidden-sm hidden-xs sidebar-wrapper">
+            <div class="sidebar">
+              <h1>ember <span>CLI</span></h1>
+              <ul class="nav sidenav">
+                <li class="ectop"><a href="/">Home</a></li>
+                {% for category in site.categories %}
+                <li class="ectop">
+                    {% if page.category == category[0] %}
+                    <a href="#guide">
+                      <span class="glyphicon glyphicon-arrow-up"></span>
+                    {% else %}
+                    <a href="/{{ category | first }}">
+                    {% endif %}
+                      {{ category | first }}
+                    </a>
+                  {% if page.category == category[0] %}
+                    {% for guide in site.posts %}
+                      {% if guide.hidden != 'true' and guide.category == page.category %}
+                        <li>
+                          <a href="#{{guide.permalink}}">{{guide.title}}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-9 main">
+            <div class="content-section">
+              {% for guide in site.posts %}
+                {% if guide.hidden != 'true' and guide.category == page.category %}
+                <div id="{{guide.permalink}}" class="guide-content">
+                  <a class="edit-page" href="{{guide.github}}" title="Edit this page on GitHub">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </a>
+                  <h1>{{guide.title}}</h1>
+                  <p>{{guide.content}}</p>
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     {% include footer.html %}
     {% include scripts.html %}
