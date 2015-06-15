@@ -48,7 +48,7 @@ project directory.
     npm install ember-cli@X.X.X --save-dev
     {% endhighlight %}
 
-* Delete temporary development folders
+* Delete temporary development directories
 
     {% highlight bash %}
     rm -rf node_modules bower_components dist tmp

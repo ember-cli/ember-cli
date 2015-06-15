@@ -31,14 +31,14 @@ git push heroku master
 Need to make a custom nginx configuration change? No problem. In your Ember CLI application, add a `config/nginx.conf.erb` file. You can copy the [existing configuration](https://github.com/tonycoco/heroku-buildpack-ember-cli/blob/master/config/nginx.conf.erb) file and make your changes to it.
 
 ### Azure
-Continuous deployment with [Azure Websites](http://www.azure.com) is enabled through Microsoft's module [ember-cli-azure-deploy](https://github.com/felixrieseberg/ember-cli-azure-deploy). The installation is simple - just run the following commands in your Ember Cli app's root folder:
+Continuous deployment with [Azure Websites](http://www.azure.com) is enabled through Microsoft's module [ember-cli-azure-deploy](https://github.com/felixrieseberg/ember-cli-azure-deploy). The installation is simple - just run the following commands in your Ember Cli app's root directory:
 
 {% highlight bash %}
 npm install --save-dev -g ember-cli-azure-deploy
 azure-deploy init
 {% endhighlight %}
 
-Next, set up your Azure Website's source control to point to your repo - [either via GitHub, BitBucket, VSO or any of the other available options](http://azure.microsoft.com/en-us/documentation/articles/web-sites-publish-source-control/#Step4). As soon as you push a new commit to your repository, Azure Websites will automatically run `ember build` and deploy the contents of the created `dist` folder to your website's `wwwroot`.
+Next, set up your Azure Website's source control to point to your repo - [either via GitHub, BitBucket, VSO or any of the other available options](http://azure.microsoft.com/en-us/documentation/articles/web-sites-publish-source-control/#Step4). As soon as you push a new commit to your repository, Azure Websites will automatically run `ember build` and deploy the contents of the created `dist` directory to your website's `wwwroot`.
 
 ### Firebase
 To deploy your Ember CLI application to Firebase, you'll first need to enable hosting from your Firebase's Dashboard. Then, install the [Firebase Tools](https://github.com/firebase/firebase-tools):
@@ -47,7 +47,7 @@ To deploy your Ember CLI application to Firebase, you'll first need to enable ho
 npm install -g firebase-tools
 {% endhighlight %}
 
-You can then configure your application for deployment by running the following in your app's root folder and following the prompts:
+You can then configure your application for deployment by running the following in your app's root directory and following the prompts:
 
 {% highlight bash %}
 firebase init
