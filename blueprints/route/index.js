@@ -3,6 +3,7 @@
 var SilentError = require('silent-error');
 var fs          = require('fs-extra');
 var path        = require('path');
+var chalk       = require('chalk');
 var EmberRouterGenerator = require('ember-router-generator');
 
 module.exports = {
@@ -64,6 +65,8 @@ module.exports = {
         root: options.project.root,
         path: options.path
       });
+
+      this._writeStatusToUI(chalk.green, 'add route', entity.name);
     }
   },
 
@@ -74,6 +77,8 @@ module.exports = {
       removeRouteFromRouter(entity.name, {
         root: options.project.root
       });
+
+      this._writeStatusToUI(chalk.red, 'remove route', entity.name);
     }
   }
 };
