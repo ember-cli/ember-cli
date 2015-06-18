@@ -65,7 +65,7 @@ module.exports = {
         root: options.project.root,
         path: options.path
       });
-
+      this.ui.writeLine('updating router');
       this._writeStatusToUI(chalk.green, 'add route', entity.name);
     }
   },
@@ -78,6 +78,7 @@ module.exports = {
         root: options.project.root
       });
 
+      this.ui.writeLine('updating router');
       this._writeStatusToUI(chalk.red, 'remove route', entity.name);
     }
   }
