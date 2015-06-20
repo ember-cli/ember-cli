@@ -130,6 +130,7 @@ describe('Acceptance: ember generate in-addon', function() {
       assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
           "integration: true"
         ]
@@ -142,6 +143,7 @@ describe('Acceptance: ember generate in-addon', function() {
       assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
           "integration: true"
         ]
@@ -185,6 +187,7 @@ describe('Acceptance: ember generate in-addon', function() {
       assertFile('tests/integration/components/nested/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('nested/x-foo'",
           "integration: true" 
         ]

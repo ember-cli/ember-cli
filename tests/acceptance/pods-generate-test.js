@@ -182,6 +182,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
           "integration: true"
         ]
@@ -272,6 +273,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
           "integration: true"
         ]
@@ -294,6 +296,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/pods/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
           "integration: true"
         ]
@@ -316,6 +319,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/components/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('foo/x-foo'",
           "integration: true"
         ]
@@ -338,6 +342,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/pods/components/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('foo/x-foo'",
           "integration: true"
         ]
@@ -360,6 +365,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/bar/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('bar/x-foo'",
           "integration: true"
         ]
@@ -382,6 +388,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/pods/bar/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('bar/x-foo'",
           "integration: true"
         ]
@@ -404,6 +411,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/bar/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('bar/foo/x-foo'",
           "integration: true"
         ]
@@ -448,6 +456,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/bar/baz/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('bar/baz/x-foo'",
           "integration: true"
         ]
@@ -470,6 +479,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/pods/bar/baz/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('bar/baz/x-foo'",
           "integration: true"
         ]
@@ -492,6 +502,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/bar/baz/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('bar/baz/foo/x-foo'",
           "integration: true"
         ]
@@ -514,6 +525,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/pods/bar/baz/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('bar/baz/foo/x-foo'",
           "integration: true"
         ]
@@ -536,6 +548,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
           "integration: true"
         ]
@@ -558,6 +571,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/pods/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
           "integration: true"
         ]
@@ -580,6 +594,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('foo/x-foo'",
           "integration: true"
         ]
@@ -602,6 +617,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('tests/integration/pods/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('foo/x-foo'",
           "integration: true"
         ]

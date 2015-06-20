@@ -45,8 +45,8 @@ module.exports = {
     var testContent = "assert.expect(1);" + EOL + EOL +
       "  // Set any properties with this.set('myProperty', 'value');" + EOL +
       "  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-      "  this.render(hbs`{{" + options.entity.name + "}}`);" + EOL + EOL +
-      "  assert.equal(this.$().text(), '" + options.entity.name + "')";
+      "  this.render(hbs`{{" + dasherizedModuleName + "}}`);" + EOL + EOL +
+      "  assert.equal(this.$().text(), '')";
 
     if (options.pod && options.path !== 'components' && options.path !== '') {
       componentPathName = [options.path, dasherizedModuleName].join('/');
