@@ -1,7 +1,7 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';<%= testImports %>
 
 moduleForComponent('<%= componentPathName %>', '<%= friendlyTestDescription %>', {
-  <%= testTypeDefinition %>
+  <%= testOptions %>
 });
 
 test('it renders', function(assert) {

@@ -39,21 +39,22 @@ module.exports = {
   locals: function(options) {
     var dasherizedModuleName = stringUtil.dasherize(options.entity.name);
     var componentPathName = dasherizedModuleName;
-    var testTypeDefinition = "integration: true";
+    var testImports = EOL + "import hbs from 'htmlbars-inline-precompile';" + EOL;
+    var testOptions = "integration: true";
     var friendlyTestDescription = testInfo.description(options.entity.name, "Integration", "Component");
     var testContent = "assert.expect(1);" + EOL + EOL +
       "  // Set any properties with this.set('myProperty', 'value');" + EOL +
       "  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-      "  // Provide a template (string or precompiled) for this.render()" + EOL +
-      "  this.render();" + EOL + EOL +
-      "  assert.equal(this.$().text(), '')";
+      "  this.render(hbs`{{" + options.entity.name + "}}`);" + EOL + EOL +
+      "  assert.equal(this.$().text(), '" + options.entity.name + "')";
 
     if (options.pod && options.path !== 'components' && options.path !== '') {
       componentPathName = [options.path, dasherizedModuleName].join('/');
     }
 
     if (options.testType === 'unit') {
-      testTypeDefinition = "// Specify the other units that are required for this test" +
+      testImports = "";
+      testOptions = "// Specify the other units that are required for this test" +
         EOL + "  // needs: ['component:foo', 'helper:bar']," + EOL + "  unit: true";
 
       testContent = "assert.expect(2);" + EOL + EOL +
@@ -70,9 +71,10 @@ module.exports = {
     return {
       path: getPathOption(options),
       testType: options.testType,
+      testImports: testImports,
       testContent: testContent,
       componentPathName: componentPathName,
-      testTypeDefinition: testTypeDefinition,
+      testOptions: testOptions,
       friendlyTestDescription: friendlyTestDescription
     };
   }
