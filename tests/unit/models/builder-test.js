@@ -6,6 +6,7 @@ var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
 var touch           = require('../../helpers/file-utils').touch;
+var existsSync      = require('../../helpers/file-utils').existsSync;
 var expect          = require('chai').expect;
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
@@ -40,7 +41,7 @@ describe('models/builder.js', function() {
 
       return builder.copyToOutputPath('tests/fixtures/blueprints/basic_2')
         .then(function() {
-          expect(fs.existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
+          expect(existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
         });
     });
   });
@@ -65,8 +66,8 @@ describe('models/builder.js', function() {
 
     return builder.clearOutputPath()
       .then(function() {
-        expect(fs.existsSync(firstFile)).to.equal(false);
-        expect(fs.existsSync(secondFile)).to.equal(false);
+        expect(existsSync(firstFile)).to.equal(false);
+        expect(existsSync(secondFile)).to.equal(false);
       });
   });
 
@@ -191,11 +192,11 @@ describe('models/builder.js', function() {
 
     it('should call postBuild before processBuildResult', function() {
       var called = [];
-      
+
       addon.postBuild = function() {
         called.push('postBuild');
       };
-      
+
       builder.processBuildResult = function() {
         called.push('processBuildResult');
       };

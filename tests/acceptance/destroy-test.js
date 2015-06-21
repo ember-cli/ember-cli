@@ -7,6 +7,7 @@ var expect     = require('chai').expect;
 var assertFile = require('../helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
+var existsSync = require('../helpers/file-utils').existsSync;
 var fs         = require('fs-extra');
 var outputFile = Promise.denodeify(fs.outputFile);
 var path       = require('path');
@@ -99,7 +100,7 @@ describe('Acceptance: ember destroy', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    expect(!fs.existsSync(filePath), 'expected ' + file + ' not to exist');
+    expect(!existsSync(filePath), 'expected ' + file + ' not to exist');
   }
 
   function assertFilesExist(files) {
@@ -151,7 +152,7 @@ describe('Acceptance: ember destroy', function() {
       })
       .then(function() {
         return destroy(args);
-      })      
+      })
       .then(function(result) {
         expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
         assertFilesNotExist(files);

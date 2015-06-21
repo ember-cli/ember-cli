@@ -7,6 +7,7 @@ var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var conf              = require('./conf');
+var existsSync        = require('./file-utils').existsSync;
 var copy              = Promise.denodeify(require('cpr'));
 var root              = process.cwd();
 
@@ -26,10 +27,10 @@ function downloaded(item) {
   var exists = false;
   switch (item) {
     case 'node_modules':
-      exists = fs.existsSync(path.join(root, '.node_modules-tmp'));
+      exists = existsSync(path.join(root, '.node_modules-tmp'));
       break;
     case 'bower_components':
-      exists = fs.existsSync(path.join(root, '.bower_components-tmp'));
+      exists = existsSync(path.join(root, '.bower_components-tmp'));
       break;
   }
 
@@ -40,7 +41,7 @@ function mvRm(from, to) {
   var dir = path.join(root, to);
   from = path.resolve(from);
 
-  if (!fs.existsSync(dir)) {
+  if (!existsSync(dir)) {
     fs.mkdirsSync(dir);
     fs.copySync(from, to);
     fs.removeSync(from);
@@ -141,11 +142,11 @@ function linkDependencies(projectName) {
     mvRm(bowerComponentsPath, '.bower_components-tmp');
 
 
-    if (!fs.existsSync(nodeModulesPath)) {
+    if (!existsSync(nodeModulesPath)) {
       symLinkDir(targetPath, '.node_modules-tmp', 'node_modules');
     }
 
-    if (!fs.existsSync(bowerComponentsPath)) {
+    if (!existsSync(bowerComponentsPath)) {
       symLinkDir(targetPath, '.bower_components-tmp', 'bower_components');
     }
 
