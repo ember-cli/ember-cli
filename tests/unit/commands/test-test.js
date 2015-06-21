@@ -3,13 +3,13 @@
 var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
 var stub           = require('../../helpers/stub').stub;
+var existsSync     = require('exists-sync');
 var Promise        = require('../../../lib/ext/promise');
 var Task           = require('../../../lib/models/task');
 var CoreObject     = require('core-object');
 var path           = require('path');
 var fs             = require('fs');
-
-var TestCommand = require('../../../lib/commands/test');
+var TestCommand    = require('../../../lib/commands/test');
 
 describe('test command', function() {
   var tasks;
@@ -135,7 +135,7 @@ describe('test command', function() {
     it('should return a valid path', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
-      expect(fs.existsSync(newPath));
+      expect(existsSync(newPath));
     });
 
     it('should return the original path if filter or module or launch isn\'t present', function() {
@@ -153,7 +153,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when filter option is present the new file path returned exists', function() {
@@ -162,7 +162,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when module option is present the new file path returned exists', function() {
@@ -171,7 +171,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when launch option is present the new file path returned exists', function() {
@@ -180,7 +180,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when provided filter and module the new file returned contains the both option values in test_page', function() {

@@ -12,6 +12,7 @@ var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var assertDirEmpty      = require('../helpers/assert-dir-empty');
+var existsSync          = require('exists-sync');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -294,7 +295,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(fs.existsSync(path.join(basePath, file)), file + ' exists');
+          expect(existsSync(path.join(basePath, file)), file + ' exists');
         });
       });
   });
@@ -314,7 +315,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(fs.existsSync(path.join(basePath, file)), file + ' exists');
+          expect(existsSync(path.join(basePath, file)), file + ' exists');
         });
       });
   });
@@ -353,10 +354,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(fs.existsSync(path.join(basePath, file)), file + ' exists');
+          expect(existsSync(path.join(basePath, file)), file + ' exists');
         });
 
-        expect(!fs.existsSync(path.join(basePath, '/assets/some-cool-app.css')), 'default app.css should not exist');
+        expect(!existsSync(path.join(basePath, '/assets/some-cool-app.css')), 'default app.css should not exist');
       });
   });
 
@@ -392,7 +393,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent')
       .then(function() {
-        var exists = fs.existsSync(path.join('.', 'dist', 'assets', appName + '.css'));
+        var exists = existsSync(path.join('.', 'dist', 'assets', appName + '.css'));
 
         expect(exists, appName + '.css exists');
       });

@@ -1,6 +1,7 @@
 /*jshint node:true*/
 
 var fs          = require('fs');
+var existsSync  = require('exists-sync');
 var path        = require('path');
 var walkSync    = require('walk-sync');
 var stringUtil  = require('../../lib/utilities/string');
@@ -58,7 +59,7 @@ module.exports = {
     var bowerPath = path.join(this.path, 'files', 'bower.json');
 
     [packagePath, bowerPath].forEach(function(filePath) {
-      if (fs.existsSync(filePath)) {
+      if (existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
     });
@@ -130,7 +131,7 @@ module.exports = {
 
   srcPath: function(file) {
     var filePath = path.resolve(this.path, 'files', file);
-    if (fs.existsSync(filePath)) {
+    if (existsSync(filePath)) {
       return filePath;
     } else {
       return path.resolve(this._appBlueprint.path, 'files', file);

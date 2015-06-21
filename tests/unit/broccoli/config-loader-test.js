@@ -5,6 +5,7 @@ var path         = require('path');
 var ConfigLoader = require('../../../lib/broccoli/broccoli-config-loader');
 var Project      = require('../../../lib/models/project');
 var Promise      = require('../../../lib/ext/promise');
+var existsSync   = require('exists-sync');
 var expect       = require('chai').expect;
 var root         = process.cwd();
 var tmp          = require('tmp-sync');
@@ -18,7 +19,7 @@ describe('broccoli/broccoli-config-loader', function() {
     var fileContents = 'module.exports = function() { return ' + JSON.stringify(config) + '; };';
     var configDir = path.join(tmpSrcDir, 'config');
 
-    if (!fs.existsSync(configDir)) {
+    if (!existsSync(configDir)) {
       fs.mkdirSync(configDir);
     }
 
@@ -73,16 +74,16 @@ describe('broccoli/broccoli-config-loader', function() {
     it('writes the current environments file', function() {
       configLoader.updateCache(tmpSrcDir, tmpDestDir);
 
-      expect(true, fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-      expect(true, fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
+      expect(true, existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
+      expect(true, existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
     });
 
     it('does not generate test environment files if testing is disabled', function() {
       options.tests = false;
       configLoader.updateCache(tmpSrcDir, tmpDestDir);
 
-      expect(true, fs.existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-      expect(true, !fs.existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
+      expect(true, existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
+      expect(true, !existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
     });
   });
 });
