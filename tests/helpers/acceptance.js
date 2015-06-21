@@ -7,7 +7,7 @@ var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var conf              = require('./conf');
-var existsSync        = require('./file-utils').existsSync;
+var existsSync        = require('exists-sync');
 var copy              = Promise.denodeify(require('cpr'));
 var root              = process.cwd();
 

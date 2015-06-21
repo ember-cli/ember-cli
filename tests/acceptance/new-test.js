@@ -2,7 +2,7 @@
 
 var fs         = require('fs-extra');
 var ember      = require('../helpers/ember');
-var existsSync = require('../helpers/file-utils').existsSync;
+var existsSync = require('exists-sync');
 var expect     = require('chai').expect;
 var forEach    = require('lodash/collection/forEach');
 var walkSync   = require('walk-sync');

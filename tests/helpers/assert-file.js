@@ -6,7 +6,7 @@ var contains   = require('lodash/collection/contains');
 var fs         = require('fs-extra');
 var path       = require('path');
 var EOL        = require('os').EOL;
-var existsSync = require('./file-utils').existsSync;
+var existsSync = require('exists-sync');
 
 /*
   Asserts that a given file exists.

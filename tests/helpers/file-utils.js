@@ -25,6 +25,5 @@ function replaceFile(path, findString, replaceString) {
 
 module.exports = {
   touch:       touch,
-  existsSync:  existsSync,
   replaceFile: replaceFile
 };

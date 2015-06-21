@@ -1,7 +1,7 @@
 'use strict';
 
 var attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
-var existsSync = require('../../helpers/file-utils').existsSync;
+var existsSync = require('exists-sync');
 var quickTemp = require('quick-temp');
 var expect = require('chai').expect;
 var isDarwin = /darwin/i.test(require('os').type());

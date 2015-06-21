@@ -3,7 +3,7 @@
 var EOL        = require('os').EOL;
 var expect     = require('chai').expect;
 var walkSync   = require('walk-sync');
-var existsSync = require('./file-utils').existsSync;
+var existsSync = require('exists-sync');
 
 /*
  Asserts that the given directory is empty.
