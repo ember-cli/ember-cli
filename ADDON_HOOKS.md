@@ -49,7 +49,7 @@ Augments the applications configuration settings.  Object returned from this hoo
 Addon.prototype.config = function (env, baseConfig) {
   var configPath = path.join(this.root, 'config', 'environment.js');
 
-  if (fs.existsSync(configPath)) {
+  if (existsSync(configPath)) {
     var configGenerator = require(configPath);
 
     return configGenerator(env, baseConfig);
@@ -85,7 +85,7 @@ Tells the application where your blueprints exist.
 Addon.prototype.blueprintsPath = function() {
   var blueprintPath = path.join(this.root, 'blueprints');
 
-  if (fs.existsSync(blueprintPath)) {
+  if (existsSync(blueprintPath)) {
     return blueprintPath;
   }
 };
