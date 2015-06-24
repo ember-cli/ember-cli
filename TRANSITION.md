@@ -1,6 +1,6 @@
 # Brocfile Transition
 
-Transitioning your Brocfile is fairly straight forward. Simply take the contents of your Brocfile and place it in the body of the function in the new `ember-cli-build.js` file.  Instead of using `module.exports` to return the tree simply have the function return the tree.  Ensure you pass the project to the EmberApp constructor and any options you were passing to `EmberApp` in the Brocfile.
+Transitioning your Brocfile is fairly straight forward. Simply take the contents of your Brocfile and place it in the body of the function in the new `ember-cli-build.js` file.  Instead of using `module.exports` to return the tree simply have the function return the tree.  Ensure you pass the defaults to the EmberApp constructor along with any options you were passing to `EmberApp` in the Brocfile.  Internally these two objects will be merged from right to left.
 
 ## Before
 
@@ -14,9 +14,9 @@ module.exports = app.toTree();
 ```
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function(project) {
-    var app = new EmberApp({
-        project: project
+module.exports = function(defaults) {
+    var app = new EmberApp(defaults, {
+        // Any options
     });
 
     return app.toTree();
