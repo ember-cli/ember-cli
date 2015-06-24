@@ -199,10 +199,10 @@ The __`__root__`__ token is substituted with either `app` or
 `addon` depending upon where it is being generated. This token
 is used to provide support for generating blueprints inside
 addons, and is only necessary if the blueprint needs to be
-generated into the `addon` folder of an addon. The
+generated into the `addon` directory of an addon. The
 presence of this token will cause an additional addon-import
 blueprint to be generated, which is simply a wrapper that
-re-exports the module in the `addon` folder to allow consumers
+re-exports the module in the `addon` directory to allow consumers
 to override addon modules easier.
 
 The __`__test__`__ token is substituted with the dasherized
@@ -353,7 +353,7 @@ following pattern:
 It will be merged with the default `fileMapTokens`, and can be used
 to override any of the default tokens.
 
-Tokens are used in the files folder (see `files`), and get replaced with
+Tokens are used in the files directory (see `files`), and get replaced with
 values when the `mapFile` method is called.
 
 ### beforeInstall & beforeUninstall
@@ -397,6 +397,12 @@ See the built-in `resource` blueprint for an example of this.
 * **Adapter Test**
   * This blueprint generates a unit test for a given ember data adapter.
   * `ember generate adapter-test application`
+
+* **Addon Import**
+  * This blueprint generates an import wrapper in the `app` directory.
+    * Import wrappers simply import a corresponding module from `addon` to allow easier overriding of
+    a module in a project using the addon.
+  * Used by ember-cli internally, it is only used when generating from inside addon projects.
 
 * **Addon**
   * Generates an addon blueprint and its definition.
@@ -452,7 +458,7 @@ See the built-in `resource` blueprint for an example of this.
 
 * **In-Repo Addon**
   * Generates an addon within the same repository. Useful for project-specific addons.
-  * The generator also creates a 'lib' folder, in which it stores the new addon.
+  * The generator also creates a 'lib' directory, in which it stores the new addon.
   * `ember generate in-repo-addon calendar`
 
 * **Initializer**

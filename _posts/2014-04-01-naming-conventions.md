@@ -157,7 +157,7 @@ yourself. But there are a couple of things you should know.
 
 - Dashes
   - file names
-  - folder names
+  - directory names
   - html tags/ember components
   - CSS classes
   - URLs
@@ -173,7 +173,7 @@ import Ember from "ember";
 export default Ember.Model.extend();
 {% endhighlight %}
 
-##### Dasherized file and folder names are required
+##### Dasherized file and directory names are required
 
 {% highlight javascript %}
 // controllers/sign-up.js
@@ -259,13 +259,13 @@ Test filenames should be suffixed with `-test.js` in order to run.
 
 As your app gets bigger, a feature-driven structure may be better. Splitting your application by functionality/resource would give you more power and control to scale and maintain it. As a default, if the file is not found on the POD structure, the Resolver will look it up within the normal structure.
 
-In this case, you should name the file as its functionality. Given a resource `Users`, the folder structure would be:
+In this case, you should name the file as its functionality. Given a resource `Users`, the directory structure would be:
 
 - `app/users/controller.js`
 - `app/users/route.js`
 - `app/users/template.hbs`
 
-Rather than hold your resource folders on the root of your app you can define a POD path using the attribute `podModulePrefix` within your environment configs. The POD path should use the following format: `{appname}/{poddir}`.
+Rather than hold your resource directories on the root of your app you can define a POD path using the attribute `podModulePrefix` within your environment configs. The POD path should use the following format: `{appname}/{poddir}`.
 
 {% highlight javascript linenos %}
 // config/environment.js
@@ -284,7 +284,7 @@ module.exports = function(environment) {
 };
 {% endhighlight %}
 
-Then your folder structure would be:
+Then your directory structure would be:
 
 - `app/pods/users/controller.js`
 - `app/pods/users/route.js`
