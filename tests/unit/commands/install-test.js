@@ -107,7 +107,7 @@ describe('install command', function() {
       });
     });
 
-    it('runs the packae name blueprint task with given name and args', function() {
+    it('runs the package name blueprint task with given name and args', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         expect(generateRun.calledWith[0][0].ignoreMissingMain, true);
@@ -117,13 +117,41 @@ describe('install command', function() {
       });
     });
 
-    it('runs the defaultBlueprint task with given github/name and args', function() {
+    it('fails to install second argument for unknown addon', function() {
       return command.validateAndRun(['ember-cli-cordova', 'com.ember.test']).then(function() {
+        expect(false, 'should reject with error');
+      }).catch(function(err) {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         expect(generateRun.calledWith[0][0].ignoreMissingMain, true);
         expect(generateRun.calledWith[0][0].args).to.deep.equal([
-          'cordova-starter-kit', 'com.ember.test'
+          'cordova-starter-kit'
         ], 'expected generate blueprint called with correct args');
+        expect(err.message).to.equal(
+          'Install failed. Could not find addon with name: com.ember.test',
+          'expected error to have helpful message'
+        );
+      });
+    });
+
+    it('runs npmInstall once and installs three addons', function() {
+      return command.validateAndRun([
+        'ember-data', 'ember-cli-cordova', 'ember-cli-qunit'
+      ]).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
+          packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
+          'save-dev': true,
+          'save-exact': true
+        }, 'expected npm install called with given name and save-dev true');
+
+        var generateRun = tasks.GenerateFromBlueprint.prototype.run;
+        expect(generateRun.called).to.equal(3, 'expect blueprint generator to run thrice.');
+        expect(generateRun.calledWith[0][0].args[0]).to.equal('ember-data');
+        expect(generateRun.calledWith[1][0].args[0]).to.equal('cordova-starter-kit');
+        expect(generateRun.calledWith[2][0].args[0]).to.equal('ember-cli-qunit');
       });
     });
 
