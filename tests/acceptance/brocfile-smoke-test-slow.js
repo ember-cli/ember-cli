@@ -17,6 +17,7 @@ var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
+var existsSync          = require('exists-sync');
 
 var appName  = 'some-cool-app';
 
@@ -106,6 +107,26 @@ describe('Acceptance: brocfile-smoke-test', function() {
         expect(appFileContents).to.include('//app/templates-stuff.js');
         expect(appFileContents).to.include('//app/styles-manager.js');
       });
+  });
+
+  it('should fall back to the Brocfile', function() {
+    this.timeout(100000);
+    return copyFixtureFiles('brocfile-tests/no-ember-cli-build').then(function() {
+      fs.removeSync('./ember-cli-build.js');
+      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+    }).then(function() {
+      expect(existsSync(path.join('.', 'Brocfile.js'))).to.be.ok;
+      expect(existsSync(path.join('.', 'ember-cli-build.js'))).to.be.not.ok;
+    });
+  });
+
+  it('should throw if no build file is found', function() {
+    this.timeout(100000);
+
+    fs.removeSync('./ember-cli-build.js');
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent').catch(function(err) {
+      expect(err.code).to.eql(1);
+    });
   });
 
   it('using autoRun: true', function() {
@@ -326,10 +347,11 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
       .then(function () {
+
         var themeCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'theme.css');
         fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
 
-        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'Brocfile.js');
+        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'ember-cli-build.js');
         var brocfile = fs.readFileSync(brocfilePath, 'utf8');
 
         // remove outputPaths.app.js option
@@ -405,7 +427,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     return copyFixtureFiles('brocfile-tests/multiple-sass-files')
       .then(function() {
-        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'Brocfile.js');
+        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'ember-cli-build.js');
         var brocfile = fs.readFileSync(brocfilePath, 'utf8');
 
         // remove custom preprocessCss paths, use app.scss instead
