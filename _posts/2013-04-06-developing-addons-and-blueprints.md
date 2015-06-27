@@ -378,9 +378,9 @@ found in `/helpers` used to resolve pages in the `dummy` app.
 `index.html` contains the test page that you can load in a browser to
 display the results of running your integration tests.
 
-### Writing acceptance tests
+### Writing unit tests
 
-The following is an example of a simple *QUnit* acceptance test,
+The following is an example of a simple *QUnit* unit test,
 placed in `tests/unit/components`.
 
 {% highlight javascript %}
