@@ -5,7 +5,7 @@ permalink: Environments
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-05-environments.md"
 ---
 
-Ember-CLI ships with support for managing your application's environment. Ember-CLI will build an environment config file at config/environment. Here, you can define an ENV object for each environment (development, test and production). For now, this is limited to the three environments mentioned.
+Ember-CLI ships with support for managing your application's environment. Ember-CLI will build an environment config file at `config/environment`. Here, you can define an ENV object for each environment (development, test and production). For now, this is limited to the three environments mentioned.
 
 The ENV object contains two important keys: 1) EmberENV, and 2) APP. The first can be used to define Ember feature flags (see the [Feature Flags guide](http://emberjs.com/guides/configuring-ember/feature-flags/)). The second can be used to pass flags/options to your application instance.
 
