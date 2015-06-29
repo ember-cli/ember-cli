@@ -599,7 +599,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
+                  "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
         contains: "import { fooBar } from '../../../helpers/foo-bar';"
@@ -614,7 +614,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
+                  "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
         contains: "import { fooBar } from '../../../helpers/foo-bar';"
@@ -629,7 +629,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
@@ -644,7 +644,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
