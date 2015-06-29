@@ -133,6 +133,8 @@ body {
       font-size: .9em;
       letter-spacing: .04em;
       text-shadow: 0 1px #4a170e; }
+      #showcase .content h6 a {
+        color: #d07b6d; }
     #showcase .content h1 {
       font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
       line-height: 1.4em;

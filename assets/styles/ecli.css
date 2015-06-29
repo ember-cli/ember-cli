@@ -1,4 +1,4 @@
-/******************************************************************
+ /******************************************************************
 Site Name:
 Author:
 
@@ -11,7 +11,7 @@ tell you is that this will help speed up simple changes like
 changing a color or adding CSS3 techniques gradients.
 
 A WORD OF WARNING: It's very easy to overdo it here. Be careful and
-remember less is more.
+remember less is more. 
 
 Helpful:
 http://sachagreif.com/useful-sass-mixins/
@@ -46,27 +46,23 @@ BORDER RADIUS
 /* @include border-radius(5px); */
 @font-face {
   font-family: 'exomedium';
-  src: url('../fonts/exo-medium-webfont.eot');
-  src: url('../fonts/exo-medium-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/exo-medium-webfont.woff') format('woff'), url('../fonts/exo-medium-webfont.ttf') format('truetype'), url('../fonts/exo-medium-webfont.svg#exomedium') format('svg');
+  src: url("../fonts/exo-medium-webfont.eot");
+  src: url("../fonts/exo-medium-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-medium-webfont.woff") format("woff"), url("../fonts/exo-medium-webfont.ttf") format("truetype"), url("../fonts/exo-medium-webfont.svg#exomedium") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 @font-face {
   font-family: 'exoblack';
-  src: url('../fonts/exo-black-webfont.eot');
-  src: url('../fonts/exo-black-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/exo-black-webfont.woff') format('woff'), url('../fonts/exo-black-webfont.ttf') format('truetype'), url('../fonts/exo-black-webfont.svg#exoblack') format('svg');
+  src: url("../fonts/exo-black-webfont.eot");
+  src: url("../fonts/exo-black-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-black-webfont.woff") format("woff"), url("../fonts/exo-black-webfont.ttf") format("truetype"), url("../fonts/exo-black-webfont.svg#exoblack") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 @font-face {
   font-family: 'exolight';
-  src: url('../fonts/exo-light-webfont.eot');
-  src: url('../fonts/exo-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/exo-light-webfont.woff') format('woff'), url('../fonts/exo-light-webfont.ttf') format('truetype'), url('../fonts/exo-light-webfont.svg#exolight') format('svg');
+  src: url("../fonts/exo-light-webfont.eot");
+  src: url("../fonts/exo-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/exo-light-webfont.woff") format("woff"), url("../fonts/exo-light-webfont.ttf") format("truetype"), url("../fonts/exo-light-webfont.svg#exolight") format("svg");
   font-weight: normal;
   font-style: normal; }
-
 /*  BASE STYLES   */
-
 body {
   background: #fdfaf9;
   -webkit-font-smoothing: antialiased; }
@@ -125,7 +121,7 @@ body {
       text-align: center; }
     #showcase .content p.tagline {
       text-align: center;
-      font-family: 'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
       letter-spacing: .02em;
       line-height: 1.3em;
       font-size: 1.3em;
@@ -137,15 +133,15 @@ body {
       font-size: .9em;
       letter-spacing: .04em;
       text-shadow: 0 1px #4a170e; }
-    #showcase .content h1,
-    #sidenav h1 {
-      font-family: 'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      #showcase .content h6 a {
+        color: #d07b6d; }
+    #showcase .content h1 {
+      font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
       line-height: 1.4em;
       font-size: 3.5em;
       color: white;
       text-shadow: 0 2px #742416; }
-      #showcase .content h1 span,
-      #sidenav h1 span {
+      #showcase .content h1 span {
         width: 56px;
         top: -15px;
         color: #b3230a;
@@ -158,11 +154,11 @@ body {
         -khtml-border-radius: 7px;
         border-radius: 7px;
         background-color: #f9a091;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f9a091));
-        background-image: -webkit-linear-gradient(top, #ffffff, #f9a091);
-        background-image: -moz-linear-gradient(top, #ffffff, #f9a091);
-        background-image: -o-linear-gradient(top, #ffffff, #f9a091);
-        background-image: linear-gradient(to bottom, #ffffff, #f9a091); }
+        background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f9a091));
+        background-image: -webkit-linear-gradient(top, white, #f9a091);
+        background-image: -moz-linear-gradient(top, white, #f9a091);
+        background-image: -o-linear-gradient(top, white, #f9a091);
+        background-image: linear-gradient(to bottom, white, #f9a091); }
     #showcase .content code {
       text-align: center;
       display: block;
@@ -197,7 +193,7 @@ body {
     padding: .95em 1.45em;
     letter-spacing: .04em;
     font-size: 1.1em;
-    font-family: 'exomedium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: "exomedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     text-align: center;
     text-shadow: 0 1px #fefcfc;
@@ -224,6 +220,35 @@ body {
       background-image: -o-linear-gradient(top, #f7e3df, #de8979);
       background-image: linear-gradient(to bottom, #f7e3df, #de8979); }
 
+#sidenav h1 {
+  font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.4em;
+  font-size: 3.5em;
+  color: white;
+  text-shadow: 0 2px #742416;
+  font-size: 2em;
+  background-color: #d84a32;
+  margin: 0;
+  padding: 10px 20px; }
+  #sidenav h1 span {
+    width: 56px;
+    top: -15px;
+    color: #b3230a;
+    padding: .04em .4em .04em .3em;
+    font-size: .75em;
+    border-bottom: 3px solid #d66f5d;
+    text-shadow: 0 1px white;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -khtml-border-radius: 7px;
+    border-radius: 7px;
+    background-color: #f9a091;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f9a091));
+    background-image: -webkit-linear-gradient(top, white, #f9a091);
+    background-image: -moz-linear-gradient(top, white, #f9a091);
+    background-image: -o-linear-gradient(top, white, #f9a091);
+    background-image: linear-gradient(to bottom, white, #f9a091); }
+
 .content-section {
   overflow-x: hidden; }
   .content-section .guide-content {
@@ -246,7 +271,7 @@ body {
       font-size: 1.65em;
       letter-spacing: .06em;
       color: #c66c5d;
-      font-family: 'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
       text-transform: uppercase;
       text-shadow: 0 1px white;
       margin-top: 65px;
@@ -323,20 +348,22 @@ body {
     #showcase .content code {
       width: 320px;
       font-size: 1.1em; }
+
   .content-section .guide-content h1 {
     margin-top: 15px; }
   .content-section .guide-content .edit-page {
     margin-top: 5px; } }
-
 @media (min-width: 992px) {
   body {
     background: #f2d1cb; }
+
   .container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     width: 100%; }
+
   #showcase {
     padding-top: 10%; }
     #showcase .content p.tagline {
@@ -344,6 +371,7 @@ body {
     #showcase .content code {
       width: 360px;
       font-size: 1.3em; }
+
   .row {
     margin-top: 0; }
     .row div {
@@ -365,16 +393,13 @@ body {
       padding-left: 3%;
       padding-right: 3%;
       background: white; }
+
   .sidebar {
     padding-left: 0px; }
-  #sidenav h1 {
-    background: rgb(216, 74, 50);
-    font-size: 2em;
-    margin: 0;
-    padding: 20px;
-  }
+
   .sidebar.affix {
     top: 20px; }
+
   .sidenav {
     margin-bottom: 0;
     padding-left: 0;
@@ -388,11 +413,11 @@ body {
       font-weight: 500;
       margin-right: -6px;
       background-color: #f7e3df;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7e3df));
-      background-image: -webkit-linear-gradient(top, #ffffff, #f7e3df);
-      background-image: -moz-linear-gradient(top, #ffffff, #f7e3df);
-      background-image: -o-linear-gradient(top, #ffffff, #f7e3df);
-      background-image: linear-gradient(to bottom, #ffffff, #f7e3df);
+      background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f7e3df));
+      background-image: -webkit-linear-gradient(top, white, #f7e3df);
+      background-image: -moz-linear-gradient(top, white, #f7e3df);
+      background-image: -o-linear-gradient(top, white, #f7e3df);
+      background-image: linear-gradient(to bottom, white, #f7e3df);
       border-bottom: 1px solid white; }
       .sidenav li.active a, .sidenav li.active:hover a {
         color: #9c3422;
@@ -423,11 +448,11 @@ body {
           background-image: linear-gradient(to bottom, #fbf1f0, #f4d8d3); }
     .sidenav .ectop {
       background-color: #f7e3df;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7e3df));
-      background-image: -webkit-linear-gradient(top, #ffffff, #f7e3df);
-      background-image: -moz-linear-gradient(top, #ffffff, #f7e3df);
-      background-image: -o-linear-gradient(top, #ffffff, #f7e3df);
-      background-image: linear-gradient(to bottom, #ffffff, #f7e3df);
+      background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f7e3df));
+      background-image: -webkit-linear-gradient(top, white, #f7e3df);
+      background-image: -moz-linear-gradient(top, white, #f7e3df);
+      background-image: -o-linear-gradient(top, white, #f7e3df);
+      background-image: linear-gradient(to bottom, white, #f7e3df);
       border-bottom: 2px solid #eab4aa;
       border-top: none; }
       .sidenav .ectop a {
@@ -441,4 +466,3 @@ body {
           padding-right: .5em; }
       .sidenav .ectop .categories a {
         display: inline-block; } }
-
