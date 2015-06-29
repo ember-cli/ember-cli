@@ -2,6 +2,7 @@
 layout: post
 title: "Using Modules & the Resolver"
 permalink: using-modules
+category: user-guide
 github: "https://github.com/ember-cli/ember-cli/edit/gh-pages/_posts/2014-04-02-using-modules-and-the-resolver.md"
 ---
 
@@ -19,33 +20,18 @@ App.IndexRoute = Ember.Route.extend({
 });
 {% endhighlight %}
 
-Today, Ember CLI uses a [newer version of the Resolver](https://github.com/stefanpenner/ember-resolver) based on ES6 semantics. This means that you can build your apps using syntax from future JavaScript versions, but output AMD modules that can be used by existing JavaScript libraries today.
+Today, Ember CLI uses a [newer version of the
+Resolver](https://github.com/stefanpenner/ember-resolver) based on ES6
+semantics. This means that you can build your apps using syntax from future
+JavaScript versions, but output AMD modules that can be used by existing
+JavaScript libraries today.
 
-For example, this route definition in `app/routes/index.js` would result in a module called `your-app/routes/index`. Using the resolver, when Ember looks up the index route, it will find this module and use the object that it exports.
+For example, this route definition in `app/routes/index.js` would result in a
+module called `your-app/routes/index`. Using the resolver, when Ember looks up
+the index route, it will find this module and use the object that it exports.
 
 {% highlight javascript linenos %}
 // app/routes/index.js
-import Ember from "ember";
-
-var IndexRoute = Ember.Route.extend({
-  model: function() {
-    return ['red', 'yellow', 'blue'];
-  }
-});
-
-export default IndexRoute;
-{% endhighlight %}
-
-Note, that the name of the variable used in the exported module doesn't have any
-influence on the resolver. It's the filename that is used to resolve modules.
-
-This variant of the Resolver will replace the default resolver in Ember 2.0.
-
-### Additional Examples
-
-You can also export modules directly without having to declare a variable:
-
-{% highlight javascript linenos %}
 import Ember from "ember";
 
 export default Ember.Route.extend({
@@ -53,6 +39,7 @@ export default Ember.Route.extend({
     return ['red', 'yellow', 'blue'];
   }
 });
+
 {% endhighlight %}
 
 You can also require modules directly with the following syntax:
@@ -90,17 +77,12 @@ import DS from "ember-data";
 One of the enhancements that the new Resolver brings is that it will first look for Pods before the traditional project structure.
 
 
-### Cyclic Dependencies
-Cyclic dependencies – are not yet supported at the moment, we are depending on [es6-module-transpiler/pull/126](https://github.com/square/es6-module-transpiler/pull/126)
-
-
 ### Module Directory Naming Structure
 
 Directory           | Purpose
 --------------------|
 `app/adapters/`     | Adapters with the convention `adapter-name.js`.
 `app/components/`   | Components with the convention `component-name.js`. Components must have a dash in their name. So `blog-post` is an acceptable name, but `post` is not.
-`app/controllers/`  | Controllers with the convention `controller-name.js`. Child controllers are defined in sub-directories, `parent/child.js`.
 `app/helpers/`      | Helpers with the convention `helper-name.js`. Helpers must have a dash in their name. Remember that you must register your helpers by exporting `makeBoundHelper` or calling `registerBoundHelper` explicitly.
 `app/initializers/` | Initializers with the convention `initializer-name.js`. Initializers are loaded automatically.
 `app/mixins/`       | Mixins with the convention `mixin-name.js`.
@@ -109,24 +91,11 @@ Directory           | Purpose
 `app/serializers/`  | Serializers for your models or adapter, where `model-name.js` or `adapter-name.js`.
 `app/transforms/`   | Transforms for custom Ember Data attributes, where `attribute-name.js` is the new attribute.
 `app/utils/`        | Utility modules with the convention `utility-name.js`.
-`app/views/`        | Views with the convention `view-name.js`. Sub-directories can be used for organization.
 
 All modules in the `app` directory can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
 
 For more information, see [Naming Conventions](#naming-conventions).
-
-### Resolving from template helpers
-
-Ember has several template helpers that are used to easily resolve and render
-views and their contexts within a template. The resolver works with these
-helpers, too:
-
-Template Helper | Example                                            | Purpose
-----------------|----------------------------------------------------|
-partial         | `{% raw %}{{partial "foo"}}{% endraw %}`           | Renders the template within `templates/foo.hbs`
-view            | `{% raw %}{{view "foo"}}{% endraw %}`              | Renders the view within `views/foo.js`
-render          | `{% raw %}{{render "foo"  <context>}}{% endraw %}` | Renders the view within `views/foo.js` using the controller within `controllers/foo.js` and the template `templates/foo.hbs`
 
 ### Resolving Handlebars helpers
 Custom Handlebars helpers are one of the ways that you can use the same HTML multiple
@@ -186,22 +155,7 @@ into (`trimHelper`) could have been anything.
 
 A common pattern with helpers is to define a helper to use your views
 (e.g. for a custom text field view, `MyTextField` a helper `my-text-field`
-to use it). It is advised to leverage Components instead. More concretely,
-instead of:
-
-{% highlight javascript linenos %}
-// app/views/my-text-field.js
-import Ember from "ember";
-export default Ember.TextField.extend({
-  // some custom behaviour
-});
-
-// app/helpers/my-text-field.js... the below does not work!!!
-import Ember from "ember";
-import MyTextField from 'my-app/views/my-text-field';
-
-Ember.Handlebars.helper('my-text-field', MyTextField);
-{% endhighlight %}
+to use it). It is advised to leverage Components instead.
 
 Do this:
 

@@ -4,33 +4,31 @@
   <body data-spy="scroll" data-target=".sidebar">
     {% include header.html %}
     <div class="content">
+      {% include description.html %}
+      <div id="swap"></div>
       <div id="guide" class="container">
         <div class="row">
            <div id="sidenav" class="col-md-3 hidden-sm hidden-xs sidebar-wrapper">
             <div class="sidebar">
               <h1>ember <span>CLI</span></h1>
               <ul class="nav sidenav">
-                <li class="ectop"><a href="/">Home</a></li>
-                {% for category in site.categories %}
-                <li class="ectop">
-                    {% if page.category == category[0] %}
-                    <a href="#guide">
-                      <span class="glyphicon glyphicon-arrow-up"></span>
+                <li class="ectop"><a href="/"><span class="glyphicon glyphicon-arrow-up"></span>Home</a></li>
+                {% for guide in site.posts %}
+                  {% if guide.hidden != 'true' %}
+                    {% if guide.category %}
                     {% else %}
-                    <a href="/{{ category | first }}">
-                    {% endif %}
-                      {{ category | first }}
-                    </a>
-                </li>
-                  {% if page.category == category[0] %}
-                    {% for guide in site.posts %}
-                      {% if guide.hidden != 'true' and guide.category == page.category %}
                 <li>
                   <a href="#{{guide.permalink}}">{{guide.title}}</a>
                 </li>
-                      {% endif %}
-                    {% endfor %}
+                    {% endif %}
                   {% endif %}
+                {% endfor %}
+                {% for category in site.categories %}
+                <li class="ectop">
+                    <a href="/{{ category | first }}">
+                      {{ category | first }}
+                    </a>
+                </li>
                 {% endfor %}
               </ul>
             </div>
@@ -65,5 +63,7 @@
   ga('send', 'pageview');
 
 </script>
+<!-- Place this tag right after the last button or just before your close body tag. -->
+<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

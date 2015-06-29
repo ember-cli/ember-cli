@@ -10,6 +10,25 @@ $exo2:      'exomedium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $exo3:      'exoblack', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 
+@mixin logo {
+      font-family: $exo1;
+      line-height: 1.4em;
+      font-size: 3.5em;
+      color: white;
+      text-shadow: 0 2px darken($drkred,25%);
+      span {
+        width: 56px;
+        top: -15px;
+        color: darken($red,15%);
+        padding: .04em .4em .04em .3em;
+        font-size: .75em;
+        border-bottom: 3px solid desaturate(lighten($red,8%),30%);
+        text-shadow: 0 1px white;
+        @include border-radius(7px);
+        @include css-gradient(lighten($red,55%),lighten($red,25%))
+      }
+}
+
 /*  BASE STYLES   */
 
 body {
@@ -36,7 +55,7 @@ body {
   nav.in {
     height: 100%;
   }
-  
+
   .navbar-brand {
     color: #ffffff;
     font-size: 1.6em;
@@ -79,24 +98,13 @@ body {
       font-size: .9em;
       letter-spacing: .04em;
       text-shadow: 0 1px darken($drkred,35%);
+
+      a {
+        color: desaturate(lighten($red,10%),38%);
+      }
     }
     h1 {
-      font-family: $exo1;
-      line-height: 1.4em;
-      font-size: 3.5em;
-      color: white;
-      text-shadow: 0 2px darken($drkred,25%);
-      span {
-        width: 56px;
-        top: -15px;
-        color: darken($red,15%);
-        padding: .04em .4em .04em .3em;
-        font-size: .75em;
-        border-bottom: 3px solid desaturate(lighten($red,8%),30%);
-        text-shadow: 0 1px white;
-        @include border-radius(7px);
-        @include css-gradient(lighten($red,55%),lighten($red,25%))
-      }
+      @include logo;
     }
     code {
       text-align: center;
@@ -114,21 +122,28 @@ body {
       display: block;
     }
   }
-  #viewguide {
-    display: block;
+  .primary-nav {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+  }
+  .primary-nav li {
+    display: inline-block;
+  }
+  .primary-nav a {
+    display: inline-block;
     height: auto;
     float: none;
     margin: 3em auto 4em;
     border: 1px solid desaturate(darken($drkred,5%),35%);
     border-bottom: 4px solid desaturate(lighten($drkred,10%),20%);
-    padding:.95em .35em;
+    padding:.95em 1.45em;
     letter-spacing: .04em;
     font-size: 1.1em;
     font-family: $exo2;
     text-transform: uppercase;
     text-align: center;
     text-shadow: 0 1px lighten($lgtred,12%);
-    width: 256px;
     color: darken(desaturate($red,35%),10%);
     @include css-gradient(lighten($lgtred,5%),darken($lgtred,10%));
     @include border-radius(7px);
@@ -139,8 +154,17 @@ body {
       text-shadow: 0 1px darken($lgtred,1%);
       text-decoration:none;
       @include css-gradient(lighten($lgtred,5%),darken($lgtred,20%));
-    } 
+    }
   }
+}
+
+
+#sidenav h1 {
+  @include logo;
+  font-size: 2em;
+  background-color: rgb(216, 74, 50);
+  margin:0;
+  padding: 10px 20px;
 }
 
 
@@ -261,7 +285,7 @@ body {
     text-align: center;
     color: desaturate($red,30%);
     text-shadow: 0 1px lighten($lgtred,10%);
-    a { 
+    a {
       color: darken(desaturate($red,30%),15%);
 
     }
@@ -284,11 +308,11 @@ body {
         font-size: 1.6em;
       }
       h6 {
-       
+
       }
       h1 {
         span {
-          
+
         }
       }
       code {
@@ -308,7 +332,26 @@ body {
       }
     }
   }
-        
+
+}
+
+@media (max-width:500px) {
+  #showcase .primary-nav {
+    margin-top:2em;
+  }
+  #showcase .primary-nav li {
+    display:block;
+  }
+  #showcase .primary-nav a {
+    width:80%;
+    margin: 1em auto 1em;
+  }
+  nav .navbar-nav li {
+    text-indent:1em;
+  }
+  nav .navbar-nav li.ectop {
+    text-indent:0em;
+  }
 }
 
 @media (min-width:992px) {
@@ -327,12 +370,12 @@ body {
         font-size: 2em;
       }
       h6 {
-       
+
       }
       h1 {
-       
+
         span {
-          
+
         }
       }
       code {
@@ -350,7 +393,7 @@ body {
       margin: 0;
     }
     .sidebar-wrapper {
-      padding-top: 3%;
+
       border-right: 1px solid rgba(75,45,75,.1);
       padding-left: 0;padding-right: 0;
       .affix {
@@ -433,6 +476,9 @@ body {
         background: none;
         &:hover, &:active {background:none;}
         span {padding-right: .5em;}
+      }
+      .categories a {
+        display:inline-block;
       }
     }
   }

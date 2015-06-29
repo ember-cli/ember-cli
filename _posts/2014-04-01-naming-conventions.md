@@ -2,6 +2,7 @@
 layout: post
 title: "Naming Conventions"
 permalink: naming-conventions
+category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-01-naming-conventions.md"
 ---
 
