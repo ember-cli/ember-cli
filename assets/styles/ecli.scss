@@ -335,6 +335,25 @@ body {
 
 }
 
+@media (max-width:500px) {
+  #showcase .primary-nav {
+    margin-top:2em;
+  }
+  #showcase .primary-nav li {
+    display:block;
+  }
+  #showcase .primary-nav a {
+    width:80%;
+    margin: 1em auto 1em;
+  }
+  nav .navbar-nav li {
+    text-indent:1em;
+  }
+  nav .navbar-nav li.ectop {
+    text-indent:0em;
+  }
+}
+
 @media (min-width:992px) {
 
   body {background: $lgtred;}

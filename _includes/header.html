@@ -26,7 +26,7 @@
             {% for guide in site.posts %}
               {% if guide.hidden != 'true' and guide.category == page.category %}
                 <li>
-                  <a href="#{{guide.permalink}}">&nbsp;&nbsp;&nbsp;&nbsp;{{guide.title}}</a>
+                  <a href="#{{guide.permalink}}">{{guide.title}}</a>
                 </li>
               {% endif %}
             {% endfor %}
