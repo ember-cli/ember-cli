@@ -11,11 +11,27 @@
     </div>
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
       <ul class="nav navbar-nav">
-        {% for guide in site.posts %}
-          {% if guide.hidden != 'true' and guide.category == page.category %}
-            <li><a href="#{{guide.permalink}}">{{guide.title}}</a></li>
-          {% endif %}
-        {% endfor %}
+                {% for category in site.categories %}
+                <li class="ectop">
+                    {% if page.category == category[0] %}
+                    <a href="#guide">
+                      <span class="glyphicon glyphicon-arrow-up"></span>
+                    {% else %}
+                    <a href="/{{ category | first }}">
+                    {% endif %}
+                      {{ category | first }}
+                    </a>
+                  {% if page.category == category[0] %}
+                    {% for guide in site.posts %}
+                      {% if guide.hidden != 'true' and guide.category == page.category %}
+                        <li>
+                          <a href="#{{guide.permalink}}">&nbsp;&nbsp;&nbsp;&nbsp;{{guide.title}}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                </li>
+                {% endfor %}
       </ul>
     </nav>
   </div>
