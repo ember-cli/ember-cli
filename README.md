@@ -4,7 +4,7 @@ getting started
 
 ```sh
 bundle install
-ruby run.rb
+bundle exec ruby run.rb
 ```
 
 You can now view the result at [http://localhost:4000/](http://localhost:4000/).
