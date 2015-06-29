@@ -112,7 +112,7 @@ Run the generator for your project:
 ember new my-new-app
 {% endhighlight %}
 
-This will create a new `my-new-app` folder and generate an application structure for you.
+This will create a new `my-new-app` directory and generate an application structure for you.
 
 Once the generation process finishes, launch the app:
 
@@ -156,8 +156,8 @@ ember server
  Command                                     | Purpose
  :------------------------------------------ | :-------
  `ember`                                     | Prints out a list of available commands.
- `ember new <app-name>`                      | Creates a folder called `<app-name>` and generates an application structure for you.  If git is available the folder will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
- `ember init`                                | Generates an application structure for you in the current folder.
+ `ember new <app-name>`                      | Creates a directory called `<app-name>` and generates an application structure for you.  If git is available the directory will be initialized as a git repository and an initial commit will be created.  Use  `--skip-git` flag to disable this feature.
+ `ember init`                                | Generates an application structure for you in the current directory.
  `ember build`                               | Builds the application to `dist/` directory (customize via `--output-path` flag). Use `--environment` flag to specify the environment to build for (defaults to `development`). Use `--watch` flag keep the process running, observing the filesystem and rebuilding when changes occur.
  `ember server`                              | Starts up the server. Default port is `4200`. Use `--proxy` flag to proxy all ajax requests to the given address. For example `ember server --proxy http://127.0.0.1:8080` will proxy all your apps XHR to your server running at port 8080.
  <span style="white-space:nowrap">`ember generate <generator-name> <options>`</span> | Runs a specific generator. To see available generators, run `ember help generate`.
@@ -167,11 +167,11 @@ ember server
 
 ### Folder Layout
 
- File/folder         | Purpose
+ File/directory         | Purpose
  :-------------      | :-------
- `app/`              | Contains your Ember application's code. Javascript files in this folder are *compiled* through the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
+ `app/`              | Contains your Ember application's code. Javascript files in this directory are *compiled* through the ES6 module transpiler and concatenated into a file called `app.js`. See the table below for more details.
  `dist/`             | Contains the *distributable* (that is, optimized and self-contained) output of your application. Deploy this to your server!
- `public/`           | This folder will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
+ `public/`           | This directory will be copied verbatim into the root of your built application. Use this for assets that don't have a build step, such as images or fonts.
  `tests/`            | Includes unit and integration tests for your app, as well as various helpers to load and run your tests.
  `tmp/`              | Various temporary output of build steps, as well as the debug output of your application (`tmp/public`).
  `bower_components/` | Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
@@ -182,9 +182,9 @@ ember server
  `bower.json`        | Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
  `package.json`      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
 
-### Layout within `app` folder
+### Layout within `app` directory 
 
- File/folder    | Purpose
+ File/directory    | Purpose
  :------------- | :-------
  `app/app.js` | Your application's entry point. This is the module that is first executed.
  `app/index.html` | The only actual page of your single-page app! Includes dependencies and kickstarts your Ember application. See [app/index.html](#appindexhtml).

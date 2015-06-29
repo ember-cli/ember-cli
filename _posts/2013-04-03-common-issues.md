@@ -172,7 +172,7 @@ end
 
 #### Watched Files
 
-The way Vagrant syncs folders between your desktop and the VM will break the default mechanism ember-cli uses to watch files and cause issues when updates are subsequently compiled. To restore this functionality, you'll have to make two changes:
+The way Vagrant syncs directories between your desktop and the VM will break the default mechanism ember-cli uses to watch files and cause issues when updates are subsequently compiled. To restore this functionality, you'll have to make two changes:
 
 1. Fall back to polling when invoking the serve command: `ember serve --watcher polling`.
 
@@ -180,7 +180,7 @@ The way Vagrant syncs folders between your desktop and the VM will break the def
 
 #### VM Setup
 
-When setting up your VM, install ember-cli dependencies as you normally would. If you've already run `ember install` in your project's folder from your host machine, you'll have to delete the `node_modules` folder and re-install those dependencies from the VM. This is particularly necessary if you have node dependencies that use native libraries (e.g., [broccoli-sass](#sass), which uses the libsass C library).
+When setting up your VM, install ember-cli dependencies as you normally would. If you've already run `ember install` in your project's directory from your host machine, you'll have to delete the `node_modules` directory and re-install those dependencies from the VM. This is particularly necessary if you have node dependencies that use native libraries (e.g., [broccoli-sass](#sass), which uses the libsass C library).
 
 #### Provider
 

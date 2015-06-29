@@ -79,7 +79,7 @@ One of the enhancements that the new Resolver brings is that it will first look 
 
 ### Module Directory Naming Structure
 
-Folder              | Purpose
+Directory           | Purpose
 --------------------|
 `app/adapters/`     | Adapters with the convention `adapter-name.js`.
 `app/components/`   | Components with the convention `component-name.js`. Components must have a dash in their name. So `blog-post` is an acceptable name, but `post` is not.
@@ -92,7 +92,7 @@ Folder              | Purpose
 `app/transforms/`   | Transforms for custom Ember Data attributes, where `attribute-name.js` is the new attribute.
 `app/utils/`        | Utility modules with the convention `utility-name.js`.
 
-All modules in the `app` folder can be loaded by the resolver but typically
+All modules in the `app` directory can be loaded by the resolver but typically
 classes such as `mixins` and `utils` should be loaded manually with an import statement.
 
 For more information, see [Naming Conventions](#naming-conventions).

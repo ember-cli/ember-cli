@@ -10,7 +10,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-
 
 * `public/assets` vs `app/styles`
 
-To add images, fonts, or other assets, place them in the `public/assets` folder. For
+To add images, fonts, or other assets, place them in the `public/assets` directory. For
 example, if you place `logo.png` in `public/assets/images`, you can reference it in
 templates with `assets/images/logo.png` or in stylesheets with
 `url('/assets/images/logo.png')`.
