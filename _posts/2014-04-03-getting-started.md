@@ -182,7 +182,7 @@ ember server
  `bower.json`        | Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
  `package.json`      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
 
-### Layout within `app` directory 
+### Layout within `app` directory
 
  File/directory    | Purpose
  :------------- | :-------
@@ -191,7 +191,7 @@ ember server
  `app/router.js` | Your route configuration. The routes defined here correspond to routes in `app/routes/`.
  `app/styles/` | Contains your stylesheets, whether SASS, LESS, Stylus, Compass, or plain CSS (though only one type is allowed, see [Asset Compilation](#asset-compilation)). These are all compiled into `app.css`.
  `app/templates/` | Your Handlebars templates. These are compiled to `/dist/assets/<yourapp>.js`. The templates are named the same as their filename, minus the extension (i.e. `templates/foo/bar.hbs` -> `foo/bar`).
- `app/controllers/`, `app/models/`, etc. | Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](using-modules).
+ `app/controllers/`, `app/models/`, etc. | Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](#using-modules).
 
 [PhantomJS]: http://phantomjs.org
 [homebrew]: http://brew.sh
