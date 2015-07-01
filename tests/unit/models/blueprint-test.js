@@ -1300,7 +1300,6 @@ describe('Blueprint', function() {
           expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
         });
     });
-
   });
 
   describe('lookupBlueprint', function() {
@@ -1340,6 +1339,239 @@ describe('Blueprint', function() {
       var result = blueprint.lookupBlueprint('controller');
 
       expect(result.description).to.equal('Generates a controller.');
+    });
+  });
+
+  describe('._generateFileMapVariables', function() {
+    var blueprint;
+    var project;
+    var moduleName;
+    var locals;
+    var options;
+    var result;
+    var expectation;
+
+    beforeEach(function() {
+      blueprint = new Blueprint(basicBlueprint);
+      project = new MockProject();
+      moduleName = project.name();
+      locals = {};
+
+      blueprint.project = project;
+
+      options = {
+        project: project
+      };
+
+      expectation = {
+        blueprintName: 'basic',
+        dasherizedModuleName: 'mock-project',
+        hasPathToken: undefined,
+        inAddon: false,
+        inDummy: false,
+        inRepoAddon: undefined,
+        locals: {},
+        originBlueprintName: 'basic',
+        pod: undefined,
+        podPath: ''
+      };
+    });
+
+    it('should create the correct default fileMapVariables', function() {
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should use the moduleName method argument for moduleName', function() {
+      moduleName = 'foo';
+      expectation.dasherizedModuleName = 'foo';
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should use the locals method argument for its locals value', function() {
+      locals = { foo: 'bar' };
+      expectation.locals = locals;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should use the option.originBlueprintName value as its originBlueprintName if included in the options hash', function() {
+      options.originBlueprintName = 'foo';
+      expectation.originBlueprintName = 'foo';
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include a podPath if the project\'s podModulePrefix is defined', function() {
+      blueprint.project.config = function() {
+        return {
+          podModulePrefix: 'foo/bar'
+        };
+      };
+
+      expectation.podPath = 'bar';
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include an inAddon and inDummy flag of true if the project is an addon', function () {
+      options.dummy = true;
+
+      blueprint.project.isEmberCLIAddon = function() {
+        return true;
+      };
+
+      expectation.inAddon = true;
+      expectation.inDummy = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include an inAddon and inRepoAddon flag of true if options.inRepoAddon is true', function() {
+      options.inRepoAddon = true;
+
+      expectation.inRepoAddon = true;
+      expectation.inAddon = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should have a hasPathToken flag of true if the blueprint hasPathToken is true', function() {
+      blueprint.hasPathToken = true;
+
+      expectation.hasPathToken = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+  });
+
+  describe('._locals', function() {
+    var blueprint;
+    var project;
+    var options;
+    var result;
+    var expectation;
+
+    beforeEach(function() {
+      blueprint = new Blueprint(basicBlueprint);
+      project = new MockProject();
+
+      blueprint._generateFileMapVariables = function() {
+        return {};
+      };
+
+      blueprint.generateFileMap = function() {
+        return {};
+      };
+
+      options = {
+        project: project
+      };
+
+      expectation = {
+        'camelizedModuleName': 'mockProject',
+        'classifiedModuleName': 'MockProject',
+        'classifiedPackageName': 'MockProject',
+        'dasherizedModuleName': 'mock-project',
+        'dasherizedPackageName': 'mock-project',
+        'decamelizedModuleName': 'mock-project',
+        'fileMap': {}
+      };
+    });
+
+    it('should return a default object if no custom options are passed', function() {
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('it should call the locals method with the correct arguments', function() {
+      blueprint.locals = function (opts) {
+        expect(opts).to.equal(options);
+      };
+
+      blueprint._locals(options);
+    });
+
+    it('should call _generateFileMapVariables with the correct arguments', function() {
+      blueprint.locals = function() {
+        return { foo: 'bar' };
+      };
+
+      blueprint._generateFileMapVariables = function(modName, lcls, opts) {
+        expect(modName).to.equal('mock-project');
+        expect(lcls).to.eql({ foo: 'bar' });
+        expect(opts).to.eql(opts);
+      };
+
+      blueprint._locals(options);
+    });
+
+    it('should call generateFileMap with the correct arguments', function() {
+      blueprint._generateFileMapVariables = function() {
+        return { bar: 'baz' };
+      };
+
+      blueprint.generateFileMap = function(fileMapVariables) {
+        expect(fileMapVariables).to.eql({ bar: 'baz' });
+      };
+
+      blueprint._locals(options);
+    });
+
+    it('should use the options.entity.name as its moduleName if its value is defined', function() {
+      options.entity = {
+        name: 'foo'
+      };
+
+      expectation.camelizedModuleName = 'foo';
+      expectation.classifiedModuleName = 'Foo';
+      expectation.dasherizedModuleName = 'foo';
+      expectation.decamelizedModuleName = 'foo';
+
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should update its fileMap values to match the generateFileMap result', function() {
+      blueprint.generateFileMap = function() {
+        return { foo: 'bar' };
+      };
+
+      expectation.fileMap = { foo: 'bar' };
+
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should return an object containing custom local values', function() {
+      blueprint.locals = function() {
+        return { foo: 'bar' };
+      };
+
+      expectation.foo = 'bar';
+
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
     });
   });
 });
