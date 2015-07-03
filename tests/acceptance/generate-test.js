@@ -462,6 +462,20 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('initializer-test foo', function() {
+    return generate(['initializer-test', 'foo']).then(function() {
+      assertFile('tests/unit/initializers/foo-test.js', {
+        contains: [
+          "import { initialize } from '../../../initializers/foo';",
+          "module('Unit | Initializer | foo'",
+          "var registry, application;",
+          "registry = application.registry;",
+          "initialize(registry, application);"
+        ]
+      });
+    });
+  });
+
   it('initializer foo/bar', function() {
     return generate(['initializer', 'foo/bar']).then(function() {
       assertFile('app/initializers/foo/bar.js', {
