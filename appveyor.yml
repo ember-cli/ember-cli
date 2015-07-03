@@ -17,7 +17,7 @@ install:
   - cinst PhantomJS -y
   # Typical npm stuff.
   - md C:\nc
-  - npm install -g npm@^2
+  - npm install -g npm@latest
   # hide python so node-gyp won't try to build native extentions
   - rename C:\Python27 Python27hidden
   # Workaround https://github.com/npm/npm/wiki/Troubleshooting#upgrading-on-windows
