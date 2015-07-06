@@ -104,9 +104,10 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
 
   it('dummy component-test x-foo', function() {
     return generateInAddon(['component-test', 'x-foo', '--dummy']).then(function() {
-      assertFile('tests/unit/components/x-foo-test.js', {
+      assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'"
         ]
       });

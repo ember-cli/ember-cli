@@ -127,10 +127,12 @@ describe('Acceptance: ember generate in-addon', function() {
           "export { default } from 'my-addon/components/x-foo';"
         ]
       });
-      assertFile('tests/unit/components/x-foo-test.js', {
+      assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -138,16 +140,31 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon component-test x-foo', function() {
     return generateInAddon(['component-test', 'x-foo']).then(function() {
-      assertFile('tests/unit/components/x-foo-test.js', {
+      assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
       assertFileToNotExist('app/component-test/x-foo.js');
     });
   });
-
+  
+  it('in-addon component-test x-foo --unit', function() {
+    return generateInAddon(['component-test', 'x-foo', '--unit']).then(function() {
+      assertFile('tests/unit/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "moduleForComponent('x-foo'",
+          "unit: true"
+        ]
+      });
+      assertFileToNotExist('app/component-test/x-foo.js');
+    });
+  });
+  
   it('in-addon component nested/x-foo', function() {
     return generateInAddon(['component', 'nested/x-foo']).then(function() {
       assertFile('addon/components/nested/x-foo.js', {
@@ -167,10 +184,12 @@ describe('Acceptance: ember generate in-addon', function() {
           "export { default } from 'my-addon/components/nested/x-foo';"
         ]
       });
-      assertFile('tests/unit/components/nested/x-foo-test.js', {
+      assertFile('tests/integration/components/nested/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('nested/x-foo'",
+          "integration: true" 
         ]
       });
     });

@@ -132,10 +132,12 @@ describe('Acceptance: ember generate in-repo-addon', function() {
           "export { default } from 'my-addon/components/x-foo';"
         ]
       });
-      assertFile('tests/unit/components/x-foo-test.js', {
+      assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -143,10 +145,24 @@ describe('Acceptance: ember generate in-repo-addon', function() {
 
   it('in-repo-addon component-test x-foo', function() {
     return generateInRepoAddon(['component-test', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
+      assertFile('tests/integration/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
+        ]
+      });
+    });
+  });
+  
+  it('in-repo-addon component-test x-foo --unit', function() {
+    return generateInRepoAddon(['component-test', 'x-foo', '--in-repo-addon=my-addon', '--unit']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "unit: true"
         ]
       });
     });
@@ -171,10 +187,12 @@ describe('Acceptance: ember generate in-repo-addon', function() {
           "export { default } from 'my-addon/components/nested/x-foo';"
         ]
       });
-      assertFile('tests/unit/components/nested/x-foo-test.js', {
+      assertFile('tests/integration/components/nested/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('nested/x-foo'",
+          "integration: true"
         ]
       });
     });

@@ -107,10 +107,12 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/templates/components/x-foo.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/x-foo-test.js', {
+      assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -128,10 +130,12 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/templates/components/foo/x-foo.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/foo/x-foo-test.js', {
+      assertFile('tests/integration/components/foo/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -149,10 +153,37 @@ describe('Acceptance: ember generate', function() {
       assertFile('app/templates/components/x-foo.hbs', {
         contains: "{{yield}}"
       });
+      assertFile('tests/integration/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
+        ]
+      });
+    });
+  });
+
+  it('component-test x-foo', function() {
+    return generate(['component-test', 'x-foo']).then(function() {
+      assertFile('tests/integration/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
+        ]
+      });
+    });
+  });
+  
+  it('component-test x-foo --unit', function() {
+    return generate(['component-test', 'x-foo', '--unit']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "unit: true"
         ]
       });
     });

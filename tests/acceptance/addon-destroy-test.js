@@ -122,7 +122,7 @@ describe('Acceptance: ember destroy in-addon', function() {
       'addon/components/x-foo.js',
       'addon/templates/components/x-foo.hbs',
       'app/components/x-foo.js',
-      'tests/unit/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
