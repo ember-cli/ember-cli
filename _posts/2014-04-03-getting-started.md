@@ -179,7 +179,7 @@ ember server
  `.jshintrc`         | [JSHint](http://jshint.com/) configuration.
  `.gitignore`        | Git configuration for ignored files.
  `Brocfile.js`       | Contains build specification for [Broccoli](https://github.com/joliss/broccoli).
- `bower.json`        | Bower configuration and dependency list. See [Managing Dependencies](managing-dependencies).
+ `bower.json`        | Bower configuration and dependency list. See [Managing Dependencies](#managing-dependencies).
  `package.json`      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
 
 ### Layout within `app` directory
