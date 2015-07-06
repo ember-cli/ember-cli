@@ -203,6 +203,8 @@ this behavior.
 if true. **True by default if current environment is production.**
 * `exclude` - Default: `[]` - An array of strings. If a filename contains any
 item in the exclude array, it will not be fingerprinted.
+* `ignore` - Default: `[]` - An array of strings.  If a filename contains any item in the 
+ignore array, the contents of the file will not be processed for fingerprinting.
 * `extensions` - Default: `['js', 'css', 'png', 'jpg', 'gif', 'map']` - The file types
 to add md5 checksums.
 * `prepend` - Default: `''` - A string to prepend to all of the assets. Useful
