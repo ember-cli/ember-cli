@@ -138,7 +138,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
+                  "export default Ember.Helper.helper(fooBar);"
       });
       assertFileToNotExist('app/helpers/foo-bar.js');
       assertFileToNotExist('tests/unit/helpers/foo-bar-test.js');
@@ -152,7 +152,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFileToNotExist('app/helpers/foo/bar-baz.js');
       assertFileToNotExist('tests/unit/helpers/foo/bar-baz-test.js');

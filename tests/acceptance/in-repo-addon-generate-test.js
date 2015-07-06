@@ -187,7 +187,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
+                  "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('lib/my-addon/app/helpers/foo-bar.js', {
         contains: [
@@ -207,7 +207,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('lib/my-addon/app/helpers/foo/bar-baz.js', {
         contains: [
