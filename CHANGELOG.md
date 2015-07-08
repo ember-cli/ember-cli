@@ -7,10 +7,11 @@ version:
 
 - Users
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + `Brocfile.js` has been deprecated in favor of `ember-cli-build.js`. See [TRANSITION.md](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md) for details on how to transition your `Brocfile.js` code to `ember-cli-build.js`.
   + Components are now generated with integration tests by default instead of unit tests. Component unit tests can still be generated separately with: `ember g component-test foo-bar -unit`.
   + Services can now be generated into pod structure.
 - Addon Developers
-  + No changes required
+  + `Brocfile.js` has been deprecated in favor of `ember-cli-build.js`. See [TRANSITION.md](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md) for details on how to transition your `Brocfile.js` code to `ember-cli-build.js`.
   + Blueprints can now be generated into the `tests/dummy/app` folder with the `--dummy` flag.
   + Scoped npm dependencies are now supported.
 - Core Contributors
