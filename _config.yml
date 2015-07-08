@@ -5,4 +5,4 @@ markdown:    kramdown
 exclude: [node_modules, vendor]
 
 # TODO: Automate version bump on release
-version: 0.2.7
+version: 1.13.0
