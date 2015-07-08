@@ -1,5 +1,82 @@
 # ember-cli Changelog
 
+### 1.13.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + `Brocfile.js` has been deprecated in favor of `ember-cli-build.js`. See [TRANSITION.md](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md) for details on how to transition your `Brocfile.js` code to `ember-cli-build.js`.
+  + Components are now generated with integration tests by default instead of unit tests. Component unit tests can still be generated separately with: `ember g component-test foo-bar -unit`.
+  + Services can now be generated into pod structure.
+- Addon Developers
+  + `Brocfile.js` has been deprecated in favor of `ember-cli-build.js`. See [TRANSITION.md](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md) for details on how to transition your `Brocfile.js` code to `ember-cli-build.js`.
+  + Blueprints can now be generated into the `tests/dummy/app` folder with the `--dummy` flag.
+  + Scoped npm dependencies are now supported.
+- Core Contributors
+  + fs.existsSync is deprecated, use exists-sync instead.
+
+#### Community Contributions
+- [#4378](https://github.com/ember-cli/ember-cli/pull/4378) Update Ember to 1.13.3 [@rwjblue](https://github.com/rwjblue)
+- [#4395](https://github.com/ember-cli/ember-cli/pull/4395) Update ember-data to 1.13.5 [@trabus](https://github.com/trabus)
+- [#4217](https://github.com/ember-cli/ember-cli/pull/4217) [BUGFIX] generating tests inside addons no longer generates addon export file [@trabus](https://github.com/trabus)
+- [#4212](https://github.com/ember-cli/ember-cli/pull/4212) fix friendly test description for transforms [@csantero](https://github.com/csantero)
+- [#4214](https://github.com/ember-cli/ember-cli/pull/4214) [BUGFIX] correct relative import path for nested adapters [@trabus](https://github.com/trabus)
+- [#4215](https://github.com/ember-cli/ember-cli/pull/4215) extract clean-base-url to its own module [@ember-cli](https://github.com/ember-cli)
+- [#4197](https://github.com/ember-cli/ember-cli/pull/4197) [BUGFIX] add default for path option in component blueprint locals [@trabus](https://github.com/trabus)
+- [#4316](https://github.com/ember-cli/ember-cli/pull/4316) fs.existsSync deprecated, replace with exists-sync [@jasonmit](https://github.com/jasonmit)
+- [#4224](https://github.com/ember-cli/ember-cli/pull/4224) extract silent-error to its own addon [@ember-cli](https://github.com/ember-cli)
+- [#4319](https://github.com/ember-cli/ember-cli/pull/4319) Update tmp.js [@jjmiv](https://github.com/jjmiv)
+- [#4228](https://github.com/ember-cli/ember-cli/pull/4228) add 0.2.7 diffs [@kellyselden](https://github.com/kellyselden)
+- [#4227](https://github.com/ember-cli/ember-cli/pull/4227) Extract process relative require [@ember-cli](https://github.com/ember-cli)
+- [#4226](https://github.com/ember-cli/ember-cli/pull/4226) extract node-modules-path as its own module [@ember-cli](https://github.com/ember-cli)
+- [#4326](https://github.com/ember-cli/ember-cli/pull/4326) Drop unused line from app blueprint [@ef4](https://github.com/ef4)
+- [#4254](https://github.com/ember-cli/ember-cli/pull/4254) [BUGFIX] Closes #4253. Add `skipHelp` as an available option to commands. [@DanielOchoa](https://github.com/DanielOchoa)
+- [#4249](https://github.com/ember-cli/ember-cli/pull/4249) Passing options to tiny-lr (live reload) for HTTPS support [@dosco](https://github.com/dosco)
+- [#4239](https://github.com/ember-cli/ember-cli/pull/4239) Fix JSDoc issues [@Turbo87](https://github.com/Turbo87)
+- [#4242](https://github.com/ember-cli/ember-cli/pull/4242) Add devDependencies "up to date" badge to README [@truenorth](https://github.com/truenorth)
+- [#4251](https://github.com/ember-cli/ember-cli/pull/4251) [BUGFIX] Fix generated addon acceptance test [@trabus](https://github.com/trabus)
+- [#4240](https://github.com/ember-cli/ember-cli/pull/4240) Added ember-cli-release to app/addon devDeps blueprint for simple release cutting [@jayphelps](https://github.com/jayphelps)
+- [#4286](https://github.com/ember-cli/ember-cli/pull/4286) [Deprecation] Introduce new build file [@chadhietala](https://github.com/chadhietala)
+- [#4280](https://github.com/ember-cli/ember-cli/pull/4280) [ENHANCEMENT] Add pod support for services blueprint [@trabus](https://github.com/trabus)
+- [#4272](https://github.com/ember-cli/ember-cli/pull/4272) [ENHANCEMENT] Generate component-tests into `tests/integration` by default [@trabus](https://github.com/trabus)
+- [#4261](https://github.com/ember-cli/ember-cli/pull/4261) bump ember-cli-htmlbars [@ember-cli](https://github.com/ember-cli)
+- [#4266](https://github.com/ember-cli/ember-cli/pull/4266) [fixes #4264] [@ember-cli](https://github.com/ember-cli)
+- [#4270](https://github.com/ember-cli/ember-cli/pull/4270) [BUGFIX] don't allow ember init to create an application without project name [@dukex/bugfix](https://github.com/dukex/bugfix)
+- [#4278](https://github.com/ember-cli/ember-cli/pull/4278) Fix 2 typos in livereload-server-test [@jrobeson](https://github.com/jrobeson)
+- [#4271](https://github.com/ember-cli/ember-cli/pull/4271) Adding support for private npm modules in blueprints. Closes #4256. [@gmurphey](https://github.com/gmurphey)
+- [#4263](https://github.com/ember-cli/ember-cli/pull/4263) [fixes #4260] postprocessTree hook for templates [@ember-cli](https://github.com/ember-cli)
+- [#4347](https://github.com/ember-cli/ember-cli/pull/4347) ES3+ and for ES5+ deprecation free keys + forEach [@ember-cli](https://github.com/ember-cli)
+- [#4292](https://github.com/ember-cli/ember-cli/pull/4292) Cleanup pr4283 [@ember-cli](https://github.com/ember-cli)
+- [#4284](https://github.com/ember-cli/ember-cli/pull/4284) Update ember-resolver to 0.1.17. [@rwjblue](https://github.com/rwjblue)
+- [#4287](https://github.com/ember-cli/ember-cli/pull/4287) [ENHANCEMENT] Add ability to generate blueprints into addon `tests/dummy/app` [@trabus](https://github.com/trabus)
+- [#4290](https://github.com/ember-cli/ember-cli/pull/4290) Pass the correct port property to LiveReload server [@jrobeson](https://github.com/jrobeson)
+- [#4282](https://github.com/ember-cli/ember-cli/pull/4282) Display the LiveReload server address as url [@jrobeson](https://github.com/jrobeson)
+- [#4288](https://github.com/ember-cli/ember-cli/pull/4288) Update ember-cli-htmlbars to 0.7.9. [@rwjblue](https://github.com/rwjblue)
+- [#4376](https://github.com/ember-cli/ember-cli/pull/4376) Update initializer-test blueprint [@quaertym](https://github.com/quaertym)
+- [#4306](https://github.com/ember-cli/ember-cli/pull/4306) [ENHANCEMENT] Print notification when modifying router.js [@trabus](https://github.com/trabus)
+- [#4377](https://github.com/ember-cli/ember-cli/pull/4377) Add a test-page option to the test command [@jrjohnson](https://github.com/jrjohnson)
+- [#4341](https://github.com/ember-cli/ember-cli/pull/4341) Update ember-load-initializers to 0.1.5 [@jmurphyau](https://github.com/jmurphyau)
+- [#4322](https://github.com/ember-cli/ember-cli/pull/4322) Update ADDON_HOOKS.md [@jjmiv](https://github.com/jjmiv)
+- [#4334](https://github.com/ember-cli/ember-cli/pull/4334) Cache processed styles tree to prevent double style builds. [@rwjblue](https://github.com/rwjblue)
+- [#4309](https://github.com/ember-cli/ember-cli/pull/4309) [ENHANCEMENT] Name blueprint in generate and destroy output message [@trabus](https://github.com/trabus)
+- [#4327](https://github.com/ember-cli/ember-cli/pull/4327) Bring tests jshintrc closer to app jshintrc [@ef4](https://github.com/ef4)
+- [#4344](https://github.com/ember-cli/ember-cli/pull/4344) [ENHANCEMENT] Fix typo in test command description. [@fabianrbz](https://github.com/fabianrbz)
+- [#4362](https://github.com/ember-cli/ember-cli/pull/4362) extract preprocessor-registry -> ember-cli-preprocessor-registry [@ember-cli](https://github.com/ember-cli)
+- [#4348](https://github.com/ember-cli/ember-cli/pull/4348) Do not pack ember-cli-build.js [@chadhietala](https://github.com/chadhietala)
+- [#4343](https://github.com/ember-cli/ember-cli/pull/4343) bump to ember-resolve 0.1.18 – which fixes deprecations while continu… [@ember-cli](https://github.com/ember-cli)
+- [#4349](https://github.com/ember-cli/ember-cli/pull/4349) enable both relative and absolute treePaths (npm v3 fix) [@ember-cli](https://github.com/ember-cli)
+- [#4359](https://github.com/ember-cli/ember-cli/pull/4359) Update helper blueprint to use `Ember.Helper.helper` [@balinterdi](https://github.com/balinterdi)
+- [#4354](https://github.com/ember-cli/ember-cli/pull/4354) Upgrade to ember-cli-app-version 0.4.0 [@taras](https://github.com/taras)
+- [#4370](https://github.com/ember-cli/ember-cli/pull/4370) Remove unexpected final newline [@treyhunner](https://github.com/treyhunner)
+- [#4374](https://github.com/ember-cli/ember-cli/pull/4374) Update appveyor.yml [@ember-cli](https://github.com/ember-cli)
+- [#4382](https://github.com/ember-cli/ember-cli/pull/4382) Update ember-cli-qunit to 0.3.15. [@rwjblue](https://github.com/rwjblue)
+- [#4384](https://github.com/ember-cli/ember-cli/pull/4384) [ENHANCEMENT] Add block-template assertion to generated component integration test [@trabus](https://github.com/trabus)
+- [#4385](https://github.com/ember-cli/ember-cli/pull/4385) Dependency updates [@truenorth](https://github.com/truenorth)
+
+Thank you to all who took the time to contribute!
+
 ### 0.2.7
 
 The following changes are required if you are upgrading from the previous

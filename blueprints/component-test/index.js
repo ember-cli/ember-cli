@@ -46,7 +46,7 @@ module.exports = {
       "  // Set any properties with this.set('myProperty', 'value');" + EOL +
       "  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
       "  this.render(hbs`{{" + dasherizedModuleName + "}}`);" + EOL + EOL +
-      "  assert.equal(this.$().text(), '')" + EOL + EOL +
+      "  assert.equal(this.$().text(), '');" + EOL + EOL +
       "  // Template block usage:" + EOL +
       "  this.render(hbs`" + EOL +
       "    {{#" + dasherizedModuleName + "}}" + EOL +
