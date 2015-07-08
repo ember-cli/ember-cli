@@ -18,8 +18,8 @@ version:
   + fs.existsSync is deprecated, use exists-sync instead.
 
 #### Community Contributions
-- [#4391](https://github.com/ember-cli/ember-cli/pull/4391) Update ember-data to 1.13.4
-- [#4300](https://github.com/ember-cli/ember-cli/pull/4300) Update Ember to v1.13.1. [@rwjblue](https://github.com/rwjblue)
+- [#4378](https://github.com/ember-cli/ember-cli/pull/4378) Update Ember to 1.13.3 [@rwjblue](https://github.com/rwjblue)
+- [#4395](https://github.com/ember-cli/ember-cli/pull/4395) Update ember-data to 1.13.5 [@trabus](https://github.com/trabus)
 - [#4217](https://github.com/ember-cli/ember-cli/pull/4217) [BUGFIX] generating tests inside addons no longer generates addon export file [@trabus](https://github.com/trabus)
 - [#4212](https://github.com/ember-cli/ember-cli/pull/4212) fix friendly test description for transforms [@csantero](https://github.com/csantero)
 - [#4214](https://github.com/ember-cli/ember-cli/pull/4214) [BUGFIX] correct relative import path for nested adapters [@trabus](https://github.com/trabus)
@@ -52,11 +52,9 @@ version:
 - [#4284](https://github.com/ember-cli/ember-cli/pull/4284) Update ember-resolver to 0.1.17. [@rwjblue](https://github.com/rwjblue)
 - [#4287](https://github.com/ember-cli/ember-cli/pull/4287) [ENHANCEMENT] Add ability to generate blueprints into addon `tests/dummy/app` [@trabus](https://github.com/trabus)
 - [#4290](https://github.com/ember-cli/ember-cli/pull/4290) Pass the correct port property to LiveReload server [@jrobeson](https://github.com/jrobeson)
-- [#4291](https://github.com/ember-cli/ember-cli/pull/4291) Update blueprint to Ember 1.13.0. [@rwjblue](https://github.com/rwjblue)
 - [#4282](https://github.com/ember-cli/ember-cli/pull/4282) Display the LiveReload server address as url [@jrobeson](https://github.com/jrobeson)
 - [#4288](https://github.com/ember-cli/ember-cli/pull/4288) Update ember-cli-htmlbars to 0.7.9. [@rwjblue](https://github.com/rwjblue)
 - [#4376](https://github.com/ember-cli/ember-cli/pull/4376) Update initializer-test blueprint [@quaertym](https://github.com/quaertym)
-- [#4308](https://github.com/ember-cli/ember-cli/pull/4308) Update Ember to v1.13.2. [@rwjblue](https://github.com/rwjblue)
 - [#4306](https://github.com/ember-cli/ember-cli/pull/4306) [ENHANCEMENT] Print notification when modifying router.js [@trabus](https://github.com/trabus)
 - [#4377](https://github.com/ember-cli/ember-cli/pull/4377) Add a test-page option to the test command [@jrjohnson](https://github.com/jrjohnson)
 - [#4341](https://github.com/ember-cli/ember-cli/pull/4341) Update ember-load-initializers to 0.1.5 [@jmurphyau](https://github.com/jmurphyau)
@@ -73,7 +71,6 @@ version:
 - [#4354](https://github.com/ember-cli/ember-cli/pull/4354) Upgrade to ember-cli-app-version 0.4.0 [@taras](https://github.com/taras)
 - [#4370](https://github.com/ember-cli/ember-cli/pull/4370) Remove unexpected final newline [@treyhunner](https://github.com/treyhunner)
 - [#4374](https://github.com/ember-cli/ember-cli/pull/4374) Update appveyor.yml [@ember-cli](https://github.com/ember-cli)
-- [#4378](https://github.com/ember-cli/ember-cli/pull/4378) Update Ember to 1.13.3. [@rwjblue](https://github.com/rwjblue)
 - [#4382](https://github.com/ember-cli/ember-cli/pull/4382) Update ember-cli-qunit to 0.3.15. [@rwjblue](https://github.com/rwjblue)
 - [#4384](https://github.com/ember-cli/ember-cli/pull/4384) [ENHANCEMENT] Add block-template assertion to generated component integration test [@trabus](https://github.com/trabus)
 - [#4385](https://github.com/ember-cli/ember-cli/pull/4385) Dependency updates [@truenorth](https://github.com/truenorth)
