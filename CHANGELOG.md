@@ -1,5 +1,21 @@
 # ember-cli Changelog
+### 1.13.1
 
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#4398](https://github.com/ember-cli/ember-cli/pull/4398) [BUGFIX] Fixes #4397 add silentError with deprecation [@trabus](https://github.com/trabus)
+
+Thank you to all who took the time to contribute!
 ### 1.13.0
 
 The following changes are required if you are upgrading from the previous
