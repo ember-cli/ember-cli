@@ -23,6 +23,6 @@ test('the application boots properly', function(assert) {
   visit('/');
 
   andThen(function() {
-    assert.equal(Ember.$('#title').text(), 'Welcome to Ember.js');
+    assert.equal(Ember.$('#title').text(), 'Welcome to Ember');
   });
 });
