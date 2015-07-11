@@ -6,9 +6,9 @@ category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-12-ember-data.md"
 ---
 
-The current beta Ember Data is included with Ember CLI.
+The current version of Ember Data is included with Ember CLI.
 
-Ember Data has recently undergone a major reboot, drastically simplifying it and
+Ember Data has undergone some major reboots, drastically simplifying it and
 making it easier to use with the Ember resolver. Here's some tips for using it
 within Ember CLI.
 
