@@ -1,0 +1,15 @@
+{
+  "name": "test-project",
+  "private": true,
+  "dependencies": {
+  },
+  "ember-addon": {
+  },
+  "devDependencies": {
+    "ember-cli": "latest"
+  },
+  "alternateKeys": [
+    { "key": "devDependencies", "file": "./alternate-package.json" }
+  ]
+}
+
