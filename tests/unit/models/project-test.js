@@ -527,4 +527,24 @@ describe('models/project.js', function() {
       expect(Project.nullProject()).to.equal(Project.nullProject());
     });
   });
+
+  describe('setupAlternatePackageKeys', function() {
+
+    it('Projects should be initialized with alternate keys', function() {
+      var projectPath = path.resolve(__dirname, '../../fixtures/project-with-alternate-keys');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+      var alternates = packageContents['alternateKeys'];
+
+      project = new Project(projectPath, packageContents, new MockUI());
+
+      alternates.forEach(function(a) {
+        var key = a.key;
+        var file = a.file;
+        var otherFile = require(path.join(projectPath, file));
+
+        // alternateKeys are objects. strict equality is not possible
+        expect(project.pkg[key]).to.eql(otherFile[key]);
+      });
+    });
+  });
 });
