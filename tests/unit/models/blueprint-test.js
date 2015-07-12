@@ -906,6 +906,23 @@ describe('Blueprint', function() {
 
       blueprint.addBowerPackageToProject('foo-bar', '1.0.0');
     });
+
+    it('correctly handles local package naming, with a numbered pkg version', function() {
+      blueprint.addBowerPackagesToProject = function(packages) {
+        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '1.0.0', source: 'foo-bar'}]);
+      };
+
+      blueprint.addBowerPackageToProject('foo-bar-local', 'foo-bar#1.0.0');
+    });
+
+    it('correctly handles local package naming, with a non-versioned package', function() {
+      blueprint.addBowerPackagesToProject = function(packages) {
+        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '*', source: 'http://twitter.github.io/bootstrap/assets/bootstrap'}]);
+      };
+
+      blueprint.addBowerPackageToProject('foo-bar-local', 'http://twitter.github.io/bootstrap/assets/bootstrap');
+    });
+
   });
 
   describe('addBowerPackagesToProject', function() {
@@ -972,6 +989,31 @@ describe('Blueprint', function() {
       ]);
 
       expect(packages).to.deep.equal(['foo-bar#~1.0.0', 'bar-foo#0.7.0']);
+    });
+
+    it('properly parses a variety of bower package endpoints', function() {
+      var packages;
+
+      BowerInstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.addBowerPackagesToProject([
+        {name: '',          source: 'jquery', target: '~2.0.0'},
+        {name: 'backbone',  source: 'backbone-amd', target: '~1.0.0'},
+        {name: 'bootstrap', source: 'http://twitter.github.io/bootstrap/assets/bootstrap', target: '*'}
+      ]);
+
+      expect(packages).to.deep.equal([
+        // standard local name, versioned bower pkg
+        'jquery#~2.0.0',
+        // custom local name, versioned bower pkg
+        'backbone=backbone-amd#~1.0.0',
+        // no numbered version, custom local name
+        'bootstrap=http://twitter.github.io/bootstrap/assets/bootstrap'
+      ]);
     });
 
     it('uses uses verbose mode with the task', function() {
