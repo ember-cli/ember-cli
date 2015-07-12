@@ -893,7 +893,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar', source: 'foo-bar', target: '*'}]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar');
@@ -901,7 +901,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array with target for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar', target: '1.0.0'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar', source: 'foo-bar', target: '1.0.0'}]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar', '1.0.0');
@@ -971,7 +971,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo'}
       ]);
 
-      expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
+      expect(packages).to.deep.equal(['foo-bar=foo-bar', 'bar-foo=bar-foo']);
     });
 
     it('uses the provided target (version, range, sha, etc)', function() {
@@ -988,7 +988,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo', target: '0.7.0'}
       ]);
 
-      expect(packages).to.deep.equal(['foo-bar#~1.0.0', 'bar-foo#0.7.0']);
+      expect(packages).to.deep.equal(['foo-bar=foo-bar#~1.0.0', 'bar-foo=bar-foo#0.7.0']);
     });
 
     it('properly parses a variety of bower package endpoints', function() {
