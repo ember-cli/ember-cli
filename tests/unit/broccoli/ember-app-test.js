@@ -51,6 +51,40 @@ describe('broccoli/ember-app', function() {
       expect(app.bowerDirectory).to.equal('bower_components');
     });
 
+    it('should merge options with defaults to depth', function() {
+      var app = new EmberApp({
+        project: project,
+        foo: {
+          bar: ['baz']
+        },
+        fooz: {
+          bam: {
+            boo: ['default']
+          }
+        }
+      }, {
+        foo: {
+          bar: ['bizz']
+        },
+        fizz: 'fizz',
+        fooz: {
+          bam: {
+            boo: ['custom']
+          }
+        }
+      });
+
+      expect(app.options.foo).to.deep.eql({
+        bar: ['bizz']
+      });
+      expect(app.options.fizz).to.eql('fizz');
+      expect(app.options.fooz).to.eql({
+        bam: {
+          boo: ['custom']
+        }
+      });
+    });
+
     describe('_notifyAddonIncluded', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
