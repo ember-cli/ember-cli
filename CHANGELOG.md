@@ -6,7 +6,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/f1425c5073a33dfb7ff60d5254fd340046f578bd)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#project-update)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/dc309f7655a2cde4cd81bb75d8f274087e9d82f8)
   + No changes required
