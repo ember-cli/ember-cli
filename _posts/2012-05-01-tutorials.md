@@ -7,6 +7,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-05-
 ---
 
 ### Getting Started
+- [Rock and Roll with EmberJS (book)](http://balinterdi.com/rock-and-roll-with-emberjs/)
 - [ember-cli-101 (book)](http://leanpub.com/ember-cli-101)
 - [Rails + Ember.js (with the Ember CLI)](https://www.devmynd.com/blog/2014-7-rails-ember-js-with-the-ember-cli-redux)
 
