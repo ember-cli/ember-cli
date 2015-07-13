@@ -45,7 +45,7 @@ describe('server command', function() {
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
       expect(ops.port).to.equal(4000,            'has correct port');
-      expect(ops.liveReloadPort).to.equal(35729, 'has correct liveReload port');
+      expect(ops.liveReloadPort).to.be.within(49152, 65535, 'has correct liveReload port');
       expect(ops.liveReloadHost).to.equal('0.0.0.0', 'has correct liveReload host');
     });
   });
