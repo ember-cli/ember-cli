@@ -15,7 +15,6 @@ var EOL               = require('os').EOL;
 var nock              = require('nock');
 var express           = require('express');
 
-
 describe('express-server', function() {
   var subject, ui, project, proxy, nockProxy;
   nock.enableNetConnect();
