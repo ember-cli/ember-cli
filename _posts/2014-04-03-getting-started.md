@@ -14,7 +14,7 @@ First, install the latest stable version of Node (version 0.12.x).
 
 To do so, either follow the installation instructions on
 [nodejs.org](http://nodejs.org/), or use your preferred package manager (such
-as Homebrew on OS X) if you have one.
+as [Homebrew](http://brew.sh/) on OSX) if you have one.
 
 After installing Node, verify that Node is set up correctly by typing the
 following commands on the command line. Both should output help messages:
@@ -37,7 +37,7 @@ This will give you access to the `ember` command-line runner.
 #### Bower
 
 You'll need to install [Bower](http://bower.io), a package manager that keeps
-your front-end dependencies (including JQuery, Ember, and QUnit) up to date.
+your front-end dependencies (including jQuery, Ember, and QUnit) up to date.
 This is as easy as running:
 
 {% highlight bash %}
@@ -50,8 +50,10 @@ This will give you access to the `bower` command-line runner.
 
 On OSX and UNIX-like operating systems, we recommended installing
 [Watchman](https://facebook.github.io/watchman/) version 3.x, which provides
-a more effective way for ember-cli to watch for project changes by hooking
+a more effective way for Ember CLI to watch for project changes by hooking
 into your system's native filesystem events.
+
+Example command installing Watchman using [Homebrew](http://brew.sh/) on OSX.
 
 {% highlight bash %}
 brew install watchman
@@ -60,9 +62,9 @@ brew install watchman
 OSX filewatching has issues that can result in it easily entering a broken state,
 while Node's built in `NodeWatcher` has trouble observing large trees. Watchman
 is developed and used by Facebook to make file-watching work even on extremely massive
-file trees.  You can read more about their motivations in their [announcement here](https://www.facebook.com/notes/facebook-engineering/watchman-faster-builds-with-large-source-trees/10151457195103920).
+file trees. You can read more about their motivations in their [announcement here](https://www.facebook.com/notes/facebook-engineering/watchman-faster-builds-with-large-source-trees/10151457195103920).
 
-For complete installation instructions refer to the docs on the [watchman website](https://facebook.github.io/watchman/).
+For complete installation instructions refer to the docs on the [Watchman website](https://facebook.github.io/watchman/).
 
 When Watchman is not installed, you will see this notice which can be safely ignored.
 
@@ -78,13 +80,13 @@ following warning.
 invalid watchman found, version: [2.9.8] did not satisfy [^3.0.0], falling back to NodeWatcher
 {% endhighlight %}
 
-The following command will let you inspect which watchmans you have.
+The following command will let you inspect which Watchmans you have.
 
 {% highlight bash %}
 which -a watchman
 {% endhighlight %}
 
-If you have installed the wrong watchman, you can use npm uninstall to remove it.
+If you have installed the wrong Watchman, you can use npm uninstall to remove it.
 
 {% highlight bash %}
 npm uninstall -g watchman
@@ -122,13 +124,13 @@ npm install && bower install
 ember server
 {% endhighlight %}
 
-navigate to `http://localhost:4200` to see your new app in action.
+Navigate to `http://localhost:4200` to see your new app in action.
 
-navigate to `http://localhost:4200/tests` to see your test results in action.
+Navigate to `http://localhost:4200/tests` to see your test results in action.
 
 #### Migrating an existing project that doesn't yet use Ember CLI
 
-If your app uses Ember App Kit, there is a [migration guide](https://github.com/stefanpenner/ember-app-kit#migrating-to-ember-cli) located
+If your app uses the deprecated Ember App Kit, there is a [migration guide](https://github.com/stefanpenner/ember-app-kit#migrating-to-ember-cli) located
 on the README.
 
 If your app uses globals (e.g. `App.Post`) from a different build pipeline such as Grunt, Ember-Rails, or Gulp,
@@ -140,7 +142,7 @@ The migrator keeps your code style and keeps git history available via
 
 #### Cloning an existing project
 
-Alternatively, if you are checking out an existing Ember project created with ember-cli,
+Alternatively, if you are checking out an existing Ember project created with Ember CLI,
 you will need to install dependencies yourself before running the server:
 
 {% highlight bash %}
@@ -194,11 +196,11 @@ ember server
  `app/controllers/`, `app/models/`, etc. | Modules resolved by the Ember CLI resolver. See [Using Modules &amp; the Resolver](#using-modules).
 
 [PhantomJS]: http://phantomjs.org
-[homebrew]: http://brew.sh
+[Homebrew]: http://brew.sh
 
 #### `app/index.html`
 
-The `app/index.html` file lays the foundation for your application.  This is where the basic DOM structure is laid out, the title attribute is set and stylesheet/javascript includes are done.  In addition to this, `app/index.html` includes multiple hooks - `{% raw %}{{content-for 'head'}}{% endraw %}` and `{% raw %}{{content-for 'body'}}{% endraw %}` - that can be used by [Addons](#addons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular addon.
+The `app/index.html` file lays the foundation for your application. This is where the basic DOM structure is laid out, the title attribute is set and stylesheet/javascript includes are done. In addition to this, `app/index.html` includes multiple hooks - `{% raw %}{{content-for 'head'}}{% endraw %}` and `{% raw %}{{content-for 'body'}}{% endraw %}` - that can be used by [addons](#addons) to inject content into your application's `head` or `body`.  These hooks need to be left in place for your application to function properly, but they can be safely ignored unless you are working directly with a particular addon.
 
 ### Addons
 
