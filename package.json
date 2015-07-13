@@ -117,6 +117,7 @@
     "lodash": "^3.6.0",
     "markdown-it": "4.3.0",
     "markdown-it-terminal": "0.0.2",
+    "merge-defaults": "^0.2.1",
     "minimatch": "^2.0.4",
     "morgan": "^1.5.2",
     "node-modules-path": "^1.0.0",
