@@ -177,12 +177,12 @@ ember server
  `tests/`            | Includes unit and integration tests for your app, as well as various helpers to load and run your tests.
  `tmp/`              | Various temporary output of build steps, as well as the debug output of your application (`tmp/public`).
  `bower_components/` | Your dependencies, both those included with `Ember CLI` and those installed with `Bower`.
- `vendor/`           | Your external dependencies not installed with `Bower` or `Npm`.
+ `vendor/`           | Your external dependencies not installed with `Bower` or `npm`.
  `.jshintrc`         | [JSHint](http://jshint.com/) configuration.
  `.gitignore`        | Git configuration for ignored files.
  `ember-cli-build.js` | Contains build specification for [Broccoli](https://github.com/joliss/broccoli).
  `bower.json`        | Bower configuration and dependency list. See [Managing Dependencies](#managing-dependencies).
- `package.json`      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
+ `package.json`      | npm configuration. Mainly used to list the dependencies needed for asset compilation.
 
 ### Layout within `app` directory
 
@@ -204,4 +204,4 @@ The `app/index.html` file lays the foundation for your application. This is wher
 
 ### Addons
 
-Addons are registered in NPM with a keyword of `ember-addon`. See a full list of existing addons registered in NPM [here](https://www.npmjs.org/browse/keyword/ember-addon).
+Addons are registered in npm with a keyword of `ember-addon`. See a full list of existing addons registered in NPM [here](https://www.npmjs.org/browse/keyword/ember-addon).
