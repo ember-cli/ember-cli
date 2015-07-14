@@ -120,6 +120,22 @@ describe('Acceptance: brocfile-smoke-test', function() {
     });
   });
 
+  it('should use the Brocfile if both a Brocfile and ember-cli-build exist', function() {
+    this.timeout(100000);
+    return copyFixtureFiles('brocfile-tests/both-build-files').then(function() {
+      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+    }).then(function(result) {
+      var vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
+        encoding: 'utf8'
+      });
+
+      var expected = 'var usingBrocfile = true;';
+
+      expect(vendorContents).to.contain(expected, 'includes file imported from Brocfile');
+      expect(result.output[0]).to.include('Brocfile.js has been deprecated');
+    });
+  });
+
   it('should throw if no build file is found', function() {
     this.timeout(100000);
 
