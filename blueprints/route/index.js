@@ -1,6 +1,5 @@
 /*jshint node:true*/
 
-var SilentError = require('silent-error');
 var fs          = require('fs-extra');
 var path        = require('path');
 var chalk       = require('chalk');
@@ -14,6 +13,11 @@ module.exports = {
       name: 'path',
       type: String,
       default: ''
+    },
+    {
+      name: 'skip-router',
+      type: Boolean,
+      default: false
     }
   ],
 
@@ -60,7 +64,7 @@ module.exports = {
   afterInstall: function(options) {
     var entity  = options.entity;
 
-    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon) {
+    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon && !options.skipRouter) {
       addRouteToRouter(entity.name, {
         root: options.project.root,
         path: options.path
@@ -73,7 +77,7 @@ module.exports = {
   afterUninstall: function(options) {
     var entity  = options.entity;
 
-    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon) {
+    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon && !options.skipRouter) {
       removeRouteFromRouter(entity.name, {
         root: options.project.root
       });

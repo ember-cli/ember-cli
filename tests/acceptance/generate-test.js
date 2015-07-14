@@ -347,6 +347,29 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+    it('route foo with --skip-router', function() {
+    return generate(['route', 'foo', '--skip-router']).then(function() {
+      assertFile('app/router.js', {
+        doesNotContain: 'this.route(\'foo\')'
+      });
+      assertFile('app/routes/foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Route.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('app/templates/foo.hbs', {
+        contains: '{{outlet}}'
+      });
+      assertFile('tests/unit/routes/foo-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('route:foo'"
+        ]
+      });
+    });
+  });
+
   it('route foo with --path', function() {
     return generate(['route', 'foo', '--path=:foo_id/show']).then(function() {
       assertFile('app/router.js', {

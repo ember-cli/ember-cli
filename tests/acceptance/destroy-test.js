@@ -254,6 +254,23 @@ describe('Acceptance: ember destroy', function() {
       });
   });
 
+    it('route foo --skip-router', function() {
+    this.timeout(20000);
+    var commandArgs = ['route', 'foo', '--skip-router'];
+    var files       = [
+      'app/routes/foo.js',
+      'app/templates/foo.hbs',
+      'tests/unit/routes/foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerate(commandArgs, files)
+      .then(function() {
+        assertFile('app/router.js', {
+          doesContain: "this.route('foo');"
+        });
+      });
+  });
+
   it('route index', function() {
     this.timeout(20000);
     var commandArgs = ['route', 'index'];
