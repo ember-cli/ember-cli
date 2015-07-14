@@ -1,6 +1,4 @@
 /*jshint node:true*/
-var fs   = require('fs-extra');
-var path = require('path');
 var Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {
@@ -27,11 +25,10 @@ module.exports = {
   },
 
   afterInstall: function(options) {
-    var packagePath = path.join(this.project.root, 'package.json');
-    var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
-    var isExpressMissing = !contents.devDependencies['express'];
+    var pkgContent = this.project.pkg;
+    var isExpressMissing = !( pkgContent.devDependencies['express'] || (pkgContent.dependencies && pkgContent.dependencies['express']) );
 
-    if(!options.dryRun && isExpressMissing){
+    if (!options.dryRun && isExpressMissing) {
       return this.addPackagesToProject([
         { name: 'express', target: '^4.8.5' }
       ]);  
