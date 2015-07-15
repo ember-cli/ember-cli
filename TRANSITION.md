@@ -2,9 +2,9 @@
 
 ## Why
 
-Broccoli historically assumed its brocfile was like a main file. Originally, we loaded the required config on-demand when the brocfile was invoked, unfortunately as the addon story evolved, we required this data before the brocfile was even invoked (or for tasks where no brocfile invoation was needed). This created a problem, and the quickest solution lead us to the current state of affairs, where we end up duplicating much inernal state to satisfy both parts of the system.
+Broccoli historically assumed its brocfile was like a main file. Originally, we loaded the required config on-demand when the brocfile was invoked, unfortunately as the addon story evolved, we required this data before the brocfile was even invoked (or for tasks where no brocfile invocation was needed). This created a problem, and the quickest solution lead us to the current state of affairs, where we end up duplicating much internal state to satisfy both parts of the system.
 
-This change occured in an effort to unify both sides, rather then duplicating state, we can now pass that state in as an argument. Since the behavior of this file is a superset of a typical Brocfile, we opted to also change the name.
+This change occurred in an effort to unify both sides, rather then duplicating state, we can now pass that state in as an argument. Since the behavior of this file is a superset of a typical Brocfile, we opted to also change the name.
 
 With this change, we are in a good position to fix more bugs, remove some much needed tech-tech, and continue to improve the internals without causing uneeded pain in userland.
 
