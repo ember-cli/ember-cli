@@ -1,5 +1,6 @@
 /*jshint node:true*/
 var Blueprint = require('../../lib/models/blueprint');
+var isPackageMissing = require('../../lib/utilities/is-package-missing');
 
 module.exports = {
   description: 'Generates a mock api endpoint in /api prefix.',
@@ -25,10 +26,8 @@ module.exports = {
   },
 
   afterInstall: function(options) {
-    var pkgContent = this.project.pkg;
-    var isExpressMissing = !( pkgContent.devDependencies['express'] || (pkgContent.dependencies && pkgContent.dependencies['express']) );
 
-    if (!options.dryRun && isExpressMissing) {
+    if (!options.dryRun && isPackageMissing(this, 'express')) {
       return this.addPackagesToProject([
         { name: 'express', target: '^4.8.5' }
       ]);  

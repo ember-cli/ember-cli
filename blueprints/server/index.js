@@ -1,4 +1,5 @@
 /*jshint node:true*/
+var isPackageMissing = require('../../lib/utilities/is-package-missing');
 
 module.exports = {
   description: 'Generates a server directory for mocks and proxies.',
@@ -6,10 +7,9 @@ module.exports = {
   normalizeEntityName: function() {},
 
   afterInstall: function(options) {
-    var pkgContent = this.project.pkg;
 
-    var isMorganMissing = !( pkgContent.devDependencies['morgan'] ||  (pkgContent.dependencies && pkgContent.dependencies['morgan']) );
-    var isGlobMissing = !( pkgContent.devDependencies['glob'] ||  (pkgContent.dependencies && pkgContent.dependencies['glob']) );
+    var isMorganMissing = isPackageMissing(this, 'morgan');
+    var isGlobMissing = isPackageMissing(this, 'glob');
 
     var areDependenciesMissing = isMorganMissing || isGlobMissing;
     var libsToInstall = [];
