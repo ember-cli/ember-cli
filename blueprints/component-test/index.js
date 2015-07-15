@@ -39,7 +39,7 @@ module.exports = {
   locals: function(options) {
     var dasherizedModuleName = stringUtil.dasherize(options.entity.name);
     var componentPathName = dasherizedModuleName;
-    var testImports = EOL + "import hbs from 'htmlbars-inline-precompile';" + EOL;
+    var testImports = EOL + "import hbs from 'htmlbars-inline-precompile';";
     var testOptions = "integration: true";
     var friendlyTestDescription = testInfo.description(options.entity.name, "Integration", "Component");
     var testContent = "assert.expect(2);" + EOL + EOL +
