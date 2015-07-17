@@ -24,8 +24,8 @@ Two steps:
 ```
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp();
-app.import("file1.js")
-app.import("file2.js")
+app.import("file1.js");
+app.import("file2.js");
 module.exports = app.toTree();
 ```
 
@@ -35,11 +35,11 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
     var app = new EmberApp(defaults, {
-        app.import("file1.js")
-        app.import("file2.js")
-      
         // Any other options
     });
+
+    app.import("file1.js");
+    app.import("file2.js");
 
     return app.toTree();
 };
