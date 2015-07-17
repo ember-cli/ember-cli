@@ -10,6 +10,7 @@ var conf              = require('./conf');
 var existsSync        = require('exists-sync');
 var copy              = Promise.denodeify(require('cpr'));
 var root              = process.cwd();
+var npm               = require('../../lib/utilities/npm');
 
 var onOutput = {
   onOutput: function() {
@@ -108,8 +109,14 @@ function createTestTargets(projectName, options) {
   }
 
   return createTmp(function() {
-    return command();
-  }).catch(handleResult).finally(function () {
+    return command().
+      catch(handleResult).
+      then(function(value) {
+        return npm('install', ['ember-disable-prototype-extensions'], { '--no-optional': true }).
+          then(function(){
+            return value;
+          });
+    });
   });
 }
 
