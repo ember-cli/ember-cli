@@ -19,21 +19,26 @@ Two steps:
 1. Remove `Brocfile.js` and add contents into `ember-cli-build.js`
 2. Pass `defaults` into the `EmberApp` constructor
 
-## Before
+## Before (Brocfile.js)
 
 ```
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp();
+app.import("file1.js")
+app.import("file2.js")
 module.exports = app.toTree();
 ```
 
-## After
+## After (ember-cli-build.js)
 ```
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
     var app = new EmberApp(defaults, {
-        // Any options
+        app.import("file1.js")
+        app.import("file2.js")
+      
+        // Any other options
     });
 
     return app.toTree();
