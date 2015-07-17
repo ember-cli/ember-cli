@@ -3,7 +3,7 @@
 rm -rf node_modules
 rm -rf ./ember-cli-*.tgz
 npm cache clear
-npm i
+npm i --no-optional
 npm link
 npm pack
 npm uninstall -g ember-cli
