@@ -67,7 +67,13 @@ describe('generate command', function() {
             'For more details, use `ember help`.');
       });
   });
-  
+
+  it('does not throws errors when beforeRun is invoked without the blueprint name', function() {
+    expect(function () {
+      command.beforeRun([]);
+    }).to.not.throw();
+  });
+
   it('rethrows errors from beforeRun', function() {
     return Promise.resolve(function(){ return command.beforeRun(['controller', 'foo']);})
     .then(function() {
