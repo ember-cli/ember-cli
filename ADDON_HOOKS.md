@@ -429,15 +429,32 @@ Addon.prototype.treeFor = function treeFor(name) {
 <a name='treefor-cont'></a>
 # treeFor (cont...)
 
-Instead of overriding `treeFor` and acting only if the tree you receive matches the one you need EmberCLI has custom hooks for the following Broccoli trees
+Instead of overriding `treeFor` and acting only if the tree you receive matches the one you need EmberCLI has custom hooks for the following Broccoli trees:
 
 - treeForApp
 - treeForStyles
 - treeForTemplates
-- treeForAddon
+- treeForAddon*
 - treeForVendor
 - treeForTestSupport
-- treeForPublic
+- treeForPublic*
+
+_*Denotes a hook that has a default implementation. If you implement a custom function, you may want to call `_super` in order to preserve exisiting functionality._
+
+**Examples:**
+
+```js
+treeForAddon: function(tree) {
+  var checker = new VersionChecker(this);
+  var isOldEmber = checker.for('ember', 'bower').lt('1.13.0');
+
+  if (isOldEmber) {
+    tree = new Funnel(tree, { exclude: [ /instance-initializers/ ] });
+  }
+
+  return this._super.treeForAddon.call(this, tree);
+}
+```
 
 <a name='isDevelopingAddon'></a>
 ## isDevelopingAddon
