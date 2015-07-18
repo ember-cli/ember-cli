@@ -16,18 +16,24 @@ var mocha = new Mocha({
   timeout: 5000,
   reporter: 'spec'
 });
+var testFiles = glob.sync(root + '/**/*-test.js');
+var jshintPosition = testFiles.indexOf('tests/unit/jshint-test.js');
+var jshint = testFiles.splice(jshintPosition, 1);
+
+testFiles = jshint.concat(testFiles);
 
 if (optionOrFile === 'all') {
-  addFiles(mocha, '/**/*-test.js');
+  addFiles(mocha, testFiles);
   addFiles(mocha, '/**/*-slow.js');
 } else if (optionOrFile)  {
   mocha.addFile(optionOrFile);
 } else {
-  addFiles(mocha, '/**/*-test.js');
+  addFiles(mocha, testFiles);
 }
 
 function addFiles(mocha, files) {
-  glob.sync(root + files).forEach(mocha.addFile.bind(mocha));
+  files = (typeof files === 'string') ? glob.sync(root + files) : files;
+  files.forEach(mocha.addFile.bind(mocha));
 }
 
 function checkOnlyInTests() {
