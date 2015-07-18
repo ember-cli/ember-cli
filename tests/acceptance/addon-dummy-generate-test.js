@@ -255,6 +255,9 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       assertFile('tests/dummy/app/templates/foo.hbs', {
         contains: '{{outlet}}'
       });
+      assertFile('tests/dummy/app/router.js', {
+        contains: "this.route('foo');"
+      });
       assertFileToNotExist('app/templates/foo.js');
       assertFileToNotExist('tests/unit/routes/foo-test.js');
     });
@@ -271,6 +274,12 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       assertFileToNotExist('app/routes/foo/bar.js');
       assertFile('tests/dummy/app/templates/foo/bar.hbs', {
         contains: '{{outlet}}'
+      });
+      assertFile('tests/dummy/app/router.js', {
+        contains: [
+          "this.route('foo', function() {",
+          "this.route('bar');",
+        ]
       });
       assertFileToNotExist('tests/unit/routes/foo/bar-test.js');
     });

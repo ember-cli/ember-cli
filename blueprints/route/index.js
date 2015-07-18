@@ -53,7 +53,7 @@ module.exports = {
     };
   },
 
-  shouldTouchRouter: function(name) {
+  shouldEntityTouchRouter: function(name) {
     var isIndex = name === 'index';
     var isBasic = name === 'basic';
     var isApplication = name === 'application';
@@ -61,49 +61,51 @@ module.exports = {
     return !isBasic && !isIndex && !isApplication;
   },
 
-  afterInstall: function(options) {
-    var entity  = options.entity;
+  shouldTouchRouter: function(name, options) {
+    var entityTouchesRouter = this.shouldEntityTouchRouter(name);
+    var isDummyInAddon = ((options.dummy && options.project.isEmberCLIAddon()) || (!options.dummy && !options.project.isEmberCLIAddon()));
 
-    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon && !options.skipRouter) {
-      addRouteToRouter(entity.name, {
-        root: options.project.root,
-        path: options.path
-      });
-      this.ui.writeLine('updating router');
-      this._writeStatusToUI(chalk.green, 'add route', entity.name);
-    }
+    return (entityTouchesRouter && isDummyInAddon && !options.dryRun && !options.inRepoAddon && !options.skipRouter);
+  },
+
+  afterInstall: function(options) {
+    updateRouter.call(this, 'add', options);
   },
 
   afterUninstall: function(options) {
-    var entity  = options.entity;
-
-    if (this.shouldTouchRouter(entity.name) && !options.dryRun && !options.project.isEmberCLIAddon() && !options.inRepoAddon && !options.skipRouter) {
-      removeRouteFromRouter(entity.name, {
-        root: options.project.root
-      });
-
-      this.ui.writeLine('updating router');
-      this._writeStatusToUI(chalk.red, 'remove route', entity.name);
-    }
+    updateRouter.call(this, 'remove', options);
   }
 };
 
-function removeRouteFromRouter(name, options) {
-  var routerPath = path.join(options.root, 'app', 'router.js');
-  var source = fs.readFileSync(routerPath, 'utf-8');
+function updateRouter(action, options) {
+  var entity = options.entity;
 
-  var routes = new EmberRouterGenerator(source);
-  var newRoutes = routes.remove(name);
+  if (this.shouldTouchRouter(entity.name, options)) {
+    writeRoute(action, entity.name, options);
 
-  fs.writeFileSync(routerPath, newRoutes.code());
+    this.ui.writeLine('updating router');
+    this._writeStatusToUI(chalk.red, action + ' route', entity.name);
+  }
 }
 
-function addRouteToRouter(name, options) {
-  var routerPath = path.join(options.root, 'app', 'router.js');
+function findRouter(options) {
+  var routerPathParts = [options.project.root];
+
+  if (options.dummy && options.project.isEmberCLIAddon()) {
+    routerPathParts = routerPathParts.concat(['tests', 'dummy', 'app', 'router.js']);
+  } else {
+    routerPathParts = routerPathParts.concat(['app', 'router.js']);
+  }
+
+  return routerPathParts;
+}
+
+function writeRoute(action, name, options) {
+  var routerPath = path.join.apply(null, findRouter(options));
   var source = fs.readFileSync(routerPath, 'utf-8');
 
   var routes = new EmberRouterGenerator(source);
-  var newRoutes = routes.add(name, options);
+  var newRoutes = routes[action](name, options);
 
   fs.writeFileSync(routerPath, newRoutes.code());
 }
