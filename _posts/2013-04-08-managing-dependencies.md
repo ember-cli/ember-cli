@@ -31,7 +31,11 @@ Further documentation about Bower is available at their
 
 ### Compiling Assets
 
-In your `Brocfile.js` specify a dependency before calling `app.toTree()`. You
+Ember CLI uses the [Broccoli](https://github.com/broccolijs/broccoli) assets pipeline.
+
+The assets manifest is located in the `ember-cli-build.js` file in your project root (not the default `Brocfile.js`).
+
+To add an asset specify the dependency in your`ember-cli-build.js` before calling `app.toTree()`. You
 can only import assets that are within the `bower_components` or `vendor`
 directories. The following example scenarios illustrate how this works.
 
@@ -220,13 +224,13 @@ package needed to build is installed:
 npm install broccoli-funnel --save-dev
 {% endhighlight %}
 
-Add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
+Add this import to the top of `ember-cli-build.js`, just below the `EmberApp` require:
 
 {% highlight javascript linenos %}
 var Funnel = require('broccoli-funnel');
 {% endhighlight %}
 
-At the bottom of `Brocfile.js` we merge assets from a bower dependency with the main app tree:
+At the bottom of `ember-cli-build.js` we merge assets from a bower dependency with the main app tree:
 
 {% highlight javascript linenos %}
 // Remove this line:
@@ -254,7 +258,7 @@ be found under `/assets/fonts/`, and might be linked to from `index.html` like s
 You can exclude assets from the final output in a similar fashion. For example, to exclude all `.gitkeep` files from the final output:
 
 {% highlight javascript linenos %}
-// Again, add this import to the top of `Brocfile.js`, just below the `EmberApp` require:
+// Again, add this import to the top of `ember-cli-build.js`, just below the `EmberApp` require:
 var Funnel = require('broccoli-funnel');
 
 // Normal Brocfile contents
