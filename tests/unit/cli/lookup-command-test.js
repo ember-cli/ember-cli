@@ -9,6 +9,7 @@ var MockUI        = require('../../helpers/mock-ui');
 var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
 var OtherCommand  = require('../../fixtures/addon/commands/other-addon-command');
 var ClassCommand  = require('../../fixtures/addon/commands/addon-command-class');
+var OverrideCommand  = require('../../fixtures/addon/commands/addon-override-intentional');
 
 var commands = {
   serve: Command.extend({
@@ -133,7 +134,25 @@ describe('cli/lookup-command.js', function() {
       ui: ui
     });
 
-    expect(ui.output).to.match(/warning: An ember-addon has attempted to override the core command "serve".*/);
+    expect(ui.output).to.match(/warning: An ember-addon has attempted to override the core command "serve"\. The core command will be used.*/);
+  });
+
+  it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function() {
+    project = {
+      isEmberCLIProject: function(){ return true; },
+      initializeAddons: function() {
+        this.addons = [new OverrideCommand()];
+      },
+      addonCommands: Project.prototype.addonCommands,
+      eachAddonCommand: Project.prototype.eachAddonCommand
+    };
+
+    lookupCommand(commands, 'serve', [], {
+      project: project,
+      ui: ui
+    });
+
+    expect(ui.output).to.match(/warning: An ember-addon has attempted to override the core command "serve"\. The addon command will be used as the overridding was explicit.*/);
   });
 
   it('lookupCommand() should return UnknownCommand object when command name is not present.', function() {
