@@ -346,3 +346,23 @@ var app = new EmberApp({
 
 To manually run Ember:
 `require("app-name/app")["default"].create({/* app settings */});`
+
+#### Subresource integrity
+
+SRI calculation is done using the addon
+[ember-cli-sri](https://github.com/jonathanKingston/ember-cli-sri)
+(which is included by default).
+
+This plugin is used to generate [SRI integrity](http://www.w3.org/TR/SRI/) for your applications.
+Subresource integrity is a security concept used to check JavaScript and stylesheets are loaded with the correct content when using a CDN.
+
+#### Why
+The reason to add this to your application is to protect against poisoned CDNs breaking JavaScript or CSS.
+
+- [JavaScript DDoS prevention](https://blog.cloudflare.com/an-introduction-to-javascript-based-ddos/)
+  - The latest [GitHub DDoS attack](http://googleonlinesecurity.blogspot.co.uk/2015/04/a-javascript-based-ddos-attack-as-seen.html)
+- Protection against corrupted code on less trusted servers
+
+#### Customize
+
+To customize SRI generation see: [ember-cli-sri](https://github.com/jonathanKingston/ember-cli-sri)
