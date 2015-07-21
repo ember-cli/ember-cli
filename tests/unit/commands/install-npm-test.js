@@ -3,23 +3,25 @@
 var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
 var InstallCommand = require('../../../lib/commands/install-npm');
+var MockProject    = require('../../helpers/mock-project');
 
 describe('install:npm command', function() {
   var command, options, msg;
 
   beforeEach(function() {
+    var project = new MockProject();
+
+    project.name = function() {
+      return 'some-random-name';
+    };
+
+    project.isEmberCLIProject =function() {
+      return true;
+    };
+
     options = commandOptions({
       settings: {},
-
-      project: {
-        name: function() {
-          return 'some-random-name';
-        },
-
-        isEmberCLIProject: function() {
-          return true;
-        }
-      }
+      project: project
     });
 
     command  = new InstallCommand(options);

@@ -5,26 +5,29 @@ var Promise         = require('../../../lib/ext/promise');
 var Task            = require('../../../lib/models/task');
 var expect          = require('chai').expect;
 var commandOptions  = require('../../factories/command-options');
+var MockProject     = require('../../helpers/mock-project');
 
 describe('generate command', function() {
   var command;
 
   beforeEach(function() {
+    var project = new MockProject();
+
+    project.name = function() {
+      return 'some-random-name';
+    };
+
+    project.isEmberCLIProject = function isEmberCLIProject() {
+      return true;
+    };
+
     command = new DestroyCommand(commandOptions({
       settings: {},
 
-      project:   {
-        name: function() {
-          return 'some-random-name';
-        },
-
-        isEmberCLIProject: function isEmberCLIProject() {
-          return true;
-        }
-      },
-
+      project: project,
       tasks: {
         DestroyFromBlueprint: Task.extend({
+          project: project,
           run: function(options) {
             return Promise.resolve(options);
           }

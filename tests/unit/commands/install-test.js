@@ -5,23 +5,59 @@ var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var InstallCommand = require('../../../lib/commands/install');
 var Task           = require('../../../lib/models/task');
-var Project        = require('../../../lib/models/project');
 var Promise        = require('../../../lib/ext/promise');
 var AddonInstall   = require('../../../lib/tasks/addon-install');
+var MockProject    = require('../../helpers/mock-project');
 
 describe('install command', function() {
   var command, options, tasks, generateBlueprintInstance, npmInstance;
 
   beforeEach(function() {
+    var project = new MockProject();
+
+    project.name = function() {
+      return 'some-random-name';
+    };
+
+    project.isEmberCLIProject = function() {
+      return true;
+    };
+
+    project.initializeAddons = function() { };
+    project.reloadAddons = function() {
+      this.addons = [
+        {
+          pkg: {
+            name: 'ember-data',
+          }
+        },
+        {
+          pkg: {
+            name: 'ember-cli-cordova',
+            'ember-addon': {
+              defaultBlueprint: 'cordova-starter-kit'
+            }
+          }
+        },
+        {
+          pkg: {
+            name: 'ember-cli-qunit'
+          }
+        }
+      ];
+    };
+
     tasks = {
       AddonInstall: AddonInstall,
       NpmInstall: Task.extend({
+        project: project,
         init: function() {
           npmInstance = this;
         }
       }),
 
       GenerateFromBlueprint: Task.extend({
+        project: project,
         init: function() {
           generateBlueprintInstance = this;
         }
@@ -30,43 +66,7 @@ describe('install command', function() {
 
     options = commandOptions({
       settings: {},
-
-      project: {
-        name: function() {
-          return 'some-random-name';
-        },
-
-        isEmberCLIProject: function() {
-          return true;
-        },
-
-        initializeAddons: function() { },
-        reloadAddons: function() {
-          this.addons = [
-            {
-              pkg: {
-                name: 'ember-data',
-              }
-            },
-            {
-              pkg: {
-                name: 'ember-cli-cordova',
-                'ember-addon': {
-                  defaultBlueprint: 'cordova-starter-kit'
-                }
-              }
-            },
-            {
-              pkg: {
-                name: 'ember-cli-qunit'
-              }
-            }
-          ];
-        },
-
-        findAddonByName: Project.prototype.findAddonByName
-      },
-
+      project: project,
       tasks: tasks
     });
 

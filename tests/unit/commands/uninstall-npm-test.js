@@ -3,23 +3,19 @@
 var expect           = require('chai').expect;
 var commandOptions   = require('../../factories/command-options');
 var UninstallCommand = require('../../../lib/commands/uninstall-npm');
+var MockProject      = require('../../helpers/mock-project');
 
 describe('uninstall:npm command', function() {
   var command, options, msg;
 
   beforeEach(function() {
+    var project = new MockProject();
+    project.name = function() { return 'some-random-name'; };
+    project.isEmberCLIProject = function() { return true; };
+
     options = commandOptions({
       settings: {},
-
-      project: {
-        name: function() {
-          return 'some-random-name';
-        },
-
-        isEmberCLIProject: function() {
-          return true;
-        }
-      }
+      project: project
     });
 
     command  = new UninstallCommand(options);
