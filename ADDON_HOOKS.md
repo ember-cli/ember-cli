@@ -16,6 +16,7 @@ Table of Contents:
   1. [treeForApp](#treefor-cont)
   - [treeForStyles](#treefor-cont)
   - [treeForTemplates](#treefor-cont)
+  - [treeForAddonTemplates](#treefor-cont)
   - [treeForAddon](#treefor-cont)
   - [treeForVendor](#treefor-cont)
   - [treeForTestSupport](#treefor-cont)
@@ -434,12 +435,13 @@ Instead of overriding `treeFor` and acting only if the tree you receive matches 
 - treeForApp
 - treeForStyles
 - treeForTemplates
-- treeForAddon*
+- treeForAddonTemplates
+- treeForAddon
 - treeForVendor
 - treeForTestSupport
-- treeForPublic*
+- treeForPublic
 
-_*Denotes a hook that has a default implementation. If you implement a custom function, you may want to call `_super` in order to preserve exisiting functionality._
+When overriding a hook, if you want to preserve it's original functionality, call the same method on `_super` with the function arguments.
 
 **Examples:**
 
