@@ -20,7 +20,7 @@ var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
-describe('Acceptance: addon-smoke-test', function() {
+describe.only('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
 
   before(function() {

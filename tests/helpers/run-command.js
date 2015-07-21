@@ -68,7 +68,7 @@ module.exports = function run(/* command, args, options */) {
 
     child.stdout.on('data', function (data) {
       var string = data.toString();
-
+      console.log('STDOUT: ', string);
       options.onOutput(string, child);
 
       result.output.push(string);
@@ -76,8 +76,8 @@ module.exports = function run(/* command, args, options */) {
 
     child.stderr.on('data', function (data) {
       var string = data.toString();
-
-      options.onError(string, child);
+      console.log('STDERR: ', string);
+      options.onError(string, child); 
 
       result.errors.push(string);
     });
