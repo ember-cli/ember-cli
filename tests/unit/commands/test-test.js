@@ -10,6 +10,7 @@ var CoreObject     = require('core-object');
 var path           = require('path');
 var fs             = require('fs');
 var TestCommand    = require('../../../lib/commands/test');
+var MockProject    = require('../../helpers/mock-project');
 
 describe('test command', function() {
   var tasks;
@@ -25,10 +26,13 @@ describe('test command', function() {
       TestServer: Task.extend()
     };
 
+    var project = new MockProject();
+    project.isEmberCLIProject = function() { return true; };
     options = commandOptions({
       tasks: tasks,
       testing: true,
-      settings: {}
+      settings: {},
+      project: project
     });
 
     stub(tasks.Test.prototype,  'run', Promise.resolve());
@@ -100,7 +104,7 @@ describe('test command', function() {
 
     it('builds a watcher with verbose set to false', function() {
       return new TestCommand(options).validateAndRun(['--server']).then(function() {
-        var testOptions  = testServerRun.calledWith[0][0];
+        var testOptions = testServerRun.calledWith[0][0];
 
         expect(testOptions.watcher.verbose, false);
       });
