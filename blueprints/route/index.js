@@ -63,9 +63,11 @@ module.exports = {
 
   shouldTouchRouter: function(name, options) {
     var entityTouchesRouter = this.shouldEntityTouchRouter(name);
-    var isDummyInAddon = ((options.dummy && options.project.isEmberCLIAddon()) || (!options.dummy && !options.project.isEmberCLIAddon()));
+    var isDummy = !!options.dummy;
+    var isAddon = !!options.project.isEmberCLIAddon();
+    var isAddonDummyOrApp = (isDummy === isAddon);
 
-    return (entityTouchesRouter && isDummyInAddon && !options.dryRun && !options.inRepoAddon && !options.skipRouter);
+    return (entityTouchesRouter && isAddonDummyOrApp && !options.dryRun && !options.inRepoAddon && !options.skipRouter);
   },
 
   afterInstall: function(options) {
