@@ -81,12 +81,17 @@ module.exports = {
 
 function updateRouter(action, options) {
   var entity = options.entity;
+  var actionColorMap = {
+    add: 'green',
+    remove: 'red'
+  };
+  var color = actionColorMap[action] || 'gray';
 
   if (this.shouldTouchRouter(entity.name, options)) {
     writeRoute(action, entity.name, options);
 
     this.ui.writeLine('updating router');
-    this._writeStatusToUI(chalk.red, action + ' route', entity.name);
+    this._writeStatusToUI(chalk[color], action + ' route', entity.name);
   }
 }
 
