@@ -1,0 +1,15 @@
+  setupOnce: function() {
+    this.application = startApp();
+  },
+
+  setup: function() {
+    this.appInstance = getAppInstance(this.application);
+  },
+
+  teardown: function() {
+    Ember.run(this.appInstance, 'destroy');
+  },
+
+  teardownOnce: function() {
+    Ember.run(this.application, 'destroy');
+  }

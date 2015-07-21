@@ -1,13 +1,21 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
-import { startApp } from '../../../tests/helpers/start-app';
+import { startApp, getAppInstance } from '../../../tests/helpers/start-app';
 
 module('Acceptance | foo/bar', {
-  beforeEach: function() {
+  setupOnce: function() {
     this.application = startApp();
   },
 
-  afterEach: function() {
+  setup: function() {
+    this.appInstance = getAppInstance(this.application);
+  },
+
+  teardown: function() {
+    Ember.run(this.appInstance, 'destroy');
+  },
+
+  teardownOnce: function() {
     Ember.run(this.application, 'destroy');
   }
 });
