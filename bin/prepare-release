@@ -1,10 +1,11 @@
 #!/bin/sh
 
-rm -rf node_modules
-rm -rf ./ember-cli-*.tgz
-npm cache clear
-npm i --no-optional
-npm link
-npm pack
-npm uninstall -g ember-cli
-npm i -g ./ember-cli-*.tgz
+rm -rf node_modules && \
+rm -rf ./ember-cli-*.tgz && \
+npm cache clear && \
+npm i --no-optional && \
+./patches/patch-engine-io-client.js && \
+npm link --no-optional && \
+npm pack && \
+npm uninstall -g ember-cli && \
+npm i --no-optional -g ./ember-cli-*.tgz
