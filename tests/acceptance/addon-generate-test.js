@@ -151,7 +151,7 @@ describe('Acceptance: ember generate in-addon', function() {
       assertFileToNotExist('app/component-test/x-foo.js');
     });
   });
-  
+
   it('in-addon component-test x-foo --unit', function() {
     return generateInAddon(['component-test', 'x-foo', '--unit']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -164,7 +164,7 @@ describe('Acceptance: ember generate in-addon', function() {
       assertFileToNotExist('app/component-test/x-foo.js');
     });
   });
-  
+
   it('in-addon component nested/x-foo', function() {
     return generateInAddon(['component', 'nested/x-foo']).then(function() {
       assertFile('addon/components/nested/x-foo.js', {
@@ -189,7 +189,7 @@ describe('Acceptance: ember generate in-addon', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('nested/x-foo'",
-          "integration: true" 
+          "integration: true"
         ]
       });
     });
@@ -379,6 +379,9 @@ describe('Acceptance: ember generate in-addon', function() {
           "moduleFor('route:foo'"
         ]
       });
+      assertFile('tests/dummy/app/router.js', {
+        doesNotContain: "this.route('foo');"
+      });
     });
   });
 
@@ -401,6 +404,9 @@ describe('Acceptance: ember generate in-addon', function() {
           "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('route:foo/bar'"
         ]
+      });
+      assertFile('tests/dummy/app/router.js', {
+        doesNotContain:  "this.route('bar');"
       });
     });
   });
@@ -1057,5 +1063,4 @@ describe('Acceptance: ember generate in-addon', function() {
         assertFileToNotExist('app/acceptance-tests/foo/bar.js');
       });
     });
-
 });
