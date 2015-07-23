@@ -69,7 +69,7 @@ module.exports = {
         "  var component = this.subject();" + EOL +
         "  // Renders the component to the page" + EOL +
         "  this.render();" + EOL +
-        "  assert.equal(this.$().text(), '');";
+        "  assert.equal(this.$().text().trim(), '');";
 
       friendlyTestDescription = testInfo.description(options.entity.name, "Unit", "Component");
     }
