@@ -38,7 +38,7 @@ below).
 
 The Ember CLI addons API currently supports the following scenarios:
 
-* Performing operations on the `EmberApp` created in the consuming application's `Brocfile.js`
+* Performing operations on the `EmberApp` created in the consuming application's `ember-cli-build.js`
 * Adding preprocessors to the default registry
 * Providing a custom application tree to be merged with the consuming application
 * Providing custom express (server) middlewares
@@ -90,7 +90,7 @@ The addon project created follows these structure conventions:
 - `test-support/` - merged with the application's `tests/`
 - `tests/` - test infrastructure including a "dummy" app and acceptance test helpers.
 - `vendor/` - vendor specific files, such as stylesheets, fonts, external libs etc.
-- `Brocfile.js` - Compilation configuration
+- `ember-cli-build.js` - Compilation configuration
 - `package.json` - Node meta-data, dependencies etc.
 - `index.js` - main Node entry point (as per npm conventions)
 
@@ -194,18 +194,18 @@ Optionally, you may specify the `"demoURL"` property with the fully qualified UR
 }
 {% endhighlight %}
 
-### Addon Brocfile
+### Addon ember-cli-build
 
-The addon's `Brocfile.js` is only used to configure the dummy application found in
+The addon's `ember-cli-build.js` is only used to configure the dummy application found in
 `tests/dummy/`.  It is never referenced by applications which include the addon.
 
-If you need to use `Brocfile.js`, you may have to specify paths relative to the
+If you need to use `ember-cli-build.js`, you may have to specify paths relative to the
 addon root directory.  For example to configure
 [ember-cli-less](https://www.npmjs.org/package/ember-cli-less) to use `app.less`
 in the dummy app:
 
 {% highlight javascript %}
-// Brocfile.js
+// ember-cli-build.js
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 var app = new EmberAddon({
@@ -299,7 +299,7 @@ module.exports = {
 
 In the example file, the `included` hook is used. This hook is called
 by the `EmberApp` constructor and gives access to the consuming
-application as `app`. When the consuming application's `Brocfile.js`
+application as `app`. When the consuming application's `ember-cli-build.js`
 is processed by Ember CLI to build/serve, the addon's `included`
 function is called passing the `EmberApp` instance.
 

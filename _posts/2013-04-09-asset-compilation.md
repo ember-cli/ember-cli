@@ -19,16 +19,16 @@ templates with `assets/images/logo.png` or in stylesheets with
 
 The compiled css-files are minified by `broccoli-clean-css` or `broccoli-csso`,
 if it is installed locally. You can pass minifer-specific options to them using
-the `minifyCSS:options` object in your Brocfile. Minification is enabled by
+the `minifyCSS:options` object in your ember-cli-build. Minification is enabled by
 default in the production-env and can be disabled using the `minifyCSS:enabled`
 switch.
 
 Similarly, the js-files are minified with `broccoli-uglify-js` in the
 production-env by default. You can pass custom options to the minifier via the
-`minifyJS:options` object in your Brocfile. To enable or disable JS minification
+`minifyJS:options` object in your ember-cli-build. To enable or disable JS minification
 you may supply a boolean value for `minifyJS:enabled`.
 
-For example, to disable minifying of CSS and JS, add in `Brocfile.js`:
+For example, to disable minifying of CSS and JS, add in `ember-cli-build.js`:
 {% highlight bash %}
 minifyCSS: {
   enabled: false
@@ -66,7 +66,7 @@ For example, to add bootstrap in your project you need to do the following:
 bower install bootstrap --save
 {% endhighlight %}
 
-In `Brocfile.js` add the following:
+In `ember-cli-build.js` add the following:
 {% highlight bash %}
 app.import('bower_components/bootstrap/dist/css/bootstrap.css');
 {% endhighlight %}
@@ -196,7 +196,7 @@ the addon will automatically fingerprint your js, css, png, jpg, and gif assets
 by appending an md5 checksum to the end of their filename
 (e.g. `assets/yourapp-9c2cbd818d09a4a742406c6cb8219b3b.js`). In addition, your
 html, js, and css files will be re-written to include the new name. There are
-a few options you can pass in to `EmberApp` in your `Brocfile.js` to customize
+a few options you can pass in to `EmberApp` in your `ember-cli-build.js` to customize
 this behavior.
 
 * `enabled` - Default: `app.env === 'production'` - Boolean. Enables fingerprinting
@@ -212,7 +212,7 @@ for CDN urls like `https://subdomain.cloudfront.net/`
 * `replaceExtensions` - Default: `['html', 'css', 'js']` - The file types to
 replace source code with new checksum file names.
 
-As an example, this `Brocfile` will exclude any file in the fonts/169929
+As an example, this `ember-cli-build` will exclude any file in the fonts/169929
 directory as well as add a cloudfront domain to each fingerprinted asset.
 
 {% highlight javascript linenos %}
@@ -238,7 +238,7 @@ into
 background: url('https://subdomain.cloudfront.net/images/foo-735d6c098496507e26bb40ecc8c1394d.png');
 {% endhighlight %}
 
-You can disable fingerprinting in your `Brocfile.js`:
+You can disable fingerprinting in your `ember-cli-build.js`:
 
 {% highlight javascript %}
 var app = new EmberApp({
@@ -253,7 +253,7 @@ from your `package.json`.
 
 ### Application Configuration
 
-Application configurations from your `Brocfile.js` file will be stored inside a
+Application configurations from your `ember-cli-build.js` file will be stored inside a
 special meta tag in `dist/index.html`.
 
 sample meta tag:
@@ -264,7 +264,7 @@ sample meta tag:
 
 This meta tag is required for your ember application to function properly.
 If you prefer to have this tag be part of your compiled javascript files
-instead, you may use the `storeConfigInMeta` flag in `Brocfile.js`.
+instead, you may use the `storeConfigInMeta` flag in `ember-cli-build.js`.
 
 {% highlight javascript %}
 var app = new EmberApp({
@@ -285,7 +285,7 @@ The compiled files are output to the following paths:
 |JavaScript files you import with `app.import()`|`/assets/vendor.js`|
 |CSS files you import with `app.import()`|`/assets/vendor.css`|
 
-To change these paths, specify the `outputPaths` config option in `Brocfile.js`. The default setting is shown here:
+To change these paths, specify the `outputPaths` config option in `ember-cli-build.js`. The default setting is shown here:
 
 {% highlight javascript %}
 var app = new EmberApp({
