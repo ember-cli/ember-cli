@@ -33,7 +33,7 @@ Further documentation about Bower is available at their
 
 Ember CLI uses the [Broccoli](https://github.com/broccolijs/broccoli) assets pipeline.
 
-The assets manifest is located in the `ember-cli-build.js` file in your project root (not the default `Brocfile.js`).
+The assets manifest is located in the `ember-cli-build.js` file in your project root (not the default `ember-cli-build.js`).
 
 To add an asset specify the dependency in your`ember-cli-build.js` before calling `app.toTree()`. You
 can only import assets that are within the `bower_components` or `vendor`
@@ -144,7 +144,7 @@ some, you should still be including them in some other way._
 
 ##### Test Assets
 
-You may have additional libraries that should only be included when running tests (such as qunit-bdd or sinon). These can be imported into your app in your Brocfile.js:
+You may have additional libraries that should only be included when running tests (such as qunit-bdd or sinon). These can be imported into your app in your ember-cli-build.js:
 
 {% highlight javascript linenos %}
 var EmberApp = require('ember-cli/lib/broccoli/ember-app'),
@@ -261,7 +261,7 @@ You can exclude assets from the final output in a similar fashion. For example, 
 // Again, add this import to the top of `ember-cli-build.js`, just below the `EmberApp` require:
 var Funnel = require('broccoli-funnel');
 
-// Normal Brocfile contents
+// Normal ember-cli-build contents
 
 // Filter toTree()'s output
 var filteredAssets = new Funnel(app.toTree(), {
