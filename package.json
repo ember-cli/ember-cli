@@ -82,7 +82,7 @@
     "broccoli-kitchen-sink-helpers": "0.2.7",
     "broccoli-merge-trees": "0.2.1",
     "broccoli-sane-watcher": "^1.1.1",
-    "broccoli-sourcemap-concat": "1.0.0",
+    "broccoli-sourcemap-concat": "^1.0.0",
     "broccoli-unwatched-tree": "0.1.1",
     "broccoli-writer": "0.1.1",
     "chalk": "1.1.0",
