@@ -54,9 +54,7 @@ describe('Acceptance: ember destroy in-addon', function() {
   function generateInAddon(args) {
     var generateArgs = ['generate'].concat(args);
 
-    return initAddon().then(function() {
-      return ember(generateArgs);
-    });
+    return ember(generateArgs);
   }
 
   function destroy(args) {
