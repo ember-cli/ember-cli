@@ -54,7 +54,7 @@ function symLinkDir(projectPath, from, to) {
 
 function applyCommand(command, name /*, ...flags*/) {
   var flags = [].slice.call(arguments, 2, arguments.length);
-  var args = [path.join('..', 'bin', 'ember'), command, '--skip-git', name, onOutput];
+  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, onOutput];
 
   flags.forEach(function(flag) {
     args.splice(2, 0, flag);
