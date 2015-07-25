@@ -15,31 +15,27 @@ var cleanupRun          = acceptance.cleanupRun;
 var appName  = 'some-cool-app';
 
 describe('Acceptance: blueprint smoke tests', function() {
+  this.timeout(400000);
+
   before(function() {
-    this.timeout(360000);
     return createTestTargets(appName);
   });
 
   after(function() {
-    this.timeout(15000);
     return teardownTestTargets();
   });
 
   beforeEach(function() {
-    this.timeout(10000);
     return linkDependencies(appName);
   });
 
   afterEach(function() {
-    this.timeout(10000);
     return cleanupRun().then(function() {
       assertDirEmpty('tmp');
     });
   });
 
   it('generating an http-proxy installs packages to package.json', function() {
-    this.timeout(450000);
-
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
                       'http-proxy',
                       'api',
