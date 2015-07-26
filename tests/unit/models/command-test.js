@@ -191,8 +191,8 @@ describe('models/command.js', function() {
       analytics: analytics,
       project: { isEmberCLIProject: function(){ return false; }},
       settings: {}
-    }).validateAndRun([]).catch(function() {
-      expect(ui.output).to.match(/You have to be inside an ember-cli project/);
+    }).validateAndRun([]).catch(function(reason) {
+      expect(reason.message).to.match(/You have to be inside an ember-cli project/);
     });
   });
 
@@ -202,8 +202,8 @@ describe('models/command.js', function() {
       analytics: analytics,
       project: { isEmberCLIProject: function(){ return true; }},
       settings: {}
-    }).validateAndRun([]).catch(function() {
-      expect(ui.output).to.match(/You cannot use.*inside an ember-cli project/);
+    }).validateAndRun([]).catch(function(reason) {
+      expect(reason.message).to.match(/You cannot use.*inside an ember-cli project/);
     });
   });
 

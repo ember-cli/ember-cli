@@ -54,7 +54,6 @@ describe('Acceptance: ember install', function() {
 
   it('installs addons via npm and runs generators', function() {
     return installAddon(['ember-cli-fastclick', 'ember-cli-photoswipe']).then(function(result) {
-
       assertFile('package.json', {
         contains: [
           /"ember-cli-fastclick": ".*"/,
