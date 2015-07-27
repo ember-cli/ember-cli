@@ -11,6 +11,7 @@ environment:
 
 # Install scripts. (runs after repo cloning)
 install:
+  - git rev-parse HEAD
   # Get the latest stable version of Node 0.STABLE.latest
   - ps: Install-Product node $env:nodejs_version
   # Install PhantomJS

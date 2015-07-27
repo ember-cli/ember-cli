@@ -10,6 +10,7 @@ var conf              = require('./conf');
 var existsSync        = require('exists-sync');
 var copy              = Promise.denodeify(require('cpr'));
 var root              = process.cwd();
+var exec              = Promise.denodeify(require('child_process').exec);
 
 var onOutput = {
   onOutput: function() {
@@ -85,13 +86,14 @@ function createTestTargets(projectName, options) {
   options = options || {};
   options.command = options.command || 'new';
 
+  var noNodeModules = !downloaded('node_modules');
   // Fresh install
-  if (!downloaded('node_modules') && !downloaded('bower_components')) {
+  if (noNodeModules && !downloaded('bower_components')) {
     command = function() {
       return applyCommand(options.command, projectName);
     };
     // bower_components but no node_modules
-  } else if (!downloaded('node_modules') && downloaded('bower_components')) {
+  } else if (noNodeModules && downloaded('bower_components')) {
     command = function() {
       return applyCommand(options.command, projectName, '--skip-bower');
     };
@@ -108,8 +110,17 @@ function createTestTargets(projectName, options) {
   }
 
   return createTmp(function() {
-    return command();
-  }).catch(handleResult).finally(function () {
+    return command().
+      catch(handleResult).
+      then(function(value) {
+        if (noNodeModules) {
+          return exec('npm install ember-disable-prototype-extensions').then(function() {
+            return value;
+          });
+        }
+
+        return value;
+    });
   });
 }
 
