@@ -10,6 +10,7 @@ var conf              = require('./conf');
 var existsSync        = require('exists-sync');
 var copy              = Promise.denodeify(require('cpr'));
 var root              = process.cwd();
+var exec              = Promise.denodeify(require('child_process').exec);
 
 var onOutput = {
   onOutput: function() {
@@ -113,7 +114,7 @@ function createTestTargets(projectName, options) {
       catch(handleResult).
       then(function(value) {
         if (noNodeModules) {
-          return runCommand('npm', 'install', 'ember-disable-prototype-extensions').then(function () {
+          return exec('npm install ember-disable-prototype-extensions').then(function() {
             return value;
           });
         }
