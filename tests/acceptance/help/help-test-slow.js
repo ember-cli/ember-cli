@@ -9,16 +9,15 @@ var EOL               = require('os').EOL;
 var ember             = require('../../helpers/ember');
 var runCommand        = require('../../helpers/run-command');
 var processHelpString = require('../../helpers/process-help-string');
-var copyFile          = require('../../helpers/copy-file');
 var Promise           = require('../../../lib/ext/promise');
-var remove            = Promise.denodeify(require('fs-extra').remove);
+var fs                = require('fs-extra');
+var copy              = Promise.denodeify(fs.copy);
+var remove            = Promise.denodeify(fs.remove);
 var root              = process.cwd();
 var tmproot           = path.join(root, 'tmp');
 var tmpdir;
 
 describe('Acceptance: ember help - slow', function() {
-  this.timeout(10000);
-
   beforeEach(function() {
     tmpdir = tmp.in(tmproot);
     process.chdir(tmpdir);
@@ -46,7 +45,7 @@ describe('Acceptance: ember help - slow', function() {
       ]);
     })
     .then(function() {
-      return copyFile('../../tests/fixtures/addon/commands/addon-command.js', 'lib/my-addon/index.js');
+      return copy('../../tests/fixtures/addon/commands/addon-command.js', 'lib/my-addon/index.js');
     })
     .then(function() {
       // ember helper currently won't register the addon file

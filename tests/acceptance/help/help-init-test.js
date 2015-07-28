@@ -34,21 +34,21 @@ describe('Acceptance: ember help init', function() {
       var output = result.ui.output;
 
       var testString = processHelpString(EOL + '\
-ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m' + EOL + '\
+ember init \u001b[33m<glob-pattern>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
   Creates a new ember-cli project in the current folder.' + EOL + '\
-\u001b[90m  aliases: i' + EOL + '\
-\u001b[39m\u001b[36m  --dry-run\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -d\u001b[39m' + EOL + '\
-\u001b[36m  --verbose\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -v\u001b[39m' + EOL + '\
-\u001b[36m  --blueprint\u001b[39m\u001b[36m (String)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -b <value>\u001b[39m' + EOL + '\
-\u001b[36m  --skip-npm\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -sn\u001b[39m' + EOL + '\
-\u001b[36m  --skip-bower\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -sb\u001b[39m' + EOL + '\
-\u001b[36m  --name\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: )\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -n <value>\u001b[39m' + EOL);
+  \u001b[90maliases: i\u001b[39m' + EOL + '\
+  \u001b[36m--dry-run\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -d\u001b[39m' + EOL + '\
+  \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -v\u001b[39m' + EOL + '\
+  \u001b[36m--blueprint\u001b[39m \u001b[36m(String)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -b <value>\u001b[39m' + EOL + '\
+  \u001b[36m--skip-npm\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -sn\u001b[39m' + EOL + '\
+  \u001b[36m--skip-bower\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -sb\u001b[39m' + EOL + '\
+  \u001b[36m--name\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: )\u001b[39m' + EOL + '\
+    \u001b[90maliases: -n <value>\u001b[39m' + EOL);
 
       expect(output).to.include(testString);
     });
@@ -62,7 +62,7 @@ ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m' 
     .then(function(result) {
       var output = result.ui.output;
 
-      var testString = processHelpString('ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember init \u001b[33m<glob-pattern>\u001b[39m \u001b[36m<options...>\u001b[39m');
 
       expect(output).to.include(testString);
     });

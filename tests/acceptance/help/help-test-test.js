@@ -34,29 +34,29 @@ describe('Acceptance: ember help test', function() {
       var output = result.ui.output;
 
       var testString = processHelpString(EOL + '\
-ember test\u001b[36m <options...>\u001b[39m' + EOL + '\
+ember test \u001b[36m<options...>\u001b[39m' + EOL + '\
   Runs your app\'s test suite.' + EOL + '\
-\u001b[90m  aliases: t' + EOL + '\
-\u001b[39m\u001b[36m  --environment\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: test)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -e <value>\u001b[39m' + EOL + '\
-\u001b[36m  --config-file\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: ./testem.json)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -c <value>, -cf <value>\u001b[39m' + EOL + '\
-\u001b[36m  --server\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -s\u001b[39m' + EOL + '\
-\u001b[36m  --host\u001b[39m\u001b[36m (String)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -H <value>\u001b[39m' + EOL + '\
-\u001b[36m  --test-port\u001b[39m\u001b[36m (Number)\u001b[39m\u001b[36m (Default: 7357)\u001b[39m The test port to use when running with --server.\u001b[90m' + EOL + '\
-    aliases: -tp <value>\u001b[39m' + EOL + '\
-\u001b[36m  --filter\u001b[39m\u001b[36m (String)\u001b[39m A string to filter tests to run\u001b[90m' + EOL + '\
-    aliases: -f <value>\u001b[39m' + EOL + '\
-\u001b[36m  --module\u001b[39m\u001b[36m (String)\u001b[39m The name of a test module to run\u001b[90m' + EOL + '\
-    aliases: -m <value>\u001b[39m' + EOL + '\
-\u001b[36m  --watcher\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: events)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -w <value>\u001b[39m' + EOL + '\
-\u001b[36m  --launch\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: false)\u001b[39m A comma separated list of browsers to launch for tests.' + EOL + '\
-\u001b[36m  --reporter\u001b[39m\u001b[36m (String)\u001b[39m Test reporter to use [tap|dot|xunit]\u001b[90m' + EOL + '\
-    aliases: -r <value>\u001b[39m' + EOL + '\
-\u001b[36m  --test-page\u001b[39m\u001b[36m (String)\u001b[39m Test page to invoke' + EOL);
+  \u001b[90maliases: t\u001b[39m' + EOL + '\
+  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: test)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -e <value>\u001b[39m' + EOL + '\
+  \u001b[36m--config-file\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ./testem.json)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -c <value>, -cf <value>\u001b[39m' + EOL + '\
+  \u001b[36m--server\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -s\u001b[39m' + EOL + '\
+  \u001b[36m--host\u001b[39m \u001b[36m(String)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -H <value>\u001b[39m' + EOL + '\
+  \u001b[36m--test-port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 7357)\u001b[39m The test port to use when running with --server.' + EOL + '\
+    \u001b[90maliases: -tp <value>\u001b[39m' + EOL + '\
+  \u001b[36m--filter\u001b[39m \u001b[36m(String)\u001b[39m A string to filter tests to run' + EOL + '\
+    \u001b[90maliases: -f <value>\u001b[39m' + EOL + '\
+  \u001b[36m--module\u001b[39m \u001b[36m(String)\u001b[39m The name of a test module to run' + EOL + '\
+    \u001b[90maliases: -m <value>\u001b[39m' + EOL + '\
+  \u001b[36m--watcher\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: events)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -w <value>\u001b[39m' + EOL + '\
+  \u001b[36m--launch\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: false)\u001b[39m A comma separated list of browsers to launch for tests.' + EOL + '\
+  \u001b[36m--reporter\u001b[39m \u001b[36m(String)\u001b[39m Test reporter to use [tap|dot|xunit]' + EOL + '\
+    \u001b[90maliases: -r <value>\u001b[39m' + EOL + '\
+  \u001b[36m--test-page\u001b[39m \u001b[36m(String)\u001b[39m Test page to invoke' + EOL);
 
       expect(output).to.include(testString);
     });
@@ -70,7 +70,7 @@ ember test\u001b[36m <options...>\u001b[39m' + EOL + '\
     .then(function(result) {
       var output = result.ui.output;
 
-      var testString = processHelpString('ember test\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember test \u001b[36m<options...>\u001b[39m');
 
       expect(output).to.include(testString);
     });

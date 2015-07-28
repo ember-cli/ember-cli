@@ -34,11 +34,11 @@ describe('Acceptance: ember help help', function() {
       var output = result.ui.output;
 
       var testString = processHelpString(EOL + '\
-ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m' + EOL + '\
+ember help \u001b[33m<command-name (Default: all)>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
   Outputs the usage instructions for all commands or the provided command' + EOL + '\
-\u001b[90m  aliases: h, --help, -h' + EOL + '\
-\u001b[39m\u001b[36m  --verbose\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -v\u001b[39m' + EOL);
+  \u001b[90maliases: h, --help, -h\u001b[39m' + EOL + '\
+  \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -v\u001b[39m' + EOL);
 
       expect(output).to.include(testString);
     });
@@ -52,7 +52,7 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options.
     .then(function(result) {
       var output = result.ui.output;
 
-      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m \u001b[36m<options...>\u001b[39m');
 
       expect(output).to.include(testString);
     });
@@ -66,7 +66,7 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options.
     .then(function(result) {
       var output = result.ui.output;
 
-      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m \u001b[36m<options...>\u001b[39m');
 
       expect(output).to.include(testString);
     });
@@ -80,7 +80,7 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options.
     .then(function(result) {
       var output = result.ui.output;
 
-      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m \u001b[36m<options...>\u001b[39m');
 
       expect(output).to.include(testString);
     });

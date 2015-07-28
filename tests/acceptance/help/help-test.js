@@ -8,6 +8,7 @@ var expect            = require('chai').expect;
 var EOL               = require('os').EOL;
 var ember             = require('../../helpers/ember');
 var processHelpString = require('../../helpers/process-help-string');
+var commandNames      = require('../../helpers/command-names');
 var Promise           = require('../../../lib/ext/promise');
 var remove            = Promise.denodeify(require('fs-extra').remove);
 var root              = process.cwd();
@@ -35,9 +36,13 @@ describe('Acceptance: ember help', function() {
       var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
-Available commands in ember-cli:' + EOL);
+Available commands in ember-cli:' + EOL + EOL);
+      var regex = new RegExp(commandNames.map(function(commandName) {
+        return EOL + EOL + 'ember ' + commandName + ' [\\s\\S]*';
+      }).join('') + EOL + EOL);
 
       expect(output).to.include(testString);
+      expect(output).to.match(regex);
     });
   });
 
@@ -51,9 +56,13 @@ Available commands in ember-cli:' + EOL);
       var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
-Available commands in ember-cli:' + EOL);
+Available commands in ember-cli:' + EOL + EOL);
+      var regex = new RegExp(commandNames.map(function(commandName) {
+        return EOL + EOL + 'ember ' + commandName + ' [\\s\\S]*';
+      }).join('') + EOL + EOL);
 
       expect(output).to.include(testString);
+      expect(output).to.match(regex);
     });
   });
 
@@ -67,9 +76,13 @@ Available commands in ember-cli:' + EOL);
       var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
-Available commands in ember-cli:' + EOL);
+Available commands in ember-cli:' + EOL + EOL);
+      var regex = new RegExp(commandNames.map(function(commandName) {
+        return EOL + EOL + 'ember ' + commandName + ' [\\s\\S]*';
+      }).join('') + EOL + EOL);
 
       expect(output).to.include(testString);
+      expect(output).to.match(regex);
     });
   });
 
@@ -83,9 +96,13 @@ Available commands in ember-cli:' + EOL);
       var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
-Available commands in ember-cli:' + EOL);
+Available commands in ember-cli:' + EOL + EOL);
+      var regex = new RegExp(commandNames.map(function(commandName) {
+        return EOL + EOL + 'ember ' + commandName + ' [\\s\\S]*';
+      }).join('') + EOL + EOL);
 
       expect(output).to.include(testString);
+      expect(output).to.match(regex);
     });
   });
 
@@ -100,7 +117,7 @@ Available commands in ember-cli:' + EOL);
       var testString = processHelpString(EOL + '\
 Requested ember-cli commands:' + EOL + '\
 ' + EOL + '\
-ember addon');
+ember addon ');
 
       expect(output).to.include(testString);
     });
