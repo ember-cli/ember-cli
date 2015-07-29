@@ -10,6 +10,7 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/750a6ba374fc8bb2bbb6102fcb9db399dd1c2472)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
 )
@@ -18,6 +19,7 @@ version:
   + Please note: Testem will now error if a specified runner is missing.
   + When installing ember-cli, one can use `npm install ember-cli --no-optional` to skip all native dependencies.
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/ace30d3fecafee7e27ae5d75254096a08ede2a6c)
   + No changes required
 - Core Contributors
   + No changes required
