@@ -270,6 +270,22 @@ describe('Acceptance: smoke-test', function() {
     });
   });
 
+  it('ember new foo, build production and verify single "use strict";', function() {
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
+      .then(function() {
+          var dirPath = path.join('.', 'dist', 'assets');
+          var dir = fs.readdirSync(dirPath);
+          var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js','i');
+          dir.forEach(function(filepath) {
+            if (appNameRE.test(filepath)) {
+              var contents = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
+              var count = (contents.match(/(["'])use strict\1;/g) || []).length;
+              expect(count).to.equal(1);
+            }
+          });
+      });
+  });
+
   it('ember can override and reuse the built-in blueprints', function() {
     return copyFixtureFiles('addon/with-blueprint-override')
       .then(function() {
