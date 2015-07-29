@@ -19,7 +19,6 @@ Supports node 0.12.x and npm 2.6.x.
 
 [![ScreenShot](http://static.iamstef.net/ember-conf-2014-video.jpg)](https://www.youtube.com/watch?v=4D8z3972h64)
 
-
 ## Project Elements
 Additional components of this project which are used at runtime in your application:
 * [ember-resolver](https://github.com/ember-cli/ember-resolver)
