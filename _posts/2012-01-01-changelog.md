@@ -64,6 +64,7 @@ version:
 - [#4538](https://github.com/ember-cli/ember-cli/pull/4540) Updated ember-qunit to 0.4.7 [@stefanpenner](https://github.com/stefanpenner)
 
 Thank you to all who took the time to contribute!
+
 ### 1.13.1
 
 The following changes are required if you are upgrading from the previous
@@ -83,7 +84,6 @@ version:
 - [#4398](https://github.com/ember-cli/ember-cli/pull/4398) [BUGFIX] Fixes #4397 add silentError with deprecation [@trabus](https://github.com/trabus)
 
 Thank you to all who took the time to contribute!
-
 ### 1.13.0
 
 The following changes are required if you are upgrading from the previous
