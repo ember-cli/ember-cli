@@ -4,6 +4,66 @@ title: "Changelog"
 permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
+### 1.13.5
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
+)
+  + We now bundle ember.js 1.13.5 and ember-data 1.13.7 by default, but please note you can change these by updating bower.json
+  + We have included support for [Subresource Integrety (SRI)](http://www.w3.org/TR/SRI) by default, to find out more checkout our site's [SRI section](http://www.ember-cli.com/user-guide/#subresource-integrity)
+  + Please note: Testem will now error if a specified runner is missing.
+  + When installing ember-cli, one can use `npm install ember-cli --no-optional` to skip all native dependencies.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#4471](https://github.com/ember-cli/ember-cli/pull/4471) Make the Examples less confusing [@mdragon](https://github.com/mdragon)
+- [#4367](https://github.com/ember-cli/ember-cli/pull/4367) [BUGFIX] Adding check for undefined inRepoAddon option in Blueprint.prototype.\_locals. [@gmurphey](https://github.com/gmurphey)
+- [#4411](https://github.com/ember-cli/ember-cli/pull/4411) Removing unknown command from `ember help`. [@gmurphey](https://github.com/gmurphey)
+- [#4405](https://github.com/ember-cli/ember-cli/pull/4405) Fix default generated integration test. [@blimmer](https://github.com/blimmer)
+- [#4406](https://github.com/ember-cli/ember-cli/pull/4406) [ENHANCEMENT] Let ember install take multiple addons [@DanielOchoa](https://github.com/DanielOchoa)
+- [#4478](https://github.com/ember-cli/ember-cli/pull/4478) Store acceptance test application in test context. [@rwjblue](https://github.com/rwjblue)
+- [#4413](https://github.com/ember-cli/ember-cli/pull/4413) Add clarity for 0.2.7 to 1.13.x transition (build) [@pixelhandler](https://github.com/pixelhandler)
+- [#4416](https://github.com/ember-cli/ember-cli/pull/4416) bump sourcemap-concat version [@kwikPRs](https://github.com/kwikPRs)
+- [#4419](https://github.com/ember-cli/ember-cli/pull/4419) Nuke 'ember update' [@jonnii](https://github.com/jonnii)
+- [#4488](https://github.com/ember-cli/ember-cli/pull/4488) Update Ember to 1.13.5. [@rwjblue](https://github.com/rwjblue)
+- [#4440](https://github.com/ember-cli/ember-cli/pull/4440) EmberAddon Should Merge Defaults [@chadhietala](https://github.com/chadhietala)
+- [#4438](https://github.com/ember-cli/ember-cli/pull/4438) Fix Ember CLI project update link [@balinterdi](https://github.com/balinterdi)
+- [#4428](https://github.com/ember-cli/ember-cli/pull/4428) Update #watchman message to point to correct url [@supabok](https://github.com/supabok)
+- [#4430](https://github.com/ember-cli/ember-cli/pull/4430) Handle a wide variety of bower endpoints [@truenorth](https://github.com/truenorth)
+- [#4454](https://github.com/ember-cli/ember-cli/pull/4454) Always use Brocfile (with deprecation messaging) if it exists [@gmurphey](https://github.com/gmurphey)
+- [#4452](https://github.com/ember-cli/ember-cli/pull/4452) [ENHANCEMENT] Detect & skip lib install on http-mock gen [@sivakumar-kailasam](https://github.com/sivakumar-kailasam)
+- [#4456](https://github.com/ember-cli/ember-cli/pull/4456) Updating getPort logic to use liveReloadHost. Fixes #4455. [@gmurphey](https://github.com/gmurphey)
+- [#4443](https://github.com/ember-cli/ember-cli/pull/4443) Prevent live-reload-port collisions (by default) [@stefanpenner](https://github.com/stefanpenner)
+- [#4457](https://github.com/ember-cli/ember-cli/pull/4457) Removing extraneous newline from the component-test blueprint [@gmurphey](https://github.com/gmurphey)
+- [#4447](https://github.com/ember-cli/ember-cli/pull/4447) Update to Ember 1.13.4. [@rwjblue](https://github.com/rwjblue)
+- [#4449](https://github.com/ember-cli/ember-cli/pull/4449) [ENHANCEMENT] Add --skip-router flag to route blueprint generator [@sivakumar-kailasam](https://github.com/sivakumar-kailasam)
+- [#4484](https://github.com/ember-cli/ember-cli/pull/4484) Updating route blueprint to write to router when dummy flag is used [@gmurphey](https://github.com/gmurphey)
+- [#4468](https://github.com/ember-cli/ember-cli/pull/4468) [fixes #4467] ensure commands that fail do to being run in the wrong … [@stefanpenner](https://github.com/stefanpenner)
+- [#4474](https://github.com/ember-cli/ember-cli/pull/4474) [fixes #4328] patch engion.io-client to use any XMLHTTPRequest, but t… [@stefanpenner](https://github.com/stefanpenner)
+- [#4462](https://github.com/ember-cli/ember-cli/pull/4462) Make ember destroy and ember generate give a better error when called… [@marcioj](https://github.com/marcioj)
+- [#4466](https://github.com/ember-cli/ember-cli/pull/4466) Native deps now gone [@stefanpenner](https://github.com/stefanpenner)
+- [#4465](https://github.com/ember-cli/ember-cli/pull/4465) ensure reexporter doesn't introduce instability during builds [@stefanpenner](https://github.com/stefanpenner)
+- [#4516](https://github.com/ember-cli/ember-cli/pull/4516) update ember-cli-qunit to mitigate some leaks [@stefanpenner](https://github.com/stefanpenner)
+- [#4489](https://github.com/ember-cli/ember-cli/pull/4489) [ENHANCEMENT] Testem v0.9.0 [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#4483](https://github.com/ember-cli/ember-cli/pull/4483) Adding in ember-cli-sri into application package.json by default [@jonathanKingston](https://github.com/jonathanKingston)
+- [#4524](https://github.com/ember-cli/ember-cli/pull/4524) Update ember-qunit to 0.4.6. [@rwjblue](https://github.com/rwjblue)
+- [#4490](https://github.com/ember-cli/ember-cli/pull/4490) Fix code of conduct markdown formatting [@max](https://github.com/max)
+- [#4495](https://github.com/ember-cli/ember-cli/pull/4495) bump ember-export-application-global [@stefanpenner](https://github.com/stefanpenner)
+- [#4498](https://github.com/ember-cli/ember-cli/pull/4498) Testem v0.9.0 [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#4514](https://github.com/ember-cli/ember-cli/pull/4514) component-unit blueprint - trim component content by default [@ramybenaroya](https://github.com/ramybenaroya)
+- [#4534](https://github.com/ember-cli/ember-cli/pull/4534) add os to version output [@kellyselden](https://github.com/kellyselden)
+- [#4536](https://github.com/ember-cli/ember-cli/pull/4536) Remove unnecessary `"use strict";`s in "app.js" [@nathanhammond](https://github.com/nathanhammond)
+- [#4538](https://github.com/ember-cli/ember-cli/pull/4540) Updated ember-qunit to 0.4.7 [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
 ### 1.13.1
 
 The following changes are required if you are upgrading from the previous
