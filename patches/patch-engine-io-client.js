@@ -15,4 +15,4 @@ if (pkg.dependencies.xmlhttprequest !== 'https://github.com/rase-/node-XMLHttpRe
 }
 pkg.dependencies.xmlhttprequest === '*';
 
-fs.writeFileSync(packagePath, JSON.stringify(packagePath));
+fs.writeFileSync(packagePath, JSON.stringify(pkg));
