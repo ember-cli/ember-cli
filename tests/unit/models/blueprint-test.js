@@ -1072,13 +1072,13 @@ describe('Blueprint', function() {
 
       AddonInstallTask = Task.extend({
         run: function(options) {
-          pkg = options['package'];
+          pkg = options['packages'];
         }
       });
 
       blueprint.addAddonToProject('foo-bar');
 
-      expect(pkg).to.equal('foo-bar');
+      expect(pkg).to.deep.equal(['foo-bar']);
     });
 
     it('calls the task with correctly parsed options', function() {
@@ -1086,7 +1086,7 @@ describe('Blueprint', function() {
 
       AddonInstallTask = Task.extend({
         run: function(options) {
-          pkg  = options['package'];
+          pkg  = options['packages'];
           args = options['extraArgs'];
         }
       });
@@ -1097,7 +1097,7 @@ describe('Blueprint', function() {
         extraArgs: ['baz']
       });
 
-      expect(pkg).to.equal('foo-bar@1.0.0');
+      expect(pkg).to.deep.equal(['foo-bar@1.0.0']);
       expect(args).to.deep.equal(['baz']);
     });
 
