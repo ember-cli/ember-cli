@@ -37,7 +37,7 @@ and failures we do not want our users to endure any extra pain.
 * `git add` the modified `package.json` and `CHANGELOG.md`
 * Commit the changes `git commit -m "Release vx.y.z"` and push `git push`
 * `git tag "vx.y.z"`
-* `git push --tags`
+* `git push origin <vx.y.z>`
 * publish to npm
 * `npm publish ./ember-cli-<version>.tgz`
 
