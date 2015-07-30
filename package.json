@@ -153,7 +153,7 @@
     "coveralls": "^2.11.2",
     "istanbul": "^0.3.13",
     "mocha": "^2.2.1",
-    "mocha-jshint": "1.0.0",
+    "mocha-jshint": "^2.0.0",
     "mocha-only-detector": "0.0.2",
     "multiline": "^1.0.2",
     "nock": "^1.2.1",
