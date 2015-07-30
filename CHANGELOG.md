@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+### 1.13.6
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#3239](https://github.com/ember-cli/ember-cli/pull/3239) ENHANCEMENT: Added `--test-port`/`testPort` option to configure test port [@patocallaghan](https://github.com/patocallaghan)
+- [#4545](https://github.com/ember-cli/ember-cli/pull/4545) bump es6modules to fix IE8 issue [@ember-cli](https://github.com/ember-cli)
+- [#4549](https://github.com/ember-cli/ember-cli/pull/4549) adding 1.13.5 diff to changelog [@kellyselden](https://github.com/kellyselden)
+- [#4553](https://github.com/ember-cli/ember-cli/pull/4553) [Bugfix] addAddonToProject fix for 1.13.5 [@jasonmit](https://github.com/jasonmit)
+
+Thank you to all who took the time to contribute!
+
 ### 1.13.5
 
 The following changes are required if you are upgrading from the previous
@@ -9,7 +31,6 @@ version:
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/750a6ba374fc8bb2bbb6102fcb9db399dd1c2472)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
-)
   + We now bundle ember.js 1.13.5 and ember-data 1.13.7 by default, but please note you can change these by updating bower.json
   + We have included support for [Subresource Integrety (SRI)](http://www.w3.org/TR/SRI) by default, to find out more checkout our site's [SRI section](http://www.ember-cli.com/user-guide/#subresource-integrity)
   + Please note: Testem will now error if a specified runner is missing.
