@@ -14,4 +14,4 @@ delete pkg.optionalDependencies;
 delete pkg.dependencies['bufferutil'];
 delete pkg.dependencies['utf-8-validate'];
 console.log(packagePath);
-fs.writeFileSync(packagePath, JSON.stringify(pkg));
+fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2));
