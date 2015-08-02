@@ -5,23 +5,59 @@ var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var InstallCommand = require('../../../lib/commands/install');
 var Task           = require('../../../lib/models/task');
-var Project        = require('../../../lib/models/project');
 var Promise        = require('../../../lib/ext/promise');
 var AddonInstall   = require('../../../lib/tasks/addon-install');
+var MockProject    = require('../../helpers/mock-project');
 
 describe('install command', function() {
   var command, options, tasks, generateBlueprintInstance, npmInstance;
 
   beforeEach(function() {
+    var project = new MockProject();
+
+    project.name = function() {
+      return 'some-random-name';
+    };
+
+    project.isEmberCLIProject = function() {
+      return true;
+    };
+
+    project.initializeAddons = function() { };
+    project.reloadAddons = function() {
+      this.addons = [
+        {
+          pkg: {
+            name: 'ember-data',
+          }
+        },
+        {
+          pkg: {
+            name: 'ember-cli-cordova',
+            'ember-addon': {
+              defaultBlueprint: 'cordova-starter-kit'
+            }
+          }
+        },
+        {
+          pkg: {
+            name: 'ember-cli-qunit'
+          }
+        }
+      ];
+    };
+
     tasks = {
       AddonInstall: AddonInstall,
       NpmInstall: Task.extend({
+        project: project,
         init: function() {
           npmInstance = this;
         }
       }),
 
       GenerateFromBlueprint: Task.extend({
+        project: project,
         init: function() {
           generateBlueprintInstance = this;
         }
@@ -30,43 +66,7 @@ describe('install command', function() {
 
     options = commandOptions({
       settings: {},
-
-      project: {
-        name: function() {
-          return 'some-random-name';
-        },
-
-        isEmberCLIProject: function() {
-          return true;
-        },
-
-        initializeAddons: function() { },
-        reloadAddons: function() {
-          this.addons = [
-            {
-              pkg: {
-                name: 'ember-data',
-              }
-            },
-            {
-              pkg: {
-                name: 'ember-cli-cordova',
-                'ember-addon': {
-                  defaultBlueprint: 'cordova-starter-kit'
-                }
-              }
-            },
-            {
-              pkg: {
-                name: 'ember-cli-qunit'
-              }
-            }
-          ];
-        },
-
-        findAddonByName: Project.prototype.findAddonByName
-      },
-
+      project: project,
       tasks: tasks
     });
 
@@ -107,7 +107,7 @@ describe('install command', function() {
       });
     });
 
-    it('runs the packae name blueprint task with given name and args', function() {
+    it('runs the package name blueprint task with given name and args', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         expect(generateRun.calledWith[0][0].ignoreMissingMain, true);
@@ -117,13 +117,41 @@ describe('install command', function() {
       });
     });
 
-    it('runs the defaultBlueprint task with given github/name and args', function() {
+    it('fails to install second argument for unknown addon', function() {
       return command.validateAndRun(['ember-cli-cordova', 'com.ember.test']).then(function() {
+        expect(false, 'should reject with error');
+      }).catch(function(err) {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         expect(generateRun.calledWith[0][0].ignoreMissingMain, true);
         expect(generateRun.calledWith[0][0].args).to.deep.equal([
-          'cordova-starter-kit', 'com.ember.test'
+          'cordova-starter-kit'
         ], 'expected generate blueprint called with correct args');
+        expect(err.message).to.equal(
+          'Install failed. Could not find addon with name: com.ember.test',
+          'expected error to have helpful message'
+        );
+      });
+    });
+
+    it('runs npmInstall once and installs three addons', function() {
+      return command.validateAndRun([
+        'ember-data', 'ember-cli-cordova', 'ember-cli-qunit'
+      ]).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
+          packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
+          'save-dev': true,
+          'save-exact': true
+        }, 'expected npm install called with given name and save-dev true');
+
+        var generateRun = tasks.GenerateFromBlueprint.prototype.run;
+        expect(generateRun.called).to.equal(3, 'expect blueprint generator to run thrice.');
+        expect(generateRun.calledWith[0][0].args[0]).to.equal('ember-data');
+        expect(generateRun.calledWith[1][0].args[0]).to.equal('cordova-starter-kit');
+        expect(generateRun.calledWith[2][0].args[0]).to.equal('ember-cli-qunit');
       });
     });
 

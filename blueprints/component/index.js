@@ -55,7 +55,7 @@ module.exports = {
     var importTemplate = '';
     var contents       = '';
     // if we're in an addon, build import statement
-    if (options.project.isEmberCLIAddon() || options.inRepoAddon) {
+    if (options.project.isEmberCLIAddon() || options.inRepoAddon && !options.inDummy) {
       if(options.pod) {
         templatePath   = './template';
       } else {

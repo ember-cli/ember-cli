@@ -893,7 +893,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar', source: 'foo-bar', target: '*'}]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar');
@@ -901,11 +901,28 @@ describe('Blueprint', function() {
 
     it('passes a packages array with target for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar', target: '1.0.0'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar', source: 'foo-bar', target: '1.0.0'}]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar', '1.0.0');
     });
+
+    it('correctly handles local package naming, with a numbered pkg version', function() {
+      blueprint.addBowerPackagesToProject = function(packages) {
+        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '1.0.0', source: 'foo-bar'}]);
+      };
+
+      blueprint.addBowerPackageToProject('foo-bar-local', 'foo-bar#1.0.0');
+    });
+
+    it('correctly handles local package naming, with a non-versioned package', function() {
+      blueprint.addBowerPackagesToProject = function(packages) {
+        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '*', source: 'http://twitter.github.io/bootstrap/assets/bootstrap'}]);
+      };
+
+      blueprint.addBowerPackageToProject('foo-bar-local', 'http://twitter.github.io/bootstrap/assets/bootstrap');
+    });
+
   });
 
   describe('addBowerPackagesToProject', function() {
@@ -954,7 +971,7 @@ describe('Blueprint', function() {
         {name: 'bar-foo'}
       ]);
 
-      expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
+      expect(packages).to.deep.equal(['foo-bar=foo-bar', 'bar-foo=bar-foo']);
     });
 
     it('uses the provided target (version, range, sha, etc)', function() {
@@ -971,7 +988,32 @@ describe('Blueprint', function() {
         {name: 'bar-foo', target: '0.7.0'}
       ]);
 
-      expect(packages).to.deep.equal(['foo-bar#~1.0.0', 'bar-foo#0.7.0']);
+      expect(packages).to.deep.equal(['foo-bar=foo-bar#~1.0.0', 'bar-foo=bar-foo#0.7.0']);
+    });
+
+    it('properly parses a variety of bower package endpoints', function() {
+      var packages;
+
+      BowerInstallTask = Task.extend({
+        run: function(options) {
+          packages = options.packages;
+        }
+      });
+
+      blueprint.addBowerPackagesToProject([
+        {name: '',          source: 'jquery', target: '~2.0.0'},
+        {name: 'backbone',  source: 'backbone-amd', target: '~1.0.0'},
+        {name: 'bootstrap', source: 'http://twitter.github.io/bootstrap/assets/bootstrap', target: '*'}
+      ]);
+
+      expect(packages).to.deep.equal([
+        // standard local name, versioned bower pkg
+        'jquery#~2.0.0',
+        // custom local name, versioned bower pkg
+        'backbone=backbone-amd#~1.0.0',
+        // no numbered version, custom local name
+        'bootstrap=http://twitter.github.io/bootstrap/assets/bootstrap'
+      ]);
     });
 
     it('uses uses verbose mode with the task', function() {
@@ -1030,13 +1072,13 @@ describe('Blueprint', function() {
 
       AddonInstallTask = Task.extend({
         run: function(options) {
-          pkg = options['package'];
+          pkg = options['packages'];
         }
       });
 
       blueprint.addAddonToProject('foo-bar');
 
-      expect(pkg).to.equal('foo-bar');
+      expect(pkg).to.deep.equal(['foo-bar']);
     });
 
     it('calls the task with correctly parsed options', function() {
@@ -1044,7 +1086,7 @@ describe('Blueprint', function() {
 
       AddonInstallTask = Task.extend({
         run: function(options) {
-          pkg  = options['package'];
+          pkg  = options['packages'];
           args = options['extraArgs'];
         }
       });
@@ -1055,7 +1097,7 @@ describe('Blueprint', function() {
         extraArgs: ['baz']
       });
 
-      expect(pkg).to.equal('foo-bar@1.0.0');
+      expect(pkg).to.deep.equal(['foo-bar@1.0.0']);
       expect(args).to.deep.equal(['baz']);
     });
 
@@ -1300,7 +1342,6 @@ describe('Blueprint', function() {
           expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
         });
     });
-
   });
 
   describe('lookupBlueprint', function() {
@@ -1340,6 +1381,239 @@ describe('Blueprint', function() {
       var result = blueprint.lookupBlueprint('controller');
 
       expect(result.description).to.equal('Generates a controller.');
+    });
+  });
+
+  describe('._generateFileMapVariables', function() {
+    var blueprint;
+    var project;
+    var moduleName;
+    var locals;
+    var options;
+    var result;
+    var expectation;
+
+    beforeEach(function() {
+      blueprint = new Blueprint(basicBlueprint);
+      project = new MockProject();
+      moduleName = project.name();
+      locals = {};
+
+      blueprint.project = project;
+
+      options = {
+        project: project
+      };
+
+      expectation = {
+        blueprintName: 'basic',
+        dasherizedModuleName: 'mock-project',
+        hasPathToken: undefined,
+        inAddon: false,
+        inDummy: false,
+        inRepoAddon: undefined,
+        locals: {},
+        originBlueprintName: 'basic',
+        pod: undefined,
+        podPath: ''
+      };
+    });
+
+    it('should create the correct default fileMapVariables', function() {
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should use the moduleName method argument for moduleName', function() {
+      moduleName = 'foo';
+      expectation.dasherizedModuleName = 'foo';
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should use the locals method argument for its locals value', function() {
+      locals = { foo: 'bar' };
+      expectation.locals = locals;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should use the option.originBlueprintName value as its originBlueprintName if included in the options hash', function() {
+      options.originBlueprintName = 'foo';
+      expectation.originBlueprintName = 'foo';
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include a podPath if the project\'s podModulePrefix is defined', function() {
+      blueprint.project.config = function() {
+        return {
+          podModulePrefix: 'foo/bar'
+        };
+      };
+
+      expectation.podPath = 'bar';
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include an inAddon and inDummy flag of true if the project is an addon', function () {
+      options.dummy = true;
+
+      blueprint.project.isEmberCLIAddon = function() {
+        return true;
+      };
+
+      expectation.inAddon = true;
+      expectation.inDummy = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include an inAddon and inRepoAddon flag of true if options.inRepoAddon is true', function() {
+      options.inRepoAddon = true;
+
+      expectation.inRepoAddon = true;
+      expectation.inAddon = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should have a hasPathToken flag of true if the blueprint hasPathToken is true', function() {
+      blueprint.hasPathToken = true;
+
+      expectation.hasPathToken = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+  });
+
+  describe('._locals', function() {
+    var blueprint;
+    var project;
+    var options;
+    var result;
+    var expectation;
+
+    beforeEach(function() {
+      blueprint = new Blueprint(basicBlueprint);
+      project = new MockProject();
+
+      blueprint._generateFileMapVariables = function() {
+        return {};
+      };
+
+      blueprint.generateFileMap = function() {
+        return {};
+      };
+
+      options = {
+        project: project
+      };
+
+      expectation = {
+        'camelizedModuleName': 'mockProject',
+        'classifiedModuleName': 'MockProject',
+        'classifiedPackageName': 'MockProject',
+        'dasherizedModuleName': 'mock-project',
+        'dasherizedPackageName': 'mock-project',
+        'decamelizedModuleName': 'mock-project',
+        'fileMap': {}
+      };
+    });
+
+    it('should return a default object if no custom options are passed', function() {
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('it should call the locals method with the correct arguments', function() {
+      blueprint.locals = function (opts) {
+        expect(opts).to.equal(options);
+      };
+
+      blueprint._locals(options);
+    });
+
+    it('should call _generateFileMapVariables with the correct arguments', function() {
+      blueprint.locals = function() {
+        return { foo: 'bar' };
+      };
+
+      blueprint._generateFileMapVariables = function(modName, lcls, opts) {
+        expect(modName).to.equal('mock-project');
+        expect(lcls).to.eql({ foo: 'bar' });
+        expect(opts).to.eql(opts);
+      };
+
+      blueprint._locals(options);
+    });
+
+    it('should call generateFileMap with the correct arguments', function() {
+      blueprint._generateFileMapVariables = function() {
+        return { bar: 'baz' };
+      };
+
+      blueprint.generateFileMap = function(fileMapVariables) {
+        expect(fileMapVariables).to.eql({ bar: 'baz' });
+      };
+
+      blueprint._locals(options);
+    });
+
+    it('should use the options.entity.name as its moduleName if its value is defined', function() {
+      options.entity = {
+        name: 'foo'
+      };
+
+      expectation.camelizedModuleName = 'foo';
+      expectation.classifiedModuleName = 'Foo';
+      expectation.dasherizedModuleName = 'foo';
+      expectation.decamelizedModuleName = 'foo';
+
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should update its fileMap values to match the generateFileMap result', function() {
+      blueprint.generateFileMap = function() {
+        return { foo: 'bar' };
+      };
+
+      expectation.fileMap = { foo: 'bar' };
+
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should return an object containing custom local values', function() {
+      blueprint.locals = function() {
+        return { foo: 'bar' };
+      };
+
+      expectation.foo = 'bar';
+
+      result = blueprint._locals(options);
+
+      expect(result).to.eql(expectation);
     });
   });
 });

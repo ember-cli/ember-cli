@@ -34,11 +34,17 @@ MockProject.prototype.name = function() {
 };
 
 MockProject.prototype.initializeAddons = Project.prototype.initializeAddons;
+MockProject.prototype.hasDependencies = function() {
+  return true;
+};
 MockProject.prototype.discoverAddons = Project.prototype.discoverAddons;
 MockProject.prototype.addIfAddon = Project.prototype.addIfAddon;
 MockProject.prototype.supportedInternalAddonPaths = Project.prototype.supportedInternalAddonPaths;
 MockProject.prototype.setupBowerDirectory = Project.prototype.setupBowerDirectory;
 MockProject.prototype.setupNodeModulesPath = Project.prototype.setupNodeModulesPath;
+MockProject.prototype.isEmberCLIProject = Project.prototype.isEmberCLIProject;
+MockProject.prototype.isEmberCLIAddon = Project.prototype.isEmberCLIAddon;
+MockProject.prototype.findAddonByName = Project.prototype.findAddonByName;
 MockProject.prototype.dependencies = function() {
   return [];
 };

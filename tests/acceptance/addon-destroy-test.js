@@ -7,6 +7,7 @@ var expect     = require('chai').expect;
 var assertFile = require('../helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
+var existsSync = require('exists-sync');
 var fs         = require('fs-extra');
 var path       = require('path');
 var remove     = Promise.denodeify(fs.remove);
@@ -53,9 +54,7 @@ describe('Acceptance: ember destroy in-addon', function() {
   function generateInAddon(args) {
     var generateArgs = ['generate'].concat(args);
 
-    return initAddon().then(function() {
-      return ember(generateArgs);
-    });
+    return ember(generateArgs);
   }
 
   function destroy(args) {
@@ -65,7 +64,7 @@ describe('Acceptance: ember destroy in-addon', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    expect(!fs.existsSync(filePath), 'expected ' + file + ' not to exist');
+    expect(!existsSync(filePath), 'expected ' + file + ' not to exist');
   }
 
   function assertFilesExist(files) {
@@ -121,7 +120,7 @@ describe('Acceptance: ember destroy in-addon', function() {
       'addon/components/x-foo.js',
       'addon/templates/components/x-foo.hbs',
       'app/components/x-foo.js',
-      'tests/unit/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);

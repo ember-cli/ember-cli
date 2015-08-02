@@ -1,11 +1,12 @@
 'use strict';
 
-var expect   = require('chai').expect;
-var flatten  = require('lodash/array/flatten');
-var contains = require('lodash/collection/contains');
-var fs       = require('fs-extra');
-var path     = require('path');
-var EOL      = require('os').EOL;
+var expect     = require('chai').expect;
+var flatten    = require('lodash/array/flatten');
+var contains   = require('lodash/collection/contains');
+var fs         = require('fs-extra');
+var path       = require('path');
+var EOL        = require('os').EOL;
+var existsSync = require('exists-sync');
 
 /*
   Asserts that a given file exists.
@@ -39,7 +40,7 @@ var EOL      = require('os').EOL;
 module.exports = function assertFile(file, options) {
   var filePath = path.join(process.cwd(), file);
 
-  expect(fs.existsSync(filePath)).to.equal(true, 'expected ' + file + ' to exist');
+  expect(existsSync(filePath)).to.equal(true, 'expected ' + file + ' to exist');
 
   if (!options) {
     return;

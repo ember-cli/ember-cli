@@ -1,18 +1,16 @@
 /*jshint strict:false */
-/* globals QUnit, visit, andThen */
+/* globals visit, andThen */
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import { module, test } from 'qunit';
 
-var application;
-
 module('wrapInEval in-app test', {
   beforeEach: function() {
-    application = startApp();
+    this.application = startApp();
   },
   afterEach: function() {
-    Ember.run(application, 'destroy');
+    Ember.run(this.application, 'destroy');
   }
 });
 
@@ -23,6 +21,6 @@ test('the application boots properly with wrapInEval', function(assert) {
   visit('/');
 
   andThen(function() {
-    assert.equal(Ember.$('#title').text(), 'Welcome to Ember.js');
+    assert.equal(Ember.$('#title').text(), 'Welcome to Ember');
   });
 });

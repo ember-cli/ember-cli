@@ -1,9 +1,9 @@
 'use strict';
 
-var EOL         = require('os').EOL;
-var expect      = require('chai').expect;
-var fs          = require('fs');
-var walkSync    = require('walk-sync');
+var EOL        = require('os').EOL;
+var expect     = require('chai').expect;
+var walkSync   = require('walk-sync');
+var existsSync = require('exists-sync');
 
 /*
  Asserts that the given directory is empty.
@@ -12,7 +12,7 @@ var walkSync    = require('walk-sync');
  @param dir The directory to check.
 */
 module.exports = function assertDirEmpty(dir) {
-  if (!fs.existsSync(dir)) {
+  if (!existsSync(dir)) {
     return;
   }
 

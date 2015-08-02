@@ -44,7 +44,7 @@ describe('livereload-server', function() {
     it('does not start the server if `liveReload` option is not true', function() {
       return subject.start({
         liveReloadPort: 1337,
-        liveReload: false
+        liveReload: false,
       }).then(function(output) {
         expect(output).to.equal('Livereload server manually disabled.');
         expect(!!subject._liveReloadServer).to.equal(false);
@@ -54,9 +54,10 @@ describe('livereload-server', function() {
     it('correctly indicates which port livereload is present on', function() {
       return subject.start({
         liveReloadPort: 1337,
+        liveReloadHost: 'localhost',
         liveReload: true
       }).then(function() {
-        expect(ui.output).to.equal('Livereload server on port 1337' + EOL);
+        expect(ui.output).to.equal('Livereload server on http://localhost:1337' + EOL);
       });
     });
 
@@ -69,7 +70,51 @@ describe('livereload-server', function() {
           liveReload: true
         })
         .catch(function(reason) {
-          expect(reason).to.equal('Livereload failed on port 1337.  It is either in use or you do not have permission.' + EOL);
+          expect(reason).to.equal('Livereload failed on http://localhost:1337.  It is either in use or you do not have permission.' + EOL);
+        })
+        .finally(function() {
+          preexistingServer.close(done);
+        });
+    });
+
+    it('starts with custom host', function() {
+      return subject.start({
+        liveReloadHost: '127.0.0.1',
+        liveReloadPort: 1337,
+        liveReload: true
+      }).then(function() {
+        expect(ui.output).to.equal('Livereload server on http://127.0.0.1:1337' + EOL);
+      });
+    });
+  });
+
+  describe('start with https', function() {
+    it('correctly indicates which port livereload is present on and running in https mode', function() {
+      return subject.start({
+        liveReloadPort: 1337,
+        liveReloadHost: 'localhost',
+        liveReload: true,
+        ssl: true,
+        sslKey: 'tests/fixtures/ssl/server.key',
+        sslCert: 'tests/fixtures/ssl/server.crt'
+      }).then(function() {
+        expect(ui.output).to.equal('Livereload server on https://localhost:1337' + EOL);
+      });
+    });
+
+    it('informs of error during startup', function(done) {
+      var preexistingServer = net.createServer();
+      preexistingServer.listen(1337);
+
+      return subject.start({
+          liveReloadPort: 1337,
+          liveReload: true,
+          ssl: true,
+          sslKey: 'tests/fixtures/ssl/server.key',
+          sslCert: 'tests/fixtures/ssl/server.crt'
+        })
+        .catch(function(reason) {
+          expect(reason).to.equal('Livereload failed on https://localhost:1337.  It is either in use or you do not have permission.' + EOL);
         })
         .finally(function() {
           preexistingServer.close(done);
@@ -153,13 +198,13 @@ describe('livereload-server', function() {
     });
 
     describe('filter pattern', function() {
-      it('triggers the liverreload server of a change when no pattern matches', function() {
+      it('triggers the livereload server of a change when no pattern matches', function() {
         subject.didChange({filePath: ''});
         expect(changedCount).to.equal(1);
         expect(trackCount).to.equal(1);
       });
 
-      it('does not trigger livereoad server of a change when there is a pattern match', function() {
+      it('does not trigger livereload server of a change when there is a pattern match', function() {
         // normalize test regex for windows
         // path.normalize with change forward slashes to back slashes if test is running on windows
         // we then replace backslashes with double backslahes to escape the backslash in the regex

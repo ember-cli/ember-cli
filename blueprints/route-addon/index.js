@@ -49,7 +49,7 @@ module.exports = {
 
   locals: function (options) {
     var locals = {};
-    var addonRawName = options.inRepoAddon ? options.inRepoAddon : options.project.pkg.name;
+    var addonRawName = options.inRepoAddon ? options.inRepoAddon : options.project.name();
     var addonName = stringUtil.dasherize(addonRawName);
     var fileName = stringUtil.dasherize(options.entity.name);
 

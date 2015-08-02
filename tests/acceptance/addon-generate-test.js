@@ -42,19 +42,24 @@ describe('Acceptance: ember generate in-addon', function() {
     return remove(tmproot);
   });
 
-  function initAddon() {
+  function initAddon(name) {
     return ember([
       'addon',
-      'my-addon',
+      name,
       '--skip-npm',
       '--skip-bower'
     ]);
   }
 
   function generateInAddon(args) {
+    var name = 'my-addon';
     var generateArgs = ['generate'].concat(args);
 
-    return initAddon().then(function() {
+    if (arguments.length > 1) {
+      name = arguments[1];
+    }
+
+    return initAddon(name).then(function() {
       return ember(generateArgs);
     });
   }
@@ -122,10 +127,12 @@ describe('Acceptance: ember generate in-addon', function() {
           "export { default } from 'my-addon/components/x-foo';"
         ]
       });
-      assertFile('tests/unit/components/x-foo-test.js', {
+      assertFile('tests/integration/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -133,10 +140,25 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon component-test x-foo', function() {
     return generateInAddon(['component-test', 'x-foo']).then(function() {
+      assertFile('tests/integration/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
+        ]
+      });
+      assertFileToNotExist('app/component-test/x-foo.js');
+    });
+  });
+
+  it('in-addon component-test x-foo --unit', function() {
+    return generateInAddon(['component-test', 'x-foo', '--unit']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "unit: true"
         ]
       });
       assertFileToNotExist('app/component-test/x-foo.js');
@@ -162,10 +184,12 @@ describe('Acceptance: ember generate in-addon', function() {
           "export { default } from 'my-addon/components/nested/x-foo';"
         ]
       });
-      assertFile('tests/unit/components/nested/x-foo-test.js', {
+      assertFile('tests/integration/components/nested/x-foo-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('nested/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -178,7 +202,7 @@ describe('Acceptance: ember generate in-addon', function() {
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
+                  "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('app/helpers/foo-bar.js', {
         contains: [
@@ -198,7 +222,7 @@ describe('Acceptance: ember generate in-addon', function() {
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('app/helpers/foo/bar-baz.js', {
         contains: [
@@ -355,6 +379,9 @@ describe('Acceptance: ember generate in-addon', function() {
           "moduleFor('route:foo'"
         ]
       });
+      assertFile('tests/dummy/app/router.js', {
+        doesNotContain: "this.route('foo');"
+      });
     });
   });
 
@@ -378,9 +405,12 @@ describe('Acceptance: ember generate in-addon', function() {
           "moduleFor('route:foo/bar'"
         ]
       });
+      assertFile('tests/dummy/app/router.js', {
+        doesNotContain:  "this.route('bar');"
+      });
     });
   });
-  
+
   it('in-addon route-test foo', function() {
     return generateInAddon(['route-test', 'foo']).then(function() {
       assertFile('tests/unit/routes/foo-test.js', {
@@ -534,6 +564,12 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon mixin foo/bar/baz', function() {
     return generateInAddon(['mixin', 'foo/bar/baz']).then(function() {
+      assertFile('addon/mixins/foo/bar/baz.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Mixin.create({' + EOL + '});'
+        ]
+      });
       assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
         contains: [
           "import FooBarBazMixin from '../../../mixins/foo/bar/baz';"
@@ -608,7 +644,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon adapter-test foo', function() {
     return generateInAddon(['adapter-test', 'foo']).then(function() {
       assertFile('tests/unit/adapters/foo-test.js', {
@@ -663,7 +699,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
   });
-  
+
   it('in-addon serializer-test foo', function() {
     return generateInAddon(['serializer-test', 'foo']).then(function() {
       assertFile('tests/unit/serializers/foo-test.js', {
@@ -820,7 +856,7 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
-  
+
   it('in-addon service-test foo', function() {
     return generateInAddon(['service-test', 'foo']).then(function() {
       assertFile('tests/unit/services/foo-test.js', {
@@ -1019,4 +1055,12 @@ describe('Acceptance: ember generate in-addon', function() {
       });
     });
 
+    it('in-addon acceptance-test foo/bar', function() {
+      return generateInAddon(['acceptance-test', 'foo/bar']).then(function() {
+        var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-nested-expected.js');
+
+        assertFileEquals('tests/acceptance/foo/bar-test.js', expected);
+        assertFileToNotExist('app/acceptance-tests/foo/bar.js');
+      });
+    });
 });

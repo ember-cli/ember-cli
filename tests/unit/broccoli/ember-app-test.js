@@ -51,6 +51,40 @@ describe('broccoli/ember-app', function() {
       expect(app.bowerDirectory).to.equal('bower_components');
     });
 
+    it('should merge options with defaults to depth', function() {
+      var app = new EmberApp({
+        project: project,
+        foo: {
+          bar: ['baz']
+        },
+        fooz: {
+          bam: {
+            boo: ['default']
+          }
+        }
+      }, {
+        foo: {
+          bar: ['bizz']
+        },
+        fizz: 'fizz',
+        fooz: {
+          bam: {
+            boo: ['custom']
+          }
+        }
+      });
+
+      expect(app.options.foo).to.deep.eql({
+        bar: ['bizz']
+      });
+      expect(app.options.fizz).to.eql('fizz');
+      expect(app.options.fooz).to.eql({
+        bam: {
+          boo: ['custom']
+        }
+      });
+    });
+
     describe('_notifyAddonIncluded', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
@@ -338,7 +372,31 @@ describe('broccoli/ember-app', function() {
           expect(postprocessTreeStub.calledWith[0][0]).to.equal('css');
           expect(postprocessTreeStub.calledWith[0][1].description).to.equal('styles', 'should be called with consolidated tree');
         });
+
+
+        it('template type is called', function() {
+          var oldLoad = emberApp.registry.load;
+          emberApp.registry.load = function(type) {
+            if (type === 'template'){
+              return [
+                {
+                  toTree: function() {
+                    return {
+                      description: 'template'
+                    };
+                  }
+                }];
+            } else {
+              return oldLoad.call(emberApp.registry, type);
+            }
+          };
+
+          emberApp._processedTemplatesTree();
+          expect(postprocessTreeStub.calledWith[0][0]).to.equal('template');
+          expect(postprocessTreeStub.calledWith[0][1].description).to.equal('template', 'should be called with consolidated tree');
+        });
     });
+
     describe('toTree', function() {
       beforeEach(function() {
         addon = {

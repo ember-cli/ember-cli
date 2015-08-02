@@ -5,26 +5,29 @@ var Promise         = require('../../../lib/ext/promise');
 var Task            = require('../../../lib/models/task');
 var expect          = require('chai').expect;
 var commandOptions  = require('../../factories/command-options');
+var MockProject     = require('../../helpers/mock-project');
 
 describe('generate command', function() {
   var command;
 
   beforeEach(function() {
+    var project = new MockProject();
+
+    project.name = function() {
+      return 'some-random-name';
+    };
+
+    project.isEmberCLIProject = function isEmberCLIProject() {
+      return true;
+    };
+
     command = new DestroyCommand(commandOptions({
       settings: {},
 
-      project:   {
-        name: function() {
-          return 'some-random-name';
-        },
-
-        isEmberCLIProject: function isEmberCLIProject() {
-          return true;
-        }
-      },
-
+      project: project,
       tasks: {
         DestroyFromBlueprint: Task.extend({
+          project: project,
           run: function(options) {
             return Promise.resolve(options);
           }
@@ -67,7 +70,13 @@ describe('generate command', function() {
             'For more details, use `ember help`.');
       });
   });
-  
+
+  it('does not throws errors when beforeRun is invoked without the blueprint name', function() {
+    expect(function () {
+      command.beforeRun([]);
+    }).to.not.throw();
+  });
+
   it('rethrows errors from beforeRun', function() {
     return Promise.resolve(function(){ return command.beforeRun(['controller', 'foo']);})
     .then(function() {

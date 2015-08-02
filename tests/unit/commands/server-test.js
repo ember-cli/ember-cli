@@ -4,6 +4,7 @@ var expect         = require('chai').expect;
 var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
+var Promise        = require('../../../lib/ext/promise');
 
 describe('server command', function() {
   var ServeCommand;
@@ -25,6 +26,9 @@ describe('server command', function() {
     });
 
     stub(tasks.Serve.prototype, 'run');
+    stub(ServeCommand.prototype, '_getPort', new Promise(function(resolve) {
+      resolve(49152);
+    }));
   });
 
   after(function() {
@@ -33,6 +37,7 @@ describe('server command', function() {
 
   afterEach(function() {
     tasks.Serve.prototype.run.restore();
+    ServeCommand.prototype._getPort.restore();
   });
 
   it('has correct options', function() {
@@ -40,12 +45,16 @@ describe('server command', function() {
       '--port', '4000'
     ]).then(function() {
       var serveRun = tasks.Serve.prototype.run;
-      var ops = serveRun.calledWith[0][0];
+      var runOps = serveRun.calledWith[0][0];
+      var getPortOps = ServeCommand.prototype._getPort.calledWith[0][0];
+
+      expect(getPortOps.host).to.equal('0.0.0.0', 'a livereload port is found using the default host');
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-      expect(ops.port).to.equal(4000,            'has correct port');
-      expect(ops.liveReloadPort).to.equal(35529, 'has correct liveReload port');
+      expect(runOps.port).to.equal(4000,            'has correct port');
+      expect(runOps.liveReloadPort).to.be.within(49152, 65535, 'has correct liveReload port');
+      expect(runOps.liveReloadHost).to.equal('0.0.0.0', 'has correct liveReload host');
     });
   });
 
@@ -59,6 +68,21 @@ describe('server command', function() {
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
       expect(ops.liveReloadPort).to.equal(4001, 'has correct liveReload port');
+    });
+  });
+
+  it('has correct liveLoadHost', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--live-reload-host', '127.0.0.1'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var runOps = serveRun.calledWith[0][0];
+      var getPortOpts = ServeCommand.prototype._getPort.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(getPortOpts.host).to.equal('127.0.0.1', 'gets a port based on the liveReload host');
+      expect(runOps.liveReloadHost).to.equal('127.0.0.1', 'has correct liveReload host');
     });
   });
 

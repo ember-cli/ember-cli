@@ -28,6 +28,9 @@ function ember(args) {
       isEmberCLIProject: function() {  // similate being inside or outside of a project
         return isWithinProject;
       },
+      hasDependencies: function() {
+        return true;
+      },
       blueprintLookupPaths: function() {
         return [];
       }
@@ -391,16 +394,6 @@ describe('Unit: CLI', function() {
         var args = newCommand.calledWith[0][1];
 
         expect(args).to.deep.equal(['MyApp']);
-      });
-    });
-  });
-
-  describe('update', function() {
-    it('ember update', function() {
-      var update = stubRun('update');
-
-      return ember(['update']).then(function() {
-        expect(update.called).to.equal(1, 'expected the update command to be run');
       });
     });
   });

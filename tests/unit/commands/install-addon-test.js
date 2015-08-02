@@ -7,7 +7,7 @@ var AddonInstall = require('../../../lib/tasks/addon-install');
 var Task = require('../../../lib/models/task');
 var Promise = require('../../../lib/ext/promise');
 var stub = require('../../helpers/stub').stub;
-var Project = require('../../../lib/models/project');
+var MockProject = require('../../helpers/mock-project');
 
 describe('install:addon command', function() {
   var command, options, tasks, npmInstance, generateBlueprintInstance;
@@ -28,30 +28,25 @@ describe('install:addon command', function() {
       })
     };
 
+    var project = new MockProject();
+
+    project.name              = function() { return 'some-random-name'; };
+    project.isEmberCLIProject = function() { return true; };
+    project.initializeAddons  = function() { };
+    project.reloadAddons = function() {
+      this.addons = [{
+        pkg: {
+          name: 'ember-cli-photoswipe',
+          'ember-addon': {
+            defaultBlueprint: 'photoswipe'
+          }
+        }
+      }];
+    };
+
     options = commandOptions({
       settings: {},
-      project: {
-        name: function() {
-          return 'some-random-name';
-        },
-        isEmberCLIProject: function() {
-          return true;
-        },
-        initializeAddons: function() {  },
-        reloadAddons: function() {
-          this.addons = [{
-            pkg: {
-              name: 'ember-cli-photoswipe',
-              'ember-addon': {
-                defaultBlueprint: 'photoswipe'
-              }
-            }
-          }];
-        },
-
-        findAddonByName: Project.prototype.findAddonByName
-      },
-
+      project: project,
       tasks: tasks
     });
 

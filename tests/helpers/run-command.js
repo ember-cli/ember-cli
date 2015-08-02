@@ -29,7 +29,7 @@ module.exports = function run(/* command, args, options */) {
   });
 
   return new RSVP.Promise(function(resolve, reject) {
-    console.log('      Running: ' + command + ' ' + args.join(' '));
+    console.log('      Running: ' + command + ' ' + args.join(' ') + ' in: ' + process.cwd());
 
     var opts = {};
     if (process.platform === 'win32') {

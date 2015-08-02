@@ -16,6 +16,14 @@ describe('path.getRelativeParentPath', function() {
     expect(pathUtils.getRelativeParentPath('foo',1)).to.equal('');
     expect(pathUtils.getRelativeParentPath('foo/bar', 1)).to.equal('../');
     expect(pathUtils.getRelativeParentPath('foo/bar/baz', 2)).to.equal('../');
+    expect(pathUtils.getRelativeParentPath('foo', -1)).to.equal('../../');
+  });
+  
+  it('should have an optional trailing slash', function() {
+    expect(pathUtils.getRelativeParentPath('', 0, false)).to.equal('..');
+    expect(pathUtils.getRelativeParentPath('foo', 0, false)).to.equal('..');
+    expect(pathUtils.getRelativeParentPath('foo/bar', 0, false)).to.equal('../..');
+    expect(pathUtils.getRelativeParentPath('foo', 1, false)).to.equal('');
   });
 });
 

@@ -3,27 +3,28 @@
 var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
 var InstallCommand = require('../../../lib/commands/install-bower');
+var MockProject    = require('../../helpers/mock-project');
 
 describe('install:bower command', function() {
   var command, options, msg;
 
   beforeEach(function() {
+    var project = new MockProject();
+    project.name = function() {
+      return 'some-random-name';
+    };
+
+    project.isEmberCLIProject = function() {
+      return true;
+    };
+
     options = commandOptions({
       settings: {},
-
-      project: {
-        name: function() {
-          return 'some-random-name';
-        },
-
-        isEmberCLIProject: function() {
-          return true;
-        }
-      },
+      project: project
     });
 
     command  = new InstallCommand(options);
-    msg      = 'This command has been deprecated. Please use `bower install ';
+    msg      = 'This command has been removed. Please use `bower install ';
     msg     += '<packageName> --save-dev --save-exact` instead.';
     msg     += 'Add `--offline` to make bower use only locally cached packages.';
   });

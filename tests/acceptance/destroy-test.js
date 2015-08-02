@@ -7,6 +7,7 @@ var expect     = require('chai').expect;
 var assertFile = require('../helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
+var existsSync = require('exists-sync');
 var fs         = require('fs-extra');
 var outputFile = Promise.denodeify(fs.outputFile);
 var path       = require('path');
@@ -99,7 +100,7 @@ describe('Acceptance: ember destroy', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    expect(!fs.existsSync(filePath), 'expected ' + file + ' not to exist');
+    expect(!existsSync(filePath), 'expected ' + file + ' not to exist');
   }
 
   function assertFilesExist(files) {
@@ -151,7 +152,7 @@ describe('Acceptance: ember destroy', function() {
       })
       .then(function() {
         return destroy(args);
-      })      
+      })
       .then(function(result) {
         expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
         assertFilesNotExist(files);
@@ -186,7 +187,7 @@ describe('Acceptance: ember destroy', function() {
     var files       = [
       'app/components/x-foo.js',
       'app/templates/components/x-foo.hbs',
-      'tests/unit/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerate(commandArgs, files);
@@ -249,6 +250,23 @@ describe('Acceptance: ember destroy', function() {
       .then(function() {
         assertFile('app/router.js', {
           doesNotContain: "this.route('foo');"
+        });
+      });
+  });
+
+    it('route foo --skip-router', function() {
+    this.timeout(20000);
+    var commandArgs = ['route', 'foo', '--skip-router'];
+    var files       = [
+      'app/routes/foo.js',
+      'app/templates/foo.hbs',
+      'tests/unit/routes/foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerate(commandArgs, files)
+      .then(function() {
+        assertFile('app/router.js', {
+          doesContain: "this.route('foo');"
         });
       });
   });
@@ -534,7 +552,7 @@ describe('Acceptance: ember destroy', function() {
       'addon/components/x-foo.js',
       'addon/templates/components/x-foo.hbs',
       'app/components/x-foo.js',
-      'tests/unit/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
@@ -546,7 +564,7 @@ describe('Acceptance: ember destroy', function() {
       'lib/my-addon/addon/components/x-foo.js',
       'lib/my-addon/addon/templates/components/x-foo.hbs',
       'lib/my-addon/app/components/x-foo.js',
-      'tests/unit/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
@@ -558,7 +576,7 @@ describe('Acceptance: ember destroy', function() {
       'lib/my-addon/addon/components/nested/x-foo.js',
       'lib/my-addon/addon/templates/components/nested/x-foo.hbs',
       'lib/my-addon/app/components/nested/x-foo.js',
-      'tests/unit/components/nested/x-foo-test.js'
+      'tests/integration/components/nested/x-foo-test.js'
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);

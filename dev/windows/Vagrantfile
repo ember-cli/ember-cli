@@ -5,7 +5,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
-    vb.cpus = 1
+    vb.cpus = 2
+    vb.memory = 2048
+    vb.customize ["modifyvm", :id, "--vram", "256"]
+
   end
 
   config.vm.provision "shell", path: "install.ps1"

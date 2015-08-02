@@ -1,16 +1,14 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
-import startApp from '<%= dasherizedPackageName %>/tests/helpers/start-app';
-
-var application;
+import startApp from '<%= testFolderRoot %>/tests/helpers/start-app';
 
 module('<%= friendlyTestName %>', {
   beforeEach: function() {
-    application = startApp();
+    this.application = startApp();
   },
 
   afterEach: function() {
-    Ember.run(application, 'destroy');
+    Ember.run(this.application, 'destroy');
   }
 });
 

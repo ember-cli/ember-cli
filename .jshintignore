@@ -1,3 +1,5 @@
+tmp/*
 node_modules/*
-blueprints/*
+coverage/*
+blueprints/**/files/**/*.js
 tests/fixtures/*

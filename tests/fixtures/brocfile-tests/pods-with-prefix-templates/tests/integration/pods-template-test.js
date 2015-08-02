@@ -1,18 +1,16 @@
 /*jshint strict:false */
-/* globals QUnit, visit, andThen */
+/* globals visit, andThen */
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import { module, test } from 'qunit';
 
-var application;
-
 module('pods based templates', {
   beforeEach: function() {
-    application = startApp();
+    this.application = startApp();
   },
   afterEach: function() {
-    Ember.run(application, 'destroy');
+    Ember.run(this.application, 'destroy');
   }
 });
 

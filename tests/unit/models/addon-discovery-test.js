@@ -388,6 +388,9 @@ describe('models/addon-discovery.js', function() {
           devDependencies: {
             'dev-dep-bar': 'latest'
           }
+        },
+        hasDependencies: function() {
+          return true;
         }
       };
 

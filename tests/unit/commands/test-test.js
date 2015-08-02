@@ -3,13 +3,14 @@
 var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
 var stub           = require('../../helpers/stub').stub;
+var existsSync     = require('exists-sync');
 var Promise        = require('../../../lib/ext/promise');
 var Task           = require('../../../lib/models/task');
 var CoreObject     = require('core-object');
 var path           = require('path');
 var fs             = require('fs');
-
-var TestCommand = require('../../../lib/commands/test');
+var TestCommand    = require('../../../lib/commands/test');
+var MockProject    = require('../../helpers/mock-project');
 
 describe('test command', function() {
   var tasks;
@@ -25,10 +26,13 @@ describe('test command', function() {
       TestServer: Task.extend()
     };
 
+    var project = new MockProject();
+    project.isEmberCLIProject = function() { return true; };
     options = commandOptions({
       tasks: tasks,
       testing: true,
-      settings: {}
+      settings: {},
+      project: project
     });
 
     stub(tasks.Test.prototype,  'run', Promise.resolve());
@@ -68,19 +72,43 @@ describe('test command', function() {
     });
   });
 
+  it('does not pass any port options', function() {
+    return new TestCommand(options).validateAndRun([]).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(7357);
+    });
+  });
+
+  it('passes through a custom test port option', function() {
+    return new TestCommand(options).validateAndRun(['--test-port=5679']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(5679);
+    });
+  });
+
+  it('only passes through the port option', function() {
+    return new TestCommand(options).validateAndRun(['--port=5678']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(5679);
+    });
+  });
+
+  it('passes both the port and the test port options', function() {
+    return new TestCommand(options).validateAndRun(['--port=5678', '--test-port=5900']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(5900);
+    });
+  });
+
   it('passes through custom host option', function() {
     return new TestCommand(options).validateAndRun(['--host=greatwebsite.com']).then(function() {
       var testOptions  = testRun.calledWith[0][0];
 
       expect(testOptions.host).to.equal('greatwebsite.com');
-    });
-  });
-
-  it('passes through custom port option', function() {
-    return new TestCommand(options).validateAndRun(['--port=5678']).then(function() {
-      var testOptions  = testRun.calledWith[0][0];
-
-      expect(testOptions.port).to.equal(5678);
     });
   });
 
@@ -100,7 +128,7 @@ describe('test command', function() {
 
     it('builds a watcher with verbose set to false', function() {
       return new TestCommand(options).validateAndRun(['--server']).then(function() {
-        var testOptions  = testServerRun.calledWith[0][0];
+        var testOptions = testServerRun.calledWith[0][0];
 
         expect(testOptions.watcher.verbose, false);
       });
@@ -135,25 +163,26 @@ describe('test command', function() {
     it('should return a valid path', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
-      expect(fs.existsSync(newPath));
+      expect(existsSync(newPath));
     });
 
-    it('should return the original path if filter or module or launch isn\'t present', function() {
+    it('should return the original path if options are not present', function() {
       var originalPath = runOptions.configFile;
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.equal(originalPath);
     });
 
-    it('when module and filter and launch option is present the new file path returned exists', function() {
+    it('when options are present the new file path returned exists', function() {
       var originalPath = runOptions.configFile;
       runOptions.module = 'fooModule';
       runOptions.filter = 'bar';
       runOptions.launch = 'fooLauncher';
+      runOptions['test-page'] = 'foo/test.html?foo';
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when filter option is present the new file path returned exists', function() {
@@ -162,7 +191,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when module option is present the new file path returned exists', function() {
@@ -171,7 +200,7 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when launch option is present the new file path returned exists', function() {
@@ -180,7 +209,16 @@ describe('test command', function() {
       var newPath = command._generateCustomConfigFile(runOptions);
 
       expect(newPath).to.not.equal(originalPath);
-      expect(fs.existsSync(newPath), 'file should exist');
+      expect(existsSync(newPath), 'file should exist');
+    });
+
+    it('when test-page option is present the new file path returned exists', function() {
+      var originalPath = runOptions.configFile;
+      runOptions['test-page'] = 'foo/test.html?foo';
+      var newPath = command._generateCustomConfigFile(runOptions);
+
+      expect(newPath).to.not.equal(originalPath);
+      expect(existsSync(newPath), 'file should exist');
     });
 
     it('when provided filter and module the new file returned contains the both option values in test_page', function() {
@@ -190,6 +228,24 @@ describe('test command', function() {
       var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
 
       expect(contents['test_page']).to.be.equal('tests/index.html?module=fooModule&filter=bar');
+    });
+
+    it('when provided test-page the new file returned contains the value in test_page', function() {
+      runOptions['test-page'] = 'foo/test.html?foo';
+      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      expect(contents['test_page']).to.be.equal('foo/test.html?foo&');
+    });
+
+    it('when provided test-page with filter and module the new file returned contains those values in test_page', function() {
+      runOptions.module = 'fooModule';
+      runOptions.filter = 'bar';
+      runOptions['test-page'] = 'foo/test.html?foo';
+      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+
+      expect(contents['test_page']).to.be.equal('foo/test.html?foo&module=fooModule&filter=bar');
     });
 
     it('when provided launch the new file returned contains the value in launch', function() {

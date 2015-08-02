@@ -52,24 +52,24 @@ describe('Acceptance: ember install', function() {
     });
   }
 
-  it('installs via npm and runs generator', function() {
-    return installAddon(['ember-cli-fastclick']).then(function(result) {
+  it('installs addons via npm and runs generators', function() {
+    return installAddon(['ember-cli-fastclick', 'ember-cli-photoswipe']).then(function(result) {
       assertFile('package.json', {
         contains: [
-          /"ember-cli-fastclick": ".*"/
+          /"ember-cli-fastclick": ".*"/,
+          /"ember-cli-photoswipe": ".*"/
         ]
       });
 
       assertFile('bower.json', {
         contains: [
-          /"fastclick": ".*"/
+          /"fastclick": ".*"/,
+          /"photoswipe": ".*"/
         ]
       });
-      
+
       expect(result.ui.output).not.to.include('The `ember generate` command '+
-        'requires an entity name to be specified. For more details, use `ember help`.');
-        
+                                              'requires an entity name to be specified. For more details, use `ember help`.');
     });
   });
-  
 });

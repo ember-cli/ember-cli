@@ -7,8 +7,10 @@ var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var conf              = require('./conf');
+var existsSync        = require('exists-sync');
 var copy              = Promise.denodeify(require('cpr'));
 var root              = process.cwd();
+var exec              = Promise.denodeify(require('child_process').exec);
 
 var onOutput = {
   onOutput: function() {
@@ -26,10 +28,10 @@ function downloaded(item) {
   var exists = false;
   switch (item) {
     case 'node_modules':
-      exists = fs.existsSync(path.join(root, '.node_modules-tmp'));
+      exists = existsSync(path.join(root, '.node_modules-tmp'));
       break;
     case 'bower_components':
-      exists = fs.existsSync(path.join(root, '.bower_components-tmp'));
+      exists = existsSync(path.join(root, '.bower_components-tmp'));
       break;
   }
 
@@ -40,7 +42,7 @@ function mvRm(from, to) {
   var dir = path.join(root, to);
   from = path.resolve(from);
 
-  if (!fs.existsSync(dir)) {
+  if (!existsSync(dir)) {
     fs.mkdirsSync(dir);
     fs.copySync(from, to);
     fs.removeSync(from);
@@ -53,7 +55,7 @@ function symLinkDir(projectPath, from, to) {
 
 function applyCommand(command, name /*, ...flags*/) {
   var flags = [].slice.call(arguments, 2, arguments.length);
-  var args = [path.join('..', 'bin', 'ember'), command, '--skip-git', name, onOutput];
+  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, onOutput];
 
   flags.forEach(function(flag) {
     args.splice(2, 0, flag);
@@ -84,13 +86,14 @@ function createTestTargets(projectName, options) {
   options = options || {};
   options.command = options.command || 'new';
 
+  var noNodeModules = !downloaded('node_modules');
   // Fresh install
-  if (!downloaded('node_modules') && !downloaded('bower_components')) {
+  if (noNodeModules && !downloaded('bower_components')) {
     command = function() {
       return applyCommand(options.command, projectName);
     };
     // bower_components but no node_modules
-  } else if (!downloaded('node_modules') && downloaded('bower_components')) {
+  } else if (noNodeModules && downloaded('bower_components')) {
     command = function() {
       return applyCommand(options.command, projectName, '--skip-bower');
     };
@@ -107,8 +110,17 @@ function createTestTargets(projectName, options) {
   }
 
   return createTmp(function() {
-    return command();
-  }).catch(handleResult).finally(function () {
+    return command().
+      catch(handleResult).
+      then(function(value) {
+        if (noNodeModules) {
+          return exec('npm install ember-disable-prototype-extensions').then(function() {
+            return value;
+          });
+        }
+
+        return value;
+    });
   });
 }
 
@@ -141,11 +153,11 @@ function linkDependencies(projectName) {
     mvRm(bowerComponentsPath, '.bower_components-tmp');
 
 
-    if (!fs.existsSync(nodeModulesPath)) {
+    if (!existsSync(nodeModulesPath)) {
       symLinkDir(targetPath, '.node_modules-tmp', 'node_modules');
     }
 
-    if (!fs.existsSync(bowerComponentsPath)) {
+    if (!existsSync(bowerComponentsPath)) {
       symLinkDir(targetPath, '.bower_components-tmp', 'bower_components');
     }
 

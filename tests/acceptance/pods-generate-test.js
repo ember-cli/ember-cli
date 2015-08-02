@@ -179,10 +179,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -268,10 +270,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -289,10 +293,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/components/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/components/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -310,10 +316,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/components/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/components/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/components/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -331,10 +339,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/components/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/components/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/components/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -352,10 +362,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('bar/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -373,10 +385,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('bar/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -394,10 +408,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('bar/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -415,10 +431,11 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/foo/x-foo'"
+          "moduleForComponent('bar/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -436,10 +453,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/baz/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/baz/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/baz/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('bar/baz/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -457,10 +476,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/baz/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/baz/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/baz/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('bar/baz/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -478,10 +499,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/bar/baz/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/bar/baz/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/bar/baz/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('bar/baz/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -499,10 +522,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/bar/baz/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/bar/baz/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/bar/baz/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('bar/baz/foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('bar/baz/foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -520,10 +545,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/x-foo/component-test.js', {
+      assertFile('tests/integration/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -541,10 +568,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -562,10 +591,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -583,10 +614,12 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/x-foo/template.hbs', {
         contains: "{{yield}}"
       });
-      assertFile('tests/unit/pods/foo/x-foo/component-test.js', {
+      assertFile('tests/integration/pods/foo/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('foo/x-foo'"
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('foo/x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -599,7 +632,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
+                  "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
         contains: "import { fooBar } from '../../../helpers/foo-bar';"
@@ -614,7 +647,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBar(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" +  EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBar);"
+                  "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
         contains: "import { fooBar } from '../../../helpers/foo-bar';"
@@ -629,7 +662,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
@@ -644,7 +677,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export function fooBarBaz(params/*, hash*/) {" + EOL +
                   "  return params;" + EOL +
                   "}" + EOL + EOL +
-                  "export default Ember.HTMLBars.makeBoundHelper(fooBarBaz);"
+                  "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
         contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
@@ -1435,14 +1468,14 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   it('service foo --pod', function() {
-    return generate(['service', 'foo']).then(function() {
-      assertFile('app/services/foo.js', {
+    return generate(['service', 'foo', '--pod']).then(function() {
+      assertFile('app/foo/service.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
-      assertFile('tests/unit/services/foo-test.js', {
+      assertFile('tests/unit/foo/service-test.js', {
         contains: [
           "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('service:foo'"
@@ -1452,14 +1485,48 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   it('service foo/bar --pod', function() {
-    return generate(['service', 'foo/bar']).then(function() {
-      assertFile('app/services/foo/bar.js', {
+    return generate(['service', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/foo/bar/service.js', {
         contains: [
           "import Ember from 'ember';",
           'export default Ember.Service.extend({' + EOL + '});'
         ]
       });
-      assertFile('tests/unit/services/foo/bar-test.js', {
+      assertFile('tests/unit/foo/bar/service-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('service:foo/bar'"
+        ]
+      });
+    });
+  });
+
+  it('service foo --pod podModulePrefix', function() {
+    return generateWithPrefix(['service', 'foo', '--pod']).then(function() {
+      assertFile('app/pods/foo/service.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Service.extend({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/pods/foo/service-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('service:foo'"
+        ]
+      });
+    });
+  });
+
+  it('service foo/bar --pod podModulePrefix', function() {
+    return generateWithPrefix(['service', 'foo/bar', '--pod']).then(function() {
+      assertFile('app/pods/foo/bar/service.js', {
+        contains: [
+          "import Ember from 'ember';",
+          'export default Ember.Service.extend({' + EOL + '});'
+        ]
+      });
+      assertFile('tests/unit/pods/foo/bar/service-test.js', {
         contains: [
           "import { moduleFor, test } from 'ember-qunit';",
           "moduleFor('service:foo/bar'"
@@ -1657,10 +1724,11 @@ describe('Acceptance: ember generate pod', function() {
           "export { default } from 'my-addon/components/x-foo/component';"
         ]
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -1685,10 +1753,11 @@ describe('Acceptance: ember generate pod', function() {
           "export { default } from 'my-addon/components/x-foo/component';"
         ]
       });
-      assertFile('tests/unit/components/x-foo/component-test.js', {
+      assertFile('tests/integration/components/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('x-foo'"
+          "moduleForComponent('x-foo'",
+          "integration: true"
         ]
       });
     });
@@ -1713,10 +1782,11 @@ describe('Acceptance: ember generate pod', function() {
           "export { default } from 'my-addon/components/nested/x-foo/component';"
         ]
       });
-      assertFile('tests/unit/components/nested/x-foo/component-test.js', {
+      assertFile('tests/integration/components/nested/x-foo/component-test.js', {
         contains: [
           "import { moduleForComponent, test } from 'ember-qunit';",
-          "moduleForComponent('nested/x-foo'"
+          "moduleForComponent('nested/x-foo'",
+          "integration: true"
         ]
       });
     });
