@@ -5,6 +5,30 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 1.13.7
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/c36b2e35b9ef2a66d6f01f360831c6ec9707c5d7)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/d77330079ca14a1d0e39383cce87565c1c2d742f)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#3239](https://github.com/ember-cli/ember-cli/pull/3239) ENHANCEMENT: Added `--test-port`/`testPort` option to configure test port [@patocallaghan](https://github.com/patocallaghan)
+- [#4545](https://github.com/ember-cli/ember-cli/pull/4545) bump es6modules to fix IE8 issue [@ember-cli](https://github.com/ember-cli)
+- [#4549](https://github.com/ember-cli/ember-cli/pull/4549) adding 1.13.5 diff to changelog [@kellyselden](https://github.com/kellyselden)
+- [#4553](https://github.com/ember-cli/ember-cli/pull/4553) [Bugfix] addAddonToProject fix for 1.13.5 [@jasonmit](https://github.com/jasonmit)
+
+Thank you to all who took the time to contribute!
+
 ### 1.13.6
 
 The following changes are required if you are upgrading from the previous
