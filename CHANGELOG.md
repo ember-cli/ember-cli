@@ -1,5 +1,32 @@
 # ember-cli Changelog
 
+### 1.13.7
+
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#4558](https://github.com/ember-cli/ember-cli/pull/4558) ensure we apply patches at the right part of the release. [@ember-cli](https://github.com/ember-cli)
+- [#4559](https://github.com/ember-cli/ember-cli/pull/4559) bundle testem [@ember-cli](https://github.com/ember-cli)
+- [#4560](https://github.com/ember-cli/ember-cli/pull/4560) Update ember-qunit to 0.4.9. [@rwjblue](https://github.com/rwjblue)
+- [#4561](https://github.com/ember-cli/ember-cli/pull/4561) Upgrade to Broccoli 0.16.5 [@joliss](https://github.com/joliss)
+- [#4564](https://github.com/ember-cli/ember-cli/pull/4564) add 1.13.6 diffs to changelog [@kellyselden](https://github.com/kellyselden)
+- [#4569](https://github.com/ember-cli/ember-cli/pull/4569) Update Ember to v1.13.6. [@rwjblue](https://github.com/rwjblue)
+- [#4572](https://github.com/ember-cli/ember-cli/pull/4572) Update QUnit version to 1.18.0. [@rwjblue](https://github.com/rwjblue)
+- [#4589](https://github.com/ember-cli/ember-cli/pull/4589) Fixes issue with smoke test failure. [@rickharrison](https://github.com/rickharrison)
+
+Thank you to all who took the time to contribute!
+
 ### 1.13.6
 
 The following changes are required if you are upgrading from the previous
