@@ -14,7 +14,7 @@ var tmproot    = path.join(root, 'tmp');
 var expect     = require('chai').expect;
 
 describe('Acceptance: ember install', function() {
-  this.timeout(30000);
+  this.timeout(60000);
   var tmpdir;
 
   before(function() {
