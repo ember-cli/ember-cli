@@ -11,11 +11,11 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
-  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/c36b2e35b9ef2a66d6f01f360831c6ec9707c5d7)
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/6a41c5cd7f0f68e7cf710268376d0349c5b57171)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/d77330079ca14a1d0e39383cce87565c1c2d742f)
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/f6f61d55c31d631203bc5491432b435e2cc807c2)
   + No changes required
 - Core Contributors
   + No changes required
