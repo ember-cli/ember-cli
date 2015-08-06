@@ -64,7 +64,7 @@ version:
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
 )
   + We now bundle ember.js 1.13.5 and ember-data 1.13.7 by default, but please note you can change these by updating bower.json
-  + We have included support for [Subresource Integrety (SRI)](http://www.w3.org/TR/SRI) by default, to find out more checkout our site's [SRI section](http://www.ember-cli.com/user-guide/#subresource-integrity)
+  + We have included support for [Subresource Integrity (SRI)](http://www.w3.org/TR/SRI) by default, to find out more checkout our site's [SRI section](http://www.ember-cli.com/user-guide/#subresource-integrity)
   + Please note: Testem will now error if a specified runner is missing.
   + When installing ember-cli, one can use `npm install ember-cli --no-optional` to skip all native dependencies.
 - Addon Developers
