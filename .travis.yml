@@ -14,7 +14,7 @@ os:
   - linux
 script: npm run-script test-all:cover
 install:
-  - test $TRAVIS_OS_NAME = "osx" && brew update && brew install nvm && source $(brew --prefix nvm)/nvm.sh || test $TRAVIS_OS_NAME = "linux"
+  - test $TRAVIS_OS_NAME = "osx" && brew update && brew install nvm && source $(brew --prefix nvm)/nvm.sh && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
   - nvm install $NODE_VERSION
   - node --version
   - npm --version
