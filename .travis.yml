@@ -11,9 +11,10 @@ os:
   - osx
   - linux
 script: npm run-script test-all:cover
-install:
+before_install:
   - test $TRAVIS_OS_NAME = "osx" && brew update && brew install nvm && source $(brew --prefix nvm)/nvm.sh && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
   - nvm install $NODE_VERSION
+install:
   - node --version
   - npm --version
   - git --version
