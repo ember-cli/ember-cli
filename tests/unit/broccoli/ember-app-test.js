@@ -345,17 +345,6 @@ describe('broccoli/ember-app', function() {
 
           expect(addonTreesForStub.calledWith[0][0]).to.equal('app');
         });
-
-        it('styles calls addonTreesFor and merges with overwrite', function() {
-          var trees = emberApp.styles();
-
-          expect(addonTreesForStub.calledWith[0][0]).to.equal('styles');
-          // TODO: don't rely on private API
-          var tree = trees._inputNodes[0].inputTree;
-
-          expect(tree._inputNodes.indexOf('batman') !== -1).to.equal(true, 'contains addon tree');
-          expect(tree.options.overwrite).to.equal(true);
-        });
       });
     });
     describe('postprocessTree is called properly', function() {
