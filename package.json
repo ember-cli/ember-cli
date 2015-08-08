@@ -81,7 +81,7 @@
     "broccoli-filter": "0.1.14",
     "broccoli-funnel": "0.2.3",
     "broccoli-kitchen-sink-helpers": "0.2.7",
-    "broccoli-merge-trees": "0.2.1",
+    "broccoli-merge-trees": "0.2.2",
     "broccoli-sane-watcher": "^1.1.1",
     "broccoli-sourcemap-concat": "^1.0.0",
     "broccoli-unwatched-tree": "0.1.1",
