@@ -1,5 +1,34 @@
 # ember-cli Changelog
 
+### 1.13.7
+
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/6a41c5cd7f0f68e7cf710268376d0349c5b57171)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/f6f61d55c31d631203bc5491432b435e2cc807c2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#4558](https://github.com/ember-cli/ember-cli/pull/4558) ensure we apply patches at the right part of the release. [@ember-cli](https://github.com/ember-cli)
+- [#4559](https://github.com/ember-cli/ember-cli/pull/4559) bundle testem [@ember-cli](https://github.com/ember-cli)
+- [#4560](https://github.com/ember-cli/ember-cli/pull/4560) Update ember-qunit to 0.4.9. [@rwjblue](https://github.com/rwjblue)
+- [#4561](https://github.com/ember-cli/ember-cli/pull/4561) Upgrade to Broccoli 0.16.5 [@joliss](https://github.com/joliss)
+- [#4564](https://github.com/ember-cli/ember-cli/pull/4564) add 1.13.6 diffs to changelog [@kellyselden](https://github.com/kellyselden)
+- [#4569](https://github.com/ember-cli/ember-cli/pull/4569) Update Ember to v1.13.6. [@rwjblue](https://github.com/rwjblue)
+- [#4572](https://github.com/ember-cli/ember-cli/pull/4572) Update QUnit version to 1.18.0. [@rwjblue](https://github.com/rwjblue)
+- [#4589](https://github.com/ember-cli/ember-cli/pull/4589) Fixes issue with smoke test failure. [@rickharrison](https://github.com/rickharrison)
+
+Thank you to all who took the time to contribute!
+
 ### 1.13.6
 
 The following changes are required if you are upgrading from the previous
@@ -34,7 +63,7 @@ version:
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
   + We now bundle ember.js 1.13.5 and ember-data 1.13.7 by default, but please note you can change these by updating bower.json
-  + We have included support for [Subresource Integrety (SRI)](http://www.w3.org/TR/SRI) by default, to find out more checkout our site's [SRI section](http://www.ember-cli.com/user-guide/#subresource-integrity)
+  + We have included support for [Subresource Integrity (SRI)](http://www.w3.org/TR/SRI) by default, to find out more checkout our site's [SRI section](http://www.ember-cli.com/user-guide/#subresource-integrity)
   + Please note: Testem will now error if a specified runner is missing.
   + When installing ember-cli, one can use `npm install ember-cli --no-optional` to skip all native dependencies.
 - Addon Developers
