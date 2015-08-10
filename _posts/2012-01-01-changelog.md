@@ -5,6 +5,50 @@ permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
 
+### 1.13.8
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + default ember is now at 1.13.7 (but feel free to upgrade/downgrade as desired)
+  + default ember-data is now at 1.13.8 (but feel free to upgrade/downgrade as desired)
+  + for users with very large bower_components directories, rebuild times should improve
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#4599](https://github.com/ember-cli/ember-cli/pull/4599) Update valid-platform-version.js [@stefanpenner](https://github.com/stefanpenner)
+- [#4590](https://github.com/ember-cli/ember-cli/pull/4590) Remove `ember update` mention in update-checker [@quaertym](https://github.com/quaertym)
+- [#4582](https://github.com/ember-cli/ember-cli/pull/4582) blueprints/app/package.json: Sort scripts alphabetically [@Turbo87](https://github.com/Turbo87)
+- [#4577](https://github.com/ember-cli/ember-cli/pull/4577) Adding more help acceptance tests [@kellyselden](https://github.com/kellyselden)
+- [#4621](https://github.com/ember-cli/ember-cli/pull/4621) bump funnel, and prefer globs for includes. [@stefanpenner](https://github.com/stefanpenner)
+- [#4598](https://github.com/ember-cli/ember-cli/pull/4598) bump timeout, see if iojs on CI becomes happy again [@stefanpenner](https://github.com/stefanpenner)
+- [#4596](https://github.com/ember-cli/ember-cli/pull/4596) Bump version of ember-cli-app-version to 0.5.0 [@taras](https://github.com/taras)
+- [#4591](https://github.com/ember-cli/ember-cli/pull/4591) Revert "Remove `ember update` mention in update-checker" [@stefanpenner](https://github.com/stefanpenner)
+- [#4597](https://github.com/ember-cli/ember-cli/pull/4597) update to ember-cli-qunit v1.0.0 [@stefanpenner](https://github.com/stefanpenner)
+- [#4593](https://github.com/ember-cli/ember-cli/pull/4593) Remove ember update mention in update-checker [@quaertym](https://github.com/quaertym)
+- [#4628](https://github.com/ember-cli/ember-cli/pull/4628) a couple more tests that weren't being run [@kellyselden](https://github.com/kellyselden)
+- [#4606](https://github.com/ember-cli/ember-cli/pull/4606) [TYPO] SRI changelog typo fix [@jonathanKingston](https://github.com/jonathanKingston)
+- [#4601](https://github.com/ember-cli/ember-cli/pull/4601) update broccoli-caching-writer [@stefanpenner](https://github.com/stefanpenner);
+- [#4630](https://github.com/ember-cli/ember-cli/pull/4630) Update blueprint dependencies [@btecu](https://github.com/btecu)
+- [#4611](https://github.com/ember-cli/ember-cli/pull/4611) Update Ember Data dependency to 1.13.8 [@bmac](https://github.com/bmac)
+- [#4638](https://github.com/ember-cli/ember-cli/pull/4638) broccoli-plugin now uses annotation, rather then our own convention o… [@stefanpenner](https://github.com/stefanpenner)
+- [#4622](https://github.com/ember-cli/ember-cli/pull/4622) Upgrade merge trees [@stefanpenner](https://github.com/stefanpenner)
+- [#4625](https://github.com/ember-cli/ember-cli/pull/4625) bump broccoli-caching-writer to 1.1.0 [@kellyselden](https://github.com/kellyselden)
+- [#4627](https://github.com/ember-cli/ember-cli/pull/4627) fix test that was never being run [@kellyselden](https://github.com/kellyselden)
+- [#4629](https://github.com/ember-cli/ember-cli/pull/4629) broccoli-asset-rev to 2.1.2 [@kellyselden](https://github.com/kellyselden)
+- [#4632](https://github.com/ember-cli/ember-cli/pull/4632) Windows CI: Removed npm upgrade [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#4636](https://github.com/ember-cli/ember-cli/pull/4636) Update Ember version to 1.13.7. [@rwjblue](https://github.com/rwjblue)
+- [#4637](https://github.com/ember-cli/ember-cli/pull/4637) [INTERNAL] Prefer globs over RegExps as funnel arguments [@dschmidt](https://github.com/dschmidt)
+- [#4642](https://github.com/ember-cli/ember-cli/pull/4642) bump broccoli-funnel [@stefanpenner](https://github.com/stefanpenner)
+- [#4643](https://github.com/ember-cli/ember-cli/pull/4643) Support a (now deprecated) single-argument use of addBowerPackageToProject [@mike-north](https://github.com/mike-north)
+
 ### 1.13.7
 
 The following changes are required if you are upgrading from the previous
