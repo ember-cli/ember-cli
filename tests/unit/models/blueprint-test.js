@@ -879,7 +879,7 @@ describe('Blueprint', function() {
       tmpdir    = tmp.in(tmproot);
       blueprint = new Blueprint(basicBlueprint);
       ui        = new MockUI();
-
+      blueprint.ui = ui;
       blueprint.taskFor = function(name) {
         taskNameLookedUp = name;
 
@@ -922,7 +922,15 @@ describe('Blueprint', function() {
 
       blueprint.addBowerPackageToProject('foo-bar-local', 'http://twitter.github.io/bootstrap/assets/bootstrap');
     });
+    
+    it('correctly handles a single versioned package descriptor as argument (1) (DEPRECATED)', function() {
+      blueprint.ui = ui;
+      blueprint.addBowerPackagesToProject = function(packages) {
+        expect(packages).to.deep.equal([{name: 'foo-bar', target: '1.11.1', source: 'foo-bar'}]);
+      };
 
+      blueprint.addBowerPackageToProject('foo-bar#1.11.1');
+    });
   });
 
   describe('addBowerPackagesToProject', function() {
