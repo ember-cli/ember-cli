@@ -11,12 +11,14 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/db09559dc922eafdfb6723969b53dfff1a8f5331)
   + default ember is now at 1.13.7 (but feel free to upgrade/downgrade as desired)
   + default ember-data is now at 1.13.8 (but feel free to upgrade/downgrade as desired)
   + for users with very large bower_components directories, rebuild times should improve
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/aaf7faebf1ca721382d281dd3125b24c7a752c7e)
   + No changes required
 - Core Contributors
   + No changes required
