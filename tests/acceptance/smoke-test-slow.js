@@ -18,7 +18,7 @@ var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
-describe.only('Acceptance: smoke-test', function() {
+describe('Acceptance: smoke-test', function() {
   this.timeout(400000);
   before(function() {
     return createTestTargets(appName);
@@ -81,7 +81,7 @@ describe.only('Acceptance: smoke-test', function() {
       });
   });
 
-  it('ember new foo, build production and verify fingerprint', function() {
+  it.only('ember new foo, build production and verify fingerprint', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
       .then(function() {
         var dirPath = path.join('.', 'dist', 'assets');
