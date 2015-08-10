@@ -81,7 +81,7 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
-  it.only('ember new foo, build production and verify fingerprint', function() {
+  it('ember new foo, build production and verify fingerprint', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
       .then(function() {
         var dirPath = path.join('.', 'dist', 'assets');
@@ -98,6 +98,9 @@ describe('Acceptance: smoke-test', function() {
           var file = fs.readFileSync(path.join(dirPath, filepath), { encoding: null });
 
           var md5 = crypto.createHash('md5');
+          console.log(filepath);
+          console.log(file);
+          console.log('----');
           md5.update(file);
           var hex = md5.digest('hex');
 
