@@ -305,7 +305,7 @@ var app = new EmberApp({
 });
 {% endhighlight %}
 
-You may edit any of these output paths, but make sure to update your `app.outputPaths.app.index`, default it is `index.html`, and `tests/index.html`.
+You may edit any of these output paths, but make sure to update your `app.outputPaths.app.html`, default it is `index.html`, and `tests/index.html`.
 
 {% highlight javascript %}
 var app = new EmberApp({
