@@ -18,7 +18,7 @@ var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
-describe('Acceptance: smoke-test', function() {
+describe.only('Acceptance: smoke-test', function() {
   this.timeout(400000);
   before(function() {
     return createTestTargets(appName);
