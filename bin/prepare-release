@@ -8,5 +8,6 @@ npm link --no-optional && \
 ./patches/patch-engine-io-client.js && \
 ./patches/patch-ws.js && \
 npm pack && \
+du -sh ./ember-cli-*.tgz && \
 npm uninstall -g ember-cli && \
 npm i -g ./ember-cli-*.tgz
