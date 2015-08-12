@@ -98,6 +98,9 @@ describe('Acceptance: smoke-test', function() {
           var file = fs.readFileSync(path.join(dirPath, filepath), { encoding: null });
 
           var md5 = crypto.createHash('md5');
+          console.log(filepath);
+          console.log(file);
+          console.log('----');
           md5.update(file);
           var hex = md5.digest('hex');
 
