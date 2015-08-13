@@ -2,15 +2,16 @@
 
 'use strict';
 
-var path    = require('path');
-var tmp     = require('tmp-sync');
-var expect  = require('chai').expect;
-var EOL     = require('os').EOL;
-var ember   = require('../../helpers/ember');
-var Promise = require('../../../lib/ext/promise');
-var remove  = Promise.denodeify(require('fs-extra').remove);
-var root    = process.cwd();
-var tmproot = path.join(root, 'tmp');
+var path              = require('path');
+var tmp               = require('tmp-sync');
+var expect            = require('chai').expect;
+var EOL               = require('os').EOL;
+var ember             = require('../../helpers/ember');
+var processHelpString = require('../../helpers/process-help-string');
+var Promise           = require('../../../lib/ext/promise');
+var remove            = Promise.denodeify(require('fs-extra').remove);
+var root              = process.cwd();
+var tmproot           = path.join(root, 'tmp');
 var tmpdir;
 
 describe('Acceptance: ember help help', function() {
@@ -32,12 +33,14 @@ describe('Acceptance: ember help help', function() {
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m' + EOL + '\
   Outputs the usage instructions for all commands or the provided command' + EOL + '\
 \u001b[90m  aliases: h, --help, -h' + EOL + '\
 \u001b[39m\u001b[36m  --verbose\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
     aliases: -v\u001b[39m' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -49,7 +52,9 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options.
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -61,7 +66,9 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options.
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -73,7 +80,9 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options.
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember help \u001b[33m<command-name (Default: all)>\u001b[39m\u001b[36m <options...>\u001b[39m');
+
+      expect(output).to.include(testString);
     });
   });
 });

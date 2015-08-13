@@ -159,7 +159,9 @@
     "multiline": "^1.0.2",
     "nock": "^1.2.1",
     "node-require-timings": "1.0.0",
+    "strip-ansi": "^2.0.0",
     "supertest": "0.15.0",
+    "supports-color": "^3.0.0",
     "tmp-sync": "^1.0.1",
     "yuidocjs": "0.6.0"
   }
