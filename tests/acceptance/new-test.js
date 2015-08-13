@@ -157,7 +157,7 @@ describe('Acceptance: ember new', function() {
 
 
   it('ember new with git blueprint uses checks out the blueprint and uses it', function(){
-    this.timeout(10000);
+    this.timeout(20000); // relies on GH network stuff
 
     return ember([
       'new',
