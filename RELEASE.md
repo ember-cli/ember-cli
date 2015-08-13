@@ -35,17 +35,27 @@ and failures we do not want our users to endure any extra pain.
 
 1. go back to ember-cli directory
 * `git add` the modified `package.json` and `CHANGELOG.md`
-* Commit the changes `git commit -m "Release vx.y.z"` and push `git push`
-* `git tag "vx.y.z"`
-* `git push origin <vx.y.z>`
-* publish to npm
-* `npm publish ./ember-cli-<version>.tgz`
+* if publishing a stable release
+  * Commit the changes `git commit -m "Release vx.y.z"` and push `git push`
+  * `git tag "vx.y.z"`
+  * `git push origin <vx.y.z>`
+  * publish to npm
+  * `npm publish ./ember-cli-<version>.tgz`
+* if publishing a unstable channel release
+  * Commit the changes `git commit -m "Release vx.y.z-channel.n"` and push `git push`
+  * `git tag "vx.y.z-channel.n"`
+  * `git push origin <vx.y.z-channel.n>`
+  * publish to npm
+  * `npm publish ./ember-cli-<version>.tgz --tag x.y.z-channel.n`
 
 Test published version
 
 1. `npm uninstall -g ember-cli`
 * `npm cache clear`
-* `npm install -g ember-cli`
+* if confirming a channel release
+  * `npm install -g ember-cli --tag x.y.z-channel.n`
+* if confirming a regular release
+  * `npm install -g ember-cli`
 * ensure version is as expected `ember version`
 * ensure new project generates
 * ensure old project upgrades nicely
@@ -59,6 +69,7 @@ Tag the release
 
 Update the site
 
+*note: this part is only for stable release*
 1. check out gh-pages
 * update `_config.yml` version
 * update `gh-pages/_posts/2012-01-01-changelog.md`
