@@ -48,9 +48,11 @@ module.exports = {
   },
 
   _process: function(type, options) {
+    var entityName = options.entity.name;
+
     var modelOptions = merge({}, options, {
       entity: {
-        name: inflection.singularize(options.entity.name)
+        name: entityName ? inflection.singularize(entityName) : ''
       }
     });
 

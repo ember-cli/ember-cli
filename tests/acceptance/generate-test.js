@@ -18,6 +18,7 @@ var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 var expect           = require('chai').expect;
+var MockUI             = require('../helpers/mock-ui');
 
 describe('Acceptance: ember generate', function() {
   this.timeout(10000);
@@ -483,6 +484,19 @@ describe('Acceptance: ember generate', function() {
         contains: "moduleFor('route:foos'"
       });
     });
+  });
+
+  it('resource without entity name does not throw exception', function() {
+
+    var restoreWriteError = MockUI.prototype.writeError;
+    MockUI.prototype.writeError = function(error) {
+      expect(error.message).to.equal('The `ember generate` command requires an entity name to be specified. For more details, use `ember help`.');
+    };
+
+    return generate(['resource']).then(function() {
+      MockUI.prototype.writeError = restoreWriteError;
+    });
+
   });
 
   it('resource foos with --path', function() {
