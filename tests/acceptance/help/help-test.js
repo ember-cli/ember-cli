@@ -2,15 +2,16 @@
 
 'use strict';
 
-var path    = require('path');
-var tmp     = require('tmp-sync');
-var expect  = require('chai').expect;
-var EOL     = require('os').EOL;
-var ember   = require('../../helpers/ember');
-var Promise = require('../../../lib/ext/promise');
-var remove  = Promise.denodeify(require('fs-extra').remove);
-var root    = process.cwd();
-var tmproot = path.join(root, 'tmp');
+var path              = require('path');
+var tmp               = require('tmp-sync');
+var expect            = require('chai').expect;
+var EOL               = require('os').EOL;
+var ember             = require('../../helpers/ember');
+var processHelpString = require('../../helpers/process-help-string');
+var Promise           = require('../../../lib/ext/promise');
+var remove            = Promise.denodeify(require('fs-extra').remove);
+var root              = process.cwd();
+var tmproot           = path.join(root, 'tmp');
 var tmpdir;
 
 describe('Acceptance: ember help', function() {
@@ -31,10 +32,12 @@ describe('Acceptance: ember help', function() {
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
 Available commands in ember-cli:' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -45,10 +48,12 @@ Available commands in ember-cli:' + EOL);
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
 Available commands in ember-cli:' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -59,10 +64,12 @@ Available commands in ember-cli:' + EOL);
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
 Available commands in ember-cli:' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -73,10 +80,12 @@ Available commands in ember-cli:' + EOL);
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 Usage: ember \u001b[33m<command (Default: help)>\u001b[39m' + EOL + '\
 ' + EOL + '\
 Available commands in ember-cli:' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -88,10 +97,12 @@ Available commands in ember-cli:' + EOL);
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 Requested ember-cli commands:' + EOL + '\
 ' + EOL + '\
 ember addon');
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -103,10 +114,12 @@ ember addon');
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 Requested ember-cli commands:' + EOL + '\
 ' + EOL + '\
 \u001b[31mNo help entry for \'asdf\'\u001b[39m' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 });

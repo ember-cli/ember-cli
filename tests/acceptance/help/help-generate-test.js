@@ -2,15 +2,16 @@
 
 'use strict';
 
-var path    = require('path');
-var tmp     = require('tmp-sync');
-var expect  = require('chai').expect;
-var EOL     = require('os').EOL;
-var ember   = require('../../helpers/ember');
-var Promise = require('../../../lib/ext/promise');
-var remove  = Promise.denodeify(require('fs-extra').remove);
-var root    = process.cwd();
-var tmproot = path.join(root, 'tmp');
+var path              = require('path');
+var tmp               = require('tmp-sync');
+var expect            = require('chai').expect;
+var EOL               = require('os').EOL;
+var ember             = require('../../helpers/ember');
+var processHelpString = require('../../helpers/process-help-string');
+var Promise           = require('../../../lib/ext/promise');
+var remove            = Promise.denodeify(require('fs-extra').remove);
+var root              = process.cwd();
+var tmproot           = path.join(root, 'tmp');
 var tmpdir;
 
 describe('Acceptance: ember help generate', function() {
@@ -32,7 +33,7 @@ describe('Acceptance: ember help generate', function() {
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m' + EOL + '\
   Generates new code from blueprints.' + EOL + '\
 \u001b[90m  aliases: g' + EOL + '\
@@ -46,6 +47,8 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
     aliases: -dum, -id\u001b[39m' + EOL + '\
 \u001b[36m  --in-repo-addon\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: null)\u001b[39m\u001b[90m' + EOL + '\
     aliases: -in-repo <value>, -ir <value>\u001b[39m' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -57,7 +60,9 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include('ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m');
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -142,9 +147,9 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
       var output = result.ui.output;
 
       expect(output).to.include('    my-app:');
-      expect(output).to.include('      component \u001b[33m<name>\u001b[39m');
+      expect(output).to.include(processHelpString('      component \u001b[33m<name>\u001b[39m'));
       expect(output).to.include('    ember-cli:');
-      expect(output).to.include('      \u001b[90m(overridden) \u001b[39m\u001b[90mcomponent\u001b[39m');
+      expect(output).to.include(processHelpString('      \u001b[90m(overridden) \u001b[39m\u001b[90mcomponent\u001b[39m'));
     });
   });
 
@@ -157,7 +162,9 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include('The \'asdf\' blueprint does not exist in this project.');
+      var testString = processHelpString('The \'asdf\' blueprint does not exist in this project.');
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -170,9 +177,11 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
       model \u001b[33m<name>\u001b[39m \u001b[33m<attr:type>\u001b[39m' + EOL + '\
         \u001b[90mGenerates an ember-data model.\u001b[39m' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -185,8 +194,7 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
-        \u001b[0m\u001b[90mYou may generate models with as many attrs as you would like to pass. The following attribute types are supported:\u001b[39m\n\
+      var testString = processHelpString('\u001b[90mYou may generate models with as many attrs as you would like to pass. The following attribute types are supported:\u001b[39m\n\
         \u001b[33m<attr-name>\u001b[39m\n\
         \u001b[33m<attr-name>\u001b[39m:array\n\
         \u001b[33m<attr-name>\u001b[39m:boolean\n\
@@ -195,7 +203,9 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
         \u001b[33m<attr-name>\u001b[39m:number\n\
         \u001b[33m<attr-name>\u001b[39m:string\n\
         \u001b[33m<attr-name>\u001b[39m:belongs-to:\u001b[33m<model-name>\u001b[39m\n\
-        \u001b[33m<attr-name>\u001b[39m:has-many:\u001b[33m<model-name>\u001b[39m\u001b[0m\n');
+        \u001b[33m<attr-name>\u001b[39m:has-many:\u001b[33m<model-name>\u001b[39m');
+
+      expect(output).to.include(testString);
     });
   });
 });

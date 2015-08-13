@@ -2,15 +2,16 @@
 
 'use strict';
 
-var path    = require('path');
-var tmp     = require('tmp-sync');
-var expect  = require('chai').expect;
-var EOL     = require('os').EOL;
-var ember   = require('../../helpers/ember');
-var Promise = require('../../../lib/ext/promise');
-var remove  = Promise.denodeify(require('fs-extra').remove);
-var root    = process.cwd();
-var tmproot = path.join(root, 'tmp');
+var path              = require('path');
+var tmp               = require('tmp-sync');
+var expect            = require('chai').expect;
+var EOL               = require('os').EOL;
+var ember             = require('../../helpers/ember');
+var processHelpString = require('../../helpers/process-help-string');
+var Promise           = require('../../../lib/ext/promise');
+var remove            = Promise.denodeify(require('fs-extra').remove);
+var root              = process.cwd();
+var tmproot           = path.join(root, 'tmp');
 var tmpdir;
 
 describe('Acceptance: ember help init', function() {
@@ -32,7 +33,7 @@ describe('Acceptance: ember help init', function() {
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include(EOL + '\
+      var testString = processHelpString(EOL + '\
 ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m' + EOL + '\
   Creates a new ember-cli project in the current folder.' + EOL + '\
 \u001b[90m  aliases: i' + EOL + '\
@@ -48,6 +49,8 @@ ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m' 
     aliases: -sb\u001b[39m' + EOL + '\
 \u001b[36m  --name\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: )\u001b[39m\u001b[90m' + EOL + '\
     aliases: -n <value>\u001b[39m' + EOL);
+
+      expect(output).to.include(testString);
     });
   });
 
@@ -59,7 +62,9 @@ ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m' 
     .then(function(result) {
       var output = result.ui.output;
 
-      expect(output).to.include('ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember init \u001b[33m<glob-pattern>\u001b[39m\u001b[36m <options...>\u001b[39m');
+
+      expect(output).to.include(testString);
     });
   });
 });
