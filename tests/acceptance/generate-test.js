@@ -113,7 +113,9 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
     });
@@ -136,7 +138,9 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('foo/x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{foo/x-foo}}",
+          "{{#foo/x-foo}}"
         ]
       });
     });
@@ -159,7 +163,9 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
     });
@@ -172,12 +178,14 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
     });
   });
-  
+
   it('component-test x-foo --unit', function() {
     return generate(['component-test', 'x-foo', '--unit']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
