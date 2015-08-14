@@ -14,6 +14,7 @@ var util       = require('util');
 var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var EOL        = require('os').EOL;
 var assertFile = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
+var chalk      = require('chalk');
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
@@ -71,8 +72,9 @@ describe('Acceptance: ember new', function() {
       ''
     ]).then(function() {
       throw new Error('this promise should be rejected');
-    }, function(result) {
-      expect(result.errorLog[0].message).to.contain('The `ember new` command requires a name to be specified.');
+    }, function(err) {
+      expect(err.name).to.equal('SilentError');
+      expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
     });
   });
 
@@ -81,8 +83,9 @@ describe('Acceptance: ember new', function() {
       'new'
     ]).then(function() {
       throw new Error('this promise should be rejected');
-    }, function(result) {
-      expect(result.errorLog[0].message).to.contain('The `ember new` command requires a name to be specified.');
+    }, function(err) {
+      expect(err.name).to.equal('SilentError');
+      expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
     });
   });
 
@@ -117,9 +120,10 @@ describe('Acceptance: ember new', function() {
         '--skip-git'
       ]).then(function() {
         throw new Error('this promise should be rejected');
-      }, function(result) {
-        expect(result.errorLog[0].message).to.match(/You cannot use the .*new.* command inside an ember-cli project./);
+      }).catch(function(error) {
         expect(existsSync('foo')).to.be.false;
+        expect(error.name).to.equal('SilentError');
+        expect(error.message).to.equal('You cannot use the ' + chalk.green('new') + ' command inside an ember-cli project.');
       });
     }).then(confirmBlueprinted);
   });
@@ -167,7 +171,7 @@ describe('Acceptance: ember new', function() {
   });
 
 
-  it('ember new with git blueprint uses checks out the blueprint and uses it', function() {
+  it('ember new with git blueprint checks out the blueprint and uses it', function() {
     this.timeout(20000); // relies on GH network stuff
 
     return ember([
