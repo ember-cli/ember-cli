@@ -348,6 +348,7 @@ contentFor:
 included:
 postprocessTree:
 serverMiddleware:
+lintTree:
 {% endhighlight %}
 
 An example of advanced customization can be found [here](https://github.com/poetic/ember-cli-cordova/blob/master/index.js) and for server middleware [here](https://github.com/rwjblue/ember-cli-inject-live-reload/blob/master/index.js)
