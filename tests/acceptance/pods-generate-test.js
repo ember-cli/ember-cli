@@ -150,8 +150,8 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
-  it('.ember-cli usePods setting generates in basic structure with --pod flag', function() {
-    return generateWithUsePods(['controller', 'foo', '--pod']).then(function() {
+  it('.ember-cli usePods setting generates in classic structure with --classic flag', function() {
+    return generateWithUsePods(['controller', 'foo', '--classic']).then(function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",

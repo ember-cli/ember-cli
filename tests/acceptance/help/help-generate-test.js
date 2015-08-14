@@ -43,6 +43,8 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
     aliases: -v\u001b[39m' + EOL + '\
 \u001b[36m  --pod\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
     aliases: -p\u001b[39m' + EOL + '\
+\u001b[36m  --classic\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
+    aliases: -c\u001b[39m' + EOL + '\
 \u001b[36m  --dummy\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
     aliases: -dum, -id\u001b[39m' + EOL + '\
 \u001b[36m  --in-repo-addon\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: null)\u001b[39m\u001b[90m' + EOL + '\

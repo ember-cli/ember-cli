@@ -213,8 +213,8 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
   });
 
-  it('.ember-cli usePods setting destroys in basic structure with --pod flag', function() {
-    var commandArgs = ['controller', 'foo', '--pod'];
+  it('.ember-cli usePods setting destroys in classic structure with --classic flag', function() {
+    var commandArgs = ['controller', 'foo', '--classic'];
     var files       = [
       'app/controllers/foo.js',
       'tests/unit/controllers/foo-test.js'
