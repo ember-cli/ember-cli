@@ -461,6 +461,71 @@ describe('broccoli/ember-app', function() {
       });
 
     });
+
+    describe('addonLintTree', function() {
+      beforeEach(function() {
+        addon = { };
+
+        project.initializeAddons = function() {
+          this.addons = [ addon ];
+        };
+
+        emberApp = new EmberApp({
+          project: project
+        });
+      });
+
+      it('does not throw an error if lintTree is not defined', function() {
+        emberApp.addonLintTree();
+      });
+
+      it('calls lintTree on the addon', function() {
+        var actualType, actualTree;
+
+        addon.lintTree = function(type, tree) {
+          actualType = type;
+          actualTree = tree;
+
+          return 'blazorz';
+        };
+
+        var assertionsWereRun;
+
+        emberApp._mergeTrees = function(inputTree, options) {
+          expect(inputTree).to.deep.equal(['blazorz']);
+          expect(options).to.deep.equal({
+            overwrite: true,
+            annotation: 'TreeMerger (lint)'
+          });
+
+          assertionsWereRun = true;
+        };
+
+        emberApp.addonLintTree('blah', 'blam');
+
+        expect(actualType).to.equal('blah');
+        expect(actualTree).to.equal('blam');
+        expect(assertionsWereRun).to.be.true;
+      });
+
+      it('filters out tree if lintTree returns falsey', function() {
+        addon.lintTree = function() {
+          return false;
+        };
+
+        var assertionsWereRun;
+
+        emberApp._mergeTrees = function(inputTree) {
+          expect(inputTree.length).to.equal(0);
+
+          assertionsWereRun = true;
+        };
+
+        emberApp.addonLintTree();
+
+        expect(assertionsWereRun).to.be.true;
+      });
+    });
   });
 
   describe('import', function() {
