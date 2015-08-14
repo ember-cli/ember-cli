@@ -94,8 +94,8 @@ The built-in blueprints that support pods structure are:
 Blueprints that don't support pods structure will simply ignore the `--pod` option and use the default structure.
 
 If you would like to use the pods structure as the default for your project, you can set `usePods` in your `.ember-cli` config file
-to `true` (setting was previously named `usePodsByDefault`). When `usePods` is `true`, the `--pod` flag is essentially inverted. To generate or destroy a blueprint in the default
-type structure while `usePods` is `true`, use the `--pod` flag.
+to `true` (setting was previously named `usePodsByDefault`). To generate or destroy a blueprint in the classic
+type structure while `usePods` is `true`, use the `--classic` flag.
 
 With the `usePods` set to `true`.
 {% highlight javascript linenos %}
@@ -111,18 +111,19 @@ The following would occur when generating a route:
 ember generate route taco
 
 installing
-  create app/routes/taco.js
-  create app/templates/taco.hbs
-installing
-  create tests/unit/routes/taco-test.js
-
-ember generate route taco --pod
-
-installing
   create app/taco/route.js
   create app/taco/template.hbs
 installing
   create tests/unit/taco/route-test.js
+
+ember generate route taco --classic
+
+installing
+  create app/routes/taco.js
+  create app/templates/taco.hbs
+installing
+  create tests/unit/routes/taco-test.js
+  
 {% endhighlight %}
 
 ### Blueprint Structure
