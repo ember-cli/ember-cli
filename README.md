@@ -10,7 +10,7 @@
 
 The Ember.js command line utility.
 
-Supports node 0.12.x and npm 2.6.x.
+Supports node 0.12.x and npm 2.7.x and 3.x.
 
 ## Community
 * irc: #ember-cli on freenode
