@@ -1,12 +1,20 @@
 /* global escape */
+
 'use strict';
 
-var fs       = require('fs');
-var path     = require('path');
-var Project  = require('../../../lib/models/project');
-var EmberApp = require('../../../lib/broccoli/ember-app');
-var expect   = require('chai').expect;
-var stub     = require('../../helpers/stub').stub;
+var fs         = require('fs');
+var path       = require('path');
+var Project    = require('../../../lib/models/project');
+var expect     = require('chai').expect;
+var stub       = require('../../helpers/stub').stub;
+var proxyquire = require('proxyquire');
+
+var mergeTreesStub;
+var EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
+  './merge-trees': function() {
+    return mergeTreesStub.apply(this, arguments);
+  }
+});
 
 describe('broccoli/ember-app', function() {
   var project, projectPath, emberApp, addonTreesForStub, addon;
@@ -28,6 +36,8 @@ describe('broccoli/ember-app', function() {
   beforeEach(function() {
     projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
     project = setupProject(projectPath);
+
+    mergeTreesStub = require('../../../lib/broccoli/merge-trees');
   });
 
   describe('constructor', function() {
@@ -491,7 +501,7 @@ describe('broccoli/ember-app', function() {
 
         var assertionsWereRun;
 
-        emberApp._mergeTrees = function(inputTree, options) {
+        mergeTreesStub = function(inputTree, options) {
           expect(inputTree).to.deep.equal(['blazorz']);
           expect(options).to.deep.equal({
             overwrite: true,
@@ -515,7 +525,7 @@ describe('broccoli/ember-app', function() {
 
         var assertionsWereRun;
 
-        emberApp._mergeTrees = function(inputTree) {
+        mergeTreesStub = function(inputTree) {
           expect(inputTree.length).to.equal(0);
 
           assertionsWereRun = true;
