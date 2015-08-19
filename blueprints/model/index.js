@@ -1,7 +1,7 @@
 /*jshint node:true*/
 
 var inflection  = require('inflection');
-var stringUtils = require('../../lib/utilities/string');
+var stringUtils = require('ember-cli-string-utils');
 var EOL         = require('os').EOL;
 
 module.exports = {
