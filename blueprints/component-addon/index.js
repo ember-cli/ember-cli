@@ -1,7 +1,7 @@
 /*jshint node:true*/
 
 var Blueprint          = require('../../lib/models/blueprint');
-var stringUtil         = require('../../lib/utilities/string');
+var stringUtil         = require('ember-cli-string-utils');
 var validComponentName = require('../../lib/utilities/valid-component-name');
 var getPathOption      = require('../../lib/utilities/get-component-path-option');
 var path               = require('path');
