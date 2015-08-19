@@ -2,7 +2,7 @@
 
 var stringUtil  = require('../../lib/utilities/string');
 var SilentError = require('silent-error');
-var pathUtil    = require('../../lib/utilities/path');
+var pathUtil    = require('ember-cli-path-utils');
 
 module.exports = {
   description: 'Generates an ember-data adapter.',

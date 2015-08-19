@@ -1,7 +1,7 @@
 /*jshint node:true*/
 
 var testInfo    = require('ember-cli-test-info');
-var pathUtil    = require('../../lib/utilities/path');
+var pathUtil    = require('ember-cli-path-utils');
 var stringUtils = require('ember-cli-string-utils');
 
 module.exports = {
