@@ -1,5 +1,5 @@
 /*jshint node:true*/
-var isPackageMissing = require('../../lib/utilities/is-package-missing');
+var isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
   description: 'Generates a server directory for mocks and proxies.',
@@ -23,8 +23,8 @@ module.exports = {
     }
 
     if (!options.dryRun && areDependenciesMissing) {
-      return this.addPackagesToProject(libsToInstall);	
+      return this.addPackagesToProject(libsToInstall);
     }
-    
+
   }
 };
