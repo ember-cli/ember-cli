@@ -10,7 +10,7 @@ version:
   + default ember is now at 1.13.7 (but feel free to upgrade/downgrade as desired)
   + default ember-data is now at 1.13.8 (but feel free to upgrade/downgrade as desired)
   + for users with very large bower_components directories, rebuild times should improve
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/aaf7faebf1ca721382d281dd3125b24c7a752c7e)
@@ -55,7 +55,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/6a41c5cd7f0f68e7cf710268376d0349c5b57171)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/f6f61d55c31d631203bc5491432b435e2cc807c2)
@@ -83,7 +83,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/c36b2e35b9ef2a66d6f01f360831c6ec9707c5d7)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/d77330079ca14a1d0e39383cce87565c1c2d742f)
@@ -107,7 +107,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/750a6ba374fc8bb2bbb6102fcb9db399dd1c2472)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + If you haven't already, please remember to transition your Brocfile.js to ember-cli-build.js. [more details](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md#brocfile-transition)
   + We now bundle ember.js 1.13.5 and ember-data 1.13.7 by default, but please note you can change these by updating bower.json
   + We have included support for [Subresource Integrity (SRI)](http://www.w3.org/TR/SRI) by default, to find out more checkout our site's [SRI section](http://www.ember-cli.com/user-guide/#subresource-integrity)
@@ -169,7 +169,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/f1425c5073a33dfb7ff60d5254fd340046f578bd)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/dc309f7655a2cde4cd81bb75d8f274087e9d82f8)
   + No changes required
@@ -188,7 +188,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/e83bf78f9be69a6dcedd5a7e16402c6b874efceb)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + `Brocfile.js` has been deprecated in favor of `ember-cli-build.js`. See [TRANSITION.md](https://github.com/ember-cli/ember-cli/blob/master/TRANSITION.md) for details on how to transition your `Brocfile.js` code to `ember-cli-build.js`.
   + Components are now generated with integration tests by default instead of unit tests. Component unit tests can still be generated separately with: `ember g component-test foo-bar -unit`.
   + Services can now be generated into pod structure.
@@ -267,7 +267,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/8cd6f5ee0012d3e4960dd9204c9e459f05babd15)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/d59788f7a175376a16e8f4890ac40e6eabb7b9dd)
   + No changes required
@@ -292,7 +292,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/734a6b49d4c88ea6431d2793b49477aed70fc220)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + `ember server` can now be started over `https`. Default ssl
     certificate and ssl key paths are `ssl/server.crt` and
     `ssl/server.key` respectively. Custom paths can be added with
@@ -363,7 +363,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/f49b35bbb243b6e3b8e20fb2a9c69a2fa13a6aec)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + package.json
      + Upgrade `ember-cli-qunit` to `0.3.13`.
      + Make sure that `ember-cli-dependency-checker` is using caret `^1.0.0`.
@@ -388,7 +388,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/964c80924d665adfde3ce31acaac5c26b95a1bc0)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + Apps now have [ember-disable-proxy-controllers](https://github.com/cibernox/ember-disable-proxy-controllers)
     included by default, this ensures that autogenerated controllers
     always are regular `Ember.Controller` instead of the deprecated
@@ -503,7 +503,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/0aaabc98378600e116da0fcc5b75c1a8b00ce541)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + `ember install <addon-name>` now is the correct way to install an add-on (not `ember install:npm <addon-name>`)
   + babel has been upgraded to `5.0.0`, be sure any configuration to babel is updated accordingly
   + bundled ember is now 1.11.1
@@ -571,7 +571,7 @@ version:
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/1c47557e629d88ec399786bd3f06995a251e6f0f)
   + updated to ember 1.11.0
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + `ember init` once again works inside an addon.
   + error live-reloading now actually works!
   + npm WARN for `makeError` and `tmpl` have been fixed
@@ -649,7 +649,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/e4d36aa2ce99ebb288cd596270e7b38da90f535e)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + Mostly just bug-fixes and "Nice things"
   + build errors now live-reload and correctly display build failure in the browser. [more-details](https://github.com/ember-cli/ember-cli/pull/3576)
 - Addon Developers
@@ -734,7 +734,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/d3080cd44b2b62cef45e7f723c18c862b7789f9d)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + The 6to5 project has been renamed to Babel.  See [the blog post](http://babeljs.io/blog/2015/02/15/not-born-to-die/) for more details.
   + The default blueprint has been updated to work with Ember 1.10 by default.
   + Update the following packages in your `package.json`:
@@ -819,7 +819,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/d717009d95d75cee1800e8ba9f52c24d117acb12)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + The 6to5 project has been renamed to Babel.  See [the blog post](http://babeljs.io/blog/2015/02/15/not-born-to-die/) for more details.
   + The default blueprint has been updated to work with Ember 1.10 by default.
   + Update the following packages in your `package.json`:
@@ -859,7 +859,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/1f0bc0414b460da9c924e7e750d7bc5639b62f42)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/0ba9b5980684c48c063a3d320914db90498f684a)
   + No changes required
@@ -877,7 +877,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/1f5c865c5979d35f1aac72d00f97bda86864667f)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/cec7a598854db05f9190ebb6ef68d570592b8e6e)
   + No changes required
@@ -893,7 +893,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/15a28d18f13b68d32b635535b168d1aa7c3f6d4d)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + Update the following packages in your `package.json`:
     * Updated `ember-cli-qunit` to 0.3.7.  Install with `npm install --save-dev ember-cli-qunit@0.3.7`.
     * Updated `ember-data` to 1.0.0-beta.14.1. Install with `npm install --save-dev ember-data@1.0.0-beta.14.1`.
@@ -941,7 +941,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/a9bbe9c3cebc9768bf3e239ae8b2e5b5387335bf)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + `package.json` changes:
     + Update `ember-cli-qunit` to 0.3.1.
     + Update `ember-cli-app-version` to 0.3.1.
@@ -975,7 +975,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/bc9e076e0bb2c00f183e479bf025cdce84eeca1a)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + `package.json` changes:
     + Add `ember-cli-app-version` at 0.3.0.
     + Add `ember-cli-uglify` at 1.0.1.
@@ -1017,7 +1017,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/2275ca51593bae2f6fa91568869f36cd84c264c4)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/d41dcf806a55056a5591dd4e81d712988be1e22f)
   + No changes required
@@ -1036,7 +1036,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/ed4f5bcbff0641dba8eca8fe3a3ab96f1347a7cf)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/237c74c0b5972c8ee1ef9b427809aaf93c53db6a)
   + No changes required
@@ -1072,7 +1072,7 @@ Thank you to all who took the time to contribute!
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/22b868fb064631d9ed16e208db982ee808f05296)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
   + Uninstall ember-cli-esnext. It has been replaced by ember-cli-6to5 which will be added to your project from the upgrade steps.
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/eb5319eb7fd626cc53bf0b5aee639167a031a4c5)
@@ -1106,7 +1106,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/commit/5c08ee64df8df8bd40c3e1fd9541e19c9db9b214)
-  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/commit/82652c474424a118268383d429f4b054567bb966)
   + No changes required
