@@ -1,11 +1,12 @@
 /*jshint node:true*/
 
-var Blueprint          = require('../../lib/models/blueprint');
-var stringUtil         = require('../../lib/utilities/string');
-var pathUtil           = require('../../lib/utilities/path');
+var stringUtil         = require('ember-cli-string-utils');
+var pathUtil           = require('ember-cli-path-utils');
 var validComponentName = require('../../lib/utilities/valid-component-name');
 var getPathOption      = require('../../lib/utilities/get-component-path-option');
 var path               = require('path');
+
+var normalizeEntityName = require('ember-cli-normalize-entity-name');
 
 module.exports = {
   description: 'Generates a component. Name must contain a hyphen.',
@@ -45,7 +46,7 @@ module.exports = {
   },
 
   normalizeEntityName: function(entityName) {
-    entityName = Blueprint.prototype.normalizeEntityName.apply(this, arguments);
+    entityName = normalizeEntityName(entityName);
 
     return validComponentName(entityName);
   },

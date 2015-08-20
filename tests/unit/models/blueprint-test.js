@@ -443,7 +443,7 @@ describe('Blueprint', function() {
       options.entity = { };
       expect(function() {
         blueprint.install(options);
-      }).to.throw(SilentError, /The `ember generate` command requires an entity name to be specified./);
+      }).to.throw(SilentError, /The `ember generate <entity-name>` command requires an entity name to be specified./);
     });
 
     it('throws error when an action does not exist', function() {
@@ -922,7 +922,7 @@ describe('Blueprint', function() {
 
       blueprint.addBowerPackageToProject('foo-bar-local', 'http://twitter.github.io/bootstrap/assets/bootstrap');
     });
-    
+
     it('correctly handles a single versioned package descriptor as argument (1) (DEPRECATED)', function() {
       blueprint.ui = ui;
       blueprint.addBowerPackagesToProject = function(packages) {

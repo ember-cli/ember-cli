@@ -2,7 +2,7 @@
 
 var fs   = require('fs-extra');
 var path = require('path');
-var stringUtil = require('../../lib/utilities/string');
+var stringUtil = require('ember-cli-string-utils');
 var Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {

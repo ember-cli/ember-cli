@@ -498,7 +498,7 @@ describe('Acceptance: ember generate', function() {
 
     var restoreWriteError = MockUI.prototype.writeError;
     MockUI.prototype.writeError = function(error) {
-      expect(error.message).to.equal('The `ember generate` command requires an entity name to be specified. For more details, use `ember help`.');
+      expect(error.message).to.equal('The `ember generate <entity-name>` command requires an entity name to be specified. For more details, use `ember help`.');
     };
 
     return generate(['resource']).then(function() {
