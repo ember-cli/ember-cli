@@ -1,12 +1,10 @@
 'use strict';
 /*jshint node:true*/
-var Blueprint   = require('../../lib/models/blueprint');
+var normalizeEntityName = require('ember-cli-normalize-entity-name');
 
 module.exports = {
   description: 'Generates a helper function.',
   normalizeEntityName: function(entityName) {
-    entityName = Blueprint.prototype.normalizeEntityName.apply(this, arguments);
-
-    return entityName;
+    return normalizeEntityName(entityName);
   }
 };
