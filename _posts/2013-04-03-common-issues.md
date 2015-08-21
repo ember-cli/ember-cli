@@ -226,5 +226,5 @@ Adding dependency versions into your package.json fixes the dependency issue:
 
 Clear out old packages and reinstall them with the following:
 {% highlight bash %}
-rm -rf node_modules; npm cache clear; npm install;
+rm -rf node_modules; npm cache clean; npm install;
 {% endhighlight %}
