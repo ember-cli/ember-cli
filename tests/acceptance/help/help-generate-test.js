@@ -204,6 +204,7 @@ ember generate \u001b[33m<blueprint>\u001b[39m\u001b[36m <options...>\u001b[39m'
         \u001b[33m<attr-name>\u001b[39m:object\n\
         \u001b[33m<attr-name>\u001b[39m:number\n\
         \u001b[33m<attr-name>\u001b[39m:string\n\
+        \u001b[33m<attr-name>\u001b[39m:your-custom-transform\n\
         \u001b[33m<attr-name>\u001b[39m:belongs-to:\u001b[33m<model-name>\u001b[39m\n\
         \u001b[33m<attr-name>\u001b[39m:has-many:\u001b[33m<model-name>\u001b[39m');
 

@@ -48,21 +48,16 @@ module.exports = {
 
 function dsAttr(name, type) {
   switch (type) {
-  case 'array':
-  case 'boolean':
-  case 'date':
-  case 'number':
-  case 'object':
-  case 'string':
-    return 'DS.attr(\'' + type + '\')';
   case 'belongs-to':
     return 'DS.belongsTo(\'' + name + '\')';
   case 'has-many':
     var singularizedName = inflection.singularize(name);
     return 'DS.hasMany(\'' + singularizedName + '\')';
-  default:
+  case '':
     //"If you don't specify the type of the attribute, it will be whatever was provided by the server"
     //http://emberjs.com/guides/models/defining-models/
     return 'DS.attr()';
+  default:
+    return 'DS.attr(\'' + type + '\')';
   }
 }

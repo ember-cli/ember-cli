@@ -6,6 +6,7 @@
   <yellow><attr-name></yellow>:object
   <yellow><attr-name></yellow>:number
   <yellow><attr-name></yellow>:string
+  <yellow><attr-name></yellow>:your-custom-transform
   <yellow><attr-name></yellow>:belongs-to:<yellow><model-name></yellow>
   <yellow><attr-name></yellow>:has-many:<yellow><model-name></yellow>
 
