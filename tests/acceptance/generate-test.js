@@ -263,6 +263,7 @@ describe('Acceptance: ember generate', function() {
       'barName:has-many',
       'bazName:belongs-to',
       'test-name:belongs-to',
+      'metricData:custom-transform',
       'echoName:hasMany',
       'bravoName:belongs_to'
     ]).then(function() {
@@ -281,6 +282,7 @@ describe('Acceptance: ember generate', function() {
           "barNames: DS.hasMany('bar-name')",
           "bazName: DS.belongsTo('baz-name')",
           "testName: DS.belongsTo('test-name')",
+          "metricData: DS.attr('custom-transform')",
           "echoNames: DS.hasMany('echo-name')",
           "bravoName: DS.belongsTo('bravo-name')"
         ]
