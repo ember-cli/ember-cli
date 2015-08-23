@@ -34,6 +34,10 @@ npm install -g ember-cli
 
 This will give you access to the `ember` command-line runner.
 
+If you are on Windows and interested in better performing builds 
+(who isn't?) you are encouraged to make sure you have 
+[symlinks on Windows](/user-guide/#symlinks-on-windows) enabled.  
+
 #### Bower
 
 You'll need to install [Bower](http://bower.io), a package manager that keeps
