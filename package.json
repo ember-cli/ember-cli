@@ -84,7 +84,7 @@
     "broccoli-merge-trees": "0.2.3",
     "broccoli-sane-watcher": "^1.1.1",
     "broccoli-sourcemap-concat": "^1.0.0",
-    "broccoli-unwatched-tree": "0.1.1",
+    "broccoli-source": "^1.1.0",
     "broccoli-writer": "0.1.1",
     "chalk": "1.1.0",
     "clean-base-url": "^1.0.0",

@@ -407,7 +407,7 @@ describe('models/addon.js', function() {
 
         var tree = addon.treeGenerator('foo/bar');
 
-        expect(tree).to.equal('foo/bar');
+        expect(tree.__broccoliGetInfo__()).to.have.property('watched', true);
       });
 
       it('uses unwatchedTree when not developing the addon itself', function() {
@@ -415,7 +415,7 @@ describe('models/addon.js', function() {
 
         var tree = addon.treeGenerator('foo/bar');
 
-        expect(tree.read()).to.equal('foo/bar');
+        expect(tree.__broccoliGetInfo__()).to.have.property('watched', false);
       });
     });
 
