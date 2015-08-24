@@ -82,8 +82,9 @@ module.exports = function run(/* command, args, options */) {
       result.errors.push(string);
     });
 
-    child.on('close', function (code) {
+    child.on('close', function (code, signal) {
       result.code = code;
+      result.signal = signal;
 
       if (code === 0) {
         resolve(result);
