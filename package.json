@@ -82,11 +82,11 @@
     "broccoli-funnel": "0.2.8",
     "broccoli-kitchen-sink-helpers": "0.2.7",
     "broccoli-merge-trees": "0.2.3",
+    "broccoli-plugin": "^1.2.0",
     "broccoli-sane-watcher": "^1.1.1",
     "broccoli-source": "^1.1.0",
     "broccoli-sourcemap-concat": "^1.0.0",
     "broccoli-viz": "^1.0.0",
-    "broccoli-writer": "0.1.1",
     "chalk": "1.1.0",
     "clean-base-url": "^1.0.0",
     "compression": "^1.4.4",
@@ -154,6 +154,7 @@
     "yam": "0.0.18"
   },
   "devDependencies": {
+    "broccoli-writer": "0.1.1",
     "chai": "^2.1.2",
     "chai-as-promised": "^4.3.0",
     "codeclimate-test-reporter": "0.0.4",
