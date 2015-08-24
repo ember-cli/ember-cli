@@ -1863,10 +1863,12 @@ describe('Acceptance: ember generate pod', function() {
   it('passes custom cli arguments to blueprint options', function() {
     return initApp()
       .then(function() {
-        outputFile(
+        return outputFile(
           'blueprints/customblue/files/app/__name__.js',
           "Q: Can I has custom command? A: <%= hasCustomCommand %>"
         );
+      })
+      .then(function() {
         return outputFile(
           'blueprints/customblue/index.js',
           "module.exports = {" + EOL +
