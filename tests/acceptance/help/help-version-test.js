@@ -34,10 +34,10 @@ describe('Acceptance: ember help version', function() {
       var output = result.ui.output;
 
       var testString = processHelpString(EOL + '\
-ember version\u001b[36m <options...>\u001b[39m' + EOL + '\
+ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
   outputs ember-cli version' + EOL + '\
-\u001b[90m  aliases: v, --version, -v' + EOL + '\
-\u001b[39m\u001b[36m  --verbose\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m' + EOL);
+  \u001b[90maliases: v, --version, -v\u001b[39m' + EOL + '\
+  \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL);
 
       expect(output).to.include(testString);
     });
@@ -51,7 +51,7 @@ ember version\u001b[36m <options...>\u001b[39m' + EOL + '\
     .then(function(result) {
       var output = result.ui.output;
 
-      var testString = processHelpString('ember version\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember version \u001b[36m<options...>\u001b[39m');
 
       expect(output).to.include(testString);
     });

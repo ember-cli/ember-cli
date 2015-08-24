@@ -34,16 +34,16 @@ describe('Acceptance: ember help build', function() {
       var output = result.ui.output;
 
       var testString = processHelpString(EOL + '\
-ember build\u001b[36m <options...>\u001b[39m' + EOL + '\
+ember build \u001b[36m<options...>\u001b[39m' + EOL + '\
   Builds your app and places it into the output path (dist/ by default).' + EOL + '\
-\u001b[90m  aliases: b' + EOL + '\
-\u001b[39m\u001b[36m  --environment\u001b[39m\u001b[36m (String)\u001b[39m\u001b[36m (Default: development)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m' + EOL + '\
-\u001b[36m  --output-path\u001b[39m\u001b[36m (Path)\u001b[39m\u001b[36m (Default: dist/)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -o <value>\u001b[39m' + EOL + '\
-\u001b[36m  --watch\u001b[39m\u001b[36m (Boolean)\u001b[39m\u001b[36m (Default: false)\u001b[39m\u001b[90m' + EOL + '\
-    aliases: -w\u001b[39m' + EOL + '\
-\u001b[36m  --watcher\u001b[39m\u001b[36m (String)\u001b[39m' + EOL);
+  \u001b[90maliases: b\u001b[39m' + EOL + '\
+  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m' + EOL + '\
+  \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -o <value>\u001b[39m' + EOL + '\
+  \u001b[36m--watch\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -w\u001b[39m' + EOL + '\
+  \u001b[36m--watcher\u001b[39m \u001b[36m(String)\u001b[39m' + EOL);
 
       expect(output).to.include(testString);
     });
@@ -57,7 +57,7 @@ ember build\u001b[36m <options...>\u001b[39m' + EOL + '\
     .then(function(result) {
       var output = result.ui.output;
 
-      var testString = processHelpString('ember build\u001b[36m <options...>\u001b[39m');
+      var testString = processHelpString('ember build \u001b[36m<options...>\u001b[39m');
 
       expect(output).to.include(testString);
     });
