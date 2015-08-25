@@ -153,7 +153,6 @@
     "yam": "0.0.18"
   },
   "devDependencies": {
-    "broccoli-writer": "0.1.1",
     "chai": "^2.1.2",
     "chai-as-promised": "^4.3.0",
     "codeclimate-test-reporter": "0.0.4",
