@@ -12,15 +12,17 @@ var copy              = Promise.denodeify(require('cpr'));
 var root              = process.cwd();
 var exec              = Promise.denodeify(require('child_process').exec);
 
-var onOutput = {
-  onOutput: function() {
+var runCommandOptions = {
+  // Note: We must override the default logOnFailure logging, because we are
+  // not inside a test.
+  log: function() {
     return; // no output for initial application build
   }
 };
 
 function handleResult(result) {
-  console.log(result.output.join('\n'));
-  console.log(result.errors.join('\n'));
+  if (result.output) { console.log(result.output.join('\n')); }
+  if (result.errors) { console.log(result.errors.join('\n')); }
   throw result;
 }
 
@@ -55,7 +57,7 @@ function symLinkDir(projectPath, from, to) {
 
 function applyCommand(command, name /*, ...flags*/) {
   var flags = [].slice.call(arguments, 2, arguments.length);
-  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, onOutput];
+  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, runCommandOptions];
 
   flags.forEach(function(flag) {
     args.splice(2, 0, flag);

@@ -51,7 +51,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
       })
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var mainCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.css'), {
@@ -80,7 +80,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
       })
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
@@ -106,7 +106,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
       })
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var mainCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.css'), {
@@ -141,7 +141,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
       })
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
@@ -180,7 +180,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
       })
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--silent');
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
