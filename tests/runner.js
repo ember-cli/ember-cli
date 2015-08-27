@@ -10,8 +10,8 @@ if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
 
-// rimraf.sync('.node_modules-tmp');
-// rimraf.sync('.bower_components-tmp');
+rimraf.sync('.node_modules-tmp');
+rimraf.sync('.bower_components-tmp');
 
 var root = 'tests/{unit,acceptance}';
 var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));
