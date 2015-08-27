@@ -30,8 +30,7 @@ describe('Acceptance: cli-command-generator', function() {
     before(function() {
       generator = new Generator();
       var root = generator.root;
-      var json = generator.generateJSON(root);
-      result = JSON.parse(json);
+      result = generator.generateJSON(root);
     });
 
     it('loads commands', function() {
@@ -316,7 +315,7 @@ describe('Acceptance: cli-command-generator', function() {
       var content = fs.readFileSync(process.cwd() + '/foo.tmp', 'utf8');
       fs.unlinkSync(process.cwd() + '/foo.tmp');
       expect(exists).to.be.ok;
-      expect(content).to.equal('moep');
+      expect(content).to.equal('"moep"');
       generateJSON.restore;
     });
 
@@ -330,7 +329,7 @@ describe('Acceptance: cli-command-generator', function() {
 
       var content = fs.readFileSync(process.cwd() + '/baz.tmp', 'utf8');
       fs.unlinkSync(process.cwd() + '/baz.tmp');
-      expect(content).to.equal('moep');
+      expect(content).to.equal('"moep"');
       generateJSON.restore;
     });
   });
@@ -382,11 +381,11 @@ describe('Acceptance: cli-command-generator', function() {
 
     it('sets up shell config file for the first time', function(done) {
       generator = new Generator();
-      var path = stub(generator, 'getShellConfigPath', process.cwd() + '/shell-path.tmp');
+      stub(generator, 'getShellConfigPath', process.cwd() + '/shell-path.tmp');
       var setupShellConfig = stub(generator, 'setupShellConfig');
       fs.openSync(process.cwd() + '/shell-path.tmp', 'w');
       fs.writeFile(process.cwd() + '/shell-path.tmp', 'asdf', function() {
-        generator.setupShellCompletion()
+        generator.setupShellCompletion();
 
         fs.unlinkSync(process.cwd() + '/shell-path.tmp');
         expect(setupShellConfig.called).to.equal(1);
@@ -395,11 +394,11 @@ describe('Acceptance: cli-command-generator', function() {
     });
 
     it('does not set up shell config file multiple times', function(done) {
-      var path = stub(generator, 'getShellConfigPath', process.cwd() + '/shell-path.tmp');
+      stub(generator, 'getShellConfigPath', process.cwd() + '/shell-path.tmp');
       var setupShellConfig = stub(generator, 'setupShellConfig');
       fs.openSync(process.cwd() + '/shell-path.tmp', 'w');
       fs.writeFile(process.cwd() + '/shell-path.tmp', '# begin ember completion', function() {
-        generator.setupShellCompletion()
+        generator.setupShellCompletion();
 
         fs.unlinkSync(process.cwd() + '/shell-path.tmp');
         expect(setupShellConfig.called).to.equal(0);
