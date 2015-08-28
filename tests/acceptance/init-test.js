@@ -17,6 +17,7 @@ var remove     = require('lodash/remove');
 var forEach    = require('lodash/forEach');
 var any        = require('lodash/some');
 var EOL        = require('os').EOL;
+var Generator = require('../../lib/models/cli-command-generator');
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -55,6 +56,8 @@ describe('Acceptance: ember init', function() {
 
     removeIgnored(expected);
     removeIgnored(actual);
+    removeCacheFile(expected);
+    removeCacheFile(actual);
 
     expected.sort();
 
@@ -69,6 +72,8 @@ describe('Acceptance: ember init', function() {
 
     removeIgnored(expected);
     removeIgnored(actual);
+    removeCacheFile(expected);
+    removeCacheFile(actual);
 
     expected.sort();
 
@@ -84,6 +89,14 @@ describe('Acceptance: ember init', function() {
       strict: true
     }).sort();
   }
+
+  function removeCacheFile(array) {
+    var gen = new Generator();
+    remove(array, function(fn) {
+      return fn.match(gen.cacheFile) || gen.cacheDir.match(fn);
+    });
+  }
+
   function removeIgnored(array) {
     remove(array, function(fn) {
       return any(Blueprint.ignoredFiles, function(ignoredFile) {

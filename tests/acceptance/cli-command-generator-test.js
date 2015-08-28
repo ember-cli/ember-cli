@@ -17,7 +17,8 @@ describe('Acceptance: cli-command-generator', function() {
   it('is fast', function() {
     var startMS = Date.now();
     generator = new Generator();
-    generator.relPathToCache = '/foo.tmp';
+    generator.cacheDir = '/';
+    generator.cacheFile = 'foo.tmp';
     generator.run();
     var duration = Date.now() - startMS;
     fs.unlinkSync(process.cwd() + '/foo.tmp');
@@ -29,6 +30,7 @@ describe('Acceptance: cli-command-generator', function() {
 
     before(function() {
       generator = new Generator();
+      generator.cacheDir = '/';
       var root = generator.root;
       result = generator.generateJSON(root);
     });
@@ -304,11 +306,13 @@ describe('Acceptance: cli-command-generator', function() {
 
     before(function() {
       generator = new Generator();
+      generator.cacheDir = '/';
     });
 
     it('creates a cache file if non exists, and writes to it', function() {
       var generateJSON = stub(generator, 'generateJSON', 'moep');
-      generator.relPathToCache = '/foo.tmp';
+      generator.cacheDir = '/';
+      generator.cacheFile = '/foo.tmp';
       generator.run();
 
       var exists = fs.existsSync(process.cwd() + '/foo.tmp');
@@ -324,7 +328,8 @@ describe('Acceptance: cli-command-generator', function() {
       fs.writeFileSync(process.cwd() + '/baz.tmp', 'asdf');
       var generator = new Generator();
       var generateJSON = stub(generator, 'generateJSON', 'moep');
-      generator.relPathToCache = '/baz.tmp';
+      generator.cacheDir = '/';
+      generator.cacheFile = 'baz.tmp';
       generator.run();
 
       var content = fs.readFileSync(process.cwd() + '/baz.tmp', 'utf8');
@@ -338,6 +343,7 @@ describe('Acceptance: cli-command-generator', function() {
 
     before(function() {
       generator = new Generator();
+      generator.cacheDir = '/';
     });
 
     var setupBashConfig, setupZshConfig;
@@ -345,6 +351,7 @@ describe('Acceptance: cli-command-generator', function() {
 
       beforeEach(function() {
         generator = new Generator();
+        generator.cacheDir = '/';
         setupBashConfig = stub(generator, 'setupBashConfig');
         setupZshConfig = stub(generator, 'setupZshConfig');
       });
@@ -381,6 +388,7 @@ describe('Acceptance: cli-command-generator', function() {
 
     it('sets up shell config file for the first time', function(done) {
       generator = new Generator();
+      generator.cacheDir = '/';
       stub(generator, 'getShellConfigPath', process.cwd() + '/shell-path.tmp');
       var setupShellConfig = stub(generator, 'setupShellConfig');
       fs.openSync(process.cwd() + '/shell-path.tmp', 'w');

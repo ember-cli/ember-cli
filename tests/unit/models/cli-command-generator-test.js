@@ -34,7 +34,7 @@ describe('Unit: cli-command-generator', function() {
     fs.openSync(process.cwd() + '/.zsh-config.tmp', 'w');
     generator.setupZshConfig(process.cwd() + '/.zsh-config.tmp');
     var content = fs.readFileSync(process.cwd() + '/.zsh-config.tmp', 'utf8');
-    fs.unlink(process.cwd() + '/.zsh-config.tmp', 'utf8');
+    fs.unlinkSync(process.cwd() + '/.zsh-config.tmp');
     expect(content).to.match(/ember --completion/);
   });
 
@@ -43,7 +43,7 @@ describe('Unit: cli-command-generator', function() {
     fs.openSync(process.cwd() + '/.bash-config.tmp', 'w');
     generator.setupBashConfig(process.cwd() + '/.bash-config.tmp');
     var content = fs.readFileSync(process.cwd() + '/.bash-config.tmp', 'utf8');
-    fs.unlink(process.cwd() + '/.bash-config.tmp', 'utf8');
+    fs.unlinkSync(process.cwd() + '/.bash-config.tmp');
     expect(content).to.match(/.ember\/completion\.sh/);
   });
 
