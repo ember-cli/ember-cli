@@ -91,7 +91,7 @@
     "clean-base-url": "^1.0.0",
     "compression": "^1.4.4",
     "concat-stream": "^1.4.7",
-    "configstore": "0.3.2",
+    "configstore": "1.2.1",
     "core-object": "0.0.2",
     "cpr": "^0.4.1",
     "debug": "^2.1.3",
