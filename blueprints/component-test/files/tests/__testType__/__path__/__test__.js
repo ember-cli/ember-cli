@@ -15,7 +15,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{<%= componentPathName %>}}`);
 
-  assert.equal(this.$().text(), '');
+  assert.equal(this.$().text().trim(), '');
 
   // Template block usage:" + EOL +
   this.render(hbs`
@@ -27,8 +27,8 @@ test('it renders', function(assert) {
   assert.equal(this.$().text().trim(), 'template block text');<% } else if(testType === 'unit') { %>assert.expect(1);
 
   // Creates the component instance
-  var component = this.subject();
+  /*var component =*/ this.subject();
   // Renders the component to the page
   this.render();
-  assert.equal(this.$().text(), '');<% } %>
+  assert.equal(this.$().text().trim(), '');<% } %>
 });
