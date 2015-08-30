@@ -3,6 +3,7 @@
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 import { module, test } from 'qunit';
 
 module('wrapInEval in-app test', {
@@ -10,7 +11,7 @@ module('wrapInEval in-app test', {
     this.application = startApp();
   },
   afterEach: function() {
-    Ember.run(this.application, 'destroy');
+    destroyApp(this.application);
   }
 });
 

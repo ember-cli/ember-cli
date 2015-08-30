@@ -1,6 +1,6 @@
-import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from 'my-app/tests/helpers/start-app';
+import destroyApp from 'my-app/tests/helpers/destroy-app';
 
 module('Acceptance | foo', {
   beforeEach: function() {
@@ -8,7 +8,7 @@ module('Acceptance | foo', {
   },
 
   afterEach: function() {
-    Ember.run(this.application, 'destroy');
+    destroyApp(this.application);
   }
 });
 

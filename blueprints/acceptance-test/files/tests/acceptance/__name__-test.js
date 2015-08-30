@@ -1,6 +1,6 @@
-import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '<%= testFolderRoot %>/tests/helpers/start-app';
+import destroyApp from '<%= testFolderRoot %>/tests/helpers/destroy-app';
 
 module('<%= friendlyTestName %>', {
   beforeEach: function() {
@@ -8,7 +8,7 @@ module('<%= friendlyTestName %>', {
   },
 
   afterEach: function() {
-    Ember.run(this.application, 'destroy');
+    destroyApp(this.application);
   }
 });
 
