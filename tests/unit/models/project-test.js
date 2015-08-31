@@ -157,6 +157,7 @@ describe('models/project.js', function() {
       var expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
+        'ember-resolver': '^2.0.2',
         'ember-non-root-addon': 'latest',
         'ember-generated-with-export-addon': 'latest',
         'non-ember-thingy': 'latest',
@@ -175,7 +176,6 @@ describe('models/project.js', function() {
         'jquery': '^1.11.1',
         'ember': '1.7.0',
         'ember-data': '1.0.0-beta.10',
-        'ember-resolver': '~0.1.7',
         'loader.js': 'ember-cli/loader.js#1.0.1',
         'ember-cli-shims': 'ember-cli/ember-cli-shims#0.0.3',
         'ember-cli-test-loader': 'rwjblue/ember-cli-test-loader#0.0.4',
