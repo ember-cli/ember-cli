@@ -464,16 +464,16 @@ one or more blueprints.
 
 To create a *blueprint* for your addon:
 
-`ember addon <blueprint-name> --blueprint`
+`ember generate blueprint <blueprint-name>`
 
 By convention, the main blueprint of the addon should have the same
 name as the addon itself:
 
-`ember addon <addon-name> --blueprint`
+`ember g blueprint <addon-name>`
 
 In our example:
 
-`ember addon x-button --blueprint`
+`ember g blueprint x-button`
 
 This will generate a directory `blueprints/x-button` for the addon where
 you can define your logic and templates for the blueprint. You can
