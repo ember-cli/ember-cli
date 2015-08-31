@@ -47,7 +47,7 @@ describe('Acceptance: ember help --json serve', function() {
           },
           {
             name: 'host',
-            default: '0.0.0.0',
+            description: 'Listens on all interfaces by default',
             aliases: ['H'],
             key: 'host',
             required: false

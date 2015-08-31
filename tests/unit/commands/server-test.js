@@ -46,15 +46,11 @@ describe('server command', function() {
     ]).then(function() {
       var serveRun = tasks.Serve.prototype.run;
       var runOps = serveRun.calledWith[0][0];
-      var getPortOps = ServeCommand.prototype._getPort.calledWith[0][0];
-
-      expect(getPortOps.host).to.equal('0.0.0.0', 'a livereload port is found using the default host');
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
       expect(runOps.port).to.equal(4000,            'has correct port');
       expect(runOps.liveReloadPort).to.be.within(49152, 65535, 'has correct liveReload port');
-      expect(runOps.liveReloadHost).to.equal('0.0.0.0', 'has correct liveReload host');
     });
   });
 
