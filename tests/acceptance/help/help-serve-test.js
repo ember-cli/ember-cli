@@ -39,7 +39,7 @@ ember serve \u001b[36m<options...>\u001b[39m' + EOL + '\
   \u001b[90maliases: server, s\u001b[39m' + EOL + '\
   \u001b[36m--port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 4200)\u001b[39m' + EOL + '\
     \u001b[90maliases: -p <value>\u001b[39m' + EOL + '\
-  \u001b[36m--host\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: 0.0.0.0)\u001b[39m' + EOL + '\
+  \u001b[36m--host\u001b[39m \u001b[36m(String)\u001b[39m Listens on all interfaces by default' + EOL + '\
     \u001b[90maliases: -H <value>\u001b[39m' + EOL + '\
   \u001b[36m--proxy\u001b[39m \u001b[36m(String)\u001b[39m' + EOL + '\
     \u001b[90maliases: -pr <value>, -pxy <value>\u001b[39m' + EOL + '\
