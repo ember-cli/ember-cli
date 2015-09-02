@@ -11,6 +11,7 @@ var chalk      = require('chalk');
 var expect     = require('chai').expect;
 
 var runCommand          = require('../helpers/run-command');
+var ember               = require('../helpers/ember');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
 var assertDirEmpty      = require('../helpers/assert-dir-empty');
@@ -57,7 +58,7 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('ember addon foo, clean from scratch', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+    return ember(['test']);
   });
 
   it('ember addon without addon/ directory', function() {
