@@ -1,8 +1,8 @@
 /*jshint node:true*/
 
-var stringUtil  = require('../../lib/utilities/string');
-var path        = require('path');
-var inflector   = require('inflection');
+var stringUtil = require('ember-cli-string-utils');
+var path       = require('path');
+var inflector  = require('inflection');
 
 module.exports = {
   description: 'Generates an import wrapper.',

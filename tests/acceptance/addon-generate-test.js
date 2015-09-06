@@ -132,7 +132,9 @@ describe('Acceptance: ember generate in-addon', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
     });
@@ -145,7 +147,9 @@ describe('Acceptance: ember generate in-addon', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
       assertFileToNotExist('app/component-test/x-foo.js');
@@ -189,7 +193,9 @@ describe('Acceptance: ember generate in-addon', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('nested/x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{nested/x-foo}}",
+          "{{#nested/x-foo}}"
         ]
       });
     });

@@ -43,6 +43,16 @@ describe('Unit - FileInfo', function(){
     new FileInfo(validOptions);
   });
 
+  it('does not interpolate {{ }} or ${ }', function () {
+    var options = {};
+    assign(options, validOptions, {inputPath:  path.resolve(__dirname,
+      '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' }});
+    var fileInfo = new FileInfo(options);
+    return fileInfo.render().then(function(output) {
+      expect(output.trim()).to.equal('{{ name }} ${ name }  tacocat tacocat');
+    });
+  });
+
   it('renders an input file', function(){
     validOptions.templateVariables.friend = 'Billy';
     var fileInfo = new FileInfo(validOptions);

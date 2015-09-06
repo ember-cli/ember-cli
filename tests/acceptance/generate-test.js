@@ -18,6 +18,7 @@ var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 var expect           = require('chai').expect;
+var MockUI             = require('../helpers/mock-ui');
 
 describe('Acceptance: ember generate', function() {
   this.timeout(10000);
@@ -112,7 +113,9 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
     });
@@ -135,7 +138,9 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('foo/x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{foo/x-foo}}",
+          "{{#foo/x-foo}}"
         ]
       });
     });
@@ -158,7 +163,9 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
     });
@@ -171,12 +178,14 @@ describe('Acceptance: ember generate', function() {
           "import { moduleForComponent, test } from 'ember-qunit';",
           "import hbs from 'htmlbars-inline-precompile';",
           "moduleForComponent('x-foo'",
-          "integration: true"
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
         ]
       });
     });
   });
-  
+
   it('component-test x-foo --unit', function() {
     return generate(['component-test', 'x-foo', '--unit']).then(function() {
       assertFile('tests/unit/components/x-foo-test.js', {
@@ -254,6 +263,7 @@ describe('Acceptance: ember generate', function() {
       'barName:has-many',
       'bazName:belongs-to',
       'test-name:belongs-to',
+      'metricData:custom-transform',
       'echoName:hasMany',
       'bravoName:belongs_to'
     ]).then(function() {
@@ -272,6 +282,7 @@ describe('Acceptance: ember generate', function() {
           "barNames: DS.hasMany('bar-name')",
           "bazName: DS.belongsTo('baz-name')",
           "testName: DS.belongsTo('test-name')",
+          "metricData: DS.attr('custom-transform')",
           "echoNames: DS.hasMany('echo-name')",
           "bravoName: DS.belongsTo('bravo-name')"
         ]
@@ -483,6 +494,19 @@ describe('Acceptance: ember generate', function() {
         contains: "moduleFor('route:foos'"
       });
     });
+  });
+
+  it('resource without entity name does not throw exception', function() {
+
+    var restoreWriteError = MockUI.prototype.writeError;
+    MockUI.prototype.writeError = function(error) {
+      expect(error.message).to.equal('The `ember generate <entity-name>` command requires an entity name to be specified. For more details, use `ember help`.');
+    };
+
+    return generate(['resource']).then(function() {
+      MockUI.prototype.writeError = restoreWriteError;
+    });
+
   });
 
   it('resource foos with --path', function() {

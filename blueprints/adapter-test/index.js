@@ -1,6 +1,6 @@
 /*jshint node:true*/
 
-var testInfo = require('../../lib/utilities/test-info');
+var testInfo = require('ember-cli-test-info');
 
 module.exports = {
   description: 'Generates an ember-data adapter unit test',

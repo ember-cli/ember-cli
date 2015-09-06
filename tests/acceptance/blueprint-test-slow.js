@@ -39,8 +39,7 @@ describe('Acceptance: blueprint smoke tests', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
                       'http-proxy',
                       'api',
-                      'http://localhost/api',
-                      '--silent')
+                      'http://localhost/api')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));

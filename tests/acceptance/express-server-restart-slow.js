@@ -17,6 +17,7 @@ var cleanupRun          = acceptance.cleanupRun;
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
 var assertDirEmpty   = require('../helpers/assert-dir-empty');
 
+// skipped because brittle. needs some TLC
 describe.skip('Acceptance: express server restart', function () {
   var appName = 'express-server-restart-test-app';
 
@@ -105,7 +106,6 @@ describe.skip('Acceptance: express server restart', function () {
     return new Promise(function(resolve, reject) {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
         'serve',
-        '--silent',
         '--live-reload-port', '32580',
         '--port', '49741', commandOptions)
         .then(function() {

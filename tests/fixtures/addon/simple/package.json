@@ -7,7 +7,8 @@
   "ember-addon": {
     "paths": ["./lib/ember-super-button"]
   },
-  "devDependencies": {
+    "devDependencies": {
+    "ember-resolver": "^2.0.2",
     "ember-cli": "latest",
     "ember-random-addon": "latest",
     "ember-non-root-addon": "latest",
@@ -19,4 +20,3 @@
     "ember-addon-with-dependencies": "latest"
   }
 }
-

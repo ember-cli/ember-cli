@@ -1,6 +1,6 @@
 /*jshint node:true*/
 
-var stringUtil = require('../../lib/utilities/string');
+var stringUtil = require('ember-cli-string-utils');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
