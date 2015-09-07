@@ -103,12 +103,6 @@ Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it
 * [Change history of new Ember-CLI apps](https://github.com/kellyselden/ember-cli-output)
 * [Change history of new Ember-CLI addons](https://github.com/kellyselden/ember-addon-output)
 
-## Donating
-
-All donations will support this project and treats for contributors.
-
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/stefanpenner/)
-
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/ember-cli/ember-cli/blob/master/LICENSE.md).
