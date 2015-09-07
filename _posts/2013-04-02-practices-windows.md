@@ -1,8 +1,9 @@
 ---
 layout: post
 title: "Windows"
+category: user-guide
 permalink: windows
-github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-03-practices-windows.md"
+github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-02-practices-windows.md"
 ---
 
 ### Windows
