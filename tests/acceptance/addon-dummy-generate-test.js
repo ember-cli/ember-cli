@@ -804,4 +804,22 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       });
     });
 
+    it('dummy acceptance-test foo --instance', function() {
+      return generateInAddon(['acceptance-test', 'foo', '--dummy', '--instance']).then(function() {
+        var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-instance-expected.js');
+
+        assertFileEquals('tests/acceptance/foo-test.js', expected);
+        assertFileToNotExist('app/acceptance-tests/foo.js');
+      });
+    });
+
+    it('dummy acceptance-test foo/bar --instance', function() {
+      return generateInAddon(['acceptance-test', 'foo/bar', '--dummy', '--instance']).then(function() {
+        var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-nested-instance-expected.js');
+
+        assertFileEquals('tests/acceptance/foo/bar-test.js', expected);
+        assertFileToNotExist('app/acceptance-tests/foo/bar.js');
+      });
+    });
+
 });

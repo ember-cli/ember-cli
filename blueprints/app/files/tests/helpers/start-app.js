@@ -2,7 +2,8 @@ import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
 
-export default function startApp(attrs) {
+
+export function startApp(attrs) {
   var application;
 
   var attributes = Ember.merge({}, config.APP);
@@ -16,3 +17,10 @@ export default function startApp(attrs) {
 
   return application;
 }
+
+export function getAppInstance(application) {
+  return Ember.run(application, 'buildInstance');
+}
+
+// export startApp as default for backwards compatability
+export default startApp;

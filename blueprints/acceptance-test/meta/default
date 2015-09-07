@@ -1,0 +1,7 @@
+  beforeEach: function() {
+    this.application = startApp();
+  },
+
+  afterEach: function() {
+    Ember.run(this.application, 'destroy');
+  }
