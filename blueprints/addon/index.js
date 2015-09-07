@@ -36,6 +36,9 @@ module.exports = {
     // add `ember-disable-prototype-extensions` to addons by default
     contents.devDependencies['ember-disable-prototype-extensions'] = '^1.0.0';
 
+    // remove ember-data from devDepenencies
+    delete contents.devDependencies['ember-data'];
+
     // add `ember-try` to addons by default
     contents.devDependencies['ember-try'] = '~0.0.8';
     contents.scripts.test = "ember try:testall";
@@ -51,6 +54,9 @@ module.exports = {
     var contents  = JSON.parse(fs.readFileSync(bowerPath, { encoding: 'utf8' }));
 
     contents.name = this.project.name();
+
+    // remove ember-data from devDepenencies
+    delete contents.dependencies['ember-data'];
 
     fs.writeFileSync(path.join(this.path, 'files', 'bower.json'), JSON.stringify(contents, null, 2));
   },
