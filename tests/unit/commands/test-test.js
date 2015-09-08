@@ -88,6 +88,14 @@ describe('test command', function() {
     });
   });
 
+  it('passes through a custom test port option of 0 to allow OS to chose ephemeral port', function() {
+    return new TestCommand(options).validateAndRun(['--test-port=0']).then(function() {
+      var testOptions  = testRun.calledWith[0][0];
+
+      expect(testOptions.port).to.equal(0);
+    });
+  });
+
   it('only passes through the port option', function() {
     return new TestCommand(options).validateAndRun(['--port=5678']).then(function() {
       var testOptions  = testRun.calledWith[0][0];
