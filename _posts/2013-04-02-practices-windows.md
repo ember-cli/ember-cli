@@ -50,4 +50,4 @@ There were always two major issues with running Node.js on Windows: First and fo
 
 Npm@3 is a nearly complete rewrite of npm, fixing both issues. Windows users of Ember Cli might want to make the switch to npm@3 early, to benefit from its flat module installation (solving any issues involving long path names) as well as its multi-stage installer. 
 
-The new version is currently still in beta - and while performing extremely well so far, you might still run into issues. To easily up- and downgrade between versions, use [Microsoft's npm-windows-upgrade tool](github.com/felixrieseberg/npm-windows-upgrade), which automates the upgrade and also allows easy downgrades to older versions.
+The new version is currently still in beta - and while performing extremely well so far, you might still run into issues. To easily up- and downgrade between versions, use [Microsoft's npm-windows-upgrade tool](https://github.com/felixrieseberg/npm-windows-upgrade), which automates the upgrade and also allows easy downgrades to older versions.
