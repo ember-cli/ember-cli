@@ -88,7 +88,7 @@ describe('test command', function() {
     });
   });
 
-  it('passes through a custom test port option of 0 to allow OS to chose ephemeral port', function() {
+  it('passes through a custom test port option of 0 to allow OS to choose open system port', function() {
     return new TestCommand(options).validateAndRun(['--test-port=0']).then(function() {
       var testOptions  = testRun.calledWith[0][0];
 

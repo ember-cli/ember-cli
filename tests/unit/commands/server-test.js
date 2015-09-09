@@ -49,8 +49,21 @@ describe('server command', function() {
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-      expect(runOps.port).to.equal(4000,            'has correct port');
+      expect(runOps.port).to.equal(4000, 'has correct port');
       expect(runOps.liveReloadPort).to.be.within(49152, 65535, 'has correct liveReload port');
+    });
+  });
+
+  it('allows OS to choose port', function() {
+    return new ServeCommand(options).validateAndRun([
+      '--port', '0'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var runOps = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(runOps.port).to.be.within(49152, 65535, 'has correct port');
     });
   });
 
