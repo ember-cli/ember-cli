@@ -89,7 +89,7 @@ describe('Acceptance: ember help --json serve', function() {
           },
           {
             name: 'live-reload-port',
-            description: '(Defaults to port number within [49152...65535] )',
+            description: '(Defaults to port number within [49152...65535])',
             aliases: ['lrp'],
             key: 'liveReloadPort',
             required: false
