@@ -4,15 +4,22 @@ var expect         = require('chai').expect;
 var stub           = require('../../helpers/stub').stub;
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
-var Promise        = require('../../../lib/ext/promise');
+var proxyquire     = require('proxyquire');
 
 describe('server command', function() {
   var ServeCommand;
   var tasks;
   var options;
+  var getPortStub;
 
   before(function() {
-    ServeCommand = require('../../../lib/commands/serve');
+    ServeCommand = proxyquire('../../../lib/commands/serve', {
+      'portfinder': {
+        getPort: function() {
+          return getPortStub.apply(this, arguments);
+        }
+      }
+    });
   });
 
   beforeEach(function() {
@@ -26,9 +33,9 @@ describe('server command', function() {
     });
 
     stub(tasks.Serve.prototype, 'run');
-    stub(ServeCommand.prototype, '_getPort', new Promise(function(resolve) {
-      resolve(49152);
-    }));
+    getPortStub = function(options, callback) {
+      callback(null, 49152);
+    };
   });
 
   after(function() {
@@ -37,7 +44,6 @@ describe('server command', function() {
 
   afterEach(function() {
     tasks.Serve.prototype.run.restore();
-    ServeCommand.prototype._getPort.restore();
   });
 
   it('has correct options', function() {
@@ -81,12 +87,17 @@ describe('server command', function() {
   });
 
   it('has correct liveLoadHost', function() {
+    var getPortOpts;
+    getPortStub = function(options, callback) {
+      getPortOpts = options;
+      callback(null, 49152);
+    };
+
     return new ServeCommand(options).validateAndRun([
       '--live-reload-host', '127.0.0.1'
     ]).then(function() {
       var serveRun = tasks.Serve.prototype.run;
       var runOps = serveRun.calledWith[0][0];
-      var getPortOpts = ServeCommand.prototype._getPort.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
