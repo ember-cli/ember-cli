@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "ember build",
+    "clean": "npm cache clean && bower cache clean && rimraf node_modules bower_components dist tmp",
     "start": "ember server",
     "test": "ember test"
   },
