@@ -563,9 +563,16 @@ describe('models/addon.js', function() {
     var builder, addon;
 
     beforeEach(function() {
+      projectPath = path.resolve(fixturePath, 'with-app-styles');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+
       var BaseAddon = Addon.extend({
-        name: 'base-addon'
+        name: 'base-addon',
+        root: projectPath
       });
+
       addon = new BaseAddon(project);
     });
 
@@ -576,8 +583,6 @@ describe('models/addon.js', function() {
     });
 
     it('should move files in the root of the addons app/styles tree into the app/styles path', function() {
-      addon.root = path.join(fixturePath, 'with-app-styles');
-
       builder = new broccoli.Builder(addon.treeFor('styles'));
 
       return builder.build()
