@@ -1,23 +1,21 @@
 'use strict';
 
-var fs           = require('fs-extra');
+var fs           = require('fs');
 var path         = require('path');
 var ConfigLoader = require('../../../lib/broccoli/broccoli-config-loader');
 var Project      = require('../../../lib/models/project');
-var Promise      = require('../../../lib/ext/promise');
 var existsSync   = require('exists-sync');
 var expect       = require('chai').expect;
 var root         = process.cwd();
 var tmp          = require('tmp-sync');
 var tmproot      = path.join(root, 'tmp');
-var remove       = Promise.denodeify(fs.remove);
+var Builder      = require('broccoli').Builder;
 
 describe('broccoli/broccoli-config-loader', function() {
-  var configLoader, tmpDestDir, tmpDestDir2, tmpSrcDir,  project, options, config;
+  var tmpSrcDir, configDir, project, options, config, builder;
 
   function writeConfig(config) {
     var fileContents = 'module.exports = function() { return ' + JSON.stringify(config) + '; };';
-    var configDir = path.join(tmpSrcDir, 'config');
 
     if (!existsSync(configDir)) {
       fs.mkdirSync(configDir);
@@ -27,9 +25,8 @@ describe('broccoli/broccoli-config-loader', function() {
   }
 
   beforeEach(function() {
-    tmpDestDir   = tmp.in(tmproot);
-    tmpDestDir2  = tmp.in(tmproot);
-    tmpSrcDir    = tmp.in(tmproot);
+    tmpSrcDir = tmp.in(tmproot);
+    configDir = path.join(tmpSrcDir, 'config');
 
     project = new Project(tmpSrcDir, {});
     project.addons = [];
@@ -42,48 +39,52 @@ describe('broccoli/broccoli-config-loader', function() {
       tests: true,
       project: project
     };
-
-    configLoader = new ConfigLoader('.', options);
   });
 
   afterEach(function() {
-    return Promise.all([
-      remove(tmpDestDir),
-      remove(tmpDestDir2)
-    ]);
+    if (builder) {
+      return builder.cleanup();
+    }
   });
 
   describe('clearConfigGeneratorCache', function() {
     it('resets the cache', function() {
-      configLoader.updateCache(tmpSrcDir, tmpDestDir);
-      var originalConfig = fs.readFileSync(path.join(tmpDestDir, 'environments', 'development.json'), { encoding: 'utf8' });
+      var originalConfig, updatedConfig;
 
-      config.foo = 'blammo';
-      writeConfig(config);
+      builder = new Builder(new ConfigLoader(configDir, options));
 
-      configLoader.updateCache(tmpSrcDir, tmpDestDir2);
-      var updatedConfig = fs.readFileSync(path.join(tmpDestDir2, 'environments', 'development.json'), { encoding: 'utf8' });
-
-      expect(originalConfig, 'config/environment.json should have been updated').to.not.equal(updatedConfig);
-
-      expect(true, updatedConfig.match(/blammo/));
+      return builder.build().then(function(result) {
+        originalConfig = fs.readFileSync(path.join(result.directory, 'environments', 'development.json'), { encoding: 'utf8' });
+      }).then(function() {
+        config.foo = 'blammo';
+        writeConfig(config);
+        return builder.build();
+      }).then(function(result) {
+        updatedConfig = fs.readFileSync(path.join(result.directory, 'environments', 'development.json'), { encoding: 'utf8' });
+        expect(originalConfig, 'config/environment.json should have been updated').to.not.equal(updatedConfig);
+        expect(updatedConfig).to.match(/blammo/);
+      });
     });
   });
 
   describe('updateCache', function() {
     it('writes the current environments file', function() {
-      configLoader.updateCache(tmpSrcDir, tmpDestDir);
+      builder = new Builder(new ConfigLoader(configDir, options));
 
-      expect(true, existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-      expect(true, existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
+      return builder.build().then(function(result) {
+        expect(existsSync(path.join(result.directory, 'environments', 'development.json'))).to.be.true;
+        expect(existsSync(path.join(result.directory, 'environments', 'test.json'))).to.be.true;
+      });
     });
 
     it('does not generate test environment files if testing is disabled', function() {
       options.tests = false;
-      configLoader.updateCache(tmpSrcDir, tmpDestDir);
+      builder = new Builder(new ConfigLoader(configDir, options));
 
-      expect(true, existsSync(path.join(tmpDestDir, 'environments', 'development.json')));
-      expect(true, !existsSync(path.join(tmpDestDir, 'environments', 'test.json')));
+      return builder.build().then(function(result) {
+        expect(existsSync(path.join(result.directory, 'environments', 'development.json'))).to.be.true;
+        expect(existsSync(path.join(result.directory, 'environments', 'test.json'))).to.be.false;
+      });
     });
   });
 });
