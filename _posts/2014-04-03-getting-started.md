@@ -10,7 +10,7 @@ github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2014-04-
 
 #### Node
 
-First, install the latest stable version of Node (version 0.12.x).
+First, install the latest stable version of Node (version 4.0.x).
 
 To do so, either follow the installation instructions on
 [nodejs.org](http://nodejs.org/), or use your preferred package manager (such
