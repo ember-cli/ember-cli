@@ -197,6 +197,14 @@ describe('Blueprint', function() {
     expect(blueprint.name).to.equal('basic');
   });
 
+  describe('filesPath', function() {
+    it('returns the blueprints default files path', function() {
+      var blueprint = new Blueprint(basicBlueprint);
+
+      expect(blueprint.filesPath()).to.equal(path.join(basicBlueprint, 'files'));
+    });
+  });
+
   describe('basic blueprint installation', function() {
     var BasicBlueprintClass = require(basicBlueprint);
     var blueprint;
