@@ -6,7 +6,7 @@ Broccoli historically assumed its brocfile was like a main file. Originally, we 
 
 This change occurred in an effort to unify both sides, rather then duplicating state, we can now pass that state in as an argument. Since the behavior of this file is a superset of a typical Brocfile, we opted to also change the name.
 
-With this change, we are in a good position to fix more bugs, remove some much needed tech-tech, and continue to improve the internals without causing uneeded pain in userland.
+With this change, we are in a good position to fix more bugs, remove some much needed tech-debt, and continue to improve the internals without causing uneeded pain in userland.
 
 Happy Hacking!
 
