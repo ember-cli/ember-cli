@@ -17,12 +17,12 @@ To do so, either follow the installation instructions on
 as [Homebrew](http://brew.sh/) on OSX) if you have one.
 
 After the installation is complete, verify that Node is set up correctly by
-typing the below commands on the command line. Both should output help
-messages:
+typing the below commands on the command line. Both should output a version
+number:
 
 {% highlight bash %}
-node --help
-npm --help
+node -v
+npm -v
 {% endhighlight %}
 
 #### Ember CLI
