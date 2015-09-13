@@ -964,6 +964,16 @@ describe('Acceptance: ember generate', function() {
                   "    res.status(204).end();" + EOL +
                   "  });" + EOL +
                   EOL +
+                  "  // The POST and PUT call will not contain a request body" + EOL +
+                  "  // because the body-parser is not included by default." + EOL +
+                  "  // To use req.body, run:" + EOL +
+                  EOL +
+                  "  //    npm install --save-dev body-parser" + EOL +
+                  EOL +
+                  "  // After installing, you need to `use` the body-parser for" + EOL +
+                  "  // this mock uncommenting the following line:" + EOL +
+                  "  //" + EOL +
+                  "  //app.use('/api/foo', require('body-parser'));" + EOL +
                   "  app.use('/api/foo', fooRouter);" + EOL +
                   "};"
       });
@@ -1013,6 +1023,16 @@ describe('Acceptance: ember generate', function() {
                   "    res.status(204).end();" + EOL +
                   "  });" + EOL +
                   EOL +
+                  "  // The POST and PUT call will not contain a request body" + EOL +
+                  "  // because the body-parser is not included by default." + EOL +
+                  "  // To use req.body, run:" + EOL +
+                  EOL +
+                  "  //    npm install --save-dev body-parser" + EOL +
+                  EOL +
+                  "  // After installing, you need to `use` the body-parser for" + EOL +
+                  "  // this mock uncommenting the following line:" + EOL +
+                  "  //" + EOL +
+                  "  //app.use('/api/foo-bar', require('body-parser'));" + EOL +
                   "  app.use('/api/foo-bar', fooBarRouter);" + EOL +
                   "};"
       });
