@@ -13,7 +13,7 @@ module.exports = {
 
   locals: function(options) {
     var adapterName     = options.entity.name;
-    var baseClass       = 'DS.RESTAdapter';
+    var baseClass       = 'DS.JSONAPIAdapter';
     var importStatement = 'import DS from \'ember-data\';';
     var isAddon         = options.inRepoAddon || options.project.isEmberCLIAddon();
     var relativePath    = pathUtil.getRelativePath(options.entity.name);
