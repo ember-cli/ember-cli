@@ -1,13 +1,25 @@
 #!/bin/sh
 
+echo "preparing new ember-cli release:"
+echo " - rm -rf node_modules" && \
 rm -rf node_modules && \
+echo " - rm -rf ember-cli-*.tgz" && \
 rm -rf ./ember-cli-*.tgz && \
+echo " - npm cache clear" && \
 npm cache clear && \
-npm i --no-optional && \
-npm link --no-optional && \
+echo " - npm i --no-optional" && \
+npm i --no-optional > /dev/null && \
+echo " - npm link --no-optional" && \
+echo " - patch:" && \
+echo "     engine-io-client" && \
 ./patches/patch-engine-io-client.js && \
+echo "     ws" && \
 ./patches/patch-ws.js && \
-npm pack && \
+echo " - npm pack" && \
+npm pack > /dev/null && \
 du -sh ./ember-cli-*.tgz && \
-npm uninstall -g ember-cli && \
-npm i -g ./ember-cli-*.tgz
+echo " - uninstalling existing ember-cli" && \
+npm uninstall -g ember-cli > /dev/null && \
+echo " - installing ./ember-cli-*.tgz" && \
+npm i -g ./ember-cli-*.tgz > /dev/null && \
+echo "release prepared!"
