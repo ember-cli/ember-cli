@@ -1,14 +1,14 @@
 'use strict';
 
-var DestroyCommand  = require('../../../lib/commands/destroy');
-var Promise         = require('../../../lib/ext/promise');
-var Task            = require('../../../lib/models/task');
-var expect          = require('chai').expect;
-var commandOptions  = require('../../factories/command-options');
-var MockProject     = require('../../helpers/mock-project');
+var expect         = require('chai').expect;
+var MockProject    = require('../../helpers/mock-project');
+var commandOptions = require('../../factories/command-options');
+var Promise        = require('../../../lib/ext/promise');
+var Task           = require('../../../lib/models/task');
+var DestroyCommand = require('../../../lib/commands/destroy');
 
 describe('generate command', function() {
-  var command;
+  var options, command;
 
   beforeEach(function() {
     var project = new MockProject();
@@ -17,11 +17,11 @@ describe('generate command', function() {
       return 'some-random-name';
     };
 
-    project.isEmberCLIProject = function isEmberCLIProject() {
+    project.isEmberCLIProject = function() {
       return true;
     };
 
-    command = new DestroyCommand(commandOptions({
+    options = commandOptions({
       settings: {},
 
       project: project,
@@ -33,7 +33,9 @@ describe('generate command', function() {
           }
         })
       }
-    }));
+    });
+
+    command = new DestroyCommand(options);
   });
 
   it('runs DestroyFromBlueprint with expected options', function() {
@@ -72,13 +74,15 @@ describe('generate command', function() {
   });
 
   it('does not throws errors when beforeRun is invoked without the blueprint name', function() {
-    expect(function () {
+    expect(function() {
       command.beforeRun([]);
     }).to.not.throw();
   });
 
   it('rethrows errors from beforeRun', function() {
-    return Promise.resolve(function(){ return command.beforeRun(['controller', 'foo']);})
+    return Promise.resolve(function() {
+      return command.beforeRun(['controller', 'foo']);
+    })
     .then(function() {
       expect(false, 'should not have called run');
     })
