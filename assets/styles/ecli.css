@@ -175,37 +175,25 @@ body {
     height: auto;
     float: none;
     margin: 3em auto 4em;
-    border: 1px solid #a05c51;
-    border-bottom: 4px solid #cd7e70;
     padding: .95em 1.45em;
     letter-spacing: .04em;
     font-size: 1.1em;
     font-family: "exomedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0 1px #fefcfc;
     color: #a64231;
-    background-color: #e8ada2;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#e8ada2));
-    background-image: -webkit-linear-gradient(top, #f7e3df, #e8ada2);
-    background-image: -moz-linear-gradient(top, #f7e3df, #e8ada2);
-    background-image: -o-linear-gradient(top, #f7e3df, #e8ada2);
-    background-image: linear-gradient(to bottom, #f7e3df, #e8ada2);
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    -khtml-border-radius: 7px;
-    border-radius: 7px; }
+    background: #f2d1cb;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+    border-top: 2px solid #eec3bb;
+    border-bottom: 1px solid #f4d8d3; }
     #showcase .primary-nav a:hover, #showcase .primary-nav a:active {
-      border: 1px solid #b6786e;
-      border-bottom: 4px solid #c46656;
-      text-shadow: 0 1px #f1cdc7;
       text-decoration: none;
-      background-color: #de8979;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(#f7e3df), to(#de8979));
-      background-image: -webkit-linear-gradient(top, #f7e3df, #de8979);
-      background-image: -moz-linear-gradient(top, #f7e3df, #de8979);
-      background-image: -o-linear-gradient(top, #f7e3df, #de8979);
-      background-image: linear-gradient(to bottom, #f7e3df, #de8979); }
+      background: #de8979;
+      border-top: 2px solid #da7a69;
+      border-bottom: 1px solid #da7a69; }
 
 #sidenav h1 {
   margin: 20px;
@@ -396,11 +384,10 @@ body {
       background-image: -moz-linear-gradient(top, white, #f7e3df);
       background-image: -o-linear-gradient(top, white, #f7e3df);
       background-image: linear-gradient(to bottom, white, #f7e3df);
-      border-bottom: 1px solid white; }
+      border-bottom: 1px solid #fcf5f4; }
       .sidenav li.active a, .sidenav li.active:hover a {
         color: #9c3422;
-        letter-spacing: .04em;
-        text-shadow: 0 1px white; }
+        letter-spacing: .04em; }
         .sidenav li.active a:hover, .sidenav li.active a:active, .sidenav li.active:hover a:hover, .sidenav li.active:hover a:active {
           background: none; }
     .sidenav li:nth-child(1) {
@@ -411,36 +398,26 @@ body {
       border-bottom: 1px solid #f2d1cb;
       margin-right: -6px; }
       .sidenav li a {
+        padding-left: 50px;
         text-transform: uppercase;
         font-size: .8em;
         font-weight: 500;
         color: #ba6051;
-        letter-spacing: .04em;
-        text-shadow: 0 1px #faeeec; }
+        letter-spacing: .04em; }
         .sidenav li a:hover {
           background-color: #f4d8d3;
-          background-image: -webkit-gradient(linear, left top, left bottom, from(#fbf1f0), to(#f4d8d3));
-          background-image: -webkit-linear-gradient(top, #fbf1f0, #f4d8d3);
-          background-image: -moz-linear-gradient(top, #fbf1f0, #f4d8d3);
-          background-image: -o-linear-gradient(top, #fbf1f0, #f4d8d3);
-          background-image: linear-gradient(to bottom, #fbf1f0, #f4d8d3); }
-    .sidenav .ectop {
-      background-color: #f7e3df;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f7e3df));
-      background-image: -webkit-linear-gradient(top, white, #f7e3df);
-      background-image: -moz-linear-gradient(top, white, #f7e3df);
-      background-image: -o-linear-gradient(top, white, #f7e3df);
-      background-image: linear-gradient(to bottom, white, #f7e3df);
-      border-bottom: 2px solid #eab4aa;
-      border-top: none; }
-      .sidenav .ectop a {
-        text-align: center;
-        text-shadow: 0 1px white;
-        padding: 1em 0;
-        background: none; }
-        .sidenav .ectop a:hover, .sidenav .ectop a:active {
-          background: none; }
-        .sidenav .ectop a span {
-          padding-right: .5em; }
-      .sidenav .ectop .categories a {
-        display: inline-block; } }
+          background-image: -webkit-gradient(linear, left top, left bottom, from(#f9eae8), to(#f4d8d3));
+          background-image: -webkit-linear-gradient(top, #f9eae8, #f4d8d3);
+          background-image: -moz-linear-gradient(top, #f9eae8, #f4d8d3);
+          background-image: -o-linear-gradient(top, #f9eae8, #f4d8d3);
+          background-image: linear-gradient(to bottom, #f9eae8, #f4d8d3); }
+    .sidenav .ectop a {
+      padding: 1em 0;
+      padding-left: 20px;
+      background: none; }
+      .sidenav .ectop a span {
+        padding-right: .5em; }
+    .sidenav .ectop .categories a {
+      display: inline-block; } }
+
+/*# sourceMappingURL=ecli.css.map */
