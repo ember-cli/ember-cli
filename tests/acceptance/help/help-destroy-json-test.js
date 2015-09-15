@@ -41,6 +41,7 @@ describe('Acceptance: ember help --json destroy', function() {
           {
             name: 'dry-run',
             default: false,
+            description: 'Dry run, simulate destruction without affecting your project',
             aliases: ['d'],
             key: 'dryRun',
             required: false
@@ -48,6 +49,7 @@ describe('Acceptance: ember help --json destroy', function() {
           {
             name: 'verbose',
             default: false,
+            description: 'Verbose output',
             aliases: ['v'],
             key: 'verbose',
             required: false
@@ -55,6 +57,7 @@ describe('Acceptance: ember help --json destroy', function() {
           {
             name: 'pod',
             default: false,
+            description: 'Destroy files generated in pod structure',
             aliases: ['p'],
             key: 'pod',
             required: false
@@ -62,6 +65,7 @@ describe('Acceptance: ember help --json destroy', function() {
           {
             name: 'classic',
             default: false,
+            description: 'Destroy files generated in classic structure',
             aliases: ['c'],
             key: 'classic',
             required: false
@@ -69,6 +73,7 @@ describe('Acceptance: ember help --json destroy', function() {
           {
             name: 'dummy',
             default: false,
+            description: 'Destroy files in `tests/dummy` generated inside an addon project',
             aliases: ['dum', 'id'],
             key: 'dummy',
             required: false
@@ -76,6 +81,7 @@ describe('Acceptance: ember help --json destroy', function() {
           {
             name: 'in-repo-addon',
             default: null,
+            description: 'Destroy files generated in specified in-repo-addon when inside a project',
             aliases: ['in-repo', 'ir'],
             key: 'inRepoAddon',
             required: false

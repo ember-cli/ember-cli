@@ -42,6 +42,7 @@ describe('Acceptance: ember help --json new', function() {
           {
             name: 'dry-run',
             default: false,
+            description: 'Dry run, simulate project generation',
             aliases: ['d'],
             key: 'dryRun',
             required: false
@@ -49,6 +50,7 @@ describe('Acceptance: ember help --json new', function() {
           {
             name: 'verbose',
             default: false,
+            description: 'Verbose output',
             aliases: ['v'],
             key: 'verbose',
             required: false
@@ -56,6 +58,7 @@ describe('Acceptance: ember help --json new', function() {
           {
             name: 'blueprint',
             default: 'app',
+            description: 'Specify project blueprint',
             aliases: ['b'],
             key: 'blueprint',
             required: false
@@ -63,6 +66,7 @@ describe('Acceptance: ember help --json new', function() {
           {
             name: 'skip-npm',
             default: false,
+            description: 'Skip installing npm packages',
             aliases: ['sn'],
             key: 'skipNpm',
             required: false
@@ -70,6 +74,7 @@ describe('Acceptance: ember help --json new', function() {
           {
             name: 'skip-bower',
             default: false,
+            description: 'Skip installing bower packages',
             aliases: ['sb'],
             key: 'skipBower',
             required: false
@@ -77,6 +82,7 @@ describe('Acceptance: ember help --json new', function() {
           {
             name: 'skip-git',
             default: false,
+            description: 'Skip creating a git repository',
             aliases: ['sg'],
             key: 'skipGit',
             required: false
@@ -84,6 +90,7 @@ describe('Acceptance: ember help --json new', function() {
           {
             name: 'directory',
             aliases: ['dir'],
+            description: 'Specify directory name (if different from project)',
             key: 'directory',
             required: false
           }
