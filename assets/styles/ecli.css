@@ -11,7 +11,7 @@ tell you is that this will help speed up simple changes like
 changing a color or adding CSS3 techniques gradients.
 
 A WORD OF WARNING: It's very easy to overdo it here. Be careful and
-remember less is more. 
+remember less is more.
 
 Helpful:
 http://sachagreif.com/useful-sass-mixins/
@@ -135,30 +135,17 @@ body {
       text-shadow: 0 1px #4a170e; }
       #showcase .content h6 a {
         color: #d07b6d; }
-    #showcase .content h1 {
-      font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
-      line-height: 1.4em;
-      font-size: 3.5em;
-      color: white;
-      text-shadow: 0 2px #742416; }
-      #showcase .content h1 span {
-        width: 56px;
-        top: -15px;
-        color: #b3230a;
-        padding: .04em .4em .04em .3em;
-        font-size: .75em;
-        border-bottom: 3px solid #d66f5d;
-        text-shadow: 0 1px white;
-        -webkit-border-radius: 7px;
-        -moz-border-radius: 7px;
-        -khtml-border-radius: 7px;
-        border-radius: 7px;
-        background-color: #f9a091;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f9a091));
-        background-image: -webkit-linear-gradient(top, white, #f9a091);
-        background-image: -moz-linear-gradient(top, white, #f9a091);
-        background-image: -o-linear-gradient(top, white, #f9a091);
-        background-image: linear-gradient(to bottom, white, #f9a091); }
+    #showcase .content .brand {
+      background: url("/assets/images/ember-cli-logo.png") center no-repeat;
+      background-size: cover;
+      height: 94px;
+      padding: 0;
+      position: relative;
+      text-indent: -999em;
+      width: 350px;
+      margin: auto;
+      margin-top: 10px;
+      margin-bottom: 20px; }
     #showcase .content code {
       text-align: center;
       display: block;
@@ -221,33 +208,8 @@ body {
       background-image: linear-gradient(to bottom, #f7e3df, #de8979); }
 
 #sidenav h1 {
-  font-family: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.4em;
-  font-size: 3.5em;
-  color: white;
-  text-shadow: 0 2px #742416;
-  font-size: 2em;
-  background-color: #d84a32;
-  margin: 0;
-  padding: 10px 20px; }
-  #sidenav h1 span {
-    width: 56px;
-    top: -15px;
-    color: #b3230a;
-    padding: .04em .4em .04em .3em;
-    font-size: .75em;
-    border-bottom: 3px solid #d66f5d;
-    text-shadow: 0 1px white;
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    -khtml-border-radius: 7px;
-    border-radius: 7px;
-    background-color: #f9a091;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#f9a091));
-    background-image: -webkit-linear-gradient(top, white, #f9a091);
-    background-image: -moz-linear-gradient(top, white, #f9a091);
-    background-image: -o-linear-gradient(top, white, #f9a091);
-    background-image: linear-gradient(to bottom, white, #f9a091); }
+  margin: 20px;
+  text-align: center; }
 
 .content-section {
   overflow-x: hidden; }

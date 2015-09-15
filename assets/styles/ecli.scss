@@ -9,26 +9,6 @@ $exo1:      'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $exo2:      'exomedium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $exo3:      'exoblack', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-
-@mixin logo {
-      font-family: $exo1;
-      line-height: 1.4em;
-      font-size: 3.5em;
-      color: white;
-      text-shadow: 0 2px darken($drkred,25%);
-      span {
-        width: 56px;
-        top: -15px;
-        color: darken($red,15%);
-        padding: .04em .4em .04em .3em;
-        font-size: .75em;
-        border-bottom: 3px solid desaturate(lighten($red,8%),30%);
-        text-shadow: 0 1px white;
-        @include border-radius(7px);
-        @include css-gradient(lighten($red,55%),lighten($red,25%))
-      }
-}
-
 /*  BASE STYLES   */
 
 body {
@@ -103,8 +83,17 @@ body {
         color: desaturate(lighten($red,10%),38%);
       }
     }
-    h1 {
-      @include logo;
+    .brand {
+      background: url('/assets/images/ember-cli-logo.png')  center no-repeat;
+      background-size: cover;
+      height: 94px;
+      padding: 0;
+      position: relative;
+      text-indent: -999em;
+      width: 350px;
+      margin: auto;
+      margin-top: 10px;
+      margin-bottom: 20px;
     }
     code {
       text-align: center;
@@ -160,11 +149,8 @@ body {
 
 
 #sidenav h1 {
-  @include logo;
-  font-size: 2em;
-  background-color: rgb(216, 74, 50);
-  margin:0;
-  padding: 10px 20px;
+  margin: 20px;
+  text-align: center;
 }
 
 
