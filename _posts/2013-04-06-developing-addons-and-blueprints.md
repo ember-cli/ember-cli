@@ -219,6 +219,7 @@ module.exports = app.toTree();
 {% endhighlight %}
 
 ### Addon Components
+
 The actual code for the addon goes in `addon/components/x-button.js`
 
 {% highlight javascript %}
@@ -244,7 +245,6 @@ Just import your component, and re-export it:
 {% highlight javascript %}
 // app/components/x-button.js
 
-import Ember from 'ember';
 import XButton from 'ember-cli-x-button/components/x-button';
 
 export default XButton;
