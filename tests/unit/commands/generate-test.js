@@ -1,23 +1,24 @@
 'use strict';
 
-var GenerateCommand = require('../../../lib/commands/generate');
+var expect          = require('chai').expect;
+var SilentError     = require('silent-error');
+var commandOptions  = require('../../factories/command-options');
+var MockProject     = require('../../helpers/mock-project');
 var Promise         = require('../../../lib/ext/promise');
 var Task            = require('../../../lib/models/task');
-var expect          = require('chai').expect;
-var commandOptions  = require('../../factories/command-options');
-var SilentError     = require('silent-error');
-var MockProject     = require('../../helpers/mock-project');
+var GenerateCommand = require('../../../lib/commands/generate');
 
 describe('generate command', function() {
   var command;
 
   beforeEach(function() {
     var project = new MockProject();
+
     project.name = function() {
       return 'some-random-name';
     };
 
-    project.isEmberCLIProject = function isEmberCLIProject() {
+    project.isEmberCLIProject = function() {
       return true;
     };
 
@@ -25,8 +26,7 @@ describe('generate command', function() {
       return [];
     };
 
-    //nodeModulesPath: 'somewhere/over/the/rainbow'
-    command = new GenerateCommand(commandOptions({
+    var options = commandOptions({
       settings: {},
 
       project: project,
@@ -39,7 +39,10 @@ describe('generate command', function() {
           }
         })
       }
-    }));
+    });
+
+    //nodeModulesPath: 'somewhere/over/the/rainbow'
+    command = new GenerateCommand(options);
   });
 
   it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
@@ -61,7 +64,7 @@ describe('generate command', function() {
   });
 
   it('does not throws errors when beforeRun is invoked without the blueprint name', function() {
-    expect(function () {
+    expect(function() {
       command.beforeRun([]);
     }).to.not.throw();
   });
@@ -80,7 +83,7 @@ describe('generate command', function() {
   });
 
   it('complains if --help is called for non-existent blueprint.', function() {
-    return Promise.resolve(command.printDetailedHelp({rawArgs:['foo','-h']}))
+    return Promise.resolve(command.printDetailedHelp({ rawArgs: ['foo', '-h'] }))
       .then(function() {
         expect(command.ui.output).to.include(
             'The \'foo\' blueprint does not exist in this project.');
