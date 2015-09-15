@@ -320,6 +320,12 @@ body {
 }
 
 @media (max-width:500px) {
+  #showcase .content .brand {
+    height: 78px;
+    width: 290px;
+    margin-top: 30px;
+  }
+
   #showcase .primary-nav {
     margin-top:2em;
   }
