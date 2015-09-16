@@ -32,22 +32,27 @@ describe('Acceptance: ember help generate', function() {
     ])
     .then(function(result) {
       var output = result.ui.output;
-
       var testString = processHelpString(EOL + '\
 ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
   Generates new code from blueprints.' + EOL + '\
   \u001b[90maliases: g\u001b[39m' + EOL + '\
   \u001b[36m--dry-run\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    Dry run, simulate blueprint generation without affecting your project' + EOL + '\
     \u001b[90maliases: -d\u001b[39m' + EOL + '\
   \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    Verbose output' + EOL + '\
     \u001b[90maliases: -v\u001b[39m' + EOL + '\
   \u001b[36m--pod\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    Generate blueprint in pod structure' + EOL + '\
     \u001b[90maliases: -p\u001b[39m' + EOL + '\
   \u001b[36m--classic\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    Generate blueprint in classic structure' + EOL + '\
     \u001b[90maliases: -c\u001b[39m' + EOL + '\
   \u001b[36m--dummy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    Generate blueprint in `tests/dummy` when inside an addon project' + EOL + '\
     \u001b[90maliases: -dum, -id\u001b[39m' + EOL + '\
   \u001b[36m--in-repo-addon\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m' + EOL + '\
+    Generate blueprint in specified in-repo-addon when inside a project' + EOL + '\
     \u001b[90maliases: -in-repo <value>, -ir <value>\u001b[39m' + EOL + '\
 ' + EOL + '\
 ' + EOL + '\

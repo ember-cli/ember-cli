@@ -44,6 +44,7 @@ describe('Acceptance: ember help --json generate', function() {
           {
             name: 'dry-run',
             default: false,
+            description: 'Dry run, simulate blueprint generation without affecting your project',
             aliases: ['d'],
             key: 'dryRun',
             required: false
@@ -51,6 +52,7 @@ describe('Acceptance: ember help --json generate', function() {
           {
             name: 'verbose',
             default: false,
+            description: 'Verbose output',
             aliases: ['v'],
             key: 'verbose',
             required: false
@@ -58,6 +60,7 @@ describe('Acceptance: ember help --json generate', function() {
           {
             name: 'pod',
             default: false,
+            description: 'Generate blueprint in pod structure',
             aliases: ['p'],
             key: 'pod',
             required: false
@@ -65,6 +68,7 @@ describe('Acceptance: ember help --json generate', function() {
           {
             name: 'classic',
             default: false,
+            description: 'Generate blueprint in classic structure',
             aliases: ['c'],
             key: 'classic',
             required: false
@@ -72,6 +76,7 @@ describe('Acceptance: ember help --json generate', function() {
           {
             name: 'dummy',
             default: false,
+            description: 'Generate blueprint in `tests/dummy` when inside an addon project',
             aliases: ['dum', 'id'],
             key: 'dummy',
             required: false
@@ -79,6 +84,7 @@ describe('Acceptance: ember help --json generate', function() {
           {
             name: 'in-repo-addon',
             default: null,
+            description: 'Generate blueprint in specified in-repo-addon when inside a project',
             aliases: ['in-repo', 'ir'],
             key: 'inRepoAddon',
             required: false

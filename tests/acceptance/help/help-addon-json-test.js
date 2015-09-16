@@ -41,6 +41,7 @@ describe('Acceptance: ember help --json addon', function() {
           {
             name: 'dry-run',
             default: false,
+            description: 'Dry run, simulate addon generation without affecting your project',
             aliases: ['d'],
             key: 'dryRun',
             required: false
@@ -48,6 +49,7 @@ describe('Acceptance: ember help --json addon', function() {
           {
             name: 'verbose',
             default: false,
+            description: 'Verbose output',
             aliases: ['v'],
             key: 'verbose',
             required: false
@@ -55,6 +57,7 @@ describe('Acceptance: ember help --json addon', function() {
           {
             name: 'blueprint',
             default: 'addon',
+            description: 'Specify addon blueprint',
             aliases: ['b'],
             key: 'blueprint',
             required: false
@@ -62,6 +65,7 @@ describe('Acceptance: ember help --json addon', function() {
           {
             name: 'skip-npm',
             default: false,
+            description: 'Skip installing npm packages',
             aliases: ['sn'],
             key: 'skipNpm',
             required: false
@@ -69,6 +73,7 @@ describe('Acceptance: ember help --json addon', function() {
           {
             name: 'skip-bower',
             default: false,
+            description: 'Skip installing bower packages',
             aliases: ['sb'],
             key: 'skipBower',
             required: false
@@ -76,6 +81,7 @@ describe('Acceptance: ember help --json addon', function() {
           {
             name: 'skip-git',
             default: false,
+            description: 'Skip creating a git repository',
             aliases: ['sg'],
             key: 'skipGit',
             required: false

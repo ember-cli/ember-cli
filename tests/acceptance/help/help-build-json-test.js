@@ -41,6 +41,7 @@ describe('Acceptance: ember help --json build', function() {
           {
             name: 'environment',
             default: 'development',
+            description: 'Build environment configuration',
             aliases: [
               'e',
               { dev: 'development' },
@@ -53,6 +54,7 @@ describe('Acceptance: ember help --json build', function() {
             name: 'output-path',
             type: 'path',
             default: 'dist/',
+            description: 'Build output path',
             aliases: ['o'],
             key: 'outputPath',
             required: false
@@ -60,6 +62,7 @@ describe('Acceptance: ember help --json build', function() {
           {
             name: 'watch',
             default: false,
+            description: 'Watch filesystem to trigger build',
             aliases: ['w'],
             key: 'watch',
             required: false

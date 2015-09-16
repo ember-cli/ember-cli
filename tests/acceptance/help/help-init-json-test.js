@@ -41,6 +41,7 @@ describe('Acceptance: ember help --json init', function() {
           {
             name: 'dry-run',
             default: false,
+            description: 'Dry run, simulate project generation',
             aliases: ['d'],
             key: 'dryRun',
             required: false
@@ -48,6 +49,7 @@ describe('Acceptance: ember help --json init', function() {
           {
             name: 'verbose',
             default: false,
+            description: 'Verbose output',
             aliases: ['v'],
             key: 'verbose',
             required: false
@@ -55,12 +57,14 @@ describe('Acceptance: ember help --json init', function() {
           {
             name: 'blueprint',
             aliases: ['b'],
+            description: 'Specify project blueprint',
             key: 'blueprint',
             required: false
           },
           {
             name: 'skip-npm',
             default: false,
+            description: 'Skip installing npm packages',
             aliases: ['sn'],
             key: 'skipNpm',
             required: false
@@ -68,6 +72,7 @@ describe('Acceptance: ember help --json init', function() {
           {
             name: 'skip-bower',
             default: false,
+            description: 'Skip installing bower packages',
             aliases: ['sb'],
             key: 'skipBower',
             required: false
@@ -75,6 +80,7 @@ describe('Acceptance: ember help --json init', function() {
           {
             name: 'name',
             default: '',
+            description: 'Specify project name',
             aliases: ['n'],
             key: 'name',
             required: false

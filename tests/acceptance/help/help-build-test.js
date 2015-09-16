@@ -38,10 +38,13 @@ ember build \u001b[36m<options...>\u001b[39m' + EOL + '\
   Builds your app and places it into the output path (dist/ by default).' + EOL + '\
   \u001b[90maliases: b\u001b[39m' + EOL + '\
   \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m' + EOL + '\
+    Build environment configuration' + EOL + '\
     \u001b[90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m' + EOL + '\
   \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m' + EOL + '\
+    Build output path' + EOL + '\
     \u001b[90maliases: -o <value>\u001b[39m' + EOL + '\
   \u001b[36m--watch\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+    Watch filesystem to trigger build' + EOL + '\
     \u001b[90maliases: -w\u001b[39m' + EOL + '\
   \u001b[36m--watcher\u001b[39m \u001b[36m(String)\u001b[39m' + EOL);
 

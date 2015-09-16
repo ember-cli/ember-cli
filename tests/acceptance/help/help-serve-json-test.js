@@ -41,13 +41,14 @@ describe('Acceptance: ember help --json serve', function() {
           {
             name: 'port',
             default: 4200,
+            description: 'Change port from default',
             aliases: ['p'],
             key: 'port',
             required: false
           },
           {
             name: 'host',
-            description: 'Listens on all interfaces by default',
+            description: 'Specify host, listens on all interfaces by default',
             aliases: ['H'],
             key: 'host',
             required: false
@@ -55,6 +56,7 @@ describe('Acceptance: ember help --json serve', function() {
           {
             name: 'proxy',
             aliases: ['pr', 'pxy'],
+            description: 'Proxy to specified API server',
             key: 'proxy',
             required: false
           },
@@ -69,6 +71,7 @@ describe('Acceptance: ember help --json serve', function() {
           {
             name: 'watcher',
             default: 'events',
+            description: 'Set file watcher',
             aliases: ['w'],
             key: 'watcher',
             required: false
@@ -76,20 +79,21 @@ describe('Acceptance: ember help --json serve', function() {
           {
             name: 'live-reload',
             default: true,
+            description: 'Disable live reload',
             aliases: ['lr'],
             key: 'liveReload',
             required: false
           },
           {
             name: 'live-reload-host',
-            description: 'Defaults to host',
+            description: 'Set live reload host (defaults to host)',
             aliases: ['lrh'],
             key: 'liveReloadHost',
             required: false
           },
           {
             name: 'live-reload-port',
-            description: '(Defaults to port number within [49152...65535])',
+            description: 'Set live reload port  (Defaults to port number within [49152...65535] )',
             aliases: ['lrp'],
             key: 'liveReloadPort',
             required: false
@@ -97,6 +101,7 @@ describe('Acceptance: ember help --json serve', function() {
           {
             name: 'environment',
             default: 'development',
+            description: 'Build environment',
             aliases: [
               'e',
               { dev: 'development' },
@@ -109,6 +114,7 @@ describe('Acceptance: ember help --json serve', function() {
             name: 'output-path',
             type: 'path',
             default: 'dist/',
+            description: 'Specify build path',
             aliases: ['op', 'out'],
             key: 'outputPath',
             required: false
@@ -116,18 +122,21 @@ describe('Acceptance: ember help --json serve', function() {
           {
             name: 'ssl',
             default: false,
+            description: 'Use SSL',
             key: 'ssl',
             required: false
           },
           {
             name: 'ssl-key',
             default: 'ssl/server.key',
+            description: 'Custom SSL Key',
             key: 'sslKey',
             required: false
           },
           {
             name: 'ssl-cert',
             default: 'ssl/server.crt',
+            description: 'Custom SSL Certificate',
             key: 'sslCert',
             required: false
           }

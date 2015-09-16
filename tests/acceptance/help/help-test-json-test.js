@@ -41,6 +41,7 @@ describe('Acceptance: ember help --json test', function() {
           {
             name: 'environment',
             default: 'test',
+            description: 'Test environment',
             aliases: ['e'],
             key: 'environment',
             required: false
@@ -48,6 +49,7 @@ describe('Acceptance: ember help --json test', function() {
           {
             name: 'config-file',
             default: './testem.json',
+            description: 'Test configuration file',
             aliases: ['c', 'cf'],
             key: 'configFile',
             required: false
@@ -55,6 +57,7 @@ describe('Acceptance: ember help --json test', function() {
           {
             name: 'server',
             default: false,
+            description: 'Run test server',
             aliases: ['s'],
             key: 'server',
             required: false
@@ -62,6 +65,7 @@ describe('Acceptance: ember help --json test', function() {
           {
             name: 'host',
             aliases: ['H'],
+            description: 'Specify host',
             key: 'host',
             required: false
           },
@@ -90,6 +94,7 @@ describe('Acceptance: ember help --json test', function() {
           {
             name: 'watcher',
             default: 'events',
+            description: "Specify watcher",
             aliases: ['w'],
             key: 'watcher',
             required: false
