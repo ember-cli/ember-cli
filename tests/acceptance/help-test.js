@@ -189,6 +189,7 @@ ember test \u001b[36m<options...>\u001b[39m' + EOL + '\
   \u001b[36m--reporter\u001b[39m \u001b[36m(String)\u001b[39m Test reporter to use [tap|dot|xunit]' + EOL + '\
     \u001b[90maliases: -r <value>\u001b[39m' + EOL + '\
   \u001b[36m--test-page\u001b[39m \u001b[36m(String)\u001b[39m Test page to invoke' + EOL + '\
+  \u001b[36m--path\u001b[39m \u001b[36m(String)\u001b[39m Path to a build to run tests against.' + EOL + '\
 ' + EOL + '\
 ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
   outputs ember-cli version' + EOL + '\
@@ -1082,6 +1083,12 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
                 name: 'test-page',
                 description: 'Test page to invoke',
                 key: 'testPage',
+                required: false
+              },
+              {
+                name: 'path',
+                description: 'Path to a build to run tests against.',
+                key: 'path',
                 required: false
               }
             ],
