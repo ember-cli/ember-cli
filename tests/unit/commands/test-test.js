@@ -134,6 +134,27 @@ describe('test command', function() {
         expect(testOptions.reporter).to.equal('xunit');
       });
     });
+
+    it('has the correct options when called with a build path and does not run a build task', function() {
+      return command.validateAndRun(['--path=tests']).then(function() {
+        expect(buildRun.called).to.equal(0, 'build task not called');
+        expect(testRun.called).to.equal(1, 'test task called once');
+
+        var testOptions = testRun.calledWith[0][0];
+
+        expect(testOptions.outputPath).to.equal(path.resolve('tests'), 'has outputPath');
+        expect(testOptions.configFile).to.equal('./testem.json', 'has config file');
+        expect(testOptions.port).to.equal(7357, 'has config file');
+      });
+    });
+
+    it('throws an error if the build path does not exist', function() {
+      return command.validateAndRun(['--path=bad/path/to/build']).then(function() {
+        expect(false, 'should have rejected the build path');
+      }).catch(function(error) {
+        expect(error.message).to.equal('The path bad/path/to/build does not exist. Please specify a valid build directory to test.');
+      });
+    });
   });
 
   describe('--server option', function() {
@@ -157,6 +178,14 @@ describe('test command', function() {
         var testOptions = testServerRun.calledWith[0][0];
 
         expect(testOptions.watcher.options.watcher).to.equal('polling');
+      });
+    });
+
+    it('throws an error if using a build path', function() {
+      return command.validateAndRun(['--server', '--path=tests']).then(function() {
+        expect(false, 'should have rejected using a build path with the server');
+      }).catch(function(error) {
+        expect(error.message).to.equal('Specifying a build is not allowed with the `--server` option.');
       });
     });
   });
