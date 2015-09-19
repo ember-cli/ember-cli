@@ -1,13 +1,13 @@
 'use strict';
 
 module.exports = {
-  stub: function stub(obj, name, value) {
+  stub: function stub(obj, name, value, shouldInvoke) {
     var original = obj[name];
 
     obj[name] = function() {
       obj[name].called++;
       obj[name].calledWith.push(arguments);
-      return value;
+      return shouldInvoke ? value.apply(this, arguments) : value;
     };
 
     obj[name].restore = function() {

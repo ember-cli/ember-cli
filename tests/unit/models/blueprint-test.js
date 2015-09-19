@@ -1,21 +1,36 @@
 'use strict';
 
-var fs                = require('fs-extra');
-var Blueprint         = require('../../../lib/models/blueprint');
-var Task              = require('../../../lib/models/task');
-var MockProject       = require('../../helpers/mock-project');
-var MockUI            = require('../../helpers/mock-ui');
-var expect            = require('chai').expect;
-var path              = require('path');
-var glob              = require('glob');
-var walkSync          = require('walk-sync');
-var Promise           = require('../../../lib/ext/promise');
-var remove            = Promise.denodeify(fs.remove);
-var EOL               = require('os').EOL;
-var root              = process.cwd();
-var tmp               = require('tmp-sync');
-var tmproot           = path.join(root, 'tmp');
-var SilentError       = require('silent-error');
+var fs          = require('fs-extra');
+var Task        = require('../../../lib/models/task');
+var MockProject = require('../../helpers/mock-project');
+var MockUI      = require('../../helpers/mock-ui');
+var expect      = require('chai').expect;
+var path        = require('path');
+var glob        = require('glob');
+var walkSync    = require('walk-sync');
+var Promise     = require('../../../lib/ext/promise');
+var remove      = Promise.denodeify(fs.remove);
+var EOL         = require('os').EOL;
+var root        = process.cwd();
+var tmp         = require('tmp-sync');
+var tmproot     = path.join(root, 'tmp');
+var SilentError = require('silent-error');
+var stub        = require('../../helpers/stub').stub;
+var proxyquire  = require('proxyquire');
+var existsSync  = require('exists-sync');
+
+var existsSyncStub;
+var readdirSyncStub;
+var Blueprint = proxyquire('../../../lib/models/blueprint', {
+  'exists-sync': function() {
+    return existsSyncStub.apply(this, arguments);
+  },
+  'fs-extra': {
+    readdirSync: function() {
+      return readdirSyncStub.apply(this, arguments);
+    }
+  }
+});
 
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
@@ -35,6 +50,9 @@ var basicBlueprintFiles = [
 describe('Blueprint', function() {
   beforeEach(function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
+
+    existsSyncStub = existsSync;
+    readdirSyncStub = fs.readdirSync;
   });
 
   describe('.mapFile', function() {
@@ -159,6 +177,15 @@ describe('Blueprint', function() {
   });
 
   describe('.list', function() {
+    afterEach(function() {
+      if (Blueprint.defaultLookupPaths.restore) {
+        Blueprint.defaultLookupPaths.restore();
+      }
+      if (Blueprint.load.restore) {
+        Blueprint.load.restore();
+      }
+    });
+
     it('returns a list of blueprints grouped by lookup path', function() {
       var list = Blueprint.list({ paths: [fixtureBlueprints] });
       var actual = list[0];
@@ -173,6 +200,43 @@ describe('Blueprint', function() {
       expect(actual.blueprints[2].overridden, false);
       expect(actual.blueprints[3].name).to.equal('with-templating');
       expect(actual.blueprints[3].overridden, false);
+    });
+
+    it('overrides a blueprint of the same name from another package', function() {
+      existsSyncStub = function(path) {
+        return path.indexOf('package.json') === -1;
+      };
+      readdirSyncStub = function() {
+        return ['test2'];
+      };
+      stub(Blueprint, 'defaultLookupPaths', []);
+      stub(Blueprint, 'load', function() {
+        return {
+          name: 'test2'
+        };
+      }, true);
+
+      var list = Blueprint.list({
+        paths: [
+          'test0/blueprints',
+          'test1/blueprints'
+        ]
+      });
+
+      expect(list[0]).to.deep.equal({
+        source: 'test0',
+        blueprints: [{
+          name: 'test2',
+          overridden: false
+        }]
+      });
+      expect(list[1]).to.deep.equal({
+        source: 'test1',
+        blueprints: [{
+          name: 'test2',
+          overridden: true
+        }]
+      });
     });
   });
 
