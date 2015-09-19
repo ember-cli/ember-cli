@@ -162,28 +162,17 @@ describe('Blueprint', function() {
     it('returns a list of blueprints grouped by lookup path', function() {
       var list = Blueprint.list({ paths: [fixtureBlueprints] });
       var actual = list[0];
-      var expected = {
-        source: 'fixtures',
-        blueprints: [{
-          name: 'basic',
-          description: 'A basic blueprint',
-          overridden: false
-        }, {
-          name: 'basic_2',
-          description: 'Another basic blueprint',
-          overridden: false
-        }, {
-          name: 'exporting-object',
-          description: 'A blueprint that exports an object',
-          overridden: false
-        }, {
-          name: 'with-templating',
-          description: 'A blueprint with templating',
-          overridden: false
-        }]
-      };
 
-      expect(actual[0]).to.deep.equal(expected[0]);
+      expect(actual.source).to.equal('fixtures');
+      expect(actual.blueprints.length).to.equal(4);
+      expect(actual.blueprints[0].name).to.equal('basic');
+      expect(actual.blueprints[0].overridden, false);
+      expect(actual.blueprints[1].name).to.equal('basic_2');
+      expect(actual.blueprints[1].overridden, false);
+      expect(actual.blueprints[2].name).to.equal('exporting-object');
+      expect(actual.blueprints[2].overridden, false);
+      expect(actual.blueprints[3].name).to.equal('with-templating');
+      expect(actual.blueprints[3].overridden, false);
     });
   });
 
