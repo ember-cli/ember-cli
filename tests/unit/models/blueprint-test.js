@@ -177,6 +177,19 @@ describe('Blueprint', function() {
   });
 
   describe('.list', function() {
+    beforeEach(function() {
+      existsSyncStub = function(path) {
+        return path.indexOf('package.json') === -1;
+      };
+
+      stub(Blueprint, 'defaultLookupPaths', []);
+      stub(Blueprint, 'load', function(blueprintPath) {
+        return {
+          name: path.basename(blueprintPath)
+        };
+      }, true);
+    });
+
     afterEach(function() {
       if (Blueprint.defaultLookupPaths.restore) {
         Blueprint.defaultLookupPaths.restore();
@@ -187,34 +200,31 @@ describe('Blueprint', function() {
     });
 
     it('returns a list of blueprints grouped by lookup path', function() {
-      var list = Blueprint.list({ paths: [fixtureBlueprints] });
-      var actual = list[0];
+      readdirSyncStub = function() {
+        return ['test1', 'test2'];
+      };
 
-      expect(actual.source).to.equal('fixtures');
-      expect(actual.blueprints.length).to.equal(4);
-      expect(actual.blueprints[0].name).to.equal('basic');
-      expect(actual.blueprints[0].overridden, false);
-      expect(actual.blueprints[1].name).to.equal('basic_2');
-      expect(actual.blueprints[1].overridden, false);
-      expect(actual.blueprints[2].name).to.equal('exporting-object');
-      expect(actual.blueprints[2].overridden, false);
-      expect(actual.blueprints[3].name).to.equal('with-templating');
-      expect(actual.blueprints[3].overridden, false);
+      var list = Blueprint.list({ paths: ['test0/blueprints'] });
+
+      expect(list[0]).to.deep.equal({
+        source: 'test0',
+        blueprints: [
+          {
+            name: 'test1',
+            overridden: false
+          },
+          {
+            name: 'test2',
+            overridden: false
+          }
+        ]
+      });
     });
 
     it('overrides a blueprint of the same name from another package', function() {
-      existsSyncStub = function(path) {
-        return path.indexOf('package.json') === -1;
-      };
       readdirSyncStub = function() {
         return ['test2'];
       };
-      stub(Blueprint, 'defaultLookupPaths', []);
-      stub(Blueprint, 'load', function() {
-        return {
-          name: 'test2'
-        };
-      }, true);
 
       var list = Blueprint.list({
         paths: [
@@ -225,17 +235,21 @@ describe('Blueprint', function() {
 
       expect(list[0]).to.deep.equal({
         source: 'test0',
-        blueprints: [{
-          name: 'test2',
-          overridden: false
-        }]
+        blueprints: [
+          {
+            name: 'test2',
+            overridden: false
+          }
+        ]
       });
       expect(list[1]).to.deep.equal({
         source: 'test1',
-        blueprints: [{
-          name: 'test2',
-          overridden: true
-        }]
+        blueprints: [
+          {
+            name: 'test2',
+            overridden: true
+          }
+        ]
       });
     });
   });
