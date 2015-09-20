@@ -1,26 +1,29 @@
 'use strict';
 
-var fs          = require('fs-extra');
-var Task        = require('../../../lib/models/task');
-var MockProject = require('../../helpers/mock-project');
-var MockUI      = require('../../helpers/mock-ui');
-var expect      = require('chai').expect;
-var path        = require('path');
-var glob        = require('glob');
-var walkSync    = require('walk-sync');
-var Promise     = require('../../../lib/ext/promise');
-var remove      = Promise.denodeify(fs.remove);
-var EOL         = require('os').EOL;
-var root        = process.cwd();
-var tmp         = require('tmp-sync');
-var tmproot     = path.join(root, 'tmp');
-var SilentError = require('silent-error');
-var stub        = require('../../helpers/stub').stub;
-var proxyquire  = require('proxyquire');
-var existsSync  = require('exists-sync');
+var fs            = require('fs-extra');
+var Task          = require('../../../lib/models/task');
+var MockProject   = require('../../helpers/mock-project');
+var MockUI        = require('../../helpers/mock-ui');
+var expect        = require('chai').expect;
+var path          = require('path');
+var glob          = require('glob');
+var walkSync      = require('walk-sync');
+var Promise       = require('../../../lib/ext/promise');
+var remove        = Promise.denodeify(fs.remove);
+var EOL           = require('os').EOL;
+var root          = process.cwd();
+var tmp           = require('tmp-sync');
+var tmproot       = path.join(root, 'tmp');
+var SilentError   = require('silent-error');
+var stub          = require('../../helpers/stub').stub;
+var proxyquire    = require('proxyquire');
+var existsSync    = require('exists-sync');
+var MarkdownColor = require('../../../lib/utilities/markdown-color');
 
 var existsSyncStub;
 var readdirSyncStub;
+var readFileSyncStub;
+var renderFileStub;
 var Blueprint = proxyquire('../../../lib/models/blueprint', {
   'exists-sync': function() {
     return existsSyncStub.apply(this, arguments);
@@ -28,7 +31,17 @@ var Blueprint = proxyquire('../../../lib/models/blueprint', {
   'fs-extra': {
     readdirSync: function() {
       return readdirSyncStub.apply(this, arguments);
+    },
+    readFileSync: function() {
+      return readFileSyncStub.apply(this, arguments);
     }
+  },
+  '../../lib/utilities/markdown-color': function() {
+    return {
+      renderFile: function() {
+        return renderFileStub.apply(this, arguments);
+      }
+    };
   }
 });
 
@@ -53,6 +66,8 @@ describe('Blueprint', function() {
 
     existsSyncStub = existsSync;
     readdirSyncStub = fs.readdirSync;
+    readFileSyncStub = fs.readFileSync;
+    renderFileStub = MarkdownColor.prototype.renderFile;
   });
 
   describe('.mapFile', function() {
@@ -251,6 +266,90 @@ describe('Blueprint', function() {
           }
         ]
       });
+    });
+  });
+
+  describe('help section', function() {
+    it('handles extra help', function() {
+      existsSyncStub = function() {
+        return true;
+      };
+      renderFileStub = function() {
+        expect(arguments[1].indent).to.equal('        ');
+        return 'test-file';
+      };
+
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      var help = blueprint.printDetailedHelp();
+
+      expect(help).to.equal('test-file');
+    });
+
+    it('handles no extra help', function() {
+      existsSyncStub = function() {
+        return false;
+      };
+      renderFileStub = function() {
+        expect.fail(0, 1, 'should not call MarkdownColor.renderFile');
+      };
+
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      var help = blueprint.printDetailedHelp();
+
+      expect(help).to.equal('');
+    });
+
+    it('handles all the options json', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+      blueprint.description = null;
+      blueprint.aliases = null;
+      blueprint.works = null;
+      blueprint.overridden = null;
+      blueprint.dontShowThis = null;
+
+      var json = blueprint.getJson();
+
+      expect(json).to.deep.equal({
+        name: 'my-blueprint',
+        description: null,
+        aliases: null,
+        works: null,
+        overridden: null,
+        availableOptions: [],
+        anonymousOptions: ['name']
+      });
+    });
+
+    it('handles extra help json', function() {
+      existsSyncStub = function() {
+        return true;
+      };
+      readFileSyncStub = function() {
+        return 'test-file';
+      };
+
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      var json = blueprint.getJson(true);
+
+      expect(json.detailedHelp).to.equal('test-file');
+    });
+
+    it('handles no extra help json', function() {
+      existsSyncStub = function() {
+        return false;
+      };
+      readFileSyncStub = function() {
+        expect.fail(0, 1, 'should not call fs.readFileSync');
+      };
+
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      var json = blueprint.getJson(true);
+
+      expect(json).to.not.have.property('detailedHelp');
     });
   });
 
