@@ -1,38 +1,53 @@
-/*jshint multistr: true */
-
 'use strict';
 
-var path          = require('path');
-var tmp           = require('tmp-sync');
 var expect        = require('chai').expect;
-var EOL           = require('os').EOL;
-var ember         = require('../../helpers/ember');
-var convertToJson = require('../../helpers/convert-help-output-to-json');
-var Promise       = require('../../../lib/ext/promise');
-var remove        = Promise.denodeify(require('fs-extra').remove);
-var root          = process.cwd();
-var tmproot       = path.join(root, 'tmp');
-var tmpdir;
+var proxyquire    = require('proxyquire');
+var MockUI        = require('../../../helpers/mock-ui');
+var MockAnalytics = require('../../../helpers/mock-analytics');
+var convertToJson = require('../../../helpers/convert-help-output-to-json');
+var Blueprint     = require('../../../../lib/models/blueprint');
+var HelpCommand   = require('../../../../lib/commands/help');
 
-describe('Acceptance: ember help --json generate', function() {
+var blueprintListStub;
+var GenerateCommand = proxyquire('../../../../lib/commands/generate', {
+  '../models/blueprint': {
+    list: function() {
+      return blueprintListStub.apply(this, arguments);
+    }
+  }
+});
+
+describe('help command: generate json', function() {
+  var ui, command;
+
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
-  });
+    ui = new MockUI();
 
-  afterEach(function() {
-    process.chdir(root);
-    return remove(tmproot);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      commands: {
+        'Generate': GenerateCommand
+      },
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        },
+        blueprintLookupPaths: function() {
+          return [];
+        }
+      },
+      settings: {}
+    };
+
+    command = new HelpCommand(options);
+
+    blueprintListStub = Blueprint.list;
   });
 
   it('works', function() {
-    return ember([
-      'help',
-      'generate',
-      '--json'
-    ])
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
+    return command.validateAndRun(['generate', '--json']).then(function() {
+      var json = convertToJson(ui.output);
 
       var command = json.commands[0];
       expect(command).to.deep.equal({
@@ -440,176 +455,116 @@ describe('Acceptance: ember help --json generate', function() {
   });
 
   it('works with alias g', function() {
-    return ember([
-      'help',
-      'generate',
-      '--json'
-    ])
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
+    return command.validateAndRun(['g', '--json']).then(function() {
+      var json = convertToJson(ui.output);
 
       var command = json.commands[0];
       expect(command.name).to.equal('generate');
     });
   });
 
-  it('lists overridden blueprints', function() {
-    return ember([
-      'init',
-      '--name=my-app',
-      '--skip-npm',
-      '--skip-bower'
-    ])
-    .then(function() {
-      return ember([
-        'generate',
-        'blueprint',
-        'component'
-      ]);
-    })
-    .then(function() {
-      return ember([
-        'help',
-        'generate',
-        'component',
-        '--verbose',
-        '--json'
-      ]);
-    })
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
-
-      var command = json.commands[0];
-      expect(command.availableBlueprints).to.deep.equal([
-        {
-          'my-app': [
-            {
-              name: 'component',
-              description: '',
-              availableOptions: [],
-              anonymousOptions: ['name'],
-              overridden: false
-            }
-          ]
-        },
-        {
-          'ember-cli': [
-            {
-              name: 'component',
-              description: 'Generates a component. Name must contain a hyphen.',
-              availableOptions: [
-                {
-                  name: 'path',
-                  default: 'components',
-                  aliases: [
-                    { 'no-path': '' }
-                  ],
-                  key: 'path',
-                  required: false
-                }
-              ],
-              anonymousOptions: ['name'],
-              overridden: true
-            }
-          ]
-        }
-      ]);
-    });
-  });
-
   it('handles missing blueprint', function() {
-    return ember([
-      'help',
-      'generate',
-      'asdf',
-      '--json'
-    ])
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
-
-      var command = json.commands[0];
-      expect(command.availableBlueprints).to.deep.equal([
+    blueprintListStub = function() {
+      return [
         {
-          'ember-cli': []
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint'
+            }
+          ]
         }
-      ]);
-    });
+      ];
+    };
+
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        },
+        blueprintLookupPaths: function() {
+          return [];
+        }
+      },
+      settings: {}
+    };
+
+    command = new GenerateCommand(options);
+
+    options = {
+      rawArgs: ['missing-blueprint'],
+      json: true
+    };
+
+    var json = {};
+
+    command.addAdditionalJsonForHelp(json, options);
+
+    expect(json.availableBlueprints).to.deep.equal([
+      {
+        'my-app': []
+      }
+    ]);
   });
 
   it('works with single blueprint', function() {
-    return ember([
-      'help',
-      'generate',
-      'component',
-      '--json'
-    ])
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
-
-      var command = json.commands[0];
-      expect(command.availableBlueprints).to.deep.equal([
+    blueprintListStub = function() {
+      return [
         {
-          'ember-cli': [
+          source: 'my-app',
+          blueprints: [
             {
-              name: 'component',
-              description: 'Generates a component. Name must contain a hyphen.',
-              availableOptions: [
-                {
-                  name: 'path',
-                  default: 'components',
-                  aliases: [
-                    { 'no-path': '' }
-                  ],
-                  key: 'path',
-                  required: false
-                }
-              ],
-              anonymousOptions: ['name'],
-              overridden: false
+              name: 'my-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            },
+            {
+              name: 'skipped-blueprint'
             }
           ]
         }
-      ]);
-    });
-  });
+      ];
+    };
 
-  it('handles extra help', function() {
-    return ember([
-      'help',
-      'generate',
-      'model',
-      '--json'
-    ])
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        },
+        blueprintLookupPaths: function() {
+          return [];
+        }
+      },
+      settings: {}
+    };
 
-      var command = json.commands[0];
-      expect(command.availableBlueprints[0]['ember-cli'][0].detailedHelp).to.equal('\
-<grey>You may generate models with as many attrs as you would like to pass. The following attribute types are supported:</grey>' + EOL + '\
-  <yellow><attr-name></yellow>' + EOL + '\
-  <yellow><attr-name></yellow>:array' + EOL + '\
-  <yellow><attr-name></yellow>:boolean' + EOL + '\
-  <yellow><attr-name></yellow>:date' + EOL + '\
-  <yellow><attr-name></yellow>:object' + EOL + '\
-  <yellow><attr-name></yellow>:number' + EOL + '\
-  <yellow><attr-name></yellow>:string' + EOL + '\
-  <yellow><attr-name></yellow>:your-custom-transform' + EOL + '\
-  <yellow><attr-name></yellow>:belongs-to:<yellow><model-name></yellow>' + EOL + '\
-  <yellow><attr-name></yellow>:has-many:<yellow><model-name></yellow>' + EOL + '\
-' + EOL + '\
-For instance: <green>\\`ember generate model taco filling:belongs-to:protein toppings:has-many:toppings name:string price:number misc\\`</green>' + EOL + '\
-would result in the following model:' + EOL + '\
-' + EOL + '\
-```js' + EOL + '\
-import DS from \'ember-data\';' + EOL + '\
-export default DS.Model.extend({' + EOL + '\
-  filling: DS.belongsTo(\'protein\'),' + EOL + '\
-  toppings: DS.hasMany(\'topping\'),' + EOL + '\
-  name: DS.attr(\'string\'),' + EOL + '\
-  price: DS.attr(\'number\'),' + EOL + '\
-  misc: DS.attr()' + EOL + '\
-});' + EOL + '\
-```' + EOL);
-    });
+    command = new GenerateCommand(options);
+
+    options = {
+      rawArgs: ['my-blueprint'],
+      json: true
+    };
+
+    var json = {};
+
+    command.addAdditionalJsonForHelp(json, options);
+
+    expect(json.availableBlueprints).to.deep.equal([
+      {
+        'my-app': [
+          {
+            name: 'my-blueprint',
+          }
+        ]
+      }
+    ]);
   });
 });

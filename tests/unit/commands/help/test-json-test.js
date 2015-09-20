@@ -1,35 +1,38 @@
 'use strict';
 
-var path          = require('path');
-var tmp           = require('tmp-sync');
 var expect        = require('chai').expect;
-var ember         = require('../../helpers/ember');
-var convertToJson = require('../../helpers/convert-help-output-to-json');
-var Promise       = require('../../../lib/ext/promise');
-var remove        = Promise.denodeify(require('fs-extra').remove);
-var root          = process.cwd();
-var tmproot       = path.join(root, 'tmp');
-var tmpdir;
+var MockUI        = require('../../../helpers/mock-ui');
+var MockAnalytics = require('../../../helpers/mock-analytics');
+var convertToJson = require('../../../helpers/convert-help-output-to-json');
+var HelpCommand   = require('../../../../lib/commands/help');
+var TestCommand   = require('../../../../lib/commands/test');
 
-describe('Acceptance: ember help --json test', function() {
+describe('help command: test json', function() {
+  var ui, command;
+
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
-  });
+    ui = new MockUI();
 
-  afterEach(function() {
-    process.chdir(root);
-    return remove(tmproot);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      commands: {
+        'Test': TestCommand
+      },
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        }
+      },
+      settings: {}
+    };
+
+    command = new HelpCommand(options);
   });
 
   it('works', function() {
-    return ember([
-      'help',
-      'test',
-      '--json'
-    ])
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
+    return command.validateAndRun(['test', '--json']).then(function() {
+      var json = convertToJson(ui.output);
 
       var command = json.commands[0];
       expect(command).to.deep.equal({
@@ -121,13 +124,8 @@ describe('Acceptance: ember help --json test', function() {
   });
 
   it('works with alias t', function() {
-    return ember([
-      'help',
-      't',
-      '--json'
-    ])
-    .then(function(result) {
-      var json = convertToJson(result.ui.output);
+    return command.validateAndRun(['t', '--json']).then(function() {
+      var json = convertToJson(ui.output);
 
       var command = json.commands[0];
       expect(command.name).to.equal('test');

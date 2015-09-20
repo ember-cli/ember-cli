@@ -2,36 +2,40 @@
 
 'use strict';
 
-var path              = require('path');
-var tmp               = require('tmp-sync');
 var expect            = require('chai').expect;
 var EOL               = require('os').EOL;
-var ember             = require('../../helpers/ember');
-var processHelpString = require('../../helpers/process-help-string');
-var Promise           = require('../../../lib/ext/promise');
-var remove            = Promise.denodeify(require('fs-extra').remove);
-var root              = process.cwd();
-var tmproot           = path.join(root, 'tmp');
-var tmpdir;
+var MockUI            = require('../../../helpers/mock-ui');
+var MockAnalytics     = require('../../../helpers/mock-analytics');
+var processHelpString = require('../../../helpers/process-help-string');
+var HelpCommand       = require('../../../../lib/commands/help');
+var ServeCommand      = require('../../../../lib/commands/serve');
 
-describe('Acceptance: ember help serve', function() {
+describe('help command: serve', function() {
+  var ui, command;
+
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
-  });
+    ui = new MockUI();
 
-  afterEach(function() {
-    process.chdir(root);
-    return remove(tmproot);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      commands: {
+        'Serve': ServeCommand
+      },
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        }
+      },
+      settings: {}
+    };
+
+    command = new HelpCommand(options);
   });
 
   it('works', function() {
-    return ember([
-      'help',
-      'serve'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    return command.validateAndRun(['serve']).then(function() {
+      var output = ui.output;
 
       var testString = processHelpString(EOL + '\
 ember serve \u001b[36m<options...>\u001b[39m' + EOL + '\
@@ -66,12 +70,8 @@ ember serve \u001b[36m<options...>\u001b[39m' + EOL + '\
   });
 
   it('works with alias server', function() {
-    return ember([
-      'help',
-      'server'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    return command.validateAndRun(['server']).then(function() {
+      var output = ui.output;
 
       var testString = processHelpString('ember serve \u001b[36m<options...>\u001b[39m');
 
@@ -80,12 +80,8 @@ ember serve \u001b[36m<options...>\u001b[39m' + EOL + '\
   });
 
   it('works with alias s', function() {
-    return ember([
-      'help',
-      's'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    return command.validateAndRun(['s']).then(function() {
+      var output = ui.output;
 
       var testString = processHelpString('ember serve \u001b[36m<options...>\u001b[39m');
 
