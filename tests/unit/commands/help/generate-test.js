@@ -2,36 +2,55 @@
 
 'use strict';
 
-var path              = require('path');
-var tmp               = require('tmp-sync');
 var expect            = require('chai').expect;
 var EOL               = require('os').EOL;
-var ember             = require('../../helpers/ember');
-var processHelpString = require('../../helpers/process-help-string');
-var Promise           = require('../../../lib/ext/promise');
-var remove            = Promise.denodeify(require('fs-extra').remove);
-var root              = process.cwd();
-var tmproot           = path.join(root, 'tmp');
-var tmpdir;
+var proxyquire        = require('proxyquire');
+var MockUI            = require('../../../helpers/mock-ui');
+var MockAnalytics     = require('../../../helpers/mock-analytics');
+var processHelpString = require('../../../helpers/process-help-string');
+var Blueprint         = require('../../../../lib/models/blueprint');
+var HelpCommand       = require('../../../../lib/commands/help');
 
-describe('Acceptance: ember help generate', function() {
+var blueprintListStub;
+var GenerateCommand = proxyquire('../../../../lib/commands/generate', {
+  '../models/blueprint': {
+    list: function() {
+      return blueprintListStub.apply(this, arguments);
+    }
+  }
+});
+
+describe('help command: generate', function() {
+  var ui, command;
+
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
-  });
+    ui = new MockUI();
 
-  afterEach(function() {
-    process.chdir(root);
-    return remove(tmproot);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      commands: {
+        'Generate': GenerateCommand
+      },
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        },
+        blueprintLookupPaths: function() {
+          return [];
+        }
+      },
+      settings: {}
+    };
+
+    command = new HelpCommand(options);
+
+    blueprintListStub = Blueprint.list;
   });
 
   it('works', function() {
-    return ember([
-      'help',
-      'generate'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    return command.validateAndRun(['generate']).then(function() {
+      var output = ui.output;
 
       var testString = processHelpString(EOL + '\
 ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
@@ -152,12 +171,8 @@ ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m'
   });
 
   it('works with alias g', function() {
-    return ember([
-      'help',
-      'g'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    return command.validateAndRun(['g']).then(function() {
+      var output = ui.output;
 
       var testString = processHelpString('ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m');
 
@@ -165,114 +180,96 @@ ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m'
     });
   });
 
-  it('lists overridden blueprints', function() {
-    return ember([
-      'init',
-      '--name=my-app',
-      '--skip-npm',
-      '--skip-bower'
-    ])
-    .then(function() {
-      return ember([
-        'generate',
-        'blueprint',
-        'component'
-      ]);
-    })
-    .then(function() {
-      return ember([
-        'help',
-        'generate',
-        '--verbose'
-      ]);
-    })
-    .then(function(result) {
-      var output = result.ui.output;
-
-      var testString = processHelpString(EOL + '\
-    my-app:' + EOL + '\
-      component \u001b[33m<name>\u001b[39m' + EOL + '\
-' + EOL + '\
-    ember-cli:' + EOL);
-
-      expect(output).to.include(testString);
-      expect(output).to.include(processHelpString(EOL + '\
-      \u001b[90m(overridden)\u001b[39m \u001b[90mcomponent\u001b[39m' + EOL));
-    });
-  });
-
   it('handles missing blueprint', function() {
-    return ember([
-      'help',
-      'generate',
-      'asdf'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    blueprintListStub = function() {
+      return [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint'
+            }
+          ]
+        }
+      ];
+    };
 
-      var testString = processHelpString(EOL + '\
-\u001b[33mThe \'asdf\' blueprint does not exist in this project.\u001b[39m' + EOL + EOL);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        },
+        blueprintLookupPaths: function() {
+          return [];
+        }
+      },
+      settings: {}
+    };
 
-      expect(output).to.include(testString);
-    });
+    command = new GenerateCommand(options);
+
+    options = {
+      rawArgs: ['missing-blueprint']
+    };
+
+    command.printDetailedHelp(options);
+
+    var output = ui.output;
+
+    var testString = processHelpString('\
+\u001b[33mThe \'missing-blueprint\' blueprint does not exist in this project.\u001b[39m' + EOL + EOL);
+
+    expect(output).to.include(testString);
   });
 
   it('works with single blueprint', function() {
-    return ember([
-      'help',
-      'generate',
-      'component'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    blueprintListStub = function() {
+      return [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              anonymousOptions: []
+            },
+            {
+              name: 'skipped-blueprint'
+            }
+          ]
+        }
+      ];
+    };
 
-      var testString = processHelpString(EOL + '\
-      component \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
-        \u001b[90mGenerates a component. Name must contain a hyphen.\u001b[39m' + EOL);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        },
+        blueprintLookupPaths: function() {
+          return [];
+        }
+      },
+      settings: {}
+    };
 
-      expect(output).to.include(testString);
-    });
-  });
+    command = new GenerateCommand(options);
 
-  it('handles extra help', function() {
-    return ember([
-      'help',
-      'generate',
-      'model'
-    ])
-    .then(function(result) {
-      var output = result.ui.output;
+    options = {
+      rawArgs: ['my-blueprint']
+    };
 
-      var testString = EOL + '\
-        \u001b[0m' + processHelpString('\u001b[90mYou may generate models with as many attrs as you would like to pass. The following attribute types are supported:\u001b[39m\n\
-        \u001b[33m<attr-name>\u001b[39m\n\
-        \u001b[33m<attr-name>\u001b[39m:array\n\
-        \u001b[33m<attr-name>\u001b[39m:boolean\n\
-        \u001b[33m<attr-name>\u001b[39m:date\n\
-        \u001b[33m<attr-name>\u001b[39m:object\n\
-        \u001b[33m<attr-name>\u001b[39m:number\n\
-        \u001b[33m<attr-name>\u001b[39m:string\n\
-        \u001b[33m<attr-name>\u001b[39m:your-custom-transform\n\
-        \u001b[33m<attr-name>\u001b[39m:belongs-to:\u001b[33m<model-name>\u001b[39m\n\
-        \u001b[33m<attr-name>\u001b[39m:has-many:\u001b[33m<model-name>\u001b[39m') + '\u001b[0m\n\
-        \n\
-        \u001b[0mFor instance: ' + processHelpString('\u001b[32m`ember generate model taco filling:belongs-to:protein toppings:has-many:toppings name:string price:number misc`\u001b[39m') + '\n\
-        would result in the following model:\u001b[0m\n\
-        \n\
-        \n\
-        \u001b[33m\u001b[94mimport\u001b[39m \u001b[37mDS\u001b[39m \u001b[37mfrom\u001b[39m \u001b[92m\'ember-data\'\u001b[39m\u001b[90m;\u001b[39m\n\
-        \u001b[94mexport\u001b[39m \u001b[94mdefault\u001b[39m \u001b[37mDS\u001b[39m\u001b[32m.\u001b[39m\u001b[37mModel\u001b[39m\u001b[32m.\u001b[39m\u001b[37mextend\u001b[39m\u001b[90m(\u001b[39m\u001b[33m{\u001b[39m\n\
-          \u001b[37mfilling\u001b[39m\u001b[93m:\u001b[39m \u001b[37mDS\u001b[39m\u001b[32m.\u001b[39m\u001b[37mbelongsTo\u001b[39m\u001b[90m(\u001b[39m\u001b[92m\'protein\'\u001b[39m\u001b[90m)\u001b[39m\u001b[32m,\u001b[39m\n\
-          \u001b[37mtoppings\u001b[39m\u001b[93m:\u001b[39m \u001b[37mDS\u001b[39m\u001b[32m.\u001b[39m\u001b[37mhasMany\u001b[39m\u001b[90m(\u001b[39m\u001b[92m\'topping\'\u001b[39m\u001b[90m)\u001b[39m\u001b[32m,\u001b[39m\n\
-          \u001b[37mname\u001b[39m\u001b[93m:\u001b[39m \u001b[37mDS\u001b[39m\u001b[32m.\u001b[39m\u001b[37mattr\u001b[39m\u001b[90m(\u001b[39m\u001b[92m\'string\'\u001b[39m\u001b[90m)\u001b[39m\u001b[32m,\u001b[39m\n\
-          \u001b[37mprice\u001b[39m\u001b[93m:\u001b[39m \u001b[37mDS\u001b[39m\u001b[32m.\u001b[39m\u001b[37mattr\u001b[39m\u001b[90m(\u001b[39m\u001b[92m\'number\'\u001b[39m\u001b[90m)\u001b[39m\u001b[32m,\u001b[39m\n\
-          \u001b[37mmisc\u001b[39m\u001b[93m:\u001b[39m \u001b[37mDS\u001b[39m\u001b[32m.\u001b[39m\u001b[37mattr\u001b[39m\u001b[90m(\u001b[39m\u001b[90m)\u001b[39m\n\
-        \u001b[33m}\u001b[39m\u001b[90m)\u001b[39m\u001b[90m;\u001b[39m\n\
-        \u001b[39m\n\
-        \n\
-        ' + EOL;
+    command.printDetailedHelp(options);
 
-      expect(output).to.include(testString);
-    });
+    var output = ui.output;
+
+    var testString = processHelpString('\
+      my-blueprint' + EOL + EOL);
+
+    expect(output).to.include(testString);
   });
 });

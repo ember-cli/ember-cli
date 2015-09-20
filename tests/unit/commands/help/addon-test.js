@@ -2,35 +2,40 @@
 
 'use strict';
 
-var path              = require('path');
-var tmp               = require('tmp-sync');
 var expect            = require('chai').expect;
 var EOL               = require('os').EOL;
-var ember             = require('../../helpers/ember');
-var processHelpString = require('../../helpers/process-help-string');
-var Promise           = require('../../../lib/ext/promise');
-var remove            = Promise.denodeify(require('fs-extra').remove);
-var root              = process.cwd();
-var tmproot           = path.join(root, 'tmp');
-var tmpdir;
+var MockUI            = require('../../../helpers/mock-ui');
+var MockAnalytics     = require('../../../helpers/mock-analytics');
+var processHelpString = require('../../../helpers/process-help-string');
+var HelpCommand       = require('../../../../lib/commands/help');
+var AddonCommand      = require('../../../../lib/commands/addon');
 
-describe('Acceptance: ember help addon', function() {
+describe('help command: addon', function() {
+  var ui, command;
+
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
-  });
+    ui = new MockUI();
 
-  afterEach(function() {
-    process.chdir(root);
-    return remove(tmproot);
+    var options = {
+      ui: ui,
+      analytics: new MockAnalytics(),
+      commands: {
+        'Addon': AddonCommand
+      },
+      project: {
+        isEmberCLIProject: function() {
+          return true;
+        }
+      },
+      settings: {}
+    };
+
+    command = new HelpCommand(options);
   });
 
   it('works', function() {
-    return ember([
-      'help',
-      'addon'
-    ]).then(function(result) {
-      var output = result.ui.output;
+    return command.validateAndRun(['addon']).then(function() {
+      var output = ui.output;
 
       var testString = processHelpString(EOL + '\
 ember addon \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
