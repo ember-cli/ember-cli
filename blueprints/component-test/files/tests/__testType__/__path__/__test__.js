@@ -8,8 +8,7 @@ moduleForComponent('<%= componentPathName %>', '<%= friendlyTestDescription %>',
 });
 
 test('it renders', function(assert) {
-  <% if (testType === 'integration' ) { %>assert.expect(2);
-
+  <% if (testType === 'integration' ) { %>
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
@@ -24,8 +23,7 @@ test('it renders', function(assert) {
     {{/<%= componentPathName %>}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');<% } else if(testType === 'unit') { %>assert.expect(1);
-
+  assert.equal(this.$().text().trim(), 'template block text');<% } else if(testType === 'unit') { %>
   // Creates the component instance
   /*var component =*/ this.subject();
   // Renders the component to the page
