@@ -182,12 +182,24 @@ describe('Acceptance: addon-smoke-test', function() {
           resolve(output);
         });
       }).then(function(output) {
-        var unnecessaryFiles = ['.gitkeep', '.travis.yml', '.editorconfig', 'testem.json', '.ember-cli', 'bower.json', '.bowerrc'];
-        var unnecessaryFolders = ['tests/', 'bower_components/'];
+        var unnecessaryFiles = [
+          '.gitkeep',
+          '.travis.yml',
+          '.editorconfig',
+          'testem.json',
+          '.ember-cli',
+          'bower.json',
+          '.bowerrc'
+        ];
 
-        unnecessaryFiles.concat(unnecessaryFolders).forEach(function(file) {
-          expect(output).to.not.match(new RegExp(file), 'expected packaged addon to not contain file or folder \'' + file + '\'');
-        });
+        var unnecessaryFolders = [
+          'tests/',
+          'bower_components/'
+        ];
+
+        var outputFiles = output.split('\n');
+        expect(outputFiles).to.not.contain(unnecessaryFiles);
+        expect(outputFiles).to.not.contain(unnecessaryFolders);
       }, function(error) {
         handleError(error, 'tar');
       });
