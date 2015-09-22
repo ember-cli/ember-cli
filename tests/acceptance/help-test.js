@@ -753,6 +753,13 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
                   overridden: false
                 },
                 {
+                  name: 'vendor-shim',
+                  description: 'Generates an ES6 module shim.',
+                  availableOptions: [],
+                  anonymousOptions: ['name'],
+                  overridden: false
+                },
+                {
                   name: 'view',
                   description: 'Generates a view subclass.',
                   availableOptions: [],
