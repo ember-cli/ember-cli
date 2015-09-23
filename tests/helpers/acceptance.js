@@ -137,6 +137,13 @@ function teardownTestTargets() {
   });
 }
 
+function cleanupDependencies() {
+  var npmDir    = path.resolve(path.join(root, '.node_modules-tmp'));
+  var bowerDir  = path.resolve(path.join(root, '.bower_components-tmp'));
+  fs.removeSync(npmDir);
+  fs.removeSync(bowerDir);
+}
+
 /**
  * Creates symbolic links from the dependency temp directories
  * to the project that is under test.
@@ -188,5 +195,6 @@ module.exports = {
   createTestTargets: createTestTargets,
   linkDependencies: linkDependencies,
   teardownTestTargets: teardownTestTargets,
-  cleanupRun: cleanupRun
+  cleanupRun: cleanupRun,
+  cleanupDependencies: cleanupDependencies
 };

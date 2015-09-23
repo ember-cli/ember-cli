@@ -18,6 +18,7 @@ var assertDirEmpty      = require('../helpers/assert-dir-empty');
 var acceptance          = require('../helpers/acceptance');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
+var cleanupDependencies = acceptance.cleanupDependencies;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
@@ -25,12 +26,14 @@ describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
 
   before(function() {
+    cleanupDependencies();
     return createTestTargets(addonName, {
       command: 'addon'
     });
   });
 
   after(function() {
+    cleanupDependencies();
     return teardownTestTargets();
   });
 
