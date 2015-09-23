@@ -3,6 +3,7 @@
 module.exports = [
   'addon',
   'build',
+  'clean',
   'destroy',
   'generate',
   'help',
