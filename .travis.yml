@@ -1,8 +1,9 @@
+language: node_js
+node_js:
+  - "0.10"
+  - "0.12"
+  - "iojs"
 sudo: false
-env:
-  - NODE_VERSION=0.10
-  - NODE_VERSION=0.12
-  - NODE_VERSION=iojs
 
 os:
   - linux
