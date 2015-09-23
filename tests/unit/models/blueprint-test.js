@@ -1220,6 +1220,38 @@ describe('Blueprint', function() {
     var blueprint;
     var ui;
     var tmpdir;
+
+    beforeEach(function() {
+      tmpdir    = tmp.in(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
+      ui        = new MockUI();
+    });
+
+    afterEach(function() {
+      return remove(tmproot);
+    });
+
+    it('passes a packages array for addAddonsToProject', function() {
+      blueprint.addAddonsToProject = function(options) {
+        expect(options.packages).to.deep.equal(['foo-bar']);
+      };
+
+      blueprint.addAddonToProject('foo-bar');
+    });
+
+    it('passes a packages array with target for addAddonsToProject', function() {
+      blueprint.addAddonsToProject = function(options) {
+        expect(options.packages).to.deep.equal([{name: 'foo-bar', target: '^123.1.12'}]);
+      };
+
+      blueprint.addAddonToProject({name: 'foo-bar', target: '^123.1.12'});
+    });
+  });
+
+  describe('addAddonsToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
     var AddonInstallTask;
     var taskNameLookedUp;
 
@@ -1244,7 +1276,7 @@ describe('Blueprint', function() {
         run: function() {}
       });
 
-      blueprint.addAddonToProject('foo-bar');
+      blueprint.addAddonsToProject({ packages: ['foo-bar'] });
 
       expect(taskNameLookedUp).to.equal('addon-install');
     });
@@ -1258,37 +1290,48 @@ describe('Blueprint', function() {
         }
       });
 
-      blueprint.addAddonToProject('foo-bar');
+      blueprint.addAddonsToProject({ packages: ['foo-bar', 'baz-bat'] });
 
-      expect(pkg).to.deep.equal(['foo-bar']);
+      expect(pkg).to.deep.equal(['foo-bar', 'baz-bat']);
     });
 
     it('calls the task with correctly parsed options', function() {
-      var pkg, args;
+      var pkg, args, bluOpts;
 
       AddonInstallTask = Task.extend({
         run: function(options) {
           pkg  = options['packages'];
           args = options['extraArgs'];
+          bluOpts = options['blueprintOptions'];
         }
       });
 
-      blueprint.addAddonToProject({
-        name: 'foo-bar',
-        target: '1.0.0',
-        extraArgs: ['baz']
+      blueprint.addAddonsToProject({
+        packages: [
+          {
+            name: 'foo-bar',
+            target: '1.0.0'
+          },
+          'stuff-things',
+          'baz-bat@0.0.1'
+        ],
+        extraArgs: ['baz'],
+        blueprintOptions: '-foo'
       });
 
-      expect(pkg).to.deep.equal(['foo-bar@1.0.0']);
+      expect(pkg).to.deep.equal(['foo-bar@1.0.0', 'stuff-things', 'baz-bat@0.0.1']);
       expect(args).to.deep.equal(['baz']);
+      expect(bluOpts).to.equal('-foo');
     });
 
     it('writes information to the ui log for a single package', function() {
       blueprint.ui = ui;
 
-      blueprint.addAddonToProject({
-        name: 'foo-bar',
-        target: '^123.1.12'
+      blueprint.addAddonsToProject({
+        packages: [{
+          name: 'foo-bar',
+          target: '^123.1.12'
+        }]
       });
 
       var output = ui.output.trim();
@@ -1296,12 +1339,34 @@ describe('Blueprint', function() {
       expect(output).to.match(/install addon.*foo-bar/);
     });
 
+    it('writes information to the ui log for multiple packages', function() {
+      blueprint.ui = ui;
+
+      blueprint.addAddonsToProject({
+        packages: [
+          {
+            name: 'foo-bar',
+            target: '1.0.0'
+          },
+          'stuff-things',
+          'baz-bat@0.0.1'
+        ]
+      });
+
+      var output = ui.output.trim();
+
+      expect(output).to.match(/install addons.*foo-bar@1.0.0,.*stuff-things,.*baz-bat@0.0.1/);
+    });
+
     it('does not error if ui is not present', function() {
       delete blueprint.ui;
 
-      blueprint.addAddonToProject({
-        name: 'foo-bar', target: '^123.1.12'}
-      );
+      blueprint.addAddonsToProject({
+        packages: [{
+          name: 'foo-bar',
+          target: '^123.1.12'
+        }]
+      });
 
       var output = ui.output.trim();
 
