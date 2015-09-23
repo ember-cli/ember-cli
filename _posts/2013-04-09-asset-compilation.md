@@ -232,6 +232,8 @@ to add md5 checksums.
 for CDN urls like `https://subdomain.cloudfront.net/`
 * `replaceExtensions` - Default: `['html', 'css', 'js']` - The file types to
 replace source code with new checksum file names.
+* `customHash` - When specified, this is appended to fingerprinted filenames instead
+of the md5. Pass `null` to suppress the hash, which can be useful when using `prepend`.
 
 As an example, this `ember-cli-build` will exclude any file in the fonts/169929
 directory as well as add a cloudfront domain to each fingerprinted asset.
