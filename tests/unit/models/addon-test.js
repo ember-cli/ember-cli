@@ -573,7 +573,7 @@ describe('models/addon.js', function() {
         root: projectPath
       });
 
-      addon = new BaseAddon(project);
+      addon = new BaseAddon(project, project);
     });
 
     afterEach(function() {
