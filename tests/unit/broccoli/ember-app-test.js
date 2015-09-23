@@ -167,6 +167,35 @@ describe('broccoli/ember-app', function() {
 
         expect(actual).to.equal('blammo\nblahzorz');
       });
+
+      it('allows later addons to inspect previous content', function() {
+        var calledContent;
+
+        project.addons.push({
+          contentFor: function() {
+            return 'zero';
+          }
+        });
+
+        project.addons.push({
+          contentFor: function() {
+            return 'one';
+          }
+        });
+
+        project.addons.push({
+          contentFor: function(type, config, content) {
+            calledContent = content.slice();
+            content.pop();
+            return 'two';
+          }
+        });
+
+        var actual = emberApp.contentFor(config, defaultMatch, 'foo');
+
+        expect(calledContent).to.deep.equal(['zero', 'one']);
+        expect(actual).to.equal('zero\ntwo');
+      });
     });
 
     describe('contentFor("head")', function() {
