@@ -1,11 +1,15 @@
+/*jshint multistr: true */
+
 'use strict';
 
-var expect         = require('chai').expect;
-var MockProject    = require('../../helpers/mock-project');
-var commandOptions = require('../../factories/command-options');
-var Promise        = require('../../../lib/ext/promise');
-var Task           = require('../../../lib/models/task');
-var DestroyCommand = require('../../../lib/commands/destroy');
+var expect            = require('chai').expect;
+var EOL               = require('os').EOL;
+var MockProject       = require('../../helpers/mock-project');
+var processHelpString = require('../../helpers/process-help-string');
+var commandOptions    = require('../../factories/command-options');
+var Promise           = require('../../../lib/ext/promise');
+var Task              = require('../../../lib/models/task');
+var DestroyCommand    = require('../../../lib/commands/destroy');
 
 describe('generate command', function() {
   var options, command;
@@ -88,6 +92,19 @@ describe('generate command', function() {
     })
     .catch(function(error) {
       expect(error.message).to.equal('undefined is not a function');
+    });
+  });
+
+  describe('help', function() {
+    it('prints extra info', function() {
+      command.printDetailedHelp();
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Run `ember help generate` to view a list of available blueprints.' + EOL);
+
+      expect(output).to.equal(testString);
     });
   });
 });
