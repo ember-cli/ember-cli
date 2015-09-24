@@ -26,14 +26,14 @@ function handleResult(result) {
   throw result;
 }
 
-function downloaded(item) {
+function downloaded(item, type) {
   var exists = false;
   switch (item) {
     case 'node_modules':
-      exists = existsSync(path.join(root, '.node_modules-tmp'));
+      exists = existsSync(path.join(root, '.node_modules-' +  type + '-tmp'));
       break;
     case 'bower_components':
-      exists = existsSync(path.join(root, '.bower_components-tmp'));
+      exists = existsSync(path.join(root, '.bower_components-' +  type + '-tmp'));
       break;
   }
 
@@ -83,24 +83,29 @@ function createTmp(command) {
  * @property {String} options.command The command you want to run
  * @return {Promise}  The result of the running the command
  */
-function createTestTargets(projectName, options) {
+function createTestTargets(projectName, type, options) {
   var command;
+  if (arguments.length === 2) {
+    options = type;
+    type= 'app';
+  }
   options = options || {};
   options.command = options.command || 'new';
 
-  var noNodeModules = !downloaded('node_modules');
+  var hasNodeModules = downloaded('node_modules', type);
+  var hasBowerComponents = downloaded('bower_components', type);
   // Fresh install
-  if (noNodeModules && !downloaded('bower_components')) {
+  if (!hasNodeModules && !hasBowerComponents) {
     command = function() {
       return applyCommand(options.command, projectName);
     };
     // bower_components but no node_modules
-  } else if (noNodeModules && downloaded('bower_components')) {
+  } else if (!hasNodeModules && hasBowerComponents) {
     command = function() {
       return applyCommand(options.command, projectName, '--skip-bower');
     };
     // node_modules but no bower_components
-  } else if (!downloaded('bower_components') && downloaded('node_modules')) {
+  } else if (!hasBowerComponents && hasNodeModules) {
     command = function() {
       return applyCommand(options.command, projectName, '--skip-npm');
     };
@@ -115,7 +120,7 @@ function createTestTargets(projectName, options) {
     return command().
       catch(handleResult).
       then(function(value) {
-        if (noNodeModules) {
+        if (!hasNodeModules) {
           return exec('npm install ember-disable-prototype-extensions').then(function() {
             return value;
           });
@@ -143,24 +148,26 @@ function teardownTestTargets() {
  * @param  {String} projectName The name of the project under test
  * @return {Promise}
  */
-function linkDependencies(projectName) {
+function linkDependencies(projectName, type) {
+  type = type || 'app';
   var targetPath = './tmp/' + projectName;
   return tmp.setup('./tmp').then(function() {
     return copy('./common-tmp/' + projectName, targetPath);
   }).then(function() {
     var nodeModulesPath = targetPath + '/node_modules/';
     var bowerComponentsPath = targetPath + '/bower_components/';
+    var cacheNodeModules = '.node_modules-' +  type + '-tmp';
+    var cacheBowerComponents = '.bower_components-' +  type + '-tmp';
 
-    mvRm(nodeModulesPath, '.node_modules-tmp');
-    mvRm(bowerComponentsPath, '.bower_components-tmp');
-
+    mvRm(nodeModulesPath, cacheNodeModules);
+    mvRm(bowerComponentsPath, cacheBowerComponents);
 
     if (!existsSync(nodeModulesPath)) {
-      symLinkDir(targetPath, '.node_modules-tmp', 'node_modules');
+      symLinkDir(targetPath, cacheNodeModules, 'node_modules');
     }
 
     if (!existsSync(bowerComponentsPath)) {
-      symLinkDir(targetPath, '.bower_components-tmp', 'bower_components');
+      symLinkDir(targetPath, cacheBowerComponents, 'bower_components');
     }
 
     process.chdir('./tmp');

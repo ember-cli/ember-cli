@@ -25,7 +25,7 @@ describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
 
   before(function() {
-    return createTestTargets(addonName, {
+    return createTestTargets(addonName, 'addon', {
       command: 'addon'
     });
   });
@@ -35,7 +35,7 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   beforeEach(function() {
-    return linkDependencies(addonName);
+    return linkDependencies(addonName, 'addon');
   });
 
   afterEach(function() {
