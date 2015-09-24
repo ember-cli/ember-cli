@@ -269,7 +269,7 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('help section', function() {
+  describe('help', function() {
     it('handles extra help', function() {
       existsSyncStub = function() {
         return true;
@@ -301,27 +301,6 @@ describe('Blueprint', function() {
       expect(help).to.equal('');
     });
 
-    it('handles all the options json', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-      blueprint.description = null;
-      blueprint.aliases = null;
-      blueprint.works = null;
-      blueprint.overridden = null;
-      blueprint.dontShowThis = null;
-
-      var json = blueprint.getJson();
-
-      expect(json).to.deep.equal({
-        name: 'my-blueprint',
-        description: null,
-        aliases: null,
-        works: null,
-        overridden: null,
-        availableOptions: [],
-        anonymousOptions: ['name']
-      });
-    });
-
     it('handles extra help json', function() {
       existsSyncStub = function() {
         return true;
@@ -350,6 +329,42 @@ describe('Blueprint', function() {
       var json = blueprint.getJson(true);
 
       expect(json).to.not.have.property('detailedHelp');
+    });
+
+    it('handles all possible options json', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+      blueprint.description = null;
+      blueprint.aliases = null;
+      blueprint.works = null;
+      blueprint.overridden = null;
+      blueprint.availableOptions = [
+        {
+          type: 'my-string-type'
+        },
+        {
+          type: function myFunctionType() {}
+        }
+      ],
+      blueprint.dontShowThis = null;
+
+      var json = blueprint.getJson(true);
+
+      expect(json).to.deep.equal({
+        name: 'my-blueprint',
+        description: null,
+        aliases: null,
+        works: null,
+        overridden: null,
+        availableOptions: [
+          {
+            type: 'my-string-type'
+          },
+          {
+            type: 'myFunctionType'
+          }
+        ],
+        anonymousOptions: ['name']
+      });
     });
   });
 
