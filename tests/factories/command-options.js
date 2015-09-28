@@ -14,6 +14,7 @@ module.exports = function CommandOptionsFactory(options) {
     ui:        new MockUI(),
     analytics: new MockAnalytics(),
     tasks:     {},
-    project:   project
+    project:   project,
+    commands:  {}
   });
 };
