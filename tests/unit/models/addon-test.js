@@ -12,6 +12,9 @@ var path    = require('path');
 var findWhere = require('lodash/collection/find');
 var MockUI = require('../../helpers/mock-ui');
 
+var broccoli  = require('broccoli');
+var walkSync  = require('walk-sync');
+
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
 
@@ -553,6 +556,47 @@ describe('models/addon.js', function() {
 
     it('is provided with the addon\'s `ui` object', function() {
       expect(discovery.ui).to.equal(ui);
+    });
+  });
+
+  describe('treeForStyles', function() {
+    var builder, addon;
+
+    beforeEach(function() {
+      projectPath = path.resolve(fixturePath, 'with-app-styles');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+
+      var BaseAddon = Addon.extend({
+        name: 'base-addon',
+        root: projectPath
+      });
+
+      addon = new BaseAddon(project, project);
+    });
+
+    afterEach(function() {
+      if (builder) {
+        return builder.cleanup();
+      }
+    });
+
+    it('should move files in the root of the addons app/styles tree into the app/styles path', function() {
+      builder = new broccoli.Builder(addon.treeFor('styles'));
+
+      return builder.build()
+        .then(function(results) {
+          var outputPath = results.directory;
+
+          var expected = [
+            'app/',
+            'app/styles/',
+            'app/styles/foo-bar.css'
+          ];
+
+          expect(walkSync(outputPath)).to.eql(expected);
+        });
     });
   });
 });
