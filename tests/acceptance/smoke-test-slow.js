@@ -13,6 +13,7 @@ var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
 var assertDirEmpty      = require('../helpers/assert-dir-empty');
+var ember               = require('../helpers/ember');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -129,6 +130,36 @@ describe('Acceptance: smoke-test', function() {
         expect(output).to.match(/JSHint/, 'JSHint should be run on production assets');
         expect(output).to.match(/fail\s+0/, 'no failures');
         expect(output).to.match(/pass\s+8/, '1 passing');
+      });
+  });
+
+  it('ember test --path with previous build', function() {
+    var originalWrite = process.stdout.write;
+    var output = [];
+
+    return copyFixtureFiles('smoke-tests/passing-test')
+      .then(function() {
+        // TODO: Change to using ember() helper once it properly saves build artifacts
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        // TODO: Figure out how to get this to write into the MockUI
+        process.stdout.write = (function() {
+          return function() {
+            output.push(arguments[0]);
+          };
+        }(originalWrite));
+        return ember([ 'test', '--path=dist' ]);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
+
+        output = output.join(EOL);
+        expect(output).to.match(/JSHint/, 'JSHint should be run');
+        expect(output).to.match(/fail\s+0/, 'no failures');
+        expect(output).to.match(/pass\s+8/, '1 passing');
+
+        process.stdout.write = originalWrite;
       });
   });
 
