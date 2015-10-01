@@ -635,7 +635,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
                   },
                   {
                     name: 'route',
-                    description: 'Generates a route and registers it with the router.',
+                    description: 'Generates a route and a template, and registers the route with the router.',
                     availableOptions: [
                       {
                         name: 'path',
