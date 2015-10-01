@@ -163,7 +163,7 @@ describe('generate command', function() {
       resource \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a model and route.\u001b[39m' + EOL + '\
       route \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
-        \u001b[90mGenerates a route and registers it with the router.\u001b[39m' + EOL + '\
+        \u001b[90mGenerates a route and a template, and registers the route with the router.\u001b[39m' + EOL + '\
         \u001b[36m--path\u001b[39m \u001b[36m(Default: )\u001b[39m' + EOL + '\
         \u001b[36m--skip-router\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
       route-addon \u001b[33m<name>\u001b[39m' + EOL + '\
