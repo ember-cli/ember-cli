@@ -16,7 +16,7 @@ Prerequistes:
 - [Heroku Account](https://www.heroku.com)
 - [Heroku Toolbelt](https://toolbelt.heroku.com)
 
-Change directories to your Ember CLI application's. Now, create your new Heroku application with the Ember CLI buildpack...
+Navigate to your Ember CLI application directory. Now, create your new Heroku application with the Ember CLI buildpack...
 
 {% highlight bash %}
 heroku create <OPTIONAL_APP_NAME> --buildpack https://github.com/tonycoco/heroku-buildpack-ember-cli.git
