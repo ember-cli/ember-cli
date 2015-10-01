@@ -49,7 +49,7 @@ Provide the asset path as the first and only argument:
 app.import('bower_components/moment/moment.js');
 {% endhighlight %}
 
-From here you would use the package as specified by it's documentation, usually a global variable.
+From here you would use the package as specified by its documentation, usually a global variable.
 In this case it would be:
 
 {% highlight javascript linenos %}
