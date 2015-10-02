@@ -345,7 +345,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
   it('dummy initializer foo', function() {
     return generateInAddon(['initializer', 'foo', '--dummy']).then(function() {
       assertFile('tests/dummy/app/initializers/foo.js', {
-        contains: "export function initialize(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
@@ -362,7 +362,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
   it('dummy initializer foo/bar', function() {
     return generateInAddon(['initializer', 'foo/bar', '--dummy']).then(function() {
       assertFile('tests/dummy/app/initializers/foo/bar.js', {
-        contains: "export function initialize(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+

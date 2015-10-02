@@ -495,7 +495,7 @@ describe('Acceptance: ember generate in-addon', function() {
   it('in-addon initializer foo', function() {
     return generateInAddon(['initializer', 'foo']).then(function() {
       assertFile('addon/initializers/foo.js', {
-        contains: "export function initialize(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
@@ -516,7 +516,7 @@ describe('Acceptance: ember generate in-addon', function() {
   it('in-addon initializer foo/bar', function() {
     return generateInAddon(['initializer', 'foo/bar']).then(function() {
       assertFile('addon/initializers/foo/bar.js', {
-        contains: "export function initialize(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
