@@ -1095,7 +1095,7 @@ describe('Acceptance: ember generate pod', function() {
   it('initializer foo --pod', function() {
     return generate(['initializer', 'foo', '--pod']).then(function() {
       assertFile('app/initializers/foo.js', {
-        contains: "export function initialize(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
@@ -1110,7 +1110,7 @@ describe('Acceptance: ember generate pod', function() {
   it('initializer foo/bar --pod', function() {
     return generate(['initializer', 'foo/bar', '--pod']).then(function() {
       assertFile('app/initializers/foo/bar.js', {
-        contains: "export function initialize(/* container, application */) {" + EOL +
+        contains: "export function initialize(/* application */) {" + EOL +
                   "  // application.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
