@@ -89,6 +89,86 @@ describe('generate command', function() {
   });
 
   describe('help', function() {
+    it('lists available blueprints', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              anonymousOptions: []
+            },
+            {
+              name: 'other-blueprint',
+              availableOptions: [],
+              anonymousOptions: []
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({});
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Available blueprints:' + EOL + '\
+    my-app:' + EOL + '\
+      my-blueprint' + EOL + '\
+      other-blueprint' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('lists available blueprints json', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            },
+            {
+              name: 'other-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            }
+          ]
+        }
+      ]);
+
+      var json = {};
+
+      command.addAdditionalJsonForHelp(json, {
+        json: true
+      });
+
+      expect(json.availableBlueprints).to.deep.equal([
+        {
+          'my-app': [
+            {
+              name: 'my-blueprint',
+            },
+            {
+              name: 'other-blueprint',
+            }
+          ]
+        }
+      ]);
+    });
+
     it('works with single blueprint', function() {
       stub(Blueprint, 'list', [
         {
@@ -254,6 +334,11 @@ describe('generate command', function() {
                   required: true,
                   aliases: ['a', { b: 'c' }],
                   description: 'option desc'
+                },
+                {
+                  name: 'test-type',
+                  type: Boolean,
+                  aliases: ['a']
                 }
               ],
               anonymousOptions: ['anon-test'],
@@ -277,7 +362,42 @@ describe('generate command', function() {
         \u001b[90ma paragraph\u001b[39m' + EOL + '\
         \u001b[36m--test-option\u001b[39m\u001b[36m=x|y\u001b[39m \u001b[36m(Default: my-def-val)\u001b[39m \u001b[36m(Required)\u001b[39m' + EOL + '\
           \u001b[90maliases: -a <value>, -b (--test-option=c)\u001b[39m option desc' + EOL + '\
+        \u001b[36m--test-type\u001b[39m' + EOL + '\
+          \u001b[90maliases: -a\u001b[39m' + EOL + '\
 some details' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('handles the simplest blueprint option, to test else skipping', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [
+                {
+                  name: 'test-option'
+                }
+              ],
+              anonymousOptions: []
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({
+        rawArgs: ['my-blueprint'],
+        verbose: true
+      });
+
+      var output = options.ui.output;
+
+      var testString = processHelpString('\
+      my-blueprint \u001b[36m<options...>\u001b[39m' + EOL + '\
+        \u001b[36m--test-option\u001b[39m' + EOL + '\
 ' + EOL);
 
       expect(output).to.equal(testString);
