@@ -15,16 +15,11 @@ describe('install:npm command', function() {
   beforeEach(function() {
     var project = new MockProject();
 
-    project.name = function() {
-      return 'some-random-name';
-    };
-
     project.isEmberCLIProject = function() {
       return true;
     };
 
     var options = commandOptions({
-      settings: {},
       project: project
     });
 

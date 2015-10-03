@@ -20,10 +20,6 @@ describe('generate command', function() {
   beforeEach(function() {
     var project = new MockProject();
 
-    project.name = function() {
-      return 'some-random-name';
-    };
-
     project.isEmberCLIProject = function() {
       return true;
     };
@@ -33,8 +29,6 @@ describe('generate command', function() {
     };
 
     options = commandOptions({
-      settings: {},
-
       project: project,
 
       tasks: {

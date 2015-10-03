@@ -5,16 +5,21 @@ var MockUI        = require('../helpers/mock-ui');
 var MockAnalytics = require('../helpers/mock-analytics');
 var MockProject   = require('../helpers/mock-project');
 
-module.exports = function CommandOptionsFactory(options) {
+function createProject() {
   var project = new MockProject();
   project.isEmberCLIProject = function() { return true; };
   project.config = function() { return {}; };
+  return project;
+}
 
-  return defaults(options || { }, {
+module.exports = function CommandOptionsFactory(options) {
+  options = options || {};
+  return defaults(options, {
     ui:        new MockUI(),
     analytics: new MockAnalytics(),
     tasks:     {},
-    project:   project,
-    commands:  {}
+    project:   options.project || createProject(),
+    commands:  {},
+    settings:  {}
   });
 };

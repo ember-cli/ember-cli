@@ -30,7 +30,6 @@ describe('test command', function() {
     options = commandOptions({
       tasks: tasks,
       testing: true,
-      settings: {},
       project: project
     });
 

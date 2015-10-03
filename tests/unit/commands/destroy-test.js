@@ -17,17 +17,11 @@ describe('generate command', function() {
   beforeEach(function() {
     var project = new MockProject();
 
-    project.name = function() {
-      return 'some-random-name';
-    };
-
     project.isEmberCLIProject = function() {
       return true;
     };
 
     options = commandOptions({
-      settings: {},
-
       project: project,
       tasks: {
         DestroyFromBlueprint: Task.extend({
