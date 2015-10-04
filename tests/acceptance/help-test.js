@@ -754,7 +754,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
                 },
                 {
                   name: 'vendor-shim',
-                  description: 'Generates an ES6 module shim.',
+                  description: 'Generates an ES6 module shim for global libraries.',
                   availableOptions: [],
                   anonymousOptions: ['name'],
                   overridden: false

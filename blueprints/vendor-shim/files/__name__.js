@@ -2,7 +2,7 @@
   function vendorModule() {
     'use strict';
 
-    return { 'default': window['<%= name %>'] };
+    return { 'default': self['<%= name %>'] };
   }
 
   define('<%= name %>', [], vendorModule);

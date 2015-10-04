@@ -3,7 +3,7 @@
 var stringUtil = require('ember-cli-string-utils');
 
 module.exports = {
-  description: 'Generates an ES6 module shim.',
+  description: 'Generates an ES6 module shim for global libraries.',
 
   locals: function(options) {
     var entity  = options.entity;
