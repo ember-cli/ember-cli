@@ -76,9 +76,7 @@ describe('models/builder.js', function() {
     var parentPath = '..' + path.sep + '..' + path.sep;
 
     before(function() {
-      command = new BuildCommand(commandOptions({
-        settings: {}
-      }));
+      command = new BuildCommand(commandOptions());
 
       builder = new Builder({
         setupBroccoliBuilder: function() { },

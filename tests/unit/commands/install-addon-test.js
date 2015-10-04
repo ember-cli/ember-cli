@@ -36,7 +36,6 @@ describe('install:addon command', function() {
 
     var project = new MockProject();
 
-    project.name              = function() { return 'some-random-name'; };
     project.isEmberCLIProject = function() { return true; };
     project.initializeAddons  = function() { };
     project.reloadAddons      = function() {
@@ -51,7 +50,6 @@ describe('install:addon command', function() {
     };
 
     var options = commandOptions({
-      settings: {},
       project: project,
       tasks: tasks
     });

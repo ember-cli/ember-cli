@@ -26,8 +26,7 @@ describe('build command', function() {
     };
 
     options = commandOptions({
-      tasks: tasks,
-      settings: {}
+      tasks: tasks
     });
 
     command = new BuildCommand(options);
