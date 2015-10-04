@@ -1,16 +1,7 @@
-import { module, test } from 'qunit';
-import startApp from 'my-app/tests/helpers/start-app';
-import destroyApp from 'my-app/tests/helpers/destroy-app';
+import { test } from 'qunit';
+import moduleForAcceptance from 'my-app/tests/helpers/module-for-acceptance';
 
-module('Acceptance | foo', {
-  beforeEach: function() {
-    this.application = startApp();
-  },
-
-  afterEach: function() {
-    destroyApp(this.application);
-  }
-});
+moduleForAcceptance('Acceptance | foo');
 
 test('visiting /foo', function(assert) {
   visit('/foo');
