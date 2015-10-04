@@ -284,7 +284,7 @@ describe('Blueprint', function() {
       var output = blueprint.printBasicHelp();
 
       var testString = processHelpString('\
-      \u001b[90m(overridden)\u001b[39m \u001b[90mmy-blueprint\u001b[39m');
+      \u001b[90m(overridden) my-blueprint\u001b[39m');
 
       expect(output).to.equal(testString);
     });
