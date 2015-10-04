@@ -294,5 +294,65 @@ my-blueprint' + EOL + '\
         }
       ]);
     });
+
+    it('ignores overridden blueprints when verbose false', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              },
+              overridden: true
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({});
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Available blueprints:' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('shows overridden blueprints when verbose true', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              },
+              overridden: true
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({
+        verbose: true
+      });
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Available blueprints:' + EOL + '\
+    my-app:' + EOL + '\
+my-blueprint' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
   });
 });
