@@ -1,24 +1,28 @@
+/*jshint multistr: true */
+
 'use strict';
 
-var fs            = require('fs-extra');
-var Task          = require('../../../lib/models/task');
-var MockProject   = require('../../helpers/mock-project');
-var MockUI        = require('../../helpers/mock-ui');
-var expect        = require('chai').expect;
-var path          = require('path');
-var glob          = require('glob');
-var walkSync      = require('walk-sync');
-var Promise       = require('../../../lib/ext/promise');
-var remove        = Promise.denodeify(fs.remove);
-var EOL           = require('os').EOL;
-var root          = process.cwd();
-var tmp           = require('tmp-sync');
-var tmproot       = path.join(root, 'tmp');
-var SilentError   = require('silent-error');
-var stub          = require('../../helpers/stub').stub;
-var proxyquire    = require('proxyquire');
-var existsSync    = require('exists-sync');
-var MarkdownColor = require('../../../lib/utilities/markdown-color');
+var fs                = require('fs-extra');
+var Task              = require('../../../lib/models/task');
+var MockProject       = require('../../helpers/mock-project');
+var MockUI            = require('../../helpers/mock-ui');
+var processHelpString = require('../../helpers/process-help-string');
+var expect            = require('chai').expect;
+var path              = require('path');
+var glob              = require('glob');
+var walkSync          = require('walk-sync');
+var Promise           = require('../../../lib/ext/promise');
+var remove            = Promise.denodeify(fs.remove);
+var EOL               = require('os').EOL;
+var root              = process.cwd();
+var tmp               = require('tmp-sync');
+var tmproot           = path.join(root, 'tmp');
+var SilentError       = require('silent-error');
+var stub              = require('../../helpers/stub').stub;
+var proxyquire        = require('proxyquire');
+var existsSync        = require('exists-sync');
+var MarkdownColor     = require('../../../lib/utilities/markdown-color');
+var assign            = require('lodash/object/assign');
 
 var existsSyncStub;
 var readdirSyncStub;
@@ -36,7 +40,7 @@ var Blueprint = proxyquire('../../../lib/models/blueprint', {
       return readFileSyncStub.apply(this, arguments);
     }
   },
-  '../../lib/utilities/markdown-color': function() {
+  '../utilities/markdown-color': function() {
     return {
       renderFile: function() {
         return renderFileStub.apply(this, arguments);
@@ -270,6 +274,199 @@ describe('Blueprint', function() {
   });
 
   describe('help', function() {
+    it('handles overridden', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      assign(blueprint, {
+        overridden: true
+      });
+
+      var output = blueprint.printBasicHelp();
+
+      var testString = processHelpString('\
+      \u001b[90m(overridden) my-blueprint\u001b[39m');
+
+      expect(output).to.equal(testString);
+    });
+
+    it('handles all possible options', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      var availableOptions = [
+        {
+          name: 'test-option',
+          values: ['x', 'y'],
+          default: 'my-def-val',
+          required: true,
+          aliases: ['a', { b: 'c' }],
+          description: 'option desc'
+        },
+        {
+          name: 'test-type',
+          type: Boolean,
+          aliases: ['a']
+        }
+      ];
+
+      assign(blueprint, {
+        description: 'a paragraph',
+        availableOptions: availableOptions,
+        anonymousOptions: ['anon-test'],
+        printDetailedHelp: function() {
+          expect(arguments[0]).to.equal(availableOptions);
+          return 'some details';
+        },
+        dontShowThis: 'test'
+      });
+
+      var output = blueprint.printBasicHelp(true);
+
+      var testString = processHelpString('\
+      my-blueprint \u001b[33m<anon-test>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
+        \u001b[90ma paragraph\u001b[39m' + EOL + '\
+        \u001b[36m--test-option\u001b[39m\u001b[36m=x|y\u001b[39m \u001b[36m(Default: my-def-val)\u001b[39m \u001b[36m(Required)\u001b[39m' + EOL + '\
+          \u001b[90maliases: -a <value>, -b (--test-option=c)\u001b[39m option desc' + EOL + '\
+        \u001b[36m--test-type\u001b[39m' + EOL + '\
+          \u001b[90maliases: -a\u001b[39m' + EOL + '\
+some details');
+
+      expect(output).to.equal(testString);
+    });
+
+    it('handles all possible options json', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      var availableOptions = [
+        {
+          type: 'my-string-type',
+          showAnything: true
+        },
+        {
+          type: function myFunctionType() {}
+        }
+      ];
+
+      assign(blueprint, {
+        description: 'a paragraph',
+        overridden: false,
+        availableOptions: availableOptions,
+        anonymousOptions: ['anon-test'],
+        printDetailedHelp: function() {
+          expect(arguments[0]).to.equal(availableOptions);
+          return 'some details';
+        },
+        dontShowThis: true
+      });
+
+      var json = blueprint.getJson(true);
+
+      expect(json).to.deep.equal({
+        name: 'my-blueprint',
+        description: 'a paragraph',
+        overridden: false,
+        availableOptions: [
+          {
+            type: 'my-string-type',
+            showAnything: true
+          },
+          {
+            type: 'myFunctionType'
+          }
+        ],
+        anonymousOptions: ['anon-test'],
+        detailedHelp: 'some details'
+      });
+    });
+
+    it('handles the simplest blueprint, to test else skipping', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      var output = blueprint.printBasicHelp();
+
+      var testString = processHelpString('\
+      my-blueprint \u001b[33m<name>\u001b[39m');
+
+      expect(output).to.equal(testString);
+    });
+
+    it('handles the simplest option, to test else skipping', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      assign(blueprint, {
+        availableOptions: [{}]
+      });
+
+      var output = blueprint.printBasicHelp();
+
+      var testString = processHelpString('\
+      my-blueprint \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
+        \u001b[36m--undefined\u001b[39m');
+
+      expect(output).to.equal(testString);
+    });
+
+    it('don\'t print prefix if option aliases is empty', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      assign(blueprint, {
+        availableOptions: [
+          {
+            aliases: []
+          }
+        ]
+      });
+
+      var output = blueprint.printBasicHelp();
+
+      var testString = processHelpString('\
+      my-blueprint \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
+        \u001b[36m--undefined\u001b[39m');
+
+      expect(output).to.equal(testString);
+    });
+
+    it('if blueprint nulls printDetailedHelp, don\'t call it, we should deprecate this', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      assign(blueprint, {
+        printDetailedHelp: null
+      });
+
+      var output = blueprint.printBasicHelp(true);
+
+      var testString = processHelpString('\
+      my-blueprint \u001b[33m<name>\u001b[39m');
+
+      expect(output).to.equal(testString);
+    });
+
+    it('if blueprint nulls printDetailedHelp, don\'t call it json, we should deprecate this', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      assign(blueprint, {
+        printDetailedHelp: null
+      });
+
+      var json = blueprint.getJson(true);
+
+      expect(json).to.deep.equal({
+        name: 'my-blueprint',
+        availableOptions: [],
+        anonymousOptions: ['name']
+      });
+    });
+
+    it('if printDetailedHelp returns falsy, don\'t attach property detailedHelp', function() {
+      var blueprint = new Blueprint('path/to/my-blueprint');
+
+      stub(blueprint, 'printDetailedHelp', '');
+
+      var json = blueprint.getJson(true);
+
+      expect(blueprint.printDetailedHelp.called).to.equal(1);
+      expect(json).to.not.have.property('detailedHelp');
+    });
+
     it('handles extra help', function() {
       existsSyncStub = function() {
         return true;
@@ -299,72 +496,6 @@ describe('Blueprint', function() {
       var help = blueprint.printDetailedHelp();
 
       expect(help).to.equal('');
-    });
-
-    it('handles extra help json', function() {
-      existsSyncStub = function() {
-        return true;
-      };
-      readFileSyncStub = function() {
-        return 'test-file';
-      };
-
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      var json = blueprint.getJson(true);
-
-      expect(json.detailedHelp).to.equal('test-file');
-    });
-
-    it('handles no extra help json', function() {
-      existsSyncStub = function() {
-        return false;
-      };
-      readFileSyncStub = function() {
-        expect.fail(0, 1, 'should not call fs.readFileSync');
-      };
-
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      var json = blueprint.getJson(true);
-
-      expect(json).to.not.have.property('detailedHelp');
-    });
-
-    it('handles all possible options json', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-      blueprint.description = null;
-      blueprint.aliases = null;
-      blueprint.works = null;
-      blueprint.overridden = null;
-      blueprint.availableOptions = [
-        {
-          type: 'my-string-type'
-        },
-        {
-          type: function myFunctionType() {}
-        }
-      ],
-      blueprint.dontShowThis = null;
-
-      var json = blueprint.getJson(true);
-
-      expect(json).to.deep.equal({
-        name: 'my-blueprint',
-        description: null,
-        aliases: null,
-        works: null,
-        overridden: null,
-        availableOptions: [
-          {
-            type: 'my-string-type'
-          },
-          {
-            type: 'myFunctionType'
-          }
-        ],
-        anonymousOptions: ['name']
-      });
     });
   });
 

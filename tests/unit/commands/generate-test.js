@@ -89,6 +89,90 @@ describe('generate command', function() {
   });
 
   describe('help', function() {
+    it('lists available blueprints', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              }
+            },
+            {
+              name: 'other-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              }
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({});
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Available blueprints:' + EOL + '\
+    my-app:' + EOL + '\
+my-blueprint' + EOL + '\
+other-blueprint' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('lists available blueprints json', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            },
+            {
+              name: 'other-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            }
+          ]
+        }
+      ]);
+
+      var json = {};
+
+      command.addAdditionalJsonForHelp(json, {
+        json: true
+      });
+
+      expect(json.availableBlueprints).to.deep.equal([
+        {
+          'my-app': [
+            {
+              name: 'my-blueprint',
+            },
+            {
+              name: 'other-blueprint',
+            }
+          ]
+        }
+      ]);
+    });
+
     it('works with single blueprint', function() {
       stub(Blueprint, 'list', [
         {
@@ -97,7 +181,9 @@ describe('generate command', function() {
             {
               name: 'my-blueprint',
               availableOptions: [],
-              anonymousOptions: []
+              printBasicHelp: function() {
+                return this.name;
+              }
             },
             {
               name: 'skipped-blueprint'
@@ -113,7 +199,7 @@ describe('generate command', function() {
       var output = options.ui.output;
 
       var testString = processHelpString('\
-      my-blueprint' + EOL + '\
+my-blueprint' + EOL + '\
 ' + EOL);
 
       expect(output).to.equal(testString);
@@ -207,80 +293,6 @@ describe('generate command', function() {
           'my-app': []
         }
       ]);
-    });
-
-    it('handles overridden blueprint', function() {
-      stub(Blueprint, 'list', [
-        {
-          source: 'my-app',
-          blueprints: [
-            {
-              name: 'my-blueprint',
-              availableOptions: [],
-              anonymousOptions: [],
-              overridden: true
-            }
-          ]
-        }
-      ]);
-
-      command.printDetailedHelp({
-        rawArgs: ['my-blueprint'],
-        verbose: true
-      });
-
-      var output = options.ui.output;
-
-      var testString = processHelpString('\
-      \u001b[90m(overridden)\u001b[39m \u001b[90mmy-blueprint\u001b[39m' + EOL + '\
-' + EOL);
-
-      expect(output).to.equal(testString);
-    });
-
-    it('handles all possible blueprint options', function() {
-      stub(Blueprint, 'list', [
-        {
-          source: 'my-app',
-          blueprints: [
-            {
-              name: 'my-blueprint',
-              description: 'a paragraph',
-              availableOptions: [
-                {
-                  name: 'test-option',
-                  values: ['x', 'y'],
-                  default: 'my-def-val',
-                  required: true,
-                  aliases: ['a', { b: 'c' }],
-                  description: 'option desc'
-                }
-              ],
-              anonymousOptions: ['anon-test'],
-              printDetailedHelp: function() {
-                return 'some details';
-              }
-            }
-          ]
-        }
-      ]);
-
-      command.printDetailedHelp({
-        rawArgs: ['my-blueprint'],
-        verbose: true
-      });
-
-      var output = options.ui.output;
-
-      var testString = processHelpString('\
-      my-blueprint \u001b[33m<anon-test>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
-        \u001b[90ma paragraph\u001b[39m' + EOL + '\
-        \u001b[36m--test-option\u001b[39m\u001b[36m=x|y\u001b[39m \u001b[36m(Default: my-def-val)\u001b[39m \u001b[36m(Required)\u001b[39m' + EOL + '\
-          \u001b[90maliases: -a <value>, -b (--test-option=c)\u001b[39m option desc' + EOL + '\
-some details' + EOL + '\
-' + EOL);
-
-      expect(output).to.equal(testString);
     });
   });
 });

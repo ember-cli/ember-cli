@@ -1166,7 +1166,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a helper unit test.\u001b[39m' + EOL + '\
       http-mock \u001b[33m<endpoint-path>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a mock api endpoint in /api prefix.\u001b[39m' + EOL + '\
-      http-proxy \u001b[33m<local-path>\u001b[39m \u001b[33m<remote-url>\u001b[39m' + EOL + '\
+      http-proxy \u001b[33m<local-path> <remote-url>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a relative proxy to another server.\u001b[39m' + EOL + '\
       in-repo-addon \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mThe blueprint for addon in repo ember-cli addons.\u001b[39m' + EOL + '\
@@ -1182,7 +1182,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a mixin.\u001b[39m' + EOL + '\
       mixin-test \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a mixin unit test.\u001b[39m' + EOL + '\
-      model \u001b[33m<name>\u001b[39m \u001b[33m<attr:type>\u001b[39m' + EOL + '\
+      model \u001b[33m<name> <attr:type>\u001b[39m' + EOL + '\
         \u001b[90mGenerates an ember-data model.\u001b[39m' + EOL + '\
       model-test \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a model unit test.\u001b[39m' + EOL + '\
