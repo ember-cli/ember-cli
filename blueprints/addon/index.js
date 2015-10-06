@@ -24,6 +24,9 @@ module.exports = {
     contents.keywords = contents.keywords || [];
     contents.dependencies = contents.dependencies || {};
 
+    // only include `ember-truth-helpers` for project blueprints, not addons
+    delete contents.devDependencies['ember-truth-helpers'];
+
     // npm doesn't like it when we have something in both deps and devDeps
     // and dummy app still uses it when in deps
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
