@@ -15,7 +15,7 @@ var cleanupRun          = acceptance.cleanupRun;
 var appName  = 'some-cool-app';
 
 describe('Acceptance: blueprint smoke tests', function() {
-  this.timeout(400000);
+  this.timeout(500000);
 
   before(function() {
     return createTestTargets(appName);

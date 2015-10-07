@@ -1,8 +1,6 @@
 'use strict';
 
-var fs             = require('fs');
 var path           = require('path');
-var existsSync     = require('exists-sync');
 var CoreObject     = require('core-object');
 var expect         = require('chai').expect;
 var stub           = require('../../helpers/stub').stub;
@@ -189,164 +187,93 @@ describe('test command', function() {
     });
   });
 
-  describe('_generateCustomConfigFile', function() {
+  describe('_generateCustomConfigs', function() {
     var runOptions;
-    var fixturePath;
 
     beforeEach(function() {
-      fixturePath = path.join(__dirname, '..', '..', 'fixtures', 'tasks', 'testem-config');
       buildCommand();
-      runOptions = {
-        configFile: path.join(fixturePath, 'testem.json')
-      };
+      runOptions = {};
     });
 
-    afterEach(function() {
-      command.rmTmp();
+    it('should return an object even if passed param is empty object', function() {
+      var result = command._generateCustomConfigs(runOptions);
+      expect(result).to.be.an('object');
     });
 
-    it('should return a valid path', function() {
-      var newPath = command._generateCustomConfigFile(runOptions);
-
-      expect(existsSync(newPath));
-    });
-
-    it('should return the original path if options are not present', function() {
-      var originalPath = runOptions.configFile;
-      var newPath = command._generateCustomConfigFile(runOptions);
-
-      expect(newPath).to.equal(originalPath);
-    });
-
-    it('when options are present the new file path returned exists', function() {
-      var originalPath = runOptions.configFile;
-      runOptions.module = 'fooModule';
-      runOptions.filter = 'bar';
+    it('when launch option is present, should be reflected in returned config', function() {
       runOptions.launch = 'fooLauncher';
-      runOptions['test-page'] = 'foo/test.html?foo';
-      var newPath = command._generateCustomConfigFile(runOptions);
+      var result = command._generateCustomConfigs(runOptions);
 
-      expect(newPath).to.not.equal(originalPath);
-      expect(existsSync(newPath), 'file should exist');
-    });
-
-    it('when filter option is present the new file path returned exists', function() {
-      var originalPath = runOptions.configFile;
-      runOptions.filter = 'foo';
-      var newPath = command._generateCustomConfigFile(runOptions);
-
-      expect(newPath).to.not.equal(originalPath);
-      expect(existsSync(newPath), 'file should exist');
-    });
-
-    it('when module option is present the new file path returned exists', function() {
-      var originalPath = runOptions.configFile;
-      runOptions.module = 'fooModule';
-      var newPath = command._generateCustomConfigFile(runOptions);
-
-      expect(newPath).to.not.equal(originalPath);
-      expect(existsSync(newPath), 'file should exist');
-    });
-
-    it('when launch option is present the new file path returned exists', function() {
-      var originalPath = runOptions.configFile;
-      runOptions.launch = 'fooLauncher';
-      var newPath = command._generateCustomConfigFile(runOptions);
-
-      expect(newPath).to.not.equal(originalPath);
-      expect(existsSync(newPath), 'file should exist');
-    });
-
-    it('when test-page option is present the new file path returned exists', function() {
-      var originalPath = runOptions.configFile;
-      runOptions['test-page'] = 'foo/test.html?foo';
-      var newPath = command._generateCustomConfigFile(runOptions);
-
-      expect(newPath).to.not.equal(originalPath);
-      expect(existsSync(newPath), 'file should exist');
-    });
-
-    it('when provided filter and module the new file returned contains the both option values in test_page', function() {
-      runOptions.module = 'fooModule';
-      runOptions.filter = 'bar';
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
-
-      expect(contents['test_page']).to.be.equal('tests/index.html?module=fooModule&filter=bar');
+      expect(result.launcher, 'fooLauncher');
     });
 
     it('when provided test-page the new file returned contains the value in test_page', function() {
       runOptions['test-page'] = 'foo/test.html?foo';
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+      var result = command._generateCustomConfigs(runOptions);
 
-      expect(contents['test_page']).to.be.equal('foo/test.html?foo&');
+      expect(result.testPage).to.be.equal('foo/test.html?foo&');
     });
 
     it('when provided test-page with filter and module the new file returned contains those values in test_page', function() {
       runOptions.module = 'fooModule';
       runOptions.filter = 'bar';
       runOptions['test-page'] = 'foo/test.html?foo';
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+      var contents = command._generateCustomConfigs(runOptions);
 
-      expect(contents['test_page']).to.be.equal('foo/test.html?foo&module=fooModule&filter=bar');
+      expect(contents.testPage).to.be.equal('foo/test.html?foo&module=fooModule&filter=bar');
     });
 
     it('when provided launch the new file returned contains the value in launch', function() {
       runOptions.launch = 'fooLauncher';
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+      var contents = command._generateCustomConfigs(runOptions);
 
       expect(contents['launch']).to.be.equal('fooLauncher');
     });
 
     it('when provided filter is all lowercase to match the test name', function() {
+      runOptions['test-page'] = 'tests/index.html';
       runOptions.filter = 'BAR';
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+      var contents = command._generateCustomConfigs(runOptions);
 
-      expect(contents['test_page']).to.be.equal('tests/index.html?filter=bar');
+      expect(contents.testPage).to.be.equal('tests/index.html?filter=bar');
     });
 
     it('when module and filter option is present uses buildTestPageQueryString for test_page queryString', function() {
       runOptions.filter = 'bar';
+      runOptions['test-page'] = 'tests/index.html';
       command.buildTestPageQueryString = function(options) {
         expect(options).to.deep.equal(runOptions);
 
         return 'blah=zorz';
       };
 
-      var newPath = command._generateCustomConfigFile(runOptions);
+      var contents = command._generateCustomConfigs(runOptions);
 
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
-
-      expect(contents['test_page']).to.be.equal('tests/index.html?blah=zorz');
+      expect(contents.testPage).to.be.equal('tests/index.html?blah=zorz');
     });
 
     it('new file returned contains the filter option value in test_page', function() {
       runOptions.filter = 'foo';
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+      runOptions['test-page'] = 'tests/index.html';
+      var contents = command._generateCustomConfigs(runOptions);
 
-      expect(contents['test_page']).to.be.equal('tests/index.html?filter=foo');
+      expect(contents.testPage).to.be.equal('tests/index.html?filter=foo');
     });
 
     it('adds with a `&` if query string contains `?` already', function() {
       runOptions.filter = 'foo';
-      runOptions.configFile = path.join(fixturePath, 'testem-with-query-string.json');
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+      runOptions['test-page'] = 'tests/index.html?hidepassed';
+      var contents = command._generateCustomConfigs(runOptions);
 
-      expect(contents['test_page']).to.be.equal('tests/index.html?hidepassed&filter=foo');
+      expect(contents.testPage).to.be.equal('tests/index.html?hidepassed&filter=foo');
     });
 
     it('new file returned contains the module option value in test_page', function() {
       runOptions.module = 'fooModule';
-      var newPath = command._generateCustomConfigFile(runOptions);
-      var contents = JSON.parse(fs.readFileSync(newPath, { encoding: 'utf8' }));
+      runOptions['test-page'] = 'tests/index.html';
+      var contents = command._generateCustomConfigs(runOptions);
 
-      expect(contents['test_page']).to.be.equal('tests/index.html?module=fooModule');
+      expect(contents.testPage).to.be.equal('tests/index.html?module=fooModule');
     });
   });
 });

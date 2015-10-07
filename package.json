@@ -135,7 +135,7 @@
     "silent-error": "^1.0.0",
     "symlink-or-copy": "^1.0.1",
     "temp": "0.8.1",
-    "testem": "0.9.5",
+    "testem": "0.9.7",
     "through": "^2.3.6",
     "tiny-lr": "0.2.0",
     "walk-sync": "0.1.3",
