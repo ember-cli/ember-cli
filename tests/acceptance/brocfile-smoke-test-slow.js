@@ -22,7 +22,7 @@ var existsSync          = require('exists-sync');
 var appName  = 'some-cool-app';
 
 describe('Acceptance: brocfile-smoke-test', function() {
-  this.timeout(400000);
+  this.timeout(500000);
 
   before(function() {
     return createTestTargets(appName);

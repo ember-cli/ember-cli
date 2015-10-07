@@ -20,7 +20,7 @@ var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
 describe('Acceptance: smoke-test', function() {
-  this.timeout(400000);
+  this.timeout(500000);
   before(function() {
     return createTestTargets(appName);
   });
@@ -79,6 +79,13 @@ describe('Acceptance: smoke-test', function() {
           .catch(function(result) {
             expect(result.code).to.equal(1);
           });
+      });
+  });
+
+  it('ember test still runs when only a JavaScript testem config exists', function() {
+    return copyFixtureFiles('smoke-tests/js-testem-config')
+      .then(function() {
+        return ember(['test']);
       });
   });
 
