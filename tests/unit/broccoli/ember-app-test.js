@@ -95,6 +95,18 @@ describe('broccoli/ember-app', function() {
       });
     });
 
+    it('should do the right thing when merging default object options', function() {
+      var app = new EmberApp({
+        project: project,
+      }, {
+        'minifyJS': {
+          enabled: 'asdf'
+        }
+      });
+
+      expect(app.options['minifyJS']).to.deep.equal({ enabled: 'asdf' });
+    });
+
     describe('_notifyAddonIncluded', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
