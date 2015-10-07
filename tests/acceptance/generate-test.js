@@ -535,7 +535,7 @@ describe('Acceptance: ember generate', function() {
       });
 
       assertFile('tests/unit/initializers/foo-test.js', {
-        contains: "import { initialize } from '../../../initializers/foo';"
+        contains: "import FooInitializer from '../../../initializers/foo';"
       });
     });
   });
@@ -544,10 +544,10 @@ describe('Acceptance: ember generate', function() {
     return generate(['initializer-test', 'foo']).then(function() {
       assertFile('tests/unit/initializers/foo-test.js', {
         contains: [
-          "import { initialize } from '../../../initializers/foo';",
+          "import FooInitializer from '../../../initializers/foo';",
           "module('Unit | Initializer | foo'",
           "var application;",
-          "initialize(application);"
+          "FooInitializer.initialize(application);"
         ]
       });
     });
@@ -567,7 +567,7 @@ describe('Acceptance: ember generate', function() {
       });
 
       assertFile('tests/unit/initializers/foo/bar-test.js', {
-        contains: "import { initialize } from '../../../../initializers/foo/bar';"
+        contains: "import FooBarInitializer from '../../../../initializers/foo/bar';"
       });
     });
   });
