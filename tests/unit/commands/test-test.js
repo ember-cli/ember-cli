@@ -207,6 +207,13 @@ describe('test command', function() {
       expect(result.launcher, 'fooLauncher');
     });
 
+    it('when query option is present, should be reflected in returned config', function() {
+      runOptions.query = 'someQuery=test';
+      var result = command._generateCustomConfigs(runOptions);
+
+      expect(result.queryString).to.equal(runOptions.query);
+    });
+
     it('when provided test-page the new file returned contains the value in test_page', function() {
       runOptions['test-page'] = 'foo/test.html?foo';
       var result = command._generateCustomConfigs(runOptions);
@@ -214,13 +221,41 @@ describe('test command', function() {
       expect(result.testPage).to.be.equal('foo/test.html?foo&');
     });
 
-    it('when provided test-page with filter and module the new file returned contains those values in test_page', function() {
+    it('when provided test-page with filter, module, and query the new file returned contains those values in test_page', function() {
+      runOptions.module = 'fooModule';
+      runOptions.filter = 'bar';
+      runOptions.query = 'someQuery=test';
+      runOptions['test-page'] = 'foo/test.html?foo';
+      var contents = command._generateCustomConfigs(runOptions);
+
+      expect(contents.testPage).to.be.equal('foo/test.html?foo&module=fooModule&filter=bar&someQuery=test');
+    });
+
+    it('when provided test-page with filter and module the new file returned contains both option values in test_page', function() {
       runOptions.module = 'fooModule';
       runOptions.filter = 'bar';
       runOptions['test-page'] = 'foo/test.html?foo';
       var contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('foo/test.html?foo&module=fooModule&filter=bar');
+    });
+
+    it('when provided test-page with filter and query the new file returned contains both option values in test_page', function() {
+      runOptions.query = 'someQuery=test';
+      runOptions.filter = 'bar';
+      runOptions['test-page'] = 'foo/test.html?foo';
+      var contents = command._generateCustomConfigs(runOptions);
+
+      expect(contents.testPage).to.be.equal('foo/test.html?foo&filter=bar&someQuery=test');
+    });
+
+    it('when provided test-page with module and query the new file returned contains both option values in test_page', function() {
+      runOptions.module = 'fooModule';
+      runOptions.query = 'someQuery=test';
+      runOptions['test-page'] = 'foo/test.html?foo';
+      var contents = command._generateCustomConfigs(runOptions);
+
+      expect(contents.testPage).to.be.equal('foo/test.html?foo&module=fooModule&someQuery=test');
     });
 
     it('when provided launch the new file returned contains the value in launch', function() {
@@ -274,6 +309,22 @@ describe('test command', function() {
       var contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?module=fooModule');
+    });
+
+    it('new file returned contains the query option value in test_page', function() {
+      runOptions.query = 'someQuery=test';
+      runOptions['test-page'] = 'tests/index.html';
+      var contents = command._generateCustomConfigs(runOptions);
+
+      expect(contents.testPage).to.be.equal('tests/index.html?someQuery=test');
+    });
+
+    it('new file returned contains the query option value with multiple queries in test_page', function() {
+      runOptions.query = 'someQuery=test&something&else=false';
+      runOptions['test-page'] = 'tests/index.html';
+      var contents = command._generateCustomConfigs(runOptions);
+
+      expect(contents.testPage).to.be.equal('tests/index.html?someQuery=test&something&else=false');
     });
   });
 });
