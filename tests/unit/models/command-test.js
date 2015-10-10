@@ -1,11 +1,11 @@
 'use strict';
 /*jshint expr: true*/
 
-var expect        = require('chai').expect;
-var MockUI        = require('../../helpers/mock-ui');
-var MockAnalytics = require('../../helpers/mock-analytics');
-var Command       = require('../../../lib/models/command');
-var Yam           = require('yam');
+var expect         = require('chai').expect;
+var commandOptions = require('../../factories/command-options');
+var Command        = require('../../../lib/models/command');
+var assign         = require('lodash/object/assign');
+var Yam            = require('yam');
 
 var ServeCommand = Command.extend({
   name: 'serve',
@@ -14,8 +14,8 @@ var ServeCommand = Command.extend({
     { name: 'port', type: Number, default: 4200 },
     { name: 'host', type: String, default: '0.0.0.0' },
     { name: 'proxy',  type: String },
-    { name: 'live-reload',  type: Boolean, default: true, aliases: ['lr']},
-    { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)'},
+    { name: 'live-reload',  type: Boolean, default: true, aliases: ['lr'] },
+    { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)' },
     { name: 'environment', type: String, default: 'development' }
   ],
   run: function() {}
@@ -48,23 +48,23 @@ var OptionsAliasCommand = Command.extend({
     name: 'taco',
     type: String,
     default: 'traditional',
-    aliases:[
-      {'hard-shell' : 'hard-shell'},
-      {'soft-shell' : 'soft-shell'}
+    aliases: [
+      { 'hard-shell': 'hard-shell' },
+      { 'soft-shell': 'soft-shell' }
     ]
   },
   {
     name: 'spicy',
     type: Boolean,
     default: true,
-    aliases:[
-      {'mild' : false}
+    aliases: [
+      { 'mild': false }
     ]
   },
   {
     name: 'display-message',
     type: String,
-    aliases:[
+    aliases: [
       'dm',
       { 'hw': 'Hello world' }
     ]
@@ -74,36 +74,29 @@ var OptionsAliasCommand = Command.extend({
 
 describe('models/command.js', function() {
   var ui;
-  var analytics;
-  var project;
   var config;
+  var options;
 
-  before(function(){
-    ui = new MockUI();
-    analytics = new MockAnalytics();
-    project = { isEmberCLIProject: function(){ return true; }};
+  before(function() {
     config = new Yam('ember-cli', {
       secondary: process.cwd() + '/tests/fixtures/home',
       primary:   process.cwd() + '/tests/fixtures/project'
     });
   });
 
+  beforeEach(function() {
+    options = commandOptions();
+    ui = options.ui;
+  });
+
   it('parseArgs() should parse the command options.', function() {
-    expect(new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['--port', '80'])).to.have.deep.property('options.port', 80);
+    expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.deep.property('options.port', 80);
   });
 
   it('parseArgs() should get command options from the config file and command line', function() {
-    expect(new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
+    expect(new ServeCommand(assign(options, {
       settings: config.getAll()
-    }).parseArgs(['--port', '789'])).to.deep.equal({
+    })).parseArgs(['--port', '789'])).to.deep.equal({
       options: {
         port: 789,
         environment: 'mock-development',
@@ -117,21 +110,13 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should set default option values.', function() {
-    expect(new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs([])).to.have.deep.property('options.port', 4200);
+    expect(new ServeCommand(options).parseArgs([])).to.have.deep.property('options.port', 4200);
   });
 
   it('parseArgs() should return args too.', function() {
-    expect(new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
+    expect(new ServeCommand(assign(options, {
       settings: config.getAll()
-    }).parseArgs(['foo', '--port', '80'])).to.deep.equal({
+    })).parseArgs(['foo', '--port', '80'])).to.deep.equal({
       args: ['foo'],
       options: {
         environment: 'mock-development',
@@ -145,75 +130,42 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should warn if an option is invalid.', function() {
-    ui.clear();
-    new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
+    new ServeCommand(assign(options, {
       settings: config.getAll()
-    }).parseArgs(['foo', '--envirmont', 'production']);
+    })).parseArgs(['foo', '--envirmont', 'production']);
     expect(ui.output).to.match(/The option '--envirmont' is not registered with the serve command. Run `ember serve --help` for a list of supported options./);
   });
 
   it('parseArgs() should parse shorthand options.', function() {
-    expect(new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['-e', 'tacotown'])).to.have.deep.property('options.environment', 'tacotown');
+    expect(new ServeCommand(options).parseArgs(['-e', 'tacotown'])).to.have.deep.property('options.environment', 'tacotown');
   });
 
   it('parseArgs() should parse shorthand dasherized options.', function() {
-    expect(new ServeCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['-lr', 'false'])).to.have.deep.property('options.liveReload', false);
+    expect(new ServeCommand(options).parseArgs(['-lr', 'false'])).to.have.deep.property('options.liveReload', false);
   });
 
   it('validateAndRun() should print a message if a required option is missing.', function() {
-    ui.clear();
-    return new DevelopEmberCLICommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).validateAndRun([]).then(function() {
+    return new DevelopEmberCLICommand(options).validateAndRun([]).then(function() {
       expect(ui.output).to.match(/requires the option.*package-name/);
     });
   });
 
   it('validateAndRun() should print a message if outside a project and command is not valid there.', function() {
-    return new InsideProjectCommand({
-      ui: ui,
-      analytics: analytics,
-      project: { isEmberCLIProject: function(){ return false; }},
-      settings: {}
-    }).validateAndRun([]).catch(function(reason) {
+    return new InsideProjectCommand(assign(options, {
+      project: { isEmberCLIProject: function() { return false; } }
+    })).validateAndRun([]).catch(function(reason) {
       expect(reason.message).to.match(/You have to be inside an ember-cli project/);
     });
   });
 
   it('validateAndRun() should print a message if inside a project and command is not valid there.', function() {
-    return new OutsideProjectCommand({
-      ui: ui,
-      analytics: analytics,
-      project: { isEmberCLIProject: function(){ return true; }},
-      settings: {}
-    }).validateAndRun([]).catch(function(reason) {
+    return new OutsideProjectCommand(options).validateAndRun([]).catch(function(reason) {
       expect(reason.message).to.match(/You cannot use.*inside an ember-cli project/);
     });
   });
 
   it('availableOptions with aliases should work.', function() {
-    expect(new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['-soft-shell'])).to.deep.equal({
+    expect(new OptionsAliasCommand(options).parseArgs(['-soft-shell'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
         spicy: true
@@ -223,12 +175,7 @@ describe('models/command.js', function() {
   });
 
   it('availableOptions with aliases should work with minimum characters.', function() {
-    expect(new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['-so'])).to.deep.equal({
+    expect(new OptionsAliasCommand(options).parseArgs(['-so'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
         spicy: true
@@ -238,12 +185,7 @@ describe('models/command.js', function() {
   });
 
   it('availableOptions with aliases should work with hyphenated options', function() {
-    expect(new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['-dm', 'hi'])).to.deep.equal({
+    expect(new OptionsAliasCommand(options).parseArgs(['-dm', 'hi'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
@@ -252,12 +194,7 @@ describe('models/command.js', function() {
       args: []
     });
 
-    expect(new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['-hw'])).to.deep.equal({
+    expect(new OptionsAliasCommand(options).parseArgs(['-hw'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
@@ -268,24 +205,19 @@ describe('models/command.js', function() {
   });
 
   it('registerOptions() should allow adding availableOptions.', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
+    var optionsAlias = new OptionsAliasCommand(options);
     var extendedAvailableOptions = [{
       name: 'filling',
       type: String,
       default: 'adobada',
-      aliases:[
-        {'carne-asada' : 'carne-asada'},
-        {'carnitas' : 'carnitas' },
-        {'fish' : 'fish'}
+      aliases: [
+        { 'carne-asada': 'carne-asada' },
+        { 'carnitas': 'carnitas' },
+        { 'fish': 'fish' }
       ]
     }];
 
-    optionsAlias.registerOptions( { availableOptions : extendedAvailableOptions } );
+    optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     // defaults
     expect(optionsAlias.parseArgs([])).to.deep.equal({
       options: {
@@ -313,57 +245,50 @@ describe('models/command.js', function() {
       },
       args: []
     });
-
   });
 
   it('registerOptions() should allow overriding availableOptions.', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
+    var optionsAlias = new OptionsAliasCommand(options);
     var extendedAvailableOptions = [{
       name: 'filling',
       type: String,
       default: 'adobada',
-      aliases:[
-        {'carne-asada' : 'carne-asada'},
-        {'carnitas' : 'carnitas' },
-        {'fish' : 'fish'}
+      aliases: [
+        { 'carne-asada': 'carne-asada' },
+        { 'carnitas': 'carnitas' },
+        { 'fish': 'fish' }
       ]
     }];
     var duplicateExtendedAvailableOptions = [{
       name: 'filling',
       type: String,
       default: 'carnitas',
-      aliases:[
-        {'pollo-asado' : 'pollo-asado'},
-        {'carne-asada' : 'carne-asada'}
+      aliases: [
+        { 'pollo-asado': 'pollo-asado' },
+        { 'carne-asada': 'carne-asada' }
       ]
     }];
 
-    optionsAlias.registerOptions( { availableOptions : extendedAvailableOptions } );
+    optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     // default
     expect(optionsAlias.parseArgs([])).to.deep.equal({
-        options: {
-          taco: 'traditional',
-          spicy: true,
-          filling: 'adobada'
-        },
-        args: []
-      });
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        filling: 'adobada'
+      },
+      args: []
+    });
     // shorthand
     expect(optionsAlias.parseArgs(['-carne'])).to.deep.equal({
-        options: {
-          taco: 'traditional',
-          spicy: true,
-          filling: 'carne-asada'
-        },
-        args: []
-      });
-
-    optionsAlias.registerOptions( { availableOptions : duplicateExtendedAvailableOptions } );
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        filling: 'carne-asada'
+      },
+      args: []
+    });
+    optionsAlias.registerOptions({ availableOptions: duplicateExtendedAvailableOptions });
     // override default
     expect(optionsAlias.parseArgs([])).to.deep.equal({
       options: {
@@ -375,41 +300,36 @@ describe('models/command.js', function() {
     });
     // last argument wins
     expect(optionsAlias.parseArgs(['-fish', '-pollo'])).to.deep.equal({
-        options: {
-          taco: 'traditional',
-          spicy: true,
-          filling: 'pollo-asado'
-        },
-        args: []
-      });
-
+      options: {
+        taco: 'traditional',
+        spicy: true,
+        filling: 'pollo-asado'
+      },
+      args: []
+    });
   });
 
   it('registerOptions() should not allow aliases with the same name.', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
-    var extendedAvailableOptions = [{
+    var optionsAlias = new OptionsAliasCommand(options);
+    var extendedAvailableOptions = [
+      {
         name: 'filling',
         type: String,
         default: 'adobada',
-        aliases:[
-          {'carne-asada' : 'carne-asada'},
-          {'carnitas' : 'carnitas' },
-          {'fish' : 'fish'}
+        aliases: [
+          { 'carne-asada': 'carne-asada' },
+          { 'carnitas': 'carnitas' },
+          { 'fish': 'fish' }
         ]
       },
       {
         name: 'favorite',
         type: String,
         default: 'adobada',
-        aliases:[
-          {'carne-asada' : 'carne-asada'},
-          {'carnitas' : 'carnitas' },
-          {'fish' : 'fish'}
+        aliases: [
+          { 'carne-asada': 'carne-asada' },
+          { 'carnitas': 'carnitas' },
+          { 'fish': 'fish' }
         ]
       }
     ];
@@ -418,47 +338,35 @@ describe('models/command.js', function() {
     optionsAlias.availableOptions = extendedAvailableOptions;
     expect(register).to.throw('The "carne-asada" alias is already in use by the "--filling" option and ' +
       'cannot be used by the "--favorite" option. Please use a different alias.');
-
   });
 
   it('registerOptions() should warn on options override attempts.', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
+    var optionsAlias = new OptionsAliasCommand(options);
     var extendedAvailableOptions = [
       {
         name: 'spicy',
         type: Boolean,
         default: true,
-        aliases:[
-          {'mild' : true}
+        aliases: [
+          { 'mild': true }
         ]
       }
     ];
-    optionsAlias.registerOptions( { availableOptions : extendedAvailableOptions });
+    optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     expect(ui.output).to.match(/The ".*" alias cannot be overridden. Please use a different alias./);
-
   });
 
   it('registerOptions() should handle invalid alias definitions.', function() {
     //check for different types, validate proper errors are thrown
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
-    var badArrayAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases:[
-        'meat',[{'carne-asada' : 'carne-asada'}], {'carnitas' : 'carnitas' }, {'fish' : 'fish'}
-        ]
-      }];
-    var badObjectAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases:[
-        'meat',{'carne-asada':['steak','grilled']}, {'carnitas' : 'carnitas' }, {'fish' : 'fish'}
-        ]
-      }];
+    var optionsAlias = new OptionsAliasCommand(options);
+    var badArrayAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
+        'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
+      ]
+    }];
+    var badObjectAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
+        'meat', { 'carne-asada': ['steak','grilled']}, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
+      ]
+    }];
     var register = optionsAlias.registerOptions.bind(optionsAlias);
 
     optionsAlias.availableOptions = badArrayAvailableOptions;
@@ -468,32 +376,26 @@ describe('models/command.js', function() {
     optionsAlias.availableOptions = badObjectAvailableOptions;
     expect(register).to.throw('The "[object Object]" [type:object] alias is not an acceptable value. ' +
       'It must be a string or single key object with a string value (for example, "value" or { "key" : "value" }).');
-
   });
 
   it('parseAlias() should parse aliases and return an object', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
+    var optionsAlias = new OptionsAliasCommand(options);
     var option = {
       name: 'filling',
       type: String,
       key: 'filling',
       default: 'adobada',
-      aliases:[
-        {'carne-asada' : 'carne-asada'},
-        {'carnitas' : 'carnitas' },
-        {'fish' : 'fish'}
+      aliases: [
+        { 'carne-asada': 'carne-asada' },
+        { 'carnitas': 'carnitas' },
+        { 'fish': 'fish' }
       ]
     };
-    var alias = {'carnitas' : 'carnitas' };
+    var alias = { 'carnitas': 'carnitas' };
     expect(optionsAlias.parseAlias(option, alias)).to.deep.equal({
       key: 'carnitas',
       value: ['--filling','carnitas'],
-      original: {'carnitas' : 'carnitas'}
+      original: { 'carnitas': 'carnitas' }
     });
   });
 
@@ -502,40 +404,23 @@ describe('models/command.js', function() {
       name: 'filling',
       type: String,
       default: 'adobada',
-      aliases:[
-        {'carne-asada' : 'carne-asada'},
-        {'carnitas' : 'carnitas' },
-        {'fish' : 'fish'}
+      aliases: [
+        { 'carne-asada': 'carne-asada' },
+        { 'carnitas': 'carnitas' },
+        { 'fish': 'fish' }
       ]
     };
-    var dupe = { name: 'spicy', type: Boolean, default: true, aliases:[{'mild' : false}] };
-    var noAlias = { name: 'reload', type: Boolean, default: false};
-    expect(new OptionsAliasCommand({ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).validateOption(option)).to.be.ok;
+    var dupe = { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': false }] };
+    var noAlias = { name: 'reload', type: Boolean, default: false };
+    expect(new OptionsAliasCommand(options).validateOption(option)).to.be.ok;
 
-    expect(new ServeCommand({ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).validateOption(noAlias)).to.be.false;
+    expect(new ServeCommand(options).validateOption(noAlias)).to.be.false;
 
-    expect(new OptionsAliasCommand({ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).validateOption(dupe)).to.be.false;
+    expect(new OptionsAliasCommand(options).validateOption(dupe)).to.be.false;
   });
 
   it('validateOption() should throw an error when option is missing name or type', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
+    var optionsAlias = new OptionsAliasCommand(options);
     var notype = { name: 'taco' };
     var noname = { type: Boolean };
 
@@ -546,12 +431,7 @@ describe('models/command.js', function() {
   });
 
   it('validateOption() should throw an error when option name is camelCase or capitalized', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
+    var optionsAlias = new OptionsAliasCommand(options);
     var capital = {
       name: 'Taco',
       type: Boolean
@@ -568,35 +448,30 @@ describe('models/command.js', function() {
   });
 
   it('mergeDuplicateOption() should merge duplicate options together', function() {
-    var optionsAlias = new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    });
+    var optionsAlias = new OptionsAliasCommand(options);
     var garbageAvailableOptions = [
-        { name: 'spicy', type: Boolean, default: true, aliases:[{'mild' : true}] }
-      ];
-    optionsAlias.registerOptions( { availableOptions : garbageAvailableOptions });
-    var extendedAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases:[
-        {'carne-asada' : 'carne-asada'}, {'carnitas' : 'carnitas' }, {'fish' : 'fish'}
-        ]
-      }];
-    var duplicateExtendedAvailableOptions = [{ name: 'filling', type: String, default: 'carnitas', aliases:[
-         {'pollo-asado' : 'pollo-asado'}, {'carne-asada' : 'carne-asada'}
-        ]
-      }];
-    optionsAlias.registerOptions( { availableOptions : extendedAvailableOptions });
+      { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': true }] }
+    ];
+    optionsAlias.registerOptions({ availableOptions: garbageAvailableOptions });
+    var extendedAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
+        { 'carne-asada': 'carne-asada' }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
+      ]
+    }];
+    var duplicateExtendedAvailableOptions = [{ name: 'filling', type: String, default: 'carnitas', aliases: [
+        { 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' }
+      ]
+    }];
+    optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     optionsAlias.availableOptions.push(duplicateExtendedAvailableOptions[0]);
 
-    expect(optionsAlias.mergeDuplicateOption( 'filling' )).to.deep.equal([
+    expect(optionsAlias.mergeDuplicateOption('filling')).to.deep.equal([
       {
         name: 'taco',
         type: String,
         default: 'traditional',
         aliases: [
-          {'hard-shell' : 'hard-shell'},
-          {'soft-shell' : 'soft-shell'}
+          { 'hard-shell': 'hard-shell' },
+          { 'soft-shell': 'soft-shell' }
         ],
         key: 'taco',
         required: false
@@ -604,7 +479,7 @@ describe('models/command.js', function() {
       {
         name: 'display-message',
         type: String,
-        aliases:[
+        aliases: [
           'dm',
           { 'hw': 'Hello world' }
         ],
@@ -616,7 +491,7 @@ describe('models/command.js', function() {
         type: Boolean,
         default: true,
         aliases: [
-          {'mild' : false}
+          { 'mild': false }
         ],
         key: 'spicy',
         required: false
@@ -626,10 +501,10 @@ describe('models/command.js', function() {
         type: String,
         default: 'carnitas',
         aliases: [
-          {'carne-asada' : 'carne-asada'},
-          {'carnitas' : 'carnitas' },
-          {'fish' : 'fish'},
-          {'pollo-asado' : 'pollo-asado'}
+          { 'carne-asada': 'carne-asada' },
+          { 'carnitas': 'carnitas' },
+          { 'fish': 'fish' },
+          { 'pollo-asado': 'pollo-asado' }
         ],
         key: 'filling',
         required: false
@@ -638,12 +513,7 @@ describe('models/command.js', function() {
   });
 
   it('implicit shorthands work with values.', function() {
-    expect(new OptionsAliasCommand({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: {}
-    }).parseArgs(['-s', 'false', '-t', 'hard-shell'])).to.deep.equal({
+    expect(new OptionsAliasCommand(options).parseArgs(['-s', 'false', '-t', 'hard-shell'])).to.deep.equal({
       options: {
         taco: 'hard-shell',
         spicy: false
