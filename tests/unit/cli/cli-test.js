@@ -100,6 +100,51 @@ describe('Unit: CLI', function() {
       expect(output.length).to.equal(1, 'expected no extra output');
     });
   });
+  
+  it('logError', function() {
+    var cli = new CLI({
+      ui: ui,
+      analytics: analytics,
+      testing: true
+    });
+    var error = new Error('Error message!');
+    var expected = {exitCode: 1, ui: ui, error: error};
+    expect(cli.logError(error)).to.eql(expected, 'expected error object');
+  });
+  
+  it('callHelp', function() {
+    var cli = new CLI({
+      ui: ui,
+      analytics: analytics,
+      testing: true
+    });
+    var init = stubValidateAndRun('init');
+    var help = stubValidateAndRun('help');
+    var helpOptions = {
+      environment: {
+        tasks:    {},
+        commands: commands,
+        cliArgs: [],
+        settings: {},
+        project: {
+          isEmberCLIProject: function() {  // similate being inside or outside of a project
+            return isWithinProject;
+          },
+          hasDependencies: function() {
+            return true;
+          },
+          blueprintLookupPaths: function() {
+            return [];
+          }
+        }
+      },
+      commandName: 'init',
+      commandArgs: []
+    };
+    cli.callHelp(helpOptions);
+    expect(help.called).to.equal(1, 'expected help to be called once');
+    expect(init.called).to.equal(0, 'expected init not to be called');
+  });
 
   describe('help', function(){
     ['--help', '-h'].forEach(function(command){
