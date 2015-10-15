@@ -6,6 +6,7 @@ Table of Contents:
 - [serverMiddleware](#servermiddleware)
 - [postBuild](#postbuild)
 - [preBuild](#prebuild)
+- [outputReady](#outputready)
 - [buildError](#builderror)
 - [included](#included)
 - [setupPreprocessorRegistry](#setuppreprocessorregistry)
@@ -171,7 +172,6 @@ Gives access to the result of the tree, and the location of the output.
 
 - Slow tree listing
 - May be used to manipulate your project after build has happened
-- Opportunity to symlink or copy files elsewhere.
 
 **Examples:**
 
@@ -191,17 +191,27 @@ Hook called before build takes place.
 
 **Uses:**
 
+<a name='outputready'></a>
+## outputReady
+
+Hook called after the build has been processed and the files have been copied to the output directory
+
+**Received arguments:**
+
+- Result object from broccoli build
+  - `result.directory` - final output path
+
+**Default implementation:** None
+
 **Examples:**
 
-- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L41)
-  - In this case we are using this in tandem with a rails middleware to create a lock file.
-  *[See postBuild]*
+- Opportunity to symlink or copy files elsewhere.
 
 <a name='builderror'></a>
 ## buildError
 
 buildError hook will be called on when an error occurs during the
-preBuild or postBuild hooks for addons, or when builder#build
+preBuild, postBuild or outputReady hooks for addons, or when builder#build
 fails
 
 **Received arguments:**
