@@ -5,9 +5,10 @@ var MockAnalytics = require('./mock-analytics');
 var Cli           = require('../../lib/cli');
 var path          = require('path');
 
-module.exports = function ember(args, projectType) {
+module.exports = function ember(args, options) {
   var cli;
-  var type = projectType || 'app';
+  var type = options && options.type || 'app';
+  var disableDependencyChecker = options && options.disableDependencyChecker;
   args.push('--disable-analytics');
   args.push('--watcher=node');
   args.push('--skipGit');
@@ -18,6 +19,7 @@ module.exports = function ember(args, projectType) {
     Leek: MockAnalytics,
     UI: MockUI,
     testing: true,
+    disableDependencyChecker: disableDependencyChecker,
     cli: {
       // This prevents ember-cli from detecting any other package.json files
       // forcing ember-cli to act as the globally installed package
