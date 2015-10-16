@@ -1251,7 +1251,7 @@ describe('Acceptance: ember generate', function() {
         );
       })
       .then(function() {
-        process.chdir(path.join(tmpdir, 'app'));
+        process.chdir(path.join(tmpdir));
       })
       .then(function() {
         return ember(['generate', 'controller', 'foo']);
