@@ -6,7 +6,7 @@ category: extending
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-06-developing-addons-and-blueprints.md"
 ---
 Addons make it possible to easily share common code between
-applications. However, if an addon only covers a very project specific use-case, [an In-Repo Addon](#detailed-list-of-blueprints-and-their-use) could be considered instead.
+applications. However, if an addon only covers a very project specific use-case, [an In-Repo-Addon](#detailed-list-of-blueprints-and-their-use) could be considered instead.
 
 This guide will walk through the development cycle of a fictional
 addon `ember-cli-x-button`.
@@ -456,13 +456,14 @@ blueprints/
 
 
 ### Create blueprint
+
 A blueprint is a bundle of template files with optional installation logic.
 It is used to scaffold (generate) specific application files based on
 some arguments and options.
 For more details see [generators-and-blueprints](#generators-and-blueprints)). An addon can have
 one or more blueprints.
 
-To create a *blueprint* for your addon:
+To generate a *blueprint* for your addon:
 
 `ember generate blueprint <blueprint-name>`
 
@@ -594,3 +595,80 @@ running `ember init` in your project root.
 For a good walkthrough of the (recent) development of a real world
 addon, take a look at:
 [Creating a DatePicker Ember CLI addon](http://edgycircle.com/blog/2014-creating-a-datepicker-ember-addon)
+
+### In-Repo-Addons
+
+Addons sepecific to your project can be created inside your repo and are
+generated in the projects `lib` directory in a folder with the name of
+the in-repo-addon, e.g. `/lib/in-repo-addon-name` and follow the same
+file structure as a normal *addon*.
+
+Some advantages of using an in-repo-addon, instead of an addon outside of
+your application (repo), are:
+
+- Sandbox for developing a feature that you may want to share as an
+  addon in the future
+- Having all the benefits of addon isolation but without the need to
+  publish or `npm link`
+
+Use `in-repo-addon` argument with the `ember generate` command:
+
+{% highlight bash %}
+ember generate in-repo-addon in-repo-addon-name
+{% endhighlight %}
+
+(Replace `in-repo-addon-name` with the name of your addon.)
+
+### Using a stylesheet with an in-repo-addon
+
+For your in-repo-addon stylesheet, name the file `addon.css` and place
+it in the styles directory, e.g `/lib/in-repo-addon-name/addon/styles/addon.css`
+This avoids any conflict with the parent application's `app.css` file
+
+Likewise if your Ember CLI application uses `.less` or `.scss`, use the
+appropriate file extension for your addon stylesheet file.
+
+### Using templates with an in-repro-addon
+
+In order to complile HTMLBars templates that are part of your in-repo-addon,
+your `package.json` file will need to include following dependencies:
+
+- `babel-plugin-htmlbars-inline-precompile`
+- `ember-cli-babel`
+- `ember-cli-htmlbars`
+- `ember-cli-htmlbars-inline-precompile`
+
+(Use the same versions found in your Ember CLI Application's `package.json`)
+
+### Broccoli build options for in-repo-addons
+
+To ensure the you can use babel.js and related polyfills with your in-repo-addon
+add babel options to the `included` hook of the in-repo-addon `index.js`:
+
+{% highlight javascript %}
+module.exports = {
+  name: 'in-repo-addon-name',
+
+  isDevelopingAddon: function() {
+    return true;
+  },
+
+  included: function(app, parentAddon) {
+    var target = (parentAddon || app);
+    target.options = target.options || {};
+    target.options.babel = target.options.babel || { includePolyfill: true };
+    return this._super.included(target);
+  }
+};
+{% endhighlight %}
+
+### Generating an in-repo-addon blueprint
+
+To generate a blueprint for your in-repo-addon:
+
+{% highlight bash %}
+ember generate blueprint <blueprint-name> --in-repo-addon <in-repo-addon-name>
+{% endhighlight %}
+
+When generating a blueprint, a shorthand argument `-ir` or `-in-repo` can be
+used in place of `--in-repo-addon`.
