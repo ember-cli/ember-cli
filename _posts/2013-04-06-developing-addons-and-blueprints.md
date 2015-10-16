@@ -625,7 +625,7 @@ For your in-repo-addon stylesheet, name the file `addon.css` and place
 it in the styles directory, e.g `/lib/in-repo-addon-name/addon/styles/addon.css`
 This avoids any conflict with the parent application's `app.css` file
 
-Likewise if your Ember CLI application uses .less or .scss, use the
+Likewise if your Ember CLI application uses `.less` or `.scss`, use the
 appropriate file extension for your addon stylesheet file.
 
 ### Using templates with an in-repro-addon
@@ -667,7 +667,7 @@ module.exports = {
 To generate a blueprint for your in-repo-addon:
 
 {% highlight bash %}
-ember generate --in-repo-addon blueprint <blueprint-name>
+ember generate blueprint <blueprint-name> --in-repo-addon <in-repo-addon-name>
 {% endhighlight %}
 
 When generating a blueprint, a shorthand argument `-ir` or `-in-repo` can be
