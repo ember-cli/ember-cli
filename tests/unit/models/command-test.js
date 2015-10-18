@@ -42,6 +42,17 @@ var OutsideProjectCommand = Command.extend({
   run: function() {}
 });
 
+var OptionFunctionCommand = Command.extend({
+  name: 'options-function',
+  availableOptions: function() {
+    return [{
+      name: 'taco',
+      type: String,
+      default: 'traditional'
+    }];
+  }
+});
+
 var OptionsAliasCommand = Command.extend({
   name: 'options-alias',
   availableOptions: [{
@@ -161,6 +172,15 @@ describe('models/command.js', function() {
   it('validateAndRun() should print a message if inside a project and command is not valid there.', function() {
     return new OutsideProjectCommand(options).validateAndRun([]).catch(function(reason) {
       expect(reason.message).to.match(/You cannot use.*inside an ember-cli project/);
+    });
+  });
+
+  it('availableOptions as a funciton should work.', function() {
+    expect(new OptionFunctionCommand(options).parseArgs(['-taco', 'chalupa'])).to.deep.equal({
+      options: {
+        taco: 'chalupa'
+      },
+      args: []
     });
   });
 
