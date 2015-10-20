@@ -1232,6 +1232,8 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a simple utility module/function.\u001b[39m' + EOL + '\
       util-test \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a util unit test.\u001b[39m' + EOL + '\
+      vendor-shim \u001b[33m<name>\u001b[39m' + EOL + '\
+        \u001b[90mGenerates an ES6 module shim for global libraries.\u001b[39m' + EOL + '\
       view \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a view subclass.\u001b[39m' + EOL + '\
       view-test \u001b[33m<name>\u001b[39m' + EOL + '\
