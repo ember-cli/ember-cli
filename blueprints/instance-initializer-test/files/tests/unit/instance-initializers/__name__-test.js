@@ -3,15 +3,18 @@ import { initialize } from '<%= dependencyDepth %>/instance-initializers/<%= das
 import { module, test } from 'qunit';
 
 var appInstance;
+var application;
 
 module('<%= friendlyTestName %>', {
   beforeEach: function() {
     Ember.run(function() {
-      var application = Ember.Application.create();
-      application.visit('/').then(function(instance) {
-        appInstance = instance;
-      });
+      this.application = Ember.Application.create();
+      this.appInstance = application.buildInstance();
     });
+  },
+  afterEach: function() {
+    Ember.run(this.appInstance, 'destroy');
+    destroyApp(this.application);
   }
 });
 
