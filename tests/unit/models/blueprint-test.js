@@ -30,7 +30,7 @@ stub = stub.stub;
 var existsSyncStub;
 var readdirSyncStub;
 var readFileSyncStub;
-var renderFileStub;
+var printCommandStub;
 var Blueprint = proxyquire('../../../lib/models/blueprint', {
   'exists-sync': function() {
     return existsSyncStub.apply(this, arguments);
@@ -43,12 +43,8 @@ var Blueprint = proxyquire('../../../lib/models/blueprint', {
       return readFileSyncStub.apply(this, arguments);
     }
   },
-  '../utilities/markdown-color': function() {
-    return {
-      renderFile: function() {
-        return renderFileStub.apply(this, arguments);
-      }
-    };
+  '../utilities/print-command': function() {
+    return printCommandStub.apply(this, arguments);
   }
 });
 
@@ -74,7 +70,6 @@ describe('Blueprint', function() {
     existsSyncStub = existsSync;
     readdirSyncStub = fs.readdirSync;
     readFileSyncStub = fs.readFileSync;
-    renderFileStub = MarkdownColor.prototype.renderFile;
   });
 
   describe('.mapFile', function() {
@@ -273,228 +268,170 @@ describe('Blueprint', function() {
   });
 
   describe('help', function() {
-    it('handles overridden', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
+    var blueprint;
 
-      assign(blueprint, {
-        overridden: true
+    beforeEach(function() {
+      blueprint = new Blueprint('path/to/my-blueprint');
+    });
+
+    describe('printBasicHelp', function() {
+      var printCommandStubWasCalled;
+      var printCommandStubArguments;
+
+      beforeEach(function() {
+        printCommandStubWasCalled = false;
+        printCommandStub = function() {
+          printCommandStubWasCalled = true;
+          printCommandStubArguments = arguments;
+          return ' command printed';
+        };
+        stub(blueprint, 'printDetailedHelp', 'help in detail');
       });
 
-      var output = blueprint.printBasicHelp();
+      afterEach(function() {
+        safeRestore(blueprint, 'printDetailedHelp');
+      });
 
-      var testString = processHelpString('\
+      it('handles overridden', function() {
+        assign(blueprint, {
+          overridden: true
+        });
+
+        var output = blueprint.printBasicHelp();
+
+        var testString = processHelpString('\
       \u001b[90m(overridden) my-blueprint\u001b[39m');
 
-      expect(output).to.equal(testString);
-    });
-
-    it('handles all possible options', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      var availableOptions = [
-        {
-          name: 'test-option',
-          values: ['x', 'y'],
-          default: 'my-def-val',
-          required: true,
-          aliases: ['a', { b: 'c' }],
-          description: 'option desc'
-        },
-        {
-          name: 'test-type',
-          type: Boolean,
-          aliases: ['a']
-        }
-      ];
-
-      assign(blueprint, {
-        description: 'a paragraph',
-        availableOptions: availableOptions,
-        anonymousOptions: ['anon-test'],
-        printDetailedHelp: function() {
-          expect(arguments[0]).to.equal(availableOptions);
-          return 'some details';
-        },
-        dontShowThis: 'test'
+        expect(output).to.equal(testString);
+        expect(printCommandStubWasCalled).to.be.false;
       });
 
-      var output = blueprint.printBasicHelp(true);
+      it('calls printCommand', function() {
+        var output = blueprint.printBasicHelp();
 
-      var testString = processHelpString('\
-      my-blueprint \u001b[33m<anon-test>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
-        \u001b[90ma paragraph\u001b[39m' + EOL + '\
-        \u001b[36m--test-option\u001b[39m\u001b[36m=x|y\u001b[39m \u001b[36m(Default: my-def-val)\u001b[39m \u001b[36m(Required)\u001b[39m' + EOL + '\
-          \u001b[90maliases: -a <value>, -b (--test-option=c)\u001b[39m option desc' + EOL + '\
-        \u001b[36m--test-type\u001b[39m' + EOL + '\
-          \u001b[90maliases: -a\u001b[39m' + EOL + '\
-some details');
+        var testString = processHelpString('\
+      my-blueprint command printed');
 
-      expect(output).to.equal(testString);
-    });
-
-    it('handles all possible options json', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      var availableOptions = [
-        {
-          type: 'my-string-type',
-          showAnything: true
-        },
-        {
-          type: function myFunctionType() {}
-        }
-      ];
-
-      assign(blueprint, {
-        description: 'a paragraph',
-        overridden: false,
-        availableOptions: availableOptions,
-        anonymousOptions: ['anon-test'],
-        printDetailedHelp: function() {
-          expect(arguments[0]).to.equal(availableOptions);
-          return 'some details';
-        },
-        dontShowThis: true
+        expect(output).to.equal(testString);
+        expect(printCommandStubWasCalled).to.be.true;
+        expect(printCommandStubArguments[0]).to.equal('      ');
+        expect(printCommandStubArguments[1]).to.be.true;
       });
 
-      var json = blueprint.getJson(true);
+      it('prints detailed help if verbose', function() {
+        var availableOptions = [];
+        assign(blueprint, {
+          availableOptions: availableOptions
+        });
 
-      expect(json).to.deep.equal({
-        name: 'my-blueprint',
-        description: 'a paragraph',
-        overridden: false,
-        availableOptions: [
+        var output = blueprint.printBasicHelp(true);
+
+        var testString = processHelpString('\
+      my-blueprint command printed' + EOL + '\
+help in detail');
+
+        expect(output).to.equal(testString);
+        expect(blueprint.printDetailedHelp.calledWith[0][0]).to.equal(availableOptions);
+      });
+    });
+
+    describe('printDetailedHelp', function() {
+      afterEach(function() {
+        safeRestore(MarkdownColor.prototype, 'renderFile');
+      });
+
+      it('did not find the file', function() {
+        existsSyncStub = function() {
+          return false;
+        };
+        stub(MarkdownColor.prototype, 'renderFile', function() {
+          expect.fail(0, 1, 'should not call MarkdownColor.renderFile');
+        }, true);
+
+        var help = blueprint.printDetailedHelp();
+
+        expect(help).to.equal('');
+      });
+
+      it('found the file', function() {
+        existsSyncStub = function() {
+          return true;
+        };
+        stub(MarkdownColor.prototype, 'renderFile', function() {
+          expect(arguments[1].indent).to.equal('        ');
+          return 'test-file';
+        }, true);
+
+        var help = blueprint.printDetailedHelp();
+
+        expect(help).to.equal('test-file');
+      });
+    });
+
+    describe('getJson', function() {
+      afterEach(function() {
+        safeRestore(blueprint, 'printDetailedHelp');
+      });
+
+      it('handles all possible options', function() {
+        var availableOptions = [
           {
             type: 'my-string-type',
             showAnything: true
           },
           {
-            type: 'myFunctionType'
+            type: function myFunctionType() {}
           }
-        ],
-        anonymousOptions: ['anon-test'],
-        detailedHelp: 'some details'
-      });
-    });
+        ];
 
-    it('handles the simplest blueprint, to test else skipping', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
+        assign(blueprint, {
+          description: 'a paragraph',
+          overridden: false,
+          availableOptions: availableOptions,
+          anonymousOptions: ['anon-test'],
+          printDetailedHelp: function() {
+            expect(arguments[0]).to.equal(availableOptions);
+            return 'some details';
+          },
+          dontShowThis: true
+        });
 
-      var output = blueprint.printBasicHelp();
+        var json = blueprint.getJson(true);
 
-      var testString = processHelpString('\
-      my-blueprint \u001b[33m<name>\u001b[39m');
-
-      expect(output).to.equal(testString);
-    });
-
-    it('handles the simplest option, to test else skipping', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      assign(blueprint, {
-        availableOptions: [{}]
-      });
-
-      var output = blueprint.printBasicHelp();
-
-      var testString = processHelpString('\
-      my-blueprint \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
-        \u001b[36m--undefined\u001b[39m');
-
-      expect(output).to.equal(testString);
-    });
-
-    it('don\'t print prefix if option aliases is empty', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      assign(blueprint, {
-        availableOptions: [
-          {
-            aliases: []
-          }
-        ]
+        expect(json).to.deep.equal({
+          name: 'my-blueprint',
+          description: 'a paragraph',
+          overridden: false,
+          availableOptions: [
+            {
+              type: 'my-string-type',
+              showAnything: true
+            },
+            {
+              type: 'myFunctionType'
+            }
+          ],
+          anonymousOptions: ['anon-test'],
+          detailedHelp: 'some details'
+        });
       });
 
-      var output = blueprint.printBasicHelp();
+      it('do not print detailed if not verbose', function() {
+        stub(blueprint, 'printDetailedHelp');
 
-      var testString = processHelpString('\
-      my-blueprint \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
-        \u001b[36m--undefined\u001b[39m');
+        blueprint.getJson();
 
-      expect(output).to.equal(testString);
-    });
-
-    it('if blueprint nulls printDetailedHelp, don\'t call it, we should deprecate this', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      assign(blueprint, {
-        printDetailedHelp: null
+        expect(blueprint.printDetailedHelp.called).to.equal(0);
       });
 
-      var output = blueprint.printBasicHelp(true);
+      it('if printDetailedHelp returns falsy, don\'t attach property detailedHelp', function() {
+        stub(blueprint, 'printDetailedHelp');
 
-      var testString = processHelpString('\
-      my-blueprint \u001b[33m<name>\u001b[39m');
+        var json = blueprint.getJson(true);
 
-      expect(output).to.equal(testString);
-    });
-
-    it('if blueprint nulls printDetailedHelp, don\'t call it json, we should deprecate this', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      assign(blueprint, {
-        printDetailedHelp: null
+        expect(blueprint.printDetailedHelp.called).to.equal(1);
+        expect(json).to.not.have.property('detailedHelp');
       });
-
-      var json = blueprint.getJson(true);
-
-      expect(json).to.deep.equal({
-        name: 'my-blueprint',
-        availableOptions: [],
-        anonymousOptions: ['name']
-      });
-    });
-
-    it('if printDetailedHelp returns falsy, don\'t attach property detailedHelp', function() {
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      stub(blueprint, 'printDetailedHelp', '');
-
-      var json = blueprint.getJson(true);
-
-      expect(blueprint.printDetailedHelp.called).to.equal(1);
-      expect(json).to.not.have.property('detailedHelp');
-    });
-
-    it('handles extra help', function() {
-      existsSyncStub = function() {
-        return true;
-      };
-      renderFileStub = function() {
-        expect(arguments[1].indent).to.equal('        ');
-        return 'test-file';
-      };
-
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      var help = blueprint.printDetailedHelp();
-
-      expect(help).to.equal('test-file');
-    });
-
-    it('handles no extra help', function() {
-      existsSyncStub = function() {
-        return false;
-      };
-      renderFileStub = function() {
-        expect.fail(0, 1, 'should not call MarkdownColor.renderFile');
-      };
-
-      var blueprint = new Blueprint('path/to/my-blueprint');
-
-      var help = blueprint.printDetailedHelp();
-
-      expect(help).to.equal('');
     });
   });
 

@@ -1183,7 +1183,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates an acceptance test for a feature.\u001b[39m' + EOL + '\
       adapter \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates an ember-data adapter.\u001b[39m' + EOL + '\
-        \u001b[36m--base-class\u001b[39m' + EOL + '\
+        \u001b[36m--base-class\u001b[39m \u001b[36m(String)\u001b[39m' + EOL + '\
       adapter-test \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates an ember-data adapter unit test\u001b[39m' + EOL + '\
       addon \u001b[33m<name>\u001b[39m' + EOL + '\
@@ -1196,13 +1196,13 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a blueprint and definition.\u001b[39m' + EOL + '\
       component \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a component. Name must contain a hyphen.\u001b[39m' + EOL + '\
-        \u001b[36m--path\u001b[39m \u001b[36m(Default: components)\u001b[39m' + EOL + '\
+        \u001b[36m--path\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: components)\u001b[39m' + EOL + '\
           \u001b[90maliases: -no-path (--path=)\u001b[39m' + EOL + '\
       component-addon \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a component. Name must contain a hyphen.\u001b[39m' + EOL + '\
       component-test \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a component integration or unit test.\u001b[39m' + EOL + '\
-        \u001b[36m--test-type\u001b[39m \u001b[36m(Default: integration)\u001b[39m' + EOL + '\
+        \u001b[36m--test-type\u001b[39m \u001b[36m(integration, unit)\u001b[39m \u001b[36m(Default: integration)\u001b[39m' + EOL + '\
           \u001b[90maliases: -i (--test-type=integration), -u (--test-type=unit), -integration (--test-type=integration), -unit (--test-type=unit)\u001b[39m' + EOL + '\
       controller \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a controller.\u001b[39m' + EOL + '\
@@ -1246,9 +1246,9 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a model, template, route, and registers the route with the router.\u001b[39m' + EOL + '\
       route \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a route and a template, and registers the route with the router.\u001b[39m' + EOL + '\
-        \u001b[36m--path\u001b[39m \u001b[36m(Default: )\u001b[39m' + EOL + '\
-        \u001b[36m--skip-router\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
-        \u001b[36m--reset-namespace\u001b[39m' + EOL + '\
+        \u001b[36m--path\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: )\u001b[39m' + EOL + '\
+        \u001b[36m--skip-router\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+        \u001b[36m--reset-namespace\u001b[39m \u001b[36m(Boolean)\u001b[39m' + EOL + '\
       route-addon \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates import wrappers for a route and its template.\u001b[39m' + EOL + '\
       route-test \u001b[33m<name>\u001b[39m' + EOL + '\
