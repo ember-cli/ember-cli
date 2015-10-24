@@ -228,13 +228,13 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'button',
 
-  setupXbutton: function() {
+  setupXbutton: Ember.on('didInsertElement', function() {
     // ...
-  }.on('didInsertElement'),
+  }),
 
-  teardownXbutton: function() {
+  teardownXbutton: Ember.on('willDestroyElement', function() {
     this.get('x-button').destroy();
-  }.on('willDestroyElement'),
+  }),
 });
 {% endhighlight %}
 
@@ -416,7 +416,7 @@ For how to run and configure tests, see the [Ember CLI Testing](#testing) sectio
 
 ### Generating files in the dummy app
 
-You can generate most of ember-cli's built-in blueprints into your `tests/dummy/app` directory 
+You can generate most of ember-cli's built-in blueprints into your `tests/dummy/app` directory
 to speed up building a dummy app to use for testing. Any blueprint that generates into an `/app` directory is currently supported:
 
 `ember g <blueprint-name> <name> --dummy`
@@ -441,7 +441,7 @@ tests/
 Note that in the above example, the addon-import and component-test were not generated. The
 `--dummy` option generates the blueprint as if you were in a non-addon project.
 
-You can also create your own blueprints that can generate into the dummy directory. The primary 
+You can also create your own blueprints that can generate into the dummy directory. The primary
 requirement is that the blueprint contains a `__root__` token in the files directory path.
 
 {% highlight bash %}
