@@ -90,6 +90,10 @@ For Arch Linux or Manjaro Linux, in order for the parameters to be loaded at boo
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.conf && sudo sysctl --system
 ```
 
+## Why is CI broken?
+
+If all pull requests are breaking on the same issue, we likely have a dependency that updated and broke our CI. [This app](http://package-hint-historic-resolver.herokuapp.com/?repoUrl=https%3A%2F%2Fgithub.com%2Fember-cli%2Fember-cli) can tell you which packages updated.
+
 ## Inline Documentation
 
 Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it in `docs/build/`. Please help by improving this documentation.
