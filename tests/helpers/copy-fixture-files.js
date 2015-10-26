@@ -8,6 +8,7 @@ var rootPath = process.cwd();
 
 module.exports = function copyFixtureFiles(sourceDir) {
   return copy(path.join(rootPath, 'tests', 'fixtures', sourceDir), '.', {
+    overwrite: true,
     clobber: true,
     stopOnErr: true
   });
