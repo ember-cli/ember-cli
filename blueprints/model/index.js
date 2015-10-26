@@ -19,25 +19,40 @@ module.exports = {
 
     for (var name in entityOptions) {
       var type = entityOptions[name] || '';
+      var foreignModel = name;
+      if (type.indexOf(':') > -1) {
+        foreignModel = type.split(':')[1];
+        type = type.split(':')[0];
+      }
       var dasherizedName = stringUtils.dasherize(name);
-      var dasherizedNameSingular = inflection.singularize(dasherizedName);
       var camelizedName = stringUtils.camelize(name);
       var dasherizedType = stringUtils.dasherize(type);
+      var dasherizedForeignModel = stringUtils.dasherize(foreignModel);
+      var dasherizedForeignModelSingular = inflection.singularize(dasherizedForeignModel);
 
+      var attr;
       if (/has-many/.test(dasherizedType)) {
         var camelizedNamePlural = inflection.pluralize(camelizedName);
-        attrs.push(camelizedNamePlural + ': ' + dsAttr(dasherizedName, dasherizedType));
+        attr = dsAttr(dasherizedForeignModelSingular, dasherizedType);
+        attrs.push(camelizedNamePlural + ': ' + attr);
+      } else if (/belongs-to/.test(dasherizedType)) {
+        attr = dsAttr(dasherizedForeignModel, dasherizedType);
+        attrs.push(camelizedName + ': ' + attr);
       } else {
-        attrs.push(camelizedName + ': ' + dsAttr(dasherizedName, dasherizedType));
+        attr = dsAttr(dasherizedName, dasherizedType);
+        attrs.push(camelizedName + ': ' + attr);
       }
 
       if (/has-many|belongs-to/.test(dasherizedType)) {
-        needs.push("'model:" + dasherizedNameSingular + "'");
+        needs.push("'model:" + dasherizedForeignModelSingular + "'");
       }
     }
+    var needsDeduplicated = needs.filter(function(need, i) {
+      return needs.indexOf(need) === i;
+    });
 
     attrs = attrs.join(',' + EOL + '  ');
-    needs = '  needs: [' + needs.join(', ') + ']';
+    needs = '  needs: [' + needsDeduplicated.join(', ') + ']';
 
     return {
       attrs: attrs,
@@ -51,8 +66,7 @@ function dsAttr(name, type) {
   case 'belongs-to':
     return 'DS.belongsTo(\'' + name + '\')';
   case 'has-many':
-    var singularizedName = inflection.singularize(name);
-    return 'DS.hasMany(\'' + singularizedName + '\')';
+    return 'DS.hasMany(\'' + name + '\')';
   case '':
     //"If you don't specify the type of the attribute, it will be whatever was provided by the server"
     //http://emberjs.com/guides/models/defining-models/
