@@ -63,6 +63,8 @@ runs.
 
 To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
 
+The default test suite includes JSHint or it can be run on it's own with `npm test jshint`.
+
 Please read the official [mocha documentation](http://mochajs.org/) for more information.
 
 ## Problems
