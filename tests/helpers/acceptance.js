@@ -146,7 +146,7 @@ function teardownTestTargets() {
 function linkDependencies(projectName) {
   var targetPath = './tmp/' + projectName;
   return tmp.setup('./tmp').then(function() {
-    return copy('./common-tmp/' + projectName, targetPath);
+    return copy('./common-tmp/' + projectName, targetPath, { overwrite: true });
   }).then(function() {
     var nodeModulesPath = targetPath + '/node_modules/';
     var bowerComponentsPath = targetPath + '/bower_components/';
