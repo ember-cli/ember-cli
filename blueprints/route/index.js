@@ -18,6 +18,10 @@ module.exports = {
       name: 'skip-router',
       type: Boolean,
       default: false
+    },
+    {
+      name: 'reset-namespace',
+      type: Boolean
     }
   ],
 
