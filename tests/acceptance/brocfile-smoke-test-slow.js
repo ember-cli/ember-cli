@@ -171,6 +171,27 @@ describe('Acceptance: brocfile-smoke-test', function() {
     });
   });
 
+  it('app.import works properly with test tree files', function() {
+    return copyFixtureFiles('brocfile-tests/app-test-import')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        packageJson.devDependencies['ember-test-addon'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', 'test-support.js'), {
+          encoding: 'utf8'
+        });
+
+        expect(subjectFileContents.indexOf('// File for test tree imported and added via postprocessTree()') > 0).to.equal(true);
+      });
+  });
+
   it('app.import works properly with non-js/css files', function() {
     return copyFixtureFiles('brocfile-tests/app-import')
       .then(function() {
