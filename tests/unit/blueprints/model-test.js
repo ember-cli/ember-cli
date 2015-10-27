@@ -30,7 +30,7 @@ describe('blueprint - model', function(){
       }));
       expect(out.attrs).to.equal('name: DS.attr(\'type\')');
       expect(out.needs).to.equal('  needs: []');
-    })
+    });
 
     it('accepts camel-cased properties', function(){
       var blueprint = Blueprint.lookup('model');
@@ -51,13 +51,15 @@ describe('blueprint - model', function(){
       }));
       expect(out.attrs).to.equal('dashToTheFuture: DS.attr(\'time-machine\')');
       expect(out.needs).to.equal('  needs: []');
-    })
+    });
 
     it('accepts underscored properties', function(){
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
+        /* jshint camelcase: false */
         six_feet_underscored: ''
+        /* jshint camelcase: true */
       }));
       console.log(out);
       expect(out.attrs).to.equal('sixFeetUnderscored: DS.attr()');
