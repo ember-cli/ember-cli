@@ -72,7 +72,7 @@
     "broccoli-babel-transpiler": "^5.4.5",
     "broccoli-caching-writer": "^2.0.0",
     "broccoli-es3-safe-recast": "^2.0.0",
-    "broccoli-funnel": "0.2.8",
+    "broccoli-funnel": "0.2.11",
     "broccoli-kitchen-sink-helpers": "^0.2.7",
     "broccoli-merge-trees": "0.2.3",
     "broccoli-plugin": "^1.2.0",
