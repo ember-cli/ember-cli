@@ -51,9 +51,7 @@ describe('bower install task', function() {
     ui = new MockUI();
 
     var expectedArgs  = [];
-    var expectedOptions  = {
-      verbose: false
-    };
+    var expectedOptions  = {};
 
     var task = new BowerInstallTask({
       ui: ui,
@@ -74,8 +72,7 @@ describe('bower install task', function() {
 
     var expectedArgs  = ['ember'];
     var expectedOptions  = {
-      save: true,
-      verbose: false
+      save: true
     };
 
     var task = new BowerInstallTask({

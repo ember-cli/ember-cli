@@ -8,7 +8,7 @@ var bower;
 describe('bower task', function() {
   var ui;
 
-  var testCalledWithArgs, testCalledWithOptions, testCalledWithConfig,  testCalled;
+  var testCalledWithArgs, testCalled, bowerConfigInstance, bowerConfig;
 
   var Bower = function() {
     // auto resolved on 'end' event with reject
@@ -25,11 +25,9 @@ describe('bower task', function() {
       return this;
     }.bind(this);
 
-    var testCommand = function(args, options, config) {
+    var testCommand = function(config) {
       testCalled = true;
-      testCalledWithArgs = args;
-      testCalledWithOptions = options;
-      testCalledWithConfig = config;
+      testCalledWithArgs = Array.prototype.slice.call(arguments, 0);
       return this;
     }.bind(this);
 
@@ -45,8 +43,13 @@ describe('bower task', function() {
     beforeEach(function() {
       testCalled = false;
       testCalledWithArgs = undefined;
-      testCalledWithOptions = undefined;
       bower = new Bower();
+      bowerConfigInstance = {};
+      bowerConfig = {
+        read: function() {
+          return bowerConfigInstance;
+        }
+      };
     });
 
     it('without arguments', function() {
@@ -57,15 +60,14 @@ describe('bower task', function() {
         startProgressMessage: 'test started',
         completionMessage: 'test completed',
         ui: ui,
-        bower: bower
+        bower: bower,
+        bowerConfig: bowerConfig
       });
 
       return task.run({}).then(function() {
         expect(ui.output).to.include('test completed');
 
-        // @todo: should be an empty array
-        expect(testCalledWithArgs).to.deep.equal([]);
-        expect(testCalledWithOptions).to.deep.equal({verbose: false});
+        expect(testCalledWithArgs).to.deep.equal([ bowerConfigInstance ]);
       });
     });
 
@@ -77,7 +79,8 @@ describe('bower task', function() {
         startProgressMessage: 'test started',
         completionMessage: 'test completed',
         ui: ui,
-        bower: bower
+        bower: bower,
+        bowerConfig: bowerConfig
       });
 
       return task.run({
@@ -95,13 +98,14 @@ describe('bower task', function() {
         startProgressMessage: 'test started',
         completionMessage: 'test completed',
         ui: ui,
-        bower: bower
+        bower: bower,
+        bowerConfig: bowerConfig
       });
 
       return task.run({
         verbose: true
       }).then(function() {
-        expect(testCalledWithOptions).to.deep.equal({verbose: true});
+        expect(testCalledWithArgs).to.deep.equal([ bowerConfigInstance ]);
         expect(ui.output).to.include('logged message');
       });
     });
@@ -117,7 +121,8 @@ describe('bower task', function() {
         startProgressMessage: 'test started',
         completionMessage: 'test completed',
         ui: ui,
-        bower: bower
+        bower: bower,
+        bowerConfig: bowerConfig
       });
     } catch (e) {
       expect(e.message).to.equal('Command name is not specified');
@@ -134,7 +139,8 @@ describe('bower task', function() {
       startProgressMessage: 'test started',
       completionMessage: 'test completed',
       ui: ui,
-      bower: bower
+      bower: bower,
+      bowerConfig: bowerConfig
     });
 
     return task.run({}).catch(function() {
@@ -145,13 +151,6 @@ describe('bower task', function() {
   it('should be interactive', function() {
     bower = new Bower();
     ui = new MockUI();
-
-    var bowerConfigInstance = {};
-    var bowerConfig = {
-      read: function() {
-        return bowerConfigInstance;
-      }
-    };
 
     var task = new BowerTask({
       command: 'test',
