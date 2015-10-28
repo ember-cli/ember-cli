@@ -25,7 +25,7 @@ test('it renders', function(assert) {
 
   assert.equal(this.$().text().trim(), 'template block text');<% } else if(testType === 'unit') { %>
   // Creates the component instance
-  /*var component =*/ this.subject();
+  /*let component =*/ this.subject();
   // Renders the component to the page
   this.render();
   assert.equal(this.$().text().trim(), '');<% } %>

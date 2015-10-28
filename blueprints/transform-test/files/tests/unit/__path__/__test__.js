@@ -7,6 +7,6 @@ moduleFor('transform:<%= dasherizedModuleName %>', '<%= friendlyTestDescription 
 
 // Replace this with your real tests.
 test('it exists', function(assert) {
-  var transform = this.subject();
+  let transform = this.subject();
   assert.ok(transform);
 });
