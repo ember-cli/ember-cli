@@ -2,7 +2,7 @@ import Ember from 'ember';
 import <%= classifiedModuleName %>Initializer from '<%= dependencyDepth %>/initializers/<%= dasherizedModuleName %>';
 import { module, test } from 'qunit';
 
-var application;
+let application;
 
 module('<%= friendlyTestName %>', {
   beforeEach: function() {
