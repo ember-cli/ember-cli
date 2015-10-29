@@ -656,6 +656,12 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
                       default: false,
                       key: 'skipRouter',
                       required: false
+                    },
+                    {
+                      name: 'reset-namespace',
+                      type: 'Boolean',
+                      key: 'resetNamespace',
+                      required: false
                     }
                   ],
                   anonymousOptions: ['name'],
@@ -1206,6 +1212,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a route and a template, and registers the route with the router.\u001b[39m' + EOL + '\
         \u001b[36m--path\u001b[39m \u001b[36m(Default: )\u001b[39m' + EOL + '\
         \u001b[36m--skip-router\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
+        \u001b[36m--reset-namespace\u001b[39m' + EOL + '\
       route-addon \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates import wrappers for a route and its template.\u001b[39m' + EOL + '\
       route-test \u001b[33m<name>\u001b[39m' + EOL + '\

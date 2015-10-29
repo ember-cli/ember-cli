@@ -883,6 +883,31 @@ describe('Acceptance: ember generate pod', function() {
     });
   });
 
+  it('route foo --pod with --reset-namespace', function() {
+    return generate(['route', 'foo', '--pod', '--reset-namespace'])
+      .then(function() {
+        assertFile('app/router.js', {
+          contains: [
+            'this.route(\'foo\', {',
+            'resetNamespace: true',
+            '});'
+          ]
+        });
+      });
+  });
+
+  it('route foo --pod with --reset-namespace=false', function() {
+    return generate(['route', 'foo', '--pod', '--reset-namespace=false'])
+      .then(function() {
+        assertFile('app/router.js', {
+          contains: [
+            'this.route(\'foo\', {',
+            'resetNamespace: false',
+            '});'
+          ]
+        });
+      });
+  });
 
   it('route foo --pod podModulePrefix', function() {
     return generateWithPrefix(['route', 'foo', '--pod']).then(function() {
@@ -1063,6 +1088,32 @@ describe('Acceptance: ember generate pod', function() {
           contains: [
             'this.route(\'foos\', {',
             'path: \'app/foos\'',
+            '});'
+          ]
+        });
+      });
+  });
+
+  it('resource foos --pod with --reset-namespace', function() {
+    return generate(['resource', 'foos', '--pod', '--reset-namespace'])
+      .then(function() {
+        assertFile('app/router.js', {
+          contains: [
+            'this.route(\'foos\', {',
+            'resetNamespace: true',
+            '});'
+          ]
+        });
+      });
+  });
+
+  it('resource foos --pod with --reset-namespace=false', function() {
+    return generate(['resource', 'foos', '--pod', '--reset-namespace=false'])
+      .then(function() {
+        assertFile('app/router.js', {
+          contains: [
+            'this.route(\'foos\', {',
+            'resetNamespace: false',
             '});'
           ]
         });

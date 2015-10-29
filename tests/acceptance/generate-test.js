@@ -393,6 +393,30 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('route foo with --reset-namespace', function() {
+    return generate(['route', 'foo', '--reset-namespace']).then(function() {
+      assertFile('app/router.js', {
+        contains: [
+          'this.route(\'foo\', {',
+          'resetNamespace: true',
+          '});'
+        ]
+      });
+    });
+  });
+
+  it('route foo with --reset-namespace=false', function() {
+    return generate(['route', 'foo', '--reset-namespace=false']).then(function() {
+      assertFile('app/router.js', {
+        contains: [
+          'this.route(\'foo\', {',
+          'resetNamespace: false',
+          '});'
+        ]
+      });
+    });
+  });
+
   it('route index', function() {
     return generate(['route', 'index']).then(function() {
       assertFile('app/router.js', {
@@ -515,6 +539,30 @@ describe('Acceptance: ember generate', function() {
         contains: [
           'this.route(\'foos\', {',
           'path: \'app/foos\'',
+          '});'
+        ]
+      });
+    });
+  });
+
+  it('resource foos with --reset-namespace', function() {
+    return generate(['resource', 'foos', '--reset-namespace']).then(function() {
+      assertFile('app/router.js', {
+        contains: [
+          'this.route(\'foos\', {',
+          'resetNamespace: true',
+          '});'
+        ]
+      });
+    });
+  });
+
+  it('resource foos with --reset-namespace=false', function() {
+    return generate(['resource', 'foos', '--reset-namespace=false']).then(function() {
+      assertFile('app/router.js', {
+        contains: [
+          'this.route(\'foos\', {',
+          'resetNamespace: false',
           '});'
         ]
       });
