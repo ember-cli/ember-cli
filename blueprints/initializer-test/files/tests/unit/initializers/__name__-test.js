@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 let application;
 
 module('<%= friendlyTestName %>', {
-  beforeEach: function() {
+  beforeEach() {
     Ember.run(function() {
       application = Ember.Application.create();
       application.deferReadiness();

@@ -351,7 +351,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo'," + EOL +
-                  "  initialize: initialize" + EOL +
+                  "  initialize" + EOL +
                   "};"
       });
       assertFileToNotExist('app/initializers/foo.js');
@@ -368,7 +368,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo/bar'," + EOL +
-                  "  initialize: initialize" + EOL +
+                  "  initialize" + EOL +
                   "};"
       });
       assertFileToNotExist('app/initializers/foo/bar.js');
