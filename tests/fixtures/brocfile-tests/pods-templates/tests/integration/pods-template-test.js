@@ -15,7 +15,6 @@ module('pods based templates', {
   }
 });
 
-
 test('the application boots properly with pods based templates', function(assert) {
   assert.expect(1);
 

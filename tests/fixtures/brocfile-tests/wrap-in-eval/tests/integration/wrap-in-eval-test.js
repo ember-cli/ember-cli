@@ -15,7 +15,6 @@ module('wrapInEval in-app test', {
   }
 });
 
-
 test('the application boots properly with wrapInEval', function(assert) {
   assert.expect(1);
 

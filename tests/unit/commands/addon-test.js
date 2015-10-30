@@ -47,7 +47,7 @@ describe('addon command', function() {
   });
 
   it('doesn\'t allow to create an addon with a period in the name', function() {
-    return command.validateAndRun(['zomg.awesome']).then(function() {      
+    return command.validateAndRun(['zomg.awesome']).then(function() {
       expect(false, 'should have rejected with period in the addon name');
     })
     .catch(function(error) {

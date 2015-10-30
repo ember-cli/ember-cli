@@ -15,7 +15,6 @@ module('default-development - Integration', {
   }
 });
 
-
 test('the application boots properly', function(assert) {
   assert.expect(1);
 

@@ -10,13 +10,13 @@ describe('windows-admin', function() {
   });
 
   after(function () {
-    Object.defineProperty(process, 'platform', {  
+    Object.defineProperty(process, 'platform', {
       value: this.originalPlatform
     });
   });
 
   it('attempts to determine admin rights if Windows', function(done) {
-    Object.defineProperty(process, 'platform', {  
+    Object.defineProperty(process, 'platform', {
       value: 'win'
     });
 
@@ -28,7 +28,7 @@ describe('windows-admin', function() {
   });
 
   it('does not attempt to determine admin rights if not on Windows', function(done) {
-    Object.defineProperty(process, 'platform', {  
+    Object.defineProperty(process, 'platform', {
       value: 'MockOS'
     });
 
