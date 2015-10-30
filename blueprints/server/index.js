@@ -25,6 +25,5 @@ module.exports = {
     if (!options.dryRun && areDependenciesMissing) {
       return this.addPackagesToProject(libsToInstall);
     }
-
   }
 };

@@ -26,7 +26,7 @@ function isAnsiSupported() {
   });
 
   it('parses default markdown', function() {
-    
+
     // console.log(mc.render('# foo\n__bold__ **words**\n* un\n* ordered\n* list'))
     expect(mc.render('# foo\n__bold__ words\n* un\n* ordered\n* list')).to.equal(
       '\u001b[35m\u001b[4m\u001b[1m\nfoo\u001b[22m\u001b[24m\u001b[39m\n\u001b[0m'+

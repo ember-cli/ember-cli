@@ -33,5 +33,4 @@ describe('reexport-tree', function() {
           expect(walkSync(outputPath)).to.eql(expected);
         });
   });
-
 });

@@ -32,6 +32,5 @@ module.exports = {
         { name: 'express', target: '^4.8.5' }
       ]);
     }
-
   }
 };
