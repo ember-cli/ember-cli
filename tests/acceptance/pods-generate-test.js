@@ -1152,7 +1152,7 @@ describe('Acceptance: ember generate pod', function() {
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo'," + EOL +
-                  "  initialize: initialize" + EOL +
+                  "  initialize" + EOL +
                   "};"
       });
     });
@@ -1167,7 +1167,7 @@ describe('Acceptance: ember generate pod', function() {
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo/bar'," + EOL +
-                  "  initialize: initialize" + EOL +
+                  "  initialize" + EOL +
                   "};"
       });
     });

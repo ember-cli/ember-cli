@@ -578,7 +578,7 @@ describe('Acceptance: ember generate', function() {
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo'," + EOL +
-                  "  initialize: initialize" + EOL +
+                  "  initialize" + EOL +
                   "};"
       });
 
@@ -594,7 +594,7 @@ describe('Acceptance: ember generate', function() {
         contains: [
           "import FooInitializer from '../../../initializers/foo';",
           "module('Unit | Initializer | foo'",
-          "var application;",
+          "let application;",
           "FooInitializer.initialize(application);"
         ]
       });
@@ -610,7 +610,7 @@ describe('Acceptance: ember generate', function() {
                   "" + EOL+
                   "export default {" + EOL +
                   "  name: 'foo/bar'," + EOL +
-                  "  initialize: initialize" + EOL +
+                  "  initialize" + EOL +
                   "};"
       });
 
