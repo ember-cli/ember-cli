@@ -1,21 +1,22 @@
 'use strict';
 
-var ember     = require('../helpers/ember');
-var expect    = require('chai').expect;
-var walkSync  = require('walk-sync');
-var glob      = require('glob');
-var Blueprint = require('../../lib/models/blueprint');
-var path      = require('path');
-var tmp       = require('../helpers/tmp');
-var root      = process.cwd();
-var util      = require('util');
-var conf      = require('../helpers/conf');
-var minimatch = require('minimatch');
-var intersect = require('lodash/array/intersection');
-var remove    = require('lodash/array/remove');
-var forEach   = require('lodash/collection/forEach');
-var any       = require('lodash/collection/some');
-var EOL       = require('os').EOL;
+var ember      = require('../helpers/ember');
+var expect     = require('chai').expect;
+var walkSync   = require('walk-sync');
+var existsSync = require('exists-sync');
+var glob       = require('glob');
+var Blueprint  = require('../../lib/models/blueprint');
+var path       = require('path');
+var tmp        = require('../helpers/tmp');
+var root       = process.cwd();
+var util       = require('util');
+var conf       = require('../helpers/conf');
+var minimatch  = require('minimatch');
+var intersect  = require('lodash/array/intersection');
+var remove     = require('lodash/array/remove');
+var forEach    = require('lodash/collection/forEach');
+var any        = require('lodash/collection/some');
+var EOL        = require('os').EOL;
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -221,6 +222,17 @@ describe('Acceptance: ember init', function() {
       ]);
     })
     .then(confirmBlueprinted);
+  });
+
+  it('should not create .git folder', function() {
+    return ember([
+      'init',
+      '--skip-npm',
+      '--skip-bower'
+    ])
+    .then(function() {
+      expect(!existsSync('.git'));
+    });
   });
 
 });
