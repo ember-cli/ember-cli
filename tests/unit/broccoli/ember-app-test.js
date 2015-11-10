@@ -99,12 +99,20 @@ describe('broccoli/ember-app', function() {
       var app = new EmberApp({
         project: project,
       }, {
-        'minifyJS': {
-          enabled: 'asdf'
+        minifyJS: {
+          enabled: true,
+          options: {
+            exclusions: ['hey', 'you']
+          }
         }
       });
 
-      expect(app.options['minifyJS']).to.deep.equal({ enabled: 'asdf' });
+      expect(app.options.minifyJS).to.deep.equal({
+        enabled: true,
+        options: {
+          exclusions: ['hey', 'you']
+        }
+      });
     });
 
     describe('_notifyAddonIncluded', function() {
