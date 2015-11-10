@@ -532,7 +532,7 @@ describe('express-server', function() {
               .get('/tests/test-file.txt')
               .set('accept', 'text/html')
               .expect(200)
-              .expect('some contents')
+              .expect(/some contents/)
               .expect('Content-Type', /text/)
               .end(function(err) {
                 if (err) {

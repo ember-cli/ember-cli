@@ -83,6 +83,7 @@ describe('models/addon.js', function() {
         var addonPath;
         addon.addonJsFiles = function(_path) {
           addonPath = _path;
+          return _path;
         };
 
         var root = path.join(fixturePath, 'with-styles');
