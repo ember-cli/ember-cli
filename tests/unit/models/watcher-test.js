@@ -115,7 +115,9 @@ describe('Watcher', function() {
         message: 'buildFailed'
       }));
 
-      var outs = ui.output.split(EOL);
+      expect(ui.output).to.equal('');
+
+      var outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
@@ -128,7 +130,9 @@ describe('Watcher', function() {
         message: 'buildFailed'
       }));
 
-      var outs = ui.output.split(EOL);
+      expect(ui.output).to.eql('');
+
+      var outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile (24)'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
@@ -140,7 +144,10 @@ describe('Watcher', function() {
         col: 80,
         message: 'buildFailed'
       }));
-      var outs = ui.output.split(EOL);
+
+      expect(ui.output).to.eql('');
+
+      var outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
@@ -154,7 +161,9 @@ describe('Watcher', function() {
         message: 'buildFailed'
       }));
 
-      var outs = ui.output.split(EOL);
+      expect(ui.output).to.eql('');
+
+      var outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile (24:80)'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
