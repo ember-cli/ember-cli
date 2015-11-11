@@ -1,4 +1,3 @@
-
 ## ember-cli
 [![Build Status][travis-badge]][travis-badge-url]
 [![Dependency Status][david-badge]][david-badge-url]
