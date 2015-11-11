@@ -107,6 +107,23 @@ Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it
 * [Change history of new Ember-CLI apps](https://github.com/kellyselden/ember-cli-output)
 * [Change history of new Ember-CLI addons](https://github.com/kellyselden/ember-addon-output)
 
+## Programmatic Access
+
+You can programmatically access the CLI from your node application.
+* Create a new node app `npm init`
+* Install the cli `npm install ember-cli -save`
+* Create index.js 
+* Use the cli
+```
+var cli = require("ember-cli/lib/cli");
+cli({
+    inputStream: process.stdin,
+    outputStream: process.stdout,
+    cliArgs: ['help']
+});
+```
+* Run your app with `node .` and it should execute the `ember help` command
+
 ## License
 
 ember-cli is [MIT Licensed](https://github.com/ember-cli/ember-cli/blob/master/LICENSE.md).
