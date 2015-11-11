@@ -43,7 +43,7 @@ directories. The following example scenarios illustrate how this works.
 
 ##### Standard Non-AMD Asset
 
-Provide the asset path as the first and only argument:
+First, provide the asset path as the first and only argument:
 
 {% highlight javascript linenos %}
 app.import('bower_components/moment/moment.js');
@@ -63,6 +63,30 @@ var day = moment('Dec 25, 1995');
 
 _Note: Don't forget to make JSHint happy by adding a `/* global MY_GLOBAL */` to your module, or
 by defining it within the `predefs` section of your `.jshintrc` file._
+
+Alternatively, you could generate an ES6 shim to make the library accessible via
+`import`.
+
+First, generate the shim:
+
+{% highlight bash %}
+ember generate vendor-shim moment
+{% endhighlight %}
+
+Next, provide the vendor asset path:
+
+{% highlight javascript linenos %}
+app.import('vendor/shims/moment.js');
+{% endhighlight %}
+
+Finally, use the package by adding the appropriate `import` statement:
+
+{% highlight javascript linenos %}
+import moment from 'moment';
+
+// ...
+var day = moment('Dec 25, 1995');
+{% endhighlight %}
 
 ##### Standard AMD Asset
 
@@ -205,7 +229,7 @@ app.import('bower_components/font-awesome/fonts/fontawesome-webfont.ttf', {
 });
 {% endhighlight %}
 
-If you need to load certain dependencies before others, you can set the `prepend` property equal to `true` on the second argument of `import()`. This will prepend the dependency to the vendor file instead of appending it, which is the default behavior. 
+If you need to load certain dependencies before others, you can set the `prepend` property equal to `true` on the second argument of `import()`. This will prepend the dependency to the vendor file instead of appending it, which is the default behavior.
 
 {% highlight javascript linenos %}
 app.import('bower_components/es5-shim/es5-shim.js', {
