@@ -119,6 +119,9 @@ cli({
     inputStream: process.stdin,
     outputStream: process.stdout,
     cliArgs: ['help']
+}).then(function(result){
+    //result = rejection/fulfillment values
+    console.log(result);
 });
 ```
 * Run your app with `node .` and it should execute the `ember help` command
