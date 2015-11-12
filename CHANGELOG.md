@@ -1,6 +1,6 @@
 # ember-cli Changelog
 
-### 1.13.9
+### 1.13.11
 
 The following changes are required if you are upgrading from the previous
 version:
