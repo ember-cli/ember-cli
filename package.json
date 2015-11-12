@@ -36,33 +36,6 @@
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli/issues"
   },
-  "bundledDependencies": [
-    "bower",
-    "bower-config",
-    "chalk",
-    "configstore",
-    "diff",
-    "exists-sync",
-    "express",
-    "findup",
-    "fs-extra",
-    "git-repo-info",
-    "glob",
-    "inflection",
-    "inquirer",
-    "leek",
-    "lodash",
-    "minimatch",
-    "morgan",
-    "node-uuid",
-    "nopt",
-    "npm",
-    "quick-temp",
-    "readline2",
-    "resolve",
-    "testem",
-    "through"
-  ],
   "dependencies": {
     "amd-name-resolver": "0.0.2",
     "bower": "^1.3.12",
