@@ -95,7 +95,7 @@
     "node-modules-path": "^1.0.0",
     "node-uuid": "^1.4.3",
     "nopt": "^3.0.1",
-    "npm": "^2.7.6",
+    "npm": "2.14.10",
     "pleasant-progress": "^1.0.2",
     "portfinder": "^0.4.0",
     "promise-map-series": "^0.2.1",
