@@ -96,6 +96,7 @@
     "node-uuid": "^1.4.3",
     "nopt": "^3.0.1",
     "npm": "^2.7.6",
+    "opn": "^3.0.2",
     "pleasant-progress": "^1.0.2",
     "portfinder": "^0.4.0",
     "promise-map-series": "^0.2.1",
