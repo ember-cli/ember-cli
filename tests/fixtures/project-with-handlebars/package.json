@@ -6,7 +6,6 @@
   "ember-addon": {
   },
   "devDependencies": {
-    "ember-cli": "latest",
-    "ember-resolver": "^2.0.2"
+    "ember-cli": "latest"
   }
 }
