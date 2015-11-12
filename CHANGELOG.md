@@ -1,6 +1,6 @@
 # ember-cli Changelog
 
-### 1.13.11
+### 1.13.12
 
 The following changes are required if you are upgrading from the previous
 version:
@@ -10,7 +10,7 @@ version:
   + default Ember.js version is now at `1.13.10`
   + default Ember Data version is now at `1.13.14`
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
-  + [`ember new` diff](https://github.com/twokul/ember-cli-release-notes/commit/2f2fc1d9b0151f24046f12f8adf82e6626926e9f)
+  + [`ember new` diff](https://github.com/twokul/ember-cli-release-notes/commit/1cee41eb91bf7c534917fdd4cd42a1cd1a481c75)
 - Addon Developers
   + [`ember addon` diff](https://github.com/twokul/ember-cli-release-notes/commit/733bb1a30d7ec5ef7f8d6fc021c052633ae66bb3)
 - Core Contributors
@@ -22,10 +22,8 @@ version:
 - [#4756](https://github.com/ember-cli/ember-cli/pull/4756) Discard runCommand stdout/stderr unless we have a test failure [@joliss](https://github.com/joliss)
 - [#4753](https://github.com/ember-cli/ember-cli/pull/4753) Upgraded ember-cli-app-version to 1.0.0 [@ember-cli](https://github.com/ember-cli)
 - [#4235](https://github.com/ember-cli/ember-cli/pull/4235) Reintroduce comment regarding bodyParser on http-mock [@joostdevries](https://github.com/joostdevries)
-- [#4656](https://github.com/ember-cli/ember-cli/pull/4656) Replace ember-cli-ic-ajax in favour of ember-ajax [@taras](https://github.com/taras)
 - [#4728](https://github.com/ember-cli/ember-cli/pull/4728) Revert "Do not pack ember-cli-build.js" [@ember-cli](https://github.com/ember-cli)
 - [#4846](https://github.com/ember-cli/ember-cli/pull/4846) Update ember-cli-htmlbars-inline-precompile dependency [@joliss](https://github.com/joliss)
-- [#4777](https://github.com/ember-cli/ember-cli/pull/4777) Use addon version of ember-resolver. [@rwjblue](https://github.com/rwjblue)
 - [#4757](https://github.com/ember-cli/ember-cli/pull/4757) Remove last use of broccoli-writer in test suite [@joliss](https://github.com/joliss)
 - [#4765](https://github.com/ember-cli/ember-cli/pull/4765) Fix typo Brocolli → Broccoli [@lancedikson](https://github.com/lancedikson)
 - [#4770](https://github.com/ember-cli/ember-cli/pull/4770) Updates configstore [@twokul](https://github.com/twokul)
