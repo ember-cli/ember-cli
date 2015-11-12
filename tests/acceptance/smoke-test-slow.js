@@ -149,7 +149,7 @@ describe('Acceptance: smoke-test', function() {
         expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
         expect(output).to.match(/JSHint/, 'JSHint should be run on production assets');
         expect(output).to.match(/fail\s+0/, 'no failures');
-        expect(output).to.match(/pass\s+8/, '1 passing');
+        expect(output).to.match(/pass\s+\d+/, 'man=y passing');
       });
   });
 
