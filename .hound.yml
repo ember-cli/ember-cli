@@ -1,0 +1,3 @@
+jscs:
+  enabled: true
+  config_file: .jscsrc
