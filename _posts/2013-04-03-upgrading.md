@@ -58,8 +58,7 @@ project directory.
 * Reinstall NPM and Bower dependencies
 
     {% highlight bash %}
-    npm install
-bower install
+    npm install && bower install
     {% endhighlight %}
 
 * Run the new project blueprint on your projects directory. Please follow the
