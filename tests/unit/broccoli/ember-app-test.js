@@ -492,7 +492,7 @@ describe('broccoli/ember-app', function() {
 
     });
 
-    describe('isEnabled is called properly', function() {
+    describe('addons can be disabled', function() {
       beforeEach(function() {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
         var packageContents = require(path.join(projectPath, 'package.json'));
@@ -503,23 +503,111 @@ describe('broccoli/ember-app', function() {
         process.env.EMBER_ENV = undefined;
       });
 
-      describe('with environment', function() {
-        it('development', function() {
-          process.env.EMBER_ENV = 'development';
-          emberApp = new EmberApp({ project: project });
+      describe('isEnabled is called properly', function() {
+        describe('with environment', function() {
+          var emberFooEnvAddonFixture;
+          beforeEach(function() {
+            emberFooEnvAddonFixture = require(path.resolve(projectPath, 'node_modules/ember-foo-env-addon/index.js'));
+          });
 
-          expect(emberApp.project.addons.length).to.equal(5);
-        });
+          it('development', function() {
+            process.env.EMBER_ENV = 'development';
+            emberApp = new EmberApp({ project: project });
 
-        it('foo', function() {
-          process.env.EMBER_ENV = 'foo';
-          emberApp = new EmberApp({ project: project });
+            emberFooEnvAddonFixture.app = emberApp;
+            expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-          expect(emberApp.project.addons.length).to.equal(6);
+            expect(emberApp.project.addons.length).to.equal(5);
+          });
+
+          it('foo', function() {
+            process.env.EMBER_ENV = 'foo';
+            emberApp = new EmberApp({ project: project });
+
+            emberFooEnvAddonFixture.app = emberApp;
+            expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
+
+            expect(emberApp.project.addons.length).to.equal(6);
+          });
         });
       });
 
+      describe('blacklist', function() {
+        it('prevents addons to be added to the project', function() {
+          process.env.EMBER_ENV = 'foo';
+          emberApp = new EmberApp({
+            project: project,
+            addons: {
+              blacklist: ['ember-foo-env-addon']
+            }
+          });
+
+          expect(emberApp._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
+          expect(emberApp._addonDisabledByBlacklist({ name: 'Ember Random Addon' })).to.be.false;
+          expect(emberApp.project.addons.length).to.equal(5);
+        });
+
+        it('throws if unavailable addon is specified', function() {
+          var load = function() {
+            process.env.EMBER_ENV = 'foo';
+            emberApp = new EmberApp({
+              project: project,
+              addons: {
+                blacklist: ['ember-cli-self-troll']
+              }
+            });
+          };
+
+          expect(load).to.throw('Addon "ember-cli-self-troll" defined in blacklist is not found');
+        });
+      });
+
+      describe('whitelist', function() {
+        it('prevents non-whitelisted addons to be added to the project', function() {
+          process.env.EMBER_ENV = 'foo';
+          emberApp = new EmberApp({
+            project: project,
+            addons: {
+              whitelist: ['ember-foo-env-addon']
+            }
+          });
+
+          expect(emberApp._addonDisabledByWhitelist({ name: 'ember-foo-env-addon' })).to.be.false;
+          expect(emberApp._addonDisabledByWhitelist({ name: 'Ember Random Addon' })).to.be.true;
+          expect(emberApp.project.addons.length).to.equal(1);
+        });
+
+        it('throws if unavailable addon is specified', function() {
+          var load = function() {
+            process.env.EMBER_ENV = 'foo';
+            emberApp = new EmberApp({
+              project: project,
+              addons: {
+                whitelist: ['ember-cli-self-troll']
+              }
+            });
+          };
+
+          expect(load).to.throw('Addon "ember-cli-self-troll" defined in whitelist is not found');
+        });
+      });
+
+      describe('blacklist wins over whitelist', function() {
+        it('prevents addon to be added to the project', function() {
+          process.env.EMBER_ENV = 'foo';
+          emberApp = new EmberApp({
+            project: project,
+            addons: {
+              whitelist: ['ember-foo-env-addon'],
+              blacklist: ['ember-foo-env-addon']
+            }
+          });
+
+          expect(emberApp.project.addons.length).to.equal(0);
+        });
+      });
     });
+
 
     describe('addonLintTree', function() {
       beforeEach(function() {
