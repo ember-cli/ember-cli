@@ -598,6 +598,27 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
                   overridden: false
                 },
                 {
+                  name: 'instance-initializer',
+                  description: 'Generates an instance initializer.',
+                  availableOptions: [],
+                  anonymousOptions: ['name'],
+                  overridden: false
+                },
+                {
+                  name: 'instance-initializer-addon',
+                  description: 'Generates an import wrapper.',
+                  availableOptions: [],
+                  anonymousOptions: ['name'],
+                  overridden: false
+                },
+                {
+                  name: 'instance-initializer-test',
+                  description: 'Generates an instance initializer unit test.',
+                  availableOptions: [],
+                  anonymousOptions: ['name'],
+                  overridden: false
+                },
+                {
                   name: 'lib',
                   description: 'Generates a lib directory for in-repo addons.',
                   availableOptions: [],
@@ -1196,6 +1217,12 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates an import wrapper.\u001b[39m' + EOL + '\
       initializer-test \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates an initializer unit test.\u001b[39m' + EOL + '\
+      instance-initializer \u001b[33m<name>\u001b[39m' + EOL + '\
+        \u001b[90mGenerates an instance initializer.\u001b[39m' + EOL + '\
+      instance-initializer-addon \u001b[33m<name>\u001b[39m' + EOL + '\
+        \u001b[90mGenerates an import wrapper.\u001b[39m' + EOL + '\
+      instance-initializer-test \u001b[33m<name>\u001b[39m' + EOL + '\
+        \u001b[90mGenerates an instance initializer unit test.\u001b[39m' + EOL + '\
       lib \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a lib directory for in-repo addons.\u001b[39m' + EOL + '\
       mixin \u001b[33m<name>\u001b[39m' + EOL + '\

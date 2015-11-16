@@ -1,7 +1,7 @@
 /*jshint node:true*/
 
 var getDependencyDepth = require('../../lib/utilities/get-dependency-depth');
-var testInfo = require('../../lib/utilities/test-info');
+var testInfo = require('ember-cli-test-info');
 
 module.exports = {
   description: 'Generates an instance initializer unit test.',
