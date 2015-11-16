@@ -372,6 +372,24 @@ describe('models/addon-discovery.js', function() {
 
       expect(result).to.be.eql([ 'discoverFromDependencies', 'discoverInRepoAddons' ]);
     });
+
+    it('uses shouldIncludeChildAddon() to determine whether an addon should be included', function() {
+      addon.shouldIncludeChildAddon = function(childAddon) {
+        return childAddon === 'discoverFromDependencies';
+      };
+
+      discovery.discoverFromDependencies = function() {
+        return [ 'discoverFromDependencies' ];
+      };
+
+      discovery.discoverInRepoAddons = function() {
+        return [ 'discoverInRepoAddons' ];
+      };
+
+      var result = discovery.discoverChildAddons(addon);
+      expect(result.length).to.equal(1);
+      expect(result[0]).to.equal('discoverFromDependencies');
+    });
   });
 
   describe('discoverProjectAddons', function() {
