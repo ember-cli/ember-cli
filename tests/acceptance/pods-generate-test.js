@@ -1737,7 +1737,7 @@ describe('Acceptance: ember generate pod', function() {
                   "  // After installing, you need to `use` the body-parser for" + EOL +
                   "  // this mock uncommenting the following line:" + EOL +
                   "  //" + EOL +
-                  "  //app.use('/api/foo', require('body-parser'));" + EOL +
+                  "  //app.use('/api/foo', require('body-parser').json());" + EOL +
                   "  app.use('/api/foo', fooRouter);" + EOL +
                   "};"
       });
@@ -1796,7 +1796,7 @@ describe('Acceptance: ember generate pod', function() {
                   "  // After installing, you need to `use` the body-parser for" + EOL +
                   "  // this mock uncommenting the following line:" + EOL +
                   "  //" + EOL +
-                  "  //app.use('/api/foo-bar', require('body-parser'));" + EOL +
+                  "  //app.use('/api/foo-bar', require('body-parser').json());" + EOL +
                   "  app.use('/api/foo-bar', fooBarRouter);" + EOL +
                   "};"
       });

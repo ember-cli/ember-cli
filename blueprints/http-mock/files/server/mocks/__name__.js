@@ -42,6 +42,6 @@ module.exports = function(app) {
   // After installing, you need to `use` the body-parser for
   // this mock uncommenting the following line:
   //
-  //app.use('/api/<%= decamelizedModuleName %>', require('body-parser'));
+  //app.use('/api/<%= decamelizedModuleName %>', require('body-parser').json());
   app.use('/api/<%= decamelizedModuleName %>', <%= camelizedModuleName %>Router);
 };
