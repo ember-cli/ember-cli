@@ -3,6 +3,7 @@
 var MockUI        = require('./mock-ui');
 var MockAnalytics = require('./mock-analytics');
 var cli           = require('../../lib/cli');
+var path          = require('path');
 
 /*
   Accepts a single array argument, that contains the
@@ -37,18 +38,29 @@ var cli           = require('../../lib/cli');
     a `MockUI` instance), this can be used to inspect the commands output.
 
 */
-module.exports = function ember(args) {
+module.exports = function ember(args, options) {
   var cliInstance;
+  var ui = options && options.UI || MockUI;
+  var pkg = options && options.package || path.resolve(__dirname, '..', '..');
+  var disableDependencyChecker = options && options.disableDependencyChecker || true;
 
   args.push('--disable-analytics');
   args.push('--watcher=node');
+  args.push('--skipGit');
   cliInstance = cli({
     inputStream:  [],
     outputStream: [],
     cliArgs:      args,
     Leek: MockAnalytics,
-    UI: MockUI,
-    testing: true
+    UI: ui,
+    testing: true,
+    disableDependencyChecker: disableDependencyChecker,
+    cli: {
+      // This prevents ember-cli from detecting any other package.json files
+      // forcing ember-cli to act as the globally installed package
+      npmPackage: 'ember-cli',
+      root: pkg 
+    }
   });
 
   return cliInstance;
