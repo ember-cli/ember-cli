@@ -409,6 +409,20 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
+  it('instance-initializer foo --pod', function() {
+    var commandArgs = ['instance-initializer', 'foo', '--pod'];
+    var files       = ['app/instance-initializers/foo.js'];
+
+    return assertDestroyAfterGenerate(commandArgs, files);
+  });
+
+  it('instance-initializer foo/bar', function() {
+    var commandArgs = ['instance-initializer', 'foo/bar', '--pod'];
+    var files       = ['app/instance-initializers/foo/bar.js'];
+
+    return assertDestroyAfterGenerate(commandArgs, files);
+  });
+
   it('mixin foo --pod', function() {
     var commandArgs = ['mixin', 'foo', '--pod'];
     var files       = [

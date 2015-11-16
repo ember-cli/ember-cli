@@ -387,6 +387,22 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
+  it('instance-initializer foo', function() {
+    this.timeout(20000);
+    var commandArgs = ['instance-initializer', 'foo'];
+    var files       = ['app/instance-initializers/foo.js'];
+
+    return assertDestroyAfterGenerate(commandArgs, files);
+  });
+
+  it('instance-initializer foo/bar', function() {
+    this.timeout(20000);
+    var commandArgs = ['instance-initializer', 'foo/bar'];
+    var files       = ['app/instance-initializers/foo/bar.js'];
+
+    return assertDestroyAfterGenerate(commandArgs, files);
+  });
+
   it('mixin foo', function() {
     this.timeout(20000);
     var commandArgs = ['mixin', 'foo'];

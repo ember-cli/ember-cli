@@ -507,6 +507,48 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     });
   });
 
+  it('in-repo-addon instance-initializer foo', function() {
+    return generateInRepoAddon(['instance-initializer', 'foo', '--in-repo-addon=my-addon']).then(function() {
+      assertFile('lib/my-addon/addon/instance-initializers/foo.js', {
+        contains: "export function initialize(/* appInstance */) {" + EOL +
+                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "}" + EOL +
+                  "" + EOL+
+                  "export default {" + EOL +
+                  "  name: 'foo'," + EOL +
+                  "  initialize: initialize" + EOL +
+                  "};"
+      });
+      assertFile('lib/my-addon/app/instance-initializers/foo.js', {
+        contains: [
+          "export { default, initialize } from 'my-addon/instance-initializers/foo';"
+        ]
+      });
+      assertFile('tests/unit/instance-initializers/foo-test.js');
+    });
+  });
+
+  it('in-repo-addon instance-initializer foo/bar', function() {
+    return generateInRepoAddon(['instance-initializer', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
+      assertFile('lib/my-addon/addon/instance-initializers/foo/bar.js', {
+        contains: "export function initialize(/* appInstance */) {" + EOL +
+                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "}" + EOL +
+                  "" + EOL+
+                  "export default {" + EOL +
+                  "  name: 'foo/bar'," + EOL +
+                  "  initialize: initialize" + EOL +
+                  "};"
+      });
+      assertFile('lib/my-addon/app/instance-initializers/foo/bar.js', {
+        contains: [
+          "export { default, initialize } from 'my-addon/instance-initializers/foo/bar';"
+        ]
+      });
+      assertFile('tests/unit/instance-initializers/foo/bar-test.js');
+    });
+  });
+
   it('in-repo-addon mixin foo', function() {
     return generateInRepoAddon(['mixin', 'foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/mixins/foo.js', {

@@ -324,6 +324,26 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
 
+  it('in-repo-addon instance-initializer foo', function() {
+    var commandArgs = ['instance-initializer', 'foo', '--in-repo-addon=my-addon'];
+    var files       = [
+      'lib/my-addon/addon/instance-initializers/foo.js',
+      'lib/my-addon/app/instance-initializers/foo.js'
+    ];
+
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
+  });
+
+  it('in-repo-addon instance-initializer foo/bar', function() {
+    var commandArgs = ['instance-initializer', 'foo/bar', '--in-repo-addon=my-addon'];
+    var files       = [
+      'lib/my-addon/addon/instance-initializers/foo/bar.js',
+      'lib/my-addon/app/instance-initializers/foo/bar.js'
+    ];
+
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
+  });
+
   it('in-repo-addon mixin foo', function() {
     var commandArgs = ['mixin', 'foo', '--in-repo-addon=my-addon'];
     var files       = [
