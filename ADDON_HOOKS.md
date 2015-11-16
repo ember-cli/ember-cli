@@ -9,6 +9,7 @@ Table of Contents:
 - [outputReady](#outputready)
 - [buildError](#builderror)
 - [included](#included)
+- [shouldIncludeChildAddon](#shouldincludechildaddon)
 - [setupPreprocessorRegistry](#setuppreprocessorregistry)
 - [postprocessTree](#postprocesstree)
 - [lintTree](#linttree)
@@ -265,6 +266,37 @@ included: function colpick_included(app) {
 ```
 
 - [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L23)
+
+<a name='shouldincludechildaddon'></a>
+## shouldIncludeChildAddon
+
+Can be used to exclude addons from being added as a child addon.
+
+**Received arguments:**
+
+- `Addon` instance [see addon.js](https://github.com/ember-cli/ember-cli/blob/v1.13.12/lib/models/addon.js)
+
+**Source:** [lib/models/addon.js:638](https://github.com/ember-cli/ember-cli/blob/master/lib/models/addon.js#638)
+
+**Default implementation:** `return true`
+
+**Uses:**
+
+- abstract away multiple addons while only including one into the built assets
+
+**Examples:**
+
+```js
+shouldIncludeChildAddon: function select_shouldIncludeChildAddon(childAddon) {
+  if(childAddon.name === 'ember-cli-some-legacy-select-component') {
+    return this.options.legacyMode;
+  } else if(childAddon.name === 'ember-cli-awesome-new-select-component') {
+    return !this.options.legacyMode;
+  } else {
+    return this._super.shouldIncludeChildAddon.apply(this, arguments);
+  }
+}
+```
 
 <a name='setuppreprocessorregistry'></a>
 ## setupPreprocessorRegistry
