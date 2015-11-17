@@ -669,7 +669,7 @@ describe('Acceptance: ember destroy pod', function() {
   // Skip until podModulePrefix is deprecated
   it.skip('podModulePrefix deprecation warning', function() {
     return destroyAfterGenerate(['controller', 'foo', '--pod']).then(function(result) {
-      expect(result.ui.output).to.include("`podModulePrefix` is deprecated and will be"+
+      expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be"+
       " removed from future versions of ember-cli. Please move existing pods from"+
       " 'app/pods/' to 'app/'.");
     });
@@ -677,7 +677,7 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('usePodsByDefault deprecation warning', function() {
     return destroyAfterGenerateWithPodsByDefault(['controller', 'foo', '--pod']).then(function(result) {
-      expect(result.ui.output).to.include('`usePodsByDefault` is no longer supported in'+
+      expect(result.outputStream.join()).to.include('`usePodsByDefault` is no longer supported in'+
         ' \'config/environment.js\', use `usePods` in \'.ember-cli\' instead.');
     });
   });

@@ -68,7 +68,7 @@ describe('Acceptance: ember install', function() {
         ]
       });
 
-      expect(result.ui.output).not.to.include('The `ember generate` command '+
+      expect(result.outputStream.join()).not.to.include('The `ember generate` command '+
                                               'requires an entity name to be specified. For more details, use `ember help`.');
     });
   });
