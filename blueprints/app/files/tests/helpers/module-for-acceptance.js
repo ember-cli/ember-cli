@@ -3,21 +3,23 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 export default function(name, options = {}) {
-  module(name, {
-    beforeEach() {
-      this.application = startApp();
+  const beforeEach = options.beforeEach;
+  options.beforeEach = function() {
+    this.application = startApp();
 
-      if (options.beforeEach) {
-        options.beforeEach.apply(this, arguments);
-      }
-    },
-
-    afterEach() {
-      destroyApp(this.application);
-
-      if (options.afterEach) {
-        options.afterEach.apply(this, arguments);
-      }
+    if (beforeEach) {
+      beforeEach.apply(this, arguments);
     }
-  });
+  };
+
+  const afterEach = options.afterEach;
+  options.afterEach = function() {
+    destroyApp(this.application);
+
+    if (afterEach) {
+      afterEach.apply(this, arguments);
+    }
+  };
+
+  module(name, options);
 }
