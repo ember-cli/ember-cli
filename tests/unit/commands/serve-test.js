@@ -101,6 +101,19 @@ describe('serve command', function() {
     });
   });
 
+  it('has correct liveLoadBaseUrl', function() {
+    return command.validateAndRun([
+      '--live-reload-base-url', 'http://127.0.0.1:4200/'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var ops = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(ops.liveReloadBaseUrl).to.equal('http://127.0.0.1:4200/', 'has correct liveReload baseUrl');
+    });
+  });
+
   it('has correct proxy', function() {
     return command.validateAndRun([
       '--proxy', 'http://localhost:3000/'

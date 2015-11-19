@@ -163,6 +163,8 @@ ember serve \u001b[36m<options...>\u001b[39m' + EOL + '\
     \u001b[90maliases: -lr\u001b[39m' + EOL + '\
   \u001b[36m--live-reload-host\u001b[39m \u001b[36m(String)\u001b[39m Defaults to host' + EOL + '\
     \u001b[90maliases: -lrh <value>\u001b[39m' + EOL + '\
+  \u001b[36m--live-reload-base-url\u001b[39m \u001b[36m(String)\u001b[39m Defaults to baseURL' + EOL + '\
+    \u001b[90maliases: -lrbu <value>\u001b[39m' + EOL + '\
   \u001b[36m--live-reload-port\u001b[39m \u001b[36m(Number)\u001b[39m (Defaults to port number within [49152...65535])' + EOL + '\
     \u001b[90maliases: -lrp <value>\u001b[39m' + EOL + '\
   \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m' + EOL + '\
@@ -994,6 +996,13 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
               description: 'Defaults to host',
               aliases: ['lrh'],
               key: 'liveReloadHost',
+              required: false
+            },
+            {
+              aliases: ['lrbu'],
+              description: 'Defaults to baseURL',
+              key: 'liveReloadBaseUrl',
+              name: 'live-reload-base-url',
               required: false
             },
             {
