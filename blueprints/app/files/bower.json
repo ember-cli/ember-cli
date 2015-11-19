@@ -13,6 +13,6 @@
     "qunit": "~1.19.0"
   },
   "resolutions": {
-    "ember": "2.1.0"
+    "ember": "2.2.0"
   }
 }
