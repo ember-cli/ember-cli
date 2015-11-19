@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "1.13.12",
+  "version": "1.13.13",
   "main": "lib/cli/index.js",
   "description": "Command line tool for developing ambitious ember.js apps",
   "trackingCode": "UA-49225444-1",
@@ -108,7 +108,7 @@
     "silent-error": "^1.0.0",
     "symlink-or-copy": "^1.0.1",
     "temp": "0.8.1",
-    "testem": "0.9.10",
+    "testem": "0.9.11",
     "through": "^2.3.6",
     "tiny-lr": "0.2.0",
     "walk-sync": "0.1.3",
