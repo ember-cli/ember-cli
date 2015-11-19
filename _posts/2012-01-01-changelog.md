@@ -4,6 +4,25 @@ title: "Changelog"
 permalink: changelog
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2012-01-01-changelog.md"
 ---
+### 1.13.13
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + default Ember.js version is now at `1.13.11`
+  + Ember CLI SRI version was bumped to `^1.2.0`
+  + Ember `loader.js` version was bumped to `3.4.0`
+  + Testem version was bumped to `0.9.11`
+
+#### Community Contributions
+
+- [#5061](https://github.com/ember-cli/ember-cli/pull/5061) Testem 0.9.11, [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#5094](https://github.com/ember-cli/ember-cli/pull/5094) Remove deprecated `this.Funnel` usage, [@stefanpenner](https://github.com/stefanpenner)
+- [#5075](https://github.com/ember-cli/ember-cli/pull/5075) Disable bundling, npm client seems to have issues, [@stefanpenner](https://github.com/stefanpenner)
+- [#5104](https://github.com/ember-cli/ember-cli/pull/5104) Workaround for babel includePolyfill exception, [@ef4](https://github.com/ef4)
+- [#5116](https://github.com/ember-cli/ember-cli/pull/5116) Bumps Ember version to `1.13.11`, [@stefanpenner](https://github.com/stefanpenner)
+- [#5116](https://github.com/ember-cli/ember-cli/pull/5116) Bumps Ember CLI SRI to `^1.2.0`, [@rwjblue](https://github.com/rwjblue)
 
 ### 1.13.12
 
