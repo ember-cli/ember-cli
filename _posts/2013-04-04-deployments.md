@@ -79,6 +79,22 @@ This value is used to set the value of `base` in `index.html`, e.g. `<base href=
 as this is required for the History API,
 and thus also the Router, to function correctly.
 
+If your app isn't running on the root URL (`/`), but on a subpath (like `/my-app/`), your app will only be accessible on `/my-app/` and not on `/my-app`, too. Sometimes, this can be a bit annoying. Therefore you should take the following snippet as an example for a simple route which takes you to the right URL if you've entered the wrong one:
+
+{% highlight javascript %}
+app.get('/my-app', function(req, res, next) {
+
+  if (req.path != '/my-app/') {
+    res.redirect('/my-app/');
+  } else {
+    next();
+  }
+
+});
+{% endhighlight %}
+
+Just place it within the `index.js` file of your app's `/server` directory (so that it gets applied when the ember-cli development server is being started). The snippet simply tests if the URL that is beeing accessed begins with `/my-app/`. And if it doesn't, you'll get redirected. Otherwise, the redirection will be skipped.
+
 <a id="deploy-content-security-policy"></a>
 
 ### Content security policy
