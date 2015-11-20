@@ -82,3 +82,23 @@ BORDER RADIUS
 	-khtml-border-radius:     	$type;
 	border-radius:         		$type;
 }
+
+/*********************
+FONT FACE
+*********************/
+
+/* @include font-face(font-name, ../font-file-name, weight, style); */
+
+@mixin font-face($font-name, $file-name, $font-weight: normal, $font-style: normal) {
+  @font-face {
+    font-family: $font-name;
+    src: url("../fonts/#{$file-name}.eot");
+    src: url("../fonts/#{$file-name}.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/#{$file-name}.woff2") format("woff2"),
+         url("../fonts/#{$file-name}.woff") format("woff"),
+         url("../fonts/#{$file-name}.ttf") format("truetype"),
+         url("../fonts/#{$file-name}.svg#svg#{$file-name}") format("svg");
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
+}
