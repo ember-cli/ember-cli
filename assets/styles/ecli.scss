@@ -1,18 +1,18 @@
-@import 'mixins';
-@import 'fonts';
-
-$lgtred:    #f2d1cb;
-$red:       #F23818;
-$drkred:    #d84a32;
-$offwhite:  #fdfaf9;
-$exo1:      'exolight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$exo2:      'exomedium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$exo3:      'exoblack', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+@import "mixins";
+@import "fonts";
+$lgtred: #f2d1cb;
+$red: #f23818;
+$drkred: #d84a32;
+$offwhite: #fdfaf9;
+$exo1: "exolight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$exo2: "exomedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$exo3: "exoblack", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 /*  BASE STYLES   */
 
 body {
   background: $offwhite;
+
   -webkit-font-smoothing: antialiased;
 }
 
@@ -20,14 +20,16 @@ body {
   background: desaturate(darken($drkred,33%),20%);
   .navbar-header {
     border-bottom: 3px solid desaturate(darken($drkred,25%),20%);
+
     @include css-gradient($drkred,desaturate(darken($drkred,10%),20%));
   }
   nav {
     box-shadow: none;
     a {
-      font-size: 1.3em;
       color: desaturate(darken($lgtred,12%),25%);
-      &:hover, &:active {
+      font-size: 1.3em;
+      &:hover,
+      &:active {
         background: desaturate(darken($drkred,25%),20%);
       }
     }
@@ -35,86 +37,91 @@ body {
   nav.in {
     height: 100%;
   }
-
   .navbar-brand {
-    color: #ffffff;
+    color: #fff;
     font-size: 1.6em;
   }
   .icon-bar {
     height: 2px;
-    background-color: desaturate(darken($drkred,25%),20%);
     border-bottom: 1px solid $drkred;
+    background-color: desaturate(darken($drkred,25%),20%);
   }
 }
 
 #showcase {
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 0%;
-  overflow: hidden;
   position: absolute;
-  @include box-sizing(border-box);
+  top: 0;
   width: 100%;
   height: 105%;
+  padding-top: 0;
+  padding-right: 5%;
+  padding-left: 5%;
+  overflow: hidden;
   z-index: 5000;
-  top: 0;
+
+  @include box-sizing(border-box);
   @include css-gradient(desaturate(darken($drkred,30%),20%), $drkred);
   .content {
-    height: 100%;
     position: relative;
-    h1,h6,h4 {text-align: center;}
-    p.tagline {
+    height: 100%;
+    h1,
+    h6,
+    h4 {
       text-align: center;
+    }
+    p.tagline {
+      margin: 1.5em 0;
+      color: desaturate(lighten($red,20%),50%);
       font-family: $exo1;
+      font-size: 1.3em;
       letter-spacing: .02em;
       line-height: 1.3em;
-      font-size: 1.3em;
-      color: desaturate(lighten($red,20%),50%);
-      margin: 1.5em 0;
+      text-align: center;
     }
     h6 {
-      font-family: "Helvetica Neue", Arial, sans-serif;
       color: desaturate(lighten($red,10%),38%);
+      font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: .9em;
       letter-spacing: .04em;
       text-shadow: 0 1px darken($drkred,35%);
-
       a {
         color: desaturate(lighten($red,10%),38%);
       }
     }
     .brand {
-      background: url('/assets/images/ember-cli-logo.png')  center no-repeat;
-      background-size: cover;
-      height: 94px;
-      padding: 0;
       position: relative;
-      text-indent: -999em;
       width: 350px;
+      height: 94px;
       margin: auto;
       margin-top: 10px;
       margin-bottom: 20px;
+      padding: 0;
+      background: url("/assets/images/ember-cli-logo.png")  center no-repeat;
+      background-size: cover;
+      text-indent: -999em;
     }
     code {
-      text-align: center;
       display: block;
       margin: 0 auto;
-      color: desaturate(lighten($red,25%),40%);
-      font-size: 1em;
       padding: .75em 0;
       border-top: 2px solid darken($drkred,45%);
       border-bottom: 1px solid lighten($drkred,1%);
+      color: desaturate(lighten($red,25%),40%);
+      font-size: 1em;
+      text-align: center;
+
       @include css-gradient(darken($drkred,38%),darken($drkred,48%));
     }
     iframe {
-      margin: 0 auto;
       display: block;
+      margin: 0 auto;
     }
   }
   .primary-nav {
-    list-style-type: none;
     padding: 0;
     text-align: center;
+
+    list-style-type: none;
   }
   .primary-nav li {
     display: inline-block;
@@ -122,25 +129,26 @@ body {
   .primary-nav a {
     display: inline-block;
     height: auto;
-    float: none;
     margin: 3em auto 4em;
-    padding:.95em 1.45em;
-    letter-spacing: .04em;
-    font-size: 1.1em;
-    font-family: $exo2;
-    text-transform: uppercase;
-    text-align: center;
-    color: darken(desaturate($red,35%),10%);
-    background: $lgtred;
-    @include border-radius(4px);
+    padding: .95em 1.45em;
+    float: none;
     border-top: 2px solid darken($lgtred,4%);
     border-bottom: 1px solid lighten($lgtred,2%);
+    background: $lgtred;
+    color: darken(desaturate($red,35%),10%);
+    font-family: $exo2;
+    font-size: 1.1em;
+    letter-spacing: .04em;
+    text-align: center;
+    text-transform: uppercase;
 
-    &:hover, &:active {
-      text-decoration: none;
-      background: darken($lgtred,20%);
+    @include border-radius(4px);
+    &:hover,
+    &:active {
       border-top: 2px solid darken($lgtred,24%);
       border-bottom: 1px solid darken($lgtred,24%);
+      background: darken($lgtred,20%);
+      text-decoration: none;
     }
   }
 }
@@ -155,34 +163,35 @@ body {
 .content-section {
   overflow-x: hidden;
   .guide-content {
+    min-height: 500px;
+    padding-top: 15px;
+    padding-bottom: 40px;
     .edit-page {
-      float: right;
-      padding-right: 10px;
-      padding-top: 4px;
       margin-top: 55px;
+      padding-top: 4px;
+      padding-right: 10px;
+      float: right;
     }
     .glyphicon-pencil {
-      color: $lgtred;
       padding-top: .8em;
+      color: $lgtred;
       font-size: 1.2em;
       text-shadow: 0 1px white;
-      &:hover, &:active {
+      &:hover,
+      &:active {
         color: darken($lgtred,10%);
       }
     }
-    padding-bottom: 40px;
-    padding-top: 15px;
-    min-height: 500px;
     h1 {
-      font-size: 1.65em;
-      letter-spacing: .06em;
-      color: lighten(desaturate($drkred,20%),5%);
-      font-family: $exo1;
-      text-transform: uppercase;
-      text-shadow: 0 1px white;
       margin-top: 65px;
       padding-bottom: 10px;
       border-bottom: 1px solid lighten(desaturate($drkred,20%),40%);
+      color: lighten(desaturate($drkred,20%),5%);
+      font-family: $exo1;
+      font-size: 1.65em;
+      letter-spacing: .06em;
+      text-shadow: 0 1px white;
+      text-transform: uppercase;
     }
     h3 {
       font-size: 1.15em;
@@ -194,8 +203,8 @@ body {
       }
     }
     h4 {
-      font-size: 1.2em;
       padding-top: 2em;
+      font-size: 1.2em;
       a {
         color: #333;
       }
@@ -204,8 +213,8 @@ body {
       }
     }
     h5 {
-      font-size: 1.3em;
       padding-top: 2em;
+      font-size: 1.3em;
       a {
         color: #3f3a3a;
       }
@@ -213,7 +222,8 @@ body {
         margin-top: 0;
       }
     }
-    p,li {
+    p,
+    li {
       color: #5f5a5a;
     }
     li {
@@ -225,10 +235,10 @@ body {
       }
     }
     p {
-      line-height: 1.4em;
+      margin-top: 20px;
       font-size: 1.1em;
       font-weight: 400;
-      margin-top: 20px;
+      line-height: 1.4em;
       a {
         color: desaturate($red,30%);
       }
@@ -243,14 +253,18 @@ body {
         .lineno {
           color: #ccc;
         }
-        .s2,.s1,.s {
+        .s2,
+        .s1,
+        .s {
           color: lighten($red,13%);
         }
-        .nt,.na {
+        .nt,
+        .na {
           color: #efeaea;
         }
-        .nb,.nv {
-          color: #30B6E3;
+        .nb,
+        .nv {
+          color: #30b6e3;
         }
       }
     }
@@ -266,12 +280,11 @@ body {
   padding: 1.75em 0 1.5em;
   p {
     width: 100%;
-    text-align: center;
     color: desaturate($red,30%);
+    text-align: center;
     text-shadow: 0 1px lighten($lgtred,10%);
     a {
       color: darken(desaturate($red,30%),15%);
-
     }
   }
 }
@@ -284,24 +297,21 @@ body {
 
 
 @media (min-width:768px) {
-
   #showcase {
-      padding-top: 10%;
+    padding-top: 10%;
     .content {
       p.tagline {
         font-size: 1.6em;
       }
       h6 {
-
       }
       h1 {
         span {
-
         }
       }
       code {
-       width: 320px;
-       font-size: 1.1em;
+        width: 320px;
+        font-size: 1.1em;
       }
     }
   }
@@ -316,61 +326,59 @@ body {
       }
     }
   }
-
 }
 
 @media (max-width:500px) {
   #showcase .content .brand {
-    height: 78px;
     width: 290px;
+    height: 78px;
     margin-top: 30px;
   }
 
   #showcase .primary-nav {
-    margin-top:2em;
+    margin-top: 2em;
   }
   #showcase .primary-nav li {
-    display:block;
+    display: block;
   }
   #showcase .primary-nav a {
-    width:80%;
+    width: 80%;
     margin: 1em auto 1em;
   }
   nav .navbar-nav li {
-    text-indent:1em;
+    text-indent: 1em;
   }
   nav .navbar-nav li.ectop {
-    text-indent:0em;
+    text-indent: 0;
   }
 }
 
 @media (min-width:992px) {
-
-  body {background: $lgtred;}
+  body {
+    background: $lgtred;
+  }
 
   .container {
-    @include box-sizing(border-box);
     width: 100%;
+
+    @include box-sizing(border-box);
   }
 
   #showcase {
-      padding-top: 10%;
+    padding-top: 10%;
     .content {
       p.tagline {
         font-size: 2em;
       }
       h6 {
-
       }
       h1 {
-
         span {
-
         }
       }
       code {
-       width: 360px;
-       font-size: 1.3em;
+        width: 360px;
+        font-size: 1.3em;
       }
     }
   }
@@ -379,32 +387,33 @@ body {
   .row {
     margin-top: 0;
     div {
-      padding-top: 0;
       margin: 0;
+      padding-top: 0;
     }
     .sidebar-wrapper {
-
+      padding-right: 0;
+      padding-left: 0;
       border-right: 1px solid rgba(75,45,75,.1);
-      padding-left: 0;padding-right: 0;
       .affix {
         top: 0;
         bottom: 0;
         left: 0;
         width: 25%;
+
         overflow-y: auto;
         overflow-x: hidden;
       }
     }
     .main {
       padding-top: 3%;
-      padding-left: 3%;
       padding-right: 3%;
+      padding-left: 3%;
       background: lighten($offwhite,2%);
     }
   }
 
   .sidebar {
-    padding-left: 0px;
+    padding-left: 0;
   }
 
   .sidebar.affix {
@@ -413,42 +422,44 @@ body {
 
   .sidenav {
     margin-bottom: 0;
-    padding-left: 0;
     margin-left: 0;
-    list-style: none;
-    font-weight: 200;
-    font-size: 1.1em;
-    background: $lgtred;
+    padding-left: 0;
     border-bottom: 1px solid darken($lgtred,8%);
-
-    li.active, li.active:hover {
-      font-weight: 500;
+    background: $lgtred;
+    font-size: 1.1em;
+    font-weight: 200;
+    list-style: none;
+    li.active,
+    li.active:hover {
       margin-right: -6px;
-      @include css-gradient(lighten($lgtred,18%),lighten($lgtred,5%));
       border-bottom: 1px solid lighten($lgtred,10%);
+      font-weight: 500;
+
+      @include css-gradient(lighten($lgtred,18%),lighten($lgtred,5%));
       a {
         color: desaturate(darken($red,15%),25%);
         letter-spacing: .04em;
-        &:hover, &:active { background:none }
+        &:hover,
+        &:active {
+          background: none;
+        }
       }
     }
-
     li:nth-child(1) {
       padding-top: 0;
     }
-
     li {
+      margin-right: -6px;
       padding: 0;
       border-top: 1px solid darken($lgtred,8%);
       border-bottom: 1px solid $lgtred;
-      margin-right: -6px;
       a {
         padding-left: 50px;
-        text-transform: uppercase;
+        color: desaturate($drkred,25%);
         font-size: .8em;
         font-weight: 500;
-        color: desaturate($drkred,25%);
         letter-spacing: .04em;
+        text-transform: uppercase;
         &:hover {
           @include css-gradient(lighten($lgtred,7%),lighten($lgtred,2%));
         }
@@ -464,7 +475,7 @@ body {
         }
       }
       .categories a {
-        display:inline-block;
+        display: inline-block;
       }
     }
   }
