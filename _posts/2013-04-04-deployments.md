@@ -6,7 +6,7 @@ category: user-guide
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-04-deployments.md"
 ---
 
-You can easily deploy your Ember CLI application to a number of places using [ember-cli-deploy](http://ember-cli.github.io/ember-cli-deploy/). Or you can can follow some of the steps below.
+You can easily deploy your Ember CLI application to a number of places using [ember-cli-deploy](http://ember-cli.github.io/ember-cli-deploy/). Or you can can follow some of the recipes below.
 
 ### Heroku
 
