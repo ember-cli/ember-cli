@@ -5,6 +5,7 @@ permalink: developing-addons-and-blueprints
 category: extending
 github: "https://github.com/stefanpenner/ember-cli/blob/gh-pages/_posts/2013-04-06-developing-addons-and-blueprints.md"
 ---
+
 Addons make it possible to easily share common code between
 applications. However, if an addon only covers a very project specific use-case, [an In-Repo-Addon](#detailed-list-of-blueprints-and-their-use) could be considered instead.
 
@@ -21,7 +22,6 @@ To install the (fictional) x-button addon package:
 `ember install ember-cli-x-button`
 
 ### Discovery
-
 Ember CLI will detect the presence of an addon by inspecting each of
 your applications dependencies and search their `package.json` files
 for the presence of `ember-addon` in the `keywords` section (see
@@ -35,7 +35,6 @@ below).
 {% endhighlight %}
 
 ### Addon scenarios
-
 The Ember CLI addons API currently supports the following scenarios:
 
 * Performing operations on the `EmberApp` created in the consuming application's `ember-cli-build.js`
@@ -47,9 +46,7 @@ The Ember CLI addons API currently supports the following scenarios:
 * Adding content to the consuming application's tests directory (via `test-support/`)
 
 ### Addon CLI options
-
 Ember CLI has an *addon* command with some options:
-
 
 `ember addon <addon-name> <options...>`
 
@@ -153,7 +150,7 @@ module.exports = {
 };
 {% endhighlight %}
 
-During the build process, the `included` hook on your addon will be called, allowing you to perform setup logic or modify the app or including addon:
+During the build process, the `included` hook on your addon will be called, allowing you to perform setup logic or modify the app or addon:
 
 {% highlight javascript %}
 // index.js
@@ -171,7 +168,6 @@ module.exports = {
 {% endhighlight %}
 
 ### Configuring your ember-addon properties
-
 By default, the `"ember-addon"` hash in the `package.json` file has the `"configPath"` property defined to point to the `config` directory of the test dummy application.
 
 Optionally, you may specify whether your `ember-addon` must run `"before"` or `"after"` any other Ember CLI addons.  Both of these properties can take either a string or an array of strings, where the string is the name of the another Ember CLI addon, as defined in the `package.json` of the other addon.
@@ -195,7 +191,6 @@ Optionally, you may specify the `"demoURL"` property with the fully qualified UR
 {% endhighlight %}
 
 ### Addon ember-cli-build
-
 The addon's `ember-cli-build.js` is only used to configure the dummy application found in
 `tests/dummy/`.  It is never referenced by applications which include the addon.
 
@@ -219,7 +214,6 @@ module.exports = app.toTree();
 {% endhighlight %}
 
 ### Addon Components
-
 The actual code for the addon goes in `addon/components/x-button.js`
 
 {% highlight javascript %}
@@ -276,7 +270,6 @@ module.exports = {
 {% endhighlight %}
 
 ### Importing Dependency Files
-
 As stated earlier the `included` hook on your addon's main entry point is run during
 the build process. This is where you want to add `import` statements to actually
 bring in the dependency files for inclusion. Note that this is a separate step from
@@ -381,7 +374,6 @@ found in `/helpers` used to resolve pages in the `dummy` app.
 display the results of running your integration tests.
 
 ### Writing unit tests
-
 The following is an example of a simple *QUnit* unit test,
 placed in `tests/unit/components`.
 
@@ -415,7 +407,6 @@ test('is a button tag', function(assert) {
 For how to run and configure tests, see the [Ember CLI Testing](#testing) section.
 
 ### Generating files in the dummy app
-
 You can generate most of ember-cli's built-in blueprints into your `tests/dummy/app` directory
 to speed up building a dummy app to use for testing. Any blueprint that generates into an `/app` directory is currently supported:
 
@@ -456,7 +447,6 @@ blueprints/
 
 
 ### Create blueprint
-
 A blueprint is a bundle of template files with optional installation logic.
 It is used to scaffold (generate) specific application files based on
 some arguments and options.
@@ -484,7 +474,6 @@ blueprints that come with Ember or other addons (according to package
 load order.)
 
 ### Blueprint conventions
-
 Blueprints are expected to be located under the `blueprints` directory in
 the addon root, just like blueprints overrides in your project root.
 
@@ -497,7 +486,6 @@ If you are familiar with *Yeoman* (or Rails) generators, blueprints follow very 
 To dive deeper into blueprints design, please see the [Ember CLI blueprints](https://github.com/stefanpenner/ember-cli/tree/master/blueprints) where you get a feeling for the blueprints API.
 
 ### Blueprints file structure
-
 {% highlight bash %}
 blueprints/
   x-button/
@@ -519,7 +507,6 @@ Will thus generate a directory `app/components/my-button` in the
 application where the blueprint generator is run.
 
 ### Link to addon while developing
-
 While you are developing and testing, you can run `npm link` from the
 root of your addon project. This will make your addon locally
 available by name.
@@ -597,7 +584,6 @@ addon, take a look at:
 [Creating a DatePicker Ember CLI addon](http://edgycircle.com/blog/2014-creating-a-datepicker-ember-addon)
 
 ### In-Repo-Addons
-
 Addons sepecific to your project can be created inside your repo and are
 generated in the projects `lib` directory in a folder with the name of
 the in-repo-addon, e.g. `/lib/in-repo-addon-name` and follow the same
@@ -620,7 +606,6 @@ ember generate in-repo-addon in-repo-addon-name
 (Replace `in-repo-addon-name` with the name of your addon.)
 
 ### Using a stylesheet with an in-repo-addon
-
 For your in-repo-addon stylesheet, name the file `addon.css` and place
 it in the styles directory, e.g `/lib/in-repo-addon-name/addon/styles/addon.css`
 This avoids any conflict with the parent application's `app.css` file
@@ -629,7 +614,6 @@ Likewise if your Ember CLI application uses `.less` or `.scss`, use the
 appropriate file extension for your addon stylesheet file.
 
 ### Using templates with an in-repro-addon
-
 In order to complile HTMLBars templates that are part of your in-repo-addon,
 your `package.json` file will need to include following dependencies:
 
@@ -641,7 +625,6 @@ your `package.json` file will need to include following dependencies:
 (Use the same versions found in your Ember CLI Application's `package.json`)
 
 ### Broccoli build options for in-repo-addons
-
 To ensure the you can use babel.js and related polyfills with your in-repo-addon
 add babel options to the `included` hook of the in-repo-addon `index.js`:
 
@@ -663,7 +646,6 @@ module.exports = {
 {% endhighlight %}
 
 ### Generating an in-repo-addon blueprint
-
 To generate a blueprint for your in-repo-addon:
 
 {% highlight bash %}
