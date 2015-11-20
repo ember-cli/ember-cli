@@ -96,7 +96,7 @@ If you want to use PhantomJS to run your integration tests, it must be globally 
 npm install -g phantomjs
 {% endhighlight %}
 
-### Create a new project
+#### Create a new project
 
 Run the `new` command along with the desired app name to create a new project:
 
