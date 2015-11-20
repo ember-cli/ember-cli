@@ -123,7 +123,7 @@ installing
   create app/templates/taco.hbs
 installing
   create tests/unit/routes/taco-test.js
-  
+
 {% endhighlight %}
 
 ### Blueprint Structure

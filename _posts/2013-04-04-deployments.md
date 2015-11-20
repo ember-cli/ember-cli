@@ -109,35 +109,35 @@ ember build --environment="production"
         #root        /usr/share/nginx/html;
         root        <root path to an ember /dist directory>;
         index       index.html index.htm;
-    
+
         # log files
         access_log  /var/log/nginx/<your-server-name>.access.log;
         error_log   /var/log/nginx/<your-server-name>.error.log;
-    
+
         # ssl files
         ssl on;
         keepalive_timeout   60;
-    
+
         # include information on SSL keys, cert, protocols and ciphers
         # SSLLabs.com is a great resource for this, along with testing
         # your SSL configuration: https://www.ssllabs.com/projects/documentation/
-    
+
         # proxy buffers
         proxy_buffers 16 64k;
         proxy_buffer_size 128k;
-    
+
         ## default location ##
         location / {
             try_files $uri $uri/ /index.html?/$request_uri;
         }
 
     }
-    
+
     ## http redirects to https ##
     server {
         listen      80;
         server_name <your-server-name>;
-    
+
         # Strict Transport Security
         add_header Strict-Transport-Security max-age=2592000;
         rewrite ^/.*$ https://$host$request_uri? permanent;
