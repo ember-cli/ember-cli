@@ -94,7 +94,6 @@ And, adding to `resolutions`:
 
 Wipe your vendor directory clean then run `npm install && bower install`.
 
-
 ### Removing default ember-cli libraries
 
 * To use ember-cli without Ember Data
