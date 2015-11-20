@@ -280,7 +280,7 @@ module.exports = function(environment) {
     locationType: 'auto'
     //...
   };
-  
+
   return ENV;
 };
 {% endhighlight %}

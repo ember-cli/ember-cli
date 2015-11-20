@@ -79,12 +79,12 @@ Application-level (default) adapters and serializers should be named
 If you're used to using fixtures to get test data into your app during
 development, you won't be able to create fixture data like you're
 used to doing (i.e. [as specified in the guides](http://emberjs.com/guides/models/the-fixture-adapter/)).
-This is because the models in your Ember CLI app (like all other 
+This is because the models in your Ember CLI app (like all other
 objects) aren't attached to the global namespace.
 
 Ember CLI comes with an **http-mock** generator which is preferred to
 fixtures for development and testing. Mocks have several advantages
-over fixtures, a primary one being that they interact with your 
+over fixtures, a primary one being that they interact with your
 application's adapters. Since you'll eventually be hooking your app
 up to a live API, it's wise to be testing your adapters from the onset.
 
@@ -95,15 +95,15 @@ ember g http-mock posts
 {% endhighlight %}
 
 A basic [ExpressJS](http://expressjs.com/) server will be scaffolded for
-your endpoint under `/your-app/server/mocks/posts.js`. Once you add the 
+your endpoint under `/your-app/server/mocks/posts.js`. Once you add the
 appropriate JSON response, you're ready to go. The next time you run
 `ember server`, your new mock server will be listening for any API requests
 from your Ember app.
 
-> Note: Mocks are just for development and testing. The entire `/server` 
+> Note: Mocks are just for development and testing. The entire `/server`
 directory will be ignored during `ember build`.
 
-If you decide to use fixtures instead of mocks, you'll need to use 
+If you decide to use fixtures instead of mocks, you'll need to use
 `reopenClass` within your model class definitions. First, create a fixture
 adapter, either for a single model or your entire application:
 

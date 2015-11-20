@@ -11,7 +11,7 @@ tell you is that this will help speed up simple changes like
 changing a color or adding CSS3 techniques gradients.
 
 A WORD OF WARNING: It's very easy to overdo it here. Be careful and
-remember less is more. 
+remember less is more.
 
 Helpful:
 http://sachagreif.com/useful-sass-mixins/
@@ -81,4 +81,24 @@ BORDER RADIUS
 	-moz-border-radius:    		$type;
 	-khtml-border-radius:     	$type;
 	border-radius:         		$type;
+}
+
+/*********************
+FONT FACE
+*********************/
+
+/* @include font-face(font-name, ../font-file-name, weight, style); */
+
+@mixin font-face($font-name, $file-name, $font-weight: normal, $font-style: normal) {
+  @font-face {
+    font-family: $font-name;
+    src: url("../fonts/#{$file-name}.eot");
+    src: url("../fonts/#{$file-name}.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/#{$file-name}.woff2") format("woff2"),
+         url("../fonts/#{$file-name}.woff") format("woff"),
+         url("../fonts/#{$file-name}.ttf") format("truetype"),
+         url("../fonts/#{$file-name}.svg#svg#{$file-name}") format("svg");
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
 }
