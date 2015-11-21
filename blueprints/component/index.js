@@ -64,7 +64,7 @@ module.exports = {
           'templates/components/' + stringUtil.dasherize(options.entity.name);
       }
       importTemplate   = 'import layout from \'' + templatePath + '\';\n';
-      contents         = '\n  layout: layout';
+      contents         = '\n  layout';
     }
 
     return {

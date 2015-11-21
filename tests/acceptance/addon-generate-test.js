@@ -115,7 +115,7 @@ describe('Acceptance: ember generate in-addon', function() {
           "import Ember from 'ember';",
           "import layout from '../templates/components/x-foo';",
           "export default Ember.Component.extend({",
-          "layout: layout",
+          "layout",
           "});"
         ]
       });
@@ -176,7 +176,7 @@ describe('Acceptance: ember generate in-addon', function() {
           "import Ember from 'ember';",
           "import layout from '../../templates/components/nested/x-foo';",
           "export default Ember.Component.extend({",
-          "layout: layout",
+          "layout",
           "});"
         ]
       });
