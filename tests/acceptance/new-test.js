@@ -182,6 +182,27 @@ describe('Acceptance: ember new', function() {
     });
   });
 
+  it('ember new cleans up after itself on error', function() {
+    return tmp.setup('./tmp/my_blueprint')
+      .then(function() {
+        fs.writeFileSync('./tmp/my_blueprint/index.js', 'throw("this will break");');
+        process.chdir('./tmp');
+
+        return ember([
+          'new',
+          'foo',
+          '--skip-npm',
+          '--skip-bower',
+          '--skip-git',
+          '--blueprint=./my_blueprint'
+        ]);
+      })
+      .then(function(){
+        var cwd = process.cwd();
+        expect(!existsSync(path.join(cwd, 'foo')), 'the generated directory is removed');
+      });
+  });
+
   it('ember new with --dry-run does not create new directory', function(){
     return ember([
       'new',
