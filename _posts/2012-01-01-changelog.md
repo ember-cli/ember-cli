@@ -10,10 +10,15 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.12...v1.13.13)
   + default Ember.js version is now at `1.13.11`
   + Ember CLI SRI version was bumped to `^1.2.0`
   + Ember `loader.js` version was bumped to `3.4.0`
   + Testem version was bumped to `0.9.11`
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.12...v1.13.13)
+- Core Contributors
+  + No changes required
 
 #### Community Contributions
 
@@ -30,13 +35,13 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.8...v1.13.12)
   + changes to `tests/index.html` file. All tests are now in a separate file, [diff](https://github.com/twokul/ember-cli-release-notes/commit/bd5ac542c0d6dd8e095553d6528ec40ae4be6b4e).
   + default Ember.js version is now at `1.13.10`
   + default Ember Data version is now at `1.13.15`
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/user-guide/#upgrading)
-  + [`ember new` diff](https://github.com/twokul/ember-cli-release-notes/commit/1cee41eb91bf7c534917fdd4cd42a1cd1a481c75) + [`tests/index.html` diff](https://github.com/twokul/ember-cli-release-notes/commit/bd5ac542c0d6dd8e095553d6528ec40ae4be6b4e)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/twokul/ember-cli-release-notes/commit/0ecafc92599ac2c0ff300318cab17efa3465da97) + [`tests/index.html` diff](https://github.com/twokul/ember-cli-release-notes/commit/bd5ac542c0d6dd8e095553d6528ec40ae4be6b4e)
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.8...v1.13.12)
 - Core Contributors
   + No changes required
 
