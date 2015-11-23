@@ -158,7 +158,7 @@ NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/m
 # Docs
 
 Have you got enough knowledge in a specific feature and want to help with docs?
-Ember-cli documentation lives at the branch
+Ember-cli documentation lives at the repository
 [ember-cli.github.io](https://github.com/ember-cli/ember-cli.github.io).
 
 Feel free to contribute and help us to keep an updated, clear and complete
