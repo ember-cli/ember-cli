@@ -138,6 +138,20 @@ Let's add some meta data to categorize the addon a little better:
 ]
 {% endhighlight %}
 
+### Addons depending on other addons
+If your addon depends on another addon, install it as a dependency in your
+`package.json`:
+
+{% highlight javascript %}
+// ...
+"dependencies": {
+  "ember-ajax": "^0.7.1"
+}
+{% endhighlight %}
+
+An application that consumes your addon will automatically install
+and bundle dependencies specified this way.
+
 ### Addon entry point
 An addon will leverage the npm conventions, and look for an `index.js` as the entry point unless another entry point is specified via the `"main"` property in the `package.json` file. You are encouraged to use `index.js` as the addon entry point.
 
