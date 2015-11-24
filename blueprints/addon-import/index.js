@@ -36,23 +36,23 @@ module.exports = {
     };
   },
   locals: function(options) {
-    var addonRawName   = options.inRepoAddon ? options.inRepoAddon : options.project.name();
-    var addonName      = stringUtil.dasherize(addonRawName);
-    var fileName       = stringUtil.dasherize(options.entity.name);
-    var modulePath     = [addonName, inflector.pluralize(options.originBlueprintName), fileName].join('/');
-    var blueprintName  = options.originBlueprintName;
+    var addonRawName       = options.inRepoAddon ? options.inRepoAddon : options.project.name();
+    var addonName          = stringUtil.dasherize(addonRawName);
+    var fileName           = stringUtil.dasherize(options.entity.name);
+    var blueprintName      = options.originBlueprintName;
+    var modulePathSegments = [addonName, inflector.pluralize(options.originBlueprintName), fileName];
     
     if (blueprintName.match(/-addon/)) {
       blueprintName = blueprintName.substr(0,blueprintName.indexOf('-addon'));
-      modulePath = [addonName, inflector.pluralize(blueprintName), fileName].join('/');
+      modulePathSegments = [addonName, inflector.pluralize(blueprintName), fileName];
     }
     
     if (options.pod) {
-      modulePath = [addonName, fileName, blueprintName].join('/');
+      modulePathSegments = [addonName, fileName, blueprintName];
     }
 
     return {
-      modulePath: modulePath,
+      modulePath: modulePathSegments.join('/'),
       blueprintName: blueprintName
     };
   }
