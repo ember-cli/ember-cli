@@ -1,11 +1,17 @@
 /*jshint node:true*/
 
-var stringUtil = require('ember-cli-string-utils');
-var path       = require('path');
-var inflector  = require('inflection');
+var stringUtil  = require('ember-cli-string-utils');
+var path        = require('path');
+var inflector   = require('inflection');
+var SilentError = require('silent-error');
 
 module.exports = {
   description: 'Generates an import wrapper.',
+  beforeInstall: function(options) {
+    if(options.originBlueprintName === 'addon-import') {
+      throw new SilentError('You cannot call the addon-import blueprint directly.');
+    }
+  },
 
   fileMapTokens: function() {
     return {
@@ -33,20 +39,20 @@ module.exports = {
     var addonRawName   = options.inRepoAddon ? options.inRepoAddon : options.project.name();
     var addonName      = stringUtil.dasherize(addonRawName);
     var fileName       = stringUtil.dasherize(options.entity.name);
-    var pathName       = [addonName, inflector.pluralize(options.originBlueprintName), fileName].join('/');
+    var modulePath     = [addonName, inflector.pluralize(options.originBlueprintName), fileName].join('/');
     var blueprintName  = options.originBlueprintName;
     
     if (blueprintName.match(/-addon/)) {
       blueprintName = blueprintName.substr(0,blueprintName.indexOf('-addon'));
-      pathName = [addonName, inflector.pluralize(blueprintName), fileName].join('/');
+      modulePath = [addonName, inflector.pluralize(blueprintName), fileName].join('/');
     }
     
     if (options.pod) {
-      pathName = [addonName, fileName, blueprintName].join('/');
+      modulePath = [addonName, fileName, blueprintName].join('/');
     }
 
     return {
-      modulePath: pathName,
+      modulePath: modulePath,
       blueprintName: blueprintName
     };
   }
