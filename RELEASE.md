@@ -59,6 +59,6 @@ Tag the release
 
 Update the site
 
-1. check out gh-pages
+1. check out ember-cli/ember-cli.github.io
 * update `_config.yml` version
-* update `gh-pages/_posts/2012-01-01-changelog.md`
+* update `_posts/2012-01-01-changelog.md`
