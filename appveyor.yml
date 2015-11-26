@@ -18,13 +18,11 @@ install:
   - ps: Install-Product node $env:nodejs_version
   # Install PhantomJS
   - cinst PhantomJS -y
-  # hide python so node-gyp won't try to build native extentions
-  - rename C:\Python27 Python27hidden
   # Typical npm stuff.
   - md C:\nc
   - npm config set cache C:\nc
   - npm version
-  - npm install --no-optional
+  - npm install
 
 # Post-install test scripts.
 test_script:
