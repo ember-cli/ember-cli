@@ -185,7 +185,7 @@ describe('livereload-server', function() {
       liveReloadServer = subject.liveReloadServer();
       liveReloadServer.changed = function(options) {
         reloadFile = options.body.files[0];
-      }
+      };
       subject.analytics.track = function() {};
     });
 
