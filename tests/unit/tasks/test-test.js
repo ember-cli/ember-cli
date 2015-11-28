@@ -22,10 +22,10 @@ describe('test', function() {
         expect(testemOptions.cwd).to.equal('blerpy-derpy');
         expect(testemOptions.reporter).to.equal('xunit');
         expect(testemOptions.middleware).to.deep.equal(['middleware1', 'middleware2']);
-        // /* jshint ignore:start */
+        /* jshint ignore:start */
         expect(testemOptions.test_page).to.equal('http://my/test/page');
         expect(testemOptions.config_dir).to.be.an('string');
-        // /* jshint ignore:end*/
+        /* jshint ignore:end*/
         expect(testemOptions.file).to.equal('custom-testem-config.json');
       }
     });
