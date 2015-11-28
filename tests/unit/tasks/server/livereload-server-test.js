@@ -27,7 +27,8 @@ describe('livereload-server', function() {
       analytics: { trackError: function() { } },
       project: {
         liveReloadFilterPatterns: [],
-        root: '/home/user/my-project'
+        root: '/home/user/my-project',
+        pkg: { name: 'my-project' }
       }
     });
   });
@@ -218,6 +219,79 @@ describe('livereload-server', function() {
         expect(changedCount).to.equal(0);
         expect(trackCount).to.equal(0);
       });
+    });
+  });
+
+  describe('hot reload css', function() {
+    var liveReloadServer;
+    var reloadFile;
+
+    beforeEach(function() {
+      liveReloadServer = subject.liveReloadServer();
+      liveReloadServer.changed = function(options) {
+        reloadFile = options.body.files[0];
+      };
+      subject.analytics.track = function() {};
+    });
+
+    afterEach(function() {
+      reloadFile = undefined;
+    });
+
+    it('injects newly genrated css without a full reload', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.css'
+      });
+      expect(reloadFile).to.equal('my-project.css');
+    });
+
+    it('injects newly genrated css from stylus without a full reload', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.styl'
+      });
+      expect(reloadFile).to.equal('my-project.css');
+    });
+
+    it('injects newly genrated css from sass without a full reload', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.sass'
+      });
+      expect(reloadFile).to.equal('my-project.css');
+    });
+
+    it('injects newly genrated css from scss without a full reload', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.scss'
+      });
+      expect(reloadFile).to.equal('my-project.css');
+    });
+
+    it('injects newly genrated css from less without a full reload', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.less'
+      });
+      expect(reloadFile).to.equal('my-project.css');
+    });
+
+    it('does a full reload when a hbs file changes', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.hbs'
+      });
+      expect(reloadFile).to.equal('LiveReload files');
+    });
+
+    it('does a full reload when a js file changes', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+      });
+      expect(reloadFile).to.equal('LiveReload files');
+    });
+
+    it('does a full reload when a html file changes', function() {
+      subject.didChange({
+        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.html'
+      });
+      expect(reloadFile).to.equal('LiveReload files');
     });
   });
 });
