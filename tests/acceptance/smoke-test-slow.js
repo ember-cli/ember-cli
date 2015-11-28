@@ -173,17 +173,19 @@ describe('Acceptance: smoke-test', function() {
             output.push(arguments[0]);
           };
         }(originalWrite));
+
         return ember([ 'test', '--path=dist' ]);
+      }).finally(function() {
+        process.stdout.write = originalWrite;
       })
       .then(function(result) {
         expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
 
         output = output.join(EOL);
+
         expect(output).to.match(/JSHint/, 'JSHint should be run');
         expect(output).to.match(/fail\s+0/, 'no failures');
         expect(output).to.match(/pass\s+8/, '1 passing');
-
-        process.stdout.write = originalWrite;
       });
   });
 
