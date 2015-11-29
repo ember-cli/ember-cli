@@ -59,7 +59,7 @@ module.exports = function ember(args, options) {
     errorLog:     errorLog,
     cliArgs:      args,
     Leek: MockAnalytics,
-    UI: MockUI,
+    UI: ui,
     testing: true,
     disableDependencyChecker: disableDependencyChecker,
     cli: {
