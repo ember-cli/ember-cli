@@ -141,7 +141,7 @@ updating or writing new documentation:
 #### Website
 
 The codebase for the website [ember-cli.com](http://ember-cli.com) is located
-at: https://github.com/ember-cli/ember-cli/tree/gh-pages
+at: https://github.com/ember-cli/ember-cli.github.io
 
 #### Code Words
 
@@ -158,8 +158,8 @@ NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/m
 # Docs
 
 Have you got enough knowledge in a specific feature and want to help with docs?
-Ember-cli documentation lives at the branch
-[gh-pages](https://github.com/ember-cli/ember-cli/tree/gh-pages).
+Ember-cli documentation lives at the repository
+[ember-cli.github.io](https://github.com/ember-cli/ember-cli.github.io).
 
 Feel free to contribute and help us to keep an updated, clear and complete
 documentation.
