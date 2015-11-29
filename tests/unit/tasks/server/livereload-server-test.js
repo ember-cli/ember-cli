@@ -6,8 +6,8 @@ var MockUI            = require('../../../helpers/mock-ui');
 var MockExpressServer = require('../../../helpers/mock-express-server');
 var net               = require('net');
 var EOL               = require('os').EOL;
-var path              = require('path');
 var MockWatcher       = require('../../../helpers/mock-watcher');
+var FSTree            = require('fs-tree-diff');
 
 describe('livereload-server', function() {
   var subject;
@@ -24,12 +24,7 @@ describe('livereload-server', function() {
       ui: ui,
       watcher: watcher,
       expressServer: expressServer,
-      analytics: { trackError: function() { } },
-      project: {
-        liveReloadFilterPatterns: [],
-        root: '/home/user/my-project',
-        pkg: { name: 'my-project' }
-      }
+      analytics: { trackError: function() { } }
     });
   });
 
@@ -45,7 +40,7 @@ describe('livereload-server', function() {
     it('does not start the server if `liveReload` option is not true', function() {
       return subject.start({
         liveReloadPort: 1337,
-        liveReload: false,
+        liveReload: false
       }).then(function(output) {
         expect(output).to.equal('Livereload server manually disabled.');
         expect(!!subject._liveReloadServer).to.equal(false);
@@ -144,6 +139,7 @@ describe('livereload-server', function() {
     var liveReloadServer;
     var changedCount;
     var oldChanged;
+    var oldGetDirectoryEntries;
     var stubbedChanged = function() {
       changedCount += 1;
     };
@@ -151,6 +147,9 @@ describe('livereload-server', function() {
     var oldTrack;
     var stubbedTrack = function() {
       trackCount += 1;
+    };
+    var stubbedGetDirectoryEntries = function() {
+      return [];
     };
 
     beforeEach(function() {
@@ -162,20 +161,22 @@ describe('livereload-server', function() {
       trackCount = 0;
       oldTrack = subject.analytics.track;
       subject.analytics.track = stubbedTrack;
+
+      oldGetDirectoryEntries = subject.getDirectoryEntries;
+      subject.getDirectoryEntries = stubbedGetDirectoryEntries;
     });
 
     afterEach(function() {
       liveReloadServer.changed = oldChanged;
       subject.analytics.track = oldTrack;
-      subject.project.liveReloadFilterPatterns = [];
+      subject.getDirectoryEntries = oldGetDirectoryEntries;
     });
 
     describe('watcher events', function () {
       function watcherEventTest(eventName, expectedCount) {
-        subject.project.liveReloadFilterPatterns = [];
         return subject.start({
           liveReloadPort: 1337,
-          liveReload: true,
+          liveReload: true
         }).then(function () {
             watcher.emit(eventName, {
               filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
@@ -197,101 +198,71 @@ describe('livereload-server', function() {
         return watcherEventTest('not-an-event', 0);
       });
     });
-
-    describe('filter pattern', function() {
-      it('triggers the livereload server of a change when no pattern matches', function() {
-        subject.didChange({filePath: ''});
-        expect(changedCount).to.equal(1);
-        expect(trackCount).to.equal(1);
-      });
-
-      it('does not trigger livereload server of a change when there is a pattern match', function() {
-        // normalize test regex for windows
-        // path.normalize with change forward slashes to back slashes if test is running on windows
-        // we then replace backslashes with double backslahes to escape the backslash in the regex
-        var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-        var filter = new RegExp('^' + basePath);
-        subject.project.liveReloadFilterPatterns = [filter];
-
-        subject.didChange({
-          filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
-        });
-        expect(changedCount).to.equal(0);
-        expect(trackCount).to.equal(0);
-      });
-    });
   });
 
-  describe('hot reload css', function() {
+  describe('live reload files', function() {
     var liveReloadServer;
-    var reloadFile;
+    var reloadedFiles;
+
+    var stubbedTrack = function() { };
+    var stubbedChanged = function(options) {
+      reloadedFiles = options.body.files;
+    };
+    var createStubbedGetDirectoryEntries = function(files) {
+      return function() {
+        var result = files.map(function(file) {
+          return {
+            relativePath: file,
+            isDirectory: function() {
+              return false;
+            }
+          };
+        });
+        return result;
+      };
+    };
 
     beforeEach(function() {
       liveReloadServer = subject.liveReloadServer();
-      liveReloadServer.changed = function(options) {
-        reloadFile = options.body.files[0];
-      };
-      subject.analytics.track = function() {};
+      liveReloadServer.changed = stubbedChanged;
+      subject.analytics.track = stubbedTrack;
+      subject.tree = new FSTree.fromEntries([]);
     });
 
     afterEach(function() {
-      reloadFile = undefined;
+      reloadedFiles = undefined;
     });
 
-    it('injects newly genrated css without a full reload', function() {
+    it('triggers live reload when files change', function() {
+      var changedFiles = [
+        'assets/my-project.css',
+        'assets/my-project.js'
+      ];
+
+      subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
       subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.css'
+        directory: '/home/user/projects/my-project/tmp/something.tmp'
       });
-      expect(reloadFile).to.equal('my-project.css');
+
+      expect(reloadedFiles).to.deep.equal(changedFiles);
     });
 
-    it('injects newly genrated css from stylus without a full reload', function() {
-      subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.styl'
-      });
-      expect(reloadFile).to.equal('my-project.css');
-    });
+    it('ignores source map files', function() {
+      var changedFiles = [
+        'assets/my-project.css',
+        'assets/my-project.css.map'
+      ];
 
-    it('injects newly genrated css from sass without a full reload', function() {
-      subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.sass'
-      });
-      expect(reloadFile).to.equal('my-project.css');
-    });
+      var expectedResult = [
+        'assets/my-project.css'
+      ];
 
-    it('injects newly genrated css from scss without a full reload', function() {
+      subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
       subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.scss'
+        directory: '/home/user/projects/my-project/tmp/something.tmp'
       });
-      expect(reloadFile).to.equal('my-project.css');
-    });
 
-    it('injects newly genrated css from less without a full reload', function() {
-      subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.less'
-      });
-      expect(reloadFile).to.equal('my-project.css');
-    });
-
-    it('does a full reload when a hbs file changes', function() {
-      subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.hbs'
-      });
-      expect(reloadFile).to.equal('LiveReload files');
-    });
-
-    it('does a full reload when a js file changes', function() {
-      subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
-      });
-      expect(reloadFile).to.equal('LiveReload files');
-    });
-
-    it('does a full reload when a html file changes', function() {
-      subject.didChange({
-        filePath: '/home/user/my-project/test/fixtures/proxy/file-a.html'
-      });
-      expect(reloadFile).to.equal('LiveReload files');
+      expect(reloadedFiles).to.deep.equal(expectedResult);
     });
   });
 });
