@@ -71,6 +71,7 @@ module.exports = function ember(args, options) {
   });
   function returnTestState(statusCode) {
      return {
+        exitCode: statusCode,
         statusCode: statusCode,
         inputStream: inputStream,
         outputStream: outputStream,

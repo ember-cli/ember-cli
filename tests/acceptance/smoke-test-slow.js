@@ -179,7 +179,7 @@ describe('Acceptance: smoke-test', function() {
         process.stdout.write = originalWrite;
       })
       .then(function(result) {
-        expect(result.statusCode).to.equal(0, 'exit code should be 0 for passing tests');
+        expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
 
         output = output.join(EOL);
 
