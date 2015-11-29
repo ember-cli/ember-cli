@@ -9,7 +9,7 @@
     "ember-qunit": "0.4.16",
     "ember-qunit-notifications": "0.1.0",
     "jquery": "^1.11.3",
-    "loader.js": "3.4.0",
+    "loader.js": "^3.5.0",
     "qunit": "~1.20.0"
   },
   "resolutions": {
