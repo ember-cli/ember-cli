@@ -29,6 +29,8 @@ testFiles = jshint.concat(testFiles);
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
   addFiles(mocha, '/**/*-slow.js');
+} else if (optionOrFile === 'jshint')  {
+  addFiles(mocha, jshint);
 } else if (process.argv.length > 2)  {
   addFiles(mocha, process.argv.slice(2));
 } else {
