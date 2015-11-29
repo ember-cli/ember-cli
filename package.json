@@ -92,6 +92,7 @@
     "markdown-it-terminal": "0.0.2",
     "merge-defaults": "^0.2.1",
     "minimatch": "^2.0.4",
+    "mkdirp": "^0.5.1",
     "morgan": "^1.5.2",
     "node-modules-path": "^1.0.0",
     "node-uuid": "^1.4.3",

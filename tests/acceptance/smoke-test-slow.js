@@ -8,7 +8,6 @@ var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var EOL      = require('os').EOL;
 
-var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
@@ -40,13 +39,13 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, clean from scratch', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+    return ember(['test']);
   });
 
   it('ember test exits with non-zero when tests fail', function() {
     return copyFixtureFiles('smoke-tests/failing-test')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+        return ember(['test'])
           .then(function() {
             expect(false, 'should have rejected with a failing test');
           })
@@ -59,7 +58,7 @@ describe('Acceptance: smoke-test', function() {
   it('ember test exits with non-zero when build fails', function() {
     return copyFixtureFiles('smoke-tests/test-with-syntax-error')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+        return ember(['test'])
           .then(function() {
             expect(false, 'should have rejected with a failing test');
           })
@@ -72,7 +71,7 @@ describe('Acceptance: smoke-test', function() {
   it('ember test exits with non-zero when no tests are run', function() {
     return copyFixtureFiles('smoke-tests/no-testem-launchers')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+        return ember(['test'])
           .then(function() {
             expect(false, 'should have rejected with a failing test');
           })
@@ -108,7 +107,7 @@ describe('Acceptance: smoke-test', function() {
   // here is the error:
   // test-support-80f2fe63fae0c44478fe0f8af73200a7.js contains the fingerprint (2871106928f813936fdd64f4d16005ac): expected 'test-support-80f2fe63fae0c44478fe0f8af73200a7.js' to include '2871106928f813936fdd64f4d16005ac'
   it.skip('ember new foo, build production and verify fingerprint', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
+    return ember(['build', '--environment=production'])
       .then(function() {
         var dirPath = path.join('.', 'dist', 'assets');
         var dir = fs.readdirSync(dirPath);
@@ -144,7 +143,7 @@ describe('Acceptance: smoke-test', function() {
   it.skip('ember test --environment=production', function() {
     return copyFixtureFiles('smoke-tests/passing-test')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production');
+        return ember(['test', '--environment=production']);
       })
       .then(function(result) {
         var exitCode = result.code;
@@ -164,7 +163,7 @@ describe('Acceptance: smoke-test', function() {
     return copyFixtureFiles('smoke-tests/passing-test')
       .then(function() {
         // TODO: Change to using ember() helper once it properly saves build artifacts
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+        return ember(['build']);
       })
       .then(function() {
         // TODO: Figure out how to get this to write into the MockUI
@@ -190,7 +189,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build development, and verify generated files', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+    return ember(['build'])
       .then(function() {
         var dirPath = path.join('.', 'dist');
         var paths = walkSync(dirPath);
@@ -203,7 +202,7 @@ describe('Acceptance: smoke-test', function() {
     var appJsPath   = path.join('.', 'app', 'app.js');
     var ouputContainsBuildFailed = false;
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+    return ember(['build'])
       .then(function (result) {
         expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
 
@@ -315,7 +314,7 @@ describe('Acceptance: smoke-test', function() {
   it('ember new foo, build production and verify css files are concatenated', function() {
     return copyFixtureFiles('with-styles')
       .then(function() {
-      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
+      return ember(['build', '--environment=production'])
         .then(function() {
           var dirPath = path.join('.', 'dist', 'assets');
           var dir = fs.readdirSync(dirPath);
@@ -332,7 +331,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build production and verify single "use strict";', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
+    return ember(['build', '--environment=production'])
       .then(function() {
           var dirPath = path.join('.', 'dist', 'assets');
           var dir = fs.readdirSync(dirPath);
@@ -350,7 +349,7 @@ describe('Acceptance: smoke-test', function() {
   it('ember can override and reuse the built-in blueprints', function() {
     return copyFixtureFiles('addon/with-blueprint-override')
       .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar', '-p');
+        return ember(['generate', 'component', 'foo-bar', '-p']);
       })
       .then(function() {
         // because we're overriding, the fileMapTokens is default, sans 'component'
