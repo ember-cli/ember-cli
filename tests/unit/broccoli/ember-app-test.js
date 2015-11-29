@@ -9,6 +9,8 @@ var expect     = require('chai').expect;
 var stub       = require('../../helpers/stub').stub;
 var proxyquire = require('proxyquire');
 
+var MockUI = require('../../helpers/mock-ui');
+
 var mergeTreesStub;
 var EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
   './merge-trees': function() {
@@ -22,7 +24,7 @@ describe('broccoli/ember-app', function() {
   function setupProject(rootPath) {
     var packageContents = require(path.join(rootPath, 'package.json'));
 
-    project = new Project(rootPath, packageContents);
+    project = new Project(rootPath, packageContents, new MockUI());
     project.require = function() {
       return function() {};
     };
