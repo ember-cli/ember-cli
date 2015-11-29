@@ -1127,7 +1127,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
             },
             {
               name: 'path',
-              description: 'Path to a build to run tests against.',
+              description: 'Reuse an existing build at given path.',
               key: 'path',
               required: false
             },
