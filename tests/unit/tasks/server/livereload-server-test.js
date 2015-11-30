@@ -250,7 +250,7 @@ describe('livereload-server', function() {
           var filter = new RegExp('^' + basePath);
 
           subject.project.liveReloadFilterPatterns = [filter];
-          var result = subject.shouldTriggerReload({
+          subject.shouldTriggerReload({
             filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
           });
           expect(ui.output).to.equal('Skipping livereload for: test/fixtures/proxy/file-a.js' + EOL);
