@@ -215,6 +215,47 @@ describe('livereload-server', function() {
       });
 
       describe('filter pattern', function() {
+        it('shouldTriggerReload must be true if there are no liveReloadFilterPatterns', function() {
+          subject.project.liveReloadFilterPatterns = [];
+          var result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/app/styles/app.css'
+          });
+          expect(result).to.be.true;
+        });
+
+        it('shouldTriggerReload is true when no liveReloadFilterPatterns matches the filePath', function() {
+          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          var filter = new RegExp('^' + basePath);
+
+          subject.project.liveReloadFilterPatterns = [filter];
+          var result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/app/styles/app.css'
+          });
+          expect(result).to.be.true;
+        });
+
+        it('shouldTriggerReload is false when one or more of the liveReloadFilterPatterns matches filePath', function() {
+          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          var filter = new RegExp('^' + basePath);
+
+          subject.project.liveReloadFilterPatterns = [filter];
+          var result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+          });
+          expect(result).to.be.false;
+        });
+
+        it('shouldTriggerReload writes a banner after skipping reload for a file', function() {
+          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          var filter = new RegExp('^' + basePath);
+
+          subject.project.liveReloadFilterPatterns = [filter];
+          var result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+          });
+          expect(ui.output).to.equal('Skipping livereload for: test/fixtures/proxy/file-a.js' + EOL);
+        });
+
         it('triggers the livereload server of a change when no pattern matches', function() {
           subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
           subject.didChange({
@@ -237,6 +278,7 @@ describe('livereload-server', function() {
           subject.didChange({
             filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
           });
+
           expect(changedCount).to.equal(0);
           expect(trackCount).to.equal(0);
         });
