@@ -8,6 +8,7 @@ var net               = require('net');
 var EOL               = require('os').EOL;
 var path              = require('path');
 var MockWatcher       = require('../../../helpers/mock-watcher');
+var FSTree            = require('fs-tree-diff');
 
 describe('livereload-server', function() {
   var subject;
@@ -44,7 +45,7 @@ describe('livereload-server', function() {
     it('does not start the server if `liveReload` option is not true', function() {
       return subject.start({
         liveReloadPort: 1337,
-        liveReload: false,
+        liveReload: false
       }).then(function(output) {
         expect(output).to.equal('Livereload server manually disabled.');
         expect(!!subject._liveReloadServer).to.equal(false);
@@ -151,6 +152,18 @@ describe('livereload-server', function() {
     var stubbedTrack = function() {
       trackCount += 1;
     };
+    var createStubbedGetDirectoryEntries = function(files) {
+      return function() {
+        return files.map(function(file) {
+          return {
+            relativePath: file,
+            isDirectory: function() {
+              return false;
+            }
+          };
+        });
+      };
+    };
 
     beforeEach(function() {
       liveReloadServer = subject.liveReloadServer();
@@ -161,6 +174,8 @@ describe('livereload-server', function() {
       trackCount = 0;
       oldTrack = subject.analytics.track;
       subject.analytics.track = stubbedTrack;
+
+      subject.tree = new FSTree.fromEntries([]);
     });
 
     afterEach(function() {
@@ -171,13 +186,16 @@ describe('livereload-server', function() {
 
     describe('watcher events', function () {
       function watcherEventTest(eventName, expectedCount) {
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries([
+          'test/fixtures/proxy/file-a.js'
+        ]);
         subject.project.liveReloadFilterPatterns = [];
         return subject.start({
           liveReloadPort: 1337,
-          liveReload: true,
+          liveReload: true
         }).then(function () {
             watcher.emit(eventName, {
-              filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+              directory: '/home/user/projects/my-project/tmp/something.tmp'
             });
           }).finally(function () {
             expect(changedCount).to.equal(expectedCount);
@@ -195,28 +213,123 @@ describe('livereload-server', function() {
       it('does not trigger a livereload change on other watcher events', function () {
         return watcherEventTest('not-an-event', 0);
       });
+
+      describe('filter pattern', function() {
+        it('shouldTriggerReload must be true if there are no liveReloadFilterPatterns', function() {
+          subject.project.liveReloadFilterPatterns = [];
+          var result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/app/styles/app.css'
+          });
+          expect(result).to.be.true;
+        });
+
+        it('shouldTriggerReload is true when no liveReloadFilterPatterns matches the filePath', function() {
+          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          var filter = new RegExp('^' + basePath);
+
+          subject.project.liveReloadFilterPatterns = [filter];
+          var result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/app/styles/app.css'
+          });
+          expect(result).to.be.true;
+        });
+
+        it('shouldTriggerReload is false when one or more of the liveReloadFilterPatterns matches filePath', function() {
+          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          var filter = new RegExp('^' + basePath);
+
+          subject.project.liveReloadFilterPatterns = [filter];
+          var result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+          });
+          expect(result).to.be.false;
+        });
+
+        it('shouldTriggerReload writes a banner after skipping reload for a file', function() {
+          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          var filter = new RegExp('^' + basePath);
+
+          subject.project.liveReloadFilterPatterns = [filter];
+          subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+          });
+          expect(ui.output).to.equal('Skipping livereload for: test/fixtures/proxy/file-a.js' + EOL);
+        });
+
+        it('triggers the livereload server of a change when no pattern matches', function() {
+          subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
+          subject.didChange({
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+          });
+          expect(changedCount).to.equal(1);
+          expect(trackCount).to.equal(1);
+        });
+
+        it('does not trigger livereload server of a change when there is a pattern match', function() {
+          // normalize test regex for windows
+          // path.normalize with change forward slashes to back slashes if test is running on windows
+          // we then replace backslashes with double backslahes to escape the backslash in the regex
+          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          var filter = new RegExp('^' + basePath);
+
+          subject.project.liveReloadFilterPatterns = [filter];
+
+          subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
+          subject.didChange({
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+          });
+
+          expect(changedCount).to.equal(0);
+          expect(trackCount).to.equal(0);
+        });
+      });
     });
 
-    describe('filter pattern', function() {
-      it('triggers the livereload server of a change when no pattern matches', function() {
-        subject.didChange({filePath: ''});
-        expect(changedCount).to.equal(1);
-        expect(trackCount).to.equal(1);
+    describe('specific files', function() {
+      var reloadedFiles;
+
+      var stubbedChanged = function(options) {
+        reloadedFiles = options.body.files;
+      };
+
+      beforeEach(function() {
+        liveReloadServer.changed = stubbedChanged;
       });
 
-      it('does not trigger livereload server of a change when there is a pattern match', function() {
-        // normalize test regex for windows
-        // path.normalize with change forward slashes to back slashes if test is running on windows
-        // we then replace backslashes with double backslahes to escape the backslash in the regex
-        var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-        var filter = new RegExp('^' + basePath);
-        subject.project.liveReloadFilterPatterns = [filter];
+      afterEach(function() {
+        reloadedFiles = undefined;
+      });
 
+      it('triggers livereload with modified files', function() {
+        var changedFiles = [
+          'assets/my-project.css',
+          'assets/my-project.js'
+        ];
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
         subject.didChange({
-          filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+          directory: '/home/user/projects/my-project/tmp/something.tmp'
         });
-        expect(changedCount).to.equal(0);
-        expect(trackCount).to.equal(0);
+
+        expect(reloadedFiles).to.deep.equal(changedFiles);
+      });
+
+      it('triggers livereload ignoring source map files', function() {
+        var changedFiles = [
+          'assets/my-project.css',
+          'assets/my-project.css.map'
+        ];
+
+        var expectedResult = [
+          'assets/my-project.css'
+        ];
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
+        subject.didChange({
+          directory: '/home/user/projects/my-project/tmp/something.tmp'
+        });
+
+        expect(reloadedFiles).to.deep.equal(expectedResult);
       });
     });
   });
