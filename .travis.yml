@@ -5,6 +5,7 @@ node_js:
   - "0.12"
   - "4.2"
   - "5"
+  - node
 
 os:
   - linux
@@ -20,6 +21,7 @@ install:
 matrix:
   allow_failures:
     - node_js: "5"
+    - node_js: "node"
 
 after_script:
   - cat coverage/lcov.info | codeclimate
