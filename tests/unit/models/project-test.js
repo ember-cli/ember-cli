@@ -522,6 +522,48 @@ describe('models/project.js', function() {
     });
   });
 
+  describe('_loaderSupportsIndexFallback', function() {
+    var loaderBowerJSONPath;
+
+    beforeEach(function() {
+      projectPath = process.cwd() + '/tmp/test-app';
+      loaderBowerJSONPath = projectPath + '/bower_components/loader.js/.bower.json';
+
+      return tmp.setup(projectPath)
+        .then(function() {
+          project = new Project(projectPath, { }, new MockUI());
+        });
+    });
+
+    it('returns false when `loader.js` is not a dependency', function(){
+      touch(loaderBowerJSONPath, {
+        version: '/foo/bar'
+      });
+
+      expect(project._loaderSupportsIndexFallback()).to.equal(false);
+    });
+
+    it('returns true when `loader.js` version matches', function(){
+      touch(loaderBowerJSONPath, {
+        version: '3.5.0'
+      });
+
+      expect(project._loaderSupportsIndexFallback()).to.equal(true);
+    });
+
+    it('returns false when `loader.js` is specified in an odd format', function(){
+      touch(loaderBowerJSONPath, {
+        version: 'lol/wat/zomg'
+      });
+
+      expect(project._loaderSupportsIndexFallback()).to.equal(false);
+    });
+
+    it('returns false when `loader.js` .bower.json is not found', function(){
+      expect(project._loaderSupportsIndexFallback()).to.equal(false);
+    });
+  });
+
   describe('.nullProject', function (){
     it('is a singleton', function() {
       expect(Project.nullProject()).to.equal(Project.nullProject());
