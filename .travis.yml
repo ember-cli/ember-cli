@@ -3,15 +3,16 @@ language: node_js
 node_js:
   - "0.10"
   - "0.12"
-  - "iojs"
   - "4.2"
   - "5"
+  - node
 
 os:
   - linux
 script: npm run-script test-all:cover
 before_install:
-  - test $TRAVIS_OS_NAME = "osx" && brew update && brew install nvm && source $(brew --prefix nvm)/nvm.sh && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
+  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+  - test $TRAVIS_OS_NAME = "osx" && brew update && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
   - npm config set spin false
 install:
   - node --version
@@ -21,6 +22,7 @@ install:
 matrix:
   allow_failures:
     - node_js: "5"
+    - node_js: "node"
 
 after_script:
   - cat coverage/lcov.info | codeclimate
