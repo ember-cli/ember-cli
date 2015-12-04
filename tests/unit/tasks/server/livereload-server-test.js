@@ -253,7 +253,7 @@ describe('livereload-server', function() {
           subject.shouldTriggerReload({
             filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
           });
-          expect(ui.output).to.equal('Skipping livereload for: test/fixtures/proxy/file-a.js' + EOL);
+          expect(ui.output).to.equal('Skipping livereload for: ' + path.join('test', 'fixtures', 'proxy', 'file-a.js') + EOL);
         });
 
         it('triggers the livereload server of a change when no pattern matches', function() {
