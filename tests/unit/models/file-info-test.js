@@ -10,9 +10,8 @@ var Promise   = require('../../../lib/ext/promise');
 var writeFile = Promise.denodeify(fs.writeFile);
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
-var tmp        = require('tmp-sync');
 var assign     = require('lodash/object/assign');
-var tmpdir;
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 var testOutputPath;
 
 describe('Unit - FileInfo', function(){
@@ -20,19 +19,19 @@ describe('Unit - FileInfo', function(){
   var validOptions, ui;
 
   beforeEach(function(){
-    tmpdir = tmp.in(tmproot);
-    testOutputPath = path.join(tmpdir, 'outputfile');
-
-    ui = new MockUI();
-    validOptions = {
-      action: 'write',
-      outputPath: testOutputPath,
-      displayPath: '/pretty-output-path',
-      inputPath: path.resolve(__dirname,
-        '../../fixtures/blueprints/with-templating/files/foo.txt'),
-      templateVariables: {},
-      ui: ui
-    };
+    return mkTmpDirIn(tmproot).then(function(tmpdir) {
+      testOutputPath = path.join(tmpdir, 'outputfile');
+      ui = new MockUI();
+      validOptions = {
+        action: 'write',
+        outputPath: testOutputPath,
+        displayPath: '/pretty-output-path',
+        inputPath: path.resolve(__dirname,
+                                '../../fixtures/blueprints/with-templating/files/foo.txt'),
+        templateVariables: {},
+        ui: ui
+      };
+    });
   });
 
   afterEach(function(done){

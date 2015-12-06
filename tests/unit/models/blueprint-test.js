@@ -15,7 +15,6 @@ var Promise           = require('../../../lib/ext/promise');
 var remove            = Promise.denodeify(fs.remove);
 var EOL               = require('os').EOL;
 var root              = process.cwd();
-var tmp               = require('tmp-sync');
 var tmproot           = path.join(root, 'tmp');
 var SilentError       = require('silent-error');
 var stub              = require('../../helpers/stub').stub;
@@ -23,6 +22,7 @@ var proxyquire        = require('proxyquire');
 var existsSync        = require('exists-sync');
 var MarkdownColor     = require('../../../lib/utilities/markdown-color');
 var assign            = require('lodash/object/assign');
+var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
 
 var existsSyncStub;
 var readdirSyncStub;
@@ -526,15 +526,17 @@ some details');
     var tmpdir;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new BasicBlueprintClass(basicBlueprint);
-      ui        = new MockUI();
-      project   = new MockProject();
-      options   = {
-        ui: ui,
-        project: project,
-        target: tmpdir
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new BasicBlueprintClass(basicBlueprint);
+        ui        = new MockUI();
+        project   = new MockProject();
+        options   = {
+          ui: ui,
+          project: project,
+          target: tmpdir
+        };
+      });
     });
 
     afterEach(function() {
@@ -817,17 +819,17 @@ some details');
     }
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new BasicBlueprintClass(basicBlueprint);
-      project   = new MockProject();
-      options   = {
-        project: project,
-        target: tmpdir
-      };
-
-      refreshUI();
-      return blueprint.install(options)
-        .then(refreshUI);
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new BasicBlueprintClass(basicBlueprint);
+        project   = new MockProject();
+        options   = {
+          project: project,
+          target: tmpdir
+        };
+        refreshUI();
+        return blueprint.install(options);
+      }).then(refreshUI);
     });
 
     afterEach(function() {
@@ -866,9 +868,11 @@ some details');
     var tmpdir;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+      });
     });
 
     afterEach(function() {
@@ -900,15 +904,15 @@ some details');
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new NpmInstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new NpmInstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -1039,15 +1043,15 @@ some details');
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new NpmUninstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new NpmUninstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -1074,15 +1078,15 @@ some details');
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new NpmUninstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new NpmUninstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -1196,15 +1200,16 @@ some details');
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-      blueprint.ui = ui;
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new BowerInstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.ui = ui;
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new BowerInstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -1261,15 +1266,15 @@ some details');
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new BowerInstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new BowerInstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -1368,9 +1373,11 @@ some details');
     var tmpdir;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+      });
     });
 
     afterEach(function() {
@@ -1402,15 +1409,16 @@ some details');
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new AddonInstallTask();
+        };
+      });
 
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new AddonInstallTask();
-      };
     });
 
     afterEach(function() {
@@ -1540,16 +1548,17 @@ some details');
     var filename;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-      project   = new MockProject();
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        project   = new MockProject();
+        // normally provided by `install`, but mocked here for testing
+        project.root = tmpdir;
+        blueprint.project = project;
+        filename = 'foo-bar-baz.txt';
+      });
 
-      // normally provided by `install`, but mocked here for testing
-      project.root = tmpdir;
-      blueprint.project = project;
-
-      filename = 'foo-bar-baz.txt';
     });
 
     afterEach(function() {
@@ -1745,19 +1754,19 @@ some details');
     var filename;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-      project   = new MockProject();
-
-      // normally provided by `install`, but mocked here for testing
-      project.root = tmpdir;
-      blueprint.project = project;
-      project.blueprintLookupPaths = function() {
-        return [fixtureBlueprints];
-      };
-
-      filename = 'foo-bar-baz.txt';
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        project   = new MockProject();
+        // normally provided by `install`, but mocked here for testing
+        project.root = tmpdir;
+        blueprint.project = project;
+        project.blueprintLookupPaths = function() {
+          return [fixtureBlueprints];
+        };
+        filename = 'foo-bar-baz.txt';
+      });
     });
 
     afterEach(function() {

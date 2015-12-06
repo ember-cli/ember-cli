@@ -7,10 +7,10 @@ var Addon   = require('../../../lib/models/addon');
 var Promise = require('../../../lib/ext/promise');
 var expect  = require('chai').expect;
 var remove  = Promise.denodeify(fs.remove);
-var tmp     = require('tmp-sync');
 var path    = require('path');
 var findWhere = require('lodash/collection/find');
 var MockUI = require('../../helpers/mock-ui');
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 
 var broccoli  = require('broccoli');
 var walkSync  = require('walk-sync');
@@ -427,9 +427,10 @@ describe('models/addon.js', function() {
       var tmpdir;
 
       beforeEach(function() {
-        tmpdir  = tmp.in(tmproot);
-
-        addon.root = tmpdir;
+        return mkTmpDirIn(tmproot).then(function(dir) {
+          tmpdir = dir;
+          addon.root = tmpdir;
+        });
       });
 
       afterEach(function() {
