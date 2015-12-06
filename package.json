@@ -90,7 +90,7 @@
     "leek": "0.0.18",
     "lodash": "^3.6.0",
     "markdown-it": "4.3.0",
-    "markdown-it-terminal": "0.0.2",
+    "markdown-it-terminal": "0.0.3",
     "merge-defaults": "^0.2.1",
     "minimatch": "^2.0.4",
     "morgan": "^1.5.2",
