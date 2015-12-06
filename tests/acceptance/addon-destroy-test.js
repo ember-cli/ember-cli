@@ -20,8 +20,6 @@ var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 describe('Acceptance: ember destroy in-addon', function() {
   this.timeout(20000);
 
-  var tmpdir;
-
   before(function() {
     BlueprintNpmTask.disableNPM();
     conf.setup();

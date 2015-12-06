@@ -13,12 +13,12 @@ var path             = require('path');
 var remove           = Promise.denodeify(fs.remove);
 var replaceFile      = require('../helpers/file-utils').replaceFile;
 var root             = process.cwd();
-var tmp              = require('tmp-sync');
 var tmproot          = path.join(root, 'tmp');
 var EOL              = require('os').EOL;
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 var expect           = require('chai').expect;
 var MockUI             = require('../helpers/mock-ui');
+var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
 
 describe('Acceptance: ember generate', function() {
   this.timeout(10000);
@@ -36,8 +36,10 @@ describe('Acceptance: ember generate', function() {
   });
 
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
+    return mkTmpDirIn(tmproot).then(function(dir) {
+      tmpdir = dir;
+      process.chdir(tmpdir);
+    });
   });
 
   afterEach(function() {

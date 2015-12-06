@@ -9,13 +9,12 @@ var ember      = require('../helpers/ember');
 var path       = require('path');
 var remove     = Promise.denodeify(require('fs-extra').remove);
 var root       = process.cwd();
-var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
 var expect     = require('chai').expect;
+var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
 describe('Acceptance: ember install', function() {
   this.timeout(60000);
-  var tmpdir;
 
   before(function() {
     conf.setup();
@@ -26,8 +25,9 @@ describe('Acceptance: ember install', function() {
   });
 
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
+    return mkTmpDirIn(tmproot).then(function(tmpdir) {
+      process.chdir(tmpdir);
+    });
   });
 
   afterEach(function() {
