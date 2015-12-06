@@ -181,7 +181,8 @@ describe('models/addon.js', function() {
     before(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
-      project = new Project(projectPath, packageContents);
+      var ui = new MockUI();
+      project = new Project(projectPath, packageContents, ui);
       project.initializeAddons();
     });
 
