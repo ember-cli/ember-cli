@@ -12,8 +12,10 @@ var fs         = require('fs-extra');
 var path       = require('path');
 var remove     = Promise.denodeify(fs.remove);
 var root       = process.cwd();
-var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
+var temp       = require('temp');
+var mkdir      = Promise.denodeify(fs.mkdir);
+var mkdirTemp  = Promise.denodeify(temp.mkdir);
 
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 
@@ -33,8 +35,11 @@ describe('Acceptance: ember destroy in-addon', function() {
   });
 
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
+    return mkdir(tmproot).then(function() {
+      return mkdirTemp({dir: tmproot})
+    }).then(function(tmpdir) {
+      process.chdir(tmpdir);
+    });
   });
 
   afterEach(function() {
