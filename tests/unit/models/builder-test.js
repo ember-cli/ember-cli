@@ -12,7 +12,7 @@ var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fs.remove);
-var tmp             = require('tmp-sync');
+var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
 
 var root            = process.cwd();
 var tmproot         = path.join(root, 'tmp');
@@ -22,13 +22,14 @@ describe('models/builder.js', function() {
 
   describe('copyToOutputPath', function() {
     beforeEach(function() {
-      tmpdir  = tmp.in(tmproot);
-
-      builder = new Builder({
-        setupBroccoliBuilder: function() { },
-        trapSignals: function() { },
-        cleanupOnExit: function() { },
-        project: new MockProject()
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        builder = new Builder({
+          setupBroccoliBuilder: function() { },
+          trapSignals: function() { },
+          cleanupOnExit: function() { },
+          project: new MockProject()
+        });
       });
     });
 

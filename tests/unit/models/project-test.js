@@ -13,7 +13,7 @@ var versionUtils = require('../../../lib/utilities/version-utils');
 var emberCLIVersion = versionUtils.emberCLIVersion;
 
 describe('models/project.js', function() {
-  var project, projectPath;
+  var project, projectPath, tmpPath;
 
   afterEach(function() {
     if (project) { project = null; }
@@ -23,7 +23,8 @@ describe('models/project.js', function() {
     var called;
 
     beforeEach(function() {
-      projectPath = process.cwd() + '/tmp/test-app';
+      tmpPath = path.join(process.cwd(), 'tmp');
+      projectPath = path.join(tmpPath, 'test-app');
       called = false;
       return tmp.setup(projectPath)
         .then(function() {
@@ -41,7 +42,7 @@ describe('models/project.js', function() {
 
     afterEach(function() {
       called = null;
-      return tmp.teardown(projectPath);
+      return tmp.teardown(tmpPath);
     });
 
     it('config() finds and requires config/environment', function() {
@@ -79,15 +80,12 @@ describe('models/project.js', function() {
         foo: 'bar'
       };
 
-      return tmp.setup(projectPath) // ensure no config/environment.js is present
-        .then(function() {
-          project.getAddonsConfig = function() {
-            return expected;
-          };
+      project.getAddonsConfig = function() {
+        return expected;
+      };
 
-          var actual = project.config('development');
-          expect(actual).to.deep.equal(expected);
-        });
+      var actual = project.config('development');
+      expect(actual).to.deep.equal(expected);
     });
 
     describe('merges getAddonsConfig result with app config', function() {
@@ -526,13 +524,18 @@ describe('models/project.js', function() {
     var loaderBowerJSONPath;
 
     beforeEach(function() {
-      projectPath = process.cwd() + '/tmp/test-app';
+      tmpPath = path.join(process.cwd(), 'tmp');
+      projectPath =  path.join(tmpPath, 'test-app');
       loaderBowerJSONPath = projectPath + '/bower_components/loader.js/.bower.json';
 
       return tmp.setup(projectPath)
         .then(function() {
           project = new Project(projectPath, { }, new MockUI());
         });
+    });
+
+    afterEach(function() {
+      return tmp.teardown(tmpPath);
     });
 
     it('returns false when `loader.js` is not a dependency', function(){

@@ -14,9 +14,9 @@ var outputFile  = Promise.denodeify(fs.outputFile);
 var path        = require('path');
 var remove      = Promise.denodeify(fs.remove);
 var root        = process.cwd();
-var tmp         = require('tmp-sync');
 var tmproot     = path.join(root, 'tmp');
 var EOL         = require('os').EOL;
+var mkTmpDirIn  = require('../../lib/utilities/mk-tmp-dir-in');
 
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 
@@ -36,8 +36,10 @@ describe('Acceptance: ember destroy pod', function() {
   });
 
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
+    return mkTmpDirIn(tmproot).then(function(dir) {
+      tmpdir = dir;
+      process.chdir(tmpdir);
+    });
   });
 
   afterEach(function() {

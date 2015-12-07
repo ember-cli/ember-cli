@@ -12,15 +12,14 @@ var fs                   = require('fs-extra');
 var path                 = require('path');
 var remove               = Promise.denodeify(fs.remove);
 var root                 = process.cwd();
-var tmp                  = require('tmp-sync');
 var tmproot              = path.join(root, 'tmp');
 var EOL                  = require('os').EOL;
 var BlueprintNpmTask     = require('../helpers/disable-npm-on-blueprint');
 var expect               = require('chai').expect;
+var mkTmpDirIn           = require('../../lib/utilities/mk-tmp-dir-in');
 
 describe('Acceptance: ember generate in-repo-addon', function() {
   this.timeout(20000);
-  var tmpdir;
 
   before(function() {
     BlueprintNpmTask.disableNPM();
@@ -33,8 +32,9 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   });
 
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
+    return mkTmpDirIn(tmproot).then(function(tmpdir) {
+      process.chdir(tmpdir);
+    });
   });
 
   afterEach(function() {
