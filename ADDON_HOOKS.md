@@ -175,11 +175,6 @@ Gives access to the result of the tree, and the location of the output.
 - Slow tree listing
 - May be used to manipulate your project after build has happened
 
-**Examples:**
-
-- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.0.11/index.js#L47)
-  - In this case we are using this in tandem with a rails middleware to remove a lock file.  This allows our ruby gem to block incoming requests until after the build happens reliably.
-
 <a name='prebuild'></a>
 ## preBuild
 
@@ -208,6 +203,8 @@ Hook called after the build has been processed and the files have been copied to
 **Examples:**
 
 - Opportunity to symlink or copy files elsewhere.
+- [ember-cli-rails-addon](https://github.com/rondale-sc/ember-cli-rails-addon/blob/v0.6.0/index.js#L47)
+  - In this case we are using this in tandem with a rails middleware to remove a lock file.  This allows our ruby gem to block incoming requests until after the build happens reliably.
 
 <a name='builderror'></a>
 ## buildError
