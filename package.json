@@ -87,7 +87,7 @@
     "inquirer": "0.5.1",
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^2.0.3",
-    "leek": "0.0.18",
+    "leek": "0.0.21",
     "lodash": "^3.6.0",
     "markdown-it": "4.3.0",
     "markdown-it-terminal": "0.0.3",
