@@ -6,6 +6,7 @@
 [![Code Climate](https://codeclimate.com/github/ember-cli/ember-cli/badges/gpa.svg)](https://codeclimate.com/github/ember-cli/ember-cli)
 [![Test Coverage](https://codeclimate.com/github/ember-cli/ember-cli/badges/coverage.svg)](https://codeclimate.com/github/ember-cli/ember-cli)
 [![Inline docs](http://inch-ci.org/github/ember-cli/ember-cli.svg?branch=master)](http://inch-ci.org/github/ember-cli/ember-cli)
+[![npm](https://img.shields.io/npm/v/ember-cli.svg)][npm-badge-url]
 
 The Ember.js command line utility.
 
@@ -138,3 +139,4 @@ ember-cli is [MIT Licensed](https://github.com/ember-cli/ember-cli/blob/master/L
 [david-badge-url]: https://david-dm.org/ember-cli/ember-cli
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/7owf61lo8uujbjok/branch/master?svg=true
 [appveyor-badge-url]: https://ci.appveyor.com/project/embercli/ember-cli/branch/master
+[npm-badge-url]: https://www.npmjs.com/package/ember-cli
