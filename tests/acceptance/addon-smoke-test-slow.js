@@ -137,6 +137,16 @@ describe('Acceptance: addon-smoke-test', function() {
       });
   });
 
+  it('ember addon with addon-test-support directory', function() {
+    return copyFixtureFiles('addon/with-addon-test-support')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
   it('ember addon with tests/dummy/public directory', function() {
     return copyFixtureFiles('addon/with-dummy-public')
       .then(function() {

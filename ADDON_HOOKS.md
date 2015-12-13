@@ -23,6 +23,7 @@ Table of Contents:
   - [treeForVendor](#treefor-cont)
   - [treeForTestSupport](#treefor-cont)
   - [treeForPublic](#treefor-cont)
+  - [treeForAddonTestSupport](#treefor-cont)
 
 For each hook we'll cover the following (if applicable):
 
@@ -480,6 +481,7 @@ Instead of overriding `treeFor` and acting only if the tree you receive matches 
 - treeForVendor
 - treeForTestSupport
 - treeForPublic
+- treeForAddonTestSupport
 
 When overriding a hook, if you want to preserve it's original functionality, call the same method on `_super` with the function arguments.
 
