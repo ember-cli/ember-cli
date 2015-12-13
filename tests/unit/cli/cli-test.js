@@ -1,16 +1,19 @@
 'use strict';
 
-var EOL      = require('os').EOL;
-var expect   = require('chai').expect;
-var stub     = require('../../helpers/stub').stub;
-var MockUI   = require('../../helpers/mock-ui');
-var MockAnalytics   = require('../../helpers/mock-analytics');
-var CLI      = require('../../../lib/cli/cli');
+var EOL           = require('os').EOL;
+var expect        = require('chai').expect;
+var stub          = require('../../helpers/stub');
+var MockUI        = require('../../helpers/mock-ui');
+var MockAnalytics = require('../../helpers/mock-analytics');
+var CLI           = require('../../../lib/cli/cli');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
+
 var ui;
 var analytics;
 var commands = {};
 var argv;
-
 var isWithinProject;
 
 // helper to similate running the CLI
@@ -68,12 +71,8 @@ beforeEach(function() {
 afterEach(function() {
   for(var key in commands) {
     if (!commands.hasOwnProperty(key)) { continue; }
-    if (commands[key].prototype.validateAndRun.restore) {
-      commands[key].prototype.validateAndRun.restore();
-    }
-    if (commands[key].prototype.run.restore) {
-      commands[key].prototype.run.restore();
-    }
+    safeRestore(commands[key].prototype, 'validateAndRun');
+    safeRestore(commands[key].prototype, 'run');
   }
 
   delete process.env.EMBER_ENV;

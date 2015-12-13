@@ -6,13 +6,16 @@ var expect            = require('chai').expect;
 var EOL               = require('os').EOL;
 var SilentError       = require('silent-error');
 var commandOptions    = require('../../factories/command-options');
-var stub              = require('../../helpers/stub').stub;
+var stub              = require('../../helpers/stub');
 var processHelpString = require('../../helpers/process-help-string');
 var MockProject       = require('../../helpers/mock-project');
 var Promise           = require('../../../lib/ext/promise');
 var Task              = require('../../../lib/models/task');
 var Blueprint         = require('../../../lib/models/blueprint');
 var GenerateCommand   = require('../../../lib/commands/generate');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('generate command', function() {
   var options, command;
@@ -46,9 +49,7 @@ describe('generate command', function() {
   });
 
   afterEach(function() {
-    if (Blueprint.list.restore) {
-      Blueprint.list.restore();
-    }
+    safeRestore(Blueprint, 'list');
   });
 
   it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {

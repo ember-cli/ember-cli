@@ -1,10 +1,13 @@
 'use strict';
 
 var expect         = require('chai').expect;
-var stub           = require('../../helpers/stub').stub;
+var stub           = require('../../helpers/stub');
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
 var BuildCommand   = require('../../../lib/commands/build');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('build command', function() {
   var tasks, options, command;
@@ -36,8 +39,8 @@ describe('build command', function() {
   });
 
   afterEach(function() {
-    tasks.Build.prototype.run.restore();
-    tasks.BuildWatch.prototype.run.restore();
+    safeRestore(tasks.Build.prototype, 'run');
+    safeRestore(tasks.BuildWatch.prototype, 'run');
   });
 
   it('Build task is provided with the project instance', function() {

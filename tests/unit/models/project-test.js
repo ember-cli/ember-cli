@@ -1,16 +1,17 @@
 'use strict';
 
-var path    = require('path');
-var Project = require('../../../lib/models/project');
-var Addon   = require('../../../lib/models/addon');
-var stub    = require('../../helpers/stub').stub;
-var tmp     = require('../../helpers/tmp');
-var touch   = require('../../helpers/file-utils').touch;
-var expect  = require('chai').expect;
-var MockUI = require('../../helpers/mock-ui');
+var path            = require('path');
+var Project         = require('../../../lib/models/project');
+var Addon           = require('../../../lib/models/addon');
+var stub            = require('../../helpers/stub');
+var tmp             = require('../../helpers/tmp');
+var touch           = require('../../helpers/file-utils').touch;
+var expect          = require('chai').expect;
+var MockUI          = require('../../helpers/mock-ui');
+var emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 
-var versionUtils = require('../../../lib/utilities/version-utils');
-var emberCLIVersion = versionUtils.emberCLIVersion;
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('models/project.js', function() {
   var project, projectPath, tmpPath;
@@ -312,8 +313,8 @@ describe('models/project.js', function() {
     });
 
     afterEach(function() {
-      Project.prototype.initializeAddons.restore();
-      Project.prototype.reloadPkg.restore();
+      safeRestore(Project.prototype, 'initializeAddons');
+      safeRestore(Project.prototype, 'reloadPkg');
     });
 
     it('sets _addonsInitialized to false', function() {
@@ -430,7 +431,7 @@ describe('models/project.js', function() {
     });
 
     afterEach(function() {
-      Project.prototype.initializeAddons.restore();
+      safeRestore(Project.prototype, 'initializeAddons');
     });
 
     it('should call initialize addons', function() {

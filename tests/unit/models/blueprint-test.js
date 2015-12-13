@@ -17,12 +17,15 @@ var EOL               = require('os').EOL;
 var root              = process.cwd();
 var tmproot           = path.join(root, 'tmp');
 var SilentError       = require('silent-error');
-var stub              = require('../../helpers/stub').stub;
+var stub              = require('../../helpers/stub');
 var proxyquire        = require('proxyquire');
 var existsSync        = require('exists-sync');
 var MarkdownColor     = require('../../../lib/utilities/markdown-color');
 var assign            = require('lodash/object/assign');
 var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 var existsSyncStub;
 var readdirSyncStub;
@@ -210,12 +213,8 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      if (Blueprint.defaultLookupPaths.restore) {
-        Blueprint.defaultLookupPaths.restore();
-      }
-      if (Blueprint.load.restore) {
-        Blueprint.load.restore();
-      }
+      safeRestore(Blueprint, 'defaultLookupPaths');
+      safeRestore(Blueprint, 'load');
     });
 
     it('returns a list of blueprints grouped by lookup path', function() {
