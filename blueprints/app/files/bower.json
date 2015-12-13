@@ -6,7 +6,7 @@
     "ember-cli-test-loader": "0.2.1",
     "ember-data": "2.1.0",
     "ember-load-initializers": "0.1.7",
-    "ember-qunit": "0.4.16",
+    "ember-qunit": "0.4.17",
     "ember-qunit-notifications": "0.1.0",
     "jquery": "^1.11.3",
     "loader.js": "^3.5.0",
