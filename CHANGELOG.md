@@ -11,7 +11,7 @@ The following changes are required if you are upgrading from the previous versio
     * `ember-ajax` to `0.7.1`
     * `ember-cli-dependency-checker` to `^1.2.0`
     * `ember-cli-sri` to `^1.2.0`
-    * `ember-cli-qunit` to `^1.2.0`
+    * `ember-cli-qunit` to `^1.1.0`
     * `ember-data` to `^2.2.1`
   + Update the following entries in your `bower.json`:
     * `ember` to `2.2.0`
