@@ -8,7 +8,8 @@ The following changes are required if you are upgrading from the previous versio
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + Users of `ember-cli-styles-reloader` should uninstall (as this functionality is now included in ember-cli by default).
   + Update the following entries in your `package.json`:
-    * `ember-ajax` to `0.7.1`
+    * Remove `ember-cli-ic-ajax` (it is replaced by `ember-ajax`)
+    * Add `ember-ajax` at `0.7.1`
     * `ember-cli-dependency-checker` to `^1.2.0`
     * `ember-cli-sri` to `^1.2.0`
     * `ember-cli-qunit` to `^1.1.0`
