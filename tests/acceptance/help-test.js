@@ -657,7 +657,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
                 },
                 {
                   name: 'resource',
-                  description: 'Generates a model and route.',
+                  description: 'Generates a model, template, route, and registers the route with the router.',
                   availableOptions: [],
                   anonymousOptions: ['name'],
                   overridden: false
@@ -1243,7 +1243,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
       model-test \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a model unit test.\u001b[39m' + EOL + '\
       resource \u001b[33m<name>\u001b[39m' + EOL + '\
-        \u001b[90mGenerates a model and route.\u001b[39m' + EOL + '\
+        \u001b[90mGenerates a model, template, route, and registers the route with the router.\u001b[39m' + EOL + '\
       route \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a route and a template, and registers the route with the router.\u001b[39m' + EOL + '\
         \u001b[36m--path\u001b[39m \u001b[36m(Default: )\u001b[39m' + EOL + '\
