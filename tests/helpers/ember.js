@@ -46,7 +46,6 @@ module.exports = function ember(args, options) {
   var disableDependencyChecker = options && options.disableDependencyChecker || true;
   var inputStream  = [];
   var outputStream = [];
-  var errorStream  = [];
   var errorLog     = [];
 
   args.push('--disable-analytics');
@@ -55,7 +54,6 @@ module.exports = function ember(args, options) {
   cliInstance = cli({
     inputStream:  inputStream,
     outputStream: outputStream,
-    errorStream:  errorStream,
     errorLog:     errorLog,
     cliArgs:      args,
     Leek: MockAnalytics,
@@ -75,7 +73,6 @@ module.exports = function ember(args, options) {
         statusCode: statusCode,
         inputStream: inputStream,
         outputStream: outputStream,
-        errorStream: errorStream,
         errorLog: errorLog
      };
    }

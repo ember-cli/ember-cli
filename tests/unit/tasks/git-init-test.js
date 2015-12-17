@@ -9,21 +9,23 @@ var Promise     = require('../../../lib/ext/promise');
 var remove      = Promise.denodeify(fs.remove);
 var path        = require('path');
 var root        = process.cwd();
-var tmp         = require('tmp-sync');
+var mkTmpDirIn  = require('../../../lib/utilities/mk-tmp-dir-in');
 var tmproot     = path.join(root, 'tmp');
 
 describe('git-init', function() {
-  var subject, ui;
-  var tmpdir;
+  var subject, ui, tmpdir;
 
   beforeEach(function() {
-    tmpdir  = tmp.in(tmproot);
-    ui      = new MockUI();
-    subject = new GitInitTask({
-      ui: ui,
-      project: new MockProject()
+    return mkTmpDirIn(tmproot).then(function(dir){
+      tmpdir  = dir;
+      ui      = new MockUI();
+      subject = new GitInitTask({
+        ui: ui,
+        project: new MockProject()
+      });
+      process.chdir(tmpdir);  
     });
-    process.chdir(tmpdir);
+
   });
   
   afterEach(function() {

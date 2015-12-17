@@ -19,9 +19,6 @@ function MockUI(options) {
       this.output += data;
     }.bind(this)),
     errorStream: through(function(data) {
-      if (options && options.errorStream) {
-        options.errorStream.push(data);
-      }
       this.errors += data;
     }.bind(this))
   });
