@@ -6,7 +6,7 @@ var merge      = require('lodash/object/merge');
 var inflection = require('inflection');
 
 module.exports = {
-  description: 'Generates a model and route.',
+  description: 'Generates a model, template, route, and registers the route with the router.',
 
   install: function(options) {
     return this._process('install', options);
