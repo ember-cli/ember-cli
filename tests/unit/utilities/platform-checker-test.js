@@ -49,5 +49,7 @@ describe('platform-checker', function() {
 
   it('should return isValid for Node v5', function() {
     expect(new PlatformChecker('v5.0.0').isValid).to.be.equal(true);
+    expect(new PlatformChecker('v5.1.0').isValid).to.be.equal(true);
+    expect(new PlatformChecker('v5.99.0').isValid).to.be.equal(true);
   });
 });
