@@ -31,5 +31,11 @@ module.exports = {
         install: function() { }
       };
     };
+  },
+  safeRestore: function(obj, name) {
+    var value = obj[name];
+    if (value && value.restore) {
+      value.restore();
+    }
   }
 };

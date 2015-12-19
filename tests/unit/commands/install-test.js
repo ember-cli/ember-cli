@@ -1,13 +1,16 @@
 'use strict';
 
 var expect         = require('chai').expect;
-var stub           = require('../../helpers/stub').stub;
+var stub           = require('../../helpers/stub');
 var MockProject    = require('../../helpers/mock-project');
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
 var Promise        = require('../../../lib/ext/promise');
 var AddonInstall   = require('../../../lib/tasks/addon-install');
 var InstallCommand = require('../../../lib/commands/install');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('install command', function() {
   var generateBlueprintInstance, npmInstance;
@@ -73,8 +76,8 @@ describe('install command', function() {
   });
 
   afterEach(function() {
-    tasks.NpmInstall.prototype.run.restore();
-    tasks.GenerateFromBlueprint.prototype.run.restore();
+    safeRestore(tasks.NpmInstall.prototype, 'run');
+    safeRestore(tasks.GenerateFromBlueprint.prototype, 'run');
   });
 
   it('initializes npm install and generate blueprint task with ui, project and analytics', function() {

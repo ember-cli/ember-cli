@@ -3,9 +3,12 @@
 var expect         = require('chai').expect;
 var EOL            = require('os').EOL;
 var proxyquire     = require('proxyquire');
-var stub           = require('../../helpers/stub').stub;
+var stub           = require('../../helpers/stub');
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 var getPortStub;
 
@@ -38,7 +41,7 @@ describe('serve command', function() {
   });
 
   afterEach(function() {
-    tasks.Serve.prototype.run.restore();
+    safeRestore(tasks.Serve.prototype, 'run');
   });
 
   it('has correct options', function() {
