@@ -15,14 +15,15 @@ module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
   generatePackageJson: function() {
-    var packagePath = path.join(this._appBlueprint.path, 'files', 'package.json');
-    var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
+    var contents = readContentsFromFile.call(this, 'package.json');
 
     delete contents.private;
     contents.name = this.project.name();
     contents.description = this.description;
+    contents.scripts = contents.scripts || {};
     contents.keywords = contents.keywords || [];
     contents.dependencies = contents.dependencies || {};
+    contents.devDependencies = contents.devDependencies || {};
 
     // npm doesn't like it when we have something in both deps and devDeps
     // and dummy app still uses it when in deps
@@ -38,21 +39,23 @@ module.exports = {
 
     // add `ember-try` to addons by default
     contents.devDependencies['ember-try'] = '~0.0.8';
-    contents.scripts.test = "ember try:testall";
+    contents.scripts.test = 'ember try:testall';
 
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
-    fs.writeFileSync(path.join(this.path, 'files', 'package.json'), JSON.stringify(contents, null, 2));
+    // sort the dependencies like an `npm install` would
+    alphabetizeDependencies(contents);
+
+    writeContentsToFile.call(this, contents, 'package.json');
   },
 
   generateBowerJson: function() {
-    var bowerPath = path.join(this._appBlueprint.path, 'files', 'bower.json');
-    var contents  = JSON.parse(fs.readFileSync(bowerPath, { encoding: 'utf8' }));
+    var contents = readContentsFromFile.call(this, 'bower.json');
 
     contents.name = this.project.name();
 
-    fs.writeFileSync(path.join(this.path, 'files', 'bower.json'), JSON.stringify(contents, null, 2));
+    writeContentsToFile.call(this, contents, 'bower.json');
   },
 
   afterInstall: function() {
@@ -149,3 +152,25 @@ module.exports = {
     return entityName;
   }
 };
+
+function readContentsFromFile(fileName) {
+  var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
+  return JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
+}
+
+function alphabetizeDependencies(contents) {
+  contents.dependencies = alphabetizeObjectKeys(contents.dependencies);
+  contents.devDependencies = alphabetizeObjectKeys(contents.devDependencies);
+}
+
+function alphabetizeObjectKeys(unordered) {
+  var ordered = {};
+  Object.keys(unordered).sort().forEach(function(key) {
+    ordered[key] = unordered[key];
+  });
+  return ordered;
+}
+
+function writeContentsToFile(contents, fileName) {
+  fs.writeFileSync(path.join(this.path, 'files', fileName), JSON.stringify(contents, null, 2) + '\n');
+}
