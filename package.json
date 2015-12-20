@@ -86,7 +86,7 @@
     "glob": "5.0.13",
     "http-proxy": "^1.9.0",
     "inflection": "^1.7.0",
-    "inquirer": "0.5.1",
+    "inquirer": "0.11.1",
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^2.0.3",
     "leek": "0.0.21",
