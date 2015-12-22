@@ -6,7 +6,11 @@ node_js:
   - "iojs"
   - "4.2"
   - "5"
-
+  - "node"
+matrix:
+  allow_failures:
+    - node_js: "5"
+    - node_js: "node"
 os:
   - linux
 script: npm run-script test-all:cover
