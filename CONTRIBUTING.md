@@ -155,6 +155,10 @@ And in case we didn't emphasize it enough: **we love tests!**
 
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
 
+# Code Climate
+
+We can always use help improving our [Code Climate](https://codeclimate.com/github/ember-cli/ember-cli) score.
+
 # Docs
 
 Have you got enough knowledge in a specific feature and want to help with docs?
