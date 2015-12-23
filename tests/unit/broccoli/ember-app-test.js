@@ -261,7 +261,7 @@ describe('broccoli/ember-app', function() {
       it('includes the `meta` tag in `head` by default', function() {
         var escapedConfig = escape(JSON.stringify(config));
         var metaExpected = '<meta name="cool-foo/config/environment" ' +
-                           'data-module=true content="' + escapedConfig + '" />';
+                           'data-module="true" content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         expect(actual).to.contain(metaExpected);
@@ -272,7 +272,7 @@ describe('broccoli/ember-app', function() {
 
         var escapedConfig = escape(JSON.stringify(config));
         var metaExpected = '<meta name="cool-foo/config/environment" ' +
-                           'data-module=true content="' + escapedConfig + '" />';
+                           'data-module="true" content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         expect(actual).to.not.contain(metaExpected);
@@ -313,23 +313,21 @@ describe('broccoli/ember-app', function() {
       });
     });
 
-    describe('contentFor("config-module")', function() {
+    describe('contentFor("app-config")', function() {
       it('includes the raw config if storeConfigInMeta is false', function() {
         emberApp.options.storeConfigInMeta = false;
 
         var expected = JSON.stringify(config);
-        var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
+        var actual = emberApp.contentFor(config, defaultMatch, 'app-config');
 
         expect(actual).to.contain(expected);
       });
     });
 
     describe('contentFor("app-boot")', function() {
-      it('includes the meta gathering snippet by default', function() {
+      it('includes the meta module configs by default', function() {
         emberApp.options.autoRun = false;
-        var metaSnippetPath = path.join(__dirname, '..','..','..','lib','broccoli','modules-from-meta.js');
-        var expected = fs.readFileSync(metaSnippetPath);
-
+        var expected = 'require(\'~ember-cli/config-modules\');';
         var actual = emberApp.contentFor(config, defaultMatch, 'app-boot');
 
         expect(actual).to.contain(expected);
