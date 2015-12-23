@@ -224,7 +224,7 @@ describe('broccoli/ember-app', function() {
       it('includes the `meta` tag in `head` by default', function() {
         var escapedConfig = escape(JSON.stringify(config));
         var metaExpected = '<meta name="cool-foo/config/environment" ' +
-                           'data-module=true content="' + escapedConfig + '" />';
+                           'data-module="true" content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         expect(true, actual.indexOf(metaExpected) > -1);
@@ -235,7 +235,7 @@ describe('broccoli/ember-app', function() {
 
         var escapedConfig = escape(JSON.stringify(config));
         var metaExpected = '<meta name="cool-foo/config/environment" ' +
-                           'data-module=true content="' + escapedConfig + '" />';
+                           'data-module="true" content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         expect(true, actual.indexOf(metaExpected) === -1);
@@ -269,12 +269,12 @@ describe('broccoli/ember-app', function() {
       });
     });
 
-    describe('contentFor("config-module")', function() {
+    describe('contentFor("app-config")', function() {
       it('includes the raw config if storeConfigInMeta is false', function() {
         emberApp.options.storeConfigInMeta = false;
 
         var expected = JSON.stringify(config);
-        var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
+        var actual = emberApp.contentFor(config, defaultMatch, 'app-config');
 
         expect(true, actual.indexOf(expected) > -1);
       });

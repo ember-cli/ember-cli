@@ -101,7 +101,17 @@ describe('Acceptance: addon-smoke-test', function() {
         var indexPath = path.join('dist', 'index.html');
         var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
 
-        expect(contents).to.contain('"SOME AWESOME STUFF"');
+        expect(contents).to.contain('meta/tag/module');
+      });
+  });
+
+  it('can add modules via `{{content-for "head"}}`', function() {
+    return copyFixtureFiles('addon/content-for-head')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
       });
   });
 
