@@ -79,6 +79,14 @@ Example
 node tests/runner.js  tests/acceptance/addon-smoke-test-slow.js
 ```
 
+### Reusing test related npm + bower installs
+
+To prevent test trolling, the test caches for npm and bower are removed for each run.
+When trying to rapidly debug an issue disabling this can result in much faster test runs.
+
+For now, the easiest way to disable them is to comment out the following lines https://github.com/ember-cli/ember-cli/blob/664f7998142e8deb9806ca54472f44e8cec9dbcf/tests/runner.js#L13-L14
+
+
 ## Problems
 
 When running ember cli it could happen that a lack of file watches can occur. You will get an error message like:
