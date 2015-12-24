@@ -15,6 +15,7 @@ var conf       = require('../helpers/conf');
 var EOL        = require('os').EOL;
 
 describe('Acceptance: ember new', function() {
+  this.timeout(10000);
   before(conf.setup);
 
   after(conf.restore);
@@ -27,8 +28,6 @@ describe('Acceptance: ember new', function() {
   });
 
   afterEach(function() {
-    this.timeout(10000);
-
     return tmp.teardown('./tmp');
   });
 

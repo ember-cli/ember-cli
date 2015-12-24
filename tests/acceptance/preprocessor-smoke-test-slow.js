@@ -16,31 +16,27 @@ var cleanupRun          = acceptance.cleanupRun;
 var appName  = 'some-cool-app';
 
 describe('Acceptance: preprocessor-smoke-test', function() {
+  this.timeout(360000);
+
   before(function() {
-    this.timeout(360000);
     return createTestTargets(appName);
   });
 
   after(function() {
-    this.timeout(15000);
     return teardownTestTargets();
   });
 
   beforeEach(function() {
-    this.timeout(360000);
     return linkDependencies(appName);
   });
 
   afterEach(function() {
-    this.timeout(15000);
     return cleanupRun().then(function() {
       assertDirEmpty('tmp');
     });
   });
 
   it('addons with standard preprocessors compile correctly', function() {
-    this.timeout(100000);
-
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
@@ -68,8 +64,6 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   });
 
   it('addon registry entries are added in the proper order', function() {
-    this.timeout(100000);
-
     return copyFixtureFiles('preprocessor-tests/app-registry-ordering')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
@@ -94,8 +88,6 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   });
 
   it('addons without preprocessors compile correctly', function() {
-    this.timeout(100000);
-
     return copyFixtureFiles('preprocessor-tests/app-with-addon-without-preprocessors')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
@@ -130,8 +122,6 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       |-- preprocessor should not apply to this
   */
   it('addons depending on preprocessor addon preprocesses addon but not app', function() {
-    this.timeout(100000);
-
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-2')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
@@ -169,8 +159,6 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       |-- preprocessor should not apply to this
   */
   it('addon N levels deep depending on preprocessor preprocesses that parent addon only', function() {
-    this.timeout(100000);
-
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-3')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
