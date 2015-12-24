@@ -9,6 +9,7 @@
   },
   "scripts": {
     "docs": "node bin/generate-docs.js",
+    "jshint": "mocha tests/unit/jshint-test",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner",
     "test-all": "node tests/runner all",
