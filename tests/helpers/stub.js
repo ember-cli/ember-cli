@@ -10,7 +10,7 @@ module.exports = {
       return shouldInvoke ? value.apply(this, arguments) : value;
     };
 
-    obj[name].restore = function() {
+    obj[name]._restore = function() {
       obj[name] = original;
     };
 
@@ -34,8 +34,8 @@ module.exports = {
   },
   safeRestore: function(obj, name) {
     var value = obj[name];
-    if (value && value.restore) {
-      value.restore();
+    if (value && value._restore) {
+      value._restore();
     }
   }
 };
