@@ -30,7 +30,6 @@ stub = stub.stub;
 var existsSyncStub;
 var readdirSyncStub;
 var readFileSyncStub;
-var printCommandStub;
 var Blueprint = proxyquire('../../../lib/models/blueprint', {
   'exists-sync': function() {
     return existsSyncStub.apply(this, arguments);
@@ -42,9 +41,6 @@ var Blueprint = proxyquire('../../../lib/models/blueprint', {
     readFileSync: function() {
       return readFileSyncStub.apply(this, arguments);
     }
-  },
-  '../utilities/print-command': function() {
-    return printCommandStub.apply(this, arguments);
   }
 });
 
@@ -275,16 +271,8 @@ describe('Blueprint', function() {
     });
 
     describe('printBasicHelp', function() {
-      var printCommandStubWasCalled;
-      var printCommandStubArguments;
-
       beforeEach(function() {
-        printCommandStubWasCalled = false;
-        printCommandStub = function() {
-          printCommandStubWasCalled = true;
-          printCommandStubArguments = arguments;
-          return ' command printed';
-        };
+        stub(blueprint, '_printCommand', ' command printed');
         stub(blueprint, 'printDetailedHelp', 'help in detail');
       });
 
@@ -303,7 +291,7 @@ describe('Blueprint', function() {
       \u001b[90m(overridden) my-blueprint\u001b[39m');
 
         expect(output).to.equal(testString);
-        expect(printCommandStubWasCalled).to.be.false;
+        expect(blueprint._printCommand.called).to.equal(0);
       });
 
       it('calls printCommand', function() {
@@ -313,9 +301,9 @@ describe('Blueprint', function() {
       my-blueprint command printed');
 
         expect(output).to.equal(testString);
-        expect(printCommandStubWasCalled).to.be.true;
-        expect(printCommandStubArguments[0]).to.equal('      ');
-        expect(printCommandStubArguments[1]).to.be.true;
+        expect(blueprint._printCommand.called).to.equal(1);
+        expect(blueprint._printCommand.calledWith[0][0]).to.equal('      ');
+        expect(blueprint._printCommand.calledWith[0][1]).to.be.true;
       });
 
       it('prints detailed help if verbose', function() {
