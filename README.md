@@ -70,13 +70,13 @@ Please read the official [mocha documentation](http://mochajs.org/) for more inf
 ### Running specific tests
 
 ```sh
-node tests/runner.js  path/to/test/file path/to/other/test/file
+node tests/runner.js path/to/test/file path/to/other/test/file
 ```
 
 Example
 
 ```sh
-node tests/runner.js  tests/acceptance/addon-smoke-test-slow.js
+node tests/runner.js tests/acceptance/addon-smoke-test-slow.js
 ```
 
 ### Reusing test related npm + bower installs
