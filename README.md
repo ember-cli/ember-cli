@@ -79,6 +79,12 @@ Example
 node tests/runner.js  tests/acceptance/addon-smoke-test-slow.js
 ```
 
+### Running JSHint only
+
+```sh
+npm run jshint
+```
+
 ### Reusing test related npm + bower installs
 
 To prevent test trolling, the test caches for npm and bower are removed for each run.
