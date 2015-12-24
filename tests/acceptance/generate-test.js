@@ -21,7 +21,7 @@ var MockUI             = require('../helpers/mock-ui');
 var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
 
 describe('Acceptance: ember generate', function() {
-  this.timeout(10000);
+  this.timeout(20000);
 
   var tmpdir;
 

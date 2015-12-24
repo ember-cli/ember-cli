@@ -21,7 +21,8 @@ var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
 
 describe('Acceptance: ember generate pod', function() {
-  this.timeout(5000);
+  this.timeout(20000);
+
   var tmpdir;
 
   before(function() {
