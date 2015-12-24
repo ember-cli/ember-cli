@@ -67,6 +67,18 @@ The default test suite includes JSHint or it can be run on it's own with `npm te
 
 Please read the official [mocha documentation](http://mochajs.org/) for more information.
 
+### Running specific tests
+
+```sh
+node tests/runner.js  path/to/test/file path/to/other/test/file
+```
+
+Example
+
+```sh
+node tests/runner.js  tests/acceptance/addon-smoke-test-slow.js
+```
+
 ## Problems
 
 When running ember cli it could happen that a lack of file watches can occur. You will get an error message like:
