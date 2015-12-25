@@ -1,11 +1,14 @@
 'use strict';
 /*jshint expr: true*/
 
-var expect         = require('chai').expect;
-var commandOptions = require('../../factories/command-options');
-var Command        = require('../../../lib/models/command');
-var assign         = require('lodash/object/assign');
-var Yam            = require('yam');
+var expect            = require('chai').expect;
+var commandOptions    = require('../../factories/command-options');
+var stub              = require('../../helpers/stub').stub;
+var processHelpString = require('../../helpers/process-help-string');
+var Command           = require('../../../lib/models/command');
+var assign            = require('lodash/object/assign');
+var Yam               = require('yam');
+var EOL               = require('os').EOL;
 
 var ServeCommand = Command.extend({
   name: 'serve',
@@ -519,6 +522,96 @@ describe('models/command.js', function() {
         spicy: false
       },
       args: []
+    });
+  });
+
+  describe('help', function() {
+    var command;
+
+    beforeEach(function() {
+      // this should be changed to new Command(), but needs more mocking
+      command = new ServeCommand(options);
+    });
+
+    describe('printBasicHelp', function() {
+      beforeEach(function() {
+        stub(command, '_printCommand', ' command printed');
+      });
+
+      it('calls printCommand', function() {
+        var output = command.printBasicHelp();
+
+        var testString = processHelpString('ember serve command printed' + EOL);
+
+        expect(output).to.equal(testString);
+        expect(command._printCommand.called).to.equal(1);
+        expect(command._printCommand.calledWith[0][0]).to.be.falsy;
+        expect(command._printCommand.calledWith[0][1]).to.be.falsy;
+      });
+
+      it('is root', function() {
+        command.isRoot = true;
+
+        var output = command.printBasicHelp();
+
+        var testString = processHelpString('Usage: serve command printed' + EOL);
+
+        expect(output).to.equal(testString);
+      });
+    });
+
+    describe('printDetailedHelp', function() {
+      it('has no-op function', function() {
+        var output = command.printDetailedHelp();
+
+        expect(output).to.be.undefined;
+      });
+    });
+
+    describe('getJson', function() {
+      it('handles all possible options', function() {
+        var availableOptions = [
+          {
+            type: 'my-string-type',
+            showAnything: true
+          }
+        ];
+
+        assign(command, {
+          description: 'a paragraph',
+          availableOptions: availableOptions,
+          anonymousOptions: ['anon-test'],
+          dontShowThis: true
+        });
+
+        var json = command.getJson();
+
+        expect(json).to.deep.equal({
+          name: 'serve',
+          description: 'a paragraph',
+          aliases: ['server', 's'],
+          availableOptions: [
+            {
+              type: 'my-string-type',
+              showAnything: true
+            }
+          ],
+          anonymousOptions: ['anon-test'],
+          works: 'insideProject'
+        });
+      });
+
+      it('calls detailed json', function() {
+        stub(command, 'addAdditionalJsonForHelp');
+
+        var options = {};
+
+        var json = command.getJson(options);
+
+        expect(command.addAdditionalJsonForHelp.called).to.equal(1);
+        expect(command.addAdditionalJsonForHelp.calledWith[0][0]).to.equal(json);
+        expect(command.addAdditionalJsonForHelp.calledWith[0][1]).to.equal(options);
+      });
     });
   });
 });
