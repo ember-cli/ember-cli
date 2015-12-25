@@ -57,6 +57,26 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(bowerContents.name).to.equal(addonName);
   });
 
+  it('can add modules via `{{content-for "head"}}`', function() {
+    return copyFixtureFiles('addon/content-for-head')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
+  it('ember addon with addon-test-support directory', function() {
+    return copyFixtureFiles('addon/with-addon-test-support')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
   it('ember addon foo, clean from scratch', function() {
     return ember(['test']);
   });
@@ -92,29 +112,6 @@ describe('Acceptance: addon-smoke-test', function() {
       });
   });
 
-  it('can add things to `{{content-for "head"}}` section', function() {
-    return copyFixtureFiles('addon/content-for-head')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var indexPath = path.join('dist', 'index.html');
-        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-
-        expect(contents).to.contain('meta/tag/module');
-      });
-  });
-
-  it('can add modules via `{{content-for "head"}}`', function() {
-    return copyFixtureFiles('addon/content-for-head')
-      .then(function() {
-        return ember(['test']);
-      })
-      .then(function(result) {
-        expect(result.exitCode).to.eql(0);
-      });
-  });
-
   it('build with only pod templates', function() {
     return copyFixtureFiles('addon/pod-templates-only')
       .then(function() {
@@ -144,16 +141,6 @@ describe('Acceptance: addon-smoke-test', function() {
         var contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
 
         expect(contents).to.contain('addon/styles/app.css is present');
-      });
-  });
-
-  it('ember addon with addon-test-support directory', function() {
-    return copyFixtureFiles('addon/with-addon-test-support')
-      .then(function() {
-        return ember(['test']);
-      })
-      .then(function(result) {
-        expect(result.exitCode).to.eql(0);
       });
   });
 
