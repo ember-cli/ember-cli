@@ -18,8 +18,7 @@ STEPS:
 * `./bin/prepare-release`
 * `cd to/someplace/to/test/`
 * ensure `ember version` is the newly packaged version
-* ensure new project generation works  `ember new my-cool-test-project`
-  this will fail with: `version not found: ember-cli@version`
+* ensure new project generation works  `ember new --skip-npm my-cool-test-project`
 * fixup deps: `cd my-cool-test-project`
 * link your local ember-cli  `npm link ember-cli`
 * install other deps: `npm i && bower i`
