@@ -6,10 +6,12 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v2.2.0-beta.2)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + `ember-cli-content-security-policy` has been removed from the default project blueprint due to extremely poor ergonomics. If the addon is working well for you,
     please continue to use it.
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.13...v2.2.0-beta.2)
   + No changes required
 - Core Contributors
   + No changes required
