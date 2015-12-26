@@ -1,7 +1,9 @@
-'use strict';
 /*jshint expr: true*/
 
+'use strict';
+
 var expect            = require('chai').expect;
+var proxyquire        = require('proxyquire');
 var commandOptions    = require('../../factories/command-options');
 var stub              = require('../../helpers/stub').stub;
 var processHelpString = require('../../helpers/process-help-string');
@@ -9,6 +11,17 @@ var Command           = require('../../../lib/models/command');
 var assign            = require('lodash/object/assign');
 var Yam               = require('yam');
 var EOL               = require('os').EOL;
+
+var forEachWithPropertyStub;
+var Command = proxyquire('../../../lib/models/command', {
+  '../utilities/printable-properties': {
+    command: {
+      forEachWithProperty: function() {
+        return forEachWithPropertyStub.apply(this, arguments);
+      }
+    }
+  }
+});
 
 var ServeCommand = Command.extend({
   name: 'serve',
@@ -569,35 +582,23 @@ describe('models/command.js', function() {
     });
 
     describe('getJson', function() {
-      it('handles all possible options', function() {
-        var availableOptions = [
-          {
-            type: 'my-string-type',
-            showAnything: true
-          }
-        ];
+      beforeEach(function() {
+        forEachWithPropertyStub = function(forEach, context) {
+          ['test1', 'test2'].forEach(forEach, context);
+        };
+      });
 
+      it('iterates options', function() {
         assign(command, {
-          description: 'a paragraph',
-          availableOptions: availableOptions,
-          anonymousOptions: ['anon-test'],
-          dontShowThis: true
+          test1: 'a test',
+          test2: 'another test'
         });
 
         var json = command.getJson();
 
         expect(json).to.deep.equal({
-          name: 'serve',
-          description: 'a paragraph',
-          aliases: ['server', 's'],
-          availableOptions: [
-            {
-              type: 'my-string-type',
-              showAnything: true
-            }
-          ],
-          anonymousOptions: ['anon-test'],
-          works: 'insideProject'
+          test1: 'a test',
+          test2: 'another test'
         });
       });
 
