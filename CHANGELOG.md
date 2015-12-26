@@ -1,5 +1,36 @@
 # ember-cli Changelog
 
+### 2.2.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + `ember-cli-content-security-policy` has been removed from the default project blueprint due to extremely poor ergonomics. If the addon is working well for you,
+    please continue to use it.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5247](https://github.com/ember-cli/ember-cli/pull/5247) Unfortunately remove `ember-cli-content-security-policy` from the default blueprint. [@stefanpenner](https://github.com/stefanpenner)
+- [#5215](https://github.com/ember-cli/ember-cli/pull/5215) Fix CHANGELOG for ember-cli-qunit version. [@rwjblue](https://github.com/rwjblue)
+- [#4981](https://github.com/ember-cli/ember-cli/pull/4981) Alphabetize the keys in dependencies and devDependencies (for addon creation). [@kellyselden](https://github.com/kellyselden)
+- [#5181](https://github.com/ember-cli/ember-cli/pull/5181) Cleanup platform checker warning to make it clear when a given platform is deprecated or just untested. [@stefanpenner](https://github.com/stefanpenner)
+- [#5252](https://github.com/ember-cli/ember-cli/pull/5252) Deprecate the usage of `app-prefix` and `app-suffix` `contentFor` hooks. [@nathanhammond](https://github.com/nathanhammond)
+- [#5232](https://github.com/ember-cli/ember-cli/pull/5232) Update generate resource documentation [@johnotander](https://github.com/johnotander)
+- [#5221](https://github.com/ember-cli/ember-cli/pull/5221) Replace `broccoli-sourcemap-concat` with `broccoli-concat` (the projects have been merged). [@stefanpenner](https://github.com/stefanpenner)
+- [#5220](https://github.com/ember-cli/ember-cli/pull/5220) Fix instance-initializer-test blueprint. [@rwjblue](https://github.com/rwjblue)
+- [#5230](https://github.com/ember-cli/ember-cli/pull/5230) Helper Unit test should pass a params array as first argument [@stefanpenner](https://github.com/stefanpenner)
+- [#5241](https://github.com/ember-cli/ember-cli/pull/5241) Fix test server file serving (ensures static assets are found properly). [@stefanpenner](https://github.com/stefanpenner)
+- [#5254](https://github.com/ember-cli/ember-cli/pull/5254) Update to Testem v1.0.0-rc1. [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#5254](https://github.com/ember-cli/ember-cli/pull/5254) Detect global errors (i.e. parse errors from `assets/vendor.js`) when running `ember test` or `ember test --server`. [@johanneswuerbach](https://github.com/johanneswuerbach)
+
+Thank you to all who took the time to contribute!
+
 ### 2.2.0-beta.1
 
 The following changes are required if you are upgrading from the previous version:
