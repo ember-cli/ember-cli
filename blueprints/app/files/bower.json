@@ -3,7 +3,7 @@
   "dependencies": {
     "ember": "2.2.0",
     "ember-cli-shims": "0.0.6",
-    "ember-cli-test-loader": "0.2.1",
+    "ember-cli-test-loader": "0.2.2",
     "ember-data": "^2.2.1",
     "ember-load-initializers": "0.1.7",
     "ember-qunit-notifications": "0.1.0",
