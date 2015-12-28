@@ -164,7 +164,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--blueprint=https://github.com/trek/app-blueprint-test.git'
+      '--blueprint=https://github.com/ember-cli/app-blueprint-test.git'
     ]).then(function() {
       expect(existsSync('.ember-cli'));
     });
