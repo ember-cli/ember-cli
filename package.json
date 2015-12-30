@@ -81,6 +81,7 @@
     "fs-extra": "0.26.2",
     "fs-monitor-stack": "^1.0.2",
     "fs-tree-diff": "^0.4.4",
+    "get-caller-file": "^1.0.0",
     "git-repo-info": "^1.0.4",
     "glob": "5.0.13",
     "http-proxy": "^1.9.0",
