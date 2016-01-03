@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+### 2.2.0-beta.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Update `ember-cli-sri` to `^2.0.0`.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5271](https://github.com/ember-cli/ember-cli/pull/5271) Update ember-cli-test-loader to 0.2.2. [@rwjblue](https://github.com/rwjblue)
+- [#5274](https://github.com/ember-cli/ember-cli/pull/5274) Fix the order of  test files to append [@bitaculous](https://github.com/bitaculous)
+- [#5278](https://github.com/ember-cli/ember-cli/pull/5278) Replace broccoli-sourcemap-concat usage with broccoli-concat. [@ballPointPenguin](https://github.com/ballPointPenguin)
+- [#5286](https://github.com/ember-cli/ember-cli/pull/5286) Update `ember-cli-sri` minimum version to 2.0.0 [@jonathanKingston](https://github.com/jonathanKingston)
+- [#5298](https://github.com/ember-cli/ember-cli/pull/5298) [INTERNAL] Update minimum Testem version to 1.0.0-rc.4. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ### 2.2.0-beta.2
 
 The following changes are required if you are upgrading from the previous
