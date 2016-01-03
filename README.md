@@ -130,6 +130,10 @@ Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it
 
 [See `CONTRIBUTING.md`](https://github.com/ember-cli/ember-cli/blob/master/CONTRIBUTING.md)
 
+## Changelog
+
+http://ember-cli.com#changelog
+
 ## Upgrading
 
 * [Change history of new Ember-CLI apps](https://github.com/kellyselden/ember-cli-output)
