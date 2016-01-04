@@ -40,6 +40,17 @@ Think you've found a bug or have a new feature to suggest? Let us know!
 The more information you provide, the easier it is for us to validate that
 there is a bug and the faster we'll be able to take action.
 
+Be sure to include (At the very least):
+
+* OS
+* npm veresion
+* ember version
+* clear steps to reproduction
+
+And ideally
+
+* a isolated demonstration of this issue as a github repo
+
 ## Requesting a Feature
 
 1. Search Issues for similar feature requests. It's possible somebody has
