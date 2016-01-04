@@ -53,6 +53,11 @@ And ideally
 
 ## Requesting a Feature
 
+Feature requests are handled via https://github.com/ember-cli/rfcs
+
+* issues are eargley stage requests/proposals
+* rfcs as pull requests are for fleshing out details
+
 1. Search Issues for similar feature requests. It's possible somebody has
    already asked for this feature or provided a pull request that we're still
    discussing.
