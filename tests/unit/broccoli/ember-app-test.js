@@ -97,6 +97,31 @@ describe('broccoli/ember-app', function() {
       });
     });
 
+    it('should not override custom css config if it was configured', function() {
+      var app = new EmberApp({
+        project: project
+      });
+
+      // testing the current behavior
+      expect(app.options.outputPaths.app.css).to.deep.equal({app: '/assets/test-project.css'});
+
+      var customCssConfig = {
+        'theme-one': '/assets/theme-one.css',
+        'theme-two': '/assets/theme-two.css',
+      };
+
+      app = new EmberApp({
+        outputPaths: {
+          app: {
+            css: customCssConfig
+          }
+        }
+      });
+
+      expect(app.options.outputPaths.app.css).to.not.have.property('app');
+      expect(app.options.outputPaths.app.css).to.deep.equal(customCssConfig);
+    });
+
     it('should do the right thing when merging default object options', function() {
       var app = new EmberApp({
         project: project,
