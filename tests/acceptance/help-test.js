@@ -197,6 +197,7 @@ ember test \u001b[36m<options...>\u001b[39m' + EOL + '\
   \u001b[36m--launch\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: false)\u001b[39m A comma separated list of browsers to launch for tests.' + EOL + '\
   \u001b[36m--reporter\u001b[39m \u001b[36m(String)\u001b[39m Test reporter to use [tap|dot|xunit]' + EOL + '\
     \u001b[90maliases: -r <value>\u001b[39m' + EOL + '\
+  \u001b[36m--silent\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Suppress any output except for the test report' + EOL + '\
   \u001b[36m--test-page\u001b[39m \u001b[36m(String)\u001b[39m Test page to invoke' + EOL + '\
   \u001b[36m--path\u001b[39m \u001b[36m(String)\u001b[39m Reuse an existing build at given path.' + EOL + '\
   \u001b[36m--query\u001b[39m \u001b[36m(String)\u001b[39m A query string to append to the test page URL.' + EOL + '\
@@ -1126,6 +1127,13 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
               description: 'Test reporter to use [tap|dot|xunit]',
               aliases: ['r'],
               key: 'reporter',
+              required: false
+            },
+            {
+              name: 'silent',
+              default: false,
+              description: 'Suppress any output except for the test report',
+              key: 'silent',
               required: false
             },
             {
