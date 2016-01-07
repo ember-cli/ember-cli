@@ -169,6 +169,24 @@ at: https://github.com/ember-cli/ember-cli.github.io
 
 And in case we didn't emphasize it enough: **we love tests!**
 
+#### Testing
+
+Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run-script
+test-all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
+with a test, write your test and add `.only` to it's `describe` or `it` block. E.g.
+
+```javascript
+describe.only("My new feature", function() {
+  it("is neat", function() {
+    //...
+  });
+});
+```
+
+Then simply run `npm test` for your test to run. If the test(s) pass and you are happy with the
+result, remove the `.only` and run the whole suite again, in order to make sure that you didn't
+break anything.
+
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
 
 # Code Climate
