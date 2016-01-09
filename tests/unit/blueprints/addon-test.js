@@ -127,7 +127,7 @@ describe('blueprint - addon', function() {
   ],\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
-    "ember-disable-prototype-extensions": "^1.0.0",\n\
+    "ember-disable-prototype-extensions": "^1.1.0",\n\
     "ember-try": "~0.0.8"\n\
   },\n\
   "ember-addon": {\n\
@@ -224,7 +224,7 @@ describe('blueprint - addon', function() {
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
-        expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.0.0');
+        expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.0');
       });
 
       it('overwrites any version of `ember-try`', function() {
