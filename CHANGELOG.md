@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+### 2.2.0-beta.4
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5291](https://github.com/ember-cli/ember-cli/pull/5291) getCallerFile now comes from its own node_module [@stefanpenner](https://github.com/stefanpenner)
+- [#5312](https://github.com/ember-cli/ember-cli/pull/5312) Add information about testing new features/bugfixes to the contributing.md file [@ohcibi](https://github.com/ohcibi)
+- [#5313](https://github.com/ember-cli/ember-cli/pull/5313) Add missing `--silent` option to the output of `ember test --help` [@ohcibi](https://github.com/ohcibi)
+- [#5327](https://github.com/ember-cli/ember-cli/pull/5327) [BUGFIX release] pin jQuery version [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
+
 ### 2.2.0-beta.3
 
 The following changes are required if you are upgrading from the previous
