@@ -13,6 +13,7 @@ var root       = process.cwd();
 var util       = require('util');
 var conf       = require('../helpers/conf');
 var EOL        = require('os').EOL;
+var assertFile = require('../helpers/assert-file');
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
@@ -168,6 +169,43 @@ describe('Acceptance: ember new', function() {
     ]).then(function() {
       expect(existsSync('.ember-cli'));
     });
+  });
+
+  it('ember new passes blueprint options through to blueprint', function() {
+    return tmp.setup('./tmp/my_blueprint')
+      .then(function() {
+        return tmp.setup('./tmp/my_blueprint/files');
+      })
+      .then(function() {
+        fs.writeFileSync('./tmp/my_blueprint/index.js', [
+            'module.exports = {',
+            '  availableOptions: [ { name: \'custom-option\' } ],',
+            '  locals: function(options) {',
+            '    return {',
+            '      customOption: options.customOption',
+            '    };',
+            '  }',
+            '};'
+        ].join('\n'));
+        fs.writeFileSync('./tmp/my_blueprint/files/gitignore', '<%= customOption %>');
+
+        process.chdir('./tmp');
+
+        return ember([
+          'new',
+          'foo',
+          '--skip-npm',
+          '--skip-bower',
+          '--skip-git',
+          '--blueprint=./my_blueprint',
+          '--custom-option=customValue'
+        ]);
+      })
+      .then(function() {
+        assertFile('.gitignore', {
+          contains: 'customValue'
+        });
+      });
   });
 
   it('ember new without skip-git flag creates .git dir', function(){

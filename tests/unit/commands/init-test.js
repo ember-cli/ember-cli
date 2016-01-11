@@ -4,12 +4,18 @@ var fs            = require('fs');
 var os            = require('os');
 var path          = require('path');
 var expect        = require('chai').expect;
+var pluck         = require('lodash/collection/pluck');
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
+var stub          = require('../../helpers/stub');
 var Promise       = require('../../../lib/ext/promise');
+var Blueprint     = require('../../../lib/models/blueprint');
 var Project       = require('../../../lib/models/project');
 var Task          = require('../../../lib/models/task');
 var InitCommand   = require('../../../lib/commands/init');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('init command', function() {
   var ui, analytics, tasks, command;
@@ -196,6 +202,43 @@ describe('init command', function() {
     buildCommand({ keywords: ['ember-addon'], name: 'some-random-name' });
 
     return command.validateAndRun(['--name=provided-name'])
+      .catch(function(reason) {
+        expect(reason).to.equal('Called run');
+      });
+  });
+
+  it('Registers blueprint options in beforeRun', function() {
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('app');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
+
+    try {
+      buildCommand();
+
+      command.beforeRun(['app']);
+      expect(pluck(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
+    } finally {
+      safeRestore(Blueprint, 'lookup');
+    }
+  });
+
+  it('Passes command options through to the install blueprint task', function() {
+    tasks.InstallBlueprint = Task.extend({
+      run: function(blueprintOpts) {
+        expect(blueprintOpts).to.contain.keys('customOption');
+        expect(blueprintOpts.customOption).to.equal('customValue');
+        return Promise.reject('Called run');
+      }
+    });
+
+    buildCommand();
+
+    return command.validateAndRun(['--custom-option=customValue'])
       .catch(function(reason) {
         expect(reason).to.equal('Called run');
       });
