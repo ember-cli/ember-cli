@@ -31,6 +31,10 @@ describe('new command', function() {
     command = new NewCommand(options);
   });
 
+  afterEach(function() {
+    safeRestore(Blueprint, 'lookup');
+  });
+
   it('doesn\'t allow to create an application named `test`', function() {
     return command.validateAndRun(['test']).then(function() {
       expect(false, 'should have rejected with an application name of test');
@@ -113,12 +117,8 @@ describe('new command', function() {
       };
     }, true);
 
-    try {
-      command.beforeRun(['app']);
-      expect(pluck(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
-    } finally {
-      safeRestore(Blueprint, 'lookup');
-    }
+    command.beforeRun(['app']);
+    expect(pluck(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
   });
 
   it('passes command options through to init command', function() {
@@ -147,8 +147,6 @@ describe('new command', function() {
 
     return command.validateAndRun(['foo', '--custom-option=customValue']).then(function(reason) {
       expect(reason).to.equal('Called run');
-    }).finally(function() {
-      safeRestore(Blueprint, 'lookup');
     });
   });
 });

@@ -30,6 +30,10 @@ describe('init command', function() {
     };
   });
 
+  afterEach(function() {
+    safeRestore(Blueprint, 'lookup');
+  });
+
   function buildCommand(projectOpts) {
     var options = {
       ui: ui,
@@ -217,14 +221,10 @@ describe('init command', function() {
       };
     }, true);
 
-    try {
-      buildCommand();
+    buildCommand();
 
-      command.beforeRun(['app']);
-      expect(pluck(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
-    } finally {
-      safeRestore(Blueprint, 'lookup');
-    }
+    command.beforeRun(['app']);
+    expect(pluck(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
   });
 
   it('Passes command options through to the install blueprint task', function() {
