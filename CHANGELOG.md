@@ -1,5 +1,23 @@
 # ember-cli Changelog
 
+### 1.13.14
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + default jQuery.js version is now locked at  `1.11.3`
+- Addon Developers
+  + app-prefix and app-suffix have been deprecated, addons will need to move away from them.
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+ - [#5327](https://github.com/ember-cli/ember-cli/pull/5327) [BUGFIX release] pin jQuery version [@stefanpenner](https://github.com/stefanpenner)
+ - [#5245](https://github.com/ember-cli/ember-cli/pull/5245) Deprecate app-prefix and app-suffix. [@nathanhammond](https://github.com/nathanhammond)
+ - [#5251](https://github.com/ember-cli/ember-cli/pull/5251) [BUGFIX] ensure we stat the symlink target, not the symlink (fixes tests/index.html not updating) [@stefanpenner](https://github.com/stefanpenner)
+
 ### 1.13.13
 
 The following changes are required if you are upgrading from the previous
