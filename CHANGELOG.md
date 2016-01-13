@@ -2,7 +2,7 @@
 
 ### 2.2.0-beta.6
 
-Re-releaing 2.2.0-beta.5, but without the line-ending issue.
+Re-releasing 2.2.0-beta.5, but without the line-ending issue.
 
 The following changes are required if you are upgrading from the previous
 version:
