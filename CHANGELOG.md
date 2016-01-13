@@ -1,5 +1,21 @@
 # ember-cli Changelog
 
+### 2.2.0-beta.6
+
+Re-releaing 2.2.0-beta.5, but without the line-ending issue.
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+Thank you to all who took the time to contribute!
+
 ### 2.2.0-beta.5
 
 The following changes are required if you are upgrading from the previous
