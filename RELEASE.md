@@ -38,7 +38,10 @@ and failures we do not want our users to endure any extra pain.
 * `git tag "vx.y.z"`
 * `git push origin <vx.y.z>`
 * publish to npm
-* `npm publish ./ember-cli-<version>.tgz`
+  * if normal release
+    * `npm publish ./ember-cli-<version>.tgz`
+  * if beta release
+    * `npm publish ./ember-cli-<version>.tgz` --tag beta
 
 Test published version
 
