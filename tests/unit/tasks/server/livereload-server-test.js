@@ -331,6 +331,25 @@ describe('livereload-server', function() {
 
         expect(reloadedFiles).to.deep.equal(expectedResult);
       });
+
+      it('triggers livereload with "LiveReload files" if no results.directory was provided', function() {
+        var changedOptions;
+        subject.liveReloadServer = function() {
+          return {
+            changed: function(options) {
+              changedOptions = options;
+            }
+          };
+        };
+
+        subject.didChange({});
+
+        expect(changedOptions).to.deep.equal({
+          body: {
+            files: ['LiveReload files']
+          }
+        });
+      });
     });
   });
 });
