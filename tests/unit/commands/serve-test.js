@@ -84,6 +84,25 @@ describe('serve command', function() {
     });
   });
 
+  it('has correct liveLoadHost (default)', function() {
+    var getPortOpts;
+    getPortStub = function(options, callback) {
+      getPortOpts = options;
+      callback(null, 49152);
+    };
+
+    return command.validateAndRun([
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var runOps = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(getPortOpts.host).to.equal('localhost', 'gets a port based on the liveReload host');
+      expect(runOps.liveReloadHost).to.equal('localhost', 'has correct liveReload host');
+    });
+  });
+
   it('has correct liveLoadHost', function() {
     var getPortOpts;
     getPortStub = function(options, callback) {
