@@ -8,4 +8,5 @@ npm link --no-optional && \
 npm pack && \
 du -sh ./ember-cli-*.tgz && \
 npm uninstall -g ember-cli && \
-npm i -g ./ember-cli-*.tgz
+package=(./ember-cli-*.tgz) && \
+npm i -g $package
