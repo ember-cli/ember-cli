@@ -1,8 +1,6 @@
 /node_modules
 npm-debug.log
 tmp*
-_posts
-_site
 common-tmp
 *.tgz
 /docs/build
