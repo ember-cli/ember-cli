@@ -1,0 +1,7 @@
+# force unix line endings on all files, needed for Windows npm publishing
+# https://github.com/ember-cli/ember-cli/issues/5342
+# this may be a temporary solution, as it may affect the dev flow for Windows
+# contributors that aren't npm publishers
+# another solution may be https://www.npmjs.com/package/npm-text-auto
+* text eol=lf
+*.png binary
