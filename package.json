@@ -8,7 +8,7 @@
     "ember": "./bin/ember"
   },
   "scripts": {
-    "docs": "node bin/generate-docs.js",
+    "docs": "node dev/generate-docs.js",
     "jshint": "mocha tests/unit/jshint-test",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner",
