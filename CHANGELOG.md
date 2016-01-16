@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+### 1.13.15
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.14...v1.13.15)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.14...v1.13.15)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5338](https://github.com/ember-cli/ember-cli/pull/5338) 1 13 testem bump [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#5351](https://github.com/ember-cli/ember-cli/pull/5351) Bump ember to 1.13.12 [@san650](https://github.com/san650)
+
+Thank you to all who took the time to contribute!
+
 ### 1.13.14
 
 The following changes are required if you are upgrading from the previous
