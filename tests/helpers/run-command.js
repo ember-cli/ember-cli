@@ -4,7 +4,7 @@ var RSVP           = require('rsvp');
 var Promise        = require('../../lib/ext/promise');
 var chalk          = require('chalk');
 var spawn          = require('child_process').spawn;
-var defaults       = require('lodash/object/defaults');
+var defaults       = require('lodash/defaults');
 var killCliProcess = require('./kill-cli-process');
 var logOnFailure   = require('./log-on-failure');
 

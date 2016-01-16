@@ -8,7 +8,7 @@ var commandOptions    = require('../../factories/command-options');
 var stub              = require('../../helpers/stub').stub;
 var processHelpString = require('../../helpers/process-help-string');
 var Command           = require('../../../lib/models/command');
-var assign            = require('lodash/object/assign');
+var assign            = require('lodash/assign');
 var Yam               = require('yam');
 var EOL               = require('os').EOL;
 

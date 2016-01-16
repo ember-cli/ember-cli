@@ -5,7 +5,7 @@ var existsSync  = require('exists-sync');
 var path        = require('path');
 var walkSync    = require('walk-sync');
 var stringUtil  = require('ember-cli-string-utils');
-var uniq        = require('lodash/array/uniq');
+var uniq        = require('lodash/uniq');
 var SilentError = require('silent-error');
 var date        = new Date();
 

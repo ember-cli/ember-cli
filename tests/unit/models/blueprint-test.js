@@ -21,7 +21,7 @@ var stub              = require('../../helpers/stub');
 var proxyquire        = require('proxyquire');
 var existsSync        = require('exists-sync');
 var MarkdownColor     = require('../../../lib/utilities/markdown-color');
-var assign            = require('lodash/object/assign');
+var assign            = require('lodash/assign');
 var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
 
 var safeRestore = stub.safeRestore;
