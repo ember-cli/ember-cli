@@ -30,6 +30,7 @@ stub = stub.stub;
 var existsSyncStub;
 var readdirSyncStub;
 var readFileSyncStub;
+var forEachWithPropertyStub;
 var Blueprint = proxyquire('../../../lib/models/blueprint', {
   'exists-sync': function() {
     return existsSyncStub.apply(this, arguments);
@@ -40,6 +41,13 @@ var Blueprint = proxyquire('../../../lib/models/blueprint', {
     },
     readFileSync: function() {
       return readFileSyncStub.apply(this, arguments);
+    }
+  },
+  '../utilities/printable-properties': {
+    blueprint: {
+      forEachWithProperty: function() {
+        return forEachWithPropertyStub.apply(this, arguments);
+      }
     }
   }
 });
@@ -357,11 +365,17 @@ help in detail');
     });
 
     describe('getJson', function() {
+      beforeEach(function() {
+        forEachWithPropertyStub = function(forEach, context) {
+          ['test1', 'availableOptions'].forEach(forEach, context);
+        };
+      });
+
       afterEach(function() {
         safeRestore(blueprint, 'printDetailedHelp');
       });
 
-      it('handles all possible options', function() {
+      it('iterates options', function() {
         var availableOptions = [
           {
             type: 'my-string-type',
@@ -373,23 +387,14 @@ help in detail');
         ];
 
         assign(blueprint, {
-          description: 'a paragraph',
-          overridden: false,
-          availableOptions: availableOptions,
-          anonymousOptions: ['anon-test'],
-          printDetailedHelp: function() {
-            expect(arguments[0]).to.equal(availableOptions);
-            return 'some details';
-          },
-          dontShowThis: true
+          test1: 'a test',
+          availableOptions: availableOptions
         });
 
-        var json = blueprint.getJson(true);
+        var json = blueprint.getJson();
 
         expect(json).to.deep.equal({
-          name: 'my-blueprint',
-          description: 'a paragraph',
-          overridden: false,
+          test1: 'a test',
           availableOptions: [
             {
               type: 'my-string-type',
@@ -398,18 +403,29 @@ help in detail');
             {
               type: 'myFunctionType'
             }
-          ],
-          anonymousOptions: ['anon-test'],
-          detailedHelp: 'some details'
+          ]
         });
       });
 
-      it('do not print detailed if not verbose', function() {
+      it('does not print detailed if not verbose', function() {
         stub(blueprint, 'printDetailedHelp');
 
         blueprint.getJson();
 
         expect(blueprint.printDetailedHelp.called).to.equal(0);
+      });
+
+      it('is calling printDetailedHelp with availableOptions', function() {
+        stub(blueprint, 'printDetailedHelp');
+
+        var availableOptions = [];
+        assign(blueprint, {
+          availableOptions: availableOptions
+        });
+
+        blueprint.getJson(true);
+
+        expect(blueprint.printDetailedHelp.calledWith[0][0]).to.equal(availableOptions);
       });
 
       it('if printDetailedHelp returns falsy, don\'t attach property detailedHelp', function() {
@@ -419,6 +435,14 @@ help in detail');
 
         expect(blueprint.printDetailedHelp.called).to.equal(1);
         expect(json).to.not.have.property('detailedHelp');
+      });
+
+      it('sets detailedHelp properly', function() {
+        stub(blueprint, 'printDetailedHelp', 'some details');
+
+        var json = blueprint.getJson(true);
+
+        expect(json.detailedHelp).to.equal('some details');
       });
     });
   });
