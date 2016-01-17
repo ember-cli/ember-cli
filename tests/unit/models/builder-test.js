@@ -5,7 +5,6 @@ var path            = require('path');
 var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
-var touch           = require('../../helpers/file-utils').touch;
 var existsSync      = require('exists-sync');
 var expect          = require('chai').expect;
 var Promise         = require('../../../lib/ext/promise');
@@ -18,7 +17,7 @@ var root            = process.cwd();
 var tmproot         = path.join(root, 'tmp');
 
 describe('models/builder.js', function() {
-  var addon, builder, buildResults, outputPath, tmpdir;
+  var addon, builder, buildResults, tmpdir;
 
   describe('copyToOutputPath', function() {
     beforeEach(function() {
@@ -40,40 +39,12 @@ describe('models/builder.js', function() {
     it('allows for non-existent output-paths at arbitrary depth', function() {
       builder.outputPath = path.join(tmpdir, 'some', 'path', 'that', 'does', 'not', 'exist');
 
-      return builder.copyToOutputPath('tests/fixtures/blueprints/basic_2')
-        .then(function() {
-          expect(existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
-        });
-    });
-  });
-
-  it('clears the outputPath when multiple files are present', function() {
-    outputPath     = 'tmp/builder-fixture/';
-    var firstFile  = outputPath + '/assets/foo-bar.js';
-    var secondFile = outputPath + '/assets/baz-bif.js';
-
-    fs.mkdirsSync(outputPath + '/assets/');
-    touch(firstFile);
-    touch(secondFile);
-
-    builder = new Builder({
-      setupBroccoliBuilder: function() { },
-      trapSignals:          function() { },
-      cleanupOnExit:        function() { },
-
-      outputPath: outputPath,
-      project: new MockProject()
+      builder.copyToOutputPath('tests/fixtures/blueprints/basic_2');
+      expect(existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
     });
 
-    return builder.clearOutputPath()
-      .then(function() {
-        expect(existsSync(firstFile)).to.equal(false);
-        expect(existsSync(secondFile)).to.equal(false);
-      });
-  });
-
-  describe('Prevent deletion of files for improper outputPath', function() {
     var command;
+
     var parentPath = '..' + path.sep + '..' + path.sep;
 
     before(function() {
