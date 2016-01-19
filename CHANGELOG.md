@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+### 2.3.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Update `ember-cli-qunit` in `package.json` to `^1.2.1`.
+  + Update `ember` in `bower.json` to `2.3.0`.
+  + Remove `qunit` from `bower.json` (it is now included as an NPM dependency by ember-cli-qunit).
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5369](https://github.com/ember-cli/ember-cli/pull/5369) Implement application level resolver in blueprint. [@rwjblue](https://github.com/rwjblue)
+- [#5372](https://github.com/ember-cli/ember-cli/pull/5372) Update to ember@2.3.0. [@rwjblue](https://github.com/rwjblue)
+- [#5374](https://github.com/ember-cli/ember-cli/pull/5374) Update ember-cli-qunit to 1.2.1. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ### 2.2.0-beta.6
 
 Re-releasing 2.2.0-beta.5, but without the line-ending issue.
