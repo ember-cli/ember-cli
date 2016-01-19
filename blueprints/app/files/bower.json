@@ -10,6 +10,6 @@
     "loader.js": "^3.5.0"
   },
   "resolutions": {
-    "ember": "2.2.0"
+    "ember": "2.3.0"
   }
 }
