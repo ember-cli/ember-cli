@@ -1,8 +1,8 @@
 'use strict';
 
 var expect     = require('chai').expect;
-var flatten    = require('lodash/array/flatten');
-var contains   = require('lodash/collection/contains');
+var flatten    = require('lodash/flatten');
+var includes   = require('lodash/includes');
 var fs         = require('fs-extra');
 var path       = require('path');
 var EOL        = require('os').EOL;
@@ -55,7 +55,7 @@ module.exports = function assertFile(file, options) {
       if (expected.test) {
         pass = expected.test(actual);
       } else {
-        pass = contains(actual, expected);
+        pass = includes(actual, expected);
       }
 
       var message =  'expected: `' + file + '`';
@@ -77,7 +77,7 @@ module.exports = function assertFile(file, options) {
       if (unexpected.test) {
         pass = !unexpected.test(actual);
       } else {
-        pass = !contains(actual, unexpected);
+        pass = !includes(actual, unexpected);
       }
 
       expect(pass).to.equal(true, EOL + EOL + 'expected ' + file + ':' + EOL + EOL +
