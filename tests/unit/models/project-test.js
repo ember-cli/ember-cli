@@ -164,7 +164,8 @@ describe('models/project.js', function() {
         'ember-after-blueprint-addon': 'latest',
         'something-else': 'latest',
         'ember-devDeps-addon': 'latest',
-        'ember-addon-with-dependencies': 'latest'
+        'ember-addon-with-dependencies': 'latest',
+        'loader.js': 'latest'
       };
 
       expect(project.dependencies()).to.deep.equal(expected);
@@ -175,7 +176,6 @@ describe('models/project.js', function() {
         'jquery': '^1.11.1',
         'ember': '1.7.0',
         'ember-data': '1.0.0-beta.10',
-        'loader.js': 'ember-cli/loader.js#1.0.1',
         'ember-cli-shims': 'ember-cli/ember-cli-shims#0.0.3',
         'ember-cli-test-loader': 'rwjblue/ember-cli-test-loader#0.0.4',
         'ember-load-initializers': 'ember-cli/ember-load-initializers#0.0.2',
@@ -518,53 +518,6 @@ describe('models/project.js', function() {
       makeProject();
 
       expect(project.nodeModulesPath).to.equal(path.join(projectPath, 'node_modules'));
-    });
-  });
-
-  describe('_loaderSupportsIndexFallback', function() {
-    var loaderBowerJSONPath;
-
-    beforeEach(function() {
-      tmpPath = path.join(process.cwd(), 'tmp');
-      projectPath =  path.join(tmpPath, 'test-app');
-      loaderBowerJSONPath = projectPath + '/bower_components/loader.js/.bower.json';
-
-      return tmp.setup(projectPath)
-        .then(function() {
-          project = new Project(projectPath, { }, new MockUI());
-        });
-    });
-
-    afterEach(function() {
-      return tmp.teardown(tmpPath);
-    });
-
-    it('returns false when `loader.js` is not a dependency', function(){
-      touch(loaderBowerJSONPath, {
-        version: '/foo/bar'
-      });
-
-      expect(project._loaderSupportsIndexFallback()).to.equal(false);
-    });
-
-    it('returns true when `loader.js` version matches', function(){
-      touch(loaderBowerJSONPath, {
-        version: '3.5.0'
-      });
-
-      expect(project._loaderSupportsIndexFallback()).to.equal(true);
-    });
-
-    it('returns false when `loader.js` is specified in an odd format', function(){
-      touch(loaderBowerJSONPath, {
-        version: 'lol/wat/zomg'
-      });
-
-      expect(project._loaderSupportsIndexFallback()).to.equal(false);
-    });
-
-    it('returns false when `loader.js` .bower.json is not found', function(){
-      expect(project._loaderSupportsIndexFallback()).to.equal(false);
     });
   });
 
