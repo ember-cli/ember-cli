@@ -85,7 +85,7 @@ ember destroy \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m' 
   \u001b[36m--dummy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
     \u001b[90maliases: -dum, -id\u001b[39m' + EOL + '\
   \u001b[36m--in-repo-addon\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m' + EOL + '\
-    \u001b[90maliases: -in-repo <value>, -ir <value>\u001b[39m' + EOL + '\
+    \u001b[90maliases: --in-repo <value>, -ir <value>\u001b[39m' + EOL + '\
 ' + EOL + '\
 ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
   Generates new code from blueprints.' + EOL + '\
@@ -101,7 +101,7 @@ ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m'
   \u001b[36m--dummy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
     \u001b[90maliases: -dum, -id\u001b[39m' + EOL + '\
   \u001b[36m--in-repo-addon\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m' + EOL + '\
-    \u001b[90maliases: -in-repo <value>, -ir <value>\u001b[39m' + EOL + '\
+    \u001b[90maliases: --in-repo <value>, -ir <value>\u001b[39m' + EOL + '\
 ' + EOL + '\
 ember help \u001b[33m<command-name (Default: all)>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
   Outputs the usage instructions for all commands or the provided command' + EOL + '\
@@ -156,7 +156,7 @@ ember serve \u001b[36m<options...>\u001b[39m' + EOL + '\
   \u001b[36m--proxy\u001b[39m \u001b[36m(String)\u001b[39m' + EOL + '\
     \u001b[90maliases: -pr <value>, -pxy <value>\u001b[39m' + EOL + '\
   \u001b[36m--insecure-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Set false to proxy self-signed SSL certificates' + EOL + '\
-    \u001b[90maliases: -inspr\u001b[39m' + EOL + '\
+    \u001b[90maliases: --inspr\u001b[39m' + EOL + '\
   \u001b[36m--watcher\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: events)\u001b[39m' + EOL + '\
     \u001b[90maliases: -w <value>\u001b[39m' + EOL + '\
   \u001b[36m--live-reload\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m' + EOL + '\
@@ -1205,13 +1205,13 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
       component \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a component. Name must contain a hyphen.\u001b[39m' + EOL + '\
         \u001b[36m--path\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: components)\u001b[39m' + EOL + '\
-          \u001b[90maliases: -no-path (--path=)\u001b[39m' + EOL + '\
+          \u001b[90maliases: --no-path (--path=)\u001b[39m' + EOL + '\
       component-addon \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a component. Name must contain a hyphen.\u001b[39m' + EOL + '\
       component-test \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a component integration or unit test.\u001b[39m' + EOL + '\
         \u001b[36m--test-type\u001b[39m \u001b[36m(integration, unit)\u001b[39m \u001b[36m(Default: integration)\u001b[39m' + EOL + '\
-          \u001b[90maliases: -i (--test-type=integration), -u (--test-type=unit), -integration (--test-type=integration), -unit (--test-type=unit)\u001b[39m' + EOL + '\
+          \u001b[90maliases: -i (--test-type=integration), -u (--test-type=unit), --integration (--test-type=integration), -unit (--test-type=unit)\u001b[39m' + EOL + '\
       controller \u001b[33m<name>\u001b[39m' + EOL + '\
         \u001b[90mGenerates a controller.\u001b[39m' + EOL + '\
       controller-test \u001b[33m<name>\u001b[39m' + EOL + '\
