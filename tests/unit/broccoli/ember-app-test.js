@@ -684,11 +684,14 @@ describe('broccoli/ember-app', function() {
       emberApp.import('vendor/moment.js', {type: 'vendor'});
       expect(emberApp.legacyFilesToAppend.indexOf('vendor/moment.js')).to.equal(emberApp.legacyFilesToAppend.length - 1);
     });
-    it('prepends dependencies', function() {
+    it('prepends dependencies in order imported', function() {
       emberApp = new EmberApp({
       });
-      emberApp.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/es5-shim.js')).to.equal(0);
+
+      emberApp.import('vendor/first.js', {type: 'vendor', prepend: true});
+      emberApp.import('vendor/second.js', {type: 'vendor', prepend: true});
+
+      expect(emberApp.filesToPrepend).to.eql(['vendor/first.js', 'vendor/second.js']);
     });
     it('defaults to development if production is not set', function() {
       process.env.EMBER_ENV = 'production';
