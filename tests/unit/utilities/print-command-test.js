@@ -15,7 +15,7 @@ describe('printCommand', function() {
         values: ['x', 'y'],
         default: 'my-def-val',
         required: true,
-        aliases: ['a', { b: 'c', unused: '' }],
+        aliases: ['a', 'long-a', { b: 'c', unused: '' }, {'long-b': 'c' }],
         description: 'option desc'
       },
       {
@@ -43,7 +43,7 @@ describe('printCommand', function() {
     \u001b[90ma paragraph\u001b[39m' + EOL + '\
     \u001b[90maliases: ab, cd\u001b[39m' + EOL + '\
     \u001b[36m--test-option\u001b[39m\u001b[36m=x|y\u001b[39m \u001b[36m(Required)\u001b[39m \u001b[36m(Default: my-def-val)\u001b[39m option desc' + EOL + '\
-      \u001b[90maliases: -a <value>, -b (--test-option=c)\u001b[39m' + EOL + '\
+      \u001b[90maliases: -a <value>, --long-a <value>, -b (--test-option=c), --long-b (--test-option=c)\u001b[39m' + EOL + '\
     \u001b[36m--test-type\u001b[39m \u001b[36m(Boolean)\u001b[39m' + EOL + '\
       \u001b[90maliases: -a\u001b[39m' + EOL + '\
     \u001b[36m--test-type-array\u001b[39m \u001b[36m(a-type, Number)\u001b[39m');
