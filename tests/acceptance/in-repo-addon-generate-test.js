@@ -559,7 +559,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('tests/unit/mixins/foo-test.js', {
         contains: [
-          "import FooMixin from '../../../mixins/foo';"
+          "import FooMixin from 'my-addon/mixins/foo';"
         ]
       });
     });
@@ -575,7 +575,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('tests/unit/mixins/foo/bar-test.js', {
         contains: [
-          "import FooBarMixin from '../../../mixins/foo/bar';"
+          "import FooBarMixin from 'my-addon/mixins/foo/bar';"
         ]
       });
     });
@@ -585,7 +585,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     return generateInRepoAddon(['mixin', 'foo/bar/baz', '--in-repo-addon=my-addon']).then(function() {
       assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
         contains: [
-          "import FooBarBazMixin from '../../../mixins/foo/bar/baz';"
+          "import FooBarBazMixin from 'my-addon/mixins/foo/bar/baz';"
         ]
       });
     });

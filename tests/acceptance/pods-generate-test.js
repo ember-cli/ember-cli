@@ -1216,7 +1216,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/mixins/foo-test.js', {
         contains: [
-          "import FooMixin from '../../../mixins/foo';"
+          "import FooMixin from 'my-app/mixins/foo';"
         ]
       });
     });
@@ -1232,7 +1232,7 @@ describe('Acceptance: ember generate pod', function() {
       });
       assertFile('tests/unit/mixins/foo/bar-test.js', {
         contains: [
-          "import FooBarMixin from '../../../mixins/foo/bar';"
+          "import FooBarMixin from 'my-app/mixins/foo/bar';"
         ]
       });
     });
@@ -1242,7 +1242,7 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['mixin', 'foo/bar/baz', '--pod']).then(function() {
       assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
         contains: [
-          "import FooBarBazMixin from '../../../mixins/foo/bar/baz';"
+          "import FooBarBazMixin from 'my-app/mixins/foo/bar/baz';"
         ]
       });
     });
