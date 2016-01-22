@@ -72,6 +72,72 @@ describe('models/builder.js', function() {
       });
   });
 
+  describe('Windows CTRL + C Capture', function() {
+    var originalPlatform, called;
+    
+    beforeEach(function () {
+      called = false;
+    });
+    
+    before(function() {
+      originalPlatform = process.platform;
+    });
+    
+    after(function () {
+      Object.defineProperty(process, 'platform', {
+        value: originalPlatform
+      });
+    });
+
+    it('enables raw capture on Windows', function() {
+      Object.defineProperty(process, 'platform', {
+        value: 'win'
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: {
+          isTTY: true
+        }
+      });
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        cleanupOnExit: function() { },
+        trapWindowsSignals: function () {
+          called = true;
+        },
+        project: new MockProject()
+      });
+
+      builder.trapSignals();
+      expect(called).to.equal(true);
+    });
+    
+    it('does not enable raw capture on non-Windows', function() {
+      Object.defineProperty(process, 'platform', {
+        value: 'mockOS'
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: {
+          isTTY: true
+        }
+      });
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        cleanupOnExit: function() { },
+        trapWindowsSignals: function () {
+          called = true;
+        },
+        project: new MockProject()
+      });
+
+      builder.trapSignals();
+      expect(called).to.equal(false);
+    });
+  });
+
   describe('Prevent deletion of files for improper outputPath', function() {
     var command;
     var parentPath = '..' + path.sep + '..' + path.sep;
