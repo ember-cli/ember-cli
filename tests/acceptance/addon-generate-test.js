@@ -544,7 +544,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/mixins/foo-test.js', {
         contains: [
-          "import FooMixin from '../../../mixins/foo';"
+          "import FooMixin from 'my-addon/mixins/foo';"
         ]
       });
       assertFileToNotExist('app/mixins/foo.js');
@@ -561,7 +561,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/mixins/foo/bar-test.js', {
         contains: [
-          "import FooBarMixin from '../../../mixins/foo/bar';"
+          "import FooBarMixin from 'my-addon/mixins/foo/bar';"
         ]
       });
       assertFileToNotExist('app/mixins/foo/bar.js');
@@ -578,7 +578,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/mixins/foo/bar/baz-test.js', {
         contains: [
-          "import FooBarBazMixin from '../../../mixins/foo/bar/baz';"
+          "import FooBarBazMixin from 'my-addon/mixins/foo/bar/baz';"
         ]
       });
       assertFileToNotExist('app/mixins/foo/bar/baz.js');
