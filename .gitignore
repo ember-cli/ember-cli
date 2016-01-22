@@ -1,7 +1,7 @@
 /node_modules
 npm-debug.log
-tmp*
-common-tmp
+/tmp
+/common-tmp
 *.tgz
 /docs/build
 .node_modules-tmp
