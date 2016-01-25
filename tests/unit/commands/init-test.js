@@ -4,7 +4,7 @@ var fs            = require('fs');
 var os            = require('os');
 var path          = require('path');
 var expect        = require('chai').expect;
-var pluck         = require('lodash/collection/pluck');
+var map           = require('lodash/map');
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var stub          = require('../../helpers/stub');
@@ -224,7 +224,7 @@ describe('init command', function() {
     buildCommand();
 
     command.beforeRun(['app']);
-    expect(pluck(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
+    expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
   });
 
   it('Passes command options through to the install blueprint task', function() {

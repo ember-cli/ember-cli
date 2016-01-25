@@ -1,7 +1,7 @@
 'use strict';
 
 var expect         = require('chai').expect;
-var pluck          = require('lodash/collection/pluck');
+var map          = require('lodash/map');
 var commandOptions = require('../../factories/command-options');
 var stub           = require('../../helpers/stub');
 var NewCommand     = require('../../../lib/commands/new');
@@ -118,7 +118,7 @@ describe('new command', function() {
     }, true);
 
     command.beforeRun(['app']);
-    expect(pluck(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
+    expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
   });
 
   it('passes command options through to init command', function() {
