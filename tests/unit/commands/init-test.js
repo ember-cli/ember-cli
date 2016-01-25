@@ -239,6 +239,9 @@ describe('init command', function() {
     buildCommand();
 
     return command.validateAndRun(['--custom-option=customValue'])
+      .then(function() {
+        expect(false, 'promise should have rejected');
+      })
       .catch(function(reason) {
         expect(reason).to.equal('Called run');
       });
