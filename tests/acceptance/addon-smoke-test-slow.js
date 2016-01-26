@@ -71,7 +71,17 @@ describe('Acceptance: addon-smoke-test', function() {
    *
    * The test code would be identical to the below.
    */
-  it('ember addon with addon-test-support directory and add modules via `{{content-for "head"}}', function() {
+  it('can add modules via `{{content-for "head"}}`', function() {
+    return copyFixtureFiles('addon/content-for-head')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
+  it('ember addon with addon-test-support directory', function() {
     return copyFixtureFiles('addon/with-addon-test-support')
       .then(function() {
         return ember(['test']);
