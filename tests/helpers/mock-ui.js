@@ -5,13 +5,17 @@ var through = require('through');
 var Promise = require('../../lib/ext/promise');
 
 module.exports = MockUI;
-function MockUI() {
+function MockUI(options) {
   this.output = '';
   this.errors = '';
+  this.errorLog = options && options.errorLog || [];
 
   UI.call(this, {
     inputStream: through(),
     outputStream: through(function(data) {
+      if (options && options.outputStream) {
+        options.outputStream.push(data);
+      }
       this.output += data;
     }.bind(this)),
     errorStream: through(function(data) {
@@ -25,6 +29,7 @@ MockUI.prototype.constructor = MockUI;
 MockUI.prototype.clear = function(){
   this.output = '';
   this.errors = '';
+  this.errorLog = [];
 };
 
 MockUI.prototype.waitForPrompt = function() {
