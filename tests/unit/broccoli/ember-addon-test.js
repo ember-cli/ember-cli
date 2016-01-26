@@ -3,6 +3,7 @@
 var path       = require('path');
 var Project    = require('../../../lib/models/project');
 var EmberAddon = require('../../../lib/broccoli/ember-addon');
+var EmberApp = require('../../../lib/broccoli/ember-app');
 var expect     = require('chai').expect;
 
 describe('EmberAddon', function() {
@@ -59,5 +60,13 @@ describe('EmberAddon', function() {
         boo: ['custom']
       }
     });
+  });
+
+  it('should contain env', function() {
+    expect(EmberAddon.env).to.be.a('function');
+  });
+
+  it('should contain return the correct environment', function() {
+    expect(EmberAddon.env()).to.eql(EmberApp.env());
   });
 });
