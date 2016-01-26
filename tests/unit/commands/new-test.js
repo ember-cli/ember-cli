@@ -1,8 +1,17 @@
 'use strict';
 
 var expect         = require('chai').expect;
+var map          = require('lodash/map');
 var commandOptions = require('../../factories/command-options');
+var stub           = require('../../helpers/stub');
 var NewCommand     = require('../../../lib/commands/new');
+var Promise        = require('../../../lib/ext/promise');
+var Blueprint      = require('../../../lib/models/blueprint');
+var Command        = require('../../../lib/models/command');
+var Task           = require('../../../lib/models/task');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('new command', function() {
   var command;
@@ -12,11 +21,18 @@ describe('new command', function() {
       project: {
         isEmberCLIProject: function() {
           return false;
+        },
+        blueprintLookupPaths: function() {
+          return [];
         }
       }
     });
 
     command = new NewCommand(options);
+  });
+
+  afterEach(function() {
+    safeRestore(Blueprint, 'lookup');
   });
 
   it('doesn\'t allow to create an application named `test`', function() {
@@ -88,6 +104,49 @@ describe('new command', function() {
     })
     .catch(function(error) {
       expect(error.message).to.equal('Trying to generate an application structure in this directory? Use `ember init` instead.');
+    });
+  });
+
+  it('registers blueprint options in beforeRun', function() {
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('app');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
+
+    command.beforeRun(['app']);
+    expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
+  });
+
+  it('passes command options through to init command', function() {
+    command.tasks.CreateAndStepIntoDirectory = Task.extend({
+      run: function() {
+        return Promise.resolve();
+      }
+    });
+
+    command.commands.Init = Command.extend({
+      run: function(commandOptions) {
+        expect(commandOptions).to.contain.keys('customOption');
+        expect(commandOptions.customOption).to.equal('customValue');
+        return Promise.resolve('Called run');
+      }
+    });
+
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('app');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
+
+    return command.validateAndRun(['foo', '--custom-option=customValue']).then(function(reason) {
+      expect(reason).to.equal('Called run');
     });
   });
 });
