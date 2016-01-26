@@ -1,4 +1,4 @@
-import <%= camelizedModuleName %> from '../../../utils/<%= dasherizedModuleName %>';
+import <%= camelizedModuleName %> from '<%= dasherizedModulePrefix %>/utils/<%= dasherizedModuleName %>';
 import { module, test } from 'qunit';
 
 module('<%= friendlyTestName %>');

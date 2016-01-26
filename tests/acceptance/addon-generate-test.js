@@ -792,7 +792,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/utils/foo-bar-test.js', {
         contains: [
-          "import fooBar from '../../../utils/foo-bar';"
+          "import fooBar from 'dummy/utils/foo-bar';"
         ]
       });
     });
@@ -812,7 +812,7 @@ describe('Acceptance: ember generate in-addon', function() {
       });
       assertFile('tests/unit/utils/foo/bar-baz-test.js', {
         contains: [
-          "import fooBarBaz from '../../../utils/foo/bar-baz';"
+          "import fooBarBaz from 'dummy/utils/foo/bar-baz';"
         ]
       });
     });

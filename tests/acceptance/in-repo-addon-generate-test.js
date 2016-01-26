@@ -775,7 +775,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('tests/unit/utils/foo-bar-test.js', {
         contains: [
-          "import fooBar from '../../../utils/foo-bar';"
+          "import fooBar from 'my-app/utils/foo-bar';"
         ]
       });
     });
@@ -795,7 +795,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
       assertFile('tests/unit/utils/foo/bar-baz-test.js', {
         contains: [
-          "import fooBarBaz from '../../../utils/foo/bar-baz';"
+          "import fooBarBaz from 'my-app/utils/foo/bar-baz';"
         ]
       });
     });
