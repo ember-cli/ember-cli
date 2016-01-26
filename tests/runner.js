@@ -50,8 +50,10 @@ function checkOnlyInTests() {
 }
 
 function runMocha() {
+  console.time('Mocha Tests Running Time');
   mocha.run(function(failures) {
     process.on('exit', function() {
+      console.timeEnd('Mocha Tests Running Time');
       process.exit(failures);
     });
   });
