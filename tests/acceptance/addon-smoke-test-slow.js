@@ -57,6 +57,20 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(bowerContents.name).to.equal(addonName);
   });
 
+  /**
+   * This test is the source of serious heartache and pain.
+   * https://github.com/ember-cli/ember-cli/pull/5233
+   *
+   * For some reason there are dependencies on test ordering when running
+   * `ember(['test'])` multiple times back to back, somehow the first run
+   * impacts the second run. As a result we've combined the multi-meta-modules
+   * test with this one. Possibly worth splitting these out again in the future:
+   * - with-addon-test-support/index.js
+   * - with-addon-test-support/tests/unit/meta-tag-modules-test.js
+   * - with-addon-test-support/tests/dummy/app/routes/application.js
+   *
+   * The test code would be identical to the below.
+   */
   it('ember addon with addon-test-support directory and add modules via `{{content-for "head"}}', function() {
     return copyFixtureFiles('addon/with-addon-test-support')
       .then(function() {
