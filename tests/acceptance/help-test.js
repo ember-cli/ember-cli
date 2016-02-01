@@ -180,7 +180,7 @@ ember test \u001b[36m<options...>\u001b[39m' + EOL + '\
   \u001b[90maliases: t\u001b[39m' + EOL + '\
   \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: test)\u001b[39m' + EOL + '\
     \u001b[90maliases: -e <value>\u001b[39m' + EOL + '\
-  \u001b[36m--config-file\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ./testem.json)\u001b[39m' + EOL + '\
+  \u001b[36m--config-file\u001b[39m \u001b[36m(String)\u001b[39m' + EOL + '\
     \u001b[90maliases: -c <value>, -cf <value>\u001b[39m' + EOL + '\
   \u001b[36m--server\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
     \u001b[90maliases: -s\u001b[39m' + EOL + '\
@@ -1068,7 +1068,6 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
             },
             {
               name: 'config-file',
-              default: './testem.json',
               aliases: ['c', 'cf'],
               key: 'configFile',
               required: false

@@ -1,3 +1,5 @@
+process.env._TESTEM_CONFIG_JS_RAN = true;
+
 module.exports = {
   "framework": "qunit",
   "test_page": "tests/index.html?hidepassed",
