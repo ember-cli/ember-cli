@@ -717,7 +717,7 @@ describe('broccoli/ember-app', function() {
   describe('vendorFiles', function() {
     var defaultVendorFiles = [
       'jquery.js', 'ember.js',
-      'app-shims.js', 'ember-resolver.js', 'ember-load-initializers.js'
+      'app-shims.js', 'ember-resolver.js'
     ];
 
     describe('handlebars.js', function() {
