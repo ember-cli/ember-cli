@@ -751,6 +751,77 @@ help in detail');
       options.entity = { name: 'bar' };
       blueprint.install(options);
     });
+
+    it('calls appropriate hooks with correct arguments', function() {
+      var localsCalled = false;
+      blueprint.locals = function(opts) {
+        localsCalled = true;
+        expect(opts).to.deep.equal(options);
+        return this._super.locals.apply(this, arguments);
+      };
+
+      var normalizeEntityNameCalled = false;
+      blueprint.normalizeEntityName = function(name) {
+        normalizeEntityNameCalled = true;
+        expect(name).to.equal('foo');
+        return this._super.normalizeEntityName.apply(this, arguments);
+      };
+
+      var fileMapTokensCalled = false;
+      blueprint.fileMapTokens = function() {
+        fileMapTokensCalled = true;
+        return this._super.fileMapTokens.apply(this, arguments);
+      };
+
+      var filesPathCalled = false;
+      blueprint.filesPath = function(opts) {
+        filesPathCalled = true;
+        expect(opts).to.deep.equal(options);
+        return this._super.filesPath.apply(this, arguments);
+      };
+
+      var beforeInstallCalled = false;
+      var originalBeforeInstall = blueprint.beforeInstall;
+      blueprint.beforeInstall = function(opts) {
+        beforeInstallCalled = true;
+        expect(opts).to.deep.equal(options);
+        return originalBeforeInstall.apply(this, arguments);
+      };
+
+      var afterInstallCalled = false;
+      blueprint.afterInstall = function(opts) {
+        afterInstallCalled = true;
+        expect(opts).to.deep.equal(options);
+        return this._super.afterInstall.apply(this, arguments);
+      };
+
+      var beforeUninstallCalled = false;
+      blueprint.beforeUninstall = function() {
+        beforeUninstallCalled = true;
+        return this._super.beforeUninstall.apply(this, arguments);
+      };
+
+      var afterUninstallCalled = false;
+      blueprint.afterUninstall = function() {
+        afterUninstallCalled = true;
+        return this._super.afterUninstall.apply(this, arguments);
+      };
+
+      options.entity = { name: 'foo' };
+
+      return blueprint.install(options)
+        .then(function() {
+            expect(localsCalled).to.be.true;
+            expect(normalizeEntityNameCalled).to.be.true;
+            expect(fileMapTokensCalled).to.be.true;
+            expect(filesPathCalled).to.be.true;
+            expect(beforeInstallCalled).to.be.true;
+            expect(afterInstallCalled).to.be.true;
+
+            expect(beforeUninstallCalled).to.be.false;
+            expect(afterUninstallCalled).to.be.false;
+        });
+    });
   });
 
   describe('basic blueprint uninstallation', function() {
@@ -806,6 +877,76 @@ help in detail');
             function(exists) {
               expect(exists).to.be.false;
             });
+        });
+    });
+
+    it('calls appropriate hooks with correct arguments', function() {
+      var localsCalled = false;
+      blueprint.locals = function(opts) {
+        localsCalled = true;
+        expect(opts).to.deep.equal(options);
+        return this._super.locals.apply(this, arguments);
+      };
+
+      var normalizeEntityNameCalled = false;
+      blueprint.normalizeEntityName = function(name) {
+        normalizeEntityNameCalled = true;
+        expect(name).to.equal('foo');
+        return this._super.normalizeEntityName.apply(this, arguments);
+      };
+
+      var fileMapTokensCalled = false;
+      blueprint.fileMapTokens = function() {
+        fileMapTokensCalled = true;
+        return this._super.fileMapTokens.apply(this, arguments);
+      };
+
+      var filesPathCalled = false;
+      blueprint.filesPath = function(opts) {
+        filesPathCalled = true;
+        expect(opts).to.deep.equal(options);
+        return this._super.filesPath.apply(this, arguments);
+      };
+
+      var beforeInstallCalled = false;
+      blueprint.beforeInstall = function() {
+        beforeInstallCalled = true;
+        return this._super.beforeInstall.apply(this, arguments);
+      };
+
+      var afterInstallCalled = false;
+      blueprint.afterInstall = function() {
+        afterInstallCalled = true;
+        return this._super.afterInstall.apply(this, arguments);
+      };
+
+      var beforeUninstallCalled = false;
+      blueprint.beforeUninstall = function(opts) {
+        beforeUninstallCalled = true;
+        expect(opts).to.deep.equal(options);
+        return this._super.beforeUninstall.apply(this, arguments);
+      };
+
+      var afterUninstallCalled = false;
+      blueprint.afterUninstall = function(opts) {
+        afterUninstallCalled = true;
+        expect(opts).to.deep.equal(options);
+        return this._super.afterUninstall.apply(this, arguments);
+      };
+
+      options.entity = { name: 'foo' };
+
+      return blueprint.uninstall(options)
+        .then(function() {
+            expect(localsCalled).to.be.true;
+            expect(normalizeEntityNameCalled).to.be.true;
+            expect(fileMapTokensCalled).to.be.true;
+            expect(filesPathCalled).to.be.true;
+            expect(beforeUninstallCalled).to.be.true;
+            expect(afterUninstallCalled).to.be.true;
+
+            expect(beforeInstallCalled).to.be.false;
+            expect(afterInstallCalled).to.be.false;
         });
     });
   });
