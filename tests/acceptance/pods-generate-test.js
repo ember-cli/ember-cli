@@ -668,7 +668,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
-        contains: "import { fooBar } from '../../../helpers/foo-bar';"
+        contains: "import { fooBar } from 'my-app/helpers/foo-bar';"
       });
     });
   });
@@ -683,7 +683,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
-        contains: "import { fooBar } from '../../../helpers/foo-bar';"
+        contains: "import { fooBar } from 'my-app/helpers/foo-bar';"
       });
     });
   });
@@ -698,7 +698,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
-        contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
+        contains: "import { fooBarBaz } from 'my-app/helpers/foo/bar-baz';"
       });
     });
   });
@@ -713,7 +713,7 @@ describe('Acceptance: ember generate pod', function() {
                   "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
-        contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
+        contains: "import { fooBarBaz } from 'my-app/helpers/foo/bar-baz';"
       });
     });
   });

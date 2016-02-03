@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { initialize } from '<%= dependencyDepth %>/instance-initializers/<%= dasherizedModuleName %>';
+import { initialize } from '<%= dasherizedModulePrefix %>/instance-initializers/<%= dasherizedModuleName %>';
 import { module, test } from 'qunit';
 import destroyApp from '../../helpers/destroy-app';
 
