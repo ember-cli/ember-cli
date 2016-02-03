@@ -63,7 +63,7 @@ describe('test command', function() {
 
         expect(buildOptions.environment).to.equal('test', 'has correct env');
         expect(buildOptions.outputPath, 'has outputPath');
-        expect(testOptions.configFile).to.equal('./testem.json', 'has config file');
+        expect(testOptions.configFile).to.equal(undefined, 'does not supply config file when not specified');
         expect(testOptions.port).to.equal(7357, 'has config file');
       });
     });
@@ -140,8 +140,8 @@ describe('test command', function() {
         var testOptions = testRun.calledWith[0][0];
 
         expect(testOptions.outputPath).to.equal(path.resolve('tests'), 'has outputPath');
-        expect(testOptions.configFile).to.equal('./testem.json', 'has config file');
-        expect(testOptions.port).to.equal(7357, 'has config file');
+        expect(testOptions.configFile).to.equal(undefined, 'does not include configFile when not specified in options');
+        expect(testOptions.port).to.equal(7357, 'has port');
       });
     });
 
