@@ -1,5 +1,39 @@
 # ember-cli Changelog
 
+### 2.3.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Remove `loader.js` from `bower.json`, and add to `package.json` as `^4.0.0`.
+  + Remove `ember-load-initializers` from `bower.json`, and add to `package.json` at `^0.5.0`.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5329](https://github.com/ember-cli/ember-cli/pull/5329) [ENHANCEMENT] Support custom blueprint options in new and init commands [@bendemboski](https://github.com/bendemboski)
+- [#5377](https://github.com/ember-cli/ember-cli/pull/5377) Update Bower resolution to match Ember version [@kpfefferle](https://github.com/kpfefferle)
+- [#5203](https://github.com/ember-cli/ember-cli/pull/5203) [ENHANCEMENT] Use absolute import paths for util-test blueprint [@kamalaknn](https://github.com/kamalaknn)
+- [#5349](https://github.com/ember-cli/ember-cli/pull/5349) [BUGFIX] Fix live-reloading post build error [@stefanpenner](https://github.com/stefanpenner)
+- [#5309](https://github.com/ember-cli/ember-cli/pull/5309) [2.X] Deprecate vendor-prefix and vendor-suffix. [@nathanhammond](https://github.com/nathanhammond)
+- [#5370](https://github.com/ember-cli/ember-cli/pull/5370) Make final update of `dist/` faster, by only updating changed files. [@stefanpenner](https://github.com/stefanpenner)
+- [#5321](https://github.com/ember-cli/ember-cli/pull/5321) Ensure `EmberAddon.env()` works the same as `EmberApp.env()` [@jasonmit](https://github.com/jasonmit)
+- [#5367](https://github.com/ember-cli/ember-cli/pull/5367) Update to lodash 4 [@jcope2013](https://github.com/jcope2013)
+- [#5394](https://github.com/ember-cli/ember-cli/pull/5394) Upgrade testem to v1.1.1 [@quaertym](https://github.com/quaertym)
+- [#5379](https://github.com/ember-cli/ember-cli/pull/5379) Move loader.js to be included as an addon. [@rwjblue](https://github.com/rwjblue)
+- [#5388](https://github.com/ember-cli/ember-cli/pull/5388) Mixin generation in addon [@MiguelMadero](https://github.com/MiguelMadero)
+- [#5396](https://github.com/ember-cli/ember-cli/pull/5396) Wrap evaluation of `ember-cli-build.js` in a `try`/`catch` to provide helpful message for syntax errors. [@mozeryansky](https://github.com/mozeryansky)
+- [#5410](https://github.com/ember-cli/ember-cli/pull/5410) Ensure that Testem can use `testem.js` if present (without passing `--config-file` option). [@rwjblue](https://github.com/rwjblue)
+- [#5416](https://github.com/ember-cli/ember-cli/pull/5416) Use ember-load-initializers as addon [@josemarluedke](https://github.com/josemarluedke)
+- [#5421](https://github.com/ember-cli/ember-cli/pull/5421) Make options available in all Blueprint hooks as this.options [@trentmwillis](https://github.com/trentmwillis)
+
+Thank you to all who took the time to contribute!
+
 ### 2.3.0-beta.1
 
 The following changes are required if you are upgrading from the previous
