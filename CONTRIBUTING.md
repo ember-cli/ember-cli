@@ -43,7 +43,7 @@ there is a bug and the faster we'll be able to take action.
 Be sure to include (At the very least):
 
 * OS
-* npm veresion
+* npm version
 * ember version
 * clear steps to reproduction
 
