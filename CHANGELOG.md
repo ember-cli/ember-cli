@@ -6,10 +6,12 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.3.0-beta.1...v2.3.0-beta.2)
   + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
   + Remove `loader.js` from `bower.json`, and add to `package.json` as `^4.0.0`.
   + Remove `ember-load-initializers` from `bower.json`, and add to `package.json` at `^0.5.0`.
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.3.0-beta.1...v2.3.0-beta.2)
   + No changes required
 - Core Contributors
   + No changes required
