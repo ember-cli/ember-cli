@@ -13,15 +13,15 @@ STEPS:
 * ensure you are using the latest stable node
 * generate changelog
   * if on master branch
-    * run `./bin/changelog`
+    * run `./dev/changelog`
   * if this is a hotfix
-    * run `./bin/changelog <branch-name>`
+    * run `./dev/changelog <branch-name>`
 * prepend changelog output to `CHANGELOG.md`
 * edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes, non-code changes, etc.)
 * replace any "ember-cli" user references in the changelog to whomever made the change
 * bump `package.json` version
 * don't commit these changes until later
-* `./bin/prepare-release`
+* `./dev/prepare-release`
 * the `du` command should give you ballbark 344K as of 2.2.0-beta.5
 * `cd to/someplace/to/test/`
 * ensure `ember version` is the newly packaged version

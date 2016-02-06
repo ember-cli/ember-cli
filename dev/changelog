@@ -9,7 +9,7 @@
  *
  * Usage:
  *
- * bin/changelog <branch-name (Default: master)>
+ * dev/changelog <branch-name (Default: master)>
  */
 
 var EOL       = require('os').EOL;
