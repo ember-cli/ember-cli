@@ -21,16 +21,16 @@ var mocha = new Mocha({
   reporter: 'spec'
 });
 var testFiles = glob.sync(root + '/**/*-test.js');
-var jshintPosition = testFiles.indexOf('tests/unit/jshint-test.js');
-var jshint = testFiles.splice(jshintPosition, 1);
+var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
+var lint = testFiles.splice(lintPosition, 1);
 
-testFiles = jshint.concat(testFiles);
+testFiles = lint.concat(testFiles);
 
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
   addFiles(mocha, '/**/*-slow.js');
-} else if (optionOrFile === 'jshint')  {
-  addFiles(mocha, jshint);
+} else if (optionOrFile === 'lint')  {
+  addFiles(mocha, lint);
 } else if (process.argv.length > 2)  {
   addFiles(mocha, process.argv.slice(2));
 } else {
