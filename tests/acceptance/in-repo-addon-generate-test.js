@@ -511,7 +511,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     return generateInRepoAddon(['instance-initializer', 'foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/instance-initializers/foo.js', {
         contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
@@ -532,7 +532,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     return generateInRepoAddon(['instance-initializer', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/instance-initializers/foo/bar.js', {
         contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +

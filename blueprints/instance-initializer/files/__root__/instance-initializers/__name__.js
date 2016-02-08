@@ -1,5 +1,5 @@
 export function initialize(/* appInstance */) {
-  // appInstance.registry.injection('route', 'foo', 'service:foo');
+  // appInstance.inject('route', 'foo', 'service:foo');
 }
 
 export default {

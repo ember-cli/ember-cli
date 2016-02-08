@@ -626,7 +626,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['instance-initializer', 'foo']).then(function() {
       assertFile('app/instance-initializers/foo.js', {
         contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
@@ -645,7 +645,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['instance-initializer', 'foo/bar']).then(function() {
       assertFile('app/instance-initializers/foo/bar.js', {
         contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +

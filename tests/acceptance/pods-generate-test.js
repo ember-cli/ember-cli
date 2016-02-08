@@ -1180,7 +1180,7 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['instance-initializer', 'foo', '--pod']).then(function() {
       assertFile('app/instance-initializers/foo.js', {
         contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
@@ -1195,7 +1195,7 @@ describe('Acceptance: ember generate pod', function() {
     return generate(['instance-initializer', 'foo/bar', '--pod']).then(function() {
       assertFile('app/instance-initializers/foo/bar.js', {
         contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.registry.injection('route', 'foo', 'service:foo');" + EOL +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
                   "}" + EOL +
                   "" + EOL+
                   "export default {" + EOL +
