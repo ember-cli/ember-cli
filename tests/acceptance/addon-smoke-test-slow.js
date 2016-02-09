@@ -10,6 +10,7 @@ var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');
 var expect     = require('chai').expect;
 
+var symlinkOrCopySync   = require('symlink-or-copy').sync;
 var runCommand          = require('../helpers/run-command');
 var ember               = require('../helpers/ember');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
@@ -121,6 +122,23 @@ describe('Acceptance: addon-smoke-test', function() {
         var indexPath = path.join('dist', 'assets', 'vendor.js');
         var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
         expect(contents).to.contain('MY-COMPONENT-TEMPLATE-CONTENT');
+      });
+  });
+
+  it('build with addon dependencies being developed', function() {
+    var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
+    var packageJson = require(packageJsonPath);
+    packageJson.dependencies = packageJson.dependencies || {};
+    packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+    packageJson.dependencies['developing-addon'] = 'latest';
+
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+
+    symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.resolve('../../tmp/', addonName, 'node_modules/developing-addon'));
+
+    return ember(['test'])
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
       });
   });
 

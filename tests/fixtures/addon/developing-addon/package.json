@@ -1,0 +1,10 @@
+{
+  "name": "developing-addon",
+  "version": "0.0.1",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "ember-cli-htmlbars": "latest"
+  }
+}
