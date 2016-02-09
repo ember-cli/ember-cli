@@ -193,7 +193,7 @@ describe('models/project.js', function() {
         'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
-        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button'
+        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'loader.js', 'ember-super-button'
       ];
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
@@ -202,9 +202,9 @@ describe('models/project.js', function() {
       var addons = project.addons;
 
       expect(addons[5].name).to.equal('Ember Non Root Addon');
-      expect(addons[11].name).to.equal('Ember Super Button');
-      expect(addons[11].addons[0].name).to.equal('Ember Yagni');
-      expect(addons[11].addons[1].name).to.equal('Ember Ng');
+      expect(addons[12].name).to.equal('Ember Super Button');
+      expect(addons[12].addons[0].name).to.equal('Ember Yagni');
+      expect(addons[12].addons[1].name).to.equal('Ember Ng');
     });
 
     it('addons get passed the project instance', function() {
