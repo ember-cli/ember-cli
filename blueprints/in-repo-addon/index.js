@@ -8,6 +8,28 @@ var Blueprint = require('../../lib/models/blueprint');
 module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',
 
+  availableOptions: [
+    {
+      name: 'path',
+      type: String,
+      default: 'lib'
+    }
+  ],
+
+  fileMapTokens: function() {
+    return {
+      __path__: function(options) {
+        return options.locals.path;
+      }
+    };
+  },
+
+  locals: function(options) {
+    return {
+      path: options.path
+    };
+  },
+
   beforeInstall: function(options) {
     var libBlueprint = Blueprint.lookup('lib', {
       ui: this.ui,
@@ -22,7 +44,7 @@ module.exports = {
     var packagePath = path.join(this.project.root, 'package.json');
     var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
     var name        = stringUtil.dasherize(options.entity.name);
-    var newPath     = ['lib', name].join('/');
+    var newPath     = [options.path, name].join('/');
     var paths;
 
     contents['ember-addon'] = contents['ember-addon'] || {};
