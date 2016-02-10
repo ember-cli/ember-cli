@@ -13,6 +13,9 @@ var HelpCommand       = require('../../lib/commands/help');
 var requireAsHash     = require('../../lib/utilities/require-as-hash');
 var Command           = require('../../lib/models/command');
 var commands          = requireAsHash('../../lib/commands/*.js', Command);
+var versionUtils      = require('../../lib/utilities/version-utils');
+
+var emberCLIVersion      = versionUtils.emberCLIVersion;
 
 chai.use(chaiString);
 
@@ -225,6 +228,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
       works: 'insideProject',
       availableOptions: [],
       anonymousOptions: ['<command (Default: help)>'],
+      version: emberCLIVersion(),
       commands: [
         {
           name: 'addon',
