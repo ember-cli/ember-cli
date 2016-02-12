@@ -57,5 +57,8 @@ module.exports = {
     'new-cap': [2, {
       properties: false,
     }],
+
+    // JSHint "noarg"
+    'no-caller': 2,
   },
 };
