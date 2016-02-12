@@ -19,7 +19,7 @@ module.exports = {
     var relativePath    = pathUtil.getRelativePath(options.entity.name);
 
     if (options.pod && options.podPath) {
-        relativePath = pathUtil.getRelativePath(options.podPath + options.entity.name);
+      relativePath = pathUtil.getRelativePath(options.podPath + options.entity.name);
     }
 
     if (!isAddon && !options.baseClass && adapterName !== 'application') {
