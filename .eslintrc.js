@@ -60,5 +60,8 @@ module.exports = {
 
     // JSHint "noarg"
     'no-caller': 2,
+
+    // JSHint "noempty"
+    'no-empty': 2,
   },
 };

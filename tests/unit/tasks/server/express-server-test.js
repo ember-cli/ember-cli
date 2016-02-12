@@ -41,10 +41,10 @@ describe('express-server', function() {
   afterEach(function() {
     try {
       subject.httpServer.close();
-    } catch(err) { }
+    } catch(err) { /* ignore */ }
     try {
       proxy.httpServer.close();
-    } catch(err) { }
+    } catch(err) { /* ignore */ }
   });
 
   describe('displayHost', function() {

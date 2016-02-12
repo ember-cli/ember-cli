@@ -38,7 +38,7 @@ describe('livereload-server', function() {
       if (subject._liveReloadServer) {
         subject._liveReloadServer.close();
       }
-    } catch (err) { }
+    } catch (err) { /* ignore */ }
   });
 
   describe('start', function() {
