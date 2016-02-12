@@ -28,5 +28,8 @@ module.exports = {
 
     // JSHint "boss"
     'no-cond-assign': [2, 'except-parens'],
+
+    // JSHint "curly"
+    curly: 2,
   },
 };
