@@ -40,5 +40,8 @@ module.exports = {
 
     // JSHint "eqeqeq"
     eqeqeq: 2,
+
+    // JSHint "evil"
+    'no-eval': 2,
   },
 };
