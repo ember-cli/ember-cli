@@ -31,5 +31,8 @@ module.exports = {
 
     // JSHint "curly"
     curly: 2,
+
+    // JSHint "latedef"
+    'no-use-before-define': [2, 'nofunc'],
   },
 };
