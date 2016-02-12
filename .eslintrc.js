@@ -25,5 +25,8 @@ module.exports = {
 
     // JSHint "camelcase"
     camelcase: 2,
+
+    // JSHint "boss"
+    'no-cond-assign': [2, 'except-parens'],
   },
 };
