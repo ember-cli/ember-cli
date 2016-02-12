@@ -66,5 +66,8 @@ module.exports = {
 
     // JSHint "quotmark", disabled due to warnings
     quotes: [0, 'single'],
+
+    // JSHint "nonew", disabled already in .jshintrc
+    'no-new': 0,
   },
 };
