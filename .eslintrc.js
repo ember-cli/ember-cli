@@ -5,5 +5,10 @@ module.exports = {
   globals: {
   },
   rules: {
+    // JSHint "expr"
+    'no-unused-expressions': [2, {
+      allowShortCircuit: true,
+      allowTernary: true,
+    }],
   },
 };
