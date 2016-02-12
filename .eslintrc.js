@@ -46,5 +46,8 @@ module.exports = {
 
     // JSHint "forin", disabled already in .jshintrc
     'guard-for-in': 0,
+
+    // JSHint "immed", disabled already in .jshintrc
+    'wrap-iife': 0,
   },
 };
