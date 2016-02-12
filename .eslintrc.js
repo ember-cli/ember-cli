@@ -75,5 +75,8 @@ module.exports = {
 
     // JSHint "unused"
     'no-unused-vars': 2,
+
+    // JSHint "sub", disabled due to warnings
+    'dot-notation': 0,
   },
 };
