@@ -16,8 +16,8 @@ module.exports = {
     // JSHint "proto", disabled due to warnings
     'no-proto': 0,
 
-    // JSHint "strict", disabled due to warnings
-    'strict': [0, 'function'],
+    // JSHint "strict"
+    'strict': [2, 'global'],
 
     // JSHint "indent", disabled due to warnings
     'indent': [0, 2, {
