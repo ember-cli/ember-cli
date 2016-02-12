@@ -1,6 +1,8 @@
 module.exports = {
   root: true,
   env: {
+    browser: false,
+    node: true,
   },
   globals: {
   },
@@ -72,6 +74,9 @@ module.exports = {
 
     // JSHint "plusplus", disabled already in .jshintrc
     'no-plusplus': 0,
+
+    // JSHint "undef"
+    'no-undef': 2,
 
     // JSHint "unused"
     'no-unused-vars': 2,
