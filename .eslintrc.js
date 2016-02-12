@@ -10,5 +10,8 @@ module.exports = {
       allowShortCircuit: true,
       allowTernary: true,
     }],
+
+    // JSHint "proto", disabled due to warnings
+    'no-proto': 0,
   },
 };
