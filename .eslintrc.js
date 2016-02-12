@@ -70,6 +70,9 @@ module.exports = {
     // JSHint "nonew", disabled already in .jshintrc
     'no-new': 0,
 
+    // JSHint "plusplus", disabled already in .jshintrc
+    'no-plusplus': 0,
+
     // JSHint "unused"
     'no-unused-vars': 2,
   },
