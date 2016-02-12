@@ -43,5 +43,8 @@ module.exports = {
 
     // JSHint "evil"
     'no-eval': 2,
+
+    // JSHint "forin", disabled already in .jshintrc
+    'guard-for-in': 0,
   },
 };
