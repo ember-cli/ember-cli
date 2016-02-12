@@ -49,5 +49,8 @@ module.exports = {
 
     // JSHint "immed", disabled already in .jshintrc
     'wrap-iife': 0,
+
+    // JSHint "laxbreak"
+    'linebreak-style': [2, 'unix'],
   },
 };
