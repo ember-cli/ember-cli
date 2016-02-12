@@ -23,26 +23,26 @@ describe('git-init', function() {
         ui: ui,
         project: new MockProject()
       });
-      process.chdir(tmpdir);  
+      process.chdir(tmpdir);
     });
 
   });
-  
+
   afterEach(function() {
     process.chdir(root);
     return remove(tmproot);
   });
-  
-/** 
+
+/**
 * TODO: git commit not working with this test setup, it errors out.
 * We need to be able to
-*/  
+*/
   it('skipGit properly skips git-init', function() {
     return subject.run({skipGit:true}).then(function() {
       expect(ui.output).to.not.include('Successfully initialized git.');
     });
   });
-  
+
   it('errors are logged with logErrors', function() {
     return subject.run({skipGit: false, logErrors: true}).then(function() {
       expect(ui.output).to.equal('');

@@ -41,12 +41,12 @@ module.exports = {
     var fileName           = stringUtil.dasherize(options.entity.name);
     var blueprintName      = options.originBlueprintName;
     var modulePathSegments = [addonName, inflector.pluralize(options.originBlueprintName), fileName];
-    
+
     if (blueprintName.match(/-addon/)) {
       blueprintName = blueprintName.substr(0,blueprintName.indexOf('-addon'));
       modulePathSegments = [addonName, inflector.pluralize(blueprintName), fileName];
     }
-    
+
     if (options.pod) {
       modulePathSegments = [addonName, fileName, blueprintName];
     }
