@@ -63,5 +63,8 @@ module.exports = {
 
     // JSHint "noempty"
     'no-empty': 2,
+
+    // JSHint "quotmark", disabled due to warnings
+    quotes: [0, 'single'],
   },
 };
