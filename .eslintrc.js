@@ -37,5 +37,8 @@ module.exports = {
 
     // JSHint "debug", disabled already in .jshintrc
     'no-debugger': 0,
+
+    // JSHint "eqeqeq"
+    eqeqeq: 2,
   },
 };
