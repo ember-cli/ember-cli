@@ -13,5 +13,8 @@ module.exports = {
 
     // JSHint "proto", disabled due to warnings
     'no-proto': 0,
+
+    // JSHint "strict", disabled due to warnings
+    'strict': [0, 'function'],
   },
 };
