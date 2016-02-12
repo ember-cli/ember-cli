@@ -34,5 +34,8 @@ module.exports = {
 
     // JSHint "latedef"
     'no-use-before-define': [2, 'nofunc'],
+
+    // JSHint "debug", disabled already in .jshintrc
+    'no-debugger': 0,
   },
 };
