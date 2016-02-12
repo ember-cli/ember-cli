@@ -44,10 +44,10 @@ describe('blueprint - addon-import', function(){
       podLocals = blueprint.locals(options);
       fileMapTokensPods = blueprint.fileMapTokens(podLocals);
       
-      expect(fileMapTokens.__name__(options)).to.equal('component');
-      expect(fileMapTokens.__path__(options)).to.equal('foo-bar');
-      expect(fileMapTokens.__root__(options)).to.equal('app');
-      
+      expect(fileMapTokensPods.__name__(options)).to.equal('component');
+      expect(fileMapTokensPods.__path__(options)).to.equal('foo-bar');
+      expect(fileMapTokensPods.__root__(options)).to.equal('app');
+
     });
   });
 });
