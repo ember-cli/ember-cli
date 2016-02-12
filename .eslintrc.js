@@ -16,5 +16,11 @@ module.exports = {
 
     // JSHint "strict", disabled due to warnings
     'strict': [0, 'function'],
+
+    // JSHint "indent", disabled due to warnings
+    'indent': [0, 2, {
+      'SwitchCase': 0,
+      'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 }
+    }],
   },
 };
