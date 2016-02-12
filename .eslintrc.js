@@ -78,5 +78,8 @@ module.exports = {
 
     // JSHint "sub", disabled due to warnings
     'dot-notation': 0,
+
+    // JSHint "eqnull"
+    'no-eq-null': 2,
   },
 };
