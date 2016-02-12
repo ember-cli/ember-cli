@@ -52,5 +52,10 @@ module.exports = {
 
     // JSHint "laxbreak"
     'linebreak-style': [2, 'unix'],
+
+    // JSHint "newcap
+    'new-cap': [2, {
+      properties: false,
+    }],
   },
 };
