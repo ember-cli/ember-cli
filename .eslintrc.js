@@ -22,5 +22,8 @@ module.exports = {
       'SwitchCase': 0,
       'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 }
     }],
+
+    // JSHint "camelcase"
+    camelcase: 2,
   },
 };
