@@ -24,7 +24,6 @@ describe('version command', function() {
     return command.validateAndRun().then(function() {
       var lines = options.ui.output.split(EOL);
       expect(someLineStartsWith(lines, 'node:'), 'contains the version of node');
-      expect(someLineStartsWith(lines, 'npm:'), 'contains the version of npm');
       expect(someLineStartsWith(lines, 'os:'), 'contains the version of os');
     });
   });
@@ -33,7 +32,6 @@ describe('version command', function() {
     return command.validateAndRun(['--verbose']).then(function() {
       var lines = options.ui.output.split(EOL);
       expect(someLineStartsWith(lines, 'node:'), 'contains the version of node');
-      expect(someLineStartsWith(lines, 'npm:'), 'contains the version of npm');
       expect(someLineStartsWith(lines, 'os:'), 'contains the version of os');
       expect(someLineStartsWith(lines, 'v8:'), 'contains the version of v8');
     });
