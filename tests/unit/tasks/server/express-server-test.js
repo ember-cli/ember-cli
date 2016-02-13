@@ -31,9 +31,6 @@ describe('express-server', function() {
       serverWatcher: new MockServerWatcher(),
       serverRestartDelayTime: 100,
       serverRoot: './server',
-      proxyMiddleware: function() {
-        return proxy.handler.bind(proxy);
-      },
       environment: 'development'
     });
   });
