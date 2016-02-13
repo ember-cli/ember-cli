@@ -287,7 +287,7 @@ describe('express-server', function() {
               return done(err);
             }
 
-            expect(proxy.called, 'proxy receives the request');
+            expect(proxy.called, 'proxy receives the request').to.equal(true);
             expect(proxy.lastReq.method).to.equal(method.toUpperCase());
             expect(proxy.lastReq.url).to.equal(url);
             done();
@@ -314,7 +314,7 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
-            expect(proxy.called, 'proxy receives the request');
+            expect(proxy.called, 'proxy receives the request').to.equal(true);
             done();
           });
       });
@@ -344,7 +344,7 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
-            expect(nockProxy.called, 'proxy receives the request');
+            expect(nockProxy.called, 'proxy receives the request').to.equal(true);
             expect(nockProxy.method).to.equal(method.toUpperCase());
             expect(nockProxy.url).to.equal(url);
             done();
@@ -434,7 +434,7 @@ describe('express-server', function() {
             if (err) {
               return done(err);
             }
-            expect(nockProxy.called, 'proxy receives the request');
+            expect(nockProxy.called, 'proxy receives the request').to.equal(true);
             done();
           });
       });
