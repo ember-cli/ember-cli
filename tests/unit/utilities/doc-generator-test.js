@@ -1,11 +1,11 @@
 'use strict';
 
-var DocGenerator = require('../../../lib/utilities/doc-generator.js');
-var versionUtils = require('../../../lib/utilities/version-utils');
-var calculateVersion = versionUtils.emberCLIVersion;
-var expect = require('chai').expect;
-var path = require('path');
-var escapeRegExp = require('escape-string-regexp');
+var DocGenerator    = require('../../../lib/utilities/doc-generator.js');
+var versionUtils    = require('../../../lib/utilities/version-utils');
+var emberCLIVersion = versionUtils.emberCLIVersion;
+var expect          = require('chai').expect;
+var path            = require('path');
+var escapeRegExp    = require('escape-string-regexp');
 
 describe('generateDocs', function(){
   it('calls the the appropriate command', function(){
@@ -18,7 +18,7 @@ describe('generateDocs', function(){
         commandPath = '/node_modules/yuidocjs/lib/cli.js';
       }
 
-      var version = escapeRegExp(calculateVersion());
+      var version = escapeRegExp(emberCLIVersion());
       var pattern = 'cd docs && .+' + commandPath + ' -q --project-version ' + version;
 
       expect(arguments[0], 'yudoc command').to.match(new RegExp(pattern));
