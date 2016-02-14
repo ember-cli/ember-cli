@@ -67,7 +67,7 @@
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-path-utils": "^1.0.0",
-    "ember-cli-preprocess-registry": "^1.0.3",
+    "ember-cli-preprocess-registry": "^2.0.0",
     "ember-cli-string-utils": "^1.0.0",
     "ember-cli-test-info": "^1.0.0",
     "ember-router-generator": "^1.0.0",
