@@ -19,10 +19,6 @@ install:
   - npm --version
   - git --version
   - npm install --no-optional
-matrix:
-  allow_failures:
-    - node_js: "5"
-    - node_js: "node"
 
 after_script:
   - cat coverage/lcov.info | codeclimate
