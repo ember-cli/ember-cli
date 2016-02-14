@@ -874,13 +874,13 @@ describe('Acceptance: ember generate in-addon', function() {
       assertFileToNotExist('app/service-test/foo.js');
     });
   });
-  
+
   it('in-addon addon-import cannot be called directly', function() {
     return generateInAddon(['addon-import', 'foo']).catch(function(error) {
       expect(error.message).to.include('You cannot call the addon-import blueprint directly.');
     });
   });
-  
+
   it('in-addon addon-import component-addon works', function() {
     return generateInAddon(['component-addon', 'foo-bar', '--pod']).then(function() {
       assertFile('app/components/foo-bar/component.js', {

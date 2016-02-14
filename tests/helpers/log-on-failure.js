@@ -18,7 +18,7 @@ afterEach(function() {
 });
 
 function logOnFailure(s) {
-  if (logSink == null) {
+  if (logSink === null) {
     throw(new Error('logOnFailure called outside of test'));
   } else {
     logSink.push(s);

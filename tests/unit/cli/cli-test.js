@@ -99,7 +99,7 @@ describe('Unit: CLI', function() {
       expect(output.length).to.equal(1, 'expected no extra output');
     });
   });
-/*  
+/*
   it('logError', function() {
     var cli = new CLI({
       ui: ui,
@@ -144,7 +144,7 @@ describe('Unit: CLI', function() {
     expect(help.called).to.equal(1, 'expected help to be called once');
     expect(init.called).to.equal(0, 'expected init not to be called');
   });
-  
+
   describe('help', function(){
     ['--help', '-h'].forEach(function(command){
       it('ember ' + command, function() {
