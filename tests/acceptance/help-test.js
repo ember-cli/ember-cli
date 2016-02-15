@@ -14,8 +14,7 @@ var requireAsHash     = require('../../lib/utilities/require-as-hash');
 var Command           = require('../../lib/models/command');
 var commands          = requireAsHash('../../lib/commands/*.js', Command);
 var versionUtils      = require('../../lib/utilities/version-utils');
-
-var emberCLIVersion      = versionUtils.emberCLIVersion;
+var emberCLIVersion   = versionUtils.emberCLIVersion;
 
 chai.use(chaiString);
 
