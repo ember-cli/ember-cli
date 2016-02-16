@@ -3,7 +3,6 @@
 var path                = require('path');
 var expect              = require('chai').expect;
 var fs                  = require('fs-extra');
-var EOL                 = '\n';
 var Promise             = require('../../lib/ext/promise');
 var acceptance          = require('../helpers/acceptance');
 var runCommand          = require('../helpers/run-command');
@@ -125,21 +124,21 @@ describe.skip('Acceptance: express server restart', function () {
   it('Server restarts successfully on copy1', function() {
     this.timeout(30000);
 
-    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedSingleCopy('copy1', 'Copy1 contents of A.')));
   });
 
   it('Server restarts successfully on copy2', function() {
     this.timeout(30000);
 
-    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedSingleCopy('copy2', 'Copy2 contents of A. Copy2 contents of B.')));
   });
 
   it('Server restarts successfully on multiple copies', function() {
     this.timeout(90000);
 
-    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedMultipleCopies()));
   });
 });

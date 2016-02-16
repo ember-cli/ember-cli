@@ -14,7 +14,6 @@ var path       = require('path');
 var remove     = Promise.denodeify(fs.remove);
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
-var EOL        = '\n';
 var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
@@ -577,8 +576,8 @@ describe('Acceptance: ember destroy', function() {
       .then(function() {
         return outputFile(
           'blueprints/foo/files/app/foos/__name__.js',
-          "import Ember from 'ember';" + EOL + EOL +
-          'export default Ember.Object.extend({ foo: true });' + EOL
+          "import Ember from 'ember';\n\n" +
+          'export default Ember.Object.extend({ foo: true });\n'
         );
       })
       .then(function() {
@@ -602,8 +601,8 @@ describe('Acceptance: ember destroy', function() {
       .then(function() {
         return outputFile(
           'blueprints/controller/files/app/controllers/__name__.js',
-          "import Ember from 'ember';" + EOL + EOL +
-          "export default Ember.Controller.extend({ custom: true });" + EOL
+          "import Ember from 'ember';\n\n" +
+          "export default Ember.Controller.extend({ custom: true });\n"
         );
       })
       .then(function() {

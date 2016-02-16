@@ -6,7 +6,6 @@ var fs         = require('fs-extra');
 var remove     = Promise.denodeify(fs.remove);
 
 var expect     = require('chai').expect;
-var EOL        = '\n';
 
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
@@ -208,7 +207,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(subjectFileContents).to.equal('EXAMPLE TEXT FILE CONTENT' + EOL);
+        expect(subjectFileContents).to.equal('EXAMPLE TEXT FILE CONTENT\n');
       });
   });
 
@@ -248,7 +247,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(subjectFileContents).to.equal('ROOT FILE' + EOL);
+        expect(subjectFileContents).to.equal('ROOT FILE\n');
       });
   });
 
@@ -277,7 +276,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
 
-        var badContent = 'var blah = ""' + EOL + 'export default Blah;';
+        var badContent = 'var blah = ""\n' + 'export default Blah;';
         var appPath = path.join('.', 'lib', 'ember-random-thing', 'app',
                                           'routes', 'horrible-route.js');
         var testSupportPath = path.join('.', 'lib', 'ember-random-thing', 'test-support',
@@ -396,8 +395,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(mainCSS).to.equal('body { background: black; }' + EOL, 'main.css contains correct content');
-        expect(themeCSS).to.equal('.theme { color: red; }' + EOL, 'theme/a.css contains correct content');
+        expect(mainCSS).to.equal('body { background: black; }\n', 'main.css contains correct content');
+        expect(themeCSS).to.equal('.theme { color: red; }\n', 'theme/a.css contains correct content');
       });
   });
 
@@ -436,7 +435,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(mainCSS).to.equal('body { background: green; }' + EOL, appName + '.css contains correct content');
+        expect(mainCSS).to.equal('body { background: green; }\n', appName + '.css contains correct content');
       });
   });
 });
