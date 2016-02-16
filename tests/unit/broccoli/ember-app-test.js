@@ -132,6 +132,41 @@ describe('broccoli/ember-app', function() {
         expect(addon.app).to.deep.equal(app);
       });
     });
+
+    describe('loader.js missing', function() {
+      it('does not error when loader.js is present in registry.availablePlugins', function() {
+        expect(function() {
+          new EmberApp({
+            project: project
+          });
+        }).to.not.throw(/loader.js addon is missing/);
+      });
+
+      it('throws an error when loader.js is not present in registry.availablePlugins', function() {
+        expect(function() {
+          new EmberApp({
+            project: project,
+            registry: {
+              add: function() { },
+              availablePlugins: { }
+            }
+          });
+        }).to.throw(/loader.js addon is missing/);
+      });
+
+      it('does not throw an error if _ignoreMissingLoader is set', function() {
+        expect(function() {
+          new EmberApp({
+            project: project,
+            registry: {
+              add: function() { },
+              availablePlugins: { }
+            },
+            _ignoreMissingLoader: true
+          });
+        }).to.not.throw(/loader.js addon is missing/);
+      });
+    });
   });
 
   describe('contentFor', function() {
@@ -680,12 +715,14 @@ describe('broccoli/ember-app', function() {
   describe('import', function() {
     it('appends dependencies', function() {
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import('vendor/moment.js', {type: 'vendor'});
       expect(emberApp.legacyFilesToAppend.indexOf('vendor/moment.js')).to.equal(emberApp.legacyFilesToAppend.length - 1);
     });
     it('prepends dependencies', function() {
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
       expect(emberApp.legacyFilesToAppend.indexOf('vendor/es5-shim.js')).to.equal(0);
@@ -693,6 +730,7 @@ describe('broccoli/ember-app', function() {
     it('defaults to development if production is not set', function() {
       process.env.EMBER_ENV = 'production';
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import({
         'development': 'vendor/jquery.js'
@@ -704,6 +742,7 @@ describe('broccoli/ember-app', function() {
     it('honors explicitly set to null in environment', function() {
       process.env.EMBER_ENV = 'production';
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import({
         'development': 'vendor/jquery.js',
@@ -716,8 +755,9 @@ describe('broccoli/ember-app', function() {
 
   describe('vendorFiles', function() {
     var defaultVendorFiles = [
-      'jquery.js', 'ember.js',
-      'app-shims.js', 'ember-resolver.js'
+      'jquery.js',
+      'ember.js',
+      'app-shims.js'
     ];
 
     describe('handlebars.js', function() {
@@ -753,12 +793,16 @@ describe('broccoli/ember-app', function() {
     });
 
     it('defines vendorFiles by default', function() {
-      emberApp = new EmberApp();
+      emberApp = new EmberApp({
+        project: project
+      });
       expect(Object.keys(emberApp.vendorFiles)).to.deep.equal(defaultVendorFiles);
     });
 
     it('redefines a location of a vendor asset', function() {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': 'vendor/ember.js'
         }
@@ -768,6 +812,8 @@ describe('broccoli/ember-app', function() {
 
     it('defines vendorFiles in order even when option for it is passed', function() {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': 'vendor/ember.js'
         }
@@ -777,6 +823,8 @@ describe('broccoli/ember-app', function() {
 
     it('removes dependency in vendorFiles', function() {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': null,
           'handlebars.js': null
@@ -791,7 +839,7 @@ describe('broccoli/ember-app', function() {
       var root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
 
       emberApp = new EmberApp({
-        project: new Project(root, {})
+        project: setupProject(root)
       });
 
       var emberFiles = emberApp.vendorFiles['ember.js'];
@@ -799,13 +847,20 @@ describe('broccoli/ember-app', function() {
     });
 
     it('switches the default ember.debug.js to ember.js if it does not exist', function () {
-      emberApp = new EmberApp();
+      var root = path.resolve(__dirname, '../../fixtures/app/without-ember-debug');
+
+      emberApp = new EmberApp({
+        project: setupProject(root)
+      });
+
       var emberFiles = emberApp.vendorFiles['ember.js'];
       expect(emberFiles.development).to.equal('bower_components/ember/ember.js');
     });
 
     it('does not clobber an explicitly configured ember development file', function () {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': {
             development: 'vendor/ember.debug.js'
