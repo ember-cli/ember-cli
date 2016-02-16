@@ -15,7 +15,7 @@ var path        = require('path');
 var remove      = Promise.denodeify(fs.remove);
 var root        = process.cwd();
 var tmproot     = path.join(root, 'tmp');
-var EOL         = require('os').EOL;
+var EOL         = '\n';
 var mkTmpDirIn  = require('../../lib/utilities/mk-tmp-dir-in');
 
 var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');

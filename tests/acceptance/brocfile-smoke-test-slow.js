@@ -6,7 +6,7 @@ var fs         = require('fs-extra');
 var remove     = Promise.denodeify(fs.remove);
 
 var expect     = require('chai').expect;
-var EOL        = require('os').EOL;
+var EOL        = '\n';
 
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
