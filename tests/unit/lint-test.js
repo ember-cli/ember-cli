@@ -8,12 +8,7 @@ var paths = glob('tests/*').filter(function(path) {
 
 paths = paths.concat([
   'lib',
-  'bin'
-]);
-
-require('mocha-jscs')(paths);
-
-paths = paths.concat([
+  'bin',
   'blueprints'
 ]);
 

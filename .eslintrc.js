@@ -63,7 +63,7 @@ module.exports = {
     // JSHint "noarg"
     'no-caller': 2,
 
-    // JSHint "noempty"
+    // JSHint "noempty", JSCS "disallowEmptyBlocks"
     'no-empty': 2,
 
     // JSHint "quotmark", disabled due to warnings

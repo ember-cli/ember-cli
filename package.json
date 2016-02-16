@@ -131,7 +131,6 @@
     "istanbul": "^0.3.13",
     "mocha": "^2.2.1",
     "mocha-eslint": "^1.0.0",
-    "mocha-jscs": "^4.0.0",
     "mocha-only-detector": "0.0.2",
     "multiline": "^1.0.2",
     "nock": "^3.4.0",
