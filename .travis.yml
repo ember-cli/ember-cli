@@ -1,4 +1,5 @@
 sudo: false
+
 language: node_js
 node_js:
   - "0.10"
@@ -9,16 +10,19 @@ node_js:
 
 os:
   - linux
-script: npm run-script test-all:cover
+
 before_install:
   - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
   - test $TRAVIS_OS_NAME = "osx" && brew update && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
   - npm config set spin false
+
 install:
   - node --version
   - npm --version
   - git --version
   - npm install --no-optional
+
+script: npm run-script test-all:cover
 
 after_script:
   - cat coverage/lcov.info | codeclimate
