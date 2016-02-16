@@ -216,7 +216,7 @@ describe('Acceptance: ember generate in-addon', function() {
         ]
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
-        contains: "import { fooBar } from '../../../helpers/foo-bar';"
+        contains: "import { fooBar } from 'dummy/helpers/foo-bar';"
       });
     });
   });
@@ -236,7 +236,7 @@ describe('Acceptance: ember generate in-addon', function() {
         ]
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
-        contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
+        contains: "import { fooBarBaz } from 'dummy/helpers/foo/bar-baz';"
       });
     });
   });

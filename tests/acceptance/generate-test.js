@@ -210,7 +210,7 @@ describe('Acceptance: ember generate', function() {
                   "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
-        contains: "import { fooBar } from '../../../helpers/foo-bar';"
+        contains: "import { fooBar } from 'my-app/helpers/foo-bar';"
       });
     });
   });
@@ -225,7 +225,7 @@ describe('Acceptance: ember generate', function() {
                   "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
-        contains: "import { fooBarBaz } from '../../../../helpers/foo/bar-baz';"
+        contains: "import { fooBarBaz } from 'my-app/helpers/foo/bar-baz';"
       });
     });
   });
@@ -585,7 +585,7 @@ describe('Acceptance: ember generate', function() {
       });
 
       assertFile('tests/unit/initializers/foo-test.js', {
-        contains: "import FooInitializer from '../../../initializers/foo';"
+        contains: "import FooInitializer from 'my-app/initializers/foo';"
       });
     });
   });
@@ -594,7 +594,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['initializer-test', 'foo']).then(function() {
       assertFile('tests/unit/initializers/foo-test.js', {
         contains: [
-          "import FooInitializer from '../../../initializers/foo';",
+          "import FooInitializer from 'my-app/initializers/foo';",
           "module('Unit | Initializer | foo'",
           "let application;",
           "FooInitializer.initialize(application);"
@@ -617,7 +617,7 @@ describe('Acceptance: ember generate', function() {
       });
 
       assertFile('tests/unit/initializers/foo/bar-test.js', {
-        contains: "import FooBarInitializer from '../../../../initializers/foo/bar';"
+        contains: "import FooBarInitializer from 'my-app/initializers/foo/bar';"
       });
     });
   });
@@ -636,7 +636,7 @@ describe('Acceptance: ember generate', function() {
       });
 
       assertFile('tests/unit/instance-initializers/foo-test.js', {
-        contains: "import { initialize } from '../../../instance-initializers/foo';"
+        contains: "import { initialize } from 'my-app/instance-initializers/foo';"
       });
     });
   });
@@ -655,7 +655,7 @@ describe('Acceptance: ember generate', function() {
       });
 
       assertFile('tests/unit/instance-initializers/foo/bar-test.js', {
-        contains: "import { initialize } from '../../../../instance-initializers/foo/bar';"
+        contains: "import { initialize } from 'my-app/instance-initializers/foo/bar';"
       });
     });
   });
