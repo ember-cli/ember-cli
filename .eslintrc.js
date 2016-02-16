@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  extends: 'eslint:recommended',
   env: {
     browser: false,
     node: true,
@@ -89,5 +90,8 @@ module.exports = {
 
     // JSHint "eqnull"
     'no-eq-null': 2,
+
+    'no-console': 0,
+    'comma-dangle': 0,
   },
 };

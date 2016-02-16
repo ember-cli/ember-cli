@@ -4,7 +4,6 @@ var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var fs         = require('fs-extra');
 var remove     = Promise.denodeify(fs.remove);
-var expect     = require('chai').expect;
 var addonName  = 'some-cool-addon';
 var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');

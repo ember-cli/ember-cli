@@ -17,7 +17,6 @@ var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
-var existsSync          = require('exists-sync');
 
 var appName  = 'some-cool-app';
 
