@@ -1,5 +1,8 @@
 module.exports = {
   root: true,
+  plugins: [
+    'chai-expect',
+  ],
   extends: 'eslint:recommended',
   env: {
     browser: false,
@@ -93,5 +96,7 @@ module.exports = {
 
     'no-console': 0,
     'comma-dangle': 0,
+
+    'chai-expect/missing-assertion': 2,
   },
 };
