@@ -13,7 +13,6 @@ var path                 = require('path');
 var remove               = Promise.denodeify(fs.remove);
 var root                 = process.cwd();
 var tmproot              = path.join(root, 'tmp');
-var EOL                  = require('os').EOL;
 var BlueprintNpmTask     = require('../helpers/disable-npm-on-blueprint');
 var expect               = require('chai').expect;
 var mkTmpDirIn           = require('../../lib/utilities/mk-tmp-dir-in');
@@ -74,7 +73,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('lib/my-addon/app/controllers/foo.js', {
@@ -96,7 +95,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/controllers/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('lib/my-addon/app/controllers/foo/bar.js', {
@@ -205,10 +204,10 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon helper foo-bar', function() {
     return generateInRepoAddon(['helper', 'foo-bar', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/helpers/foo-bar.js', {
-        contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBar(params/*, hash*/) {" + EOL +
-                  "  return params;" + EOL +
-                  "}" +  EOL + EOL +
+        contains: "import Ember from 'ember';\n\n" +
+                  "export function fooBar(params/*, hash*/) {\n" +
+                  "  return params;\n" +
+                  "}\n\n" +
                   "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('lib/my-addon/app/helpers/foo-bar.js', {
@@ -225,10 +224,10 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon helper foo/bar-baz', function() {
     return generateInRepoAddon(['helper', 'foo/bar-baz', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/helpers/foo/bar-baz.js', {
-        contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBarBaz(params/*, hash*/) {" + EOL +
-                  "  return params;" + EOL +
-                  "}" + EOL + EOL +
+        contains: "import Ember from 'ember';\n\n" +
+                  "export function fooBarBaz(params/*, hash*/) {\n" +
+                  "  return params;\n" +
+                  "}\n\n" +
                   "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('lib/my-addon/app/helpers/foo/bar-baz.js', {
@@ -355,7 +354,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/routes/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Route.extend({" + EOL + "});"
+          "export default Ember.Route.extend({\n});"
         ]
       });
       assertFile('lib/my-addon/app/routes/foo.js', {
@@ -381,7 +380,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/routes/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Route.extend({" + EOL + "});"
+          "export default Ember.Route.extend({\n});"
         ]
       });
       assertFile('lib/my-addon/app/routes/foo/bar.js', {
@@ -419,7 +418,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/views/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.View.extend({" + EOL + "})"
+          "export default Ember.View.extend({\n})"
         ]
       });
       assertFile('lib/my-addon/app/views/foo.js', {
@@ -441,7 +440,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/views/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.View.extend({" + EOL + "})"
+          "export default Ember.View.extend({\n})"
         ]
       });
       assertFile('lib/my-addon/app/views/foo/bar.js', {
@@ -468,13 +467,13 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon initializer foo', function() {
     return generateInRepoAddon(['initializer', 'foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/initializers/foo.js', {
-        contains: "export function initialize(/* application */) {" + EOL +
-                  "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo'," + EOL +
-                  "  initialize" + EOL +
+        contains: "export function initialize(/* application */) {\n" +
+                  "  // application.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo',\n" +
+                  "  initialize\n" +
                   "};"
       });
       assertFile('lib/my-addon/app/initializers/foo.js', {
@@ -489,13 +488,13 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon initializer foo/bar', function() {
     return generateInRepoAddon(['initializer', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/initializers/foo/bar.js', {
-        contains: "export function initialize(/* application */) {" + EOL +
-                  "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo/bar'," + EOL +
-                  "  initialize" + EOL +
+        contains: "export function initialize(/* application */) {\n" +
+                  "  // application.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo/bar',\n" +
+                  "  initialize\n" +
                   "};"
       });
       assertFile('lib/my-addon/app/initializers/foo/bar.js', {
@@ -510,13 +509,13 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon instance-initializer foo', function() {
     return generateInRepoAddon(['instance-initializer', 'foo', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/instance-initializers/foo.js', {
-        contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo'," + EOL +
-                  "  initialize: initialize" + EOL +
+        contains: "export function initialize(/* appInstance */) {\n" +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo',\n" +
+                  "  initialize: initialize\n" +
                   "};"
       });
       assertFile('lib/my-addon/app/instance-initializers/foo.js', {
@@ -531,13 +530,13 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon instance-initializer foo/bar', function() {
     return generateInRepoAddon(['instance-initializer', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/instance-initializers/foo/bar.js', {
-        contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo/bar'," + EOL +
-                  "  initialize: initialize" + EOL +
+        contains: "export function initialize(/* appInstance */) {\n" +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo/bar',\n" +
+                  "  initialize: initialize\n" +
                   "};"
       });
       assertFile('lib/my-addon/app/instance-initializers/foo/bar.js', {
@@ -554,7 +553,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/mixins/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Mixin.create({' + EOL + '});'
+          'export default Ember.Mixin.create({\n});'
         ]
       });
       assertFile('tests/unit/mixins/foo-test.js', {
@@ -570,7 +569,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/mixins/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Mixin.create({' + EOL + '});'
+          'export default Ember.Mixin.create({\n});'
         ]
       });
       assertFile('tests/unit/mixins/foo/bar-test.js', {
@@ -596,7 +595,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/adapters/application.js', {
         contains: [
           "import DS from \'ember-data\';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "export default DS.RESTAdapter.extend({\n});"
         ]
       });
       assertFile('lib/my-addon/app/adapters/application.js', {
@@ -618,7 +617,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/adapters/foo.js', {
         contains: [
           "import DS from \'ember-data\';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "export default DS.RESTAdapter.extend({\n});"
         ]
       });
       assertFile('lib/my-addon/app/adapters/foo.js', {
@@ -640,7 +639,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/adapters/foo/bar.js', {
         contains: [
           "import FooAdapter from \'../foo\';",
-          "export default FooAdapter.extend({" + EOL + "});"
+          "export default FooAdapter.extend({\n});"
         ]
       });
       assertFile('lib/my-addon/app/adapters/foo/bar.js', {
@@ -663,7 +662,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/serializers/foo.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({' + EOL + '});'
+          'export default DS.RESTSerializer.extend({\n});'
         ]
       });
       assertFile('lib/my-addon/app/serializers/foo.js', {
@@ -684,7 +683,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/serializers/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({' + EOL + '});'
+          'export default DS.RESTSerializer.extend({\n});'
         ]
       });
       assertFile('lib/my-addon/app/serializers/foo/bar.js', {
@@ -706,14 +705,14 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/transforms/foo.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({' + EOL +
-          '  deserialize(serialized) {' + EOL +
-          '    return serialized;' + EOL +
-          '  },' + EOL +
-          EOL +
-          '  serialize(deserialized) {' + EOL +
-          '    return deserialized;' + EOL +
-          '  }' + EOL +
+          'export default DS.Transform.extend({\n' +
+          '  deserialize(serialized) {\n' +
+          '    return serialized;\n' +
+          '  },\n' +
+          '\n' +
+          '  serialize(deserialized) {\n' +
+          '    return deserialized;\n' +
+          '  }\n' +
           '});'
         ]
       });
@@ -736,14 +735,14 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/transforms/foo/bar.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({' + EOL +
-          '  deserialize(serialized) {' + EOL +
-          '    return serialized;' + EOL +
-          '  },' + EOL +
-          '' + EOL +
-          '  serialize(deserialized) {' + EOL +
-          '    return deserialized;' + EOL +
-          '  }' + EOL +
+          'export default DS.Transform.extend({\n' +
+          '  deserialize(serialized) {\n' +
+          '    return serialized;\n' +
+          '  },\n' +
+          '\n' +
+          '  serialize(deserialized) {\n' +
+          '    return deserialized;\n' +
+          '  }\n' +
           '});'
         ]
       });
@@ -764,8 +763,8 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon util foo-bar', function() {
     return generateInRepoAddon(['util', 'foo-bar', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/utils/foo-bar.js', {
-        contains: 'export default function fooBar() {' + EOL +
-                  '  return true;' + EOL +
+        contains: 'export default function fooBar() {\n' +
+                  '  return true;\n' +
                   '}'
       });
       assertFile('lib/my-addon/app/utils/foo-bar.js', {
@@ -784,8 +783,8 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   it('in-repo-addon util foo-bar/baz', function() {
     return generateInRepoAddon(['util', 'foo/bar-baz', '--in-repo-addon=my-addon']).then(function() {
       assertFile('lib/my-addon/addon/utils/foo/bar-baz.js', {
-        contains: 'export default function fooBarBaz() {' + EOL +
-                  '  return true;' + EOL +
+        contains: 'export default function fooBarBaz() {\n' +
+                  '  return true;\n' +
                   '}'
       });
       assertFile('lib/my-addon/app/utils/foo/bar-baz.js', {
@@ -806,7 +805,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/services/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Service.extend({' + EOL + '});'
+          'export default Ember.Service.extend({\n});'
         ]
       });
       assertFile('lib/my-addon/app/services/foo.js', {
@@ -828,7 +827,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       assertFile('lib/my-addon/addon/services/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Service.extend({' + EOL + '});'
+          'export default Ember.Service.extend({\n});'
         ]
       });
       assertFile('lib/my-addon/app/services/foo/bar.js', {

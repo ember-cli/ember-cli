@@ -14,7 +14,6 @@ var path             = require('path');
 var remove           = Promise.denodeify(fs.remove);
 var root             = process.cwd();
 var tmproot          = path.join(root, 'tmp');
-var EOL              = require('os').EOL;
 var expect           = require('chai').expect;
 var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
 
@@ -97,7 +96,7 @@ describe('Acceptance: ember generate pod', function() {
     var generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
-      replaceFile('config/environment.js', "var ENV = {", "var ENV = {" + EOL + "podModulePrefix: 'app/pods', " + EOL);
+      replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
       return ember(generateArgs);
     });
   }
@@ -106,7 +105,7 @@ describe('Acceptance: ember generate pod', function() {
     var generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
-      replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,' + EOL + '"usePods" : true' + EOL);
+      replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,\n"usePods" : true\n');
       return ember(generateArgs);
     });
   }
@@ -115,7 +114,7 @@ describe('Acceptance: ember generate pod', function() {
     var generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
-      replaceFile('config/environment.js', "var ENV = {", "var ENV = {" + EOL + "usePodsByDefault: true, " + EOL);
+      replaceFile('config/environment.js', "var ENV = {", "var ENV = {\nusePodsByDefault: true, \n");
       return ember(generateArgs);
     });
   }
@@ -141,7 +140,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('tests/unit/foo/controller-test.js', {
@@ -158,7 +157,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/controllers/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('tests/unit/controllers/foo-test.js', {
@@ -198,7 +197,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('tests/unit/foo/controller-test.js', {
@@ -215,7 +214,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/controller.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('tests/unit/pods/foo/controller-test.js', {
@@ -232,7 +231,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/bar/controller.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('tests/unit/foo/bar/controller-test.js', {
@@ -249,7 +248,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/bar/controller.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Controller.extend({" + EOL + "});"
+          "export default Ember.Controller.extend({\n});"
         ]
       });
       assertFile('tests/unit/pods/foo/bar/controller-test.js', {
@@ -661,10 +660,10 @@ describe('Acceptance: ember generate pod', function() {
   it('helper foo-bar --pod', function() {
     return generate(['helper', 'foo-bar', '--pod']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
-        contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBar(params/*, hash*/) {" + EOL +
-                  "  return params;" + EOL +
-                  "}" +  EOL + EOL +
+        contains: "import Ember from 'ember';\n\n" +
+                  "export function fooBar(params/*, hash*/) {\n" +
+                  "  return params;\n" +
+                  "}\n\n" +
                   "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -676,10 +675,10 @@ describe('Acceptance: ember generate pod', function() {
   it('helper foo-bar --pod podModulePrefix', function() {
     return generateWithPrefix(['helper', 'foo-bar', '--pod']).then(function() {
       assertFile('app/helpers/foo-bar.js', {
-        contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBar(params/*, hash*/) {" + EOL +
-                  "  return params;" + EOL +
-                  "}" +  EOL + EOL +
+        contains: "import Ember from 'ember';\n\n" +
+                  "export function fooBar(params/*, hash*/) {\n" +
+                  "  return params;\n" +
+                  "}\n\n" +
                   "export default Ember.Helper.helper(fooBar);"
       });
       assertFile('tests/unit/helpers/foo-bar-test.js', {
@@ -691,10 +690,10 @@ describe('Acceptance: ember generate pod', function() {
   it('helper foo/bar-baz --pod', function() {
     return generate(['helper', 'foo/bar-baz', '--pod']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
-        contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBarBaz(params/*, hash*/) {" + EOL +
-                  "  return params;" + EOL +
-                  "}" + EOL + EOL +
+        contains: "import Ember from 'ember';\n\n" +
+                  "export function fooBarBaz(params/*, hash*/) {\n" +
+                  "  return params;\n" +
+                  "}\n\n" +
                   "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
@@ -706,10 +705,10 @@ describe('Acceptance: ember generate pod', function() {
   it('helper foo/bar-baz --pod podModulePrefix', function() {
     return generateWithPrefix(['helper', 'foo/bar-baz', '--pod']).then(function() {
       assertFile('app/helpers/foo/bar-baz.js', {
-        contains: "import Ember from 'ember';" + EOL + EOL +
-                  "export function fooBarBaz(params/*, hash*/) {" + EOL +
-                  "  return params;" + EOL +
-                  "}" + EOL + EOL +
+        contains: "import Ember from 'ember';\n\n" +
+                  "export function fooBarBaz(params/*, hash*/) {\n" +
+                  "  return params;\n" +
+                  "}\n\n" +
                   "export default Ember.Helper.helper(fooBarBaz);"
       });
       assertFile('tests/unit/helpers/foo/bar-baz-test.js', {
@@ -825,7 +824,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('addon/foo/route.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Route.extend({" + EOL + "});"
+          "export default Ember.Route.extend({\n});"
         ]
       });
       assertFile('addon/foo/template.hbs', {
@@ -858,7 +857,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/route.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Route.extend({" + EOL + "});"
+          "export default Ember.Route.extend({\n});"
         ]
       });
       assertFile('app/foo/template.hbs', {
@@ -920,7 +919,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/route.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.Route.extend({" + EOL + "});"
+          "export default Ember.Route.extend({\n});"
         ]
       });
       assertFile('app/pods/foo/template.hbs', {
@@ -998,7 +997,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/view.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.View.extend({" + EOL + "})"
+          "export default Ember.View.extend({\n})"
         ]
       });
       assertFile('tests/unit/foo/view-test.js', {
@@ -1015,7 +1014,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/view.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.View.extend({" + EOL + "})"
+          "export default Ember.View.extend({\n})"
         ]
       });
       assertFile('tests/unit/pods/foo/view-test.js', {
@@ -1032,7 +1031,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/bar/view.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.View.extend({" + EOL + "})"
+          "export default Ember.View.extend({\n})"
         ]
       });
       assertFile('tests/unit/foo/bar/view-test.js', {
@@ -1049,7 +1048,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/bar/view.js', {
         contains: [
           "import Ember from 'ember';",
-          "export default Ember.View.extend({" + EOL + "})"
+          "export default Ember.View.extend({\n})"
         ]
       });
       assertFile('tests/unit/pods/foo/bar/view-test.js', {
@@ -1070,7 +1069,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: 'export default DS.Model.extend'
       });
       assertFile('app/foos/route.js', {
-        contains: 'export default Ember.Route.extend({' + EOL + '});'
+        contains: 'export default Ember.Route.extend({\n});'
       });
       assertFile('app/foos/template.hbs', {
         contains: '{{outlet}}'
@@ -1132,7 +1131,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: 'export default DS.Model.extend'
       });
       assertFile('app/pods/foos/route.js', {
-        contains: 'export default Ember.Route.extend({' + EOL + '});'
+        contains: 'export default Ember.Route.extend({\n});'
       });
       assertFile('app/pods/foos/template.hbs', {
         contains: '{{outlet}}'
@@ -1149,13 +1148,13 @@ describe('Acceptance: ember generate pod', function() {
   it('initializer foo --pod', function() {
     return generate(['initializer', 'foo', '--pod']).then(function() {
       assertFile('app/initializers/foo.js', {
-        contains: "export function initialize(/* application */) {" + EOL +
-                  "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo'," + EOL +
-                  "  initialize" + EOL +
+        contains: "export function initialize(/* application */) {\n" +
+                  "  // application.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo',\n" +
+                  "  initialize\n" +
                   "};"
       });
     });
@@ -1164,13 +1163,13 @@ describe('Acceptance: ember generate pod', function() {
   it('initializer foo/bar --pod', function() {
     return generate(['initializer', 'foo/bar', '--pod']).then(function() {
       assertFile('app/initializers/foo/bar.js', {
-        contains: "export function initialize(/* application */) {" + EOL +
-                  "  // application.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo/bar'," + EOL +
-                  "  initialize" + EOL +
+        contains: "export function initialize(/* application */) {\n" +
+                  "  // application.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo/bar',\n" +
+                  "  initialize\n" +
                   "};"
       });
     });
@@ -1179,13 +1178,13 @@ describe('Acceptance: ember generate pod', function() {
   it('instance-initializer foo --pod', function() {
     return generate(['instance-initializer', 'foo', '--pod']).then(function() {
       assertFile('app/instance-initializers/foo.js', {
-        contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo'," + EOL +
-                  "  initialize: initialize" + EOL +
+        contains: "export function initialize(/* appInstance */) {\n" +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo',\n" +
+                  "  initialize: initialize\n" +
                   "};"
       });
     });
@@ -1194,13 +1193,13 @@ describe('Acceptance: ember generate pod', function() {
   it('instance-initializer foo/bar --pod', function() {
     return generate(['instance-initializer', 'foo/bar', '--pod']).then(function() {
       assertFile('app/instance-initializers/foo/bar.js', {
-        contains: "export function initialize(/* appInstance */) {" + EOL +
-                  "  // appInstance.inject('route', 'foo', 'service:foo');" + EOL +
-                  "}" + EOL +
-                  "" + EOL+
-                  "export default {" + EOL +
-                  "  name: 'foo/bar'," + EOL +
-                  "  initialize: initialize" + EOL +
+        contains: "export function initialize(/* appInstance */) {\n" +
+                  "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
+                  "}\n" +
+                  "\n"+
+                  "export default {\n" +
+                  "  name: 'foo/bar',\n" +
+                  "  initialize: initialize\n" +
                   "};"
       });
     });
@@ -1211,7 +1210,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/mixins/foo.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Mixin.create({' + EOL + '});'
+          'export default Ember.Mixin.create({\n});'
         ]
       });
       assertFile('tests/unit/mixins/foo-test.js', {
@@ -1227,7 +1226,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/mixins/foo/bar.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Mixin.create({' + EOL + '});'
+          'export default Ember.Mixin.create({\n});'
         ]
       });
       assertFile('tests/unit/mixins/foo/bar-test.js', {
@@ -1253,7 +1252,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/application/adapter.js', {
         contains: [
           "import DS from \'ember-data\';",
-          "export default DS.RESTAdapter.extend({" + EOL + "});"
+          "export default DS.RESTAdapter.extend({\n});"
         ]
       });
       assertFile('tests/unit/application/adapter-test.js', {
@@ -1270,7 +1269,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/adapter.js', {
         contains: [
           "import ApplicationAdapter from \'./application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "export default ApplicationAdapter.extend({\n});"
         ]
       });
       assertFile('tests/unit/foo/adapter-test.js', {
@@ -1287,7 +1286,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/adapter.js', {
         contains: [
           "import ApplicationAdapter from \'./application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "export default ApplicationAdapter.extend({\n});"
         ]
       });
       assertFile('tests/unit/pods/foo/adapter-test.js', {
@@ -1304,7 +1303,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/bar/adapter.js', {
         contains: [
           "import ApplicationAdapter from \'../application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "export default ApplicationAdapter.extend({\n});"
         ]
       });
     });
@@ -1315,7 +1314,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/bar/adapter.js', {
         contains: [
           "import ApplicationAdapter from \'../application\';",
-          "export default ApplicationAdapter.extend({" + EOL + "});"
+          "export default ApplicationAdapter.extend({\n});"
         ]
       });
     });
@@ -1342,7 +1341,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/adapter.js', {
         contains: [
           "import BarAdapter from './bar';",
-          "export default BarAdapter.extend({" + EOL + "});"
+          "export default BarAdapter.extend({\n});"
         ]
       });
     });
@@ -1353,7 +1352,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/baz/adapter.js', {
         contains: [
           "import FooBarAdapter from '../foo/bar';",
-          "export default FooBarAdapter.extend({" + EOL + "});"
+          "export default FooBarAdapter.extend({\n});"
         ]
       });
     });
@@ -1365,7 +1364,7 @@ describe('Acceptance: ember generate pod', function() {
         assertFile('app/foo/adapter.js', {
           contains: [
             "import ApplicationAdapter from './application';",
-            "export default ApplicationAdapter.extend({" + EOL + "});"
+            "export default ApplicationAdapter.extend({\n});"
           ]
         });
       });
@@ -1378,7 +1377,7 @@ describe('Acceptance: ember generate pod', function() {
         assertFile('app/foo/adapter.js', {
           contains: [
             "import BarAdapter from './bar';",
-            "export default BarAdapter.extend({" + EOL + "});"
+            "export default BarAdapter.extend({\n});"
           ]
         });
       });
@@ -1390,7 +1389,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/serializer.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({' + EOL + '});'
+          'export default DS.RESTSerializer.extend({\n});'
         ]
       });
       assertFile('tests/unit/foo/serializer-test.js', {
@@ -1406,7 +1405,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/serializer.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({' + EOL + '});'
+          'export default DS.RESTSerializer.extend({\n});'
         ]
       });
       assertFile('tests/unit/pods/foo/serializer-test.js', {
@@ -1422,7 +1421,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/bar/serializer.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({' + EOL + '});'
+          'export default DS.RESTSerializer.extend({\n});'
         ]
       });
       assertFile('tests/unit/foo/bar/serializer-test.js', {
@@ -1439,7 +1438,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/bar/serializer.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.RESTSerializer.extend({' + EOL + '});'
+          'export default DS.RESTSerializer.extend({\n});'
         ]
       });
       assertFile('tests/unit/pods/foo/bar/serializer-test.js', {
@@ -1456,14 +1455,14 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/transform.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({' + EOL +
-          '  deserialize(serialized) {' + EOL +
-          '    return serialized;' + EOL +
-          '  },' + EOL +
-          EOL +
-          '  serialize(deserialized) {' + EOL +
-          '    return deserialized;' + EOL +
-          '  }' + EOL +
+          'export default DS.Transform.extend({\n' +
+          '  deserialize(serialized) {\n' +
+          '    return serialized;\n' +
+          '  },\n' +
+          '\n' +
+          '  serialize(deserialized) {\n' +
+          '    return deserialized;\n' +
+          '  }\n' +
           '});'
         ]
       });
@@ -1481,14 +1480,14 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/transform.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({' + EOL +
-          '  deserialize(serialized) {' + EOL +
-          '    return serialized;' + EOL +
-          '  },' + EOL +
-          EOL +
-          '  serialize(deserialized) {' + EOL +
-          '    return deserialized;' + EOL +
-          '  }' + EOL +
+          'export default DS.Transform.extend({\n' +
+          '  deserialize(serialized) {\n' +
+          '    return serialized;\n' +
+          '  },\n' +
+          '\n' +
+          '  serialize(deserialized) {\n' +
+          '    return deserialized;\n' +
+          '  }\n' +
           '});'
         ]
       });
@@ -1506,14 +1505,14 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/bar/transform.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({' + EOL +
-          '  deserialize(serialized) {' + EOL +
-          '    return serialized;' + EOL +
-          '  },' + EOL +
-          '' + EOL +
-          '  serialize(deserialized) {' + EOL +
-          '    return deserialized;' + EOL +
-          '  }' + EOL +
+          'export default DS.Transform.extend({\n' +
+          '  deserialize(serialized) {\n' +
+          '    return serialized;\n' +
+          '  },\n' +
+          '\n' +
+          '  serialize(deserialized) {\n' +
+          '    return deserialized;\n' +
+          '  }\n' +
           '});'
         ]
       });
@@ -1531,14 +1530,14 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/bar/transform.js', {
         contains: [
           "import DS from 'ember-data';",
-          'export default DS.Transform.extend({' + EOL +
-          '  deserialize(serialized) {' + EOL +
-          '    return serialized;' + EOL +
-          '  },' + EOL +
-          '' + EOL +
-          '  serialize(deserialized) {' + EOL +
-          '    return deserialized;' + EOL +
-          '  }' + EOL +
+          'export default DS.Transform.extend({\n' +
+          '  deserialize(serialized) {\n' +
+          '    return serialized;\n' +
+          '  },\n' +
+          '\n' +
+          '  serialize(deserialized) {\n' +
+          '    return deserialized;\n' +
+          '  }\n' +
           '});'
         ]
       });
@@ -1554,8 +1553,8 @@ describe('Acceptance: ember generate pod', function() {
   it('util foo-bar --pod', function() {
     return generate(['util', 'foo-bar', '--pod']).then(function() {
       assertFile('app/utils/foo-bar.js', {
-        contains: 'export default function fooBar() {' + EOL +
-                  '  return true;' + EOL +
+        contains: 'export default function fooBar() {\n' +
+                  '  return true;\n' +
                   '}'
       });
       assertFile('tests/unit/utils/foo-bar-test.js', {
@@ -1569,8 +1568,8 @@ describe('Acceptance: ember generate pod', function() {
   it('util foo-bar/baz --pod', function() {
     return generate(['util', 'foo/bar-baz', '--pod']).then(function() {
       assertFile('app/utils/foo/bar-baz.js', {
-        contains: 'export default function fooBarBaz() {' + EOL +
-                  '  return true;' + EOL +
+        contains: 'export default function fooBarBaz() {\n' +
+                  '  return true;\n' +
                   '}'
       });
       assertFile('tests/unit/utils/foo/bar-baz-test.js', {
@@ -1586,7 +1585,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/service.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Service.extend({' + EOL + '});'
+          'export default Ember.Service.extend({\n});'
         ]
       });
       assertFile('tests/unit/foo/service-test.js', {
@@ -1603,7 +1602,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/foo/bar/service.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Service.extend({' + EOL + '});'
+          'export default Ember.Service.extend({\n});'
         ]
       });
       assertFile('tests/unit/foo/bar/service-test.js', {
@@ -1620,7 +1619,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/service.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Service.extend({' + EOL + '});'
+          'export default Ember.Service.extend({\n});'
         ]
       });
       assertFile('tests/unit/pods/foo/service-test.js', {
@@ -1637,7 +1636,7 @@ describe('Acceptance: ember generate pod', function() {
       assertFile('app/pods/foo/bar/service.js', {
         contains: [
           "import Ember from 'ember';",
-          'export default Ember.Service.extend({' + EOL + '});'
+          'export default Ember.Service.extend({\n});'
         ]
       });
       assertFile('tests/unit/pods/foo/bar/service-test.js', {
@@ -1652,19 +1651,19 @@ describe('Acceptance: ember generate pod', function() {
   it('blueprint foo --pod', function() {
     return generate(['blueprint', 'foo', '--pod']).then(function() {
       assertFile('blueprints/foo/index.js', {
-        contains: "module.exports = {" + EOL +
-                  "  description: ''"+ EOL +
-                  EOL +
-                  "  // locals: function(options) {" + EOL +
-                  "  //   // Return custom template variables here." + EOL +
-                  "  //   return {" + EOL +
-                  "  //     foo: options.entity.options.foo" + EOL +
-                  "  //   };" + EOL +
-                  "  // }" + EOL +
-                  EOL +
-                  "  // afterInstall: function(options) {" + EOL +
-                  "  //   // Perform extra work here." + EOL +
-                  "  // }" + EOL +
+        contains: "module.exports = {\n" +
+                  "  description: ''\n" +
+                  "\n" +
+                  "  // locals: function(options) {\n" +
+                  "  //   // Return custom template variables here.\n" +
+                  "  //   return {\n" +
+                  "  //     foo: options.entity.options.foo\n" +
+                  "  //   };\n" +
+                  "  // }\n" +
+                  "\n" +
+                  "  // afterInstall: function(options) {\n" +
+                  "  //   // Perform extra work here.\n" +
+                  "  // }\n" +
                   "};"
       });
     });
@@ -1673,19 +1672,19 @@ describe('Acceptance: ember generate pod', function() {
   it('blueprint foo/bar --pod', function() {
     return generate(['blueprint', 'foo/bar', '--pod']).then(function() {
       assertFile('blueprints/foo/bar/index.js', {
-        contains: "module.exports = {" + EOL +
-                  "  description: ''"+ EOL +
-                  EOL +
-                  "  // locals: function(options) {" + EOL +
-                  "  //   // Return custom template variables here." + EOL +
-                  "  //   return {" + EOL +
-                  "  //     foo: options.entity.options.foo" + EOL +
-                  "  //   };" + EOL +
-                  "  // }" + EOL +
-                  EOL +
-                  "  // afterInstall: function(options) {" + EOL +
-                  "  //   // Perform extra work here." + EOL +
-                  "  // }" + EOL +
+        contains: "module.exports = {\n" +
+                  "  description: ''\n" +
+                  "\n" +
+                  "  // locals: function(options) {\n" +
+                  "  //   // Return custom template variables here.\n" +
+                  "  //   return {\n" +
+                  "  //     foo: options.entity.options.foo\n" +
+                  "  //   };\n" +
+                  "  // }\n" +
+                  "\n" +
+                  "  // afterInstall: function(options) {\n" +
+                  "  //   // Perform extra work here.\n" +
+                  "  // }\n" +
                   "};"
       });
     });
@@ -1697,55 +1696,55 @@ describe('Acceptance: ember generate pod', function() {
         contains:"mocks.forEach(function(route) { route(app); });"
       });
       assertFile('server/mocks/foo.js', {
-        contains: "module.exports = function(app) {" + EOL +
-                  "  var express = require('express');" + EOL +
-                  "  var fooRouter = express.Router();" + EOL +
-                  EOL +
-                  "  fooRouter.get('/', function(req, res) {" + EOL +
-                  "    res.send({" + EOL +
-                  "      'foo': []" + EOL +
-                  "    });" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooRouter.post('/', function(req, res) {" + EOL +
-                  "    res.status(201).end();" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooRouter.get('/:id', function(req, res) {" + EOL +
-                  "    res.send({" + EOL +
-                  "      'foo': {" + EOL +
-                  "        id: req.params.id" + EOL +
-                  "      }" + EOL +
-                  "    });" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooRouter.put('/:id', function(req, res) {" + EOL +
-                  "    res.send({" + EOL +
-                  "      'foo': {" + EOL +
-                  "        id: req.params.id" + EOL +
-                  "      }" + EOL +
-                  "    });" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooRouter.delete('/:id', function(req, res) {" + EOL +
-                  "    res.status(204).end();" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  // The POST and PUT call will not contain a request body" + EOL +
-                  "  // because the body-parser is not included by default." + EOL +
-                  "  // To use req.body, run:" + EOL +
-                  EOL +
-                  "  //    npm install --save-dev body-parser" + EOL +
-                  EOL +
-                  "  // After installing, you need to `use` the body-parser for" + EOL +
-                  "  // this mock uncommenting the following line:" + EOL +
-                  "  //" + EOL +
-                  "  //app.use('/api/foo', require('body-parser').json());" + EOL +
-                  "  app.use('/api/foo', fooRouter);" + EOL +
+        contains: "module.exports = function(app) {\n" +
+                  "  var express = require('express');\n" +
+                  "  var fooRouter = express.Router();\n" +
+                  "\n" +
+                  "  fooRouter.get('/', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo': []\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.post('/', function(req, res) {\n" +
+                  "    res.status(201).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.get('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.put('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.delete('/:id', function(req, res) {\n" +
+                  "    res.status(204).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  // The POST and PUT call will not contain a request body\n" +
+                  "  // because the body-parser is not included by default.\n" +
+                  "  // To use req.body, run:\n" +
+                  "\n" +
+                  "  //    npm install --save-dev body-parser\n" +
+                  "\n" +
+                  "  // After installing, you need to `use` the body-parser for\n" +
+                  "  // this mock uncommenting the following line:\n" +
+                  "  //\n" +
+                  "  //app.use('/api/foo', require('body-parser').json());\n" +
+                  "  app.use('/api/foo', fooRouter);\n" +
                   "};"
       });
       assertFile('server/.jshintrc', {
-        contains: '{' + EOL + '  "node": true' + EOL + '}'
+        contains: '{\n  "node": true\n}'
       });
     });
   });
@@ -1756,55 +1755,55 @@ describe('Acceptance: ember generate pod', function() {
         contains: "mocks.forEach(function(route) { route(app); });"
       });
       assertFile('server/mocks/foo-bar.js', {
-        contains: "module.exports = function(app) {" + EOL +
-                  "  var express = require('express');" + EOL +
-                  "  var fooBarRouter = express.Router();" + EOL +
-                  EOL +
-                  "  fooBarRouter.get('/', function(req, res) {" + EOL +
-                  "    res.send({" + EOL +
-                  "      'foo-bar': []" + EOL +
-                  "    });" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooBarRouter.post('/', function(req, res) {" + EOL +
-                  "    res.status(201).end();" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooBarRouter.get('/:id', function(req, res) {" + EOL +
-                  "    res.send({" + EOL +
-                  "      'foo-bar': {" + EOL +
-                  "        id: req.params.id" + EOL +
-                  "      }" + EOL +
-                  "    });" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooBarRouter.put('/:id', function(req, res) {" + EOL +
-                  "    res.send({" + EOL +
-                  "      'foo-bar': {" + EOL +
-                  "        id: req.params.id" + EOL +
-                  "      }" + EOL +
-                  "    });" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  fooBarRouter.delete('/:id', function(req, res) {" + EOL +
-                  "    res.status(204).end();" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  // The POST and PUT call will not contain a request body" + EOL +
-                  "  // because the body-parser is not included by default." + EOL +
-                  "  // To use req.body, run:" + EOL +
-                  EOL +
-                  "  //    npm install --save-dev body-parser" + EOL +
-                  EOL +
-                  "  // After installing, you need to `use` the body-parser for" + EOL +
-                  "  // this mock uncommenting the following line:" + EOL +
-                  "  //" + EOL +
-                  "  //app.use('/api/foo-bar', require('body-parser').json());" + EOL +
-                  "  app.use('/api/foo-bar', fooBarRouter);" + EOL +
+        contains: "module.exports = function(app) {\n" +
+                  "  var express = require('express');\n" +
+                  "  var fooBarRouter = express.Router();\n" +
+                  "\n" +
+                  "  fooBarRouter.get('/', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo-bar': []\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.post('/', function(req, res) {\n" +
+                  "    res.status(201).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.get('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo-bar': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.put('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo-bar': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.delete('/:id', function(req, res) {\n" +
+                  "    res.status(204).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  // The POST and PUT call will not contain a request body\n" +
+                  "  // because the body-parser is not included by default.\n" +
+                  "  // To use req.body, run:\n" +
+                  "\n" +
+                  "  //    npm install --save-dev body-parser\n" +
+                  "\n" +
+                  "  // After installing, you need to `use` the body-parser for\n" +
+                  "  // this mock uncommenting the following line:\n" +
+                  "  //\n" +
+                  "  //app.use('/api/foo-bar', require('body-parser').json());\n" +
+                  "  app.use('/api/foo-bar', fooBarRouter);\n" +
                   "};"
       });
       assertFile('server/.jshintrc', {
-        contains: '{' + EOL + '  "node": true' + EOL + '}'
+        contains: '{\n  "node": true\n}'
       });
     });
   });
@@ -1815,26 +1814,26 @@ describe('Acceptance: ember generate pod', function() {
         contains: "proxies.forEach(function(route) { route(app); });"
       });
       assertFile('server/proxies/foo.js', {
-        contains: "var proxyPath = '/foo';" + EOL +
-                  EOL +
-                  "module.exports = function(app) {" + EOL +
-                  "  // For options, see:" + EOL +
-                  "  // https://github.com/nodejitsu/node-http-proxy" + EOL +
-                  "  var proxy = require('http-proxy').createProxyServer({});" + EOL +
-                  EOL +
-                  "  proxy.on('error', function(err, req) {" + EOL +
-                  "    console.error(err, req.url);" + EOL +
-                  "  });" + EOL +
-                  EOL +
-                  "  app.use(proxyPath, function(req, res, next){" + EOL +
-                  "    // include root path in proxied request" + EOL +
-                  "    req.url = proxyPath + '/' + req.url;" + EOL +
-                  "    proxy.web(req, res, { target: 'http://localhost:5000' });" + EOL +
-                  "  });" + EOL +
+        contains: "var proxyPath = '/foo';\n" +
+                  "\n" +
+                  "module.exports = function(app) {\n" +
+                  "  // For options, see:\n" +
+                  "  // https://github.com/nodejitsu/node-http-proxy\n" +
+                  "  var proxy = require('http-proxy').createProxyServer({});\n" +
+                  "\n" +
+                  "  proxy.on('error', function(err, req) {\n" +
+                  "    console.error(err, req.url);\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  app.use(proxyPath, function(req, res, next){\n" +
+                  "    // include root path in proxied request\n" +
+                  "    req.url = proxyPath + '/' + req.url;\n" +
+                  "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
+                  "  });\n" +
                   "};"
       });
       assertFile('server/.jshintrc', {
-        contains: '{' + EOL + '  "node": true' + EOL + '}'
+        contains: '{\n  "node": true\n}'
       });
     });
   });
@@ -1931,8 +1930,8 @@ describe('Acceptance: ember generate pod', function() {
       .then(function() {
         return outputFile(
           'blueprints/foo/files/app/foos/__name__.js',
-          "import Ember from 'ember';" + EOL +
-          'export default Ember.Object.extend({ foo: true });' + EOL
+          "import Ember from 'ember';\n" +
+          'export default Ember.Object.extend({ foo: true });\n'
         );
       })
       .then(function() {
@@ -1950,8 +1949,8 @@ describe('Acceptance: ember generate pod', function() {
       .then(function() {
         return outputFile(
           'blueprints/controller/files/app/__path__/__name__.js',
-          "import Ember from 'ember';" + EOL + EOL +
-          "export default Ember.Controller.extend({ custom: true });" + EOL
+          "import Ember from 'ember';\n\n" +
+          "export default Ember.Controller.extend({ custom: true });\n"
         );
       })
       .then(function() {
@@ -1975,20 +1974,20 @@ describe('Acceptance: ember generate pod', function() {
       .then(function() {
         return outputFile(
           'blueprints/customblue/index.js',
-          "module.exports = {" + EOL +
-          "  fileMapTokens: function(options) {" + EOL +
-          "    return {" + EOL +
-          "      __name__: function(options) {" + EOL +
-          "         return options.dasherizedModuleName;" + EOL +
-          "      }" + EOL +
-          "    };" + EOL +
-          "  }," + EOL +
-          "  locals: function(options) {" + EOL +
-          "    var loc = {};" + EOL +
-          "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';" + EOL +
-          "    return loc;" + EOL +
-          "  }," + EOL +
-          "};" + EOL
+          "module.exports = {\n" +
+          "  fileMapTokens: function(options) {\n" +
+          "    return {\n" +
+          "      __name__: function(options) {\n" +
+          "         return options.dasherizedModuleName;\n" +
+          "      }\n" +
+          "    };\n" +
+          "  },\n" +
+          "  locals: function(options) {\n" +
+          "    var loc = {};\n" +
+          "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';\n" +
+          "    return loc;\n" +
+          "  },\n" +
+          "};\n"
         );
       })
       .then(function() {
@@ -2014,8 +2013,8 @@ describe('Acceptance: ember generate pod', function() {
       .then(function() {
         return outputFile(
           'blueprints/controller/files/app/__path__/__name__.js',
-          "import Ember from 'ember';" + EOL + EOL +
-          "export default Ember.Controller.extend({ custom: true });" + EOL
+          "import Ember from 'ember';\n\n" +
+          "export default Ember.Controller.extend({ custom: true });\n"
         );
       })
       .then(function() {
