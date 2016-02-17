@@ -63,7 +63,7 @@ describe('Acceptance: ember destroy in-addon-dummy', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    expect(!existsSync(filePath), 'expected ' + file + ' not to exist');
+    expect(existsSync(filePath), 'expected ' + file + ' not to exist').to.be.false;
   }
 
   function assertFilesExist(files) {

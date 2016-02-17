@@ -262,7 +262,7 @@ describe('broccoli/ember-app', function() {
                            'content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(metaExpected) > -1);
+        expect(actual.indexOf(metaExpected) > -1).to.be.true;
       });
 
       it('does not include the `meta` tag in `head` if storeConfigInMeta is false', function() {
@@ -273,7 +273,7 @@ describe('broccoli/ember-app', function() {
                            'content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(metaExpected) === -1);
+        expect(actual.indexOf(metaExpected) === -1).to.be.true;
       });
 
       it('includes the `base` tag in `head` if locationType is auto', function() {
@@ -282,7 +282,7 @@ describe('broccoli/ember-app', function() {
         var expected = '<base href="/" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual.indexOf(expected) > -1).to.be.true;
       });
 
       it('includes the `base` tag in `head` if locationType is none (testem requirement)', function() {
@@ -291,7 +291,7 @@ describe('broccoli/ember-app', function() {
         var expected = '<base href="/" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual.indexOf(expected) > -1).to.be.true;
       });
 
       it('does not include the `base` tag in `head` if locationType is hash', function() {
@@ -300,7 +300,7 @@ describe('broccoli/ember-app', function() {
         var expected = '<base href="/foo/bar/" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(expected) === -1);
+        expect(actual.indexOf(expected) === -1).to.be.true;
       });
     });
 
@@ -311,7 +311,7 @@ describe('broccoli/ember-app', function() {
 
         var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual.indexOf(expected) > -1).to.be.true;
       });
 
       it('includes the raw config if storeConfigInMeta is false', function() {
@@ -320,7 +320,7 @@ describe('broccoli/ember-app', function() {
         var expected = JSON.stringify(config);
         var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual.indexOf(expected) > -1).to.be.true;
       });
     });
 
@@ -350,7 +350,7 @@ describe('broccoli/ember-app', function() {
           project: project
         });
 
-        expect(true, called);
+        expect(called).to.be.true;
         expect(passedApp).to.equal(emberApp);
       });
 

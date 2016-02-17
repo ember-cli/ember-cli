@@ -50,7 +50,7 @@ describe('init command', function() {
     buildCommand({ name: 'test' });
 
     return command.validateAndRun([]).then(function() {
-      expect(false, 'should have rejected with an application name of test');
+      expect(false, 'should have rejected with an application name of test').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `test`.');
@@ -61,7 +61,7 @@ describe('init command', function() {
     buildCommand({ name: undefined });
 
     return command.validateAndRun([]).then(function() {
-      expect(false, 'should have rejected with an application without project name');
+      expect(false, 'should have rejected with an application without project name').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal('The `ember init` command requires a package.json in current folder with name attribute or a specified name via arguments. For more details, use `ember help`.');
@@ -240,7 +240,7 @@ describe('init command', function() {
 
     return command.validateAndRun(['--custom-option=customValue'])
       .then(function() {
-        expect(false, 'promise should have rejected');
+        expect(false, 'promise should have rejected').to.be.ok;
       })
       .catch(function(reason) {
         expect(reason).to.equal('Called run');

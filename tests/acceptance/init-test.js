@@ -231,7 +231,7 @@ describe('Acceptance: ember init', function() {
       '--skip-bower'
     ])
     .then(function() {
-      expect(!existsSync('.git'));
+      expect(existsSync('.git')).to.be.false;
     });
   });
 

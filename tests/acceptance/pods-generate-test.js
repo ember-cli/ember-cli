@@ -1322,7 +1322,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('adapter application cannot extend from --base-class=application', function() {
     return generate(['adapter', 'application', '--base-class=application', '--pod']).then(function() {
-      expect(false);
+      expect(false).to.be.ok;
     }, function(err) {
       expect(err.message).to.match(/Adapters cannot extend from themself/);
     });
@@ -1330,7 +1330,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('adapter foo cannot extend from --base-class=foo', function() {
     return generate(['adapter', 'foo', '--base-class=foo', '--pod']).then(function() {
-      expect(false);
+      expect(false).to.be.ok;
     }, function(err) {
       expect(err.message).to.match(/Adapters cannot extend from themself/);
     });

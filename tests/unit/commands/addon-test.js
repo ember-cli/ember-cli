@@ -21,7 +21,7 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon named `test`', function() {
     return command.validateAndRun(['test']).then(function() {
-      expect(false, 'should have rejected with an addon name of test');
+      expect(false, 'should have rejected with an addon name of test').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `test`.');
@@ -30,7 +30,7 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon named `ember`', function() {
     return command.validateAndRun(['ember']).then(function() {
-      expect(false, 'should have rejected with an addon name of test');
+      expect(false, 'should have rejected with an addon name of test').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `ember`.');
@@ -39,7 +39,7 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon named `vendor`', function() {
     return command.validateAndRun(['vendor']).then(function() {
-      expect(false, 'should have rejected with an addon name of `vendor`');
+      expect(false, 'should have rejected with an addon name of `vendor`').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `vendor`.');
@@ -48,7 +48,7 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon with a period in the name', function() {
     return command.validateAndRun(['zomg.awesome']).then(function() {
-      expect(false, 'should have rejected with period in the addon name');
+      expect(false, 'should have rejected with period in the addon name').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `zomg.awesome`.');
@@ -57,7 +57,7 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon with a name beginning with a number', function() {
     return command.validateAndRun(['123-my-bagel']).then(function() {
-      expect(false, 'should have rejected with a name beginning with a number');
+      expect(false, 'should have rejected with a name beginning with a number').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `123-my-bagel`.');

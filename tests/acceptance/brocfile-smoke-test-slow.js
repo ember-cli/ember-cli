@@ -224,9 +224,9 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        expect(false, 'Build passed when it should have failed!');
+        expect(false, 'Build passed when it should have failed!').to.be.ok;
       }, function() {
-        expect(true, 'Build failed with invalid options type.');
+        expect(true, 'Build failed with invalid options type.').to.be.ok;
       });
   });
 
@@ -313,7 +313,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(existsSync(path.join(basePath, file)), file + ' exists');
+          expect(existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
         });
       });
   });
@@ -331,7 +331,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(existsSync(path.join(basePath, file)), file + ' exists');
+          expect(existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
         });
       });
   });
@@ -368,10 +368,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
-          expect(existsSync(path.join(basePath, file)), file + ' exists');
+          expect(existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
         });
 
-        expect(!existsSync(path.join(basePath, '/assets/some-cool-app.css')), 'default app.css should not exist');
+        expect(existsSync(path.join(basePath, '/assets/some-cool-app.css')), 'default app.css should not exist').to.be.false;
       });
   });
 
@@ -405,7 +405,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       .then(function() {
         var exists = existsSync(path.join('.', 'dist', 'assets', appName + '.css'));
 
-        expect(exists, appName + '.css exists');
+        expect(exists, appName + '.css exists').to.be.ok;
       });
   });
 

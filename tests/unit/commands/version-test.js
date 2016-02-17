@@ -23,17 +23,17 @@ describe('version command', function() {
   it('reports node, npm, and os versions', function() {
     return command.validateAndRun().then(function() {
       var lines = options.ui.output.split(EOL);
-      expect(someLineStartsWith(lines, 'node:'), 'contains the version of node');
-      expect(someLineStartsWith(lines, 'os:'), 'contains the version of os');
+      expect(someLineStartsWith(lines, 'node:'), 'contains the version of node').to.be.ok;
+      expect(someLineStartsWith(lines, 'os:'), 'contains the version of os').to.be.ok;
     });
   });
 
   it('supports a --verbose flag', function() {
     return command.validateAndRun(['--verbose']).then(function() {
       var lines = options.ui.output.split(EOL);
-      expect(someLineStartsWith(lines, 'node:'), 'contains the version of node');
-      expect(someLineStartsWith(lines, 'os:'), 'contains the version of os');
-      expect(someLineStartsWith(lines, 'v8:'), 'contains the version of v8');
+      expect(someLineStartsWith(lines, 'node:'), 'contains the version of node').to.be.ok;
+      expect(someLineStartsWith(lines, 'os:'), 'contains the version of os').to.be.ok;
+      expect(someLineStartsWith(lines, 'v8:'), 'contains the version of v8').to.be.ok;
     });
   });
 });

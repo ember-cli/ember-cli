@@ -63,9 +63,9 @@ describe('generate command', function() {
   it('runs GenerateFromBlueprint with expected options', function() {
     return command.validateAndRun(['controller', 'foo'])
       .then(function(options) {
-        expect(options.pod, false);
-        expect(options.dryRun, false);
-        expect(options.verbose, false);
+        expect(options.pod).to.be.false;
+        expect(options.dryRun).to.be.false;
+        expect(options.verbose).to.be.false;
         expect(options.args).to.deep.equal(['controller', 'foo']);
       });
   });
@@ -79,7 +79,7 @@ describe('generate command', function() {
   it('complains if no blueprint name is given', function() {
     return command.validateAndRun([])
       .then(function() {
-        expect(false, 'should not have called run');
+        expect(false, 'should not have called run').to.be.ok;
       })
       .catch(function(error) {
         expect(error.message).to.equal(
