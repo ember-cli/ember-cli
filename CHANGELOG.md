@@ -13,7 +13,7 @@ version:
   + Remove `jquery` from `bower.json`. The version required by your Ember version will be used.
   + Update `ember` to `~2.3.1` in `bower.json`.
 - Addon Developers
-  + [`ember new` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.3.0-beta.2...v2.3.0)
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.3.0-beta.2...v2.3.0)
   + Update `ember-try` to `^0.1.2` in `package.json`.
 
 #### Community Contributions
