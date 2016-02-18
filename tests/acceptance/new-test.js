@@ -267,6 +267,8 @@ describe('Acceptance: ember new', function() {
   });
 
   it('ember new with --directory uses given directory name and has correct package name', function() {
+    var workdir = process.cwd();
+
     return ember([
       'new',
       'foo',
@@ -275,12 +277,12 @@ describe('Acceptance: ember new', function() {
       '--skip-git',
       '--directory=bar'
     ]).then(function() {
+      expect(existsSync(path.join(workdir, 'foo')), 'directory with app name exists').to.be.false;
+      expect(existsSync(path.join(workdir, 'bar')), 'directory with specified name exists').to.be.true;
+
       var cwd = process.cwd();
       expect(cwd).to.not.match(/foo/, 'does not use app name for directory name');
-      expect(existsSync(path.join(cwd, 'foo')), 'does not create new directory with app name').to.be.false;
-
       expect(cwd).to.match(/bar/, 'uses given directory name');
-      expect(existsSync(path.join(cwd, 'bar')), 'creates new directory with specified name').to.be.true;
 
       var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
       expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
