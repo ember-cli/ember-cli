@@ -225,8 +225,10 @@ describe('Acceptance: ember new', function() {
       'foo',
       '--skip-npm',
       '--skip-bower'
-    ]).then(function() {
-      expect(existsSync('.git')).to.be.true;
+    ], {
+      skipGit: false
+    }).then(function() {
+      expect(existsSync('.git'), '.git folder exists').to.be.true;
     });
   });
 

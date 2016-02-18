@@ -50,7 +50,11 @@ module.exports = function ember(args, options) {
 
   args.push('--disable-analytics');
   args.push('--watcher=node');
-  args.push('--skipGit');
+
+  if (!options || options.skipGit !== false) {
+    args.push('--skipGit');
+  }
+
   cliInstance = cli({
     inputStream:  inputStream,
     outputStream: outputStream,
