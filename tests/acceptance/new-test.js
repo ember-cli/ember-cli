@@ -65,17 +65,25 @@ describe('Acceptance: ember new', function() {
     ]).then(confirmBlueprinted);
   });
 
-  it('ember new with empty app name doesnt throw exception', function() {
+  it('ember new with empty app name fails with a warning', function() {
     return ember([
       'new',
       ''
-    ]);
+    ]).then(function() {
+      throw new Error('this promise should be rejected');
+    }, function(result) {
+      expect(result.errorLog[0].message).to.contain('The `ember new` command requires a name to be specified.');
+    });
   });
 
-  it('ember new without app name doesnt throw exception', function() {
+  it('ember new without app name fails with a warning', function() {
     return ember([
       'new'
-    ]);
+    ]).then(function() {
+      throw new Error('this promise should be rejected');
+    }, function(result) {
+      expect(result.errorLog[0].message).to.contain('The `ember new` command requires a name to be specified.');
+    });
   });
 
   it('ember new with app name creates new directory and has a dasherized package name', function() {
@@ -108,6 +116,9 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
         '--skip-git'
       ]).then(function() {
+        throw new Error('this promise should be rejected');
+      }, function(result) {
+        expect(result.errorLog[0].message).to.match(/You cannot use the .*new.* command inside an ember-cli project./);
         expect(existsSync('foo')).to.be.false;
       });
     }).then(confirmBlueprinted);
