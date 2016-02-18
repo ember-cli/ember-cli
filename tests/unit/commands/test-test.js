@@ -204,7 +204,7 @@ describe('test command', function() {
       runOptions.launch = 'fooLauncher';
       var result = command._generateCustomConfigs(runOptions);
 
-      expect(result.launcher, 'fooLauncher').to.be.ok;
+      expect(result.launch).to.equal('fooLauncher');
     });
 
     it('when query option is present, should be reflected in returned config', function() {
