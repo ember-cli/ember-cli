@@ -589,22 +589,22 @@ describe('Unit: CLI', function() {
 
         it('sets process.env.EMBER_VERBOSE_${NAME} for each space delimited option', function() {
           return verboseCommand(['fake_option_1', 'fake_option_2']).then(function() {
-            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1,  'expected it to be true').to.be.true;
-            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2,  'expected it to be true').to.be.true;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.be.ok;
           });
         });
 
         it('ignores verbose options after --', function() {
           return verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2']).then(function() {
-            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1,   'expected it to be true').to.be.true;
-            expect(!process.env.EMBER_VERBOSE_FAKE_OPTION_2, 'expected it to be false').to.be.false;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
           });
         });
 
         it('ignores verbose options after -', function() {
           return verboseCommand(['fake_option_1', '-f', 'fake_option_2']).then(function() {
-            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1,  'expected it to be true').to.be.true;
-            expect(!process.env.EMBER_VERBOSE_FAKE_OPTION_2,  'expected it to be false').to.be.false;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
           });
         });
       });
