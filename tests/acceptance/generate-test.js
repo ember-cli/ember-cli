@@ -522,16 +522,11 @@ describe('Acceptance: ember generate', function() {
   });
 
   it('resource without entity name does not throw exception', function() {
-
-    var restoreWriteError = MockUI.prototype.writeError;
-    MockUI.prototype.writeError = function(error) {
-      expect(error.message).to.equal('The `ember generate <entity-name>` command requires an entity name to be specified. For more details, use `ember help`.');
-    };
-
     return generate(['resource']).then(function() {
-      MockUI.prototype.writeError = restoreWriteError;
+      expect(false).to.be.ok;
+    }, function(err) {
+      expect(err.errorLog[0].message).to.equal('The `ember generate <entity-name>` command requires an entity name to be specified. For more details, use `ember help`.');
     });
-
   });
 
   it('resource foos with --path', function() {
@@ -761,7 +756,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'application', '--base-class=application']).then(function() {
       expect(false).to.be.ok;
     }, function(err) {
-      expect(err.message).to.match(/Adapters cannot extend from themself/);
+      expect(err.errorLog[0]).to.match(/Adapters cannot extend from themself/);
     });
   });
 
@@ -769,7 +764,7 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo', '--base-class=foo']).then(function() {
       expect(false).to.be.ok;
     }, function(err) {
-      expect(err.message).to.match(/Adapters cannot extend from themself/);
+      expect(err.errorLog[0]).to.match(/Adapters cannot extend from themself/);
     });
   });
 
