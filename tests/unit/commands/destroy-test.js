@@ -78,15 +78,9 @@ describe('destroy command', function() {
   });
 
   it('rethrows errors from beforeRun', function() {
-    return Promise.resolve(function() {
-      return command.beforeRun(['controller', 'foo']);
-    })
-    .then(function() {
-      expect(false, 'should not have called run').to.be.ok;
-    })
-    .catch(function(error) {
-      expect(error.message).to.equal('undefined is not a function');
-    });
+    expect(function() {
+      command.beforeRun(['controller', 'foo']);
+    }).to.throw(/(is not a function)|(has no method)/);
   });
 
   describe('help', function() {
