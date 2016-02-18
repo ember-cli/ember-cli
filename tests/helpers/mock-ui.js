@@ -6,10 +6,6 @@ var Promise = require('../../lib/ext/promise');
 
 module.exports = MockUI;
 function MockUI(options) {
-  this.output = '';
-  this.errors = '';
-  this.errorLog = options && options.errorLog || [];
-
   UI.call(this, {
     inputStream: through(),
     outputStream: through(function(data) {
@@ -22,6 +18,10 @@ function MockUI(options) {
       this.errors += data;
     }.bind(this))
   });
+
+  this.output = '';
+  this.errors = '';
+  this.errorLog = options && options.errorLog || [];
 }
 
 MockUI.prototype = Object.create(UI.prototype);
