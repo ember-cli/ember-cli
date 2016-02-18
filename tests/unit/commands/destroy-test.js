@@ -11,7 +11,7 @@ var Promise           = require('../../../lib/ext/promise');
 var Task              = require('../../../lib/models/task');
 var DestroyCommand    = require('../../../lib/commands/destroy');
 
-describe('generate command', function() {
+describe('destroy command', function() {
   var options, command;
 
   beforeEach(function() {
