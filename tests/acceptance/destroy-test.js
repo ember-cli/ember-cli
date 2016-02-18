@@ -129,10 +129,7 @@ describe('Acceptance: ember destroy', function() {
   }
 
   function assertDestroyAfterGenerateInAddon(args, files) {
-    return initAddon()
-      .then(function() {
-        return generateInAddon(args);
-      })
+    return generateInAddon(args)
       .then(function() {
         assertFilesExist(files);
       })
