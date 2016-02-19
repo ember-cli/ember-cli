@@ -30,7 +30,7 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon named `ember`', function() {
     return command.validateAndRun(['ember']).then(function() {
-      expect(false, 'should have rejected with an addon name of test');
+      expect(false, 'should have rejected with an addon name of ember');
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `ember`.');
@@ -39,10 +39,19 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon named `Ember`', function() {
     return command.validateAndRun(['Ember']).then(function() {
-      expect(false, 'should have rejected with an addon name of test');
+      expect(false, 'should have rejected with an addon name of Ember');
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `Ember`.');
+    });
+  });
+
+  it('doesn\'t allow to create an addon named `ember-cli`', function() {
+    return command.validateAndRun(['ember-cli']).then(function() {
+      expect(false, 'should have rejected with an addon name of ember-cli');
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal('We currently do not support a name of `ember-cli`.');
     });
   });
 
