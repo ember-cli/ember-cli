@@ -61,6 +61,8 @@ ember addon \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m' +
     \u001b[90maliases: -sb\u001b[39m' + EOL + '\
   \u001b[36m--skip-git\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
     \u001b[90maliases: -sg\u001b[39m' + EOL + '\
+  \u001b[36m--directory\u001b[39m \u001b[36m(String)\u001b[39m' + EOL + '\
+    \u001b[90maliases: -dir <value>\u001b[39m' + EOL + '\
 ' + EOL + '\
 ember build \u001b[36m<options...>\u001b[39m' + EOL + '\
   Builds your app and places it into the output path (dist/ by default).' + EOL + '\
@@ -275,6 +277,12 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
               default: false,
               aliases: ['sg'],
               key: 'skipGit',
+              required: false
+            },
+            {
+              name: 'directory',
+              aliases: ['dir'],
+              key: 'directory',
               required: false
             }
           ],
