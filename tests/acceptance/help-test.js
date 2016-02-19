@@ -116,7 +116,6 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m \u001b[36m<options.
 ' + EOL + '\
 ember init \u001b[33m<glob-pattern>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
   Creates a new ember-cli project in the current folder.' + EOL + '\
-  \u001b[90maliases: i\u001b[39m' + EOL + '\
   \u001b[36m--dry-run\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
     \u001b[90maliases: -d\u001b[39m' + EOL + '\
   \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m' + EOL + '\
@@ -132,6 +131,7 @@ ember init \u001b[33m<glob-pattern>\u001b[39m \u001b[36m<options...>\u001b[39m' 
 ' + EOL + '\
 ember install \u001b[33m<addon-name>\u001b[39m' + EOL + '\
   Installs an ember-cli addon from npm.' + EOL + '\
+  \u001b[90maliases: i\u001b[39m' + EOL + '\
 ' + EOL + '\
 ember new \u001b[33m<app-name>\u001b[39m \u001b[36m<options...>\u001b[39m' + EOL + '\
   Creates a new directory and runs \u001b[32member init\u001b[39m in it.' + EOL + '\
@@ -843,7 +843,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         {
           name: 'init',
           description: 'Creates a new ember-cli project in the current folder.',
-          aliases: ['i'],
+          aliases: [],
           works: 'everywhere',
           availableOptions: [
             {
@@ -893,7 +893,7 @@ ember version \u001b[36m<options...>\u001b[39m' + EOL + '\
         {
           name: 'install',
           description: 'Installs an ember-cli addon from npm.',
-          aliases: [],
+          aliases: ['i'],
           works: 'insideProject',
           availableOptions: [],
           anonymousOptions: ['<addon-name>']
