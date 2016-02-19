@@ -37,6 +37,15 @@ describe('addon command', function() {
     });
   });
 
+  it('doesn\'t allow to create an addon named `Ember`', function() {
+    return command.validateAndRun(['Ember']).then(function() {
+      expect(false, 'should have rejected with an addon name of test');
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal('We currently do not support a name of `Ember`.');
+    });
+  });
+
   it('doesn\'t allow to create an addon named `vendor`', function() {
     return command.validateAndRun(['vendor']).then(function() {
       expect(false, 'should have rejected with an addon name of `vendor`');
