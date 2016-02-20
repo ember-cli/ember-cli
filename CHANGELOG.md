@@ -45,6 +45,7 @@ version:
   * Add `ember-ajax` at `0.7.1`
   * Add `ember-load-initializers` at `^0.5.0`
   * Add `loader.js` at `^4.0.0`
+  * Add `ember-resolver` at `^2.0.3`
   * Update `ember-cli-dependency-checker` to `^1.2.0`
   * Update `ember-cli-sri` to `^2.0.0`
   * Update `ember-cli-qunit` to `^1.2.1`
@@ -55,6 +56,7 @@ version:
   * Remove `ember-qunit` (it is now bundled by `ember-cli-qunit` since `1.1.0`)
   * Remove `qunit` (it is now bundled by `ember-cli-qunit`)
   * Remove `ember-load-initializers` (it was moved into an addon)
+  * Remove `ember-resolver` (it was moved into an addon)
   * Remove `loader.js` (it was moved into an addon)
   * Remove `jquery` (the Ember dependency will determine the version used).
 - Addon Developers
