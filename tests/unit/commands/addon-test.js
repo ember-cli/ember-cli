@@ -63,4 +63,13 @@ describe('addon command', function() {
       expect(error.message).to.equal('We currently do not support a name of `123-my-bagel`.');
     });
   });
+
+  it('doesn\'t allow to create an addon when the name is a period', function() {
+    return command.validateAndRun(['.']).then(function() {
+      expect(false, 'should have rejected with period as the addon name').to.be.true;
+    })
+    .catch(function(error) {
+      expect(error.message).to.equal('Trying to generate an addon structure in this directory? Use `ember init` instead.');
+    });
+  });
 });
