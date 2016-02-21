@@ -3,17 +3,18 @@
 'use strict';
 
 var Promise              = require('../../lib/ext/promise');
-var assertFile           = require('../helpers/assert-file');
-var assertFileEquals     = require('../helpers/assert-file-equals');
-var assertFileToNotExist = require('../helpers/assert-file-to-not-exist');
-var conf                 = require('../helpers/conf');
+var assertFile           = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
+var assertFileEquals     = require('ember-cli-internal-test-helpers/lib/helpers/assert-file-equals');
+var assertFileToNotExist = require('ember-cli-internal-test-helpers/lib/helpers/assert-file-to-not-exist');
+var conf                 = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember                = require('../helpers/ember');
 var fs                   = require('fs-extra');
 var path                 = require('path');
 var remove               = Promise.denodeify(fs.remove);
 var root                 = process.cwd();
 var tmproot              = path.join(root, 'tmp');
-var BlueprintNpmTask     = require('../helpers/disable-npm-on-blueprint');
+var Blueprint            = require('../../lib/models/blueprint');
+var BlueprintNpmTask     = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 var expect               = require('chai').expect;
 var mkTmpDirIn           = require('../../lib/utilities/mk-tmp-dir-in');
 
@@ -21,12 +22,12 @@ describe('Acceptance: ember generate in-addon', function() {
   this.timeout(20000);
 
   before(function() {
-    BlueprintNpmTask.disableNPM();
+    BlueprintNpmTask.disableNPM(Blueprint);
     conf.setup();
   });
 
   after(function() {
-    BlueprintNpmTask.restoreNPM();
+    BlueprintNpmTask.restoreNPM(Blueprint);
     conf.restore();
   });
 
