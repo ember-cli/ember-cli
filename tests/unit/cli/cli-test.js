@@ -385,7 +385,7 @@ describe('Unit: CLI', function() {
   });
 
   describe('init', function() {
-    ['init', 'i'].forEach(function(command) {
+    ['init'].forEach(function(command) {
       it('ember ' + command, function() {
         var init = stubValidateAndRun('init');
 
