@@ -336,6 +336,26 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('specifying outputFile results in a explicitly generated assets', function() {
+    return copyFixtureFiles('brocfile-tests/app-import-output-file')
+      .then(function () {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var files = [
+          '/assets/output-file.js',
+          '/assets/output-file.css',
+          '/assets/vendor.css',
+          '/assets/vendor.js'
+        ];
+
+        var basePath = path.join('.', 'dist');
+        files.forEach(function(file) {
+          expect(existsSync(path.join(basePath, file))).to.be.true;
+        });
+      });
+  });
+
   it('specifying partial `outputPaths` hash deep merges options correctly', function() {
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
       .then(function () {

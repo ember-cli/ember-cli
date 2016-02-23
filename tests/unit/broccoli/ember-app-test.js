@@ -713,20 +713,61 @@ describe('broccoli/ember-app', function() {
   });
 
   describe('import', function() {
+    it('appends dependencies to vendor by default', function() {
+      emberApp = new EmberApp({
+        project: project
+      });
+      emberApp.import('vendor/moment.js');
+      var outputFile = emberApp.legacyFilesToAppend['/assets/vendor.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
+    });
     it('appends dependencies', function() {
       emberApp = new EmberApp({
         project: project
       });
       emberApp.import('vendor/moment.js', {type: 'vendor'});
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/moment.js')).to.equal(emberApp.legacyFilesToAppend.length - 1);
+
+      var outputFile = emberApp.legacyFilesToAppend['/assets/vendor.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
     });
     it('prepends dependencies', function() {
       emberApp = new EmberApp({
         project: project
       });
       emberApp.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/es5-shim.js')).to.equal(0);
+
+      var outputFile = emberApp.legacyFilesToAppend['/assets/vendor.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/es5-shim.js')).to.equal(0);
     });
+    it('prepends dependencies to outputFile', function() {
+      emberApp = new EmberApp({
+        project: project
+      });
+      emberApp.import('vendor/moment.js', {outputFile: 'moment.js', prepend: true});
+
+      var outputFile = emberApp.legacyFilesToAppend['moment.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(0);
+    });
+    it('appends dependencies to outputFile', function() {
+      emberApp = new EmberApp({
+        project: project
+      });
+      emberApp.import('vendor/moment.js', {outputFile: 'moment.js'});
+
+      var outputFile = emberApp.legacyFilesToAppend['moment.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
+    });
+
     it('defaults to development if production is not set', function() {
       process.env.EMBER_ENV = 'production';
       emberApp = new EmberApp({
@@ -735,9 +776,9 @@ describe('broccoli/ember-app', function() {
       emberApp.import({
         'development': 'vendor/jquery.js'
       });
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/jquery.js')).to.equal(emberApp.legacyFilesToAppend.length -1);
+      var outputFile = emberApp.legacyFilesToAppend['/assets/vendor.js'];
+      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length -1);
       process.env.EMBER_ENV = undefined;
-
     });
     it('honors explicitly set to null in environment', function() {
       process.env.EMBER_ENV = 'production';
@@ -748,7 +789,7 @@ describe('broccoli/ember-app', function() {
         'development': 'vendor/jquery.js',
         'production':  null
       });
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/jquery.js')).to.equal(-1);
+      expect(emberApp.legacyFilesToAppend['/assets/vendor.js'].indexOf('vendor/jquery.js')).to.equal(-1);
       process.env.EMBER_ENV = undefined;
     });
   });
@@ -871,4 +912,6 @@ describe('broccoli/ember-app', function() {
       expect(emberFiles.development).to.equal('vendor/ember.debug.js');
     });
   });
+
 });
+
