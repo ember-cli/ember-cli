@@ -67,9 +67,9 @@ describe('livereload-server', function() {
       preexistingServer.listen(1337);
 
       return subject.start({
-          liveReloadPort: 1337,
-          liveReload: true
-        })
+        liveReloadPort: 1337,
+        liveReload: true
+      })
         .catch(function(reason) {
           expect(reason).to.equal('Livereload failed on http://localhost:1337.  It is either in use or you do not have permission.' + EOL);
         })
@@ -108,12 +108,12 @@ describe('livereload-server', function() {
       preexistingServer.listen(1337);
 
       return subject.start({
-          liveReloadPort: 1337,
-          liveReload: true,
-          ssl: true,
-          sslKey: 'tests/fixtures/ssl/server.key',
-          sslCert: 'tests/fixtures/ssl/server.crt'
-        })
+        liveReloadPort: 1337,
+        liveReload: true,
+        ssl: true,
+        sslKey: 'tests/fixtures/ssl/server.key',
+        sslCert: 'tests/fixtures/ssl/server.crt'
+      })
         .catch(function(reason) {
           expect(reason).to.equal('Livereload failed on https://localhost:1337.  It is either in use or you do not have permission.' + EOL);
         })
@@ -131,12 +131,12 @@ describe('livereload-server', function() {
       };
 
       return subject.start({
-          liveReloadPort: 1337,
-          liveReload: true
-        }).then(function () {
-          expressServer.emit('restart');
-          expect(calls).to.equal(1);
-        });
+        liveReloadPort: 1337,
+        liveReload: true
+      }).then(function () {
+        expressServer.emit('restart');
+        expect(calls).to.equal(1);
+      });
     });
   });
 
@@ -194,12 +194,12 @@ describe('livereload-server', function() {
           liveReloadPort: 1337,
           liveReload: true
         }).then(function () {
-            watcher.emit(eventName, {
-              directory: '/home/user/projects/my-project/tmp/something.tmp'
-            });
-          }).finally(function () {
-            expect(changedCount).to.equal(expectedCount);
+          watcher.emit(eventName, {
+            directory: '/home/user/projects/my-project/tmp/something.tmp'
           });
+        }).finally(function () {
+          expect(changedCount).to.equal(expectedCount);
+        });
       }
 
       it('triggers a livereload change on a watcher change event', function () {

@@ -64,7 +64,7 @@ describe('build command', function() {
   it('BuildWatch task is provided with a watcher option', function() {
     return command.validateAndRun(['--watch', '--watcher poller']).then(function() {
       var buildWatchRun = tasks.BuildWatch.prototype.run,
-        calledWith = buildWatchRun.calledWith[0]['0'];
+          calledWith = buildWatchRun.calledWith[0]['0'];
 
       expect(buildWatchRun.called).to.equal(1, 'expected run to be called once');
       expect(calledWith.watcherPoller).to.equal(true, 'expected run to be called with a poller option');

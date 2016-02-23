@@ -63,15 +63,15 @@ module.exports = {
 
 function dsAttr(name, type) {
   switch (type) {
-  case 'belongs-to':
-    return 'DS.belongsTo(\'' + name + '\')';
-  case 'has-many':
-    return 'DS.hasMany(\'' + name + '\')';
-  case '':
-    //"If you don't specify the type of the attribute, it will be whatever was provided by the server"
-    //http://emberjs.com/guides/models/defining-models/
-    return 'DS.attr()';
-  default:
-    return 'DS.attr(\'' + type + '\')';
+    case 'belongs-to':
+      return 'DS.belongsTo(\'' + name + '\')';
+    case 'has-many':
+      return 'DS.hasMany(\'' + name + '\')';
+    case '':
+      //"If you don't specify the type of the attribute, it will be whatever was provided by the server"
+      //http://emberjs.com/guides/models/defining-models/
+      return 'DS.attr()';
+    default:
+      return 'DS.attr(\'' + type + '\')';
   }
 }

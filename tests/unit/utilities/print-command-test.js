@@ -9,25 +9,21 @@ var EOL               = require('os').EOL;
 
 describe('printCommand', function() {
   it('handles all possible options', function() {
-    var availableOptions = [
-      {
-        name: 'test-option',
-        values: ['x', 'y'],
-        default: 'my-def-val',
-        required: true,
-        aliases: ['a', 'long-a', { b: 'c', unused: '' }, {'long-b': 'c' }],
-        description: 'option desc'
-      },
-      {
-        name: 'test-type',
-        type: Boolean,
-        aliases: ['a']
-      },
-      {
-        name: 'test-type-array',
-        type: ['a-type', Number]
-      }
-    ];
+    var availableOptions = [{
+      name: 'test-option',
+      values: ['x', 'y'],
+      default: 'my-def-val',
+      required: true,
+      aliases: ['a', 'long-a', { b: 'c', unused: '' }, {'long-b': 'c' }],
+      description: 'option desc'
+    }, {
+      name: 'test-type',
+      type: Boolean,
+      aliases: ['a']
+    }, {
+      name: 'test-type-array',
+      type: ['a-type', Number]
+    }];
 
     var obj = {
       description: 'a paragraph',

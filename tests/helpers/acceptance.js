@@ -112,16 +112,14 @@ function createTestTargets(projectName, options) {
   }
 
   return createTmp(function() {
-    return command().
-      catch(handleResult).
-      then(function(value) {
-        if (noNodeModules) {
-          return exec('npm install ember-disable-prototype-extensions').then(function() {
-            return value;
-          });
-        }
+    return command().catch(handleResult).then(function(value) {
+      if (noNodeModules) {
+        return exec('npm install ember-disable-prototype-extensions').then(function() {
+          return value;
+        });
+      }
 
-        return value;
+      return value;
     });
   });
 }
