@@ -376,15 +376,12 @@ help in detail');
       });
 
       it('iterates options', function() {
-        var availableOptions = [
-          {
-            type: 'my-string-type',
-            showAnything: true
-          },
-          {
-            type: function myFunctionType() {}
-          }
-        ];
+        var availableOptions = [{
+          type: 'my-string-type',
+          showAnything: true
+        }, {
+          type: function myFunctionType() {}
+        }];
 
         assign(blueprint, {
           test1: 'a test',
@@ -509,16 +506,14 @@ help in detail');
 
           expect(actualFiles).to.deep.equal(basicBlueprintFiles);
 
-          expect( function(){
-            fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8',
-                function(err, content){
-                    if(err){
-                        throw 'error';
-                    }
-                    expect(content).to.match(/I AM TESTY/);
-                });
-            }
-          ).not.to.throw();
+          expect(function() {
+            fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8', function(err, content) {
+              if(err){
+                throw 'error';
+              }
+              expect(content).to.match(/I AM TESTY/);
+            });
+          }).not.to.throw();
 
         });
     });
@@ -605,11 +600,11 @@ help in detail');
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
           var globFiles = glob.sync(path.join('**', 'foo.txt'), {
-              cwd: tmpdir,
-              dot: true,
-              mark: true,
-              strict: true
-            }).sort();
+            cwd: tmpdir,
+            dot: true,
+            mark: true,
+            strict: true
+          }).sort();
           var output = ui.output.trim().split(EOL);
 
           expect(output.shift()).to.match(/^installing/);
@@ -626,11 +621,11 @@ help in detail');
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
           var globFiles = glob.sync(path.join('**', '*.txt'), {
-              cwd: tmpdir,
-              dot: true,
-              mark: true,
-              strict: true
-            }).sort();
+            cwd: tmpdir,
+            dot: true,
+            mark: true,
+            strict: true
+          }).sort();
           var output = ui.output.trim().split(EOL);
 
           expect(output.shift()).to.match(/^installing/);
@@ -809,18 +804,17 @@ help in detail');
 
       options.entity = { name: 'foo' };
 
-      return blueprint.install(options)
-        .then(function() {
-            expect(localsCalled).to.be.true;
-            expect(normalizeEntityNameCalled).to.be.true;
-            expect(fileMapTokensCalled).to.be.true;
-            expect(filesPathCalled).to.be.true;
-            expect(beforeInstallCalled).to.be.true;
-            expect(afterInstallCalled).to.be.true;
+      return blueprint.install(options).then(function() {
+        expect(localsCalled).to.be.true;
+        expect(normalizeEntityNameCalled).to.be.true;
+        expect(fileMapTokensCalled).to.be.true;
+        expect(filesPathCalled).to.be.true;
+        expect(beforeInstallCalled).to.be.true;
+        expect(afterInstallCalled).to.be.true;
 
-            expect(beforeUninstallCalled).to.be.false;
-            expect(afterUninstallCalled).to.be.false;
-        });
+        expect(beforeUninstallCalled).to.be.false;
+        expect(afterUninstallCalled).to.be.false;
+      });
     });
   });
 
@@ -936,18 +930,17 @@ help in detail');
 
       options.entity = { name: 'foo' };
 
-      return blueprint.uninstall(options)
-        .then(function() {
-            expect(localsCalled).to.be.true;
-            expect(normalizeEntityNameCalled).to.be.true;
-            expect(fileMapTokensCalled).to.be.true;
-            expect(filesPathCalled).to.be.true;
-            expect(beforeUninstallCalled).to.be.true;
-            expect(afterUninstallCalled).to.be.true;
+      return blueprint.uninstall(options).then(function() {
+        expect(localsCalled).to.be.true;
+        expect(normalizeEntityNameCalled).to.be.true;
+        expect(fileMapTokensCalled).to.be.true;
+        expect(filesPathCalled).to.be.true;
+        expect(beforeUninstallCalled).to.be.true;
+        expect(afterUninstallCalled).to.be.true;
 
-            expect(beforeInstallCalled).to.be.false;
-            expect(afterInstallCalled).to.be.false;
-        });
+        expect(beforeInstallCalled).to.be.false;
+        expect(afterInstallCalled).to.be.false;
+      });
     });
   });
 

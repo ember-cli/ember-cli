@@ -882,7 +882,7 @@ describe('Acceptance: ember generate pod', function() {
             '});'
           ]
         });
-    });
+      });
   });
 
   it('route foo --pod with --reset-namespace', function() {

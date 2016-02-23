@@ -15,9 +15,9 @@ module.exports = function assertFileToNotExist(pathToCheck) {
     exists = fs.readFileSync(pathToCheck, { encoding: 'utf-8' });
   } catch (e) {
     if (e.code === 'ENOENT') {
-        exists = null;
+      exists = null;
     } else {
-        throw e;
+      throw e;
     }
   }
   expect(exists).to.not.exist;

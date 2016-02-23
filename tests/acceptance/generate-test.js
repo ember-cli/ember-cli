@@ -359,7 +359,7 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-    it('route foo with --skip-router', function() {
+  it('route foo with --skip-router', function() {
     return generate(['route', 'foo', '--skip-router']).then(function() {
       assertFile('app/router.js', {
         doesNotContain: 'this.route(\'foo\')'
@@ -1330,33 +1330,30 @@ describe('Acceptance: ember generate', function() {
   });
 
   it('custom blueprint availableOptions', function() {
-    return initApp()
-      .then(function() {
-        return ember(['generate', 'blueprint', 'foo'])
-          .then(function() {
-            replaceFile('blueprints/foo/index.js', 'module.exports = {',
-              'module.exports = {\navailableOptions: [ \n' +
-              '{ name: \'foo\',\ntype: String, \n' +
-              'values: [\'one\', \'two\'],\n' +
-              'default: \'one\',\n' +
-              'aliases: [ {\'one\': \'one\'}, {\'two\': \'two\'} ] } ],\n' +
-              'locals: function(options) {\n' +
-              'return { foo: options.foo };\n' +
-              '},');
-            return outputFile(
-              'blueprints/foo/files/app/foos/__name__.js',
-              "import Ember from 'ember';\n" +
-              'export default Ember.Object.extend({ foo: <%= foo %> });\n'
-            )
-              .then(function() {
-                return ember(['generate','foo','bar','-two']);
-              });
-      });
-    })
-      .then(function() {
-        assertFile('app/foos/bar.js', {
-          contain: ['export default Ember.Object.extend({ foo: two });']
+    return initApp().then(function() {
+      return ember(['generate', 'blueprint', 'foo']).then(function() {
+        replaceFile('blueprints/foo/index.js', 'module.exports = {',
+          'module.exports = {\navailableOptions: [ \n' +
+          '{ name: \'foo\',\ntype: String, \n' +
+          'values: [\'one\', \'two\'],\n' +
+          'default: \'one\',\n' +
+          'aliases: [ {\'one\': \'one\'}, {\'two\': \'two\'} ] } ],\n' +
+          'locals: function(options) {\n' +
+          'return { foo: options.foo };\n' +
+          '},');
+
+        return outputFile(
+          'blueprints/foo/files/app/foos/__name__.js',
+          "import Ember from 'ember';\n" +
+          'export default Ember.Object.extend({ foo: <%= foo %> });\n'
+        ).then(function() {
+          return ember(['generate','foo','bar','-two']);
         });
       });
+    }).then(function() {
+      assertFile('app/foos/bar.js', {
+        contain: ['export default Ember.Object.extend({ foo: two });']
+      });
+    });
   });
 });

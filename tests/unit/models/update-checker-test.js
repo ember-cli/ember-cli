@@ -29,13 +29,13 @@ describe('Update Checker', function() {
 
     // overwrite doCheck so it ignores any existing configstore
     updateChecker.doCheck = (function() {
-        var doCheck = updateChecker.doCheck;
+      var doCheck = updateChecker.doCheck;
 
-        return function() {
-          updateChecker.versionConfig = versionConfig;
-          return doCheck.apply(this);
-        };
-      }());
+      return function() {
+        updateChecker.versionConfig = versionConfig;
+        return doCheck.apply(this);
+      };
+    }());
 
     updateChecker.checkNPM = function() {
       return Promise.resolve('0.0.5');
@@ -53,13 +53,13 @@ describe('Update Checker', function() {
 
     // overwrite doCheck so it ignores any existing configstore
     updateChecker.doCheck = (function() {
-        var doCheck = updateChecker.doCheck;
+      var doCheck = updateChecker.doCheck;
 
-        return function() {
-          updateChecker.versionConfig = versionConfig;
-          return doCheck.apply(this);
-        };
-      }());
+      return function() {
+        updateChecker.versionConfig = versionConfig;
+        return doCheck.apply(this);
+      };
+    }());
 
     updateChecker.checkNPM = function() {
       return Promise.resolve('0.0.1');
@@ -77,13 +77,13 @@ describe('Update Checker', function() {
 
     // overwrite doCheck so it ignores any existing configstore
     updateChecker.doCheck = (function() {
-        var doCheck = updateChecker.doCheck;
+      var doCheck = updateChecker.doCheck;
 
-        return function() {
-          updateChecker.versionConfig = versionConfig;
-          return doCheck.apply(this, arguments);
-        };
-      }());
+      return function() {
+        updateChecker.versionConfig = versionConfig;
+        return doCheck.apply(this, arguments);
+      };
+    }());
 
     updateChecker.checkNPM = function() {
       return Promise.resolve('1000.0.0');
@@ -103,14 +103,14 @@ describe('Update Checker', function() {
     var npmCalled = false;
 
     updateChecker.doCheck = (function() {
-        var doCheck = updateChecker.doCheck;
+      var doCheck = updateChecker.doCheck;
 
-        return function() {
-          updateChecker.versionConfig = versionConfig;
-          versionConfig.set('lastVersionCheckAt', now - 86400);
-          return doCheck.apply(this);
-        };
-      }());
+      return function() {
+        updateChecker.versionConfig = versionConfig;
+        versionConfig.set('lastVersionCheckAt', now - 86400);
+        return doCheck.apply(this);
+      };
+    }());
 
     updateChecker.checkNPM = function() {
       npmCalled = true;

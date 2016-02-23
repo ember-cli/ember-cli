@@ -907,201 +907,201 @@ describe('Acceptance: ember generate in-addon', function() {
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};"
-        });
       });
     });
+  });
 
-    it('in-addon blueprint foo/bar', function() {
-      return generateInAddon(['blueprint', 'foo/bar']).then(function() {
-        assertFile('blueprints/foo/bar/index.js', {
-          contains: "module.exports = {\n" +
-                    "  description: ''\n" +
-                    "\n" +
-                    "  // locals: function(options) {\n" +
-                    "  //   // Return custom template variables here.\n" +
-                    "  //   return {\n" +
-                    "  //     foo: options.entity.options.foo\n" +
-                    "  //   };\n" +
-                    "  // }\n" +
-                    "\n" +
-                    "  // afterInstall: function(options) {\n" +
-                    "  //   // Perform extra work here.\n" +
-                    "  // }\n" +
-                    "};"
-        });
+  it('in-addon blueprint foo/bar', function() {
+    return generateInAddon(['blueprint', 'foo/bar']).then(function() {
+      assertFile('blueprints/foo/bar/index.js', {
+        contains: "module.exports = {\n" +
+                  "  description: ''\n" +
+                  "\n" +
+                  "  // locals: function(options) {\n" +
+                  "  //   // Return custom template variables here.\n" +
+                  "  //   return {\n" +
+                  "  //     foo: options.entity.options.foo\n" +
+                  "  //   };\n" +
+                  "  // }\n" +
+                  "\n" +
+                  "  // afterInstall: function(options) {\n" +
+                  "  //   // Perform extra work here.\n" +
+                  "  // }\n" +
+                  "};"
       });
     });
+  });
 
-    it('in-addon http-mock foo', function() {
-      return generateInAddon(['http-mock', 'foo']).then(function() {
-        assertFile('server/index.js', {
-          contains:"mocks.forEach(function(route) { route(app); });"
-        });
-        assertFile('server/mocks/foo.js', {
-          contains: "module.exports = function(app) {\n" +
-                    "  var express = require('express');\n" +
-                    "  var fooRouter = express.Router();\n" +
-                    "\n" +
-                    "  fooRouter.get('/', function(req, res) {\n" +
-                    "    res.send({\n" +
-                    "      'foo': []\n" +
-                    "    });\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooRouter.post('/', function(req, res) {\n" +
-                    "    res.status(201).end();\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooRouter.get('/:id', function(req, res) {\n" +
-                    "    res.send({\n" +
-                    "      'foo': {\n" +
-                    "        id: req.params.id\n" +
-                    "      }\n" +
-                    "    });\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooRouter.put('/:id', function(req, res) {\n" +
-                    "    res.send({\n" +
-                    "      'foo': {\n" +
-                    "        id: req.params.id\n" +
-                    "      }\n" +
-                    "    });\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooRouter.delete('/:id', function(req, res) {\n" +
-                    "    res.status(204).end();\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  // The POST and PUT call will not contain a request body\n" +
-                    "  // because the body-parser is not included by default.\n" +
-                    "  // To use req.body, run:\n" +
-                    "\n" +
-                    "  //    npm install --save-dev body-parser\n" +
-                    "\n" +
-                    "  // After installing, you need to `use` the body-parser for\n" +
-                    "  // this mock uncommenting the following line:\n" +
-                    "  //\n" +
-                    "  //app.use('/api/foo', require('body-parser').json());\n" +
-                    "  app.use('/api/foo', fooRouter);\n" +
-                    "};"
-        });
-        assertFile('server/.jshintrc', {
-          contains: '{\n  "node": true\n}'
-        });
+  it('in-addon http-mock foo', function() {
+    return generateInAddon(['http-mock', 'foo']).then(function() {
+      assertFile('server/index.js', {
+        contains:"mocks.forEach(function(route) { route(app); });"
+      });
+      assertFile('server/mocks/foo.js', {
+        contains: "module.exports = function(app) {\n" +
+                  "  var express = require('express');\n" +
+                  "  var fooRouter = express.Router();\n" +
+                  "\n" +
+                  "  fooRouter.get('/', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo': []\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.post('/', function(req, res) {\n" +
+                  "    res.status(201).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.get('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.put('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooRouter.delete('/:id', function(req, res) {\n" +
+                  "    res.status(204).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  // The POST and PUT call will not contain a request body\n" +
+                  "  // because the body-parser is not included by default.\n" +
+                  "  // To use req.body, run:\n" +
+                  "\n" +
+                  "  //    npm install --save-dev body-parser\n" +
+                  "\n" +
+                  "  // After installing, you need to `use` the body-parser for\n" +
+                  "  // this mock uncommenting the following line:\n" +
+                  "  //\n" +
+                  "  //app.use('/api/foo', require('body-parser').json());\n" +
+                  "  app.use('/api/foo', fooRouter);\n" +
+                  "};"
+      });
+      assertFile('server/.jshintrc', {
+        contains: '{\n  "node": true\n}'
       });
     });
+  });
 
-    it('in-addon http-mock foo-bar', function() {
-      return generateInAddon(['http-mock', 'foo-bar']).then(function() {
-        assertFile('server/index.js', {
-          contains: "mocks.forEach(function(route) { route(app); });"
-        });
-        assertFile('server/mocks/foo-bar.js', {
-          contains: "module.exports = function(app) {\n" +
-                    "  var express = require('express');\n" +
-                    "  var fooBarRouter = express.Router();\n" +
-                    "\n" +
-                    "  fooBarRouter.get('/', function(req, res) {\n" +
-                    "    res.send({\n" +
-                    "      'foo-bar': []\n" +
-                    "    });\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooBarRouter.post('/', function(req, res) {\n" +
-                    "    res.status(201).end();\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooBarRouter.get('/:id', function(req, res) {\n" +
-                    "    res.send({\n" +
-                    "      'foo-bar': {\n" +
-                    "        id: req.params.id\n" +
-                    "      }\n" +
-                    "    });\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooBarRouter.put('/:id', function(req, res) {\n" +
-                    "    res.send({\n" +
-                    "      'foo-bar': {\n" +
-                    "        id: req.params.id\n" +
-                    "      }\n" +
-                    "    });\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  fooBarRouter.delete('/:id', function(req, res) {\n" +
-                    "    res.status(204).end();\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  // The POST and PUT call will not contain a request body\n" +
-                    "  // because the body-parser is not included by default.\n" +
-                    "  // To use req.body, run:\n" +
-                    "\n" +
-                    "  //    npm install --save-dev body-parser\n" +
-                    "\n" +
-                    "  // After installing, you need to `use` the body-parser for\n" +
-                    "  // this mock uncommenting the following line:\n" +
-                    "  //\n" +
-                    "  //app.use('/api/foo-bar', require('body-parser').json());\n" +
-                    "  app.use('/api/foo-bar', fooBarRouter);\n" +
-                    "};"
-        });
-        assertFile('server/.jshintrc', {
-          contains: '{\n  "node": true\n}'
-        });
+  it('in-addon http-mock foo-bar', function() {
+    return generateInAddon(['http-mock', 'foo-bar']).then(function() {
+      assertFile('server/index.js', {
+        contains: "mocks.forEach(function(route) { route(app); });"
+      });
+      assertFile('server/mocks/foo-bar.js', {
+        contains: "module.exports = function(app) {\n" +
+                  "  var express = require('express');\n" +
+                  "  var fooBarRouter = express.Router();\n" +
+                  "\n" +
+                  "  fooBarRouter.get('/', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo-bar': []\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.post('/', function(req, res) {\n" +
+                  "    res.status(201).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.get('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo-bar': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.put('/:id', function(req, res) {\n" +
+                  "    res.send({\n" +
+                  "      'foo-bar': {\n" +
+                  "        id: req.params.id\n" +
+                  "      }\n" +
+                  "    });\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  fooBarRouter.delete('/:id', function(req, res) {\n" +
+                  "    res.status(204).end();\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  // The POST and PUT call will not contain a request body\n" +
+                  "  // because the body-parser is not included by default.\n" +
+                  "  // To use req.body, run:\n" +
+                  "\n" +
+                  "  //    npm install --save-dev body-parser\n" +
+                  "\n" +
+                  "  // After installing, you need to `use` the body-parser for\n" +
+                  "  // this mock uncommenting the following line:\n" +
+                  "  //\n" +
+                  "  //app.use('/api/foo-bar', require('body-parser').json());\n" +
+                  "  app.use('/api/foo-bar', fooBarRouter);\n" +
+                  "};"
+      });
+      assertFile('server/.jshintrc', {
+        contains: '{\n  "node": true\n}'
       });
     });
+  });
 
-    it('in-addon http-proxy foo', function() {
-      return generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
-        assertFile('server/index.js', {
-          contains: "proxies.forEach(function(route) { route(app); });"
-        });
-        assertFile('server/proxies/foo.js', {
-          contains: "var proxyPath = '/foo';\n" +
-                    "\n" +
-                    "module.exports = function(app) {\n" +
-                    "  // For options, see:\n" +
-                    "  // https://github.com/nodejitsu/node-http-proxy\n" +
-                    "  var proxy = require('http-proxy').createProxyServer({});\n" +
-                    "\n" +
-                    "  proxy.on('error', function(err, req) {\n" +
-                    "    console.error(err, req.url);\n" +
-                    "  });\n" +
-                    "\n" +
-                    "  app.use(proxyPath, function(req, res, next){\n" +
-                    "    // include root path in proxied request\n" +
-                    "    req.url = proxyPath + '/' + req.url;\n" +
-                    "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
-                    "  });\n" +
-                    "};"
-        });
-        assertFile('server/.jshintrc', {
-          contains: '{\n  "node": true\n}'
-        });
+  it('in-addon http-proxy foo', function() {
+    return generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']).then(function() {
+      assertFile('server/index.js', {
+        contains: "proxies.forEach(function(route) { route(app); });"
+      });
+      assertFile('server/proxies/foo.js', {
+        contains: "var proxyPath = '/foo';\n" +
+                  "\n" +
+                  "module.exports = function(app) {\n" +
+                  "  // For options, see:\n" +
+                  "  // https://github.com/nodejitsu/node-http-proxy\n" +
+                  "  var proxy = require('http-proxy').createProxyServer({});\n" +
+                  "\n" +
+                  "  proxy.on('error', function(err, req) {\n" +
+                  "    console.error(err, req.url);\n" +
+                  "  });\n" +
+                  "\n" +
+                  "  app.use(proxyPath, function(req, res, next){\n" +
+                  "    // include root path in proxied request\n" +
+                  "    req.url = proxyPath + '/' + req.url;\n" +
+                  "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
+                  "  });\n" +
+                  "};"
+      });
+      assertFile('server/.jshintrc', {
+        contains: '{\n  "node": true\n}'
       });
     });
+  });
 
-    it('in-addon server', function() {
-      return generateInAddon(['server']).then(function() {
-        assertFile('server/index.js');
-        assertFile('server/.jshintrc');
-      });
+  it('in-addon server', function() {
+    return generateInAddon(['server']).then(function() {
+      assertFile('server/index.js');
+      assertFile('server/.jshintrc');
     });
+  });
 
-    it('in-addon acceptance-test foo', function() {
-      return generateInAddon(['acceptance-test', 'foo']).then(function() {
-        var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-expected.js');
+  it('in-addon acceptance-test foo', function() {
+    return generateInAddon(['acceptance-test', 'foo']).then(function() {
+      var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-expected.js');
 
-        assertFileEquals('tests/acceptance/foo-test.js', expected);
-        assertFileToNotExist('app/acceptance-tests/foo.js');
-      });
+      assertFileEquals('tests/acceptance/foo-test.js', expected);
+      assertFileToNotExist('app/acceptance-tests/foo.js');
     });
+  });
 
-    it('in-addon acceptance-test foo/bar', function() {
-      return generateInAddon(['acceptance-test', 'foo/bar']).then(function() {
-        var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-nested-expected.js');
+  it('in-addon acceptance-test foo/bar', function() {
+    return generateInAddon(['acceptance-test', 'foo/bar']).then(function() {
+      var expected = path.join(__dirname, '../fixtures/generate/addon-acceptance-test-nested-expected.js');
 
-        assertFileEquals('tests/acceptance/foo/bar-test.js', expected);
-        assertFileToNotExist('app/acceptance-tests/foo/bar.js');
-      });
+      assertFileEquals('tests/acceptance/foo/bar-test.js', expected);
+      assertFileToNotExist('app/acceptance-tests/foo/bar.js');
     });
+  });
 });

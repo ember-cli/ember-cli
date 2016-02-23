@@ -67,16 +67,14 @@ var OptionsAliasCommand = Command.extend({
       { 'hard-shell': 'hard-shell' },
       { 'soft-shell': 'soft-shell' }
     ]
-  },
-  {
+  }, {
     name: 'spicy',
     type: Boolean,
     default: true,
     aliases: [
       { 'mild': false }
     ]
-  },
-  {
+  }, {
     name: 'display-message',
     type: String,
     aliases: [
@@ -326,28 +324,25 @@ describe('models/command.js', function() {
 
   it('registerOptions() should not allow aliases with the same name.', function() {
     var optionsAlias = new OptionsAliasCommand(options);
-    var extendedAvailableOptions = [
-      {
-        name: 'filling',
-        type: String,
-        default: 'adobada',
-        aliases: [
-          { 'carne-asada': 'carne-asada' },
-          { 'carnitas': 'carnitas' },
-          { 'fish': 'fish' }
-        ]
-      },
-      {
-        name: 'favorite',
-        type: String,
-        default: 'adobada',
-        aliases: [
-          { 'carne-asada': 'carne-asada' },
-          { 'carnitas': 'carnitas' },
-          { 'fish': 'fish' }
-        ]
-      }
-    ];
+    var extendedAvailableOptions = [{
+      name: 'filling',
+      type: String,
+      default: 'adobada',
+      aliases: [
+        { 'carne-asada': 'carne-asada' },
+        { 'carnitas': 'carnitas' },
+        { 'fish': 'fish' }
+      ]
+    }, {
+      name: 'favorite',
+      type: String,
+      default: 'adobada',
+      aliases: [
+        { 'carne-asada': 'carne-asada' },
+        { 'carnitas': 'carnitas' },
+        { 'fish': 'fish' }
+      ]
+    }];
     var register = optionsAlias.registerOptions.bind(optionsAlias);
 
     optionsAlias.availableOptions = extendedAvailableOptions;
@@ -357,16 +352,14 @@ describe('models/command.js', function() {
 
   it('registerOptions() should warn on options override attempts.', function() {
     var optionsAlias = new OptionsAliasCommand(options);
-    var extendedAvailableOptions = [
-      {
-        name: 'spicy',
-        type: Boolean,
-        default: true,
-        aliases: [
-          { 'mild': true }
-        ]
-      }
-    ];
+    var extendedAvailableOptions = [{
+      name: 'spicy',
+      type: Boolean,
+      default: true,
+      aliases: [
+        { 'mild': true }
+      ]
+    }];
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     expect(ui.output).to.match(/The ".*" alias cannot be overridden. Please use a different alias./);
   });
@@ -375,13 +368,11 @@ describe('models/command.js', function() {
     //check for different types, validate proper errors are thrown
     var optionsAlias = new OptionsAliasCommand(options);
     var badArrayAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-        'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
-      ]
-    }];
+      'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
+    ]}];
     var badObjectAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-        'meat', { 'carne-asada': ['steak','grilled']}, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
-      ]
-    }];
+      'meat', { 'carne-asada': ['steak','grilled']}, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
+    ]}];
     var register = optionsAlias.registerOptions.bind(optionsAlias);
 
     optionsAlias.availableOptions = badArrayAvailableOptions;
@@ -469,13 +460,11 @@ describe('models/command.js', function() {
     ];
     optionsAlias.registerOptions({ availableOptions: garbageAvailableOptions });
     var extendedAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-        { 'carne-asada': 'carne-asada' }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
-      ]
-    }];
+      { 'carne-asada': 'carne-asada' }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
+    ]}];
     var duplicateExtendedAvailableOptions = [{ name: 'filling', type: String, default: 'carnitas', aliases: [
-        { 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' }
-      ]
-    }];
+      { 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' }
+    ]}];
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     optionsAlias.availableOptions.push(duplicateExtendedAvailableOptions[0]);
 
