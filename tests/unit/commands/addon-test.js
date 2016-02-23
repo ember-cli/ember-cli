@@ -30,7 +30,7 @@ describe('addon command', function() {
 
   it('doesn\'t allow to create an addon named `ember`', function() {
     return command.validateAndRun(['ember']).then(function() {
-      expect(false, 'should have rejected with an addon name of ember').to.be.true;
+      expect(false, 'should have rejected with an addon name of test').to.be.true;
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `ember`.');

@@ -63,13 +63,13 @@ describe('install:addon command', function() {
           'This command has been deprecated. Please use `ember install ' +
           '<addonName>` instead.');
 
-      expect(npmInstance.ui, 'ui was set');
-      expect(npmInstance.project, 'project was set');
-      expect(npmInstance.analytics, 'analytics was set');
+      expect(npmInstance.ui, 'ui was set').to.be.ok;
+      expect(npmInstance.project, 'project was set').to.be.ok;
+      expect(npmInstance.analytics, 'analytics was set').to.be.ok;
 
-      expect(generateBlueprintInstance.ui, 'ui was set');
-      expect(generateBlueprintInstance.project, 'project was set');
-      expect(generateBlueprintInstance.analytics, 'analytics was set');
+      expect(generateBlueprintInstance.ui, 'ui was set').to.be.ok;
+      expect(generateBlueprintInstance.project, 'project was set').to.be.ok;
+      expect(generateBlueprintInstance.analytics, 'analytics was set').to.be.ok;
     });
   });
 });

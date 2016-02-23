@@ -62,7 +62,7 @@ describe('test command', function() {
         var testOptions = testRun.calledWith[0][0];
 
         expect(buildOptions.environment).to.equal('test', 'has correct env');
-        expect(buildOptions.outputPath, 'has outputPath');
+        expect(buildOptions.outputPath, 'has outputPath').to.be.ok;
         expect(testOptions.configFile).to.equal(undefined, 'does not supply config file when not specified');
         expect(testOptions.port).to.equal(7357, 'has config file');
       });
@@ -147,7 +147,7 @@ describe('test command', function() {
 
     it('throws an error if the build path does not exist', function() {
       return command.validateAndRun(['--path=bad/path/to/build']).then(function() {
-        expect(false, 'should have rejected the build path');
+        expect(false, 'should have rejected the build path').to.be.ok;
       }).catch(function(error) {
         expect(error.message).to.equal('The path bad/path/to/build does not exist. Please specify a valid build directory to test.');
       });
@@ -166,7 +166,7 @@ describe('test command', function() {
       return command.validateAndRun(['--server']).then(function() {
         var testOptions = testServerRun.calledWith[0][0];
 
-        expect(testOptions.watcher.verbose, false);
+        expect(testOptions.watcher.verbose).to.be.false;
       });
     });
 
@@ -180,7 +180,7 @@ describe('test command', function() {
 
     it('throws an error if using a build path', function() {
       return command.validateAndRun(['--server', '--path=tests']).then(function() {
-        expect(false, 'should have rejected using a build path with the server');
+        expect(false, 'should have rejected using a build path with the server').to.be.ok;
       }).catch(function(error) {
         expect(error.message).to.equal('Specifying a build is not allowed with the `--server` option.');
       });
@@ -204,7 +204,7 @@ describe('test command', function() {
       runOptions.launch = 'fooLauncher';
       var result = command._generateCustomConfigs(runOptions);
 
-      expect(result.launcher, 'fooLauncher');
+      expect(result.launch).to.equal('fooLauncher');
     });
 
     it('when query option is present, should be reflected in returned config', function() {

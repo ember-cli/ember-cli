@@ -142,7 +142,7 @@ describe('express-server', function() {
         port: '1337'
       })
         .then(function() {
-          expect(false, 'should have rejected');
+          expect(false, 'should have rejected').to.be.ok;
         })
         .catch(function(reason) {
           expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
@@ -813,7 +813,7 @@ describe('express-server', function() {
             return subject.restartHttpServer();
           })
           .then(function() {
-            expect(subject.app);
+            expect(subject.app).to.be.ok;
             expect(originalApp).to.not.equal(subject.app);
             expect(passedOptions === realOptions).to.equal(true);
             expect(calls).to.equal(2);
@@ -833,7 +833,7 @@ describe('express-server', function() {
         };
 
         return subject.start(realOptions).then(function() {
-          expect(!!passedOptions.httpServer.listen);
+          expect(!!passedOptions.httpServer.listen).to.be.ok;
         });
       });
     });
@@ -906,7 +906,7 @@ describe('express-server', function() {
           return subject.restartHttpServer();
         }).then(function() {
           expect(ui.output).to.equal(EOL + chalk.green('Server restarted.') + EOL + EOL);
-          expect(subject.httpServer, 'HTTP server exists');
+          expect(subject.httpServer, 'HTTP server exists').to.be.ok;
           expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
           expect(!!subject.app).to.equal(true, 'App exists');
           expect(subject.app).to.not.equal(originalApp, 'App has changed');

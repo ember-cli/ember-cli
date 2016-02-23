@@ -50,7 +50,7 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
           .then(function() {
-            expect(false, 'should have rejected with a failing test');
+            expect(false, 'should have rejected with a failing test').to.be.ok;
           })
           .catch(function(result) {
             expect(result.code).to.equal(1);
@@ -63,7 +63,7 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
           .then(function() {
-            expect(false, 'should have rejected with a failing test');
+            expect(false, 'should have rejected with a failing test').to.be.ok;
           })
           .catch(function(result) {
             expect(result.code).to.equal(1);
@@ -76,7 +76,7 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
           .then(function() {
-            expect(false, 'should have rejected with a failing test');
+            expect(false, 'should have rejected with a failing test').to.be.ok;
           })
           .catch(function(result) {
             expect(result.code).to.equal(1);
@@ -226,9 +226,9 @@ describe('Acceptance: smoke-test', function() {
         });
 
       }).then(function () {
-        expect(false, 'should have rejected with a failing build');
+        expect(false, 'should have rejected with a failing build').to.be.ok;
       }).catch(function (result) {
-        expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text');
+        expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.ok;
         expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
       });
   });
@@ -293,7 +293,7 @@ describe('Acceptance: smoke-test', function() {
             if (string.match(/Build successful/)) {
               // build after change to app.js
               var contents  = fs.readFileSync(builtJsPath).toString();
-              expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild');
+              expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild').to.be.ok;
               killCliProcess(child);
             }
           }

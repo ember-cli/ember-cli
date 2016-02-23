@@ -82,13 +82,13 @@ describe('install command', function() {
 
   it('initializes npm install and generate blueprint task with ui, project and analytics', function() {
     return command.validateAndRun(['ember-data']).then(function() {
-      expect(npmInstance.ui, 'ui was set');
-      expect(npmInstance.project, 'project was set');
-      expect(npmInstance.analytics, 'analytics was set');
+      expect(npmInstance.ui, 'ui was set').to.be.ok;
+      expect(npmInstance.project, 'project was set').to.be.ok;
+      expect(npmInstance.analytics, 'analytics was set').to.be.ok;
 
-      expect(generateBlueprintInstance.ui, 'ui was set');
-      expect(generateBlueprintInstance.project, 'project was set');
-      expect(generateBlueprintInstance.analytics, 'analytics was set');
+      expect(generateBlueprintInstance.ui, 'ui was set').to.be.ok;
+      expect(generateBlueprintInstance.project, 'project was set').to.be.ok;
+      expect(generateBlueprintInstance.analytics, 'analytics was set').to.be.ok;
     });
   });
 
@@ -109,7 +109,7 @@ describe('install command', function() {
     it('runs the package name blueprint task with given name and args', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        expect(generateRun.calledWith[0][0].ignoreMissingMain, true);
+        expect(generateRun.calledWith[0][0].ignoreMissingMain).to.be.true;
         expect(generateRun.calledWith[0][0].args).to.deep.equal([
           'ember-data'
         ], 'expected generate blueprint called with correct args');
@@ -118,10 +118,10 @@ describe('install command', function() {
 
     it('fails to install second argument for unknown addon', function() {
       return command.validateAndRun(['ember-cli-cordova', 'com.ember.test']).then(function() {
-        expect(false, 'should reject with error');
+        expect(false, 'should reject with error').to.be.ok;
       }).catch(function(error) {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        expect(generateRun.calledWith[0][0].ignoreMissingMain, true);
+        expect(generateRun.calledWith[0][0].ignoreMissingMain).to.be.true;
         expect(generateRun.calledWith[0][0].args).to.deep.equal([
           'cordova-starter-kit'
         ], 'expected generate blueprint called with correct args');
@@ -157,7 +157,7 @@ describe('install command', function() {
     it('runs the package name blueprint task when given github/name and args', function() {
       return command.validateAndRun(['ember-cli/ember-cli-qunit']).then(function() {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        expect(generateRun.calledWith[0][0].ignoreMissingMain, true);
+        expect(generateRun.calledWith[0][0].ignoreMissingMain).to.be.true;
         expect(generateRun.calledWith[0][0].args).to.deep.equal([
           'ember-cli-qunit'
         ], 'expected generate blueprint called with correct args');
@@ -166,7 +166,7 @@ describe('install command', function() {
 
     it('gives helpful message if it can\'t find the addon', function() {
       return command.validateAndRun(['unknown-addon']).then(function() {
-        expect(false, 'should reject with error');
+        expect(false, 'should reject with error').to.be.ok;
       }).catch(function(error) {
         expect(error.message).to.equal(
           'Install failed. Could not find addon with name: unknown-addon',
@@ -179,7 +179,7 @@ describe('install command', function() {
   describe('without args', function() {
     it('gives a helpful message if no arguments are passed', function() {
       return command.validateAndRun([]).then(function() {
-        expect(false, 'should reject with error');
+        expect(false, 'should reject with error').to.be.ok;
       }).catch(function(error) {
         expect(error.message).to.equal(
           'The `install` command must take an argument with the name ' +

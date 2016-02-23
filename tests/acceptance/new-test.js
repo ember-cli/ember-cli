@@ -65,17 +65,25 @@ describe('Acceptance: ember new', function() {
     ]).then(confirmBlueprinted);
   });
 
-  it('ember new with empty app name doesnt throw exception', function() {
+  it('ember new with empty app name fails with a warning', function() {
     return ember([
       'new',
       ''
-    ]);
+    ]).then(function() {
+      throw new Error('this promise should be rejected');
+    }, function(result) {
+      expect(result.errorLog[0].message).to.contain('The `ember new` command requires a name to be specified.');
+    });
   });
 
-  it('ember new without app name doesnt throw exception', function() {
+  it('ember new without app name fails with a warning', function() {
     return ember([
       'new'
-    ]);
+    ]).then(function() {
+      throw new Error('this promise should be rejected');
+    }, function(result) {
+      expect(result.errorLog[0].message).to.contain('The `ember new` command requires a name to be specified.');
+    });
   });
 
   it('ember new with app name creates new directory and has a dasherized package name', function() {
@@ -86,7 +94,7 @@ describe('Acceptance: ember new', function() {
       '--skip-bower',
       '--skip-git'
     ]).then(function() {
-      expect(!existsSync('FooApp'));
+      expect(existsSync('FooApp')).to.be.false;
 
       var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
       expect(pkgJson.name).to.equal('foo-app');
@@ -108,7 +116,10 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
         '--skip-git'
       ]).then(function() {
-        expect(!existsSync('foo'));
+        throw new Error('this promise should be rejected');
+      }, function(result) {
+        expect(result.errorLog[0].message).to.match(/You cannot use the .*new.* command inside an ember-cli project./);
+        expect(existsSync('foo')).to.be.false;
       });
     }).then(confirmBlueprinted);
   });
@@ -167,7 +178,7 @@ describe('Acceptance: ember new', function() {
       '--skip-git',
       '--blueprint=https://github.com/ember-cli/app-blueprint-test.git'
     ]).then(function() {
-      expect(existsSync('.ember-cli'));
+      expect(existsSync('.ember-cli')).to.be.true;
     });
   });
 
@@ -214,8 +225,10 @@ describe('Acceptance: ember new', function() {
       'foo',
       '--skip-npm',
       '--skip-bower'
-    ]).then(function() {
-      expect(existsSync('.git'));
+    ], {
+      skipGit: false
+    }).then(function() {
+      expect(existsSync('.git'), '.git folder exists').to.be.true;
     });
   });
 
@@ -236,7 +249,7 @@ describe('Acceptance: ember new', function() {
       })
       .then(function(){
         var cwd = process.cwd();
-        expect(!existsSync(path.join(cwd, 'foo')), 'the generated directory is removed');
+        expect(existsSync(path.join(cwd, 'foo')), 'the generated directory is removed').to.be.false;
       });
   });
 
@@ -248,12 +261,14 @@ describe('Acceptance: ember new', function() {
     ]).then(function(){
       var cwd = process.cwd();
       expect(cwd).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
-      expect(!existsSync(path.join(cwd, 'foo')), 'does not create new directory');
-      expect(!existsSync(path.join(cwd, '.git')), 'does not create git in current directory');
+      expect(existsSync(path.join(cwd, 'foo')), 'does not create new directory').to.be.false;
+      expect(existsSync(path.join(cwd, '.git')), 'does not create git in current directory').to.be.false;
     });
   });
 
   it('ember new with --directory uses given directory name and has correct package name', function() {
+    var workdir = process.cwd();
+
     return ember([
       'new',
       'foo',
@@ -262,12 +277,12 @@ describe('Acceptance: ember new', function() {
       '--skip-git',
       '--directory=bar'
     ]).then(function() {
+      expect(existsSync(path.join(workdir, 'foo')), 'directory with app name exists').to.be.false;
+      expect(existsSync(path.join(workdir, 'bar')), 'directory with specified name exists').to.be.true;
+
       var cwd = process.cwd();
       expect(cwd).to.not.match(/foo/, 'does not use app name for directory name');
-      expect(!existsSync(path.join(cwd, 'foo')), 'does not create new directory with app name');
-
       expect(cwd).to.match(/bar/, 'uses given directory name');
-      expect(existsSync(path.join(cwd, 'bar')), 'creates new directory with specified name');
 
       var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
       expect(pkgJson.name).to.equal('foo', 'uses app name for package name');

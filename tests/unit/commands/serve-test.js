@@ -158,7 +158,7 @@ describe('serve command', function() {
     return command.validateAndRun([
       '--proxy', 'localhost:3000'
     ]).then(function() {
-      expect(false, 'it rejects when proxy URL doesn\'t include protocol');
+      expect(false, 'it rejects when proxy URL doesn\'t include protocol').to.be.ok;
     })
     .catch(function(error) {
       expect(error.message).to.equal(

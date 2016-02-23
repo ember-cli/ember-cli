@@ -80,13 +80,13 @@ afterEach(function() {
 });
 
 function assertVersion(string, message) {
-  expect(true, /version:\s\d+\.\d+\.\d+/.test(string), message || ('expected version, got: ' + string));
+  expect(/version:\s\d+\.\d+\.\d+/.test(string), message || ('expected version, got: ' + string)).to.be.true;
 }
 
 describe('Unit: CLI', function() {
   this.timeout(10000);
   it('exists', function() {
-    expect(true, CLI);
+    expect(CLI).to.be.ok;
   });
 
   it('ember', function() {
@@ -287,7 +287,7 @@ describe('Unit: CLI', function() {
 
           var options = server.calledWith[0][0];
 
-          expect(true, /node|events|watchman/.test(options.watcher), 'correct watcher type');
+          expect(/node|events|watchman/.test(options.watcher), 'correct watcher type').to.be.true;
         });
       });
 
@@ -311,7 +311,7 @@ describe('Unit: CLI', function() {
 
           var options = server.calledWith[0][0];
 
-          expect(true, /node|events|watchman/.test(options.watcher), 'correct watcher type');
+          expect(/node|events|watchman/.test(options.watcher), 'correct watcher type').to.be.true;
         });
       });
 
@@ -554,10 +554,10 @@ describe('Unit: CLI', function() {
     var help = stubValidateAndRun('help');
 
     return ember(['unknownCommand']).then(function() {
-      var output = ui.output.trim().split(EOL);
+      var errors = ui.errors.trim().split(EOL);
       var helpfulMessage = /The specified command .*unknownCommand.* is invalid\. For available options/;
-      expect(true, helpfulMessage.test(output[1]), 'expected an invalid command message');
-      expect(help.called).to.equal(0, 'expected the help command to be run');
+      expect(errors[0]).to.match(helpfulMessage, 'expected an invalid command message');
+      expect(help.called, 'help command was executed').to.not.be.ok;
     });
   });
 
@@ -589,22 +589,22 @@ describe('Unit: CLI', function() {
 
         it('sets process.env.EMBER_VERBOSE_${NAME} for each space delimited option', function() {
           return verboseCommand(['fake_option_1', 'fake_option_2']).then(function() {
-            expect(true, process.env.EMBER_VERBOSE_FAKE_OPTION_1,  'expected it to be true');
-            expect(true, process.env.EMBER_VERBOSE_FAKE_OPTION_2,  'expected it to be true');
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.be.ok;
           });
         });
 
         it('ignores verbose options after --', function() {
           return verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2']).then(function() {
-            expect(true, process.env.EMBER_VERBOSE_FAKE_OPTION_1,   'expected it to be true');
-            expect(false, !process.env.EMBER_VERBOSE_FAKE_OPTION_2, 'expected it to be false');
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
           });
         });
 
         it('ignores verbose options after -', function() {
           return verboseCommand(['fake_option_1', '-f', 'fake_option_2']).then(function() {
-            expect(true, process.env.EMBER_VERBOSE_FAKE_OPTION_1,  'expected it to be true');
-            expect(false, !process.env.EMBER_VERBOSE_FAKE_OPTION_2,  'expected it to be false');
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
+            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
           });
         });
       });

@@ -11,7 +11,7 @@ var Promise           = require('../../../lib/ext/promise');
 var Task              = require('../../../lib/models/task');
 var DestroyCommand    = require('../../../lib/commands/destroy');
 
-describe('generate command', function() {
+describe('destroy command', function() {
   var options, command;
 
   beforeEach(function() {
@@ -39,8 +39,8 @@ describe('generate command', function() {
   it('runs DestroyFromBlueprint with expected options', function() {
     return command.validateAndRun(['controller', 'foo'])
       .then(function(options) {
-        expect(options.dryRun, false);
-        expect(options.verbose, false);
+        expect(options.dryRun).to.be.false;
+        expect(options.verbose).to.be.false;
         expect(options.args).to.deep.equal(['controller', 'foo']);
       });
   });
@@ -48,7 +48,7 @@ describe('generate command', function() {
   it('complains if no entity name is given', function() {
     return command.validateAndRun(['controller'])
       .then(function() {
-        expect(false, 'should not have called run');
+        expect(false, 'should not have called run').to.be.ok;
       })
       .catch(function(error) {
         expect(error.message).to.equal(
@@ -61,7 +61,7 @@ describe('generate command', function() {
   it('complains if no blueprint name is given', function() {
     return command.validateAndRun([])
       .then(function() {
-        expect(false, 'should not have called run');
+        expect(false, 'should not have called run').to.be.ok;
       })
       .catch(function(error) {
         expect(error.message).to.equal(
@@ -78,15 +78,9 @@ describe('generate command', function() {
   });
 
   it('rethrows errors from beforeRun', function() {
-    return Promise.resolve(function() {
-      return command.beforeRun(['controller', 'foo']);
-    })
-    .then(function() {
-      expect(false, 'should not have called run');
-    })
-    .catch(function(error) {
-      expect(error.message).to.equal('undefined is not a function');
-    });
+    expect(function() {
+      command.beforeRun(['controller', 'foo']);
+    }).to.throw(/(is not a function)|(has no method)/);
   });
 
   describe('help', function() {

@@ -104,7 +104,7 @@ describe('Acceptance: ember destroy pod', function() {
 
   function assertFileNotExists(file) {
     var filePath = path.join(process.cwd(), file);
-    expect(!existsSync(filePath), 'expected ' + file + ' not to exist');
+    expect(existsSync(filePath), 'expected ' + file + ' not to exist').to.be.false;
   }
 
   function assertFilesExist(files) {
@@ -152,10 +152,7 @@ describe('Acceptance: ember destroy pod', function() {
   }
 
   function assertDestroyAfterGenerateInAddon(args, files) {
-    return initAddon()
-      .then(function() {
-        return generateInAddon(args);
-      })
+    return generateInAddon(args)
       .then(function() {
         assertFilesExist(files);
       })

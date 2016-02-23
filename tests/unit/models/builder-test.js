@@ -220,7 +220,7 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(receivedBuildError).to.equal(thrownBuildError);
       });
@@ -234,7 +234,7 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
       });
@@ -248,7 +248,7 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
       });
@@ -262,7 +262,7 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
       });
@@ -276,7 +276,7 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildError']);
       });

@@ -50,7 +50,11 @@ module.exports = function ember(args, options) {
 
   args.push('--disable-analytics');
   args.push('--watcher=node');
-  args.push('--skipGit');
+
+  if (!options || options.skipGit !== false) {
+    args.push('--skipGit');
+  }
+
   cliInstance = cli({
     inputStream:  inputStream,
     outputStream: outputStream,
@@ -67,17 +71,22 @@ module.exports = function ember(args, options) {
       root: pkg
     }
   });
-  function returnTestState(statusCode) {
-     return {
-        exitCode: statusCode,
-        statusCode: statusCode,
-        inputStream: inputStream,
-        outputStream: outputStream,
-        errorLog: errorLog
-     };
-   }
 
-  return cliInstance.then(returnTestState, function(statusCode) {
-     return Promise.reject(returnTestState(statusCode));
-  });
+  function returnTestState(statusCode) {
+    var result = {
+      exitCode: statusCode,
+      statusCode: statusCode,
+      inputStream: inputStream,
+      outputStream: outputStream,
+      errorLog: errorLog
+    };
+
+    if (statusCode) {
+      throw result;
+    } else {
+      return result;
+    }
+  }
+
+  return cliInstance.then(returnTestState);
 };

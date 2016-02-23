@@ -293,7 +293,7 @@ describe('models/project.js', function() {
 
       project.discoverAddons();
 
-      expect(added);
+      expect(added).to.be.ok;
     });
   });
 
@@ -321,11 +321,11 @@ describe('models/project.js', function() {
     });
 
     it('reloads the package', function() {
-      expect(Project.prototype.reloadPkg.called, 'reloadPkg was called');
+      expect(Project.prototype.reloadPkg.called, 'reloadPkg was called').to.be.ok;
     });
 
     it('initializes the addons', function() {
-      expect(Project.prototype.initializeAddons.called, 'initialize addons was called');
+      expect(Project.prototype.initializeAddons.called, 'initialize addons was called').to.be.ok;
     });
   });
 
@@ -435,7 +435,7 @@ describe('models/project.js', function() {
 
     it('should call initialize addons', function() {
       project.findAddonByName('foo');
-      expect(project.initializeAddons.called, 'should have called initializeAddons');
+      expect(project.initializeAddons.called, 'should have called initializeAddons').to.be.ok;
     });
 
     it('should return the foo addon from name', function() {

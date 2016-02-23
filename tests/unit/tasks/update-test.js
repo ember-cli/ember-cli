@@ -127,7 +127,7 @@ describe('update task', function() {
           'global': true,
           'loglevel': 'silent'
         }, '');
-        expect(initCommandWasRun);
+        expect(initCommandWasRun).to.be.ok;
       });
     });
 
