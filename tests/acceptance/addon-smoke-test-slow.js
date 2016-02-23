@@ -213,7 +213,7 @@ describe('Acceptance: addon-smoke-test', function() {
           '.gitkeep',
           '.travis.yml',
           '.editorconfig',
-          'testem.json',
+          'testem.js',
           '.ember-cli',
           'bower.json',
           '.bowerrc'

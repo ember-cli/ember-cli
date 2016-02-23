@@ -101,9 +101,6 @@ describe('Acceptance: smoke-test', function() {
   it('ember test still runs when only a JavaScript testem config exists', function() {
     return copyFixtureFiles('smoke-tests/js-testem-config')
       .then(function() {
-        // testem.json "wins" over testem.js by default so we need to delete
-        // it from the default blueprint first
-        fs.unlinkSync('testem.json');
         return ember(['test']);
       })
       .then(function() {
