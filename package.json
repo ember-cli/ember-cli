@@ -54,6 +54,7 @@
     "broccoli-plugin": "^1.2.0",
     "broccoli-sane-watcher": "^1.1.1",
     "broccoli-source": "^1.1.0",
+    "broccoli-stew": "^1.2.0",
     "broccoli-viz": "^2.0.1",
     "chalk": "^1.1.1",
     "clean-base-url": "^1.0.0",
