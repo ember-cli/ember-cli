@@ -208,29 +208,28 @@ describe('Acceptance: smoke-test', function() {
     var appJsPath   = path.join('.', 'app', 'app.js');
     var ouputContainsBuildFailed = false;
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
-      .then(function (result) {
-        expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function (result) {
+      expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
 
-        // add something broken to the project to make build fail
-        fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
+      // add something broken to the project to make build fail
+      fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
 
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-          onOutput: function(string) {
-            // discard output as there will be a lot of errors and a long stacktrace
-            // just mark that the output contains expected text
-            if (!ouputContainsBuildFailed && string.match(/Build failed/)) {
-              ouputContainsBuildFailed = true;
-            }
+      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+        onOutput: function(string) {
+          // discard output as there will be a lot of errors and a long stacktrace
+          // just mark that the output contains expected text
+          if (!ouputContainsBuildFailed && string.match(/Build failed/)) {
+            ouputContainsBuildFailed = true;
           }
-        });
-
-      }).then(function () {
-        expect(false, 'should have rejected with a failing build').to.be.ok;
-      }).catch(function (result) {
-        expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.ok;
-        expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
+        }
       });
+
+    }).then(function () {
+      expect(false, 'should have rejected with a failing build').to.be.ok;
+    }).catch(function (result) {
+      expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.ok;
+      expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
+    });
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
@@ -241,26 +240,25 @@ describe('Acceptance: smoke-test', function() {
     var line        = 'console.log("' + text + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput: function(string, child) {
-          if (touched) {
-            if (string.match(/Build successful/)) {
-              // build after change to app.js
-              var contents  = fs.readFileSync(builtJsPath).toString();
-              expect(contents).to.contain(text, 'must contain changed line after rebuild');
-              killCliProcess(child);
-            }
-          } else {
-            if (string.match(/Build successful/)) {
-              // first build
-              touched = true;
-              fs.appendFileSync(appJsPath, line);
-            }
+      onOutput: function(string, child) {
+        if (touched) {
+          if (string.match(/Build successful/)) {
+            // build after change to app.js
+            var contents  = fs.readFileSync(builtJsPath).toString();
+            expect(contents).to.contain(text, 'must contain changed line after rebuild');
+            killCliProcess(child);
+          }
+        } else {
+          if (string.match(/Build successful/)) {
+            // first build
+            touched = true;
+            fs.appendFileSync(appJsPath, line);
           }
         }
-      })
-      .catch(function() {
-        // swallowing because of SIGINT
-      });
+      }
+    }).catch(function() {
+      // swallowing because of SIGINT
+    });
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', function() {
@@ -274,52 +272,49 @@ describe('Acceptance: smoke-test', function() {
     var secondLine  = 'console.log("' + secondText + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput: function(string, child) {
-          if (buildCount === 0) {
-            if (string.match(/Build successful/)) {
-              // first build
-              touched = true;
-              buildCount = 1;
-              fs.appendFileSync(appJsPath, firstLine);
-            }
-          } else if (buildCount === 1) {
-            if (string.match(/Build successful/)) {
-              // second build
-              touched = true;
-              buildCount = 2;
-              fs.appendFileSync(appJsPath, secondLine);
-            }
-          } else if (touched && buildCount === 2) {
-            if (string.match(/Build successful/)) {
-              // build after change to app.js
-              var contents  = fs.readFileSync(builtJsPath).toString();
-              expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild').to.be.ok;
-              killCliProcess(child);
-            }
+      onOutput: function(string, child) {
+        if (buildCount === 0) {
+          if (string.match(/Build successful/)) {
+            // first build
+            touched = true;
+            buildCount = 1;
+            fs.appendFileSync(appJsPath, firstLine);
+          }
+        } else if (buildCount === 1) {
+          if (string.match(/Build successful/)) {
+            // second build
+            touched = true;
+            buildCount = 2;
+            fs.appendFileSync(appJsPath, secondLine);
+          }
+        } else if (touched && buildCount === 2) {
+          if (string.match(/Build successful/)) {
+            // build after change to app.js
+            var contents  = fs.readFileSync(builtJsPath).toString();
+            expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild').to.be.ok;
+            killCliProcess(child);
           }
         }
-      })
-      .catch(function() {
-        // swallowing because of SIGINT
-      });
+      }
+    }).catch(function() {
+      // swallowing because of SIGINT
+    });
   });
 
   it('ember new foo, server, SIGINT clears tmp/', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
-        onOutput: function(string, child) {
-          if (string.match(/Build successful/)) {
-            killCliProcess(child);
-          }
+      onOutput: function(string, child) {
+        if (string.match(/Build successful/)) {
+          killCliProcess(child);
         }
-      })
-      .catch(function() {
-        // just eat the rejection as we are testing what happens
-      });
+      }
+    }).catch(function() {
+      // just eat the rejection as we are testing what happens
+    });
   });
 
   it('ember new foo, build production and verify css files are concatenated', function() {
-    return copyFixtureFiles('with-styles')
-      .then(function() {
+    return copyFixtureFiles('with-styles').then(function() {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
         .then(function() {
           var dirPath = path.join('.', 'dist', 'assets');
@@ -339,16 +334,16 @@ describe('Acceptance: smoke-test', function() {
   it('ember new foo, build production and verify single "use strict";', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
       .then(function() {
-          var dirPath = path.join('.', 'dist', 'assets');
-          var dir = fs.readdirSync(dirPath);
-          var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js','i');
-          dir.forEach(function(filepath) {
-            if (appNameRE.test(filepath)) {
-              var contents = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
-              var count = (contents.match(/(["'])use strict\1;/g) || []).length;
-              expect(count).to.equal(1);
-            }
-          });
+        var dirPath = path.join('.', 'dist', 'assets');
+        var dir = fs.readdirSync(dirPath);
+        var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js','i');
+        dir.forEach(function(filepath) {
+          if (appNameRE.test(filepath)) {
+            var contents = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
+            var count = (contents.match(/(["'])use strict\1;/g) || []).length;
+            expect(count).to.equal(1);
+          }
+        });
       });
   });
 

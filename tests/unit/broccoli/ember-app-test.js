@@ -444,45 +444,45 @@ describe('broccoli/ember-app', function() {
       });
     });
     describe('postprocessTree is called properly', function() {
-        var postprocessTreeStub;
-        beforeEach(function() {
-          emberApp = new EmberApp({
-            project: project
-          });
-
-          postprocessTreeStub = stub(emberApp, 'addonPostprocessTree', ['batman']);
+      var postprocessTreeStub;
+      beforeEach(function() {
+        emberApp = new EmberApp({
+          project: project
         });
 
-
-        it('styles calls addonTreesFor', function() {
-          emberApp.styles();
-
-          expect(postprocessTreeStub.calledWith[0][0]).to.equal('css');
-          expect(postprocessTreeStub.calledWith[0][1].description).to.equal('styles', 'should be called with consolidated tree');
-        });
+        postprocessTreeStub = stub(emberApp, 'addonPostprocessTree', ['batman']);
+      });
 
 
-        it('template type is called', function() {
-          var oldLoad = emberApp.registry.load;
-          emberApp.registry.load = function(type) {
-            if (type === 'template'){
-              return [
-                {
-                  toTree: function() {
-                    return {
-                      description: 'template'
-                    };
-                  }
-                }];
-            } else {
-              return oldLoad.call(emberApp.registry, type);
-            }
-          };
+      it('styles calls addonTreesFor', function() {
+        emberApp.styles();
 
-          emberApp._processedTemplatesTree();
-          expect(postprocessTreeStub.calledWith[0][0]).to.equal('template');
-          expect(postprocessTreeStub.calledWith[0][1].description).to.equal('template', 'should be called with consolidated tree');
-        });
+        expect(postprocessTreeStub.calledWith[0][0]).to.equal('css');
+        expect(postprocessTreeStub.calledWith[0][1].description).to.equal('styles', 'should be called with consolidated tree');
+      });
+
+
+      it('template type is called', function() {
+        var oldLoad = emberApp.registry.load;
+        emberApp.registry.load = function(type) {
+          if (type === 'template'){
+            return [
+              {
+                toTree: function() {
+                  return {
+                    description: 'template'
+                  };
+                }
+              }];
+          } else {
+            return oldLoad.call(emberApp.registry, type);
+          }
+        };
+
+        emberApp._processedTemplatesTree();
+        expect(postprocessTreeStub.calledWith[0][0]).to.equal('template');
+        expect(postprocessTreeStub.calledWith[0][1].description).to.equal('template', 'should be called with consolidated tree');
+      });
     });
 
     describe('toTree', function() {

@@ -37,7 +37,7 @@ describe('install:npm command', function() {
   });
 
   it('throws a friendly slient error without args', function() {
-     return command.validateAndRun([]).then(function() {
+    return command.validateAndRun([]).then(function() {
       expect(false, 'should reject with error').to.be.ok;
     }).catch(function(error) {
       expect(error.message).to.equal(

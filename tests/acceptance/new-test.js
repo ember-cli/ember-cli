@@ -189,14 +189,14 @@ describe('Acceptance: ember new', function() {
       })
       .then(function() {
         fs.writeFileSync('./tmp/my_blueprint/index.js', [
-            'module.exports = {',
-            '  availableOptions: [ { name: \'custom-option\' } ],',
-            '  locals: function(options) {',
-            '    return {',
-            '      customOption: options.customOption',
-            '    };',
-            '  }',
-            '};'
+          'module.exports = {',
+          '  availableOptions: [ { name: \'custom-option\' } ],',
+          '  locals: function(options) {',
+          '    return {',
+          '      customOption: options.customOption',
+          '    };',
+          '  }',
+          '};'
         ].join('\n'));
         fs.writeFileSync('./tmp/my_blueprint/files/gitignore', '<%= customOption %>');
 

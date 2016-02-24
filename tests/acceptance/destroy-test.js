@@ -246,7 +246,7 @@ describe('Acceptance: ember destroy', function() {
       });
   });
 
-    it('route foo --skip-router', function() {
+  it('route foo --skip-router', function() {
     var commandArgs = ['route', 'foo', '--skip-router'];
     var files       = [
       'app/routes/foo.js',

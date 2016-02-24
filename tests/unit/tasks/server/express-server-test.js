@@ -675,17 +675,16 @@ describe('express-server', function() {
 
         project.initializeAddons = function() { };
         project.addons = [{
-            serverMiddleware: function() {
-              firstCalls++;
-            }
-          }, {
-            serverMiddleware: function() {
-              secondCalls++;
-            }
-          }, {
-            doesntGoBoom: null
-          }];
-
+          serverMiddleware: function() {
+            firstCalls++;
+          }
+        }, {
+          serverMiddleware: function() {
+            secondCalls++;
+          }
+        }, {
+          doesntGoBoom: null
+        }];
       });
 
       it('calls serverMiddleware on the addons on start', function() {

@@ -78,11 +78,11 @@ describe('Acceptance: ember init', function() {
 
   function pickSync(filePath, pattern) {
     return glob.sync(path.join('**', pattern), {
-        cwd: filePath,
-        dot: true,
-        mark: true,
-        strict: true
-      }).sort();
+      cwd: filePath,
+      dot: true,
+      mark: true,
+      strict: true
+    }).sort();
   }
   function removeIgnored(array) {
     remove(array, function(fn) {
