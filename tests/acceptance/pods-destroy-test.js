@@ -4,12 +4,12 @@
 
 var Promise     = require('../../lib/ext/promise');
 var expect      = require('chai').expect;
-var assertFile  = require('../helpers/assert-file');
-var conf        = require('../helpers/conf');
+var assertFile  = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
+var conf        = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember       = require('../helpers/ember');
 var existsSync  = require('exists-sync');
 var fs          = require('fs-extra');
-var replaceFile = require('../helpers/file-utils').replaceFile;
+var replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 var outputFile  = Promise.denodeify(fs.outputFile);
 var path        = require('path');
 var remove      = Promise.denodeify(fs.remove);
@@ -17,7 +17,8 @@ var root        = process.cwd();
 var tmproot     = path.join(root, 'tmp');
 var mkTmpDirIn  = require('../../lib/utilities/mk-tmp-dir-in');
 
-var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
+var Blueprint        = require('../../lib/models/blueprint');
+var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
 describe('Acceptance: ember destroy pod', function() {
   var tmpdir;
@@ -25,12 +26,12 @@ describe('Acceptance: ember destroy pod', function() {
   this.timeout(20000);
 
   before(function() {
-    BlueprintNpmTask.disableNPM();
+    BlueprintNpmTask.disableNPM(Blueprint);
     conf.setup();
   });
 
   after(function() {
-    BlueprintNpmTask.restoreNPM();
+    BlueprintNpmTask.restoreNPM(Blueprint);
     conf.restore();
   });
 

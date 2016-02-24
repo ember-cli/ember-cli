@@ -8,12 +8,12 @@ var forEach    = require('lodash/forEach');
 var walkSync   = require('walk-sync');
 var Blueprint  = require('../../lib/models/blueprint');
 var path       = require('path');
-var tmp        = require('../helpers/tmp');
+var tmp        = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 var root       = process.cwd();
 var util       = require('util');
-var conf       = require('../helpers/conf');
+var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var EOL        = require('os').EOL;
-var assertFile = require('../helpers/assert-file');
+var assertFile = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);

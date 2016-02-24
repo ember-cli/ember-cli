@@ -3,18 +3,19 @@
 'use strict';
 
 var Promise          = require('../../lib/ext/promise');
-var assertFile       = require('../helpers/assert-file');
-var assertFileEquals = require('../helpers/assert-file-equals');
-var conf             = require('../helpers/conf');
+var assertFile       = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
+var assertFileEquals = require('ember-cli-internal-test-helpers/lib/helpers/assert-file-equals');
+var conf             = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember            = require('../helpers/ember');
 var fs               = require('fs-extra');
 var outputFile       = Promise.denodeify(fs.outputFile);
 var path             = require('path');
 var remove           = Promise.denodeify(fs.remove);
-var replaceFile      = require('../helpers/file-utils').replaceFile;
+var replaceFile      = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 var root             = process.cwd();
 var tmproot          = path.join(root, 'tmp');
-var BlueprintNpmTask = require('../helpers/disable-npm-on-blueprint');
+var Blueprint        = require('../../lib/models/blueprint');
+var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 var expect           = require('chai').expect;
 var MockUI             = require('../helpers/mock-ui');
 var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
@@ -25,12 +26,12 @@ describe('Acceptance: ember generate', function() {
   var tmpdir;
 
   before(function() {
-    BlueprintNpmTask.disableNPM();
+    BlueprintNpmTask.disableNPM(Blueprint);
     conf.setup();
   });
 
   after(function() {
-    BlueprintNpmTask.restoreNPM();
+    BlueprintNpmTask.restoreNPM(Blueprint);
     conf.restore();
   });
 
