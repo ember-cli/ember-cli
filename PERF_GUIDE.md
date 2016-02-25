@@ -103,7 +103,8 @@ and ideally the following should be true (otherwise some upgrades may be require
 * `broccoli-sourcemap-concat` should be at `^2.0.2` but will soon be replace by
   `broccoli-concat` (we have just re-merged the two)
 * `broccoli-caching-writer` should be at `^2.2.1`
-* `broccoli-concat` should be at `v2.0.3`
+* `broccoli-concat` should be at `^2.0.3`
+* `broccoli-stew' should be at `^1.2.0`
 * likely more...
 
 Up next we should check for old and deprecate plugins
