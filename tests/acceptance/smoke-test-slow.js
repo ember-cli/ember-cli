@@ -291,7 +291,7 @@ describe('Acceptance: smoke-test', function() {
           if (string.match(/Build successful/)) {
             // build after change to app.js
             var contents  = fs.readFileSync(builtJsPath).toString();
-            expect(contents.indexOf(secondText) > 1, 'must contain second changed line after rebuild').to.be.ok;
+            expect(contents.indexOf(secondText), 'must contain second changed line after rebuild').to.be.above(1);
             killCliProcess(child);
           }
         }
