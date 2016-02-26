@@ -525,4 +525,16 @@ describe('models/project.js', function() {
       expect(Project.nullProject()).to.equal(Project.nullProject());
     });
   });
+
+  describe('generateTestFile()', function (){
+    it('returns empty file and shows warning', function() {
+      var ui = new MockUI();
+
+      projectPath = path.resolve(__dirname, '../../fixtures/project');
+      project = new Project(projectPath, {}, ui);
+
+      expect(project.generateTestFile()).to.equal('');
+      expect(ui.output).to.contain('Please install an Ember.js test framework addon or update your dependencies.');
+    });
+  });
 });
