@@ -45,4 +45,111 @@ describe('test server', function() {
     });
     watcher.emit('change');
   });
+
+  describe('completion', function() {
+    var ui, watcher, subject, runOptions;
+
+    before(function() {
+      ui = new MockUI();
+      watcher = new MockWatcher();
+
+      runOptions = {
+        reporter: 'xunit',
+        outputPath: 'blerpy-derpy',
+        watcher: watcher,
+        testPage: 'http://my/test/page'
+      };
+
+      subject = new TestServerTask({
+        project: new MockProject(),
+        ui: ui,
+        addonMiddlewares: function() {
+          return ['middleware1', 'middleware2'];
+        },
+        testem: {
+          startDev: function(options, finalizer) {
+            throw new TypeError('startDev not implemented');
+          }
+        }
+      });
+    });
+
+    describe('firstRun', function() {
+      it('rejects with testem exceptions', function() {
+        var error = new Error('OMG');
+
+        subject.testem.startDev = function(options, finalizer) {
+          finalizer(1, error);
+        };
+
+        var runResult = subject.run(runOptions).then(function() {
+          expect(true, 'should have rejected, but fulfilled').to.be.false;
+        }, function(reason) {
+          expect(reason).to.eql(error);
+        });
+
+        watcher.emit('change');
+
+        return runResult;
+      });
+
+      it('resolves with exit status (1)', function() {
+        subject.testem.startDev = function(options, finalizer) {
+          finalizer(1);
+        };
+
+        var runResult = subject.run(runOptions).then(function(value) {
+          expect(value, 'expected exist status of 1').to.eql(1);
+        });
+
+        watcher.emit('change');
+
+        return runResult;
+      });
+
+      it('resolves with exit status (0)', function() {
+        subject.testem.startDev = function(options, finalizer) {
+          finalizer(0);
+        };
+
+        var runResult = subject.run(runOptions).then(function(value) {
+          expect(value, 'expected exist status of 0').to.eql(0);
+        });
+
+        watcher.emit('change');
+
+        return runResult;
+      });
+    });
+
+    describe('restart', function() {
+      it('rejects with testem exceptions', function() {
+        var error = new Error('OMG');
+
+        subject.testem.startDev = function(options, finalizer) {
+          finalizer(1);
+        };
+
+        var runResult = subject.run(runOptions);
+
+        watcher.emit('change');
+
+        return runResult.then(function() {
+          subject.testem.startDev = function(options, finalizer) {
+            finalizer(1, error);
+          };
+
+          runResult = subject.run(runOptions).then(function() {
+            expect(true, 'should have rejected, but fulfilled').to.be.false;
+          }, function(reason) {
+            expect(reason).to.eql(error);
+          });
+
+          watcher.emit('change');
+
+          return runResult;
+        });
+      });
+    });
+  });
 });
