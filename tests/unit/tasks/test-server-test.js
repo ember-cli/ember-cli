@@ -45,4 +45,36 @@ describe('test server', function() {
     });
     watcher.emit('change');
   });
+
+  it('propagates testem errors', function() {
+    var ui = new MockUI();
+    var watcher = new MockWatcher();
+    var error = new Error('OMG');
+
+    subject = new TestServerTask({
+      project: new MockProject(),
+      ui: ui,
+      addonMiddlewares: function() {
+        return ['middleware1', 'middleware2'];
+      },
+      testem: {
+        startDev: function(options, finalizer) {
+          finalizer(1, error);
+        }
+      }
+    });
+
+    return subject.run({
+      host: 'greatwebsite.com',
+      port: 123324,
+      reporter: 'xunit',
+      outputPath: 'blerpy-derpy',
+      watcher: watcher,
+      testPage: 'http://my/test/page'
+    }).then(function() {
+      expect(true, 'should have rejected, but fulfilled').to.be.false;
+    }, function(reason) {
+      expect(reason).to.eql(error);
+    });
+  });
 });
