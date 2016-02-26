@@ -19,10 +19,13 @@ install:
   # Install PhantomJS
   - cinst PhantomJS -y
   # Typical npm stuff.
-  - md C:\nc
-  - npm config set cache C:\nc
   - npm version
   - npm install
+
+cache:
+  - '%APPDATA%\npm-cache'
+  - '%APPDATA%\Roaming\bower'
+
 
 # Post-install test scripts.
 test_script:
