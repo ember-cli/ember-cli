@@ -98,5 +98,6 @@ module.exports = {
     'comma-dangle': 0,
 
     'chai-expect/missing-assertion': 2,
+    'chai-expect/terminating-properties': 2,
   },
 };
