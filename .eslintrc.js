@@ -99,5 +99,6 @@ module.exports = {
 
     'chai-expect/missing-assertion': 2,
     'chai-expect/terminating-properties': 2,
+    'chai-expect/no-inner-compare': 2,
   },
 };
