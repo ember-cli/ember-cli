@@ -356,6 +356,30 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
+  it('specifying amdModule converts anonymous AMD to named AMD', function() {
+    return copyFixtureFiles('brocfile-tests/app-import-anonymous-amd')
+      .then(function () {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var outputJS = fs.readFileSync(path.join('.', 'dist', 'assets', 'output.js'), {
+          encoding: 'utf8'
+        });
+
+        (function(){
+          function define(name, deps, factory) {
+            expect(name).to.equal('hello-world');
+            expect(deps).to.deep.equal([]);
+            expect(factory()()).to.equal('Hello World');
+          }
+          /* eslint-disable no-eval */
+          eval(outputJS);
+          /* eslint-enable no-eval */
+        })();
+      });
+  });
+
+
   // skipped because of potentially broken assertion that should be fixed correctly at a later point
   it.skip('specifying partial `outputPaths` hash deep merges options correctly', function() {
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
