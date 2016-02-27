@@ -155,8 +155,14 @@ describe('test command', function() {
   });
 
   describe('--server option', function() {
+    var buildCleanupWasCalled;
     beforeEach(function() {
-      options.Builder = CoreObject.extend();
+      buildCleanupWasCalled = false;
+      options.Builder = CoreObject.extend({
+        cleanup: function() {
+          buildCleanupWasCalled = true;
+        }
+      });
       options.Watcher = CoreObject.extend();
 
       buildCommand();
@@ -167,6 +173,8 @@ describe('test command', function() {
         var testOptions = testServerRun.calledWith[0][0];
 
         expect(testOptions.watcher.verbose).to.be.false;
+      }).finally(function() {
+        expect(buildCleanupWasCalled).to.be.true;
       });
     });
 
@@ -175,6 +183,8 @@ describe('test command', function() {
         var testOptions = testServerRun.calledWith[0][0];
 
         expect(testOptions.watcher.options.watcher).to.equal('polling');
+      }).finally(function() {
+        expect(buildCleanupWasCalled).to.be.true;
       });
     });
 
