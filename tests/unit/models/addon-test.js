@@ -11,7 +11,7 @@ var findWhere = require('lodash/find');
 var MockUI = require('../../helpers/mock-ui');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 
-var broccoli  = require('broccoli');
+var broccoli  = require('ember-cli-broccoli');
 var walkSync  = require('walk-sync');
 
 var root    = process.cwd();
