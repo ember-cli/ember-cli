@@ -23,7 +23,7 @@ module.exports = {
     // JSHint "strict"
     'strict': [2, 'global'],
 
-    // JSHint "indent", disabled due to warnings
+    // JSHint "indent"
     'indent': [2, 2, {
       'SwitchCase': 1,
       'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 }
