@@ -70,8 +70,8 @@ module.exports = {
     // JSHint "noempty", JSCS "disallowEmptyBlocks"
     'no-empty': 2,
 
-    // JSHint "quotmark", disabled due to warnings
-    quotes: [0, 'single'],
+    // JSHint "quotmark"
+    quotes: [2, 'single'],
 
     // JSHint "nonew", disabled already in .jshintrc
     'no-new': 0,
