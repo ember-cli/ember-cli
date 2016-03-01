@@ -1,5 +1,37 @@
 # ember-cli Changelog
 
+### 2.4.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.3.0...v2.4.0)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Migrate `testem.json` to `testem.js`.
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.3.0...v2.4.0)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5438](https://github.com/ember-cli/ember-cli/pull/5438) Add Ember 1.13 to ember-try's default configuration.  [@kellyselden](https://github.com/kellyselden)
+- [#5477](https://github.com/ember-cli/ember-cli/pull/5477) Fix test suite on Windows [@Turbo87](https://github.com/Turbo87)
+- [#5486](https://github.com/ember-cli/ember-cli/pull/5486) [ENHANCEMENT] Add `directory` option to `addon` command [@Serabe](https://github.com/Serabe)
+- [#5491](https://github.com/ember-cli/ember-cli/pull/5491) Change "ember i" alias from "ember init" to "ember install" [@Turbo87](https://github.com/Turbo87)
+- [#5507](https://github.com/ember-cli/ember-cli/pull/5507) / [#5513](https://github.com/ember-cli/ember-cli/pull/5513) [BUGFIX beta] Replace testem.json with testem.js [@cibernox](https://github.com/cibernox)
+- [#5512](https://github.com/ember-cli/ember-cli/pull/5512) Anonymous AMD Support to `app.import`. [@ef4](https://github.com/ef4)
+- [#5497](https://github.com/ember-cli/ember-cli/pull/5497) Call `destroyApp` after handling afterEach options [@johnotander](https://github.com/johnotander)
+- [#5499](https://github.com/ember-cli/ember-cli/pull/5499) Add `outputFile` support to `app.import` (see [RFC#58](https://github.com/ember-cli/rfcs/blob/master/active/0000-app-import-output-file.md)) [@ro0gr](https://github.com/ro0gr)
+- [#5508](https://github.com/ember-cli/ember-cli/pull/5508) Expose a `project.generateTestFile()` method to be overwritten by test framework addons [@Turbo87](https://github.com/Turbo87)
+- [#5526](https://github.com/ember-cli/ember-cli/pull/5526) Propagates testem errors [@stefanpenner](https://github.com/stefanpenner)
+- [#5527](https://github.com/ember-cli/ember-cli/pull/5527) Fix many `ember test` and `ember test --server` issues [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.3.0
 
 #### Changes Since 2.3.0-beta.2
