@@ -39,15 +39,15 @@ module.exports = {
   locals: function(options) {
     var dasherizedModuleName = stringUtil.dasherize(options.entity.name);
     var componentPathName = dasherizedModuleName;
-    var testType = options.testType || "integration";
-    var friendlyTestDescription = testInfo.description(options.entity.name, "Integration", "Component");
+    var testType = options.testType || 'integration';
+    var friendlyTestDescription = testInfo.description(options.entity.name, 'Integration', 'Component');
 
     if (options.pod && options.path !== 'components' && options.path !== '') {
       componentPathName = [options.path, dasherizedModuleName].join('/');
     }
 
     if (options.testType === 'unit') {
-      friendlyTestDescription = testInfo.description(options.entity.name, "Unit", "Component");
+      friendlyTestDescription = testInfo.description(options.entity.name, 'Unit', 'Component');
     }
 
     return {

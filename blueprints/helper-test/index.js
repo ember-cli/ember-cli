@@ -7,7 +7,7 @@ module.exports = {
   description: 'Generates a helper unit test.',
   locals: function(options) {
     return {
-      friendlyTestName: testInfo.name(options.entity.name, "Unit", "Helper"),
+      friendlyTestName: testInfo.name(options.entity.name, 'Unit', 'Helper'),
       dasherizedModulePrefix: stringUtils.dasherize(options.project.config().modulePrefix)
     };
   }

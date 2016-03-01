@@ -6,7 +6,7 @@ module.exports = {
   description: 'Generates a serializer unit test.',
   locals: function(options) {
     return {
-      friendlyTestDescription: testInfo.description(options.entity.name, "Unit", "Serializer")
+      friendlyTestDescription: testInfo.description(options.entity.name, 'Unit', 'Serializer')
     };
   },
 };

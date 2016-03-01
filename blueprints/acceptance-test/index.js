@@ -14,7 +14,7 @@ module.exports = {
     }
     return {
       testFolderRoot: testFolderRoot,
-      friendlyTestName: testInfo.name(options.entity.name, "Acceptance", null)
+      friendlyTestName: testInfo.name(options.entity.name, 'Acceptance', null)
     };
   }
 };
