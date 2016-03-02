@@ -52,6 +52,7 @@ describe('install command', function() {
       NpmInstall: Task.extend({
         project: project,
         init: function() {
+          this._super.apply(this, arguments);
           npmInstance = this;
         }
       }),
@@ -59,6 +60,7 @@ describe('install command', function() {
       GenerateFromBlueprint: Task.extend({
         project: project,
         init: function() {
+          this._super.apply(this, arguments);
           generateBlueprintInstance = this;
         }
       })
