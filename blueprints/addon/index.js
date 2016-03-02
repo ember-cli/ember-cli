@@ -104,7 +104,7 @@ module.exports = {
   },
 
   mapFile: function(file, locals) {
-    var result = this._super.mapFile.call(this, file, locals);
+    var result = this._super(file, locals);
     return this.fileMapper(result);
   },
 
