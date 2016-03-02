@@ -516,7 +516,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
                   "\n"+
                   "export default {\n" +
                   "  name: 'foo',\n" +
-                  "  initialize: initialize\n" +
+                  "  initialize\n" +
                   "};"
       });
       assertFile('lib/my-addon/app/instance-initializers/foo.js', {
@@ -537,7 +537,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
                   "\n"+
                   "export default {\n" +
                   "  name: 'foo/bar',\n" +
-                  "  initialize: initialize\n" +
+                  "  initialize\n" +
                   "};"
       });
       assertFile('lib/my-addon/app/instance-initializers/foo/bar.js', {

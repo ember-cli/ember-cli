@@ -626,7 +626,7 @@ describe('Acceptance: ember generate', function() {
                   "\n"+
                   "export default {\n" +
                   "  name: 'foo',\n" +
-                  "  initialize: initialize\n" +
+                  "  initialize\n" +
                   "};"
       });
 
@@ -645,7 +645,7 @@ describe('Acceptance: ember generate', function() {
                   "\n"+
                   "export default {\n" +
                   "  name: 'foo/bar',\n" +
-                  "  initialize: initialize\n" +
+                  "  initialize\n" +
                   "};"
       });
 
