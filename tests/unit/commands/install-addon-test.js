@@ -17,6 +17,7 @@ describe('install:addon command', function() {
       AddonInstall: AddonInstall,
       NpmInstall: Task.extend({
         init: function() {
+          this._super.apply(this, arguments);
           npmInstance = this;
         },
         run: function() {
@@ -26,6 +27,7 @@ describe('install:addon command', function() {
 
       GenerateFromBlueprint: Task.extend({
         init: function() {
+          this._super.apply(this, arguments);
           generateBlueprintInstance = this;
         },
         run: function() {
