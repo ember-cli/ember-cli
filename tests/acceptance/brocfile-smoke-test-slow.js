@@ -12,6 +12,7 @@ var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var assertDirEmpty      = require('../helpers/assert-dir-empty');
 var existsSync          = require('exists-sync');
+var assertFile          = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -332,6 +333,27 @@ describe('Acceptance: brocfile-smoke-test', function() {
         var basePath = path.join('.', 'dist');
         files.forEach(function(file) {
           expect(existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
+        });
+      });
+  });
+
+  it('supports deprecated legacyFilesToAppend and vendorStaticFiles', function() {
+    return copyFixtureFiles('brocfile-tests/app-import-with-legacy-files')
+      .then(function () {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function(result) {
+        expect(result.output.join('\n')).to.include('Usage of EmberApp.legacyFilesToAppend is deprecated. Please use EmberApp.import instead for the following files: \'vendor/legacy-file.js\', \'vendor/second-legacy-file.js\'');
+        expect(result.output.join('\n')).to.include('Usage of EmberApp.vendorStaticStyles is deprecated. Please use EmberApp.import instead for the following files: \'vendor/legacy-file.css\'');
+
+        assertFile(path.join('dist', 'assets', 'vendor.js'), {
+          contains: 'legacy-file.js'
+        });
+        assertFile(path.join('dist', 'assets', 'vendor.js'), {
+          contains: 'second-legacy-file.js'
+        });
+        assertFile(path.join('dist', 'assets', 'vendor.css'), {
+          contains: 'legacy-file.css'
         });
       });
   });
