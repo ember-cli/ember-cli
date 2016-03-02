@@ -17,9 +17,6 @@ module.exports = {
       allowTernary: true,
     }],
 
-    // JSHint "proto", disabled due to warnings
-    'no-proto': 0,
-
     // JSHint "strict"
     'strict': [2, 'global'],
 
