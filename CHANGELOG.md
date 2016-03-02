@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+### 2.4.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+  + Update `ember-cli-sri` in `package.json` to `2.1.0`.
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5540](https://github.com/ember-cli/ember-cli/pull/5540) Revert AMD module support for `app.import`. This was causing issues with non ASCII files becoming corrupted in the build output. Support will likely be reintroduced in future versions. [@stefanpenner](https://github.com/stefanpenner)
+- [#5541](https://github.com/ember-cli/ember-cli/pull/5541) Bump `ember-cli-sri` from 2.0.0 to 2.1.0 [@mwpastore](https://github.com/mwpastore)
+- [#5545](https://github.com/ember-cli/ember-cli/pull/5545) Revert old `legacyFilesToAppend` and `vendorStaticStyles` behavior as deprecated API. [@ro0gr](https://github.com/ro0gr)
+- [#5546](https://github.com/ember-cli/ember-cli/pull/5546) Update bundled `npm` version (removes warning on install). [@btecu](https://github.com/btecu)
+
+Thank you to all who took the time to contribute!
+
 ### 2.4.0
 
 The following changes are required if you are upgrading from the previous
