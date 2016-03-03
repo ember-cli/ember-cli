@@ -44,7 +44,7 @@ module.exports = {
       }
 
       if (/has-many|belongs-to/.test(dasherizedType)) {
-        needs.push("'model:" + dasherizedForeignModelSingular + "'");
+        needs.push('\'model:' + dasherizedForeignModelSingular + '\'');
       }
     }
     var needsDeduplicated = needs.filter(function(need, i) {

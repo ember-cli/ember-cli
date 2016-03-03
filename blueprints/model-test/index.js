@@ -9,7 +9,7 @@ module.exports = {
   locals: function(options) {
     var result = ModelBlueprint.locals.apply(this, arguments);
 
-    result.friendlyDescription = testInfo.description(options.entity.name, "Unit", "Model");
+    result.friendlyDescription = testInfo.description(options.entity.name, 'Unit', 'Model');
 
     return result;
   }

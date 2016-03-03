@@ -6,7 +6,7 @@ module.exports = {
   description: 'Generates an ember-data adapter unit test',
   locals: function(options) {
     return {
-      friendlyTestDescription: testInfo.description(options.entity.name, "Unit", "Adapter")
+      friendlyTestDescription: testInfo.description(options.entity.name, 'Unit', 'Adapter')
     };
   }
 };

@@ -7,7 +7,7 @@ module.exports = {
   description: 'Generates an instance initializer unit test.',
   locals: function(options) {
     return {
-      friendlyTestName: testInfo.name(options.entity.name, "Unit", "Instance Initializer"),
+      friendlyTestName: testInfo.name(options.entity.name, 'Unit', 'Instance Initializer'),
       dasherizedModulePrefix: stringUtils.dasherize(options.project.config().modulePrefix)
     };
   }

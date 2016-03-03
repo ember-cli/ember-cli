@@ -6,7 +6,7 @@ module.exports = {
   description: 'Generates a transform unit test.',
   locals: function(options) {
     return {
-      friendlyTestDescription: testInfo.description(options.entity.name, "Unit", "Transform")
+      friendlyTestDescription: testInfo.description(options.entity.name, 'Unit', 'Transform')
     };
   },
 };
