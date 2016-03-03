@@ -102,7 +102,7 @@
     "nopt": "^3.0.1",
     "npm": "2.14.21",
     "pleasant-progress": "^1.0.2",
-    "portfinder": "^0.4.0",
+    "portfinder": "^1.0.2",
     "promise-map-series": "^0.2.1",
     "quick-temp": "0.1.5",
     "readline2": "0.1.1",
