@@ -360,4 +360,28 @@ describe('Acceptance: smoke-test', function() {
         expect(contents).to.contain('generated component successfully');
       });
   });
+
+  it('template linting works properly for pods and classic structured templates', function() {
+    return copyFixtureFiles('smoke-tests/with-template-failing-linting')
+      .then(function() {
+        var packageJsonPath = 'package.json';
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
+        packageJson.devDependencies = packageJson.devDependencies || {};
+        packageJson.devDependencies['fake-template-linter'] = 'latest';
+
+        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+          .then(function() {
+            expect(false, 'should have rejected with a failing test').to.be.ok;
+          })
+          .catch(function(result) {
+            var output = result.output.join(EOL);
+            expect(output).to.match(/TemplateLint:/, 'ran template linter');
+            expect(output).to.match(/fail\s+2/, 'two templates failed linting');
+            expect(result.code).to.equal(1);
+          });
+      });
+  });
 });

@@ -387,8 +387,8 @@ linter output as test results.
 
 **Received arguments:**
 
-- tree type ('app', 'tests', or 'addon')
-- tree of Javascript files
+- tree type ('app', 'tests', 'templates', or 'addon')
+- tree of files (JavaScript files for `app`, `tests`, and `addon` types)
 
 **Source:** [lib/broccoli/ember-app.js:335](https://github.com/ember-cli/ember-cli/blob/v0.1.15/lib/broccoli/ember-app.js#L335)
 
