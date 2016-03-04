@@ -29,13 +29,11 @@ module.exports = {
         return options.dasherizedModuleName;
       },
       __path__: function(options) {
-        var blueprintName = options.originBlueprintName;
-
         if (options.pod && options.hasPathToken) {
           return path.join(options.podPath, options.dasherizedModuleName);
         }
 
-        return inflector.pluralize(blueprintName);
+        return 'routes';
       },
       __root__: function(options) {
         if (options.inRepoAddon) {
