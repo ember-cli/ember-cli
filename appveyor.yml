@@ -17,7 +17,7 @@ install:
   # Get the latest stable version of Node 0.STABLE.latest
   - ps: Install-Product node $env:nodejs_version
   # Install PhantomJS
-  - cinst PhantomJS -y
+  - npm install phantomjs-prebuilt
   # Typical npm stuff.
   - npm version
   - npm install
