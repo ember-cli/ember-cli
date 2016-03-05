@@ -90,7 +90,7 @@
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^2.0.3",
     "leek": "0.0.21",
-    "lodash": "^4.0.0",
+    "lodash": "^4.6.1",
     "markdown-it": "4.3.0",
     "markdown-it-terminal": "0.0.3",
     "merge-defaults": "^0.2.1",
