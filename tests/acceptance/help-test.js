@@ -66,6 +66,17 @@ describe('Acceptance: ember help', function() {
 
     expect(output).to.contain(expected);
   });
+
+  it('prints a single blueprints', function() {
+    command.run(options, ['generate', 'route']);
+
+    var output = options.ui.output;
+
+    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-route.txt');
+    var expected = loadTextFixture(fixturePath);
+
+    expect(output).to.equal(expected);
+  });
 });
 
 function loadTextFixture(path) {
