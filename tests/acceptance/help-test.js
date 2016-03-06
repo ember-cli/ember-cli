@@ -153,6 +153,20 @@ describe('Acceptance: ember help', function() {
       expect(json).to.deep.equal(expected);
     });
 
+    it('prints single command from addon', function() {
+      options.json = true;
+      options.project.eachAddonCommand = function(cb) {
+        cb('dummy-addon', { Foo: FooCommand });
+      };
+
+      command.run(options, ['foo']);
+
+      var json = convertToJson(options.ui.output);
+      var expected = require('../fixtures/help/foo.js');
+
+      expect(json).to.deep.equal(expected);
+    });
+
     it('prints blueprints from addons', function() {
       options.json = true;
       options.project.blueprintLookupPaths = function() {
