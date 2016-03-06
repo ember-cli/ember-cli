@@ -45,17 +45,6 @@ describe('Acceptance: ember help', function() {
     expect(output).to.equal(expected);
   });
 
-  it('works json', function() {
-    options.json = true;
-
-    command.run(options, []);
-
-    var json = convertToJson(options.ui.output);
-    var expected = require('../fixtures/help/help.js');
-
-    expect(json).to.deep.equal(expected);
-  });
-
   it('prints all blueprints', function() {
     command.run(options, ['generate']);
 
@@ -91,6 +80,19 @@ describe('Acceptance: ember help', function() {
     var expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
+  });
+
+  describe('--json', function() {
+    it('works', function() {
+      options.json = true;
+
+      command.run(options, []);
+
+      var json = convertToJson(options.ui.output);
+      var expected = require('../fixtures/help/help.js');
+
+      expect(json).to.deep.equal(expected);
+    });
   });
 });
 
