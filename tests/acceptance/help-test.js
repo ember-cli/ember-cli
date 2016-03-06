@@ -93,6 +93,20 @@ describe('Acceptance: ember help', function() {
 
       expect(json).to.deep.equal(expected);
     });
+
+    it('prints blueprints from addons', function() {
+      options.json = true;
+      options.project.blueprintLookupPaths = function() {
+        return [path.join(__dirname, '..', 'fixtures', 'blueprints')];
+      };
+
+      command.run(options, []);
+
+      var json = convertToJson(options.ui.output);
+      var expected = require('../fixtures/help/with-addon-blueprints.js');
+
+      expect(json).to.deep.equal(expected);
+    });
   });
 });
 
