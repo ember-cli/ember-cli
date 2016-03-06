@@ -15,6 +15,20 @@ var requireAsHash     = require('../../lib/utilities/require-as-hash');
 var Command           = require('../../lib/models/command');
 var commands          = requireAsHash('../../lib/commands/*.js', Command);
 
+var FooCommand = Command.extend({
+  name: 'foo',
+  description: 'Initializes the warp drive.',
+  works: 'insideProject',
+
+  availableOptions: [
+    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] }
+  ],
+
+  anonymousOptions: [
+    '<speed>'
+  ],
+});
+
 describe('Acceptance: ember help', function() {
   var options, command;
 
@@ -40,6 +54,21 @@ describe('Acceptance: ember help', function() {
     var output = options.ui.output;
 
     var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help.txt');
+    var expected = loadTextFixture(fixturePath);
+
+    expect(output).to.equal(expected);
+  });
+
+  it('prints addon commands', function() {
+    options.project.eachAddonCommand = function(cb) {
+      cb('dummy-addon', { Foo: FooCommand });
+    };
+
+    command.run(options, []);
+
+    var output = options.ui.output;
+
+    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help-with-addon.txt');
     var expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
