@@ -3,8 +3,8 @@
 var validProjectName = require('../../../lib/utilities/valid-project-name');
 var expect             = require('chai').expect;
 
-describe('validate project name', function(){
-  it('invalidates nonconformant project name', function(){
+describe('validate project name', function() {
+  it('invalidates nonconformant project name', function() {
     var nonConformantName = 'app';
     var validated = validProjectName(nonConformantName);
 
@@ -12,7 +12,7 @@ describe('validate project name', function(){
   });
 
 
-  it('validates conformant project name', function(){
+  it('validates conformant project name', function() {
     var conformantName = 'my-app';
     var validated = validProjectName(conformantName);
 

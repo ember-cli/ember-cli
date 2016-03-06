@@ -16,7 +16,7 @@ describe('git-init', function() {
   var subject, ui, tmpdir;
 
   beforeEach(function() {
-    return mkTmpDirIn(tmproot).then(function(dir){
+    return mkTmpDirIn(tmproot).then(function(dir) {
       tmpdir  = dir;
       ui      = new MockUI();
       subject = new GitInitTask({

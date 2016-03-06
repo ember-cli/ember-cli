@@ -14,11 +14,11 @@ var assign     = require('lodash/assign');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 var testOutputPath;
 
-describe('Unit - FileInfo', function(){
+describe('Unit - FileInfo', function() {
 
   var validOptions, ui;
 
-  beforeEach(function(){
+  beforeEach(function() {
     return mkTmpDirIn(tmproot).then(function(tmpdir) {
       testOutputPath = path.join(tmpdir, 'outputfile');
       ui = new MockUI();
@@ -34,11 +34,11 @@ describe('Unit - FileInfo', function(){
     });
   });
 
-  afterEach(function(done){
+  afterEach(function(done) {
     fs.remove(tmproot, done);
   });
 
-  it('can instantiate with options', function(){
+  it('can instantiate with options', function() {
     new FileInfo(validOptions);
   });
 
@@ -52,17 +52,17 @@ describe('Unit - FileInfo', function(){
     });
   });
 
-  it('renders an input file', function(){
+  it('renders an input file', function() {
     validOptions.templateVariables.friend = 'Billy';
     var fileInfo = new FileInfo(validOptions);
 
-    return fileInfo.render().then(function(output){
+    return fileInfo.render().then(function(output) {
       expect(output.trim()).to.equal('Howdy Billy',
         'expects the template to have been run');
     });
   });
 
-  it('rejects if templating throws', function(){
+  it('rejects if templating throws', function() {
     var templateWithUndefinedVariable = path.resolve(__dirname,
       '../../fixtures/blueprints/with-templating/files/with-undefined-variable.txt');
     var options = {};
@@ -85,18 +85,18 @@ describe('Unit - FileInfo', function(){
 
     var fileInfo = new FileInfo(validOptions);
 
-    return fileInfo.render().then(function(output){
+    return fileInfo.render().then(function(output) {
       expect(!!output, 'expects the file to be processed without error').to.equal(true);
     });
   });
 
-  it('renders a diff to the UI', function(){
+  it('renders a diff to the UI', function() {
     validOptions.templateVariables.friend = 'Billy';
     var fileInfo = new FileInfo(validOptions);
 
-    return writeFile(testOutputPath, 'Something Old' + EOL).then(function(){
+    return writeFile(testOutputPath, 'Something Old' + EOL).then(function() {
       return fileInfo.displayDiff();
-    }).then(function(){
+    }).then(function() {
       var output = ui.output.trim().split(EOL);
       expect(output.shift()).to.equal('Index: ' + testOutputPath);
       expect(output.shift()).to.match(/=+/);
@@ -108,42 +108,42 @@ describe('Unit - FileInfo', function(){
     });
   });
 
-  it('renders a menu with an overwrite option', function(){
+  it('renders a menu with an overwrite option', function() {
     var fileInfo = new FileInfo(validOptions);
 
-    ui.waitForPrompt().then(function(){
+    ui.waitForPrompt().then(function() {
       ui.inputStream.write('Y' + EOL);
     });
 
-    return fileInfo.confirmOverwrite().then(function(action){
+    return fileInfo.confirmOverwrite().then(function(action) {
       var output = ui.output.trim().split(EOL);
       expect(output.shift()).to.match(/Overwrite.*\?/);
       expect(action).to.equal('overwrite');
     });
   });
 
-  it('renders a menu with an skip option', function(){
+  it('renders a menu with an skip option', function() {
     var fileInfo = new FileInfo(validOptions);
 
-    ui.waitForPrompt().then(function(){
+    ui.waitForPrompt().then(function() {
       ui.inputStream.write('n' + EOL);
     });
 
-    return fileInfo.confirmOverwrite().then(function(action){
+    return fileInfo.confirmOverwrite().then(function(action) {
       var output = ui.output.trim().split(EOL);
       expect(output.shift()).to.match(/Overwrite.*\?/);
       expect(action).to.equal('skip');
     });
   });
 
-  it('renders a menu with an diff option', function(){
+  it('renders a menu with an diff option', function() {
     var fileInfo = new FileInfo(validOptions);
 
-    ui.waitForPrompt().then(function(){
+    ui.waitForPrompt().then(function() {
       ui.inputStream.write('d' + EOL);
     });
 
-    return fileInfo.confirmOverwrite().then(function(action){
+    return fileInfo.confirmOverwrite().then(function(action) {
       var output = ui.output.trim().split(EOL);
       expect(output.shift()).to.match(/Overwrite.*\?/);
       expect(action).to.equal('diff');

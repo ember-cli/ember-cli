@@ -36,7 +36,7 @@ AddonServeCommand.prototype.includedCommands = function() {
 describe('cli/lookup-command.js', function() {
   var ui;
   var project = {
-    isEmberCLIProject: function(){ return true; },
+    isEmberCLIProject: function() { return true; },
     initializeAddons: function() {
       this.addons = [new AddonCommand(), new OtherCommand(), new ClassCommand()];
     },
@@ -44,7 +44,7 @@ describe('cli/lookup-command.js', function() {
     eachAddonCommand: Project.prototype.eachAddonCommand
   };
 
-  before(function(){
+  before(function() {
     ui = new MockUI();
   });
 
@@ -121,7 +121,7 @@ describe('cli/lookup-command.js', function() {
 
   it('lookupCommand() should write out a warning when overriding a core command', function() {
     project = {
-      isEmberCLIProject: function(){ return true; },
+      isEmberCLIProject: function() { return true; },
       initializeAddons: function() {
         this.addons = [new AddonServeCommand()];
       },
@@ -139,7 +139,7 @@ describe('cli/lookup-command.js', function() {
 
   it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function() {
     project = {
-      isEmberCLIProject: function(){ return true; },
+      isEmberCLIProject: function() { return true; },
       initializeAddons: function() {
         this.addons = [new OverrideCommand()];
       },

@@ -5,13 +5,13 @@ var expect    = require('chai').expect;
 
 var EOL = require('os').EOL;
 
-function makeOpts(opts){
+function makeOpts(opts) {
   return {entity: {options: opts}};
 }
 
-describe('blueprint - model', function(){
-  describe('entityName', function(){
-    it('generates individual un-typed properties', function(){
+describe('blueprint - model', function() {
+  describe('entityName', function() {
+    it('generates individual un-typed properties', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
@@ -22,7 +22,7 @@ describe('blueprint - model', function(){
       expect(out.needs).to.equal('  needs: []');
     });
 
-    it('generates individual typed properties', function(){
+    it('generates individual typed properties', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
@@ -32,7 +32,7 @@ describe('blueprint - model', function(){
       expect(out.needs).to.equal('  needs: []');
     });
 
-    it('accepts camel-cased properties', function(){
+    it('accepts camel-cased properties', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
@@ -43,7 +43,7 @@ describe('blueprint - model', function(){
       expect(out.needs).to.equal('  needs: []');
     });
 
-    it('accepts dasheriezed properties', function(){
+    it('accepts dasheriezed properties', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
@@ -53,7 +53,7 @@ describe('blueprint - model', function(){
       expect(out.needs).to.equal('  needs: []');
     });
 
-    it('accepts underscored properties', function(){
+    it('accepts underscored properties', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
@@ -68,7 +68,7 @@ describe('blueprint - model', function(){
       expect(out.needs).to.equal('  needs: []');
     });
 
-    it('generates multiple properties', function(){
+    it('generates multiple properties', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
@@ -80,7 +80,7 @@ describe('blueprint - model', function(){
       expect(out.needs).to.equal('  needs: []');
     });
 
-    it('links model by name if type is undefined', function(){
+    it('links model by name if type is undefined', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
@@ -92,7 +92,7 @@ describe('blueprint - model', function(){
       expect(out.needs).to.equal('  needs: [\'model:virtue\', \'model:vice\']');
     });
 
-    it('links supplied model name (singularized) if defined', function(){
+    it('links supplied model name (singularized) if defined', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({

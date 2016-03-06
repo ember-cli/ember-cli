@@ -471,7 +471,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
         contains: "export function initialize(/* application */) {\n" +
                   "  // application.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo',\n" +
                   "  initialize\n" +
@@ -492,7 +492,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
         contains: "export function initialize(/* application */) {\n" +
                   "  // application.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo/bar',\n" +
                   "  initialize\n" +
@@ -513,7 +513,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
         contains: "export function initialize(/* appInstance */) {\n" +
                   "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo',\n" +
                   "  initialize\n" +
@@ -534,7 +534,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
         contains: "export function initialize(/* appInstance */) {\n" +
                   "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo/bar',\n" +
                   "  initialize\n" +

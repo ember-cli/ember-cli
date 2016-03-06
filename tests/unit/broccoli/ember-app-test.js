@@ -465,7 +465,7 @@ describe('broccoli/ember-app', function() {
       it('template type is called', function() {
         var oldLoad = emberApp.registry.load;
         emberApp.registry.load = function(type) {
-          if (type === 'template'){
+          if (type === 'template') {
             return [
               {
                 toTree: function() {
@@ -521,7 +521,7 @@ describe('broccoli/ember-app', function() {
         stub(addon, 'postprocessTree', 'blap');
         expect(emberApp.toTree()).to.equal('blap');
         expect(
-          addon.postprocessTree.calledWith.map(function(args){
+          addon.postprocessTree.calledWith.map(function(args) {
             return args[0];
           }).sort()
         ).to.deep.equal(['all', 'css', 'js', 'test']);
@@ -777,7 +777,7 @@ describe('broccoli/ember-app', function() {
         'development': 'vendor/jquery.js'
       });
       var outputFile = emberApp._scriptOutputFiles['/assets/vendor.js'];
-      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length -1);
+      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length - 1);
       process.env.EMBER_ENV = undefined;
     });
     it('honors explicitly set to null in environment', function() {

@@ -368,17 +368,17 @@ describe('models/project.js', function() {
       project = new Project(projectPath, {}, new MockUI());
     });
 
-    it('returns false when `ember-cli` is not a dependency', function(){
+    it('returns false when `ember-cli` is not a dependency', function() {
       expect(project.isEmberCLIProject()).to.equal(false);
     });
 
-    it('returns true when `ember-cli` is a devDependency', function(){
+    it('returns true when `ember-cli` is a devDependency', function() {
       project.pkg.devDependencies = {'ember-cli': '*'};
 
       expect(project.isEmberCLIProject()).to.equal(true);
     });
 
-    it('returns true when `ember-cli` is a dependency', function(){
+    it('returns true when `ember-cli` is a dependency', function() {
       project.pkg.dependencies = {'ember-cli': '*'};
 
       expect(project.isEmberCLIProject()).to.equal(true);
@@ -520,13 +520,13 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('.nullProject', function (){
+  describe('.nullProject', function() {
     it('is a singleton', function() {
       expect(Project.nullProject()).to.equal(Project.nullProject());
     });
   });
 
-  describe('generateTestFile()', function (){
+  describe('generateTestFile()', function() {
     it('returns empty file and shows warning', function() {
       var ui = new MockUI();
 

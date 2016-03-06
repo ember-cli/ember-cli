@@ -74,7 +74,7 @@ describe('models/addon.js', function() {
           addonLintTree: function(type, tree) { return tree; }
         };
 
-        addon.jshintTrees = function(){};
+        addon.jshintTrees = function() {};
 
       });
 
@@ -372,7 +372,7 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        if(originalEnvValue === undefined) {
+        if (originalEnvValue === undefined) {
           delete process.env.EMBER_ADDON_ENV;
         } else {
           process.env.EMBER_ADDON_ENV = originalEnvValue;

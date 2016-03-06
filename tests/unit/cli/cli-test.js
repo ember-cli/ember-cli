@@ -69,7 +69,7 @@ beforeEach(function() {
 });
 
 afterEach(function() {
-  for(var key in commands) {
+  for (var key in commands) {
     if (!commands.hasOwnProperty(key)) { continue; }
     safeRestore(commands[key].prototype, 'validateAndRun');
     safeRestore(commands[key].prototype, 'run');
@@ -145,8 +145,8 @@ describe('Unit: CLI', function() {
     expect(init.called).to.equal(0, 'expected init not to be called');
   });
 
-  describe('help', function(){
-    ['--help', '-h'].forEach(function(command){
+  describe('help', function() {
+    ['--help', '-h'].forEach(function(command) {
       it('ember ' + command, function() {
         var help = stubValidateAndRun('help');
 
@@ -174,7 +174,7 @@ describe('Unit: CLI', function() {
     });
   });
 
-  ['--version', '-v'].forEach(function(command){
+  ['--version', '-v'].forEach(function(command) {
     it('ember ' + command, function() {
       var version = stubValidateAndRun('version');
 
@@ -332,7 +332,7 @@ describe('Unit: CLI', function() {
       ['development', 'foo'].forEach(function(env) {
         it('ember ' + command + ' --environment ' + env, function() {
           var server = stubRun('serve');
-          process.env.EMBER_ENV='production';
+          process.env.EMBER_ENV = 'production';
 
           return ember([command, '--environment', env]).then(function() {
             expect(server.called).to.equal(1, 'expected the server command to be run');
@@ -346,7 +346,7 @@ describe('Unit: CLI', function() {
         it('EMBER_ENV=' + env + ' ember ' + command, function() {
           var server = stubRun('serve');
 
-          process.env.EMBER_ENV=env;
+          process.env.EMBER_ENV = env;
 
           return ember([command]).then(function() {
             expect(server.called).to.equal(1, 'expected the server command to be run');
@@ -473,7 +473,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      ['production', 'development', 'baz'].forEach(function(env){
+      ['production', 'development', 'baz'].forEach(function(env) {
         it('ember ' + command + ' --environment ' + env, function() {
           var build = stubRun('build');
 
@@ -487,7 +487,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      ['development', 'baz'].forEach(function(env){
+      ['development', 'baz'].forEach(function(env) {
         it('EMBER_ENV=production ember ' + command + ' --environment ' + env, function() {
           var build = stubRun('build');
 
@@ -501,11 +501,11 @@ describe('Unit: CLI', function() {
         });
       });
 
-      ['production', 'development', 'baz'].forEach(function(env){
+      ['production', 'development', 'baz'].forEach(function(env) {
         it('EMBER_ENV=' + env + ' ember ' + command + ' ', function() {
           var build = stubRun('build');
 
-          process.env.EMBER_ENV=env;
+          process.env.EMBER_ENV = env;
 
           return ember([command]).then(function() {
             expect(build.called).to.equal(1, 'expected the build command to be run');

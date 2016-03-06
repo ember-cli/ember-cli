@@ -7,8 +7,8 @@ var expect          = require('chai').expect;
 var path            = require('path');
 var escapeRegExp    = require('escape-string-regexp');
 
-describe('generateDocs', function(){
-  it('calls the the appropriate command', function(){
+describe('generateDocs', function() {
+  it('calls the the appropriate command', function() {
     function execFunc() {
       var commandPath;
 
