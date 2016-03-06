@@ -77,6 +77,21 @@ describe('Acceptance: ember help', function() {
 
     expect(output).to.equal(expected);
   });
+
+  it('prints blueprints from addons', function() {
+    options.project.blueprintLookupPaths = function() {
+      return [path.join(__dirname, '..', 'fixtures', 'blueprints')];
+    };
+
+    command.run(options, ['generate']);
+
+    var output = options.ui.output;
+
+    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-with-addon.txt');
+    var expected = loadTextFixture(fixturePath);
+
+    expect(output).to.equal(expected);
+  });
 });
 
 function loadTextFixture(path) {
