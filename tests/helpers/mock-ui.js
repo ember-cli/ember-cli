@@ -26,7 +26,7 @@ function MockUI(options) {
 
 MockUI.prototype = Object.create(UI.prototype);
 MockUI.prototype.constructor = MockUI;
-MockUI.prototype.clear = function(){
+MockUI.prototype.clear = function() {
   this.output = '';
   this.errors = '';
   this.errorLog = [];
@@ -35,7 +35,7 @@ MockUI.prototype.clear = function(){
 MockUI.prototype.waitForPrompt = function() {
   if (!this._waitingForPrompt) {
     var promise, resolver;
-    promise = new Promise(function(resolve){
+    promise = new Promise(function(resolve) {
       resolver = resolve;
     });
     this._waitingForPrompt = promise;

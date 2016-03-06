@@ -72,7 +72,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('without app/templates', function() {
     return copyFixtureFiles('brocfile-tests/pods-templates')
-      .then(function(){
+      .then(function() {
         // remove ./app/templates
         return remove(path.join(process.cwd(), 'app/templates'));
       }).then(function() {
@@ -212,7 +212,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('app.import fails when options.type is not `vendor` or `test`', function(){
+  it('app.import fails when options.type is not `vendor` or `test`', function() {
     return copyFixtureFiles('brocfile-tests/app-import')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');

@@ -114,7 +114,7 @@ describe('Acceptance: addon-smoke-test', function() {
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
-      }).then(function(){
+      }).then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {

@@ -145,8 +145,8 @@ describe('Unit: CLI', function() {
     expect(init.called).to.equal(0, 'expected init not to be called');
   });
 
-  describe('help', function(){
-    ['--help', '-h'].forEach(function(command){
+  describe('help', function() {
+    ['--help', '-h'].forEach(function(command) {
       it('ember ' + command, function() {
         var help = stubValidateAndRun('help');
 
@@ -174,7 +174,7 @@ describe('Unit: CLI', function() {
     });
   });
 
-  ['--version', '-v'].forEach(function(command){
+  ['--version', '-v'].forEach(function(command) {
     it('ember ' + command, function() {
       var version = stubValidateAndRun('version');
 
@@ -473,7 +473,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      ['production', 'development', 'baz'].forEach(function(env){
+      ['production', 'development', 'baz'].forEach(function(env) {
         it('ember ' + command + ' --environment ' + env, function() {
           var build = stubRun('build');
 
@@ -487,7 +487,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      ['development', 'baz'].forEach(function(env){
+      ['development', 'baz'].forEach(function(env) {
         it('EMBER_ENV=production ember ' + command + ' --environment ' + env, function() {
           var build = stubRun('build');
 
@@ -501,7 +501,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      ['production', 'development', 'baz'].forEach(function(env){
+      ['production', 'development', 'baz'].forEach(function(env) {
         it('EMBER_ENV=' + env + ' ember ' + command + ' ', function() {
           var build = stubRun('build');
 

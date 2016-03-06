@@ -950,7 +950,7 @@ describe('Acceptance: ember generate pod', function() {
     return initApp().then(function() {
       remove(path.join('app', 'templates', 'application.hbs'));
     })
-    .then(function(){
+    .then(function() {
       return ember(['generate', 'route', 'application', '--pod']);
     })
     .then(function() {

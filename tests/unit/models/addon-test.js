@@ -74,7 +74,7 @@ describe('models/addon.js', function() {
           addonLintTree: function(type, tree) { return tree; }
         };
 
-        addon.jshintTrees = function(){};
+        addon.jshintTrees = function() {};
 
       });
 

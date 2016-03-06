@@ -3,9 +3,9 @@
 var Blueprint = require('../../../lib/models/blueprint');
 var expect    = require('chai').expect;
 
-describe('blueprint - component', function(){
-  describe('entityName', function(){
-    it('throws error when hyphen is not present', function(){
+describe('blueprint - component', function() {
+  describe('entityName', function() {
+    it('throws error when hyphen is not present', function() {
       var blueprint = Blueprint.lookup('component');
 
       expect(function() {
@@ -15,7 +15,7 @@ describe('blueprint - component', function(){
     });
 
 
-    it('keeps existing behavior by calling Blueprint.normalizeEntityName', function(){
+    it('keeps existing behavior by calling Blueprint.normalizeEntityName', function() {
       var blueprint = Blueprint.lookup('component');
 
       expect(function() {

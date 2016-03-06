@@ -576,7 +576,7 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
   });
 
-  it('in-repo-addon component x-foo --pod', function(){
+  it('in-repo-addon component x-foo --pod', function() {
     var commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon', '--pod'];
     var files       = [
       'lib/my-addon/addon/components/x-foo/component.js',
@@ -588,7 +588,7 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
 
-  it('in-repo-addon component nested/x-foo --pod', function(){
+  it('in-repo-addon component nested/x-foo --pod', function() {
     var commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon', '--pod'];
     var files       = [
       'lib/my-addon/addon/components/nested/x-foo/component.js',

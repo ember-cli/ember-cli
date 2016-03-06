@@ -167,7 +167,7 @@ describe('Acceptance: ember new', function() {
   });
 
 
-  it('ember new with git blueprint uses checks out the blueprint and uses it', function(){
+  it('ember new with git blueprint uses checks out the blueprint and uses it', function() {
     this.timeout(20000); // relies on GH network stuff
 
     return ember([
@@ -219,7 +219,7 @@ describe('Acceptance: ember new', function() {
       });
   });
 
-  it('ember new without skip-git flag creates .git dir', function(){
+  it('ember new without skip-git flag creates .git dir', function() {
     return ember([
       'new',
       'foo',
@@ -247,18 +247,18 @@ describe('Acceptance: ember new', function() {
           '--blueprint=./my_blueprint'
         ]);
       })
-      .then(function(){
+      .then(function() {
         var cwd = process.cwd();
         expect(existsSync(path.join(cwd, 'foo')), 'the generated directory is removed').to.be.false;
       });
   });
 
-  it('ember new with --dry-run does not create new directory', function(){
+  it('ember new with --dry-run does not create new directory', function() {
     return ember([
       'new',
       'foo',
       '--dry-run'
-    ]).then(function(){
+    ]).then(function() {
       var cwd = process.cwd();
       expect(cwd).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
       expect(existsSync(path.join(cwd, 'foo')), 'does not create new directory').to.be.false;

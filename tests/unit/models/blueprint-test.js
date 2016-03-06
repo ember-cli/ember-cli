@@ -77,7 +77,7 @@ describe('Blueprint', function() {
   });
 
   describe('.mapFile', function() {
-    it('replaces all occurences of __name__ with module name',function(){
+    it('replaces all occurences of __name__ with module name',function() {
       var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js',{dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
@@ -87,7 +87,7 @@ describe('Blueprint', function() {
       path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint.js');
     });
-    it('accepts locals.fileMap with multiple mappings',function(){
+    it('accepts locals.fileMap with multiple mappings',function() {
       var locals = {};
       locals.fileMap= {
         __name__: 'user',
@@ -108,7 +108,7 @@ describe('Blueprint', function() {
       var blueprint = Blueprint.lookup(basicBlueprint);
       blueprint.fileMapTokens = function() {
         return {
-          __foo__: function(){
+          __foo__: function() {
             return 'foo';
           }
         };
@@ -508,7 +508,7 @@ help in detail');
 
           expect(function() {
             fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8', function(err, content) {
-              if (err){
+              if (err) {
                 throw 'error';
               }
               expect(content).to.match(/I AM TESTY/);
@@ -565,10 +565,10 @@ help in detail');
           expect(output.length).to.equal(0);
           var blueprintNew = new Blueprint(basicNewBlueprint);
 
-          ui.waitForPrompt().then(function(){
+          ui.waitForPrompt().then(function() {
             ui.inputStream.write('n' + EOL);
             return ui.waitForPrompt();
-          }).then(function(){
+          }).then(function() {
             ui.inputStream.write('y' + EOL);
           });
 
@@ -658,10 +658,10 @@ help in detail');
 
             var blueprintNew = new Blueprint(basicNewBlueprint);
 
-            ui.waitForPrompt().then(function(){
+            ui.waitForPrompt().then(function() {
               ui.inputStream.write('n' + EOL);
               return ui.waitForPrompt();
-            }).then(function(){
+            }).then(function() {
               ui.inputStream.write('n' + EOL);
             });
 
@@ -687,7 +687,7 @@ help in detail');
       });
     });
 
-    it('throws error when there is a trailing forward slash in entityName', function(){
+    it('throws error when there is a trailing forward slash in entityName', function() {
       options.entity = { name: 'foo/' };
       expect(function() {
         blueprint.install(options);
@@ -704,7 +704,7 @@ help in detail');
       }).not.to.throw();
     });
 
-    it('throws error when an entityName is not provided', function(){
+    it('throws error when an entityName is not provided', function() {
       options.entity = { };
       expect(function() {
         blueprint.install(options);
@@ -719,14 +719,14 @@ help in detail');
         });
     });
 
-    it('calls normalizeEntityName hook during install', function(done){
-      blueprint.normalizeEntityName = function(){ done(); };
+    it('calls normalizeEntityName hook during install', function(done) {
+      blueprint.normalizeEntityName = function() { done(); };
       options.entity = { name: 'foo' };
       blueprint.install(options);
     });
 
-    it('normalizeEntityName hook can modify the entity name', function(){
-      blueprint.normalizeEntityName = function(){ return 'foo'; };
+    it('normalizeEntityName hook can modify the entity name', function() {
+      blueprint.normalizeEntityName = function() { return 'foo'; };
       options.entity = { name: 'bar' };
 
       return blueprint.install(options)
@@ -738,7 +738,7 @@ help in detail');
     });
 
     it('calls normalizeEntityName before locals hook is called', function(done) {
-      blueprint.normalizeEntityName = function(){ return 'foo'; };
+      blueprint.normalizeEntityName = function() { return 'foo'; };
       blueprint.locals = function(options) {
         expect(options.entity.name).to.equal('foo');
         done();
@@ -1610,7 +1610,7 @@ help in detail');
     });
   });
 
-  describe('load', function(){
+  describe('load', function() {
     var blueprint;
     it('loads and returns a blueprint object', function() {
       blueprint = Blueprint.load(basicBlueprint);
@@ -1708,7 +1708,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file after a specified string if options.after is specified', function(){
+    it('will insert into the file after a specified string if options.after is specified', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1729,7 +1729,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file after the first instance of options.after only', function(){
+    it('will insert into the file after the first instance of options.after only', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1750,7 +1750,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file before a specified string if options.before is specified', function(){
+    it('will insert into the file before a specified string if options.before is specified', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1771,7 +1771,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file before the first instance of options.before only', function(){
+    it('will insert into the file before the first instance of options.before only', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1793,7 +1793,7 @@ help in detail');
     });
 
 
-    it('it will make no change if options.after is not found in the original', function(){
+    it('it will make no change if options.after is not found in the original', function() {
       var toInsert = 'blahzorz blammo';
       var originalContent = 'the original content';
       var filePath = path.join(project.root, filename);
@@ -1810,7 +1810,7 @@ help in detail');
         });
     });
 
-    it('it will make no change if options.before is not found in the original', function(){
+    it('it will make no change if options.before is not found in the original', function() {
       var toInsert = 'blahzorz blammo';
       var originalContent = 'the original content';
       var filePath = path.join(project.root, filename);
