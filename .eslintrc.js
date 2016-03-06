@@ -91,6 +91,8 @@ module.exports = {
     'no-console': 0,
     'comma-dangle': 0,
 
+    'yoda': 2,
+
     'chai-expect/missing-assertion': 2,
     'chai-expect/terminating-properties': 2,
     'chai-expect/no-inner-compare': 2,
