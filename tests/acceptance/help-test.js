@@ -13,7 +13,6 @@ var commandOptions    = require('../factories/command-options');
 var HelpCommand       = require('../../lib/commands/help');
 var requireAsHash     = require('../../lib/utilities/require-as-hash');
 var Command           = require('../../lib/models/command');
-var commands          = requireAsHash('../../lib/commands/*.js', Command);
 
 var FooCommand = Command.extend({
   name: 'foo',
@@ -33,6 +32,8 @@ describe('Acceptance: ember help', function() {
   var options, command;
 
   beforeEach(function() {
+    var commands = requireAsHash('../../lib/commands/*.js', Command);
+
     options = commandOptions({
       commands: commands,
       project: {
