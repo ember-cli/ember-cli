@@ -10,7 +10,7 @@ describe('find-build-file', function() {
   var currentWorkingDir = process.cwd();
 
   beforeEach(function() {
-    tmpPath = process.cwd()+'/tmp/';
+    tmpPath = process.cwd() + '/tmp/';
     tmpFilename = 'ember-cli-build.js';
     tmpFilePath = tmpPath + tmpFilename;
     return tmp.setup(tmpPath)

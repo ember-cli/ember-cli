@@ -332,7 +332,7 @@ describe('Unit: CLI', function() {
       ['development', 'foo'].forEach(function(env) {
         it('ember ' + command + ' --environment ' + env, function() {
           var server = stubRun('serve');
-          process.env.EMBER_ENV='production';
+          process.env.EMBER_ENV = 'production';
 
           return ember([command, '--environment', env]).then(function() {
             expect(server.called).to.equal(1, 'expected the server command to be run');
@@ -346,7 +346,7 @@ describe('Unit: CLI', function() {
         it('EMBER_ENV=' + env + ' ember ' + command, function() {
           var server = stubRun('serve');
 
-          process.env.EMBER_ENV=env;
+          process.env.EMBER_ENV = env;
 
           return ember([command]).then(function() {
             expect(server.called).to.equal(1, 'expected the server command to be run');
@@ -505,7 +505,7 @@ describe('Unit: CLI', function() {
         it('EMBER_ENV=' + env + ' ember ' + command + ' ', function() {
           var build = stubRun('build');
 
-          process.env.EMBER_ENV=env;
+          process.env.EMBER_ENV = env;
 
           return ember([command]).then(function() {
             expect(build.called).to.equal(1, 'expected the build command to be run');

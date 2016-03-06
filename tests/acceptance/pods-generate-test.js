@@ -1152,7 +1152,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "export function initialize(/* application */) {\n" +
                   "  // application.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo',\n" +
                   "  initialize\n" +
@@ -1167,7 +1167,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "export function initialize(/* application */) {\n" +
                   "  // application.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo/bar',\n" +
                   "  initialize\n" +
@@ -1182,7 +1182,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "export function initialize(/* appInstance */) {\n" +
                   "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo',\n" +
                   "  initialize\n" +
@@ -1197,7 +1197,7 @@ describe('Acceptance: ember generate pod', function() {
         contains: "export function initialize(/* appInstance */) {\n" +
                   "  // appInstance.inject('route', 'foo', 'service:foo');\n" +
                   "}\n" +
-                  "\n"+
+                  "\n" +
                   "export default {\n" +
                   "  name: 'foo/bar',\n" +
                   "  initialize\n" +
@@ -2037,15 +2037,15 @@ describe('Acceptance: ember generate pod', function() {
   // Skip until podModulePrefix is deprecated
   it.skip('podModulePrefix deprecation warning', function() {
     return generateWithPrefix(['controller', 'foo', '--pod']).then(function(result) {
-      expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be"+
-      " removed from future versions of ember-cli. Please move existing pods from"+
+      expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be" +
+      " removed from future versions of ember-cli. Please move existing pods from" +
       " 'app/pods/' to 'app/'.");
     });
   });
 
   it('usePodsByDefault deprecation warning', function() {
     return generateWithUsePodsDeprecated(['controller', 'foo', '--pod']).then(function(result) {
-      expect(result.outputStream.join()).to.include('`usePodsByDefault` is no longer supported in'+
+      expect(result.outputStream.join()).to.include('`usePodsByDefault` is no longer supported in' +
         ' \'config/environment.js\', use `usePods` in \'.ember-cli\' instead.');
     });
   });

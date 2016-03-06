@@ -777,7 +777,7 @@ describe('broccoli/ember-app', function() {
         'development': 'vendor/jquery.js'
       });
       var outputFile = emberApp._scriptOutputFiles['/assets/vendor.js'];
-      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length -1);
+      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length - 1);
       process.env.EMBER_ENV = undefined;
     });
     it('honors explicitly set to null in environment', function() {
