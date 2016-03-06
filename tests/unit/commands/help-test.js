@@ -496,7 +496,7 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          name: 'core-object',
+          name: 'assign-properties',
           description: null,
           aliases: [],
           works: 'insideProject',

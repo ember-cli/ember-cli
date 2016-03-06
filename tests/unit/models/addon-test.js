@@ -45,6 +45,7 @@ describe('models/addon.js', function() {
         root: projectPath,
 
         init: function() {
+          this._super.apply(this, arguments);
           this.treePaths.vendor = 'blazorz';
           this.treeForMethods.public = 'huzzah!';
         }
@@ -55,6 +56,7 @@ describe('models/addon.js', function() {
         root: projectPath,
 
         init: function() {
+          this._super.apply(this, arguments);
           this.treePaths.vendor = 'blammo';
           this.treeForMethods.public = 'boooo';
         }
