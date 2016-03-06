@@ -5,7 +5,6 @@
 var fs                = require('fs');
 var path              = require('path');
 var chai              = require('chai');
-var chaiString        = require('chai-string');
 var expect            = chai.expect;
 var EOL               = require('os').EOL;
 var processHelpString = require('../helpers/process-help-string');
@@ -15,8 +14,6 @@ var HelpCommand       = require('../../lib/commands/help');
 var requireAsHash     = require('../../lib/utilities/require-as-hash');
 var Command           = require('../../lib/models/command');
 var commands          = requireAsHash('../../lib/commands/*.js', Command);
-
-chai.use(chaiString);
 
 describe('Acceptance: ember help', function() {
   var options, command;
@@ -67,7 +64,7 @@ describe('Acceptance: ember help', function() {
     var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate.txt');
     var expected = loadTextFixture(fixturePath);
 
-    expect(output).to.endWith(expected);
+    expect(output).to.contain(expected);
   });
 });
 
