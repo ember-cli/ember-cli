@@ -92,6 +92,7 @@ module.exports = {
     'comma-dangle': 0,
 
     'yoda': 2,
+    'eol-last': 2,
 
     'chai-expect/missing-assertion': 2,
     'chai-expect/terminating-properties': 2,
