@@ -1,12 +1,11 @@
 'use strict';
 
-var stripAnsi     = require('strip-ansi');
-var supportsColor = require('supports-color');
+var chalk = require('chalk');
 
 module.exports = function(helpString) {
   // currently windows
-  if (supportsColor) {
+  if (chalk.supportsColor) {
     return helpString;
   }
-  return stripAnsi(helpString);
+  return chalk.stripColor(helpString);
 };
