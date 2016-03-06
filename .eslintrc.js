@@ -111,6 +111,7 @@ module.exports = {
 
     'no-unneeded-ternary': 2,
     'space-before-blocks': 2,
+    'space-in-parens': 2,
 
     // JSHint "quotmark"
     'quotes': [2, 'single'],
