@@ -508,7 +508,7 @@ help in detail');
 
           expect(function() {
             fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8', function(err, content) {
-              if(err){
+              if (err){
                 throw 'error';
               }
               expect(content).to.match(/I AM TESTY/);

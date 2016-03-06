@@ -180,7 +180,7 @@ describe('Acceptance: addon-smoke-test', function() {
   it('npm pack does not include unnecessary files', function() {
     console.log('    running the slow end-to-end it will take some time');
     var handleError = function(error, commandName) {
-      if(error.code === 'ENOENT') {
+      if (error.code === 'ENOENT') {
         console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
       } else {
         throw new Error(error);

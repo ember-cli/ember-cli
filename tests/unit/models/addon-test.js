@@ -372,7 +372,7 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        if(originalEnvValue === undefined) {
+        if (originalEnvValue === undefined) {
           delete process.env.EMBER_ADDON_ENV;
         } else {
           process.env.EMBER_ADDON_ENV = originalEnvValue;

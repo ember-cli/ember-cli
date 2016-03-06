@@ -38,10 +38,10 @@ describe('express-server', function() {
   afterEach(function() {
     try {
       subject.httpServer.close();
-    } catch(err) { /* ignore */ }
+    } catch (err) { /* ignore */ }
     try {
       proxy.httpServer.close();
-    } catch(err) { /* ignore */ }
+    } catch (err) { /* ignore */ }
   });
 
   describe('displayHost', function() {
@@ -170,8 +170,8 @@ describe('express-server', function() {
             request('https://localhost:1337', {strictSSL: false}).
               get('/').expect(200, function(err, value) {
                 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-                if(err) { reject(err);    }
-                else    { resolve(value); }
+                if (err) { reject(err);    }
+                else     { resolve(value); }
               });
           });
         });

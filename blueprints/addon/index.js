@@ -145,7 +145,7 @@ module.exports = {
   normalizeEntityName: function(entityName) {
     entityName = normalizeEntityName(entityName);
 
-    if(this.project.isEmberCLIProject() && !this.project.isEmberCLIAddon()) {
+    if (this.project.isEmberCLIProject() && !this.project.isEmberCLIAddon()) {
       throw new SilentError('Generating an addon in an existing ember-cli project is not supported.');
     }
 

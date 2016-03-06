@@ -93,6 +93,8 @@ module.exports = {
       'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 }
     }],
 
+    'keyword-spacing': 2,
+
     // JSHint "laxbreak"
     'linebreak-style': [2, 'unix'],
 

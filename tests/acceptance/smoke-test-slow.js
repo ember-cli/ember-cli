@@ -321,7 +321,7 @@ describe('Acceptance: smoke-test', function() {
           var dir = fs.readdirSync(dirPath);
           var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css','i');
           dir.forEach(function (filepath) {
-            if(cssNameRE.test(filepath)) {
+            if (cssNameRE.test(filepath)) {
               var appCss = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
               expect(appCss).to.contain('.some-weird-selector');
               expect(appCss).to.contain('.some-even-weirder-selector');

@@ -69,7 +69,7 @@ beforeEach(function() {
 });
 
 afterEach(function() {
-  for(var key in commands) {
+  for (var key in commands) {
     if (!commands.hasOwnProperty(key)) { continue; }
     safeRestore(commands[key].prototype, 'validateAndRun');
     safeRestore(commands[key].prototype, 'run');
