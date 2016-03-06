@@ -109,6 +109,8 @@ module.exports = {
     // JSHint "trailing"
     'no-trailing-spaces': 2,
 
+    'no-unneeded-ternary': 2,
+
     // JSHint "quotmark"
     'quotes': [2, 'single'],
 
