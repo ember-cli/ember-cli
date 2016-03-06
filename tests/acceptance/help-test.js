@@ -75,6 +75,21 @@ describe('Acceptance: ember help', function() {
     expect(output).to.equal(expected);
   });
 
+  it('prints single addon commands', function() {
+    options.project.eachAddonCommand = function(cb) {
+      cb('dummy-addon', { Foo: FooCommand });
+    };
+
+    command.run(options, ['foo']);
+
+    var output = options.ui.output;
+
+    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'foo.txt');
+    var expected = loadTextFixture(fixturePath);
+
+    expect(output).to.equal(expected);
+  });
+
   it('prints all blueprints', function() {
     command.run(options, ['generate']);
 
