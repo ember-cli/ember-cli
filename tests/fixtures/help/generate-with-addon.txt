@@ -1,0 +1,133 @@
+Requested ember-cli commands:
+
+ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m
+  Generates new code from blueprints.
+  \u001b[90maliases: g\u001b[39m
+  \u001b[36m--dry-run\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+    \u001b[90maliases: -d\u001b[39m
+  \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+    \u001b[90maliases: -v\u001b[39m
+  \u001b[36m--pod\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+    \u001b[90maliases: -p\u001b[39m
+  \u001b[36m--classic\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+    \u001b[90maliases: -c\u001b[39m
+  \u001b[36m--dummy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+    \u001b[90maliases: -dum, -id\u001b[39m
+  \u001b[36m--in-repo-addon\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m
+    \u001b[90maliases: --in-repo <value>, -ir <value>\u001b[39m
+
+
+  Available blueprints:
+    fixtures:
+      basic \u001b[33m<name>\u001b[39m
+        \u001b[90mA basic blueprint\u001b[39m
+      basic_2 \u001b[33m<name>\u001b[39m
+        \u001b[90mAnother basic blueprint\u001b[39m
+      exporting-object \u001b[33m<name>\u001b[39m
+        \u001b[90mA blueprint that exports an object\u001b[39m
+      with-templating \u001b[33m<name>\u001b[39m
+        \u001b[90mA blueprint with templating\u001b[39m
+    ember-cli:
+      acceptance-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an acceptance test for a feature.\u001b[39m
+      adapter \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m
+        \u001b[90mGenerates an ember-data adapter.\u001b[39m
+        \u001b[36m--base-class\u001b[39m \u001b[36m(String)\u001b[39m
+      adapter-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an ember-data adapter unit test\u001b[39m
+      addon \u001b[33m<name>\u001b[39m
+        \u001b[90mThe default blueprint for ember-cli addons.\u001b[39m
+      addon-import \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an import wrapper.\u001b[39m
+      app \u001b[33m<name>\u001b[39m
+        \u001b[90mThe default blueprint for ember-cli projects.\u001b[39m
+      blueprint \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a blueprint and definition.\u001b[39m
+      component \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m
+        \u001b[90mGenerates a component. Name must contain a hyphen.\u001b[39m
+        \u001b[36m--path\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: components)\u001b[39m
+          \u001b[90maliases: --no-path (--path=)\u001b[39m
+      component-addon \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a component. Name must contain a hyphen.\u001b[39m
+      component-test \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m
+        \u001b[90mGenerates a component integration or unit test.\u001b[39m
+        \u001b[36m--test-type\u001b[39m \u001b[36m(integration, unit)\u001b[39m \u001b[36m(Default: integration)\u001b[39m
+          \u001b[90maliases: -i (--test-type=integration), -u (--test-type=unit), --integration (--test-type=integration), -unit (--test-type=unit)\u001b[39m
+      controller \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a controller.\u001b[39m
+      controller-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a controller unit test.\u001b[39m
+      helper \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a helper function.\u001b[39m
+      helper-addon \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an import wrapper.\u001b[39m
+      helper-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a helper unit test.\u001b[39m
+      http-mock \u001b[33m<endpoint-path>\u001b[39m
+        \u001b[90mGenerates a mock api endpoint in /api prefix.\u001b[39m
+      http-proxy \u001b[33m<local-path> <remote-url>\u001b[39m
+        \u001b[90mGenerates a relative proxy to another server.\u001b[39m
+      in-repo-addon \u001b[33m<name>\u001b[39m
+        \u001b[90mThe blueprint for addon in repo ember-cli addons.\u001b[39m
+      initializer \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an initializer.\u001b[39m
+      initializer-addon \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an import wrapper.\u001b[39m
+      initializer-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an initializer unit test.\u001b[39m
+      instance-initializer \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an instance initializer.\u001b[39m
+      instance-initializer-addon \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an import wrapper.\u001b[39m
+      instance-initializer-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an instance initializer unit test.\u001b[39m
+      lib \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a lib directory for in-repo addons.\u001b[39m
+      mixin \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a mixin.\u001b[39m
+      mixin-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a mixin unit test.\u001b[39m
+      model \u001b[33m<name> <attr:type>\u001b[39m
+        \u001b[90mGenerates an ember-data model.\u001b[39m
+      model-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a model unit test.\u001b[39m
+      resource \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a model, template, route, and registers the route with the router.\u001b[39m
+      route \u001b[33m<name>\u001b[39m \u001b[36m<options...>\u001b[39m
+        \u001b[90mGenerates a route and a template, and registers the route with the router.\u001b[39m
+        \u001b[36m--path\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: )\u001b[39m
+        \u001b[36m--skip-router\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+        \u001b[36m--reset-namespace\u001b[39m \u001b[36m(Boolean)\u001b[39m
+      route-addon \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates import wrappers for a route and its template.\u001b[39m
+      route-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a route unit test.\u001b[39m
+      serializer \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an ember-data serializer.\u001b[39m
+      serializer-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a serializer unit test.\u001b[39m
+      server \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a server directory for mocks and proxies.\u001b[39m
+      service \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a service.\u001b[39m
+      service-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a service unit test.\u001b[39m
+      template \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a template.\u001b[39m
+      test-helper \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a test helper.\u001b[39m
+      transform \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an ember-data value transform.\u001b[39m
+      transform-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a transform unit test.\u001b[39m
+      util \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a simple utility module/function.\u001b[39m
+      util-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a util unit test.\u001b[39m
+      vendor-shim \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates an ES6 module shim for global libraries.\u001b[39m
+      view \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a view subclass.\u001b[39m
+      view-test \u001b[33m<name>\u001b[39m
+        \u001b[90mGenerates a view unit test.\u001b[39m
+

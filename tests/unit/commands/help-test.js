@@ -594,26 +594,7 @@ Available commands from my-addon:' + EOL);
 
       expect(json.addons).to.deep.equal([
         {
-          name: 'help',
-          description: 'Outputs the usage instructions for all commands or the provided command',
-          aliases: [null, 'h', '--help', '-h'],
-          works: 'everywhere',
-          availableOptions: [
-            {
-              name: 'verbose',
-              default: false,
-              aliases: ['v'],
-              key: 'verbose',
-              required: false
-            },
-            {
-              name: 'json',
-              default: false,
-              key: 'json',
-              required: false
-            }
-          ],
-          anonymousOptions: ['<command-name (Default: all)>'],
+          name: 'my-addon',
           commands: [
             {
               test1: 'foo'
