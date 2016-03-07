@@ -1,5 +1,3 @@
-/*jshint multistr: true */
-
 'use strict';
 
 var chai              = require('chai');

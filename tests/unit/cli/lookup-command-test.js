@@ -1,5 +1,4 @@
 'use strict';
-/*jshint expr: true*/
 
 var expect        = require('chai').expect;
 var lookupCommand = require('../../../lib/cli/lookup-command');

@@ -57,11 +57,9 @@ describe('blueprint - model', function() {
       var blueprint = Blueprint.lookup('model');
 
       var out = blueprint.locals(makeOpts({
-        /* jshint camelcase: false */
         /* eslint-disable camelcase */
         six_feet_underscored: ''
         /* eslint-enable camelcase */
-        /* jshint camelcase: true */
       }));
       console.log(out);
       expect(out.attrs).to.equal('sixFeetUnderscored: DS.attr()');

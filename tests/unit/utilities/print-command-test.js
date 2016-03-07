@@ -1,5 +1,3 @@
-/*jshint multistr: true */
-
 'use strict';
 
 var printCommand      = require('../../../lib/utilities/print-command');

@@ -26,10 +26,8 @@ describe('test server', function() {
           expect(options.cwd).to.equal('blerpy-derpy');
           expect(options.reporter).to.equal('xunit');
           expect(options.middleware).to.deep.equal(['middleware1', 'middleware2']);
-          /* jshint ignore:start */
           expect(options.test_page).to.equal('http://my/test/page');
           expect(options.config_dir).to.be.an('string');
-          /* jshint ignore:end*/
           done();
         }
       }

@@ -1,5 +1,3 @@
-/*jshint multistr: true */
-
 'use strict';
 
 var fs                = require('fs-extra');
