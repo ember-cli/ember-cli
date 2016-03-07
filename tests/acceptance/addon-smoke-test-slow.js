@@ -8,6 +8,7 @@ var addonName  = 'some-cool-addon';
 var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');
 var expect     = require('chai').expect;
+var EOL        = require('os').EOL;
 
 var symlinkOrCopySync   = require('symlink-or-copy').sync;
 var runCommand          = require('../helpers/run-command');
@@ -161,6 +162,19 @@ describe('Acceptance: addon-smoke-test', function() {
       })
       .then(function(result) {
         expect(result.exitCode).to.eql(0);
+      });
+  });
+
+  it('ember addon with linting errors', function() {
+    return copyFixtureFiles('addon/with-linting-errors')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function() {
+        expect(false, 'should have rejected with a failed linter').to.be.ok;
+      })
+      .catch(function(result) {
+        expect(result.exitCode).to.not.eql(0);
       });
   });
 
