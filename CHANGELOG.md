@@ -1,5 +1,31 @@
 # ember-cli Changelog
 
+### 2.4.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.4.1...v2.4.2)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.4.1...v2.4.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5550](https://github.com/ember-cli/ember-cli/pull/5550) Use ES6 shorthand for object literals in blueprints (initializer and in-repo-addon) [@Ky6uk](https://github.com/Ky6uk)
+- [#5524](https://github.com/ember-cli/ember-cli/pull/5524) Enable `X-Forwarded-*` headers in http-proxy [@jbacklund](https://github.com/jbacklund)
+- [#5557](https://github.com/ember-cli/ember-cli/pull/5557) Update portfinder to fix various issues with live reload port selection. [@stefan](https://github.com/stefanpenner)
+- [#5556](https://github.com/ember-cli/ember-cli/pull/5556) Update amd-name-resolver to version 0.0.5 (ensures correct path types are used for module transpilation output). [@stefanpenner](https://github.com/stefanpenner)
+- [#5561](https://github.com/ember-cli/ember-cli/pull/5561) Add ability to lint templates (`lintTree` is now called for `templates` type, see [ember-cli-template-lint](https://github.com/rwjblue/ember-cli-template-lint) for more details). [@rwjblue](https://github.com/rwjblue)
+- [#5575](https://github.com/ember-cli/ember-cli/pull/5575) blueprints/route-addon: Fix __path__ token [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.4.1
 
 The following changes are required if you are upgrading from the previous
