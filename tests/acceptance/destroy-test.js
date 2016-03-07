@@ -1,5 +1,3 @@
-/*jshint quotmark: false*/
-
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
