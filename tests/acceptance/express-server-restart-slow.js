@@ -14,7 +14,7 @@ var cleanupRun          = acceptance.cleanupRun;
 
 
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
-var assertDirEmpty   = require('../helpers/assert-dir-empty');
+var assertDirEmpty   = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 
 // skipped because brittle. needs some TLC
 describe.skip('Acceptance: express server restart', function () {
