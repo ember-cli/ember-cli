@@ -1,7 +1,7 @@
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
-var assertFile = require('../helpers/assert-file');
+var assertFile = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
 var path       = require('path');
