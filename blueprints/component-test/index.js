@@ -14,7 +14,7 @@ module.exports = {
       name: 'test-type',
       type: ['integration', 'unit'],
       default: 'integration',
-      aliases:[
+      aliases: [
         { 'i': 'integration'},
         { 'u': 'unit'},
         { 'integration': 'integration' },

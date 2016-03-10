@@ -382,7 +382,7 @@ describe('Acceptance: cli-command-generator', function() {
         expect(path).to.be.ok;
         expect(path.match(type)).to.exist;
       } else {
-        expect(false, 'current shell: ' + process.env.SHELL + 'is not known');
+        expect(false, 'current shell: ' + process.env.SHELL + 'is not known').to.be.ok;
       }
     });
 

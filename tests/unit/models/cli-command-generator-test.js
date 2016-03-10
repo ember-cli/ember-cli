@@ -79,9 +79,9 @@ describe('Unit: cli-command-generator', function() {
         name: 'recursive',
         cliCommands: function(generator, oldCommands) {
           if (oldCommands.indexOf('recursive') === -1) {
-          return [
-            root
-          ];
+            return [
+              root
+            ];
           } else {
             return [];
           }
