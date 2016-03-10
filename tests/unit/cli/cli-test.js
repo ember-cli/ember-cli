@@ -36,6 +36,9 @@ function ember(args) {
       },
       blueprintLookupPaths: function() {
         return [];
+      },
+      reloadAddons: function() {
+        return;
       }
     }
   });
@@ -134,6 +137,9 @@ describe('Unit: CLI', function() {
           },
           blueprintLookupPaths: function() {
             return [];
+          },
+          reloadAddons: function() {
+            return;
           }
         }
       },
