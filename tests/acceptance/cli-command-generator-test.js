@@ -22,7 +22,7 @@ describe('Acceptance: cli-command-generator', function() {
     generator.run();
     var duration = Date.now() - startMS;
     fs.unlinkSync(process.cwd() + '/foo.tmp');
-    expect(duration).to.be.lessThan(1000);
+    expect(duration).to.be.lessThan(3000); //this is not fast
   });
 
   var result;
