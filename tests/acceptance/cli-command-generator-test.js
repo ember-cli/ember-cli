@@ -1,7 +1,7 @@
 'use strict';
 
 var fs          = require('fs');
-var find        = require('lodash/collection/find');
+var find        = require('lodash/find');
 var stub        = require('../helpers/stub').stub;
 var expect      = require('chai').expect;
 var Generator   = require('../../lib/models/cli-command-generator');
