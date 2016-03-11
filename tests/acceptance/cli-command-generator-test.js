@@ -19,7 +19,7 @@ describe('Acceptance: cli-command-generator', function() {
     generator = new Generator();
     generator.cacheDir = '/';
     generator.cacheFile = 'foo.tmp';
-    generator.run();
+    generator.runSync();
     var duration = Date.now() - startMS;
     fs.unlinkSync(process.cwd() + '/foo.tmp');
     expect(duration).to.be.lessThan(3000);
@@ -313,7 +313,7 @@ describe('Acceptance: cli-command-generator', function() {
       var generateJSON = stub(generator, 'generateJSON', 'moep');
       generator.cacheDir = '/';
       generator.cacheFile = '/foo.tmp';
-      generator.run();
+      generator.runSync();
 
       var exists = fs.existsSync(process.cwd() + '/foo.tmp');
       var content = fs.readFileSync(process.cwd() + '/foo.tmp', 'utf8');
@@ -330,7 +330,7 @@ describe('Acceptance: cli-command-generator', function() {
       var generateJSON = stub(generator, 'generateJSON', 'moep');
       generator.cacheDir = '/';
       generator.cacheFile = 'baz.tmp';
-      generator.run();
+      generator.runSync();
 
       var content = fs.readFileSync(process.cwd() + '/baz.tmp', 'utf8');
       fs.unlinkSync(process.cwd() + '/baz.tmp');
