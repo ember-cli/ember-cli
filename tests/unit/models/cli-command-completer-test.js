@@ -70,14 +70,14 @@ describe('Unit: cli-command-completer', function() {
 
   it('.findCommand - identifies correct command out of a list of commands', function() {
     var commands = [
-        {
-          name: 'foo',
-          aliases: ['f']
-        },
-        {
-          name: 'bar',
-          aliases: ['b']
-        }
+      {
+        name: 'foo',
+        aliases: ['f']
+      },
+      {
+        name: 'bar',
+        aliases: ['b']
+      }
     ];
 
     expect(completer.findCommand(commands, 'foo').name).to.equal('foo');
