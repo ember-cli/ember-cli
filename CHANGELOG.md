@@ -7,7 +7,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.4.1...v2.4.2)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.4.1...v2.4.2)
   + No changes required
@@ -33,7 +33,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.4.0...v2.4.1)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Update `ember-cli-sri` in `package.json` to `2.1.0`.
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.4.0...v2.4.1)
@@ -57,7 +57,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.3.0...v2.4.0)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Migrate `testem.json` to `testem.js`.
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.3.0...v2.4.0)
@@ -91,7 +91,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.3.0-beta.2...v2.3.0)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Remove `jquery` from `bower.json`. The version required by your Ember version will be used.
   + Update `ember` to `~2.3.1` in `bower.json`.
 - Addon Developers
@@ -118,7 +118,7 @@ The following changes are required if you are upgrading from the previous
 version:
 
 + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.15...v2.3.0) / [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.15...v2.3.0)
-+ Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
++ Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
 + `ember-cli-content-security-policy` has been removed from the default project blueprint due to extremely poor ergonomics. If the addon is working well for you,
   please continue to use it.
 + Users of `ember-cli-styles-reloader` should uninstall (as this functionality is now included in ember-cli by default).
@@ -250,7 +250,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.3.0-beta.1...v2.3.0-beta.2)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Remove `loader.js` from `bower.json`, and add to `package.json` as `^4.0.0`.
   + Remove `ember-load-initializers` from `bower.json`, and add to `package.json` at `^0.5.0`.
 - Addon Developers
@@ -286,7 +286,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.2.0-beta.6...v2.3.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Update `ember-cli-qunit` in `package.json` to `^1.2.1`.
   + Update `ember` in `bower.json` to `2.3.0`.
   + Remove `qunit` from `bower.json` (it is now included as an NPM dependency by ember-cli-qunit).
@@ -313,7 +313,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v2.2.0-beta.6)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.13...v2.2.0-beta.6)
   + No changes required
@@ -329,7 +329,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v2.2.0-beta.5)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.13...v2.2.0-beta.5)
   + No changes required
@@ -351,7 +351,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v2.2.0-beta.4)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.13...v2.2.0-beta.4)
   + No changes required
@@ -374,7 +374,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v2.2.0-beta.3)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Update `ember-cli-sri` to `^2.0.0`.
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.13...v2.2.0-beta.3)
@@ -399,7 +399,7 @@ version:
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v2.2.0-beta.2)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + `ember-cli-content-security-policy` has been removed from the default project blueprint due to extremely poor ergonomics. If the addon is working well for you,
     please continue to use it.
 - Addon Developers
@@ -431,7 +431,7 @@ The following changes are required if you are upgrading from the previous versio
 
 - Users
   + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v2.2.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/#project-update)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Users of `ember-cli-styles-reloader` should uninstall (as this functionality is now included in ember-cli by default).
   + Update the following entries in your `package.json`:
     * Remove `ember-cli-ic-ajax` (it is replaced by `ember-ajax`)
