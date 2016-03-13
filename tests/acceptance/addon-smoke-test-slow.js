@@ -57,6 +57,40 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(bowerContents.name).to.equal(addonName);
   });
 
+  /**
+   * This test is the source of serious heartache and pain.
+   * https://github.com/ember-cli/ember-cli/pull/5233
+   *
+   * For some reason there are dependencies on test ordering when running
+   * `ember(['test'])` multiple times back to back, somehow the first run
+   * impacts the second run. As a result we've combined the multi-meta-modules
+   * test with this one. Possibly worth splitting these out again in the future:
+   * - with-addon-test-support/index.js
+   * - with-addon-test-support/tests/unit/meta-tag-modules-test.js
+   * - with-addon-test-support/tests/dummy/app/routes/application.js
+   *
+   * The test code would be identical to the below.
+   */
+  it('ember addon with addon-test-support directory', function() {
+    return copyFixtureFiles('addon/with-addon-test-support')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
+  it('can add modules via `{{content-for "head"}}`', function() {
+    return copyFixtureFiles('addon/content-for-head')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
   it('ember addon foo, clean from scratch', function() {
     return ember(['test']);
   });
@@ -89,19 +123,6 @@ describe('Acceptance: addon-smoke-test', function() {
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-      });
-  });
-
-  it('can add things to `{{content-for "head"}}` section', function() {
-    return copyFixtureFiles('addon/content-for-head')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var indexPath = path.join('dist', 'index.html');
-        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-
-        expect(contents).to.contain('"SOME AWESOME STUFF"');
       });
   });
 
@@ -151,16 +172,6 @@ describe('Acceptance: addon-smoke-test', function() {
         var contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
 
         expect(contents).to.contain('addon/styles/app.css is present');
-      });
-  });
-
-  it('ember addon with addon-test-support directory', function() {
-    return copyFixtureFiles('addon/with-addon-test-support')
-      .then(function() {
-        return ember(['test']);
-      })
-      .then(function(result) {
-        expect(result.exitCode).to.eql(0);
       });
   });
 

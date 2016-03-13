@@ -259,7 +259,7 @@ describe('broccoli/ember-app', function() {
       it('includes the `meta` tag in `head` by default', function() {
         var escapedConfig = escape(JSON.stringify(config));
         var metaExpected = '<meta name="cool-foo/config/environment" ' +
-                           'content="' + escapedConfig + '" />';
+                           'data-module="true" content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         expect(actual.indexOf(metaExpected)).to.be.above(-1);
@@ -270,7 +270,7 @@ describe('broccoli/ember-app', function() {
 
         var escapedConfig = escape(JSON.stringify(config));
         var metaExpected = '<meta name="cool-foo/config/environment" ' +
-                           'content="' + escapedConfig + '" />';
+                           'data-module="true" content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
         expect(actual.indexOf(metaExpected)).to.equal(-1);
@@ -304,21 +304,24 @@ describe('broccoli/ember-app', function() {
       });
     });
 
-    describe('contentFor("config-module")', function() {
-      it('includes the meta gathering snippet by default', function() {
-        var metaSnippetPath = path.join(__dirname, '..','..','..','lib','broccoli','app-config-from-meta.js');
-        var expected = fs.readFileSync(metaSnippetPath);
-
-        var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
-
-        expect(actual.indexOf(expected)).to.be.above(-1);
-      });
-
+    describe('contentFor("app-config")', function() {
       it('includes the raw config if storeConfigInMeta is false', function() {
         emberApp.options.storeConfigInMeta = false;
 
         var expected = JSON.stringify(config);
-        var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
+        var actual = emberApp.contentFor(config, defaultMatch, 'app-config');
+
+        expect(actual.indexOf(expected)).to.be.above(-1);
+      });
+    });
+
+    describe('contentFor("app-boot")', function() {
+      it('includes the meta gathering snippet by default', function() {
+        emberApp.options.autoRun = false;
+        var metaSnippetPath = path.join(__dirname, '..','..','..','lib','broccoli','modules-from-meta.js');
+        var expected = fs.readFileSync(metaSnippetPath);
+
+        var actual = emberApp.contentFor(config, defaultMatch, 'app-boot');
 
         expect(actual.indexOf(expected)).to.be.above(-1);
       });
