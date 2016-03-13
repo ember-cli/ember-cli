@@ -15,7 +15,7 @@ Supports node 0.12.x and npm 2.7.x and 3.x.
 ## Community
 * irc: #ember-cli on freenode
 * issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
-* website: [ember-cli.com](http://www.ember-cli.com)
+* website: [ember-cli.com](http://ember-cli.com)
 
 [![ScreenShot](http://static.iamstef.net/ember-conf-2014-video.jpg)](https://www.youtube.com/watch?v=4D8z3972h64)
 
