@@ -281,28 +281,6 @@ describe('Acceptance: ember destroy in-repo-addon', function() {
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
   });
 
-  it('in-repo-addon view foo', function() {
-    var commandArgs = ['view', 'foo', '--in-repo-addon=my-addon'];
-    var files       = [
-      'lib/my-addon/addon/views/foo.js',
-      'lib/my-addon/app/views/foo.js',
-      'tests/unit/views/foo-test.js'
-    ];
-
-    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
-  });
-
-  it('in-repo-addon view foo/bar', function() {
-    var commandArgs = ['view', 'foo/bar', '--in-repo-addon=my-addon'];
-    var files       = [
-      'lib/my-addon/addon/views/foo/bar.js',
-      'lib/my-addon/app/views/foo/bar.js',
-      'tests/unit/views/foo/bar-test.js'
-    ];
-
-    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
-  });
-
   it('in-repo-addon initializer foo', function() {
     var commandArgs = ['initializer', 'foo', '--in-repo-addon=my-addon'];
     var files       = [

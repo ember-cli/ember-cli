@@ -463,40 +463,6 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('view foo', function() {
-    return generate(['view', 'foo']).then(function() {
-      assertFile('app/views/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.View.extend({\n})"
-        ]
-      });
-      assertFile('tests/unit/views/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('view:foo'"
-        ]
-      });
-    });
-  });
-
-  it('view foo/bar', function() {
-    return generate(['view', 'foo/bar']).then(function() {
-      assertFile('app/views/foo/bar.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.View.extend({\n})"
-        ]
-      });
-      assertFile('tests/unit/views/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('view:foo/bar'"
-        ]
-      });
-    });
-  });
-
   it('resource foos', function() {
     return generate(['resource', 'foos']).then(function() {
       assertFile('app/router.js', {

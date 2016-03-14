@@ -332,26 +332,6 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('view foo', function() {
-    var commandArgs = ['view', 'foo'];
-    var files       = [
-      'app/views/foo.js',
-      'tests/unit/views/foo-test.js'
-    ];
-
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
-
-  it('view foo/bar', function() {
-    var commandArgs = ['view', 'foo/bar'];
-    var files       = [
-      'app/views/foo/bar.js',
-      'tests/unit/views/foo/bar-test.js'
-    ];
-
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
-
   it('initializer foo', function() {
     var commandArgs = ['initializer', 'foo'];
     var files       = ['app/initializers/foo.js'];

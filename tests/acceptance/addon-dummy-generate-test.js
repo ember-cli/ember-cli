@@ -307,32 +307,6 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     });
   });
 
-  it('dummy view foo', function() {
-    return generateInAddon(['view', 'foo', '--dummy']).then(function() {
-      assertFile('tests/dummy/app/views/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.View.extend({\n})"
-        ]
-      });
-      assertFileToNotExist('app/views/foo.js');
-      assertFileToNotExist('tests/unit/views/foo-test.js');
-    });
-  });
-
-  it('dummy view foo/bar', function() {
-    return generateInAddon(['view', 'foo/bar', '--dummy']).then(function() {
-      assertFile('tests/dummy/app/views/foo/bar.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.View.extend({\n})"
-        ]
-      });
-      assertFileToNotExist('app/views/foo/bar.js');
-      assertFileToNotExist('tests/unit/views/foo/bar-test.js');
-    });
-  });
-
   it('dummy resource foos', function() {
     return generateInAddon(['resource', 'foos', '--dummy']).catch(function(error) {
       expect(error.message).to.include('blueprint does not support ' +

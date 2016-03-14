@@ -412,50 +412,6 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     });
   });
 
-  it('in-repo-addon view foo', function() {
-    return generateInRepoAddon(['view', 'foo', '--in-repo-addon=my-addon']).then(function() {
-      assertFile('lib/my-addon/addon/views/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.View.extend({\n})"
-        ]
-      });
-      assertFile('lib/my-addon/app/views/foo.js', {
-        contains: [
-          "export { default } from 'my-addon/views/foo';"
-        ]
-      });
-      assertFile('tests/unit/views/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('view:foo'"
-        ]
-      });
-    });
-  });
-
-  it('in-repo-addon view foo/bar', function() {
-    return generateInRepoAddon(['view', 'foo/bar', '--in-repo-addon=my-addon']).then(function() {
-      assertFile('lib/my-addon/addon/views/foo/bar.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.View.extend({\n})"
-        ]
-      });
-      assertFile('lib/my-addon/app/views/foo/bar.js', {
-        contains: [
-          "export { default } from 'my-addon/views/foo/bar';"
-        ]
-      });
-      assertFile('tests/unit/views/foo/bar-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('view:foo/bar'"
-        ]
-      });
-    });
-  });
-
   it('in-repo-addon resource foos', function() {
     return generateInRepoAddon(['resource', 'foos', '--in-repo-addon=my-addon']).catch(function(error) {
       expect(error.message).to.include('blueprint does not support ' +

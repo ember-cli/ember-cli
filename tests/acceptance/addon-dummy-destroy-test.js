@@ -202,24 +202,6 @@ describe('Acceptance: ember destroy in-addon-dummy', function() {
     return assertDestroyAfterGenerateInAddonDummy(commandArgs, files);
   });
 
-  it('in-addon-dummy view foo', function() {
-    var commandArgs = ['view', 'foo'];
-    var files       = [
-      'tests/dummy/app/views/foo.js'
-    ];
-
-    return assertDestroyAfterGenerateInAddonDummy(commandArgs, files);
-  });
-
-  it('in-addon-dummy view foo/bar', function() {
-    var commandArgs = ['view', 'foo/bar'];
-    var files       = [
-      'tests/dummy/app/views/foo/bar.js'
-    ];
-
-    return assertDestroyAfterGenerateInAddonDummy(commandArgs, files);
-  });
-
   it('in-addon-dummy initializer foo', function() {
     var commandArgs = ['initializer', 'foo'];
     var files       = [
