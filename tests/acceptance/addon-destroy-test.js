@@ -186,28 +186,6 @@ describe('Acceptance: ember destroy in-addon', function() {
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
   });
 
-  it('in-addon view foo', function() {
-    var commandArgs = ['view', 'foo'];
-    var files       = [
-      'addon/views/foo.js',
-      'app/views/foo.js',
-      'tests/unit/views/foo-test.js'
-    ];
-
-    return assertDestroyAfterGenerateInAddon(commandArgs, files);
-  });
-
-  it('in-addon view foo/bar', function() {
-    var commandArgs = ['view', 'foo/bar'];
-    var files       = [
-      'addon/views/foo/bar.js',
-      'app/views/foo/bar.js',
-      'tests/unit/views/foo/bar-test.js'
-    ];
-
-    return assertDestroyAfterGenerateInAddon(commandArgs, files);
-  });
-
   it('in-addon initializer foo', function() {
     var commandArgs = ['initializer', 'foo'];
     var files       = [

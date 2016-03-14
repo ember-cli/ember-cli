@@ -611,20 +611,6 @@ module.exports = {
               availableOptions: [],
               anonymousOptions: ['name'],
               overridden: false
-            },
-            {
-              name: 'view',
-              description: 'Generates a view subclass.',
-              availableOptions: [],
-              anonymousOptions: ['name'],
-              overridden: false
-            },
-            {
-              name: 'view-test',
-              description: 'Generates a view unit test.',
-              availableOptions: [],
-              anonymousOptions: ['name'],
-              overridden: false
             }
           ]
         }

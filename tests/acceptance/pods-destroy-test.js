@@ -372,26 +372,6 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('view foo --pod', function() {
-    var commandArgs = ['view', 'foo', '--pod'];
-    var files       = [
-      'app/pods/foo/view.js',
-      'tests/unit/pods/foo/view-test.js'
-    ];
-
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
-
-  it('view foo/bar --pod', function() {
-    var commandArgs = ['view', 'foo/bar', '--pod'];
-    var files       = [
-      'app/pods/foo/bar/view.js',
-      'tests/unit/pods/foo/bar/view-test.js'
-    ];
-
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
-
   it('initializer foo --pod', function() {
     var commandArgs = ['initializer', 'foo', '--pod'];
     var files       = ['app/initializers/foo.js'];
