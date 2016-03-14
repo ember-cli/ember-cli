@@ -21,6 +21,6 @@ test('the application boots properly', function(assert) {
   visit('/');
 
   andThen(function() {
-    assert.equal(Ember.$('#title').text(), 'Welcome to Ember');
+    assert.ok(Ember.$('.ember-view').length > 0);
   });
 });
