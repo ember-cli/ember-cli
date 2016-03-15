@@ -913,5 +913,15 @@ describe('broccoli/ember-app', function() {
     });
   });
 
+  describe('_resolveLocal', function() {
+    it('resolves a path relative to the project root', function() {
+      var emberApp = new EmberApp({
+        project: project
+      });
+
+      var result = emberApp._resolveLocal('foo');
+      expect(result).to.equal(path.join(project.root, 'foo'));
+    });
+  });
 });
 
