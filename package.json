@@ -138,6 +138,6 @@
     "nock": "^7.2.2",
     "proxyquire": "^1.6.0",
     "supertest": "0.15.0",
-    "yuidocjs": "0.6.0"
+    "yuidocjs": "0.10.0"
   }
 }
