@@ -78,7 +78,7 @@
     "express": "^4.12.3",
     "findup": "0.1.5",
     "findup-sync": "^0.2.1",
-    "fs-extra": "0.26.6",
+    "fs-extra": "0.26.7",
     "fs-monitor-stack": "^1.0.2",
     "fs-tree-diff": "^0.4.4",
     "get-caller-file": "^1.0.0",
