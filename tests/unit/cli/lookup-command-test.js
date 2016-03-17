@@ -163,6 +163,9 @@ describe('cli/lookup-command.js', function() {
       ui: ui,
       project: project
     });
+
+    expect(command.name).to.equal('something-else');
+
     expect(function() {
       command.validateAndRun([]);
     }).to.throw(/command.*something-else.*is invalid/);
