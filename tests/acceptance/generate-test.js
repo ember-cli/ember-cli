@@ -486,11 +486,12 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
-  it('resource without entity name does not throw exception', function() {
+  it('resource without entity name does throw a warning', function() {
     return generate(['resource']).then(function() {
       expect(false).to.be.ok;
     }, function(err) {
-      expect(err.errorLog[0].message).to.equal('The `ember generate <entity-name>` command requires an entity name to be specified. For more details, use `ember help`.');
+      expect(err.name).to.equal('SilentError');
+      expect(err.message).to.equal('The `ember generate <entity-name>` command requires an entity name to be specified. For more details, use `ember help`.');
     });
   });
 
@@ -721,7 +722,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'application', '--base-class=application']).then(function() {
       expect(false).to.be.ok;
     }, function(err) {
-      expect(err.errorLog[0]).to.match(/Adapters cannot extend from themself/);
+      expect(err.name).to.equal('SilentError');
+      expect(err.message).to.match(/Adapters cannot extend from themself/);
     });
   });
 
@@ -729,7 +731,8 @@ describe('Acceptance: ember generate', function() {
     return generate(['adapter', 'foo', '--base-class=foo']).then(function() {
       expect(false).to.be.ok;
     }, function(err) {
-      expect(err.errorLog[0]).to.match(/Adapters cannot extend from themself/);
+      expect(err.name).to.equal('SilentError');
+      expect(err.message).to.match(/Adapters cannot extend from themself/);
     });
   });
 

@@ -831,7 +831,8 @@ describe('Acceptance: ember generate in-addon', function() {
 
   it('in-addon addon-import cannot be called directly', function() {
     return generateInAddon(['addon-import', 'foo']).catch(function(error) {
-      expect(error.errorLog[0].message).to.contain('You cannot call the addon-import blueprint directly.');
+      expect(error.name).to.equal('SilentError');
+      expect(error.message).to.equal('You cannot call the addon-import blueprint directly.');
     });
   });
 
