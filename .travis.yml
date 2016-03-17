@@ -13,9 +13,6 @@ cache:
     $HOME/.npm
     $HOME/.cache # includes bowers cache
 
-os:
-  - linux
-
 before_install:
   - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
   - test $TRAVIS_OS_NAME = "osx" && brew update && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
