@@ -17,9 +17,6 @@ before_install:
   - npm config set spin false
 
 install:
-  - node --version
-  - npm --version
-  - git --version
   - npm install --no-optional
 
 script: npm run-script test-all:cover
