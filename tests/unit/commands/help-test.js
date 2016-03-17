@@ -492,16 +492,7 @@ Available commands from my-addon:' + EOL);
 
       var json = convertToJson(options.ui.output);
 
-      expect(json.commands).to.deep.equal([
-        {
-          name: 'core-object',
-          description: null,
-          aliases: [],
-          works: 'insideProject',
-          availableOptions: [],
-          anonymousOptions: []
-        }
-      ]);
+      expect(json.commands).to.deep.equal([]);
     });
 
     it('respects skipHelp when listing', function() {
