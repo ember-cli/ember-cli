@@ -99,6 +99,15 @@ describe('Acceptance: ember help', function() {
     expect(output).to.contain(expected);
   });
 
+  it('prints helpfull message for unknown command', function() {
+    command.run(options, ['asdf']);
+
+    var output = options.ui.output;
+
+    expect(output).to.contain("No help entry for 'asdf'");
+    expect(output).to.not.contain('undefined');
+  });
+
   it('prints a single blueprints', function() {
     command.run(options, ['generate', 'route']);
 
@@ -133,6 +142,17 @@ describe('Acceptance: ember help', function() {
 
       var json = convertToJson(options.ui.output);
       var expected = require('../fixtures/help/help.js');
+
+      expect(json).to.deep.equal(expected);
+    });
+
+    it('returns empty list for unknown command', function() {
+      options.json = true;
+
+      command.run(options, ['asdf']);
+
+      var json = convertToJson(options.ui.output);
+      var expected = require('../fixtures/help/help-unknown.js');
 
       expect(json).to.deep.equal(expected);
     });
