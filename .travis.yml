@@ -1,8 +1,4 @@
 sudo: false
-cache:
-  directories:
-    $HOME/.npm
-    $HOME/.cache # includes bowers cache
 
 language: node_js
 node_js:
@@ -11,6 +7,11 @@ node_js:
   - "4"
   - "5"
   - node
+
+cache:
+  directories:
+    $HOME/.npm
+    $HOME/.cache # includes bowers cache
 
 os:
   - linux
