@@ -2022,7 +2022,9 @@ help in detail');
     it('should return a default object if no custom options are passed', function() {
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('it should call the locals method with the correct arguments', function() {
@@ -2071,7 +2073,9 @@ help in detail');
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('should update its fileMap values to match the generateFileMap result', function() {
@@ -2083,7 +2087,9 @@ help in detail');
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('should return an object containing custom local values', function() {
@@ -2095,7 +2101,9 @@ help in detail');
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
   });
 });
