@@ -1,8 +1,4 @@
 sudo: false
-cache:
-  directories:
-    $HOME/.npm
-    $HOME/.cache # includes bowers cache
 
 language: node_js
 node_js:
@@ -12,18 +8,15 @@ node_js:
   - "5"
   - node
 
-os:
-  - linux
+cache:
+  directories:
+    $HOME/.npm
+    $HOME/.cache # includes bowers cache
 
 before_install:
-  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
-  - test $TRAVIS_OS_NAME = "osx" && brew update && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
   - npm config set spin false
 
 install:
-  - node --version
-  - npm --version
-  - git --version
   - npm install --no-optional
 
 script: npm run-script test-all:cover
