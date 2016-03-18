@@ -86,7 +86,6 @@ describe('models/builder.js', function() {
     it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function() {
       var outputPathArg = '--output-path=.';
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
-      outputPath = path.resolve(outputPath);
       outputPath = outputPath.substr(0, outputPath.length - 1);
       builder.outputPath = outputPath;
 
