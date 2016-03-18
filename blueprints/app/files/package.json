@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "ember build",
-    "postinstall": "ember generate-json",
+    "postinstall": "ember update-package-cache",
     "start": "ember server",
     "test": "ember test"
   },
