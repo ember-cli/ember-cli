@@ -87,7 +87,6 @@ module.exports = {
         },
         {
           name: 'output-path',
-          type: 'path',
           default: 'dist/',
           aliases: ['o'],
           key: 'outputPath',
@@ -803,7 +802,6 @@ module.exports = {
         },
         {
           name: 'output-path',
-          type: 'path',
           default: 'dist/',
           aliases: ['op', 'out'],
           key: 'outputPath',
@@ -922,7 +920,7 @@ module.exports = {
           name: 'path',
           description: 'Reuse an existing build at given path.',
           key: 'path',
-          required: false
+          required: false,
         },
         {
           name: 'query',
