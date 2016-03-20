@@ -846,7 +846,6 @@ module.exports = {
         {
           name: 'output-path',
           default: 'dist/',
-          type: 'path',
           key: 'outputPath',
           required: false,
           aliases: ['o']
