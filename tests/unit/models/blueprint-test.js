@@ -1864,9 +1864,9 @@ help in detail');
     });
 
     it('can find internal blueprints', function() {
-      var result = blueprint.lookupBlueprint('controller');
+      var result = blueprint.lookupBlueprint('blueprint');
 
-      expect(result.description).to.equal('Generates a controller.');
+      expect(result.description).to.equal('Generates a blueprint and definition.');
     });
   });
 
