@@ -90,7 +90,8 @@ module.exports = {
           default: 'dist/',
           aliases: ['o'],
           key: 'outputPath',
-          required: false
+          required: false,
+          type: 'Path',
         },
         {
           name: 'watch',
@@ -837,7 +838,8 @@ module.exports = {
           default: 'dist/',
           aliases: ['op', 'out'],
           key: 'outputPath',
-          required: false
+          required: false,
+          type: 'Path',
         },
         {
           name: 'ssl',
@@ -953,6 +955,7 @@ module.exports = {
           description: 'Reuse an existing build at given path.',
           key: 'path',
           required: false,
+          type: 'Path',
         },
         {
           name: 'query',
