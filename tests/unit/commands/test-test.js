@@ -11,6 +11,8 @@ var Task           = require('../../../lib/models/task');
 var TestCommand    = require('../../../lib/commands/test');
 
 describe('test command', function() {
+  this.timeout(30000);
+
   var tasks, options, command;
   var buildRun, testRun, testServerRun;
 
