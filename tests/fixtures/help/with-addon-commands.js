@@ -848,7 +848,8 @@ module.exports = {
           default: 'dist/',
           key: 'outputPath',
           required: false,
-          aliases: ['o']
+          aliases: ['o'],
+          type: 'Path'
         }
       ]
     },

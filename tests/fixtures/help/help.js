@@ -91,7 +91,7 @@ module.exports = {
           aliases: ['o'],
           key: 'outputPath',
           required: false,
-          type: 'Path',
+          type: 'Path'
         },
         {
           name: 'watch',
@@ -848,7 +848,8 @@ module.exports = {
           default: 'dist/',
           key: 'outputPath',
           required: false,
-          aliases: ['o']
+          aliases: ['o'],
+          type: 'Path'
         }
       ]
     },
