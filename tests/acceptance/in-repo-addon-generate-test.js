@@ -49,20 +49,20 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     ]);
   }
 
-  function initInRepoAddon() {
+  function initInRepoAddon(args) {
     return initApp().then(function() {
       return ember([
         'generate',
         'in-repo-addon',
         'my-addon'
-      ]);
+      ].concat(args || []));
     });
   }
 
-  function generateInRepoAddon(args) {
+  function generateInRepoAddon(args, initArgs) {
     var generateArgs = ['generate'].concat(args);
 
-    return initInRepoAddon().then(function() {
+    return initInRepoAddon(initArgs).then(function() {
       return ember(generateArgs);
     });
   }
@@ -798,6 +798,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       });
     });
   });
+
   it('in-repo-addon acceptance-test foo', function() {
     return generateInRepoAddon(['acceptance-test', 'foo', '--in-repo-addon=my-addon']).then(function() {
       var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
@@ -817,4 +818,36 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     });
   });
 
+  it('in-repo-addon is generated with custom path', function() {
+    return initInRepoAddon(['--path', 'foo']).then(function() {
+      assertFile('foo/my-addon');
+      assertFile('package.json', {
+        contains: [
+          'foo/my-addon'
+        ]
+      });
+    });
+  });
+
+  it('in-repo-addon can generate with custom path', function() {
+    return generateInRepoAddon(['controller', 'foo', '--in-repo-addon=my-addon'], ['--path', 'foo']).then(function() {
+      assertFile('foo/my-addon/addon/controllers/foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Controller.extend({" + EOL + "});"
+        ]
+      });
+      assertFile('foo/my-addon/app/controllers/foo.js', {
+        contains: [
+          "export { default } from 'my-addon/controllers/foo';"
+        ]
+      });
+      assertFile('tests/unit/controllers/foo-test.js', {
+        contains: [
+          "import { moduleFor, test } from 'ember-qunit';",
+          "moduleFor('controller:foo'"
+        ]
+      });
+    });
+  });
 });
