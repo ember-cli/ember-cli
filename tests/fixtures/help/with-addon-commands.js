@@ -104,6 +104,12 @@ module.exports = {
           name: 'watcher',
           key: 'watcher',
           required: false
+        },
+        {
+          name: 'suppress-sizes',
+          default: false,
+          key: 'suppressSizes',
+          required: false
         }
       ],
       anonymousOptions: []
@@ -829,6 +835,23 @@ module.exports = {
         }
       ],
       anonymousOptions: []
+    },
+    {
+      name: 'show-asset-sizes',
+      description: 'Show asset file sizes.',
+      works: 'insideProject',
+      aliases: [],
+      anonymousOptions: [],
+      availableOptions: [
+        {
+          name: 'output-path',
+          default: 'dist/',
+          key: 'outputPath',
+          required: false,
+          aliases: ['o'],
+          type: 'Path'
+        }
+      ]
     },
     {
       name: 'test',

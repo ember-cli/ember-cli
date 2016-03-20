@@ -452,6 +452,7 @@ describe('Unit: CLI', function() {
 
           var options = build.calledWith[0][0];
           expect(options.watch).to.equal(false, 'expected the default watch flag to be false');
+          expect(options.suppressSizes).to.equal(false, 'expected the default supress-sizes flag to be false');
         });
       });
 
@@ -470,6 +471,15 @@ describe('Unit: CLI', function() {
         return ember([command, '--watch']).then(function() {
           var options = build.calledWith[0][0];
           expect(options.watch).to.equal(true, 'expected the watch flag to be true');
+        });
+      });
+
+      it('ember ' + command + ' --suppress-sizes', function() {
+        var build = stubRun('build');
+
+        return ember([command, '--suppress-sizes']).then(function () {
+          var options = build.calledWith[0][0];
+          expect(options.suppressSizes).to.equal(true, 'expected the suppressSizes flag to be true');
         });
       });
 
