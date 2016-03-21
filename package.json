@@ -58,7 +58,7 @@
     "chalk": "^1.1.1",
     "clean-base-url": "^1.0.0",
     "compression": "^1.4.4",
-    "configstore": "^1.4.0",
+    "configstore": "^2.0.0",
     "core-object": "0.0.2",
     "cpr": "0.4.2",
     "debug": "^2.1.3",
