@@ -1,20 +1,21 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var stub           = require('../../helpers/stub');
-var MockProject    = require('../../helpers/mock-project');
-var commandOptions = require('../../factories/command-options');
-var Task           = require('../../../lib/models/task');
-var Promise        = require('../../../lib/ext/promise');
-var AddonInstall   = require('../../../lib/tasks/addon-install');
-var InstallCommand = require('../../../lib/commands/install');
+var expect                    = require('chai').expect;
+var stub                      = require('../../helpers/stub');
+var MockProject               = require('../../helpers/mock-project');
+var commandOptions            = require('../../factories/command-options');
+var Task                      = require('../../../lib/models/task');
+var Promise                   = require('../../../lib/ext/promise');
+var AddonInstall              = require('../../../lib/tasks/addon-install');
+var InstallCommand            = require('../../../lib/commands/install');
+var updatePackageCacheCommand = require('../../../lib/commands/update-package-cache');
 
 var safeRestore = stub.safeRestore;
 stub = stub.stub;
 
 describe('install command', function() {
   var generateBlueprintInstance, npmInstance;
-  var command, tasks;
+  var command, commands, tasks;
 
   beforeEach(function() {
     var project = new MockProject();
@@ -47,6 +48,10 @@ describe('install command', function() {
       ];
     };
 
+    commands = [
+      updatePackageCacheCommand
+    ];
+
     tasks = {
       AddonInstall: AddonInstall,
       NpmInstall: Task.extend({
@@ -66,6 +71,7 @@ describe('install command', function() {
 
     var options = commandOptions({
       project: project,
+      commands: commands,
       tasks: tasks
     });
 
