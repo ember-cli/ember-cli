@@ -18,7 +18,7 @@ var Blueprint        = require('../../lib/models/blueprint');
 var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
 describe('Acceptance: ember destroy', function() {
-  this.timeout(20000);
+  this.timeout(60000);
   var tmpdir;
 
   before(function() {
