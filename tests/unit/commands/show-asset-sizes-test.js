@@ -9,14 +9,14 @@ var path           = require('path');
 var safeRestore = stub.safeRestore;
 stub = stub.stub;
 
-describe('show asset sizes command', function () {
+describe('asset-sizes command', function () {
   var ShowCommand;
   var tasks;
   var options;
   var taskInstance;
 
   before(function () {
-    ShowCommand = require('../../../lib/commands/show-asset-sizes');
+    ShowCommand = require('../../../lib/commands/asset-sizes');
   });
 
   beforeEach(function () {

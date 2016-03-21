@@ -19,6 +19,11 @@ ember addon \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m
   \u001b[36m--directory\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -dir <value>\u001b[39m
 
+ember asset-sizes \u001b[36m<options...>\u001b[39m
+  Shows the sizes of your asset files.
+  \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
+    \u001b[90maliases: -o <value>\u001b[39m
+
 ember build \u001b[36m<options...>\u001b[39m
   Builds your app and places it into the output path (dist/ by default).
   \u001b[90maliases: b\u001b[39m
@@ -134,11 +139,6 @@ ember serve \u001b[36m<options...>\u001b[39m
   \u001b[36m--ssl\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
   \u001b[36m--ssl-key\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.key)\u001b[39m
   \u001b[36m--ssl-cert\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.crt)\u001b[39m
-
-ember show-asset-sizes \u001b[36m<options...>\u001b[39m
-  Show asset file sizes.
-  \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
-    \u001b[90maliases: -o <value>\u001b[39m
 
 ember test \u001b[36m<options...>\u001b[39m
   Runs your app's test suite.

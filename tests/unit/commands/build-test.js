@@ -84,7 +84,7 @@ describe('build command', function() {
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
       expect(buildRun.called).to.equal(1, 'expected build run to be called once');
-      expect(showSizesRun.called).to.equal(0, 'expected show-asset-sizes run to not be called');
+      expect(showSizesRun.called).to.equal(0, 'expected asset-sizes run to not be called');
     });
   });
 
@@ -94,7 +94,7 @@ describe('build command', function() {
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
       expect(buildRun.called).to.equal(1, 'expected build run to be called once');
-      expect(showSizesRun.called).to.equal(1, 'expected show-asset-sizes run to be called once');
+      expect(showSizesRun.called).to.equal(1, 'expected asset-sizes run to be called once');
     });
   });
 
@@ -104,7 +104,7 @@ describe('build command', function() {
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
       expect(buildRun.called).to.equal(1, 'expected build run to be called once');
-      expect(showSizesRun.called).to.equal(0, 'expected show-asset-sizes run to not be called');
+      expect(showSizesRun.called).to.equal(0, 'expected asset-sizes run to not be called');
     });
   });
 });
