@@ -7,6 +7,11 @@ process.title = 'ember';
 var resolve = require('resolve');
 var exit = require('exit');
 
+var updateNotifier = require('update-notifier');
+var pkg = require('../package.json');
+
+updateNotifier({ pkg: pkg }).notify({ defer: false });
+
 resolve('ember-cli', {
   basedir: process.cwd()
 }, function(error, projectLocalCli) {
