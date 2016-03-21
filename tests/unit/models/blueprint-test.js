@@ -906,7 +906,7 @@ help in detail');
         options.entity = { name: 'foo' };
 
         return blueprint.uninstall(options).then(function() {
-          // expect(localsCalled).to.be.true;
+          expect(localsCalled).to.be.true;
           expect(normalizeEntityNameCalled).to.be.true;
           expect(fileMapTokensCalled).to.be.true;
           expect(filesPathCalled).to.be.true;
