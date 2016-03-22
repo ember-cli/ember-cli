@@ -12,6 +12,7 @@ var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
 var assign     = require('lodash/assign');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+var td         = require('testdouble');
 var testOutputPath;
 
 describe('Unit - FileInfo', function() {
@@ -109,44 +110,53 @@ describe('Unit - FileInfo', function() {
   });
 
   it('renders a menu with an overwrite option', function() {
+    var originalPrompt = ui.prompt;
+    var prompt = ui.prompt = td.function();
+
+    td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'overwrite' }));
+
     var fileInfo = new FileInfo(validOptions);
 
-    ui.waitForPrompt().then(function() {
-      ui.inputStream.write('Y' + EOL);
-    });
-
-    return fileInfo.confirmOverwrite().then(function(action) {
-      var output = ui.output.trim().split(EOL);
-      expect(output.shift()).to.match(/Overwrite.*\?/);
+    return fileInfo.confirmOverwrite('test.js').then(function(action) {
+      td.verify(prompt(td.matchers.anything()), {times: 1});
       expect(action).to.equal('overwrite');
+    })
+    .finally(function() {
+      ui.prompt = originalPrompt;
     });
   });
 
   it('renders a menu with an skip option', function() {
+    var originalPrompt = ui.prompt;
+    var prompt = ui.prompt = td.function();
+
+    td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+
     var fileInfo = new FileInfo(validOptions);
 
-    ui.waitForPrompt().then(function() {
-      ui.inputStream.write('n' + EOL);
-    });
-
-    return fileInfo.confirmOverwrite().then(function(action) {
-      var output = ui.output.trim().split(EOL);
-      expect(output.shift()).to.match(/Overwrite.*\?/);
+    return fileInfo.confirmOverwrite('test.js').then(function(action) {
+      td.verify(prompt(td.matchers.anything()), {times: 1});
       expect(action).to.equal('skip');
+    })
+    .finally(function() {
+      ui.prompt = originalPrompt;
     });
   });
 
   it('renders a menu with an diff option', function() {
+    var originalPrompt = ui.prompt;
+    var prompt = ui.prompt = td.function();
+
+    td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'diff' }));
+
     var fileInfo = new FileInfo(validOptions);
 
-    ui.waitForPrompt().then(function() {
-      ui.inputStream.write('d' + EOL);
-    });
-
-    return fileInfo.confirmOverwrite().then(function(action) {
-      var output = ui.output.trim().split(EOL);
-      expect(output.shift()).to.match(/Overwrite.*\?/);
+    return fileInfo.confirmOverwrite('test.js').then(function(action) {
+      td.verify(prompt(td.matchers.anything()), {times: 1});
       expect(action).to.equal('diff');
+    })
+    .finally(function() {
+      ui.prompt = originalPrompt;
     });
   });
 
