@@ -21,6 +21,7 @@ var existsSync        = require('exists-sync');
 var MarkdownColor     = require('../../../lib/utilities/markdown-color');
 var assign            = require('lodash/assign');
 var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
+var td                = require('testdouble');
 
 var safeRestore = stub.safeRestore;
 stub = stub.stub;
@@ -549,6 +550,13 @@ help in detail');
     });
 
     it('re-installing conflicting files', function() {
+      var originalPrompt = ui.prompt;
+      var prompt = ui.prompt = td.function();
+
+      td.when(prompt(td.matchers.anything())).thenReturn(
+        Promise.resolve({ answer: 'skip' }),
+        Promise.resolve({ answer: 'overwrite' }));
+
       return blueprint.install(options)
         .then(function() {
           var output = ui.output.trim().split(EOL);
@@ -561,27 +569,20 @@ help in detail');
           expect(output.shift()).to.match(/create.* foo.txt/);
           expect(output.shift()).to.match(/create.* test.txt/);
           expect(output.length).to.equal(0);
-          var blueprintNew = new Blueprint(basicNewBlueprint);
 
-          ui.waitForPrompt().then(function() {
-            ui.inputStream.write('n' + EOL);
-            return ui.waitForPrompt();
-          }).then(function() {
-            ui.inputStream.write('y' + EOL);
-          });
+          var blueprintNew = new Blueprint(basicNewBlueprint);
 
           return blueprintNew.install(options);
         })
         .then(function() {
+
+          td.verify(prompt(td.matchers.anything()), {times: 2});
+
           var actualFiles = walkSync(tmpdir).sort();
           // Prompts contain \n EOL
           // Split output on \n since it will have the same affect as spliting on OS specific EOL
           var output = ui.output.trim().split('\n');
           expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/Overwrite.*foo.*\?/); // Prompt
-          expect(output.shift()).to.match(/Overwrite.*foo.*No, skip/);
-          expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
-          expect(output.shift()).to.match(/Overwrite.*test.*Yes, overwrite/);
           expect(output.shift()).to.match(/identical.* \.ember-cli/);
           expect(output.shift()).to.match(/identical.* \.gitignore/);
           expect(output.shift()).to.match(/skip.* foo.txt/);
@@ -589,6 +590,9 @@ help in detail');
           expect(output.length).to.equal(0);
 
           expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+        })
+        .finally(function() {
+          ui.prompt = originalPrompt;
         });
     });
 
@@ -641,6 +645,11 @@ help in detail');
       });
 
       it('ignores files in ignoredUpdateFiles', function() {
+        var originalPrompt = ui.prompt;
+        var prompt = ui.prompt = td.function();
+
+        td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+
         return blueprint.install(options)
           .then(function() {
             var output = ui.output.trim().split(EOL);
@@ -656,31 +665,27 @@ help in detail');
 
             var blueprintNew = new Blueprint(basicNewBlueprint);
 
-            ui.waitForPrompt().then(function() {
-              ui.inputStream.write('n' + EOL);
-              return ui.waitForPrompt();
-            }).then(function() {
-              ui.inputStream.write('n' + EOL);
-            });
-
             options.project.isEmberCLIProject = function() { return true; };
 
             return blueprintNew.install(options);
           })
           .then(function() {
+            td.verify(prompt(td.matchers.anything()), {times: 1});
+
             var actualFiles = walkSync(tmpdir).sort();
             // Prompts contain \n EOL
             // Split output on \n since it will have the same affect as spliting on OS specific EOL
             var output = ui.output.trim().split('\n');
             expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
-            expect(output.shift()).to.match(/Overwrite.*test.*No, skip/);
             expect(output.shift()).to.match(/identical.* \.ember-cli/);
             expect(output.shift()).to.match(/identical.* \.gitignore/);
             expect(output.shift()).to.match(/skip.* test.txt/);
             expect(output.length).to.equal(0);
 
             expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+          })
+          .finally(function() {
+            ui.prompt = originalPrompt;
           });
       });
     });
