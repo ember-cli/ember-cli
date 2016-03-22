@@ -79,6 +79,38 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   });
 
+  it('in-addon component x-foo', function() {
+    return generateInAddon(['component', 'x-foo']).then(function() {
+      assertFile('addon/components/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "import layout from '../templates/components/x-foo';",
+          "export default Ember.Component.extend({",
+          "layout",
+          "});"
+        ]
+      });
+      assertFile('addon/templates/components/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('app/components/x-foo.js', {
+        contains: [
+          "export { default } from 'my-addon/components/x-foo';"
+        ]
+      });
+      assertFile('tests/integration/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
+        ]
+      });
+    });
+  });
+
   it('in-addon blueprint foo', function() {
     return generateInAddon(['blueprint', 'foo']).then(function() {
       assertFile('blueprints/foo/index.js', {

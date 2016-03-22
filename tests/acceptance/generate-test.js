@@ -62,6 +62,81 @@ describe('Acceptance: ember generate', function() {
     });
   }
 
+  it('component x-foo', function() {
+    return generate(['component', 'x-foo']).then(function() {
+      assertFile('app/components/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Component.extend({",
+          "});"
+        ]
+      });
+      assertFile('app/templates/components/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('tests/integration/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
+        ]
+      });
+    });
+  });
+
+  it('component foo/x-foo', function() {
+    return generate(['component', 'foo/x-foo']).then(function() {
+      assertFile('app/components/foo/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Component.extend({",
+          "});"
+        ]
+      });
+      assertFile('app/templates/components/foo/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('tests/integration/components/foo/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('foo/x-foo'",
+          "integration: true",
+          "{{foo/x-foo}}",
+          "{{#foo/x-foo}}"
+        ]
+      });
+    });
+  });
+
+  it('component x-foo ignores --path option', function() {
+    return generate(['component', 'x-foo', '--path', 'foo']).then(function() {
+      assertFile('app/components/x-foo.js', {
+        contains: [
+          "import Ember from 'ember';",
+          "export default Ember.Component.extend({",
+          "});"
+        ]
+      });
+      assertFile('app/templates/components/x-foo.hbs', {
+        contains: "{{yield}}"
+      });
+      assertFile('tests/integration/components/x-foo-test.js', {
+        contains: [
+          "import { moduleForComponent, test } from 'ember-qunit';",
+          "import hbs from 'htmlbars-inline-precompile';",
+          "moduleForComponent('x-foo'",
+          "integration: true",
+          "{{x-foo}}",
+          "{{#x-foo}}"
+        ]
+      });
+    });
+  });
+
   it('blueprint foo', function() {
     return generate(['blueprint', 'foo']).then(function() {
       assertFile('blueprints/foo/index.js', {

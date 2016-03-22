@@ -155,6 +155,68 @@ describe('Acceptance: ember destroy', function() {
       });
   }
 
+  function assertDestroyAfterGenerateInAddonDummy(args, files) {
+    args = args.concat('--dummy');
+
+    return generateInAddon(args)
+      .then(function() {
+        assertFilesExist(files);
+      })
+      .then(function() {
+        return destroy(args);
+      })
+      .then(function(result) {
+        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+        assertFilesNotExist(files);
+      });
+  }
+
+  it('in-addon component x-foo', function() {
+    var commandArgs = ['component', 'x-foo'];
+    var files       = [
+      'addon/components/x-foo.js',
+      'addon/templates/components/x-foo.hbs',
+      'app/components/x-foo.js',
+      'tests/integration/components/x-foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerateInAddon(commandArgs, files);
+  });
+
+  it('in-repo-addon component x-foo', function() {
+    var commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon'];
+    var files       = [
+      'lib/my-addon/addon/components/x-foo.js',
+      'lib/my-addon/addon/templates/components/x-foo.hbs',
+      'lib/my-addon/app/components/x-foo.js',
+      'tests/integration/components/x-foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
+  });
+
+  it('in-repo-addon component nested/x-foo', function() {
+    var commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon'];
+    var files       = [
+      'lib/my-addon/addon/components/nested/x-foo.js',
+      'lib/my-addon/addon/templates/components/nested/x-foo.hbs',
+      'lib/my-addon/app/components/nested/x-foo.js',
+      'tests/integration/components/nested/x-foo-test.js'
+    ];
+
+    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
+  });
+
+  it('in-addon-dummy component x-foo', function() {
+    var commandArgs = ['component', 'x-foo'];
+    var files       = [
+      'tests/dummy/app/templates/components/x-foo.hbs',
+      'tests/dummy/app/components/x-foo.js'
+    ];
+
+    return assertDestroyAfterGenerateInAddonDummy(commandArgs, files);
+  });
+
   it('blueprint foo', function() {
     var commandArgs = ['blueprint', 'foo'];
     var files       = ['blueprints/foo/index.js'];
