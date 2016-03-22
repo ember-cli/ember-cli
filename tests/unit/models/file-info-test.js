@@ -17,12 +17,14 @@ var testOutputPath;
 
 describe('Unit - FileInfo', function() {
 
-  var validOptions, ui;
+  var validOptions, ui, originalPrompt, prompt;
 
   beforeEach(function() {
     return mkTmpDirIn(tmproot).then(function(tmpdir) {
       testOutputPath = path.join(tmpdir, 'outputfile');
       ui = new MockUI();
+      originalPrompt = ui.prompt;
+      prompt = ui.prompt = td.function();
       validOptions = {
         action: 'write',
         outputPath: testOutputPath,
@@ -36,6 +38,7 @@ describe('Unit - FileInfo', function() {
   });
 
   afterEach(function(done) {
+    ui.prompt = originalPrompt;
     fs.remove(tmproot, done);
   });
 
@@ -110,9 +113,6 @@ describe('Unit - FileInfo', function() {
   });
 
   it('renders a menu with an overwrite option', function() {
-    var originalPrompt = ui.prompt;
-    var prompt = ui.prompt = td.function();
-
     td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'overwrite' }));
 
     var fileInfo = new FileInfo(validOptions);
@@ -120,16 +120,10 @@ describe('Unit - FileInfo', function() {
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
       td.verify(prompt(td.matchers.anything()), {times: 1});
       expect(action).to.equal('overwrite');
-    })
-    .finally(function() {
-      ui.prompt = originalPrompt;
     });
   });
 
   it('renders a menu with an skip option', function() {
-    var originalPrompt = ui.prompt;
-    var prompt = ui.prompt = td.function();
-
     td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
 
     var fileInfo = new FileInfo(validOptions);
@@ -137,16 +131,10 @@ describe('Unit - FileInfo', function() {
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
       td.verify(prompt(td.matchers.anything()), {times: 1});
       expect(action).to.equal('skip');
-    })
-    .finally(function() {
-      ui.prompt = originalPrompt;
     });
   });
 
   it('renders a menu with an diff option', function() {
-    var originalPrompt = ui.prompt;
-    var prompt = ui.prompt = td.function();
-
     td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'diff' }));
 
     var fileInfo = new FileInfo(validOptions);
@@ -154,9 +142,6 @@ describe('Unit - FileInfo', function() {
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
       td.verify(prompt(td.matchers.anything()), {times: 1});
       expect(action).to.equal('diff');
-    })
-    .finally(function() {
-      ui.prompt = originalPrompt;
     });
   });
 
