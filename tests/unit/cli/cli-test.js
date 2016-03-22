@@ -79,10 +79,6 @@ afterEach(function() {
   commands = argv = ui = undefined;
 });
 
-function assertVersion(string, message) {
-  expect(/version:\s\d+\.\d+\.\d+/.test(string), message || ('expected version, got: ' + string)).to.be.true;
-}
-
 describe('Unit: CLI', function() {
   this.timeout(10000);
   it('exists', function() {
@@ -94,9 +90,8 @@ describe('Unit: CLI', function() {
 
     return ember().then(function() {
       expect(help.called).to.equal(1, 'expected help to be called once');
-      var output = ui.output.trim().split(EOL);
-      assertVersion(output[0]);
-      expect(output.length).to.equal(1, 'expected no extra output');
+      var output = ui.output.trim();
+      expect(output).to.equal('', 'expected no extra output');
     });
   });
 /*
@@ -152,9 +147,8 @@ describe('Unit: CLI', function() {
 
         return ember([command]).then(function() {
           expect(help.called).to.equal(1, 'expected help to be called once');
-          var output = ui.output.trim().split(EOL);
-          assertVersion(output[0]);
-          expect(output.length).to.equal(1, 'expected no extra output');
+          var output = ui.output.trim();
+          expect(output).to.equal('', 'expected no extra output');
         });
       });
 
@@ -164,9 +158,8 @@ describe('Unit: CLI', function() {
 
         return ember(['new', command]).then(function() {
           expect(help.called).to.equal(1, 'expected help to be called once');
-          var output = ui.output.trim().split(EOL);
-          assertVersion(output[0]);
-          expect(output.length).to.equal(1, 'expected no extra output');
+          var output = ui.output.trim();
+          expect(output).to.equal('', 'expected no extra output');
 
           expect(newCommand.called).to.equal(1, 'expected the new command to be called once');
         });
@@ -179,9 +172,8 @@ describe('Unit: CLI', function() {
       var version = stubValidateAndRun('version');
 
       return ember([command]).then(function() {
-        var output = ui.output.trim().split(EOL);
-        assertVersion(output[0]);
-        expect(output.length).to.equal(1, 'expected no extra output');
+        var output = ui.output.trim();
+        expect(output).to.equal('', 'expected no extra output');
         expect(version.called).to.equal(1, 'expected version to be called once');
       });
     });
@@ -189,23 +181,6 @@ describe('Unit: CLI', function() {
 
   describe('server', function() {
     ['server','s'].forEach(function(command) {
-      it('expects version in UI output', function() {
-        var server = stubRun('serve');
-
-        return ember([command]).then(function() {
-          expect(server.called).to.equal(1, 'expected the server command to be run');
-
-          var output = ui.output.trim().split(EOL);
-          assertVersion(output[0]);
-          var options = server.calledWith[0][0];
-          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
-            expect(output.length).to.equal(1, 'expected no extra output');
-          } else {
-            expect(output.length).to.equal(3, 'expected no extra output');
-          }
-        });
-      });
-
       it('ember ' + command + ' --port 9999', function() {
         var server = stubRun('serve');
 
@@ -370,14 +345,13 @@ describe('Unit: CLI', function() {
 
           expect(args).to.deep.equal(['foo', 'bar', 'baz']);
 
-          var output = ui.output.trim().split(EOL);
-          assertVersion(output[0]);
+          var output = ui.output.trim();
 
           var options = generate.calledWith[0][0];
           if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
-            expect(output.length).to.equal(1, 'expected no extra output');
+            expect(output).to.equal('', 'expected no extra output');
           } else {
-            expect(output.length).to.equal(3, 'expected no extra output');
+            expect(output.split(EOL).length).to.equal(2, 'expected no extra output');
           }
         });
       });
@@ -403,14 +377,13 @@ describe('Unit: CLI', function() {
           expect(init.called).to.equal(1, 'expected the init command to be run');
           expect(args).to.deep.equal(['my-blog'], 'expect first arg to be the app name');
 
-          var output = ui.output.trim().split(EOL);
-          assertVersion(output[0]);
+          var output = ui.output.trim();
 
           var options = init.calledWith[0][0];
           if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
-            expect(output.length).to.equal(1, 'expected no extra output');
+            expect(output).to.equal('', 'expected no extra output');
           } else {
-            expect(output.length).to.equal(3, 'expected no extra output');
+            expect(output.split(EOL).length).to.equal(2, 'expected no extra output');
           }
         });
       });
@@ -535,9 +508,8 @@ describe('Unit: CLI', function() {
       expect(help.called).to.equal(0, 'expected the help command NOT to be run');
       expect(serve.called).to.equal(1, 'expected the serve command to be run');
 
-      var output = ui.output.trim().split(EOL);
-      assertVersion(output[0]);
-      expect(output.length).to.equal(1, 'expected no extra output');
+      var output = ui.output.trim();
+      expect(output).to.equal('', 'expected no extra output');
     });
   });
 
@@ -554,9 +526,8 @@ describe('Unit: CLI', function() {
 
       expect(serve.calledWith[0].length).to.equal(2, 'expect foo to receive a total of 4 args');
 
-      var output = ui.output.trim().split(EOL);
-      assertVersion(output[0]);
-      expect(output.length).to.equal(1, 'expected no extra output');
+      var output = ui.output.trim();
+      expect(output).to.equal('', 'expected no extra output');
     });
   });
 
