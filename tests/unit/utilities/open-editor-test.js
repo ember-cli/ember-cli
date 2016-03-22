@@ -26,6 +26,11 @@ describe('open-editor', function() {
     td.verify(openEditor._spawn('vi', ['test'], { stdio: 'inherit' }));
   });
 
+  it('throws if no file option is provided', function() {
+    td.when(openEditor._env()).thenReturn({ EDITOR: 'vi' });
+    expect(function() { openEditor() }).to.throw('No `file` option provided');
+  });
+
   describe('.canEdit()', function() {
     it('returns false if EDITOR is not set', function() {
       td.when(openEditor._env()).thenReturn({});
