@@ -6,7 +6,7 @@ var stub           = require('../../helpers/stub');
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
 var Promise        = require('../../../lib/ext/promise');
-var PortFinder     = require('ember-cli-portfinder');
+var PortFinder     = require('portfinder');
 
 PortFinder.basePort = 32768;
 
