@@ -468,6 +468,8 @@ help in detail');
     var project;
     var options;
     var tmpdir;
+    var originalPrompt;
+    var prompt;
 
     beforeEach(function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
@@ -475,6 +477,8 @@ help in detail');
         blueprint = new BasicBlueprintClass(basicBlueprint);
         ui        = new MockUI();
         project   = new MockProject();
+        originalPrompt = ui.prompt;
+        prompt = ui.prompt = td.function();
         options   = {
           ui: ui,
           project: project,
@@ -484,6 +488,7 @@ help in detail');
     });
 
     afterEach(function() {
+      ui.prompt = originalPrompt;
       return remove(tmproot);
     });
 
@@ -550,9 +555,6 @@ help in detail');
     });
 
     it('re-installing conflicting files', function() {
-      var originalPrompt = ui.prompt;
-      var prompt = ui.prompt = td.function();
-
       td.when(prompt(td.matchers.anything())).thenReturn(
         Promise.resolve({ answer: 'skip' }),
         Promise.resolve({ answer: 'overwrite' }));
@@ -590,9 +592,6 @@ help in detail');
           expect(output.length).to.equal(0);
 
           expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-        })
-        .finally(function() {
-          ui.prompt = originalPrompt;
         });
     });
 
@@ -641,15 +640,18 @@ help in detail');
 
     describe('called on an existing project', function() {
       beforeEach(function() {
+        originalPrompt = ui.prompt;
+        prompt = ui.prompt = td.function();
         Blueprint.ignoredUpdateFiles.push('foo.txt');
+
+        td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+      });
+
+      afterEach(function() {
+        ui.prompt = originalPrompt;
       });
 
       it('ignores files in ignoredUpdateFiles', function() {
-        var originalPrompt = ui.prompt;
-        var prompt = ui.prompt = td.function();
-
-        td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
-
         return blueprint.install(options)
           .then(function() {
             var output = ui.output.trim().split(EOL);
@@ -683,9 +685,6 @@ help in detail');
             expect(output.length).to.equal(0);
 
             expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-          })
-          .finally(function() {
-            ui.prompt = originalPrompt;
           });
       });
     });
