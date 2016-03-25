@@ -134,7 +134,7 @@
     "mocha-eslint": "^2.0.1",
     "mocha-only-detector": "0.0.2",
     "multiline": "^1.0.2",
-    "nock": "^7.2.2",
+    "nock": "^7.7.1",
     "proxyquire": "^1.6.0",
     "supertest": "0.15.0",
     "testdouble": "^1.2.0",
