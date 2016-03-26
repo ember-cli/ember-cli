@@ -45,6 +45,32 @@ describe('Acceptance: smoke-test', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
+  it('ember new foo, make sure addon template overwrites', function() {
+    return ember(['generate', 'template', 'foo'])
+      .then(function() {
+        return ember(['generate', 'in-repo-addon', 'my-addon']);
+      })
+      .then(function() {
+        return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
+      })
+      .then(function() {
+        var packageJsonPath = path.join('lib','my-addon','package.json');;
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
+        packageJson.dependencies = packageJson.dependencies || {};
+        packageJson.dependencies['ember-cli-htmlbars'] = '*';
+
+        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+          .then(function(result) {
+            expect(result.code).to.equal(0);
+          })
+          .catch(function() {
+            expect(false, 'should not have rejected with an error').to.be.ok;
+          });
+      });
+  });
+
   it('ember test exits with non-zero when tests fail', function() {
     return copyFixtureFiles('smoke-tests/failing-test')
       .then(function() {
