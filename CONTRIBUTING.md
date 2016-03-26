@@ -15,7 +15,9 @@ please ask a question on Stack Overflow: http://stackoverflow.com/questions/ask?
 
 Think you've found a bug or have a new feature to suggest? Let us know!
 
-Slow builds? Please be sure to review [The Perf Guide](https://github.com/ember-cli/ember-cli/blob/master/PERF_GUIDE.md) (and implement its recommendations) before posting an issue.
+## Slow builds?
+
+Please be sure to review [The Perf Guide](https://github.com/ember-cli/ember-cli/blob/master/PERF_GUIDE.md) (and implement its recommendations) before posting an issue.
 
 ## Reporting a Bug
 
