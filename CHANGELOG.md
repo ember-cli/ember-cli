@@ -1,5 +1,74 @@
 # ember-cli Changelog
 
+### 2.4.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5645](https://github.com/ember-cli/ember-cli/pull/5645) bump some common test timeouts, reduce intermittent failures [@stefanpenner](https://github.com/stefanpenner)
+- [#5588](https://github.com/ember-cli/ember-cli/pull/5588) Remove obsolete JSHint comments [@Turbo87](https://github.com/Turbo87)
+- [#5391](https://github.com/ember-cli/ember-cli/pull/5391) Fix host interface + port binding issues [@eriktrom](https://github.com/eriktrom)
+- [#5584](https://github.com/ember-cli/ember-cli/pull/5584) Help command cleanup [@Turbo87](https://github.com/Turbo87)
+- [#5531](https://github.com/ember-cli/ember-cli/pull/5531) load ember from ember-core if available [@stefanpenner](https://github.com/stefanpenner)
+- [#4678](https://github.com/ember-cli/ember-cli/pull/4678) [BUGFIX] rethrow exceptions after logging [@lazybensch](https://github.com/lazybensch)
+- [#4025](https://github.com/ember-cli/ember-cli/pull/4025) Allow promise for locals function in blueprints [@knownasilya](https://github.com/knownasilya)
+- [#5646](https://github.com/ember-cli/ember-cli/pull/5646) ensure at-least npm v3 [@stefanpenner](https://github.com/stefanpenner)
+- [#5591](https://github.com/ember-cli/ember-cli/pull/5591) Ensure application templates overwrite addon templates. [@rwjblue](https://github.com/rwjblue)
+- [#5590](https://github.com/ember-cli/ember-cli/pull/5590) Site updates itself now [@leo](https://github.com/leo)
+- [#5644](https://github.com/ember-cli/ember-cli/pull/5644) [ENHANCEMENT] Output build sizes command [@martypenner](https://github.com/martypenner)
+- [#5607](https://github.com/ember-cli/ember-cli/pull/5607) Removing view blueprint [@jasonmit](https://github.com/jasonmit)
+- [#5597](https://github.com/ember-cli/ember-cli/pull/5597) Use internal test helpers [@Turbo87](https://github.com/Turbo87)
+- [#5605](https://github.com/ember-cli/ember-cli/pull/5605) Update diff to version 2.2.2 🚀
+- [#5592](https://github.com/ember-cli/ember-cli/pull/5592) Fix issue with addon directory not being linted [@alexlafroscia](https://github.com/alexlafroscia)
+- [#5603](https://github.com/ember-cli/ember-cli/pull/5603) Remove all "www"s [@leo](https://github.com/leo)
+- [#5651](https://github.com/ember-cli/ember-cli/pull/5651) remove inherited defaults from deprecated command [@kellyselden](https://github.com/kellyselden)
+- [#5619](https://github.com/ember-cli/ember-cli/pull/5619) Update fs-extra to version 0.26.7 🚀
+- [#5612](https://github.com/ember-cli/ember-cli/pull/5612) Replace "pleasant-progress" with "ora" [@Turbo87](https://github.com/Turbo87)
+- [#5618](https://github.com/ember-cli/ember-cli/pull/5618) Cleanup unused utilities [@Turbo87](https://github.com/Turbo87)
+- [#5614](https://github.com/ember-cli/ember-cli/pull/5614) Resolve directories relative to EmberApp project root [@trentmwillis](https://github.com/trentmwillis)
+- [#5616](https://github.com/ember-cli/ember-cli/pull/5616) Update yuidocjs to version 0.10.0 [@Turbo87](https://github.com/Turbo87)
+- [#5611](https://github.com/ember-cli/ember-cli/pull/5611) Update fs-extra to version 0.26.6 🚀
+- [#5617](https://github.com/ember-cli/ember-cli/pull/5617) Move "coveralls" and "codeclimate" dependencies into TravisCI manifest [@Turbo87](https://github.com/Turbo87)
+- [#5615](https://github.com/ember-cli/ember-cli/pull/5615) Extract JSON help generator from HelpCommand code [@Turbo87](https://github.com/Turbo87)
+- [#5662](https://github.com/ember-cli/ember-cli/pull/5662) Update "configstore" to v2.0.0 [@Turbo87](https://github.com/Turbo87)
+- [#5627](https://github.com/ember-cli/ember-cli/pull/5627) Update locals inline docs [@knownasilya](https://github.com/knownasilya)
+- [#5624](https://github.com/ember-cli/ember-cli/pull/5624) fix help for unknown command [@lazybensch](https://github.com/lazybensch)
+- [#5621](https://github.com/ember-cli/ember-cli/pull/5621) [BUGFIX] Adds in fix for #5620 to see if the actualOutputStream isTTY by default. [@iheanyi](https://github.com/iheanyi)
+- [#5622](https://github.com/ember-cli/ember-cli/pull/5622) [CLEANUP] command types [@lazybensch](https://github.com/lazybensch)
+- [#5666](https://github.com/ember-cli/ember-cli/pull/5666) Clean up "inquirer" code [@Turbo87](https://github.com/Turbo87)
+- [#5641](https://github.com/ember-cli/ember-cli/pull/5641) Update Ember Data to v2.4.2 [@bmac](https://github.com/bmac)
+- [#5632](https://github.com/ember-cli/ember-cli/pull/5632) Clean up TravisCI file [@Turbo87](https://github.com/Turbo87)
+- [#5640](https://github.com/ember-cli/ember-cli/pull/5640) ember-try scenarios accepts dots, should probably be one. [@kellyselden](https://github.com/kellyselden)
+- [#5668](https://github.com/ember-cli/ember-cli/pull/5668) Cleanup tests properly [@chadhietala](https://github.com/chadhietala)
+- [#5642](https://github.com/ember-cli/ember-cli/pull/5642) update ember-try [@kellyselden](https://github.com/kellyselden)
+- [#5672](https://github.com/ember-cli/ember-cli/pull/5672) re-point ember-cli-portfinder -> portfinder [@eriktrom](https://github.com/eriktrom)
+- [#5653](https://github.com/ember-cli/ember-cli/pull/5653) Upgrade packages for app/addon blueprints [@elwayman02](https://github.com/elwayman02)
+- [#5647](https://github.com/ember-cli/ember-cli/pull/5647) disable node 0.12.x tests on appveyor [@stefanpenner](https://github.com/stefanpenner)
+- [#5649](https://github.com/ember-cli/ember-cli/pull/5649) commands: Use plain strings instead of "option-type" utility [@Turbo87](https://github.com/Turbo87)
+- [#5650](https://github.com/ember-cli/ember-cli/pull/5650) reset aliases for deprecated install commands [@kellyselden](https://github.com/kellyselden)
+- [#5654](https://github.com/ember-cli/ember-cli/pull/5654) bump destroy test timeout [@stefanpenner](https://github.com/stefanpenner)
+- [#5655](https://github.com/ember-cli/ember-cli/pull/5655) Move "ember-cli" version printing into "ember --version" command [@Turbo87](https://github.com/Turbo87)
+- [#5656](https://github.com/ember-cli/ember-cli/pull/5656) commands: Rename "show-asset-sizes" to "asset-sizes" [@Turbo87](https://github.com/Turbo87)
+- [#5659](https://github.com/ember-cli/ember-cli/pull/5659) Simplify print-command utility [@Turbo87](https://github.com/Turbo87)
+- [#5670](https://github.com/ember-cli/ember-cli/pull/5670) Extract "open-editor" utility [@Turbo87](https://github.com/Turbo87)
+- [#5673](https://github.com/ember-cli/ember-cli/pull/5673) Fixes leading slash being added to component-test module name [@lpaluszk](https://github.com/lpaluszk)
+- [#5674](https://github.com/ember-cli/ember-cli/pull/5674) testem@1.6.0 breaks build ⚠️
+- [#5678](https://github.com/ember-cli/ember-cli/pull/5678) Remove ember-disable-proxy-controllers from package.json blueprint [@Dhaulagiri](https://github.com/Dhaulagiri)
+- [#5679](https://github.com/ember-cli/ember-cli/pull/5679) "app" blueprint: Update TravisCI config [@Turbo87](https://github.com/Turbo87)
+- [#5686](https://github.com/ember-cli/ember-cli/pull/5686) broccoli-config-replace@1.1.2 breaks build ⚠️
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.4.2
 
 The following changes are required if you are upgrading from the previous
