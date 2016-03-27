@@ -7,6 +7,7 @@ var expect   = require('chai').expect;
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var EOL      = require('os').EOL;
+var mkdirp   = require('mkdirp');
 
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
@@ -43,6 +44,40 @@ describe('Acceptance: smoke-test', function() {
 
   it('ember new foo, clean from scratch', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+  });
+
+  it('ember new foo, make sure addon template overwrites', function() {
+    return ember(['generate', 'template', 'foo'])
+      .then(function() {
+        return ember(['generate', 'in-repo-addon', 'my-addon']);
+      })
+      .then(function() {
+        // this should work, but generating a template in an addon/in-repo-addon doesn't
+        // do the right thing: update once https://github.com/ember-cli/ember-cli/issues/5687
+        // is fixed
+        //return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
+
+        // temporary work around
+        var templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
+        mkdirp.sync(path.dirname(templatePath));
+        fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
+      })
+      .then(function() {
+        var packageJsonPath = path.join('lib','my-addon','package.json');
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
+        packageJson.dependencies = packageJson.dependencies || {};
+        packageJson.dependencies['ember-cli-htmlbars'] = '*';
+
+        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
+          .then(function(result) {
+            expect(result.code).to.equal(0);
+          })
+          .catch(function() {
+            expect(false, 'should not have rejected with an error').to.be.ok;
+          });
+      });
   });
 
   it('ember test exits with non-zero when tests fail', function() {
