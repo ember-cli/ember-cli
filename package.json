@@ -107,7 +107,6 @@
     "portfinder": "^1.0.3",
     "promise-map-series": "^0.2.1",
     "quick-temp": "0.1.5",
-    "readline2": "0.1.1",
     "resolve": "^1.1.6",
     "rimraf": "^2.4.4",
     "rsvp": "^3.0.17",
