@@ -15,6 +15,8 @@ var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var EOL        = require('os').EOL;
 var assertFile = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var chalk      = require('chalk');
+var Promise    = require('../../lib/ext/promise');
+var mkdir      = Promise.denodeify(fs.mkdir);
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
@@ -101,6 +103,24 @@ describe('Acceptance: ember new', function() {
 
       var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
       expect(pkgJson.name).to.equal('foo-app');
+    });
+  });
+
+  it('Cannot create new ember project with the same name as an existing directory', function() {
+
+    return mkdir('foo').then(function() {
+      return ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git'
+      ]).then(function() {
+        throw new Error('this promise should be rejected');
+      }).catch(function(error) {
+        expect(error.name).to.equal('SilentError');
+        expect(error.message).to.equal('Directory \'foo\' already exists.');
+      });
     });
   });
 
