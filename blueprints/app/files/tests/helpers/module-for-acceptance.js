@@ -16,14 +16,8 @@ export default function(name, options = {}) {
     },
 
     afterEach() {
-      let result = Promise.resolve();
-      if (! options.afterEach) {
-        result = options.afterEach.apply(this, arguments);
-      }
-
-      destroyApp(this.application);
-
-      return result;
+      let afterEach = options.afterEach && options.afterEach.apply(this, arguments);
+      return Promise.resolve(afterEach).then(() => destroyApp(this.application));
     }
   });
 }
