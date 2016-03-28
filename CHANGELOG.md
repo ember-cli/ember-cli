@@ -6,8 +6,10 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v2.4.2...v2.4.3)
   + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.4.2...v2.4.3)
   + No changes required
 - Core Contributors
   + No changes required
