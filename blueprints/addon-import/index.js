@@ -8,7 +8,7 @@ var SilentError = require('silent-error');
 module.exports = {
   description: 'Generates an import wrapper.',
   beforeInstall: function(options) {
-    if(options.originBlueprintName === 'addon-import') {
+    if (options.originBlueprintName === 'addon-import') {
       throw new SilentError('You cannot call the addon-import blueprint directly.');
     }
   },

@@ -38,7 +38,7 @@ module.exports = {
     contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.0';
 
     // add `ember-try` to addons by default
-    contents.devDependencies['ember-try'] = '^0.1.2';
+    contents.devDependencies['ember-try'] = '^0.2.2';
     contents.scripts.test = 'ember try:testall';
 
     contents['ember-addon'] = contents['ember-addon'] || {};
@@ -145,7 +145,7 @@ module.exports = {
   normalizeEntityName: function(entityName) {
     entityName = normalizeEntityName(entityName);
 
-    if(this.project.isEmberCLIProject() && !this.project.isEmberCLIAddon()) {
+    if (this.project.isEmberCLIProject() && !this.project.isEmberCLIAddon()) {
       throw new SilentError('Generating an addon in an existing ember-cli project is not supported.');
     }
 

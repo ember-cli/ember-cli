@@ -190,7 +190,7 @@ describe('models/project.js', function() {
       var expected = [
         'tests-server-middleware',
         'history-support-middleware', 'serve-files-middleware',
-        'proxy-server-middleware', 'ember-random-addon', 'ember-non-root-addon',
+        'proxy-server-middleware', 'ember-cli-legacy-blueprints', 'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
         'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button'
@@ -201,10 +201,10 @@ describe('models/project.js', function() {
     it('returns instances of the addons', function() {
       var addons = project.addons;
 
-      expect(addons[5].name).to.equal('Ember Non Root Addon');
-      expect(addons[11].name).to.equal('Ember Super Button');
-      expect(addons[11].addons[0].name).to.equal('Ember Yagni');
-      expect(addons[11].addons[1].name).to.equal('Ember Ng');
+      expect(addons[6].name).to.equal('Ember Non Root Addon');
+      expect(addons[12].name).to.equal('Ember Super Button');
+      expect(addons[12].addons[0].name).to.equal('Ember Yagni');
+      expect(addons[12].addons[1].name).to.equal('Ember Ng');
     });
 
     it('addons get passed the project instance', function() {
@@ -216,7 +216,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       var addons = project.addons;
 
-      expect(addons[7].name).to.equal('Ember Random Addon');
+      expect(addons[8].name).to.equal('Ember Random Addon');
     });
 
     it('returns the default blueprints path', function() {
@@ -227,6 +227,7 @@ describe('models/project.js', function() {
 
     it('returns a listing of all addon blueprints paths ordered by last loaded when called once', function() {
       var loadedBlueprintPaths = [
+        process.cwd() + path.normalize('/node_modules/ember-cli-legacy-blueprints/blueprints'),
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints')
@@ -241,6 +242,7 @@ describe('models/project.js', function() {
 
     it('returns a listing of all addon blueprints paths ordered by last loaded when called twice', function() {
       var loadedBlueprintPaths = [
+        process.cwd() + path.normalize('/node_modules/ember-cli-legacy-blueprints/blueprints'),
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints')
@@ -259,7 +261,8 @@ describe('models/project.js', function() {
         project.root + path.normalize('/blueprints'),
         project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
-        project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints')
+        project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
+        process.cwd() + path.normalize('/node_modules/ember-cli-legacy-blueprints/blueprints')
       ];
 
       expect(project.blueprintLookupPaths()).to.deep.equal(expected);
@@ -276,8 +279,8 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       var addons = project.addons;
 
-      expect(addons[4] instanceof Addon).to.equal(true);
-      expect(addons[4].name).to.equal('Ember CLI Generated with export');
+      expect(addons[5] instanceof Addon).to.equal(true);
+      expect(addons[5].name).to.equal('Ember CLI Generated with export');
     });
 
     it('adds the project itself if it is an addon', function() {
@@ -368,17 +371,17 @@ describe('models/project.js', function() {
       project = new Project(projectPath, {}, new MockUI());
     });
 
-    it('returns false when `ember-cli` is not a dependency', function(){
+    it('returns false when `ember-cli` is not a dependency', function() {
       expect(project.isEmberCLIProject()).to.equal(false);
     });
 
-    it('returns true when `ember-cli` is a devDependency', function(){
+    it('returns true when `ember-cli` is a devDependency', function() {
       project.pkg.devDependencies = {'ember-cli': '*'};
 
       expect(project.isEmberCLIProject()).to.equal(true);
     });
 
-    it('returns true when `ember-cli` is a dependency', function(){
+    it('returns true when `ember-cli` is a dependency', function() {
       project.pkg.dependencies = {'ember-cli': '*'};
 
       expect(project.isEmberCLIProject()).to.equal(true);
@@ -520,13 +523,13 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('.nullProject', function (){
+  describe('.nullProject', function() {
     it('is a singleton', function() {
       expect(Project.nullProject()).to.equal(Project.nullProject());
     });
   });
 
-  describe('generateTestFile()', function (){
+  describe('generateTestFile()', function() {
     it('returns empty file and shows warning', function() {
       var ui = new MockUI();
 

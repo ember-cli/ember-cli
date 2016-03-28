@@ -3,14 +3,14 @@
 var Blueprint = require('../../../lib/models/blueprint');
 var expect    = require('chai').expect;
 
-describe('blueprint - addon-import', function(){
-  describe('fileMapTokens', function(){
-    it('generates proper tokens with *-addon blueprints', function(){
+describe('blueprint - addon-import', function() {
+  describe('fileMapTokens', function() {
+    it('generates proper tokens with *-addon blueprints', function() {
       var blueprint = Blueprint.lookup('addon-import');
       var options = {
         inRepoAddon: false,
         project: {
-          name: function(){
+          name: function() {
             return 'my-addon';
           },
           config: function() {

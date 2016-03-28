@@ -66,7 +66,7 @@ describe('models/addon.js', function() {
       var addon;
 
       beforeEach(function() {
-        addon = new FirstAddon(project);
+        addon = new FirstAddon(project, project);
 
         // TODO: fix config story...
         addon.app = {
@@ -74,7 +74,7 @@ describe('models/addon.js', function() {
           addonLintTree: function(type, tree) { return tree; }
         };
 
-        addon.jshintTrees = function(){};
+        addon.jshintTrees = function() {};
 
       });
 
@@ -372,7 +372,7 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        if(originalEnvValue === undefined) {
+        if (originalEnvValue === undefined) {
           delete process.env.EMBER_ADDON_ENV;
         } else {
           process.env.EMBER_ADDON_ENV = originalEnvValue;
@@ -599,6 +599,43 @@ describe('models/addon.js', function() {
 
           expect(walkSync(outputPath)).to.eql(expected);
         });
+    });
+  });
+
+  describe('._eachProjectAddonInvoke', function() {
+    beforeEach(function() {
+      var MyAddon = Addon.extend({
+        name: 'test-project',
+        root: 'foo'
+      });
+
+      var projectPath = path.resolve(fixturePath, 'simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+      addon = new MyAddon(project, project);
+    });
+
+    it('should invoke the method on each of the project addons', function() {
+      var counter = 0;
+      project.addons = [
+        { foo: function(num) { counter += num; } },
+        { foo: function(num) { counter += num; } }
+      ];
+
+      addon._eachProjectAddonInvoke('foo', [1]);
+      expect(counter).to.eql(2);
+    });
+
+    it('should provide default arguments if none are specified', function() {
+      var counter = 0;
+      project.addons = [
+        { foo: function() { counter += 1; } },
+        { foo: function() { counter += 1; } }
+      ];
+
+      addon._eachProjectAddonInvoke('foo');
+      expect(counter).to.eql(2);
     });
   });
 });

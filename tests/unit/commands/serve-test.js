@@ -2,23 +2,18 @@
 
 var expect         = require('chai').expect;
 var EOL            = require('os').EOL;
-var proxyquire     = require('proxyquire');
 var stub           = require('../../helpers/stub');
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
+var Promise        = require('../../../lib/ext/promise');
+var PortFinder     = require('portfinder');
+
+PortFinder.basePort = 32768;
 
 var safeRestore = stub.safeRestore;
 stub = stub.stub;
 
-var getPortStub;
-
-var ServeCommand = proxyquire('../../../lib/commands/serve', {
-  'portfinder': {
-    getPort: function() {
-      return getPortStub.apply(this, arguments);
-    }
-  }
-});
+var ServeCommand = require('../../../lib/commands/serve');
 
 describe('serve command', function() {
   var tasks, options, command;
@@ -33,9 +28,6 @@ describe('serve command', function() {
     });
 
     stub(tasks.Serve.prototype, 'run');
-    getPortStub = function(options, callback) {
-      callback(null, 49152);
-    };
 
     command = new ServeCommand(options);
   });
@@ -44,7 +36,19 @@ describe('serve command', function() {
     safeRestore(tasks.Serve.prototype, 'run');
   });
 
-  it('has correct options', function() {
+  it('has correct default options', function() {
+    return command.validateAndRun([
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var runOps = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+      expect(runOps.port).to.be.gte(4000, 'has correct port');
+      expect(runOps.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
+    });
+  });
+
+  it('setting --port without --live-reload-port', function() {
     return command.validateAndRun([
       '--port', '4000'
     ]).then(function() {
@@ -53,10 +57,61 @@ describe('serve command', function() {
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
 
-      expect(runOps.port).to.equal(4000, 'has correct port');
-      expect(runOps.liveReloadPort).to.be.within(49152, 65535, 'has correct liveReload port');
+      expect(runOps.port).to.be.gte(4000, 'has port >= than chosen port');
+      expect(runOps.liveReloadPort).to.be.within(32768, 65535, 'has live reload port > port');
     });
   });
+
+  it('setting both --port and --live-reload-port', function() {
+    return command.validateAndRun([
+      '--port', '4000',
+      '--live-reload-port', '8005'
+    ]).then(function() {
+      var serveRun = tasks.Serve.prototype.run;
+      var runOps = serveRun.calledWith[0][0];
+
+      expect(serveRun.called).to.equal(1, 'expected run to be called once');
+
+      expect(runOps.port).to.be.gte(4000, 'has correct port');
+      expect(runOps.liveReloadPort).to.be.within(8005, 65535, 'has live reload port > port');
+    });
+  });
+
+  if (process.platform !== 'win32') {
+    // This test fails on appveyor for an unknown reason. See last few comments
+    // on PR https://github.com/ember-cli/ember-cli/pull/5391
+    //
+    // Works correctly on Travis and has been left for context as it does test
+    // a valid code path.
+    it('should throw error when -p PORT is taken', function() {
+      function testServer(opts, test) {
+        var server = require('http').createServer(function() {});
+        return new Promise(function(resolve) {
+          server.listen(opts.port, opts.host, function() {
+            resolve(test(opts, server));
+          });
+        }).finally(function() {
+          return new Promise(function(resolve) {
+            server.close(function() { resolve(); });
+          });
+        });
+      }
+
+      return testServer({ port: '32773' }, function() {
+        return command.validateAndRun([
+          '--port', '32773'
+        ])
+        .then(function() {
+          expect(true).to.equal(false, 'assertion should never run');
+        })
+        .catch(function(err) {
+          var serveRun = tasks.Serve.prototype.run;
+          expect(serveRun.called).to.equal(0, 'expected run to never be called');
+          expect(err.message).to.contain('is already in use.');
+        });
+      });
+    });
+  }
 
   it('allows OS to choose port', function() {
     return command.validateAndRun([
@@ -66,8 +121,8 @@ describe('serve command', function() {
       var runOps = serveRun.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
-
-      expect(runOps.port).to.be.within(49152, 65535, 'has correct port');
+      expect(runOps.port).to.be.within(32768, 65535, 'has correct liveReloadPort');
+      expect(runOps.liveReloadPort).to.be.gt(runOps.port, 'has a liveReload port greater than port');
     });
   });
 
@@ -79,18 +134,11 @@ describe('serve command', function() {
       var ops = serveRun.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
-
-      expect(ops.liveReloadPort).to.equal(4001, 'has correct liveReload port');
+      expect(ops.liveReloadPort).to.be.gte(4001, 'has correct liveReload port');
     });
   });
 
-  it('has correct liveLoadHost', function() {
-    var getPortOpts;
-    getPortStub = function(options, callback) {
-      getPortOpts = options;
-      callback(null, 49152);
-    };
-
+  it('has correct liveReloadLoadHost', function() {
     return command.validateAndRun([
       '--live-reload-host', '127.0.0.1'
     ]).then(function() {
@@ -98,8 +146,6 @@ describe('serve command', function() {
       var runOps = serveRun.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
-
-      expect(getPortOpts.host).to.equal('127.0.0.1', 'gets a port based on the liveReload host');
       expect(runOps.liveReloadHost).to.equal('127.0.0.1', 'has correct liveReload host');
     });
   });
@@ -125,7 +171,6 @@ describe('serve command', function() {
       var ops = serveRun.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
-
       expect(ops.proxy).to.equal('http://localhost:3000/', 'has correct port');
     });
   });
@@ -138,7 +183,6 @@ describe('serve command', function() {
       var ops = serveRun.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
-
       expect(ops.insecureProxy).to.equal(true, 'has correct insecure proxy option');
     });
   });
@@ -149,7 +193,6 @@ describe('serve command', function() {
       var ops = serveRun.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
-
       expect(ops.insecureProxy).to.equal(false, 'has correct insecure proxy option when not set');
     });
   });
@@ -184,13 +227,13 @@ describe('serve command', function() {
 
   it('host alias does not conflict with help alias', function() {
     return command.validateAndRun([
-      '-H', 'hostname'
+      '-H', 'localhost'
     ]).then(function() {
       var serveRun = tasks.Serve.prototype.run;
       var ops = serveRun.calledWith[0][0];
 
       expect(serveRun.called).to.equal(1, 'expected run to be called once');
-      expect(ops.host).to.equal('hostname', 'has correct hostname');
+      expect(ops.host).to.equal('localhost', 'has correct hostname');
     });
   });
 });

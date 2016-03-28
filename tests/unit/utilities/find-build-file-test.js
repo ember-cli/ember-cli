@@ -10,32 +10,32 @@ describe('find-build-file', function() {
   var currentWorkingDir = process.cwd();
 
   beforeEach(function() {
-    tmpPath = process.cwd()+'/tmp/';
+    tmpPath = process.cwd() + '/tmp/';
     tmpFilename = 'ember-cli-build.js';
     tmpFilePath = tmpPath + tmpFilename;
     return tmp.setup(tmpPath)
-      .then(function(){
+      .then(function() {
         process.chdir(tmpPath);
       });
   });
 
   afterEach(function() {
     delete require.cache[require.resolve(tmpFilePath)];
-    return tmp.teardown(tmpPath).then(function(){
+    return tmp.teardown(tmpPath).then(function() {
       process.chdir(currentWorkingDir);
     });
   });
 
   it('does not throws an error when the file is valid syntax', function() {
-    fs.writeFileSync(tmpFilename, 'module.exports = function(){return {\'a\': \'A\', \'b\': \'B\'};}', { encoding: 'utf8' });
+    fs.writeFileSync(tmpFilename, 'module.exports = function() {return {\'a\': \'A\', \'b\': \'B\'};}', { encoding: 'utf8' });
 
     expect(function() {
       findBuildFile(tmpFilename);
     }).to.not.throw();
   });
 
-  it('throws an SyntaxError if the file contains a syntax mistake', function(){
-    fs.writeFileSync(tmpFilename, 'module.exports = function(){return {\'a\': \'A\' \'b\': \'B\'};}', { encoding: 'utf8' });
+  it('throws an SyntaxError if the file contains a syntax mistake', function() {
+    fs.writeFileSync(tmpFilename, 'module.exports = function() {return {\'a\': \'A\' \'b\': \'B\'};}', { encoding: 'utf8' });
 
     expect(function() {
       findBuildFile(tmpFilename);

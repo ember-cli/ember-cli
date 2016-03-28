@@ -8,13 +8,14 @@ var addonName  = 'some-cool-addon';
 var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');
 var expect     = require('chai').expect;
+var EOL        = require('os').EOL;
 
 var symlinkOrCopySync   = require('symlink-or-copy').sync;
 var runCommand          = require('../helpers/run-command');
 var ember               = require('../helpers/ember');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
-var assertDirEmpty      = require('../helpers/assert-dir-empty');
+var assertDirEmpty      = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 var acceptance          = require('../helpers/acceptance');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
@@ -81,7 +82,7 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/component-with-template')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
@@ -109,12 +110,12 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/pod-templates-only')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
-      }).then(function(){
+      }).then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
@@ -126,7 +127,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
   it('build with addon dependencies being developed', function() {
     var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-    var packageJson = require(packageJsonPath);
+    var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
     packageJson.dependencies = packageJson.dependencies || {};
     packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
     packageJson.dependencies['developing-addon'] = 'latest';
@@ -164,6 +165,19 @@ describe('Acceptance: addon-smoke-test', function() {
       });
   });
 
+  it('ember addon with linting errors', function() {
+    return copyFixtureFiles('addon/with-linting-errors')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function() {
+        expect(false, 'should have rejected with a failed linter').to.be.ok;
+      })
+      .catch(function(result) {
+        expect(result.exitCode).to.not.eql(0);
+      });
+  });
+
   it('ember addon with tests/dummy/public directory', function() {
     return copyFixtureFiles('addon/with-dummy-public')
       .then(function() {
@@ -180,7 +194,7 @@ describe('Acceptance: addon-smoke-test', function() {
   it('npm pack does not include unnecessary files', function() {
     console.log('    running the slow end-to-end it will take some time');
     var handleError = function(error, commandName) {
-      if(error.code === 'ENOENT') {
+      if (error.code === 'ENOENT') {
         console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
       } else {
         throw new Error(error);

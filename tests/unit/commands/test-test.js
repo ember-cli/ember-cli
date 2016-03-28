@@ -11,6 +11,8 @@ var Task           = require('../../../lib/models/task');
 var TestCommand    = require('../../../lib/commands/test');
 
 describe('test command', function() {
+  this.timeout(30000);
+
   var tasks, options, command;
   var buildRun, testRun, testServerRun;
 
@@ -149,7 +151,8 @@ describe('test command', function() {
       return command.validateAndRun(['--path=bad/path/to/build']).then(function() {
         expect(false, 'should have rejected the build path').to.be.ok;
       }).catch(function(error) {
-        expect(error.message).to.equal('The path bad/path/to/build does not exist. Please specify a valid build directory to test.');
+        var expectedPath = path.resolve('bad/path/to/build');
+        expect(error.message).to.equal('The path ' + expectedPath + ' does not exist. Please specify a valid build directory to test.');
       });
     });
   });

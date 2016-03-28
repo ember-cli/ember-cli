@@ -10,7 +10,7 @@ var expect     = require('chai').expect;
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var assertDirEmpty      = require('../helpers/assert-dir-empty');
+var assertDirEmpty      = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 var existsSync          = require('exists-sync');
 var assertFile          = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var createTestTargets   = acceptance.createTestTargets;
@@ -72,7 +72,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('without app/templates', function() {
     return copyFixtureFiles('brocfile-tests/pods-templates')
-      .then(function(){
+      .then(function() {
         // remove ./app/templates
         return remove(path.join(process.cwd(), 'app/templates'));
       }).then(function() {
@@ -212,7 +212,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('app.import fails when options.type is not `vendor` or `test`', function(){
+  it('app.import fails when options.type is not `vendor` or `test`', function() {
     return copyFixtureFiles('brocfile-tests/app-import')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
@@ -422,7 +422,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/multiple-sass-files')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
         packageJson.devDependencies['broccoli-sass'] = 'latest';
 
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
@@ -465,7 +465,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         fs.writeFileSync(brocfilePath, brocfile, 'utf8');
 
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
         packageJson.devDependencies['broccoli-sass'] = 'latest';
 
         return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));

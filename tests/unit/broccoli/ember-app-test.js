@@ -465,7 +465,7 @@ describe('broccoli/ember-app', function() {
       it('template type is called', function() {
         var oldLoad = emberApp.registry.load;
         emberApp.registry.load = function(type) {
-          if (type === 'template'){
+          if (type === 'template') {
             return [
               {
                 toTree: function() {
@@ -521,7 +521,7 @@ describe('broccoli/ember-app', function() {
         stub(addon, 'postprocessTree', 'blap');
         expect(emberApp.toTree()).to.equal('blap');
         expect(
-          addon.postprocessTree.calledWith.map(function(args){
+          addon.postprocessTree.calledWith.map(function(args) {
             return args[0];
           }).sort()
         ).to.deep.equal(['all', 'css', 'js', 'test']);
@@ -554,7 +554,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-            expect(emberApp.project.addons.length).to.equal(5);
+            expect(emberApp.project.addons.length).to.equal(6);
           });
 
           it('foo', function() {
@@ -564,7 +564,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
 
-            expect(emberApp.project.addons.length).to.equal(6);
+            expect(emberApp.project.addons.length).to.equal(7);
           });
         });
       });
@@ -581,7 +581,7 @@ describe('broccoli/ember-app', function() {
 
           expect(emberApp._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
           expect(emberApp._addonDisabledByBlacklist({ name: 'Ember Random Addon' })).to.be.false;
-          expect(emberApp.project.addons.length).to.equal(5);
+          expect(emberApp.project.addons.length).to.equal(6);
         });
 
         it('throws if unavailable addon is specified', function() {
@@ -777,7 +777,7 @@ describe('broccoli/ember-app', function() {
         'development': 'vendor/jquery.js'
       });
       var outputFile = emberApp._scriptOutputFiles['/assets/vendor.js'];
-      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length -1);
+      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length - 1);
       process.env.EMBER_ENV = undefined;
     });
     it('honors explicitly set to null in environment', function() {
@@ -913,5 +913,15 @@ describe('broccoli/ember-app', function() {
     });
   });
 
+  describe('_resolveLocal', function() {
+    it('resolves a path relative to the project root', function() {
+      var emberApp = new EmberApp({
+        project: project
+      });
+
+      var result = emberApp._resolveLocal('foo');
+      expect(result).to.equal(path.join(project.root, 'foo'));
+    });
+  });
 });
 

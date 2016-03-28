@@ -12,7 +12,7 @@ MockProject.prototype.require = function(file) {
   if (file === './server') {
     return function() {
       return {
-        listen: function() { arguments[arguments.length-1](); }
+        listen: function() { arguments[arguments.length - 1](); }
       };
     };
   }

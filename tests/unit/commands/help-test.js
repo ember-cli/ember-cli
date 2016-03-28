@@ -1,5 +1,3 @@
-/*jshint multistr: true */
-
 'use strict';
 
 var expect            = require('chai').expect;
@@ -457,13 +455,13 @@ Available commands from my-addon:' + EOL);
       ]);
     });
 
-    it('handles special option `path`', function() {
+    it('handles special option `Path`', function() {
       options.commands = {
         Command1: function() {
           return {
             getJson: function() {
               return {
-                test1: path
+                test1: 'Path'
               };
             }
           };
@@ -478,7 +476,7 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          test1: 'path'
+          test1: 'Path'
         }
       ]);
     });
@@ -494,16 +492,7 @@ Available commands from my-addon:' + EOL);
 
       var json = convertToJson(options.ui.output);
 
-      expect(json.commands).to.deep.equal([
-        {
-          name: 'core-object',
-          description: null,
-          aliases: [],
-          works: 'insideProject',
-          availableOptions: [],
-          anonymousOptions: []
-        }
-      ]);
+      expect(json.commands).to.deep.equal([]);
     });
 
     it('respects skipHelp when listing', function() {
@@ -596,26 +585,7 @@ Available commands from my-addon:' + EOL);
 
       expect(json.addons).to.deep.equal([
         {
-          name: 'help',
-          description: 'Outputs the usage instructions for all commands or the provided command',
-          aliases: [null, 'h', '--help', '-h'],
-          works: 'everywhere',
-          availableOptions: [
-            {
-              name: 'verbose',
-              default: false,
-              aliases: ['v'],
-              key: 'verbose',
-              required: false
-            },
-            {
-              name: 'json',
-              default: false,
-              key: 'json',
-              required: false
-            }
-          ],
-          anonymousOptions: ['<command-name (Default: all)>'],
+          name: 'my-addon',
           commands: [
             {
               test1: 'foo'

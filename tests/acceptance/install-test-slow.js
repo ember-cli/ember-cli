@@ -1,9 +1,7 @@
-/*jshint quotmark: false*/
-
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
-var assertFile = require('../helpers/assert-file');
+var assertFile = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
 var path       = require('path');
@@ -68,7 +66,7 @@ describe('Acceptance: ember install', function() {
         ]
       });
 
-      expect(result.outputStream.join()).not.to.include('The `ember generate` command '+
+      expect(result.outputStream.join()).not.to.include('The `ember generate` command ' +
                                               'requires an entity name to be specified. For more details, use `ember help`.');
     });
   });

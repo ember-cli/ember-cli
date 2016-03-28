@@ -1,5 +1,3 @@
-/*jshint multistr: true */
-
 'use strict';
 
 var fs                = require('fs-extra');
@@ -23,6 +21,7 @@ var existsSync        = require('exists-sync');
 var MarkdownColor     = require('../../../lib/utilities/markdown-color');
 var assign            = require('lodash/assign');
 var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
+var td                = require('testdouble');
 
 var safeRestore = stub.safeRestore;
 stub = stub.stub;
@@ -77,7 +76,7 @@ describe('Blueprint', function() {
   });
 
   describe('.mapFile', function() {
-    it('replaces all occurences of __name__ with module name',function(){
+    it('replaces all occurences of __name__ with module name',function() {
       var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js',{dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
@@ -87,9 +86,9 @@ describe('Blueprint', function() {
       path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint.js');
     });
-    it('accepts locals.fileMap with multiple mappings',function(){
+    it('accepts locals.fileMap with multiple mappings',function() {
       var locals = {};
-      locals.fileMap= {
+      locals.fileMap = {
         __name__: 'user',
         __type__: 'controller',
         __path__: 'pods/users',
@@ -108,7 +107,7 @@ describe('Blueprint', function() {
       var blueprint = Blueprint.lookup(basicBlueprint);
       blueprint.fileMapTokens = function() {
         return {
-          __foo__: function(){
+          __foo__: function() {
             return 'foo';
           }
         };
@@ -469,6 +468,8 @@ help in detail');
     var project;
     var options;
     var tmpdir;
+    var originalPrompt;
+    var prompt;
 
     beforeEach(function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
@@ -476,6 +477,8 @@ help in detail');
         blueprint = new BasicBlueprintClass(basicBlueprint);
         ui        = new MockUI();
         project   = new MockProject();
+        originalPrompt = ui.prompt;
+        prompt = ui.prompt = td.function();
         options   = {
           ui: ui,
           project: project,
@@ -485,6 +488,7 @@ help in detail');
     });
 
     afterEach(function() {
+      ui.prompt = originalPrompt;
       return remove(tmproot);
     });
 
@@ -508,7 +512,7 @@ help in detail');
 
           expect(function() {
             fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8', function(err, content) {
-              if(err){
+              if (err) {
                 throw 'error';
               }
               expect(content).to.match(/I AM TESTY/);
@@ -551,6 +555,10 @@ help in detail');
     });
 
     it('re-installing conflicting files', function() {
+      td.when(prompt(td.matchers.anything())).thenReturn(
+        Promise.resolve({ answer: 'skip' }),
+        Promise.resolve({ answer: 'overwrite' }));
+
       return blueprint.install(options)
         .then(function() {
           var output = ui.output.trim().split(EOL);
@@ -563,27 +571,20 @@ help in detail');
           expect(output.shift()).to.match(/create.* foo.txt/);
           expect(output.shift()).to.match(/create.* test.txt/);
           expect(output.length).to.equal(0);
-          var blueprintNew = new Blueprint(basicNewBlueprint);
 
-          ui.waitForPrompt().then(function(){
-            ui.inputStream.write('n' + EOL);
-            return ui.waitForPrompt();
-          }).then(function(){
-            ui.inputStream.write('y' + EOL);
-          });
+          var blueprintNew = new Blueprint(basicNewBlueprint);
 
           return blueprintNew.install(options);
         })
         .then(function() {
+
+          td.verify(prompt(td.matchers.anything()), {times: 2});
+
           var actualFiles = walkSync(tmpdir).sort();
           // Prompts contain \n EOL
           // Split output on \n since it will have the same affect as spliting on OS specific EOL
           var output = ui.output.trim().split('\n');
           expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/Overwrite.*foo.*\?/); // Prompt
-          expect(output.shift()).to.match(/Overwrite.*foo.*No, skip/);
-          expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
-          expect(output.shift()).to.match(/Overwrite.*test.*Yes, overwrite/);
           expect(output.shift()).to.match(/identical.* \.ember-cli/);
           expect(output.shift()).to.match(/identical.* \.gitignore/);
           expect(output.shift()).to.match(/skip.* foo.txt/);
@@ -639,7 +640,15 @@ help in detail');
 
     describe('called on an existing project', function() {
       beforeEach(function() {
+        originalPrompt = ui.prompt;
+        prompt = ui.prompt = td.function();
         Blueprint.ignoredUpdateFiles.push('foo.txt');
+
+        td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+      });
+
+      afterEach(function() {
+        ui.prompt = originalPrompt;
       });
 
       it('ignores files in ignoredUpdateFiles', function() {
@@ -658,25 +667,18 @@ help in detail');
 
             var blueprintNew = new Blueprint(basicNewBlueprint);
 
-            ui.waitForPrompt().then(function(){
-              ui.inputStream.write('n' + EOL);
-              return ui.waitForPrompt();
-            }).then(function(){
-              ui.inputStream.write('n' + EOL);
-            });
-
             options.project.isEmberCLIProject = function() { return true; };
 
             return blueprintNew.install(options);
           })
           .then(function() {
+            td.verify(prompt(td.matchers.anything()), {times: 1});
+
             var actualFiles = walkSync(tmpdir).sort();
             // Prompts contain \n EOL
             // Split output on \n since it will have the same affect as spliting on OS specific EOL
             var output = ui.output.trim().split('\n');
             expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
-            expect(output.shift()).to.match(/Overwrite.*test.*No, skip/);
             expect(output.shift()).to.match(/identical.* \.ember-cli/);
             expect(output.shift()).to.match(/identical.* \.gitignore/);
             expect(output.shift()).to.match(/skip.* test.txt/);
@@ -687,7 +689,7 @@ help in detail');
       });
     });
 
-    it('throws error when there is a trailing forward slash in entityName', function(){
+    it('throws error when there is a trailing forward slash in entityName', function() {
       options.entity = { name: 'foo/' };
       expect(function() {
         blueprint.install(options);
@@ -704,7 +706,7 @@ help in detail');
       }).not.to.throw();
     });
 
-    it('throws error when an entityName is not provided', function(){
+    it('throws error when an entityName is not provided', function() {
       options.entity = { };
       expect(function() {
         blueprint.install(options);
@@ -719,14 +721,14 @@ help in detail');
         });
     });
 
-    it('calls normalizeEntityName hook during install', function(done){
-      blueprint.normalizeEntityName = function(){ done(); };
+    it('calls normalizeEntityName hook during install', function(done) {
+      blueprint.normalizeEntityName = function() { done(); };
       options.entity = { name: 'foo' };
       blueprint.install(options);
     });
 
-    it('normalizeEntityName hook can modify the entity name', function(){
-      blueprint.normalizeEntityName = function(){ return 'foo'; };
+    it('normalizeEntityName hook can modify the entity name', function() {
+      blueprint.normalizeEntityName = function() { return 'foo'; };
       options.entity = { name: 'bar' };
 
       return blueprint.install(options)
@@ -738,7 +740,7 @@ help in detail');
     });
 
     it('calls normalizeEntityName before locals hook is called', function(done) {
-      blueprint.normalizeEntityName = function(){ return 'foo'; };
+      blueprint.normalizeEntityName = function() { return 'foo'; };
       blueprint.locals = function(options) {
         expect(options.entity.name).to.equal('foo');
         done();
@@ -1610,7 +1612,7 @@ help in detail');
     });
   });
 
-  describe('load', function(){
+  describe('load', function() {
     var blueprint;
     it('loads and returns a blueprint object', function() {
       blueprint = Blueprint.load(basicBlueprint);
@@ -1708,7 +1710,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file after a specified string if options.after is specified', function(){
+    it('will insert into the file after a specified string if options.after is specified', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1729,7 +1731,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file after the first instance of options.after only', function(){
+    it('will insert into the file after the first instance of options.after only', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1750,7 +1752,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file before a specified string if options.before is specified', function(){
+    it('will insert into the file before a specified string if options.before is specified', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1771,7 +1773,7 @@ help in detail');
         });
     });
 
-    it('will insert into the file before the first instance of options.before only', function(){
+    it('will insert into the file before the first instance of options.before only', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1793,7 +1795,7 @@ help in detail');
     });
 
 
-    it('it will make no change if options.after is not found in the original', function(){
+    it('it will make no change if options.after is not found in the original', function() {
       var toInsert = 'blahzorz blammo';
       var originalContent = 'the original content';
       var filePath = path.join(project.root, filename);
@@ -1810,7 +1812,7 @@ help in detail');
         });
     });
 
-    it('it will make no change if options.before is not found in the original', function(){
+    it('it will make no change if options.before is not found in the original', function() {
       var toInsert = 'blahzorz blammo';
       var originalContent = 'the original content';
       var filePath = path.join(project.root, filename);
@@ -1862,9 +1864,9 @@ help in detail');
     });
 
     it('can find internal blueprints', function() {
-      var result = blueprint.lookupBlueprint('controller');
+      var result = blueprint.lookupBlueprint('blueprint');
 
-      expect(result.description).to.equal('Generates a controller.');
+      expect(result.description).to.equal('Generates a blueprint and definition.');
     });
   });
 
@@ -2024,7 +2026,9 @@ help in detail');
     it('should return a default object if no custom options are passed', function() {
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('it should call the locals method with the correct arguments', function() {
@@ -2073,7 +2077,9 @@ help in detail');
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('should update its fileMap values to match the generateFileMap result', function() {
@@ -2085,7 +2091,9 @@ help in detail');
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('should return an object containing custom local values', function() {
@@ -2097,7 +2105,9 @@ help in detail');
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
   });
 });

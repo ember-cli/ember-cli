@@ -8,5 +8,8 @@ module.exports = {
 
     // JSHint "unused"
     'no-unused-vars': 0,
+
+    // disabled for easier asserting of file contents
+    'quotes': 0,
   }
 };

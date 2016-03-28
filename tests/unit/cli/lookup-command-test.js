@@ -1,5 +1,4 @@
 'use strict';
-/*jshint expr: true*/
 
 var expect        = require('chai').expect;
 var lookupCommand = require('../../../lib/cli/lookup-command');
@@ -36,7 +35,7 @@ AddonServeCommand.prototype.includedCommands = function() {
 describe('cli/lookup-command.js', function() {
   var ui;
   var project = {
-    isEmberCLIProject: function(){ return true; },
+    isEmberCLIProject: function() { return true; },
     initializeAddons: function() {
       this.addons = [new AddonCommand(), new OtherCommand(), new ClassCommand()];
     },
@@ -44,7 +43,7 @@ describe('cli/lookup-command.js', function() {
     eachAddonCommand: Project.prototype.eachAddonCommand
   };
 
-  before(function(){
+  before(function() {
     ui = new MockUI();
   });
 
@@ -121,7 +120,7 @@ describe('cli/lookup-command.js', function() {
 
   it('lookupCommand() should write out a warning when overriding a core command', function() {
     project = {
-      isEmberCLIProject: function(){ return true; },
+      isEmberCLIProject: function() { return true; },
       initializeAddons: function() {
         this.addons = [new AddonServeCommand()];
       },
@@ -139,7 +138,7 @@ describe('cli/lookup-command.js', function() {
 
   it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function() {
     project = {
-      isEmberCLIProject: function(){ return true; },
+      isEmberCLIProject: function() { return true; },
       initializeAddons: function() {
         this.addons = [new OverrideCommand()];
       },
@@ -164,6 +163,9 @@ describe('cli/lookup-command.js', function() {
       ui: ui,
       project: project
     });
+
+    expect(command.name).to.equal('something-else');
+
     expect(function() {
       command.validateAndRun([]);
     }).to.throw(/command.*something-else.*is invalid/);

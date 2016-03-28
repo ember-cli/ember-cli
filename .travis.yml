@@ -1,8 +1,4 @@
 sudo: false
-cache:
-  directories:
-    $HOME/.npm
-    $HOME/.cache # includes bowers cache
 
 language: node_js
 node_js:
@@ -12,22 +8,23 @@ node_js:
   - "5"
   - node
 
-os:
-  - linux
+cache:
+  directories:
+    $HOME/.npm
+    $HOME/.cache # includes bowers cache
 
 before_install:
-  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
-  - test $TRAVIS_OS_NAME = "osx" && brew update && brew install phantomjs || test $TRAVIS_OS_NAME = "linux"
-  - npm config set spin false
+  # prevent the npm loading indicator
+  - npm config --global set spin false
+  # if npm version is less 3.0.0 (lets say 1.x or 2.x) we should attempt to upgrade to 3
+  - if [[ $(npm -v | cut -d '.' -f 1) -lt 3 ]]; then npm i -g npm@^3; fi
 
 install:
-  - node --version
-  - npm --version
-  - git --version
   - npm install --no-optional
 
 script: npm run-script test-all:cover
 
 after_script:
+  - npm install coveralls codeclimate-test-reporter
   - cat coverage/lcov.info | codeclimate
   - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
