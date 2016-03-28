@@ -314,6 +314,26 @@ describe('livereload-server', function() {
         expect(reloadedFiles).to.deep.equal(changedFiles);
       });
 
+      it('triggers livereload with deleted directories', function() {
+        var changedFiles = [
+          'assets/my-project.css',
+          'assets/my-project.js'
+        ];
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
+        subject.didChange({
+          directory: '/home/user/projects/my-project/tmp/something.tmp'
+        });
+        expect(reloadedFiles).to.deep.equal(changedFiles);
+
+        // Pretend every files were removed from the tree.
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
+        subject.didChange({
+          directory: '/home/user/projects/my-project/tmp/something.tmp'
+        });
+        expect(reloadedFiles).to.deep.equal([]);
+      });
+
       it('triggers livereload ignoring source map files', function() {
         var changedFiles = [
           'assets/my-project.css',
