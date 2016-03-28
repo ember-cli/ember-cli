@@ -4,11 +4,15 @@ var path            = require('path');
 var Project         = require('../../../lib/models/project');
 var Addon           = require('../../../lib/models/addon');
 var stub            = require('../../helpers/stub');
-var tmp             = require('../../helpers/tmp');
 var touch           = require('../../helpers/file-utils').touch;
 var expect          = require('chai').expect;
 var MockUI          = require('../../helpers/mock-ui');
 var emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
+var tmp             = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+var copyFixtureFiles = require('../../helpers/copy-fixture-files');
+var Promise         = require('../../../lib/ext/promise');
+var fs              = require('fs');
+var mkdir           = Promise.denodeify(fs.mkdir);
 
 var safeRestore = stub.safeRestore;
 stub = stub.stub;
@@ -527,6 +531,127 @@ describe('models/project.js', function() {
   describe('.nullProject', function() {
     it('is a singleton', function() {
       expect(Project.nullProject()).to.equal(Project.nullProject());
+    });
+  });
+
+  describe('.closestSync', function() {
+    var originalCwd;
+    beforeEach(function() {
+      originalCwd = process.cwd();
+      return tmp.setup('./tmp')
+        .then(function() {
+          process.chdir('./tmp');
+        });
+    });
+
+    afterEach(function() {
+      // must invalidate node's require cache to correctly get package.json
+      // from each test's own copied fixtures
+      delete require.cache[path.join(originalCwd, 'tmp', 'package.json')];
+      return tmp.teardown('./tmp');
+    });
+
+    it('finds ember app in parent path', function() {
+      return copyFixtureFiles('ember-app').then(function() {
+        process.chdir('subdir');
+      }).then(function() {
+        var project = Project.closestSync(process.cwd());
+        expect(project.root).to.equal(path.join(originalCwd, 'tmp'));
+      });
+    });
+
+    it('ignores non-ember package.json files in the parent path', function() {
+      return copyFixtureFiles('stray-non-ember-package-json').then(function() {
+        process.chdir('subdir');
+      }).then(function() {
+        var thrownError;
+        try {
+          var project = Project.closestSync(process.cwd());
+        } catch (err) {
+          thrownError = err;
+        }
+        expect(thrownError).to.be.an.instanceof(Error, 'Expected error to be thrown');
+        if (thrownError) {
+          expect(thrownError.name).to.equal('NotFoundError', 'Actual error was ' + thrownError);
+          expect(thrownError.message).to.contain('No project found at or up from');
+          expect(thrownError.message).to.contain('tmp/subdir');
+        }
+      });
+    });
+
+    it('throws findup error if no ember app in parent path', function() {
+      return mkdir('subdir').then(function() {
+        process.chdir('subdir');
+      }).then(function() {
+        var thrownError;
+        try {
+          var project = Project.closestSync(process.cwd());
+        } catch (err) {
+          thrownError = err;
+        }
+        expect(thrownError).to.be.an.instanceof(Error, 'Expected error to be thrown');
+        if (thrownError) {
+          expect(thrownError.name).to.equal('NotFoundError', 'Actual error was ' + thrownError);
+          expect(thrownError.message).to.contain('No project found at or up from');
+          expect(thrownError.message).to.contain('tmp/subdir');
+        }
+      });
+    });
+  });
+
+  describe('.closest', function() {
+    var originalCwd;
+    beforeEach(function() {
+      originalCwd = process.cwd();
+      return tmp.setup('./tmp')
+        .then(function() {
+          process.chdir('./tmp');
+        });
+    });
+
+    afterEach(function() {
+      // must invalidate node's require cache to correctly get package.json
+      // from each test's own copied fixtures
+      delete require.cache[path.join(originalCwd, 'tmp', 'package.json')];
+      return tmp.teardown('./tmp');
+    });
+
+    it('finds ember app in parent path', function() {
+      return copyFixtureFiles('ember-app').then(function() {
+        process.chdir('subdir');
+      }).then(function() {
+        return Project.closest(process.cwd());
+      }).then(function(project) {
+        expect(project.root).to.equal(path.join(originalCwd, 'tmp'));
+      });
+    });
+
+    it('ignores non-ember package.json files in the parent path', function() {
+      return copyFixtureFiles('stray-non-ember-package-json').then(function() {
+        process.chdir('subdir');
+      }).then(function() {
+        return Project.closest(process.cwd());
+      }).then(function(project) {
+        throw new Error('this promise should be rejected');
+      }, function (err) {
+        expect(err.name).to.equal('NotFoundError');
+        expect(err.message).to.contain('No project found at or up from');
+        expect(err.message).to.contain('tmp/subdir');
+      });
+    });
+
+    it('throws findup error if no ember app in parent path', function() {
+      return mkdir('subdir').then(function() {
+        process.chdir('subdir');
+      }).then(function() {
+        return Project.closest(process.cwd());
+      }).then(function() {
+        throw new Error('this promise should be rejected');
+      }, function(err) {
+        expect(err.name).to.equal('NotFoundError');
+        expect(err.message).to.contain('No project found at or up from');
+        expect(err.message).to.contain('tmp/subdir');
+      });
     });
   });
 
