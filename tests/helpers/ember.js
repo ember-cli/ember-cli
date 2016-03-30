@@ -47,6 +47,16 @@ module.exports = function ember(args, options) {
   var inputStream  = [];
   var outputStream = [];
   var errorLog     = [];
+  var commandName = args[0];
+
+  if (commandName === 'test') {
+    /*
+      we are forced to invalidate testem config module cache
+      to ensure that each test always reads from the file system,
+      not the memory cache.
+    */
+    delete require.cache[path.join(process.cwd(), 'testem.js')];
+  }
 
   args.push('--disable-analytics');
   args.push('--watcher=node');
