@@ -63,13 +63,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('using wrapInEval: true', function() {
-    return copyFixtureFiles('brocfile-tests/wrap-in-eval')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-      });
-  });
-
   it('without app/templates', function() {
     return copyFixtureFiles('brocfile-tests/pods-templates')
       .then(function() {
