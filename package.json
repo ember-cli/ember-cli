@@ -48,7 +48,6 @@
     "broccoli-config-replace": "^1.1.2",
     "broccoli-funnel": "^1.0.0",
     "broccoli-funnel-reducer": "^1.0.0",
-    "broccoli-kitchen-sink-helpers": "^0.3.1",
     "broccoli-merge-trees": "^1.0.0",
     "broccoli-plugin": "^1.2.0",
     "broccoli-sane-watcher": "^1.1.1",
