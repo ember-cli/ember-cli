@@ -65,7 +65,6 @@
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-legacy-blueprints": "^0.1.0",
     "ember-cli-normalize-entity-name": "^1.0.0",
-    "ember-cli-path-utils": "^1.0.0",
     "ember-cli-preprocess-registry": "^2.0.0",
     "ember-cli-string-utils": "^1.0.0",
     "ember-cli-test-info": "^1.0.0",
