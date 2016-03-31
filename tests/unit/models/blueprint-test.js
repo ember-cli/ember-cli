@@ -2006,6 +2006,7 @@ help in detail');
       };
 
       expectation = {
+        'skipPrompts': false,
         'camelizedModuleName': 'mockProject',
         'classifiedModuleName': 'MockProject',
         'classifiedPackageName': 'MockProject',

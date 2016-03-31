@@ -5,6 +5,8 @@ ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m
   \u001b[90maliases: g\u001b[39m
   \u001b[36m--dry-run\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
     \u001b[90maliases: -d\u001b[39m
+  \u001b[36m--skip-prompts\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+    \u001b[90maliases: -sp\u001b[39m
   \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
     \u001b[90maliases: -v\u001b[39m
   \u001b[36m--pod\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
