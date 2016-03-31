@@ -498,6 +498,7 @@ help in detail');
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split(EOL);
+          debugger;
 
           expect(output.shift()).to.match(/^installing/);
           expect(output.shift()).to.match(/create.* .ember-cli/);
@@ -1982,7 +1983,7 @@ help in detail');
     });
   });
 
-  describe('._locals', function() {
+  describe.only('._locals', function() {
     var blueprint;
     var project;
     var options;
@@ -1999,6 +2000,13 @@ help in detail');
 
       blueprint.generateFileMap = function() {
         return {};
+      };
+
+      blueprint.ui = {
+        ci: false,
+        prompt: function (options) {
+          return Promise.resolve(options);
+        }
       };
 
       options = {
