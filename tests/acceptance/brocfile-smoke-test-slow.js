@@ -5,18 +5,23 @@ var path       = require('path');
 var fs         = require('fs-extra');
 var remove     = Promise.denodeify(fs.remove);
 
-var expect     = require('chai').expect;
-
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var assertDirEmpty      = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 var existsSync          = require('exists-sync');
-var assertFile          = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var file = chaiFiles.file;
 
 var appName  = 'some-cool-app';
 
@@ -339,15 +344,9 @@ describe('Acceptance: brocfile-smoke-test', function() {
         expect(result.output.join('\n')).to.include('Usage of EmberApp.legacyFilesToAppend is deprecated. Please use EmberApp.import instead for the following files: \'vendor/legacy-file.js\', \'vendor/second-legacy-file.js\'');
         expect(result.output.join('\n')).to.include('Usage of EmberApp.vendorStaticStyles is deprecated. Please use EmberApp.import instead for the following files: \'vendor/legacy-file.css\'');
 
-        assertFile(path.join('dist', 'assets', 'vendor.js'), {
-          contains: 'legacy-file.js'
-        });
-        assertFile(path.join('dist', 'assets', 'vendor.js'), {
-          contains: 'second-legacy-file.js'
-        });
-        assertFile(path.join('dist', 'assets', 'vendor.css'), {
-          contains: 'legacy-file.css'
-        });
+        expect(file('dist/assets/vendor.js')).to.contain('legacy-file.js');
+        expect(file('dist/assets/vendor.js')).to.contain('second-legacy-file.js');
+        expect(file('dist/assets/vendor.css')).to.contain('legacy-file.css');
       });
   });
 
