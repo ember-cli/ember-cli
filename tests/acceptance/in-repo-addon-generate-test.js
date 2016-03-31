@@ -1,9 +1,7 @@
 'use strict';
 
 var Promise              = require('../../lib/ext/promise');
-var assertFile           = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var assertFileEquals     = require('ember-cli-internal-test-helpers/lib/helpers/assert-file-equals');
-var assertFileToNotExist = require('ember-cli-internal-test-helpers/lib/helpers/assert-file-to-not-exist');
 var conf                 = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember                = require('../helpers/ember');
 var fs                   = require('fs-extra');
@@ -13,8 +11,15 @@ var root                 = process.cwd();
 var tmproot              = path.join(root, 'tmp');
 var Blueprint            = require('../../lib/models/blueprint');
 var BlueprintNpmTask     = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-var expect               = require('chai').expect;
 var mkTmpDirIn           = require('../../lib/utilities/mk-tmp-dir-in');
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var file = chaiFiles.file;
 
 describe('Acceptance: ember generate in-repo-addon', function() {
   this.timeout(20000);
@@ -69,33 +74,26 @@ describe('Acceptance: ember generate in-repo-addon', function() {
 
   it('in-repo-addon component x-foo', function() {
     return generateInRepoAddon(['component', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
-      assertFile('lib/my-addon/addon/components/x-foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "import layout from '../templates/components/x-foo';",
-          "export default Ember.Component.extend({",
-          "layout",
-          "});"
-        ]
-      });
-      assertFile('lib/my-addon/addon/templates/components/x-foo.hbs', {
-        contains: "{{yield}}"
-      });
-      assertFile('lib/my-addon/app/components/x-foo.js', {
-        contains: [
-          "export { default } from 'my-addon/components/x-foo';"
-        ]
-      });
-      assertFile('tests/integration/components/x-foo-test.js', {
-        contains: [
-          "import { moduleForComponent, test } from 'ember-qunit';",
-          "import hbs from 'htmlbars-inline-precompile';",
-          "moduleForComponent('x-foo'",
-          "integration: true",
-          "{{x-foo}}",
-          "{{#x-foo}}"
-        ]
-      });
+      expect(file('lib/my-addon/addon/components/x-foo.js'))
+        .to.contain("import Ember from 'ember';")
+        .to.contain("import layout from '../templates/components/x-foo';")
+        .to.contain("export default Ember.Component.extend({")
+        .to.contain("layout")
+        .to.contain("});");
+
+      expect(file('lib/my-addon/addon/templates/components/x-foo.hbs'))
+        .to.contain("{{yield}}");
+
+      expect(file('lib/my-addon/app/components/x-foo.js'))
+        .to.contain("export { default } from 'my-addon/components/x-foo';");
+
+      expect(file('tests/integration/components/x-foo-test.js'))
+        .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
+        .to.contain("import hbs from 'htmlbars-inline-precompile';")
+        .to.contain("moduleForComponent('x-foo'")
+        .to.contain("integration: true")
+        .to.contain("{{x-foo}}")
+        .to.contain("{{#x-foo}}");
     });
   });
 
@@ -104,17 +102,13 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
 
       assertFileEquals('tests/acceptance/foo-test.js', expected);
-      assertFileToNotExist('app/acceptance-tests/foo.js');
+      expect(file('app/acceptance-tests/foo.js')).to.not.exist;
     });
   });
 
   it('in-repo-addon adds path to lib', function() {
     return initInRepoAddon().then(function() {
-      assertFile('package.json', {
-        contains: [
-          'lib/my-addon'
-        ]
-      });
+      expect(file('package.json')).to.contain('lib/my-addon');
     });
   });
 
