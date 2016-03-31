@@ -196,6 +196,13 @@ module.exports = {
           required: false
         },
         {
+          name: 'skip-prompts',
+          default: false,
+          aliases: ['sp'],
+          key: 'skipPrompts',
+          required: false
+        },
+        {
           name: 'verbose',
           default: false,
           aliases: ['v'],

@@ -478,11 +478,13 @@ help in detail');
         td.replace(ui, 'prompt');
 
         project   = new MockProject();
-        options   = {
+        originalPrompt = ui.prompt;
+        options = {
           ui: ui,
           project: project,
           target: tmpdir
         };
+        td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({}));
       });
     });
 
@@ -498,7 +500,6 @@ help in detail');
         .then(function() {
           var actualFiles = walkSync(tmpdir).sort();
           var output = ui.output.trim().split(EOL);
-          debugger;
 
           expect(output.shift()).to.match(/^installing/);
           expect(output.shift()).to.match(/create.* .ember-cli/);
@@ -557,7 +558,8 @@ help in detail');
     it('re-installing conflicting files', function() {
       td.when(ui.prompt(td.matchers.anything())).thenReturn(
         Promise.resolve({ answer: 'skip' }),
-        Promise.resolve({ answer: 'overwrite' }));
+        Promise.resolve({ answer: 'overwrite' })
+      );
 
       return blueprint.install(options)
         .then(function() {
@@ -577,13 +579,13 @@ help in detail');
           return blueprintNew.install(options);
         })
         .then(function() {
-
-          td.verify(ui.prompt(td.matchers.anything()), {times: 2});
+          td.verify(ui.prompt(td.matchers.anything()), {times: 4});
 
           var actualFiles = walkSync(tmpdir).sort();
           // Prompts contain \n EOL
           // Split output on \n since it will have the same affect as spliting on OS specific EOL
           var output = ui.output.trim().split('\n');
+
           expect(output.shift()).to.match(/^installing/);
           expect(output.shift()).to.match(/identical.* \.ember-cli/);
           expect(output.shift()).to.match(/identical.* \.gitignore/);
@@ -666,7 +668,7 @@ help in detail');
             return blueprintNew.install(options);
           })
           .then(function() {
-            td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+            td.verify(ui.prompt(td.matchers.anything()), {times: 3});
 
             var actualFiles = walkSync(tmpdir).sort();
             // Prompts contain \n EOL
