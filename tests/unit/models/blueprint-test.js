@@ -1983,7 +1983,7 @@ help in detail');
     });
   });
 
-  describe.only('._locals', function() {
+  describe('._locals', function() {
     var blueprint;
     var project;
     var options;
