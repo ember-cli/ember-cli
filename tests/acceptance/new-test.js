@@ -3,7 +3,6 @@
 var fs         = require('fs-extra');
 var ember      = require('../helpers/ember');
 var existsSync = require('exists-sync');
-var expect     = require('chai').expect;
 var forEach    = require('lodash/forEach');
 var walkSync   = require('walk-sync');
 var Blueprint  = require('../../lib/models/blueprint');
@@ -13,10 +12,17 @@ var root       = process.cwd();
 var util       = require('util');
 var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var EOL        = require('os').EOL;
-var assertFile = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var chalk      = require('chalk');
 var Promise    = require('../../lib/ext/promise');
 var mkdir      = Promise.denodeify(fs.mkdir);
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var file = chaiFiles.file;
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
@@ -237,9 +243,7 @@ describe('Acceptance: ember new', function() {
         ]);
       })
       .then(function() {
-        assertFile('.gitignore', {
-          contains: 'customValue'
-        });
+        expect(file('.gitignore')).to.contain('customValue');
       });
   });
 

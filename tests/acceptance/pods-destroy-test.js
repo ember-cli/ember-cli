@@ -1,8 +1,6 @@
 'use strict';
 
 var Promise     = require('../../lib/ext/promise');
-var expect      = require('chai').expect;
-var assertFile  = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var conf        = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember       = require('../helpers/ember');
 var existsSync  = require('exists-sync');
@@ -17,6 +15,14 @@ var mkTmpDirIn  = require('../../lib/utilities/mk-tmp-dir-in');
 
 var Blueprint        = require('../../lib/models/blueprint');
 var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var file = chaiFiles.file;
 
 describe('Acceptance: ember destroy pod', function() {
   var tmpdir;
@@ -101,17 +107,16 @@ describe('Acceptance: ember destroy pod', function() {
     return ember(destroyArgs);
   }
 
-  function assertFileNotExists(file) {
-    var filePath = path.join(process.cwd(), file);
-    expect(existsSync(filePath), 'expected ' + file + ' not to exist').to.be.false;
-  }
-
   function assertFilesExist(files) {
-    files.forEach(assertFile);
+    files.forEach(function(f) {
+      expect(file(f)).to.exist;
+    });
   }
 
   function assertFilesNotExist(files) {
-    files.forEach(assertFileNotExists);
+    files.forEach(function(f) {
+      expect(file(f)).to.not.exist;
+    });
   }
 
   function assertDestroyAfterGenerate(args, files) {

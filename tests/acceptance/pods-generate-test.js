@@ -1,8 +1,6 @@
 'use strict';
 
 var Promise          = require('../../lib/ext/promise');
-var assertFile       = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
-var assertFileEquals = require('ember-cli-internal-test-helpers/lib/helpers/assert-file-equals');
 var conf             = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember            = require('../helpers/ember');
 var replaceFile      = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
@@ -12,11 +10,18 @@ var path             = require('path');
 var remove           = Promise.denodeify(fs.remove);
 var root             = process.cwd();
 var tmproot          = path.join(root, 'tmp');
-var expect           = require('chai').expect;
 var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
 
 var Blueprint        = require('../../lib/models/blueprint');
 var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var file = chaiFiles.file;
 
 describe('Acceptance: ember generate pod', function() {
   this.timeout(60000);
@@ -134,248 +139,228 @@ describe('Acceptance: ember generate pod', function() {
 
   it('.ember-cli usePods setting generates in pod structure without --pod flag', function() {
     return generateWithUsePods(['controller', 'foo']).then(function() {
-      assertFile('app/foo/controller.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.Controller.extend({\n});"
-        ]
-      });
-      assertFile('tests/unit/foo/controller-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('controller:foo'"
-        ]
-      });
+      expect(file('app/foo/controller.js'))
+        .to.contain("import Ember from 'ember';")
+        .to.contain("export default Ember.Controller.extend({\n});");
+
+      expect(file('tests/unit/foo/controller-test.js'))
+        .to.contain("import { moduleFor, test } from 'ember-qunit';")
+        .to.contain("moduleFor('controller:foo'");
     });
   });
 
   it('.ember-cli usePods setting generates in classic structure with --classic flag', function() {
     return generateWithUsePods(['controller', 'foo', '--classic']).then(function() {
-      assertFile('app/controllers/foo.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.Controller.extend({\n});"
-        ]
-      });
-      assertFile('tests/unit/controllers/foo-test.js', {
-        contains: [
-          "import { moduleFor, test } from 'ember-qunit';",
-          "moduleFor('controller:foo'"
-        ]
-      });
+      expect(file('app/controllers/foo.js'))
+        .to.contain("import Ember from 'ember';")
+        .to.contain("export default Ember.Controller.extend({\n});");
+
+      expect(file('tests/unit/controllers/foo-test.js'))
+        .to.contain("import { moduleFor, test } from 'ember-qunit';")
+        .to.contain("moduleFor('controller:foo'");
     });
   });
 
   it('.ember-cli usePods setting generates correct component structure', function() {
     return generateWithUsePods(['component', 'x-foo']).then(function() {
-      assertFile('app/components/x-foo/component.js', {
-        contains: [
-          "import Ember from 'ember';",
-          "export default Ember.Component.extend({",
-          "});"
-        ]
-      });
-      assertFile('app/components/x-foo/template.hbs', {
-        contains: "{{yield}}"
-      });
-      assertFile('tests/integration/components/x-foo/component-test.js', {
-        contains: [
-          "import { moduleForComponent, test } from 'ember-qunit';",
-          "import hbs from 'htmlbars-inline-precompile';",
-          "moduleForComponent('x-foo'",
-          "integration: true"
-        ]
-      });
+      expect(file('app/components/x-foo/component.js'))
+        .to.contain("import Ember from 'ember';")
+        .to.contain("export default Ember.Component.extend({")
+        .to.contain("});");
+
+      expect(file('app/components/x-foo/template.hbs'))
+        .to.contain("{{yield}}");
+
+      expect(file('tests/integration/components/x-foo/component-test.js'))
+        .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
+        .to.contain("import hbs from 'htmlbars-inline-precompile';")
+        .to.contain("moduleForComponent('x-foo'")
+        .to.contain("integration: true");
     });
   });
 
   it('blueprint foo --pod', function() {
     return generate(['blueprint', 'foo', '--pod']).then(function() {
-      assertFile('blueprints/foo/index.js', {
-        contains: "module.exports = {\n" +
-                  "  description: ''\n" +
-                  "\n" +
-                  "  // locals: function(options) {\n" +
-                  "  //   // Return custom template variables here.\n" +
-                  "  //   return {\n" +
-                  "  //     foo: options.entity.options.foo\n" +
-                  "  //   };\n" +
-                  "  // }\n" +
-                  "\n" +
-                  "  // afterInstall: function(options) {\n" +
-                  "  //   // Perform extra work here.\n" +
-                  "  // }\n" +
-                  "};"
-      });
+      expect(file('blueprints/foo/index.js'))
+        .to.contain("module.exports = {\n" +
+                    "  description: ''\n" +
+                    "\n" +
+                    "  // locals: function(options) {\n" +
+                    "  //   // Return custom template variables here.\n" +
+                    "  //   return {\n" +
+                    "  //     foo: options.entity.options.foo\n" +
+                    "  //   };\n" +
+                    "  // }\n" +
+                    "\n" +
+                    "  // afterInstall: function(options) {\n" +
+                    "  //   // Perform extra work here.\n" +
+                    "  // }\n" +
+                    "};");
     });
   });
 
   it('blueprint foo/bar --pod', function() {
     return generate(['blueprint', 'foo/bar', '--pod']).then(function() {
-      assertFile('blueprints/foo/bar/index.js', {
-        contains: "module.exports = {\n" +
-                  "  description: ''\n" +
-                  "\n" +
-                  "  // locals: function(options) {\n" +
-                  "  //   // Return custom template variables here.\n" +
-                  "  //   return {\n" +
-                  "  //     foo: options.entity.options.foo\n" +
-                  "  //   };\n" +
-                  "  // }\n" +
-                  "\n" +
-                  "  // afterInstall: function(options) {\n" +
-                  "  //   // Perform extra work here.\n" +
-                  "  // }\n" +
-                  "};"
-      });
+      expect(file('blueprints/foo/bar/index.js'))
+        .to.contain("module.exports = {\n" +
+                    "  description: ''\n" +
+                    "\n" +
+                    "  // locals: function(options) {\n" +
+                    "  //   // Return custom template variables here.\n" +
+                    "  //   return {\n" +
+                    "  //     foo: options.entity.options.foo\n" +
+                    "  //   };\n" +
+                    "  // }\n" +
+                    "\n" +
+                    "  // afterInstall: function(options) {\n" +
+                    "  //   // Perform extra work here.\n" +
+                    "  // }\n" +
+                    "};");
     });
   });
 
   it('http-mock foo --pod', function() {
     return generate(['http-mock', 'foo', '--pod']).then(function() {
-      assertFile('server/index.js', {
-        contains:"mocks.forEach(function(route) { route(app); });"
-      });
-      assertFile('server/mocks/foo.js', {
-        contains: "module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooRouter = express.Router();\n" +
-                  "\n" +
-                  "  fooRouter.get('/', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo': []\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.post('/', function(req, res) {\n" +
-                  "    res.status(201).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.get('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.put('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.delete('/:id', function(req, res) {\n" +
-                  "    res.status(204).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  // The POST and PUT call will not contain a request body\n" +
-                  "  // because the body-parser is not included by default.\n" +
-                  "  // To use req.body, run:\n" +
-                  "\n" +
-                  "  //    npm install --save-dev body-parser\n" +
-                  "\n" +
-                  "  // After installing, you need to `use` the body-parser for\n" +
-                  "  // this mock uncommenting the following line:\n" +
-                  "  //\n" +
-                  "  //app.use('/api/foo', require('body-parser').json());\n" +
-                  "  app.use('/api/foo', fooRouter);\n" +
-                  "};"
-      });
-      assertFile('server/.jshintrc', {
-        contains: '{\n  "node": true\n}'
-      });
+      expect(file('server/index.js'))
+        .to.contain("mocks.forEach(function(route) { route(app); });");
+
+      expect(file('server/mocks/foo.js'))
+        .to.contain("module.exports = function(app) {\n" +
+                    "  var express = require('express');\n" +
+                    "  var fooRouter = express.Router();\n" +
+                    "\n" +
+                    "  fooRouter.get('/', function(req, res) {\n" +
+                    "    res.send({\n" +
+                    "      'foo': []\n" +
+                    "    });\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooRouter.post('/', function(req, res) {\n" +
+                    "    res.status(201).end();\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooRouter.get('/:id', function(req, res) {\n" +
+                    "    res.send({\n" +
+                    "      'foo': {\n" +
+                    "        id: req.params.id\n" +
+                    "      }\n" +
+                    "    });\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooRouter.put('/:id', function(req, res) {\n" +
+                    "    res.send({\n" +
+                    "      'foo': {\n" +
+                    "        id: req.params.id\n" +
+                    "      }\n" +
+                    "    });\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooRouter.delete('/:id', function(req, res) {\n" +
+                    "    res.status(204).end();\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  // The POST and PUT call will not contain a request body\n" +
+                    "  // because the body-parser is not included by default.\n" +
+                    "  // To use req.body, run:\n" +
+                    "\n" +
+                    "  //    npm install --save-dev body-parser\n" +
+                    "\n" +
+                    "  // After installing, you need to `use` the body-parser for\n" +
+                    "  // this mock uncommenting the following line:\n" +
+                    "  //\n" +
+                    "  //app.use('/api/foo', require('body-parser').json());\n" +
+                    "  app.use('/api/foo', fooRouter);\n" +
+                    "};");
+
+      expect(file('server/.jshintrc'))
+        .to.contain('{\n  "node": true\n}');
     });
   });
 
   it('http-mock foo-bar --pod', function() {
     return generate(['http-mock', 'foo-bar', '--pod']).then(function() {
-      assertFile('server/index.js', {
-        contains: "mocks.forEach(function(route) { route(app); });"
-      });
-      assertFile('server/mocks/foo-bar.js', {
-        contains: "module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooBarRouter = express.Router();\n" +
-                  "\n" +
-                  "  fooBarRouter.get('/', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo-bar': []\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.post('/', function(req, res) {\n" +
-                  "    res.status(201).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.get('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo-bar': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.put('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo-bar': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.delete('/:id', function(req, res) {\n" +
-                  "    res.status(204).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  // The POST and PUT call will not contain a request body\n" +
-                  "  // because the body-parser is not included by default.\n" +
-                  "  // To use req.body, run:\n" +
-                  "\n" +
-                  "  //    npm install --save-dev body-parser\n" +
-                  "\n" +
-                  "  // After installing, you need to `use` the body-parser for\n" +
-                  "  // this mock uncommenting the following line:\n" +
-                  "  //\n" +
-                  "  //app.use('/api/foo-bar', require('body-parser').json());\n" +
-                  "  app.use('/api/foo-bar', fooBarRouter);\n" +
-                  "};"
-      });
-      assertFile('server/.jshintrc', {
-        contains: '{\n  "node": true\n}'
-      });
+      expect(file('server/index.js'))
+        .to.contain("mocks.forEach(function(route) { route(app); });");
+
+      expect(file('server/mocks/foo-bar.js'))
+        .to.contain("module.exports = function(app) {\n" +
+                    "  var express = require('express');\n" +
+                    "  var fooBarRouter = express.Router();\n" +
+                    "\n" +
+                    "  fooBarRouter.get('/', function(req, res) {\n" +
+                    "    res.send({\n" +
+                    "      'foo-bar': []\n" +
+                    "    });\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooBarRouter.post('/', function(req, res) {\n" +
+                    "    res.status(201).end();\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooBarRouter.get('/:id', function(req, res) {\n" +
+                    "    res.send({\n" +
+                    "      'foo-bar': {\n" +
+                    "        id: req.params.id\n" +
+                    "      }\n" +
+                    "    });\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooBarRouter.put('/:id', function(req, res) {\n" +
+                    "    res.send({\n" +
+                    "      'foo-bar': {\n" +
+                    "        id: req.params.id\n" +
+                    "      }\n" +
+                    "    });\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  fooBarRouter.delete('/:id', function(req, res) {\n" +
+                    "    res.status(204).end();\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  // The POST and PUT call will not contain a request body\n" +
+                    "  // because the body-parser is not included by default.\n" +
+                    "  // To use req.body, run:\n" +
+                    "\n" +
+                    "  //    npm install --save-dev body-parser\n" +
+                    "\n" +
+                    "  // After installing, you need to `use` the body-parser for\n" +
+                    "  // this mock uncommenting the following line:\n" +
+                    "  //\n" +
+                    "  //app.use('/api/foo-bar', require('body-parser').json());\n" +
+                    "  app.use('/api/foo-bar', fooBarRouter);\n" +
+                    "};");
+
+      expect(file('server/.jshintrc'))
+        .to.contain('{\n  "node": true\n}');
     });
   });
 
   it('http-proxy foo --pod', function() {
     return generate(['http-proxy', 'foo', 'http://localhost:5000', '--pod']).then(function() {
-      assertFile('server/index.js', {
-        contains: "proxies.forEach(function(route) { route(app); });"
-      });
-      assertFile('server/proxies/foo.js', {
-        contains: "var proxyPath = '/foo';\n" +
-                  "\n" +
-                  "module.exports = function(app) {\n" +
-                  "  // For options, see:\n" +
-                  "  // https://github.com/nodejitsu/node-http-proxy\n" +
-                  "  var proxy = require('http-proxy').createProxyServer({});\n" +
-                  "\n" +
-                  "  proxy.on('error', function(err, req) {\n" +
-                  "    console.error(err, req.url);\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  app.use(proxyPath, function(req, res, next){\n" +
-                  "    // include root path in proxied request\n" +
-                  "    req.url = proxyPath + '/' + req.url;\n" +
-                  "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
-                  "  });\n" +
-                  "};"
-      });
-      assertFile('server/.jshintrc', {
-        contains: '{\n  "node": true\n}'
-      });
+      expect(file('server/index.js'))
+        .to.contain("proxies.forEach(function(route) { route(app); });");
+
+      expect(file('server/proxies/foo.js'))
+        .to.contain("var proxyPath = '/foo';\n" +
+                    "\n" +
+                    "module.exports = function(app) {\n" +
+                    "  // For options, see:\n" +
+                    "  // https://github.com/nodejitsu/node-http-proxy\n" +
+                    "  var proxy = require('http-proxy').createProxyServer({});\n" +
+                    "\n" +
+                    "  proxy.on('error', function(err, req) {\n" +
+                    "    console.error(err, req.url);\n" +
+                    "  });\n" +
+                    "\n" +
+                    "  app.use(proxyPath, function(req, res, next){\n" +
+                    "    // include root path in proxied request\n" +
+                    "    req.url = proxyPath + '/' + req.url;\n" +
+                    "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
+                    "  });\n" +
+                    "};");
+
+      expect(file('server/.jshintrc'))
+        .to.contain('{\n  "node": true\n}');
     });
   });
 
@@ -392,9 +377,7 @@ describe('Acceptance: ember generate pod', function() {
         return ember(['generate', 'foo', 'bar', '--pod']);
       })
       .then(function() {
-        assertFile('app/foos/bar.js', {
-          contains: 'foo: true'
-        });
+        expect(file('app/foos/bar.js')).to.contain('foo: true');
       });
   });
 
@@ -411,9 +394,7 @@ describe('Acceptance: ember generate pod', function() {
         return ember(['generate', 'controller', 'foo', '--pod']);
       })
       .then(function() {
-        assertFile('app/foo/controller.js', {
-          contains: 'custom: true'
-        });
+        expect(file('app/foo/controller.js')).to.contain('custom: true');
       });
   });
 
@@ -448,9 +429,7 @@ describe('Acceptance: ember generate pod', function() {
         return ember(['generate', 'customblue', 'foo', '--custom-command', '--pod']);
       })
       .then(function() {
-        assertFile('app/foo.js', {
-          contains: 'A: Yes!'
-        });
+        expect(file('app/foo.js')).to.contain('A: Yes!');
       });
   });
 
@@ -473,9 +452,7 @@ describe('Acceptance: ember generate pod', function() {
         process.chdir(tmpdir);
       })
       .then(function() {
-        assertFile('app/foo/controller.js', {
-          contains: 'custom: true'
-        });
+        expect(file('app/foo/controller.js')).to.contain('custom: true');
       });
   });
 
@@ -497,17 +474,13 @@ describe('Acceptance: ember generate pod', function() {
 
   it('route foo --dry-run --pod does not change router.js', function() {
     return generate(['route', 'foo', '--dry-run', '--pod']).then(function() {
-      assertFile('app/router.js', {
-        doesNotContain: "route('foo')"
-      });
+      expect(file('app/router.js')).to.not.contain("route('foo')");
     });
   });
 
   it('availableOptions work with aliases.', function() {
     return generate(['route', 'foo', '-d', '-p']).then(function() {
-      assertFile('app/router.js', {
-        doesNotContain: "route('foo')"
-      });
+      expect(file('app/router.js')).to.not.contain("route('foo')");
     });
   });
 });
