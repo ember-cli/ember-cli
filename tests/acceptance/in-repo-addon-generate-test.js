@@ -1,7 +1,6 @@
 'use strict';
 
 var Promise              = require('../../lib/ext/promise');
-var assertFileEquals     = require('ember-cli-internal-test-helpers/lib/helpers/assert-file-equals');
 var conf                 = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember                = require('../helpers/ember');
 var fs                   = require('fs-extra');
@@ -101,7 +100,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     return generateInRepoAddon(['acceptance-test', 'foo', '--in-repo-addon=my-addon']).then(function() {
       var expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
 
-      assertFileEquals('tests/acceptance/foo-test.js', expected);
+      expect(file('tests/acceptance/foo-test.js')).to.equal(file(expected));
       expect(file('app/acceptance-tests/foo.js')).to.not.exist;
     });
   });
