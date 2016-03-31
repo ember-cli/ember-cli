@@ -557,6 +557,8 @@ help in detail');
 
     it('re-installing conflicting files', function() {
       td.when(ui.prompt(td.matchers.anything())).thenReturn(
+        Promise.resolve({}),
+        Promise.resolve({}),
         Promise.resolve({ answer: 'skip' }),
         Promise.resolve({ answer: 'overwrite' })
       );
