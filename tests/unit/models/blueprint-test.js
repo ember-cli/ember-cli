@@ -2007,7 +2007,6 @@ help in detail');
       };
 
       blueprint.ui = {
-        ci: false,
         prompt: function (options) {
           return Promise.resolve(options);
         }
