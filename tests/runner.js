@@ -30,6 +30,8 @@ testFiles = lint.concat(testFiles);
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
   addFiles(mocha, '/**/*-slow.js');
+} else if (optionOrFile === 'slow')  {
+  addFiles(mocha, '/**/*-slow.js');
 } else if (optionOrFile === 'lint')  {
   addFiles(mocha, lint);
 } else if (process.argv.length > 2)  {

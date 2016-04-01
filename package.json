@@ -12,6 +12,7 @@
     "lint": "mocha tests/unit/lint-test",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner",
+    "test-slow": "node tests/runner slow",
     "test-all": "node tests/runner all",
     "test-all:debug": "node debug tests/runner all",
     "test-all:cover": "istanbul cover tests/runner.js all"
