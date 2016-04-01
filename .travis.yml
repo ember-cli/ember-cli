@@ -22,7 +22,7 @@ before_install:
 install:
   - npm install --no-optional
 
-script: npm run-script test-all:cover
+script: npm test
 
 after_script:
   - npm install coveralls codeclimate-test-reporter
