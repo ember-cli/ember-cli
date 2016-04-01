@@ -37,9 +37,8 @@ module.exports = {
     // add `ember-disable-prototype-extensions` to addons by default
     contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.0';
 
-    // add `ember-try` to addons by default
-    contents.devDependencies['ember-try'] = '^0.2.2';
-    contents.scripts.test = 'ember try:testall';
+    // use `ember-try` as test script in addons by default
+    contents.scripts.test = 'ember try:each';
 
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
