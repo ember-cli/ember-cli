@@ -1987,6 +1987,71 @@ help in detail');
     });
   });
 
+  describe('._processPrompts', function() {
+    var blueprint;
+    var project;
+    var options;
+    var result;
+    var expectation;
+    var promptResponse = {};
+
+    beforeEach(function() {
+      blueprint = new Blueprint(basicBlueprint);
+      project = new MockProject();
+
+      blueprint.ui = {
+        prompt: function (options) {
+          return Promise.resolve(promptResponse);
+        }
+      };
+
+      options = {
+        project: project
+      };
+
+      expectation = {
+        'skipPrompts': false,
+        'camelizedModuleName': 'mockProject',
+        'classifiedModuleName': 'MockProject',
+        'classifiedPackageName': 'MockProject',
+        'dasherizedModuleName': 'mock-project',
+        'dasherizedPackageName': 'mock-project',
+        'decamelizedModuleName': 'mock-project',
+        'fileMap': {}
+      };
+    });
+
+    it('should return a default object if skip-prompts is set', function() {
+      options.skipPrompt = true;
+      expectation.skipPrompt = true;
+      promptResponse = options;
+      result = blueprint._processPrompts(options);
+
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
+    });
+
+    it('should return a new object if skip-prompts is not set', function() {
+      promptResponse = { blah: false };
+      blueprint.availableOptions = [{
+        name: 'blah',
+        type: Boolean,
+        default: true,
+        description: 'sets blah',
+        prompt: {
+          message: 'Would you like to set blah?'
+        }
+      }];
+      result = blueprint._processPrompts(options);
+
+      result.then(function (locals) {
+        console.log(locals);
+        expect(locals).to.eql(expectation);
+      });
+    });
+  });
+
   describe('._locals', function() {
     var blueprint;
     var project;
