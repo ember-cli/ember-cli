@@ -18,7 +18,8 @@ var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, 
 var optionOrFile = process.argv[2];
 var mocha = new Mocha({
   timeout: 5000,
-  reporter: 'spec'
+  reporter: 'spec',
+  retries: 2
 });
 var testFiles = glob.sync(root + '/**/*-test.js');
 var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
