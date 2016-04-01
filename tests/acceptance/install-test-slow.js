@@ -1,15 +1,21 @@
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
-var assertFile = require('ember-cli-internal-test-helpers/lib/helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
 var path       = require('path');
 var remove     = Promise.denodeify(require('fs-extra').remove);
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
-var expect     = require('chai').expect;
 var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var file = chaiFiles.file;
 
 describe('Acceptance: ember install', function() {
   this.timeout(60000);
@@ -52,19 +58,13 @@ describe('Acceptance: ember install', function() {
 
   it('installs addons via npm and runs generators', function() {
     return installAddon(['ember-cli-fastclick', 'ember-cli-photoswipe']).then(function(result) {
-      assertFile('package.json', {
-        contains: [
-          /"ember-cli-fastclick": ".*"/,
-          /"ember-cli-photoswipe": ".*"/
-        ]
-      });
+      expect(file('package.json'))
+        .to.match(/"ember-cli-fastclick": ".*"/)
+        .to.match(/"ember-cli-photoswipe": ".*"/);
 
-      assertFile('bower.json', {
-        contains: [
-          /"fastclick": ".*"/,
-          /"photoswipe": ".*"/
-        ]
-      });
+      expect(file('bower.json'))
+        .to.match(/"fastclick": ".*"/)
+        .to.match(/"photoswipe": ".*"/);
 
       expect(result.outputStream.join()).not.to.include('The `ember generate` command ' +
                                               'requires an entity name to be specified. For more details, use `ember help`.');
