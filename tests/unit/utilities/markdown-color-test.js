@@ -5,16 +5,11 @@ var expect        = require('chai').expect;
 var path          = require('path');
 var chalk         = require('chalk');
 
-function isAnsiSupported() {
-  // when ansi is supported this should be '\u001b[0m\u001b[31ma\u001b[39m\u001b[0m\n\n'
-  return chalk.red('a') !== 'a';
-}
-
 describe('MarkdownColor', function() {
   var mc;
 
   before(function() {
-    if (!isAnsiSupported()) {
+    if (!chalk.supportsColor) {
       this.skip();
     }
   });
