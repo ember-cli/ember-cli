@@ -443,6 +443,7 @@ describe('broccoli/ember-app', function() {
         });
       });
     });
+
     describe('postprocessTree is called properly', function() {
       var postprocessTreeStub;
       beforeEach(function() {
@@ -554,7 +555,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-            expect(emberApp.project.addons.length).to.equal(6);
+            expect(emberApp.project.addons.length).to.equal(7);
           });
 
           it('foo', function() {
@@ -564,7 +565,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
 
-            expect(emberApp.project.addons.length).to.equal(7);
+            expect(emberApp.project.addons.length).to.equal(8);
           });
         });
       });
@@ -581,7 +582,7 @@ describe('broccoli/ember-app', function() {
 
           expect(emberApp._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
           expect(emberApp._addonDisabledByBlacklist({ name: 'Ember Random Addon' })).to.be.false;
-          expect(emberApp.project.addons.length).to.equal(6);
+          expect(emberApp.project.addons.length).to.equal(7);
         });
 
         it('throws if unavailable addon is specified', function() {
@@ -644,7 +645,6 @@ describe('broccoli/ember-app', function() {
         });
       });
     });
-
 
     describe('addonLintTree', function() {
       beforeEach(function() {

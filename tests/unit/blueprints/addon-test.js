@@ -118,15 +118,14 @@ describe('blueprint - addon', function() {
   "name": "test-project-name",\n\
   "description": "The default blueprint for ember-cli addons.",\n\
   "scripts": {\n\
-    "test": "ember try:testall"\n\
+    "test": "ember try:each"\n\
   },\n\
   "keywords": [\n\
     "ember-addon"\n\
   ],\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
-    "ember-disable-prototype-extensions": "^1.1.0",\n\
-    "ember-try": "^0.2.2"\n\
+    "ember-disable-prototype-extensions": "^1.1.0"\n\
   },\n\
   "ember-addon": {\n\
     "configPath": "tests/dummy/config"\n\
@@ -225,22 +224,6 @@ describe('blueprint - addon', function() {
         expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.0');
       });
 
-      it('overwrites any version of `ember-try`', function() {
-        readFileSyncReturnValue = JSON.stringify({
-          devDependencies: {
-            'ember-try': '0.0.1'
-          }
-        });
-
-        blueprint.generatePackageJson();
-
-        expect(readFileSyncWasCalled).to.be.true;
-        expect(writeFileSyncWasCalled).to.be.true;
-
-        var json = JSON.parse(writeFileSyncArguments[1]);
-        expect(json.devDependencies['ember-try']).to.equal('^0.2.2');
-      });
-
       it('overwrites `scripts.test`', function() {
         readFileSyncReturnValue = JSON.stringify({
           scripts: {
@@ -254,7 +237,7 @@ describe('blueprint - addon', function() {
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
-        expect(json.scripts.test).to.equal('ember try:testall');
+        expect(json.scripts.test).to.equal('ember try:each');
       });
 
       it('overwrites `ember-addon.configPath`', function() {
@@ -292,7 +275,6 @@ describe('blueprint - addon', function() {
 
         var json = JSON.parse(writeFileSyncArguments[1]);
         delete json.devDependencies['ember-disable-prototype-extensions'];
-        delete json.devDependencies['ember-try'];
         expect(JSON.stringify(json.dependencies)).to.equal('{"a":"1","b":"1"}');
         expect(JSON.stringify(json.devDependencies)).to.equal('{"a":"1","b":"1"}');
       });
