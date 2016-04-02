@@ -10,18 +10,16 @@ function isAnsiSupported() {
   return chalk.red('a') !== 'a';
 }
 
-(isAnsiSupported() ? describe : describe.skip)('MarkdownColor', function() {
+describe('MarkdownColor', function() {
   var mc;
 
-  beforeEach(function() {
-    /*
-    // check to make sure ansi is supported
-    // can use this.skip() after Mocha 2.1.1
-    // see https://github.com/mochajs/mocha/pull/946
-    if (isAnsiSupported()) {
+  before(function() {
+    if (!isAnsiSupported()) {
       this.skip();
     }
-    */
+  });
+
+  beforeEach(function() {
     mc = new MarkdownColor();
   });
 
