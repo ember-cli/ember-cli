@@ -103,8 +103,8 @@ module.exports = {
     return this._files = uniq(appFiles.concat(addonFiles));
   },
 
-  mapFile: function(file, locals) {
-    var result = this._super(file, locals);
+  mapFile: function() {
+    var result = this._super.mapFile.apply(this, arguments);
     return this.fileMapper(result);
   },
 
