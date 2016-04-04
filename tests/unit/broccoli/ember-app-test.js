@@ -51,7 +51,7 @@ describe('broccoli/ember-app', function() {
         configPath: 'custom config path'
       });
 
-      expect(project.configPath()).to.equal('custom config path');
+      expect(project.configPath()).to.match(/custom config path$/);
     });
 
     it('should set bowerDirectory for app', function() {
