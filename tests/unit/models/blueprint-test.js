@@ -468,17 +468,16 @@ help in detail');
     var project;
     var options;
     var tmpdir;
-    var originalPrompt;
-    var prompt;
 
     beforeEach(function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new BasicBlueprintClass(basicBlueprint);
+
         ui        = new MockUI();
+        td.replace(ui, 'prompt');
+
         project   = new MockProject();
-        originalPrompt = ui.prompt;
-        prompt = ui.prompt = td.function();
         options   = {
           ui: ui,
           project: project,
@@ -488,7 +487,7 @@ help in detail');
     });
 
     afterEach(function() {
-      ui.prompt = originalPrompt;
+      td.reset();
       return remove(tmproot);
     });
 
@@ -555,7 +554,7 @@ help in detail');
     });
 
     it('re-installing conflicting files', function() {
-      td.when(prompt(td.matchers.anything())).thenReturn(
+      td.when(ui.prompt(td.matchers.anything())).thenReturn(
         Promise.resolve({ answer: 'skip' }),
         Promise.resolve({ answer: 'overwrite' }));
 
@@ -578,7 +577,7 @@ help in detail');
         })
         .then(function() {
 
-          td.verify(prompt(td.matchers.anything()), {times: 2});
+          td.verify(ui.prompt(td.matchers.anything()), {times: 2});
 
           var actualFiles = walkSync(tmpdir).sort();
           // Prompts contain \n EOL
@@ -640,15 +639,9 @@ help in detail');
 
     describe('called on an existing project', function() {
       beforeEach(function() {
-        originalPrompt = ui.prompt;
-        prompt = ui.prompt = td.function();
         Blueprint.ignoredUpdateFiles.push('foo.txt');
 
-        td.when(prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
-      });
-
-      afterEach(function() {
-        ui.prompt = originalPrompt;
+        td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
       });
 
       it('ignores files in ignoredUpdateFiles', function() {
@@ -672,7 +665,7 @@ help in detail');
             return blueprintNew.install(options);
           })
           .then(function() {
-            td.verify(prompt(td.matchers.anything()), {times: 1});
+            td.verify(ui.prompt(td.matchers.anything()), {times: 1});
 
             var actualFiles = walkSync(tmpdir).sort();
             // Prompts contain \n EOL
