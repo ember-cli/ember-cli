@@ -60,7 +60,7 @@ describe('models/project.js', function() {
 
       var expected = path.normalize('tests/dummy/config/environment');
 
-      expect(project.configPath()).to.match(new RegExp(expected + '$'));
+      expect(project.configPath().slice(-expected.length)).to.equal(expected);
     });
 
     it('calls getAddonsConfig', function() {
