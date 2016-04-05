@@ -67,6 +67,7 @@ Common issues:
   alltogether.
 * anti-virus on-file-access re-scanning files, oftentimes this can be disabled
   for the app directory. or ember can be whitelisted.
+* encrypted file system
 
 
 ##### Q
