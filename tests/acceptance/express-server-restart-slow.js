@@ -1,7 +1,6 @@
 'use strict';
 
 var path                = require('path');
-var expect              = require('chai').expect;
 var fs                  = require('fs-extra');
 var Promise             = require('../../lib/ext/promise');
 var acceptance          = require('../helpers/acceptance');
@@ -12,9 +11,16 @@ var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
-
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
-var assertDirEmpty   = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var dir = chaiFiles.dir;
+
 
 // skipped because brittle. needs some TLC
 describe.skip('Acceptance: express server restart', function () {
@@ -42,7 +48,7 @@ describe.skip('Acceptance: express server restart', function () {
   afterEach(function() {
     this.timeout(15000);
     return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+      expect(dir('tmp')).to.be.empty;
     });
   });
 

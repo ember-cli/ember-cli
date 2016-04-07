@@ -8,7 +8,6 @@ var remove     = Promise.denodeify(fs.remove);
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var assertDirEmpty      = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 var existsSync          = require('exists-sync');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
@@ -22,6 +21,7 @@ chai.use(chaiFiles);
 
 var expect = chai.expect;
 var file = chaiFiles.file;
+var dir = chaiFiles.dir;
 
 var appName  = 'some-cool-app';
 
@@ -42,7 +42,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   afterEach(function() {
     return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+      expect(dir('tmp')).to.be.empty;
     });
   });
 

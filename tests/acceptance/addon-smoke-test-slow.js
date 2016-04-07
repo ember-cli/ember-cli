@@ -7,20 +7,25 @@ var remove     = Promise.denodeify(fs.remove);
 var addonName  = 'some-cool-addon';
 var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');
-var expect     = require('chai').expect;
-var EOL        = require('os').EOL;
 
 var symlinkOrCopySync   = require('symlink-or-copy').sync;
 var runCommand          = require('../helpers/run-command');
 var ember               = require('../helpers/ember');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
-var assertDirEmpty      = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 var acceptance          = require('../helpers/acceptance');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var dir = chaiFiles.dir;
 
 describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
@@ -41,7 +46,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
   afterEach(function() {
     return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+      expect(dir('tmp')).to.be.empty;
     });
   });
 
