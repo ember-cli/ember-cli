@@ -46,7 +46,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
   afterEach(function() {
     return cleanupRun().then(function() {
-      expect(dir('tmp')).to.be.empty;
+      expect(dir('tmp')).to.not.exist;
     });
   });
 

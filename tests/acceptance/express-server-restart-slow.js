@@ -48,7 +48,7 @@ describe.skip('Acceptance: express server restart', function () {
   afterEach(function() {
     this.timeout(15000);
     return cleanupRun().then(function() {
-      expect(dir('tmp')).to.be.empty;
+      expect(dir('tmp')).to.not.exist;
     });
   });
 
