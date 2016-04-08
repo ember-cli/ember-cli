@@ -98,7 +98,7 @@
     "node-modules-path": "^1.0.0",
     "node-uuid": "^1.4.3",
     "nopt": "^3.0.1",
-    "npm": "2.15.1",
+    "npm": "3.8.6",
     "ora": "^0.2.0",
     "portfinder": "^1.0.3",
     "promise-map-series": "^0.2.1",
