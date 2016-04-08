@@ -2,15 +2,20 @@
 
 var path                = require('path');
 var fs                  = require('fs');
-var expect              = require('chai').expect;
 var acceptance          = require('../helpers/acceptance');
 var runCommand          = require('../helpers/run-command');
-var assertDirEmpty      = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var dir = chaiFiles.dir;
 
 var appName  = 'some-cool-app';
 
@@ -31,7 +36,7 @@ describe('Acceptance: blueprint smoke tests', function() {
 
   afterEach(function() {
     return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+      expect(dir('tmp')).to.not.exist;
     });
   });
 

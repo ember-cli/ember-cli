@@ -3,7 +3,6 @@
 var path     = require('path');
 var fs       = require('fs');
 var crypto   = require('crypto');
-var expect   = require('chai').expect;
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var EOL      = require('os').EOL;
@@ -13,12 +12,19 @@ var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
-var assertDirEmpty      = require('ember-cli-internal-test-helpers/lib/helpers/assert-dir-empty');
 var ember               = require('../helpers/ember');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var dir = chaiFiles.dir;
 
 describe('Acceptance: smoke-test', function() {
   this.timeout(500000);
@@ -38,7 +44,7 @@ describe('Acceptance: smoke-test', function() {
     delete process.env._TESTEM_CONFIG_JS_RAN;
 
     return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+      expect(dir('tmp')).to.not.exist;
     });
   });
 
