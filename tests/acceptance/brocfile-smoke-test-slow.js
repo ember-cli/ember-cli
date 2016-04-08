@@ -185,7 +185,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(subjectFileContents.indexOf('// File for test tree imported and added via postprocessTree()') > 0).to.equal(true);
+        expect(subjectFileContents).to.contain('// File for test tree imported and added via postprocessTree()');
       });
   });
 
