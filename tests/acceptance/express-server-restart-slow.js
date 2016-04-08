@@ -19,6 +19,7 @@ var chaiFiles = require('chai-files');
 chai.use(chaiFiles);
 
 var expect = chai.expect;
+var file = chaiFiles.file;
 var dir = chaiFiles.dir;
 
 
@@ -61,8 +62,7 @@ describe.skip('Acceptance: express server restart', function () {
 
   var initialRoot = process.cwd();
   function ensureTestFileContents(expectedContents, message) {
-    var contents = fs.readFileSync(path.join(initialRoot, 'tmp', appName, 'foo.txt'), { encoding: 'utf8' });
-    expect(contents).to.equal(expectedContents, message);
+    expect(file(path.join(initialRoot, 'tmp', appName, 'foo.txt'))).to.equal(expectedContents, message);
   }
 
   function onChildSpawnedSingleCopy(copySrc, expectedContents) {

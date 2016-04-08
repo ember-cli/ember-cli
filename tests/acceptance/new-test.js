@@ -2,7 +2,6 @@
 
 var fs         = require('fs-extra');
 var ember      = require('../helpers/ember');
-var existsSync = require('exists-sync');
 var forEach    = require('lodash/forEach');
 var walkSync   = require('walk-sync');
 var Blueprint  = require('../../lib/models/blueprint');
@@ -23,6 +22,7 @@ chai.use(chaiFiles);
 
 var expect = chai.expect;
 var file = chaiFiles.file;
+var dir = chaiFiles.dir;
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
@@ -105,7 +105,8 @@ describe('Acceptance: ember new', function() {
       '--skip-bower',
       '--skip-git'
     ]).then(function() {
-      expect(existsSync('FooApp')).to.be.false;
+      expect(dir('FooApp')).to.not.exist;
+      expect(file('package.json')).to.exist;
 
       var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
       expect(pkgJson.name).to.equal('foo-app');
@@ -147,7 +148,7 @@ describe('Acceptance: ember new', function() {
       ]).then(function() {
         throw new Error('this promise should be rejected');
       }).catch(function(error) {
-        expect(existsSync('foo')).to.be.false;
+        expect(dir('foo')).to.not.exist;
         expect(error.name).to.equal('SilentError');
         expect(error.message).to.equal('You cannot use the ' + chalk.green('new') + ' command inside an ember-cli project.');
       });
@@ -208,7 +209,7 @@ describe('Acceptance: ember new', function() {
       '--skip-git',
       '--blueprint=https://github.com/ember-cli/app-blueprint-test.git'
     ]).then(function() {
-      expect(existsSync('.ember-cli')).to.be.true;
+      expect(file('.ember-cli')).to.exist;
     });
   });
 
@@ -256,7 +257,7 @@ describe('Acceptance: ember new', function() {
     ], {
       skipGit: false
     }).then(function() {
-      expect(existsSync('.git'), '.git folder exists').to.be.true;
+      expect(dir('.git')).to.exist;
     });
   });
 
@@ -276,8 +277,7 @@ describe('Acceptance: ember new', function() {
         ]);
       })
       .then(function() {
-        var cwd = process.cwd();
-        expect(existsSync(path.join(cwd, 'foo')), 'the generated directory is removed').to.be.false;
+        expect(dir('foo')).to.not.exist;
       });
   });
 
@@ -287,10 +287,9 @@ describe('Acceptance: ember new', function() {
       'foo',
       '--dry-run'
     ]).then(function() {
-      var cwd = process.cwd();
-      expect(cwd).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
-      expect(existsSync(path.join(cwd, 'foo')), 'does not create new directory').to.be.false;
-      expect(existsSync(path.join(cwd, '.git')), 'does not create git in current directory').to.be.false;
+      expect(process.cwd()).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
+      expect(dir('foo')).to.not.exist;
+      expect(dir('.git')).to.not.exist;
     });
   });
 
@@ -305,8 +304,8 @@ describe('Acceptance: ember new', function() {
       '--skip-git',
       '--directory=bar'
     ]).then(function() {
-      expect(existsSync(path.join(workdir, 'foo')), 'directory with app name exists').to.be.false;
-      expect(existsSync(path.join(workdir, 'bar')), 'directory with specified name exists').to.be.true;
+      expect(dir(path.join(workdir, 'foo'))).to.not.exist;
+      expect(dir(path.join(workdir, 'bar'))).to.exist;
 
       var cwd = process.cwd();
       expect(cwd).to.not.match(/foo/, 'does not use app name for directory name');
