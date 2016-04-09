@@ -309,7 +309,7 @@ describe('broccoli/ember-app', function() {
     describe('contentFor("config-module")', function() {
       it('includes the meta gathering snippet by default', function() {
         var metaSnippetPath = path.join(__dirname, '..','..','..','lib','broccoli','app-config-from-meta.js');
-        var expected = fs.readFileSync(metaSnippetPath);
+        var expected = fs.readFileSync(metaSnippetPath, { encoding: 'utf8' });
 
         var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
 
