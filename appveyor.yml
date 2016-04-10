@@ -2,6 +2,7 @@
 
 # Test against these versions of Node.js.
 environment:
+  MOCHA_REPORTER: "mocha-appveyor-reporter"
   matrix:
     - nodejs_version: "4.2"
     - nodejs_version: "5.0"
@@ -13,6 +14,7 @@ install:
   - ps: Install-Product node $env:nodejs_version
   # Install PhantomJS
   - npm install phantomjs-prebuilt
+  - npm install mocha-appveyor-reporter
   # Typical npm stuff.
   - npm version
   - npm install
