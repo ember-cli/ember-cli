@@ -27,4 +27,4 @@ script: npm run-script test-all:cover
 after_script:
   - npm install coveralls codeclimate-test-reporter
   - cat coverage/lcov.info | node_modules/.bin/codeclimate-test-reporter
-  - cat coverage/lcov.info | node_modules/.bin/coveralls.js
+  - cat coverage/lcov.info | node_modules/.bin/coveralls
