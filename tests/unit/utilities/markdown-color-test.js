@@ -5,23 +5,16 @@ var expect        = require('chai').expect;
 var path          = require('path');
 var chalk         = require('chalk');
 
-function isAnsiSupported() {
-  // when ansi is supported this should be '\u001b[0m\u001b[31ma\u001b[39m\u001b[0m\n\n'
-  return chalk.red('a') !== 'a';
-}
-
-(isAnsiSupported() ? describe : describe.skip)('MarkdownColor', function() {
+describe('MarkdownColor', function() {
   var mc;
 
-  beforeEach(function() {
-    /*
-    // check to make sure ansi is supported
-    // can use this.skip() after Mocha 2.1.1
-    // see https://github.com/mochajs/mocha/pull/946
-    if (isAnsiSupported()) {
+  before(function() {
+    if (!chalk.supportsColor) {
       this.skip();
     }
-    */
+  });
+
+  beforeEach(function() {
     mc = new MarkdownColor();
   });
 
