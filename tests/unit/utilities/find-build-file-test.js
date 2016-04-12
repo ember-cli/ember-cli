@@ -39,4 +39,9 @@ describe('find-build-file', function() {
       findBuildFile(tmpFilename);
     }).to.throw(SyntaxError, /Could not require '.*':/);
   });
+
+  it('does not throws an error when the file is mss', function() {
+    var result = findBuildFile('missing-file.js');
+    expect(result).to.be.null;
+  });
 });
