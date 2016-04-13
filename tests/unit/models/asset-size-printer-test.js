@@ -6,7 +6,6 @@ var AssetSizePrinter = require('../../../lib/models/asset-size-printer');
 var Promise          = require('../../../lib/ext/promise');
 var path             = require('path');
 var fs               = require('fs-extra');
-var existsSync       = require('exists-sync');
 var root             = process.cwd();
 var mkTmpDirIn       = require('../../../lib/utilities/mk-tmp-dir-in');
 var tmpRoot          = path.join(root, 'tmp');
@@ -35,12 +34,9 @@ describe('models/asset-size-printer', function () {
       storedTmpDir = tmpdir;
       assetDir = path.join(storedTmpDir, 'assets');
       assetChildDir = path.join(assetDir, 'childDir');
-      if (!existsSync(assetDir)) {
-        fs.mkdirSync(assetDir);
-      }
-      if (!existsSync(assetChildDir)) {
-        fs.mkdirSync(assetChildDir);
-      }
+
+      fs.mkdirsSync(assetDir);
+      fs.mkdirsSync(assetChildDir);
 
       writeFiles();
     });

@@ -62,9 +62,7 @@ module.exports = {
     var bowerPath = path.join(this.path, 'files', 'bower.json');
 
     [packagePath, bowerPath].forEach(function(filePath) {
-      if (existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
+      fs.remove(filePath);
     });
   },
 

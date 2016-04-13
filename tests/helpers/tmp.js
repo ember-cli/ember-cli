@@ -17,10 +17,5 @@ module.exports.setup = function(path) {
 
 module.exports.teardown = function(path) {
   process.chdir(root);
-
-  if (existsSync(path)) {
-    return remove(path);
-  } else {
-    return Promise.resolve();
-  }
+  return remove(path);
 };
