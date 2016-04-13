@@ -38,8 +38,8 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   });
 
   afterEach(function() {
-    return cleanupRun().then(function() {
-      expect(dir('tmp')).to.not.exist;
+    return cleanupRun(appName).then(function() {
+      expect(dir('tmp/' + appName)).to.not.exist;
     });
   });
 

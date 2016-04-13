@@ -143,7 +143,7 @@ function teardownTestTargets() {
  */
 function linkDependencies(projectName) {
   var targetPath = './tmp/' + projectName;
-  return tmp.setup('./tmp').then(function() {
+  return tmp.setup(targetPath).then(function() {
     return copy('./common-tmp/' + projectName, targetPath);
   }).then(function() {
     var nodeModulesPath = targetPath + '/node_modules/';
@@ -161,16 +161,14 @@ function linkDependencies(projectName) {
       symLinkDir(targetPath, '.bower_components-tmp', 'bower_components');
     }
 
-    process.chdir('./tmp');
-    var appsECLIPath = path.join(projectName, 'node_modules', 'ember-cli');
-    var pwd = process.cwd();
-    fs.removeSync(projectName + '/node_modules/ember-cli');
+    process.chdir(targetPath);
+
+    var appsECLIPath = path.join('node_modules', 'ember-cli');
+    fs.removeSync(appsECLIPath);
 
     // Need to junction on windows since we likely don't have persmission to symlink
     // 3rd arg is ignored on systems other than windows
-    fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
-    process.chdir(projectName);
-
+    fs.symlinkSync(path.resolve('../..'), appsECLIPath, 'junction');
   });
 }
 
@@ -178,8 +176,9 @@ function linkDependencies(projectName) {
  * Clean a test run and optionally assert.
  * @return {Promise}
  */
-function cleanupRun() {
-  return tmp.teardown('./tmp');
+function cleanupRun(projectName) {
+  var targetPath = './tmp/' + projectName;
+  return tmp.teardown(targetPath);
 }
 
 module.exports = {
