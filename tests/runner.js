@@ -3,15 +3,15 @@
 var glob = require('glob');
 var Mocha = require('mocha');
 var RSVP = require('rsvp');
-var rimraf = require('rimraf');
+var fs = require('fs-extra');
 var mochaOnlyDetector = require('mocha-only-detector');
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
 
-rimraf.sync('.node_modules-tmp');
-rimraf.sync('.bower_components-tmp');
+fs.removeSync('.node_modules-tmp');
+fs.removeSync('.bower_components-tmp');
 
 var root = 'tests/{unit,acceptance}';
 var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));
