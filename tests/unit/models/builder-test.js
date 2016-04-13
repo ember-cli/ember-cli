@@ -5,13 +5,19 @@ var path            = require('path');
 var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
-var existsSync      = require('exists-sync');
-var expect          = require('chai').expect;
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fs.remove);
 var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var file = chaiFiles.file;
 
 var root            = process.cwd();
 var tmproot         = path.join(root, 'tmp');
@@ -40,7 +46,7 @@ describe('models/builder.js', function() {
       builder.outputPath = path.join(tmpdir, 'some', 'path', 'that', 'does', 'not', 'exist');
 
       builder.copyToOutputPath('tests/fixtures/blueprints/basic_2');
-      expect(existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
+      expect(file(path.join(builder.outputPath, 'files', 'foo.txt'))).to.exist;
     });
 
     var command;

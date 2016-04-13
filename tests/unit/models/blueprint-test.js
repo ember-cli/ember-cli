@@ -1649,7 +1649,7 @@ help in detail');
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          expect(contents.indexOf(toInsert) > -1).to.equal(true, 'contents were inserted');
+          expect(contents).to.contain(toInsert);
           expect(result.originalContents).to.equal('', 'returned object should contain original contents');
           expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
           expect(contents).to.equal(result.contents, 'returned object should contain contents');

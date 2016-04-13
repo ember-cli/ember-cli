@@ -24,6 +24,7 @@ var chaiFiles = require('chai-files');
 chai.use(chaiFiles);
 
 var expect = chai.expect;
+var file = chaiFiles.file;
 var dir = chaiFiles.dir;
 
 describe('Acceptance: smoke-test', function() {
@@ -145,7 +146,7 @@ describe('Acceptance: smoke-test', function() {
         return ember(['test']);
       })
       .then(function() {
-        expect(!!process.env._TESTEM_CONFIG_JS_RAN).to.equal(true);
+        expect(process.env._TESTEM_CONFIG_JS_RAN).to.be.ok;
       });
   });
 
@@ -176,8 +177,7 @@ describe('Acceptance: smoke-test', function() {
           expect(filepath).to.contain(hex, filepath + ' contains the fingerprint (' + hex + ')');
         });
 
-        var indexHtml = fs.readFileSync(path.join('.', 'dist', 'index.html'), { encoding: 'utf8' });
-
+        var indexHtml = file('dist/index.html');
         files.forEach(function (filename) {
           expect(indexHtml).to.contain(filename);
         });
@@ -332,7 +332,7 @@ describe('Acceptance: smoke-test', function() {
           if (string.match(/Build successful/)) {
             // build after change to app.js
             var contents  = fs.readFileSync(builtJsPath).toString();
-            expect(contents.indexOf(secondText), 'must contain second changed line after rebuild').to.be.above(1);
+            expect(contents).to.contain(secondText, 'must contain second changed line after rebuild');
             killCliProcess(child);
           }
         }
@@ -363,9 +363,9 @@ describe('Acceptance: smoke-test', function() {
           var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css','i');
           dir.forEach(function (filepath) {
             if (cssNameRE.test(filepath)) {
-              var appCss = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
-              expect(appCss).to.contain('.some-weird-selector');
-              expect(appCss).to.contain('.some-even-weirder-selector');
+              expect(file('dist/assets/' + filepath))
+                .to.contain('.some-weird-selector')
+                .to.contain('.some-even-weirder-selector');
             }
           });
         });
@@ -395,10 +395,7 @@ describe('Acceptance: smoke-test', function() {
       })
       .then(function() {
         // because we're overriding, the fileMapTokens is default, sans 'component'
-        var componentPath = path.join('app','foo-bar','component.js');
-        var contents = fs.readFileSync(componentPath, { encoding: 'utf8' });
-
-        expect(contents).to.contain('generated component successfully');
+        expect(file('app/foo-bar/component.js')).to.contain('generated component successfully');
       });
   });
 

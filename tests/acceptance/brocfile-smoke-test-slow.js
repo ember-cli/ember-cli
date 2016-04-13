@@ -8,7 +8,6 @@ var remove     = Promise.denodeify(fs.remove);
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var existsSync          = require('exists-sync');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -16,8 +15,10 @@ var cleanupRun          = acceptance.cleanupRun;
 
 var chai = require('chai');
 var chaiFiles = require('chai-files');
+var chaiAsPromised = require('chai-as-promised');
 
 chai.use(chaiFiles);
+chai.use(chaiAsPromised);
 
 var expect = chai.expect;
 var file = chaiFiles.file;
@@ -98,8 +99,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
       fs.removeSync('./ember-cli-build.js');
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
     }).then(function() {
-      expect(existsSync(path.join('.', 'Brocfile.js'))).to.be.ok;
-      expect(existsSync(path.join('.', 'ember-cli-build.js'))).to.be.not.ok;
+      expect(file('Brocfile.js')).to.exist;
+      expect(file('ember-cli-build.js')).to.not.exist;
     });
   });
 
@@ -185,7 +186,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           encoding: 'utf8'
         });
 
-        expect(subjectFileContents.indexOf('// File for test tree imported and added via postprocessTree()') > 0).to.equal(true);
+        expect(subjectFileContents).to.contain('// File for test tree imported and added via postprocessTree()');
       });
   });
 
@@ -211,7 +212,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   it('app.import fails when options.type is not `vendor` or `test`', function() {
-    return copyFixtureFiles('brocfile-tests/app-import')
+    return expect(copyFixtureFiles('brocfile-tests/app-import')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
@@ -221,12 +222,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        expect(false, 'Build passed when it should have failed!').to.be.ok;
-      }, function() {
-        expect(true, 'Build failed with invalid options type.').to.be.ok;
-      });
+      })).to.be.rejected;
   });
 
   it('addons can have a public tree that is merged and returned namespaced by default', function() {
@@ -311,8 +307,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         ];
 
         var basePath = path.join('.', 'dist');
-        files.forEach(function(file) {
-          expect(existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
+        files.forEach(function(f) {
+          expect(file(path.join(basePath, f))).to.exist;
         });
       });
   });
@@ -329,8 +325,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         ];
 
         var basePath = path.join('.', 'dist');
-        files.forEach(function(file) {
-          expect(existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
+        files.forEach(function(f) {
+          expect(file(path.join(basePath, f))).to.exist;
         });
       });
   });
@@ -364,8 +360,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         ];
 
         var basePath = path.join('.', 'dist');
-        files.forEach(function(file) {
-          expect(existsSync(path.join(basePath, file))).to.be.true;
+        files.forEach(function(f) {
+          expect(file(path.join(basePath, f))).to.exist;
         });
       });
   });
@@ -402,11 +398,11 @@ describe('Acceptance: brocfile-smoke-test', function() {
         ];
 
         var basePath = path.join('.', 'dist');
-        files.forEach(function(file) {
-          expect(existsSync(path.join(basePath, file)), file + ' exists').to.be.true;
+        files.forEach(function(f) {
+          expect(file(path.join(basePath, f))).to.exist;
         });
 
-        expect(existsSync(path.join(basePath, '/assets/some-cool-app.css')), 'default app.css should not exist').to.be.false;
+        expect(file(path.join(basePath, '/assets/some-cool-app.css'))).to.not.exist;
       });
   });
 
@@ -423,24 +419,18 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var mainCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'main.css'), {
-          encoding: 'utf8'
-        });
-        var themeCSS = fs.readFileSync(path.join('.', 'dist', 'assets', 'theme', 'a.css'), {
-          encoding: 'utf8'
-        });
+        expect(file('dist/assets/main.css'))
+          .to.equal('body { background: black; }\n', 'main.css contains correct content');
 
-        expect(mainCSS).to.equal('body { background: black; }\n', 'main.css contains correct content');
-        expect(themeCSS).to.equal('.theme { color: red; }\n', 'theme/a.css contains correct content');
+        expect(file('dist/assets/theme/a.css'))
+          .to.equal('.theme { color: red; }\n', 'theme/a.css contains correct content');
       });
   });
 
   it('app.css is output to <app name>.css by default', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
       .then(function() {
-        var exists = existsSync(path.join('.', 'dist', 'assets', appName + '.css'));
-
-        expect(exists, appName + '.css exists').to.be.ok;
+        expect(file('dist/assets/' + appName + '.css')).to.exist;
       });
   });
 
@@ -466,11 +456,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var mainCSS = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.css'), {
-          encoding: 'utf8'
-        });
-
-        expect(mainCSS).to.equal('body { background: green; }\n', appName + '.css contains correct content');
+        expect(file('dist/assets/' + appName + '.css'))
+          .to.equal('body { background: green; }\n');
       });
   });
 });

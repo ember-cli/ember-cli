@@ -1,9 +1,7 @@
 'use strict';
 
 var ember      = require('../helpers/ember');
-var expect     = require('chai').expect;
 var walkSync   = require('walk-sync');
-var existsSync = require('exists-sync');
 var glob       = require('glob');
 var Blueprint  = require('../../lib/models/blueprint');
 var path       = require('path');
@@ -17,6 +15,14 @@ var remove     = require('lodash/remove');
 var forEach    = require('lodash/forEach');
 var any        = require('lodash/some');
 var EOL        = require('os').EOL;
+
+var chai = require('chai');
+var chaiFiles = require('chai-files');
+
+chai.use(chaiFiles);
+
+var expect = chai.expect;
+var dir = chaiFiles.dir;
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -231,7 +237,7 @@ describe('Acceptance: ember init', function() {
       '--skip-bower'
     ])
     .then(function() {
-      expect(existsSync('.git')).to.be.false;
+      expect(dir('.git')).to.not.exist;
     });
   });
 

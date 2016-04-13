@@ -44,14 +44,14 @@ describe('models/addon-discovery.js', function() {
       var expected = assign({}, deps, devDeps);
       var discovery = new AddonDiscovery(ui);
 
-      expect(discovery.dependencies(mockPkg)).to.be.eql(expected);
+      expect(discovery.dependencies(mockPkg)).to.deep.equal(expected);
     });
 
     it('excludes development dependencies if instructed', function() {
       var expected = assign({}, deps);
       var discovery = new AddonDiscovery(ui);
 
-      expect(discovery.dependencies(mockPkg, true)).to.be.eql(expected);
+      expect(discovery.dependencies(mockPkg, true)).to.deep.equal(expected);
     });
   });
 
@@ -72,7 +72,7 @@ describe('models/addon-discovery.js', function() {
 
       discovery.discoverFromInternalProjectAddons(project);
 
-      expect(actualPaths).to.be.eql(project.supportedInternalAddonPaths());
+      expect(actualPaths).to.deep.equal(project.supportedInternalAddonPaths());
     });
   });
 
@@ -88,7 +88,7 @@ describe('models/addon-discovery.js', function() {
         pkg = { };
 
         var actual = discovery.discoverInRepoAddons(fixturePath, pkg);
-        expect(actual).to.be.eql([]);
+        expect(actual).to.deep.equal([]);
       });
 
       it('returns empty array if `ember-addon.paths` is missing in provided package', function() {
@@ -97,7 +97,7 @@ describe('models/addon-discovery.js', function() {
         };
 
         var actual = discovery.discoverInRepoAddons(fixturePath, pkg);
-        expect(actual).to.be.eql([]);
+        expect(actual).to.deep.equal([]);
       });
 
       it('returns empty array if `ember-addon.paths` is empty in provided package', function() {
@@ -108,7 +108,7 @@ describe('models/addon-discovery.js', function() {
         };
 
         var actual = discovery.discoverInRepoAddons(fixturePath, pkg);
-        expect(actual).to.be.eql([]);
+        expect(actual).to.deep.equal([]);
       });
     });
 
@@ -134,7 +134,7 @@ describe('models/addon-discovery.js', function() {
         path.join(fixturePath, 'baz', 'qux')
       ];
 
-      expect(actualPaths).to.be.eql(expected);
+      expect(actualPaths).to.deep.equal(expected);
     });
 
     it('falsey results from discoverAtPath are filtered out', function() {
@@ -159,8 +159,8 @@ describe('models/addon-discovery.js', function() {
         path.join(fixturePath, 'baz', 'qux')
       ];
 
-      expect(actualPaths).to.be.eql(expectedPaths);
-      expect(result).to.be.eql([]);
+      expect(actualPaths).to.deep.equal(expectedPaths);
+      expect(result).to.deep.equal([]);
     });
   });
 
@@ -204,7 +204,7 @@ describe('models/addon-discovery.js', function() {
         path.join(root, 'node_modules', 'invalid-package')
       ];
 
-      expect(actualPaths).to.be.eql(expectedPaths);
+      expect(actualPaths).to.deep.equal(expectedPaths);
 
       var output = ui.output.trim();
       var expectedWarning = chalk.yellow('The package `invalid-package` is not a properly formatted package, we have used a fallback lookup to resolve it at `' + path.join(root, 'node_modules', 'invalid-package') + '`. This is generally caused by an addon not having a `main` entry point (or `index.js`).');
@@ -232,7 +232,7 @@ describe('models/addon-discovery.js', function() {
         path.join(root, 'node_modules', 'blah-zorz')
       ];
 
-      expect(actualPaths).to.be.eql(expectedPaths);
+      expect(actualPaths).to.deep.equal(expectedPaths);
     });
 
     it('calls discoverAtPath for each entry in dependencies', function() {
@@ -255,7 +255,7 @@ describe('models/addon-discovery.js', function() {
         path.join(root, 'node_modules', 'blah-blah')
       ];
 
-      expect(actualPaths).to.be.eql(expectedPaths);
+      expect(actualPaths).to.deep.equal(expectedPaths);
     });
 
     it('excludes devDeps if `excludeDevDeps` is true', function() {
@@ -277,7 +277,7 @@ describe('models/addon-discovery.js', function() {
         path.join(root, 'node_modules', 'blah-blah')
       ];
 
-      expect(actualPaths).to.be.eql(expectedPaths);
+      expect(actualPaths).to.deep.equal(expectedPaths);
     });
   });
 
@@ -292,7 +292,7 @@ describe('models/addon-discovery.js', function() {
       var discovery = new AddonDiscovery(ui);
       var actual = discovery.discoverFromProjectItself(project);
 
-      expect(actual).to.be.eql([]);
+      expect(actual).to.deep.equal([]);
     });
 
     it('returns the root path if the project is an addon', function() {
@@ -315,8 +315,8 @@ describe('models/addon-discovery.js', function() {
       var actual = discovery.discoverFromProjectItself(project);
       var expectedPaths = [ 'foo/bar/baz' ];
 
-      expect(actualPaths).to.be.eql(expectedPaths);
-      expect(actual).to.be.eql(expectedPaths);
+      expect(actualPaths).to.deep.equal(expectedPaths);
+      expect(actual).to.deep.equal(expectedPaths);
     });
   });
 
@@ -370,7 +370,7 @@ describe('models/addon-discovery.js', function() {
 
       var result = discovery.discoverChildAddons(addon);
 
-      expect(result).to.be.eql([ 'discoverFromDependencies', 'discoverInRepoAddons' ]);
+      expect(result).to.deep.equal([ 'discoverFromDependencies', 'discoverInRepoAddons' ]);
     });
 
     it('uses shouldIncludeChildAddon() to determine whether an addon should be included', function() {
@@ -451,7 +451,7 @@ describe('models/addon-discovery.js', function() {
     it('concats  discoverInRepoAddons and discoverFromDependencies results', function() {
       var result = discovery.discoverProjectAddons(addon);
 
-      expect(result).to.be.eql([ 'discoverFromProjectItself', 'discoverFromInternalProjectAddons', 'discoverFromDependencies', 'discoverInRepoAddons' ]);
+      expect(result).to.deep.equal([ 'discoverFromProjectItself', 'discoverFromInternalProjectAddons', 'discoverFromDependencies', 'discoverInRepoAddons' ]);
     });
   });
 
@@ -463,9 +463,9 @@ describe('models/addon-discovery.js', function() {
 
       var result = discovery.discoverAtPath(addonPath);
 
-      expect(result.name).to.be.equal('ember-random-addon');
-      expect(result.path).to.be.equal(addonPath);
-      expect(result.pkg).to.be.eql(addonPkg);
+      expect(result.name).to.equal('ember-random-addon');
+      expect(result.path).to.equal(addonPath);
+      expect(result.pkg).to.deep.equal(addonPkg);
     });
 
     it('returns `null` if path is not for an addon', function() {
@@ -474,7 +474,7 @@ describe('models/addon-discovery.js', function() {
 
       var result = discovery.discoverAtPath(addonPath);
 
-      expect(result).to.be.equal(null);
+      expect(result).to.be.null;
     });
   });
 });

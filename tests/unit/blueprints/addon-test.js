@@ -275,8 +275,8 @@ describe('blueprint - addon', function() {
 
         var json = JSON.parse(writeFileSyncArguments[1]);
         delete json.devDependencies['ember-disable-prototype-extensions'];
-        expect(JSON.stringify(json.dependencies)).to.equal('{"a":"1","b":"1"}');
-        expect(JSON.stringify(json.devDependencies)).to.equal('{"a":"1","b":"1"}');
+        expect(json.dependencies).to.deep.equal({ a: "1", b: "1" });
+        expect(json.devDependencies).to.deep.equal({ a: "1", b: "1" });
       });
 
       it('appends ending newline', function() {

@@ -3,7 +3,6 @@
 var Promise    = require('../../lib/ext/promise');
 var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember      = require('../helpers/ember');
-var existsSync = require('exists-sync');
 var fs         = require('fs-extra');
 var outputFile = Promise.denodeify(fs.outputFile);
 var path       = require('path');
