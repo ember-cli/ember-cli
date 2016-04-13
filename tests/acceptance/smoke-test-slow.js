@@ -1,12 +1,11 @@
 'use strict';
 
 var path     = require('path');
-var fs       = require('fs');
+var fs       = require('fs-extra');
 var crypto   = require('crypto');
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var EOL      = require('os').EOL;
-var mkdirp   = require('mkdirp');
 
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
@@ -66,7 +65,7 @@ describe('Acceptance: smoke-test', function() {
 
         // temporary work around
         var templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
-        mkdirp.sync(path.dirname(templatePath));
+        fs.mkdirsSync(path.dirname(templatePath));
         fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
       })
       .then(function() {
