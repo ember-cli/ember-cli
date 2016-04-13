@@ -156,10 +156,7 @@ describe('Acceptance: ember new', function() {
   });
 
   it('ember new with blueprint uses the specified blueprint directory with a relative path', function() {
-    return tmp.setup('./tmp/my_blueprint')
-      .then(function() {
-        return tmp.setup('./tmp/my_blueprint/files');
-      })
+    return tmp.setup('./tmp/my_blueprint/files')
       .then(function() {
         fs.writeFileSync('./tmp/my_blueprint/files/gitignore');
         process.chdir('./tmp');
@@ -177,10 +174,7 @@ describe('Acceptance: ember new', function() {
   });
 
   it('ember new with blueprint uses the specified blueprint directory with an absolute path', function() {
-    return tmp.setup('./tmp/my_blueprint')
-      .then(function() {
-        return tmp.setup('./tmp/my_blueprint/files');
-      })
+    return tmp.setup('./tmp/my_blueprint/files')
       .then(function() {
         fs.writeFileSync('./tmp/my_blueprint/files/gitignore');
         process.chdir('./tmp');
@@ -214,10 +208,7 @@ describe('Acceptance: ember new', function() {
   });
 
   it('ember new passes blueprint options through to blueprint', function() {
-    return tmp.setup('./tmp/my_blueprint')
-      .then(function() {
-        return tmp.setup('./tmp/my_blueprint/files');
-      })
+    return tmp.setup('./tmp/my_blueprint/files')
       .then(function() {
         fs.writeFileSync('./tmp/my_blueprint/index.js', [
           'module.exports = {',
