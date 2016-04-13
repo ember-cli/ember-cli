@@ -4,6 +4,7 @@ Table of Contents:
 - [blueprintsPath](#blueprintspath)
 - [includedCommands](#includedcommands)
 - [serverMiddleware](#servermiddleware)
+- [testemMiddleware](#testemmiddleware)
 - [postBuild](#postbuild)
 - [preBuild](#prebuild)
 - [outputReady](#outputready)
@@ -155,6 +156,24 @@ Designed to manipulate requests in development mode.
 - [ember-cli-content-security-policy](https://github.com/rwjblue/ember-cli-content-security-policy/blob/v0.5.0/index.js#L84)
 
 - [history-support-addon](https://github.com/ember-cli/ember-cli/blob/v2.4.3/lib/tasks/server/middleware/history-support/index.js#L25)
+
+<a name='testemmiddleware'></a>
+## testemMiddleware
+
+Designed to manipulate requests in test mode.
+
+**Received arguments:**
+
+- app (the express app instance)
+
+**Source:** [lib/tasks/test.js:32](https://github.com/ember-cli/ember-cli/blob/v2.4.2/lib/tasks/test.js#L32)
+
+**Default implementation:** None
+
+**Uses:**
+
+- Adding custom test-specific endpoints
+- Manipulating HTTP requests in tests
 
 <a name='postbuild'></a>
 ## postBuild
