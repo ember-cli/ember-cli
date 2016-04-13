@@ -110,24 +110,6 @@ describe('Acceptance: ember init', function() {
     ]).then(confirmBlueprinted);
   });
 
-  it('ember init can run in created folder', function() {
-    return tmp.setup('./tmp/foo')
-      .then(function() {
-        process.chdir('./tmp/foo');
-      })
-      .then(function() {
-        return ember([
-          'init',
-          '--skip-npm',
-          '--skip-bower'
-        ]);
-      })
-      .then(confirmBlueprinted)
-      .then(function() {
-        return tmp.teardown('./tmp/foo');
-      });
-  });
-
   it('init an already init\'d folder', function() {
     return ember([
       'init',
