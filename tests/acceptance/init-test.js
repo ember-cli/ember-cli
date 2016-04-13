@@ -26,6 +26,8 @@ var dir = chaiFiles.dir;
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
 
+var tmpPath = './tmp/init-test';
+
 describe('Acceptance: ember init', function() {
   this.timeout(20000);
 
@@ -40,14 +42,14 @@ describe('Acceptance: ember init', function() {
   beforeEach(function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
 
-    return tmp.setup('./tmp')
+    return tmp.setup(tmpPath)
       .then(function() {
-        process.chdir('./tmp');
+        process.chdir(tmpPath);
       });
   });
 
   afterEach(function() {
-    return tmp.teardown('./tmp');
+    return tmp.teardown(tmpPath);
   });
 
   function confirmBlueprinted() {
