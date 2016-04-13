@@ -46,12 +46,14 @@ describe('broccoli/ember-app', function() {
     it('should override project.configPath if configPath option is specified', function() {
       project.configPath = function() { return 'original value'; };
 
+      var expected = 'custom config path';
+
       new EmberApp({
         project: project,
-        configPath: 'custom config path'
+        configPath: expected
       });
 
-      expect(project.configPath()).to.equal('custom config path');
+      expect(project.configPath().slice(-expected.length)).to.equal(expected);
     });
 
     it('should set bowerDirectory for app', function() {
