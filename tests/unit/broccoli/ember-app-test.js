@@ -557,7 +557,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-            expect(emberApp.project.addons.length).to.equal(7);
+            expect(emberApp.project.addons.length).to.equal(8);
           });
 
           it('foo', function() {
@@ -567,7 +567,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
 
-            expect(emberApp.project.addons.length).to.equal(8);
+            expect(emberApp.project.addons.length).to.equal(9);
           });
         });
       });
@@ -584,7 +584,7 @@ describe('broccoli/ember-app', function() {
 
           expect(emberApp._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
           expect(emberApp._addonDisabledByBlacklist({ name: 'Ember Random Addon' })).to.be.false;
-          expect(emberApp.project.addons.length).to.equal(7);
+          expect(emberApp.project.addons.length).to.equal(8);
         });
 
         it('throws if unavailable addon is specified', function() {

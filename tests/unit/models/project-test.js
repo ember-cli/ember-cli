@@ -187,6 +187,7 @@ describe('models/project.js', function() {
 
     it('returns a listing of all ember-cli-addons directly depended on by the project', function() {
       var expected = [
+        'testem-url-rewriter-middleware',
         'tests-server-middleware',
         'history-support-middleware', 'serve-files-middleware',
         'proxy-server-middleware', 'ember-cli-legacy-blueprints', 'ember-try',
@@ -201,10 +202,10 @@ describe('models/project.js', function() {
     it('returns instances of the addons', function() {
       var addons = project.addons;
 
-      expect(addons[7].name).to.equal('Ember Non Root Addon');
-      expect(addons[13].name).to.equal('Ember Super Button');
-      expect(addons[13].addons[0].name).to.equal('Ember Yagni');
-      expect(addons[13].addons[1].name).to.equal('Ember Ng');
+      expect(addons[8].name).to.equal('Ember Non Root Addon');
+      expect(addons[14].name).to.equal('Ember Super Button');
+      expect(addons[14].addons[0].name).to.equal('Ember Yagni');
+      expect(addons[14].addons[1].name).to.equal('Ember Ng');
     });
 
     it('addons get passed the project instance', function() {
@@ -216,7 +217,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       var addons = project.addons;
 
-      expect(addons[9].name).to.equal('Ember Random Addon');
+      expect(addons[10].name).to.equal('Ember Random Addon');
     });
 
     it('returns the default blueprints path', function() {
@@ -279,8 +280,8 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       var addons = project.addons;
 
-      expect(addons[6] instanceof Addon).to.equal(true);
-      expect(addons[6].name).to.equal('Ember CLI Generated with export');
+      expect(addons[7] instanceof Addon).to.equal(true);
+      expect(addons[7].name).to.equal('Ember CLI Generated with export');
     });
 
     it('adds the project itself if it is an addon', function() {
