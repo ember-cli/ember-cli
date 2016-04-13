@@ -231,7 +231,7 @@ describe('Acceptance: smoke-test', function() {
 
         expect(output).to.match(/JSHint/, 'JSHint should be run');
         expect(output).to.match(/fail\s+0/, 'no failures');
-        expect(output).to.match(/pass\s+12/, '1 passing');
+        expect(output).to.match(/pass\s+7/, '1 passing');
       });
   });
 

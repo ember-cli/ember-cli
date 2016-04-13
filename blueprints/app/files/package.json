@@ -32,6 +32,7 @@
     "ember-cli-qunit": "^1.4.0",
     "ember-cli-release": "0.2.8",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-test-helper": "0.0.6",
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.5.0",
     "ember-export-application-global": "^1.0.5",
