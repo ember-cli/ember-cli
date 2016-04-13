@@ -1,6 +1,6 @@
 /*jshint node:true*/
 
-var fs          = require('fs');
+var fs          = require('fs-extra');
 var existsSync  = require('exists-sync');
 var path        = require('path');
 var walkSync    = require('walk-sync');
@@ -154,7 +154,7 @@ module.exports = {
 
 function readContentsFromFile(fileName) {
   var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-  return JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
+  return fs.readJsonSync(packagePath, { encoding: 'utf8'});
 }
 
 function alphabetizeDependencies(contents) {

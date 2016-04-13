@@ -51,14 +51,14 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
-    var packageContents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
+    var packageContents = fs.readJsonSync('package.json', { encoding: 'utf8' });
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
     expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
-    var bowerContents = JSON.parse(fs.readFileSync('bower.json', { encoding: 'utf8' }));
+    var bowerContents = fs.readJsonSync('bower.json', { encoding: 'utf8' });
 
     expect(bowerContents.name).to.equal(addonName);
   });
@@ -87,11 +87,11 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/component-with-template')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -115,11 +115,11 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/pod-templates-only')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       }).then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
@@ -132,12 +132,12 @@ describe('Acceptance: addon-smoke-test', function() {
 
   it('build with addon dependencies being developed', function() {
     var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-    var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+    var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
     packageJson.dependencies = packageJson.dependencies || {};
     packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
     packageJson.dependencies['developing-addon'] = 'latest';
 
-    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+    fs.writeJsonSync(packageJsonPath, packageJson);
 
     symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.resolve('../../tmp/', addonName, 'node_modules/developing-addon'));
 

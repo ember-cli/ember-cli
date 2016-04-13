@@ -1,7 +1,7 @@
 'use strict';
 
 var path                = require('path');
-var fs                  = require('fs');
+var fs                  = require('fs-extra');
 var acceptance          = require('../helpers/acceptance');
 var runCommand          = require('../helpers/run-command');
 var createTestTargets   = acceptance.createTestTargets;
@@ -47,7 +47,7 @@ describe('Acceptance: blueprint smoke tests', function() {
                       'http://localhost/api')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+        var packageJson = fs.readJsonSync(packageJsonPath, 'utf8');
 
         expect(packageJson.devDependencies).to.have.a.property('http-proxy');
         expect(packageJson.devDependencies).to.have.a.property('morgan');
