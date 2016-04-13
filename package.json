@@ -58,7 +58,6 @@
     "compression": "^1.4.4",
     "configstore": "^2.0.0",
     "core-object": "0.0.2",
-    "cpr": "^1.0.0",
     "debug": "^2.1.3",
     "diff": "^2.2.2",
     "ember-cli-broccoli": "0.16.9",
