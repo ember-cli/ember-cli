@@ -9,13 +9,9 @@ var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
 var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-
-chai.use(chaiFiles);
-
+var chai = require('../chai');
 var expect = chai.expect;
-var file = chaiFiles.file;
+var file = chai.file;
 
 describe('Acceptance: ember install', function() {
   this.timeout(60000);

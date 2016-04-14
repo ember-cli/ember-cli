@@ -13,14 +13,10 @@ var cleanupRun          = acceptance.cleanupRun;
 
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-
-chai.use(chaiFiles);
-
+var chai = require('../chai');
 var expect = chai.expect;
-var file = chaiFiles.file;
-var dir = chaiFiles.dir;
+var file = chai.file;
+var dir = chai.dir;
 
 
 // skipped because brittle. needs some TLC

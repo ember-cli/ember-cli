@@ -13,16 +13,10 @@ var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-var chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiFiles);
-chai.use(chaiAsPromised);
-
+var chai = require('../chai');
 var expect = chai.expect;
-var file = chaiFiles.file;
-var dir = chaiFiles.dir;
+var file = chai.file;
+var dir = chai.dir;
 
 var appName  = 'some-cool-app';
 

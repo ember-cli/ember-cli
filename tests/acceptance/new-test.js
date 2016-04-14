@@ -13,14 +13,10 @@ var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var EOL        = require('os').EOL;
 var chalk      = require('chalk');
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-
-chai.use(chaiFiles);
-
+var chai = require('../chai');
 var expect = chai.expect;
-var file = chaiFiles.file;
-var dir = chaiFiles.dir;
+var file = chai.file;
+var dir = chai.dir;
 
 var tmpDir = './tmp/new-test';
 

@@ -16,13 +16,9 @@ var forEach    = require('lodash/forEach');
 var any        = require('lodash/some');
 var EOL        = require('os').EOL;
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-
-chai.use(chaiFiles);
-
+var chai = require('../chai');
 var expect = chai.expect;
-var dir = chaiFiles.dir;
+var dir = chai.dir;
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
 
