@@ -45,8 +45,8 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   afterEach(function() {
-    return cleanupRun().then(function() {
-      expect(dir('tmp')).to.not.exist;
+    return cleanupRun(addonName).then(function() {
+      expect(dir('tmp/' + addonName)).to.not.exist;
     });
   });
 

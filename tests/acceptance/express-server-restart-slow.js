@@ -48,8 +48,8 @@ describe.skip('Acceptance: express server restart', function () {
 
   afterEach(function() {
     this.timeout(15000);
-    return cleanupRun().then(function() {
-      expect(dir('tmp')).to.not.exist;
+    return cleanupRun(appName).then(function() {
+      expect(dir('tmp/' + appName)).to.not.exist;
     });
   });
 

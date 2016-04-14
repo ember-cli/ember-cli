@@ -24,8 +24,7 @@ describe('models/project.js', function() {
     var called;
 
     beforeEach(function() {
-      tmpPath = path.join(process.cwd(), 'tmp');
-      projectPath = path.join(tmpPath, 'test-app');
+      projectPath = 'tmp/test-app';
       called = false;
       return tmp.setup(projectPath)
         .then(function() {
@@ -43,7 +42,7 @@ describe('models/project.js', function() {
 
     afterEach(function() {
       called = null;
-      return tmp.teardown(tmpPath);
+      return tmp.teardown(projectPath);
     });
 
     it('config() finds and requires config/environment', function() {

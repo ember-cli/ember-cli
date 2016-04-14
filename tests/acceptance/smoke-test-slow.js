@@ -44,8 +44,8 @@ describe('Acceptance: smoke-test', function() {
   afterEach(function() {
     delete process.env._TESTEM_CONFIG_JS_RAN;
 
-    return cleanupRun().then(function() {
-      expect(dir('tmp')).to.not.exist;
+    return cleanupRun(appName).then(function() {
+      expect(dir('tmp/' + appName)).to.not.exist;
     });
   });
 
