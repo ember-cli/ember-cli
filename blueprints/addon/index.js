@@ -152,7 +152,7 @@ module.exports = {
 
 function readContentsFromFile(fileName) {
   var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-  return fs.readJsonSync(packagePath, { encoding: 'utf8'});
+  return fs.readJsonSync(packagePath);
 }
 
 function alphabetizeDependencies(contents) {

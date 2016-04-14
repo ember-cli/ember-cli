@@ -47,7 +47,7 @@ describe('Acceptance: blueprint smoke tests', function() {
                       'http://localhost/api')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, 'utf8');
+        var packageJson = fs.readJsonSync(packageJsonPath);
 
         expect(packageJson.devDependencies).to.have.a.property('http-proxy');
         expect(packageJson.devDependencies).to.have.a.property('morgan');

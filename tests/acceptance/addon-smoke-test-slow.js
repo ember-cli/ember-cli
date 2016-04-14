@@ -51,14 +51,14 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
-    var packageContents = fs.readJsonSync('package.json', { encoding: 'utf8' });
+    var packageContents = fs.readJsonSync('package.json');
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
     expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
-    var bowerContents = fs.readJsonSync('bower.json', { encoding: 'utf8' });
+    var bowerContents = fs.readJsonSync('bower.json');
 
     expect(bowerContents.name).to.equal(addonName);
   });
@@ -87,7 +87,7 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/component-with-template')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
@@ -115,7 +115,7 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/pod-templates-only')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
@@ -132,7 +132,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
   it('build with addon dependencies being developed', function() {
     var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-    var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+    var packageJson = fs.readJsonSync(packageJsonPath);
     packageJson.dependencies = packageJson.dependencies || {};
     packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
     packageJson.dependencies['developing-addon'] = 'latest';

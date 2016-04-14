@@ -47,7 +47,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['broccoli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
@@ -66,7 +66,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-registry-ordering')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['first-dummy-preprocessor'] = 'latest';
         packageJson.devDependencies['second-dummy-preprocessor'] = 'latest';
 
@@ -87,7 +87,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-without-preprocessors')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['broccoli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
@@ -113,7 +113,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-2')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
@@ -145,7 +145,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-3')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath, { encoding: 'utf8' });
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-shallow-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
