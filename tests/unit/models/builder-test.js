@@ -23,15 +23,20 @@ describe('models/builder.js', function() {
   var addon, builder, buildResults, tmpdir;
 
   describe('Windows CTRL + C Capture', function() {
-    var originalPlatform;
+    var originalPlatform, originalStdin;
 
     before(function() {
       originalPlatform = process.platform;
+      originalStdin = process.platform;
     });
 
     after(function () {
       Object.defineProperty(process, 'platform', {
         value: originalPlatform
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: originalStdin
       });
     });
 
