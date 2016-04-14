@@ -17,14 +17,10 @@ var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-
-chai.use(chaiFiles);
-
+var chai = require('../chai');
 var expect = chai.expect;
-var file = chaiFiles.file;
-var dir = chaiFiles.dir;
+var file = chai.file;
+var dir = chai.dir;
 
 describe('Acceptance: smoke-test', function() {
   this.timeout(500000);

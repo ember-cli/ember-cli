@@ -11,13 +11,9 @@ var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fs.remove);
 var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-
-chai.use(chaiFiles);
-
+var chai = require('../../chai');
 var expect = chai.expect;
-var file = chaiFiles.file;
+var file = chai.file;
 
 var root            = process.cwd();
 var tmproot         = path.join(root, 'tmp');

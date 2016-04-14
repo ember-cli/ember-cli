@@ -4,13 +4,9 @@ var attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
 var quickTemp = require('quick-temp');
 var isDarwin = /darwin/i.test(require('os').type());
 
-var chai = require('chai');
-var chaiFiles = require('chai-files');
-
-chai.use(chaiFiles);
-
+var chai = require('../../chai');
 var expect = chai.expect;
-var file = chaiFiles.file;
+var file = chai.file;
 
 describe('attempt-never-index', function() {
   var context = {};
