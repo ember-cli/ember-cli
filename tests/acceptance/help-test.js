@@ -135,9 +135,11 @@ describe('Acceptance: ember help', function() {
   });
 
   describe('--json', function() {
-    it('works', function() {
+    beforeEach(function() {
       options.json = true;
+    });
 
+    it('works', function() {
       command.run(options, []);
 
       var json = convertToJson(options.ui.output);
@@ -146,19 +148,7 @@ describe('Acceptance: ember help', function() {
       expect(json).to.deep.equal(expected);
     });
 
-    it('returns empty list for unknown command', function() {
-      options.json = true;
-
-      command.run(options, ['asdf']);
-
-      var json = convertToJson(options.ui.output);
-      var expected = require('../fixtures/help/help-unknown.js');
-
-      expect(json).to.deep.equal(expected);
-    });
-
     it('prints commands from addons', function() {
-      options.json = true;
       options.project.eachAddonCommand = function(cb) {
         cb('dummy-addon', { Foo: FooCommand });
       };
@@ -171,22 +161,7 @@ describe('Acceptance: ember help', function() {
       expect(json).to.deep.equal(expected);
     });
 
-    it('prints single command from addon', function() {
-      options.json = true;
-      options.project.eachAddonCommand = function(cb) {
-        cb('dummy-addon', { Foo: FooCommand });
-      };
-
-      command.run(options, ['foo']);
-
-      var json = convertToJson(options.ui.output);
-      var expected = require('../fixtures/help/foo.js');
-
-      expect(json).to.deep.equal(expected);
-    });
-
     it('prints blueprints from addons', function() {
-      options.json = true;
       options.project.blueprintLookupPaths = function() {
         return [path.join(__dirname, '..', 'fixtures', 'blueprints')];
       };
