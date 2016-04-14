@@ -154,14 +154,6 @@ describe('Acceptance: preprocessor-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
-          encoding: 'utf8'
-        });
-
-        var vendorJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'vendor.js'), {
-          encoding: 'utf8'
-        });
-
         expect(file('dist/assets/some-cool-app.js'))
           .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
           .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
