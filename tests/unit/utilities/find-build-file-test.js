@@ -27,9 +27,9 @@ describe('find-build-file', function() {
   it('does not throws an error when the file is valid syntax', function() {
     fs.writeFileSync(tmpFilename, 'module.exports = function() {return {\'a\': \'A\', \'b\': \'B\'};}', { encoding: 'utf8' });
 
-    expect(function() {
-      findBuildFile(tmpFilename);
-    }).to.not.throw();
+    var result = findBuildFile(tmpFilename);
+    expect(result).to.be.a('function');
+    expect(result()).to.deep.equal({ a: 'A', b: 'B' });
   });
 
   it('throws an SyntaxError if the file contains a syntax mistake', function() {
@@ -38,5 +38,10 @@ describe('find-build-file', function() {
     expect(function() {
       findBuildFile(tmpFilename);
     }).to.throw(SyntaxError, /Could not require '.*':/);
+  });
+
+  it('does not throws an error when the file is mss', function() {
+    var result = findBuildFile('missing-file.js');
+    expect(result).to.be.null;
   });
 });
