@@ -173,10 +173,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/app-test-import')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-test-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -194,10 +194,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/app-import')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-random-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -215,10 +215,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return expect(copyFixtureFiles('brocfile-tests/app-import')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-bad-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -229,10 +229,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/public-tree')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-random-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -264,12 +264,12 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/jshint-addon')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath,'utf8'));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson['ember-addon'] = {
           paths: ['./lib/ember-random-thing']
         };
 
-        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        fs.writeJsonSync(packageJsonPath, packageJson);
 
         var badContent = 'var blah = ""\n' + 'export default Blah;';
         var appPath = path.join('.', 'lib', 'ember-random-thing', 'app',
@@ -410,10 +410,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/multiple-sass-files')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['broccoli-sass'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -447,10 +447,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
         fs.writeFileSync(brocfilePath, brocfile, 'utf8');
 
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['broccoli-sass'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');

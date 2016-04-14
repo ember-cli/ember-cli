@@ -1,7 +1,7 @@
 'use strict';
 
 var path       = require('path');
-var fs         = require('fs');
+var fs         = require('fs-extra');
 
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
@@ -47,11 +47,11 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['broccoli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -66,11 +66,11 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-registry-ordering')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['first-dummy-preprocessor'] = 'latest';
         packageJson.devDependencies['second-dummy-preprocessor'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -87,11 +87,11 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-without-preprocessors')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['broccoli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -113,10 +113,10 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-2')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -145,23 +145,15 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-3')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-shallow-addon'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'some-cool-app.js'), {
-          encoding: 'utf8'
-        });
-
-        var vendorJs = fs.readFileSync(path.join('.', 'dist', 'assets', 'vendor.js'), {
-          encoding: 'utf8'
-        });
-
         expect(file('dist/assets/some-cool-app.js'))
           .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
           .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');

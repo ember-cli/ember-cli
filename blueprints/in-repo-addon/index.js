@@ -20,7 +20,7 @@ module.exports = {
 
   afterInstall: function(options) {
     var packagePath = path.join(this.project.root, 'package.json');
-    var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
+    var contents    = fs.readJsonSync(packagePath);
     var name        = stringUtil.dasherize(options.entity.name);
     var newPath     = ['lib', name].join('/');
     var paths;

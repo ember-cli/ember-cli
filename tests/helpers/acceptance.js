@@ -8,7 +8,7 @@ var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var conf              = require('./conf');
 var existsSync        = require('exists-sync');
-var copy              = Promise.denodeify(require('cpr'));
+var copy              = Promise.denodeify(fs.copy);
 var root              = process.cwd();
 var exec              = Promise.denodeify(require('child_process').exec);
 

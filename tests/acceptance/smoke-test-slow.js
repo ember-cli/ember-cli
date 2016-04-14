@@ -1,12 +1,11 @@
 'use strict';
 
 var path     = require('path');
-var fs       = require('fs');
+var fs       = require('fs-extra');
 var crypto   = require('crypto');
 var walkSync = require('walk-sync');
 var appName  = 'some-cool-app';
 var EOL      = require('os').EOL;
-var mkdirp   = require('mkdirp');
 
 var runCommand          = require('../helpers/run-command');
 var acceptance          = require('../helpers/acceptance');
@@ -66,16 +65,16 @@ describe('Acceptance: smoke-test', function() {
 
         // temporary work around
         var templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
-        mkdirp.sync(path.dirname(templatePath));
+        fs.mkdirsSync(path.dirname(templatePath));
         fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
       })
       .then(function() {
         var packageJsonPath = path.join('lib','my-addon','package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = '*';
 
-        fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+        fs.writeJsonSync(packageJsonPath, packageJson);
 
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
           .then(function(result) {
@@ -402,11 +401,11 @@ describe('Acceptance: smoke-test', function() {
     return copyFixtureFiles('smoke-tests/with-template-failing-linting')
       .then(function() {
         var packageJsonPath = 'package.json';
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies = packageJson.devDependencies || {};
         packageJson.devDependencies['fake-template-linter'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')

@@ -108,7 +108,7 @@ describe('Acceptance: ember new', function() {
       expect(dir('FooApp')).to.not.exist;
       expect(file('package.json')).to.exist;
 
-      var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      var pkgJson = fs.readJsonSync('package.json');
       expect(pkgJson.name).to.equal('foo-app');
     });
   });
@@ -283,7 +283,7 @@ describe('Acceptance: ember new', function() {
       expect(cwd).to.not.match(/foo/, 'does not use app name for directory name');
       expect(cwd).to.match(/bar/, 'uses given directory name');
 
-      var pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      var pkgJson = fs.readJsonSync('package.json');
       expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
     });
   });

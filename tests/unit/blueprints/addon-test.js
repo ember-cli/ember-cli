@@ -54,19 +54,19 @@ describe('blueprint - addon', function() {
 
   describe('direct blueprint require', function() {
     var blueprint;
-    var readFileSyncStub;
-    var readFileSyncWasCalled;
-    var readFileSyncArguments;
-    var readFileSyncReturnValue;
+    var readJsonSyncStub;
+    var readJsonSyncWasCalled;
+    var readJsonSyncArguments;
+    var readJsonSyncReturnValue;
     var writeFileSyncStub;
     var writeFileSyncWasCalled;
     var writeFileSyncArguments;
 
     beforeEach(function() {
       blueprint = proxyquire('../../../blueprints/addon', {
-        'fs': {
-          readFileSync: function() {
-            return readFileSyncStub.apply(this, arguments);
+        'fs-extra': {
+          readJsonSync: function() {
+            return readJsonSyncStub.apply(this, arguments);
           },
           writeFileSync: function() {
             return writeFileSyncStub.apply(this, arguments);
@@ -83,16 +83,15 @@ describe('blueprint - addon', function() {
       };
       blueprint.path = 'test-blueprint-path';
 
-      readFileSyncStub = fs.readFileSync;
-      readFileSyncWasCalled = false;
-      readFileSyncArguments = [];
-      readFileSyncReturnValue = '{}';
-      readFileSyncStub = function() {
-        readFileSyncWasCalled = true;
-        readFileSyncArguments = arguments;
-        return readFileSyncReturnValue;
+      readJsonSyncWasCalled = false;
+      readJsonSyncArguments = [];
+      readJsonSyncReturnValue = {};
+      readJsonSyncStub = function() {
+        readJsonSyncWasCalled = true;
+        readJsonSyncArguments = arguments;
+        return readJsonSyncReturnValue;
       };
-      writeFileSyncStub = fs.writeFileSync;
+
       writeFileSyncWasCalled = false;
       writeFileSyncArguments = [];
       writeFileSyncStub = function() {
@@ -105,13 +104,12 @@ describe('blueprint - addon', function() {
       it('works', function() {
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
-        expect(readFileSyncArguments[0]).to.equal(path.normalize('test-app-blueprint-path/files/package.json'));
+        expect(readJsonSyncArguments[0]).to.equal(path.normalize('test-app-blueprint-path/files/package.json'));
         expect(writeFileSyncArguments[0]).to.equal(path.normalize('test-blueprint-path/files/package.json'));
 
-        expect(readFileSyncArguments[1]).to.deep.equal({ encoding: 'utf8' });
         // string to test ordering
         expect(writeFileSyncArguments[1]).to.deep.equal('\
 {\n\
@@ -134,13 +132,13 @@ describe('blueprint - addon', function() {
       });
 
       it('removes the `private` property', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           private: true
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -148,13 +146,13 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `name`', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           name: 'test-name'
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -162,13 +160,13 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `description`', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           description: 'test-description'
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -176,15 +174,15 @@ describe('blueprint - addon', function() {
       });
 
       it('moves `ember-cli-babel` from devDependencies to dependencies', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           devDependencies: {
             'ember-cli-babel': '1.0.0'
           }
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -195,13 +193,13 @@ describe('blueprint - addon', function() {
       });
 
       it('does not push multiple `ember-addon` keywords', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           keywords: ['ember-addon']
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -209,15 +207,15 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites any version of `ember-disable-prototype-extensions`', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           devDependencies: {
             'ember-disable-prototype-extensions': '0.0.1'
           }
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -225,15 +223,15 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `scripts.test`', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           scripts: {
             test: 'test-string'
           }
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -241,15 +239,15 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `ember-addon.configPath`', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           'ember-addon': {
             configPath: 'test-path'
           }
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -257,7 +255,7 @@ describe('blueprint - addon', function() {
       });
 
       it('preserves dependency ordering', function() {
-        readFileSyncReturnValue = JSON.stringify({
+        readJsonSyncReturnValue = {
           dependencies: {
             b: '1',
             a: '1'
@@ -266,11 +264,11 @@ describe('blueprint - addon', function() {
             b: '1',
             a: '1'
           }
-        });
+        };
 
         blueprint.generatePackageJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
         var json = JSON.parse(writeFileSyncArguments[1]);
@@ -293,13 +291,12 @@ describe('blueprint - addon', function() {
       it('works', function() {
         blueprint.generateBowerJson();
 
-        expect(readFileSyncWasCalled).to.be.true;
+        expect(readJsonSyncWasCalled).to.be.true;
         expect(writeFileSyncWasCalled).to.be.true;
 
-        expect(readFileSyncArguments[0]).to.equal(path.normalize('test-app-blueprint-path/files/bower.json'));
+        expect(readJsonSyncArguments[0]).to.equal(path.normalize('test-app-blueprint-path/files/bower.json'));
         expect(writeFileSyncArguments[0]).to.equal(path.normalize('test-blueprint-path/files/bower.json'));
 
-        expect(readFileSyncArguments[1]).to.deep.equal({ encoding: 'utf8' });
         // string to test ordering
         expect(writeFileSyncArguments[1]).to.deep.equal('\
 {\n\
