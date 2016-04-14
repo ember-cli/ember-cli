@@ -10,6 +10,7 @@ var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fs.remove);
 var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
+var td              = require('testdouble');
 
 var chai = require('../../chai');
 var expect = chai.expect;
@@ -22,11 +23,7 @@ describe('models/builder.js', function() {
   var addon, builder, buildResults, tmpdir;
 
   describe('Windows CTRL + C Capture', function() {
-    var originalPlatform, called;
-
-    beforeEach(function () {
-      called = false;
-    });
+    var originalPlatform;
 
     before(function() {
       originalPlatform = process.platform;
@@ -49,17 +46,17 @@ describe('models/builder.js', function() {
         }
       });
 
+      var trapWindowsSignals = td.function();
+
       builder = new Builder({
         setupBroccoliBuilder: function() { },
         cleanupOnExit: function() { },
-        trapWindowsSignals: function () {
-          called = true;
-        },
+        trapWindowsSignals: trapWindowsSignals,
         project: new MockProject()
       });
 
       builder.trapSignals();
-      expect(called).to.equal(true);
+      td.verify(trapWindowsSignals());
     });
 
     it('does not enable raw capture on non-Windows', function() {
@@ -73,17 +70,17 @@ describe('models/builder.js', function() {
         }
       });
 
+      var trapWindowsSignals = td.function();
+
       builder = new Builder({
         setupBroccoliBuilder: function() { },
         cleanupOnExit: function() { },
-        trapWindowsSignals: function () {
-          called = true;
-        },
+        trapWindowsSignals: trapWindowsSignals,
         project: new MockProject()
       });
 
       builder.trapSignals();
-      expect(called).to.equal(false);
+      td.verify(trapWindowsSignals(), {times: 0, ignoreExtraArgs: true});
     });
   });
 
