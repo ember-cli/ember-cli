@@ -6,12 +6,14 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.4.3...v2.5.0)
   + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
   + Make the following updates in your `package.json`:
     + Update `ember-data` to `^2.5.0`
     + Add `ember-cli-jshint` at `^1.0.0`
   + Update `ember` in `bower.json` to `~2.5.0`
 - Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.4.3...v2.5.0)
   + Make the following updates in your `package.json`:
     + Update `ember-data` to `^2.5.0`
     + Add `ember-cli-jshint` at `^1.0.0`
