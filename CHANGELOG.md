@@ -1,5 +1,44 @@
 # ember-cli Changelog
 
+### 2.6.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.5.0...v2.6.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + Make the following changes to your `package.json`:
+    + Update `ember-ajax` to `^2.0.1`
+    + Add `ember-welcome-page` at `^1.0.1`
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.5.0...v2.6.0-beta.1)
+  + Change `.travis.yml` to avoid wasted cleanup when running CI. See [#5606](https://github.com/ember-cli/ember-cli/pull/5606) for more details.
+  + Make the following changes to your `package.json`:
+    + Update `ember-ajax` to `^2.0.1`
+    + Add `ember-welcome-page` at `^1.0.1`
+    + Remove `ember-try` (it is now included by default)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5606](https://github.com/ember-cli/ember-cli/pull/5606) Don't bother pointless npm/bower restore in addon CI [@mike-north](https://github.com/mike-north)
+- [#5609](https://github.com/ember-cli/ember-cli/pull/5609) [ENHANCEMENT] Add in v1 of welcome page addon [@acorncom](https://github.com/acorncom)
+- [#5689](https://github.com/ember-cli/ember-cli/pull/5689) [ENHANCEMENT] Added return statement to `beforeEach` in `moduleForAcceptance` [@Fed03](https://github.com/Fed03)
+- [#5693](https://github.com/ember-cli/ember-cli/pull/5693) Fix: ensure livereload works when deleting directories. [@hansl](https://github.com/hansl)
+- [#5779](https://github.com/ember-cli/ember-cli/pull/5779) Update Ember Data to v2.5.0 [@bmac](https://github.com/bmac)
+- [#5714](https://github.com/ember-cli/ember-cli/pull/5714) "addon" blueprint: Update TravisCI config [@Turbo87](https://github.com/Turbo87)
+- [#5723](https://github.com/ember-cli/ember-cli/pull/5723) Embed/include ember-try in ember-cli [@kategengler](https://github.com/kategengler)
+- [#5757](https://github.com/ember-cli/ember-cli/pull/5757) Add "ember-cli-jshint" dependency to "app" blueprint [@Turbo87](https://github.com/Turbo87)
+- [#5752](https://github.com/ember-cli/ember-cli/pull/5752) Ensure `Project.prototype.findAddonByName` does not match substrings. [@martndemus](https://github.com/martndemus)
+- [#5741](https://github.com/ember-cli/ember-cli/pull/5741) Resolve config directory relative to EmberApp project root [@nickiaconis](https://github.com/nickiaconis)
+- [#5769](https://github.com/ember-cli/ember-cli/pull/5769) Update ember-ajax to 2.0. [@rwjblue](https://github.com/rwjblue)
+- [#5780](https://github.com/ember-cli/ember-cli/pull/5780) Update Ember to v2.5.0. [@rwjblue](https://github.com/rwjblue)
+- [#5786](https://github.com/ember-cli/ember-cli/pull/5786) Deprecate `Project.closest` in favor of `Project.closestSync` [@jeffjewiss](https://github.com/jeffjewiss)
+
+Thank you to all who took the time to contribute!
+
 ### 2.5.0
 
 The following changes are required if you are upgrading from the previous
