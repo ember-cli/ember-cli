@@ -1,5 +1,31 @@
 # ember-cli Changelog
 
+### 2.5.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.4.3...v2.5.0)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + Make the following updates in your `package.json`:
+    + Update `ember-data` to `^2.5.0`
+    + Add `ember-cli-jshint` at `^1.0.0`
+  + Update `ember` in `bower.json` to `~2.5.0`
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.4.3...v2.5.0)
+  + Make the following updates in your `package.json`:
+    + Update `ember-data` to `^2.5.0`
+    + Add `ember-cli-jshint` at `^1.0.0`
+  + Update `ember` in `bower.json` to `~2.5.0`
+
+#### Community Contributions
+
+- [#5780](https://github.com/ember-cli/ember-cli/pull/5780) Update Ember to v2.5. [@rwjblue](https://github.com/rwjblue)
+- [#5779](https://github.com/ember-cli/ember-cli/pull/5779) Update Ember Data to v2.5. [@bmac](https://github.com/bmac)
+- [#5757](https://github.com/ember-cli/ember-cli/pull/5757) Add ember-cli-jshint dependency to app and addon blueprints. [@Turbo87](https://github.com/Turbo87)
+
+
 ### 2.4.3
 
 The following changes are required if you are upgrading from the previous
