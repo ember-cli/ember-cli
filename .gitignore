@@ -6,4 +6,5 @@ npm-debug.log
 /docs/build
 .node_modules-tmp
 .bower_components-tmp
+.structure.json
 /coverage
