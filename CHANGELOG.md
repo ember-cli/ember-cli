@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+### 2.6.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.5.0...v2.6.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + Make the following changes to your `package.json`:
+    + Update `ember-ajax` to `^2.0.1`
+    + Add `ember-welcome-page` at `^1.0.1`
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.5.0...v2.6.0-beta.1)
+  + Change `.travis.yml` to avoid wasted cleanup when running CI. See [#5606](https://github.com/ember-cli/ember-cli/pull/5606) for more details.
+  + Make the following changes to your `package.json`:
+    + Update `ember-ajax` to `^2.0.1`
+    + Add `ember-welcome-page` at `^1.0.1`
+    + Remove `ember-try` (it is now included by default)
+- Core Contributors
+  + No changes required
+
 ### 2.5.0
 
 The following changes are required if you are upgrading from the previous
