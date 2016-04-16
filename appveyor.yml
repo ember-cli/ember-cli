@@ -17,8 +17,6 @@ install:
   - npm install mocha-appveyor-reporter
   # Typical npm stuff.
   - npm version
-  # Hotfix for https://github.com/ember-cli/ember-cli/issues/5781
-  - npm install cross-spawn-async@2.1.9
   - npm install
 
 cache:
