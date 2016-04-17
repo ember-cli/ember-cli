@@ -18,12 +18,14 @@ describe('build command', function() {
     tasks = {
       Build: Task.extend({
         init: function() {
+          this._super.apply(this, arguments);
           buildTaskInstance = this;
         }
       }),
 
       BuildWatch: Task.extend({
         init: function() {
+          this._super.apply(this, arguments);
           buildWatchTaskInstance = this;
         }
       }),

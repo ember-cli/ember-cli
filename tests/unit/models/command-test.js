@@ -163,7 +163,10 @@ describe('models/command.js', function() {
 
   it('validateAndRun() should print a message if outside a project and command is not valid there.', function() {
     return new InsideProjectCommand(assign(options, {
-      project: { isEmberCLIProject: function() { return false; } }
+      project: {
+        hasDependencies: function() { return true; },
+        isEmberCLIProject: function() { return false; },
+      }
     })).validateAndRun([]).catch(function(reason) {
       expect(reason.message).to.match(/You have to be inside an ember-cli project/);
     });
