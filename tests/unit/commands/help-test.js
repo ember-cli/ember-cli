@@ -343,118 +343,6 @@ Available commands from my-addon:' + EOL);
       ]);
     });
 
-    it('works with single command alias', function() {
-      var Command1 = function() {
-        return {
-          getJson: function() {
-            return {
-              test1: 'bar'
-            };
-          }
-        };
-      };
-      Command1.prototype.aliases = ['my-alias'];
-
-      options.commands = {
-        Command1: Command1
-      };
-
-      var command = new HelpCommand(options);
-
-      command.run(options, ['my-alias']);
-
-      var json = convertToJson(options.ui.output);
-
-      expect(json.commands).to.deep.equal([
-        {
-          test1: 'bar'
-        }
-      ]);
-    });
-
-    it('passes extra commands to `generate`', function() {
-      options.commands = {
-        Generate: function() {
-          return {
-            getJson: function(options) {
-              expect(options.rawArgs).to.deep.equal(['something', 'else']);
-              return {
-                test1: 'bar'
-              };
-            }
-          };
-        }
-      };
-
-      var command = new HelpCommand(options);
-
-      command.run(options, ['generate', 'something', 'else']);
-
-      var json = convertToJson(options.ui.output);
-
-      expect(json.commands).to.deep.equal([
-        {
-          test1: 'bar'
-        }
-      ]);
-    });
-
-    it('handles no extra commands to `generate`', function() {
-      options.commands = {
-        Generate: function() {
-          return {
-            getJson: function(options) {
-              expect(options.rawArgs).to.equal(undefined);
-              return {
-                test1: 'bar'
-              };
-            }
-          };
-        }
-      };
-
-      var command = new HelpCommand(options);
-
-      command.run(options, ['generate']);
-
-      var json = convertToJson(options.ui.output);
-
-      expect(json.commands).to.deep.equal([
-        {
-          test1: 'bar'
-        }
-      ]);
-    });
-
-    it('passes extra commands to `generate` alias', function() {
-      var Generate = function() {
-        return {
-          getJson: function() {
-            return {
-              test1: 'bar'
-            };
-          }
-        };
-      };
-      Generate.prototype.aliases = ['g'];
-
-      options.commands = {
-        Generate: Generate
-      };
-
-      var command = new HelpCommand(options);
-
-      command.run(options, ['g', 'something', 'else']);
-
-      var json = convertToJson(options.ui.output);
-
-      expect(json.commands).to.deep.equal([
-        {
-          test1: 'bar'
-        }
-      ]);
-    });
-
     it('handles special option `Path`', function() {
       options.commands = {
         Command1: function() {
@@ -479,20 +367,6 @@ Available commands from my-addon:' + EOL);
           test1: 'Path'
         }
       ]);
-    });
-
-    it('handles missing command', function() {
-      options.commands = {
-        Command1: function() {}
-      };
-
-      var command = new HelpCommand(options);
-
-      command.run(options, ['missing-command']);
-
-      var json = convertToJson(options.ui.output);
-
-      expect(json.commands).to.deep.equal([]);
     });
 
     it('respects skipHelp when listing', function() {
@@ -522,33 +396,6 @@ Available commands from my-addon:' + EOL);
       expect(json.commands).to.deep.equal([
         {
           test2: 'bar'
-        }
-      ]);
-    });
-
-    it('ignores skipHelp when single', function() {
-      options.commands = {
-        Command1: function() {
-          return {
-            skipHelp: true,
-            getJson: function() {
-              return {
-                test1: 'bar'
-              };
-            }
-          };
-        }
-      };
-
-      var command = new HelpCommand(options);
-
-      command.run(options, ['command-1']);
-
-      var json = convertToJson(options.ui.output);
-
-      expect(json.commands).to.deep.equal([
-        {
-          test1: 'bar'
         }
       ]);
     });
@@ -594,35 +441,6 @@ Available commands from my-addon:' + EOL);
               test2: 'bar'
             }
           ]
-        }
-      ]);
-    });
-
-    it('finds single addon command', function() {
-      options.project.eachAddonCommand = function(callback) {
-        callback('my-addon', {
-          Command1: function() {
-            return {
-              getJson: function() {
-                return {
-                  test1: 'foo'
-                };
-              }
-            };
-          },
-          Command2: function() {}
-        });
-      };
-
-      var command = new HelpCommand(options);
-
-      command.run(options, ['command-1']);
-
-      var json = convertToJson(options.ui.output);
-
-      expect(json.commands).to.deep.equal([
-        {
-          test1: 'foo'
         }
       ]);
     });
