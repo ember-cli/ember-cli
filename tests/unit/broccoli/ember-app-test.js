@@ -304,6 +304,13 @@ describe('broccoli/ember-app', function() {
 
         expect(actual).to.not.contain(expected);
       });
+
+      it('does not include the `base` tag in `head` if baseURL is undefined', function() {
+        var expected = '<base href=';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        expect(actual).to.not.contain(expected);
+      });
     });
 
     describe('contentFor("config-module")', function() {
