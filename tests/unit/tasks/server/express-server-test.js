@@ -88,7 +88,7 @@ describe('express-server', function() {
         ssl: true,
         sslCert: 'tests/fixtures/ssl/server.crt',
         sslKey: 'tests/fixtures/ssl/server.key',
-        baseURL: '/'
+        rootURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on https://localhost:1337/');
@@ -100,7 +100,7 @@ describe('express-server', function() {
         proxy: 'http://localhost:3001/',
         host: undefined,
         port: '1337',
-        baseURL: '/'
+        rootURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
         expect(output[1]).to.equal('Serving on http://localhost:1337/');
@@ -113,7 +113,7 @@ describe('express-server', function() {
       return subject.start({
         host: undefined,
         port: '1337',
-        baseURL: '/'
+        rootURL: '/'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on http://localhost:1337/');
@@ -126,6 +126,18 @@ describe('express-server', function() {
         host: undefined,
         port: '1337',
         baseURL: '/foo'
+      }).then(function() {
+        var output = ui.output.trim().split(EOL);
+        expect(output[0]).to.equal('Serving on http://localhost:1337/foo/');
+        expect(output.length).to.equal(1, 'expected only one line of output');
+      });
+    });
+
+    it('with rootURL', function() {
+      return subject.start({
+        host: undefined,
+        port: '1337',
+        rootURL: '/foo'
       }).then(function() {
         var output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on http://localhost:1337/foo/');
@@ -162,7 +174,7 @@ describe('express-server', function() {
         ssl: true,
         sslCert: 'tests/fixtures/ssl/server.crt',
         sslKey: 'tests/fixtures/ssl/server.key',
-        baseURL: '/'
+        rootURL: '/'
       })
         .then(function() {
           return new Promise(function(resolve, reject) {
@@ -193,7 +205,7 @@ describe('express-server', function() {
         proxy: 'http://localhost:3001/',
         host: undefined,
         port: '1337',
-        baseURL: '/'
+        rootURL: '/'
       })
         .then(function() {
           request(subject.app)
@@ -226,7 +238,7 @@ describe('express-server', function() {
         proxy: 'http://localhost:3001/',
         host: undefined,
         port: '1337',
-        baseURL: '/'
+        rootURL: '/'
       })
         .then(function() {
           request(subject.app)
@@ -250,7 +262,7 @@ describe('express-server', function() {
           proxy: 'http://localhost:3001/',
           host: undefined,
           port: '1337',
-          baseURL: '/'
+          rootURL: '/'
         });
       });
 
@@ -333,7 +345,7 @@ describe('express-server', function() {
           proxy: 'http://api.lvh.me',
           host: undefined,
           port: '1337',
-          baseURL: '/'
+          rootURL: '/'
         });
       });
 
@@ -442,11 +454,11 @@ describe('express-server', function() {
     });
 
     describe('without proxy', function() {
-      function startServer(baseURL) {
+      function startServer(rootURL) {
         return subject.start({
           host: undefined,
           port: '1337',
-          baseURL: baseURL || '/'
+          rootURL: rootURL || '/'
         });
       }
 
@@ -469,7 +481,7 @@ describe('express-server', function() {
 
       it('GET /tests serves tests/index.html for mime of */* (hash location)', function(done) {
         project._config = {
-          baseURL: '/',
+          rootURL: '/',
           locationType: 'hash'
         };
 
@@ -541,7 +553,7 @@ describe('express-server', function() {
           });
       });
 
-      it('serves index.html when file not found (with baseURL) with auto/history location', function(done) {
+      it('serves index.html when file not found (with rootURL) with auto/history location', function(done) {
         return startServer('/foo')
           .then(function() {
             request(subject.app)
@@ -558,9 +570,9 @@ describe('express-server', function() {
           });
       });
 
-      it('serves index.html when file not found (with baseURL) with custom history location', function(done) {
+      it('serves index.html when file not found (with rootURL) with custom history location', function(done) {
         project._config = {
-          baseURL: '/',
+          rootURL: '/',
           locationType: 'blahr',
           historySupportMiddleware: true
         };
@@ -583,7 +595,7 @@ describe('express-server', function() {
 
       it('returns a 404 when file not found with hash location', function(done) {
         project._config = {
-          baseURL: '/',
+          rootURL: '/',
           locationType: 'hash'
         };
 
@@ -627,7 +639,7 @@ describe('express-server', function() {
           });
       });
 
-      it('serves static asset up from build output without a period in name (with baseURL)', function(done) {
+      it('serves static asset up from build output without a period in name (with rootURL)', function(done) {
         return startServer('/foo')
           .then(function() {
             request(subject.app)
