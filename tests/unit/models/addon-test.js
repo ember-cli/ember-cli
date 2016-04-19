@@ -407,6 +407,99 @@ describe('models/addon.js', function() {
       });
     });
 
+    describe('hintingEnabled', function() {
+      /**
+        Tests the various configuration options that affect the hintingEnabled method.
+
+       | configuration | test1 | test2 | test3 | test4 | test5 |
+       | ------------- | ----- | ----- | ----- | ----- | ----- |
+       | hinting       | true  | true  | true  | false | unset |
+       | environment   | dev   | N/A   | prod  | N\A   | N\A   |
+       | test_command  | set   | set   | unset | set   | set   |
+       | RESULT        | true  | true  | false | false | true  |
+
+        @method hintingEnabled
+       */
+
+      var originalEnvValue, originalTestCommand, addon, project;
+
+      beforeEach(function() {
+        var MyAddon = Addon.extend({
+          name: 'test-project',
+          root: 'foo'
+        });
+
+        var projectPath = path.resolve(fixturePath, 'simple');
+        var packageContents = require(path.join(projectPath, 'package.json'));
+
+        project = new Project(projectPath, packageContents);
+
+        addon = new MyAddon(project);
+
+        originalEnvValue = process.env.EMBER_ADDON_ENV;
+        originalTestCommand = process.env.EMBER_CLI_TEST_COMMAND;
+      });
+
+      afterEach(function() {
+        addon.app = {
+          options: {}
+        };
+
+        if (originalEnvValue === undefined) {
+          delete process.env.EMBER_ADDON_ENV;
+        } else {
+          process.env.EMBER_ADDON_ENV = originalEnvValue;
+        }
+
+        if (originalTestCommand === undefined) {
+          delete process.env.EMBER_CLI_TEST_COMMAND;
+        } else {
+          process.env.EMBER_CLI_TEST_COMMAND = originalTestCommand;
+        }
+      });
+
+      it('returns true when `EMBER_ENV` is not set to production and options.hinting is true', function() {
+        process.env.EMBER_ENV = 'development';
+
+        addon.app = {
+          options: { hinting: true }
+        };
+
+        expect(addon.hintingEnabled()).to.be.true;
+      });
+
+      it('returns true when `EMBER_CLI_TEST_COMMAND` is set and options.hinting is true', function() {
+        addon.app = {
+          options: { hinting: true }
+        };
+
+        expect(addon.hintingEnabled()).to.be.true;
+      });
+
+      it('returns false when `EMBER_ENV` is set to production, `EMBER_CLI_TEST_COMMAND` is unset and options.hinting is true', function() {
+        process.env.EMBER_ENV = 'production';
+        delete process.env.EMBER_CLI_TEST_COMMAND;
+
+        addon.app = {
+          options: { hinting: true }
+        };
+
+        expect(addon.hintingEnabled()).to.be.false;
+      });
+
+      it('returns false when options.hinting is set to false', function() {
+        addon.app = {
+          options: { hinting: false }
+        };
+
+        expect(addon.hintingEnabled()).to.be.false;
+      });
+
+      it('returns true when options.hinting is not set', function() {
+        expect(addon.hintingEnabled()).to.be.ok;
+      });
+    });
+
     describe('treeGenerator', function() {
       it('watch tree when developing the addon itself', function() {
         addon.isDevelopingAddon = function() { return true; };
