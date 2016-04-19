@@ -1,4 +1,3 @@
-/*jshint node:true*/
 var isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
