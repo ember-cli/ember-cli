@@ -7,3 +7,4 @@ npm-debug.log
 .node_modules-tmp
 .bower_components-tmp
 /coverage
+*.pem
