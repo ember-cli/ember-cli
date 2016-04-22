@@ -5,10 +5,9 @@
   "url": "http://ember-cli.com/",
   "options": {
     "paths": [
-      "../lib"
+      "lib"
     ],
-    "exclude": "vendor",
-    "outdir":   "./build",
-    "preprocessor": "project_version_preprocessor.js"
+    "outdir":   "docs/build",
+    "preprocessor": "docs/project_version_preprocessor.js"
   }
 }

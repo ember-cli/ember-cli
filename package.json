@@ -8,7 +8,7 @@
     "ember": "./bin/ember"
   },
   "scripts": {
-    "docs": "cd docs && yuidoc -q",
+    "docs": "yuidoc",
     "lint": "mocha tests/unit/lint-test",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner",
