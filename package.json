@@ -3,6 +3,7 @@
   "version": "2.6.0-beta.1",
   "main": "lib/cli/index.js",
   "description": "Command line tool for developing ambitious ember.js apps",
+  "homepage": "http://ember-cli.com/",
   "trackingCode": "UA-49225444-1",
   "bin": {
     "ember": "./bin/ember"
