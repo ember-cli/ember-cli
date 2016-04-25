@@ -24,8 +24,10 @@ var mocha = new Mocha({
 var testFiles = glob.sync(root + '/**/*-test.js');
 var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
 var lint = testFiles.splice(lintPosition, 1);
+var docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
+var docsLint = testFiles.splice(docsLintPosition, 1);
 
-testFiles = lint.concat(testFiles);
+testFiles = lint.concat(docsLint).concat(testFiles);
 
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
@@ -34,6 +36,7 @@ if (optionOrFile === 'all') {
   addFiles(mocha, '/**/*-slow.js');
 } else if (optionOrFile === 'lint')  {
   addFiles(mocha, lint);
+  addFiles(mocha, docsLint);
 } else if (process.argv.length > 2)  {
   addFiles(mocha, process.argv.slice(2));
 } else {
