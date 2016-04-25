@@ -1,4 +1,3 @@
-/*jshint node:true*/
 var Blueprint = require('../../lib/models/blueprint');
 var isPackageMissing = require('ember-cli-is-package-missing');
 
