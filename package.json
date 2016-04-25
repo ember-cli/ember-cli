@@ -10,7 +10,7 @@
   },
   "scripts": {
     "docs": "yuidoc",
-    "lint": "mocha tests/unit/lint-test",
+    "lint": "node tests/runner lint",
     "test": "node tests/runner",
     "test:debug": "node debug tests/runner",
     "test-slow": "node tests/runner slow",
