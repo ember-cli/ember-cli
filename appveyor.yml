@@ -7,6 +7,10 @@ environment:
     - nodejs_version: "4.2"
     - nodejs_version: "5.0"
 
+branches:
+  except:
+    - canary
+
 # Install scripts. (runs after repo cloning)
 install:
   - git rev-parse HEAD
