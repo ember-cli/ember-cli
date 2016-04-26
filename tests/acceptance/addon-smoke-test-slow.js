@@ -4,7 +4,6 @@ var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var fs         = require('fs-extra');
 var remove     = Promise.denodeify(fs.remove);
-var addonName  = 'some-cool-addon';
 var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');
 
@@ -22,6 +21,8 @@ var cleanupRun          = acceptance.cleanupRun;
 var chai = require('../chai');
 var expect = chai.expect;
 var dir = chai.dir;
+
+var addonName  = 'some-cool-addon';
 
 describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
