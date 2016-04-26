@@ -8,6 +8,10 @@ node_js:
   - "5"
   - node
 
+branches:
+  except:
+    - canary
+
 cache:
   directories:
     $HOME/.npm
