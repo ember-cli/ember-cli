@@ -259,7 +259,9 @@ describe('Acceptance: addon-smoke-test', function() {
     });
   }
 
-  it('doesn\'t fail to build new files', function() {
+  var isWindows = /^win/.test(process.platform);
+
+  (isWindows ? it.skip : it)('doesn\'t fail to build new files', function() {
     var testemOutput = '';
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--launch=PhantomJS', '--server', {
       onOutput: function(string) {
