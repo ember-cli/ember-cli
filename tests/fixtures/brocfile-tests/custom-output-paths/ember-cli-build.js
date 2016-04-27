@@ -19,7 +19,10 @@ module.exports = function (defaults) {
       },
       testSupport: {
         css: '/css/test-support.css',
-        js: '/js/test-support.js'
+        js: {
+          testSupport: '/js/test-support.js',
+          testLoader: '/js/test-loader.js'
+        }
       }
     }
   });
