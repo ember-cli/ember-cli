@@ -304,6 +304,13 @@ describe('broccoli/ember-app', function() {
 
         expect(actual).to.not.contain(expected);
       });
+
+      it('does not include the `base` tag in `head` if baseURL is undefined', function() {
+        var expected = '<base href=';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        expect(actual).to.not.contain(expected);
+      });
     });
 
     describe('contentFor("config-module")', function() {
@@ -557,7 +564,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-            expect(emberApp.project.addons.length).to.equal(7);
+            expect(emberApp.project.addons.length).to.equal(8);
           });
 
           it('foo', function() {
@@ -567,7 +574,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
 
-            expect(emberApp.project.addons.length).to.equal(8);
+            expect(emberApp.project.addons.length).to.equal(9);
           });
         });
       });
@@ -584,7 +591,7 @@ describe('broccoli/ember-app', function() {
 
           expect(emberApp._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
           expect(emberApp._addonDisabledByBlacklist({ name: 'Ember Random Addon' })).to.be.false;
-          expect(emberApp.project.addons.length).to.equal(7);
+          expect(emberApp.project.addons.length).to.equal(8);
         });
 
         it('throws if unavailable addon is specified', function() {
