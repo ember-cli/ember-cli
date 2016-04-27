@@ -3,6 +3,8 @@
     "paths": [
       "lib"
     ],
+    "themedir": "node_modules/yuidoc-ember-cli-theme",
+    "helpers": ["node_modules/yuidoc-ember-cli-theme/helpers.js"],
     "outdir":   "docs/build",
     "preprocessor": "docs/project_version_preprocessor.js"
   }
