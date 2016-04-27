@@ -12,7 +12,8 @@ describe('platform-checker', function() {
   });
 
   it('should return isUntested for Node v6', function() {
-    expect(new PlatformChecker('v6.0.0').isUntested).to.be.equal(true);
+    expect(new PlatformChecker('v7.0.0').isUntested).to.be.equal(true);
+    expect(new PlatformChecker('v6.0.0').isUntested).to.be.equal(false);
     expect(new PlatformChecker('v0.12.0').isUntested).to.be.equal(false);
   });
 
@@ -51,5 +52,11 @@ describe('platform-checker', function() {
     expect(new PlatformChecker('v5.0.0').isValid).to.be.equal(true);
     expect(new PlatformChecker('v5.1.0').isValid).to.be.equal(true);
     expect(new PlatformChecker('v5.99.0').isValid).to.be.equal(true);
+  });
+
+  it('should return isValid for Node v6', function() {
+    expect(new PlatformChecker('v6.0.0').isValid).to.be.equal(true);
+    expect(new PlatformChecker('v6.1.0').isValid).to.be.equal(true);
+    expect(new PlatformChecker('v6.99.0').isValid).to.be.equal(true);
   });
 });
