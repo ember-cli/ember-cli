@@ -1,4 +1,5 @@
 {
+  "logo": "http://ember-cli.com/assets/images/ember-cli-logo-small-dark.png",
   "options": {
     "paths": [
       "lib"
