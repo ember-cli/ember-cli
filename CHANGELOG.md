@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+### 2.6.0-beta.2
+
 The following changes are required if you are upgrading from the previous
 version:
 
