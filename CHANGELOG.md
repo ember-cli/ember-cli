@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.6.0-beta.1...v2.6.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.0-beta.1...v2.6.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5737](https://github.com/ember-cli/ember-cli/pull/5737) / [#5828](https://github.com/ember-cli/ember-cli/pull/5828) [INTERNAL] Update `core-object` to 2.0.0. [@nathanhammond](https://github.com/nathanhammond)
+- [#5856](https://github.com/ember-cli/ember-cli/pull/5856) Remove warning when using Node v6.0.0. [@rwjblue](https://github.com/rwjblue)
+- [#5859](https://github.com/ember-cli/ember-cli/pull/5859) Update Ember to 2.6.0-beta.2. [@rwjblue](https://github.com/rwjblue)
+- [#5859](https://github.com/ember-cli/ember-cli/pull/5859) Update Ember Data to 2.6.0-beta.1. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ### 2.6.0-beta.1
 
 The following changes are required if you are upgrading from the previous
