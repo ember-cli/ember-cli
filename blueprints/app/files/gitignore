@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/fastboot-dist
 
 # dependencies
 /node_modules
