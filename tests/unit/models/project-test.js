@@ -465,11 +465,6 @@ describe('models/project.js', function() {
       var addon = project.findAddonByName('foo-ba');
       expect(addon).to.equal(undefined, 'foo-ba should not be found');
     })
-
-    it('should return an addon that is the unqualified name of requested name', function() {
-      var addon = project.findAddonByName('qux/foo');
-      expect(addon.name).to.equal('foo', 'should have found the foo addon');
-    })
   });
 
   describe('bowerDirectory', function() {

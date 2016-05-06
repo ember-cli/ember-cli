@@ -156,16 +156,6 @@ describe('install command', function() {
       });
     });
 
-    it('runs the package name blueprint task when given github/name and args', function() {
-      return command.validateAndRun(['ember-cli/ember-cli-qunit']).then(function() {
-        var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        expect(generateRun.calledWith[0][0].ignoreMissingMain).to.be.true;
-        expect(generateRun.calledWith[0][0].args).to.deep.equal([
-          'ember-cli-qunit'
-        ], 'expected generate blueprint called with correct args');
-      });
-    });
-
     it('gives helpful message if it can\'t find the addon', function() {
       return command.validateAndRun(['unknown-addon']).then(function() {
         expect(false, 'should reject with error').to.be.ok;
