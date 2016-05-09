@@ -176,7 +176,6 @@ describe('models/project.js', function() {
         'ember': '1.7.0',
         'ember-data': '1.0.0-beta.10',
         'ember-cli-shims': 'ember-cli/ember-cli-shims#0.0.3',
-        'ember-cli-test-loader': 'rwjblue/ember-cli-test-loader#0.0.4',
         'ember-qunit': '0.1.8',
         'ember-qunit-notifications': '0.0.4',
         'qunit': '~1.15.0'
