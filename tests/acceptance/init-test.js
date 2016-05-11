@@ -1,23 +1,28 @@
 'use strict';
 
-var ember     = require('../helpers/ember');
-var expect    = require('chai').expect;
-var walkSync  = require('walk-sync');
-var glob      = require('glob');
-var Blueprint = require('../../lib/models/blueprint');
-var path      = require('path');
-var tmp       = require('../helpers/tmp');
-var root      = process.cwd();
-var util      = require('util');
-var conf      = require('../helpers/conf');
-var minimatch = require('minimatch');
-var intersect = require('lodash/array/intersection');
-var remove    = require('lodash/array/remove');
-var forEach   = require('lodash/collection/forEach');
-var any       = require('lodash/collection/some');
-var EOL       = require('os').EOL;
+var ember      = require('../helpers/ember');
+var walkSync   = require('walk-sync');
+var glob       = require('glob');
+var Blueprint  = require('../../lib/models/blueprint');
+var path       = require('path');
+var tmp        = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+var root       = process.cwd();
+var util       = require('util');
+var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
+var minimatch  = require('minimatch');
+var intersect  = require('lodash/intersection');
+var remove     = require('lodash/remove');
+var forEach    = require('lodash/forEach');
+var any        = require('lodash/some');
+var EOL        = require('os').EOL;
+
+var chai = require('../chai');
+var expect = chai.expect;
+var dir = chai.dir;
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
+
+var tmpPath = './tmp/init-test';
 
 describe('Acceptance: ember init', function() {
   this.timeout(20000);
@@ -33,14 +38,14 @@ describe('Acceptance: ember init', function() {
   beforeEach(function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
 
-    return tmp.setup('./tmp')
+    return tmp.setup(tmpPath)
       .then(function() {
-        process.chdir('./tmp');
+        process.chdir(tmpPath);
       });
   });
 
   afterEach(function() {
-    return tmp.teardown('./tmp');
+    return tmp.teardown(tmpPath);
   });
 
   function confirmBlueprinted() {
@@ -77,11 +82,11 @@ describe('Acceptance: ember init', function() {
 
   function pickSync(filePath, pattern) {
     return glob.sync(path.join('**', pattern), {
-        cwd: filePath,
-        dot: true,
-        mark: true,
-        strict: true
-      }).sort();
+      cwd: filePath,
+      dot: true,
+      mark: true,
+      strict: true
+    }).sort();
   }
   function removeIgnored(array) {
     remove(array, function(fn) {
@@ -99,24 +104,6 @@ describe('Acceptance: ember init', function() {
       '--skip-npm',
       '--skip-bower',
     ]).then(confirmBlueprinted);
-  });
-
-  it('ember init can run in created folder', function() {
-    return tmp.setup('./tmp/foo')
-      .then(function() {
-        process.chdir('./tmp/foo');
-      })
-      .then(function() {
-        return ember([
-          'init',
-          '--skip-npm',
-          '--skip-bower'
-        ]);
-      })
-      .then(confirmBlueprinted)
-      .then(function() {
-        return tmp.teardown('./tmp/foo');
-      });
   });
 
   it('init an already init\'d folder', function() {
@@ -221,6 +208,17 @@ describe('Acceptance: ember init', function() {
       ]);
     })
     .then(confirmBlueprinted);
+  });
+
+  it('should not create .git folder', function() {
+    return ember([
+      'init',
+      '--skip-npm',
+      '--skip-bower'
+    ])
+    .then(function() {
+      expect(dir('.git')).to.not.exist;
+    });
   });
 
 });

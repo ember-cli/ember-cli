@@ -1,10 +1,11 @@
 'use strict';
 
+
 var fs                = require('fs-extra');
-var Blueprint         = require('../../../lib/models/blueprint');
 var Task              = require('../../../lib/models/task');
 var MockProject       = require('../../helpers/mock-project');
 var MockUI            = require('../../helpers/mock-ui');
+var processHelpString = require('../../helpers/process-help-string');
 var expect            = require('chai').expect;
 var path              = require('path');
 var glob              = require('glob');
@@ -13,9 +14,93 @@ var Promise           = require('../../../lib/ext/promise');
 var remove            = Promise.denodeify(fs.remove);
 var EOL               = require('os').EOL;
 var root              = process.cwd();
-var tmp               = require('tmp-sync');
 var tmproot           = path.join(root, 'tmp');
 var SilentError       = require('silent-error');
+var stub              = require('../../helpers/stub');
+var proxyquire        = require('proxyquire');
+var existsSync        = require('exists-sync');
+var MarkdownColor     = require('../../../lib/utilities/markdown-color');
+var assign            = require('lodash/assign');
+var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
+var td                = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+var localsCalled;
+var normalizeEntityNameCalled;
+var fileMapTokensCalled;
+var filesPathCalled;
+var beforeUninstallCalled;
+var beforeInstallCalled;
+var afterInstallCalled;
+var afterUninstallCalled;
+
+var instrumented = {
+  locals: function(opts) {
+    localsCalled = true;
+    return this._super.locals.apply(this, arguments);
+  },
+
+  normalizeEntityName: function(name) {
+    normalizeEntityNameCalled = true;
+    return this._super.normalizeEntityName.apply(this, arguments);
+  },
+
+  fileMapTokens: function() {
+    fileMapTokensCalled = true;
+    return this._super.fileMapTokens.apply(this, arguments);
+  },
+
+  filesPath: function(opts) {
+    filesPathCalled = true;
+    return this._super.filesPath.apply(this, arguments);
+  },
+
+  beforeInstall: function(opts) {
+    beforeInstallCalled = true;
+    return this._super.beforeInstall.apply(this, arguments);
+  },
+
+  afterInstall: function(opts) {
+    afterInstallCalled = true;
+    return this._super.afterInstall.apply(this, arguments);
+  },
+
+  beforeUninstall: function() {
+    beforeUninstallCalled = true;
+    return this._super.beforeUninstall.apply(this, arguments);
+  },
+
+  afterUninstall: function() {
+    afterUninstallCalled = true;
+    return this._super.afterUninstall.apply(this, arguments);
+  }
+};
+stub = stub.stub;
+
+var existsSyncStub;
+var readdirSyncStub;
+var readFileSyncStub;
+var forEachWithPropertyStub;
+var Blueprint = proxyquire('../../../lib/models/blueprint', {
+  'exists-sync': function() {
+    return existsSyncStub.apply(this, arguments);
+  },
+  'fs-extra': {
+    readdirSync: function() {
+      return readdirSyncStub.apply(this, arguments);
+    },
+    readFileSync: function() {
+      return readFileSyncStub.apply(this, arguments);
+    }
+  },
+  '../utilities/printable-properties': {
+    blueprint: {
+      forEachWithProperty: function() {
+        return forEachWithPropertyStub.apply(this, arguments);
+      }
+    }
+  }
+});
 
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
@@ -33,12 +118,28 @@ var basicBlueprintFiles = [
 ];
 
 describe('Blueprint', function() {
+  var BasicBlueprintClass = require(basicBlueprint);
+  var InstrumentedBasicBlueprint = BasicBlueprintClass.extend(instrumented);
+
   beforeEach(function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
+
+    localsCalled = false;
+    normalizeEntityNameCalled = false;
+    fileMapTokensCalled = false;
+    filesPathCalled = false;
+    beforeUninstallCalled = false;
+    beforeInstallCalled = false;
+    afterInstallCalled = false;
+    afterUninstallCalled = false;
+
+    existsSyncStub = existsSync;
+    readdirSyncStub = fs.readdirSync;
+    readFileSyncStub = fs.readFileSync;
   });
 
   describe('.mapFile', function() {
-    it('replaces all occurences of __name__ with module name',function(){
+    it('replaces all occurences of __name__ with module name',function() {
       var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js',{dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
@@ -48,9 +149,9 @@ describe('Blueprint', function() {
       path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint.js');
     });
-    it('accepts locals.fileMap with multiple mappings',function(){
+    it('accepts locals.fileMap with multiple mappings',function() {
       var locals = {};
-      locals.fileMap= {
+      locals.fileMap = {
         __name__: 'user',
         __type__: 'controller',
         __path__: 'pods/users',
@@ -69,7 +170,7 @@ describe('Blueprint', function() {
       var blueprint = Blueprint.lookup(basicBlueprint);
       blueprint.fileMapTokens = function() {
         return {
-          __foo__: function(){
+          __foo__: function() {
             return 'foo';
           }
         };
@@ -159,31 +260,249 @@ describe('Blueprint', function() {
   });
 
   describe('.list', function() {
-    it('returns a list of blueprints grouped by lookup path', function() {
-      var list = Blueprint.list({ paths: [fixtureBlueprints] });
-      var actual = list[0];
-      var expected = {
-        source: 'fixtures',
-        blueprints: [{
-          name: 'basic',
-          description: 'A basic blueprint',
-          overridden: false
-        }, {
-          name: 'basic_2',
-          description: 'Another basic blueprint',
-          overridden: false
-        }, {
-          name: 'exporting-object',
-          description: 'A blueprint that exports an object',
-          overridden: false
-        }, {
-          name: 'with-templating',
-          description: 'A blueprint with templating',
-          overridden: false
-        }]
+    beforeEach(function() {
+      existsSyncStub = function(path) {
+        return path.indexOf('package.json') === -1;
       };
 
-      expect(actual[0]).to.deep.equal(expected[0]);
+      stub(Blueprint, 'defaultLookupPaths', []);
+      stub(Blueprint, 'load', function(blueprintPath) {
+        return {
+          name: path.basename(blueprintPath)
+        };
+      }, true);
+    });
+
+    afterEach(function() {
+      safeRestore(Blueprint, 'defaultLookupPaths');
+      safeRestore(Blueprint, 'load');
+    });
+
+    it('returns a list of blueprints grouped by lookup path', function() {
+      readdirSyncStub = function() {
+        return ['test1', 'test2'];
+      };
+
+      var list = Blueprint.list({ paths: ['test0/blueprints'] });
+
+      expect(list[0]).to.deep.equal({
+        source: 'test0',
+        blueprints: [
+          {
+            name: 'test1',
+            overridden: false
+          },
+          {
+            name: 'test2',
+            overridden: false
+          }
+        ]
+      });
+    });
+
+    it('overrides a blueprint of the same name from another package', function() {
+      readdirSyncStub = function() {
+        return ['test2'];
+      };
+
+      var list = Blueprint.list({
+        paths: [
+          'test0/blueprints',
+          'test1/blueprints'
+        ]
+      });
+
+      expect(list[0]).to.deep.equal({
+        source: 'test0',
+        blueprints: [
+          {
+            name: 'test2',
+            overridden: false
+          }
+        ]
+      });
+      expect(list[1]).to.deep.equal({
+        source: 'test1',
+        blueprints: [
+          {
+            name: 'test2',
+            overridden: true
+          }
+        ]
+      });
+    });
+  });
+
+  describe('help', function() {
+    var blueprint;
+
+    beforeEach(function() {
+      blueprint = new Blueprint('path/to/my-blueprint');
+    });
+
+    describe('printBasicHelp', function() {
+      beforeEach(function() {
+        stub(blueprint, '_printCommand', ' command printed');
+        stub(blueprint, 'printDetailedHelp', 'help in detail');
+      });
+
+      afterEach(function() {
+        safeRestore(blueprint, 'printDetailedHelp');
+      });
+
+      it('handles overridden', function() {
+        assign(blueprint, {
+          overridden: true
+        });
+
+        var output = blueprint.printBasicHelp();
+
+        var testString = processHelpString('\
+      \u001b[90m(overridden) my-blueprint\u001b[39m');
+
+        expect(output).to.equal(testString);
+        expect(blueprint._printCommand.called).to.equal(0);
+      });
+
+      it('calls printCommand', function() {
+        var output = blueprint.printBasicHelp();
+
+        var testString = processHelpString('\
+      my-blueprint command printed');
+
+        expect(output).to.equal(testString);
+        expect(blueprint._printCommand.called).to.equal(1);
+        expect(blueprint._printCommand.calledWith[0][0]).to.equal('      ');
+        expect(blueprint._printCommand.calledWith[0][1]).to.be.true;
+      });
+
+      it('prints detailed help if verbose', function() {
+        var availableOptions = [];
+        assign(blueprint, {
+          availableOptions: availableOptions
+        });
+
+        var output = blueprint.printBasicHelp(true);
+
+        var testString = processHelpString('\
+      my-blueprint command printed' + EOL + '\
+help in detail');
+
+        expect(output).to.equal(testString);
+        expect(blueprint.printDetailedHelp.calledWith[0][0]).to.equal(availableOptions);
+      });
+    });
+
+    describe('printDetailedHelp', function() {
+      afterEach(function() {
+        safeRestore(MarkdownColor.prototype, 'renderFile');
+      });
+
+      it('did not find the file', function() {
+        existsSyncStub = function() {
+          return false;
+        };
+        stub(MarkdownColor.prototype, 'renderFile', function() {
+          expect.fail(0, 1, 'should not call MarkdownColor.renderFile');
+        }, true);
+
+        var help = blueprint.printDetailedHelp();
+
+        expect(help).to.equal('');
+      });
+
+      it('found the file', function() {
+        existsSyncStub = function() {
+          return true;
+        };
+        stub(MarkdownColor.prototype, 'renderFile', function() {
+          expect(arguments[1].indent).to.equal('        ');
+          return 'test-file';
+        }, true);
+
+        var help = blueprint.printDetailedHelp();
+
+        expect(help).to.equal('test-file');
+      });
+    });
+
+    describe('getJson', function() {
+      beforeEach(function() {
+        forEachWithPropertyStub = function(forEach, context) {
+          ['test1', 'availableOptions'].forEach(forEach, context);
+        };
+      });
+
+      afterEach(function() {
+        safeRestore(blueprint, 'printDetailedHelp');
+      });
+
+      it('iterates options', function() {
+        var availableOptions = [{
+          type: 'my-string-type',
+          showAnything: true
+        }, {
+          type: function myFunctionType() {}
+        }];
+
+        assign(blueprint, {
+          test1: 'a test',
+          availableOptions: availableOptions
+        });
+
+        var json = blueprint.getJson();
+
+        expect(json).to.deep.equal({
+          test1: 'a test',
+          availableOptions: [
+            {
+              type: 'my-string-type',
+              showAnything: true
+            },
+            {
+              type: 'myFunctionType'
+            }
+          ]
+        });
+      });
+
+      it('does not print detailed if not verbose', function() {
+        stub(blueprint, 'printDetailedHelp');
+
+        blueprint.getJson();
+
+        expect(blueprint.printDetailedHelp.called).to.equal(0);
+      });
+
+      it('is calling printDetailedHelp with availableOptions', function() {
+        stub(blueprint, 'printDetailedHelp');
+
+        var availableOptions = [];
+        assign(blueprint, {
+          availableOptions: availableOptions
+        });
+
+        blueprint.getJson(true);
+
+        expect(blueprint.printDetailedHelp.calledWith[0][0]).to.equal(availableOptions);
+      });
+
+      it('if printDetailedHelp returns falsy, don\'t attach property detailedHelp', function() {
+        stub(blueprint, 'printDetailedHelp');
+
+        var json = blueprint.getJson(true);
+
+        expect(blueprint.printDetailedHelp.called).to.equal(1);
+        expect(json).to.not.have.property('detailedHelp');
+      });
+
+      it('sets detailedHelp properly', function() {
+        stub(blueprint, 'printDetailedHelp', 'some details');
+
+        var json = blueprint.getJson(true);
+
+        expect(json.detailedHelp).to.equal('some details');
+      });
     });
   });
 
@@ -197,8 +516,15 @@ describe('Blueprint', function() {
     expect(blueprint.name).to.equal('basic');
   });
 
+  describe('filesPath', function() {
+    it('returns the blueprints default files path', function() {
+      var blueprint = new Blueprint(basicBlueprint);
+
+      expect(blueprint.filesPath()).to.equal(path.join(basicBlueprint, 'files'));
+    });
+  });
+
   describe('basic blueprint installation', function() {
-    var BasicBlueprintClass = require(basicBlueprint);
     var blueprint;
     var ui;
     var project;
@@ -206,18 +532,24 @@ describe('Blueprint', function() {
     var tmpdir;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new BasicBlueprintClass(basicBlueprint);
-      ui        = new MockUI();
-      project   = new MockProject();
-      options   = {
-        ui: ui,
-        project: project,
-        target: tmpdir
-      };
+
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
+        ui        = new MockUI();
+        td.replace(ui, 'prompt');
+
+        project   = new MockProject();
+        options   = {
+          ui: ui,
+          project: project,
+          target: tmpdir
+        };
+      });
     });
 
     afterEach(function() {
+      td.reset();
       return remove(tmproot);
     });
 
@@ -225,151 +557,145 @@ describe('Blueprint', function() {
       expect(!!blueprint).to.equal(true);
 
       return blueprint.install(options)
-        .then(function() {
-          var actualFiles = walkSync(tmpdir).sort();
-          var output = ui.output.trim().split(EOL);
+      .then(function() {
+        var actualFiles = walkSync(tmpdir).sort();
+        var output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* .ember-cli/);
-          expect(output.shift()).to.match(/create.* .gitignore/);
-          expect(output.shift()).to.match(/create.* bar/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* .ember-cli/);
+        expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.shift()).to.match(/create.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
 
-          expect( function(){
-            fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8',
-                function(err, content){
-                    if(err){
-                        throw 'error';
-                    }
-                    expect(content).to.match(/I AM TESTY/);
-                });
+        expect(function() {
+          fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8', function(err, content) {
+            if (err) {
+              throw 'error';
             }
-          ).not.to.throw();
+            expect(content).to.match(/I AM TESTY/);
+          });
+        }).not.to.throw();
 
-        });
+      });
     });
 
     it('re-installing identical files', function() {
       return blueprint.install(options)
-        .then(function() {
-          var output = ui.output.trim().split(EOL);
-          ui.output = '';
+      .then(function() {
+        var output = ui.output.trim().split(EOL);
+        ui.output = '';
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* .ember-cli/);
-          expect(output.shift()).to.match(/create.* .gitignore/);
-          expect(output.shift()).to.match(/create.* bar/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* .ember-cli/);
+        expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.shift()).to.match(/create.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          return blueprint.install(options);
-        })
-        .then(function() {
-          var actualFiles = walkSync(tmpdir).sort();
-          var output = ui.output.trim().split(EOL);
+        return blueprint.install(options);
+      })
+      .then(function() {
+        var actualFiles = walkSync(tmpdir).sort();
+        var output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/identical.* .ember-cli/);
-          expect(output.shift()).to.match(/identical.* .gitignore/);
-          expect(output.shift()).to.match(/identical.* bar/);
-          expect(output.shift()).to.match(/identical.* foo.txt/);
-          expect(output.shift()).to.match(/identical.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/identical.* .ember-cli/);
+        expect(output.shift()).to.match(/identical.* .gitignore/);
+        expect(output.shift()).to.match(/identical.* bar/);
+        expect(output.shift()).to.match(/identical.* foo.txt/);
+        expect(output.shift()).to.match(/identical.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-        });
+        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+      });
     });
 
     it('re-installing conflicting files', function() {
+      td.when(ui.prompt(td.matchers.anything())).thenReturn(
+        Promise.resolve({ answer: 'skip' }),
+        Promise.resolve({ answer: 'overwrite' }));
+
       return blueprint.install(options)
-        .then(function() {
-          var output = ui.output.trim().split(EOL);
-          ui.output = '';
+      .then(function() {
+        var output = ui.output.trim().split(EOL);
+        ui.output = '';
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* .ember-cli/);
-          expect(output.shift()).to.match(/create.* .gitignore/);
-          expect(output.shift()).to.match(/create.* bar/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
-          var blueprintNew = new Blueprint(basicNewBlueprint);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* .ember-cli/);
+        expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.shift()).to.match(/create.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          ui.waitForPrompt().then(function(){
-            ui.inputStream.write('n' + EOL);
-            return ui.waitForPrompt();
-          }).then(function(){
-            ui.inputStream.write('y' + EOL);
-          });
+        var blueprintNew = new Blueprint(basicNewBlueprint);
 
-          return blueprintNew.install(options);
-        })
-        .then(function() {
-          var actualFiles = walkSync(tmpdir).sort();
-          // Prompts contain \n EOL
-          // Split output on \n since it will have the same affect as spliting on OS specific EOL
-          var output = ui.output.trim().split('\n');
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/Overwrite.*foo.*\?/); // Prompt
-          expect(output.shift()).to.match(/Overwrite.*foo.*No, skip/);
-          expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
-          expect(output.shift()).to.match(/Overwrite.*test.*Yes, overwrite/);
-          expect(output.shift()).to.match(/identical.* \.ember-cli/);
-          expect(output.shift()).to.match(/identical.* \.gitignore/);
-          expect(output.shift()).to.match(/skip.* foo.txt/);
-          expect(output.shift()).to.match(/overwrite.* test.txt/);
-          expect(output.length).to.equal(0);
+        return blueprintNew.install(options);
+      })
+      .then(function() {
+        td.verify(ui.prompt(td.matchers.anything()), {times: 2});
 
-          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-        });
+        var actualFiles = walkSync(tmpdir).sort();
+        // Prompts contain \n EOL
+        // Split output on \n since it will have the same affect as spliting on OS specific EOL
+        var output = ui.output.trim().split('\n');
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/identical.* \.ember-cli/);
+        expect(output.shift()).to.match(/identical.* \.gitignore/);
+        expect(output.shift()).to.match(/skip.* foo.txt/);
+        expect(output.shift()).to.match(/overwrite.* test.txt/);
+        expect(output.length).to.equal(0);
+
+        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+      });
     });
 
     it('installs path globPattern file', function() {
       options.targetFiles = ['foo.txt'];
       return blueprint.install(options)
-        .then(function() {
-          var actualFiles = walkSync(tmpdir).sort();
-          var globFiles = glob.sync(path.join('**', 'foo.txt'), {
-              cwd: tmpdir,
-              dot: true,
-              mark: true,
-              strict: true
-            }).sort();
-          var output = ui.output.trim().split(EOL);
+      .then(function() {
+        var actualFiles = walkSync(tmpdir).sort();
+        var globFiles = glob.sync('**/foo.txt', {
+          cwd: tmpdir,
+          dot: true,
+          mark: true,
+          strict: true
+        }).sort();
+        var output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles).to.deep.equal(globFiles);
-        });
+        expect(actualFiles).to.deep.equal(globFiles);
+      });
     });
 
     it('installs multiple globPattern files', function() {
       options.targetFiles = ['foo.txt','test.txt'];
       return blueprint.install(options)
-        .then(function() {
-          var actualFiles = walkSync(tmpdir).sort();
-          var globFiles = glob.sync(path.join('**', '*.txt'), {
-              cwd: tmpdir,
-              dot: true,
-              mark: true,
-              strict: true
-            }).sort();
-          var output = ui.output.trim().split(EOL);
+      .then(function() {
+        var actualFiles = walkSync(tmpdir).sort();
+        var globFiles = glob.sync(path.join('**', '*.txt'), {
+          cwd: tmpdir,
+          dot: true,
+          mark: true,
+          strict: true
+        }).sort();
+        var output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.shift()).to.match(/create.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles).to.deep.equal(globFiles);
-        });
+        expect(actualFiles).to.deep.equal(globFiles);
+      });
     });
 
     describe('called on an existing project', function() {
@@ -378,51 +704,47 @@ describe('Blueprint', function() {
       });
 
       it('ignores files in ignoredUpdateFiles', function() {
+        td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+
         return blueprint.install(options)
-          .then(function() {
-            var output = ui.output.trim().split(EOL);
-            ui.output = '';
+        .then(function() {
+          var output = ui.output.trim().split(EOL);
+          ui.output = '';
 
-            expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/create.* .ember-cli/);
-            expect(output.shift()).to.match(/create.* .gitignore/);
-            expect(output.shift()).to.match(/create.* bar/);
-            expect(output.shift()).to.match(/create.* foo.txt/);
-            expect(output.shift()).to.match(/create.* test.txt/);
-            expect(output.length).to.equal(0);
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/create.* .ember-cli/);
+          expect(output.shift()).to.match(/create.* .gitignore/);
+          expect(output.shift()).to.match(/create.* bar/);
+          expect(output.shift()).to.match(/create.* foo.txt/);
+          expect(output.shift()).to.match(/create.* test.txt/);
+          expect(output.length).to.equal(0);
 
-            var blueprintNew = new Blueprint(basicNewBlueprint);
+          var blueprintNew = new Blueprint(basicNewBlueprint);
 
-            ui.waitForPrompt().then(function(){
-              ui.inputStream.write('n' + EOL);
-              return ui.waitForPrompt();
-            }).then(function(){
-              ui.inputStream.write('n' + EOL);
-            });
+          options.project.isEmberCLIProject = function() { return true; };
 
-            options.project.isEmberCLIProject = function() { return true; };
+          return blueprintNew.install(options);
+        })
+        .then(function() {
 
-            return blueprintNew.install(options);
-          })
-          .then(function() {
-            var actualFiles = walkSync(tmpdir).sort();
-            // Prompts contain \n EOL
-            // Split output on \n since it will have the same affect as spliting on OS specific EOL
-            var output = ui.output.trim().split('\n');
-            expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/Overwrite.*test.*\?/); // Prompt
-            expect(output.shift()).to.match(/Overwrite.*test.*No, skip/);
-            expect(output.shift()).to.match(/identical.* \.ember-cli/);
-            expect(output.shift()).to.match(/identical.* \.gitignore/);
-            expect(output.shift()).to.match(/skip.* test.txt/);
-            expect(output.length).to.equal(0);
+          td.verify(ui.prompt(td.matchers.anything()), {times: 1});
 
-            expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-          });
+          var actualFiles = walkSync(tmpdir).sort();
+          // Prompts contain \n EOL
+          // Split output on \n since it will have the same affect as spliting on OS specific EOL
+          var output = ui.output.trim().split('\n');
+          expect(output.shift()).to.match(/^installing/);
+          expect(output.shift()).to.match(/identical.* \.ember-cli/);
+          expect(output.shift()).to.match(/identical.* \.gitignore/);
+          expect(output.shift()).to.match(/skip.* test.txt/);
+          expect(output.length).to.equal(0);
+
+          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+        });
       });
     });
 
-    it('throws error when there is a trailing forward slash in entityName', function(){
+    it('throws error when there is a trailing forward slash in entityName', function() {
       options.entity = { name: 'foo/' };
       expect(function() {
         blueprint.install(options);
@@ -439,47 +761,62 @@ describe('Blueprint', function() {
       }).not.to.throw();
     });
 
-    it('throws error when an entityName is not provided', function(){
+    it('throws error when an entityName is not provided', function() {
       options.entity = { };
       expect(function() {
         blueprint.install(options);
-      }).to.throw(SilentError, /The `ember generate` command requires an entity name to be specified./);
+      }).to.throw(SilentError, /The `ember generate <entity-name>` command requires an entity name to be specified./);
     });
 
     it('throws error when an action does not exist', function() {
       blueprint._actions = {};
       return blueprint.install(options)
-        .catch(function(err) {
-          expect(err.message).to.equal('Tried to call action "write" but it does not exist');
-        });
+      .catch(function(err) {
+        expect(err.message).to.equal('Tried to call action "write" but it does not exist');
+      });
     });
 
-    it('calls normalizeEntityName hook during install', function(done){
-      blueprint.normalizeEntityName = function(){ done(); };
+    it('calls normalizeEntityName hook during install', function(done) {
+      blueprint.normalizeEntityName = function() { done(); };
       options.entity = { name: 'foo' };
       blueprint.install(options);
     });
 
-    it('normalizeEntityName hook can modify the entity name', function(){
-      blueprint.normalizeEntityName = function(){ return 'foo'; };
+    it('normalizeEntityName hook can modify the entity name', function() {
+      blueprint.normalizeEntityName = function() { return 'foo'; };
       options.entity = { name: 'bar' };
 
       return blueprint.install(options)
-          .then(function() {
-            var actualFiles = walkSync(tmpdir).sort();
+      .then(function() {
+        var actualFiles = walkSync(tmpdir).sort();
 
-            expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-          });
+        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+      });
     });
 
     it('calls normalizeEntityName before locals hook is called', function(done) {
-      blueprint.normalizeEntityName = function(){ return 'foo'; };
+      blueprint.normalizeEntityName = function() { return 'foo'; };
       blueprint.locals = function(options) {
         expect(options.entity.name).to.equal('foo');
         done();
       };
       options.entity = { name: 'bar' };
       blueprint.install(options);
+    });
+
+    it('calls appropriate hooks with correct arguments', function() {
+      options.entity = { name: 'foo' };
+
+      return blueprint.install(options).then(function() {
+        expect(localsCalled).to.be.true;
+        expect(normalizeEntityNameCalled).to.be.true;
+        expect(fileMapTokensCalled).to.be.true;
+        expect(filesPathCalled).to.be.true;
+        expect(beforeInstallCalled).to.be.true;
+        expect(afterInstallCalled).to.be.true;
+        expect(beforeUninstallCalled).to.be.false;
+        expect(afterUninstallCalled).to.be.false;
+      });
     });
   });
 
@@ -497,17 +834,17 @@ describe('Blueprint', function() {
     }
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new BasicBlueprintClass(basicBlueprint);
-      project   = new MockProject();
-      options   = {
-        project: project,
-        target: tmpdir
-      };
-
-      refreshUI();
-      return blueprint.install(options)
-        .then(refreshUI);
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new BasicBlueprintClass(basicBlueprint);
+        project   = new MockProject();
+        options   = {
+          project: project,
+          target: tmpdir
+        };
+        refreshUI();
+        return blueprint.install(options);
+      }).then(refreshUI);
     });
 
     afterEach(function() {
@@ -518,25 +855,68 @@ describe('Blueprint', function() {
       expect(!!blueprint).to.equal(true);
 
       return blueprint.uninstall(options)
-        .then(function() {
-          var actualFiles = walkSync(tmpdir);
-          var output = ui.output.trim().split(EOL);
+      .then(function() {
+        var actualFiles = walkSync(tmpdir);
+        var output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^uninstalling/);
-          expect(output.shift()).to.match(/remove.* .ember-cli/);
-          expect(output.shift()).to.match(/remove.* .gitignore/);
-          expect(output.shift()).to.match(/remove.* bar/);
-          expect(output.shift()).to.match(/remove.* foo.txt/);
-          expect(output.shift()).to.match(/remove.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^uninstalling/);
+        expect(output.shift()).to.match(/remove.* .ember-cli/);
+        expect(output.shift()).to.match(/remove.* .gitignore/);
+        expect(output.shift()).to.match(/remove.* bar/);
+        expect(output.shift()).to.match(/remove.* foo.txt/);
+        expect(output.shift()).to.match(/remove.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles.length).to.equal(0);
+        expect(actualFiles.length).to.equal(0);
 
-          fs.exists(path.join(tmpdir, 'test.txt'),
-            function(exists) {
-              expect(exists).to.be.false;
-            });
+        fs.exists(path.join(tmpdir, 'test.txt'), function(exists) {
+          expect(exists).to.be.false;
         });
+      });
+    });
+
+    describe('instrumented blueprint uninstallation', function() {
+      var blueprint;
+      var ui;
+      var project;
+      var options;
+      var tmpdir;
+
+      function refreshUI() {
+        ui = new MockUI();
+        options.ui = ui;
+      }
+
+      beforeEach(function() {
+        return mkTmpDirIn(tmproot).then(function(dir) {
+          tmpdir = dir;
+          blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
+          project   = new MockProject();
+          options   = {
+            project: project,
+            target: tmpdir
+          };
+          refreshUI();
+
+          return blueprint.uninstall(options);
+        }).then(refreshUI);
+      });
+
+      it('calls appropriate hooks with correct arguments', function() {
+        options.entity = { name: 'foo' };
+
+        return blueprint.uninstall(options).then(function() {
+          expect(localsCalled).to.be.true;
+          expect(normalizeEntityNameCalled).to.be.true;
+          expect(fileMapTokensCalled).to.be.true;
+          expect(filesPathCalled).to.be.true;
+          expect(beforeUninstallCalled).to.be.true;
+          expect(afterUninstallCalled).to.be.true;
+
+          expect(beforeInstallCalled).to.be.false;
+          expect(afterInstallCalled).to.be.false;
+        });
+      });
     });
   });
 
@@ -546,9 +926,11 @@ describe('Blueprint', function() {
     var tmpdir;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+      });
     });
 
     afterEach(function() {
@@ -580,15 +962,15 @@ describe('Blueprint', function() {
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new NpmInstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new NpmInstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -719,15 +1101,15 @@ describe('Blueprint', function() {
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new NpmUninstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new NpmUninstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -754,15 +1136,15 @@ describe('Blueprint', function() {
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new NpmUninstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new NpmUninstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -876,15 +1258,16 @@ describe('Blueprint', function() {
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new BowerInstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.ui = ui;
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new BowerInstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -923,6 +1306,14 @@ describe('Blueprint', function() {
       blueprint.addBowerPackageToProject('foo-bar-local', 'http://twitter.github.io/bootstrap/assets/bootstrap');
     });
 
+    it('correctly handles a single versioned package descriptor as argument (1) (DEPRECATED)', function() {
+      blueprint.ui = ui;
+      blueprint.addBowerPackagesToProject = function(packages) {
+        expect(packages).to.deep.equal([{name: 'foo-bar', target: '1.11.1', source: 'foo-bar'}]);
+      };
+
+      blueprint.addBowerPackageToProject('foo-bar#1.11.1');
+    });
   });
 
   describe('addBowerPackagesToProject', function() {
@@ -933,15 +1324,15 @@ describe('Blueprint', function() {
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new BowerInstallTask();
-      };
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new BowerInstallTask();
+        };
+      });
     });
 
     afterEach(function() {
@@ -1038,19 +1429,54 @@ describe('Blueprint', function() {
     var blueprint;
     var ui;
     var tmpdir;
+
+    beforeEach(function() {
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+      });
+    });
+
+    afterEach(function() {
+      return remove(tmproot);
+    });
+
+    it('passes a packages array for addAddonsToProject', function() {
+      blueprint.addAddonsToProject = function(options) {
+        expect(options.packages).to.deep.equal(['foo-bar']);
+      };
+
+      blueprint.addAddonToProject('foo-bar');
+    });
+
+    it('passes a packages array with target for addAddonsToProject', function() {
+      blueprint.addAddonsToProject = function(options) {
+        expect(options.packages).to.deep.equal([{name: 'foo-bar', target: '^123.1.12'}]);
+      };
+
+      blueprint.addAddonToProject({name: 'foo-bar', target: '^123.1.12'});
+    });
+  });
+
+  describe('addAddonsToProject', function() {
+    var blueprint;
+    var ui;
+    var tmpdir;
     var AddonInstallTask;
     var taskNameLookedUp;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        blueprint.taskFor = function(name) {
+          taskNameLookedUp = name;
+          return new AddonInstallTask();
+        };
+      });
 
-      blueprint.taskFor = function(name) {
-        taskNameLookedUp = name;
-
-        return new AddonInstallTask();
-      };
     });
 
     afterEach(function() {
@@ -1062,7 +1488,7 @@ describe('Blueprint', function() {
         run: function() {}
       });
 
-      blueprint.addAddonToProject('foo-bar');
+      blueprint.addAddonsToProject({ packages: ['foo-bar'] });
 
       expect(taskNameLookedUp).to.equal('addon-install');
     });
@@ -1076,37 +1502,48 @@ describe('Blueprint', function() {
         }
       });
 
-      blueprint.addAddonToProject('foo-bar');
+      blueprint.addAddonsToProject({ packages: ['foo-bar', 'baz-bat'] });
 
-      expect(pkg).to.deep.equal(['foo-bar']);
+      expect(pkg).to.deep.equal(['foo-bar', 'baz-bat']);
     });
 
     it('calls the task with correctly parsed options', function() {
-      var pkg, args;
+      var pkg, args, bluOpts;
 
       AddonInstallTask = Task.extend({
         run: function(options) {
           pkg  = options['packages'];
           args = options['extraArgs'];
+          bluOpts = options['blueprintOptions'];
         }
       });
 
-      blueprint.addAddonToProject({
-        name: 'foo-bar',
-        target: '1.0.0',
-        extraArgs: ['baz']
+      blueprint.addAddonsToProject({
+        packages: [
+          {
+            name: 'foo-bar',
+            target: '1.0.0'
+          },
+          'stuff-things',
+          'baz-bat@0.0.1'
+        ],
+        extraArgs: ['baz'],
+        blueprintOptions: '-foo'
       });
 
-      expect(pkg).to.deep.equal(['foo-bar@1.0.0']);
+      expect(pkg).to.deep.equal(['foo-bar@1.0.0', 'stuff-things', 'baz-bat@0.0.1']);
       expect(args).to.deep.equal(['baz']);
+      expect(bluOpts).to.equal('-foo');
     });
 
     it('writes information to the ui log for a single package', function() {
       blueprint.ui = ui;
 
-      blueprint.addAddonToProject({
-        name: 'foo-bar',
-        target: '^123.1.12'
+      blueprint.addAddonsToProject({
+        packages: [{
+          name: 'foo-bar',
+          target: '^123.1.12'
+        }]
       });
 
       var output = ui.output.trim();
@@ -1114,12 +1551,34 @@ describe('Blueprint', function() {
       expect(output).to.match(/install addon.*foo-bar/);
     });
 
+    it('writes information to the ui log for multiple packages', function() {
+      blueprint.ui = ui;
+
+      blueprint.addAddonsToProject({
+        packages: [
+          {
+            name: 'foo-bar',
+            target: '1.0.0'
+          },
+          'stuff-things',
+          'baz-bat@0.0.1'
+        ]
+      });
+
+      var output = ui.output.trim();
+
+      expect(output).to.match(/install addons.*foo-bar@1.0.0,.*stuff-things,.*baz-bat@0.0.1/);
+    });
+
     it('does not error if ui is not present', function() {
       delete blueprint.ui;
 
-      blueprint.addAddonToProject({
-        name: 'foo-bar', target: '^123.1.12'}
-      );
+      blueprint.addAddonsToProject({
+        packages: [{
+          name: 'foo-bar',
+          target: '^123.1.12'
+        }]
+      });
 
       var output = ui.output.trim();
 
@@ -1127,7 +1586,7 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('load', function(){
+  describe('load', function() {
     var blueprint;
     it('loads and returns a blueprint object', function() {
       blueprint = Blueprint.load(basicBlueprint);
@@ -1147,16 +1606,17 @@ describe('Blueprint', function() {
     var filename;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-      project   = new MockProject();
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        project   = new MockProject();
+        // normally provided by `install`, but mocked here for testing
+        project.root = tmpdir;
+        blueprint.project = project;
+        filename = 'foo-bar-baz.txt';
+      });
 
-      // normally provided by `install`, but mocked here for testing
-      project.root = tmpdir;
-      blueprint.project = project;
-
-      filename = 'foo-bar-baz.txt';
     });
 
     afterEach(function() {
@@ -1170,7 +1630,7 @@ describe('Blueprint', function() {
         .then(function(result) {
           var contents = fs.readFileSync(path.join(project.root, filename), { encoding: 'utf8' });
 
-          expect(contents.indexOf(toInsert) > -1).to.equal(true, 'contents were inserted');
+          expect(contents).to.contain(toInsert);
           expect(result.originalContents).to.equal('', 'returned object should contain original contents');
           expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
           expect(contents).to.equal(result.contents, 'returned object should contain contents');
@@ -1224,7 +1684,7 @@ describe('Blueprint', function() {
         });
     });
 
-    it('will insert into the file after a specified string if options.after is specified', function(){
+    it('will insert into the file after a specified string if options.after is specified', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1245,7 +1705,7 @@ describe('Blueprint', function() {
         });
     });
 
-    it('will insert into the file after the first instance of options.after only', function(){
+    it('will insert into the file after the first instance of options.after only', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1266,7 +1726,7 @@ describe('Blueprint', function() {
         });
     });
 
-    it('will insert into the file before a specified string if options.before is specified', function(){
+    it('will insert into the file before a specified string if options.before is specified', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1287,7 +1747,7 @@ describe('Blueprint', function() {
         });
     });
 
-    it('will insert into the file before the first instance of options.before only', function(){
+    it('will insert into the file before the first instance of options.before only', function() {
       var toInsert = 'blahzorz blammo';
       var line1 = 'line1 is here';
       var line2 = 'line2 here';
@@ -1309,7 +1769,7 @@ describe('Blueprint', function() {
     });
 
 
-    it('it will make no change if options.after is not found in the original', function(){
+    it('it will make no change if options.after is not found in the original', function() {
       var toInsert = 'blahzorz blammo';
       var originalContent = 'the original content';
       var filePath = path.join(project.root, filename);
@@ -1326,7 +1786,7 @@ describe('Blueprint', function() {
         });
     });
 
-    it('it will make no change if options.before is not found in the original', function(){
+    it('it will make no change if options.before is not found in the original', function() {
       var toInsert = 'blahzorz blammo';
       var originalContent = 'the original content';
       var filePath = path.join(project.root, filename);
@@ -1352,19 +1812,19 @@ describe('Blueprint', function() {
     var filename;
 
     beforeEach(function() {
-      tmpdir    = tmp.in(tmproot);
-      blueprint = new Blueprint(basicBlueprint);
-      ui        = new MockUI();
-      project   = new MockProject();
-
-      // normally provided by `install`, but mocked here for testing
-      project.root = tmpdir;
-      blueprint.project = project;
-      project.blueprintLookupPaths = function() {
-        return [fixtureBlueprints];
-      };
-
-      filename = 'foo-bar-baz.txt';
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new Blueprint(basicBlueprint);
+        ui        = new MockUI();
+        project   = new MockProject();
+        // normally provided by `install`, but mocked here for testing
+        project.root = tmpdir;
+        blueprint.project = project;
+        project.blueprintLookupPaths = function() {
+          return [fixtureBlueprints];
+        };
+        filename = 'foo-bar-baz.txt';
+      });
     });
 
     afterEach(function() {
@@ -1378,9 +1838,9 @@ describe('Blueprint', function() {
     });
 
     it('can find internal blueprints', function() {
-      var result = blueprint.lookupBlueprint('controller');
+      var result = blueprint.lookupBlueprint('blueprint');
 
-      expect(result.description).to.equal('Generates a controller.');
+      expect(result.description).to.equal('Generates a blueprint and definition.');
     });
   });
 
@@ -1540,7 +2000,9 @@ describe('Blueprint', function() {
     it('should return a default object if no custom options are passed', function() {
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('it should call the locals method with the correct arguments', function() {
@@ -1589,7 +2051,9 @@ describe('Blueprint', function() {
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('should update its fileMap values to match the generateFileMap result', function() {
@@ -1601,7 +2065,9 @@ describe('Blueprint', function() {
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
 
     it('should return an object containing custom local values', function() {
@@ -1613,7 +2079,9 @@ describe('Blueprint', function() {
 
       result = blueprint._locals(options);
 
-      expect(result).to.eql(expectation);
+      result.then(function (locals) {
+        expect(locals).to.eql(expectation);
+      });
     });
   });
 });

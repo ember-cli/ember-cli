@@ -1,21 +1,22 @@
 'use strict';
 
 var path                = require('path');
-var fs                  = require('fs');
-var expect              = require('chai').expect;
+var fs                  = require('fs-extra');
 var acceptance          = require('../helpers/acceptance');
 var runCommand          = require('../helpers/run-command');
-var assertDirEmpty      = require('../helpers/assert-dir-empty');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
+var chai = require('../chai');
+var expect = chai.expect;
+var dir = chai.dir;
 
 var appName  = 'some-cool-app';
 
 describe('Acceptance: blueprint smoke tests', function() {
-  this.timeout(400000);
+  this.timeout(500000);
 
   before(function() {
     return createTestTargets(appName);
@@ -30,8 +31,8 @@ describe('Acceptance: blueprint smoke tests', function() {
   });
 
   afterEach(function() {
-    return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+    return cleanupRun(appName).then(function() {
+      expect(dir('tmp/' + appName)).to.not.exist;
     });
   });
 
@@ -39,14 +40,13 @@ describe('Acceptance: blueprint smoke tests', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
                       'http-proxy',
                       'api',
-                      'http://localhost/api',
-                      '--silent')
+                      'http://localhost/api')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+        var packageJson = fs.readJsonSync(packageJsonPath);
 
-        expect(!packageJson.devDependencies['http-proxy']).to.not.be.an('undefined');
-        expect(!packageJson.devDependencies['morgan']).to.not.be.an('undefined');
+        expect(packageJson.devDependencies).to.have.a.property('http-proxy');
+        expect(packageJson.devDependencies).to.have.a.property('morgan');
       });
   });
 });

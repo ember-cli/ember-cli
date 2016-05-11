@@ -1,21 +1,20 @@
-/*jshint quotmark: false*/
-
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
-var assertFile = require('../helpers/assert-file');
 var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
 var path       = require('path');
 var remove     = Promise.denodeify(require('fs-extra').remove);
 var root       = process.cwd();
-var tmp        = require('tmp-sync');
 var tmproot    = path.join(root, 'tmp');
-var expect     = require('chai').expect;
+var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+
+var chai = require('../chai');
+var expect = chai.expect;
+var file = chai.file;
 
 describe('Acceptance: ember install', function() {
-  this.timeout(30000);
-  var tmpdir;
+  this.timeout(60000);
 
   before(function() {
     conf.setup();
@@ -26,8 +25,9 @@ describe('Acceptance: ember install', function() {
   });
 
   beforeEach(function() {
-    tmpdir = tmp.in(tmproot);
-    process.chdir(tmpdir);
+    return mkTmpDirIn(tmproot).then(function(tmpdir) {
+      process.chdir(tmpdir);
+    });
   });
 
   afterEach(function() {
@@ -54,21 +54,15 @@ describe('Acceptance: ember install', function() {
 
   it('installs addons via npm and runs generators', function() {
     return installAddon(['ember-cli-fastclick', 'ember-cli-photoswipe']).then(function(result) {
-      assertFile('package.json', {
-        contains: [
-          /"ember-cli-fastclick": ".*"/,
-          /"ember-cli-photoswipe": ".*"/
-        ]
-      });
+      expect(file('package.json'))
+        .to.match(/"ember-cli-fastclick": ".*"/)
+        .to.match(/"ember-cli-photoswipe": ".*"/);
 
-      assertFile('bower.json', {
-        contains: [
-          /"fastclick": ".*"/,
-          /"photoswipe": ".*"/
-        ]
-      });
+      expect(file('bower.json'))
+        .to.match(/"fastclick": ".*"/)
+        .to.match(/"photoswipe": ".*"/);
 
-      expect(result.ui.output).not.to.include('The `ember generate` command '+
+      expect(result.outputStream.join()).not.to.include('The `ember generate` command ' +
                                               'requires an entity name to be specified. For more details, use `ember help`.');
     });
   });

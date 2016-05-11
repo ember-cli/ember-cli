@@ -7,10 +7,12 @@ var Addon   = require('../../../lib/models/addon');
 var Promise = require('../../../lib/ext/promise');
 var expect  = require('chai').expect;
 var remove  = Promise.denodeify(fs.remove);
-var tmp     = require('tmp-sync');
-var path    = require('path');
-var findWhere = require('lodash/collection/find');
+var findWhere = require('lodash/find');
 var MockUI = require('../../helpers/mock-ui');
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+
+var broccoli  = require('ember-cli-broccoli');
+var walkSync  = require('walk-sync');
 
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
@@ -43,6 +45,7 @@ describe('models/addon.js', function() {
         root: projectPath,
 
         init: function() {
+          this._super.apply(this, arguments);
           this.treePaths.vendor = 'blazorz';
           this.treeForMethods.public = 'huzzah!';
         }
@@ -53,6 +56,7 @@ describe('models/addon.js', function() {
         root: projectPath,
 
         init: function() {
+          this._super.apply(this, arguments);
           this.treePaths.vendor = 'blammo';
           this.treeForMethods.public = 'boooo';
         }
@@ -64,7 +68,7 @@ describe('models/addon.js', function() {
       var addon;
 
       beforeEach(function() {
-        addon = new FirstAddon(project);
+        addon = new FirstAddon(project, project);
 
         // TODO: fix config story...
         addon.app = {
@@ -72,7 +76,7 @@ describe('models/addon.js', function() {
           addonLintTree: function(type, tree) { return tree; }
         };
 
-        addon.jshintTrees = function(){};
+        addon.jshintTrees = function() {};
 
       });
 
@@ -80,6 +84,7 @@ describe('models/addon.js', function() {
         var addonPath;
         addon.addonJsFiles = function(_path) {
           addonPath = _path;
+          return _path;
         };
 
         var root = path.join(fixturePath, 'with-styles');
@@ -177,7 +182,8 @@ describe('models/addon.js', function() {
     before(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
-      project = new Project(projectPath, packageContents);
+      var ui = new MockUI();
+      project = new Project(projectPath, packageContents, ui);
       project.initializeAddons();
     });
 
@@ -368,7 +374,7 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        if(originalEnvValue === undefined) {
+        if (originalEnvValue === undefined) {
           delete process.env.EMBER_ADDON_ENV;
         } else {
           process.env.EMBER_ADDON_ENV = originalEnvValue;
@@ -401,21 +407,114 @@ describe('models/addon.js', function() {
       });
     });
 
+    describe('hintingEnabled', function() {
+      /**
+        Tests the various configuration options that affect the hintingEnabled method.
+
+       | configuration | test1 | test2 | test3 | test4 | test5 |
+       | ------------- | ----- | ----- | ----- | ----- | ----- |
+       | hinting       | true  | true  | true  | false | unset |
+       | environment   | dev   | N/A   | prod  | N\A   | N\A   |
+       | test_command  | set   | set   | unset | set   | set   |
+       | RESULT        | true  | true  | false | false | true  |
+
+        @method hintingEnabled
+       */
+
+      var originalEnvValue, originalTestCommand, addon, project;
+
+      beforeEach(function() {
+        var MyAddon = Addon.extend({
+          name: 'test-project',
+          root: 'foo'
+        });
+
+        var projectPath = path.resolve(fixturePath, 'simple');
+        var packageContents = require(path.join(projectPath, 'package.json'));
+
+        project = new Project(projectPath, packageContents);
+
+        addon = new MyAddon(project);
+
+        originalEnvValue = process.env.EMBER_ADDON_ENV;
+        originalTestCommand = process.env.EMBER_CLI_TEST_COMMAND;
+      });
+
+      afterEach(function() {
+        addon.app = {
+          options: {}
+        };
+
+        if (originalEnvValue === undefined) {
+          delete process.env.EMBER_ADDON_ENV;
+        } else {
+          process.env.EMBER_ADDON_ENV = originalEnvValue;
+        }
+
+        if (originalTestCommand === undefined) {
+          delete process.env.EMBER_CLI_TEST_COMMAND;
+        } else {
+          process.env.EMBER_CLI_TEST_COMMAND = originalTestCommand;
+        }
+      });
+
+      it('returns true when `EMBER_ENV` is not set to production and options.hinting is true', function() {
+        process.env.EMBER_ENV = 'development';
+
+        addon.app = {
+          options: { hinting: true }
+        };
+
+        expect(addon.hintingEnabled()).to.be.true;
+      });
+
+      it('returns true when `EMBER_CLI_TEST_COMMAND` is set and options.hinting is true', function() {
+        addon.app = {
+          options: { hinting: true }
+        };
+
+        expect(addon.hintingEnabled()).to.be.true;
+      });
+
+      it('returns false when `EMBER_ENV` is set to production, `EMBER_CLI_TEST_COMMAND` is unset and options.hinting is true', function() {
+        process.env.EMBER_ENV = 'production';
+        delete process.env.EMBER_CLI_TEST_COMMAND;
+
+        addon.app = {
+          options: { hinting: true }
+        };
+
+        expect(addon.hintingEnabled()).to.be.false;
+      });
+
+      it('returns false when options.hinting is set to false', function() {
+        addon.app = {
+          options: { hinting: false }
+        };
+
+        expect(addon.hintingEnabled()).to.be.false;
+      });
+
+      it('returns true when options.hinting is not set', function() {
+        expect(addon.hintingEnabled()).to.be.ok;
+      });
+    });
+
     describe('treeGenerator', function() {
       it('watch tree when developing the addon itself', function() {
         addon.isDevelopingAddon = function() { return true; };
 
         var tree = addon.treeGenerator('foo/bar');
 
-        expect(tree).to.equal('foo/bar');
+        expect(tree.__broccoliGetInfo__()).to.have.property('watched', true);
       });
 
-      it('uses unwatchedTree when not developing the addon itself', function() {
+      it('uses UnwatchedDir when not developing the addon itself', function() {
         addon.isDevelopingAddon = function() { return false; };
 
         var tree = addon.treeGenerator('foo/bar');
 
-        expect(tree.read()).to.equal('foo/bar');
+        expect(tree.__broccoliGetInfo__()).to.have.property('watched', false);
       });
     });
 
@@ -423,9 +522,10 @@ describe('models/addon.js', function() {
       var tmpdir;
 
       beforeEach(function() {
-        tmpdir  = tmp.in(tmproot);
-
-        addon.root = tmpdir;
+        return mkTmpDirIn(tmproot).then(function(dir) {
+          tmpdir = dir;
+          addon.root = tmpdir;
+        });
       });
 
       afterEach(function() {
@@ -553,6 +653,84 @@ describe('models/addon.js', function() {
 
     it('is provided with the addon\'s `ui` object', function() {
       expect(discovery.ui).to.equal(ui);
+    });
+  });
+
+  describe('treeForStyles', function() {
+    var builder, addon;
+
+    beforeEach(function() {
+      projectPath = path.resolve(fixturePath, 'with-app-styles');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+
+      var BaseAddon = Addon.extend({
+        name: 'base-addon',
+        root: projectPath
+      });
+
+      addon = new BaseAddon(project, project);
+    });
+
+    afterEach(function() {
+      if (builder) {
+        return builder.cleanup();
+      }
+    });
+
+    it('should move files in the root of the addons app/styles tree into the app/styles path', function() {
+      builder = new broccoli.Builder(addon.treeFor('styles'));
+
+      return builder.build()
+        .then(function(results) {
+          var outputPath = results.directory;
+
+          var expected = [
+            'app/',
+            'app/styles/',
+            'app/styles/foo-bar.css'
+          ];
+
+          expect(walkSync(outputPath)).to.eql(expected);
+        });
+    });
+  });
+
+  describe('._eachProjectAddonInvoke', function() {
+    beforeEach(function() {
+      var MyAddon = Addon.extend({
+        name: 'test-project',
+        root: 'foo'
+      });
+
+      var projectPath = path.resolve(fixturePath, 'simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+      addon = new MyAddon(project, project);
+    });
+
+    it('should invoke the method on each of the project addons', function() {
+      var counter = 0;
+      project.addons = [
+        { foo: function(num) { counter += num; } },
+        { foo: function(num) { counter += num; } }
+      ];
+
+      addon._eachProjectAddonInvoke('foo', [1]);
+      expect(counter).to.eql(2);
+    });
+
+    it('should provide default arguments if none are specified', function() {
+      var counter = 0;
+      project.addons = [
+        { foo: function() { counter += 1; } },
+        { foo: function() { counter += 1; } }
+      ];
+
+      addon._eachProjectAddonInvoke('foo');
+      expect(counter).to.eql(2);
     });
   });
 });

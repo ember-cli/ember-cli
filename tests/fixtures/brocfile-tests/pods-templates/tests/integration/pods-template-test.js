@@ -3,6 +3,7 @@
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 import { module, test } from 'qunit';
 
 module('pods based templates', {
@@ -10,10 +11,9 @@ module('pods based templates', {
     this.application = startApp();
   },
   afterEach: function() {
-    Ember.run(this.application, 'destroy');
+    destroyApp(this.application);
   }
 });
-
 
 test('the application boots properly with pods based templates', function(assert) {
   assert.expect(1);

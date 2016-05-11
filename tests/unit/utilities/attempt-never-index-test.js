@@ -1,10 +1,12 @@
 'use strict';
 
 var attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
-var existsSync = require('exists-sync');
 var quickTemp = require('quick-temp');
-var expect = require('chai').expect;
 var isDarwin = /darwin/i.test(require('os').type());
+
+var chai = require('../../chai');
+var expect = chai.expect;
+var file = chai.file;
 
 describe('attempt-never-index', function() {
   var context = {};
@@ -18,14 +20,14 @@ describe('attempt-never-index', function() {
   });
 
   it('sets the hint to spotlight if possible', function() {
-    expect(existsSync(tmpPath + '/.metadata_never_index')).to.false;
+    expect(file(tmpPath + '/.metadata_never_index')).to.not.exist;
 
     attemptNeverIndex(tmpPath);
 
     if (isDarwin) {
-      expect(existsSync(tmpPath + '/.metadata_never_index')).to.true;
+      expect(file(tmpPath + '/.metadata_never_index')).to.exist;
     } else {
-      expect(existsSync(tmpPath + '/.metadata_never_index')).to.false;
+      expect(file(tmpPath + '/.metadata_never_index')).to.not.exist;
     }
   });
 });

@@ -1,3 +1,4 @@
+/*jshint node:true*/
 module.exports = function(app) {
   var express = require('express');
   var <%= camelizedModuleName %>Router = express.Router();
@@ -32,5 +33,15 @@ module.exports = function(app) {
     res.status(204).end();
   });
 
+  // The POST and PUT call will not contain a request body
+  // because the body-parser is not included by default.
+  // To use req.body, run:
+
+  //    npm install --save-dev body-parser
+
+  // After installing, you need to `use` the body-parser for
+  // this mock uncommenting the following line:
+  //
+  //app.use('/api/<%= decamelizedModuleName %>', require('body-parser').json());
   app.use('/api/<%= decamelizedModuleName %>', <%= camelizedModuleName %>Router);
 };

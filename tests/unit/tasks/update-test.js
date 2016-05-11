@@ -1,6 +1,6 @@
 'use strict';
 
-var fs         = require('fs');
+var fs         = require('fs-extra');
 var path       = require('path');
 var expect     = require('chai').expect;
 var MockUI     = require('../../helpers/mock-ui');
@@ -110,7 +110,7 @@ describe('update task', function() {
 
     afterEach(function() {
       pkg.devDependencies['ember-cli'] = '0.0.1';
-      fs.writeFileSync(path.join(__dirname, dummyPkgPath), JSON.stringify(pkg, null, 2));
+      fs.writeJsonSync(path.join(__dirname, dummyPkgPath), pkg);
     });
 
     it('says \'a new version is available\' and asks you to confirm you want to update', function() {
@@ -127,7 +127,7 @@ describe('update task', function() {
           'global': true,
           'loglevel': 'silent'
         }, '');
-        expect(initCommandWasRun);
+        expect(initCommandWasRun).to.be.ok;
       });
     });
 

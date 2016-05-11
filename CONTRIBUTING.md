@@ -15,6 +15,10 @@ please ask a question on Stack Overflow: http://stackoverflow.com/questions/ask?
 
 Think you've found a bug or have a new feature to suggest? Let us know!
 
+## Slow builds?
+
+Please be sure to review [The Perf Guide](https://github.com/ember-cli/ember-cli/blob/master/PERF_GUIDE.md) (and implement its recommendations) before posting an issue.
+
 ## Reporting a Bug
 
 1. Update to the most recent master release if possible. We may have already
@@ -40,7 +44,23 @@ Think you've found a bug or have a new feature to suggest? Let us know!
 The more information you provide, the easier it is for us to validate that
 there is a bug and the faster we'll be able to take action.
 
+Be sure to include (At the very least):
+
+* OS
+* npm version
+* ember version
+* clear steps to reproduction
+
+And ideally
+
+* a isolated demonstration of this issue as a github repo
+
 ## Requesting a Feature
+
+Feature requests are handled via https://github.com/ember-cli/rfcs
+
+* issues are eargley stage requests/proposals
+* rfcs as pull requests are for fleshing out details
 
 1. Search Issues for similar feature requests. It's possible somebody has
    already asked for this feature or provided a pull request that we're still
@@ -141,7 +161,7 @@ updating or writing new documentation:
 #### Website
 
 The codebase for the website [ember-cli.com](http://ember-cli.com) is located
-at: https://github.com/ember-cli/ember-cli/tree/gh-pages
+at: https://github.com/ember-cli/ember-cli.github.io
 
 #### Code Words
 
@@ -153,13 +173,35 @@ at: https://github.com/ember-cli/ember-cli/tree/gh-pages
 
 And in case we didn't emphasize it enough: **we love tests!**
 
+#### Testing
+
+Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run-script
+test-all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
+with a test, write your test and add `.only` to it's `describe` or `it` block. E.g.
+
+```javascript
+describe.only("My new feature", function() {
+  it("is neat", function() {
+    //...
+  });
+});
+```
+
+Then simply run `npm test` for your test to run. If the test(s) pass and you are happy with the
+result, remove the `.only` and run the whole suite again, in order to make sure that you didn't
+break anything.
+
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
+
+# Code Climate
+
+We can always use help improving our [Code Climate](https://codeclimate.com/github/ember-cli/ember-cli) score.
 
 # Docs
 
 Have you got enough knowledge in a specific feature and want to help with docs?
-Ember-cli documentation lives at the branch
-[gh-pages](https://github.com/ember-cli/ember-cli/tree/gh-pages).
+Ember-cli documentation lives at the repository
+[ember-cli.github.io](https://github.com/ember-cli/ember-cli.github.io).
 
 Feel free to contribute and help us to keep an updated, clear and complete
 documentation.

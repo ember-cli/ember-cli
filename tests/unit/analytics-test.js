@@ -36,7 +36,7 @@ afterEach(function() {
 describe('analytics', function() {
   it('track gets invoked on command.validateAndRun()', function() {
     return command.validateAndRun([]).then(function() {
-      expect(called, 'expected analytics.track to be called');
+      expect(called, 'expected analytics.track to be called').to.be.true;
     });
   });
 });

@@ -1,9 +1,7 @@
 'use strict';
 
 var path                = require('path');
-var expect              = require('chai').expect;
 var fs                  = require('fs-extra');
-var EOL                 = require('os').EOL;
 var Promise             = require('../../lib/ext/promise');
 var acceptance          = require('../helpers/acceptance');
 var runCommand          = require('../helpers/run-command');
@@ -13,10 +11,15 @@ var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
 
-
 var copyFixtureFiles = require('../helpers/copy-fixture-files');
-var assertDirEmpty   = require('../helpers/assert-dir-empty');
 
+var chai = require('../chai');
+var expect = chai.expect;
+var file = chai.file;
+var dir = chai.dir;
+
+
+// skipped because brittle. needs some TLC
 describe.skip('Acceptance: express server restart', function () {
   var appName = 'express-server-restart-test-app';
 
@@ -41,8 +44,8 @@ describe.skip('Acceptance: express server restart', function () {
 
   afterEach(function() {
     this.timeout(15000);
-    return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+    return cleanupRun(appName).then(function() {
+      expect(dir('tmp/' + appName)).to.not.exist;
     });
   });
 
@@ -55,8 +58,7 @@ describe.skip('Acceptance: express server restart', function () {
 
   var initialRoot = process.cwd();
   function ensureTestFileContents(expectedContents, message) {
-    var contents = fs.readFileSync(path.join(initialRoot, 'tmp', appName, 'foo.txt'), { encoding: 'utf8' });
-    expect(contents).to.equal(expectedContents, message);
+    expect(file(path.join(initialRoot, 'tmp', appName, 'foo.txt'))).to.equal(expectedContents, message);
   }
 
   function onChildSpawnedSingleCopy(copySrc, expectedContents) {
@@ -105,7 +107,6 @@ describe.skip('Acceptance: express server restart', function () {
     return new Promise(function(resolve, reject) {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
         'serve',
-        '--silent',
         '--live-reload-port', '32580',
         '--port', '49741', commandOptions)
         .then(function() {
@@ -125,21 +126,21 @@ describe.skip('Acceptance: express server restart', function () {
   it('Server restarts successfully on copy1', function() {
     this.timeout(30000);
 
-    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedSingleCopy('copy1', 'Copy1 contents of A.')));
   });
 
   it('Server restarts successfully on copy2', function() {
     this.timeout(30000);
 
-    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedSingleCopy('copy2', 'Copy2 contents of A. Copy2 contents of B.')));
   });
 
   it('Server restarts successfully on multiple copies', function() {
     this.timeout(90000);
 
-    ensureTestFileContents('Initial Contents' + EOL, 'Test file initialized properly.');
+    ensureTestFileContents('Initial Contents\n', 'Test file initialized properly.');
     return runServer(getRunCommandOptions(onChildSpawnedMultipleCopies()));
   });
 });

@@ -3,6 +3,7 @@
 
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 import { module, test } from 'qunit';
 
 module('default-development - Integration', {
@@ -10,10 +11,9 @@ module('default-development - Integration', {
     this.application = startApp();
   },
   afterEach: function() {
-    Ember.run(this.application, 'destroy');
+    destroyApp(this.application);
   }
 });
-
 
 test('the application boots properly', function(assert) {
   assert.expect(1);
@@ -21,6 +21,6 @@ test('the application boots properly', function(assert) {
   visit('/');
 
   andThen(function() {
-    assert.equal(Ember.$('#title').text(), 'Welcome to Ember');
+    assert.ok(Ember.$('.ember-view').length > 0);
   });
 });

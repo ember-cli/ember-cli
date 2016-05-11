@@ -1,12 +1,22 @@
 /* global escape */
+
 'use strict';
 
-var fs       = require('fs');
-var path     = require('path');
-var Project  = require('../../../lib/models/project');
-var EmberApp = require('../../../lib/broccoli/ember-app');
-var expect   = require('chai').expect;
-var stub     = require('../../helpers/stub').stub;
+var fs         = require('fs');
+var path       = require('path');
+var Project    = require('../../../lib/models/project');
+var expect     = require('chai').expect;
+var stub       = require('../../helpers/stub').stub;
+var proxyquire = require('proxyquire');
+
+var MockUI = require('../../helpers/mock-ui');
+
+var mergeTreesStub;
+var EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
+  './merge-trees': function() {
+    return mergeTreesStub.apply(this, arguments);
+  }
+});
 
 describe('broccoli/ember-app', function() {
   var project, projectPath, emberApp, addonTreesForStub, addon;
@@ -14,7 +24,7 @@ describe('broccoli/ember-app', function() {
   function setupProject(rootPath) {
     var packageContents = require(path.join(rootPath, 'package.json'));
 
-    project = new Project(rootPath, packageContents);
+    project = new Project(rootPath, packageContents, new MockUI());
     project.require = function() {
       return function() {};
     };
@@ -28,18 +38,22 @@ describe('broccoli/ember-app', function() {
   beforeEach(function() {
     projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
     project = setupProject(projectPath);
+
+    mergeTreesStub = require('../../../lib/broccoli/merge-trees');
   });
 
   describe('constructor', function() {
     it('should override project.configPath if configPath option is specified', function() {
       project.configPath = function() { return 'original value'; };
 
+      var expected = 'custom config path';
+
       new EmberApp({
         project: project,
-        configPath: 'custom config path'
+        configPath: expected
       });
 
-      expect(project.configPath()).to.equal('custom config path');
+      expect(project.configPath().slice(-expected.length)).to.equal(expected);
     });
 
     it('should set bowerDirectory for app', function() {
@@ -85,6 +99,26 @@ describe('broccoli/ember-app', function() {
       });
     });
 
+    it('should do the right thing when merging default object options', function() {
+      var app = new EmberApp({
+        project: project,
+      }, {
+        minifyJS: {
+          enabled: true,
+          options: {
+            exclusions: ['hey', 'you']
+          }
+        }
+      });
+
+      expect(app.options.minifyJS).to.deep.equal({
+        enabled: true,
+        options: {
+          exclusions: ['hey', 'you']
+        }
+      });
+    });
+
     describe('_notifyAddonIncluded', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
@@ -98,6 +132,41 @@ describe('broccoli/ember-app', function() {
 
         var addon = project.addons[0];
         expect(addon.app).to.deep.equal(app);
+      });
+    });
+
+    describe('loader.js missing', function() {
+      it('does not error when loader.js is present in registry.availablePlugins', function() {
+        expect(function() {
+          new EmberApp({
+            project: project
+          });
+        }).to.not.throw(/loader.js addon is missing/);
+      });
+
+      it('throws an error when loader.js is not present in registry.availablePlugins', function() {
+        expect(function() {
+          new EmberApp({
+            project: project,
+            registry: {
+              add: function() { },
+              availablePlugins: { }
+            }
+          });
+        }).to.throw(/loader.js addon is missing/);
+      });
+
+      it('does not throw an error if _ignoreMissingLoader is set', function() {
+        expect(function() {
+          new EmberApp({
+            project: project,
+            registry: {
+              add: function() { },
+              availablePlugins: { }
+            },
+            _ignoreMissingLoader: true
+          });
+        }).to.not.throw(/loader.js addon is missing/);
       });
     });
   });
@@ -157,6 +226,35 @@ describe('broccoli/ember-app', function() {
 
         expect(actual).to.equal('blammo\nblahzorz');
       });
+
+      it('allows later addons to inspect previous content', function() {
+        var calledContent;
+
+        project.addons.push({
+          contentFor: function() {
+            return 'zero';
+          }
+        });
+
+        project.addons.push({
+          contentFor: function() {
+            return 'one';
+          }
+        });
+
+        project.addons.push({
+          contentFor: function(type, config, content) {
+            calledContent = content.slice();
+            content.pop();
+            return 'two';
+          }
+        });
+
+        var actual = emberApp.contentFor(config, defaultMatch, 'foo');
+
+        expect(calledContent).to.deep.equal(['zero', 'one']);
+        expect(actual).to.equal('zero\ntwo');
+      });
     });
 
     describe('contentFor("head")', function() {
@@ -166,7 +264,7 @@ describe('broccoli/ember-app', function() {
                            'content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(metaExpected) > -1);
+        expect(actual).to.contain(metaExpected);
       });
 
       it('does not include the `meta` tag in `head` if storeConfigInMeta is false', function() {
@@ -177,7 +275,7 @@ describe('broccoli/ember-app', function() {
                            'content="' + escapedConfig + '" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(metaExpected) === -1);
+        expect(actual).to.not.contain(metaExpected);
       });
 
       it('includes the `base` tag in `head` if locationType is auto', function() {
@@ -186,7 +284,7 @@ describe('broccoli/ember-app', function() {
         var expected = '<base href="/" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual).to.contain(expected);
       });
 
       it('includes the `base` tag in `head` if locationType is none (testem requirement)', function() {
@@ -195,7 +293,7 @@ describe('broccoli/ember-app', function() {
         var expected = '<base href="/" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual).to.contain(expected);
       });
 
       it('does not include the `base` tag in `head` if locationType is hash', function() {
@@ -204,18 +302,25 @@ describe('broccoli/ember-app', function() {
         var expected = '<base href="/foo/bar/" />';
         var actual = emberApp.contentFor(config, defaultMatch, 'head');
 
-        expect(true, actual.indexOf(expected) === -1);
+        expect(actual).to.not.contain(expected);
+      });
+
+      it('does not include the `base` tag in `head` if baseURL is undefined', function() {
+        var expected = '<base href=';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        expect(actual).to.not.contain(expected);
       });
     });
 
     describe('contentFor("config-module")', function() {
       it('includes the meta gathering snippet by default', function() {
         var metaSnippetPath = path.join(__dirname, '..','..','..','lib','broccoli','app-config-from-meta.js');
-        var expected = fs.readFileSync(metaSnippetPath);
+        var expected = fs.readFileSync(metaSnippetPath, { encoding: 'utf8' });
 
         var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual).to.contain(expected);
       });
 
       it('includes the raw config if storeConfigInMeta is false', function() {
@@ -224,7 +329,7 @@ describe('broccoli/ember-app', function() {
         var expected = JSON.stringify(config);
         var actual = emberApp.contentFor(config, defaultMatch, 'config-module');
 
-        expect(true, actual.indexOf(expected) > -1);
+        expect(actual).to.contain(expected);
       });
     });
 
@@ -254,7 +359,7 @@ describe('broccoli/ember-app', function() {
           project: project
         });
 
-        expect(true, called);
+        expect(called).to.be.true;
         expect(passedApp).to.equal(emberApp);
       });
 
@@ -345,56 +450,49 @@ describe('broccoli/ember-app', function() {
 
           expect(addonTreesForStub.calledWith[0][0]).to.equal('app');
         });
-
-        it('styles calls addonTreesFor and merges with overwrite', function() {
-          var trees = emberApp.styles();
-
-          expect(addonTreesForStub.calledWith[0][0]).to.equal('styles');
-          expect(true, trees.inputTrees[0].inputTree.inputTrees.indexOf('batman') !== -1, 'contains addon tree');
-          expect(trees.inputTrees[0].inputTree.options.overwrite).to.equal(true);
-        });
       });
     });
+
     describe('postprocessTree is called properly', function() {
-        var postprocessTreeStub;
-        beforeEach(function() {
-          emberApp = new EmberApp({
-            project: project
-          });
-
-          postprocessTreeStub = stub(emberApp, 'addonPostprocessTree', ['batman']);
+      var postprocessTreeStub;
+      beforeEach(function() {
+        emberApp = new EmberApp({
+          project: project
         });
 
-
-        it('styles calls addonTreesFor', function() {
-          emberApp.styles();
-
-          expect(postprocessTreeStub.calledWith[0][0]).to.equal('css');
-          expect(postprocessTreeStub.calledWith[0][1].description).to.equal('styles', 'should be called with consolidated tree');
-        });
+        postprocessTreeStub = stub(emberApp, 'addonPostprocessTree', ['batman']);
+      });
 
 
-        it('template type is called', function() {
-          var oldLoad = emberApp.registry.load;
-          emberApp.registry.load = function(type) {
-            if (type === 'template'){
-              return [
-                {
-                  toTree: function() {
-                    return {
-                      description: 'template'
-                    };
-                  }
-                }];
-            } else {
-              return oldLoad.call(emberApp.registry, type);
-            }
-          };
+      it('styles calls addonTreesFor', function() {
+        emberApp.styles();
 
-          emberApp._processedTemplatesTree();
-          expect(postprocessTreeStub.calledWith[0][0]).to.equal('template');
-          expect(postprocessTreeStub.calledWith[0][1].description).to.equal('template', 'should be called with consolidated tree');
-        });
+        expect(postprocessTreeStub.calledWith[0][0]).to.equal('css');
+        expect(postprocessTreeStub.calledWith[0][1].description).to.equal('styles', 'should be called with consolidated tree');
+      });
+
+
+      it('template type is called', function() {
+        var oldLoad = emberApp.registry.load;
+        emberApp.registry.load = function(type) {
+          if (type === 'template') {
+            return [
+              {
+                toTree: function() {
+                  return {
+                    description: 'template'
+                  };
+                }
+              }];
+          } else {
+            return oldLoad.call(emberApp.registry, type);
+          }
+        };
+
+        emberApp._processedTemplatesTree();
+        expect(postprocessTreeStub.calledWith[0][0]).to.equal('template');
+        expect(postprocessTreeStub.calledWith[0][1].description).to.equal('template', 'should be called with consolidated tree');
+      });
     });
 
     describe('toTree', function() {
@@ -433,7 +531,7 @@ describe('broccoli/ember-app', function() {
         stub(addon, 'postprocessTree', 'blap');
         expect(emberApp.toTree()).to.equal('blap');
         expect(
-          addon.postprocessTree.calledWith.map(function(args){
+          addon.postprocessTree.calledWith.map(function(args) {
             return args[0];
           }).sort()
         ).to.deep.equal(['all', 'css', 'js', 'test']);
@@ -441,7 +539,7 @@ describe('broccoli/ember-app', function() {
 
     });
 
-    describe('isEnabled is called properly', function() {
+    describe('addons can be disabled', function() {
       beforeEach(function() {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
         var packageContents = require(path.join(projectPath, 'package.json'));
@@ -452,66 +550,264 @@ describe('broccoli/ember-app', function() {
         process.env.EMBER_ENV = undefined;
       });
 
-      describe('with environment', function() {
-        it('development', function() {
-          process.env.EMBER_ENV = 'development';
-          emberApp = new EmberApp({ project: project });
+      describe('isEnabled is called properly', function() {
+        describe('with environment', function() {
+          var emberFooEnvAddonFixture;
+          beforeEach(function() {
+            emberFooEnvAddonFixture = require(path.resolve(projectPath, 'node_modules/ember-foo-env-addon/index.js'));
+          });
 
-          expect(emberApp.project.addons.length).to.equal(5);
-        });
+          it('development', function() {
+            process.env.EMBER_ENV = 'development';
+            emberApp = new EmberApp({ project: project });
 
-        it('foo', function() {
-          process.env.EMBER_ENV = 'foo';
-          emberApp = new EmberApp({ project: project });
+            emberFooEnvAddonFixture.app = emberApp;
+            expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-          expect(emberApp.project.addons.length).to.equal(6);
+            expect(emberApp.project.addons.length).to.equal(8);
+          });
+
+          it('foo', function() {
+            process.env.EMBER_ENV = 'foo';
+            emberApp = new EmberApp({ project: project });
+
+            emberFooEnvAddonFixture.app = emberApp;
+            expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
+
+            expect(emberApp.project.addons.length).to.equal(9);
+          });
         });
       });
 
+      describe('blacklist', function() {
+        it('prevents addons to be added to the project', function() {
+          process.env.EMBER_ENV = 'foo';
+          emberApp = new EmberApp({
+            project: project,
+            addons: {
+              blacklist: ['ember-foo-env-addon']
+            }
+          });
+
+          expect(emberApp._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
+          expect(emberApp._addonDisabledByBlacklist({ name: 'Ember Random Addon' })).to.be.false;
+          expect(emberApp.project.addons.length).to.equal(8);
+        });
+
+        it('throws if unavailable addon is specified', function() {
+          var load = function() {
+            process.env.EMBER_ENV = 'foo';
+            emberApp = new EmberApp({
+              project: project,
+              addons: {
+                blacklist: ['ember-cli-self-troll']
+              }
+            });
+          };
+
+          expect(load).to.throw('Addon "ember-cli-self-troll" defined in blacklist is not found');
+        });
+      });
+
+      describe('whitelist', function() {
+        it('prevents non-whitelisted addons to be added to the project', function() {
+          process.env.EMBER_ENV = 'foo';
+          emberApp = new EmberApp({
+            project: project,
+            addons: {
+              whitelist: ['ember-foo-env-addon']
+            }
+          });
+
+          expect(emberApp._addonDisabledByWhitelist({ name: 'ember-foo-env-addon' })).to.be.false;
+          expect(emberApp._addonDisabledByWhitelist({ name: 'Ember Random Addon' })).to.be.true;
+          expect(emberApp.project.addons.length).to.equal(1);
+        });
+
+        it('throws if unavailable addon is specified', function() {
+          var load = function() {
+            process.env.EMBER_ENV = 'foo';
+            emberApp = new EmberApp({
+              project: project,
+              addons: {
+                whitelist: ['ember-cli-self-troll']
+              }
+            });
+          };
+
+          expect(load).to.throw('Addon "ember-cli-self-troll" defined in whitelist is not found');
+        });
+      });
+
+      describe('blacklist wins over whitelist', function() {
+        it('prevents addon to be added to the project', function() {
+          process.env.EMBER_ENV = 'foo';
+          emberApp = new EmberApp({
+            project: project,
+            addons: {
+              whitelist: ['ember-foo-env-addon'],
+              blacklist: ['ember-foo-env-addon']
+            }
+          });
+
+          expect(emberApp.project.addons.length).to.equal(0);
+        });
+      });
+    });
+
+    describe('addonLintTree', function() {
+      beforeEach(function() {
+        addon = { };
+
+        project.initializeAddons = function() {
+          this.addons = [ addon ];
+        };
+
+        emberApp = new EmberApp({
+          project: project
+        });
+      });
+
+      it('does not throw an error if lintTree is not defined', function() {
+        emberApp.addonLintTree();
+      });
+
+      it('calls lintTree on the addon', function() {
+        var actualType, actualTree;
+
+        addon.lintTree = function(type, tree) {
+          actualType = type;
+          actualTree = tree;
+
+          return 'blazorz';
+        };
+
+        var assertionsWereRun;
+
+        mergeTreesStub = function(inputTree, options) {
+          expect(inputTree).to.deep.equal(['blazorz']);
+          expect(options).to.deep.equal({
+            overwrite: true,
+            annotation: 'TreeMerger (lint)'
+          });
+
+          assertionsWereRun = true;
+        };
+
+        emberApp.addonLintTree('blah', 'blam');
+
+        expect(actualType).to.equal('blah');
+        expect(actualTree).to.equal('blam');
+        expect(assertionsWereRun).to.be.true;
+      });
+
+      it('filters out tree if lintTree returns falsey', function() {
+        addon.lintTree = function() {
+          return false;
+        };
+
+        var assertionsWereRun;
+
+        mergeTreesStub = function(inputTree) {
+          expect(inputTree.length).to.equal(0);
+
+          assertionsWereRun = true;
+        };
+
+        emberApp.addonLintTree();
+
+        expect(assertionsWereRun).to.be.true;
+      });
     });
   });
 
   describe('import', function() {
+    it('appends dependencies to vendor by default', function() {
+      emberApp = new EmberApp({
+        project: project
+      });
+      emberApp.import('vendor/moment.js');
+      var outputFile = emberApp._scriptOutputFiles['/assets/vendor.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
+    });
     it('appends dependencies', function() {
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import('vendor/moment.js', {type: 'vendor'});
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/moment.js')).to.equal(emberApp.legacyFilesToAppend.length - 1);
+
+      var outputFile = emberApp._scriptOutputFiles['/assets/vendor.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
     });
     it('prepends dependencies', function() {
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/es5-shim.js')).to.equal(0);
+
+      var outputFile = emberApp._scriptOutputFiles['/assets/vendor.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/es5-shim.js')).to.equal(0);
     });
+    it('prepends dependencies to outputFile', function() {
+      emberApp = new EmberApp({
+        project: project
+      });
+      emberApp.import('vendor/moment.js', {outputFile: 'moment.js', prepend: true});
+
+      var outputFile = emberApp._scriptOutputFiles['moment.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(0);
+    });
+    it('appends dependencies to outputFile', function() {
+      emberApp = new EmberApp({
+        project: project
+      });
+      emberApp.import('vendor/moment.js', {outputFile: 'moment.js'});
+
+      var outputFile = emberApp._scriptOutputFiles['moment.js'];
+
+      expect(outputFile).to.be.instanceof(Array);
+      expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
+    });
+
     it('defaults to development if production is not set', function() {
       process.env.EMBER_ENV = 'production';
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import({
         'development': 'vendor/jquery.js'
       });
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/jquery.js')).to.equal(emberApp.legacyFilesToAppend.length -1);
+      var outputFile = emberApp._scriptOutputFiles['/assets/vendor.js'];
+      expect(outputFile.indexOf('vendor/jquery.js')).to.equal(outputFile.length - 1);
       process.env.EMBER_ENV = undefined;
-
     });
     it('honors explicitly set to null in environment', function() {
       process.env.EMBER_ENV = 'production';
       emberApp = new EmberApp({
+        project: project
       });
       emberApp.import({
         'development': 'vendor/jquery.js',
         'production':  null
       });
-      expect(emberApp.legacyFilesToAppend.indexOf('vendor/jquery.js')).to.equal(-1);
+      expect(emberApp._scriptOutputFiles['/assets/vendor.js']).to.not.contain('vendor/jquery.js');
       process.env.EMBER_ENV = undefined;
     });
   });
 
   describe('vendorFiles', function() {
     var defaultVendorFiles = [
-      'loader.js', 'jquery.js', 'ember.js',
-      'app-shims.js', 'ember-resolver.js', 'ember-load-initializers.js'
+      'jquery.js',
+      'ember.js',
+      'app-shims.js'
     ];
 
     describe('handlebars.js', function() {
@@ -547,12 +843,16 @@ describe('broccoli/ember-app', function() {
     });
 
     it('defines vendorFiles by default', function() {
-      emberApp = new EmberApp();
+      emberApp = new EmberApp({
+        project: project
+      });
       expect(Object.keys(emberApp.vendorFiles)).to.deep.equal(defaultVendorFiles);
     });
 
     it('redefines a location of a vendor asset', function() {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': 'vendor/ember.js'
         }
@@ -562,6 +862,8 @@ describe('broccoli/ember-app', function() {
 
     it('defines vendorFiles in order even when option for it is passed', function() {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': 'vendor/ember.js'
         }
@@ -571,21 +873,23 @@ describe('broccoli/ember-app', function() {
 
     it('removes dependency in vendorFiles', function() {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': null,
           'handlebars.js': null
         }
       });
       var vendorFiles = Object.keys(emberApp.vendorFiles);
-      expect(vendorFiles.indexOf('ember.js')).to.equal(-1);
-      expect(vendorFiles.indexOf('handlebars.js')).to.equal(-1);
+      expect(vendorFiles).to.not.contain('ember.js');
+      expect(vendorFiles).to.not.contain('handlebars.js');
     });
 
     it('defaults to ember.debug.js if exists in bower_components', function () {
       var root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
 
       emberApp = new EmberApp({
-        project: new Project(root, {})
+        project: setupProject(root)
       });
 
       var emberFiles = emberApp.vendorFiles['ember.js'];
@@ -593,13 +897,20 @@ describe('broccoli/ember-app', function() {
     });
 
     it('switches the default ember.debug.js to ember.js if it does not exist', function () {
-      emberApp = new EmberApp();
+      var root = path.resolve(__dirname, '../../fixtures/app/without-ember-debug');
+
+      emberApp = new EmberApp({
+        project: setupProject(root)
+      });
+
       var emberFiles = emberApp.vendorFiles['ember.js'];
       expect(emberFiles.development).to.equal('bower_components/ember/ember.js');
     });
 
     it('does not clobber an explicitly configured ember development file', function () {
       emberApp = new EmberApp({
+        project: project,
+
         vendorFiles: {
           'ember.js': {
             development: 'vendor/ember.debug.js'
@@ -610,4 +921,16 @@ describe('broccoli/ember-app', function() {
       expect(emberFiles.development).to.equal('vendor/ember.debug.js');
     });
   });
+
+  describe('_resolveLocal', function() {
+    it('resolves a path relative to the project root', function() {
+      var emberApp = new EmberApp({
+        project: project
+      });
+
+      var result = emberApp._resolveLocal('foo');
+      expect(result).to.equal(path.join(project.root, 'foo'));
+    });
+  });
 });
+

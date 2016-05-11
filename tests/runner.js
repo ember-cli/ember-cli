@@ -3,32 +3,40 @@
 var glob = require('glob');
 var Mocha = require('mocha');
 var RSVP = require('rsvp');
-var rimraf = require('rimraf');
+var fs = require('fs-extra');
 var mochaOnlyDetector = require('mocha-only-detector');
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
 
-rimraf.sync('.node_modules-tmp');
-rimraf.sync('.bower_components-tmp');
+fs.removeSync('.node_modules-tmp');
+fs.removeSync('.bower_components-tmp');
 
 var root = 'tests/{unit,acceptance}';
 var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));
 var optionOrFile = process.argv[2];
 var mocha = new Mocha({
   timeout: 5000,
-  reporter: 'spec'
+  reporter: process.env.MOCHA_REPORTER || 'spec',
+  retries: 2
 });
 var testFiles = glob.sync(root + '/**/*-test.js');
-var jshintPosition = testFiles.indexOf('tests/unit/jshint-test.js');
-var jshint = testFiles.splice(jshintPosition, 1);
+var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
+var lint = testFiles.splice(lintPosition, 1);
+var docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
+var docsLint = testFiles.splice(docsLintPosition, 1);
 
-testFiles = jshint.concat(testFiles);
+testFiles = lint.concat(docsLint).concat(testFiles);
 
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
   addFiles(mocha, '/**/*-slow.js');
+} else if (optionOrFile === 'slow')  {
+  addFiles(mocha, '/**/*-slow.js');
+} else if (optionOrFile === 'lint')  {
+  addFiles(mocha, lint);
+  addFiles(mocha, docsLint);
 } else if (process.argv.length > 2)  {
   addFiles(mocha, process.argv.slice(2));
 } else {
@@ -48,8 +56,10 @@ function checkOnlyInTests() {
 }
 
 function runMocha() {
+  console.time('Mocha Tests Running Time');
   mocha.run(function(failures) {
     process.on('exit', function() {
+      console.timeEnd('Mocha Tests Running Time');
       process.exit(failures);
     });
   });
@@ -69,5 +79,6 @@ ciVerificationStep()
   })
   .catch(function(error) {
     console.error(error);
+    console.error(error.stack);
     process.exit(1);
   });

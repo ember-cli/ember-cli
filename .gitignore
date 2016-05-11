@@ -1,11 +1,10 @@
-node_modules
+/node_modules
 npm-debug.log
-tmp*
-_posts
-_site
-common-tmp
+/tmp
+/common-tmp
 *.tgz
-docs/build
+/docs/build
 .node_modules-tmp
 .bower_components-tmp
-coverage
+/coverage
+*.pem

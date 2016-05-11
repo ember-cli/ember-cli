@@ -2,7 +2,7 @@
 
 module.exports = BuildError;
 
-function BuildError(input){
+function BuildError(input) {
   Error.call(this);
   this.message = input.message;
   this.file = input.file;

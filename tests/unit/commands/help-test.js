@@ -1,173 +1,448 @@
 'use strict';
 
-var expect  = require('chai').expect;
-var MockUI  = require('../../helpers/mock-ui');
-var MockAnalytics  = require('../../helpers/mock-analytics');
-var Command = require('../../../lib/models/command');
-var Project       = require('../../../lib/models/project');
-var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
+var expect            = require('chai').expect;
+var EOL               = require('os').EOL;
+var proxyquire        = require('proxyquire');
+var path              = require('path');
+var stub              = require('../../helpers/stub').stub;
+var processHelpString = require('../../helpers/process-help-string');
+var convertToJson     = require('../../helpers/convert-help-output-to-json');
+var commandOptions    = require('../../factories/command-options');
+
+var lookupCommandStub;
+var HelpCommand = proxyquire('../../../lib/commands/help', {
+  '../cli/lookup-command': function() {
+    return lookupCommandStub.apply(this, arguments);
+  }
+});
 
 describe('help command', function() {
-  var ui;
-  var analytics;
-
-  var commands = {
-    'TestCommand1': Command.extend({
-      name: 'test-command-1',
-      description: 'command-description',
-      aliases: ['t1', 'test-1'],
-      availableOptions: [
-        { name: 'option-with-default', type: String, default: 'default-value' },
-        { name: 'required-option', type: String, required: 'true', description: 'option-descriptionnnn' }
-      ],
-      run: function() {}
-    }),
-    'TestCommand2': Command.extend({
-      name: 'test-command-2',
-      aliases: ['t2', 'test-2'],
-      run: function() {}
-    }),
-    'TestCommand3': Command.extend({
-      name: 'test-command-3',
-      description: 'This is test command 3 description',
-      skipHelp: true,
-      aliases: ['t3', 'test-3'],
-      run: function() {}
-    })
-  };
-
-  var HelpCommand = require('../../../lib/commands/help');
+  var options;
 
   beforeEach(function() {
-    ui = new MockUI();
-    analytics = new MockAnalytics();
+    options = commandOptions();
+
+    lookupCommandStub = require('../../../lib/cli/lookup-command');
   });
 
-  it('should generate complete help output, including aliases', function() {
-    return new HelpCommand({
-      ui: ui,
-      analytics: analytics,
-      commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }},
-      settings: {}
-    }).validateAndRun([]).then(function() {
-      expect(ui.output).to.include('Usage: ember');
-      expect(ui.output).to.include('ember test-command-1');
-      expect(ui.output).to.include('command-description');
-      expect(ui.output).to.include('option-with-default');
-      expect(ui.output).to.include('(Default: default-value)');
-      expect(ui.output).to.include('required-option');
-      expect(ui.output).to.include('(Required)');
-      expect(ui.output).to.include('ember test-command-2');
-      expect(ui.output).to.include('aliases:');
-      expect(ui.output).to.not.include('ember test-command-3');
-    });
-  });
+  describe('common to both', function() {
+    it('finds command on disk', function() {
+      var Command1 = function() {};
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command1.prototype, 'printDetailedHelp');
 
-  it('should generate specific help output', function() {
-    return new HelpCommand({
-      ui: ui,
-      analytics: analytics,
-      commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }},
-      settings: {}
-    }).validateAndRun(['test-command-2']).then(function() {
-      expect(ui.output).to.include('test-command-2');
-      expect(ui.output).to.not.include('test-command-1');
-      expect(ui.output).to.not.include('test-command-3');
-    });
-  });
+      options.commands = {
+        Command1: Command1
+      };
 
-  it('should generate specific help output when given an alias', function() {
-    return new HelpCommand({
-      ui: ui,
-      analytics: analytics,
-      commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }},
-      settings: {}
-    }).validateAndRun(['t1']).then(function() {
-      expect(ui.output).to.include('test-command-1');
-      expect(ui.output).to.not.include('test-command-2');
-      expect(ui.output).to.not.include('test-command-3');
-    });
-  });
+      var wasCalled;
+      lookupCommandStub = function() {
+        expect(arguments[0]).to.equal(options.commands);
+        expect(arguments[1]).to.equal('command-2');
+        wasCalled = true;
+        return Command1;
+      };
 
-  describe('addon commands', function() {
-    var projectWithAddons = {
-      isEmberCLIProject: function(){ return true; },
-      initializeAddons: function() {
-        this.addons = [new AddonCommand()];
-      },
-      addonCommands: Project.prototype.addonCommands,
-      eachAddonCommand: Project.prototype.eachAddonCommand
-    };
+      var command = new HelpCommand(options);
 
-    it('should generate complete help output, including aliases', function() {
-      return new HelpCommand({
-        ui: ui,
-        analytics: analytics,
-        commands: commands,
-        project: projectWithAddons,
-        settings: {}
-      }).validateAndRun([]).then(function() {
-        expect(ui.output).to.include('Available commands in ember-cli');
-        expect(ui.output).to.include('test-command-1');
-        expect(ui.output).to.include('Available commands from Ember CLI Addon Command Test');
-        expect(ui.output).to.include('addon-command');
-        expect(ui.output).to.include('aliases:');
-      });
+      command.run(options, ['command-2']);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
+      expect(wasCalled).to.be.true;
     });
 
-    it('should generate specific help output', function() {
-      return new HelpCommand({
-        ui: ui,
-        analytics: analytics,
-        commands: commands,
-        project: projectWithAddons,
-        settings: {}
-      }).validateAndRun(['addon-command']).then(function() {
-        expect(ui.output).to.include('addon-command');
-        expect(ui.output).to.not.include('No help entry for');
-      });
-    });
+    it('looks up multiple commands', function() {
+      var Command1 = function() {};
+      var Command2 = function() {};
+      var Command3 = function() {};
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command2.prototype, 'printBasicHelp');
+      stub(Command3.prototype, 'printBasicHelp');
+      stub(Command1.prototype, 'printDetailedHelp');
+      stub(Command2.prototype, 'printDetailedHelp');
+      stub(Command3.prototype, 'printDetailedHelp');
 
-    it('should generate specific help output when given an alias', function() {
-      return new HelpCommand({
-        ui: ui,
-        analytics: analytics,
-        commands: commands,
-        project: projectWithAddons,
-        settings: {}
-      }).validateAndRun(['ac']).then(function() {
-        expect(ui.output).to.include('addon-command');
-        expect(ui.output).to.not.include('No help entry for');
-      });
+      options.commands = {
+        Command1: Command1,
+        Command2: Command2,
+        Command3: Command3
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['command-1', 'command-2']);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
+      expect(Command2.prototype.printBasicHelp.called).to.equal(1);
+      expect(Command3.prototype.printBasicHelp.called).to.equal(0);
+      expect(Command1.prototype.printDetailedHelp.called).to.equal(1);
+      expect(Command2.prototype.printDetailedHelp.called).to.equal(1);
+      expect(Command3.prototype.printDetailedHelp.called).to.equal(0);
     });
   });
 
-  it('should generate "no help entry" message for non-existent commands', function() {
-    return new HelpCommand({
-      ui: ui,
-      analytics: analytics,
-      commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }},
-      settings: {}
-    }).validateAndRun(['heyyy']).then(function() {
-      expect(ui.output).to.include('No help entry for');
+  describe('unique to text printing', function() {
+    it('lists commands', function() {
+      var Command1 = function() {};
+      var Command2 = function() {};
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command2.prototype, 'printBasicHelp');
+      stub(Command1.prototype, 'printDetailedHelp');
+      stub(Command2.prototype, 'printDetailedHelp');
+
+      options.commands = {
+        Command1: Command1,
+        Command2: Command2
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, []);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
+      expect(Command2.prototype.printBasicHelp.called).to.equal(1);
+      expect(Command1.prototype.printDetailedHelp.called).to.equal(0);
+      expect(Command2.prototype.printDetailedHelp.called).to.equal(0);
+    });
+
+    it('works with single command', function() {
+      var Command1 = function() {};
+      var Command2 = function() {};
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command2.prototype, 'printBasicHelp');
+      stub(Command1.prototype, 'printDetailedHelp');
+      stub(Command2.prototype, 'printDetailedHelp');
+
+      options.commands = {
+        Command1: Command1,
+        Command2: Command2
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['command-1']);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
+      expect(Command2.prototype.printBasicHelp.called).to.equal(0);
+      expect(Command1.prototype.printDetailedHelp.called).to.equal(1);
+      expect(Command2.prototype.printDetailedHelp.called).to.equal(0);
+    });
+
+    it('works with single command alias', function() {
+      var Command1 = function() {};
+      Command1.prototype.aliases = ['my-alias'];
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command1.prototype, 'printDetailedHelp');
+
+      options.commands = {
+        Command1: Command1
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['my-alias']);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
+    });
+
+    it('passes extra commands to `generate`', function() {
+      var Generate = function() {};
+      stub(Generate.prototype, 'printBasicHelp');
+      stub(Generate.prototype, 'printDetailedHelp');
+
+      options.commands = {
+        Generate: Generate
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['generate', 'something', 'else']);
+
+      expect(Generate.prototype.printBasicHelp.calledWith[0][0].rawArgs).to.deep.equal(['something', 'else']);
+      expect(Generate.prototype.printDetailedHelp.calledWith[0][0].rawArgs).to.deep.equal(['something', 'else']);
+    });
+
+    it('handles no extra commands to `generate`', function() {
+      var Generate = function() {};
+      stub(Generate.prototype, 'printBasicHelp');
+      stub(Generate.prototype, 'printDetailedHelp');
+
+      options.commands = {
+        Generate: Generate
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['generate']);
+
+      expect(Generate.prototype.printBasicHelp.calledWith[0][0].rawArgs).to.equal(undefined);
+      expect(Generate.prototype.printDetailedHelp.calledWith[0][0].rawArgs).to.equal(undefined);
+    });
+
+    it('passes extra commands to `generate` alias', function() {
+      var Generate = function() {};
+      Generate.prototype.aliases = ['g'];
+      stub(Generate.prototype, 'printBasicHelp');
+      stub(Generate.prototype, 'printDetailedHelp');
+
+      options.commands = {
+        Generate: Generate
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['g', 'something', 'else']);
+
+      expect(Generate.prototype.printBasicHelp.calledWith[0][0].rawArgs).to.deep.equal(['something', 'else']);
+      expect(Generate.prototype.printDetailedHelp.calledWith[0][0].rawArgs).to.deep.equal(['something', 'else']);
+    });
+
+    it('handles missing command', function() {
+      options.commands = {
+        Command1: function() {}
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['missing-command']);
+
+      var output = options.ui.output;
+
+      var testString = processHelpString('\
+Requested ember-cli commands:' + EOL + '\
+' + EOL + '\
+\u001b[31mNo help entry for \'missing-command\'\u001b[39m' + EOL);
+
+      expect(output).to.include(testString);
+    });
+
+    it('respects skipHelp when listing', function() {
+      var Command1 = function() { this.skipHelp = true; };
+      var Command2 = function() {};
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command2.prototype, 'printBasicHelp');
+
+      options.commands = {
+        Command1: Command1,
+        Command2: Command2
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, []);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(0);
+      expect(Command2.prototype.printBasicHelp.called).to.equal(1);
+    });
+
+    it('ignores skipHelp when single', function() {
+      var Command1 = function() { this.skipHelp = true; };
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command1.prototype, 'printDetailedHelp');
+
+      options.commands = {
+        Command1: Command1
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['command-1']);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
+    });
+
+    it('lists addons', function() {
+      var Command1 = function() {};
+      var Command2 = function() {};
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command2.prototype, 'printBasicHelp');
+
+      options.project.eachAddonCommand = function(callback) {
+        callback('my-addon', {
+          Command1: Command1,
+          Command2: Command2
+        });
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, []);
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+Available commands from my-addon:' + EOL);
+
+      expect(output).to.include(testString);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
+      expect(Command2.prototype.printBasicHelp.called).to.equal(1);
+    });
+
+    it('finds single addon command', function() {
+      var Command1 = function() {};
+      var Command2 = function() {};
+      stub(Command1.prototype, 'printBasicHelp');
+      stub(Command1.prototype, 'printDetailedHelp');
+
+      options.project.eachAddonCommand = function(callback) {
+        callback('my-addon', {
+          Command1: Command1,
+          Command2: Command2
+        });
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['command-1']);
+
+      expect(Command1.prototype.printBasicHelp.called).to.equal(1);
     });
   });
 
-  it('should generate specific help output for commands with skipHelp', function() {
-    return new HelpCommand({
-      ui: ui,
-      analytics: analytics,
-      commands: commands,
-      project: { isEmberCLIProject: function(){ return true; }},
-      settings: {}
-    }).validateAndRun(['test-command-3']).then(function() {
-      expect(ui.output).to.include('test-command-3');
-      expect(ui.output).to.not.include('test-command-1');
-      expect(ui.output).to.not.include('test-command-2');
+  describe('unique to json printing', function() {
+    beforeEach(function() {
+      options.json = true;
+    });
+
+    it('lists commands', function() {
+      options.commands = {
+        Command1: function() {
+          return {
+            getJson: function() {
+              return {
+                test1: 'bar'
+              };
+            }
+          };
+        },
+        Command2: function() {
+          return {
+            getJson: function() {
+              return {
+                test2: 'bar'
+              };
+            }
+          };
+        }
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, []);
+
+      var json = convertToJson(options.ui.output);
+
+      expect(json.commands).to.deep.equal([
+        {
+          test1: 'bar'
+        },
+        {
+          test2: 'bar'
+        }
+      ]);
+    });
+
+    it('handles special option `Path`', function() {
+      options.commands = {
+        Command1: function() {
+          return {
+            getJson: function() {
+              return {
+                test1: 'Path'
+              };
+            }
+          };
+        }
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, ['command-1']);
+
+      var json = convertToJson(options.ui.output);
+
+      expect(json.commands).to.deep.equal([
+        {
+          test1: 'Path'
+        }
+      ]);
+    });
+
+    it('respects skipHelp when listing', function() {
+      options.commands = {
+        Command1: function() {
+          return {
+            skipHelp: true
+          };
+        },
+        Command2: function() {
+          return {
+            getJson: function() {
+              return {
+                test2: 'bar'
+              };
+            }
+          };
+        }
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, []);
+
+      var json = convertToJson(options.ui.output);
+
+      expect(json.commands).to.deep.equal([
+        {
+          test2: 'bar'
+        }
+      ]);
+    });
+
+    it('lists addons', function() {
+      options.project.eachAddonCommand = function(callback) {
+        callback('my-addon', {
+          Command1: function() {
+            return {
+              getJson: function() {
+                return {
+                  test1: 'foo'
+                };
+              }
+            };
+          },
+          Command2: function() {
+            return {
+              getJson: function() {
+                return {
+                  test2: 'bar'
+                };
+              }
+            };
+          }
+        });
+      };
+
+      var command = new HelpCommand(options);
+
+      command.run(options, []);
+
+      var json = convertToJson(options.ui.output);
+
+      expect(json.addons).to.deep.equal([
+        {
+          name: 'my-addon',
+          commands: [
+            {
+              test1: 'foo'
+            },
+            {
+              test2: 'bar'
+            }
+          ]
+        }
+      ]);
     });
   });
 });

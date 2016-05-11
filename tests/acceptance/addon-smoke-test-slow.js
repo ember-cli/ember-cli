@@ -4,21 +4,25 @@ var Promise    = require('../../lib/ext/promise');
 var path       = require('path');
 var fs         = require('fs-extra');
 var remove     = Promise.denodeify(fs.remove);
-var expect     = require('chai').expect;
-var addonName  = 'some-cool-addon';
 var spawn      = require('child_process').spawn;
 var chalk      = require('chalk');
-var expect     = require('chai').expect;
 
+var symlinkOrCopySync   = require('symlink-or-copy').sync;
 var runCommand          = require('../helpers/run-command');
+var ember               = require('../helpers/ember');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
-var assertDirEmpty      = require('../helpers/assert-dir-empty');
 var acceptance          = require('../helpers/acceptance');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
 var cleanupRun          = acceptance.cleanupRun;
+
+var chai = require('../chai');
+var expect = chai.expect;
+var dir = chai.dir;
+
+var addonName  = 'some-cool-addon';
 
 describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
@@ -38,26 +42,26 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   afterEach(function() {
-    return cleanupRun().then(function() {
-      assertDirEmpty('tmp');
+    return cleanupRun(addonName).then(function() {
+      expect(dir('tmp/' + addonName)).to.not.exist;
     });
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
-    var packageContents = JSON.parse(fs.readFileSync('package.json', { encoding: 'utf8' }));
+    var packageContents = fs.readJsonSync('package.json');
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
     expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
-    var bowerContents = JSON.parse(fs.readFileSync('bower.json', { encoding: 'utf8' }));
+    var bowerContents = fs.readJsonSync('bower.json');
 
     expect(bowerContents.name).to.equal(addonName);
   });
 
   it('ember addon foo, clean from scratch', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+    return ember(['test']);
   });
 
   it('ember addon without addon/ directory', function() {
@@ -80,11 +84,11 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/component-with-template')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+        return fs.writeJsonSync(packageJsonPath, packageJson);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -108,18 +112,35 @@ describe('Acceptance: addon-smoke-test', function() {
     return copyFixtureFiles('addon/pod-templates-only')
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = require(packageJsonPath);
+        var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
-        return fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
-      }).then(function(){
+        return fs.writeJsonSync(packageJsonPath, packageJson);
+      }).then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
         var indexPath = path.join('dist', 'assets', 'vendor.js');
         var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
         expect(contents).to.contain('MY-COMPONENT-TEMPLATE-CONTENT');
+      });
+  });
+
+  it('build with addon dependencies being developed', function() {
+    var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
+    var packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.dependencies = packageJson.dependencies || {};
+    packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+    packageJson.dependencies['developing-addon'] = 'latest';
+
+    fs.writeJsonSync(packageJsonPath, packageJson);
+
+    symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.resolve('../../tmp/', addonName, 'node_modules/developing-addon'));
+
+    return ember(['test'])
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
       });
   });
 
@@ -133,6 +154,29 @@ describe('Acceptance: addon-smoke-test', function() {
         var contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
 
         expect(contents).to.contain('addon/styles/app.css is present');
+      });
+  });
+
+  it('ember addon with addon-test-support directory', function() {
+    return copyFixtureFiles('addon/with-addon-test-support')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
+  it('ember addon with linting errors', function() {
+    return copyFixtureFiles('addon/with-linting-errors')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function() {
+        expect(false, 'should have rejected with a failed linter').to.be.ok;
+      })
+      .catch(function(result) {
+        expect(result.exitCode).to.not.eql(0);
       });
   });
 
@@ -152,7 +196,7 @@ describe('Acceptance: addon-smoke-test', function() {
   it('npm pack does not include unnecessary files', function() {
     console.log('    running the slow end-to-end it will take some time');
     var handleError = function(error, commandName) {
-      if(error.code === 'ENOENT') {
+      if (error.code === 'ENOENT') {
         console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
       } else {
         throw new Error(error);
@@ -181,12 +225,24 @@ describe('Acceptance: addon-smoke-test', function() {
           resolve(output);
         });
       }).then(function(output) {
-        var unnecessaryFiles = ['.gitkeep', '.travis.yml', 'ember-cli-build.js', '.editorconfig', 'testem.json', '.ember-cli', 'bower.json', '.bowerrc'];
-        var unnecessaryFolders = ['tests/', 'bower_components/'];
+        var unnecessaryFiles = [
+          '.gitkeep',
+          '.travis.yml',
+          '.editorconfig',
+          'testem.js',
+          '.ember-cli',
+          'bower.json',
+          '.bowerrc'
+        ];
 
-        unnecessaryFiles.concat(unnecessaryFolders).forEach(function(file) {
-          expect(output).to.not.match(new RegExp(file), 'expected packaged addon to not contain file or folder \'' + file + '\'');
-        });
+        var unnecessaryFolders = [
+          'tests/',
+          'bower_components/'
+        ];
+
+        var outputFiles = output.split('\n');
+        expect(outputFiles).to.not.contain(unnecessaryFiles);
+        expect(outputFiles).to.not.contain(unnecessaryFolders);
       }, function(error) {
         handleError(error, 'tar');
       });
@@ -203,7 +259,9 @@ describe('Acceptance: addon-smoke-test', function() {
     });
   }
 
-  it('doesn\'t fail to build new files', function() {
+  var isWindows = /^win/.test(process.platform);
+
+  (isWindows ? it.skip : it)('doesn\'t fail to build new files', function() {
     var testemOutput = '';
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--launch=PhantomJS', '--server', {
       onOutput: function(string) {

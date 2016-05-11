@@ -2,21 +2,101 @@
 
 var MockUI        = require('./mock-ui');
 var MockAnalytics = require('./mock-analytics');
-var Cli           = require('../../lib/cli');
+var cli           = require('../../lib/cli');
+var path          = require('path');
+var Promise       = require('../../lib/ext/promise');
 
-module.exports = function ember(args) {
-  var cli;
+/*
+  Accepts a single array argument, that contains the
+  `process.argv` style arguments.
 
-  args.push('--disable-analyitcs');
+  Example:
+
+  ```
+  ember test --no-build --test-port=4567
+  ```
+
+  In this example, `process.argv` would be something similar to:
+
+  ```
+  ['path/to/node', 'path/to/bin/ember', 'test', '--no-build', '--test-port=4567']
+  ```
+
+
+  And this could be emulated by calling:
+
+  ```
+  ember(['test', '--no-build', '--test-port=4567']);
+  ```
+
+  ---
+
+  The return value of this helper is a promise that resolves
+  with an object that contains the following properties:
+
+  * `exitCode` is the normal exit code in standard command invocation
+  * `ui` is the `ui` object that was used for the invocation (which is
+    a `MockUI` instance), this can be used to inspect the commands output.
+
+*/
+module.exports = function ember(args, options) {
+  var cliInstance;
+  var ui = options && options.UI || MockUI;
+  var pkg = options && options.package || path.resolve(__dirname, '..', '..');
+  var disableDependencyChecker = options && options.disableDependencyChecker || true;
+  var inputStream  = [];
+  var outputStream = [];
+  var errorLog     = [];
+  var commandName = args[0];
+
+  if (commandName === 'test') {
+    /*
+      we are forced to invalidate testem config module cache
+      to ensure that each test always reads from the file system,
+      not the memory cache.
+    */
+    delete require.cache[path.join(process.cwd(), 'testem.js')];
+  }
+
+  args.push('--disable-analytics');
   args.push('--watcher=node');
-  cli = new Cli({
-    inputStream:  [],
-    outputStream: [],
+
+  if (!options || options.skipGit !== false) {
+    args.push('--skipGit');
+  }
+
+  cliInstance = cli({
+    inputStream:  inputStream,
+    outputStream: outputStream,
+    errorLog:     errorLog,
     cliArgs:      args,
     Leek: MockAnalytics,
-    UI: MockUI,
-    testing: true
+    UI: ui,
+    testing: true,
+    disableDependencyChecker: disableDependencyChecker,
+    cli: {
+      // This prevents ember-cli from detecting any other package.json files
+      // forcing ember-cli to act as the globally installed package
+      npmPackage: 'ember-cli',
+      root: pkg
+    }
   });
 
-  return cli;
+  function returnTestState(statusCode) {
+    var result = {
+      exitCode: statusCode,
+      statusCode: statusCode,
+      inputStream: inputStream,
+      outputStream: outputStream,
+      errorLog: errorLog
+    };
+
+    if (statusCode) {
+      throw result;
+    } else {
+      return result;
+    }
+  }
+
+  return cliInstance.then(returnTestState);
 };

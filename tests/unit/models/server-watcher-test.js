@@ -38,7 +38,7 @@ describe('Server Watcher', function() {
 
     it('selects the polling watcher when given polling watcher option', function () {
       subject.options = { watcher: 'polling' };
-      expect(!!subject.polling());
+      expect(!!subject.polling()).to.be.ok;
     });
   });
 

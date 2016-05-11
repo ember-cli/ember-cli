@@ -1,7 +1,7 @@
 FROM node:latest
 
 RUN npm i -g npm
-RUN npm i -g phantomjs
+RUN npm i -g phantomjs-prebuilt
 
 RUN apt-get update && apt-get install -y git
 

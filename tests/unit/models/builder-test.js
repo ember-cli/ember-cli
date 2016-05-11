@@ -5,30 +5,100 @@ var path            = require('path');
 var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
-var touch           = require('../../helpers/file-utils').touch;
-var existsSync      = require('exists-sync');
-var expect          = require('chai').expect;
 var Promise         = require('../../../lib/ext/promise');
 var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fs.remove);
-var tmp             = require('tmp-sync');
+var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
+var td              = require('testdouble');
+
+var chai = require('../../chai');
+var expect = chai.expect;
+var file = chai.file;
 
 var root            = process.cwd();
 var tmproot         = path.join(root, 'tmp');
 
 describe('models/builder.js', function() {
-  var addon, builder, buildResults, outputPath, tmpdir;
+  var addon, builder, buildResults, tmpdir;
 
-  describe('copyToOutputPath', function() {
-    beforeEach(function() {
-      tmpdir  = tmp.in(tmproot);
+  describe('Windows CTRL + C Capture', function() {
+    var originalPlatform, originalStdin;
+
+    before(function() {
+      originalPlatform = process.platform;
+      originalStdin = process.platform;
+    });
+
+    after(function () {
+      Object.defineProperty(process, 'platform', {
+        value: originalPlatform
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: originalStdin
+      });
+    });
+
+    it('enables raw capture on Windows', function() {
+      Object.defineProperty(process, 'platform', {
+        value: 'win'
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: {
+          isTTY: true
+        }
+      });
+
+      var trapWindowsSignals = td.function();
 
       builder = new Builder({
         setupBroccoliBuilder: function() { },
-        trapSignals: function() { },
         cleanupOnExit: function() { },
+        trapWindowsSignals: trapWindowsSignals,
         project: new MockProject()
+      });
+
+      builder.trapSignals();
+      td.verify(trapWindowsSignals());
+    });
+
+    it('does not enable raw capture on non-Windows', function() {
+      Object.defineProperty(process, 'platform', {
+        value: 'mockOS'
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: {
+          isTTY: true
+        }
+      });
+
+      var trapWindowsSignals = td.function();
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        cleanupOnExit: function() { },
+        trapWindowsSignals: trapWindowsSignals,
+        project: new MockProject()
+      });
+
+      builder.trapSignals();
+      td.verify(trapWindowsSignals(), {times: 0, ignoreExtraArgs: true});
+    });
+  });
+
+  describe('copyToOutputPath', function() {
+    beforeEach(function() {
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        builder = new Builder({
+          setupBroccoliBuilder: function() { },
+          trapSignals: function() { },
+          cleanupOnExit: function() { },
+          project: new MockProject()
+        });
       });
     });
 
@@ -39,46 +109,16 @@ describe('models/builder.js', function() {
     it('allows for non-existent output-paths at arbitrary depth', function() {
       builder.outputPath = path.join(tmpdir, 'some', 'path', 'that', 'does', 'not', 'exist');
 
-      return builder.copyToOutputPath('tests/fixtures/blueprints/basic_2')
-        .then(function() {
-          expect(existsSync(path.join(builder.outputPath, 'files', 'foo.txt'))).to.equal(true);
-        });
-    });
-  });
-
-  it('clears the outputPath when multiple files are present', function() {
-    outputPath     = 'tmp/builder-fixture/';
-    var firstFile  = outputPath + '/assets/foo-bar.js';
-    var secondFile = outputPath + '/assets/baz-bif.js';
-
-    fs.mkdirsSync(outputPath + '/assets/');
-    touch(firstFile);
-    touch(secondFile);
-
-    builder = new Builder({
-      setupBroccoliBuilder: function() { },
-      trapSignals:          function() { },
-      cleanupOnExit:        function() { },
-
-      outputPath: outputPath,
-      project: new MockProject()
+      builder.copyToOutputPath('tests/fixtures/blueprints/basic_2');
+      expect(file(path.join(builder.outputPath, 'files', 'foo.txt'))).to.exist;
     });
 
-    return builder.clearOutputPath()
-      .then(function() {
-        expect(existsSync(firstFile)).to.equal(false);
-        expect(existsSync(secondFile)).to.equal(false);
-      });
-  });
-
-  describe('Prevent deletion of files for improper outputPath', function() {
     var command;
+
     var parentPath = '..' + path.sep + '..' + path.sep;
 
     before(function() {
-      command = new BuildCommand(commandOptions({
-        settings: {}
-      }));
+      command = new BuildCommand(commandOptions());
 
       builder = new Builder({
         setupBroccoliBuilder: function() { },
@@ -142,6 +182,10 @@ describe('models/builder.js', function() {
           return Promise.resolve();
         },
 
+        outputReady: function() {
+          hooksCalled.push('outputReady');
+        },
+
         buildError: function() {
           hooksCalled.push('buildError');
         },
@@ -184,9 +228,18 @@ describe('models/builder.js', function() {
       });
     });
 
+    it('allows addons to add promises outputReady', function() {
+      var outputReady = stub(addon, 'outputReady');
+
+      return builder.build().then(function() {
+        expect(outputReady.called).to.equal(1, 'expected outputReady to be called');
+        expect(outputReady.calledWith[0][0]).to.equal(buildResults, 'expected outputReady to be called with the results');
+      });
+    });
+
     it('hooks are called in the right order', function() {
       return builder.build().then(function() {
-        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild']);
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady']);
       });
     });
 
@@ -206,6 +259,22 @@ describe('models/builder.js', function() {
       });
     });
 
+    it('should call outputReady after processBuildResult', function() {
+      var called = [];
+
+      builder.processBuildResult = function() {
+        called.push('processBuildResult');
+      };
+
+      addon.outputReady = function() {
+        called.push('outputReady');
+      };
+
+      return builder.build().then(function() {
+        expect(called).to.deep.equal(['processBuildResult', 'outputReady']);
+      });
+    });
+
     it('buildError receives the error object from the errored step', function() {
       var thrownBuildError = new Error('buildError');
       var receivedBuildError;
@@ -221,13 +290,13 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(receivedBuildError).to.equal(thrownBuildError);
       });
     });
 
-    it('calls buildError and does not call build or postBuild when preBuild fails', function() {
+    it('calls buildError and does not call build, postBuild or outputReady when preBuild fails', function() {
       addon.preBuild = function() {
         hooksCalled.push('preBuild');
 
@@ -235,13 +304,13 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
       });
     });
 
-    it('calls buildError and does not call postBuild when build fails', function() {
+    it('calls buildError and does not call postBuild or outputReady when build fails', function() {
       builder.builder.build = function() {
         hooksCalled.push('build');
 
@@ -249,7 +318,7 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
       });
@@ -263,9 +332,23 @@ describe('models/builder.js', function() {
       };
 
       return builder.build().then(function() {
-        expect(false, 'should not succeed');
+        expect(false, 'should not succeed').to.be.ok;
       }).catch(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
+      });
+    });
+
+    it('calls buildError when outputReady fails', function() {
+      addon.outputReady = function() {
+        hooksCalled.push('outputReady');
+
+        return Promise.reject(new Error('outputReady Error'));
+      };
+
+      return builder.build().then(function() {
+        expect(false, 'should not succeed').to.be.ok;
+      }).catch(function() {
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildError']);
       });
     });
   });

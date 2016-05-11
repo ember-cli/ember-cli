@@ -1,122 +1,197 @@
 
-## ember-cli
-[![Build Status][travis-badge]][travis-badge-url]
-[![Dependency Status][david-badge]][david-badge-url]
-[![devDependency Status](https://david-dm.org/ember-cli/ember-cli/dev-status.svg)](https://david-dm.org/ember-cli/ember-cli#info=devDependencies)
-[![Build status][appveyor-badge]][appveyor-badge-url]
-[![Code Climate](https://codeclimate.com/github/ember-cli/ember-cli/badges/gpa.svg)](https://codeclimate.com/github/ember-cli/ember-cli)
-[![Test Coverage](https://codeclimate.com/github/ember-cli/ember-cli/badges/coverage.svg)](https://codeclimate.com/github/ember-cli/ember-cli)
-[![Inline docs](http://inch-ci.org/github/ember-cli/ember-cli.svg?branch=master)](http://inch-ci.org/github/ember-cli/ember-cli)
+ember-cli
+==============================================================================
+
+[![Latest NPM release][npm-badge]][npm-badge-url]
+[![TravisCI Build Status][travis-badge]][travis-badge-url]
+[![AppVeyor Build Status][appveyor-badge]][appveyor-badge-url]
+[![Test Coverage][coveralls-badge]][coveralls-badge-url]
+[![Code Climate][codeclimate-badge]][codeclimate-badge-url]
+
+[logo]: https://avatars0.githubusercontent.com/u/10262982?v=3&s=150
+[npm-badge]: https://img.shields.io/npm/v/ember-cli.svg
+[npm-badge-url]: https://www.npmjs.com/package/ember-cli
+[travis-badge]: https://img.shields.io/travis/ember-cli/ember-cli/master.svg?label=TravisCI
+[travis-badge-url]: https://travis-ci.org/ember-cli/ember-cli
+[appveyor-badge]: https://img.shields.io/appveyor/ci/embercli/ember-cli/master.svg?label=AppVeyor
+[appveyor-badge-url]: https://ci.appveyor.com/project/embercli/ember-cli/branch/master
+[coveralls-badge]: https://img.shields.io/coveralls/ember-cli/ember-cli/master.svg
+[coveralls-badge-url]: https://coveralls.io/github/ember-cli/ember-cli
+[codeclimate-badge]: https://img.shields.io/codeclimate/github/ember-cli/ember-cli.svg
+[codeclimate-badge-url]: https://codeclimate.com/github/ember-cli/ember-cli
 
 The Ember.js command line utility.
 
-Supports node 0.12.x and npm 2.6.x.
 
-## Community
-* irc: #ember-cli on freenode
-* issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
-* website: [ember-cli.com](http://www.ember-cli.com)
+Features
+------------------------------------------------------------------------------
 
-[![ScreenShot](http://static.iamstef.net/ember-conf-2014-video.jpg)](https://www.youtube.com/watch?v=4D8z3972h64)
+- Asset build pipeline using [Broccoli.js](http://broccolijs.com/)
+- ES6 transpilation using [Babel](http://babeljs.io/)
+- Project structure conventions using ES6 module syntax
+- Development server including live-reload and API proxy
+- File/Project generator using blueprints
+- Unit, Integration and Acceptance test support using
+  [Testem](https://github.com/testem/testem)
+- Powerful addon system for extensibility
 
 
-## Project Elements
-Additional components of this project which are used at runtime in your application:
-* [ember-resolver](https://github.com/ember-cli/ember-resolver)
-* [loader](https://github.com/ember-cli/loader.js)
-* [ember-cli-shims](https://github.com/ember-cli/ember-cli-shims)
-* [ember-load-initializers](https://github.com/ember-cli/ember-load-initializers)
+Installation
+------------------------------------------------------------------------------
 
-## Development Hints
-### Working with master
+```
+npm install -g ember-cli
+```
 
-``` sh
+Usage
+------------------------------------------------------------------------------
+
+After installation the `ember` CLI tool will be available to you. It is the
+entrypoint for all the functionality mentioned above.
+
+You can call `ember <command> --help` to find out more about all of the
+following commands or visit <http://ember-cli.com/user-guide/> to read
+the in-depth documentation.
+
+
+### Create a new project
+
+```
+ember new my-new-app
+```
+
+This will create a new folder `my-new-app`, initialize a Git project in it,
+add the basic Ember.js project structure and install any necessary NPM and
+Bower dependencies.
+
+
+### Create a new addon project
+
+```
+ember addon my-new-addon
+```
+
+This is essentially similar to `ember new` but will generate the structure
+for an ember-cli addon instead.
+
+
+### Build the project
+
+```
+ember build
+```
+
+This will create a `dist` folder and run the build pipeline to generate all
+the output files in it. You can specify `--environment=production` to build
+in production mode, which includes code minification and other optimizations.
+
+
+### Run the development server
+
+```
+ember serve
+```
+
+This will launch a development server that will automatically rebuild your
+project on file changes and serves the built app at <http://localhost:4200/>.
+
+
+### Run the test suite
+
+```
+ember test
+```
+
+This command will start the Testem runner, which will run all your tests from
+the `tests` folder. This command also supports a `--server` option which will
+automatically run tests on file changes.
+
+
+### Generate files
+
+```
+ember generate route foo
+```
+
+This will generate a `route` named `foo`. `route` is an example here and can
+be replaced by any other available blueprint. Blueprints are provided by
+ember-cli itself and any of you installed addons. Run `ember generate --help`
+to see a list of available blueprints in your project and their options.
+
+
+### Install an ember-cli addon
+
+```
+ember install some-other-addon
+```
+
+This will search NPM for a package named `some-other-addon`, install it and
+run any additional install steps defined in the addon.
+
+
+Community
+------------------------------------------------------------------------------
+
+- Slack: [Get your invite](https://ember-community-slackin.herokuapp.com/)
+- IRC: #ember-cli on [freenode](https://webchat.freenode.net/?channels=%23ember-cli)
+- Issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
+- Website: [ember-cli.com](http://ember-cli.com)
+
+
+Development
+------------------------------------------------------------------------------
+
+Start by cloning the Git project to your local hard drive:
+
+```
 git clone https://github.com/ember-cli/ember-cli.git
-cd ember-cli
+```
+
+### Link `ember` to your development version
+
+
+Running the following command will link the global `ember` utility to your
+local development version:
+
+```
 npm link
 ```
 
-`npm link` is very similar to `npm install -g` except that instead of downloading the package from the repo the just cloned `ember-cli/` folder becomes the global package. Any changes to the files in the `ember-cli/` folder will immediately affect the global ember-cli package.
+Note that the global `ember` CLI utility will automatically relay to any
+project-local ember-cli installation. If you want to use your development
+version there instead run the following command from your Ember.js
+project folder:
 
-Now you can use `ember-cli` via the command line:
-
-``` sh
-ember new foo
-cd foo
+```
 npm link ember-cli
-ember server
 ```
 
-`npm link ember-cli` is needed because by default the globally installed `ember-cli` just loads the local `ember-cli` from the project. `npm link ember-cli` symlinks the global `ember-cli` package to the local `ember-cli` package. Now the `ember-cli` you cloned before is in three places: The folder you cloned it into, npm's folder where it stores global packages and the `ember-cli` project you just created.
+Read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html)
+for more information.
 
-If you upgrade an app running against Ember CLI master you will need to re-link to your checkout of Ember CLI by running `npm link ember-cli` in your project again.
 
-Please read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html) and the [npm-link cheatsheet](http://browsenpm.org/help#linkinganynpmpackagelocally) for more information.
+### Run the test suite
 
-### Working with the tests
-
-Use `npm test` to run the tests (Runs only fast tests).
-
-For a full test run which includes some very slow acceptance tests,
-please run: `npm run test-all`. Please note, this is what travis
-runs.
-
-To exclude a test or test suite append a `.skip` to `it()` or `describe()` respectively (e.g. `it.skip(...)`). To focus on a certain test or test suite append `.only`.
-
-Please read the official [mocha documentation](http://mochajs.org/) for more information.
-
-## Problems
-
-When running ember cli it could happen that a lack of file watches can occur. You will get an error message like:
-
-```sh
-Serving on http://localhost:4200
-watch ENOSPC
-Error: watch ENOSPC
-    at errnoException (fs.js:1019:11)
-    at FSWatcher.start (fs.js:1051:11)
-  ...
+```
+npm test
 ```
 
-This problem will be corrected in future releases. The following line is a workaround to get the server up and running until this problem is fixed. See [Issue 1054](https://github.com/ember-cli/ember-cli/issues/1054).
+will run ESLint and the "fast" subset of the test suite. Run
+`npm run test-all` for the full test suite which will currently take quite a
+few minutes due to heavy IO and network usage.
 
-```sh
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-```
-
-For Arch Linux or Manjaro Linux, in order for the parameters to be loaded at boot, the kernel sysctl parameters have to be saved in a drop-in directory instead of `sysctl.conf`.
-
-```sh
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.conf && sudo sysctl --system
-```
-
-## Inline Documentation
-
-Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place it in `docs/build/`. Please help by improving this documentation.
-
-## Contribution
-
-[See `CONTRIBUTING.md`](https://github.com/ember-cli/ember-cli/blob/master/CONTRIBUTING.md)
-
-## Upgrading
-
-* [Change history of new Ember-CLI apps](https://github.com/kellyselden/ember-cli-output)
-* [Change history of new Ember-CLI addons](https://github.com/kellyselden/ember-addon-output)
-
-## Donating
-
-All donations will support this project and treats for contributors.
-
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/stefanpenner/)
-
-## License
-
-ember-cli is [MIT Licensed](https://github.com/ember-cli/ember-cli/blob/master/LICENSE.md).
+ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
+you want to run a specific subset of tests have a look at their
+[documentation](https://mochajs.org/#exclusive-tests).
 
 
-[travis-badge]: https://travis-ci.org/ember-cli/ember-cli.svg?branch=master
-[travis-badge-url]: https://travis-ci.org/ember-cli/ember-cli
-[david-badge]: https://david-dm.org/ember-cli/ember-cli.svg
-[david-badge-url]: https://david-dm.org/ember-cli/ember-cli
-[appveyor-badge]: https://ci.appveyor.com/api/projects/status/7owf61lo8uujbjok/branch/master?svg=true
-[appveyor-badge-url]: https://ci.appveyor.com/project/embercli/ember-cli/branch/master
+## Build the documentation
+
+Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place
+it in `docs/build/`. Please help by improving this documentation.
+
+
+License
+------------------------------------------------------------------------------
+
+This project is licensed under the [MIT License](LICENSE).

@@ -1,26 +1,37 @@
 sudo: false
-env:
-  - NODE_VERSION=0.10
-  - NODE_VERSION=0.12
-  - NODE_VERSION=iojs
+
+language: node_js
+node_js:
+  - "0.10"
+  - "0.12"
+  - "4"
+  - "5"
+  - node
+
+branches:
+  except:
+    - canary
+
+cache:
+  directories:
+    $HOME/.npm
+    $HOME/.cache # includes bowers cache
 
 before_install:
-  - "npm config set spin false"
-  - "npm install -g npm@^2"
-  - "npm config set spin false"
+  # prevent the npm loading indicator
+  - npm config --global set spin false
+  # if npm version is less 3.0.0 (lets say 1.x or 2.x) we should attempt to upgrade to 3
+  - if [[ $(npm -v | cut -d '.' -f 1) -lt 3 ]]; then npm i -g npm@^3; fi
 
-os:
-  - osx
-  - linux
-script: npm run-script test-all:cover
 install:
-  - test $TRAVIS_OS_NAME = "osx" && brew install nvm && source $(brew --prefix nvm)/nvm.sh || test $TRAVIS_OS_NAME = "linux"
-  - nvm install $NODE_VERSION
-  - node --version
-  - npm --version
-  - git --version
-  - npm install
+  - npm install --no-optional
+
+script: npm run-script test-all:cover
 
 after_script:
-  - cat coverage/lcov.info | codeclimate
-  - cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
+  - npm install coveralls codeclimate-test-reporter
+  - cat coverage/lcov.info | node_modules/.bin/codeclimate-test-reporter
+  - cat coverage/lcov.info | node_modules/.bin/coveralls
+
+after_success:
+  - .travis/deploy.sh

@@ -1,23 +1,27 @@
 'use strict';
 
-var GenerateCommand = require('../../../lib/commands/generate');
-var Promise         = require('../../../lib/ext/promise');
-var Task            = require('../../../lib/models/task');
-var expect          = require('chai').expect;
-var commandOptions  = require('../../factories/command-options');
-var SilentError     = require('silent-error');
-var MockProject     = require('../../helpers/mock-project');
+var expect            = require('chai').expect;
+var EOL               = require('os').EOL;
+var SilentError       = require('silent-error');
+var commandOptions    = require('../../factories/command-options');
+var stub              = require('../../helpers/stub');
+var processHelpString = require('../../helpers/process-help-string');
+var MockProject       = require('../../helpers/mock-project');
+var Promise           = require('../../../lib/ext/promise');
+var Task              = require('../../../lib/models/task');
+var Blueprint         = require('../../../lib/models/blueprint');
+var GenerateCommand   = require('../../../lib/commands/generate');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('generate command', function() {
-  var command;
+  var options, command;
 
   beforeEach(function() {
     var project = new MockProject();
-    project.name = function() {
-      return 'some-random-name';
-    };
 
-    project.isEmberCLIProject = function isEmberCLIProject() {
+    project.isEmberCLIProject = function() {
       return true;
     };
 
@@ -25,10 +29,7 @@ describe('generate command', function() {
       return [];
     };
 
-    //nodeModulesPath: 'somewhere/over/the/rainbow'
-    command = new GenerateCommand(commandOptions({
-      settings: {},
-
+    options = commandOptions({
       project: project,
 
       tasks: {
@@ -39,7 +40,14 @@ describe('generate command', function() {
           }
         })
       }
-    }));
+    });
+
+    //nodeModulesPath: 'somewhere/over/the/rainbow'
+    command = new GenerateCommand(options);
+  });
+
+  afterEach(function() {
+    safeRestore(Blueprint, 'list');
   });
 
   it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
@@ -53,15 +61,15 @@ describe('generate command', function() {
   it('runs GenerateFromBlueprint with expected options', function() {
     return command.validateAndRun(['controller', 'foo'])
       .then(function(options) {
-        expect(options.pod, false);
-        expect(options.dryRun, false);
-        expect(options.verbose, false);
+        expect(options.pod).to.be.false;
+        expect(options.dryRun).to.be.false;
+        expect(options.verbose).to.be.false;
         expect(options.args).to.deep.equal(['controller', 'foo']);
       });
   });
 
   it('does not throws errors when beforeRun is invoked without the blueprint name', function() {
-    expect(function () {
+    expect(function() {
       command.beforeRun([]);
     }).to.not.throw();
   });
@@ -69,7 +77,7 @@ describe('generate command', function() {
   it('complains if no blueprint name is given', function() {
     return command.validateAndRun([])
       .then(function() {
-        expect(false, 'should not have called run');
+        expect(false, 'should not have called run').to.be.ok;
       })
       .catch(function(error) {
         expect(error.message).to.equal(
@@ -79,11 +87,271 @@ describe('generate command', function() {
       });
   });
 
-  it('complains if --help is called for non-existent blueprint.', function() {
-    return Promise.resolve(command.printDetailedHelp({rawArgs:['foo','-h']}))
-      .then(function() {
-        expect(command.ui.output).to.include(
-            'The \'foo\' blueprint does not exist in this project.');
+  describe('help', function() {
+    it('lists available blueprints', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              }
+            },
+            {
+              name: 'other-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              }
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({});
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Available blueprints:' + EOL + '\
+    my-app:' + EOL + '\
+my-blueprint' + EOL + '\
+other-blueprint' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('lists available blueprints json', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            },
+            {
+              name: 'other-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            }
+          ]
+        }
+      ]);
+
+      var json = {};
+
+      command.addAdditionalJsonForHelp(json, {
+        json: true
       });
+
+      expect(json.availableBlueprints).to.deep.equal([
+        {
+          'my-app': [
+            {
+              name: 'my-blueprint',
+            },
+            {
+              name: 'other-blueprint',
+            }
+          ]
+        }
+      ]);
+    });
+
+    it('works with single blueprint', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              }
+            },
+            {
+              name: 'skipped-blueprint'
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({
+        rawArgs: ['my-blueprint']
+      });
+
+      var output = options.ui.output;
+
+      var testString = processHelpString('\
+my-blueprint' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('works with single blueprint json', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              getJson: function() {
+                return {
+                  name: this.name
+                };
+              }
+            },
+            {
+              name: 'skipped-blueprint'
+            }
+          ]
+        }
+      ]);
+
+      var json = {};
+
+      command.addAdditionalJsonForHelp(json, {
+        rawArgs: ['my-blueprint'],
+        json: true
+      });
+
+      expect(json.availableBlueprints).to.deep.equal([
+        {
+          'my-app': [
+            {
+              name: 'my-blueprint',
+            }
+          ]
+        }
+      ]);
+    });
+
+    it('handles missing blueprint', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint'
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({
+        rawArgs: ['missing-blueprint']
+      });
+
+      var output = options.ui.output;
+
+      var testString = processHelpString('\
+\u001b[33mThe \'missing-blueprint\' blueprint does not exist in this project.\u001b[39m' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('handles missing blueprint json', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint'
+            }
+          ]
+        }
+      ]);
+
+      var json = {};
+
+      command.addAdditionalJsonForHelp(json, {
+        rawArgs: ['missing-blueprint'],
+        json: true
+      });
+
+      expect(json.availableBlueprints).to.deep.equal([
+        {
+          'my-app': []
+        }
+      ]);
+    });
+
+    it('ignores overridden blueprints when verbose false', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              },
+              overridden: true
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({});
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Available blueprints:' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
+
+    it('shows overridden blueprints when verbose true', function() {
+      stub(Blueprint, 'list', [
+        {
+          source: 'my-app',
+          blueprints: [
+            {
+              name: 'my-blueprint',
+              availableOptions: [],
+              printBasicHelp: function() {
+                return this.name;
+              },
+              overridden: true
+            }
+          ]
+        }
+      ]);
+
+      command.printDetailedHelp({
+        verbose: true
+      });
+
+      var output = options.ui.output;
+
+      var testString = processHelpString(EOL + '\
+  Available blueprints:' + EOL + '\
+    my-app:' + EOL + '\
+my-blueprint' + EOL + '\
+' + EOL);
+
+      expect(output).to.equal(testString);
+    });
   });
 });

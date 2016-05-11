@@ -8,19 +8,21 @@ var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var conf              = require('./conf');
 var existsSync        = require('exists-sync');
-var copy              = Promise.denodeify(require('cpr'));
+var copy              = Promise.denodeify(fs.copy);
 var root              = process.cwd();
 var exec              = Promise.denodeify(require('child_process').exec);
 
-var onOutput = {
-  onOutput: function() {
+var runCommandOptions = {
+  // Note: We must override the default logOnFailure logging, because we are
+  // not inside a test.
+  log: function() {
     return; // no output for initial application build
   }
 };
 
 function handleResult(result) {
-  console.log(result.output.join('\n'));
-  console.log(result.errors.join('\n'));
+  if (result.output) { console.log(result.output.join('\n')); }
+  if (result.errors) { console.log(result.errors.join('\n')); }
   throw result;
 }
 
@@ -55,7 +57,7 @@ function symLinkDir(projectPath, from, to) {
 
 function applyCommand(command, name /*, ...flags*/) {
   var flags = [].slice.call(arguments, 2, arguments.length);
-  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, onOutput];
+  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, runCommandOptions];
 
   flags.forEach(function(flag) {
     args.splice(2, 0, flag);
@@ -110,16 +112,14 @@ function createTestTargets(projectName, options) {
   }
 
   return createTmp(function() {
-    return command().
-      catch(handleResult).
-      then(function(value) {
-        if (noNodeModules) {
-          return exec('npm install ember-disable-prototype-extensions').then(function() {
-            return value;
-          });
-        }
+    return command().catch(handleResult).then(function(value) {
+      if (noNodeModules) {
+        return exec('npm install ember-disable-prototype-extensions').then(function() {
+          return value;
+        });
+      }
 
-        return value;
+      return value;
     });
   });
 }
@@ -143,7 +143,7 @@ function teardownTestTargets() {
  */
 function linkDependencies(projectName) {
   var targetPath = './tmp/' + projectName;
-  return tmp.setup('./tmp').then(function() {
+  return tmp.setup(targetPath).then(function() {
     return copy('./common-tmp/' + projectName, targetPath);
   }).then(function() {
     var nodeModulesPath = targetPath + '/node_modules/';
@@ -161,16 +161,14 @@ function linkDependencies(projectName) {
       symLinkDir(targetPath, '.bower_components-tmp', 'bower_components');
     }
 
-    process.chdir('./tmp');
-    var appsECLIPath = path.join(projectName, 'node_modules', 'ember-cli');
-    var pwd = process.cwd();
-    fs.removeSync(projectName + '/node_modules/ember-cli');
+    process.chdir(targetPath);
+
+    var appsECLIPath = path.join('node_modules', 'ember-cli');
+    fs.removeSync(appsECLIPath);
 
     // Need to junction on windows since we likely don't have persmission to symlink
     // 3rd arg is ignored on systems other than windows
-    fs.symlinkSync(path.join(pwd, '..'), appsECLIPath, 'junction');
-    process.chdir(projectName);
-
+    fs.symlinkSync(path.resolve('../..'), appsECLIPath, 'junction');
   });
 }
 
@@ -178,8 +176,9 @@ function linkDependencies(projectName) {
  * Clean a test run and optionally assert.
  * @return {Promise}
  */
-function cleanupRun() {
-  return tmp.teardown('./tmp');
+function cleanupRun(projectName) {
+  var targetPath = './tmp/' + projectName;
+  return tmp.teardown(targetPath);
 }
 
 module.exports = {

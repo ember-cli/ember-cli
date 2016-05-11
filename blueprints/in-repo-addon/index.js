@@ -1,8 +1,6 @@
-/*jshint node:true*/
-
 var fs   = require('fs-extra');
 var path = require('path');
-var stringUtil = require('../../lib/utilities/string');
+var stringUtil = require('ember-cli-string-utils');
 var Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {
@@ -20,7 +18,7 @@ module.exports = {
 
   afterInstall: function(options) {
     var packagePath = path.join(this.project.root, 'package.json');
-    var contents    = JSON.parse(fs.readFileSync(packagePath, { encoding: 'utf8' }));
+    var contents    = fs.readJsonSync(packagePath);
     var name        = stringUtil.dasherize(options.entity.name);
     var newPath     = ['lib', name].join('/');
     var paths;
