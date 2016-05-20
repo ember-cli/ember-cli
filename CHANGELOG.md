@@ -1,5 +1,24 @@
 # ember-cli Changelog
 
+### 2.5.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5867](https://github.com/ember-cli/ember-cli/pull/5867) models/addon: Kill the addonJsFiles() cache [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.5.0
 
 The following changes are required if you are upgrading from the previous
