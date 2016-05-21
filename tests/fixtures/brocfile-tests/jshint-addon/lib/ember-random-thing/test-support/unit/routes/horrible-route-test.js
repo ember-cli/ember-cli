@@ -1,2 +1,2 @@
 var blah = ""
-export default Blah;
+export default blah;
