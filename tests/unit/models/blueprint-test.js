@@ -1587,12 +1587,12 @@ help in detail');
   });
 
   describe('load', function() {
-    var blueprint;
     it('loads and returns a blueprint object', function() {
-      blueprint = Blueprint.load(basicBlueprint);
+      var blueprint = Blueprint.load(basicBlueprint);
       expect(blueprint).to.be.an('object');
       expect(blueprint.name).to.equal('basic');
     });
+
     it('loads only blueprints with an index.js', function() {
       expect(Blueprint.load(path.join(fixtureBlueprints, '.notablueprint'))).to.be.empty;
     });
