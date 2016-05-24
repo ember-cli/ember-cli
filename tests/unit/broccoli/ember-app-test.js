@@ -932,5 +932,27 @@ describe('broccoli/ember-app', function() {
       expect(result).to.equal(path.join(project.root, 'foo'));
     });
   });
+
+  describe('concatFiles()', function() {
+    it('shows deprecation message if called directly', function() {
+      var emberApp = new EmberApp({ project: project });
+
+      var result = emberApp.concatFiles(null, {
+        outputFile: 'foo.js'
+      });
+
+      expect(project.ui.output).to.contain('EmberApp.concatFiles() is deprecated');
+    });
+
+    it('ignores deprecation message if called through _concatFiles()', function() {
+      var emberApp = new EmberApp({ project: project });
+
+      var result = emberApp._concatFiles(null, {
+        outputFile: 'foo.js'
+      });
+
+      expect(project.ui.output).to.not.contain('EmberApp.concatFiles() is deprecated');
+    });
+  });
 });
 
