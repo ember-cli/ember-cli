@@ -72,21 +72,21 @@ describe('TestServerAddon', function () {
           done();
         }
       });
+    });
 
-      it('allows rootURL containing `+` character', function(done) {
-        mockRequest.path = '/grayson/+/tests/any-old-file';
-        mockRequest.headers.accept = ['text/html'];
-        addon.serverMiddleware({
-          app: app,
-          options: {
-            watcher: Promise.resolve({directory: 'nothing'}),
-            rootURL: '/grayson/+'
-          },
-          finally: function () {
-            expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
-            done();
-          }
-        });
+    it('allows rootURL containing `+` character', function(done) {
+      mockRequest.path = '/grayson/+/tests/any-old-file';
+      mockRequest.headers.accept = ['text/html'];
+      addon.serverMiddleware({
+        app: app,
+        options: {
+          watcher: Promise.resolve({directory: 'nothing'}),
+          rootURL: '/grayson/+'
+        },
+        finally: function () {
+          expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
+          done();
+        }
       });
     });
   });
