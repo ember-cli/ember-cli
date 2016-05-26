@@ -6,27 +6,21 @@ var Promise           = require('../../../../../lib/ext/promise');
 
 describe('TestServerAddon', function () {
   describe('.serverMiddleware', function () {
-    var addon = new TestsServerAddon();
-    var nextWasCalled = false;
-    var mockRequest = {
-      method: 'GET',
-      path: '',
-      url: 'http://example.com',
-      headers: {}
-    };
-    var app = {
-      use: function (callback) {
-        return callback(mockRequest, null, function () { nextWasCalled = true; });
-      }
-    };
+    var addon, nextWasCalled, mockRequest, app;
 
-    afterEach(function() {
+    beforeEach(function() {
+      addon = new TestsServerAddon();
       nextWasCalled = false;
       mockRequest = {
         method: 'GET',
         path: '',
         url: 'http://example.com',
         headers: {}
+      };
+      app = {
+        use: function (callback) {
+          return callback(mockRequest, null, function () { nextWasCalled = true; });
+        }
       };
     });
 
