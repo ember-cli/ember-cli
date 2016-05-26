@@ -31,13 +31,17 @@ describe('TestServerAddon', function () {
           watcher: Promise.resolve()
         },
         finally: function() {
-          expect(nextWasCalled).to.true;
-          done();
+          try {
+            expect(nextWasCalled).to.true;
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
       });
     });
 
-    it('invokes next when the watcher fails', function (done) {
+    it('invokes next when the watcher fails', function(done) {
       var mockError = 'bad things are bad';
 
       addon.serverMiddleware({
@@ -46,8 +50,12 @@ describe('TestServerAddon', function () {
           watcher: Promise.reject(mockError)
         },
         finally: function() {
-          expect(nextWasCalled).to.true;
-          done();
+          try {
+            expect(nextWasCalled).to.true;
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
       });
     });
@@ -62,8 +70,12 @@ describe('TestServerAddon', function () {
           baseURL: '/braden/+'
         },
         finally: function() {
-          expect(mockRequest.url).to.equal('/braden/+/tests/index.html');
-          done();
+          try {
+            expect(mockRequest.url).to.equal('/braden/+/tests/index.html');
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
       });
     });
@@ -78,8 +90,12 @@ describe('TestServerAddon', function () {
           rootURL: '/grayson/+'
         },
         finally: function () {
-          expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
-          done();
+          try {
+            expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
       });
     });
