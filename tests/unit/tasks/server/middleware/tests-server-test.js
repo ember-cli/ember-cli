@@ -20,6 +20,16 @@ describe('TestServerAddon', function () {
       }
     };
 
+    afterEach(function() {
+      nextWasCalled = false;
+      mockRequest = {
+        method: 'GET',
+        path: '',
+        url: 'http://example.com',
+        headers: {}
+      };
+    });
+
     it('invokes next when the watcher succeeds', function(done) {
       addon.serverMiddleware({
         app: app,
@@ -45,6 +55,38 @@ describe('TestServerAddon', function () {
           expect(nextWasCalled).to.true;
           done();
         }
+      });
+    });
+
+    it('allows baseURL containing `+` character', function(done) {
+      mockRequest.path = '/braden/+/tests/any-old-file';
+      mockRequest.headers.accept = ['*/*'];
+      addon.serverMiddleware({
+        app: app,
+        options: {
+          watcher: Promise.resolve({ directory: 'nothing' }),
+          baseURL: '/braden/+'
+        },
+        finally: function() {
+          expect(mockRequest.url).to.equal('/braden/+/tests/index.html');
+          done();
+        }
+      });
+
+      it('allows rootURL containing `+` character', function(done) {
+        mockRequest.path = '/grayson/+/tests/any-old-file';
+        mockRequest.headers.accept = ['text/html'];
+        addon.serverMiddleware({
+          app: app,
+          options: {
+            watcher: Promise.resolve({directory: 'nothing'}),
+            rootURL: '/grayson/+'
+          },
+          finally: function () {
+            expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
+            done();
+          }
+        });
       });
     });
   });
