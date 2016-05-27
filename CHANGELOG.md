@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+### 2.6.0-beta.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.6.0-beta.2...v2.6.0-beta.3)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.0-beta.2...v2.6.0-beta.3)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5896](https://github.com/ember-cli/ember-cli/pull/5896) Update "release" branch [@Turbo87](https://github.com/Turbo87)
+- [#5932](https://github.com/ember-cli/ember-cli/pull/5932) Beta: Cherrypick core-object changes [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.6.0-beta.2
 
 The following changes are required if you are upgrading from the previous
