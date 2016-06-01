@@ -122,7 +122,7 @@
     "chai-files": "^1.2.0",
     "ember-cli-internal-test-helpers": "^0.8.1",
     "eslint-plugin-chai-expect": "^1.1.1",
-    "github": "^0.2.3",
+    "github": "^1.1.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "mocha-eslint": "^2.0.1",
