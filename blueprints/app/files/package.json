@@ -40,5 +40,30 @@
     "ember-resolver": "^2.0.3",
     "ember-welcome-page": "^1.0.1",
     "loader.js": "^4.0.1"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "broccoli-asset-rev",
+      "ember-ajax",
+      "ember-cli",
+      "ember-cli-app-version",
+      "ember-cli-babel",
+      "ember-cli-dependency-checker",
+      "ember-cli-htmlbars",
+      "ember-cli-htmlbars-inline-precompile",
+      "ember-cli-inject-live-reload",
+      "ember-cli-jshint",
+      "ember-cli-qunit",
+      "ember-cli-release",
+      "ember-cli-sri",
+      "ember-cli-test-loader",
+      "ember-cli-uglify",
+      "ember-data",
+      "ember-export-application-global",
+      "ember-load-initializers",
+      "ember-resolver",
+      "ember-welcome-page",
+      "loader.js"
+    ]
   }
 }
