@@ -466,9 +466,9 @@ describe('models/project.js', function() {
       expect(addon).to.equal(undefined, 'foo-ba should not be found');
     })
 
-    it('should return an addon that is the unqualified name of requested name', function() {
+    it('should not guess addon name from string with slashes', function() {
       var addon = project.findAddonByName('qux/foo');
-      expect(addon.name).to.equal('foo', 'should have found the foo addon');
+      expect(addon).to.equal(undefined, 'should not have found the foo addon');
     })
   });
 
