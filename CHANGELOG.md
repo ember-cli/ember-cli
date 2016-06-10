@@ -1,5 +1,29 @@
 # ember-cli Changelog
 
+### 2.6.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.5.1...v2.6.0)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.5.1...v2.6.0)
+  + Change `.travis.yml` to avoid wasted cleanup when running CI. See [#5606](https://github.com/ember-cli/ember-cli/pull/5606) for more details.
+  + Remove `ember-try` (it is now included by default)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5957](https://github.com/ember-cli/ember-cli/pull/5957) Update Ember version to 2.6.0. [@rwjblue](https://github.com/rwjblue)
+- [#5959](https://github.com/ember-cli/ember-cli/pull/5959) [BUGFIX beta] Update the ember-data dependency to 2.6.0 [@bmac](https://github.com/bmac)
+- [#5963](https://github.com/ember-cli/ember-cli/pull/5963) Fix reading npm package names with a version specifier [@Turbo87](https://github.com/Turbo87) and [@martndemus](https://github.com/martndemus)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.6.0-beta.3
 
 The following changes are required if you are upgrading from the previous
