@@ -31,6 +31,19 @@ describe('models/addon.js', function() {
     });
   });
 
+  describe('old core object compat', function() {
+    it('treeGenerator works without .project', function() {
+      var TheAddon = Addon.extend({
+        name: 'such name',
+        root: path.resolve(fixturePath, 'simple')
+      });
+      var addon = new TheAddon();
+      expect(function() {
+        addon.treeGenerator('foo');
+      }).to.not.throw();
+    });
+  });
+
   describe('treePaths and treeForMethods', function() {
     var FirstAddon, SecondAddon;
 
