@@ -1,5 +1,49 @@
 # ember-cli Changelog
 
+### 2.7.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.6.0...v2.7.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + [Ensure your `rootURL` is properly set.](http://emberjs.com/blog/2016/04/28/baseURL.html)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.0...v2.7.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5879](https://github.com/ember-cli/ember-cli/pull/5879) Blueprint READMEs: s/server/serve/ to match `ember help` [@chrisjshull](https://github.com/chrisjshull)
+- [#5789](https://github.com/ember-cli/ember-cli/pull/5789) Remove "home grown version checker" [@Turbo87](https://github.com/Turbo87)
+- [#5737](https://github.com/ember-cli/ember-cli/pull/5737) Update core-obect (#5547, rebased) [@nathanhammond](https://github.com/nathanhammond)
+- [#5709](https://github.com/ember-cli/ember-cli/pull/5709) Move test-loader to NPM [@trentmwillis](https://github.com/trentmwillis)
+- [#5792](https://github.com/ember-cli/ember-cli/pull/5792) Add "rootURL" setting to deprecate "baseURL" [@Turbo87](https://github.com/Turbo87)
+- [#5801](https://github.com/ember-cli/ember-cli/pull/5801) Remove "ember help <something> --json" output [@Turbo87](https://github.com/Turbo87)
+- [#5819](https://github.com/ember-cli/ember-cli/pull/5819) Fix for disabling hinting for developing an addon [@jeffjewiss](https://github.com/jeffjewiss)
+- [#5891](https://github.com/ember-cli/ember-cli/pull/5891) Use jshint's esversion option instead of esnext option [@san650](https://github.com/san650)
+- [#5842](https://github.com/ember-cli/ember-cli/pull/5842) Replace "findup" with "find-up" [@Turbo87](https://github.com/Turbo87)
+- [#5835](https://github.com/ember-cli/ember-cli/pull/5835) Move documentation from "ADDON_HOOKS.md" into "models/addon.js" doc comments [@Turbo87](https://github.com/Turbo87)
+- [#5856](https://github.com/ember-cli/ember-cli/pull/5856) [BUGFIX beta] Allow Node v6.0.0. [@rwjblue](https://github.com/rwjblue)
+- [#5918](https://github.com/ember-cli/ember-cli/pull/5918) models/project: Look only for projects with "ember-cli" dependency [@Turbo87](https://github.com/Turbo87)
+- [#5859](https://github.com/ember-cli/ember-cli/pull/5859) [BUGFIX beta] Bump Ember & Ember Data version to 2.6.0-beta [@rwjblue](https://github.com/rwjblue)
+- [#5910](https://github.com/ember-cli/ember-cli/pull/5910) invoke super [@stefanpenner](https://github.com/stefanpenner)
+- [#5873](https://github.com/ember-cli/ember-cli/pull/5873) `addon` command blueprint options test [@robbiepitts](https://github.com/robbiepitts)
+- [#5877](https://github.com/ember-cli/ember-cli/pull/5877) Uniform import API [@ef4](https://github.com/ef4)
+- [#5926](https://github.com/ember-cli/ember-cli/pull/5926) Deprecate EmberApp.concatFiles() method [@Turbo87](https://github.com/Turbo87)
+- [#5887](https://github.com/ember-cli/ember-cli/pull/5887) Improve import() documentation [@Turbo87](https://github.com/Turbo87)
+- [#5895](https://github.com/ember-cli/ember-cli/pull/5895) Generate JSHint files only if JSHint is used [@Turbo87](https://github.com/Turbo87)
+- [#5909](https://github.com/ember-cli/ember-cli/pull/5909) Handle all valid URL path characters for rootURL/baseURL in tests-server [@les2](https://github.com/les2)
+- [#5920](https://github.com/ember-cli/ember-cli/pull/5920) move jQuery to ember-core for now [@stefanpenner](https://github.com/stefanpenner)
+- [#5931](https://github.com/ember-cli/ember-cli/pull/5931) Extract standalone insertIntoFile() function [@Turbo87](https://github.com/Turbo87)
+- [#5955](https://github.com/ember-cli/ember-cli/pull/5955) [BUGFIX beta] Fix addon linting regression. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.6.0
 
 The following changes are required if you are upgrading from the previous
