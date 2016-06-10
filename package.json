@@ -85,6 +85,7 @@
     "inflection": "^1.7.0",
     "inquirer": "^0.12.0",
     "is-git-url": "^0.2.0",
+    "is-npm": "^1.0.0",
     "isbinaryfile": "^3.0.0",
     "leek": "0.0.21",
     "lodash": "^4.12.0",
@@ -112,6 +113,7 @@
     "through": "^2.3.6",
     "tiny-lr": "0.2.1",
     "tree-sync": "^1.1.0",
+    "update-notifier": "^0.6.3",
     "walk-sync": "^0.2.6",
     "yam": "0.0.19"
   },

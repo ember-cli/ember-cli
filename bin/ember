@@ -7,6 +7,11 @@ process.title = 'ember';
 var resolve = require('resolve');
 var exit = require('exit');
 
+var updateNotifier = require('update-notifier');
+var pkg = require('../package.json');
+
+notifyUpdate(updateNotifier({ pkg: pkg }).update);
+
 resolve('ember-cli', {
   basedir: process.cwd()
 }, function(error, projectLocalCli) {
@@ -33,3 +38,16 @@ resolve('ember-cli', {
     exit(exitCode);
   });
 });
+
+function notifyUpdate(update) {
+  if (!process.stdout.isTTY || !update || require('is-npm')) {
+    return;
+  }
+
+  var chalk = require('chalk');
+
+  var message = '\nA new ' + chalk.yellow('ember-cli') + ' release is available (' + update.current + ' → ' + chalk.yellow(update.latest) + ')\n' +
+    'Visit ' + chalk.yellow.underline('https://github.com/ember-cli/ember-cli/releases/tag/v' + update.latest) + ' for update instructions\n';
+
+  console.error(message);
+}
