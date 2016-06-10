@@ -1,4 +1,3 @@
-/*jshint node:true*/
 var isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
@@ -7,7 +6,6 @@ module.exports = {
   normalizeEntityName: function() {},
 
   afterInstall: function(options) {
-
     var isMorganMissing = isPackageMissing(this, 'morgan');
     var isGlobMissing = isPackageMissing(this, 'glob');
 
@@ -24,6 +22,16 @@ module.exports = {
 
     if (!options.dryRun && areDependenciesMissing) {
       return this.addPackagesToProject(libsToInstall);
+    }
+  },
+
+  files: function() {
+    return this.hasJSHint() ? ['server/index.js', 'server/.jshintrc'] : ['server/index.js'];
+  },
+
+  hasJSHint: function() {
+    if (this.project) {
+      return 'ember-cli-jshint' in this.project.dependencies();
     }
   }
 };

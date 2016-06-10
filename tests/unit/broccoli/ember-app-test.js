@@ -304,6 +304,13 @@ describe('broccoli/ember-app', function() {
 
         expect(actual).to.not.contain(expected);
       });
+
+      it('does not include the `base` tag in `head` if baseURL is undefined', function() {
+        var expected = '<base href=';
+        var actual = emberApp.contentFor(config, defaultMatch, 'head');
+
+        expect(actual).to.not.contain(expected);
+      });
     });
 
     describe('contentFor("config-module")', function() {
@@ -557,7 +564,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
 
-            expect(emberApp.project.addons.length).to.equal(7);
+            expect(emberApp.project.addons.length).to.equal(8);
           });
 
           it('foo', function() {
@@ -567,7 +574,7 @@ describe('broccoli/ember-app', function() {
             emberFooEnvAddonFixture.app = emberApp;
             expect(emberApp._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
 
-            expect(emberApp.project.addons.length).to.equal(8);
+            expect(emberApp.project.addons.length).to.equal(9);
           });
         });
       });
@@ -584,7 +591,7 @@ describe('broccoli/ember-app', function() {
 
           expect(emberApp._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
           expect(emberApp._addonDisabledByBlacklist({ name: 'Ember Random Addon' })).to.be.false;
-          expect(emberApp.project.addons.length).to.equal(7);
+          expect(emberApp.project.addons.length).to.equal(8);
         });
 
         it('throws if unavailable addon is specified', function() {
@@ -681,7 +688,7 @@ describe('broccoli/ember-app', function() {
           expect(inputTree).to.deep.equal(['blazorz']);
           expect(options).to.deep.equal({
             overwrite: true,
-            annotation: 'TreeMerger (lint)'
+            annotation: 'TreeMerger (lint blah)'
           });
 
           assertionsWereRun = true;
@@ -923,6 +930,28 @@ describe('broccoli/ember-app', function() {
 
       var result = emberApp._resolveLocal('foo');
       expect(result).to.equal(path.join(project.root, 'foo'));
+    });
+  });
+
+  describe('concatFiles()', function() {
+    it('shows deprecation message if called directly', function() {
+      var emberApp = new EmberApp({ project: project });
+
+      var result = emberApp.concatFiles(null, {
+        outputFile: 'foo.js'
+      });
+
+      expect(project.ui.output).to.contain('EmberApp.concatFiles() is deprecated');
+    });
+
+    it('ignores deprecation message if called through _concatFiles()', function() {
+      var emberApp = new EmberApp({ project: project });
+
+      var result = emberApp._concatFiles(null, {
+        outputFile: 'foo.js'
+      });
+
+      expect(project.ui.output).to.not.contain('EmberApp.concatFiles() is deprecated');
     });
   });
 });

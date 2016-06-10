@@ -264,15 +264,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
         };
 
         fs.writeJsonSync(packageJsonPath, packageJson);
-
-        var badContent = 'var blah = ""\n' + 'export default Blah;';
-        var appPath = path.join('.', 'lib', 'ember-random-thing', 'app',
-                                          'routes', 'horrible-route.js');
-        var testSupportPath = path.join('.', 'lib', 'ember-random-thing', 'test-support',
-                                          'unit', 'routes', 'horrible-route-test.js');
-
-        fs.writeFileSync(appPath, badContent);
-        fs.writeFileSync(testSupportPath, badContent);
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--filter=jshint');

@@ -8,6 +8,10 @@ node_js:
   - "5"
   - node
 
+branches:
+  except:
+    - canary
+
 cache:
   directories:
     $HOME/.npm
@@ -28,3 +32,6 @@ after_script:
   - npm install coveralls codeclimate-test-reporter
   - cat coverage/lcov.info | node_modules/.bin/codeclimate-test-reporter
   - cat coverage/lcov.info | node_modules/.bin/coveralls
+
+after_success:
+  - .travis/deploy.sh

@@ -1,13 +1,13 @@
 {
-  "name": "The Ember CLI API",
-  "description": "The Ember CLI API: The command line interface for ambitious web applications.",
-  "version": "1.0 pre",
-  "url": "http://ember-cli.com/",
+  "logo": "http://ember-cli.com/assets/images/ember-cli-logo-small-dark.png",
   "options": {
     "paths": [
-      "../lib"
+      "lib"
     ],
-    "exclude": "vendor",
-    "outdir":   "./build"
+    "themedir": "node_modules/yuidoc-ember-cli-theme",
+    "helpers": ["node_modules/yuidoc-ember-cli-theme/helpers.js"],
+    "outdir":   "docs/build",
+    "preprocessor": "docs/project_version_preprocessor.js",
+    "linkNatives": true
   }
 }

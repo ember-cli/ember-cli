@@ -7,6 +7,10 @@ environment:
     - nodejs_version: "4.2"
     - nodejs_version: "5.0"
 
+branches:
+  except:
+    - canary
+
 # Install scripts. (runs after repo cloning)
 install:
   - git rev-parse HEAD
@@ -17,8 +21,6 @@ install:
   - npm install mocha-appveyor-reporter
   # Typical npm stuff.
   - npm version
-  # Hotfix for https://github.com/ember-cli/ember-cli/issues/5781
-  - npm install cross-spawn-async@2.1.9
   - npm install
 
 cache:

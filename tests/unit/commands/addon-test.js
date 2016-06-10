@@ -2,7 +2,13 @@
 
 var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
+var map            = require('lodash/map');
+var stub           = require('../../helpers/stub');
 var AddonCommand   = require('../../../lib/commands/addon');
+var Blueprint      = require('../../../lib/models/blueprint');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('addon command', function() {
   var command;
@@ -12,11 +18,18 @@ describe('addon command', function() {
       project: {
         isEmberCLIProject: function() {
           return false;
+        },
+        blueprintLookupPaths: function() {
+          return [];
         }
       }
     });
 
     command = new AddonCommand(options);
+  });
+
+  afterEach(function() {
+    safeRestore(Blueprint, 'lookup');
   });
 
   it('doesn\'t allow to create an addon named `test`', function() {
@@ -89,5 +102,19 @@ describe('addon command', function() {
     .catch(function(error) {
       expect(error.message).to.equal('Trying to generate an addon structure in this directory? Use `ember init` instead.');
     });
+  });
+
+  it('registers blueprint options in beforeRun', function() {
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('addon');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
+
+    command.beforeRun(['addon']);
+    expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
   });
 });

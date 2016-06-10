@@ -1,5 +1,3 @@
-/*jshint node:true*/
-
 var fs          = require('fs-extra');
 var existsSync  = require('exists-sync');
 var path        = require('path');

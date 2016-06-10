@@ -10,6 +10,7 @@ var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fs.remove);
 var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
+var td              = require('testdouble');
 
 var chai = require('../../chai');
 var expect = chai.expect;
@@ -20,6 +21,73 @@ var tmproot         = path.join(root, 'tmp');
 
 describe('models/builder.js', function() {
   var addon, builder, buildResults, tmpdir;
+
+  describe('Windows CTRL + C Capture', function() {
+    var originalPlatform, originalStdin;
+
+    before(function() {
+      originalPlatform = process.platform;
+      originalStdin = process.platform;
+    });
+
+    after(function () {
+      Object.defineProperty(process, 'platform', {
+        value: originalPlatform
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: originalStdin
+      });
+    });
+
+    it('enables raw capture on Windows', function() {
+      Object.defineProperty(process, 'platform', {
+        value: 'win'
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: {
+          isTTY: true
+        }
+      });
+
+      var trapWindowsSignals = td.function();
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        cleanupOnExit: function() { },
+        trapWindowsSignals: trapWindowsSignals,
+        project: new MockProject()
+      });
+
+      builder.trapSignals();
+      td.verify(trapWindowsSignals());
+    });
+
+    it('does not enable raw capture on non-Windows', function() {
+      Object.defineProperty(process, 'platform', {
+        value: 'mockOS'
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: {
+          isTTY: true
+        }
+      });
+
+      var trapWindowsSignals = td.function();
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        cleanupOnExit: function() { },
+        trapWindowsSignals: trapWindowsSignals,
+        project: new MockProject()
+      });
+
+      builder.trapSignals();
+      td.verify(trapWindowsSignals(), {times: 0, ignoreExtraArgs: true});
+    });
+  });
 
   describe('copyToOutputPath', function() {
     beforeEach(function() {

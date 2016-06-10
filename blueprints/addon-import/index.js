@@ -1,5 +1,3 @@
-/*jshint node:true*/
-
 var stringUtil  = require('ember-cli-string-utils');
 var path        = require('path');
 var inflector   = require('inflection');

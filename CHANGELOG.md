@@ -67,6 +67,7 @@ version:
 - Core Contributors
   + No changes required
 
+
 #### Community Contributions
 
 - [#5606](https://github.com/ember-cli/ember-cli/pull/5606) Don't bother pointless npm/bower restore in addon CI [@mike-north](https://github.com/mike-north)
