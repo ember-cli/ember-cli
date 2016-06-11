@@ -108,6 +108,16 @@ describe('Acceptance: addon-smoke-test', function() {
       });
   });
 
+  it('can add modules via `{{content-for "head"}}`', function() {
+    return copyFixtureFiles('addon/content-for-head')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function(result) {
+        expect(result.exitCode).to.eql(0);
+      });
+  });
+
   it('build with only pod templates', function() {
     return copyFixtureFiles('addon/pod-templates-only')
       .then(function() {

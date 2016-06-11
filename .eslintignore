@@ -6,7 +6,6 @@ tests/fixtures/*
 common-tmp/*
 
 lib/broccoli/app-*.js
-lib/broccoli/modules-from-meta.js
 lib/broccoli/test-support-*.js
 lib/broccoli/tests-*.js
 lib/broccoli/vendor-*.js
