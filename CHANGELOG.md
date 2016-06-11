@@ -44,6 +44,26 @@ version:
 Thank you to all who took the time to contribute!
 
 
+### 2.6.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5972](https://github.com/ember-cli/ember-cli/pull/5972) [BUGFIX release] ease core-object upgrade for addons which lack .project [@stefanpenner](https://github.com/stefanpenner)
+- [#5975](https://github.com/ember-cli/ember-cli/pull/5975) Update core-object to version 2.0.2 [@nathanhammond](https://github.com/nathanhammond)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.6.0
 
 The following changes are required if you are upgrading from the previous
