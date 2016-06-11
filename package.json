@@ -58,7 +58,7 @@
     "clean-base-url": "^1.0.0",
     "compression": "^1.4.4",
     "configstore": "^2.0.0",
-    "core-object": "2.0.1",
+    "core-object": "^2.0.2",
     "debug": "^2.1.3",
     "diff": "^2.2.2",
     "ember-cli-broccoli": "0.16.9",
