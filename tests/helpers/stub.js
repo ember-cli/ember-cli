@@ -18,20 +18,6 @@ module.exports = {
     obj[name].calledWith = [];
     return obj[name];
   },
-  stubPath: function stubPath(path) {
-    return {
-      basename: function() {
-        return path;
-      }
-    };
-  },
-  stubBlueprint: function stubBlueprint() {
-    return function Blueprint() {
-      return {
-        install: function() { }
-      };
-    };
-  },
   safeRestore: function(obj, name) {
     var value = obj[name];
     if (value && value._restore) {
