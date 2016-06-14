@@ -156,13 +156,50 @@ describe('install command', function() {
       });
     });
 
-    it('runs the package name blueprint task when given github/name and args', function() {
+    it('ember-cli/ember-cli-qunit: runs npmInstall but does not install the addon blueprint', function() {
       return command.validateAndRun(['ember-cli/ember-cli-qunit']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
+          packages: ['ember-cli/ember-cli-qunit'],
+          'save-dev': true,
+          'save-exact': true
+        }, 'expected npm install called with given name and save-dev true');
+
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        expect(generateRun.calledWith[0][0].ignoreMissingMain).to.be.true;
-        expect(generateRun.calledWith[0][0].args).to.deep.equal([
-          'ember-cli-qunit'
-        ], 'expected generate blueprint called with correct args');
+        expect(generateRun.called).to.be.equal(0, 'expect blueprint generator not to run');
+      });
+    });
+
+    it('ember-cli-qunit@1.2.0: runs npmInstall and installs the addon blueprint', function() {
+      return command.validateAndRun(['ember-cli-qunit@1.2.0']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
+          packages: ['ember-cli-qunit@1.2.0'],
+          'save-dev': true,
+          'save-exact': true
+        }, 'expected npm install called with given name and save-dev true');
+
+        var generateRun = tasks.GenerateFromBlueprint.prototype.run;
+        expect(generateRun.called).to.equal(1, 'expect blueprint generator to run once.');
+        expect(generateRun.calledWith[0][0].args[0]).to.equal('ember-cli-qunit');
+      });
+    });
+
+    it('@ember-cli/ember-cli-qunit: runs npmInstall and installs the addon blueprint', function() {
+      return command.validateAndRun(['@ember-cli/ember-cli-qunit']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
+          packages: ['@ember-cli/ember-cli-qunit'],
+          'save-dev': true,
+          'save-exact': true
+        }, 'expected npm install called with given name and save-dev true');
+
+        var generateRun = tasks.GenerateFromBlueprint.prototype.run;
+        expect(generateRun.called).to.equal(1, 'expect blueprint generator to run once.');
+        expect(generateRun.calledWith[0][0].args[0]).to.equal('ember-cli-qunit');
       });
     });
 

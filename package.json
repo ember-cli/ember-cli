@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "2.6.0-beta.3",
+  "version": "2.7.0-beta.2",
   "main": "lib/cli/index.js",
   "description": "Command line tool for developing ambitious ember.js apps",
   "homepage": "http://ember-cli.com/",
@@ -58,7 +58,7 @@
     "clean-base-url": "^1.0.0",
     "compression": "^1.4.4",
     "configstore": "^2.0.0",
-    "core-object": "2.0.1",
+    "core-object": "^2.0.2",
     "debug": "^2.1.3",
     "diff": "^2.2.2",
     "ember-cli-broccoli": "0.16.9",
@@ -96,6 +96,7 @@
     "node-uuid": "^1.4.3",
     "nopt": "^3.0.1",
     "npm": "2.15.5",
+    "npm-package-arg": "^4.1.1",
     "ora": "^0.2.0",
     "portfinder": "^1.0.3",
     "promise-map-series": "^0.2.1",
@@ -112,7 +113,7 @@
     "tiny-lr": "0.2.1",
     "tree-sync": "^1.1.0",
     "walk-sync": "^0.2.6",
-    "yam": "0.0.19"
+    "yam": "0.0.20"
   },
   "devDependencies": {
     "broccoli-filter": "^1.2.2",

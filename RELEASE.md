@@ -25,6 +25,39 @@ $ npm --version
 ```
 
 
+## Branching
+
+This is the example branching/merging for release channels.
+
+```sh
+# Get to known good state.
+git checkout master
+git reset --hard origin/master
+git checkout beta
+git reset --hard origin/beta
+git checkout release
+git reset --hard origin/release
+
+# Prep the stable release
+git checkout release
+git merge beta
+
+# ... do the stable release ...
+
+# Prep the beta release
+git checkout beta
+git merge master
+git merge vX.Y.Z # whatever the latest stable tag is.
+
+# ... do the beta release ...
+
+git checkout master
+git merge vX.Y.Z-beta.N
+
+# ... all things back in master ...
+```
+
+
 ## Release
 
 ### Setup
