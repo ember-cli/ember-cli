@@ -23,7 +23,7 @@ describe('blueprint - addon-import', function() {
         entity: {
           name: 'foo-bar'
         },
-        originBlueprintName: 'component-addon',
+        originBlueprintName: 'util-addon',
         pod: false,
         podPath: '',
         dasherizedModuleName: 'foo-bar',
@@ -37,15 +37,15 @@ describe('blueprint - addon-import', function() {
       options.locals = locals;
 
       expect(fileMapTokens.__name__(options)).to.equal('foo-bar');
-      expect(fileMapTokens.__path__(options)).to.equal('components');
+      expect(fileMapTokens.__path__(options)).to.equal('utils');
       expect(fileMapTokens.__root__(options)).to.equal('app');
 
       options.pod = true;
       podLocals = blueprint.locals(options);
       fileMapTokensPods = blueprint.fileMapTokens(podLocals);
 
-      expect(fileMapTokensPods.__name__(options)).to.equal('component');
-      expect(fileMapTokensPods.__path__(options)).to.equal('foo-bar');
+      expect(fileMapTokensPods.__name__(options)).to.equal('foo-bar');
+      expect(fileMapTokensPods.__path__(options)).to.equal('utils');
       expect(fileMapTokensPods.__root__(options)).to.equal('app');
 
     });
