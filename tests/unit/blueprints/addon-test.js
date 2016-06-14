@@ -87,8 +87,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         // string to test ordering
         expect(captor.value).to.deep.equal('\
@@ -120,8 +120,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json.private).to.be.undefined;
@@ -136,8 +136,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json.name).to.equal('test-project-name');
@@ -152,8 +152,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json.description).to.equal('The default blueprint for ember-cli addons.');
@@ -170,8 +170,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json.dependencies).to.deep.equal({
@@ -189,8 +189,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json.keywords).to.deep.equal(['ember-addon']);
@@ -207,8 +207,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.0');
@@ -225,8 +225,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json.scripts.test).to.equal('ember try:each');
@@ -243,8 +243,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         expect(json['ember-addon'].configPath).to.equal('tests/dummy/config');
@@ -266,8 +266,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
         delete json.devDependencies['ember-disable-prototype-extensions'];
@@ -280,8 +280,8 @@ describe('blueprint - addon', function() {
 
         var captor = td.matchers.captor();
 
-        td.verify(readJsonSync('test-app-blueprint-path/files/package.json'));
-        td.verify(writeFileSync('test-blueprint-path/files/package.json', captor.capture()));
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var contents = captor.value;
         expect(contents[contents.length - 1]).to.equal('\n');
