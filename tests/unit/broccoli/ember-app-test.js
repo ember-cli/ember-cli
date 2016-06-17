@@ -53,7 +53,7 @@ describe('broccoli/ember-app', function() {
         configPath: expected
       });
 
-      expect(project.configPath().slice(-expected.length)).to.equal(expected);
+      expect(project.configPath.slice(-expected.length)).to.equal(expected);
     });
 
     it('should set bowerDirectory for app', function() {
@@ -955,4 +955,3 @@ describe('broccoli/ember-app', function() {
     });
   });
 });
-
