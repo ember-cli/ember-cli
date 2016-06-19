@@ -88,7 +88,7 @@
     "isbinaryfile": "^3.0.0",
     "leek": "0.0.21",
     "lodash": "^4.12.0",
-    "markdown-it": "6.0.4",
+    "markdown-it": "6.1.0",
     "markdown-it-terminal": "0.0.3",
     "minimatch": "^3.0.0",
     "morgan": "^1.5.2",
