@@ -12,10 +12,16 @@ describe('bower install task', function() {
   beforeEach(function() {
     var project = new MockProject();
     ui = new MockUI();
+
     bowerInstallTask = new BowerInstallTask({
       ui: ui,
       project: project
     });
+  });
+
+  afterEach(function() {
+    ui = undefined;
+    bowerInstallTask = undefined;
   });
 
   it('skips bower installs if there is no bower.json', function() {
