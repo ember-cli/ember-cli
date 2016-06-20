@@ -3,15 +3,12 @@
 var path            = require('path');
 var Project         = require('../../../lib/models/project');
 var Addon           = require('../../../lib/models/addon');
-var stub            = require('../../helpers/stub');
 var tmp             = require('../../helpers/tmp');
 var touch           = require('../../helpers/file-utils').touch;
 var expect          = require('chai').expect;
 var MockUI          = require('../../helpers/mock-ui');
 var emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
-
-var safeRestore = stub.safeRestore;
-stub = stub.stub;
+var td = require('testdouble')
 
 describe('models/project.js', function() {
   var project, projectPath, tmpPath;
@@ -308,15 +305,14 @@ describe('models/project.js', function() {
       project = new Project(projectPath, packageContents, new MockUI());
       project.initializeAddons();
 
-      stub(Project.prototype, 'initializeAddons');
-      stub(Project.prototype, 'reloadPkg');
+      td.replace(Project.prototype, 'initializeAddons', td.function());
+      td.replace(Project.prototype, 'reloadPkg', td.function());
 
       project.reloadAddons();
     });
 
     afterEach(function() {
-      safeRestore(Project.prototype, 'initializeAddons');
-      safeRestore(Project.prototype, 'reloadPkg');
+      td.reset();
     });
 
     it('sets _addonsInitialized to false', function() {
@@ -324,11 +320,11 @@ describe('models/project.js', function() {
     });
 
     it('reloads the package', function() {
-      expect(Project.prototype.reloadPkg.called, 'reloadPkg was called').to.be.ok;
+      td.verify(Project.prototype.reloadPkg(), {ignoreExtraArgs: true});
     });
 
     it('initializes the addons', function() {
-      expect(Project.prototype.initializeAddons.called, 'initialize addons was called').to.be.ok;
+      td.verify(Project.prototype.initializeAddons(), {ignoreExtraArgs: true});
     });
   });
 
@@ -419,7 +415,7 @@ describe('models/project.js', function() {
 
       project = new Project(projectPath, {}, new MockUI());
 
-      stub(Project.prototype, 'initializeAddons');
+      td.replace(Project.prototype, 'initializeAddons', td.function());
 
       project.addons = [{
         name: 'foo',
@@ -433,12 +429,12 @@ describe('models/project.js', function() {
     });
 
     afterEach(function() {
-      safeRestore(Project.prototype, 'initializeAddons');
+      td.reset();
     });
 
     it('should call initialize addons', function() {
       project.findAddonByName('foo');
-      expect(project.initializeAddons.called, 'should have called initializeAddons').to.be.ok;
+      td.verify(project.initializeAddons(), {ignoreExtraArgs: true});
     });
 
     it('should return the foo addon from name', function() {
@@ -464,7 +460,7 @@ describe('models/project.js', function() {
     it('should not return an addon that is a substring of requested name', function() {
       var addon = project.findAddonByName('foo-ba');
       expect(addon).to.equal(undefined, 'foo-ba should not be found');
-    })
+    });
 
     it('should not guess addon name from string with slashes', function() {
       var addon = project.findAddonByName('qux/foo');

@@ -2,14 +2,11 @@
 
 var expect                = require('chai').expect;
 var map                   = require('lodash/map');
-var stub                  = require('../../helpers/stub');
 var Blueprint             = require('../../../lib/models/blueprint');
 var Project               = require('../../../lib/models/project');
 var Command               = require('../../../lib/models/command');
 var mergeBlueprintOptions = require('../../../lib/utilities/merge-blueprint-options');
-
-var safeRestore = stub.safeRestore;
-stub = stub.stub;
+var td = require('testdouble');
 
 describe('merge-blueprint-options', function() {
   var TestCommand = Command.extend({
@@ -26,7 +23,7 @@ describe('merge-blueprint-options', function() {
   });
 
   afterEach(function() {
-    safeRestore(Blueprint, 'lookup');
+    td.reset();
   });
 
   function buildCommand() {
@@ -38,14 +35,12 @@ describe('merge-blueprint-options', function() {
   it('it works as a command\'s beforeRun()', function() {
     var command, availableOptions;
 
-    stub(Blueprint, 'lookup', function(name) {
-      expect(name).to.equal('test-blueprint');
-      return {
-        availableOptions: [
-          { name: 'custom-blueprint-option', type: String }
-        ]
-      };
-    }, true);
+    td.replace(Blueprint, 'lookup', td.function());
+    td.when(Blueprint.lookup('test-blueprint'), {ignoreExtraArgs: true}).thenReturn({
+      availableOptions: [
+        { name: 'custom-blueprint-option', type: String }
+      ]
+    });
 
     command = buildCommand();
     command.beforeRun(['test-blueprint']);

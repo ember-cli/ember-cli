@@ -13,6 +13,7 @@ var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 
 var broccoli  = require('ember-cli-broccoli');
 var walkSync  = require('walk-sync');
+var td        = require('testdouble');
 
 var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
@@ -282,69 +283,39 @@ describe('models/addon.js', function() {
 
       describe('custom treeFor methods', function() {
         it('can define treeForApp', function() {
-          var called = false;
-
-          addon.treeForApp = function() {
-            called = true;
-          };
-
+          addon.treeForApp = td.function();
           addon.treeFor('app');
-          expect(called).to.equal(true);
+          td.verify(addon.treeForApp(), {ignoreExtraArgs: true});
         });
 
         it('can define treeForStyles', function() {
-          var called = false;
-
-          addon.treeForStyles = function() {
-            called = true;
-          };
-
+          addon.treeForStyles = td.function();
           addon.treeFor('styles');
-          expect(called).to.equal(true);
+          td.verify(addon.treeForStyles(), {ignoreExtraArgs: true});
         });
 
         it('can define treeForVendor', function() {
-          var called = false;
-
-          addon.treeForVendor = function() {
-            called = true;
-          };
-
+          addon.treeForVendor = td.function();
           addon.treeFor('vendor');
-          expect(called).to.equal(true);
+          td.verify(addon.treeForVendor(), {ignoreExtraArgs: true});
         });
 
         it('can define treeForTemplates', function() {
-          var called = false;
-
-          addon.treeForTemplates = function() {
-            called = true;
-          };
-
+          addon.treeForTemplates = td.function();
           addon.treeFor('templates');
-          expect(called).to.equal(true);
+          td.verify(addon.treeForTemplates(), {ignoreExtraArgs: true});
         });
 
         it('can define treeForAddonTemplates', function() {
-          var called = false;
-
-          addon.treeForAddonTemplates = function() {
-            called = true;
-          };
-
+          addon.treeForAddonTemplates = td.function();
           addon.treeFor('addon-templates');
-          expect(called).to.equal(true);
+          td.verify(addon.treeForAddonTemplates(), {ignoreExtraArgs: true});
         });
 
         it('can define treeForPublic', function() {
-          var called = false;
-
-          addon.treeForPublic = function() {
-            called = true;
-          };
-
+          addon.treeForPublic = td.function();
           addon.treeFor('public');
-          expect(called).to.equal(true);
+          td.verify(addon.treeForPublic(), {ignoreExtraArgs: true});
         });
       });
     });
