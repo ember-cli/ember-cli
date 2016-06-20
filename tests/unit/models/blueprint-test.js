@@ -16,7 +16,6 @@ var EOL               = require('os').EOL;
 var root              = process.cwd();
 var tmproot           = path.join(root, 'tmp');
 var SilentError       = require('silent-error');
-var stub              = require('../../helpers/stub');
 var proxyquire        = require('proxyquire');
 var existsSync        = require('exists-sync');
 var MarkdownColor     = require('../../../lib/utilities/markdown-color');
@@ -24,7 +23,6 @@ var assign            = require('lodash/assign');
 var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
 var td                = require('testdouble');
 
-var safeRestore = stub.safeRestore;
 var localsCalled;
 var normalizeEntityNameCalled;
 var fileMapTokensCalled;
@@ -75,7 +73,6 @@ var instrumented = {
     return this._super.afterUninstall.apply(this, arguments);
   }
 };
-stub = stub.stub;
 
 var existsSyncStub;
 var readdirSyncStub;
@@ -136,6 +133,10 @@ describe('Blueprint', function() {
     existsSyncStub = existsSync;
     readdirSyncStub = fs.readdirSync;
     readFileSyncStub = fs.readFileSync;
+  });
+
+  afterEach(function() {
+    td.reset();
   });
 
   describe('.mapFile', function() {
@@ -265,17 +266,14 @@ describe('Blueprint', function() {
         return path.indexOf('package.json') === -1;
       };
 
-      stub(Blueprint, 'defaultLookupPaths', []);
-      stub(Blueprint, 'load', function(blueprintPath) {
+      td.replace(Blueprint, 'defaultLookupPaths');
+      td.when(Blueprint.defaultLookupPaths()).thenReturn([]);
+
+      td.replace(Blueprint, 'load', function(blueprintPath) {
         return {
           name: path.basename(blueprintPath)
         };
-      }, true);
-    });
-
-    afterEach(function() {
-      safeRestore(Blueprint, 'defaultLookupPaths');
-      safeRestore(Blueprint, 'load');
+      });
     });
 
     it('returns a list of blueprints grouped by lookup path', function() {
@@ -342,12 +340,10 @@ describe('Blueprint', function() {
 
     describe('printBasicHelp', function() {
       beforeEach(function() {
-        stub(blueprint, '_printCommand', ' command printed');
-        stub(blueprint, 'printDetailedHelp', 'help in detail');
-      });
-
-      afterEach(function() {
-        safeRestore(blueprint, 'printDetailedHelp');
+        td.replace(blueprint, '_printCommand', td.function());
+        td.when(blueprint._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+        td.replace(blueprint, 'printDetailedHelp', td.function());
+        td.when(blueprint.printDetailedHelp(), {ignoreExtraArgs: true}).thenReturn('help in detail');
       });
 
       it('handles overridden', function() {
@@ -361,7 +357,8 @@ describe('Blueprint', function() {
       \u001b[90m(overridden) my-blueprint\u001b[39m');
 
         expect(output).to.equal(testString);
-        expect(blueprint._printCommand.called).to.equal(0);
+
+        td.verify(blueprint._printCommand(), {ignoreExtraArgs: true, times: 0});
       });
 
       it('calls printCommand', function() {
@@ -371,9 +368,7 @@ describe('Blueprint', function() {
       my-blueprint command printed');
 
         expect(output).to.equal(testString);
-        expect(blueprint._printCommand.called).to.equal(1);
-        expect(blueprint._printCommand.calledWith[0][0]).to.equal('      ');
-        expect(blueprint._printCommand.calledWith[0][1]).to.be.true;
+        td.verify(blueprint._printCommand('      ', true), {times: 1});
       });
 
       it('prints detailed help if verbose', function() {
@@ -389,36 +384,33 @@ describe('Blueprint', function() {
 help in detail');
 
         expect(output).to.equal(testString);
-        expect(blueprint.printDetailedHelp.calledWith[0][0]).to.equal(availableOptions);
+        td.verify(blueprint.printDetailedHelp(availableOptions));
       });
     });
 
     describe('printDetailedHelp', function() {
-      afterEach(function() {
-        safeRestore(MarkdownColor.prototype, 'renderFile');
-      });
-
       it('did not find the file', function() {
         existsSyncStub = function() {
           return false;
         };
-        stub(MarkdownColor.prototype, 'renderFile', function() {
-          expect.fail(0, 1, 'should not call MarkdownColor.renderFile');
-        }, true);
+
+        td.replace(MarkdownColor.prototype, 'renderFile');
 
         var help = blueprint.printDetailedHelp();
-
         expect(help).to.equal('');
+
+        td.verify(MarkdownColor.prototype.renderFile(), {ignoreExtraArgs: true, times: 0});
       });
 
       it('found the file', function() {
         existsSyncStub = function() {
           return true;
         };
-        stub(MarkdownColor.prototype, 'renderFile', function() {
+
+        td.replace(MarkdownColor.prototype, 'renderFile', function() {
           expect(arguments[1].indent).to.equal('        ');
           return 'test-file';
-        }, true);
+        });
 
         var help = blueprint.printDetailedHelp();
 
@@ -431,10 +423,6 @@ help in detail');
         forEachWithPropertyStub = function(forEach, context) {
           ['test1', 'availableOptions'].forEach(forEach, context);
         };
-      });
-
-      afterEach(function() {
-        safeRestore(blueprint, 'printDetailedHelp');
       });
 
       it('iterates options', function() {
@@ -467,15 +455,15 @@ help in detail');
       });
 
       it('does not print detailed if not verbose', function() {
-        stub(blueprint, 'printDetailedHelp');
+        td.replace(blueprint, 'printDetailedHelp', td.function());
 
         blueprint.getJson();
 
-        expect(blueprint.printDetailedHelp.called).to.equal(0);
+        td.verify(blueprint.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
       });
 
       it('is calling printDetailedHelp with availableOptions', function() {
-        stub(blueprint, 'printDetailedHelp');
+        td.replace(blueprint, 'printDetailedHelp', td.function());
 
         var availableOptions = [];
         assign(blueprint, {
@@ -484,20 +472,21 @@ help in detail');
 
         blueprint.getJson(true);
 
-        expect(blueprint.printDetailedHelp.calledWith[0][0]).to.equal(availableOptions);
+        td.verify(blueprint.printDetailedHelp(availableOptions));
       });
 
       it('if printDetailedHelp returns falsy, don\'t attach property detailedHelp', function() {
-        stub(blueprint, 'printDetailedHelp');
+        td.replace(blueprint, 'printDetailedHelp', td.function());
 
         var json = blueprint.getJson(true);
 
-        expect(blueprint.printDetailedHelp.called).to.equal(1);
+        td.verify(blueprint.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
         expect(json).to.not.have.property('detailedHelp');
       });
 
       it('sets detailedHelp properly', function() {
-        stub(blueprint, 'printDetailedHelp', 'some details');
+        td.replace(blueprint, 'printDetailedHelp', td.function());
+        td.when(blueprint.printDetailedHelp(), {ignoreExtraArgs: true}).thenReturn('some details');
 
         var json = blueprint.getJson(true);
 
@@ -549,7 +538,6 @@ help in detail');
     });
 
     afterEach(function() {
-      td.reset();
       return remove(tmproot);
     });
 
@@ -704,7 +692,7 @@ help in detail');
       });
 
       it('ignores files in ignoredUpdateFiles', function() {
-        td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+        td.when(ui.prompt(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve({ answer: 'skip' }));
 
         return blueprint.install(options)
         .then(function() {
@@ -727,7 +715,7 @@ help in detail');
         })
         .then(function() {
 
-          td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+          td.verify(ui.prompt(), {ignoreExtraArgs: true});
 
           var actualFiles = walkSync(tmpdir).sort();
           // Prompts contain \n EOL
