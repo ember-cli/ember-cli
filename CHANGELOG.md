@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+### 2.7.0-beta.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.7.0-beta.2...v2.7.0-beta.3)
+  + Upgrade your project's ember-cli version -
+    [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.7.0-beta.2...v2.7.0-beta.3)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5987](https://github.com/ember-cli/ember-cli/pull/5987) [BUGFIX release]
+  allow more then 10 exit handlers [@stefanpenner](https://github.com/stefanpenner)
+- [#5979](https://github.com/ember-cli/ember-cli/pull/5979) Use `ember try:one`
+  in travis [@san650](https://github.com/san650)
+- [#6001](https://github.com/ember-cli/ember-cli/pull/6001) [BUGFIX release]
+  Upgrade ember-cli-release version [@Serabe](https://github.com/Serabe)
+
+Thank you to all who took the time to contribute!
+
 ### 2.7.0-beta.2
 
 The following changes are required if you are upgrading from the previous
@@ -63,6 +88,29 @@ version:
 - [#5920](https://github.com/ember-cli/ember-cli/pull/5920) move jQuery to ember-core for now [@stefanpenner](https://github.com/stefanpenner)
 - [#5931](https://github.com/ember-cli/ember-cli/pull/5931) Extract standalone insertIntoFile() function [@Turbo87](https://github.com/Turbo87)
 - [#5955](https://github.com/ember-cli/ember-cli/pull/5955) [BUGFIX beta] Fix addon linting regression. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.6.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.6.1...v2.6.2)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + Upgrade your `ember-cli-release` version to `^0.2.9`
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.1...v2.6.2)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + Upgrade your `ember-cli-release` version to `^0.2.9`
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6001](https://github.com/ember-cli/ember-cli/pull/6001) [BUGFIX release] Upgrade ember-cli-release version [@Serabe](https://github.com/Serabe)
 
 Thank you to all who took the time to contribute!
 
