@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+### 2.6.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.6.1...v2.6.2)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + Upgrade your `ember-cli-release` version to `^0.2.9`
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.1...v2.6.2)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + Upgrade your `ember-cli-release` version to `^0.2.9`
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6001](https://github.com/ember-cli/ember-cli/pull/6001) [BUGFIX release] Upgrade ember-cli-release version [@Serabe](https://github.com/Serabe)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.6.1
 
 The following changes are required if you are upgrading from the previous
