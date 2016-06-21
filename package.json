@@ -125,7 +125,7 @@
     "ember-cli-internal-test-helpers": "^0.8.1",
     "eslint-plugin-chai-expect": "^1.1.1",
     "github": "^1.1.0",
-    "istanbul": "^0.4.2",
+    "istanbul": "^0.4.4",
     "mocha": "^2.4.5",
     "mocha-eslint": "^2.0.1",
     "mocha-only-detector": "^0.1.0",
