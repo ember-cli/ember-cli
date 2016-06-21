@@ -1,5 +1,24 @@
 # ember-cli Changelog
 
+### 2.7.0-beta.4
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.7.0-beta.4...v2.7.0-beta.4)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.7.0-beta.4...v2.7.0-beta.4)
+- Core Contributors
+  + No changes required
+
+`2.7.0-beta.3` included changes that should have stayed on `canary` for now. This release removes those
+changes again and only includes the bugfixes from the `beta` branch.
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.7.0-beta.3
 
 The following changes are required if you are upgrading from the previous
@@ -24,6 +43,7 @@ version:
   Upgrade ember-cli-release version [@Serabe](https://github.com/Serabe)
 
 Thank you to all who took the time to contribute!
+
 
 ### 2.7.0-beta.2
 
