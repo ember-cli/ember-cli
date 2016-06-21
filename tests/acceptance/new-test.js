@@ -2,7 +2,6 @@
 
 var fs         = require('fs-extra');
 var ember      = require('../helpers/ember');
-var forEach    = require('lodash/forEach');
 var walkSync   = require('walk-sync');
 var Blueprint  = require('../../lib/models/blueprint');
 var path       = require('path');
@@ -17,6 +16,7 @@ var chai = require('../chai');
 var expect = chai.expect;
 var file = chai.file;
 var dir = chai.dir;
+var forEach = require('ember-cli-lodash-subset').forEach;
 
 var tmpDir = './tmp/new-test';
 

@@ -2,7 +2,7 @@
 
 var path = require('path');
 var expect = require('chai').expect;
-var assign = require('lodash/assign');
+var assign = require('ember-cli-lodash-subset').assign;
 var Project = require('../../../lib/models/project');
 var AddonDiscovery = require('../../../lib/models/addon-discovery');
 var fixturePath = path.resolve(__dirname, '../../fixtures/addon');

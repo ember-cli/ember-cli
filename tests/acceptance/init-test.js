@@ -10,10 +10,11 @@ var root       = process.cwd();
 var util       = require('util');
 var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var minimatch  = require('minimatch');
-var intersect  = require('lodash/intersection');
-var remove     = require('lodash/remove');
-var forEach    = require('lodash/forEach');
-var any        = require('lodash/some');
+var lodash = require('ember-cli-lodash-subset');
+var intersect  = lodash.intersection;
+var remove     = lodash.remove;
+var forEach    = lodash.forEach;
+var any        = lodash.some;
 var EOL        = require('os').EOL;
 
 var chai = require('../chai');

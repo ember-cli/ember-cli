@@ -1,7 +1,7 @@
 'use strict';
 
 var expect         = require('chai').expect;
-var map          = require('lodash/map');
+var map            = require('ember-cli-lodash-subset').map;
 var commandOptions = require('../../factories/command-options');
 var NewCommand     = require('../../../lib/commands/new');
 var Promise        = require('../../../lib/ext/promise');

@@ -7,7 +7,7 @@ var Addon   = require('../../../lib/models/addon');
 var Promise = require('../../../lib/ext/promise');
 var expect  = require('chai').expect;
 var remove  = Promise.denodeify(fs.remove);
-var findWhere = require('lodash/find');
+var findWhere = require('ember-cli-lodash-subset').find;
 var MockUI = require('../../helpers/mock-ui');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 
