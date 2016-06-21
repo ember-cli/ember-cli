@@ -6,8 +6,8 @@ var fs         = require('fs');
 var path       = require('path');
 var Project    = require('../../../lib/models/project');
 var expect     = require('chai').expect;
+var stub       = require('../../helpers/stub').stub;
 var proxyquire = require('proxyquire');
-var td = require('testdouble');
 
 var MockUI = require('../../helpers/mock-ui');
 
@@ -19,7 +19,7 @@ var EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
 });
 
 describe('broccoli/ember-app', function() {
-  var project, projectPath, emberApp, addon;
+  var project, projectPath, emberApp, addonTreesForStub, addon;
 
   function setupProject(rootPath) {
     var packageContents = require(path.join(rootPath, 'package.json'));
@@ -435,46 +435,40 @@ describe('broccoli/ember-app', function() {
             project: project
           });
 
-          emberApp.addonTreesFor = td.function();
-          td.when(emberApp.addonTreesFor(), {ignoreExtraArgs: true}).thenReturn(['batman']);
+          addonTreesForStub = stub(emberApp, 'addonTreesFor', ['batman']);
         });
 
         it('_processedVendorTree calls addonTreesFor', function() {
           emberApp._processedVendorTree();
 
-          var args = td.explain(emberApp.addonTreesFor).calls.map(function(call) { return call.args[0]; });
-
-          expect(args).to.deep.equal(['addon', 'vendor']);
+          expect(addonTreesForStub.calledWith[0][0]).to.equal('addon');
+          expect(addonTreesForStub.calledWith[1][0]).to.equal('vendor');
         });
 
         it('_processedAppTree calls addonTreesFor', function() {
           emberApp._processedAppTree();
 
-          var args = td.explain(emberApp.addonTreesFor).calls.map(function(call) { return call.args[0]; });
-
-          expect(args).to.deep.equal(['app']);
+          expect(addonTreesForStub.calledWith[0][0]).to.equal('app');
         });
       });
     });
 
     describe('postprocessTree is called properly', function() {
+      var postprocessTreeStub;
       beforeEach(function() {
         emberApp = new EmberApp({
           project: project
         });
 
-        emberApp.addonPostprocessTree = td.function();
-        td.when(emberApp.addonPostprocessTree(), {ignoreExtraArgs: true}).thenReturn(['batman']);
+        postprocessTreeStub = stub(emberApp, 'addonPostprocessTree', ['batman']);
       });
 
 
       it('styles calls addonTreesFor', function() {
         emberApp.styles();
 
-        var captor = td.matchers.captor();
-        td.verify(emberApp.addonPostprocessTree('css', captor.capture()));
-
-        expect(captor.value.description).to.equal('styles', 'should be called with consolidated tree');
+        expect(postprocessTreeStub.calledWith[0][0]).to.equal('css');
+        expect(postprocessTreeStub.calledWith[0][1].description).to.equal('styles', 'should be called with consolidated tree');
       });
 
 
@@ -496,11 +490,8 @@ describe('broccoli/ember-app', function() {
         };
 
         emberApp._processedTemplatesTree();
-
-        var captor = td.matchers.captor();
-        td.verify(emberApp.addonPostprocessTree('template', captor.capture()));
-
-        expect(captor.value.description).to.equal('template', 'should be called with consolidated tree');
+        expect(postprocessTreeStub.calledWith[0][0]).to.equal('template');
+        expect(postprocessTreeStub.calledWith[0][1].description).to.equal('template', 'should be called with consolidated tree');
       });
     });
 
@@ -509,7 +500,7 @@ describe('broccoli/ember-app', function() {
         addon = {
           included: function() { },
           treeFor: function() { },
-          postprocessTree: td.function(),
+          postprocessTree: function() { }
         };
 
         project.initializeAddons = function() {
@@ -522,36 +513,30 @@ describe('broccoli/ember-app', function() {
       });
 
       it('calls postProcessTree if defined', function() {
-        emberApp.toArray = td.function();
-
-        td.when(emberApp.toArray(), {ignoreExtraArgs: true}).thenReturn([]);
-        td.when(addon.postprocessTree(), {ignoreExtraArgs: true}).thenReturn('derp');
+        stub(emberApp, 'toArray', []);
+        stub(addon, 'postprocessTree', 'derp');
 
         expect(emberApp.toTree()).to.equal('derp');
       });
 
       it('calls addonPostprocessTree', function() {
-        emberApp.toArray = td.function();
-        emberApp.addonPostprocessTree = td.function();
-
-        td.when(emberApp.toArray(), {ignoreExtraArgs: true}).thenReturn([]);
-        td.when(emberApp.addonPostprocessTree(), {ignoreExtraArgs: true}).thenReturn('blap');
+        stub(emberApp, 'toArray', []);
+        stub(emberApp, 'addonPostprocessTree', 'blap');
 
         expect(emberApp.toTree()).to.equal('blap');
       });
 
       it('calls each addon postprocessTree hook', function() {
-        emberApp._processedTemplatesTree = td.function();
-
-        td.when(emberApp._processedTemplatesTree(), {ignoreExtraArgs: true}).thenReturn('x');
-        td.when(addon.postprocessTree(), {ignoreExtraArgs: true}).thenReturn('blap');
-
+        stub(emberApp, '_processedTemplatesTree', 'x');
+        stub(addon, 'postprocessTree', 'blap');
         expect(emberApp.toTree()).to.equal('blap');
-
-        var args = td.explain(addon.postprocessTree).calls.map(function(call) { return call.args[0]; });
-
-        expect(args).to.deep.equal(['js', 'css', 'test', 'all']);
+        expect(
+          addon.postprocessTree.calledWith.map(function(args) {
+            return args[0];
+          }).sort()
+        ).to.deep.equal(['all', 'css', 'js', 'test']);
       });
+
     });
 
     describe('addons can be disabled', function() {
@@ -672,9 +657,7 @@ describe('broccoli/ember-app', function() {
 
     describe('addonLintTree', function() {
       beforeEach(function() {
-        addon = {
-          lintTree: td.function(),
-        };
+        addon = { };
 
         project.initializeAddons = function() {
           this.addons = [ addon ];
@@ -690,26 +673,50 @@ describe('broccoli/ember-app', function() {
       });
 
       it('calls lintTree on the addon', function() {
-        mergeTreesStub = td.function();
+        var actualType, actualTree;
 
-        td.when(addon.lintTree('blah', 'blam')).thenReturn('blazorz');
+        addon.lintTree = function(type, tree) {
+          actualType = type;
+          actualTree = tree;
+
+          return 'blazorz';
+        };
+
+        var assertionsWereRun;
+
+        mergeTreesStub = function(inputTree, options) {
+          expect(inputTree).to.deep.equal(['blazorz']);
+          expect(options).to.deep.equal({
+            overwrite: true,
+            annotation: 'TreeMerger (lint blah)'
+          });
+
+          assertionsWereRun = true;
+        };
 
         emberApp.addonLintTree('blah', 'blam');
 
-        td.verify(mergeTreesStub(['blazorz'], {
-          overwrite: true,
-          annotation: 'TreeMerger (lint blah)'
-        }));
+        expect(actualType).to.equal('blah');
+        expect(actualTree).to.equal('blam');
+        expect(assertionsWereRun).to.be.true;
       });
 
       it('filters out tree if lintTree returns falsey', function() {
-        mergeTreesStub = td.function();
+        addon.lintTree = function() {
+          return false;
+        };
 
-        td.when(addon.lintTree(), {ignoreExtraArgs: true}).thenReturn(false);
+        var assertionsWereRun;
+
+        mergeTreesStub = function(inputTree) {
+          expect(inputTree.length).to.equal(0);
+
+          assertionsWereRun = true;
+        };
 
         emberApp.addonLintTree();
 
-        td.verify(mergeTreesStub([]), {ignoreExtraArgs: true});
+        expect(assertionsWereRun).to.be.true;
       });
     });
   });

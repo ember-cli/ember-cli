@@ -1,11 +1,14 @@
 'use strict';
 
 var expect         = require('chai').expect;
+var stub           = require('../../helpers/stub');
 var commandOptions = require('../../factories/command-options');
 var Promise        = require('../../../lib/ext/promise');
 var Task           = require('../../../lib/models/task');
 var BuildCommand   = require('../../../lib/commands/build');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('build command', function() {
   var tasks, options, command;
@@ -38,24 +41,22 @@ describe('build command', function() {
 
     command = new BuildCommand(options);
 
-    td.replace(tasks.Build.prototype, 'run', td.function());
-    td.replace(tasks.BuildWatch.prototype, 'run', td.function());
-    td.replace(tasks.ShowAssetSizes.prototype, 'run', td.function());
-
-    td.when(tasks.Build.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
-    td.when(tasks.BuildWatch.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
-    td.when(tasks.ShowAssetSizes.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    stub(tasks.Build.prototype, 'run', Promise.resolve());
+    stub(tasks.BuildWatch.prototype, 'run', Promise.resolve());
+    stub(tasks.ShowAssetSizes.prototype, 'run', Promise.resolve());
   });
 
   afterEach(function() {
-    td.reset();
+    safeRestore(tasks.Build.prototype, 'run');
+    safeRestore(tasks.BuildWatch.prototype, 'run');
+    safeRestore(tasks.ShowAssetSizes.prototype, 'run');
   });
 
   it('Build task is provided with the project instance', function() {
     return command.validateAndRun([]).then(function() {
       var buildRun = tasks.Build.prototype.run;
 
-      td.verify(buildRun(), {ignoreExtraArgs: true, times: 1});
+      expect(buildRun.called).to.equal(1, 'expected run to be called once');
       expect(buildTaskInstance.project).to.equal(options.project, 'has correct project instance');
     });
   });
@@ -64,18 +65,18 @@ describe('build command', function() {
     return command.validateAndRun(['--watch']).then(function() {
       var buildWatchRun = tasks.BuildWatch.prototype.run;
 
-      td.verify(buildWatchRun(), {ignoreExtraArgs: true, times: 1});
+      expect(buildWatchRun.called).to.equal(1, 'expected run to be called once');
       expect(buildWatchTaskInstance.project).to.equal(options.project, 'has correct project instance');
     });
   });
 
   it('BuildWatch task is provided with a watcher option', function() {
     return command.validateAndRun(['--watch', '--watcher poller']).then(function() {
-      var buildWatchRun = tasks.BuildWatch.prototype.run;
+      var buildWatchRun = tasks.BuildWatch.prototype.run,
+          calledWith = buildWatchRun.calledWith[0]['0'];
 
-      var captor = td.matchers.captor();
-      td.verify(buildWatchRun(captor.capture()), {times: 1});
-      expect(captor.value.watcherPoller).to.equal(true, 'expected run to be called with a poller option');
+      expect(buildWatchRun.called).to.equal(1, 'expected run to be called once');
+      expect(calledWith.watcherPoller).to.equal(true, 'expected run to be called with a poller option');
     });
   });
 
@@ -84,8 +85,8 @@ describe('build command', function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
-      td.verify(buildRun(), {ignoreExtraArgs: true, times: 1});
-      td.verify(showSizesRun(), {ignoreExtraArgs: true, times: 0});
+      expect(buildRun.called).to.equal(1, 'expected build run to be called once');
+      expect(showSizesRun.called).to.equal(0, 'expected asset-sizes run to not be called');
     });
   });
 
@@ -94,8 +95,8 @@ describe('build command', function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
-      td.verify(buildRun(), {ignoreExtraArgs: true, times: 1});
-      td.verify(showSizesRun(), {ignoreExtraArgs: true, times: 1});
+      expect(buildRun.called).to.equal(1, 'expected build run to be called once');
+      expect(showSizesRun.called).to.equal(1, 'expected asset-sizes run to be called once');
     });
   });
 
@@ -104,8 +105,8 @@ describe('build command', function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
-      td.verify(buildRun(), {ignoreExtraArgs: true, times: 1});
-      td.verify(showSizesRun(), {ignoreExtraArgs: true, times: 0});
+      expect(buildRun.called).to.equal(1, 'expected build run to be called once');
+      expect(showSizesRun.called).to.equal(0, 'expected asset-sizes run to not be called');
     });
   });
 });

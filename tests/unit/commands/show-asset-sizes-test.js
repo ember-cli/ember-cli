@@ -1,10 +1,13 @@
 'use strict';
 
 var expect         = require('chai').expect;
+var stub           = require('../../helpers/stub');
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
 var path           = require('path');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('asset-sizes command', function () {
   var ShowCommand;
@@ -30,7 +33,7 @@ describe('asset-sizes command', function () {
       settings: {}
     });
 
-    td.replace(tasks.ShowAssetSizes.prototype, 'run', td.function());
+    stub(tasks.ShowAssetSizes.prototype, 'run');
   });
 
   after(function () {
@@ -39,14 +42,16 @@ describe('asset-sizes command', function () {
   });
 
   afterEach(function () {
-    td.reset();
+    safeRestore(tasks.ShowAssetSizes.prototype, 'run');
   });
 
   it('has correct default value for output path', function() {
     return new ShowCommand(options).validateAndRun().then(function() {
-      var captor = td.matchers.captor();
-      td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), {times: 1});
-      expect(captor.value.outputPath).to.equal('dist/', 'has correct output path option when not set');
+      var run = tasks.ShowAssetSizes.prototype.run;
+      var ops = run.calledWith[0][0];
+
+      expect(run.called).to.equal(1, 'expected run to be called once');
+      expect(ops.outputPath).to.equal('dist/', 'has correct output path option when not set');
     });
   });
 
@@ -54,9 +59,11 @@ describe('asset-sizes command', function () {
     return new ShowCommand(options)
       .validateAndRun(['--output-path', path.join('some', 'path')])
       .then(function() {
-        var captor = td.matchers.captor();
-        td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), {times: 1});
-        expect(captor.value.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
+        var run = tasks.ShowAssetSizes.prototype.run;
+        var ops = run.calledWith[0][0];
+
+        expect(run.called).to.equal(1, 'expected run to be called once');
+        expect(ops.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
       });
   });
 });

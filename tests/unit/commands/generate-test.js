@@ -4,13 +4,16 @@ var expect            = require('chai').expect;
 var EOL               = require('os').EOL;
 var SilentError       = require('silent-error');
 var commandOptions    = require('../../factories/command-options');
+var stub              = require('../../helpers/stub');
 var processHelpString = require('../../helpers/process-help-string');
 var MockProject       = require('../../helpers/mock-project');
 var Promise           = require('../../../lib/ext/promise');
 var Task              = require('../../../lib/models/task');
 var Blueprint         = require('../../../lib/models/blueprint');
 var GenerateCommand   = require('../../../lib/commands/generate');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('generate command', function() {
   var options, command;
@@ -39,11 +42,12 @@ describe('generate command', function() {
       }
     });
 
+    //nodeModulesPath: 'somewhere/over/the/rainbow'
     command = new GenerateCommand(options);
   });
 
   afterEach(function() {
-    td.reset();
+    safeRestore(Blueprint, 'list');
   });
 
   it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
@@ -84,12 +88,8 @@ describe('generate command', function() {
   });
 
   describe('help', function() {
-    beforeEach(function() {
-      td.replace(Blueprint, 'list', td.function());
-    });
-
     it('lists available blueprints', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [
@@ -126,7 +126,7 @@ other-blueprint' + EOL + '\
     });
 
     it('lists available blueprints json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [
@@ -173,7 +173,7 @@ other-blueprint' + EOL + '\
     });
 
     it('works with single blueprint', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [
@@ -205,7 +205,7 @@ my-blueprint' + EOL + '\
     });
 
     it('works with single blueprint json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [
@@ -244,7 +244,7 @@ my-blueprint' + EOL + '\
     });
 
     it('handles missing blueprint', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [
@@ -269,7 +269,7 @@ my-blueprint' + EOL + '\
     });
 
     it('handles missing blueprint json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [
@@ -295,7 +295,7 @@ my-blueprint' + EOL + '\
     });
 
     it('ignores overridden blueprints when verbose false', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [
@@ -323,7 +323,7 @@ my-blueprint' + EOL + '\
     });
 
     it('shows overridden blueprints when verbose true', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      stub(Blueprint, 'list', [
         {
           source: 'my-app',
           blueprints: [

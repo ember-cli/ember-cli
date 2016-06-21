@@ -1,13 +1,16 @@
 'use strict';
 
 var expect         = require('chai').expect;
+var stub           = require('../../helpers/stub');
 var MockProject    = require('../../helpers/mock-project');
 var commandOptions = require('../../factories/command-options');
 var Task           = require('../../../lib/models/task');
 var Promise        = require('../../../lib/ext/promise');
 var AddonInstall   = require('../../../lib/tasks/addon-install');
 var InstallCommand = require('../../../lib/commands/install');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('install command', function() {
   var generateBlueprintInstance, npmInstance;
@@ -68,16 +71,15 @@ describe('install command', function() {
       tasks: tasks
     });
 
-    td.replace(tasks.NpmInstall.prototype, 'run', td.function());
-    td.when(tasks.NpmInstall.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
-    td.replace(tasks.GenerateFromBlueprint.prototype, 'run', td.function());
-    td.when(tasks.GenerateFromBlueprint.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    stub(tasks.NpmInstall.prototype, 'run', Promise.resolve());
+    stub(tasks.GenerateFromBlueprint.prototype, 'run', Promise.resolve());
 
     command = new InstallCommand(options);
   });
 
   afterEach(function() {
-    td.reset();
+    safeRestore(tasks.NpmInstall.prototype, 'run');
+    safeRestore(tasks.GenerateFromBlueprint.prototype, 'run');
   });
 
   it('initializes npm install and generate blueprint task with ui, project and analytics', function() {
@@ -96,22 +98,21 @@ describe('install command', function() {
     it('runs the npm install task with given name and save-dev true', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
+        expect(npmRun.called).to.equal(1, 'expected npm install run was called once');
 
-        td.verify(npmRun({
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['ember-data'],
           'save-dev': true,
           'save-exact': true
-        }), {times: 1});
+        }, 'expected npm install called with given name and save-dev true');
       });
     });
 
     it('runs the package name blueprint task with given name and args', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        var captor = td.matchers.captor();
-        td.verify(generateRun(captor.capture()));
-        expect(captor.value.ignoreMissingMain).to.be.true;
-        expect(captor.value.args).to.deep.equal([
+        expect(generateRun.calledWith[0][0].ignoreMissingMain).to.be.true;
+        expect(generateRun.calledWith[0][0].args).to.deep.equal([
           'ember-data'
         ], 'expected generate blueprint called with correct args');
       });
@@ -122,10 +123,8 @@ describe('install command', function() {
         expect(false, 'should reject with error').to.be.ok;
       }).catch(function(error) {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        var captor = td.matchers.captor();
-        td.verify(generateRun(captor.capture()));
-        expect(captor.value.ignoreMissingMain).to.be.true;
-        expect(captor.value.args).to.deep.equal([
+        expect(generateRun.calledWith[0][0].ignoreMissingMain).to.be.true;
+        expect(generateRun.calledWith[0][0].args).to.deep.equal([
           'cordova-starter-kit'
         ], 'expected generate blueprint called with correct args');
         expect(error.message).to.equal(
@@ -141,62 +140,66 @@ describe('install command', function() {
       ]).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
           'save-dev': true,
           'save-exact': true
-        }), {times: 1});
+        }, 'expected npm install called with given name and save-dev true');
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
-        expect(generateRunArgs).to.deep.equal(['ember-data', 'cordova-starter-kit', 'ember-cli-qunit']);
+        expect(generateRun.called).to.equal(3, 'expect blueprint generator to run thrice.');
+        expect(generateRun.calledWith[0][0].args[0]).to.equal('ember-data');
+        expect(generateRun.calledWith[1][0].args[0]).to.equal('cordova-starter-kit');
+        expect(generateRun.calledWith[2][0].args[0]).to.equal('ember-cli-qunit');
       });
     });
 
     it('ember-cli/ember-cli-qunit: runs npmInstall but does not install the addon blueprint', function() {
       return command.validateAndRun(['ember-cli/ember-cli-qunit']).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
-
-        td.verify(npmRun({
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['ember-cli/ember-cli-qunit'],
           'save-dev': true,
           'save-exact': true
-        }), {times: 1});
+        }, 'expected npm install called with given name and save-dev true');
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        td.verify(generateRun(), {ignoreExtraArgs: true, times: 0});
+        expect(generateRun.called).to.be.equal(0, 'expect blueprint generator not to run');
       });
     });
 
     it('ember-cli-qunit@1.2.0: runs npmInstall and installs the addon blueprint', function() {
       return command.validateAndRun(['ember-cli-qunit@1.2.0']).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
-
-        td.verify(npmRun({
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['ember-cli-qunit@1.2.0'],
           'save-dev': true,
           'save-exact': true
-        }), {times: 1});
+        }, 'expected npm install called with given name and save-dev true');
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
-        expect(generateRunArgs).to.deep.equal(['ember-cli-qunit']);
+        expect(generateRun.called).to.equal(1, 'expect blueprint generator to run once.');
+        expect(generateRun.calledWith[0][0].args[0]).to.equal('ember-cli-qunit');
       });
     });
 
     it('@ember-cli/ember-cli-qunit: runs npmInstall and installs the addon blueprint', function() {
       return command.validateAndRun(['@ember-cli/ember-cli-qunit']).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
-
-        td.verify(npmRun({
+        expect(npmRun.called).to.equal(1, 'expect npm install to be called once');
+        expect(npmRun.calledWith[0][0]).to.deep.equal({
           packages: ['@ember-cli/ember-cli-qunit'],
           'save-dev': true,
           'save-exact': true
-        }), {times: 1});
+        }, 'expected npm install called with given name and save-dev true');
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
-        expect(generateRunArgs).to.deep.equal(['ember-cli-qunit']);
+        expect(generateRun.called).to.equal(1, 'expect blueprint generator to run once.');
+        expect(generateRun.calledWith[0][0].args[0]).to.equal('ember-cli-qunit');
       });
     });
 

@@ -6,6 +6,7 @@ var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
 var Promise         = require('../../../lib/ext/promise');
+var stub            = require('../../helpers/stub').stub;
 var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fs.remove);
 var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
@@ -211,27 +212,28 @@ describe('models/builder.js', function() {
     });
 
     it('allows addons to add promises preBuild', function() {
-      var preBuild = td.replace(addon, 'preBuild', td.function());
-      td.when(preBuild(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+      var preBuild = stub(addon, 'preBuild', Promise.resolve());
 
       return builder.build().then(function() {
-        td.verify(preBuild(), {ignoreExtraArgs: true});
+        expect(preBuild.called).to.equal(1, 'expected preBuild to be called');
       });
     });
 
     it('allows addons to add promises postBuild', function() {
-      var postBuild = td.replace(addon, 'postBuild', td.function());
+      var postBuild = stub(addon, 'postBuild');
 
       return builder.build().then(function() {
-        td.verify(postBuild(buildResults), {times: 1});
+        expect(postBuild.called).to.equal(1, 'expected postBuild to be called');
+        expect(postBuild.calledWith[0][0]).to.equal(buildResults, 'expected postBuild to be called with the results');
       });
     });
 
     it('allows addons to add promises outputReady', function() {
-      var outputReady = td.replace(addon, 'outputReady', td.function());
+      var outputReady = stub(addon, 'outputReady');
 
       return builder.build().then(function() {
-        td.verify(outputReady(buildResults), {times: 1});
+        expect(outputReady.called).to.equal(1, 'expected outputReady to be called');
+        expect(outputReady.calledWith[0][0]).to.equal(buildResults, 'expected outputReady to be called with the results');
       });
     });
 

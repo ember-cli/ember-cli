@@ -80,7 +80,7 @@
     "fs-tree-diff": "^0.4.4",
     "get-caller-file": "^1.0.0",
     "git-repo-info": "^1.0.4",
-    "glob": "7.0.4",
+    "glob": "7.0.3",
     "http-proxy": "^1.9.0",
     "inflection": "^1.7.0",
     "inquirer": "^0.12.0",
@@ -88,7 +88,7 @@
     "isbinaryfile": "^3.0.0",
     "leek": "0.0.21",
     "lodash": "^4.12.0",
-    "markdown-it": "6.1.0",
+    "markdown-it": "6.0.4",
     "markdown-it-terminal": "0.0.3",
     "minimatch": "^3.0.0",
     "morgan": "^1.5.2",
@@ -113,7 +113,7 @@
     "tiny-lr": "0.2.1",
     "tree-sync": "^1.1.0",
     "walk-sync": "^0.2.6",
-    "yam": "0.0.20"
+    "yam": "0.0.19"
   },
   "devDependencies": {
     "broccoli-filter": "^1.2.2",
@@ -121,7 +121,6 @@
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "chai-files": "^1.2.0",
-    "ember-cli-blueprint-test-helpers": "^0.13.0",
     "ember-cli-internal-test-helpers": "^0.8.1",
     "eslint-plugin-chai-expect": "^1.1.1",
     "github": "^1.1.0",

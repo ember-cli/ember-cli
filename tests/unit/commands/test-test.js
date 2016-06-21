@@ -3,17 +3,18 @@
 var path           = require('path');
 var CoreObject     = require('core-object');
 var expect         = require('chai').expect;
+var stub           = require('../../helpers/stub').stub;
 var MockProject    = require('../../helpers/mock-project');
 var commandOptions = require('../../factories/command-options');
 var Promise        = require('../../../lib/ext/promise');
 var Task           = require('../../../lib/models/task');
 var TestCommand    = require('../../../lib/commands/test');
-var td = require('testdouble');
 
 describe('test command', function() {
   this.timeout(30000);
 
   var tasks, options, command;
+  var buildRun, testRun, testServerRun;
 
   beforeEach(function() {
     tasks = {
@@ -32,12 +33,13 @@ describe('test command', function() {
       project: project
     });
 
-    td.replace(tasks.Test.prototype, 'run', td.function());
-    td.replace(tasks.Build.prototype, 'run', td.function());
-    td.replace(tasks.TestServer.prototype, 'run', td.function());
-    td.when(tasks.Test.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
-    td.when(tasks.Build.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
-    td.when(tasks.TestServer.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    stub(tasks.Test.prototype, 'run', Promise.resolve());
+    stub(tasks.Build.prototype, 'run', Promise.resolve());
+    stub(tasks.TestServer.prototype, 'run', Promise.resolve());
+
+    buildRun = tasks.Build.prototype.run;
+    testRun = tasks.Test.prototype.run;
+    testServerRun = tasks.TestServer.prototype.run;
   });
 
   function buildCommand() {
@@ -51,107 +53,97 @@ describe('test command', function() {
 
     it('builds and runs test', function() {
       return command.validateAndRun([]).then(function() {
-        td.verify(tasks.Build.prototype.run(), {ignoreExtraArgs: true});
-        td.verify(tasks.Test.prototype.run(), {ignoreExtraArgs: true});
+        expect(buildRun.called).to.equal(1, 'expected build task to be called once');
+        expect(testRun.called).to.equal(1, 'expected test task to be called once');
       });
     });
 
     it('has the correct options', function() {
       return command.validateAndRun([]).then(function() {
-        var captor = td.matchers.captor();
+        var buildOptions = buildRun.calledWith[0][0];
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Build.prototype.run(captor.capture()));
-        expect(captor.value.environment).to.equal('test', 'has correct env');
-        expect(captor.value.outputPath, 'has outputPath').to.be.ok;
-
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.configFile).to.equal(undefined, 'does not supply config file when not specified');
-        expect(captor.value.port).to.equal(7357, 'has config file');
+        expect(buildOptions.environment).to.equal('test', 'has correct env');
+        expect(buildOptions.outputPath, 'has outputPath').to.be.ok;
+        expect(testOptions.configFile).to.equal(undefined, 'does not supply config file when not specified');
+        expect(testOptions.port).to.equal(7357, 'has config file');
       });
     });
 
     it('passes through custom configFile option', function() {
       return command.validateAndRun(['--config-file=some-random/path.json']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.configFile).to.equal('some-random/path.json');
+        expect(testOptions.configFile).to.equal('some-random/path.json');
       });
     });
 
     it('does not pass any port options', function() {
       return command.validateAndRun([]).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.port).to.equal(7357);
+        expect(testOptions.port).to.equal(7357);
       });
     });
 
     it('passes through a custom test port option', function() {
       return command.validateAndRun(['--test-port=5679']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.port).to.equal(5679);
+        expect(testOptions.port).to.equal(5679);
       });
     });
 
     it('passes through a custom test port option of 0 to allow OS to choose open system port', function() {
       return command.validateAndRun(['--test-port=0']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.port).to.equal(0);
+        expect(testOptions.port).to.equal(0);
       });
     });
 
     it('only passes through the port option', function() {
       return command.validateAndRun(['--port=5678']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.port).to.equal(5679);
+        expect(testOptions.port).to.equal(5679);
       });
     });
 
     it('passes both the port and the test port options', function() {
       return command.validateAndRun(['--port=5678', '--test-port=5900']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.port).to.equal(5900);
+        expect(testOptions.port).to.equal(5900);
       });
     });
 
     it('passes through custom host option', function() {
       return command.validateAndRun(['--host=greatwebsite.com']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.host).to.equal('greatwebsite.com');
+        expect(testOptions.host).to.equal('greatwebsite.com');
       });
     });
 
     it('passes through custom reporter option', function() {
       return command.validateAndRun(['--reporter=xunit']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testRun.calledWith[0][0];
 
-        td.verify(tasks.Test.prototype.run(captor.capture()));
-        expect(captor.value.reporter).to.equal('xunit');
+        expect(testOptions.reporter).to.equal('xunit');
       });
     });
 
     it('has the correct options when called with a build path and does not run a build task', function() {
       return command.validateAndRun(['--path=tests']).then(function() {
-        var captor = td.matchers.captor();
+        expect(buildRun.called).to.equal(0, 'build task not called');
+        expect(testRun.called).to.equal(1, 'test task called once');
 
-        td.verify(tasks.Build.prototype.run(), {ignoreExtraArgs: true, times: 0});
-        td.verify(tasks.Test.prototype.run(captor.capture()));
+        var testOptions = testRun.calledWith[0][0];
 
-        expect(captor.value.outputPath).to.equal(path.resolve('tests'), 'has outputPath');
-        expect(captor.value.configFile).to.equal(undefined, 'does not include configFile when not specified in options');
-        expect(captor.value.port).to.equal(7357, 'has port');
+        expect(testOptions.outputPath).to.equal(path.resolve('tests'), 'has outputPath');
+        expect(testOptions.configFile).to.equal(undefined, 'does not include configFile when not specified in options');
+        expect(testOptions.port).to.equal(7357, 'has port');
       });
     });
 
@@ -181,10 +173,9 @@ describe('test command', function() {
 
     it('builds a watcher with verbose set to false', function() {
       return command.validateAndRun(['--server']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testServerRun.calledWith[0][0];
 
-        td.verify(tasks.TestServer.prototype.run(captor.capture()));
-        expect(captor.value.watcher.verbose).to.be.false;
+        expect(testOptions.watcher.verbose).to.be.false;
       }).finally(function() {
         expect(buildCleanupWasCalled).to.be.true;
       });
@@ -192,10 +183,9 @@ describe('test command', function() {
 
     it('builds a watcher with options.watcher set to value provided', function() {
       return command.validateAndRun(['--server', '--watcher=polling']).then(function() {
-        var captor = td.matchers.captor();
+        var testOptions = testServerRun.calledWith[0][0];
 
-        td.verify(tasks.TestServer.prototype.run(captor.capture()));
-        expect(captor.value.watcher.options.watcher).to.equal('polling');
+        expect(testOptions.watcher.options.watcher).to.equal('polling');
       }).finally(function() {
         expect(buildCleanupWasCalled).to.be.true;
       });

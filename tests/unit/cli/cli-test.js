@@ -2,10 +2,13 @@
 
 var EOL           = require('os').EOL;
 var expect        = require('chai').expect;
+var stub          = require('../../helpers/stub');
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var CLI           = require('../../../lib/cli/cli');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 var ui;
 var analytics;
@@ -39,23 +42,22 @@ function ember(args) {
 }
 
 function stubCallHelp() {
-  return td.replace(CLI.prototype, 'callHelp', td.function());
+  return stub(CLI.prototype, 'callHelp');
 }
 
 function stubValidateAndRunHelp(name) {
-  var stub = stubValidateAndRun(name);
-  td.when(stub(), {ignoreExtraArgs: true}).thenReturn('callHelp');
-  return stub;
+  commands[name] = require('../../../lib/commands/' + name);
+  return stub(commands[name].prototype, 'validateAndRun', 'callHelp');
 }
 
 function stubValidateAndRun(name) {
   commands[name] = require('../../../lib/commands/' + name);
-  return td.replace(commands[name].prototype, 'validateAndRun', td.function());
+  return stub(commands[name].prototype, 'validateAndRun');
 }
 
 function stubRun(name) {
   commands[name] = require('../../../lib/commands/' + name);
-  return td.replace(commands[name].prototype, 'run', td.function());
+  return stub(commands[name].prototype, 'run');
 }
 
 beforeEach(function() {
@@ -67,7 +69,11 @@ beforeEach(function() {
 });
 
 afterEach(function() {
-  td.reset();
+  for (var key in commands) {
+    if (!commands.hasOwnProperty(key)) { continue; }
+    safeRestore(commands[key].prototype, 'validateAndRun');
+    safeRestore(commands[key].prototype, 'run');
+  }
 
   delete process.env.EMBER_ENV;
   commands = argv = ui = undefined;
@@ -83,7 +89,7 @@ describe('Unit: CLI', function() {
     var help = stubValidateAndRun('help');
 
     return ember().then(function() {
-      td.verify(help(), {ignoreExtraArgs: true, times: 1});
+      expect(help.called).to.equal(1, 'expected help to be called once');
       var output = ui.output.trim();
       expect(output).to.equal('', 'expected no extra output');
     });
@@ -130,8 +136,8 @@ describe('Unit: CLI', function() {
       commandArgs: []
     };
     cli.callHelp(helpOptions);
-    td.verify(help(), {ignoreExtraArgs: true, times: 1});
-    td.verify(init(), {ignoreExtraArgs: true, times: 0});
+    expect(help.called).to.equal(1, 'expected help to be called once');
+    expect(init.called).to.equal(0, 'expected init not to be called');
   });
 
   describe('help', function() {
@@ -140,7 +146,7 @@ describe('Unit: CLI', function() {
         var help = stubValidateAndRun('help');
 
         return ember([command]).then(function() {
-          td.verify(help(), {ignoreExtraArgs: true, times: 1});
+          expect(help.called).to.equal(1, 'expected help to be called once');
           var output = ui.output.trim();
           expect(output).to.equal('', 'expected no extra output');
         });
@@ -151,11 +157,11 @@ describe('Unit: CLI', function() {
         var newCommand = stubValidateAndRunHelp('new');
 
         return ember(['new', command]).then(function() {
-          td.verify(help(), {ignoreExtraArgs: true, times: 1});
+          expect(help.called).to.equal(1, 'expected help to be called once');
           var output = ui.output.trim();
           expect(output).to.equal('', 'expected no extra output');
 
-          td.verify(newCommand(), {ignoreExtraArgs: true, times: 1});
+          expect(newCommand.called).to.equal(1, 'expected the new command to be called once');
         });
       });
     });
@@ -168,7 +174,7 @@ describe('Unit: CLI', function() {
       return ember([command]).then(function() {
         var output = ui.output.trim();
         expect(output).to.equal('', 'expected no extra output');
-        td.verify(version(), {ignoreExtraArgs: true, times: 1});
+        expect(version.called).to.equal(1, 'expected version to be called once');
       });
     });
   });
@@ -179,9 +185,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command, '--port',  '9999']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.port, 'port').to.equal(9999);
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.port).to.equal(9999, 'expected port 9999, was ' + options.port);
         });
       });
 
@@ -189,9 +197,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember(['server', '--host', 'localhost']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.host, 'host').to.equal('localhost');
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.host).to.equal('localhost', 'correct localhost');
         });
       });
 
@@ -199,10 +209,12 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.host, 'host').to.equal('localhost');
-          expect(captor.value.port, 'port').to.equal(9292);
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.host).to.equal('localhost', 'correct localhost');
+          expect(options.port).to.equal(9292, 'correct port');
         });
       });
 
@@ -210,9 +222,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command, '--proxy', 'http://localhost:3000/']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.proxy, 'proxy').to.equal('http://localhost:3000/');
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.proxy).to.equal('http://localhost:3000/', 'correct proxy url');
         });
       });
 
@@ -220,9 +234,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command, '--insecure-proxy']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.insecureProxy, 'insecureProxy').to.equal(true);
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.insecureProxy).to.equal(true, 'correct `secure` option for http-proxy');
         });
       });
 
@@ -230,9 +246,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command, '--no-insecure-proxy']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.insecureProxy, 'insecureProxy').to.equal(false);
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.insecureProxy).to.equal(false, 'correct `secure` option for http-proxy');
         });
       });
 
@@ -240,9 +258,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command, '--watcher', 'events']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.watcher, 'watcher').to.match(/node|events|watchman/);
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(/node|events|watchman/.test(options.watcher), 'correct watcher type').to.be.true;
         });
       });
 
@@ -250,9 +270,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command, '--watcher', 'polling']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.watcher, 'watcher').to.equal('polling');
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(options.watcher).to.equal('polling', 'correct watcher type');
         });
       });
 
@@ -260,9 +282,11 @@ describe('Unit: CLI', function() {
         var server = stubRun('serve');
 
         return ember([command]).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.watcher, 'watcher').to.match(/node|events|watchman/);
+          expect(server.called).to.equal(1, 'expected the server command to be run');
+
+          var options = server.calledWith[0][0];
+
+          expect(/node|events|watchman/.test(options.watcher), 'correct watcher type').to.be.true;
         });
       });
 
@@ -271,9 +295,11 @@ describe('Unit: CLI', function() {
           var server = stubRun('serve');
 
           return ember([command, '--environment', env]).then(function() {
-            var captor = td.matchers.captor();
-            td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-            expect(captor.value.environment, 'environment').to.equal(env);
+            expect(server.called).to.equal(1, 'expected the server command to be run');
+
+            var options = server.calledWith[0][0];
+
+            expect(options.environment).to.equal(env, 'correct environment');
           });
         });
       });
@@ -284,7 +310,7 @@ describe('Unit: CLI', function() {
           process.env.EMBER_ENV = 'production';
 
           return ember([command, '--environment', env]).then(function() {
-            td.verify(server(), {ignoreExtraArgs: true, times: 1});
+            expect(server.called).to.equal(1, 'expected the server command to be run');
 
             expect(process.env.EMBER_ENV).to.equal('production', 'uses EMBER_ENV over environment');
           });
@@ -298,7 +324,7 @@ describe('Unit: CLI', function() {
           process.env.EMBER_ENV = env;
 
           return ember([command]).then(function() {
-            td.verify(server(), {ignoreExtraArgs: true, times: 1});
+            expect(server.called).to.equal(1, 'expected the server command to be run');
 
             expect(process.env.EMBER_ENV).to.equal(env, 'correct environment');
           });
@@ -313,12 +339,15 @@ describe('Unit: CLI', function() {
         var generate = stubRun('generate');
 
         return ember([command, 'foo', 'bar', 'baz']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(generate(captor.capture(), ['foo', 'bar', 'baz']), {times: 1});
+          expect(generate.called).to.equal(1, 'expected the generate command to be run');
+
+          var args = generate.calledWith[0][1];
+
+          expect(args).to.deep.equal(['foo', 'bar', 'baz']);
 
           var output = ui.output.trim();
 
-          var options = captor.value;
+          var options = generate.calledWith[0][0];
           if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
             expect(output).to.equal('', 'expected no extra output');
           } else {
@@ -335,7 +364,7 @@ describe('Unit: CLI', function() {
         var init = stubValidateAndRun('init');
 
         return ember([command]).then(function() {
-          td.verify(init(), {ignoreExtraArgs: true, times: 1});
+          expect(init.called).to.equal(1, 'expected the init command to be run');
         });
       });
 
@@ -343,12 +372,14 @@ describe('Unit: CLI', function() {
         var init = stubRun('init');
 
         return ember([command, 'my-blog']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(init(captor.capture(), ['my-blog']), {times: 1});
+          var args = init.calledWith[0][1];
+
+          expect(init.called).to.equal(1, 'expected the init command to be run');
+          expect(args).to.deep.equal(['my-blog'], 'expect first arg to be the app name');
 
           var output = ui.output.trim();
 
-          var options = captor.value;
+          var options = init.calledWith[0][0];
           if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
             expect(output).to.equal('', 'expected no extra output');
           } else {
@@ -366,7 +397,7 @@ describe('Unit: CLI', function() {
       var newCommand = stubRun('new');
 
       return ember(['new']).then(function() {
-        td.verify(newCommand(), {ignoreExtraArgs: true, times: 1});
+        expect(newCommand.called).to.equal(1, 'expected the new command to be run');
       });
     });
 
@@ -376,7 +407,10 @@ describe('Unit: CLI', function() {
       var newCommand = stubRun('new');
 
       return ember(['new', 'MyApp']).then(function() {
-        td.verify(newCommand(td.matchers.anything(), ['MyApp']), {times: 1});
+        expect(newCommand.called).to.equal(1, 'expected the new command to be run');
+        var args = newCommand.calledWith[0][1];
+
+        expect(args).to.deep.equal(['MyApp']);
       });
     });
   });
@@ -387,10 +421,9 @@ describe('Unit: CLI', function() {
         var build = stubRun('build');
 
         return ember([command]).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(build(captor.capture()), {ignoreExtraArgs: true, times: 1});
+          expect(build.called).to.equal(1, 'expected the build command to be run');
 
-          var options = captor.value;
+          var options = build.calledWith[0][0];
           expect(options.watch).to.equal(false, 'expected the default watch flag to be false');
           expect(options.suppressSizes).to.equal(false, 'expected the default supress-sizes flag to be false');
         });
@@ -400,10 +433,7 @@ describe('Unit: CLI', function() {
         var build = stubRun('build');
 
         return ember([command, '--disable-analytics']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(build(captor.capture()), {ignoreExtraArgs: true, times: 1});
-
-          var options = captor.value;
+          var options = build.calledWith[0][0];
           expect(options.disableAnalytics).to.equal(true, 'expected the disableAnalytics flag to be true');
         });
       });
@@ -412,10 +442,7 @@ describe('Unit: CLI', function() {
         var build = stubRun('build');
 
         return ember([command, '--watch']).then(function() {
-          var captor = td.matchers.captor();
-          td.verify(build(captor.capture()), {ignoreExtraArgs: true, times: 1});
-
-          var options = captor.value;
+          var options = build.calledWith[0][0];
           expect(options.watch).to.equal(true, 'expected the watch flag to be true');
         });
       });
@@ -424,10 +451,7 @@ describe('Unit: CLI', function() {
         var build = stubRun('build');
 
         return ember([command, '--suppress-sizes']).then(function () {
-          var captor = td.matchers.captor();
-          td.verify(build(captor.capture()), {ignoreExtraArgs: true, times: 1});
-
-          var options = captor.value;
+          var options = build.calledWith[0][0];
           expect(options.suppressSizes).to.equal(true, 'expected the suppressSizes flag to be true');
         });
       });
@@ -437,10 +461,10 @@ describe('Unit: CLI', function() {
           var build = stubRun('build');
 
           return ember([command, '--environment', env]).then(function() {
-            var captor = td.matchers.captor();
-            td.verify(build(captor.capture()), {ignoreExtraArgs: true, times: 1});
+            expect(build.called).to.equal(1, 'expected the build command to be run');
 
-            var options = captor.value;
+            var options = build.calledWith[0][0];
+
             expect(options.environment).to.equal(env, 'correct environment');
           });
         });
@@ -453,7 +477,7 @@ describe('Unit: CLI', function() {
           process.env.EMBER_ENV = 'production';
 
           return ember([command, '--environment', env]).then(function() {
-            td.verify(build(), {ignoreExtraArgs: true, times: 1});
+            expect(build.called).to.equal(1, 'expected the build command to be run');
 
             expect(process.env.EMBER_ENV).to.equal('production', 'uses EMBER_ENV over environment');
           });
@@ -467,7 +491,7 @@ describe('Unit: CLI', function() {
           process.env.EMBER_ENV = env;
 
           return ember([command]).then(function() {
-            td.verify(build(), {ignoreExtraArgs: true, times: 1});
+            expect(build.called).to.equal(1, 'expected the build command to be run');
 
             expect(process.env.EMBER_ENV).to.equal(env, 'correct environment');
           });
@@ -481,8 +505,8 @@ describe('Unit: CLI', function() {
     var serve = stubValidateAndRun('serve');
 
     return ember(['serve']).then(function() {
-      td.verify(help(), {ignoreExtraArgs: true, times: 0});
-      td.verify(serve(), {ignoreExtraArgs: true, times: 1});
+      expect(help.called).to.equal(0, 'expected the help command NOT to be run');
+      expect(serve.called).to.equal(1, 'expected the serve command to be run');
 
       var output = ui.output.trim();
       expect(output).to.equal('', 'expected no extra output');

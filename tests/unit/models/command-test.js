@@ -3,11 +3,11 @@
 var expect            = require('chai').expect;
 var proxyquire        = require('proxyquire');
 var commandOptions    = require('../../factories/command-options');
+var stub              = require('../../helpers/stub').stub;
 var processHelpString = require('../../helpers/process-help-string');
 var assign            = require('lodash/assign');
 var Yam               = require('yam');
 var EOL               = require('os').EOL;
-var td = require('testdouble')
 
 var forEachWithPropertyStub;
 var Command = proxyquire('../../../lib/models/command', {
@@ -537,8 +537,7 @@ describe('models/command.js', function() {
 
     describe('printBasicHelp', function() {
       beforeEach(function() {
-        td.replace(command, '_printCommand', td.function());
-        td.when(command._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+        stub(command, '_printCommand', ' command printed');
       });
 
       it('calls printCommand', function() {
@@ -547,7 +546,9 @@ describe('models/command.js', function() {
         var testString = processHelpString('ember serve command printed' + EOL);
 
         expect(output).to.equal(testString);
-        td.verify(command._printCommand(), {times: 1});
+        expect(command._printCommand.called).to.equal(1);
+        expect(command._printCommand.calledWith[0][0]).to.be.falsy;
+        expect(command._printCommand.calledWith[0][1]).to.be.falsy;
       });
 
       it('is root', function() {
@@ -591,13 +592,15 @@ describe('models/command.js', function() {
       });
 
       it('calls detailed json', function() {
-        td.replace(command, 'addAdditionalJsonForHelp', td.function());
+        stub(command, 'addAdditionalJsonForHelp');
 
         var options = {};
 
         var json = command.getJson(options);
 
-        td.verify(command.addAdditionalJsonForHelp(json, options));
+        expect(command.addAdditionalJsonForHelp.called).to.equal(1);
+        expect(command.addAdditionalJsonForHelp.calledWith[0][0]).to.equal(json);
+        expect(command.addAdditionalJsonForHelp.calledWith[0][1]).to.equal(options);
       });
     });
   });

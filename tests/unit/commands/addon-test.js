@@ -3,9 +3,12 @@
 var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
 var map            = require('lodash/map');
+var stub           = require('../../helpers/stub');
 var AddonCommand   = require('../../../lib/commands/addon');
 var Blueprint      = require('../../../lib/models/blueprint');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('addon command', function() {
   var command;
@@ -26,7 +29,7 @@ describe('addon command', function() {
   });
 
   afterEach(function() {
-    td.reset();
+    safeRestore(Blueprint, 'lookup');
   });
 
   it('doesn\'t allow to create an addon named `test`', function() {
@@ -102,13 +105,14 @@ describe('addon command', function() {
   });
 
   it('registers blueprint options in beforeRun', function() {
-    td.replace(Blueprint, 'lookup', td.function());
-
-    td.when(Blueprint.lookup('addon'), {ignoreExtraArgs: true}).thenReturn({
-      availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
-    });
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('addon');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
 
     command.beforeRun(['addon']);
     expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');

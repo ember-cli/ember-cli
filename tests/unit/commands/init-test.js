@@ -7,12 +7,15 @@ var expect        = require('chai').expect;
 var map           = require('lodash/map');
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
+var stub          = require('../../helpers/stub');
 var Promise       = require('../../../lib/ext/promise');
 var Blueprint     = require('../../../lib/models/blueprint');
 var Project       = require('../../../lib/models/project');
 var Task          = require('../../../lib/models/task');
 var InitCommand   = require('../../../lib/commands/init');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('init command', function() {
   var ui, analytics, tasks, command;
@@ -28,7 +31,7 @@ describe('init command', function() {
   });
 
   afterEach(function() {
-    td.reset();
+    safeRestore(Blueprint, 'lookup');
   });
 
   function buildCommand(projectOpts) {
@@ -209,12 +212,14 @@ describe('init command', function() {
   });
 
   it('Registers blueprint options in beforeRun', function() {
-    td.replace(Blueprint, 'lookup', td.function());
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
-      availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
-    });
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('app');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
 
     buildCommand();
 

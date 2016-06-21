@@ -3,12 +3,15 @@
 var expect         = require('chai').expect;
 var map          = require('lodash/map');
 var commandOptions = require('../../factories/command-options');
+var stub           = require('../../helpers/stub');
 var NewCommand     = require('../../../lib/commands/new');
 var Promise        = require('../../../lib/ext/promise');
 var Blueprint      = require('../../../lib/models/blueprint');
 var Command        = require('../../../lib/models/command');
 var Task           = require('../../../lib/models/task');
-var td = require('testdouble');
+
+var safeRestore = stub.safeRestore;
+stub = stub.stub;
 
 describe('new command', function() {
   var command;
@@ -26,12 +29,10 @@ describe('new command', function() {
     });
 
     command = new NewCommand(options);
-
-    td.replace(Blueprint, 'lookup', td.function());
   });
 
   afterEach(function() {
-    td.reset();
+    safeRestore(Blueprint, 'lookup');
   });
 
   it('doesn\'t allow to create an application named `test`', function() {
@@ -107,11 +108,14 @@ describe('new command', function() {
   });
 
   it('registers blueprint options in beforeRun', function() {
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
-      availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
-    });
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('app');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
 
     command.beforeRun(['app']);
     expect(map(command.availableOptions, 'name')).to.contain('custom-blueprint-option');
@@ -132,11 +136,14 @@ describe('new command', function() {
       }
     });
 
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
-      availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
-    });
+    stub(Blueprint, 'lookup', function(name) {
+      expect(name).to.equal('app');
+      return {
+        availableOptions: [
+          { name: 'custom-blueprint-option', type: String }
+        ]
+      };
+    }, true);
 
     return command.validateAndRun(['foo', '--custom-option=customValue']).then(function(reason) {
       expect(reason).to.equal('Called run');
