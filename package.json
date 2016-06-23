@@ -104,7 +104,7 @@
     "resolve": "^1.1.6",
     "rsvp": "^3.0.17",
     "sane": "^1.1.1",
-    "semver": "^5.1.0",
+    "semver": "^5.1.1",
     "silent-error": "^1.0.0",
     "symlink-or-copy": "^1.0.1",
     "temp": "0.8.3",
