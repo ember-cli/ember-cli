@@ -19,7 +19,7 @@ var SilentError       = require('silent-error');
 var proxyquire        = require('proxyquire');
 var existsSync        = require('exists-sync');
 var MarkdownColor     = require('../../../lib/utilities/markdown-color');
-var assign            = require('lodash/assign');
+var assign            = require('ember-cli-lodash-subset').assign;
 var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
 var td                = require('testdouble');
 

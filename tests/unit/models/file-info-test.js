@@ -10,7 +10,7 @@ var Promise   = require('../../../lib/ext/promise');
 var writeFile = Promise.denodeify(fs.writeFile);
 var root       = process.cwd();
 var tmproot    = path.join(root, 'tmp');
-var assign     = require('lodash/assign');
+var assign     = require('ember-cli-lodash-subset').assign;
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 var td         = require('testdouble');
 var testOutputPath;

@@ -4,6 +4,7 @@
 // Provide a title to the process in `ps`
 process.title = 'ember';
 
+// require('time-require');
 var resolve = require('resolve');
 var exit = require('exit');
 
