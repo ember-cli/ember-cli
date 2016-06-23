@@ -105,6 +105,54 @@ describe('install command', function() {
       });
     });
 
+    it('runs the npm install task with given name and save-dev true even with --save arg', function() {
+      return command.validateAndRun(['ember-data', '--save']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save-dev': true,
+          'save-exact': true
+        }), {times: 1});
+      });
+    });
+
+    it('runs the npm install task with given name and save-dev true in an addon', function() {
+      command.project.isEmberCLIProject = function() {
+        return false;
+      };
+      command.project.isEmberCLIAddon = function() {
+        return true;
+      };
+      return command.validateAndRun(['ember-data']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save-dev': true,
+          'save-exact': true
+        }), {times: 1});
+      });
+    });
+
+    it('runs the npm install task with given name and save true in an addon with the --save option', function() {
+      command.project.isEmberCLIProject = function() {
+        return false;
+      };
+      command.project.isEmberCLIAddon = function() {
+        return true;
+      };
+      return command.validateAndRun(['ember-data', '--save']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save-dev': false,
+          'save-exact': true
+        }), {times: 1});
+      });
+    });
+
     it('runs the package name blueprint task with given name and args', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
