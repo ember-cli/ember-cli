@@ -27,34 +27,91 @@ $ npm --version
 
 ## Branching
 
-This is the example branching/merging for release channels.
+If you're planning to release a stable/bugfix version _and_ a beta, make sure to release the beta _after_ the stable version.
 
 ```sh
-# Get to known good state.
-git checkout master
-git reset --hard origin/master
-git checkout beta
-git reset --hard origin/beta
-git checkout release
-git reset --hard origin/release
+# Fetch changes from GitHub
+git fetch origin
+```
 
-# Prep the stable release
-git checkout release
-git merge beta
+Once you're done following these instructions make sure that you pushed all your branches back to GitHub.
+
+
+### Promoting beta to stable
+
+Follow these steps if you're releasing a new minor or major version (e.g. from `v2.5.0` to `v2.6.0`):
+
+```sh
+# Switch to "release" branch and reset it to "origin/beta"
+git checkout -B release --track origin/beta
+
+# Merge any unmerged changes from "origin/release" back in
+git merge origin/release
 
 # ... do the stable release ...
 
-# Prep the beta release
-git checkout beta
-git merge master
-git merge vX.Y.Z # whatever the latest stable tag is.
+# Switch to "beta" branch and reset it to "origin/beta"
+git checkout -B beta --track origin/beta
+
+# Merge the new stable release into the "beta" branch
+git merge vX.Y.0
+```
+
+
+### Stable bugfix release
+
+Follow these steps if you're releasing a bugfix for a stable version (e.g. from `v2.5.0` to `v2.5.1`)
+
+```sh
+# Switch to "release" branch and reset it to "origin/release"
+git checkout -B release --track origin/release
+
+# ... do the stable release ...
+
+# Switch to "beta" branch and reset it to "origin/beta"
+git checkout -B beta --track origin/beta
+
+# Merge the new stable release into the "beta" branch
+git merge vX.Y.Z
+```
+
+
+### Promoting canary to beta
+
+Follow these steps if you're releasing a beta version after a new minor/major release (e.g. `v2.7.0-beta.1`)
+
+```sh
+# Switch to "beta" branch and reset it to "origin/master"
+git checkout -B beta --track origin/master
+
+# Merge any unmerged changes from "origin/beta" back in
+git merge origin/beta
 
 # ... do the beta release ...
 
-git checkout master
-git merge vX.Y.Z-beta.N
+# Switch to "master" branch and reset it to "origin/master"
+git checkout -B master --track origin/master
 
-# ... all things back in master ...
+# Merge the new beta release into the "master" branch
+git merge vX.Y.0-beta.1
+```
+
+
+### Incremental beta release
+
+Follow these steps if you're releasing a beta version following another beta (e.g. `v2.7.0-beta.N` with `N != 1`)
+
+```sh
+# Switch to "beta" branch and reset it to "origin/beta"
+git checkout -B beta --track origin/beta
+
+# ... do the beta release ...
+
+# Switch to "master" branch and reset it to "origin/master"
+git checkout -B master --track origin/master
+
+# Merge the new beta release into the "master" branch
+git merge vX.Y.0-beta.N
 ```
 
 
