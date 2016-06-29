@@ -34,7 +34,7 @@ If you're planning to release a stable/bugfix version _and_ a beta, make sure to
 git fetch origin
 ```
 
-Once you're done following these instructions make sure that you pushed all your branches back to GitHub.
+Once you're done following these instructions make sure that you push your `master`, `beta`, and `release` branches back to GitHub.
 
 
 ### Promoting beta to stable
