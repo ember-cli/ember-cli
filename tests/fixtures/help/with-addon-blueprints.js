@@ -513,6 +513,14 @@ module.exports = {
           required: false
         },
         {
+          name: 'transparent-proxy',
+          default: true,
+          description: 'Set to false to omit x-forwarded-* headers when proxying',
+          aliases: ['transp'],
+          key: 'transparentProxy',
+          required: false
+        },
+        {
           name: 'watcher',
           default: 'events',
           aliases: ['w'],

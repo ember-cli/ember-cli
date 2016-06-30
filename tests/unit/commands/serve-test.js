@@ -183,6 +183,14 @@ describe('serve command', function() {
     });
   });
 
+  it('has correct default value for transparent proxy', function() {
+    return command.validateAndRun().then(function() {
+      var captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      expect(captor.value.transparentProxy).to.equal(true, 'has correct transparent proxy option when not set');
+    });
+  });
+
   it('uses baseURL of correct environment', function() {
     options.project.config = function(env) {
       return { baseURL: env };
