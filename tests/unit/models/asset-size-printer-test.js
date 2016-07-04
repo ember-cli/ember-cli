@@ -107,6 +107,29 @@ describe('models/asset-size-printer', function () {
       });
   });
 
+  it('creates an array of asset objects', function () {
+    var assetObjectKeys;
+    var sizePrinter = new AssetSizePrinter({
+      ui: new MockUi(),
+      outputPath: storedTmpDir
+    });
+
+    return sizePrinter.makeAssetSizesObject()
+      .then(function (assetObject) {
+        assetObjectKeys = Object.keys(assetObject[0]);
+
+        expect(assetObject.length).to.eql(6);
+        expect(assetObjectKeys).to.deep.equal([ 'name', 'size', 'gzipSize', 'showGzipped' ]);
+        expect(assetObject[0].name).to.include('nested-asset.css');
+        expect(assetObject[1].name).to.include('nested-asset.js');
+        expect(assetObject[2].name).to.include('empty.js');
+        expect(assetObject[3].name).to.include('some-project.css');
+        expect(assetObject[4].name).to.include('some-project.js');
+        expect(assetObject[5].name).to.include('test.js');
+      });
+  });
+
+
   it('prints an error when no files are found', function () {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
