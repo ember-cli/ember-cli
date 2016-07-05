@@ -390,8 +390,15 @@ module.exports = {
         {
           name: 'save',
           default: false,
-          aliases: ['s'],
+          aliases: ['S'],
           key: 'save',
+          required: false
+        },
+        {
+          name: 'save-dev',
+          default: true,
+          aliases: ['D'],
+          key: 'saveDev',
           required: false
         }
       ],

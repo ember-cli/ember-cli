@@ -94,7 +94,9 @@ ember install \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m
   Installs an ember-cli addon from npm.
   \u001b[90maliases: i\u001b[39m
   \u001b[36m--save\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
-    \u001b[90maliases: -s\u001b[39m
+    \u001b[90maliases: -S\u001b[39m
+  \u001b[36m--save-dev\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m
+    \u001b[90maliases: -D\u001b[39m
 
 ember new \u001b[33m<app-name>\u001b[39m \u001b[36m<options...>\u001b[39m
   Creates a new directory and runs \u001b[32member init\u001b[39m in it.
