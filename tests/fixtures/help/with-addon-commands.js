@@ -386,7 +386,22 @@ module.exports = {
       description: 'Installs an ember-cli addon from npm.',
       aliases: ['i'],
       works: 'insideProject',
-      availableOptions: [],
+      availableOptions: [
+        {
+          name: 'save',
+          default: false,
+          aliases: ['S'],
+          key: 'save',
+          required: false
+        },
+        {
+          name: 'save-dev',
+          default: true,
+          aliases: ['D'],
+          key: 'saveDev',
+          required: false
+        }
+      ],
       anonymousOptions: ['<addon-name>']
     },
     {

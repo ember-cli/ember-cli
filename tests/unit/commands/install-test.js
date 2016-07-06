@@ -99,7 +99,59 @@ describe('install command', function() {
 
         td.verify(npmRun({
           packages: ['ember-data'],
+          'save': false,
           'save-dev': true,
+          'save-exact': true
+        }), {times: 1});
+      });
+    });
+
+    it('runs the npm install task with given name and save-dev true in an addon', function() {
+      command.project.isEmberCLIProject = function() {
+        return false;
+      };
+      command.project.isEmberCLIAddon = function() {
+        return true;
+      };
+      return command.validateAndRun(['ember-data']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save': false,
+          'save-dev': true,
+          'save-exact': true
+        }), {times: 1});
+      });
+    });
+
+    it('runs the npm install task with given name and save true with the --save option', function() {
+      return command.validateAndRun(['ember-data', '--save']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save': true,
+          'save-dev': false,
+          'save-exact': true
+        }), {times: 1});
+      });
+    });
+
+    it('runs the npm install task with given name and save true in an addon with the --save option', function() {
+      command.project.isEmberCLIProject = function() {
+        return false;
+      };
+      command.project.isEmberCLIAddon = function() {
+        return true;
+      };
+      return command.validateAndRun(['ember-data', '--save']).then(function() {
+        var npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save': true,
+          'save-dev': false,
           'save-exact': true
         }), {times: 1});
       });
@@ -143,6 +195,7 @@ describe('install command', function() {
 
         td.verify(npmRun({
           packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
+          'save': false,
           'save-dev': true,
           'save-exact': true
         }), {times: 1});
@@ -159,6 +212,7 @@ describe('install command', function() {
 
         td.verify(npmRun({
           packages: ['ember-cli/ember-cli-qunit'],
+          'save': false,
           'save-dev': true,
           'save-exact': true
         }), {times: 1});
@@ -174,6 +228,7 @@ describe('install command', function() {
 
         td.verify(npmRun({
           packages: ['ember-cli-qunit@1.2.0'],
+          'save': false,
           'save-dev': true,
           'save-exact': true
         }), {times: 1});
@@ -190,6 +245,7 @@ describe('install command', function() {
 
         td.verify(npmRun({
           packages: ['@ember-cli/ember-cli-qunit'],
+          'save': false,
           'save-dev': true,
           'save-exact': true
         }), {times: 1});
