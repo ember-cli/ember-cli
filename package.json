@@ -50,7 +50,7 @@
     "broccoli-config-replace": "^1.1.2",
     "broccoli-funnel": "^1.0.0",
     "broccoli-funnel-reducer": "^1.0.0",
-    "broccoli-merge-trees": "^1.0.0",
+    "broccoli-merge-trees": "^1.1.2",
     "broccoli-sane-watcher": "^1.1.1",
     "broccoli-source": "^1.1.0",
     "broccoli-viz": "^2.0.1",
