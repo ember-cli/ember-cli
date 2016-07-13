@@ -136,11 +136,22 @@ git merge vX.Y.0-beta.N
 
 * `cd to/someplace/to/test/`
 * ensure `ember version` is the newly packaged version
-* ensure new project generation works  `ember new --skip-npm my-cool-test-project`
-* fixup deps: `cd my-cool-test-project`
-* link your local ember-cli  `npm link ember-cli`
-* install other deps: `npm i`
-* test the server: `ember s`
+
+```shell
+# ensure new project generation works
+ember new --skip-npm my-cool-test-project
+cd my-cool-test-project
+
+# link your local ember-cli
+npm link ember-cli
+
+# install other deps
+npm install
+
+# test the server
+ember serve
+```
+
 * test other things like generators and live-reload
 * generate an http mock `ember g http-mock my-http-mock`
 * test upgrades of other apps
