@@ -122,15 +122,15 @@ git merge vX.Y.0-beta.N
 * generate changelog
   * if on master branch
     * run `./dev/changelog`
-  * if this is a hotfix
-    * run `./dev/changelog <branch-name>`
+  * if this is a beta
+    * run `./dev/changelog beta`
 * prepend changelog output to `CHANGELOG.md`
 * edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes, non-code changes, etc.)
 * replace any "ember-cli" user references in the changelog to whomever made the change
 * bump `package.json` version
 * don't commit these changes until later
-* `./dev/prepare-release`
-* the `du` command should give you ballbark 344K as of 2.2.0-beta.5
+* run `./dev/prepare-release`
+* the `du` command should give you ballbark 200K as of 2.7.0-beta.6
 
 ### Test
 
@@ -165,6 +165,9 @@ ember serve
   * run `./dev/add-to-output-repos.sh`
 * if beta release
   * run `./dev/add-to-output-repos.sh beta`
+* copy the [`ember new` diff] and [`ember addon` diff] lines from the previous
+  release changelog and paste into the current, then update the url with the
+  newer tags
 
 ### Publish
 
