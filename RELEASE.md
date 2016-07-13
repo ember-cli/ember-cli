@@ -150,7 +150,10 @@ git merge vX.Y.0-beta.N
 
 ### Update Artifacts
 
-[Update ember-new-output and ember-addon-output.](https://gist.github.com/nathanhammond/e0a55b4d0328b45b8ef5) Make sure to include the tag links in CHANGELOG.md.
+* if normal release
+  * run `./dev/add-to-output-repos.sh`
+* if beta release
+  * run `./dev/add-to-output-repos.sh beta`
 
 ### Publish
 
