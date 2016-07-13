@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+### 2.7.0-beta.6
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.7.0-beta.5...v2.7.0-beta.6)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.7.0-beta.5...v2.7.0-beta.6)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6057](https://github.com/ember-cli/ember-cli/pull/6057) Ember & Ember Data beta version bumps. [@nathanhammond](https://github.com/nathanhammond)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.7.0-beta.5
 
 The following changes are required if you are upgrading from the previous
