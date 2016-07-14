@@ -938,7 +938,7 @@ describe('broccoli/ember-app', function() {
     });
 
     it('shows deprecation message if called directly', function() {
-      app.concatFiles(null, {
+      app.concatFiles('input-path-somewhere', {
         outputFile: 'foo.js'
       });
 
@@ -946,11 +946,179 @@ describe('broccoli/ember-app', function() {
     });
 
     it('ignores deprecation message if called through _concatFiles()', function() {
-      app._concatFiles(null, {
+      app._concatFiles('input-path-somewhere', {
         outputFile: 'foo.js'
       });
 
       expect(project.ui.output).to.not.contain('EmberApp.concatFiles() is deprecated');
+    });
+
+    describe('concat order', function() {
+      var count = 0;
+      var args = [];
+
+      beforeEach(function() {
+        count = 0;
+        args = [];
+
+        // we are "spying and mocking here" so to ensure we are testing our own
+        // "wiring" not the implementation of our dependencies e.g. broccoli-concat
+        app._concatFiles = function(tree, options) {
+          count++
+          args.push(options);
+          return tree;
+        };
+
+        app.appAndDependencies = function() {
+          return 'app-and-dependencies-tree';
+        };
+      });
+
+      it('correctly orders concats from app.styles()', function() {
+        app.import('files/c.css');
+        app.import('files/b.css');
+        app.import('files/a.css', { prepend: true });
+        app.import('files/a.css');
+
+        app.styles(); // run
+
+        expect(count).to.eql(3);
+
+        expect(args[0]).to.deep.eql({
+          allowNone: true,
+          annotation: 'Concat: Addon CSS',
+          inputFiles: [
+            '**/*.css'
+          ],
+          outputFile: '/addons.css'
+        });
+
+        expect(args[1]).to.deep.eql({
+          allowNone: true,
+          annotation: 'Concat: Addon JS',
+          inputFiles: [
+            '**/*.js'
+          ],
+          outputFile: '/addons.js'
+        });
+
+        expect(args[2]).to.deep.eql({
+          annotation: 'Concat: Vendor Styles/assets/vendor.css',
+          headerFiles: [
+            'files/a.css',
+            'files/c.css',
+            'files/b.css',
+            'files/a.css',
+            'vendor/addons.css',
+          ],
+          outputFile: '/assets/vendor.css'
+        });
+      });
+      it('correct orders concats from app.javacsript()', function() {
+        app.import('files/c.js');
+        app.import('files/b.js');
+        app.import('files/a.js', { prepend: true });
+        app.import('files/a.js');
+
+        app.javascript(); // run
+
+        expect(count).to.eql(2);
+        // should be unrelated files
+        expect(args[0]).to.deep.eql({
+          annotation: "Concat: App",
+          footerFiles: [
+            "vendor/ember-cli/app-suffix.js",
+            "vendor/ember-cli/app-config.js",
+            "vendor/ember-cli/app-boot.js"
+          ],
+          headerFiles: [
+            "vendor/ember-cli/app-prefix.js"
+          ],
+          inputFiles: [
+            "test-project/**/*.js"
+          ],
+          outputFile: "/assets/test-project.js"
+        });
+
+        // should be: a,c,b,a in output
+        expect(args[1]).to.deep.eql({
+          annotation: "Concat: Vendor /assets/vendor.js",
+          headerFiles: [
+            "vendor/ember-cli/vendor-prefix.js",
+            "files/a.js",
+            "bower_components/jquery/dist/jquery.js",
+            "bower_components/ember/ember.js",
+            "bower_components/ember-cli-shims/app-shims.js",
+            "files/c.js",
+            "files/b.js",
+            "files/a.js",
+            "vendor/addons.js",
+            "vendor/ember-cli/vendor-suffix.js"
+          ],
+          outputFile: "/assets/vendor.js",
+          separator: "\n;"
+        });
+      });
+
+      it('correctly orders concats from app.testFiles()', function() {
+        app.import('files/c.js', { type: 'test'});
+        app.import('files/b.js', { type: 'test'});
+        app.import('files/a.js', { type: 'test', prepend: true });
+        app.import('files/a.js', { type: 'test' });
+
+        app.import('files/c.css', { type: 'test' })
+        app.import('files/b.css', { type: 'test' })
+        app.import('files/a.css', { type: 'test' })
+        app.import('files/a.css', { type: 'test', prepend: true });
+
+        app.testFiles('some-tree'); // run
+
+        expect(count).to.eql(4);
+
+        expect(args[0]).to.deep.eql({
+          allowNone: true,
+          annotation: 'Concat: Addon CSS',
+          inputFiles: ['**/*.css'],
+          outputFile: '/addons.css'
+        });
+
+        expect(args[1]).to.deep.eql({
+          allowNone: true,
+          annotation: 'Concat: Addon JS',
+          inputFiles: ['**/*.js'],
+          outputFile: '/addons.js',
+        });
+
+        expect(args[2]).to.deep.eql({
+          allowNone: true,
+          annotation: 'Concat: Test Support JS',
+          footerFiles: [
+            'vendor/ember-cli/test-support-suffix.js'
+          ],
+          headerFiles: [
+            'vendor/ember-cli/test-support-prefix.js',
+            'files/a.js',
+            'files/c.js',
+            'files/b.js',
+            'files/a.js'
+          ],
+          inputFiles: [
+            'addon-test-support/**/*.js'
+          ],
+          outputFile: '/assets/test-support.js'
+        });
+
+        expect(args[3]).to.deep.eql({
+          annotation: 'Concat: Test Support CSS',
+          headerFiles: [
+            'files/a.css',
+            'files/c.css',
+            'files/b.css',
+            'files/a.css',
+          ],
+          outputFile: '/assets/test-support.css'
+        });
+      });
     });
   });
 });
