@@ -87,6 +87,7 @@
     "isbinaryfile": "^3.0.0",
     "leek": "0.0.23",
     "lodash.template": "^4.2.5",
+    "longjohn": "^0.2.11",
     "markdown-it": "8.0.0",
     "markdown-it-terminal": "0.0.4",
     "minimatch": "^3.0.0",
