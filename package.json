@@ -85,10 +85,18 @@
     "inquirer": "^1.0.2",
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^3.0.0",
+<<<<<<< 0d25eb6e395a679338492d86e59ce62dd920dd2f
     "leek": "0.0.23",
     "lodash.template": "^4.2.5",
     "markdown-it": "8.0.0",
     "markdown-it-terminal": "0.0.4",
+=======
+    "leek": "0.0.22",
+    "lodash": "^4.12.0",
+    "lodash.template": "^4.2.5",
+    "markdown-it": "7.0.0",
+    "markdown-it-terminal": "0.0.3",
+>>>>>>> extract/test/fix/improve Watcher detection code
     "minimatch": "^3.0.0",
     "morgan": "^1.5.2",
     "node-modules-path": "^1.0.0",
@@ -99,7 +107,11 @@
     "ora": "^0.2.0",
     "portfinder": "^1.0.7",
     "promise-map-series": "^0.2.1",
+<<<<<<< 0d25eb6e395a679338492d86e59ce62dd920dd2f
     "quick-temp": "0.1.6",
+=======
+    "quick-temp": "^0.1.5",
+>>>>>>> extract/test/fix/improve Watcher detection code
     "resolve": "^1.1.6",
     "rsvp": "^3.0.17",
     "sane": "^1.1.1",
