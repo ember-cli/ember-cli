@@ -915,6 +915,16 @@ describe('broccoli/ember-app', function() {
     });
   });
 
+  it('fails with invalid type', function() {
+    var app = new EmberApp({
+      project: project
+    });
+
+    expect(function(){
+      app.import('vendor/b/c/foo.js', { type: 'javascript'});
+    }).to.throw(/You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/)
+  });
+
   describe('_resolveLocal', function() {
     it('resolves a path relative to the project root', function() {
       var emberApp = new EmberApp({

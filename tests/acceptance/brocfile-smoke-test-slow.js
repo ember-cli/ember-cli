@@ -191,20 +191,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('app.import fails when options.type is not `vendor` or `test`', function() {
-    return expect(copyFixtureFiles('brocfile-tests/app-import')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['ember-bad-addon'] = 'latest';
-
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      })
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })).to.be.rejected;
-  });
-
   it('addons can have a public tree that is merged and returned namespaced by default', function() {
     return copyFixtureFiles('brocfile-tests/public-tree')
       .then(function() {
