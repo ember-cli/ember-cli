@@ -149,20 +149,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('default development build does not fail', function() {
-    return copyFixtureFiles('brocfile-tests/query')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      });
-  });
-
-  it('default development build tests', function() {
-    return copyFixtureFiles('brocfile-tests/default-development')
-    .then(function() {
-      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-    });
-  });
-
   it('app.import works properly with test tree files', function() {
     return copyFixtureFiles('brocfile-tests/app-test-import')
       .then(function() {
