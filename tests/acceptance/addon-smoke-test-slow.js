@@ -67,7 +67,7 @@ describe('Acceptance: addon-smoke-test', function() {
     return ember(['test']);
   });
 
-  it('kitchen sink', function() {
+  it('works in most common scenarios for an example addon', function() {
     return copyFixtureFiles('addon/kitchen-sink').then(function() {
       var packageJsonPath = addonRoot + 'package.json'
       var packageJson = fs.readJsonSync(packageJsonPath);
