@@ -22,7 +22,8 @@ var chai = require('../chai');
 var expect = chai.expect;
 var dir = chai.dir;
 
-var addonName  = 'some-cool-addon';
+var addonName = 'some-cool-addon';
+var addonRoot = path.resolve(__dirname + '/../../tmp/' + addonName) + '/';
 
 describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
@@ -42,6 +43,8 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   afterEach(function() {
+    fs.remove(addonRoot + 'node_modules/developing-addon');
+
     return cleanupRun(addonName).then(function() {
       expect(dir('tmp/' + addonName)).to.not.exist;
     });
@@ -64,137 +67,47 @@ describe('Acceptance: addon-smoke-test', function() {
     return ember(['test']);
   });
 
-  it('ember addon without addon/ directory', function() {
-    return remove('addon')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
-          onOutput: function(string, child) {
-            if (string.match(/Build successful/)) {
-              killCliProcess(child);
-            }
-          }
-        })
-        .catch(function() {
-          // just eat the rejection as we are testing what happens
-        });
-      });
-  });
+  it('works in most common scenarios for an example addon', function() {
+    return copyFixtureFiles('addon/kitchen-sink').then(function() {
+      var packageJsonPath = addonRoot + 'package.json'
+      var packageJson = fs.readJsonSync(packageJsonPath);
 
-  it('can render a component with a manually imported template', function() {
-    return copyFixtureFiles('addon/component-with-template')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.dependencies = packageJson.dependencies || {};
-        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+      packageJson.dependencies = packageJson.dependencies || {};
+      // add HTMLBars for templates (generators do this automatically when components/templates are added)
+      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      })
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-      });
-  });
+      // build with addon deps being developed
+      packageJson.dependencies['developing-addon'] = 'latest';
 
-  it('can add things to `{{content-for "head"}}` section', function() {
-    return copyFixtureFiles('addon/content-for-head')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var indexPath = path.join('dist', 'index.html');
-        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+      fs.writeJsonSync(packageJsonPath, packageJson)
 
+      symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), addonRoot + 'node_modules/developing-addon');
+
+      return runCommand('node_modules/ember-cli/bin/ember', 'build').then(function(result) {
+        expect(result.code).to.eql(0);
+        var contents;
+
+        contents = fs.readFileSync(addonRoot + 'dist/index.html', { encoding: 'utf8' });
         expect(contents).to.contain('"SOME AWESOME STUFF"');
-      });
-  });
 
-  it('build with only pod templates', function() {
-    return copyFixtureFiles('addon/pod-templates-only')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.dependencies = packageJson.dependencies || {};
-        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
-
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      }).then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var indexPath = path.join('dist', 'assets', 'vendor.js');
-        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-        expect(contents).to.contain('MY-COMPONENT-TEMPLATE-CONTENT');
-      });
-  });
-
-  it('build with addon dependencies being developed', function() {
-    var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-    var packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.dependencies = packageJson.dependencies || {};
-    packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
-    packageJson.dependencies['developing-addon'] = 'latest';
-
-    fs.writeJsonSync(packageJsonPath, packageJson);
-
-    symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.resolve('../../tmp/', addonName, 'node_modules/developing-addon'));
-
-    return ember(['test'])
-      .then(function(result) {
-        expect(result.exitCode).to.eql(0);
-      });
-  });
-
-  it('ember addon with addon/styles directory', function() {
-    return copyFixtureFiles('addon/with-styles')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var cssPath = path.join('dist', 'assets', 'vendor.css');
-        var contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
+        var cssPath = 'dist/assets/vendor.css';
+        contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
 
         expect(contents).to.contain('addon/styles/app.css is present');
-      });
-  });
 
-  it('ember addon with addon-test-support directory', function() {
-    return copyFixtureFiles('addon/with-addon-test-support')
-      .then(function() {
-        return ember(['test']);
-      })
-      .then(function(result) {
-        expect(result.exitCode).to.eql(0);
-      });
-  });
-
-  it('ember addon with linting errors', function() {
-    return copyFixtureFiles('addon/with-linting-errors')
-      .then(function() {
-        return ember(['test']);
-      })
-      .then(function() {
-        expect(false, 'should have rejected with a failed linter').to.be.ok;
-      })
-      .catch(function(result) {
-        expect(result.exitCode).to.not.eql(0);
-      });
-  });
-
-  it('ember addon with tests/dummy/public directory', function() {
-    return copyFixtureFiles('addon/with-dummy-public')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var robotsPath = path.join('dist', 'robots.txt');
-        var contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
+        var robotsPath = 'dist/robots.txt';
+        contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
 
         expect(contents).to.contain('tests/dummy/public/robots.txt is present');
+
+        return runCommand('node_modules/ember-cli/bin/ember', 'test').then(function(result) {
+          expect(result.code).to.eql(0);
+        });
       });
+    });
   });
 
   it('npm pack does not include unnecessary files', function() {
-    console.log('    running the slow end-to-end it will take some time');
     var handleError = function(error, commandName) {
       if (error.code === 'ENOENT') {
         console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
@@ -249,42 +162,5 @@ describe('Acceptance: addon-smoke-test', function() {
     }, function(error) {
       handleError(error, 'npm');
     });
-  });
-
-  function wait(time) {
-    return new Promise(function(resolve) {
-      setTimeout(function() {
-        resolve();
-      }, time);
-    });
-  }
-
-  var isWindows = /^win/.test(process.platform);
-
-  (isWindows ? it.skip : it)('doesn\'t fail to build new files', function() {
-    var testemOutput = '';
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--launch=PhantomJS', '--server', {
-      onOutput: function(string) {
-        testemOutput += string;
-      },
-      onChildSpawned: function(child) {
-        return wait(12000).then(function() {
-
-          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'initializer', 'foo')
-          .then(function() {
-            return wait(5000);
-          })
-          .then(function() {
-            child.stdin.write('q'); // quit test server
-            child.stdin.end();
-            expect(testemOutput).to.contain('✔');
-            expect(testemOutput).to.not.contain('✘');
-          });
-
-        });
-
-      }
-    });
-
   });
 });

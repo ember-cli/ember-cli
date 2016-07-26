@@ -82,58 +82,6 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
-  it('ember test exits with non-zero when tests fail', function() {
-    return copyFixtureFiles('smoke-tests/failing-test')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
-          .then(function() {
-            expect(false, 'should have rejected with a failing test').to.be.ok;
-          })
-          .catch(function(result) {
-            expect(result.code).to.equal(1);
-          });
-      });
-  });
-
-  it('ember test exits with non-zero when build fails', function() {
-    return copyFixtureFiles('smoke-tests/test-with-syntax-error')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
-          .then(function() {
-            expect(false, 'should have rejected with a failing test').to.be.ok;
-          })
-          .catch(function(result) {
-            expect(result.code).to.equal(1);
-          });
-      });
-  });
-
-  it('ember test exits with non-zero when no tests are run', function() {
-    return copyFixtureFiles('smoke-tests/no-testem-launchers')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
-          .then(function() {
-            expect(false, 'should have rejected with a failing test').to.be.ok;
-          })
-          .catch(function(result) {
-            expect(result.code).to.equal(1);
-          });
-      });
-  });
-
-  it('ember test exits with zero when tests pass', function() {
-    return copyFixtureFiles('smoke-tests/passing-test')
-      .then(function() {
-        return ember(['test'])
-          .then(function(result) {
-            expect(result.exitCode).to.equal(0);
-          })
-          .catch(function() {
-            expect(false, 'should NOT have rejected with a failing test').to.be.ok;
-          });
-      });
-  });
-
   it('ember test still runs when only a JavaScript testem config exists', function() {
     return copyFixtureFiles('smoke-tests/js-testem-config')
       .then(function() {

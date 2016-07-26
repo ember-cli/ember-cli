@@ -149,20 +149,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('default development build does not fail', function() {
-    return copyFixtureFiles('brocfile-tests/query')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      });
-  });
-
-  it('default development build tests', function() {
-    return copyFixtureFiles('brocfile-tests/default-development')
-    .then(function() {
-      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-    });
-  });
-
   it('app.import works properly with test tree files', function() {
     return copyFixtureFiles('brocfile-tests/app-test-import')
       .then(function() {
@@ -203,20 +189,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         expect(subjectFileContents).to.equal('EXAMPLE TEXT FILE CONTENT\n');
       });
-  });
-
-  it('app.import fails when options.type is not `vendor` or `test`', function() {
-    return expect(copyFixtureFiles('brocfile-tests/app-import')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['ember-bad-addon'] = 'latest';
-
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      })
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })).to.be.rejected;
   });
 
   it('addons can have a public tree that is merged and returned namespaced by default', function() {
