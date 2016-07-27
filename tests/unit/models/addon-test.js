@@ -23,6 +23,21 @@ var fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 describe('models/addon.js', function() {
   var addon, project, projectPath;
 
+  describe('constructor', function() {
+    it('should set bowerDirectory for addon', function() {
+      projectPath = path.resolve(fixturePath, 'simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+      var addon = new Addon({
+        project: project
+      });
+
+      expect(addon.bowerDirectory).to.equal(project.bowerDirectory);
+      expect(addon.bowerDirectory).to.equal('bower_components');
+    });
+  });
+
   describe('root property', function() {
     it('is required', function() {
       expect(function() {
