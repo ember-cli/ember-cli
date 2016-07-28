@@ -5,8 +5,8 @@ import destroyApp from '../helpers/destroy-app';
 
 const { RSVP: { Promise } } = Ember;
 
-export default function(name, options = {}) {
-  module(name, {
+export default function(name, options = {}, tests = undefined) {
+  let hooks = {
     beforeEach() {
       this.application = startApp();
 
@@ -19,5 +19,7 @@ export default function(name, options = {}) {
       let afterEach = options.afterEach && options.afterEach.apply(this, arguments);
       return Promise.resolve(afterEach).then(() => destroyApp(this.application));
     }
-  });
+  };
+
+  module(name, hooks, tests);
 }
