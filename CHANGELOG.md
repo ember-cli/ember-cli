@@ -1,5 +1,35 @@
 # ember-cli Changelog
 
+### 2.7.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.6.3...v2.7.0)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.3...v2.7.0)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5972](https://github.com/ember-cli/ember-cli/pull/5972) [BUGFIX release] ease core-object upgrade for addons which lack .project [@stefanpenner](https://github.com/stefanpenner)
+- [#5877](https://github.com/ember-cli/ember-cli/pull/5877) Uniform import API [@ef4](https://github.com/ef4)
+- [#5979](https://github.com/ember-cli/ember-cli/pull/5979) Use `ember try:one` in travis [@san650](https://github.com/san650)
+- [#5984](https://github.com/ember-cli/ember-cli/pull/5984) Replace "stub" helper with "testdouble" [@Turbo87](https://github.com/Turbo87)
+- [#5985](https://github.com/ember-cli/ember-cli/pull/5985) Use blueprint test helpers [@Turbo87](https://github.com/Turbo87)
+- [#5792](https://github.com/ember-cli/ember-cli/pull/5792) Add "rootURL" setting to deprecate "baseURL" [@Turbo87](https://github.com/Turbo87)
+- [#5997](https://github.com/ember-cli/ember-cli/pull/5997) Prints correct phantomjs version [@twokul](https://github.com/twokul)
+- [#6043](https://github.com/ember-cli/ember-cli/pull/6043) Test nested addon import [@xcambar](https://github.com/xcambar)
+- [#6072](https://github.com/ember-cli/ember-cli/pull/6072) Makes sure dependecies are loaded on demand [@twokul](https://github.com/twokul)
+- [#6105](https://github.com/ember-cli/ember-cli/pull/6105) Update Ember Data to v2.7.0 [@bmac](https://github.com/bmac)
+- [#6106](https://github.com/ember-cli/ember-cli/pull/6106) Update Ember to 2.7.0 [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.7.0-beta.6
 
 The following changes are required if you are upgrading from the previous
@@ -171,7 +201,10 @@ version:
 
 Thank you to all who took the time to contribute!
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/release
 ### 2.6.2
 
 The following changes are required if you are upgrading from the previous
