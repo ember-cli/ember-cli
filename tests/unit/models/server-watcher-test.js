@@ -25,35 +25,18 @@ describe('Server Watcher', function() {
     });
   });
 
-  describe('watcher strategy selection', function() {
-    it('selects the events-based watcher by default', function () {
-      subject.options = null;
-      expect(!!subject.polling()).to.equal(false);
-    });
-
-    it('selects the events-based watcher when given events watcher option', function () {
-      subject.options = { watcher: 'events' };
-      expect(!!subject.polling()).to.equal(false);
-    });
-
-    it('selects the polling watcher when given polling watcher option', function () {
-      subject.options = { watcher: 'polling' };
-      expect(!!subject.polling()).to.be.ok;
-    });
-  });
-
   describe('watcher:change', function() {
     beforeEach(function () {
       watcher.emit('change', 'foo.txt');
     });
 
     it('logs that the file was changed', function() {
-      expect(ui.output).to.equal('Server file changed: foo.txt' + EOL);
+      expect(ui.output).to.equal('File changed: "foo.txt"' + EOL);
     });
 
     it('tracks changes', function() {
       expect(analytics.tracks).to.deep.equal([{
-        name: 'server file change',
+        name: 'server file changed',
         description: 'File changed: "foo.txt"'
       }]);
     });
@@ -65,7 +48,7 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was added', function() {
-      expect(ui.output).to.equal('Server file added: foo.txt' + EOL);
+      expect(ui.output).to.equal('File added: "foo.txt"' + EOL);
     });
 
     it('tracks additions', function() {
@@ -82,7 +65,7 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was deleted', function() {
-      expect(ui.output).to.equal('Server file deleted: foo.txt' + EOL);
+      expect(ui.output).to.equal('File deleted: "foo.txt"' + EOL);
     });
 
     it('tracks deletions', function() {
