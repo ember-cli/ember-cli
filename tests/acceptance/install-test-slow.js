@@ -59,7 +59,6 @@ describe('Acceptance: ember install', function() {
         .to.match(/"ember-cli-photoswipe": ".*"/);
 
       expect(file('bower.json'))
-        .to.match(/"fastclick": ".*"/)
         .to.match(/"photoswipe": ".*"/);
 
       expect(result.outputStream.join()).not.to.include('The `ember generate` command ' +
