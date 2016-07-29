@@ -236,10 +236,7 @@ version:
 
 Thank you to all who took the time to contribute!
 
-<<<<<<< HEAD
 
-=======
->>>>>>> upstream/release
 ### 2.6.2
 
 The following changes are required if you are upgrading from the previous
