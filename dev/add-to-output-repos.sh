@@ -25,7 +25,7 @@ for i in ${commands[@]}; do
   git clone https://github.com/ember-cli/$repo_folder.git --branch $branch
   pushd $repo_folder
   git rm -rf .
-  ember new $local_folder -sb -sn -sg
+  ember $command $local_folder -sb -sn -sg
   cp -r $local_folder/ .
   rm -r $local_folder
 
