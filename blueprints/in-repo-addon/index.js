@@ -31,5 +31,27 @@ module.exports = {
     }
 
     fs.writeFileSync(packagePath, JSON.stringify(contents, null, 2));
+  },
+
+  afterUninstall: function(options) {
+    var packagePath = path.join(this.project.root, 'package.json');
+    var contents    = fs.readJsonSync(packagePath);
+    var name        = stringUtil.dasherize(options.entity.name);
+    var newPath     = ['lib', name].join('/');
+    var paths;
+    var newPathIndex;
+
+    contents['ember-addon'] = contents['ember-addon'] || {};
+    paths = contents['ember-addon']['paths'] = contents['ember-addon']['paths'] || [];
+    newPathIndex = paths.indexOf(newPath);
+
+    if (newPathIndex > -1) {
+      paths.splice(newPathIndex, 1);
+      if (paths.length === 0) {
+        delete contents['ember-addon']['paths'];
+      }
+    }
+
+    fs.writeFileSync(packagePath, JSON.stringify(contents, null, 2));
   }
 };
