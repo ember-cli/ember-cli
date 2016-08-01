@@ -66,7 +66,7 @@ describe('livereload-server', function() {
       var preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
-      return subject.start({
+      subject.start({
         liveReloadPort: 1337,
         liveReload: true
       })
@@ -107,7 +107,7 @@ describe('livereload-server', function() {
       var preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
-      return subject.start({
+      subject.start({
         liveReloadPort: 1337,
         liveReload: true,
         ssl: true,

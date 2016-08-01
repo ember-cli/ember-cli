@@ -167,7 +167,6 @@ describe('express-server', function() {
 
   describe('behaviour', function() {
     it('starts with ssl if ssl option is passed', function() {
-
       return subject.start({
         host: 'localhost',
         port: '1337',
@@ -187,8 +186,7 @@ describe('express-server', function() {
               });
           });
         });
-    }),
-
+    });
 
     it('app middlewares are processed before the proxy', function(done) {
       var expected = '/foo was hit';
@@ -223,6 +221,7 @@ describe('express-server', function() {
             });
         });
     });
+
     it('works with a regular express app', function(done) {
       var expected = '/foo was hit';
 
@@ -256,6 +255,7 @@ describe('express-server', function() {
             });
         });
     });
+
     describe('with proxy', function() {
       beforeEach(function() {
         return subject.start({
@@ -306,18 +306,23 @@ describe('express-server', function() {
             done();
           });
       }
+
       it('proxies GET', function(done) {
         apiTest(subject.app, 'get', '/api/get', done);
       });
+
       it('proxies PUT', function(done) {
         apiTest(subject.app, 'put', '/api/put', done);
       });
+
       it('proxies POST', function(done) {
         apiTest(subject.app, 'post', '/api/post', done);
       });
+
       it('proxies DELETE', function(done) {
         apiTest(subject.app, 'delete', '/api/delete', done);
       });
+
       // test for #1263
       it('proxies when accept contains */*', function(done) {
         request(subject.app)
@@ -380,6 +385,7 @@ describe('express-server', function() {
 
         apiTest(subject.app, 'get', '/api/get', done);
       });
+
       it('proxies PUT', function(done) {
         nock('http://api.lvh.me', {
           reqheaders: {
@@ -396,6 +402,7 @@ describe('express-server', function() {
 
         apiTest(subject.app, 'put', '/api/put', done);
       });
+
       it('proxies POST', function(done) {
         nock('http://api.lvh.me', {
           reqheaders: {
@@ -412,6 +419,7 @@ describe('express-server', function() {
 
         apiTest(subject.app, 'post', '/api/post', done);
       });
+
       it('proxies DELETE', function(done) {
         nock('http://api.lvh.me', {
           reqheaders: {
@@ -428,6 +436,7 @@ describe('express-server', function() {
 
         apiTest(subject.app, 'delete', '/api/delete', done);
       });
+
       // test for #1263
       it('proxies when accept contains */*', function(done) {
         nock('http://api.lvh.me')
@@ -463,7 +472,7 @@ describe('express-server', function() {
       }
 
       it('serves index.html when file not found with auto/history location', function(done) {
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
               .get('/someurl.withperiod')
@@ -485,7 +494,7 @@ describe('express-server', function() {
           locationType: 'hash'
         };
 
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
               .get('/tests')
@@ -502,7 +511,7 @@ describe('express-server', function() {
       });
 
       it('GET /tests serves tests/index.html for mime of */* (auto location)', function(done) {
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
               .get('/tests')
@@ -519,7 +528,7 @@ describe('express-server', function() {
       });
 
       it('GET /tests/whatever serves tests/index.html when file not found', function(done) {
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
               .get('/tests/whatever')
@@ -536,7 +545,7 @@ describe('express-server', function() {
       });
 
       it('GET /tests/an-existing-file.tla serves tests/an-existing-file.tla if it is found', function(done) {
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
               .get('/tests/test-file.txt')
@@ -554,7 +563,7 @@ describe('express-server', function() {
       });
 
       it('serves index.html when file not found (with rootURL) with auto/history location', function(done) {
-        return startServer('/foo')
+        startServer('/foo')
           .then(function() {
             request(subject.app)
               .get('/foo/someurl')
@@ -577,7 +586,7 @@ describe('express-server', function() {
           historySupportMiddleware: true
         };
 
-        return startServer('/foo')
+        startServer('/foo')
           .then(function() {
             request(subject.app)
               .get('/foo/someurl')
@@ -599,7 +608,7 @@ describe('express-server', function() {
           locationType: 'hash'
         };
 
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
               .get('/someurl.withperiod')
@@ -610,7 +619,7 @@ describe('express-server', function() {
       });
 
       it('files that exist in broccoli directory are served up', function(done) {
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
             .get('/test-file.txt')
@@ -622,7 +631,7 @@ describe('express-server', function() {
       });
 
       it('serves static asset up from build output without a period in name', function(done) {
-        return startServer()
+        startServer()
           .then(function() {
             request(subject.app)
               .get('/someurl-without-period')
@@ -640,7 +649,7 @@ describe('express-server', function() {
       });
 
       it('serves static asset up from build output without a period in name (with rootURL)', function(done) {
-        return startServer('/foo')
+        startServer('/foo')
           .then(function() {
             request(subject.app)
               .get('/foo/someurl-without-period')
