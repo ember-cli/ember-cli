@@ -2,7 +2,6 @@ var fs   = require('fs-extra');
 var path = require('path');
 var stringUtil = require('ember-cli-string-utils');
 var Blueprint = require('../../lib/models/blueprint');
-var SilentError = require('silent-error');
 
 module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',
@@ -51,26 +50,6 @@ module.exports = {
       if (paths.length === 0) {
         delete contents['ember-addon']['paths'];
       }
-    }
-
-    try {
-      if (fs.lstatSync(newPath).isDirectory()) {
-        fs.rmdirSync(newPath);
-      }
-    } catch (e) {
-      throw new SilentError('Directory ' + newPath + ' does not exist or non-empty.');
-    }
-
-    try {
-      if (fs.lstatSync('lib').isDirectory()) {
-        var libFiles = fs.readdirSync('lib')
-        if (libFiles.length === 1 && libFiles.shift() === '.jshintrc') {
-          fs.unlinkSync('lib/.jshintrc');
-          fs.rmdirSync('lib');
-        }
-      }
-    } catch (e) {
-      throw new SilentError('Directory lib/ does not exist.');
     }
 
     fs.writeFileSync(packagePath, JSON.stringify(contents, null, 2));
