@@ -44,7 +44,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['broccoli-sass'] = 'latest';
+        packageJson.devDependencies['ember-cli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
@@ -84,7 +84,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['broccoli-sass'] = 'latest';
+        packageJson.devDependencies['ember-cli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);

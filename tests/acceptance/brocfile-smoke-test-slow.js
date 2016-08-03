@@ -368,7 +368,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       .then(function() {
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['broccoli-sass'] = 'latest';
+        packageJson.devDependencies['ember-cli-sass'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
       })
@@ -405,7 +405,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
         var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['broccoli-sass'] = 'latest';
+        packageJson.devDependencies['ember-cli-sass'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
       })
