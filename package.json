@@ -114,7 +114,7 @@
     "tiny-lr": "0.2.1",
     "tree-sync": "^1.1.0",
     "walk-sync": "^0.3.0",
-    "yam": "0.0.21"
+    "yam": "0.0.22"
   },
   "devDependencies": {
     "broccoli-filter": "^1.2.2",
