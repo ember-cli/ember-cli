@@ -53,4 +53,45 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
         expect(fs.readJsonSync('package.json')['ember-addon']['paths']).to.be.undefined;
       });
   });
+
+  it('should remove the in-repo-addon directory on destroy if empty', function() {
+    var args = ['in-repo-addon', 'fooBar'];
+    var secondArgs = ['in-repo-addon', 'bazQuux']; // Adding second addon so 'lib' isn't destroyed as well
+
+    return emberNew()
+      .then(function() {
+        return emberGenerate(args);
+      })
+      .then(function() {
+        return emberGenerate(secondArgs);
+      })
+      .then(function() {
+        return emberDestroy(args);
+      })
+      .then(function() {
+        var dir = fs.readdirSync('lib');
+        expect(dir).to.not.contain('foo-bar');
+        expect(dir).to.contain('baz-quux');
+      });
+  });
+
+  it('should not remove the in-repo-addon directory on destroy if not empty', function() {
+    var args = ['in-repo-addon', 'fooBar'];
+    var dummy = {text: 'foo'};
+
+    return emberNew()
+      .then(function() {
+        return emberGenerate(args);
+      })
+      .then(function() {
+        return fs.writeJsonSync('lib/foo-bar/dummy.json', JSON.stringify(dummy));
+      })
+      .then(function() {
+        return emberDestroy(args);
+      })
+      .then(function() {
+        var dir = fs.readdirSync('lib');
+        expect(dir).to.contain('foo-bar');
+      });
+  });
 });

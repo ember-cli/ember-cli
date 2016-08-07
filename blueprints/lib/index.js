@@ -10,6 +10,10 @@ module.exports = {
     fs.mkdirsSync('lib');
   },
 
+  afterUninstall: function() {
+    fs.removeSync('lib');
+  },
+
   files: function() {
     return this.hasJSHint() ? ['lib/.jshintrc'] : [];
   },
