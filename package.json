@@ -90,7 +90,7 @@
     "leek": "0.0.23",
     "markdown-it": "7.0.0",
     "lodash.template": "^4.2.5",
-    "markdown-it-terminal": "0.0.3",
+    "markdown-it-terminal": "0.0.4",
     "minimatch": "^3.0.0",
     "morgan": "^1.5.2",
     "node-modules-path": "^1.0.0",
