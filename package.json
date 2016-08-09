@@ -61,7 +61,7 @@
     "core-object": "^2.0.2",
     "debug": "^2.1.3",
     "diff": "^2.2.2",
-    "ember-cli-broccoli": "0.16.10",
+    "ember-cli-broccoli": "0.17.1",
     "ember-cli-get-component-path-option": "^1.0.0",
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-legacy-blueprints": "^0.1.1",
