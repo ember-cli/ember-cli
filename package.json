@@ -112,7 +112,7 @@
     "testem": "^1.8.1",
     "through": "^2.3.6",
     "tiny-lr": "0.2.1",
-    "tree-sync": "^1.1.0",
+    "tree-sync": "^1.1.4",
     "walk-sync": "^0.3.0",
     "yam": "0.0.22"
   },
