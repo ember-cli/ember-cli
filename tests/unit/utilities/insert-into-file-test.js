@@ -138,6 +138,23 @@ describe('insertIntoFile()', function() {
       });
   });
 
+  it('the "before" string can be empty, meaning beginning of file', function() {
+    var toInsert = 'blahzorz blammo';
+    var originalContent = 'some original content\n';
+
+    fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+    return insertIntoFile(filePath, toInsert, { before: '' })
+      .then(function(result) {
+        var contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+
+        expect(contents).to.equal(toInsert + EOL + originalContent, 'inserted contents should be prepended to original');
+        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+      });
+  });
+
+
   it('will insert into the file before the first instance of options.before only', function() {
     var toInsert = 'blahzorz blammo';
     var line1 = 'line1 is here';
