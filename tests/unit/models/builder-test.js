@@ -162,6 +162,50 @@ describe('models/builder.js', function() {
     });
   });
 
+  describe('build', function() {
+    before(function () {
+      var command = new BuildCommand(commandOptions());
+
+      builder = new Builder({
+        setupBroccoliBuilder: function() { },
+        trapSignals: function() { },
+        cleanupOnExit: function() { },
+        project: new MockProject(),
+        builder: {
+          build: function () {
+            return Promise.resolve('build results');
+          }
+        },
+        processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
+      });
+    });
+
+    afterEach(function () {
+      delete process._heimdall;
+      builder.project.ui.output = '';
+    });
+
+    it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', function() {
+      process._heimdall = {};
+
+      return builder.build().then(function () {
+        var output = builder.project.ui.output;
+
+        expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
+      });
+    });
+
+    it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', function() {
+      expect(process._heimdall).to.equal(undefined);
+
+      return builder.build().then(function () {
+        var output = builder.project.ui.output;
+
+        expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
+      });
+    });
+  });
+
   describe('addons', function() {
     var hooksCalled;
 
@@ -190,6 +234,9 @@ describe('models/builder.js', function() {
         },
       };
 
+      var project = new MockProject();
+      project.addons = [addon];
+
       builder = new Builder({
         setupBroccoliBuilder: function() { },
         trapSignals:          function() { },
@@ -202,9 +249,7 @@ describe('models/builder.js', function() {
           }
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
-        project: {
-          addons: [addon]
-        }
+        project: project,
       });
 
       buildResults = 'build results';

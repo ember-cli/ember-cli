@@ -1,11 +1,13 @@
 'use strict';
 
 var Project = require('../../lib/models/project');
+var MockUI        = require('../helpers/mock-ui');
 
 function MockProject() {
   var root = process.cwd();
   var pkg  = {};
-  Project.apply(this, [root, pkg]);
+  var ui = new MockUI();
+  Project.apply(this, [root, pkg, ui]);
 }
 
 MockProject.prototype.require = function(file) {
