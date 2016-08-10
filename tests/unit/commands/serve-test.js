@@ -152,21 +152,21 @@ describe('serve command', function() {
     });
   });
 
-  it('has correct insecure proxy option', function() {
+  it('has correct secure proxy option', function() {
     return command.validateAndRun([
-      '--insecure-proxy'
+      '--secure-proxy', 'false'
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
-      expect(captor.value.insecureProxy).to.equal(true, 'has correct insecure proxy option');
+      expect(captor.value.secureProxy).to.equal(false, 'has correct insecure proxy option');
     });
   });
 
-  it('has correct default value for insecure proxy', function() {
+  it('has correct default value for secure proxy', function() {
     return command.validateAndRun().then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
-      expect(captor.value.insecureProxy).to.equal(false, 'has correct insecure proxy option when not set');
+      expect(captor.value.secureProxy).to.equal(true, 'has correct secure proxy option when not set');
     });
   });
 
