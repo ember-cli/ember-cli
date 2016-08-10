@@ -34,12 +34,18 @@ module.exports = {
   },
 
   afterUninstall: function(options) {
-    var packagePath = path.join(this.project.root, 'package.json');
-    var contents    = fs.readJsonSync(packagePath);
-    var name        = stringUtil.dasherize(options.entity.name);
-    var newPath     = ['lib', name].join('/');
+    var packagePath   = path.join(this.project.root, 'package.json');
+    var contents      = fs.readJsonSync(packagePath);
+    var name          = stringUtil.dasherize(options.entity.name);
+    var newPath       = ['lib', name].join('/');
+    var libBlueprint  = Blueprint.lookup('lib', {
+      ui: this.ui,
+      analytics: this.analytics,
+      project: this.project
+    });
     var paths;
     var newPathIndex;
+    var lib;
 
     contents['ember-addon'] = contents['ember-addon'] || {};
     paths = contents['ember-addon']['paths'] = contents['ember-addon']['paths'] || [];
@@ -52,6 +58,15 @@ module.exports = {
       }
     }
 
-    fs.writeFileSync(packagePath, JSON.stringify(contents, null, 2));
+    fs.writeFileSync(packagePath, JSON.stringify(contents, null, 2) + '\n');
+
+    if (!fs.readdirSync(newPath).length) {
+      fs.removeSync(newPath);
+    }
+
+    lib = fs.readdirSync('lib');
+    if (lib.length === 0 || (lib.length === 1 && lib[0] === '.jshintrc')) {
+      return libBlueprint.uninstall(options);
+    }
   }
 };
