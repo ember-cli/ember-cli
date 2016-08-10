@@ -78,7 +78,8 @@ describe('generate command', function() {
       .catch(function(error) {
         expect(error.message).to.equal(
             'The `ember generate` command requires a ' +
-            'blueprint name to be specified. ' +
+            'blueprint name be specified in this format:' +
+            'E.g.`ember generate <blueprint-name> <entity-name> <options...>`' +
             'For more details, use `ember help`.');
       });
   });
