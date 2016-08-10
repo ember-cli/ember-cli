@@ -124,8 +124,8 @@ ember serve \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -H <value>\u001b[39m
   \u001b[36m--proxy\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -pr <value>, -pxy <value>\u001b[39m
-  \u001b[36m--insecure-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Set false to proxy self-signed SSL certificates
-    \u001b[90maliases: --inspr\u001b[39m
+  \u001b[36m--secure-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Set to false to proxy self-signed SSL certificates
+    \u001b[90maliases: -spr\u001b[39m
   \u001b[36m--transparent-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Set to false to omit x-forwarded-* headers when proxying
     \u001b[90maliases: --transp\u001b[39m
   \u001b[36m--watcher\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: events)\u001b[39m
