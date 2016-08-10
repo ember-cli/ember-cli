@@ -18,6 +18,7 @@
     "findWithAssert",
     "wait",
     "DS",
+    "Ember",
     "andThen",
     "currentURL",
     "currentPath",
