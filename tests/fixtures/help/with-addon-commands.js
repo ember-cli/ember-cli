@@ -488,11 +488,11 @@ module.exports = {
           required: false
         },
         {
-          name: 'insecure-proxy',
-          default: false,
-          description: 'Set false to proxy self-signed SSL certificates',
-          aliases: ['inspr'],
-          key: 'insecureProxy',
+          name: 'secure-proxy',
+          default: true,
+          description: 'Set to false to proxy self-signed SSL certificates',
+          aliases: ['spr'],
+          key: 'secureProxy',
           required: false
         },
         {
