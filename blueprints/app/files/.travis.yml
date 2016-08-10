@@ -8,6 +8,7 @@ sudo: false
 cache:
   directories:
     - node_modules
+    - bower_components
 
 before_install:
   - npm config set spin false
