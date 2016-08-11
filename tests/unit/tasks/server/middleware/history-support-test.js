@@ -29,6 +29,19 @@ describe('HistorySupportAddon', function () {
       expect(addon.shouldAddMiddleware()).to.true;
     });
 
+    it('add middleware when locationType is an unknown type', function() {
+      var addon = new HistorySupportAddon({
+        config: function() {
+          return {
+            locationType: 'foo-bar',
+            historySupportMiddleware: true
+          };
+        }
+      });
+
+      expect(addon.shouldAddMiddleware()).to.true;
+    });
+
     it('add middleware when historySupportMiddleware is true', function() {
       var addon = new HistorySupportAddon({
         config: function() {
