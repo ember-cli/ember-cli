@@ -1046,6 +1046,47 @@ The following changes are required if you are upgrading from the previous versio
 
 Thank you to all who took the time to contribute!
 
+### 1.13.15
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.14...v1.13.15)
+  + Upgrade your project's ember-cli version - [docs](http://www.ember-cli.com/#project-update)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.14...v1.13.15)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5338](https://github.com/ember-cli/ember-cli/pull/5338) 1 13 testem bump [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#5351](https://github.com/ember-cli/ember-cli/pull/5351) Bump ember to 1.13.12 [@san650](https://github.com/san650)
+
+Thank you to all who took the time to contribute!
+
+### 1.13.14
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/kellyselden/ember-cli-output/compare/v1.13.13...v1.13.14)
+  + default jQuery.js version is now locked at  `1.11.3`
+- Addon Developers
+  + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v1.13.13...v1.13.14)
+  + app-prefix and app-suffix have been deprecated, addons will need to move away from them.
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#5327](https://github.com/ember-cli/ember-cli/pull/5327) [BUGFIX release] pin jQuery version [@stefanpenner](https://github.com/stefanpenner)
+- [#5245](https://github.com/ember-cli/ember-cli/pull/5245) Deprecate app-prefix and app-suffix. [@nathanhammond](https://github.com/nathanhammond)
+- [#5251](https://github.com/ember-cli/ember-cli/pull/5251) [BUGFIX] ensure we stat the symlink target, not the symlink (fixes tests/index.html not updating) [@stefanpenner](https://github.com/stefanpenner)
+
 ### 1.13.13
 
 The following changes are required if you are upgrading from the previous
