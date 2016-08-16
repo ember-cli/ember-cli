@@ -145,6 +145,18 @@ describe('express-server', function() {
       });
     });
 
+    it('with empty rootURL', function() {
+      return subject.start({
+        host: undefined,
+        port: '1337',
+        rootURL: ''
+      }).then(function() {
+        var output = ui.output.trim().split(EOL);
+        expect(output[0]).to.equal('Serving on http://localhost:1337/');
+        expect(output.length).to.equal(1, 'expected only one line of output');
+      });
+    });
+
     it('address in use', function() {
       var preexistingServer = net.createServer();
       preexistingServer.listen(1337);
