@@ -4,4 +4,6 @@
 /docs
 /tests/!(helpers)
 /tmp
+/.travis
+/.github
 /*.*
