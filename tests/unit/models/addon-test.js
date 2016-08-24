@@ -11,7 +11,7 @@ var findWhere = require('ember-cli-lodash-subset').find;
 var MockUI = require('../../helpers/mock-ui');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 
-var broccoli  = require('ember-cli-broccoli');
+var broccoli  = require('broccoli-builder');
 var walkSync  = require('walk-sync');
 var td        = require('testdouble');
 
