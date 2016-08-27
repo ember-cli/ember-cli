@@ -502,6 +502,7 @@ module.exports = {
         {
           name: 'port',
           default: 4200,
+          description: 'To use a port different than 4200. Pass 0 to automatically pick an available port.',
           aliases: ['p'],
           key: 'port',
           required: false
