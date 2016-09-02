@@ -38,6 +38,7 @@ module.exports = {
     if (isInstall) {
       if (paths.indexOf(newPath) === -1) {
         paths.push(newPath);
+        contents['ember-addon']['paths'] = paths.sort();
       }
     } else {
       var newPathIndex = paths.indexOf(newPath);
