@@ -3,7 +3,7 @@
 var expect                = require('chai').expect;
 var stringifyAndNormalize = require('../../../lib/utilities/stringify-and-normalize');
 
-describe('package-json-stringify', function() {
+describe('stringify-and-normalize', function() {
   var packageJson = {
     dependencies: {
       'test-package': '^1.0.0'
