@@ -8,6 +8,7 @@ var SilentError = require('silent-error');
 var date        = new Date();
 
 var normalizeEntityName = require('ember-cli-normalize-entity-name');
+var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
@@ -167,5 +168,7 @@ function alphabetizeObjectKeys(unordered) {
 }
 
 function writeContentsToFile(contents, fileName) {
-  fs.writeFileSync(path.join(this.path, 'files', fileName), JSON.stringify(contents, null, 2) + '\n');
+  var packagePath = path.join(this.path, 'files', fileName);
+
+  fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
 }
