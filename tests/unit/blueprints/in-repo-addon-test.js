@@ -174,4 +174,29 @@ describe('Unit: in-repo-addon blueprint', function() {
   "ember-addon": {}\n\
 }\n');
   });
+
+  it('alphabetizes paths', function() {
+    td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+      'ember-addon': {
+        paths: ['lib/test-entity-name-2']
+      }
+    });
+
+    blueprint.afterInstall(options);
+
+    var captor = td.matchers.captor();
+
+    td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
+    td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
+
+    expect(captor.value).to.equal('\
+{\n\
+  "ember-addon": {\n\
+    "paths": [\n\
+      "lib/test-entity-name",\n\
+      "lib/test-entity-name-2"\n\
+    ]\n\
+  }\n\
+}\n');
+  });
 });
