@@ -9,7 +9,7 @@ describe('alphabetize-object-keys', function() {
     'a-test-package': '^2.0.0'
   };
 
-  it('indents 2 spaces and ends in newline', function() {
+  it('alphabetizes object keys...', function() {
     var newDependencies = alphabetizeObjectKeys(dependencies);
 
     // deep equal is not ordered
