@@ -1,5 +1,42 @@
 # ember-cli Changelog
 
+### 2.8.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.7.0...v2.8.0)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.3...v2.7.0)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6050](https://github.com/ember-cli/ember-cli/pull/6050) Make app/addon readmes consistent [@elwayman02](https://github.com/elwayman02)
+- [#6005](https://github.com/ember-cli/ember-cli/pull/6005) [BUGFIX] Fixes broccoli errors when `tests` dir is not present [@twokul](https://github.com/twokul)
+- [#5986](https://github.com/ember-cli/ember-cli/pull/5986) added transparent-proxy option to ember serve command [@badazz91](https://github.com/badazz91)
+- [#6012](https://github.com/ember-cli/ember-cli/pull/6012) switch to a rollup subset of lodash and shave off 20 - 30%+ boot time [@stefanpenner](https://github.com/stefanpenner)
+- [#6017](https://github.com/ember-cli/ember-cli/pull/6017) Allow `ember install addon_name --save` in addons. [@xcambar](https://github.com/xcambar)
+- [#6030](https://github.com/ember-cli/ember-cli/pull/6030) [ENHANCEMENT] Asset Sizes I moved the creation of asset sizes to an object. [@kiwiupover](https://github.com/kiwiupover)
+- [#6052](https://github.com/ember-cli/ember-cli/pull/6052) Turn on strict mode for tests. [@nathanhammond](https://github.com/nathanhammond)
+- [#6043](https://github.com/ember-cli/ember-cli/pull/6043) [BUGFIX beta] Test nested addon import [@xcambar](https://github.com/xcambar)
+- [#6045](https://github.com/ember-cli/ember-cli/pull/6045) [Enhancement] Return raw asset-size as data instead of strings [@kiwiupover](https://github.com/kiwiupover)
+- [#6072](https://github.com/ember-cli/ember-cli/pull/6072) Makes sure dependecies are loaded on demand [@twokul](https://github.com/twokul)
+- [#6092](https://github.com/ember-cli/ember-cli/pull/6092) Remove ember-qunit-notifications [@trentmwillis](https://github.com/trentmwillis)
+- [#6094](https://github.com/ember-cli/ember-cli/pull/6094) Remove jQuery usage to read meta config. [@rwjblue](https://github.com/rwjblue)
+- [#6095](https://github.com/ember-cli/ember-cli/pull/6095) [INTERNAL] Remove unused 'es3Safe' option [@ursm](https://github.com/ursm)
+- [#6102](https://github.com/ember-cli/ember-cli/pull/6102) Refactor/cleanup/reduce slow tests [@stefanpenner](https://github.com/stefanpenner)
+- [#6112](https://github.com/ember-cli/ember-cli/pull/6112) More specific docs for included hook [@xcambar](https://github.com/xcambar)
+- [#6098](https://github.com/ember-cli/ember-cli/pull/6098) [BUGFIX beta] ServerWatcher disregards --watcher=* [@stefanpenner](https://github.com/stefanpenner)
+- [#6166](https://github.com/ember-cli/ember-cli/pull/6166) changed --insecure-proxy to --secure-proxy in ember serve command [@badazz91](https://github.com/badazz91)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.8.0-beta.3
 
 The following changes are required if you are upgrading from the previous
