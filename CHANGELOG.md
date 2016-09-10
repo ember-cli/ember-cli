@@ -1,5 +1,50 @@
 # ember-cli Changelog
 
+### 2.9.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.8.0...v2.9.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.8.0...v2.9.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6176](https://github.com/ember-cli/ember-cli/pull/6176) fixed typo in the example code in the comments in the blueprint.js [@foxnewsnetwork](https://github.com/foxnewsnetwork)
+- [#5395](https://github.com/ember-cli/ember-cli/pull/5395) Skip bower/npm install on blueprint install if manifests are missing [@stefanpenner](https://github.com/stefanpenner)
+- [#5976](https://github.com/ember-cli/ember-cli/pull/5976) Anonymous AMD Support [@ef4](https://github.com/ef4)
+- [#6086](https://github.com/ember-cli/ember-cli/pull/6086) Use heimdalljs for structured instrumentation & structured logging [@hjdivad](https://github.com/hjdivad)
+- [#6103](https://github.com/ember-cli/ember-cli/pull/6103) store add-on initialization/lookup times [@stefanpenner](https://github.com/stefanpenner)
+- [#6127](https://github.com/ember-cli/ember-cli/pull/6127) Remove invalid backticks in docs [@san650](https://github.com/san650)
+- [#6132](https://github.com/ember-cli/ember-cli/pull/6132) [Bugfix] Destroy in-repo-addon [@andyklimczak](https://github.com/andyklimczak)
+- [#6193](https://github.com/ember-cli/ember-cli/pull/6193) Changed the start-app test helper to use `Ember.assign`. [@workmanw](https://github.com/workmanw)
+- [#6145](https://github.com/ember-cli/ember-cli/pull/6145) Update .gitignore for npm-debug.log [@hckhanh](https://github.com/hckhanh)
+- [#6139](https://github.com/ember-cli/ember-cli/pull/6139) Updating app/addon blueprints to latest dependency versions [@elwayman02](https://github.com/elwayman02)
+- [#6148](https://github.com/ember-cli/ember-cli/pull/6148) Update to _findHost to use do/while. [@nathanhammond](https://github.com/nathanhammond)
+- [#6206](https://github.com/ember-cli/ember-cli/pull/6206) Remove debug from package.json [@marpo60](https://github.com/marpo60)
+- [#6171](https://github.com/ember-cli/ember-cli/pull/6171) Adding a test to cover historySupportMiddleware with unknown location type [@jasonmit](https://github.com/jasonmit)
+- [#6162](https://github.com/ember-cli/ember-cli/pull/6162) Upgraded ember-cli-app-version to 2.0.0 [@taras](https://github.com/taras)
+- [#6198](https://github.com/ember-cli/ember-cli/pull/6198) display cleanup progress. [@stefanpenner](https://github.com/stefanpenner)
+- [#6189](https://github.com/ember-cli/ember-cli/pull/6189) `testem.js` must be loaded from `/`. [@rwjblue](https://github.com/rwjblue)
+- [#6188](https://github.com/ember-cli/ember-cli/pull/6188) [BUGFIX] - fix reference for `ui.prompt` [@tgandee79](https://github.com/tgandee79)
+- [#6182](https://github.com/ember-cli/ember-cli/pull/6182) [BUGFIX beta] Allow empty string as rootURL [@kanongil](https://github.com/kanongil)
+- [#6186](https://github.com/ember-cli/ember-cli/pull/6186) [ENHANCEMENT] Warn when empty rootURL is used with history addon [@kanongil](https://github.com/kanongil)
+- [#6180](https://github.com/ember-cli/ember-cli/pull/6180) bump portfinder to v1.0.7 [@eriktrom](https://github.com/eriktrom)
+- [#6194](https://github.com/ember-cli/ember-cli/pull/6194) [BUGFIX beta] Prevent Ember Data from overriding Date.parse. [@bmac](https://github.com/bmac)
+- [#6208](https://github.com/ember-cli/ember-cli/pull/6208) Replace "ember-cli-broccoli" with "broccoli-{brocfile-loader, builder, middleware}" [@Turbo87](https://github.com/Turbo87)
+- [#6211](https://github.com/ember-cli/ember-cli/pull/6211) Document `--port 0` in ember serve's command line usage [@sivakumar-kailasam](https://github.com/sivakumar-kailasam)
+- [#6227](https://github.com/ember-cli/ember-cli/pull/6227) add tests for alphabetize-object-keys [@kellyselden](https://github.com/kellyselden)
+- [#6228](https://github.com/ember-cli/ember-cli/pull/6228) in-repo-addon: sort additions to ember-addon/paths [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.8.0
 
 The following changes are required if you are upgrading from the previous
