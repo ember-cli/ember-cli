@@ -169,6 +169,47 @@ describe('broccoli/ember-app', function() {
         }).to.not.throw(/loader.js addon is missing/);
       });
     });
+
+    describe('ember-resolver NPM vs Bower', function() {
+      it('does not load ember-resolver.js as bower dep when ember-resolver is present in registry.availablePlugins', function() {
+        var app = new EmberApp({ project: project });
+        expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
+      });
+
+      it('keeps ember-resolver.js in vendorFiles when NPM ember-resolver is not installed, but is present in bower.json', function() {
+        project.bowerDependencies = function() { return { 'ember': {}, 'ember-resolver': {} }; }
+        var app = new EmberApp({
+          project: project,
+          registry: {
+            add: function() { },
+            availablePlugins: { 'loader.js': {} }
+          }
+        });
+
+        expect(app.vendorFiles['ember-resolver'][0]).to.equal('bower_components/ember-resolver/dist/modules/ember-resolver.js');
+      });
+
+      it('removes ember-resolver.js from vendorFiles when not in bower.json and NPM ember-resolver not installed', function() {
+        project.bowerDependencies = function() { return { 'ember': {} }; }
+        var app = new EmberApp({
+          project: project,
+          registry: {
+            add: function() { },
+            availablePlugins: { 'loader.js': {} }
+          }
+        });
+
+        expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
+      });
+    });
+
+    describe('ember-cli-shims', function() {
+      it('removes app-shims.js from vendorFiles when ember-cli-shims is not in bower.json', function() {
+        project.bowerDependencies = function() { return { 'ember': {} }; }
+        var app = new EmberApp({ project: project });
+        expect(app.vendorFiles['app-shims.js']).to.equal(undefined);
+      });
+    });
   });
 
   describe('contentFor', function() {
