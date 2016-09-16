@@ -95,12 +95,12 @@ describe('blueprint - addon', function() {
 {\n\
   "name": "test-project-name",\n\
   "description": "The default blueprint for ember-cli addons.",\n\
-  "scripts": {\n\
-    "test": "ember try:each"\n\
-  },\n\
   "keywords": [\n\
     "ember-addon"\n\
   ],\n\
+  "scripts": {\n\
+    "test": "ember try:each"\n\
+  },\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
     "ember-disable-prototype-extensions": "^1.1.0"\n\
