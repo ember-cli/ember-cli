@@ -15,7 +15,7 @@ module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
   generatePackageJson: function() {
-    var contents = readContentsFromFile.call(this, 'package.json');
+    var contents = this._readContentsFromFile('package.json');
 
     delete contents.private;
     contents.name = this.project.name();
@@ -46,15 +46,15 @@ module.exports = {
     // sort the dependencies like an `npm install` would
     alphabetizeDependencies(contents);
 
-    writeContentsToFile.call(this, contents, 'package.json');
+    this._writeContentsToFile(contents, 'package.json');
   },
 
   generateBowerJson: function() {
-    var contents = readContentsFromFile.call(this, 'bower.json');
+    var contents = this._readContentsFromFile('bower.json');
 
     contents.name = this.project.name();
 
-    writeContentsToFile.call(this, contents, 'bower.json');
+    this._writeContentsToFile(contents, 'bower.json');
   },
 
   afterInstall: function() {
@@ -147,21 +147,20 @@ module.exports = {
     }
 
     return entityName;
-  }
-};
+  },
 
-function readContentsFromFile(fileName) {
-  var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-  return fs.readJsonSync(packagePath);
-}
+  _readContentsFromFile: function(fileName) {
+    var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
+    return fs.readJsonSync(packagePath);
+  },
+
+  _writeContentsToFile: function(contents, fileName) {
+    var packagePath = path.join(this.path, 'files', fileName);
+    fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+  },
+};
 
 function alphabetizeDependencies(contents) {
   contents.dependencies = alphabetizeObjectKeys(contents.dependencies);
   contents.devDependencies = alphabetizeObjectKeys(contents.devDependencies);
-}
-
-function writeContentsToFile(contents, fileName) {
-  var packagePath = path.join(this.path, 'files', fileName);
-
-  fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
 }
