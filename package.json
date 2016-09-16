@@ -1,43 +1,39 @@
 {
   "name": "ember-cli",
   "version": "2.9.0-beta.1",
-  "main": "lib/cli/index.js",
   "description": "Command line tool for developing ambitious ember.js apps",
+  "keywords": [
+    "app",
+    "app-kit",
+    "cli",
+    "ember",
+    "ember-app-kit",
+    "ember.js",
+    "kit"
+  ],
   "homepage": "http://ember-cli.com/",
-  "trackingCode": "UA-49225444-1",
+  "bugs": {
+    "url": "https://github.com/ember-cli/ember-cli/issues"
+  },
+  "license": "MIT",
+  "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
+  "main": "lib/cli/index.js",
   "bin": {
     "ember": "./bin/ember"
-  },
-  "scripts": {
-    "docs": "yuidoc",
-    "lint": "node tests/runner lint",
-    "test": "node tests/runner",
-    "test:debug": "node debug tests/runner",
-    "test-slow": "node tests/runner slow",
-    "test-all": "node tests/runner all",
-    "test-all:debug": "node debug tests/runner all",
-    "test-all:cover": "istanbul cover tests/runner.js all"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ember-cli/ember-cli.git"
   },
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "keywords": [
-    "ember.js",
-    "ember",
-    "cli",
-    "app",
-    "kit",
-    "app-kit",
-    "ember-app-kit"
-  ],
-  "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ember-cli/ember-cli/issues"
+  "scripts": {
+    "docs": "yuidoc",
+    "lint": "node tests/runner lint",
+    "test": "node tests/runner",
+    "test-all": "node tests/runner all",
+    "test-all:cover": "istanbul cover tests/runner.js all",
+    "test-all:debug": "node debug tests/runner all",
+    "test-slow": "node tests/runner slow",
+    "test:debug": "node debug tests/runner"
   },
   "dependencies": {
     "amd-name-resolver": "0.0.6",
@@ -140,5 +136,9 @@
     "testdouble": "^1.3.0",
     "yuidoc-ember-cli-theme": "^1.0.0",
     "yuidocjs": "0.10.2"
-  }
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "trackingCode": "UA-49225444-1"
 }
