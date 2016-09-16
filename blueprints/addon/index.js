@@ -10,7 +10,6 @@ var date        = new Date();
 
 var normalizeEntityName = require('ember-cli-normalize-entity-name');
 var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
-var alphabetizeObjectKeys = require('../../lib/utilities/alphabetize-object-keys');
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
@@ -157,8 +156,3 @@ module.exports = {
     fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
   },
 };
-
-function alphabetizeDependencies(contents) {
-  contents.dependencies = alphabetizeObjectKeys(contents.dependencies);
-  contents.devDependencies = alphabetizeObjectKeys(contents.devDependencies);
-}
