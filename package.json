@@ -109,6 +109,7 @@
     "sane": "^1.1.1",
     "semver": "^5.1.1",
     "silent-error": "^1.0.0",
+    "sort-package-json": "^1.4.0",
     "symlink-or-copy": "^1.0.1",
     "temp": "0.8.3",
     "testem": "^1.8.1",

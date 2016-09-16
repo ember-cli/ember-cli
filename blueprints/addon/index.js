@@ -5,6 +5,7 @@ var walkSync    = require('walk-sync');
 var stringUtil  = require('ember-cli-string-utils');
 var uniq        = require('ember-cli-lodash-subset').uniq;
 var SilentError = require('silent-error');
+var sortPackageJson = require('sort-package-json');
 var date        = new Date();
 
 var normalizeEntityName = require('ember-cli-normalize-entity-name');
@@ -43,10 +44,7 @@ module.exports = {
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
-    // sort the dependencies like an `npm install` would
-    alphabetizeDependencies(contents);
-
-    this._writeContentsToFile(contents, 'package.json');
+    this._writeContentsToFile(sortPackageJson(contents), 'package.json');
   },
 
   generateBowerJson: function() {
