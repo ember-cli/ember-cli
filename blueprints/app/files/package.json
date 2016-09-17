@@ -2,22 +2,18 @@
   "name": "<%= name %>",
   "version": "0.0.0",
   "description": "Small description for <%= name %> goes here",
-  "private": true,
+  "license": "MIT",
+  "author": "",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
+  "repository": "",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
     "test": "ember test"
   },
-  "repository": "",
-  "engines": {
-    "node": ">= 0.12.0"
-  },
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^2.4.1",
@@ -40,5 +36,9 @@
     "ember-resolver": "^2.0.3",
     "ember-welcome-page": "^1.0.3",
     "loader.js": "^4.0.10"
-  }
+  },
+  "engines": {
+    "node": ">= 0.12.0"
+  },
+  "private": true
 }

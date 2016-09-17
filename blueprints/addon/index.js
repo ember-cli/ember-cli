@@ -5,17 +5,17 @@ var walkSync    = require('walk-sync');
 var stringUtil  = require('ember-cli-string-utils');
 var uniq        = require('ember-cli-lodash-subset').uniq;
 var SilentError = require('silent-error');
+var sortPackageJson = require('sort-package-json');
 var date        = new Date();
 
 var normalizeEntityName = require('ember-cli-normalize-entity-name');
 var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
-var alphabetizeObjectKeys = require('../../lib/utilities/alphabetize-object-keys');
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
   generatePackageJson: function() {
-    var contents = readContentsFromFile.call(this, 'package.json');
+    var contents = this._readContentsFromFile('package.json');
 
     delete contents.private;
     contents.name = this.project.name();
@@ -43,18 +43,15 @@ module.exports = {
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
-    // sort the dependencies like an `npm install` would
-    alphabetizeDependencies(contents);
-
-    writeContentsToFile.call(this, contents, 'package.json');
+    this._writeContentsToFile(sortPackageJson(contents), 'package.json');
   },
 
   generateBowerJson: function() {
-    var contents = readContentsFromFile.call(this, 'bower.json');
+    var contents = this._readContentsFromFile('bower.json');
 
     contents.name = this.project.name();
 
-    writeContentsToFile.call(this, contents, 'bower.json');
+    this._writeContentsToFile(contents, 'bower.json');
   },
 
   afterInstall: function() {
@@ -147,21 +144,15 @@ module.exports = {
     }
 
     return entityName;
-  }
+  },
+
+  _readContentsFromFile: function(fileName) {
+    var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
+    return fs.readJsonSync(packagePath);
+  },
+
+  _writeContentsToFile: function(contents, fileName) {
+    var packagePath = path.join(this.path, 'files', fileName);
+    fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+  },
 };
-
-function readContentsFromFile(fileName) {
-  var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-  return fs.readJsonSync(packagePath);
-}
-
-function alphabetizeDependencies(contents) {
-  contents.dependencies = alphabetizeObjectKeys(contents.dependencies);
-  contents.devDependencies = alphabetizeObjectKeys(contents.devDependencies);
-}
-
-function writeContentsToFile(contents, fileName) {
-  var packagePath = path.join(this.path, 'files', fileName);
-
-  fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
-}

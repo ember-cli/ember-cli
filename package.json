@@ -1,43 +1,39 @@
 {
   "name": "ember-cli",
   "version": "2.9.0-beta.1",
-  "main": "lib/cli/index.js",
   "description": "Command line tool for developing ambitious ember.js apps",
+  "keywords": [
+    "app",
+    "app-kit",
+    "cli",
+    "ember",
+    "ember-app-kit",
+    "ember.js",
+    "kit"
+  ],
   "homepage": "http://ember-cli.com/",
-  "trackingCode": "UA-49225444-1",
+  "bugs": {
+    "url": "https://github.com/ember-cli/ember-cli/issues"
+  },
+  "license": "MIT",
+  "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
+  "main": "lib/cli/index.js",
   "bin": {
     "ember": "./bin/ember"
-  },
-  "scripts": {
-    "docs": "yuidoc",
-    "lint": "node tests/runner lint",
-    "test": "node tests/runner",
-    "test:debug": "node debug tests/runner",
-    "test-slow": "node tests/runner slow",
-    "test-all": "node tests/runner all",
-    "test-all:debug": "node debug tests/runner all",
-    "test-all:cover": "istanbul cover tests/runner.js all"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ember-cli/ember-cli.git"
   },
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "keywords": [
-    "ember.js",
-    "ember",
-    "cli",
-    "app",
-    "kit",
-    "app-kit",
-    "ember-app-kit"
-  ],
-  "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ember-cli/ember-cli/issues"
+  "scripts": {
+    "docs": "yuidoc",
+    "lint": "node tests/runner lint",
+    "test": "node tests/runner",
+    "test-all": "node tests/runner all",
+    "test-all:cover": "istanbul cover tests/runner.js all",
+    "test-all:debug": "node debug tests/runner all",
+    "test-slow": "node tests/runner slow",
+    "test:debug": "node debug tests/runner"
   },
   "dependencies": {
     "amd-name-resolver": "0.0.6",
@@ -53,7 +49,6 @@
     "broccoli-funnel": "^1.0.6",
     "broccoli-funnel-reducer": "^1.0.0",
     "broccoli-merge-trees": "^1.1.3",
-    "ember-cli-broccoli-sane-watcher": "^2.0.3",
     "broccoli-middleware": "^0.18.1",
     "broccoli-source": "^1.1.0",
     "broccoli-stew": "^1.2.0",
@@ -63,6 +58,7 @@
     "configstore": "^2.0.0",
     "core-object": "^2.0.2",
     "diff": "^1.3.1",
+    "ember-cli-broccoli-sane-watcher": "^2.0.3",
     "ember-cli-get-component-path-option": "^1.0.0",
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-legacy-blueprints": "^0.1.1",
@@ -90,8 +86,8 @@
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^3.0.0",
     "leek": "0.0.23",
-    "markdown-it": "7.0.1",
     "lodash.template": "^4.2.5",
+    "markdown-it": "7.0.1",
     "markdown-it-terminal": "0.0.4",
     "minimatch": "^3.0.0",
     "morgan": "^1.5.2",
@@ -109,6 +105,7 @@
     "sane": "^1.1.1",
     "semver": "^5.1.1",
     "silent-error": "^1.0.0",
+    "sort-package-json": "^1.4.0",
     "symlink-or-copy": "^1.0.1",
     "temp": "0.8.3",
     "testem": "^1.8.1",
@@ -137,7 +134,11 @@
     "proxyquire": "^1.7.7",
     "supertest": "^2.0.0",
     "testdouble": "^1.3.0",
-    "yuidocjs": "0.10.2",
-    "yuidoc-ember-cli-theme": "^1.0.0"
-  }
+    "yuidoc-ember-cli-theme": "^1.0.0",
+    "yuidocjs": "0.10.2"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "trackingCode": "UA-49225444-1"
 }
