@@ -111,6 +111,19 @@ describe('blueprint - addon', function() {
 }\n');
       });
 
+      it('throw helpful error when write permissions are denied', function() {
+        td.when(writeFileSync(), {ignoreExtraArgs: true}).thenThrow({
+          code: 'EACCES'
+        });
+
+        expect(function () {
+          blueprint.generatePackageJson();
+        }).to.throw(
+          'Directory path test-blueprint-path/files is not writeable.\n' +
+          'Please follow npm guide to resolve this issue: https://docs.npmjs.com/getting-started/fixing-npm-permissions'
+        );
+      });
+
       it('removes the `private` property', function() {
         td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
           private: true

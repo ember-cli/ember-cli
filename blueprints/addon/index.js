@@ -161,7 +161,23 @@ function alphabetizeDependencies(contents) {
 }
 
 function writeContentsToFile(contents, fileName) {
-  var packagePath = path.join(this.path, 'files', fileName);
+  var dirPath = path.join(this.path, 'files');
+  var packagePath = path.join(dirPath, fileName);
 
-  fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+  try {
+    fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+  } catch (exception) {
+    checkExceptionCode(exception, dirPath);
+  }
+}
+
+function checkExceptionCode(exception, dirPath) {
+  if (exception.code === 'EACCES') {
+    throw new Error(
+      'Directory path ' + dirPath + ' is not writeable.\n' +
+      'Please follow npm guide to resolve this issue: https://docs.npmjs.com/getting-started/fixing-npm-permissions'
+    );
+  } else {
+    throw exception;
+  }
 }
