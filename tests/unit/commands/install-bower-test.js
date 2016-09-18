@@ -36,7 +36,7 @@ describe('install:bower command', function() {
     });
   });
 
-  it('throws a friendly slient error without args', function() {
+  it('throws a friendly silent error without args', function() {
     return command.validateAndRun([]).then(function() {
       expect(false, 'should reject with error').to.be.ok;
     }).catch(function(error) {
