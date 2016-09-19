@@ -359,7 +359,7 @@ describe('models/addon-discovery.js', function() {
       expect(discoverFromDependenciesCalled).to.equal(true);
     });
 
-    it('concats  discoverInRepoAddons and discoverFromDependencies results', function() {
+    it('concats discoverInRepoAddons and discoverFromDependencies results', function() {
       discovery.discoverFromDependencies = function() {
         return [ 'discoverFromDependencies' ];
       };
