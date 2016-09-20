@@ -214,11 +214,11 @@ describe('models/addon.js', function() {
         delete addon._moduleName;
       });
 
-      it('sets it\'s project', function() {
+      it('sets its project', function() {
         expect(addon.project.name).to.equal(project.name);
       });
 
-      it('sets it\'s parent', function() {
+      it('sets its parent', function() {
         expect(addon.parent.name).to.equal(project.name);
       });
 
