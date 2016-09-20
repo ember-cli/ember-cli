@@ -1,5 +1,33 @@
 # ember-cli Changelog
 
+### 2.9.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.9.0-beta.1...v2.9.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.9.0-beta.1...v2.9.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+Notes:
+- This update includes a version bump of QUnit to 2.0.0. Please pay close attention to your test suites.
+- This update is marked as unsupporting Node 0.10. Please prepare for removal of support per [Ember's Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+
+#### Community Contributions
+
+- [#6232](https://github.com/ember-cli/ember-cli/pull/6232) suggest testing addons against LTS [@kellyselden](https://github.com/kellyselden)
+- [#6235](https://github.com/ember-cli/ember-cli/pull/6235) remove `default` ember try scenario [@kellyselden](https://github.com/kellyselden)
+- [#6249](https://github.com/ember-cli/ember-cli/pull/6249) Update to ember-cli-qunit@3.0.1. [@rwjblue](https://github.com/rwjblue)
+- [#6250](https://github.com/ember-cli/ember-cli/pull/6250) Update engine field in package.json [@nathanhammond](https://github.com/nathanhammond)
+- [#6276](https://github.com/ember-cli/ember-cli/pull/6276) Revert #6193 (Ember.assign) [@nathanhammond](https://github.com/nathanhammond)
+
+Thank you to all who took the time to contribute!
+
 ### 2.9.0-beta.1
 
 The following changes are required if you are upgrading from the previous
