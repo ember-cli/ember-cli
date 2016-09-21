@@ -36,7 +36,7 @@ describe('Acceptance: blueprint smoke tests', function() {
     });
   });
 
-  it('generating an http-proxy installs packages to package.json', function() {
+  it('generating a http-proxy installs packages to package.json', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
                       'http-proxy',
                       'api',
