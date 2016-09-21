@@ -78,7 +78,7 @@ function createTmp(command) {
  * Use `createTestTargets` in the before hook to do the initial
  * setup of a project. This will ensure that we limit the amount of times
  * we go to the network to fetch dependencies.
- * @param  {String} projectName The name of the project. Can be a app or addon.
+ * @param  {String} projectName The name of the project. Can be an app or addon.
  * @param  {Object} options
  * @property {String} options.command The command you want to run
  * @return {Promise}  The result of the running the command

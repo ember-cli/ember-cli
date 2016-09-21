@@ -303,7 +303,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('specifying outputFile results in a explicitly generated assets', function() {
+  it('specifying outputFile results in an explicitly generated assets', function() {
     return copyFixtureFiles('brocfile-tests/app-import-output-file')
       .then(function () {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
