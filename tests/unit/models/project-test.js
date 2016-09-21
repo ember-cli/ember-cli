@@ -451,7 +451,7 @@ describe('models/project.js', function() {
       expect(addon.pkg.name).to.equal('bar-pkg', 'should have found the bar-pkg addon');
     });
 
-    it('should return undefined if adddon doesn\'t exist', function() {
+    it('should return undefined if addon doesn\'t exist', function() {
       var addon = project.findAddonByName('not-an-addon');
       expect(addon).to.equal(undefined, 'not found addon should be undefined');
     });
