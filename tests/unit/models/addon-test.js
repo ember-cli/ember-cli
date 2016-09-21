@@ -230,7 +230,7 @@ describe('models/addon.js', function() {
         expect(addon.pkg).to.not.equal(undefined);
       });
 
-      describe('trees for it\'s treePaths', function() {
+      describe('trees for its treePaths', function() {
         it('app', function() {
           var tree = addon.treeFor('app');
           expect(typeof (tree.read || tree.rebuild)).to.equal('function');
