@@ -148,7 +148,7 @@ describe('models/project.js', function() {
       project.initializeAddons();
     });
 
-    it('returns a listing of all dependencies in the projects package.json', function() {
+    it('returns a listing of all dependencies in the project\'s package.json', function() {
       var expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
@@ -167,7 +167,7 @@ describe('models/project.js', function() {
       expect(project.dependencies()).to.deep.equal(expected);
     });
 
-    it('returns a listing of all dependencies in the projects bower.json', function() {
+    it('returns a listing of all dependencies in the project\'s bower.json', function() {
       var expected = {
         'jquery': '^1.11.1',
         'ember': '1.7.0',
