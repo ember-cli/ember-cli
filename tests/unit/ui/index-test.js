@@ -43,7 +43,7 @@ describe('UI', function() {
       expect(ui.output).to.equal(chalk.yellow('WARNING: foo') + EOL);
     });
 
-    it('writes a un-prepended message if prepend is false', function() {
+    it('writes an un-prepended message if prepend is false', function() {
       ui.writeWarnLine('foo', false, false);
       expect(ui.output).to.equal(chalk.yellow('foo') + EOL);
     });
@@ -60,7 +60,7 @@ describe('UI', function() {
       expect(ui.output).to.equal(chalk.yellow('DEPRECATION: foo') + EOL);
     });
 
-    it('writes a un-prepended message if prepend is false', function() {
+    it('writes an un-prepended message if prepend is false', function() {
       ui.writeDeprecateLine('foo', false, false);
       expect(ui.output).to.equal(chalk.yellow('foo') + EOL);
     });

@@ -53,7 +53,7 @@ Be sure to include (At the very least):
 
 And ideally
 
-* a isolated demonstration of this issue as a github repo
+* an isolated demonstration of this issue as a github repo
 
 ## Requesting a Feature
 

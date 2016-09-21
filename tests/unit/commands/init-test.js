@@ -99,7 +99,7 @@ describe('init command', function() {
 
 
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
-    // change the working dir so `process.cwd` can't be a invalid path for base directories
+    // change the working dir so `process.cwd` can't be an invalid path for base directories
     // named `ember-cli`.
 
     var tmpDir = os.tmpdir();

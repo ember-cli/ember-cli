@@ -148,7 +148,7 @@ describe('models/project.js', function() {
       project.initializeAddons();
     });
 
-    it('returns a listing of all dependencies in the projects package.json', function() {
+    it('returns a listing of all dependencies in the project\'s package.json', function() {
       var expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
@@ -167,7 +167,7 @@ describe('models/project.js', function() {
       expect(project.dependencies()).to.deep.equal(expected);
     });
 
-    it('returns a listing of all dependencies in the projects bower.json', function() {
+    it('returns a listing of all dependencies in the project\'s bower.json', function() {
       var expected = {
         'jquery': '^1.11.1',
         'ember': '1.7.0',
@@ -355,7 +355,7 @@ describe('models/project.js', function() {
       project = new Project(projectPath, {}, new MockUI());
     });
 
-    it('should return the same value as the utlity function', function() {
+    it('should return the same value as the utility function', function() {
       expect(project.emberCLIVersion()).to.equal(emberCLIVersion());
     });
   });
@@ -451,7 +451,7 @@ describe('models/project.js', function() {
       expect(addon.pkg.name).to.equal('bar-pkg', 'should have found the bar-pkg addon');
     });
 
-    it('should return undefined if adddon doesn\'t exist', function() {
+    it('should return undefined if addon doesn\'t exist', function() {
       var addon = project.findAddonByName('not-an-addon');
       expect(addon).to.equal(undefined, 'not found addon should be undefined');
     });
