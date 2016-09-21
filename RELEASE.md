@@ -153,7 +153,7 @@ ember serve
 ```
 
 * test other things like generators and live-reload
-* generate a http mock `ember g http-mock my-http-mock`
+* generate an http mock `ember g http-mock my-http-mock`
 * test upgrades of other apps
 * if releasing using Windows, check that it works on a Linux VM
   * we are checking if any Windows line endings snuck in, because they won't work on Unix
