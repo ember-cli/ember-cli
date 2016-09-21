@@ -124,7 +124,7 @@ describe('Unit - FileInfo', function() {
     });
   });
 
-  it('renders a menu with an skip option', function() {
+  it('renders a menu with a skip option', function() {
     td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
 
     var fileInfo = new FileInfo(validOptions);
@@ -135,7 +135,7 @@ describe('Unit - FileInfo', function() {
     });
   });
 
-  it('renders a menu with an diff option', function() {
+  it('renders a menu with a diff option', function() {
     td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'diff' }));
 
     var fileInfo = new FileInfo(validOptions);
