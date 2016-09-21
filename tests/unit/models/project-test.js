@@ -355,7 +355,7 @@ describe('models/project.js', function() {
       project = new Project(projectPath, {}, new MockUI());
     });
 
-    it('should return the same value as the utlity function', function() {
+    it('should return the same value as the utility function', function() {
       expect(project.emberCLIVersion()).to.equal(emberCLIVersion());
     });
   });
