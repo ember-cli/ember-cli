@@ -64,7 +64,7 @@ describe('generate command', function() {
       });
   });
 
-  it('does not throws errors when beforeRun is invoked without the blueprint name', function() {
+  it('does not throw errors when beforeRun is invoked without the blueprint name', function() {
     expect(function() {
       command.beforeRun([]);
     }).to.not.throw();
