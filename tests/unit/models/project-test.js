@@ -500,6 +500,22 @@ describe('models/project.js', function() {
       project = new Project(projectPath, {}, new MockUI());
       expect(project.bowerDirectory).to.equal('bower_components');
     });
+
+    it('should be overriden by bower_directory environment variable', function() {
+      process.env.BOWER_DIRECTORY = 'test_path';
+      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-with-directory');
+      project = new Project(projectPath, {}, new MockUI());
+      expect(project.bowerDirectory).to.equal('test_path');
+      delete process.env.BOWER_DIRECTORY;
+    });
+
+    it('should support .bowerrc files in parent directories', function() {
+      process.env.BOWER_DIRECTORY = 'test_path';
+      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-nested-directory/nested');
+      project = new Project(projectPath, {}, new MockUI());
+      expect(project.bowerDirectory).to.equal('test_path');
+      delete process.env.BOWER_DIRECTORY;
+    })
   });
 
   describe('nodeModulesPath', function() {
