@@ -29,7 +29,8 @@ describe('WatchDetector', function() {
       ui: ui,
       fs: fs,
       childProcess: childProcess,
-      watchmanSupportsPlatform: false
+      watchmanSupportsPlatform: false,
+      root: process.cwd()
     });
   });
 
@@ -90,7 +91,7 @@ describe('WatchDetector', function() {
         });
 
         it('false back to node if it can', function() {
-           fs.watch = function() { return { close: function() { }}};
+          fs.watch = function() { return { close: function() { }}};
 
           return subject.findBestWatcherOption({ watcher: 'watchman' }).then(function(option) {
             expect(option.watchmanInfo).to.have.property('enabled', false)
