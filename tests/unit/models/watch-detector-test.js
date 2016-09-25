@@ -41,10 +41,10 @@ describe('WatchDetector', function() {
   });
 
   describe('#testIfNodeWatcherAppearsToWork', function() {
-    it('reports YES if fs.watch throws', function() {
+    it('reports NO if fs.watch throws', function() {
       fs.watch = function() {
         throw new Error('Something went wrong');
-      }
+      };
 
       return subject.testIfNodeWatcherAppearsToWork().then(function(value) {
         expect(value).to.be.false;
@@ -52,11 +52,11 @@ describe('WatchDetector', function() {
     });
 
     // we could extend this to test also if change events are triggered or not..
-    it('reports NO if nothing throws', function() {
-      fs.watch = function() { };
+    it('reports YES if nothing throws', function() {
+      fs.watch = function() { return { close: function() { }}};
 
       return subject.testIfNodeWatcherAppearsToWork().then(function(value) {
-        expect(value).to.be.false;
+        expect(value).to.be.true;
       });
     });
   });
@@ -90,13 +90,7 @@ describe('WatchDetector', function() {
         });
 
         it('false back to node if it can', function() {
-          fs.watch = function() {
-            // no error
-          };
-
-          fs.unwatch = function() {
-            // no error
-          };
+           fs.watch = function() { return { close: function() { }}};
 
           return subject.findBestWatcherOption({ watcher: 'watchman' }).then(function(option) {
             expect(option.watchmanInfo).to.have.property('enabled', false)
@@ -139,9 +133,8 @@ describe('WatchDetector', function() {
     });
 
     describe('input preference.watcher === node', function() {
-      it('chooses node, if everyint seems ok', function() {
-        fs.watch = function() { };
-        fs.unwatch = function() { };
+      it('chooses node, if everything  seems ok', function() {
+        fs.watch = function() { return { close: function() { }}};
 
         // we assuming polling can never not work, if it doesn't sorry..
         return subject.findBestWatcherOption({ watcher: 'node' }).then(function(option) {
@@ -153,8 +146,6 @@ describe('WatchDetector', function() {
       it('false back to polling if watch fails', function() {
         fs.watch = function() {
           throw new Error('OMG');
-        };
-        fs.unwatch = function() {
         };
         // we assuming polling can never not work, if it doesn't sorry..
         return subject.findBestWatcherOption({ watcher: 'node' }).then(function(option) {
@@ -188,8 +179,7 @@ describe('WatchDetector', function() {
         childProcess.exec = function() {
           return Promise.reject();
         };
-        fs.watch = function() {};
-        fs.unwatch = function() {};
+        fs.watch = function() { return { close: function() { }}};
 
         return subject.checkWatchman().then(function(result) {
           expect(result).to.have.property('watcher', 'node');
@@ -199,12 +189,11 @@ describe('WatchDetector', function() {
 
       it('false: shows the "watchman not found, falling back to XYZ message"', function() {
         subject.watchmanSupportsPlatform = false;
+        fs.watch = function() { return { close: function() { }}};
 
         childProcess.exec = function() {
           return Promise.reject();
         };
-        fs.watch = function() {};
-        fs.unwatch = function() {};
 
         return subject.checkWatchman().then(function(result) {
           expect(result).to.have.property('watcher', 'node');
