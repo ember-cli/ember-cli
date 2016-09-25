@@ -806,6 +806,10 @@ help in detail');
         expect(afterUninstallCalled).to.be.false;
       });
     });
+
+    it('doesn\'t throw when running uninstall without installing first', function() {
+      return blueprint.uninstall(options);
+    });
   });
 
   describe('basic blueprint uninstallation', function() {
