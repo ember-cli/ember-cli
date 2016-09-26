@@ -8,6 +8,7 @@ var Project    = require('../../../lib/models/project');
 var expect     = require('chai').expect;
 var proxyquire = require('proxyquire');
 var td = require('testdouble');
+var EOL = require('os').EOL;
 
 var MockUI = require('../../helpers/mock-ui');
 
@@ -1040,7 +1041,6 @@ describe('broccoli/ember-app', function() {
           outputFile: "/assets/test-project.js"
         });
 
-        console.log(args[1]);
         // should be: a,c,b,a in output
         expect(args[1]).to.deep.eql({
           annotation: "Concat: Vendor /assets/vendor.js",
@@ -1057,7 +1057,7 @@ describe('broccoli/ember-app', function() {
             "vendor/ember-cli/vendor-suffix.js"
           ],
           outputFile: "/assets/vendor.js",
-          separator: "\n;"
+          separator: EOL + ';',
         });
       });
 
