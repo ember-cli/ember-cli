@@ -1040,6 +1040,7 @@ describe('broccoli/ember-app', function() {
           outputFile: "/assets/test-project.js"
         });
 
+        console.log(args[1]);
         // should be: a,c,b,a in output
         expect(args[1]).to.deep.eql({
           annotation: "Concat: Vendor /assets/vendor.js",
