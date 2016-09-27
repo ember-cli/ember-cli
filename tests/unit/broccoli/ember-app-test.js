@@ -8,7 +8,6 @@ var Project    = require('../../../lib/models/project');
 var expect     = require('chai').expect;
 var proxyquire = require('proxyquire');
 var td = require('testdouble');
-var EOL = require('os').EOL;
 
 var MockUI = require('../../helpers/mock-ui');
 
@@ -1057,7 +1056,7 @@ describe('broccoli/ember-app', function() {
             "vendor/ember-cli/vendor-suffix.js"
           ],
           outputFile: "/assets/vendor.js",
-          separator: EOL + ';',
+          separator: '\n;',
         });
       });
 
