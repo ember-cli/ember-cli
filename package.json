@@ -119,7 +119,7 @@
     "broccoli-filter": "^1.2.2",
     "broccoli-plugin": "^1.2.0",
     "chai": "^3.4.1",
-    "chai-as-promised": "^5.1.0",
+    "chai-as-promised": "^6.0.0",
     "chai-files": "^1.2.0",
     "ember-cli-blueprint-test-helpers": "^0.13.0",
     "ember-cli-internal-test-helpers": "^0.8.1",
