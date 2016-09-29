@@ -30,10 +30,10 @@ function downloaded(item) {
   var exists = false;
   switch (item) {
     case 'node_modules':
-      exists = existsSync(path.join(root, '.node_modules-tmp'));
+      exists = existsSync(path.join(root, '.deps-tmp', 'node_modules'));
       break;
     case 'bower_components':
-      exists = existsSync(path.join(root, '.bower_components-tmp'));
+      exists = existsSync(path.join(root, '.deps-tmp', 'bower_components'));
       break;
   }
 
@@ -149,16 +149,16 @@ function linkDependencies(projectName) {
     var nodeModulesPath = targetPath + '/node_modules/';
     var bowerComponentsPath = targetPath + '/bower_components/';
 
-    mvRm(nodeModulesPath, '.node_modules-tmp');
-    mvRm(bowerComponentsPath, '.bower_components-tmp');
+    mvRm(nodeModulesPath, '.deps-tmp/node_modules');
+    mvRm(bowerComponentsPath, '.deps-tmp/bower_components');
 
 
     if (!existsSync(nodeModulesPath)) {
-      symLinkDir(targetPath, '.node_modules-tmp', 'node_modules');
+      symLinkDir(targetPath, '.deps-tmp/node_modules', 'node_modules');
     }
 
     if (!existsSync(bowerComponentsPath)) {
-      symLinkDir(targetPath, '.bower_components-tmp', 'bower_components');
+      symLinkDir(targetPath, '.deps-tmp/bower_components', 'bower_components');
     }
 
     process.chdir(targetPath);

@@ -4,7 +4,6 @@ npm-debug.log
 /common-tmp
 *.tgz
 /docs/build
-.node_modules-tmp
-.bower_components-tmp
+.deps-tmp
 /coverage
 *.pem
