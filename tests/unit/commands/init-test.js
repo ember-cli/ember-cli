@@ -1,6 +1,6 @@
 'use strict';
 
-var fs            = require('fs');
+var fs            = require('fs-extra');
 var os            = require('os');
 var path          = require('path');
 var expect        = require('chai').expect;
@@ -15,7 +15,7 @@ var InitCommand   = require('../../../lib/commands/init');
 var td = require('testdouble');
 
 describe('init command', function() {
-  var ui, analytics, tasks, command;
+  var ui, analytics, tasks, command, workingDir;
 
   beforeEach(function() {
     ui = new MockUI();
@@ -25,9 +25,14 @@ describe('init command', function() {
       NpmInstall: Task.extend({}),
       BowerInstall: Task.extend({})
     };
+
+    var tmpDir = os.tmpdir();
+    workingDir = tmpDir + '/ember-cli-test-project';
+    fs.mkdirSync(workingDir);
   });
 
   afterEach(function() {
+    fs.removeSync(workingDir);
     td.reset();
   });
 
@@ -102,11 +107,8 @@ describe('init command', function() {
     // change the working dir so `process.cwd` can't be an invalid path for base directories
     // named `ember-cli`.
 
-    var tmpDir = os.tmpdir();
-    var workingDir = tmpDir + '/ember-cli-test-project';
     var currentWorkingDir = process.cwd();
 
-    fs.mkdirSync(workingDir);
     process.chdir(workingDir);
 
     tasks.InstallBlueprint = Task.extend({
@@ -124,7 +126,6 @@ describe('init command', function() {
       })
       .then(function() {
         process.chdir(currentWorkingDir);
-        fs.rmdirSync(workingDir);
       });
   });
 
