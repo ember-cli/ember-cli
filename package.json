@@ -85,6 +85,7 @@
     "inquirer": "^1.0.2",
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^3.0.0",
+    "js-yaml": "^3.6.1",
     "leek": "0.0.23",
     "lodash.template": "^4.2.5",
     "markdown-it": "8.0.0",
@@ -138,7 +139,7 @@
     "yuidocjs": "0.10.2"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "0.12.* || ^4.5 || 6.*"
   },
   "trackingCode": "UA-49225444-1"
 }
