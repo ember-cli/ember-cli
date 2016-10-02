@@ -1,6 +1,5 @@
 'use strict';
 
-var EOL           = require('os').EOL;
 var expect        = require('chai').expect;
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
@@ -318,12 +317,7 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim();
 
-          var options = captor.value;
-          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
-            expect(output).to.equal('', 'expected no extra output');
-          } else {
-            expect(output.split(EOL).length).to.equal(2, 'expected no extra output');
-          }
+          expect(output).to.equal('', 'expected no extra output');
         });
       });
     });
@@ -348,12 +342,7 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim();
 
-          var options = captor.value;
-          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
-            expect(output).to.equal('', 'expected no extra output');
-          } else {
-            expect(output.split(EOL).length).to.equal(2, 'expected no extra output');
-          }
+          expect(output).to.equal('', 'expected no extra output');
         });
       });
     });
