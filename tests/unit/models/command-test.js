@@ -31,7 +31,7 @@ var ServeCommand = Command.extend({
     { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)' },
     { name: 'environment', type: String, default: 'development' }
   ],
-  run: function() {}
+  run: function(options) { return options; }
 });
 
 var DevelopEmberCLICommand = Command.extend({
@@ -40,19 +40,19 @@ var DevelopEmberCLICommand = Command.extend({
   availableOptions: [
     { name: 'package-name', key: 'packageName', type: String, required: true }
   ],
-  run: function() {}
+  run: function(options) { return options; }
 });
 
 var InsideProjectCommand = Command.extend({
   name: 'inside-project',
   works: 'insideProject',
-  run: function() {}
+  run: function(options) { return options; }
 });
 
 var OutsideProjectCommand = Command.extend({
   name: 'outside-project',
   works: 'outsideProject',
-  run: function() {}
+  run: function(options) { return options; }
 });
 
 var OptionsAliasCommand = Command.extend({
@@ -80,7 +80,7 @@ var OptionsAliasCommand = Command.extend({
       { 'hw': 'Hello world' }
     ]
   }],
-  run: function() {}
+  run: function(options) { return options; }
 });
 
 describe('models/command.js', function() {
@@ -155,26 +155,53 @@ describe('models/command.js', function() {
     expect(new ServeCommand(options).parseArgs(['-lr', 'false'])).to.have.deep.property('options.liveReload', false);
   });
 
-  it('validateAndRun() should print a message if a required option is missing.', function() {
-    return new DevelopEmberCLICommand(options).validateAndRun([]).then(function() {
-      expect(ui.output).to.match(/requires the option.*package-name/);
-    });
-  });
+  describe('#validateAndRun', function() {
 
-  it('validateAndRun() should print a message if outside a project and command is not valid there.', function() {
-    return new InsideProjectCommand(assign(options, {
-      project: {
-        hasDependencies: function() { return true; },
-        isEmberCLIProject: function() { return false; },
-      }
-    })).validateAndRun([]).catch(function(reason) {
-      expect(reason.message).to.match(/You have to be inside an ember-cli project/);
+    it('should print a message if a required option is missing.', function() {
+      return new DevelopEmberCLICommand(options).validateAndRun([]).then(function() {
+        expect(ui.output).to.match(/requires the option.*package-name/);
+      });
     });
-  });
 
-  it('validateAndRun() should print a message if inside a project and command is not valid there.', function() {
-    return new OutsideProjectCommand(options).validateAndRun([]).catch(function(reason) {
-      expect(reason.message).to.match(/You cannot use.*inside an ember-cli project/);
+    it('should print a message if outside a project and command is not valid there.', function() {
+      return new InsideProjectCommand(assign(options, {
+        project: {
+          hasDependencies: function() { return true; },
+          isEmberCLIProject: function() { return false; },
+        }
+      })).validateAndRun([]).catch(function(reason) {
+        expect(reason.message).to.match(/You have to be inside an ember-cli project/);
+      });
+    });
+
+    it('selects watcher if an option', function() {
+      return new InsideProjectCommand(assign(options, {
+        availableOptions: [{ type: 'string', name: 'watcher' }],
+        project: {
+          hasDependencies: function() { return true; },
+          isEmberCLIProject: function() { return true; },
+        }
+      })).validateAndRun([]).then(function(options) {
+        expect(options).to.have.property('watcher');
+      });
+    });
+
+    it('selects NO watcher if NOT an option', function() {
+      return new InsideProjectCommand(assign(options, {
+        availableOptions: [{ type: 'string', name: 'foo' }],
+        project: {
+          hasDependencies: function() { return true; },
+          isEmberCLIProject: function() { return true; },
+        }
+      })).validateAndRun([]).then(function(options) {
+        expect(options).to.not.have.property('watcher');
+      });
+    });
+
+    it('should print a message if inside a project and command is not valid there.', function() {
+      return new OutsideProjectCommand(options).validateAndRun([]).catch(function(reason) {
+        expect(reason.message).to.match(/You cannot use.*inside an ember-cli project/);
+      });
     });
   });
 
@@ -566,6 +593,16 @@ describe('models/command.js', function() {
         var output = command.printDetailedHelp();
 
         expect(output).to.be.undefined;
+      });
+    });
+
+    describe('hasOption', function() {
+      it('reports false if no option with that name is present', function() {
+        expect(command.hasOption('no-option-by-this-name')).to.be.false;
+      });
+
+      it('reports false if no option with that name is present', function() {
+        expect(command.hasOption('port')).to.be.true;
       });
     });
 

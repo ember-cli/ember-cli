@@ -49,9 +49,11 @@ describe('generate command', function() {
   it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
     command.project.hasDependencies = function() { return false; };
 
-    expect(function() {
-      command.validateAndRun(['controller', 'foo']);
-    }).to.throw(SilentError, 'node_modules appears empty, you may need to run `npm install`');
+    return command.validateAndRun(['controller', 'foo']).then(function() {
+      expect(true).to.be.false;
+    }).catch(function(reason) {
+      expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
+    })
   });
 
   it('runs GenerateFromBlueprint with expected options', function() {
