@@ -82,7 +82,7 @@
     "heimdalljs-logger": "^0.1.7",
     "http-proxy": "^1.9.0",
     "inflection": "^1.7.0",
-    "inquirer": "^1.0.2",
+    "inquirer": "^1.2.1",
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^3.0.0",
     "js-yaml": "^3.6.1",
