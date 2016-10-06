@@ -22,12 +22,13 @@ before_install:
   - if [[ $(npm -v | cut -d '.' -f 1) -lt 3 ]]; then npm i -g npm@^3; fi
 
 install:
-  - npm install --no-optional
+  - travis_retry npm install --no-optional
 
-script: npm run-script test-all:cover
+script:
+  - travis_retry npm run-script test-all:cover
 
 after_script:
-  - npm install coveralls codeclimate-test-reporter
+  - travis_retry npm install coveralls codeclimate-test-reporter
   - cat coverage/lcov.info | node_modules/.bin/codeclimate-test-reporter
   - cat coverage/lcov.info | node_modules/.bin/coveralls
 
