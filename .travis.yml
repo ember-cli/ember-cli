@@ -25,7 +25,7 @@ install:
   - travis_retry npm install --no-optional
 
 script:
-  - travis_retry npm run-script test-all:cover
+  - npm run-script test-all:cover
 
 after_script:
   - travis_retry npm install coveralls codeclimate-test-reporter
