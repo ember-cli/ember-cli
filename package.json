@@ -62,7 +62,7 @@
     "ember-cli-get-component-path-option": "^1.0.0",
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-legacy-blueprints": "^0.1.1",
-    "ember-cli-lodash-subset": "^1.0.1",
+    "ember-cli-lodash-subset": "^1.0.11",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^3.0.0",
     "ember-cli-string-utils": "^1.0.0",
