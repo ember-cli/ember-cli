@@ -6,6 +6,11 @@ node_js:
   - "4"
   - "6"
 
+matrix:
+  allow_failures:
+    - node_js: "0.12"
+    - node_js: "node"
+ 
 branches:
   except:
     - canary
