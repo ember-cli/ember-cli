@@ -44,20 +44,27 @@ describe('Acceptance: ember install', function() {
     ]);
   }
 
-  function installAddon(args) {
-    var generateArgs = ['install'].concat(args);
+  function installAddon(addon) {
+    addon = path.resolve(path.join(__dirname, '..', 'fixtures', 'install', addon));
+
+    var commandArgs = ['install'].concat(addon);
 
     return initApp().then(function() {
-      return ember(generateArgs);
+      return ember(commandArgs);
     });
   }
 
   it('installs addons via npm and runs generators', function() {
-    return installAddon(['ember-cli-fastclick', 'ember-cli-photoswipe']).then(function(result) {
+    return installAddon('ember-cli-photoswipe-1.2.0.tgz')
+    .then(function(result) {
       expect(file('package.json'))
-        .to.match(/"ember-cli-fastclick": ".*"/)
         .to.match(/"ember-cli-photoswipe": ".*"/);
 
+      expect(result.outputStream.join()).to.include('WARNING: Could not figure out blueprint name from:');
+
+      return ember(["generate", "photoswipe"]);
+    })
+    .then(function(result) {
       expect(file('bower.json'))
         .to.match(/"photoswipe": ".*"/);
 
