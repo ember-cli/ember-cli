@@ -6,6 +6,11 @@ node_js:
   - "4"
   - "6"
 
+matrix:
+  allow_failures:
+    - node_js: "0.12"
+    - node_js: "node"
+ 
 branches:
   except:
     - canary
@@ -25,7 +30,7 @@ install:
   - travis_retry npm install --no-optional
 
 script:
-  - travis_retry npm run-script test-all:cover
+  - npm run-script test-all:cover
 
 after_script:
   - travis_retry npm install coveralls codeclimate-test-reporter
