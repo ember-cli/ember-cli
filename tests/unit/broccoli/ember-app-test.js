@@ -953,6 +953,23 @@ describe('broccoli/ember-app', function() {
       expect(project.ui.output).to.not.contain('EmberApp.concatFiles() is deprecated');
     });
 
+    describe('podTemplates', function() {
+      it('works', function() {
+        var app = new EmberApp({
+          project: project
+        });
+
+        var wasCalledCount = 0;
+        app.podTemplates = function() {
+          wasCalledCount++;
+        };
+
+        expect(wasCalledCount).to.eql(0);
+        app._templatesTree();
+        expect(wasCalledCount).to.eql(1);
+      });
+    });
+
     describe('concat order', function() {
       var count = 0;
       var args = [];
