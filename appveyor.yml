@@ -16,12 +16,13 @@ install:
   - git rev-parse HEAD
   # Get the latest stable version of Node 0.STABLE.latest
   - ps: Install-Product node $env:nodejs_version
+  # Install yarn
+  - npm install -g yarnpkg
+  # Install dependencies
+  - yarn install
   # Install PhantomJS
   - npm install phantomjs-prebuilt
   - npm install mocha-appveyor-reporter
-  # Typical npm stuff.
-  - npm version
-  - npm install
 
 cache:
   - '%APPDATA%\npm-cache'
@@ -30,9 +31,7 @@ cache:
 
 # Post-install test scripts.
 test_script:
-  # Output useful info for debugging.
-  - npm version
-  - cmd: npm run test-all
+  - cmd: yarn run test-all
 
 # Don't actually build.
 build: off

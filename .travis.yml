@@ -10,27 +10,28 @@ matrix:
   allow_failures:
     - node_js: "0.12"
     - node_js: "node"
- 
+
 branches:
   except:
     - canary
 
 cache:
   directories:
-    $HOME/.npm
-    $HOME/.cache # includes bowers cache
+    - $HOME/.npm
+    - $HOME/.cache # includes bowers cache
+    - $HOME/.yarn-cache
 
 before_install:
   # prevent the npm loading indicator
   - npm config --global set spin false
-  # if npm version is less 3.0.0 (lets say 1.x or 2.x) we should attempt to upgrade to 3
-  - if [[ $(npm -v | cut -d '.' -f 1) -lt 3 ]]; then npm i -g npm@^3; fi
+  # install yarn
+  - npm install -g yarnpkg
 
 install:
-  - travis_retry npm install --no-optional
+  - travis_retry yarn --ignore-optional
 
 script:
-  - npm run-script test-all:cover
+  - yarn run test-all:cover
 
 after_script:
   - travis_retry npm install coveralls codeclimate-test-reporter
