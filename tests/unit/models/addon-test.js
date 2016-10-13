@@ -279,6 +279,12 @@ describe('models/addon.js', function() {
           var tree = addon.treeFor('addon');
           expect(typeof (tree.read || tree.rebuild)).to.equal('function');
         });
+
+        it('fastboot-app', function() {
+          var tree = addon.treeFor('fastboot-app');
+          expect(typeof (tree.read || tree.rebuild)).to.equal('function');
+        });
+
       });
 
       describe('custom treeFor methods', function() {
@@ -316,6 +322,12 @@ describe('models/addon.js', function() {
           addon.treeForPublic = td.function();
           addon.treeFor('public');
           td.verify(addon.treeForPublic(), {ignoreExtraArgs: true});
+        });
+
+        it('can define treeForFastbootApp', function() {
+          addon.treeForFastbootApp = td.function();
+          addon.treeFor('fastboot-app');
+          td.verify(addon.treeForFastbootApp(), {ignoreExtraArgs: true});
         });
       });
     });

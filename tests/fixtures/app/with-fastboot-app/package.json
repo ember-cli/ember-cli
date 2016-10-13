@@ -1,0 +1,6 @@
+{
+  "name": "cool-app",
+  "devDependencies": {
+    "loader.js": "latest"
+  }
+}

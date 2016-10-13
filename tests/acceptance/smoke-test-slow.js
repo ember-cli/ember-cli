@@ -183,7 +183,7 @@ describe('Acceptance: smoke-test', function() {
         var dirPath = path.join('.', 'dist');
         var paths = walkSync(dirPath);
 
-        expect(paths).to.have.length.below(24, 'expected fewer than 24 files in dist, found ' + paths.length);
+        expect(paths).to.have.length.below(26, 'expected fewer than 26 files in dist, found ' + paths.length);
       });
   });
 
@@ -360,6 +360,19 @@ describe('Acceptance: smoke-test', function() {
             var output = result.output.join(EOL);
             expect(output).to.match(/TemplateLint:/, 'ran template linter');
             expect(output).to.match(/fail\s+2/, 'two templates failed linting');
+            expect(result.code).to.equal(1);
+          });
+      });
+  });
+
+  it('fastboot linting works properly', function() {
+    return copyFixtureFiles('smoke-tests/with-fastboot-failing-linting')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
+          .then(function() {
+            expect(false, 'should have rejected with a failing test').to.be.ok;
+          })
+          .catch(function(result) {
             expect(result.code).to.equal(1);
           });
       });
