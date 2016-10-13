@@ -1,4 +1,4 @@
-# <%= addonName.substring(0,1).toUpperCase() + addonName.substring(1) %>
+# <%= addonName %>
 
 This README outlines the details of collaborating on this Ember addon.
 
