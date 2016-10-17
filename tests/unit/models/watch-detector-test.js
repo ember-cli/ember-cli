@@ -75,7 +75,7 @@ describe('WatchDetector', function() {
         expect(option.watchmanInfo).to.have.property('enabled', true)
         expect(ui.output).not.to.match(/Could not start watchman/);
         expect(ui.output).not.to.match(/fell back to: "node"/);
-        expect(ui.output).not.to.match(/Visit http:\/\/ember-cli.com\/user-guide\/\#watchman/);
+        expect(ui.output).not.to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
       });
 
       describe('watchman does not work', function() {
@@ -95,7 +95,7 @@ describe('WatchDetector', function() {
           expect(option.watchmanInfo).to.have.property('canNestRoots');
           expect(ui.output).to.match(/Could not start watchman/);
           expect(ui.output).to.match(/fell back to: "node"/);
-          expect(ui.output).to.match(/Visit http:\/\/ember-cli.com\/user-guide\/\#watchman/);
+          expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
         });
 
         it('false back to polling if node does not work', function() {
@@ -110,7 +110,7 @@ describe('WatchDetector', function() {
           expect(option.watchmanInfo).to.have.property('canNestRoots');
           expect(ui.output).to.match(/Could not start watchman/);
           expect(ui.output).to.match(/fell back to: "polling"/);
-          expect(ui.output).to.match(/Visit http:\/\/ember-cli.com\/user-guide\/\#watchman/);
+          expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
         });
       });
     });
@@ -187,7 +187,7 @@ describe('WatchDetector', function() {
         var result = subject.checkWatchman();
         expect(result).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Could not start watchman/);
-        expect(ui.output).to.match(/Visit http:\/\/ember-cli.com\/user-guide\/\#watchman/);
+        expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
       });
     });
     it('prefers watchman if everything appears to be good', function() {

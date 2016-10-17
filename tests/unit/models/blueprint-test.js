@@ -1324,10 +1324,10 @@ help in detail');
 
     it('correctly handles local package naming, with a non-versioned package', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '*', source: 'http://twitter.github.io/bootstrap/assets/bootstrap'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '*', source: 'https://twitter.github.io/bootstrap/assets/bootstrap'}]);
       };
 
-      blueprint.addBowerPackageToProject('foo-bar-local', 'http://twitter.github.io/bootstrap/assets/bootstrap');
+      blueprint.addBowerPackageToProject('foo-bar-local', 'https://twitter.github.io/bootstrap/assets/bootstrap');
     });
 
     it('correctly handles a single versioned package descriptor as argument (1) (DEPRECATED)', function() {
@@ -1418,7 +1418,7 @@ help in detail');
       blueprint.addBowerPackagesToProject([
         {name: '',          source: 'jquery', target: '~2.0.0'},
         {name: 'backbone',  source: 'backbone-amd', target: '~1.0.0'},
-        {name: 'bootstrap', source: 'http://twitter.github.io/bootstrap/assets/bootstrap', target: '*'}
+        {name: 'bootstrap', source: 'https://twitter.github.io/bootstrap/assets/bootstrap', target: '*'}
       ]);
 
       expect(packages).to.deep.equal([
@@ -1427,7 +1427,7 @@ help in detail');
         // custom local name, versioned bower pkg
         'backbone=backbone-amd#~1.0.0',
         // no numbered version, custom local name
-        'bootstrap=http://twitter.github.io/bootstrap/assets/bootstrap'
+        'bootstrap=https://twitter.github.io/bootstrap/assets/bootstrap'
       ]);
     });
 
