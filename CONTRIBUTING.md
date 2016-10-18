@@ -9,7 +9,7 @@ improve documentation or work on any of the features on the
 This is the issue tracker for `ember-cli`. The community uses this site
 to collect and track bugs and discussions of new features. If you are
 having difficulties using `ember-cli` or have a question about usage
-please ask a question on Stack Overflow: http://stackoverflow.com/questions/ask?tags=ember-cli
+please ask a question on Stack Overflow: https://stackoverflow.com/questions/ask?tags=ember-cli
 
 # Issues
 
@@ -160,7 +160,7 @@ updating or writing new documentation:
 
 #### Website
 
-The codebase for the website [ember-cli.com](http://ember-cli.com) is located
+The codebase for the website [ember-cli.com](https://ember-cli.com) is located
 at: https://github.com/ember-cli/ember-cli.github.io
 
 #### Code Words

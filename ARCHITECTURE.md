@@ -297,7 +297,7 @@ module.exports = Task.extend({
 ```
 
 ### Sync vs async
-Since [JavaScript uses an event loop](http://nodejs.org/about/), the use of
+Since [JavaScript uses an event loop](https://nodejs.org/about/), the use of
 blocking and compute intensive operations is discouraged. The general
 recommendation is to use asynchronous operations.
 

@@ -1,1 +1,1 @@
-see <http://ember-cli.com/api/classes/Addon.html>
+see <https://ember-cli.com/api/classes/Addon.html>
