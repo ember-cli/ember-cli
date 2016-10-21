@@ -37,6 +37,27 @@ version:
 Thank you to all who took the time to contribute!
 
 
+### 2.9.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.9.0...v2.9.1)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.9.0...v2.9.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6371](https://github.com/ember-cli/ember-cli/pull/6371) blueprints/app: Update Ember and Ember Data to v2.9.0 [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.9.0
 
 The following changes are required if you are upgrading from the previous

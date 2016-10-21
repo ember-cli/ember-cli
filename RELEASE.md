@@ -119,6 +119,9 @@ git merge vX.Y.0-beta.N
 
 ### Setup
 
+* Update Ember and Ember Data versions.
+  * `blueprints/app/files/bower.json`
+  * `blueprints/app/files/package.json`
 * generate changelog
   * if on master branch
     * run `./dev/changelog`
