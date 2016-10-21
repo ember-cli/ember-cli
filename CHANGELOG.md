@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+### 2.10.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.10.0-beta.1...v2.10.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.10.0-beta.1...v2.10.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Notes:
+- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- As part of this release we have experimental support for including Ember from npm via the `ember-source` npm package. We hope to discover the gaps during this release cycle and make that the default in a future release.
+
+#### Community Contributions
+
+- [#6375](https://github.com/ember-cli/ember-cli/pull/6375) Bump Ember versions. [@nathanhammond](https://github.com/nathanhammond)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.10.0-beta.1
 
 The following changes are required if you are upgrading from the previous
