@@ -166,8 +166,10 @@ ember serve
 
 * if normal release
   * run `./dev/add-to-output-repos.sh`
-* if beta release
+* if incremental beta release
   * run `./dev/add-to-output-repos.sh beta`
+* if promoting canary to beta
+  * run `./dev/add-to-output-repos.sh beta fork`
 * copy the [`ember new` diff] and [`ember addon` diff] lines from the previous
   release changelog and paste into the current, then update the url with the
   newer tags
