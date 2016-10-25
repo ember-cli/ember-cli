@@ -1,6 +1,7 @@
 'use strict';
 
 var expect         = require('chai').expect;
+var SilentError    = require('silent-error');
 var TestServerTask = require('../../../lib/tasks/test-server');
 var MockProject    = require('../../helpers/mock-project');
 var MockUI         = require('../../helpers/mock-ui');
@@ -91,13 +92,17 @@ describe('test server', function() {
         return runResult;
       });
 
-      it('resolves with exit status (1)', function() {
+      it('rejects with exit status (1)', function() {
+        var error = new SilentError('Testem finished with non-zero exit code. Tests failed.');
+
         subject.testem.startDev = function(options, finalizer) {
           finalizer(1);
         };
 
-        var runResult = subject.run(runOptions).then(function(value) {
-          expect(value, 'expected exist status of 1').to.eql(1);
+        var runResult = subject.run(runOptions).then(function() {
+          expect(true, 'should have rejected, but fulfilled').to.be.false;
+        }, function(reason) {
+          expect(reason).to.eql(error);
         });
 
         watcher.emit('change');
@@ -125,7 +130,7 @@ describe('test server', function() {
         var error = new Error('OMG');
 
         subject.testem.startDev = function(options, finalizer) {
-          finalizer(1);
+          finalizer(0);
         };
 
         var runResult = subject.run(runOptions);
@@ -134,7 +139,7 @@ describe('test server', function() {
 
         return runResult.then(function() {
           subject.testem.startDev = function(options, finalizer) {
-            finalizer(1, error);
+            finalizer(0, error);
           };
 
           runResult = subject.run(runOptions).then(function() {
