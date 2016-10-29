@@ -26,20 +26,18 @@ describe('addon install task', function() {
 
   describe('when no save flag specified in blueprintOptions', function() {
     it('calls npm install with --save-dev as a default', function() {
-      var mockNpmInstallTask = CoreObject.extend({
+      var MockNpmInstallTask = CoreObject.extend({
         run: function(options) {
-          expect(options.save).to.not.equal(true);
-          expect(options['save-dev']).to.equal(true);
-          return new Promise(function(resolve, reject) {
-            resolve();
-          });
+          expect(options.save).to.not.be.true;
+          expect(options['save-dev']).to.be.true;
+          return Promise.resolve();
         }
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: mockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask
       });
 
       addonInstallTask.run({});
@@ -48,20 +46,18 @@ describe('addon install task', function() {
 
   describe('when save flag specified in blueprintOptions', function() {
     it('calls npm install with --save', function() {
-      var mockNpmInstallTask = CoreObject.extend({
+      var MockNpmInstallTask = CoreObject.extend({
         run: function(options) {
-          expect(options.save).to.equal(true);
-          expect(options['save-dev']).to.not.equal(true);
-          return new Promise(function(resolve, reject) {
-            resolve();
-          });
+          expect(options.save).to.be.true;
+          expect(options['save-dev']).to.not.be.true;
+          return Promise.resolve();
         }
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: mockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask
       });
 
       addonInstallTask.run({
@@ -74,20 +70,18 @@ describe('addon install task', function() {
 
   describe('when saveDev flag specified in blueprintOptions', function() {
     it('calls npm install with --save-dev', function() {
-      var mockNpmInstallTask = CoreObject.extend({
+      var MockNpmInstallTask = CoreObject.extend({
         run: function(options) {
-          expect(options.save).to.not.equal(true);
-          expect(options['save-dev']).to.equal(true);
-          return new Promise(function(resolve, reject) {
-            resolve();
-          });
+          expect(options.save).to.not.be.true;
+          expect(options['save-dev']).to.be.true;
+          return Promise.resolve();
         }
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: mockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask
       });
 
       addonInstallTask.run({
@@ -100,20 +94,18 @@ describe('addon install task', function() {
 
   describe('when both save and saveDev flag specified in blueprintOptions', function() {
     it('calls npm install with --save', function() {
-      var mockNpmInstallTask = CoreObject.extend({
+      var MockNpmInstallTask = CoreObject.extend({
         run: function(options) {
-          expect(options.save).to.equal(true);
-          expect(options['save-dev']).to.not.equal(true);
-          return new Promise(function(resolve, reject) {
-            resolve();
-          });
+          expect(options.save).to.be.true;
+          expect(options['save-dev']).to.not.be.true;
+          return Promise.resolve();
         }
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: mockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask
       });
 
       addonInstallTask.run({
