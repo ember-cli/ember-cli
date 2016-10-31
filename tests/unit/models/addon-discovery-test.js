@@ -40,7 +40,7 @@ describe('models/addon-discovery.js', function() {
       };
     });
 
-    it('returns an object containing depenencies from the provided package.json', function() {
+    it('returns an object containing dependencies from the provided package.json', function() {
       var expected = assign({}, deps, devDeps);
       var discovery = new AddonDiscovery(ui);
 
@@ -359,7 +359,7 @@ describe('models/addon-discovery.js', function() {
       expect(discoverFromDependenciesCalled).to.equal(true);
     });
 
-    it('concats  discoverInRepoAddons and discoverFromDependencies results', function() {
+    it('concats discoverInRepoAddons and discoverFromDependencies results', function() {
       discovery.discoverFromDependencies = function() {
         return [ 'discoverFromDependencies' ];
       };

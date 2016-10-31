@@ -1,6 +1,5 @@
 'use strict';
 
-var EOL           = require('os').EOL;
 var expect        = require('chai').expect;
 var MockUI        = require('../../helpers/mock-ui');
 var MockAnalytics = require('../../helpers/mock-analytics');
@@ -242,7 +241,7 @@ describe('Unit: CLI', function() {
         return ember([command, '--watcher', 'events']).then(function() {
           var captor = td.matchers.captor();
           td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.watcher, 'watcher').to.match(/node|events|watchman/);
+          expect(captor.value.watcher, 'watcher').to.match(/node|polling|watchman/);
         });
       });
 
@@ -262,7 +261,7 @@ describe('Unit: CLI', function() {
         return ember([command]).then(function() {
           var captor = td.matchers.captor();
           td.verify(server(captor.capture()), {ignoreExtraArgs: true, times: 1});
-          expect(captor.value.watcher, 'watcher').to.match(/node|events|watchman/);
+          expect(captor.value.watcher, 'watcher').to.match(/node|polling|watchman/);
         });
       });
 
@@ -318,12 +317,7 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim();
 
-          var options = captor.value;
-          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
-            expect(output).to.equal('', 'expected no extra output');
-          } else {
-            expect(output.split(EOL).length).to.equal(2, 'expected no extra output');
-          }
+          expect(output).to.equal('', 'expected no extra output');
         });
       });
     });
@@ -348,12 +342,7 @@ describe('Unit: CLI', function() {
 
           var output = ui.output.trim();
 
-          var options = captor.value;
-          if (/win\d+/.test(process.platform) || options.watcher === 'watchman') {
-            expect(output).to.equal('', 'expected no extra output');
-          } else {
-            expect(output.split(EOL).length).to.equal(2, 'expected no extra output');
-          }
+          expect(output).to.equal('', 'expected no extra output');
         });
       });
     });

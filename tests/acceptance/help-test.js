@@ -99,7 +99,7 @@ describe('Acceptance: ember help', function() {
     expect(output).to.contain(expected);
   });
 
-  it('prints helpfull message for unknown command', function() {
+  it('prints helpful message for unknown command', function() {
     command.run(options, ['asdf']);
 
     var output = options.ui.output;

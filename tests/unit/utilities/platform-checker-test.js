@@ -4,59 +4,23 @@ var expect = require('chai').expect;
 var PlatformChecker = require('../../../lib/utilities/platform-checker');
 
 describe('platform-checker', function() {
-  it('should return isDeprecated for Node v0.12', function() {
-    expect(new PlatformChecker('v0.10.1').isDeprecated).to.be.equal(true);
-    expect(new PlatformChecker('v0.10.15').isDeprecated).to.be.equal(true);
-    expect(new PlatformChecker('v0.10.30').isDeprecated).to.be.equal(true);
-    expect(new PlatformChecker('v0.12.0').isDeprecated).to.be.equal(false);
+  it('checkIsDeprecated', function() {
+    expect(new PlatformChecker('v0.10.1').checkIsDeprecated('4 || 6')).to.be.equal(true, 'versions below the range are deprecated');
+    expect(new PlatformChecker('v4.5.0').checkIsDeprecated('4 || 6')).to.be.equal(false, 'versions in the range are not deprecated');
+    expect(new PlatformChecker('4.5.0').checkIsDeprecated('4 || 6')).to.be.equal(false, 'versions without a v prefix recognize correctly');
+    expect(new PlatformChecker('v9.0.0').checkIsDeprecated('4 || 6')).to.be.equal(false, 'versions above the range are not deprecated');
   });
 
-  it('should return isUntested for Node v6', function() {
-    expect(new PlatformChecker('v7.0.0').isUntested).to.be.equal(true);
-    expect(new PlatformChecker('v6.0.0').isUntested).to.be.equal(false);
-    expect(new PlatformChecker('v0.12.0').isUntested).to.be.equal(false);
+  it('checkIsValid', function() {
+    expect(new PlatformChecker('v0.10.1').checkIsValid('4 || 6')).to.be.equal(false, 'versions below the range are not valid');
+    expect(new PlatformChecker('v4.5.0').checkIsValid('4 || 6')).to.be.equal(true, 'versions in the range are valid');
+    expect(new PlatformChecker('v4.6.0').checkIsValid('^4.5')).to.be.equal(true, 'LTS "minor" pattern works.');
+    expect(new PlatformChecker('v9.0.0').checkIsValid('4 || 6')).to.be.equal(true, 'versions above the range are valid');
   });
 
-  it('should return isValid for iojs', function() {
-    expect(new PlatformChecker('v1.0.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v1.0.1').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v1.0.2').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v1.0.3').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v1.0.4').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v1.1.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v1.2.0').isValid).to.be.equal(true);
-  });
-
-  it('should return isValid for Node v0.12', function() {
-    expect(new PlatformChecker('v0.12.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v0.12.15').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v0.12.30').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v0.10.0').isValid).to.be.equal(false);
-  });
-
-  it('should return isValid for Node v0.13', function() {
-    expect(new PlatformChecker('v0.13.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v0.13.15').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v0.13.30').isValid).to.be.equal(true);
-  });
-
-  it('should return isValid for Node v4', function() {
-    expect(new PlatformChecker('v4.0.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v4.0.15').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v4.0.30').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v4.1.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v4.2.0').isValid).to.be.equal(true);
-  });
-
-  it('should return isValid for Node v5', function() {
-    expect(new PlatformChecker('v5.0.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v5.1.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v5.99.0').isValid).to.be.equal(true);
-  });
-
-  it('should return isValid for Node v6', function() {
-    expect(new PlatformChecker('v6.0.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v6.1.0').isValid).to.be.equal(true);
-    expect(new PlatformChecker('v6.99.0').isValid).to.be.equal(true);
+  it('checkIsTested', function() {
+    expect(new PlatformChecker('v0.10.1').checkIsTested('4 || 6')).to.be.equal(false, 'versions not in range are untested');
+    expect(new PlatformChecker('v9.0.0').checkIsTested('4 || 6')).to.be.equal(false, 'versions not in range are untested');
+    expect(new PlatformChecker('v4.5.0').checkIsTested('4 || 6')).to.be.equal(true, 'versions in the range are valid');
   });
 });

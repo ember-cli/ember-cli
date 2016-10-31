@@ -303,7 +303,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('specifying outputFile results in a explicitly generated assets', function() {
+  it('specifying outputFile results in an explicitly generated assets', function() {
     return copyFixtureFiles('brocfile-tests/app-import-output-file')
       .then(function () {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -322,6 +322,33 @@ describe('Acceptance: brocfile-smoke-test', function() {
         });
       });
   });
+
+  it('can use transformation to turn anonymous AMD into named AMD', function() {
+    return copyFixtureFiles('brocfile-tests/app-import-anonymous-amd')
+      .then(function () {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var outputJS = fs.readFileSync(path.join('.', 'dist', 'assets', 'output.js'), {
+          encoding: 'utf8'
+        });
+
+        (function() {
+          var defineCount = 0;
+          function define(name, deps, factory) {
+            expect(name).to.equal('hello-world');
+            expect(deps).to.deep.equal([]);
+            expect(factory()()).to.equal('Hello World');
+            defineCount++;
+          }
+          /* eslint-disable no-eval */
+          eval(outputJS);
+          /* eslint-enable no-eval */
+          expect(defineCount).to.eql(1);
+        })();
+      });
+  });
+
 
   // skipped because of potentially broken assertion that should be fixed correctly at a later point
   it.skip('specifying partial `outputPaths` hash deep merges options correctly', function() {

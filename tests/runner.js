@@ -10,8 +10,7 @@ if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
 
-fs.removeSync('.node_modules-tmp');
-fs.removeSync('.bower_components-tmp');
+fs.removeSync('.deps-tmp');
 
 var root = 'tests/{unit,acceptance}';
 var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));

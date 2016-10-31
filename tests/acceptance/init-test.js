@@ -61,6 +61,9 @@ describe('Acceptance: ember init', function() {
     removeIgnored(expected);
     removeIgnored(actual);
 
+    removeTmp(expected);
+    removeTmp(actual);
+
     expected.sort();
 
     expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
@@ -75,6 +78,9 @@ describe('Acceptance: ember init', function() {
     removeIgnored(expected);
     removeIgnored(actual);
 
+    removeTmp(expected);
+    removeTmp(actual);
+
     expected.sort();
 
     expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
@@ -88,6 +94,12 @@ describe('Acceptance: ember init', function() {
       mark: true,
       strict: true
     }).sort();
+  }
+
+  function removeTmp(array) {
+    remove(array, function(entry) {
+      return /^tmp[\\\/]$/.test(entry);
+    });
   }
   function removeIgnored(array) {
     remove(array, function(fn) {

@@ -11,7 +11,7 @@ var findWhere = require('ember-cli-lodash-subset').find;
 var MockUI = require('../../helpers/mock-ui');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 
-var broccoli  = require('ember-cli-broccoli');
+var broccoli  = require('broccoli-builder');
 var walkSync  = require('walk-sync');
 var td        = require('testdouble');
 
@@ -214,11 +214,11 @@ describe('models/addon.js', function() {
         delete addon._moduleName;
       });
 
-      it('sets it\'s project', function() {
+      it('sets its project', function() {
         expect(addon.project.name).to.equal(project.name);
       });
 
-      it('sets it\'s parent', function() {
+      it('sets its parent', function() {
         expect(addon.parent.name).to.equal(project.name);
       });
 
@@ -230,7 +230,7 @@ describe('models/addon.js', function() {
         expect(addon.pkg).to.not.equal(undefined);
       });
 
-      describe('trees for it\'s treePaths', function() {
+      describe('trees for its treePaths', function() {
         it('app', function() {
           var tree = addon.treeFor('app');
           expect(typeof (tree.read || tree.rebuild)).to.equal('function');

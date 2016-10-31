@@ -32,7 +32,7 @@ describe('.ember-cli', function() {
     }).getAll();
   });
 
-  it('local settings take precendence over global settings', function() {
+  it('local settings take precedence over global settings', function() {
     var command = new Command({
       ui:        ui,
       analytics: analytics,
@@ -50,4 +50,3 @@ describe('.ember-cli', function() {
     );
   });
 });
-

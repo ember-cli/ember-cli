@@ -91,16 +91,16 @@ describe('blueprint - addon', function() {
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         // string to test ordering
-        expect(captor.value).to.deep.equal('\
+        expect(captor.value).to.equal('\
 {\n\
   "name": "test-project-name",\n\
   "description": "The default blueprint for ember-cli addons.",\n\
-  "scripts": {\n\
-    "test": "ember try:each"\n\
-  },\n\
   "keywords": [\n\
     "ember-addon"\n\
   ],\n\
+  "scripts": {\n\
+    "test": "ember try:each"\n\
+  },\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
     "ember-disable-prototype-extensions": "^1.1.0"\n\
@@ -274,18 +274,6 @@ describe('blueprint - addon', function() {
         expect(json.dependencies).to.deep.equal({ a: "1", b: "1" });
         expect(json.devDependencies).to.deep.equal({ a: "1", b: "1" });
       });
-
-      it('appends ending newline', function() {
-        blueprint.generatePackageJson();
-
-        var captor = td.matchers.captor();
-
-        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
-        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
-
-        var contents = captor.value;
-        expect(contents[contents.length - 1]).to.equal('\n');
-      });
     });
 
     describe('generateBowerJson', function() {
@@ -298,22 +286,10 @@ describe('blueprint - addon', function() {
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/bower.json'), captor.capture()));
 
         // string to test ordering
-        expect(captor.value).to.deep.equal('\
+        expect(captor.value).to.equal('\
 {\n\
   "name": "test-project-name"\n\
 }\n');
-      });
-
-      it('appends ending newline', function() {
-        blueprint.generateBowerJson();
-
-        var captor = td.matchers.captor();
-
-        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/bower.json')));
-        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/bower.json'), captor.capture()));
-
-        var contents = captor.value;
-        expect(contents[contents.length - 1]).to.equal('\n');
       });
     });
   });

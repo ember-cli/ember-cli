@@ -183,7 +183,7 @@ describe('Acceptance: smoke-test', function() {
         var dirPath = path.join('.', 'dist');
         var paths = walkSync(dirPath);
 
-        expect(paths).to.have.length.below(23, 'expected fewer than 23 files in dist, found ' + paths.length);
+        expect(paths).to.have.length.below(24, 'expected fewer than 24 files in dist, found ' + paths.length);
       });
   });
 

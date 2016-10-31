@@ -4,7 +4,7 @@ var expect      = require('chai').expect;
 var TestTask    = require('../../../lib/tasks/test');
 var MockProject = require('../../helpers/mock-project');
 
-describe('test', function() {
+describe('test task test', function() {
   var subject;
 
   it('transforms options for testem configuration', function() {

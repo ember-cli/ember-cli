@@ -124,7 +124,7 @@ describe('Unit - FileInfo', function() {
     });
   });
 
-  it('renders a menu with an skip option', function() {
+  it('renders a menu with a skip option', function() {
     td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
 
     var fileInfo = new FileInfo(validOptions);
@@ -135,7 +135,7 @@ describe('Unit - FileInfo', function() {
     });
   });
 
-  it('renders a menu with an diff option', function() {
+  it('renders a menu with a diff option', function() {
     td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'diff' }));
 
     var fileInfo = new FileInfo(validOptions);
@@ -143,6 +143,24 @@ describe('Unit - FileInfo', function() {
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
       td.verify(ui.prompt(td.matchers.anything()), {times: 1});
       expect(action).to.equal('diff');
+    });
+  });
+
+  it('renders a menu without diff and edit options when dealing with binary files', function() {
+    td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+
+    var binary = path.resolve(__dirname, '../../fixtures/problem-binary.png');
+    validOptions.inputPath = binary;
+    var fileInfo = new FileInfo(validOptions);
+
+    return fileInfo.confirmOverwrite('test.png').then(function(action) {
+      td.verify(ui.prompt(td.matchers.argThat(function(options) {
+        return (
+          options.choices.length === 2 &&
+          options.choices[0].key === 'y' &&
+          options.choices[1].key === 'n'
+        );
+      })));
     });
   });
 

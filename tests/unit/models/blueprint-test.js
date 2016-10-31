@@ -32,6 +32,17 @@ var beforeInstallCalled;
 var afterInstallCalled;
 var afterUninstallCalled;
 
+function resetCalled() {
+  localsCalled = false;
+  normalizeEntityNameCalled = false;
+  fileMapTokensCalled = false;
+  filesPathCalled = false;
+  beforeUninstallCalled = false;
+  beforeInstallCalled = false;
+  afterInstallCalled = false;
+  afterUninstallCalled = false;
+}
+
 var instrumented = {
   locals: function(opts) {
     localsCalled = true;
@@ -109,6 +120,9 @@ var defaultIgnoredFiles = Blueprint.ignoredFiles;
 var basicBlueprintFiles = [
   '.ember-cli',
   '.gitignore',
+  'app/',
+  'app/basics/',
+  'app/basics/mock-project.txt',
   'bar',
   'foo.txt',
   'test.txt'
@@ -121,14 +135,7 @@ describe('Blueprint', function() {
   beforeEach(function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
 
-    localsCalled = false;
-    normalizeEntityNameCalled = false;
-    fileMapTokensCalled = false;
-    filesPathCalled = false;
-    beforeUninstallCalled = false;
-    beforeInstallCalled = false;
-    afterInstallCalled = false;
-    afterUninstallCalled = false;
+    resetCalled();
 
     existsSyncStub = existsSync;
     readdirSyncStub = fs.readdirSync;
@@ -552,6 +559,7 @@ help in detail');
         expect(output.shift()).to.match(/^installing/);
         expect(output.shift()).to.match(/create.* .ember-cli/);
         expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
@@ -580,6 +588,7 @@ help in detail');
         expect(output.shift()).to.match(/^installing/);
         expect(output.shift()).to.match(/create.* .ember-cli/);
         expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
@@ -594,6 +603,7 @@ help in detail');
         expect(output.shift()).to.match(/^installing/);
         expect(output.shift()).to.match(/identical.* .ember-cli/);
         expect(output.shift()).to.match(/identical.* .gitignore/);
+        expect(output.shift()).to.match(/identical.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/identical.* bar/);
         expect(output.shift()).to.match(/identical.* foo.txt/);
         expect(output.shift()).to.match(/identical.* test.txt/);
@@ -616,6 +626,7 @@ help in detail');
         expect(output.shift()).to.match(/^installing/);
         expect(output.shift()).to.match(/create.* .ember-cli/);
         expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
@@ -702,6 +713,7 @@ help in detail');
           expect(output.shift()).to.match(/^installing/);
           expect(output.shift()).to.match(/create.* .ember-cli/);
           expect(output.shift()).to.match(/create.* .gitignore/);
+          expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
           expect(output.shift()).to.match(/create.* bar/);
           expect(output.shift()).to.match(/create.* foo.txt/);
           expect(output.shift()).to.match(/create.* test.txt/);
@@ -778,7 +790,8 @@ help in detail');
       .then(function() {
         var actualFiles = walkSync(tmpdir).sort();
 
-        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+        expect(actualFiles).to.contain('app/basics/foo.txt');
+        expect(actualFiles).to.not.contain('app/basics/mock-project.txt');
       });
     });
 
@@ -805,6 +818,10 @@ help in detail');
         expect(beforeUninstallCalled).to.be.false;
         expect(afterUninstallCalled).to.be.false;
       });
+    });
+
+    it('doesn\'t throw when running uninstall without installing first', function() {
+      return blueprint.uninstall(options);
     });
   });
 
@@ -850,6 +867,7 @@ help in detail');
         expect(output.shift()).to.match(/^uninstalling/);
         expect(output.shift()).to.match(/remove.* .ember-cli/);
         expect(output.shift()).to.match(/remove.* .gitignore/);
+        expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/remove.* bar/);
         expect(output.shift()).to.match(/remove.* foo.txt/);
         expect(output.shift()).to.match(/remove.* test.txt/);
@@ -863,47 +881,65 @@ help in detail');
       });
     });
 
-    describe('instrumented blueprint uninstallation', function() {
-      var blueprint;
-      var ui;
-      var project;
-      var options;
-      var tmpdir;
+    it('uninstall doesn\'t remove non-empty folders', function() {
+      options.entity = { name: 'foo' };
 
-      function refreshUI() {
-        ui = new MockUI();
-        options.ui = ui;
-      }
+      return blueprint.install(options).then(function() {
+        var actualFiles = walkSync(tmpdir);
 
-      beforeEach(function() {
-        return mkTmpDirIn(tmproot).then(function(dir) {
-          tmpdir = dir;
-          blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
-          project   = new MockProject();
-          options   = {
-            project: project,
-            target: tmpdir
-          };
-          refreshUI();
+        expect(actualFiles).to.contain('app/basics/foo.txt');
+        expect(actualFiles).to.contain('app/basics/mock-project.txt');
 
-          return blueprint.uninstall(options);
-        }).then(refreshUI);
+        return blueprint.uninstall(options);
+      }).then(function() {
+        var actualFiles = walkSync(tmpdir);
+
+        expect(actualFiles).to.not.contain('app/basics/foo.txt');
+        expect(actualFiles).to.contain('app/basics/mock-project.txt');
       });
+    });
+  });
 
-      it('calls appropriate hooks with correct arguments', function() {
-        options.entity = { name: 'foo' };
+  describe('instrumented blueprint uninstallation', function() {
+    var blueprint;
+    var ui;
+    var project;
+    var options;
+    var tmpdir;
 
-        return blueprint.uninstall(options).then(function() {
-          expect(localsCalled).to.be.true;
-          expect(normalizeEntityNameCalled).to.be.true;
-          expect(fileMapTokensCalled).to.be.true;
-          expect(filesPathCalled).to.be.true;
-          expect(beforeUninstallCalled).to.be.true;
-          expect(afterUninstallCalled).to.be.true;
+    function refreshUI() {
+      ui = new MockUI();
+      options.ui = ui;
+    }
 
-          expect(beforeInstallCalled).to.be.false;
-          expect(afterInstallCalled).to.be.false;
-        });
+    beforeEach(function() {
+      return mkTmpDirIn(tmproot).then(function(dir) {
+        tmpdir = dir;
+        blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
+        project   = new MockProject();
+        options   = {
+          project: project,
+          target: tmpdir
+        };
+        refreshUI();
+
+        return blueprint.install(options).then(resetCalled);
+      }).then(refreshUI);
+    });
+
+    it('calls appropriate hooks with correct arguments', function() {
+      options.entity = { name: 'foo' };
+
+      return blueprint.uninstall(options).then(function() {
+        expect(localsCalled).to.be.true;
+        expect(normalizeEntityNameCalled).to.be.true;
+        expect(fileMapTokensCalled).to.be.true;
+        expect(filesPathCalled).to.be.true;
+        expect(beforeUninstallCalled).to.be.true;
+        expect(afterUninstallCalled).to.be.true;
+
+        expect(beforeInstallCalled).to.be.false;
+        expect(afterInstallCalled).to.be.false;
       });
     });
   });
@@ -1288,10 +1324,10 @@ help in detail');
 
     it('correctly handles local package naming, with a non-versioned package', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '*', source: 'http://twitter.github.io/bootstrap/assets/bootstrap'}]);
+        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '*', source: 'https://twitter.github.io/bootstrap/assets/bootstrap'}]);
       };
 
-      blueprint.addBowerPackageToProject('foo-bar-local', 'http://twitter.github.io/bootstrap/assets/bootstrap');
+      blueprint.addBowerPackageToProject('foo-bar-local', 'https://twitter.github.io/bootstrap/assets/bootstrap');
     });
 
     it('correctly handles a single versioned package descriptor as argument (1) (DEPRECATED)', function() {
@@ -1382,7 +1418,7 @@ help in detail');
       blueprint.addBowerPackagesToProject([
         {name: '',          source: 'jquery', target: '~2.0.0'},
         {name: 'backbone',  source: 'backbone-amd', target: '~1.0.0'},
-        {name: 'bootstrap', source: 'http://twitter.github.io/bootstrap/assets/bootstrap', target: '*'}
+        {name: 'bootstrap', source: 'https://twitter.github.io/bootstrap/assets/bootstrap', target: '*'}
       ]);
 
       expect(packages).to.deep.equal([
@@ -1391,7 +1427,7 @@ help in detail');
         // custom local name, versioned bower pkg
         'backbone=backbone-amd#~1.0.0',
         // no numbered version, custom local name
-        'bootstrap=http://twitter.github.io/bootstrap/assets/bootstrap'
+        'bootstrap=https://twitter.github.io/bootstrap/assets/bootstrap'
       ]);
     });
 

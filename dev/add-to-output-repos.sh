@@ -4,9 +4,16 @@ cd "`git rev-parse --show-toplevel`"
 mkdir -p tmp
 cd tmp
 
-branch=stable
+stable_branch=stable
+beta_branch=master
+
+branch=$stable_branch
 if [ "$1" = "beta" ]; then
-  branch=master
+  if [ "$2" = "fork" ]; then
+    fork=true
+  else
+    branch=$beta_branch
+  fi
 fi
 
 EMBERVERSION=`ember version | grep "ember-cli:" | cut -d' ' -f2`
@@ -29,10 +36,21 @@ for i in ${commands[@]}; do
   cp -r $local_folder/ .
   rm -r $local_folder
 
+  # start a new beta branch off the just released stable
+  if $fork; then
+    git branch -d $beta_branch
+    git branch $beta_branch
+    git checkout $beta_branch
+  fi
+
   git add --all
   git commit -m $EMBERVERSION
   git tag "v"$EMBERVERSION
-  git push
+  if $fork; then
+    git push -f
+  else
+    git push
+  fi
   git push --tags
 
   popd

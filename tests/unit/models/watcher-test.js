@@ -9,6 +9,7 @@ var Watcher = require('../../../lib/models/watcher');
 var EOL = require('os').EOL;
 var chalk = require('chalk');
 var BuildError = require('../../helpers/build-error');
+var Promise = require('../../../lib/ext/promise');
 
 describe('Watcher', function() {
   var ui;

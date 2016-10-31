@@ -118,7 +118,7 @@ ember new \u001b[33m<app-name>\u001b[39m \u001b[36m<options...>\u001b[39m
 ember serve \u001b[36m<options...>\u001b[39m
   Builds and serves your app, rebuilding on file changes.
   \u001b[90maliases: server, s\u001b[39m
-  \u001b[36m--port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 4200)\u001b[39m
+  \u001b[36m--port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 4200)\u001b[39m To use a port different than 4200. Pass 0 to automatically pick an available port.
     \u001b[90maliases: -p <value>\u001b[39m
   \u001b[36m--host\u001b[39m \u001b[36m(String)\u001b[39m Listens on all interfaces by default
     \u001b[90maliases: -H <value>\u001b[39m
