@@ -8,8 +8,10 @@ environment:
     - nodejs_version: "6"
 
 branches:
-  except:
-    - canary
+  only:
+    - master
+    - beta
+    - release
 
 # Install scripts. (runs after repo cloning)
 install:
