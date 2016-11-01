@@ -12,6 +12,8 @@ branches:
     - master
     - beta
     - release
+    - auto
+    - /^greenkeeper.*$/
 
 cache:
   directories:
