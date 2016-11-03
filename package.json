@@ -88,7 +88,7 @@
     "js-yaml": "^3.6.1",
     "leek": "0.0.24",
     "lodash.template": "^4.2.5",
-    "markdown-it": "8.0.1",
+    "markdown-it": "8.1.0",
     "markdown-it-terminal": "0.0.4",
     "minimatch": "^3.0.0",
     "morgan": "^1.5.2",
