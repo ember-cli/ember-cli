@@ -97,7 +97,7 @@
     "nopt": "^3.0.1",
     "npm": "3.10.8",
     "npm-package-arg": "^4.1.1",
-    "ora": "^0.2.0",
+    "ora": "^0.3.0",
     "portfinder": "^1.0.7",
     "promise-map-series": "^0.2.1",
     "quick-temp": "0.1.6",
