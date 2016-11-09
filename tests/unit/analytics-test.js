@@ -2,14 +2,12 @@
 
 var expect = require('chai').expect;
 var Command = require('../../lib/models/command');
+var InternalCommand = require('../../lib/utilities/internal-command');
 var MockUI = require('../helpers/mock-ui');
 var MockProject = require('../helpers/mock-project');
 var Promise = require('../../lib/ext/promise');
-var analyticsUtils = require('../../lib/utilities/analytics-utils');
 
-var ANALYTICS_WHITELISTED_COMMANDS = analyticsUtils.ANALYTICS_WHITELISTED_COMMANDS;
-
-var command, serveCommand, TmpCommand;
+var command;
 var called = false;
 
 var analytics = {
@@ -20,34 +18,30 @@ var analytics = {
 var project = new MockProject();
 project.isEmberCLIProject = function() { return true; };
 
-// populate an array of commands that we expect to be tracked
-var commands = [];
-for (var i = 0, l = ANALYTICS_WHITELISTED_COMMANDS.length; i < l; i++) {
-  TmpCommand = Command.extend({
-    name: ANALYTICS_WHITELISTED_COMMANDS[i],
-    run: function(options) { return options; }
-  })
-  commands.push(new TmpCommand({
-    ui: new MockUI(),
-    analytics: analytics,
-    project: project
-  }));
-}
-
 describe('analytics', function() {
   afterEach(function() {
     called = false;
+    command = null;
   });
 
-  it('track gets invoked on command.validateAndRun() only for whitelisted commands', function() {
-    return Promise.all(commands.map(function(command) {
-      return command.validateAndRun([]).then(function() {
-        expect(called, command + ': expected analytics.track to be called').to.be.true;
-      });
-    }));
+  it('track gets invoked on command.validateAndRun() only for internal commands', function() {
+    var CustomInternalCommand = InternalCommand.extend({
+      name: 'internal-command',
+      run: function (options) { return options; }
+    })
+
+    command = new CustomInternalCommand({
+      ui: new MockUI(),
+      analytics: analytics,
+      project: project
+    });
+
+    return command.validateAndRun([]).then(function() {
+      expect(called, command + ': expected analytics.track to be called').to.be.true;
+    });
   });
 
-  it('track does not get invoked on command.validateAndRun() for non-whitelisted commands', function() {
+  it('track does not get invoked on command.validateAndRun() for non-internal commands', function() {
     var CustomCommand = Command.extend({
       name: 'custom-command',
       run: function() {}
