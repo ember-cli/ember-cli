@@ -107,6 +107,24 @@ describe('models/asset-size-printer', function () {
       });
   });
 
+  it('can print out to JSON', function () {
+    var assetObjectKeys;
+    var sizePrinter = new AssetSizePrinter({
+      ui: new MockUi(),
+      outputPath: storedTmpDir
+    });
+
+    return sizePrinter.printJSON()
+      .then(function () {
+        var output = JSON.parse(sizePrinter.ui.output);
+
+        expect(output.files[0].name).to.include('nested-asset.css');
+        expect(output.files[1].name).to.include('nested-asset.js');
+        expect(output.files[1].size).to.equal(32);
+        expect(output.files[1].gzipSize).to.equal(52);
+      });
+  });
+
   it('creates an array of asset objects', function () {
     var assetObjectKeys;
     var sizePrinter = new AssetSizePrinter({
