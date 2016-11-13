@@ -5,6 +5,9 @@ var commandOptions = require('../../factories/command-options');
 var map            = require('ember-cli-lodash-subset').map;
 var AddonCommand   = require('../../../lib/commands/addon');
 var Blueprint      = require('../../../lib/models/blueprint');
+var Task           = require('../../../lib/models/task');
+var Command        = require('../../../lib/models/command');
+var Promise        = require('../../../lib/ext/promise');
 var td = require('testdouble');
 
 describe('addon command', function() {
@@ -27,6 +30,24 @@ describe('addon command', function() {
 
   afterEach(function() {
     td.reset();
+  });
+
+  it('allows an addon name beginning with a number', function() {
+    command.tasks.CreateAndStepIntoDirectory = Task.extend({
+      run: function() {
+        return Promise.resolve();
+      }
+    });
+
+    command.commands.Init = Command.extend({
+      run: function() {
+        return Promise.resolve();
+      }
+    });
+
+    return command.validateAndRun(['123-my-bagel']).then(function() {
+      expect(true, 'addon name was valid').to.be.true;
+    });
   });
 
   it('doesn\'t allow to create an addon named `test`', function() {
@@ -80,15 +101,6 @@ describe('addon command', function() {
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `zomg.awesome`.');
-    });
-  });
-
-  it('doesn\'t allow to create an addon with a name beginning with a number', function() {
-    return command.validateAndRun(['123-my-bagel']).then(function() {
-      expect(false, 'should have rejected with a name beginning with a number').to.be.true;
-    })
-    .catch(function(error) {
-      expect(error.message).to.equal('We currently do not support a name of `123-my-bagel`.');
     });
   });
 

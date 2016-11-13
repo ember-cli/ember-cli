@@ -34,6 +34,24 @@ describe('new command', function() {
     td.reset();
   });
 
+  it('allows an application name beginning with a number', function() {
+    command.tasks.CreateAndStepIntoDirectory = Task.extend({
+      run: function() {
+        return Promise.resolve();
+      }
+    });
+
+    command.commands.Init = Command.extend({
+      run: function() {
+        return Promise.resolve();
+      }
+    });
+
+    return command.validateAndRun(['123-my-bagel']).then(function() {
+      expect(true, 'application name was valid').to.be.true;
+    });
+  });
+
   it('doesn\'t allow to create an application named `test`', function() {
     return command.validateAndRun(['test']).then(function() {
       expect(false, 'should have rejected with an application name of test').to.be.ok;
@@ -85,15 +103,6 @@ describe('new command', function() {
     })
     .catch(function(error) {
       expect(error.message).to.equal('We currently do not support a name of `zomg.awesome`.');
-    });
-  });
-
-  it('doesn\'t allow to create an application with a name beginning with a number', function() {
-    return command.validateAndRun(['123-my-bagel']).then(function() {
-      expect(false, 'should have rejected with a name beginning with a number').to.be.ok;
-    })
-    .catch(function(error) {
-      expect(error.message).to.equal('We currently do not support a name of `123-my-bagel`.');
     });
   });
 
