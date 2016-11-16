@@ -7,6 +7,7 @@ var spawn          = require('child_process').spawn;
 var defaults       = require('ember-cli-lodash-subset').defaults;
 var killCliProcess = require('./kill-cli-process');
 var logOnFailure   = require('./log-on-failure');
+var debug          = require('heimdalljs-logger')('run-command');
 
 module.exports = function run(/* command, args, options */) {
   var command = arguments[0];
@@ -31,6 +32,7 @@ module.exports = function run(/* command, args, options */) {
     },
 
     log: function(string) {
+      debug.debug(string);
       if (options.verbose) {
         console.log(string);
       } else {
@@ -49,6 +51,8 @@ module.exports = function run(/* command, args, options */) {
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];
     }
+
+    debug.info("command: %s, args: %o", command, args);
     var child = spawn(command, args, opts);
     var result = {
       output: [],

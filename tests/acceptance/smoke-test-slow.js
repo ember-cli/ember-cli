@@ -82,7 +82,7 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
-  it('ember test still runs when only a JavaScript testem config exists', function() {
+  it('ember test still runs when a JavaScript testem config exists', function() {
     return copyFixtureFiles('smoke-tests/js-testem-config')
       .then(function() {
         return ember(['test']);
