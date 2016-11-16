@@ -119,6 +119,14 @@ describe('broccoli/ember-app', function() {
       });
     });
 
+    it('should watch vendor if it exists', function() {
+      var app = new EmberApp({
+        project: project
+      });
+
+      expect(app.options.trees.vendor.__broccoliGetInfo__()).to.have.property('watched', true);
+    });
+
     describe('_notifyAddonIncluded', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
