@@ -470,7 +470,7 @@ describe('broccoli/ember-app', function() {
         td.when(app.addonPostprocessTree(), {ignoreExtraArgs: true}).thenReturn(['batman']);
       });
 
-      it('styles calls addonTreesFor', function() {
+      it('styles calls postprocessTree', function() {
         app.styles();
 
         var captor = td.matchers.captor();
@@ -551,7 +551,7 @@ describe('broccoli/ember-app', function() {
 
         var args = td.explain(addon.postprocessTree).calls.map(function(call) { return call.args[0]; });
 
-        expect(args).to.deep.equal(['js', 'css', 'test', 'all']);
+        expect(args).to.deep.equal(['js', 'fastboot', 'css', 'test', 'all']);
       });
     });
 
@@ -997,6 +997,10 @@ describe('broccoli/ember-app', function() {
         app.appAndDependencies = function() {
           return 'app-and-dependencies-tree';
         };
+
+        app.fastbootAppAndDependencies = function() {
+          return 'fastboot-app-and-dependencies-tree';
+        }
       });
 
       it('correctly orders concats from app.styles()', function() {
@@ -1039,6 +1043,7 @@ describe('broccoli/ember-app', function() {
           outputFile: '/assets/vendor.css'
         });
       });
+
       it('correct orders concats from app.javacsript()', function() {
         app.import('files/c.js');
         app.import('files/b.js');
@@ -1047,7 +1052,8 @@ describe('broccoli/ember-app', function() {
 
         app.javascript(); // run
 
-        expect(count).to.eql(2);
+        expect(count).to.eql(3);
+
         // should be unrelated files
         expect(args[0]).to.deep.eql({
           annotation: "Concat: App",
@@ -1066,7 +1072,7 @@ describe('broccoli/ember-app', function() {
         });
 
         // should be: a,c,b,a in output
-        expect(args[1]).to.deep.eql({
+        expect(args[2]).to.deep.eql({
           annotation: "Concat: Vendor /assets/vendor.js",
           headerFiles: [
             "vendor/ember-cli/vendor-prefix.js",
@@ -1145,6 +1151,95 @@ describe('broccoli/ember-app', function() {
         });
       });
     });
+
+    describe('Fastboot tests', function() {
+      beforeEach(function() {
+        projectPath = path.resolve(__dirname, '../../fixtures/app/with-fastboot-app');
+        project = setupProject(projectPath);
+
+        mergeTreesStub = require('../../../lib/broccoli/merge-trees');
+
+        app = new EmberApp({
+          project: project
+        });
+      });
+
+      describe('addonTreesFor is called properly', function() {
+        beforeEach(function() {
+          app.addonTreesFor = td.function();
+          td.when(app.addonTreesFor(), {ignoreExtraArgs: true}).thenReturn(['batman']);
+        });
+
+        it('_processedFastbootAppTree calls addonTreesFor', function() {
+          app._processedFastbootAppTree();
+
+          var args = td.explain(app.addonTreesFor).calls.map(function(call) { return call.args[0]; });
+
+          expect(args).to.deep.equal(['fastboot-app']);
+        });
+      });
+
+      describe('toTree', function() {
+        beforeEach(function() {
+          addon = {
+            included: function() { },
+            treeFor: function() { },
+            postprocessTree: td.function(),
+          };
+
+          project.initializeAddons = function() {
+            this.addons = [ addon ];
+          };
+
+          app = new EmberApp({
+            project: project
+          });
+        });
+      });
+
+      describe('concat order', function() {
+        var count = 0;
+        var args = [];
+
+        beforeEach(function() {
+          count = 0;
+          args = [];
+
+          // we are "spying and mocking here" so to ensure we are testing our own
+          // "wiring" not the implementation of our dependencies e.g. broccoli-concat
+          app._concatFiles = function(tree, options) {
+            count++
+            args.push(options);
+            return tree;
+          };
+
+          app.appAndDependencies = function() {
+            return 'app-and-dependencies-tree';
+          };
+
+          app.fastbootAppAndDependencies = function() {
+            return 'fastboot-app-and-dependencies-tree';
+          }
+        });
+
+        it('correct orders concats from app.javacsript()', function() {
+          app.import('files/c.js');
+          app.import('files/b.js');
+          app.import('files/a.js', { prepend: true });
+          app.import('files/a.js');
+
+          app.javascript(); // run
+
+          expect(count).to.eql(3);
+
+          expect(args[1]).to.deep.eql({
+            inputFiles: [ 'cool-app/**/*.js' ],
+            outputFile: '/assets/cool-app-fastboot.js',
+            allowNone: true,
+            annotation: 'Concat: Fastboot app'
+          });
+        });
+      });
+    });
   });
 });
-

@@ -444,4 +444,66 @@ describe('Acceptance: brocfile-smoke-test', function() {
           .to.equal('body { background: green; }\n');
       });
   });
+
+  it('having a fastboot/app directory in app should generate fastboot asset', function() {
+    return copyFixtureFiles('brocfile-tests/fastboot-from-app')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var fastbootAssetFile = '/assets/some-cool-app-fastboot.js';
+
+        var basePath = path.join('.', 'dist');
+        expect(file(path.join(basePath, fastbootAssetFile))).to.exist;
+      })
+      .then(function() {
+        var fastbootAppFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '-fastboot.js'), {
+          encoding: 'utf8'
+        });
+
+        expect(fastbootAppFileContents).to.include('//fastboot/app/services/bar.js');
+        expect(fastbootAppFileContents).to.include('//fastboot/app/utils/foo.js');
+      });
+  });
+
+  it('having fastboot/app directory in addon should generate fastboot asset', function() {
+    return copyFixtureFiles('brocfile-tests/fastboot-from-addon')
+      .then(function() {
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJson = fs.readJsonSync(packageJsonPath);
+        packageJson['ember-addon'] = {
+          paths: ['./lib/ember-cli-fastboot']
+        };
+
+        fs.writeJsonSync(packageJsonPath, packageJson);
+      })
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var fastbootAssetFile = '/assets/some-cool-app-fastboot.js';
+
+        var basePath = path.join('.', 'dist');
+        expect(file(path.join(basePath, fastbootAssetFile))).to.exist;
+      })
+      .then(function() {
+        var fastbootAppFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '-fastboot.js'), {
+          encoding: 'utf8'
+        });
+
+        expect(fastbootAppFileContents).to.include('//addon/fastboot/app/initializers/ajax.js');
+      });
+  });
+
+  it('setting custom output path for fastboot asset works as expected', function() {
+    return copyFixtureFiles('brocfile-tests/custom-fastboot-output-path')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        var fastbootOutputPath = 'fastboot/app.js';
+        var basePath = path.join('.', 'dist');
+        expect(file(path.join(basePath, fastbootOutputPath))).to.exist;
+      });
+  });
 });
