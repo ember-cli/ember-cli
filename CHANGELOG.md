@@ -218,7 +218,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.7.0...v2.8.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.3...v2.7.0)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.7.0...v2.8.0)
   + No changes required
 - Core Contributors
   + No changes required
