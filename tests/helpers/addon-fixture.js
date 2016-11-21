@@ -1,28 +1,34 @@
 var AppFixture = require('./app-fixture');
 
-function generateStyleAddon(name) {
-  var addonFixture = new AppFixture(name);
-  addonFixture._generateCSS('app/styles/addon.css');
-  addonFixture._generateCSS('app/styles/app.css');
-  addonFixture._generateCSS('app/styles/_import.css');
-  addonFixture._generateCSS('app/styles/' + addonFixture.name + '.css');
-  addonFixture._generateCSS('app/styles/alpha.css');
-  addonFixture._generateCSS('app/styles/zeta.css');
-  addonFixture._generateCSS('addon/styles/addon.css');
-  addonFixture._generateCSS('addon/styles/app.css');
-  addonFixture._generateCSS('addon/styles/_import.css');
-  addonFixture._generateCSS('addon/styles/' + addonFixture.name + '.css');
-  addonFixture._generateCSS('addon/styles/alpha.css');
-  addonFixture._generateCSS('addon/styles/zeta.css');
-
-  return addonFixture;
+function AddonFixture() {
+  AppFixture.apply(this, arguments);
 }
 
-var foo = generateStyleAddon('foo');
-var bar = generateStyleAddon('bar');
+AddonFixture.prototype = Object.create(AppFixture.prototype);
+AddonFixture.prototype.constructor = AddonFixture;
 
-foo.install('in-repo', bar);
-foo.serialize();
-console.log(JSON.stringify(foo, undefined, 2));
+AddonFixture.prototype._generatePackageJSON = function(addon) {
+  return {
+    name: this.name,
+    keywords: ['ember-addon'],
+    'ember-addon': {}
+  };
+};
 
-module.exports = AppFixture;
+AddonFixture.prototype.before = function(addon) {
+  var config = this.getPackageJSON();
+  config['ember-addon'].before = config['ember-addon'].before || [];
+  config['ember-addon'].before.push(addon.name);
+  this.setPackageJSON(config);
+  return this;
+};
+
+AddonFixture.prototype.after = function(addon) {
+  var config = this.getPackageJSON();
+  config['ember-addon'].after = config['ember-addon'].after || [];
+  config['ember-addon'].after.push(addon.name);
+  this.setPackageJSON(config);
+  return this;
+};
+
+module.exports = AddonFixture;

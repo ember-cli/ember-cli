@@ -28,7 +28,8 @@ AppFixture.prototype = {
       this.fixture['node_modules'][addonConfig.name] = addon.fixture;
     }
 
-    config.dependencies[addonConfig.name] = '*';
+    config['dependencies'] = config['dependencies'] || {};
+    config['dependencies'][addonConfig.name] = '*';
     this.setPackageJSON(config);
 
     return this;
@@ -42,6 +43,8 @@ AppFixture.prototype = {
       this.fixture['lib'][addonConfig.name] = addon.fixture;
     }
 
+    config['ember-addon'] = config['ember-addon'] || {};
+    config['ember-addon']['paths'] = config['ember-addon']['paths'] || [];
     config['ember-addon'].paths.push('lib/' + addonConfig.name);
     this.setPackageJSON(config);
 
@@ -57,18 +60,13 @@ AppFixture.prototype = {
 
   _generatePackageJSON: function() {
     return {
-      name: this.name,
-      dependencies: {},
-      keywords: ['ember-addon'],
-      'ember-addon': {
-        paths: []
-      }
+      name: this.name
     };
   },
   getPackageJSON: function() {
     return JSON.parse(this.fixture['package.json']);
   },
-  setPackageJSON(value) {
+  setPackageJSON: function(value) {
     return this.fixture['package.json'] = JSON.stringify(value);
   },
 
