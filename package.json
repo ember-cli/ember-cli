@@ -79,7 +79,7 @@
     "get-caller-file": "^1.0.0",
     "git-repo-info": "^1.0.4",
     "glob": "7.1.1",
-    "heimdalljs-fs-monitor": "^0.0.3",
+    "heimdalljs-fs-monitor": "^0.1.0",
     "heimdalljs-logger": "^0.1.7",
     "http-proxy": "^1.9.0",
     "inflection": "^1.7.0",
