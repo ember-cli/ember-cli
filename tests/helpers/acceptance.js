@@ -6,7 +6,6 @@ var fs                = require('fs-extra');
 var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
-var conf              = require('./conf');
 var existsSync        = require('exists-sync');
 var copy              = Promise.denodeify(fs.copy);
 var root              = process.cwd();
@@ -69,7 +68,6 @@ function applyCommand(command, name /*, ...flags*/) {
 function createTmp(command) {
   return tmp.setup('./common-tmp').then(function() {
     process.chdir('./common-tmp');
-    conf.setup();
     return command();
   });
 }
@@ -126,13 +124,10 @@ function createTestTargets(projectName, options) {
 
 /**
  * Tears down the targeted project download directory
- * and restores conf.
  * @return {Promise}
  */
 function teardownTestTargets() {
-  return tmp.teardown('./common-tmp').then(function() {
-    conf.restore();
-  });
+  return tmp.teardown('./common-tmp');
 }
 
 /**

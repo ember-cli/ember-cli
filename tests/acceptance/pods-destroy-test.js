@@ -1,7 +1,6 @@
 'use strict';
 
 var Promise     = require('../../lib/ext/promise');
-var conf        = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var ember       = require('../helpers/ember');
 var fs          = require('fs-extra');
 var replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
@@ -26,12 +25,10 @@ describe('Acceptance: ember destroy pod', function() {
 
   before(function() {
     BlueprintNpmTask.disableNPM(Blueprint);
-    conf.setup();
   });
 
   after(function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
-    conf.restore();
   });
 
   beforeEach(function() {

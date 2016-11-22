@@ -1,7 +1,6 @@
 'use strict';
 
 var Promise    = require('../../lib/ext/promise');
-var conf       = require('../helpers/conf');
 var ember      = require('../helpers/ember');
 var path       = require('path');
 var remove     = Promise.denodeify(require('fs-extra').remove);
@@ -15,14 +14,6 @@ var file = chai.file;
 
 describe('Acceptance: ember install', function() {
   this.timeout(60000);
-
-  before(function() {
-    conf.setup();
-  });
-
-  after(function() {
-    conf.restore();
-  });
 
   beforeEach(function() {
     return mkTmpDirIn(tmproot).then(function(tmpdir) {
