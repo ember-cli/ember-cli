@@ -7,13 +7,15 @@ var processTemplate = require('../../lib/utilities/process-template');
 function AddonFixture(name) {
   this.name = name;
   this.fixture = {};
+  this.dirs = {};
+
   this.setPackageJSON(this._generatePackageJSON());
 
   var context = {
     addonModulePrefix: name
   };
 
-  this._loadBlueprint('index.js', context);
+  this.loadBlueprint('index.js', context);
 }
 
 AddonFixture.prototype = Object.create(AppFixture.prototype);
@@ -27,12 +29,12 @@ AddonFixture.prototype._generatePackageJSON = function(addon) {
   };
 };
 
-AddonFixture.prototype._loadBlueprint = function(fileName, context) {
+AddonFixture.prototype.loadBlueprint = function(fileName, context) {
   var target = path.join(__dirname, '..', '..', 'blueprints', 'addon', 'files', fileName);
   var blueprintContents = fs.readFileSync(target, 'utf8');
 
   var content = processTemplate(blueprintContents, context);
-  this._generateFile(fileName, content);
+  this.generateFile(fileName, content);
   return this;
 };
 
