@@ -8,6 +8,12 @@ function AddonFixture(name) {
   this.name = name;
   this.fixture = {};
   this.setPackageJSON(this._generatePackageJSON());
+
+  var context = {
+    addonModulePrefix: name
+  };
+
+  this._loadBlueprint('index.js', context);
 }
 
 AddonFixture.prototype = Object.create(AppFixture.prototype);
