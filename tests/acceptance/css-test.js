@@ -3,6 +3,15 @@
 var AppFixture = require('../helpers/app-fixture');
 var AddonFixture = require('../helpers/addon-fixture');
 
+var acceptance = require('../helpers/acceptance');
+var createTestTargets = acceptance.createTestTargets;
+var teardownTestTargets = acceptance.teardownTestTargets;
+var linkDependencies = acceptance.linkDependencies;
+var cleanupRun = acceptance.cleanupRun;
+
+var chai = require('../chai');
+var expect = chai.expect;
+
 function generateRootApplication(name) {
   return new AppFixture(name);
 }
@@ -29,5 +38,16 @@ var root = generateRootApplication('root');
 var foo = generateStyleAddon('foo');
 root.install('npm', foo);
 // root.serialize();
+
+describe('Acceptance: CSS file generation.', function() {
+  before(function() {});
+  after(function() {});
+  beforeEach(function() {});
+  afterEach(function() {});
+
+  it('generates CSS files', function() {
+
+  });
+});
 
 console.log(JSON.stringify(root, undefined, 2));
