@@ -3,6 +3,10 @@
 var AppFixture = require('../helpers/app-fixture');
 var AddonFixture = require('../helpers/addon-fixture');
 
+function generateRootApplication(name) {
+  return new AppFixture(name);
+}
+
 function generateStyleAddon(name) {
   var addonFixture = new AddonFixture(name);
   addonFixture._generateCSS('app/styles/addon.css');
@@ -19,10 +23,6 @@ function generateStyleAddon(name) {
   addonFixture._generateCSS('addon/styles/zeta.css');
 
   return addonFixture;
-}
-
-function generateRootApplication(name) {
-  return new AppFixture(name);
 }
 
 var root = generateRootApplication('root');
