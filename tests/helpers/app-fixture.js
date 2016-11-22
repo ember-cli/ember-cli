@@ -1,11 +1,26 @@
+var fs = require('fs');
+var path = require('path');
+
 var fixturify = require('fixturify');
 var quickTemp = require('quick-temp');
 var merge = require('ember-cli-lodash-subset').merge;
+var versionUtils = require('../../lib/utilities/version-utils');
+var processTemplate = require('../../lib/utilities/process-template');
 
 function AppFixture(name) {
   this.name = name;
   this.fixture = {};
-  this.setPackageJSON(this._generatePackageJSON());
+
+  var context = {
+    name: name,
+    modulePrefix: name,
+    emberCLIVersion: versionUtils.emberCLIVersion()
+  };
+
+  this._loadBlueprint('bower.json', context);
+  this._loadBlueprint('package.json', context);
+  this._loadBlueprint('ember-cli-build.js', context);
+  this._loadBlueprint('config/environment.js', context);
 }
 
 AppFixture.prototype = {
@@ -58,11 +73,6 @@ AppFixture.prototype = {
     }
   },
 
-  _generatePackageJSON: function() {
-    return {
-      name: this.name
-    };
-  },
   getPackageJSON: function() {
     return JSON.parse(this.fixture['package.json']);
   },
@@ -82,6 +92,14 @@ AppFixture.prototype = {
     cursor[keyPath[i]] = contents;
 
     merge(this.fixture, root);
+    return this;
+  },
+  _loadBlueprint: function(fileName, context) {
+    var target = path.join(__dirname, '..', '..', 'blueprints', 'app', 'files', fileName);
+    var blueprintContents = fs.readFileSync(target, 'utf8');
+
+    var content = processTemplate(blueprintContents, context);
+    this._generateFile(fileName, content);
     return this;
   },
   _generateCSS: function(fileName) {
