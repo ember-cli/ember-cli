@@ -4,15 +4,23 @@ var stringUtil = require('ember-cli-string-utils');
 var execSync = require('child_process').execSync;
 var symlinkOrCopySync = require('symlink-or-copy').sync;
 
+var packageCache = require('./package-cache');
+
 var fixturify = require('fixturify');
 var quickTemp = require('quick-temp');
 var merge = require('ember-cli-lodash-subset').merge;
 var versionUtils = require('../../lib/utilities/version-utils');
 var processTemplate = require('../../lib/utilities/process-template');
 
-function AppFixture(name) {
+function AppFixture(name, options) {
+  this.type = 'app';
   this.name = name;
+  this.options = options || {
+    useGlobalPackages: true
+  };
+
   this.fixture = {};
+  this._fixtureCache = {};
   this.dirs = {};
 
   var context = {
@@ -34,15 +42,40 @@ function AppFixture(name) {
 
 AppFixture.prototype = {
   _bowerInstall: function() {
-    if (this.dirs.bower_components) { return; }
+    if (this.options.useGlobalPackages) {
+      symlinkOrCopySync(path.join(packageCache[this.type].bower_components, 'bower_components'), path.join(this.dirs.self, 'bower_components'));
+      return;
+    }
+
+    // No need to perform a `bower install` if no packages are required.
+    if (!this.fixture['bower.json']) { return; }
+
+    // No need to perform a `bower install` if the previous bower.json is identical.
+    if (this.fixture['bower.json'] === this._fixtureCache['bower.json']) { return; }
+
+    // Save off the last seen `bower.json` to lock out additional installation attempts.
+    this._fixtureCache['bower.json'] = this.fixture['bower.json'];
 
     quickTemp.makeOrReuse(this.dirs, 'bower_components');
     fs.writeFileSync(path.join(this.dirs.bower_components, 'bower.json'), this.fixture['bower.json']);
 
     execSync('bower install', { cwd: this.dirs.bower_components });
+    symlinkOrCopySync(path.join(this.dirs.bower_components, 'bower_components'), path.join(this.dirs.self, 'bower_components'));
   },
   _npmInstall: function() {
-    if (this.dirs.node_modules) { return; }
+    if (this.options.useGlobalPackages) {
+      symlinkOrCopySync(path.join(packageCache[this.type].node_modules, 'node_modules'), path.join(this.dirs.self, 'node_modules'));
+      return;
+    }
+
+    // No need to perform a `npm install` if no packages are required.
+    if (!this.fixture['package.json']) { return; }
+
+    // No need to perform a `npm install` if the previous package.json is identical.
+    if (this.fixture['package.json'] === this._fixtureCache['package.json']) { return; }
+
+    // Save off the last seen `package.json` to lock out additional installation attempts.
+    this._fixtureCache['package.json'] = this.fixture['package.json'];
 
     quickTemp.makeOrReuse(this.dirs, 'node_modules');
     fs.writeFileSync(path.join(this.dirs.node_modules, 'package.json'), this.fixture['package.json']);
@@ -53,7 +86,8 @@ AppFixture.prototype = {
     symlinkOrCopySync(emberCLIPath, path.join(this.dirs.node_modules, 'node_modules', 'ember-cli'));
 
     // Install all the rest of the things.
-    execSync('npm install --silent', { cwd: this.dirs.node_modules });
+    execSync('npm install --cache-min 300', { cwd: this.dirs.node_modules });
+    symlinkOrCopySync(path.join(this.dirs.node_modules, 'node_modules'), path.join(this.dirs.self, 'node_modules'));
   },
 
   serialize: function() {
@@ -63,8 +97,6 @@ AppFixture.prototype = {
     // Wire up node_modules and bower_components.
     this._bowerInstall();
     this._npmInstall();
-    symlinkOrCopySync(path.join(this.dirs.bower_components, 'bower_components'), path.join(this.dirs.self, 'bower_components'));
-    symlinkOrCopySync(path.join(this.dirs.node_modules, 'node_modules'), path.join(this.dirs.self, 'node_modules'));
 
     return this;
   },

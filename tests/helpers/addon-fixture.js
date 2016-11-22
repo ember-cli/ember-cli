@@ -1,18 +1,29 @@
 var fs = require('fs');
 var path = require('path');
+var stringUtil = require('ember-cli-string-utils');
 
 var AppFixture = require('./app-fixture');
 var processTemplate = require('../../lib/utilities/process-template');
 
-function AddonFixture(name) {
+var blueprintShim = require('./blueprint-shim');
+
+function AddonFixture(name, options) {
+  this.type = 'addon';
   this.name = name;
+  this.options = options || {
+    useGlobalPackages: true
+  };
+
   this.fixture = {};
+  this._fixtureCache = {};
   this.dirs = {};
 
-  this.setPackageJSON(this._generatePackageJSON());
+  this._generatePackageJSON();
+  this._generateBowerJSON();
 
   var context = {
-    addonModulePrefix: name
+    addonModulePrefix: stringUtil.dasherize(this.name),
+    dasherizedModuleName: stringUtil.dasherize(this.name)
   };
 
   this.loadBlueprint('index.js', context);
@@ -21,12 +32,12 @@ function AddonFixture(name) {
 AddonFixture.prototype = Object.create(AppFixture.prototype);
 AddonFixture.prototype.constructor = AddonFixture;
 
-AddonFixture.prototype._generatePackageJSON = function(addon) {
-  return {
-    name: this.name,
-    keywords: ['ember-addon'],
-    'ember-addon': {}
-  };
+AddonFixture.prototype._generatePackageJSON = function() {
+  this.fixture['package.json'] = blueprintShim['addon']['package.json'];
+};
+
+AddonFixture.prototype._generateBowerJSON = function() {
+  this.fixture['bower.json'] = blueprintShim['addon']['bower.json'];
 };
 
 AddonFixture.prototype.loadBlueprint = function(fileName, context) {
