@@ -21,6 +21,34 @@ var tmproot         = path.join(root, 'tmp');
 describe('models/builder.js', function() {
   var addon, builder, buildResults, tmpdir;
 
+  describe('._enableFSMonitorIfVizEnabled', function() {
+    var originalBroccoliViz = process.env.BROCCOLI_VIZ;
+
+    afterEach(function() {
+      delete process.env.BROCCOLI_VIZ;
+    });
+
+    it('if VIZ is enabled, monitor', function() {
+      process.env.BROCCOLI_VIZ = '1';
+      var monitor = Builder._enableFSMonitorIfVizEnabled();
+      try {
+        expect(monitor.state).to.eql('active');
+      } finally {
+        monitor.stop();
+      }
+    });
+
+    it('if VIZ is NOT enabled, monitor', function() {
+      var monitor = Builder._enableFSMonitorIfVizEnabled();
+      try {
+        expect(monitor.state).to.eql('idle');
+      } finally {
+        monitor.stop();
+      }
+    });
+
+  });
+
   describe('Windows CTRL + C Capture', function() {
     var originalPlatform, originalStdin;
 
