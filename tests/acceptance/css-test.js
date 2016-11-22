@@ -2,12 +2,7 @@
 
 var AppFixture = require('../helpers/app-fixture');
 var AddonFixture = require('../helpers/addon-fixture');
-
-var acceptance = require('../helpers/acceptance');
-var createTestTargets = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies = acceptance.linkDependencies;
-var cleanupRun = acceptance.cleanupRun;
+var InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -26,7 +21,7 @@ function generateRootApplication(name) {
 }
 
 function generateStyleAddon(name) {
-  var addonFixture = new AddonFixture(name);
+  var addonFixture = new InRepoAddonFixture(name);
   addonFixture.generateCSS('app/styles/app.css');
   addonFixture.generateCSS('app/styles/addon.css');
   addonFixture.generateCSS('app/styles/_import.css');
