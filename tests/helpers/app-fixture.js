@@ -1,5 +1,8 @@
 var fs = require('fs');
 var path = require('path');
+var stringUtil = require('ember-cli-string-utils');
+var execSync = require('child_process').execSync;
+var symlinkOrCopySync = require('symlink-or-copy').sync;
 
 var fixturify = require('fixturify');
 var quickTemp = require('quick-temp');
@@ -10,31 +13,69 @@ var processTemplate = require('../../lib/utilities/process-template');
 function AppFixture(name) {
   this.name = name;
   this.fixture = {};
+  this.dirs = {};
 
   var context = {
-    name: name,
-    modulePrefix: name,
+    name: stringUtil.dasherize(name),
+    namespace: stringUtil.classify(name),
+    modulePrefix: stringUtil.dasherize(name),
     emberCLIVersion: versionUtils.emberCLIVersion()
   };
 
-  this._loadBlueprint('bower.json', context);
-  this._loadBlueprint('package.json', context);
-  this._loadBlueprint('ember-cli-build.js', context);
-  this._loadBlueprint('config/environment.js', context);
+  this.loadBlueprint('bower.json', context);
+  this.loadBlueprint('package.json', context);
+  this.loadBlueprint('ember-cli-build.js', context);
+  this.loadBlueprint('config/environment.js', context);
+  this.loadBlueprint('app/index.html', context);
+  this.loadBlueprint('app/router.js', context);
+  this.loadBlueprint('app/resolver.js', context);
+  this.loadBlueprint('app/app.js', context);
 }
 
 AppFixture.prototype = {
+  _bowerInstall: function() {
+    if (this.dirs.bower_components) { return; }
+
+    quickTemp.makeOrReuse(this.dirs, 'bower_components');
+    fs.writeFileSync(path.join(this.dirs.bower_components, 'bower.json'), this.fixture['bower.json']);
+
+    execSync('bower install', { cwd: this.dirs.bower_components });
+  },
+  _npmInstall: function() {
+    if (this.dirs.node_modules) { return; }
+
+    quickTemp.makeOrReuse(this.dirs, 'node_modules');
+    fs.writeFileSync(path.join(this.dirs.node_modules, 'package.json'), this.fixture['package.json']);
+
+    // Manually link in Ember CLI.
+    var emberCLIPath = path.resolve(__dirname, '../..');
+    fs.mkdirSync(path.join(this.dirs.node_modules, 'node_modules'));
+    symlinkOrCopySync(emberCLIPath, path.join(this.dirs.node_modules, 'node_modules', 'ember-cli'));
+
+    // Install all the rest of the things.
+    execSync('npm install --silent', { cwd: this.dirs.node_modules });
+  },
+
   serialize: function() {
-    quickTemp.makeOrRemake(this, 'dir');
-    fixturify.writeSync(this.dir, this.fixture);
+    quickTemp.makeOrRemake(this.dirs, 'self');
+    fixturify.writeSync(this.dirs.self, this.fixture);
+
+    // Wire up node_modules and bower_components.
+    this._bowerInstall();
+    this._npmInstall();
+    symlinkOrCopySync(path.join(this.dirs.bower_components, 'bower_components'), path.join(this.dirs.self, 'bower_components'));
+    symlinkOrCopySync(path.join(this.dirs.node_modules, 'node_modules'), path.join(this.dirs.self, 'node_modules'));
+
     return this;
   },
   clean: function() {
-    quickTemp.remove(this, 'dir');
+    quickTemp.remove(this.dirs, 'self');
+    quickTemp.remove(this.dirs, 'bower_components');
+    quickTemp.remove(this.dirs, 'node_modules');
     return this;
   },
 
-  _npmAddon: function(addon) {
+  _npmAddonInstall: function(addon) {
     var config = this.getPackageJSON();
     var addonConfig = addon.getPackageJSON();
 
@@ -49,7 +90,7 @@ AppFixture.prototype = {
 
     return this;
   },
-  _inRepoAddon: function(addon) {
+  _inRepoAddonInstall: function(addon) {
     var config = this.getPackageJSON();
     var addonConfig = addon.getPackageJSON();
 
@@ -67,9 +108,9 @@ AppFixture.prototype = {
   },
   install: function(type, addon) {
     if (type === 'npm') {
-      return this._npmAddon(addon);
+      return this._npmAddonInstall(addon);
     } else if (type === 'in-repo') {
-      return this._inRepoAddon(addon);
+      return this._inRepoAddonInstall(addon);
     }
   },
 
@@ -80,7 +121,7 @@ AppFixture.prototype = {
     return this.fixture['package.json'] = JSON.stringify(value);
   },
 
-  _generateFile: function(fileName, contents) {
+  generateFile: function(fileName, contents) {
     fileName = fileName.replace(/^\//, '');
     var keyPath = fileName.split('/');
 
@@ -94,17 +135,17 @@ AppFixture.prototype = {
     merge(this.fixture, root);
     return this;
   },
-  _loadBlueprint: function(fileName, context) {
+  generateCSS: function(fileName) {
+    var contents = '.' + this.name + ' { content: "' + fileName + '"; }';
+    return this.generateFile(fileName, contents);
+  },
+  loadBlueprint: function(fileName, context) {
     var target = path.join(__dirname, '..', '..', 'blueprints', 'app', 'files', fileName);
     var blueprintContents = fs.readFileSync(target, 'utf8');
 
     var content = processTemplate(blueprintContents, context);
-    this._generateFile(fileName, content);
+    this.generateFile(fileName, content);
     return this;
-  },
-  _generateCSS: function(fileName) {
-    var contents = '.' + this.name + ' { content: "' + fileName + '"; }';
-    return this._generateFile(fileName, contents);
   },
 
   toJSON: function() {
