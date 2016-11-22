@@ -8,7 +8,6 @@ var path       = require('path');
 var tmp        = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 var root       = process.cwd();
 var util       = require('util');
-var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var EOL        = require('os').EOL;
 var chalk      = require('chalk');
 
@@ -22,9 +21,6 @@ var tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
-
-  before(conf.setup);
-  after(conf.restore);
 
   beforeEach(function() {
     return tmp.setup(tmpDir)

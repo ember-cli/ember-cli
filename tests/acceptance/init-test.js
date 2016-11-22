@@ -8,7 +8,6 @@ var path       = require('path');
 var tmp        = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 var root       = process.cwd();
 var util       = require('util');
-var conf       = require('ember-cli-internal-test-helpers/lib/helpers/conf');
 var minimatch  = require('minimatch');
 var lodash = require('ember-cli-lodash-subset');
 var intersect  = lodash.intersection;
@@ -27,14 +26,6 @@ var tmpPath = './tmp/init-test';
 
 describe('Acceptance: ember init', function() {
   this.timeout(20000);
-
-  before(function() {
-    conf.setup();
-  });
-
-  after(function() {
-    conf.restore();
-  });
 
   beforeEach(function() {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
