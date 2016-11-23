@@ -9,7 +9,6 @@ var packageCache = require('./package-cache');
 var fixturify = require('fixturify');
 var quickTemp = require('quick-temp');
 var merge = require('ember-cli-lodash-subset').merge;
-var processTemplate = require('../../lib/utilities/process-template');
 
 function AppFixture(name, options) {
   this.type = 'app';
@@ -22,21 +21,27 @@ function AppFixture(name, options) {
   this._fixtureCache = {};
   this.dirs = {};
 
-  var context = {
-    name: stringUtil.dasherize(name),
-    namespace: stringUtil.classify(name),
-    modulePrefix: stringUtil.dasherize(name),
-    emberCLIVersion: '*' // * because we'll always link it in.
+  this.blueprintPath = path.resolve(__dirname, '../../blueprints/app');
+  this.blueprintOptionsShim = {
+    ui: {
+      writeLine: function() {}
+    },
+    project: {
+      isEmberCLIAddon: function() {
+        return false;
+      },
+      config: function() {
+        return {
+          usePodsByDefault: false
+        };
+      },
+      name: function() {
+        return name;
+      }
+    }
   };
 
-  this.loadBlueprint('bower.json', context);
-  this.loadBlueprint('package.json', context);
-  this.loadBlueprint('ember-cli-build.js', context);
-  this.loadBlueprint('config/environment.js', context);
-  this.loadBlueprint('app/index.html', context);
-  this.loadBlueprint('app/router.js', context);
-  this.loadBlueprint('app/resolver.js', context);
-  this.loadBlueprint('app/app.js', context);
+  this.loadBlueprint();
 }
 
 AppFixture.prototype = {
@@ -98,6 +103,7 @@ AppFixture.prototype = {
     fixturify.writeSync(this.dirs.self, this.fixture);
 
     // Wire up node_modules and bower_components.
+    // TODO: Support merging with fixture items.
     this._bowerInstall();
     this._npmInstall();
 
@@ -174,13 +180,20 @@ AppFixture.prototype = {
     var contents = '.' + this.name + ' { content: "' + fileName + '"; }';
     return this.generateFile(fileName, contents);
   },
-  loadBlueprint: function(fileName, context) {
-    var target = path.join(__dirname, '..', '..', 'blueprints', 'app', 'files', fileName);
-    var blueprintContents = fs.readFileSync(target, 'utf8');
 
-    var content = processTemplate(blueprintContents, context);
-    this.generateFile(fileName, content);
-    return this;
+  _generateBlueprintShim: function() {
+
+  },
+
+  loadBlueprint: function(context) {
+    var SyncBlueprint = require('./sync-blueprint');
+    var FixtureBlueprint = new SyncBlueprint(this.blueprintPath);
+
+    FixtureBlueprint._writeFile = function() {
+      this.generateFile(info.outputPath, info.render());
+    };
+
+    return FixtureBlueprint.install(this.blueprintOptionsShim);
   },
 
   toJSON: function() {

@@ -21,7 +21,7 @@ function generateRootApplication(name) {
 }
 
 function generateStyleAddon(name) {
-  var addonFixture = new InRepoAddonFixture(name);
+  var addonFixture = new AddonFixture(name);
   addonFixture.generateCSS('app/styles/app.css');
   addonFixture.generateCSS('app/styles/addon.css');
   addonFixture.generateCSS('app/styles/_import.css');
@@ -41,8 +41,8 @@ function generateStyleAddon(name) {
 var root = generateRootApplication('root');
 var foo = generateStyleAddon('foo');
 // root.install('npm', foo);
-root.serialize();
-console.log(root.dirs.self);
+// root.serialize();
+console.log(JSON.stringify(root));
 
 describe('Acceptance: CSS file generation.', function() {
   before(function() {});
