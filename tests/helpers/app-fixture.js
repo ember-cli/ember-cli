@@ -59,7 +59,8 @@ AppFixture.prototype = {
     quickTemp.makeOrReuse(this.dirs, 'bower_components');
     fs.writeFileSync(path.join(this.dirs.bower_components, 'bower.json'), this.fixture['bower.json']);
 
-    execSync('bower install', { cwd: this.dirs.bower_components });
+    var bower = require.resolve('bower/bin/bower');
+    execSync(bower + ' install', { cwd: this.dirs.bower_components });
     symlinkOrCopySync(path.join(this.dirs.bower_components, 'bower_components'), path.join(this.dirs.self, 'bower_components'));
   },
   _npmInstall: function() {
@@ -80,13 +81,16 @@ AppFixture.prototype = {
     quickTemp.makeOrReuse(this.dirs, 'node_modules');
     fs.writeFileSync(path.join(this.dirs.node_modules, 'package.json'), this.fixture['package.json']);
 
+    var yarn = require.resolve('yarn/bin/yarn.js');
+    execSync(yarn + ' install', { cwd: this.dirs.node_modules });
+
     // Manually link in Ember CLI.
     var emberCLIPath = path.resolve(__dirname, '../..');
-    fs.mkdirSync(path.join(this.dirs.node_modules, 'node_modules'));
-    symlinkOrCopySync(emberCLIPath, path.join(this.dirs.node_modules, 'node_modules', 'ember-cli'));
+    execSync(yarn + ' unlink', { cwd: emberCLIPath });
+    execSync(yarn + ' link', { cwd: emberCLIPath });
+    execSync(yarn + ' link ember-cli', { cwd: this.dirs.node_modules });
 
-    // Install all the rest of the things.
-    execSync('npm install --cache-min 300', { cwd: this.dirs.node_modules });
+    // Move it into the fixture `node_modules`
     symlinkOrCopySync(path.join(this.dirs.node_modules, 'node_modules'), path.join(this.dirs.self, 'node_modules'));
   },
 
