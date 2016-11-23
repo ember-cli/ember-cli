@@ -2,7 +2,8 @@
 
 var AppFixture = require('../helpers/app-fixture');
 var AddonFixture = require('../helpers/addon-fixture');
-var InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
+
+var packageCache = require('../helpers/package-cache');
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -40,9 +41,8 @@ function generateStyleAddon(name) {
 
 var root = generateRootApplication('root');
 var foo = generateStyleAddon('foo');
-// root.install('npm', foo);
+root.install('in-repo', foo);
 root.serialize();
-console.log(JSON.stringify(root));
 
 // describe('Acceptance: CSS file generation.', function() {
 //   before(function() {});
