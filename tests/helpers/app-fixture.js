@@ -20,9 +20,12 @@ function AppFixture(name, options) {
   this.fixture = {};
   this._fixtureCache = {};
   this.dirs = {};
+  quickTemp.makeOrRemake(this.dirs, 'self');
 
   this.blueprintPath = path.resolve(__dirname, '../../blueprints/app');
   this.blueprintOptionsShim = {
+    target: this.dirs.self,
+    entity: { name: name },
     ui: {
       writeLine: function() {}
     },
@@ -99,7 +102,6 @@ AppFixture.prototype = {
   },
 
   serialize: function() {
-    quickTemp.makeOrRemake(this.dirs, 'self');
     fixturify.writeSync(this.dirs.self, this.fixture);
 
     // Wire up node_modules and bower_components.
@@ -181,16 +183,14 @@ AppFixture.prototype = {
     return this.generateFile(fileName, contents);
   },
 
-  _generateBlueprintShim: function() {
-
-  },
-
   loadBlueprint: function(context) {
     var SyncBlueprint = require('./sync-blueprint');
     var FixtureBlueprint = new SyncBlueprint(this.blueprintPath);
 
-    FixtureBlueprint._writeFile = function() {
-      this.generateFile(info.outputPath, info.render());
+    var self = this;
+    FixtureBlueprint._writeFile = function(info) {
+      console.log(info.render());
+      self.generateFile(info.outputPath, info.render());
     };
 
     return FixtureBlueprint.install(this.blueprintOptionsShim);
