@@ -49,7 +49,7 @@ transformer.generatePackageJson.call(BlueprintShim);
 // We'll use the same template patterns we use in blueprints to guarantee correctness.
 var context = {
   name: 'global',
-  emberCLIVersion: versionUtils.emberCLIVersion()
+  emberCLIVersion: '*'
 };
 
 contents['app']['bower.json'] = processTemplate(contents['app']['bower.json'], context);
