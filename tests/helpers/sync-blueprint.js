@@ -3,10 +3,10 @@ var FileInfo = require('../../lib/models/file-info');
 
 var _ = require('ember-cli-lodash-subset');
 var stringUtils = require('ember-cli-string-utils');
-var path                = require('path');
-var Promise             = require('../../lib/ext/promise');
-var fs                  = require('fs-extra');
-var readFile     = Promise.denodeify(fs.readFile);
+var path = require('path');
+var fs = require('fs-extra');
+var isBinaryFile = require('isbinaryfile').sync;
+var processTemplate = require('../../lib/utilities/process-template');
 
 function SyncFileInfo() {
   return FileInfo.apply(this, arguments);
@@ -16,24 +16,27 @@ SyncFileInfo.prototype = Object.create(FileInfo.prototype);
 SyncFileInfo.prototype.constructor = SyncFileInfo;
 
 SyncFileInfo.prototype.render = function() {
-  var path = this.inputPath,
-      context = this.templateVariables;
+  var path = this.inputPath;
+  var context = this.templateVariables;
+
   if (!this.rendered) {
-    this.rendered = readFile(path).then(function(content) {
-      return lstat(path).then(function(fileStat) {
-        if (isBinaryFile(content, fileStat.size)) {
-          return content;
-        } else {
-          try {
-            return require('../utilities/process-template')(content.toString(), context);
-          } catch (err) {
-            err.message += ' (Error in blueprint template: ' + path + ')';
-            throw err;
-          }
-        }
-      });
-    });
+    var fileStat = fs.lstatSync(path);
+    if (fileStat.isDirectory()) { return; }
+
+    var content = fs.readFileSync(path, 'utf8');
+
+    if (isBinaryFile(content, fileStat.size)) {
+      return content;
+    } else {
+      try {
+        this.rendered = processTemplate(content.toString(), context);
+      } catch (err) {
+        err.message += ' (Error in blueprint template: ' + path + ')';
+        throw err;
+      }
+    }
   }
+
   return this.rendered;
 };
 
