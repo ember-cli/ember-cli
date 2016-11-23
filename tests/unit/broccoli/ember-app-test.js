@@ -209,6 +209,27 @@ describe('broccoli/ember-app', function() {
         expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
       });
     });
+
+    describe('options.babel.sourceMaps', function() {
+      it('disables babel sourcemaps by default', function() {
+        var app = new EmberApp({
+          project: project
+        });
+
+        expect(app.options.babel.sourceMaps).to.be.false;
+      });
+
+      it('can enable babel sourcemaps with the option', function() {
+        var app = new EmberApp({
+          project: project,
+          babel: {
+            sourceMaps: 'inline'
+          }
+        });
+
+        expect(app.options.babel.sourceMaps).to.equal('inline');
+      });
+    });
   });
 
   describe('contentFor', function() {
