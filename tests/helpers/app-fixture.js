@@ -9,7 +9,6 @@ var packageCache = require('./package-cache');
 var fixturify = require('fixturify');
 var quickTemp = require('quick-temp');
 var merge = require('ember-cli-lodash-subset').merge;
-var versionUtils = require('../../lib/utilities/version-utils');
 var processTemplate = require('../../lib/utilities/process-template');
 
 function AppFixture(name, options) {
@@ -27,7 +26,7 @@ function AppFixture(name, options) {
     name: stringUtil.dasherize(name),
     namespace: stringUtil.classify(name),
     modulePrefix: stringUtil.dasherize(name),
-    emberCLIVersion: versionUtils.emberCLIVersion()
+    emberCLIVersion: '*' // * because we'll always link it in.
   };
 
   this.loadBlueprint('bower.json', context);

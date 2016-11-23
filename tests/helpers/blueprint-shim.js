@@ -4,7 +4,6 @@ var path = require('path');
 var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 var transformer = require('../../blueprints/addon/index');
 
-var versionUtils = require('../../lib/utilities/version-utils');
 var processTemplate = require('../../lib/utilities/process-template');
 
 // The blueprint paths for `bower.json` and `package.json` so we're using the right things.
@@ -49,7 +48,7 @@ transformer.generatePackageJson.call(BlueprintShim);
 // We'll use the same template patterns we use in blueprints to guarantee correctness.
 var context = {
   name: 'global',
-  emberCLIVersion: '*'
+  emberCLIVersion: '*' // * because we'll always link it in.
 };
 
 contents['app']['bower.json'] = processTemplate(contents['app']['bower.json'], context);
@@ -57,4 +56,5 @@ contents['app']['package.json'] = processTemplate(contents['app']['package.json'
 contents['addon']['bower.json'] = processTemplate(contents['addon']['bower.json'], context);
 contents['addon']['package.json'] = processTemplate(contents['addon']['package.json'], context);
 
+// FIXME: Make this cache results.
 module.exports = contents;
