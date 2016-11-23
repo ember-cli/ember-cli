@@ -44,13 +44,13 @@ var foo = generateStyleAddon('foo');
 // root.serialize();
 console.log(JSON.stringify(root));
 
-describe('Acceptance: CSS file generation.', function() {
-  before(function() {});
-  after(function() {});
-  beforeEach(function() {});
-  afterEach(function() {});
+// describe('Acceptance: CSS file generation.', function() {
+//   before(function() {});
+//   after(function() {});
+//   beforeEach(function() {});
+//   afterEach(function() {});
 
-  it('generates CSS files', function() {
+//   it('generates CSS files', function() {
 
-  });
-});
+//   });
+// });
