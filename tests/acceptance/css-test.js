@@ -41,7 +41,7 @@ function generateStyleAddon(name) {
 var root = generateRootApplication('root');
 var foo = generateStyleAddon('foo');
 // root.install('npm', foo);
-// root.serialize();
+root.serialize();
 console.log(JSON.stringify(root));
 
 // describe('Acceptance: CSS file generation.', function() {

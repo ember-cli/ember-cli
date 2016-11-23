@@ -24,7 +24,7 @@ function AppFixture(name, options) {
 
   this.blueprintPath = path.resolve(__dirname, '../../blueprints/app');
   this.blueprintOptionsShim = {
-    target: this.dirs.self,
+    target: '',
     entity: { name: name },
     ui: {
       writeLine: function() {}
@@ -189,8 +189,10 @@ AppFixture.prototype = {
 
     var self = this;
     FixtureBlueprint._writeFile = function(info) {
-      console.log(info.render());
-      self.generateFile(info.outputPath, info.render());
+      var contents = info.render();
+      if (contents) {
+        self.generateFile(info.outputPath, contents);
+      }
     };
 
     return FixtureBlueprint.install(this.blueprintOptionsShim);
