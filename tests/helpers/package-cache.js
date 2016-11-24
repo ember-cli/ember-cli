@@ -6,8 +6,6 @@ var merge = require('ember-cli-lodash-subset').merge;
 var Configstore = require('configstore');
 var traverse = require('traverse');
 
-var contents = require('./blueprint-shim');
-
 /**
  * A simple tool to make behavior consistent between the package manager commands.
  *
@@ -129,45 +127,10 @@ function PackageCache() {
   });
 
   // Either use the version from the cache or start fresh.
-  this.dirs = this.dirs || {
-    app: {
-      bower_components: null,
-      node_modules: null
-    },
-    addon: {
-      bower_components: null,
-      node_modules: null
-    }
-  };
+  this.dirs = this.dirs || {};
 
-  this._cleanDirs();
-
-  // These are the caches we're going to be building today.
-  var caches = [
-    ['app', 'bower'],
-    ['app', 'yarn'],
-    ['addon', 'bower'],
-    ['addon', 'yarn']
-  ];
-
-  caches.forEach(function(tuple) {
-    // Compare any existing manifest to the ideal per current blueprint.
-    var identical = this.checkManifest.apply(this, tuple);
-
-    if (identical) {
-      // Use what we have, but opt in to SemVer drift.
-      this.upgrade.apply(this, tuple);
-    } else {
-      // Tell the package manager to start semi-fresh.
-      this.writeManifest.apply(this, tuple);
-      this.install.apply(this, tuple);
-    }
-  }.bind(this));
-
-  // Set up the default Ember CLI link.
-  // Easier to do this every time than try and lock it out.
-  var emberCLIPath = path.resolve(__dirname, '../..');
-  // yarn('link', { cwd: emberCLIPath });
+  // FIXME:
+  // this._cleanDirs();
 }
 
 PackageCache.prototype = {
@@ -188,19 +151,6 @@ PackageCache.prototype = {
   },
 
   /**
-   * The `getManifest` method processes the blueprint of the current
-   * version of Ember CLI and returns the desired manifest file.
-   *
-   * @method getManifest
-   * @param {String} label The label for the cache.
-   * @param {String} type The type of package cache.
-   * @return {String} The manifest file contents as desired.
-   */
-  getManifest: function(label, type) {
-    return contents[label][translate(type, 'manifest')];
-  },
-
-  /**
    * The `readManifest` method reads the on-disk manifest for the current
    * cache and returns its value.
    *
@@ -210,7 +160,7 @@ PackageCache.prototype = {
    * @return {String} The manifest file contents on disk.
    */
   readManifest: function(label, type) {
-    var readManifestDir = this.dirs[label][translate(type, 'path')];
+    var readManifestDir = this.dirs[label];
 
     if (!readManifestDir) { return null; }
 
@@ -225,13 +175,13 @@ PackageCache.prototype = {
    * @method checkManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
+   * @param {String} manifest The contents of the manifest file to compare to cache.
    * @return {Boolean} `true` if identical.
    */
-  checkManifest: function(label, type) {
-    var desiredManifest = this.getManifest(label, type);
+  checkManifest: function(label, type, manifest) {
     var cachedManifest = this.readManifest(label, type);
 
-    return desiredManifest === cachedManifest;
+    return manifest === cachedManifest;
   },
 
   /**
@@ -242,13 +192,13 @@ PackageCache.prototype = {
    * @method writeManifest
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
+   * @param {String} manifest The contents of the manifest file to write to disk.
    */
-  writeManifest: function(label, type) {
-    var outputDir = quickTemp.makeOrReuse(this.dirs[label], translate(type, 'path'));
-    var keyPath = ['dirs', label, translate(type, 'path')].join('.');
+  writeManifest: function(label, type, manifest) {
+    var outputDir = quickTemp.makeOrReuse(this.dirs, label);
+    var keyPath = ['dirs', label].join('.');
     this._conf.set(keyPath, outputDir);
 
-    var manifest = this.getManifest(label, type);
     var outputFile = path.join(outputDir, translate(type, 'manifest'));
     fs.writeFileSync(outputFile, manifest);
 
@@ -274,12 +224,11 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   install: function(label, type) {
-    var executeLocation = this.dirs[label][translate(type, 'path')];
-    commands[type]('install', { cwd: executeLocation });
+    commands[type]('install', { cwd: this.dirs[label] });
 
     // FIXME: yarn doesn't like this after one round of re-installation.
     if (type === 'yarn') {
-      // commands[type]('link', 'ember-cli', { cwd: executeLocation });
+      // commands[type]('link', 'ember-cli', { cwd: this.dirs[label] });
     }
   },
 
@@ -293,16 +242,70 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   upgrade: function(label, type) {
-    var executeLocation = this.dirs[label][translate(type, 'path')];
-
     // Only way to get repeatable behavior in npm: start over.
     // We turn an `upgrade` task into an `install` task.
     if (type === 'npm') {
-      fs.removeSync(path.join(executeLocation, translate(type, 'path')));
+      fs.removeSync(path.join(this.dirs[label], translate(type, 'path')));
       this.install(label, type);
     } else {
-      commands[type](translate(type, 'upgrade'), { cwd: executeLocation });
+      commands[type](translate(type, 'upgrade'), { cwd: this.dirs[label] });
     }
+  },
+
+  // PUBLIC API BELOW
+
+  /**
+   * The `create` method adds a new package cache entry.
+   *
+   * @method create
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   * @param {String} manifest The contents of the manifest file for the cache.
+   * @return {String} The directory on disk which contains the cache.
+   */
+  create: function(label, type, manifest) {
+    // Compare any existing manifest to the ideal per current blueprint.
+    var identical = this.checkManifest(label, type, manifest);
+
+    if (identical) {
+      // Use what we have, but opt in to SemVer drift.
+      this.upgrade(label, type);
+    } else {
+      // Tell the package manager to start semi-fresh.
+      this.writeManifest(label, type, manifest);
+      this.install(label, type);
+    }
+
+    return this.dirs[label];
+
+    // Set up the default Ember CLI link.
+    // Easier to do this every time than try and lock it out.
+    // var emberCLIPath = path.resolve(__dirname, '../..');
+    // yarn('link', { cwd: emberCLIPath });
+  },
+
+  /**
+   * The `update` method aliases the `create` method.
+   *
+   * @method update
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   * @param {String} manifest The contents of the manifest file for the cache.
+   * @return {String} The directory on disk which contains the cache.
+   */
+  update: function(label, type, manifest) {
+    return this.create.apply(this, arguments);
+  },
+
+  /**
+   * The `get` method returns the directory for the cache.
+   *
+   * @method get
+   * @param {String} label The label for the cache.
+   * @return {String} The directory on disk which contains the cache.
+   */
+  get: function(label) {
+    return this.dirs[label];
   },
 
   /**
@@ -312,15 +315,38 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
-  destroy: function(label, type) {
-    quickTemp.remove(this.dirs[label], translate(type, 'path'));
+  destroy: function(label) {
+    quickTemp.remove(this.dirs, label);
 
-    var keyPath = ['dirs', label, translate(type, 'path')].join('.');
+    var keyPath = ['dirs', label].join('.');
     this._conf.set(keypath, null);
+  },
+
+  /**
+   * The `clone` method duplicates a cache. Some package managers can
+   * leverage a pre-existing state to speed up their installation.
+   *
+   * @method destroy
+   * @param {String} fromLabel The label for the cache to clone.
+   * @param {String} toLabel The label for the new cache.
+   */
+  clone: function(fromLabel, toLabel) {
+    var outputDir = quickTemp.makeOrReuse(this.dirs, toLabel);
+    var keyPath = ['dirs', toLabel].join('.');
+    this._conf.set(keyPath, outputDir);
+
+    fs.copySync(this.get(fromLabel), outputDir);
+
+    return this.dirs[toLabel];
   }
 
 };
 
-var cache = new PackageCache();
+var test = new PackageCache();
+var contents = require('./blueprint-shim');
+test.create('app-node', 'yarn', contents['app']['package.json']);
+test.create('app-bower', 'bower', contents['app']['bower.json']);
+test.create('addon-node', 'yarn', contents['addon']['package.json']);
+test.create('addon-bower', 'bower', contents['addon']['bower.json']);
 
-module.exports = cache.dirs;
+module.exports = PackageCache;
