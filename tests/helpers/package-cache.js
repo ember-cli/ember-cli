@@ -9,7 +9,7 @@ var traverse = require('traverse');
 var contents = require('./blueprint-shim');
 
 /**
- * A simple tool to make behavior consistent between the `bower` and `yarn` commands.
+ * A simple tool to make behavior consistent between the package manager commands.
  *
  * @method commandGenerator
  * @param {Path} program The path to the command.
@@ -38,17 +38,6 @@ function commandGenerator(program) {
 }
 
 /**
- * The `yarn` command helper.
- *
- * @method yarn
- * @param {String} subcommand The subcommand to be passed into yarn.
- * @param {String} [...arguments] Arguments to be passed into the yarn subcommand.
- * @param {Object} [options={}] The options passed into child_process.execSync.
- *   (https://nodejs.org/api/child_process.html#child_process_child_process_execsync_command_options)
- */
-var yarn = commandGenerator(require.resolve('yarn/bin/yarn.js'));
-
-/**
  * The `bower` command helper.
  *
  * @method bower
@@ -59,24 +48,50 @@ var yarn = commandGenerator(require.resolve('yarn/bin/yarn.js'));
  */
 var bower = commandGenerator(require.resolve('bower/bin/bower'));
 
+/**
+ * The `npm` command helper.
+ *
+ * @method npm
+ * @param {String} subcommand The subcommand to be passed into npm.
+ * @param {String} [...arguments] Arguments to be passed into the npm subcommand.
+ * @param {Object} [options={}] The options passed into child_process.execSync.
+ *   (https://nodejs.org/api/child_process.html#child_process_child_process_execsync_command_options)
+ */
+var npm = commandGenerator(require.resolve('npm/bin/npm-cli.js'));
+
+/**
+ * The `yarn` command helper.
+ *
+ * @method yarn
+ * @param {String} subcommand The subcommand to be passed into yarn.
+ * @param {String} [...arguments] Arguments to be passed into the yarn subcommand.
+ * @param {Object} [options={}] The options passed into child_process.execSync.
+ *   (https://nodejs.org/api/child_process.html#child_process_child_process_execsync_command_options)
+ */
+var yarn = commandGenerator(require.resolve('yarn/bin/yarn.js'));
+
 // This lookup exists to make it possible to look the commands up based upon context.
 var commands = {
-  yarn: yarn,
-  bower: bower
+  bower: bower,
+  npm: npm,
+  yarn: yarn
 };
 
 // The definition list of translation terms.
 var lookups = {
   path: {
-    'bower': 'bower_components',
-    'yarn': 'node_modules'
+    bower: 'bower_components',
+    npm: 'node_modules',
+    yarn: 'node_modules'
   },
   manifest: {
-    'bower': 'bower.json',
-    'yarn': 'package.json'
+    bower: 'bower.json',
+    npm: 'package.json',
+    yarn: 'package.json'
   },
   upgrade: {
     bower: 'update',
+    npm: 'install',
     yarn: 'upgrade'
   }
 };
@@ -152,7 +167,7 @@ function PackageCache() {
   // Set up the default Ember CLI link.
   // Easier to do this every time than try and lock it out.
   var emberCLIPath = path.resolve(__dirname, '../..');
-  yarn('link', { cwd: emberCLIPath });
+  // yarn('link', { cwd: emberCLIPath });
 }
 
 PackageCache.prototype = {
@@ -279,7 +294,15 @@ PackageCache.prototype = {
    */
   upgrade: function(label, type) {
     var executeLocation = this.dirs[label][translate(type, 'path')];
-    commands[type](translate(type, 'upgrade'), { cwd: executeLocation });
+
+    // Only way to get repeatable behavior in npm: start over.
+    // We turn an `upgrade` task into an `install` task.
+    if (type === 'npm') {
+      fs.removeSync(path.join(executeLocation, translate(type, 'path')));
+      this.install(label, type);
+    } else {
+      commands[type](translate(type, 'upgrade'), { cwd: executeLocation });
+    }
   },
 
   /**
