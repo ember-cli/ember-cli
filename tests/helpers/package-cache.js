@@ -201,17 +201,17 @@ PackageCache.prototype = {
     var outputFile = path.join(outputDir, translate(type, 'manifest'));
     fs.writeFileSync(outputFile, manifest);
 
-    // Remove the yarn.lock file so that it doesn't try to incorrectly use it as a base.
-    // if (type === 'yarn') {
-    //   try {
-    //     fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
-    //   } catch (error) {
-    //     // Catch unexceptional error but rethrow if something is truly wrong.
-    //     if (error.code !== 'ENOENT') {
-    //       throw error;
-    //     }
-    //   }
-    // }
+    // Remove any existing yarn.lock file so that it doesn't try to incorrectly use it as a base.
+    if (type === 'yarn') {
+      try {
+        fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
+      } catch (error) {
+        // Catch unexceptional error but rethrow if something is truly wrong.
+        if (error.code !== 'ENOENT') {
+          throw error;
+        }
+      }
+    }
   },
 
   /**
@@ -225,9 +225,9 @@ PackageCache.prototype = {
   install: function(label, type) {
     commands[type]('install', { cwd: this.dirs[label] });
 
-    // FIXME: yarn doesn't like this after one round of re-installation.
-    if (type === 'yarn') {
-      // commands[type]('link', 'ember-cli', { cwd: this.dirs[label] });
+    // Link in Ember CLI after installation.
+    if (type === 'npm' || type === 'yarn') {
+      commands[type]('link', 'ember-cli', { cwd: this.dirs[label] });
     }
   },
 
@@ -241,6 +241,11 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   upgrade: function(label, type) {
+    // Unlink Ember CLI before upgrade.
+    if (type === 'npm' || type === 'yarn') {
+      commands[type]('unlink', 'ember-cli', { cwd: this.dirs[label] });
+    }
+
     // Only way to get repeatable behavior in npm: start over.
     // We turn an `upgrade` task into an `install` task.
     if (type === 'npm') {
@@ -248,6 +253,9 @@ PackageCache.prototype = {
       this.install(label, type);
     } else {
       commands[type](translate(type, 'upgrade'), { cwd: this.dirs[label] });
+
+      // Re-link Ember CLI after upgrade.
+      commands[type]('unlink', 'ember-cli', { cwd: this.dirs[label] });
     }
   },
 
@@ -275,12 +283,14 @@ PackageCache.prototype = {
       this.install(label, type);
     }
 
-    return this.dirs[label];
-
     // Set up the default Ember CLI link.
     // Easier to do this every time than try and lock it out.
-    // var emberCLIPath = path.resolve(__dirname, '../..');
-    // yarn('link', { cwd: emberCLIPath });
+    if (type === 'npm' || type === 'yarn') {
+      var emberCLIPath = path.resolve(__dirname, '../..');
+      commands[type]('link', { cwd: emberCLIPath });
+    }
+
+    return this.dirs[label];
   },
 
   /**
@@ -341,9 +351,9 @@ PackageCache.prototype = {
 
 var test = new PackageCache();
 var contents = require('./blueprint-shim');
-// test.create('app-node', 'yarn', contents['app']['package.json']);
-test.create('app-bower', 'bower', contents['app']['bower.json']);
-// test.create('addon-node', 'yarn', contents['addon']['package.json']);
+test.create('app-node', 'yarn', contents['app']['package.json']);
+test.create('addon-node', 'yarn', contents['addon']['package.json']);
+// test.create('app-bower', 'bower', contents['app']['bower.json']);
 // test.create('addon-bower', 'bower', contents['addon']['bower.json']);
 
 module.exports = PackageCache;
