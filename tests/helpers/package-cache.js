@@ -4,7 +4,6 @@ var quickTemp = require('quick-temp');
 var execSync = require('child_process').execSync;
 var merge = require('ember-cli-lodash-subset').merge;
 var Configstore = require('configstore');
-var traverse = require('traverse');
 
 /**
  * A simple tool to make behavior consistent between the package manager commands.
@@ -119,18 +118,14 @@ function PackageCache() {
   // Wrap the Configstore in a pretty interface.
   Object.defineProperty(this, 'dirs', {
     get: function() {
-      return this._conf.get('dirs');
+      return this._conf.all;
     },
-    set: function(newValue) {
-      return this._conf.set('dirs', newValue);
+    set: function() {
+      throw new Error('Must use the Configstore setter.');
     }
   });
 
-  // Either use the version from the cache or start fresh.
-  this.dirs = this.dirs || {};
-
-  // FIXME:
-  // this._cleanDirs();
+  this._cleanDirs();
 }
 
 PackageCache.prototype = {
@@ -143,11 +138,16 @@ PackageCache.prototype = {
    * @method _cleanDirs
    */
   _cleanDirs: function() {
-    this.dirs = traverse(this.dirs).map(function(directory) {
-      if (this.isLeaf && directory && !fs.existsSync(directory)) {
-        this.update(null);
+    var labels = Object.keys(this.dirs);
+
+    var label, directory;
+    for (var i = 0; i < labels.length; i++) {
+      label = labels[i];
+      directory = this.dirs[label];
+      if (!fs.existsSync(directory)) {
+        this._conf.delete(label);
       }
-    });
+    }
   },
 
   /**
@@ -196,23 +196,22 @@ PackageCache.prototype = {
    */
   writeManifest: function(label, type, manifest) {
     var outputDir = quickTemp.makeOrReuse(this.dirs, label);
-    var keyPath = ['dirs', label].join('.');
-    this._conf.set(keyPath, outputDir);
+    this._conf.set(label, outputDir);
 
     var outputFile = path.join(outputDir, translate(type, 'manifest'));
     fs.writeFileSync(outputFile, manifest);
 
     // Remove the yarn.lock file so that it doesn't try to incorrectly use it as a base.
-    if (type === 'yarn') {
-      try {
-        fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
-      } catch (error) {
-        // Catch unexceptional error but rethrow if something is truly wrong.
-        if (error.code !== 'ENOENT') {
-          throw error;
-        }
-      }
-    }
+    // if (type === 'yarn') {
+    //   try {
+    //     fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
+    //   } catch (error) {
+    //     // Catch unexceptional error but rethrow if something is truly wrong.
+    //     if (error.code !== 'ENOENT') {
+    //       throw error;
+    //     }
+    //   }
+    // }
   },
 
   /**
@@ -318,8 +317,7 @@ PackageCache.prototype = {
   destroy: function(label) {
     quickTemp.remove(this.dirs, label);
 
-    var keyPath = ['dirs', label].join('.');
-    this._conf.set(keypath, null);
+    this._conf.delete(label);
   },
 
   /**
@@ -332,8 +330,7 @@ PackageCache.prototype = {
    */
   clone: function(fromLabel, toLabel) {
     var outputDir = quickTemp.makeOrReuse(this.dirs, toLabel);
-    var keyPath = ['dirs', toLabel].join('.');
-    this._conf.set(keyPath, outputDir);
+    this._conf.set(toLabel, outputDir);
 
     fs.copySync(this.get(fromLabel), outputDir);
 
@@ -344,9 +341,9 @@ PackageCache.prototype = {
 
 var test = new PackageCache();
 var contents = require('./blueprint-shim');
-test.create('app-node', 'yarn', contents['app']['package.json']);
+// test.create('app-node', 'yarn', contents['app']['package.json']);
 test.create('app-bower', 'bower', contents['app']['bower.json']);
-test.create('addon-node', 'yarn', contents['addon']['package.json']);
-test.create('addon-bower', 'bower', contents['addon']['bower.json']);
+// test.create('addon-node', 'yarn', contents['addon']['package.json']);
+// test.create('addon-bower', 'bower', contents['addon']['bower.json']);
 
 module.exports = PackageCache;
