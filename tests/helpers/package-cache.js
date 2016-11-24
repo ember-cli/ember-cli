@@ -4,6 +4,7 @@ var quickTemp = require('quick-temp');
 var execSync = require('child_process').execSync;
 var merge = require('ember-cli-lodash-subset').merge;
 var Configstore = require('configstore');
+var traverse = require('traverse');
 
 var contents = require('./blueprint-shim');
 
@@ -124,6 +125,8 @@ function PackageCache() {
     }
   };
 
+  this._cleanDirs();
+
   // These are the caches we're going to be building today.
   var caches = [
     ['app', 'bower'],
@@ -155,18 +158,44 @@ function PackageCache() {
 PackageCache.prototype = {
 
   /**
+   * The `_cleanDirs` method deals with sync issues between the
+   * Configstore and what exists on disk. Non-existent directories
+   * are removed from `this.dirs`.
+   *
+   * @method _cleanDirs
+   */
+  _cleanDirs: function() {
+    this.dirs = traverse(this.dirs).map(function(directory) {
+      if (this.isLeaf && directory && !fs.existsSync(directory)) {
+        this.update(null);
+      }
+    });
+  },
+
+  /**
    * The `getManifest` method processes the blueprint of the current
    * version of Ember CLI and returns the desired manifest file.
    *
-   * @method {String} getManifest
-   * @return {String} The manifest file.
+   * @method getManifest
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   * @return {String} The manifest file contents as desired.
    */
-  getManifest: function(category, type) {
-    return contents[category][translate(type, 'manifest')];
+  getManifest: function(label, type) {
+    return contents[label][translate(type, 'manifest')];
   },
 
-  readManifest: function(category, type) {
-    var readManifestDir = this.dirs[category][translate(type, 'path')];
+  /**
+   * The `readManifest` method reads the on-disk manifest for the current
+   * cache and returns its value.
+   *
+   * @method readManifest
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   * @return {String} The manifest file contents on disk.
+   */
+  readManifest: function(label, type) {
+    var readManifestDir = this.dirs[label][translate(type, 'path')];
 
     if (!readManifestDir) { return null; }
 
@@ -174,22 +203,41 @@ PackageCache.prototype = {
     return fs.readFileSync(inputPath, 'utf8');
   },
 
-  checkManifest: function(category, type) {
-    var desiredManifest = this.getManifest(category, type);
-    var cachedManifest = this.readManifest(category, type);
+  /**
+   * The `checkManifest` method compares the desired manifest to that which
+   * exists in the cache.
+   *
+   * @method checkManifest
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   * @return {Boolean} `true` if identical.
+   */
+  checkManifest: function(label, type) {
+    var desiredManifest = this.getManifest(label, type);
+    var cachedManifest = this.readManifest(label, type);
 
     return desiredManifest === cachedManifest;
   },
 
-  writeManifest: function(category, type) {
-    var outputDir = quickTemp.makeOrReuse(this.dirs[category], translate(type, 'path'));
-    var keyPath = ['dirs', category, translate(type, 'path')].join('.');
+  /**
+   * The `writeManifest` method generates the on-disk folder for the package cache
+   * and saves the manifest into it. If it is a yarn package cache it will remove
+   * the existing lock file.
+   *
+   * @method writeManifest
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   */
+  writeManifest: function(label, type) {
+    var outputDir = quickTemp.makeOrReuse(this.dirs[label], translate(type, 'path'));
+    var keyPath = ['dirs', label, translate(type, 'path')].join('.');
     this._conf.set(keyPath, outputDir);
 
-    var manifest = this.getManifest(category, type);
+    var manifest = this.getManifest(label, type);
     var outputFile = path.join(outputDir, translate(type, 'manifest'));
     fs.writeFileSync(outputFile, manifest);
 
+    // Remove the yarn.lock file so that it doesn't try to incorrectly use it as a base.
     if (type === 'yarn') {
       try {
         fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
@@ -202,24 +250,49 @@ PackageCache.prototype = {
     }
   },
 
-  install: function(category, type) {
-    var executeLocation = this.dirs[category][translate(type, 'path')];
+  /**
+   * The `install` method installs the contents of the manifest into the
+   * specified package cache.
+   *
+   * @method install
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   */
+  install: function(label, type) {
+    var executeLocation = this.dirs[label][translate(type, 'path')];
     commands[type]('install', { cwd: executeLocation });
 
+    // FIXME: yarn doesn't like this after one round of re-installation.
     if (type === 'yarn') {
       // commands[type]('link', 'ember-cli', { cwd: executeLocation });
     }
   },
 
-  upgrade: function(category, type) {
-    var executeLocation = this.dirs[category][translate(type, 'path')];
+  /**
+   * The `upgrade` method guarantees that the contents of the manifest are
+   * allowed to drift in a SemVer compatible manner. It ensures that CI is
+   * always running against the latest versions of all dependencies.
+   *
+   * @method upgrade
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   */
+  upgrade: function(label, type) {
+    var executeLocation = this.dirs[label][translate(type, 'path')];
     commands[type](translate(type, 'upgrade'), { cwd: executeLocation });
   },
 
-  destroy: function(category, type) {
-    quickTemp.remove(this.dirs[category], translate(type, 'path'));
+  /**
+   * The `destroy` method removes all evidence of the package cache.
+   *
+   * @method destroy
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   */
+  destroy: function(label, type) {
+    quickTemp.remove(this.dirs[label], translate(type, 'path'));
 
-    var keyPath = ['dirs', category, translate(type, 'path')].join('.');
+    var keyPath = ['dirs', label, translate(type, 'path')].join('.');
     this._conf.set(keypath, null);
   }
 
