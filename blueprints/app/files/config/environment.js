@@ -32,6 +32,9 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
+    // Ensure absolute rootURL when testing
+    ENV.rootURL = '/';
+
     // Testem prefers this...
     ENV.locationType = 'none';
 
