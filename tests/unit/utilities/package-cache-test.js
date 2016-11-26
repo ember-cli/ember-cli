@@ -134,7 +134,7 @@ describe('PackageCache', function() {
     testPackageCache._writeManifest('bower', 'bower', manifest);
 
     expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
-    expect(testPackageCache._checkManifest('bower', 'bower', 'different')).to.be.false;
+    expect(testPackageCache._checkManifest('bower', 'bower', '{ "something": "different" }')).to.be.false;
 
     testPackageCache.destroy('bower');
   });
@@ -230,14 +230,14 @@ describe('PackageCache', function() {
 
     invocations = [];
     testPackageCache.options.linkEmberCLI = true;
-    testPackageCache.create('yarn', 'yarn', '{ "something": "different" }');
+    testPackageCache.create('yarn', 'yarn', '{ "dependencies": "different" }');
     expect(invocations.length).to.equal(3);
     expect(invocations[0][0]).to.equal('link');
     expect(invocations[1][0]).to.equal('install');
 
     invocations = [];
     testPackageCache.options.linkEmberCLI = true;
-    testPackageCache.create('yarn', 'yarn', '{ "something": "different" }');
+    testPackageCache.create('yarn', 'yarn', '{ "dependencies": "different" }');
     expect(invocations.length).to.equal(4);
     expect(invocations[0][0]).to.equal('link');
     expect(invocations[2][0]).to.equal('upgrade');
