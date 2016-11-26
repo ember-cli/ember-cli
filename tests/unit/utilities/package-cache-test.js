@@ -143,8 +143,110 @@ describe('PackageCache', function() {
     fs.unlinkSync(testPackageCache._conf.path);
   });
 
-  it('_install', function() {});
-  it('_upgrade', function() {});
+  it('_install', function() {
+    var testPackageCache = new PackageCache();
+    testPackageCache._conf = new Configstore('package-cache-test');
+
+    var invocations;
+    testPackageCache.__setupForTesting({
+      commands: {
+        npm: function() { invocations.push(arguments); }
+      }
+    });
+
+    // We're only going to test the invocation pattern boundary.
+    // Don't want to wait for the install to execute.
+
+    // Fake in the dir label.
+    testPackageCache._conf.set('label', 'hello');
+
+    // Trigger install.
+    invocations = [];
+    testPackageCache._install('label', 'npm');
+    expect(invocations.length).to.equal(1);
+    expect(invocations[0][0]).to.equal('install');
+    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+
+    // We want to make sure it attempts to link when it is supposed to.
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = true;
+    testPackageCache._install('label', 'npm');
+    expect(invocations.length).to.equal(2);
+    expect(invocations[0][0]).to.equal('install');
+    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[1][0]).to.equal('link');
+    expect(invocations[1][1]).to.equal('ember-cli');
+    expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
+
+    testPackageCache.__resetForTesting();
+    fs.unlinkSync(testPackageCache._conf.path);
+  });
+
+  it('_upgrade', function() {
+    var testPackageCache = new PackageCache();
+    testPackageCache._conf = new Configstore('package-cache-test');
+
+    var invocations;
+    testPackageCache.__setupForTesting({
+      commands: {
+        npm: function() { invocations.push(arguments); },
+        yarn: function() { invocations.push(arguments); }
+      }
+    });
+
+    // We're only going to test the invocation pattern boundary.
+    // Don't want to wait for the install to execute.
+
+    // Fake in the dir label.
+    testPackageCache._conf.set('label', 'hello');
+
+    // Trigger upgrade.
+    invocations = [];
+    testPackageCache._upgrade('label', 'yarn');
+    expect(invocations.length).to.equal(1);
+    expect(invocations[0][0]).to.equal('upgrade');
+    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+
+    // Make sure it unlinks, upgrades, re-links.
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = true;
+    testPackageCache._upgrade('label', 'yarn');
+    expect(invocations.length).to.equal(3);
+    expect(invocations[0][0]).to.equal('unlink');
+    expect(invocations[0][1]).to.equal('ember-cli');
+    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[1][0]).to.equal('upgrade');
+    expect(invocations[1][1]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[2][0]).to.equal('link');
+    expect(invocations[2][1]).to.equal('ember-cli');
+    expect(invocations[2][2]).to.deep.equal({ cwd: 'hello' });
+
+    // npm is dumb. Upgrades are inconsistent and therefore invalid.
+    // Make sure it does an install.
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = false;
+    testPackageCache._upgrade('label', 'npm');
+    expect(invocations.length).to.equal(1);
+    expect(invocations[0][0]).to.equal('install');
+    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+
+    // Make sure npm unlinks, installs, re-links.
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = true;
+    testPackageCache._upgrade('label', 'npm');
+    expect(invocations.length).to.equal(3);
+    expect(invocations[0][0]).to.equal('unlink');
+    expect(invocations[0][1]).to.equal('ember-cli');
+    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[1][0]).to.equal('install');
+    expect(invocations[1][1]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[2][0]).to.equal('link');
+    expect(invocations[2][1]).to.equal('ember-cli');
+    expect(invocations[2][2]).to.deep.equal({ cwd: 'hello' });
+
+    testPackageCache.__resetForTesting();
+    fs.unlinkSync(testPackageCache._conf.path);
+  });
 
   it('create', function() {});
   it('get', function() {});
