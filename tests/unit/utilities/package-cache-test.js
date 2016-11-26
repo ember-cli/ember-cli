@@ -11,9 +11,28 @@ var expect = chai.expect;
 var file = chai.file;
 
 describe('PackageCache', function() {
+  var testPackageCache;
+  var invocations;
+
+  beforeEach(function() {
+    testPackageCache = new PackageCache();
+    testPackageCache._conf = new Configstore('package-cache-test');
+
+    testPackageCache.__setupForTesting({
+      commands: {
+        bower: function() { invocations.push(arguments); },
+        npm: function() { invocations.push(arguments); },
+        yarn: function() { invocations.push(arguments); }
+      }
+    });
+  });
+
+  afterEach(function() {
+    testPackageCache.__resetForTesting();
+    fs.unlinkSync(testPackageCache._conf.path);
+  });
 
   it('defaults options', function() {
-    var testPackageCache;
     testPackageCache = new PackageCache();
     expect(testPackageCache.options.linkEmberCLI).to.be.false;
 
@@ -28,23 +47,15 @@ describe('PackageCache', function() {
   });
 
   it('successfully uses getter/setter', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
-
     testPackageCache._conf.set('foo', true);
     expect(testPackageCache.dirs['foo']).to.be.true;
     testPackageCache._conf.delete('foo');
     expect(testPackageCache.dirs['foo']).to.be.undefined;
 
     expect(function() { testPackageCache.dirs = { foo: 'asdf' }; }).to.throw(Error);
-
-    fs.unlinkSync(testPackageCache._conf.path);
   });
 
   it('_cleanDirs', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
-
     testPackageCache._conf.set('existing', __dirname);
     testPackageCache._conf.set('nonexisting', path.join(__dirname, 'nonexisting'));
 
@@ -52,14 +63,9 @@ describe('PackageCache', function() {
 
     expect(testPackageCache.dirs['existing']).to.exist;
     expect(testPackageCache.dirs['nonexisting']).to.not.exist;
-
-    fs.unlinkSync(testPackageCache._conf.path);
   });
 
   it('_readManifest', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
-
     var emberCLIPath = path.resolve(__dirname, '../../..');
     testPackageCache._conf.set('self', emberCLIPath);
     testPackageCache._conf.set('boom', __dirname);
@@ -73,14 +79,9 @@ describe('PackageCache', function() {
 
     testPackageCache._readManifest('boom', 'yarn');
     expect(manifest).to.equal.null;
-
-    fs.unlinkSync(testPackageCache._conf.path);
   });
 
   it('_writeManifest', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
-
     var manifest = JSON.stringify({
       "name": "foo",
       "dependencies": {
@@ -119,13 +120,9 @@ describe('PackageCache', function() {
 
     testPackageCache.destroy('bower');
     testPackageCache.destroy('yarn');
-    fs.unlinkSync(testPackageCache._conf.path);
   });
 
   it('_checkManifest', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
-
     var manifest = JSON.stringify({
       "name": "foo",
       "dependencies": {
@@ -140,20 +137,9 @@ describe('PackageCache', function() {
     expect(testPackageCache._checkManifest('bower', 'bower', 'different')).to.be.false;
 
     testPackageCache.destroy('bower');
-    fs.unlinkSync(testPackageCache._conf.path);
   });
 
   it('_install', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
-
-    var invocations;
-    testPackageCache.__setupForTesting({
-      commands: {
-        npm: function() { invocations.push(arguments); }
-      }
-    });
-
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
 
@@ -177,23 +163,9 @@ describe('PackageCache', function() {
     expect(invocations[1][0]).to.equal('link');
     expect(invocations[1][1]).to.equal('ember-cli');
     expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
-
-    testPackageCache.__resetForTesting();
-    fs.unlinkSync(testPackageCache._conf.path);
   });
 
   it('_upgrade', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
-
-    var invocations;
-    testPackageCache.__setupForTesting({
-      commands: {
-        npm: function() { invocations.push(arguments); },
-        yarn: function() { invocations.push(arguments); }
-      }
-    });
-
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
 
@@ -243,19 +215,68 @@ describe('PackageCache', function() {
     expect(invocations[2][0]).to.equal('link');
     expect(invocations[2][1]).to.equal('ember-cli');
     expect(invocations[2][2]).to.deep.equal({ cwd: 'hello' });
-
-    testPackageCache.__resetForTesting();
-    fs.unlinkSync(testPackageCache._conf.path);
   });
 
-  it('create', function() {});
-  it('get', function() {});
-  it('destroy', function() {});
-  it('clone', function() {});
+  it('create', function() {
+    invocations = [];
+    testPackageCache.create('yarn', 'yarn', '{}');
+    expect(invocations.length).to.equal(1);
+    expect(invocations[0][0]).to.equal('install');
+
+    invocations = [];
+    testPackageCache.create('yarn', 'yarn', '{}');
+    expect(invocations.length).to.equal(1);
+    expect(invocations[0][0]).to.equal('upgrade');
+
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = true;
+    testPackageCache.create('yarn', 'yarn', '{ "something": "different" }');
+    expect(invocations.length).to.equal(3);
+    expect(invocations[0][0]).to.equal('link');
+    expect(invocations[1][0]).to.equal('install');
+
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = true;
+    testPackageCache.create('yarn', 'yarn', '{ "something": "different" }');
+    expect(invocations.length).to.equal(4);
+    expect(invocations[0][0]).to.equal('link');
+    expect(invocations[2][0]).to.equal('upgrade');
+  });
+
+  it('get', function() {
+    testPackageCache._conf.set('label', 'foo');
+    expect(testPackageCache.get('label')).to.equal('foo');
+  });
+
+  it('destroy', function() {
+    testPackageCache._writeManifest('label', 'bower', '{}');
+
+    var dir = testPackageCache.get('label');
+    var manifestFilePath = path.join(dir, 'bower.json');
+    expect(file(manifestFilePath)).to.exist; // Sanity check.
+
+    testPackageCache.destroy('label');
+    expect(file(manifestFilePath)).to.not.exist;
+    expect(testPackageCache.dirs['label']).to.be.undefined;
+  });
+
+  it('clone', function() {
+    testPackageCache._writeManifest('from', 'bower', '{}');
+
+    var fromDir = testPackageCache.dirs['from'];
+    var toDir = testPackageCache.clone('from', 'to');
+
+    expect(fromDir).to.not.equal(toDir);
+
+    var fromManifest = testPackageCache._readManifest('from', 'bower');
+    var toManifest = testPackageCache._readManifest('to', 'bower');
+
+    expect(fromManifest).to.equal(toManifest);
+  });
 
   it('succeeds at a clean install', function() {
-    var testPackageCache = new PackageCache();
-    testPackageCache._conf = new Configstore('package-cache-test');
+    // Intentionally turning off testing mode.
+    testPackageCache.__resetForTesting();
 
     var manifest = JSON.stringify({
       "name": "foo",
@@ -272,22 +293,10 @@ describe('PackageCache', function() {
     // the manifest was written
     expect(file(manifestFilePath)).to.exist;
 
-    // checkManifest confirms identical
-    expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
-
     // the dependencies were installed
     expect(file(assetPath)).to.exist;
 
-    // RESET!
-    testPackageCache._conf = new Configstore('package-cache-test');
-
-    // succeeds in reusing existing data
-    expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
-
-
-
-    // Remove the stub Configstore.
-    fs.unlinkSync(testPackageCache._conf.path);
+    testPackageCache.destroy('bower');
   });
 
 });
