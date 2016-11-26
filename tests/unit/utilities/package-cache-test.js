@@ -163,6 +163,14 @@ describe('PackageCache', function() {
     expect(invocations[1][0]).to.equal('link');
     expect(invocations[1][1]).to.equal('ember-cli');
     expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
+
+    // Make sure `bower` doesn't trigger link.
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = true;
+    testPackageCache._install('label', 'bower');
+    expect(invocations.length).to.equal(1);
+    expect(invocations[0][0]).to.equal('install');
+    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
   });
 
   it('_upgrade', function() {
@@ -215,6 +223,14 @@ describe('PackageCache', function() {
     expect(invocations[2][0]).to.equal('link');
     expect(invocations[2][1]).to.equal('ember-cli');
     expect(invocations[2][2]).to.deep.equal({ cwd: 'hello' });
+
+    // Make sure `bower` doesn't trigger link.
+    invocations = [];
+    testPackageCache.options.linkEmberCLI = true;
+    testPackageCache._upgrade('label', 'bower');
+    expect(invocations.length).to.equal(1);
+    expect(invocations[0][0]).to.equal('update');
+    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
   });
 
   it('create', function() {
