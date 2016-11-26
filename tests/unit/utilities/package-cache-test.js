@@ -50,8 +50,8 @@ describe('PackageCache', function() {
 
     testPackageCache._cleanDirs();
 
-    expect(testPackageCache.dirs.existing).to.exist;
-    expect(testPackageCache.dirs.nonexisting).to.not.exist;
+    expect(testPackageCache.dirs['existing']).to.exist;
+    expect(testPackageCache.dirs['nonexisting']).to.not.exist;
 
     fs.unlinkSync(testPackageCache._conf.path);
   });
@@ -77,10 +77,79 @@ describe('PackageCache', function() {
     fs.unlinkSync(testPackageCache._conf.path);
   });
 
-  it('_checkManifest', function() {});
-  it('_writeManifest', function() {});
+  it('_writeManifest', function() {
+    var testPackageCache = new PackageCache();
+    testPackageCache._conf = new Configstore('package-cache-test');
+
+    var manifest = JSON.stringify({
+      "name": "foo",
+      "dependencies": {
+        "ember": "2.9.0",
+        "ember-cli-shims": "0.1.3"
+      }
+    });
+
+    // Confirm it writes the file.
+    testPackageCache._writeManifest('bower', 'bower', manifest);
+    var firstWrite = testPackageCache.dirs['bower'];
+    var manifestFilePath = path.join(firstWrite, 'bower.json');
+    expect(file(manifestFilePath)).to.exist;
+    expect(file(manifestFilePath)).to.equal(manifest);
+
+    // Confirm that it reuses directories.
+    testPackageCache._writeManifest('bower', 'bower', manifest);
+    var secondWrite = testPackageCache.dirs['bower'];
+    expect(firstWrite).to.equal(secondWrite);
+
+    // Confirm that it removes a yarn.lock file if present and type is yarn.
+    testPackageCache._writeManifest('yarn', 'yarn', manifest);
+    var yarn = testPackageCache.dirs['yarn'];
+    var lockFileLocation = path.join(yarn, 'yarn.lock');
+
+    // Make sure it doesn't throw if it doesn't exist.
+    expect(function() { testPackageCache._writeManifest('yarn', 'yarn', manifest); }).to.not.throw(Error);
+
+    // Add a "lockfile".
+    fs.writeFileSync(lockFileLocation, 'Hello, world!');
+    expect(file(lockFileLocation)).to.exist; // Sanity check.
+
+    // Make sure it gets removed.
+    testPackageCache._writeManifest('yarn', 'yarn', manifest);
+    expect(file(lockFileLocation)).to.not.exist;
+
+    testPackageCache.destroy('bower');
+    testPackageCache.destroy('yarn');
+    fs.unlinkSync(testPackageCache._conf.path);
+  });
+
+  it('_checkManifest', function() {
+    var testPackageCache = new PackageCache();
+    testPackageCache._conf = new Configstore('package-cache-test');
+
+    var manifest = JSON.stringify({
+      "name": "foo",
+      "dependencies": {
+        "ember": "2.9.0",
+        "ember-cli-shims": "0.1.3"
+      }
+    });
+
+    testPackageCache._writeManifest('bower', 'bower', manifest);
+
+    expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
+    expect(testPackageCache._checkManifest('bower', 'bower', 'different')).to.be.false;
+
+    testPackageCache.destroy('bower');
+    fs.unlinkSync(testPackageCache._conf.path);
+  });
+
   it('_install', function() {});
   it('_upgrade', function() {});
+
+  it('create', function() {});
+  it('get', function() {});
+  it('destroy', function() {});
+  it('clone', function() {});
 
   it('succeeds at a clean install', function() {
     var testPackageCache = new PackageCache();
@@ -120,10 +189,3 @@ describe('PackageCache', function() {
   });
 
 });
-
-// var contents = require('./blueprint-shim');
-// test.create('app-node', 'yarn', contents['app']['package.json']);
-// test.create('addon-node', 'yarn', contents['addon']['package.json']);
-// test.create('app-bower', 'bower', contents['app']['bower.json']);
-// test.create('addon-bower', 'bower', contents['addon']['bower.json']);
-
