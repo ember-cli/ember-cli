@@ -53,13 +53,34 @@ describe('PackageCache', function() {
     expect(testPackageCache.dirs.existing).to.exist;
     expect(testPackageCache.dirs.nonexisting).to.not.exist;
 
-    // Remove the stub Configstore.
     fs.unlinkSync(testPackageCache._conf.path);
   });
 
-  it('readManifest', function() {});
-  it('checkManifest', function() {});
-  it('writeManifest', function() {});
+  it('_readManifest', function() {
+    var testPackageCache = new PackageCache();
+    testPackageCache._conf = new Configstore('package-cache-test');
+
+    var emberCLIPath = path.resolve(__dirname, '../../..');
+    testPackageCache._conf.set('self', emberCLIPath);
+    testPackageCache._conf.set('boom', __dirname);
+
+    var manifest;
+    manifest = JSON.parse(testPackageCache._readManifest('self', 'yarn'));
+    expect(manifest.name).to.equal('ember-cli');
+
+    manifest = testPackageCache._readManifest('nonexistent', 'yarn');
+    expect(manifest).to.equal.null;
+
+    testPackageCache._readManifest('boom', 'yarn');
+    expect(manifest).to.equal.null;
+
+    fs.unlinkSync(testPackageCache._conf.path);
+  });
+
+  it('_checkManifest', function() {});
+  it('_writeManifest', function() {});
+  it('_install', function() {});
+  it('_upgrade', function() {});
 
   it('succeeds at a clean install', function() {
     var testPackageCache = new PackageCache();
@@ -81,7 +102,7 @@ describe('PackageCache', function() {
     expect(file(manifestFilePath)).to.exist;
 
     // checkManifest confirms identical
-    expect(testPackageCache.checkManifest('bower', 'bower', manifest)).to.be.true;
+    expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
 
     // the dependencies were installed
     expect(file(assetPath)).to.exist;
@@ -90,7 +111,7 @@ describe('PackageCache', function() {
     testPackageCache._conf = new Configstore('package-cache-test');
 
     // succeeds in reusing existing data
-    expect(testPackageCache.checkManifest('bower', 'bower', manifest)).to.be.true;
+    expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
 
 
 
