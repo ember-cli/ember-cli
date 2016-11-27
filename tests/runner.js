@@ -12,7 +12,7 @@ if (process.env.EOLNEWLINE) {
 
 fs.removeSync('.deps-tmp');
 
-var root = 'tests/{unit,acceptance}';
+var root = 'tests/{unit,integration,acceptance}';
 var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));
 var optionOrFile = process.argv[2];
 var mocha = new Mocha({
