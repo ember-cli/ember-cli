@@ -7,13 +7,13 @@ describe('command-generator', function() {
   it('defaults options', function() {
     var yarn;
     yarn = new Command('yarn');
-    expect(yarn.options.networkCommands).to.deep.equal([]);
+    expect(yarn.options.retryCommands).to.deep.equal([]);
 
     yarn = new Command('yarn', {});
-    expect(yarn.options.networkCommands).to.deep.equal([]);
+    expect(yarn.options.retryCommands).to.deep.equal([]);
 
-    yarn = new Command('yarn', { networkCommands: ['install'] });
-    expect(yarn.options.networkCommands).to.deep.equal(['install']);
+    yarn = new Command('yarn', { retryCommands: ['install'] });
+    expect(yarn.options.retryCommands).to.deep.equal(['install']);
   });
 
   it('invoke defaults options', function() {
@@ -51,21 +51,6 @@ describe('command-generator', function() {
     expect(passedOptions).to.deep.equal({ stdio: ['default', 'default', 'default'] });
   });
 
-  it('gets clever on ci', function() {
-    var original;
-    var yarn = new Command('yarn', { networkCommands: ['install'] });
-
-    original = process.env.TRAVIS;
-    process.env.TRAVIS = 'true';
-    expect(yarn.ci('install')).to.deep.equal(['travis_retry']);
-    process.env.TRAVIS = original;
-
-    original = process.env.APPVEYOR;
-    process.env.APPVEYOR = 'True';
-    expect(yarn.ci('install')).to.deep.equal(['appveyor-retry']);
-    process.env.APPVEYOR = original;
-  });
-
   it('builds the proper invocation', function() {
     var yarn = new Command('yarn');
 
@@ -87,5 +72,33 @@ describe('command-generator', function() {
 
     yarn.invoke('install', 'the', 'thing', {});
     expect(invocation).to.equal('yarn install the thing');
+  });
+});
+
+describe('in CI environments', function() {
+  var originalTravis, originalAppVeyor;
+
+  beforeEach(function() {
+    originalTravis = process.env.TRAVIS;
+    originalAppVeyor = process.env.APPVEYOR;
+  });
+
+  afterEach(function() {
+    process.env.TRAVIS = originalTravis;
+    process.env.APPVEYOR = originalAppVeyor;
+  });
+
+  it('gets clever on TravisCI', function() {
+    process.env.TRAVIS = 'true';
+
+    var yarn = new Command('yarn', { retryCommands: ['install'] });
+    expect(yarn.ci('install')).to.deep.equal(['travis_retry']);
+  });
+
+  it('gets clever on AppVeyor', function() {
+    process.env.APPVEYOR = 'True';
+
+    var yarn = new Command('yarn', { retryCommands: ['install'] });
+    expect(yarn.ci('install')).to.deep.equal(['appveyor-retry']);
   });
 });
