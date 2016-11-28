@@ -8,7 +8,7 @@ var Promise = require('../../../lib/ext/promise');
 var expect  = require('chai').expect;
 var remove  = Promise.denodeify(fs.remove);
 var findWhere = require('ember-cli-lodash-subset').find;
-var MockUI = require('../../helpers/mock-ui');
+var MockUI = require('console-ui/mock');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 
 var broccoli  = require('broccoli-builder');

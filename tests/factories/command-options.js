@@ -1,7 +1,7 @@
 'use strict';
 
 var defaults      = require('ember-cli-lodash-subset').defaults;
-var MockUI        = require('../helpers/mock-ui');
+var MockUI        = require('console-ui/mock');
 var MockAnalytics = require('../helpers/mock-analytics');
 var MockProject   = require('../helpers/mock-project');
 

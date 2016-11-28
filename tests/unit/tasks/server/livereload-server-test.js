@@ -2,7 +2,7 @@
 
 var expect            = require('chai').expect;
 var LiveReloadServer  = require('../../../../lib/tasks/server/livereload-server');
-var MockUI            = require('../../../helpers/mock-ui');
+var MockUI            = require('console-ui/mock');
 var MockExpressServer = require('../../../helpers/mock-express-server');
 var net               = require('net');
 var EOL               = require('os').EOL;

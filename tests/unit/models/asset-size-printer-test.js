@@ -1,7 +1,7 @@
 'use strict';
 
 var expect           = require('chai').expect;
-var MockUi           = require('../../helpers/mock-ui');
+var MockUi           = require('console-ui/mock');
 var AssetSizePrinter = require('../../../lib/models/asset-size-printer');
 var Promise          = require('../../../lib/ext/promise');
 var path             = require('path');

@@ -1,7 +1,7 @@
 'use strict';
 
 var expect    = require('chai').expect;
-var MockUI    = require('../../helpers/mock-ui');
+var MockUI    = require('console-ui/mock');
 var FileInfo  = require('../../../lib/models/file-info');
 var path      = require('path');
 var fs        = require('fs-extra');

@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 var Command = require('../../lib/models/command');
-var MockUI = require('../helpers/mock-ui');
+var MockUI = require('console-ui/mock');
 var MockProject = require('../helpers/mock-project');
 var command;
 var called = false;

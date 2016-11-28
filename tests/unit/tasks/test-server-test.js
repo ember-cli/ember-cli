@@ -4,7 +4,7 @@ var expect         = require('chai').expect;
 var SilentError    = require('silent-error');
 var TestServerTask = require('../../../lib/tasks/test-server');
 var MockProject    = require('../../helpers/mock-project');
-var MockUI         = require('../../helpers/mock-ui');
+var MockUI         = require('console-ui/mock');
 var MockWatcher    = require('../../helpers/mock-watcher');
 
 describe('test server', function() {

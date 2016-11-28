@@ -1,7 +1,7 @@
 'use strict';
 
 var BowerInstallTask = require('../../../lib/tasks/bower-install');
-var MockUI           = require('../../helpers/mock-ui');
+var MockUI           = require('console-ui/mock');
 var MockProject      = require('../../helpers/mock-project');
 var expect           = require('chai').expect;
 

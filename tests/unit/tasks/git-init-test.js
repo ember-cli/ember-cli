@@ -2,7 +2,7 @@
 
 var fs          = require('fs-extra');
 var expect      = require('chai').expect;
-var MockUI      = require('../../helpers/mock-ui');
+var MockUI      = require('console-ui/mock');
 var GitInitTask = require('../../../lib/tasks/git-init');
 var MockProject = require('../../helpers/mock-project');
 var Promise     = require('../../../lib/ext/promise');
