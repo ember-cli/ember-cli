@@ -131,10 +131,19 @@ describe('PackageCache', function() {
       }
     });
 
+    var manifestShuffled = JSON.stringify({
+      "name": "foo",
+      "dependencies": {
+        "ember-cli-shims": "0.1.3",
+        "ember": "2.9.0"
+      }
+    });
+
     testPackageCache._writeManifest('bower', 'bower', manifest);
 
     expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
-    expect(testPackageCache._checkManifest('bower', 'bower', '{ "something": "different" }')).to.be.false;
+    expect(testPackageCache._checkManifest('bower', 'bower', manifestShuffled)).to.be.true;
+    expect(testPackageCache._checkManifest('bower', 'bower', '{ "dependencies": "different" }')).to.be.false;
 
     testPackageCache.destroy('bower');
   });
