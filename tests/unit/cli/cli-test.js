@@ -1,7 +1,7 @@
 'use strict';
 
 var expect        = require('chai').expect;
-var MockUI        = require('../../helpers/mock-ui');
+var MockUI        = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var CLI           = require('../../../lib/cli/cli');
 var td = require('testdouble');

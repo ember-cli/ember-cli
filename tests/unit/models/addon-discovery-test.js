@@ -6,7 +6,7 @@ var assign = require('ember-cli-lodash-subset').assign;
 var Project = require('../../../lib/models/project');
 var AddonDiscovery = require('../../../lib/models/addon-discovery');
 var fixturePath = path.resolve(__dirname, '../../fixtures/addon');
-var MockUI = require('../../helpers/mock-ui');
+var MockUI = require('console-ui/mock');
 var chalk = require('chalk');
 
 describe('models/addon-discovery.js', function() {

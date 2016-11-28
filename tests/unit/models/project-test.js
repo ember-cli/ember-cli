@@ -6,7 +6,7 @@ var Addon           = require('../../../lib/models/addon');
 var tmp             = require('../../helpers/tmp');
 var touch           = require('../../helpers/file-utils').touch;
 var expect          = require('chai').expect;
-var MockUI          = require('../../helpers/mock-ui');
+var MockUI          = require('console-ui/mock');
 var emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 var td = require('testdouble')
 

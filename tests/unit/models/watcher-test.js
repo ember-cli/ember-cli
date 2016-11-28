@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 
-var MockUI = require('../../helpers/mock-ui');
+var MockUI = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var MockWatcher  = require('../../helpers/mock-watcher');
 var Watcher = require('../../../lib/models/watcher');

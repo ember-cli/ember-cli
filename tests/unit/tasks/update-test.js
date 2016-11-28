@@ -3,7 +3,7 @@
 var fs         = require('fs-extra');
 var path       = require('path');
 var expect     = require('chai').expect;
-var MockUI     = require('../../helpers/mock-ui');
+var MockUI     = require('console-ui/mock');
 var Promise    = require('../../../lib/ext/promise');
 var UpdateTask = require('../../../lib/tasks/update');
 

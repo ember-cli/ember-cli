@@ -1,7 +1,7 @@
 'use strict';
 
 var Project = require('../../lib/models/project');
-var MockUI        = require('../helpers/mock-ui');
+var MockUI  = require('console-ui/mock');
 
 function MockProject() {
   var root = process.cwd();

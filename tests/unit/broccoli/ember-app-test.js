@@ -9,7 +9,7 @@ var expect     = require('chai').expect;
 var proxyquire = require('proxyquire');
 var td = require('testdouble');
 
-var MockUI = require('../../helpers/mock-ui');
+var MockUI = require('console-ui/mock');
 
 var mergeTreesStub;
 var EmberApp = proxyquire('../../../lib/broccoli/ember-app', {

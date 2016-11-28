@@ -2,7 +2,7 @@
 
 var win = require('../../../lib/utilities/windows-admin');
 var expect = require('chai').expect;
-var MockUI = require('../../helpers/mock-ui');
+var MockUI = require('console-ui/mock');
 
 describe('windows-admin', function() {
   before(function() {

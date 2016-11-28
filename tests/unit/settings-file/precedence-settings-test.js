@@ -2,7 +2,7 @@
 
 var expect         = require('chai').expect;
 var merge          = require('ember-cli-lodash-subset').merge;
-var MockUI         = require('../../helpers/mock-ui');
+var MockUI         = require('console-ui/mock');
 var MockAnalytics  = require('../../helpers/mock-analytics');
 var Command        = require('../../../lib/models/command');
 var Yam            = require('yam');

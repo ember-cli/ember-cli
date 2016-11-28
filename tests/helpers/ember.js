@@ -1,6 +1,6 @@
 'use strict';
 
-var MockUI        = require('./mock-ui');
+var MockUI        = require('console-ui/mock');
 var MockAnalytics = require('./mock-analytics');
 var cli           = require('../../lib/cli');
 var path          = require('path');
