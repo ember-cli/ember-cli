@@ -1,5 +1,42 @@
 # ember-cli Changelog
 
+### 2.10.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.9.1...v2.10.0)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.9.1...v2.10.0)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Notes:
+- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- As part of this release we have experimental support for including Ember from npm via the `ember-source` npm package. We hope to discover the gaps during this release cycle and make that the default in a future release.
+
+#### Community Contributions
+
+- [#5994](https://github.com/ember-cli/ember-cli/pull/5994) No 'diff' option when binaries are involved (confirm-dialog). [@fpauser](https://github.com/fpauser)
+- [#6241](https://github.com/ember-cli/ember-cli/pull/6241) destroy deletes empty folders [@kellyselden](https://github.com/kellyselden)
+- [#6096](https://github.com/ember-cli/ember-cli/pull/6096) Fix and improve Watcher.detectWatcher [@stefanpenner](https://github.com/stefanpenner)
+- [#6081](https://github.com/ember-cli/ember-cli/pull/6081) [BUGFIX] Header files import concat [@stefanpenner](https://github.com/stefanpenner)
+- [#6296](https://github.com/ember-cli/ember-cli/pull/6296) Include relative path on ember asset-sizes [@josemarluedke](https://github.com/josemarluedke)
+- [#6301](https://github.com/ember-cli/ember-cli/pull/6301) [Fixes #6300] consistent concat, regardless of system EOL [@stefanpenner](https://github.com/stefanpenner)
+- [#6305](https://github.com/ember-cli/ember-cli/pull/6305) Use Ember.assign for start-app test helper.
+- [#6307](https://github.com/ember-cli/ember-cli/pull/6307) Node.js LTS updates. [@nathanhammond](https://github.com/nathanhammond)
+- [#6306](https://github.com/ember-cli/ember-cli/pull/6306) [ENHANCEMENT] Use npm 3 [@dfreeman](https://github.com/dfreeman)
+- [#6337](https://github.com/ember-cli/ember-cli/pull/6337) DOC: #addBowerPackagesToProject `source` option [@olleolleolle](https://github.com/olleolleolle)
+- [#6358](https://github.com/ember-cli/ember-cli/pull/6358) Use secure URLs in docs where possible [@xtian](https://github.com/xtian)
+- [#6363](https://github.com/ember-cli/ember-cli/pull/6363) [ENHANCEMENT] Add 2.8-lts scenario to default ember-try config [@BrianSipple](https://github.com/BrianSipple)
+- [#6369](https://github.com/ember-cli/ember-cli/pull/6369) Enable ember-source. [@nathanhammond](https://github.com/nathanhammond)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.10.0-beta.2
 
 The following changes are required if you are upgrading from the previous
