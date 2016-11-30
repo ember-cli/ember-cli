@@ -1,13 +1,14 @@
 'use strict';
 
-var fs              = require('fs-extra');
+var fs              = require('fs');
+var fse             = require('fs-extra');
 var path            = require('path');
 var Builder         = require('../../../lib/models/builder');
 var BuildCommand    = require('../../../lib/commands/build');
 var commandOptions  = require('../../factories/command-options');
 var Promise         = require('../../../lib/ext/promise');
 var MockProject     = require('../../helpers/mock-project');
-var remove          = Promise.denodeify(fs.remove);
+var remove          = Promise.denodeify(fse.remove);
 var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
 var td              = require('testdouble');
 
@@ -23,25 +24,34 @@ describe('models/builder.js', function() {
 
   describe('._enableFSMonitorIfVizEnabled', function() {
     var originalBroccoliViz = process.env.BROCCOLI_VIZ;
+    var originalStatSync = fs.statSync;
+
+    beforeEach(function () {
+      expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
+    });
 
     afterEach(function() {
       delete process.env.BROCCOLI_VIZ;
+    });
+
+    it('if VIZ is NOT enabled, do not monitor', function() {
+      var monitor = Builder._enableFSMonitorIfVizEnabled();
+      try {
+        expect(fs.statSync).to.equal(originalStatSync);
+        expect(monitor).to.eql(undefined);
+      } finally {
+        if (monitor) {
+          monitor.stop();
+        }
+      }
     });
 
     it('if VIZ is enabled, monitor', function() {
       process.env.BROCCOLI_VIZ = '1';
       var monitor = Builder._enableFSMonitorIfVizEnabled();
       try {
+        expect(fs.statSync).to.not.equal(originalStatSync);
         expect(monitor.state).to.eql('active');
-      } finally {
-        monitor.stop();
-      }
-    });
-
-    it('if VIZ is NOT enabled, monitor', function() {
-      var monitor = Builder._enableFSMonitorIfVizEnabled();
-      try {
-        expect(monitor.state).to.eql('idle');
       } finally {
         monitor.stop();
       }
