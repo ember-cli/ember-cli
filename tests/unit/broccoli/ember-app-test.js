@@ -591,7 +591,7 @@ describe('broccoli/ember-app', function() {
       beforeEach(function() {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
         var packageContents = require(path.join(projectPath, 'package.json'));
-        project = new Project(projectPath, packageContents);
+        project = new Project(projectPath, packageContents, new MockUI());
       });
 
       afterEach(function() {
