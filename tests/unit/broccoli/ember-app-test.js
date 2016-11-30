@@ -210,14 +210,6 @@ describe('broccoli/ember-app', function() {
         expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
       });
     });
-
-    describe('ember-cli-shims', function() {
-      it('removes app-shims.js from vendorFiles when ember-cli-shims is not in bower.json', function() {
-        project.bowerDependencies = function() { return { 'ember': {} }; }
-        var app = new EmberApp({ project: project });
-        expect(app.vendorFiles['app-shims.js']).to.equal(undefined);
-      });
-    });
   });
 
   describe('contentFor', function() {
