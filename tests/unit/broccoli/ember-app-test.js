@@ -193,8 +193,7 @@ describe('broccoli/ember-app', function() {
             availablePlugins: { 'loader.js': {} }
           }
         });
-
-        expect(app.vendorFiles['ember-resolver'][0]).to.equal('bower_components/ember-resolver/dist/modules/ember-resolver.js');
+        expect(app.vendorFiles['ember-resolver.js'][0]).to.equal('bower_components/ember-resolver/dist/modules/ember-resolver.js');
       });
 
       it('removes ember-resolver.js from vendorFiles when not in bower.json and NPM ember-resolver not installed', function() {
