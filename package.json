@@ -84,7 +84,6 @@
     "heimdalljs-logger": "^0.1.7",
     "http-proxy": "^1.9.0",
     "inflection": "^1.7.0",
-    "inquirer": "^1.2.1",
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^3.0.0",
     "js-yaml": "^3.6.1",
@@ -98,7 +97,6 @@
     "nopt": "^3.0.1",
     "npm": "3.10.8",
     "npm-package-arg": "^4.1.1",
-    "ora": "^0.2.0",
     "portfinder": "^1.0.7",
     "promise-map-series": "^0.2.1",
     "quick-temp": "0.1.6",
@@ -111,7 +109,6 @@
     "symlink-or-copy": "^1.0.1",
     "temp": "0.8.3",
     "testem": "^1.8.1",
-    "through": "^2.3.6",
     "tiny-lr": "^1.0.3",
     "tree-sync": "^1.1.4",
     "uuid": "^3.0.0",
@@ -150,8 +147,7 @@
       "find-up",
       "mocha-eslint",
       "nock",
-      "npm",
-      "ora"
+      "npm"
     ]
   }
 }
