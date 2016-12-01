@@ -145,15 +145,9 @@ function linkDependencies(projectName) {
     var bowerComponentsPath = targetPath + '/bower_components/';
 
     mvRm(nodeModulesPath, '.deps-tmp/node_modules');
-    mvRm(bowerComponentsPath, '.deps-tmp/bower_components');
-
 
     if (!existsSync(nodeModulesPath)) {
       symLinkDir(targetPath, '.deps-tmp/node_modules', 'node_modules');
-    }
-
-    if (!existsSync(bowerComponentsPath)) {
-      symLinkDir(targetPath, '.deps-tmp/bower_components', 'bower_components');
     }
 
     process.chdir(targetPath);
