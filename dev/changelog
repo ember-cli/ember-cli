@@ -23,7 +23,7 @@ var currentVersion = 'v' + require('../package').version;
 var branch         = process.argv[2] || 'master';
 
 compareCommits({
-  user: 'ember-cli',
+  owner: 'ember-cli',
   repo: 'ember-cli',
   base: currentVersion,
   head: branch
