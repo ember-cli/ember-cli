@@ -70,6 +70,7 @@
     "ember-cli-string-utils": "^1.0.0",
     "ember-try": "^0.2.6",
     "escape-string-regexp": "^1.0.3",
+    "execa": "^0.4.0",
     "exists-sync": "0.0.4",
     "exit": "^0.1.2",
     "express": "^4.12.3",
@@ -144,6 +145,7 @@
   "greenkeeper": {
     "ignore": [
       "diff",
+      "execa",
       "find-up",
       "mocha-eslint",
       "nock",
