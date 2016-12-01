@@ -1,5 +1,50 @@
 # ember-cli Changelog
 
+### 2.11.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.10.0...v2.11.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.10.0...v2.11.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Notes:
+- This version of Ember CLI _will not officially support Node.js v0.12_ per the [Ember Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- As part of this release we have made the default behavior inclusion of Ember from npm via the `ember-source` npm package.
+
+#### Community Contributions
+
+- [#6254](https://github.com/ember-cli/ember-cli/pull/6254) [BUGFIX] Do not rely on ember-resolver, detect bower package instead [@martndemus](https://github.com/martndemus)
+- [#6319](https://github.com/ember-cli/ember-cli/pull/6319) Use --save-dev by default when installing addons [@binhums](https://github.com/binhums)
+- [#6378](https://github.com/ember-cli/ember-cli/pull/6378) Prepares Ember CLI for new version of ember-welcome-page [@locks](https://github.com/locks)
+- [#6460](https://github.com/ember-cli/ember-cli/pull/6460) Refactor processTemplate. [@nathanhammond](https://github.com/nathanhammond)
+- [#6385](https://github.com/ember-cli/ember-cli/pull/6385) Respect testem exit code [@johanneswuerbach](https://github.com/johanneswuerbach)
+- [#6387](https://github.com/ember-cli/ember-cli/pull/6387) Adds Node 7 to testing matrix [@twokul](https://github.com/twokul)
+- [#6388](https://github.com/ember-cli/ember-cli/pull/6388) Adds Node 7 to `engines` in `package.json` [@twokul](https://github.com/twokul)
+- [#6407](https://github.com/ember-cli/ember-cli/pull/6407) Improve silent.js Deprecation [@nathanhammond](https://github.com/nathanhammond)
+- [#6443](https://github.com/ember-cli/ember-cli/pull/6443) Fix preProcessTree API docs. [@kratiahuja](https://github.com/kratiahuja)
+- [#6425](https://github.com/ember-cli/ember-cli/pull/6425) Adding json out for 'ember asset-sizes' [@kiwiupover](https://github.com/kiwiupover)
+- [#6423](https://github.com/ember-cli/ember-cli/pull/6423) [BUGFIX] integrate capture exit [@stefanpenner](https://github.com/stefanpenner)
+- [#6427](https://github.com/ember-cli/ember-cli/pull/6427) Document outputFile option [@ro0gr](https://github.com/ro0gr)
+- [#6436](https://github.com/ember-cli/ember-cli/pull/6436) [BUGFIX] Watch vendor by default. [@nathanhammond](https://github.com/nathanhammond)
+- [#6484](https://github.com/ember-cli/ember-cli/pull/6484) [BUGFIX] Fix remaining ember-source issues. [@nathanhammond](https://github.com/nathanhammond)
+- [#6453](https://github.com/ember-cli/ember-cli/pull/6453) Avoid creating extraneous merge-trees. [@rwjblue](https://github.com/rwjblue)
+- [#6496](https://github.com/ember-cli/ember-cli/pull/6496) [BUGFIX release] Revert the reverted revert. Ember assign not available in all ember try scenarios [@webark](https://github.com/webark)
+- [#6482](https://github.com/ember-cli/ember-cli/pull/6482) Cleanup unused deps [@ro0gr](https://github.com/ro0gr)
+- [#6475](https://github.com/ember-cli/ember-cli/pull/6475) extract ui to console-ui [@stefanpenner](https://github.com/stefanpenner)
+- [#6479](https://github.com/ember-cli/ember-cli/pull/6479) docs: Blueprint:renamedFiles [@les2](https://github.com/les2)
+
+Thank you to all who took the time to contribute! A special thanks to those who
+helped us bring this release to a close after discovering that CI was broken for
+the two weeks leading up to the release.
+
+
 ### 2.10.0
 
 The following changes are required if you are upgrading from the previous
