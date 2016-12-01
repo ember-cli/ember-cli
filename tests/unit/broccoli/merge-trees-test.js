@@ -5,7 +5,6 @@
 var fs         = require('fs');
 var expect     = require('chai').expect;
 var proxyquire = require('proxyquire');
-var td = require('testdouble');
 
 var MockUI = require('console-ui/mock');
 
@@ -18,7 +17,15 @@ var mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {
 
 describe('broccoli/merge-trees', function() {
   beforeEach(function() {
-    mergeTreesStub = td.function();
+    mergeTreesStub = function() {
+      return {};
+    };
+  });
+
+  afterEach(function() {
+    // reset the shared EMPTY_MERGE_TREE to ensure
+    // we end up back in a consistent state
+    mergeTrees._overrideEmptyTree(null);
   });
 
   it('returns the first item when merging single item array', function() {
