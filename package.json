@@ -145,6 +145,7 @@
   "greenkeeper": {
     "ignore": [
       "diff",
+      "execa",
       "find-up",
       "mocha-eslint",
       "nock",
