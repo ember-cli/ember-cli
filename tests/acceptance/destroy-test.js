@@ -305,7 +305,6 @@ describe('Acceptance: ember destroy', function() {
       .then(function() { return destroy(['http-mock', 'foo']); })
       .then(function() {
         expect(file('server/index.js')).to.exist;
-        expect(file('server/.jshintrc')).to.exist;
       });
   });
 

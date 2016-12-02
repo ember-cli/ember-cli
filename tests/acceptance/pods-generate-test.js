@@ -49,7 +49,7 @@ describe('Acceptance: ember generate pod', function() {
       '--name=my-app',
       '--skip-npm',
       '--skip-bower'
-    ]);
+    ]).then(addJSHint);
   }
 
   function initAddon() {
@@ -58,7 +58,13 @@ describe('Acceptance: ember generate pod', function() {
       'my-addon',
       '--skip-npm',
       '--skip-bower'
-    ]);
+    ]).then(addJSHint);
+  }
+
+  function addJSHint() {
+    var pkg = fs.readJsonSync('package.json');
+    pkg.devDependencies['ember-cli-jshint'] = '*';
+    fs.writeJsonSync('package.json', pkg);
   }
 
   function initInRepoAddon() {

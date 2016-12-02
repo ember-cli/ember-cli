@@ -43,7 +43,13 @@ describe('Acceptance: ember generate in-addon', function() {
       name,
       '--skip-npm',
       '--skip-bower'
-    ]);
+    ]).then(addJSHint);
+  }
+
+  function addJSHint() {
+    var pkg = fs.readJsonSync('package.json');
+    pkg.devDependencies['ember-cli-jshint'] = '*';
+    fs.writeJsonSync('package.json', pkg);
   }
 
   function generateInAddon(args) {
@@ -286,7 +292,6 @@ describe('Acceptance: ember generate in-addon', function() {
   it('in-addon server', function() {
     return generateInAddon(['server']).then(function() {
       expect(file('server/index.js')).to.exist;
-      expect(file('server/.jshintrc')).to.exist;
     });
   });
 
