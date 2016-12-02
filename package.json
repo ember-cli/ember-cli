@@ -102,6 +102,7 @@
     "promise-map-series": "^0.2.1",
     "quick-temp": "0.1.6",
     "resolve": "^1.1.6",
+    "roadrunner": "^1.1.0",
     "rsvp": "^3.3.3",
     "sane": "^1.1.1",
     "semver": "^5.1.1",
