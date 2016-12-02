@@ -619,6 +619,33 @@ describe('models/addon.js', function() {
         addon.compileTemplates();
       }).not.to.throw();
     });
+
+    it('should not call _getAddonTemplatesTreeFiles when default treePath is used', function() {
+      addon.root = path.join(fixturePath, 'with-empty-addon-templates');
+      var wasCalled = false;
+      addon._getAddonTemplatesTreeFiles = function() {
+        wasCalled = true;
+        return [];
+      };
+
+      addon.compileTemplates();
+
+      expect(wasCalled).to.not.be.ok;
+    });
+
+    it('should call _getAddonTemplatesTreeFiles when custom treePaths[\'addon-templates\'] is used', function() {
+      addon.root = path.join(fixturePath, 'with-empty-addon-templates');
+      addon.treePaths['addon-templates'] = 'foo';
+      var wasCalled = false;
+      addon._getAddonTemplatesTreeFiles = function() {
+        wasCalled = true;
+        return [];
+      };
+
+      addon.compileTemplates();
+
+      expect(wasCalled).to.be.ok;
+    });
   });
 
   describe('addonDiscovery', function() {
