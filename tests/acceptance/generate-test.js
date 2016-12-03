@@ -16,6 +16,7 @@ var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
 var chai = require('../chai');
 var expect = chai.expect;
 var file = chai.file;
+var dir = chai.dir;
 
 describe('Acceptance: ember generate', function() {
   this.timeout(20000);
@@ -48,7 +49,13 @@ describe('Acceptance: ember generate', function() {
       '--name=my-app',
       '--skip-npm',
       '--skip-bower'
-    ]);
+    ]).then(addJSHint);
+  }
+
+  function addJSHint() {
+    var pkg = fs.readJsonSync('package.json');
+    pkg.devDependencies['ember-cli-jshint'] = '*';
+    fs.writeJsonSync('package.json', pkg);
   }
 
   function generate(args) {
@@ -396,7 +403,6 @@ describe('Acceptance: ember generate', function() {
   it('server', function() {
     return generate(['server']).then(function() {
       expect(file('server/index.js')).to.exist;
-      expect(file('server/.jshintrc')).to.exist;
     });
   });
 
@@ -408,7 +414,7 @@ describe('Acceptance: ember generate', function() {
 
   it('lib', function() {
     return generate(['lib']).then(function() {
-      expect(file('lib/.jshintrc')).to.exist;
+      expect(dir('lib')).to.exist;
     });
   });
 

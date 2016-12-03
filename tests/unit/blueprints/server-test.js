@@ -26,26 +26,26 @@ describe('Acceptance: ember generate and destroy server', function() {
       })
       .then(function() {
         expect(file('server/index.js')).to.contain('module.exports = function(app) {');
-        expect(file('server/.jshintrc')).to.exist;
+        expect(file('server/.jshintrc')).to.not.exist;
 
         // TODO: assert that `morgan` and `glob` dependencies were installed
       });
   });
 
-  it('server without ember-cli-jshint', function() {
+  it('server with ember-cli-jshint', function() {
     var args = ['server'];
 
     return emberNew()
       .then(function() {
         return modifyPackages([
-          {name: 'ember-cli-jshint', delete: true},
+          {name: 'ember-cli-jshint', dev: true},
         ]);
       })
       .then(function() {
         return emberGenerate(args);
       })
       .then(function() {
-        expect(file('server/.jshintrc')).to.not.exist;
+        expect(file('server/.jshintrc')).to.exist;
       });
   });
 });

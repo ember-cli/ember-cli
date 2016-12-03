@@ -22,24 +22,24 @@ describe('Acceptance: ember generate and destroy lib', function() {
       .then(function() {
         return emberGenerateDestroy(args, function(file) {
           expect(dir('lib')).to.exist;
-          expect(file('lib/.jshintrc')).to.exist;
+          expect(file('lib/.jshintrc')).to.not.exist;
         });
       });
   });
 
-  it('lib foo without ember-cli-jshint', function() {
+  it('lib foo with ember-cli-jshint', function() {
     var args = ['lib', 'foo'];
 
     return emberNew()
       .then(function() {
         return modifyPackages([
-          {name: 'ember-cli-jshint', delete: true},
+          {name: 'ember-cli-jshint', dev: true},
         ]);
       })
       .then(function() {
         return emberGenerateDestroy(args, function(file) {
           expect(dir('lib')).to.exist;
-          expect(file('lib/.jshintrc')).to.not.exist;
+          expect(file('lib/.jshintrc')).to.exist;
         });
       });
   });
