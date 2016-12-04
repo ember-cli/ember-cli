@@ -9,6 +9,7 @@ var td = require('testdouble')
 var PortFinder     = require('portfinder');
 
 PortFinder.basePort = 32768;
+var getPort = Promise.denodeify(PortFinder.getPort);
 
 var ServeCommand = require('../../../lib/commands/serve');
 
@@ -35,6 +36,7 @@ describe('serve command', function() {
 
   it('has correct default options', function() {
     return command.validateAndRun([
+      '--port', '0',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -44,25 +46,29 @@ describe('serve command', function() {
   });
 
   it('setting --port without --live-reload-port', function() {
-    return command.validateAndRun([
-      '--port', '4000'
-    ]).then(function() {
-      var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
-      expect(captor.value.port).to.equal(4000, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
+    return getPort().then(function(port) {
+      return command.validateAndRun([
+        '--port', '' + port
+      ]).then(function() {
+        var captor = td.matchers.captor();
+        td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+        expect(captor.value.port).to.equal(port, 'has correct port');
+        expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
+      });
     });
   });
 
   it('setting both --port and --live-reload-port', function() {
-    return command.validateAndRun([
-      '--port', '4000',
-      '--live-reload-port', '8005'
-    ]).then(function() {
-      var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
-      expect(captor.value.port).to.equal(4000, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.within(8005, 65535, 'has live reload port > port');
+    return getPort().then(function(port) {
+      return command.validateAndRun([
+        '--port', '' + port,
+        '--live-reload-port', '8005'
+      ]).then(function() {
+        var captor = td.matchers.captor();
+        td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+        expect(captor.value.port).to.equal(port, 'has correct port');
+        expect(captor.value.liveReloadPort).to.be.within(8005, 65535, 'has live reload port > port');
+      });
     });
   });
 
@@ -114,6 +120,7 @@ describe('serve command', function() {
 
   it('has correct liveLoadPort', function() {
     return command.validateAndRun([
+      '--port', '0',
       '--live-reload-port', '4001'
     ]).then(function() {
       var captor = td.matchers.captor();
@@ -124,6 +131,7 @@ describe('serve command', function() {
 
   it('has correct liveReloadLoadHost', function() {
     return command.validateAndRun([
+      '--port', '0',
       '--live-reload-host', '127.0.0.1'
     ]).then(function() {
       var captor = td.matchers.captor();
@@ -134,6 +142,7 @@ describe('serve command', function() {
 
   it('has correct liveLoadBaseUrl', function() {
     return command.validateAndRun([
+      '--port', '0',
       '--live-reload-base-url', 'http://127.0.0.1:4200/'
     ]).then(function() {
       var captor = td.matchers.captor();
@@ -144,6 +153,7 @@ describe('serve command', function() {
 
   it('has correct proxy', function() {
     return command.validateAndRun([
+      '--port', '0',
       '--proxy', 'http://localhost:3000/'
     ]).then(function() {
       var captor = td.matchers.captor();
@@ -154,6 +164,7 @@ describe('serve command', function() {
 
   it('has correct secure proxy option', function() {
     return command.validateAndRun([
+      '--port', '0',
       '--secure-proxy', 'false'
     ]).then(function() {
       var captor = td.matchers.captor();
@@ -163,7 +174,9 @@ describe('serve command', function() {
   });
 
   it('has correct default value for secure proxy', function() {
-    return command.validateAndRun().then(function() {
+    return command.validateAndRun([
+      '--port', '0',
+    ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
       expect(captor.value.secureProxy).to.equal(true, 'has correct secure proxy option when not set');
@@ -172,6 +185,7 @@ describe('serve command', function() {
 
   it('requires proxy URL to include protocol', function() {
     return command.validateAndRun([
+      '--port', '0',
       '--proxy', 'localhost:3000'
     ]).then(function() {
       expect(false, 'it rejects when proxy URL doesn\'t include protocol').to.be.ok;
@@ -184,7 +198,9 @@ describe('serve command', function() {
   });
 
   it('has correct default value for transparent proxy', function() {
-    return command.validateAndRun().then(function() {
+    return command.validateAndRun([
+      '--port', '0',
+    ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
       expect(captor.value.transparentProxy).to.equal(true, 'has correct transparent proxy option when not set');
@@ -197,6 +213,7 @@ describe('serve command', function() {
     };
 
     return command.validateAndRun([
+      '--port', '0',
       '--environment', 'test'
     ]).then(function() {
       var captor = td.matchers.captor();
@@ -207,6 +224,7 @@ describe('serve command', function() {
 
   it('host alias does not conflict with help alias', function() {
     return command.validateAndRun([
+      '--port', '0',
       '-H', 'localhost'
     ]).then(function() {
       var captor = td.matchers.captor();
