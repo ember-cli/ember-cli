@@ -619,22 +619,33 @@ describe('models/addon.js', function() {
         addon.compileTemplates();
       }).not.to.throw();
     });
+  });
+
+  describe('_detectTemplateInfo', function() {
+    beforeEach(function() {
+      projectPath = path.resolve(fixturePath, 'simple');
+      var packageContents = require(path.join(projectPath, 'package.json'));
+
+      project = new Project(projectPath, packageContents);
+
+      project.initializeAddons();
+
+      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+    });
 
     it('should not call _getAddonTemplatesTreeFiles when default treePath is used', function() {
-      addon.root = path.join(fixturePath, 'with-empty-addon-templates');
       var wasCalled = false;
       addon._getAddonTemplatesTreeFiles = function() {
         wasCalled = true;
         return [];
       };
 
-      addon.compileTemplates();
+      addon._detectTemplateInfo();
 
       expect(wasCalled).to.not.be.ok;
     });
 
     it('should call _getAddonTemplatesTreeFiles when custom treePaths[\'addon-templates\'] is used', function() {
-      addon.root = path.join(fixturePath, 'with-empty-addon-templates');
       addon.treePaths['addon-templates'] = 'foo';
       var wasCalled = false;
       addon._getAddonTemplatesTreeFiles = function() {
@@ -642,9 +653,71 @@ describe('models/addon.js', function() {
         return [];
       };
 
-      addon.compileTemplates();
+      addon._detectTemplateInfo();
 
       expect(wasCalled).to.be.ok;
+    });
+
+    it('hasPodTemplates when pod templates found', function() {
+      addon._getAddonTreeFiles = function() {
+        return [
+          'foo-bar/',
+          'foo-bar/component.js',
+          'foo-bar/template.hbs'
+        ];
+      };
+
+      expect(addon._detectTemplateInfo()).to.deep.equal({
+        hasTemplates: true,
+        hasPodTemplates: true
+      });
+    });
+
+    it('does not hasPodTemplates when no pod templates found', function() {
+      addon._getAddonTreeFiles = function() {
+        return [
+          'templates/',
+          'templates/components/',
+          'templates/components/foo-bar.hbs'
+        ];
+      };
+
+      expect(addon._detectTemplateInfo()).to.deep.equal({
+        hasTemplates: true,
+        hasPodTemplates: false
+      });
+    });
+
+    it('does not hasPodTemplates when no pod templates found (pod-like structure in `addon/templates/`)', function() {
+      addon._getAddonTreeFiles = function() {
+        return [
+          'templates/',
+          // this doesn't need "pod template handling" because
+          // it is actually in the addon-templates tree
+          'templates/foo-bar/template.hbs'
+        ];
+      };
+
+      expect(addon._detectTemplateInfo()).to.deep.equal({
+        hasTemplates: true,
+        hasPodTemplates: false
+      });
+    });
+
+    it('does not hasTemplates when no templates found', function() {
+      addon._getAddonTreeFiles = function() {
+        return [
+          'components/',
+          'components/foo-bar.js',
+          'templates/',
+          'templates/components/'
+        ];
+      };
+
+      expect(addon._detectTemplateInfo()).to.deep.equal({
+        hasTemplates: false,
+        hasPodTemplates: false
+      });
     });
   });
 
