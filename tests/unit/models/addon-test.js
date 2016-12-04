@@ -19,6 +19,7 @@ var root    = process.cwd();
 var tmproot = path.join(root, 'tmp');
 
 var fixturePath = path.resolve(__dirname, '../../fixtures/addon');
+var ensurePosixPath = require('ensure-posix-path');
 
 describe('models/addon.js', function() {
   var addon, project, projectPath;
@@ -110,7 +111,7 @@ describe('models/addon.js', function() {
         addon.root = root;
 
         addon.jshintAddonTree();
-        expect(addonPath).to.eql(path.join(root, 'addon'));
+        expect(addonPath).to.eql(ensurePosixPath(path.join(root, 'addon')));
       });
 
       it('lints the files before preprocessing', function() {
