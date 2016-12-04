@@ -140,6 +140,13 @@ describe('models/command.js', function() {
     });
   });
 
+  it('parseArgs() should allow --no-color option', function() {
+    new ServeCommand(assign(options, {
+      settings: config.getAll()
+    })).parseArgs(['--no-color']);
+    expect(ui.output).to.not.match(/is not registered with the serve command/);
+  });
+
   it('parseArgs() should warn if an option is invalid.', function() {
     new ServeCommand(assign(options, {
       settings: config.getAll()
