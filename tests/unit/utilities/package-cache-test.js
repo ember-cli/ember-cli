@@ -20,9 +20,9 @@ describe('PackageCache', function() {
 
     testPackageCache.__setupForTesting({
       commands: {
-        bower: { invoke: function() { invocations.push(arguments); } },
-        npm: { invoke: function() { invocations.push(arguments); } },
-        yarn: { invoke: function() { invocations.push(arguments); } }
+        bower: { invoke: function() { invocations.push(['bower'].concat(Array.prototype.slice.call(arguments))); } },
+        npm: { invoke: function() { invocations.push(['npm'].concat(Array.prototype.slice.call(arguments))); } },
+        yarn: { invoke: function() { invocations.push(['yarn'].concat(Array.prototype.slice.call(arguments))); } }
       }
     });
   });
@@ -159,27 +159,27 @@ describe('PackageCache', function() {
     invocations = [];
     testPackageCache._install('label', 'npm');
     expect(invocations.length).to.equal(1);
-    expect(invocations[0][0]).to.equal('install');
-    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[0][1]).to.equal('install');
+    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
 
     // We want to make sure it attempts to link when it is supposed to.
     invocations = [];
     testPackageCache.options.linkEmberCLI = true;
     testPackageCache._install('label', 'npm');
     expect(invocations.length).to.equal(2);
-    expect(invocations[0][0]).to.equal('install');
-    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
-    expect(invocations[1][0]).to.equal('link');
-    expect(invocations[1][1]).to.equal('ember-cli');
-    expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[0][1]).to.equal('install');
+    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[1][1]).to.equal('link');
+    expect(invocations[1][2]).to.equal('ember-cli');
+    expect(invocations[1][3]).to.deep.equal({ cwd: 'hello' });
 
     // Make sure `bower` doesn't trigger link.
     invocations = [];
     testPackageCache.options.linkEmberCLI = true;
     testPackageCache._install('label', 'bower');
     expect(invocations.length).to.equal(1);
-    expect(invocations[0][0]).to.equal('install');
-    expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+    expect(invocations[0][1]).to.equal('install');
+    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
   });
 
   describe('_upgrade', function() {
@@ -202,60 +202,60 @@ describe('PackageCache', function() {
     it('Trigger upgrade.', function() {
       testPackageCache._upgrade(label, 'yarn');
       expect(invocations.length).to.equal(1);
-      expect(invocations[0][0]).to.equal('upgrade');
-      expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[0][1]).to.equal('upgrade');
+      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
     });
 
     it('Make sure it unlinks, upgrades, re-links.', function() {
       testPackageCache.options.linkEmberCLI = true;
       testPackageCache._upgrade(label, 'yarn');
       expect(invocations.length).to.equal(3);
-      expect(invocations[0][0]).to.equal('unlink');
-      expect(invocations[0][1]).to.equal('ember-cli');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[1][0]).to.equal('upgrade');
-      expect(invocations[1][1]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[2][0]).to.equal('link');
-      expect(invocations[2][1]).to.equal('ember-cli');
-      expect(invocations[2][2]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[0][1]).to.equal('unlink');
+      expect(invocations[0][2]).to.equal('ember-cli');
+      expect(invocations[0][3]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[1][1]).to.equal('upgrade');
+      expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[2][1]).to.equal('link');
+      expect(invocations[2][2]).to.equal('ember-cli');
+      expect(invocations[2][3]).to.deep.equal({ cwd: 'hello' });
     });
 
     it('Make sure npm does an install', function() {
       // npm is dumb. Upgrades are inconsistent and therefore invalid.
       testPackageCache._upgrade(label, 'npm');
       expect(invocations.length).to.equal(1);
-      expect(invocations[0][0]).to.equal('install');
-      expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[0][1]).to.equal('install');
+      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
     });
 
     it('Make sure npm unlinks, installs, re-links.', function() {
       testPackageCache.options.linkEmberCLI = true;
       testPackageCache._upgrade(label, 'npm');
       expect(invocations.length).to.equal(3);
-      expect(invocations[0][0]).to.equal('unlink');
-      expect(invocations[0][1]).to.equal('ember-cli');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[1][0]).to.equal('install');
-      expect(invocations[1][1]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[2][0]).to.equal('link');
-      expect(invocations[2][1]).to.equal('ember-cli');
-      expect(invocations[2][2]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[0][1]).to.equal('unlink');
+      expect(invocations[0][2]).to.equal('ember-cli');
+      expect(invocations[0][3]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[1][1]).to.equal('install');
+      expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[2][1]).to.equal('link');
+      expect(invocations[2][2]).to.equal('ember-cli');
+      expect(invocations[2][3]).to.deep.equal({ cwd: 'hello' });
     });
 
     it('Make sure `bower` doesn\'t trigger link.', function() {
       testPackageCache.options.linkEmberCLI = true;
       testPackageCache._upgrade(label, 'bower');
       expect(invocations.length).to.equal(1);
-      expect(invocations[0][0]).to.equal('update');
-      expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[0][1]).to.equal('update');
+      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
     });
 
     it('Make sure multiple invocations lock out.', function() {
       testPackageCache._upgrade(label, 'yarn');
       testPackageCache._upgrade(label, 'yarn');
       expect(invocations.length).to.equal(1);
-      expect(invocations[0][0]).to.equal('upgrade');
-      expect(invocations[0][1]).to.deep.equal({ cwd: 'hello' });
+      expect(invocations[0][1]).to.equal('upgrade');
+      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
     });
 
     it('locks out _upgrade after _install', function() {
@@ -271,7 +271,7 @@ describe('PackageCache', function() {
     invocations = [];
     testPackageCache.create('yarn', 'yarn', '{}');
     expect(invocations.length).to.equal(1);
-    expect(invocations[0][0]).to.equal('install');
+    expect(invocations[0][1]).to.equal('install');
 
     invocations = [];
     testPackageCache.create('yarn', 'yarn', '{}');
@@ -281,8 +281,8 @@ describe('PackageCache', function() {
     testPackageCache.options.linkEmberCLI = true;
     testPackageCache.create('yarn', 'yarn', '{ "dependencies": "different" }');
     expect(invocations.length).to.equal(3);
-    expect(invocations[0][0]).to.equal('link');
-    expect(invocations[1][0]).to.equal('install');
+    expect(invocations[0][1]).to.equal('link');
+    expect(invocations[1][1]).to.equal('install');
 
     invocations = [];
     testPackageCache.options.linkEmberCLI = true;
@@ -319,6 +319,28 @@ describe('PackageCache', function() {
     var toManifest = testPackageCache._readManifest('to', 'bower');
 
     expect(fromManifest).to.equal(toManifest);
+  });
+
+  it('downgrades on 0.12', function() {
+    // Set up invocations.
+    invocations = [];
+    testPackageCache.create('one', 'yarn', '{}');
+    testPackageCache._conf.set('two', 'hello');
+    testPackageCache._install('two', 'yarn');
+    testPackageCache._conf.set('three', 'hello');
+    testPackageCache._install('three', 'yarn');
+
+    var expected;
+    if (process.version.indexOf('v0.12') === 0) {
+      expected = 'npm';
+    } else {
+      expected = 'yarn';
+    }
+
+    for (var i = 0; i < invocations.length; i++) {
+      expect(invocations[i][0]).to.equal(expected);
+    }
+
   });
 
   it('succeeds at a clean install', function() {
