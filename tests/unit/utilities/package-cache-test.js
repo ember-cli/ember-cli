@@ -278,9 +278,14 @@ describe('PackageCache', function() {
 
   it('create', function() {
     invocations = [];
-    testPackageCache.create('yarn', 'yarn', '{}');
+
+    var dir = testPackageCache.create('yarn', 'yarn', '{}');
+    var manifestFilePath = path.join(dir, 'package.json');
+
     expect(invocations.length).to.equal(1);
     expect(invocations[0][1]).to.equal('install');
+    expect(file(manifestFilePath)).to.exist; // Sanity check.
+    expect(file(manifestFilePath)).to.contain('_packageCache');
 
     invocations = [];
     testPackageCache.create('yarn', 'yarn', '{}');
