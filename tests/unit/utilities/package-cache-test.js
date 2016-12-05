@@ -188,6 +188,15 @@ describe('PackageCache', function() {
     var testCounter = 0;
     var label;
 
+    // This accounts for the downgrade ability.
+    var command;
+    if (process.version.indexOf('v0.12') === 0) {
+      command = 'npm';
+    } else {
+      command = 'yarn';
+    }
+    var testValue = (command === 'yarn' ? 'upgrade' : 'install');
+
     beforeEach(function() {
       invocations = [];
       label = 'test' + (testCounter++);
@@ -202,7 +211,7 @@ describe('PackageCache', function() {
     it('Trigger upgrade.', function() {
       testPackageCache._upgrade(label, 'yarn');
       expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('upgrade');
+      expect(invocations[0][1]).to.equal(testValue);
       expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
     });
 
@@ -213,7 +222,7 @@ describe('PackageCache', function() {
       expect(invocations[0][1]).to.equal('unlink');
       expect(invocations[0][2]).to.equal('ember-cli');
       expect(invocations[0][3]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[1][1]).to.equal('upgrade');
+      expect(invocations[1][1]).to.equal(testValue);
       expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
       expect(invocations[2][1]).to.equal('link');
       expect(invocations[2][2]).to.equal('ember-cli');
@@ -254,7 +263,7 @@ describe('PackageCache', function() {
       testPackageCache._upgrade(label, 'yarn');
       testPackageCache._upgrade(label, 'yarn');
       expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('upgrade');
+      expect(invocations[0][1]).to.equal(testValue);
       expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
     });
 
