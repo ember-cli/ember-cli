@@ -622,7 +622,7 @@ describe('models/addon.js', function() {
     });
   });
 
-  describe('_detectTemplateInfo', function() {
+  describe('_fileSystemInfo', function() {
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
@@ -641,7 +641,7 @@ describe('models/addon.js', function() {
         return [];
       };
 
-      addon._detectTemplateInfo();
+      addon._fileSystemInfo();
 
       expect(wasCalled).to.not.be.ok;
     });
@@ -654,7 +654,7 @@ describe('models/addon.js', function() {
         return [];
       };
 
-      addon._detectTemplateInfo();
+      addon._fileSystemInfo();
 
       expect(wasCalled).to.be.ok;
     });
@@ -668,7 +668,8 @@ describe('models/addon.js', function() {
         ];
       };
 
-      expect(addon._detectTemplateInfo()).to.deep.equal({
+      expect(addon._fileSystemInfo()).to.deep.equal({
+        hasJSFiles: true,
         hasTemplates: true,
         hasPodTemplates: true
       });
@@ -683,7 +684,8 @@ describe('models/addon.js', function() {
         ];
       };
 
-      expect(addon._detectTemplateInfo()).to.deep.equal({
+      expect(addon._fileSystemInfo()).to.deep.equal({
+        hasJSFiles: false,
         hasTemplates: true,
         hasPodTemplates: false
       });
@@ -699,7 +701,8 @@ describe('models/addon.js', function() {
         ];
       };
 
-      expect(addon._detectTemplateInfo()).to.deep.equal({
+      expect(addon._fileSystemInfo()).to.deep.equal({
+        hasJSFiles: false,
         hasTemplates: true,
         hasPodTemplates: false
       });
@@ -715,7 +718,25 @@ describe('models/addon.js', function() {
         ];
       };
 
-      expect(addon._detectTemplateInfo()).to.deep.equal({
+      expect(addon._fileSystemInfo()).to.deep.equal({
+        hasJSFiles: true,
+        hasTemplates: false,
+        hasPodTemplates: false
+      });
+    });
+
+    it('does not hasJSFiles when none found', function() {
+      addon._getAddonTreeFiles = function() {
+        return [
+          'components/',
+          'templates/',
+          'templates/components/',
+          'styles/foo.css'
+        ];
+      };
+
+      expect(addon._fileSystemInfo()).to.deep.equal({
+        hasJSFiles: false,
         hasTemplates: false,
         hasPodTemplates: false
       });
