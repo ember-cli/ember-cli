@@ -75,30 +75,13 @@ describe('command-generator', function() {
   });
 });
 
-describe('in CI environments', function() {
-  var originalTravis, originalAppVeyor;
+// Don't need to write individual tests for each CI since it will run on both!
+it ('gets clever in CI environments', function() {
+  var yarn = new Command('yarn', { retryCommands: ['install'] });
 
-  beforeEach(function() {
-    originalTravis = process.env.TRAVIS;
-    originalAppVeyor = process.env.APPVEYOR;
-  });
-
-  afterEach(function() {
-    process.env.TRAVIS = originalTravis;
-    process.env.APPVEYOR = originalAppVeyor;
-  });
-
-  it('gets clever on TravisCI', function() {
-    process.env.TRAVIS = 'true';
-
-    var yarn = new Command('yarn', { retryCommands: ['install'] });
+  if (process.env.TRAVIS === 'true') {
     expect(yarn.ci('install')).to.deep.equal(['travis_retry']);
-  });
-
-  it('gets clever on AppVeyor', function() {
-    process.env.APPVEYOR = 'True';
-
-    var yarn = new Command('yarn', { retryCommands: ['install'] });
+  } else if (process.env.APPVEYOR === 'True') {
     expect(yarn.ci('install')).to.deep.equal(['appveyor-retry']);
-  });
+  }
 });
