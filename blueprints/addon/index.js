@@ -40,6 +40,16 @@ module.exports = {
     // use `ember-try` as test script in addons by default
     contents.scripts.test = 'ember try:each';
 
+    contents.files = [
+      'addon',
+      'app',
+      'blueprints',
+      'config',
+      'lib',
+      'vendor',
+      'index.js',
+    ];
+
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 

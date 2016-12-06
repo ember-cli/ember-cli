@@ -98,6 +98,15 @@ describe('blueprint - addon', function() {
   "keywords": [\n\
     "ember-addon"\n\
   ],\n\
+  "files": [\n\
+    "addon",\n\
+    "app",\n\
+    "blueprints",\n\
+    "config",\n\
+    "lib",\n\
+    "vendor",\n\
+    "index.js"\n\
+  ],\n\
   "scripts": {\n\
     "test": "ember try:each"\n\
   },\n\
