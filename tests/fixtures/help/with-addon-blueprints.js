@@ -694,6 +694,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'debug',
+          description: 'File to write a debug log from testem',
+          key: 'debug',
+          required: false
+        },
+        {
           name: 'test-page',
           description: 'Test page to invoke',
           key: 'testPage',
