@@ -34,7 +34,7 @@ describe('test task test', function() {
       port: 123324,
       reporter: 'xunit',
       outputPath: 'blerpy-derpy',
-      debug: 'testem.log',
+      testemDebug: 'testem.log',
       testPage: 'http://my/test/page',
       configFile: 'custom-testem-config.json'
     });

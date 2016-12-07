@@ -662,9 +662,9 @@ module.exports = {
           required: false
         },
         {
-          name: 'debug',
+          name: 'testem-debug',
           description: 'File to write a debug log from testem',
-          key: 'debug',
+          key: 'testemDebug',
           required: false
         },
         {
