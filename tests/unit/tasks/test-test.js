@@ -23,6 +23,7 @@ describe('test task test', function() {
         expect(testemOptions.reporter).to.equal('xunit');
         expect(testemOptions.middleware).to.deep.equal(['middleware1', 'middleware2']);
         expect(testemOptions.test_page).to.equal('http://my/test/page');
+        expect(testemOptions.debug).to.equal('testem.log');
         expect(testemOptions.config_dir).to.be.an('string');
         expect(testemOptions.file).to.equal('custom-testem-config.json');
       }
@@ -33,6 +34,7 @@ describe('test task test', function() {
       port: 123324,
       reporter: 'xunit',
       outputPath: 'blerpy-derpy',
+      testemDebug: 'testem.log',
       testPage: 'http://my/test/page',
       configFile: 'custom-testem-config.json'
     });
