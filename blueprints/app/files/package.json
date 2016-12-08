@@ -34,7 +34,7 @@
     "ember-resolver": "^2.0.3",
     "ember-source": "^2.11.0-beta.2",
     "ember-welcome-page": "^2.0.2",
-    "loader.js": "^4.0.10"
+    "loader.js": "^4.1.0"
   },
   "engines": {
     "node": ">= 0.12.0"
