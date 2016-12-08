@@ -1,11 +1,13 @@
 'use strict';
 
+var captureExit = require('capture-exit');
+captureExit.captureExit();
+
 var glob = require('glob');
 var Mocha = require('mocha');
 var RSVP = require('rsvp');
 var fs = require('fs-extra');
 var mochaOnlyDetector = require('mocha-only-detector');
-var exit = require('capture-exit');
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
@@ -59,7 +61,6 @@ function runMocha() {
   console.time('Mocha Tests Running Time');
   mocha.run(function(failures) {
     console.timeEnd('Mocha Tests Running Time');
-    exit.releaseExit();
     process.exit(failures);
   });
 }
@@ -79,6 +80,5 @@ ciVerificationStep()
   .catch(function(error) {
     console.error(error);
     console.error(error.stack);
-    exit.releaseExit();
     process.exit(1);
   });
