@@ -147,7 +147,6 @@ describe('models/asset-size-printer', function () {
       });
   });
 
-
   it('prints an error when no files are found', function () {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
@@ -159,5 +158,15 @@ describe('models/asset-size-printer', function () {
       .catch(function (error) {
         expect(error.message).to.include('No asset files found in the path provided: ' + outputPath);
       });
+  });
+
+  it('does not throw an error when no files are found', function () {
+    var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
+    var sizePrinter = new AssetSizePrinter({
+      ui: new MockUi(),
+      outputPath: outputPath
+    });
+
+    return expect(sizePrinter.print()).not.to.throw;
   });
 });
