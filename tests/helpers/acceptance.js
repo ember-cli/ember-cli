@@ -27,32 +27,6 @@ function handleResult(result) {
   throw result;
 }
 
-function downloaded(item) {
-  var exists = false;
-  switch (item) {
-    case 'node_modules':
-      exists = existsSync(path.join(root, '.deps-tmp', 'node_modules'));
-      break;
-    case 'bower_components':
-      exists = existsSync(path.join(root, '.deps-tmp', 'bower_components'));
-      break;
-  }
-
-  return exists;
-}
-
-function mvRm(from, to) {
-  if (!existsSync(to)) {
-    fs.mkdirsSync(to);
-    fs.copySync(from, to);
-    fs.removeSync(from);
-  }
-}
-
-function symLinkDir(projectPath, from, to) {
-  symlinkOrCopySync(path.resolve(root, from), path.resolve(projectPath, to));
-}
-
 function applyCommand(command, name /*, ...flags*/) {
   var flags = [].slice.call(arguments, 2, arguments.length);
   var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, runCommandOptions];
@@ -120,7 +94,7 @@ function linkDependencies(projectName) {
     var nodeModulesPath = path.join(targetPath, 'node_modules');
 
     if (!existsSync(nodeModulesPath)) {
-      symLinkDir(targetPath, packageCache.get('node'), 'node_modules');
+      symlinkOrCopySync(path.join(packageCache.get('node'), 'node_modules'), nodeModulesPath);
     }
 
     process.chdir(targetPath);
