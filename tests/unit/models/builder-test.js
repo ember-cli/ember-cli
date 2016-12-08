@@ -92,7 +92,7 @@ describe('models/builder.js', function() {
 
       builder = new Builder({
         setupBroccoliBuilder: function() { },
-        cleanupOnExit: function() { },
+        cleanup: function() { },
         trapWindowsSignals: trapWindowsSignals,
         project: new MockProject()
       });
