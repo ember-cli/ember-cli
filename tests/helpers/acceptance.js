@@ -11,6 +11,8 @@ var copy              = Promise.denodeify(fs.copy);
 var exec              = Promise.denodeify(require('child_process').exec);
 var root = path.resolve(__dirname, '..', '..');
 
+var PackageCache = require('../../lib/utilities/package-cache');
+
 var runCommandOptions = {
   // Note: We must override the default logOnFailure logging, because we are
   // not inside a test.
@@ -80,43 +82,14 @@ function createTmp(command) {
  * @return {Promise}  The result of the running the command
  */
 function createTestTargets(projectName, options) {
-  var command;
+  var command = function() {
+    return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower');
+  };
   options = options || {};
   options.command = options.command || 'new';
 
-  var noNodeModules = !downloaded('node_modules');
-  // Fresh install
-  if (noNodeModules && !downloaded('bower_components')) {
-    command = function() {
-      return applyCommand(options.command, projectName);
-    };
-    // bower_components but no node_modules
-  } else if (noNodeModules && downloaded('bower_components')) {
-    command = function() {
-      return applyCommand(options.command, projectName, '--skip-bower');
-    };
-    // node_modules but no bower_components
-  } else if (!downloaded('bower_components') && downloaded('node_modules')) {
-    command = function() {
-      return applyCommand(options.command, projectName, '--skip-npm');
-    };
-  } else {
-    // Everything is already there
-    command = function() {
-      return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower');
-    };
-  }
-
   return createTmp(function() {
-    return command().catch(handleResult).then(function(value) {
-      if (noNodeModules) {
-        return exec('npm install ember-disable-prototype-extensions').then(function() {
-          return value;
-        });
-      }
-
-      return value;
-    });
+    return command().catch(handleResult);
   });
 }
 
@@ -139,24 +112,18 @@ function linkDependencies(projectName) {
   return tmp.setup(targetPath).then(function() {
     return copy(path.join(root, 'common-tmp', projectName), targetPath);
   }).then(function() {
+    var nodeManifest = fs.readFileSync(path.join(targetPath, 'package.json'));
+
+    var packageCache = new PackageCache({ linkEmberCLI: true });
+    packageCache.create('node', 'npm', nodeManifest);
+
     var nodeModulesPath = path.join(targetPath, 'node_modules');
 
-    mvRm(nodeModulesPath, path.join(root, '.deps-tmp', 'node_modules'));
-
     if (!existsSync(nodeModulesPath)) {
-      symLinkDir(targetPath, path.join(root, '.deps-tmp', 'node_modules'), 'node_modules');
+      symLinkDir(targetPath, packageCache.get('node'), 'node_modules');
     }
 
     process.chdir(targetPath);
-
-    var appsECLIPath = path.join('node_modules', 'ember-cli');
-    fs.removeSync(appsECLIPath);
-
-    // Need to junction on windows since we likely don't have persmission to symlink
-    // 3rd arg is ignored on systems other than windows
-    fs.symlinkSync(path.resolve('../..'), appsECLIPath, 'junction');
-
-    return targetPath;
   });
 }
 
