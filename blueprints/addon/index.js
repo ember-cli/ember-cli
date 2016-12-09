@@ -18,7 +18,7 @@ module.exports = {
     var contents = this._readContentsFromFile('package.json');
 
     delete contents.private;
-    contents.name = this.project.name();
+    contents.name = '<%= addonName %>';
     contents.description = this.description;
     contents.scripts = contents.scripts || {};
     contents.keywords = contents.keywords || [];
@@ -49,7 +49,7 @@ module.exports = {
   generateBowerJson: function() {
     var contents = this._readContentsFromFile('bower.json');
 
-    contents.name = this.project.name();
+    contents.name = '<%= addonName %>';
 
     this._writeContentsToFile(contents, 'bower.json');
   },
