@@ -20,6 +20,7 @@ describe('asset-sizes command', function () {
     tasks = {
       ShowAssetSizes: Task.extend({
         init: function () {
+          this._super.init && this._super.init.apply(this, arguments);
           taskInstance = this;
         }
       })

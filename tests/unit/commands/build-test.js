@@ -15,20 +15,22 @@ describe('build command', function() {
     tasks = {
       Build: Task.extend({
         init: function() {
-          this._super.apply(this, arguments);
+          this._super.init && this._super.init.apply(this, arguments);
           buildTaskInstance = this;
         }
       }),
 
       BuildWatch: Task.extend({
         init: function() {
-          this._super.apply(this, arguments);
+          this._super.init && this._super.init.apply(this, arguments);
           buildWatchTaskInstance = this;
         }
       }),
 
       ShowAssetSizes: Task.extend({
-        init: function() {}
+        init: function() {
+          this._super.init && this._super.init.apply(this, arguments);
+        }
       })
     };
 
