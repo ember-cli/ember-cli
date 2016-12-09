@@ -73,11 +73,6 @@ describe('blueprint - addon', function() {
       blueprint._appBlueprint = {
         path: 'test-app-blueprint-path'
       };
-      blueprint.project = {
-        name: function() {
-          return 'test-project-name';
-        }
-      };
       blueprint.path = 'test-blueprint-path';
     });
 
@@ -93,7 +88,7 @@ describe('blueprint - addon', function() {
         // string to test ordering
         expect(captor.value).to.equal('\
 {\n\
-  "name": "test-project-name",\n\
+  "name": "<%= addonName %>",\n\
   "description": "The default blueprint for ember-cli addons.",\n\
   "keywords": [\n\
     "ember-addon"\n\
@@ -140,7 +135,7 @@ describe('blueprint - addon', function() {
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         var json = JSON.parse(captor.value);
-        expect(json.name).to.equal('test-project-name');
+        expect(json.name).to.equal('<%= addonName %>');
       });
 
       it('overwrites `description`', function() {
@@ -288,7 +283,7 @@ describe('blueprint - addon', function() {
         // string to test ordering
         expect(captor.value).to.equal('\
 {\n\
-  "name": "test-project-name"\n\
+  "name": "<%= addonName %>"\n\
 }\n');
       });
     });

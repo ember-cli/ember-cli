@@ -279,4 +279,28 @@ describe('Acceptance: ember new', function() {
       expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
     });
   });
+
+  it('ember addon with --directory uses given directory name and has correct package name', function() {
+    var workdir = process.cwd();
+
+    return ember([
+      'addon',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--directory=bar'
+    ]).then(function() {
+      expect(dir(path.join(workdir, 'foo'))).to.not.exist;
+      expect(dir(path.join(workdir, 'bar'))).to.exist;
+
+      var cwd = process.cwd();
+      expect(cwd).to.not.match(/foo/, 'does not use addon name for directory name');
+      expect(cwd).to.match(/bar/, 'uses given directory name');
+
+      var pkgJson = fs.readJsonSync('package.json');
+      expect(pkgJson.name).to.equal('foo', 'uses addon name for package name');
+    });
+  });
+
 });
