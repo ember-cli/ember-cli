@@ -105,20 +105,37 @@ describe('Acceptance: ember new', function() {
     });
   });
 
-  it('Cannot create new ember project with the same name as an existing directory', function() {
-    fs.mkdirsSync('foo');
+  it('Can create new ember project in an existing empty directory', function() {
+    fs.mkdirsSync('bar');
 
     return ember([
       'new',
       'foo',
       '--skip-npm',
       '--skip-bower',
-      '--skip-git'
+      '--skip-git',
+      '--directory=bar'
+    ]).catch(function(error) {
+      throw new Error('this command should work');
+    });
+  });
+
+  it('Cannot create new ember project in a populated directory', function() {
+    fs.mkdirsSync('bar');
+    fs.writeFileSync(path.join('bar', 'package.json'), '{}');
+
+    return ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--directory=bar'
     ]).then(function() {
       throw new Error('this promise should be rejected');
     }).catch(function(error) {
       expect(error.name).to.equal('SilentError');
-      expect(error.message).to.equal('Directory \'foo\' already exists.');
+      expect(error.message).to.equal('Directory \'bar\' already exists.');
     });
   });
 
