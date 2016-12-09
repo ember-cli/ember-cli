@@ -5,13 +5,11 @@ var path              = require('path');
 var fs                = require('fs-extra');
 var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
-var tmp               = require('./tmp');
-var existsSync        = require('exists-sync');
-var copy              = Promise.denodeify(fs.copy);
-var exec              = Promise.denodeify(require('child_process').exec);
 var root = path.resolve(__dirname, '..', '..');
 
 var PackageCache = require('../../lib/utilities/package-cache');
+var quickTemp = require('quick-temp');
+var dirs = {};
 
 var runCommandOptions = {
   // Note: We must override the default logOnFailure logging, because we are
@@ -29,21 +27,14 @@ function handleResult(result) {
 
 function applyCommand(command, name /*, ...flags*/) {
   var flags = [].slice.call(arguments, 2, arguments.length);
-  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, runCommandOptions];
+  var binaryPath = path.resolve(path.join(__dirname, '..', '..', 'bin', 'ember'));
+  var args = [binaryPath, command, name, '--disable-analytics', '--watcher=node', '--skip-git', runCommandOptions];
 
   flags.forEach(function(flag) {
     args.splice(2, 0, flag);
   });
 
   return runCommand.apply(undefined, args);
-}
-
-function createTmp(command) {
-  var targetPath = path.join(root, 'common-tmp');
-  return tmp.setup(targetPath).then(function() {
-    process.chdir(targetPath);
-    return command();
-  });
 }
 
 /**
@@ -56,15 +47,13 @@ function createTmp(command) {
  * @return {Promise}  The result of the running the command
  */
 function createTestTargets(projectName, options) {
-  var command = function() {
-    return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower');
-  };
+  var outputDir = quickTemp.makeOrReuse(dirs, projectName);
+
   options = options || {};
   options.command = options.command || 'new';
 
-  return createTmp(function() {
-    return command().catch(handleResult);
-  });
+  return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', '--directory='+outputDir)
+    .catch(handleResult);
 }
 
 /**
@@ -72,7 +61,13 @@ function createTestTargets(projectName, options) {
  * @return {Promise}
  */
 function teardownTestTargets() {
-  return tmp.teardown(path.join(root, 'common-tmp'));
+  // Remove all tmp directories created in this run.
+  var dirKeys = Object.keys(dirs);
+  for (var i = 0; i < dirKeys.length; i++) {
+    quickTemp.remove(dirs, dirKeys[i]);
+  }
+
+  return Promise.resolve();
 }
 
 /**
@@ -82,23 +77,22 @@ function teardownTestTargets() {
  * @return {Promise}
  */
 function linkDependencies(projectName) {
-  var targetPath = path.join(root, 'tmp', projectName);
-  return tmp.setup(targetPath).then(function() {
-    return copy(path.join(root, 'common-tmp', projectName), targetPath);
-  }).then(function() {
-    var nodeManifest = fs.readFileSync(path.join(targetPath, 'package.json'));
+  var sourceFixture = dirs[projectName]; // original fixture for this acceptance test.
+  var runFixture = quickTemp.makeOrRemake(dirs, projectName + '-clone');
 
-    var packageCache = new PackageCache({ linkEmberCLI: true });
-    packageCache.create('node', 'npm', nodeManifest);
+  fs.copySync(sourceFixture, runFixture);
 
-    var nodeModulesPath = path.join(targetPath, 'node_modules');
+  var nodeManifest = fs.readFileSync(path.join(runFixture, 'package.json'));
 
-    if (!existsSync(nodeModulesPath)) {
-      symlinkOrCopySync(path.join(packageCache.get('node'), 'node_modules'), nodeModulesPath);
-    }
+  var packageCache = new PackageCache({ linkEmberCLI: true });
+  packageCache.create('node', 'npm', nodeManifest);
 
-    process.chdir(targetPath);
-  });
+  var nodeModulesPath = path.join(runFixture, 'node_modules');
+  symlinkOrCopySync(path.join(packageCache.get('node'), 'node_modules'), nodeModulesPath);
+
+  process.chdir(runFixture);
+
+  return Promise.resolve(runFixture);
 }
 
 /**
@@ -106,8 +100,10 @@ function linkDependencies(projectName) {
  * @return {Promise}
  */
 function cleanupRun(projectName) {
-  var targetPath = path.join(root, 'tmp', projectName);
-  return tmp.teardown(targetPath);
+  process.chdir(root);
+  quickTemp.remove(dirs, projectName + '-clone');
+
+  return Promise.resolve();
 }
 
 module.exports = {
