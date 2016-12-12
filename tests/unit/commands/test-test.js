@@ -2,7 +2,7 @@
 
 var path           = require('path');
 var CoreObject     = require('core-object');
-var expect         = require('chai').expect;
+var expect         = require('../../chai').expect;
 var MockProject    = require('../../helpers/mock-project');
 var commandOptions = require('../../factories/command-options');
 var Promise        = require('../../../lib/ext/promise');
@@ -35,9 +35,13 @@ describe('test command', function() {
     td.replace(tasks.Test.prototype, 'run', td.function());
     td.replace(tasks.Build.prototype, 'run', td.function());
     td.replace(tasks.TestServer.prototype, 'run', td.function());
-    td.when(tasks.Test.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
-    td.when(tasks.Build.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    td.when(tasks.Test.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
+    td.when(tasks.Build.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
     td.when(tasks.TestServer.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+  });
+
+  afterEach(function() {
+    td.reset();
   });
 
   function buildCommand() {
@@ -50,10 +54,7 @@ describe('test command', function() {
     });
 
     it('builds and runs test', function() {
-      return command.validateAndRun([]).then(function() {
-        td.verify(tasks.Build.prototype.run(), {ignoreExtraArgs: true});
-        td.verify(tasks.Test.prototype.run(), {ignoreExtraArgs: true});
-      });
+      return command.validateAndRun([]);
     });
 
     it('has the correct options', function() {
@@ -146,7 +147,7 @@ describe('test command', function() {
       return command.validateAndRun(['--path=tests']).then(function() {
         var captor = td.matchers.captor();
 
-        td.verify(tasks.Build.prototype.run(), {ignoreExtraArgs: true, times: 0});
+        td.verify(tasks.Build.prototype.run(td.matchers.anything()), { times: 0 });
         td.verify(tasks.Test.prototype.run(captor.capture()));
 
         expect(captor.value.outputPath).to.equal(path.resolve('tests'), 'has outputPath');

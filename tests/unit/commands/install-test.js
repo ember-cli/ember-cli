@@ -71,7 +71,6 @@ describe('install command', function() {
     td.replace(tasks.NpmInstall.prototype, 'run', td.function());
     td.when(tasks.NpmInstall.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
     td.replace(tasks.GenerateFromBlueprint.prototype, 'run', td.function());
-    td.when(tasks.GenerateFromBlueprint.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
 
     command = new InstallCommand(options);
   });
