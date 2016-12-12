@@ -101,7 +101,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': false,
           'save-dev': true,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
       });
     });
@@ -120,7 +120,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': false,
           'save-dev': true,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
       });
     });
@@ -133,7 +133,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': true,
           'save-dev': false,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
       });
     });
@@ -152,7 +152,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': true,
           'save-dev': false,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
       });
     });
@@ -197,7 +197,7 @@ describe('install command', function() {
           packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -214,7 +214,7 @@ describe('install command', function() {
           packages: ['ember-cli/ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -230,7 +230,7 @@ describe('install command', function() {
           packages: ['ember-cli-qunit@1.2.0'],
           'save': false,
           'save-dev': true,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -247,7 +247,7 @@ describe('install command', function() {
           packages: ['@ember-cli/ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': true
+          'save-exact': false
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
