@@ -851,6 +851,14 @@ describe('broccoli/ember-app', function() {
 
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.not.contain('vendor/jquery.js');
     });
+
+    it('normalizes asset path correctly', function() {
+      app.import('vendor\\path\\to\\lib.js', {type: 'vendor'});
+      app.import('vendor/path/to/lib2.js', {type: 'vendor'});
+
+      expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib.js');
+      expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib2.js');
+    });
   });
 
   describe('vendorFiles', function() {
