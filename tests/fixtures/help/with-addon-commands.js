@@ -400,6 +400,13 @@ module.exports = {
           aliases: ['D'],
           key: 'saveDev',
           required: false
+        },
+        {
+          name: 'save-exact',
+          default: false,
+          aliases: ['E', 'exact'],
+          key: 'saveExact',
+          required: false
         }
       ],
       anonymousOptions: ['<addon-name>']
