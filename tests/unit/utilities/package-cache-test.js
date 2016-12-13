@@ -301,7 +301,7 @@ describe('PackageCache', function() {
     invocations = [];
     testPackageCache.options.linkEmberCLI = true;
     testPackageCache.create('yarn', 'yarn', '{ "dependencies": "different" }');
-    expect(invocations.length).to.equal(1); // Just default link of ember-cli
+    expect(invocations.length).to.equal(0); // Everything optimized out.
   });
 
   it('get', function() {
@@ -364,14 +364,13 @@ describe('PackageCache', function() {
     var manifest = JSON.stringify({
       "name": "foo",
       "dependencies": {
-        "ember": "2.9.0",
-        "ember-cli-shims": "0.1.3"
+        "left-pad": "latest",
       }
     });
 
-    var dir = testPackageCache.create('bower', 'bower', manifest);
-    var manifestFilePath = path.join(dir, 'bower.json');
-    var assetPath = path.join(dir, 'bower_components', 'ember', 'bower.json');
+    var dir = testPackageCache.create('npm', 'npm', manifest);
+    var manifestFilePath = path.join(dir, 'package.json');
+    var assetPath = path.join(dir, 'node_modules', 'left-pad', 'package.json');
 
     // the manifest was written
     expect(file(manifestFilePath)).to.exist;
@@ -379,7 +378,7 @@ describe('PackageCache', function() {
     // the dependencies were installed
     expect(file(assetPath)).to.exist;
 
-    testPackageCache.destroy('bower');
+    testPackageCache.destroy('npm');
   });
 
 });
