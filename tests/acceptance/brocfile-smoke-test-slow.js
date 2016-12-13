@@ -28,20 +28,15 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return createTestTargets(appName);
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(appName).then(function(result) {
-      appRoot = result;
-    });
+    appRoot = linkDependencies(appName);
   });
 
   afterEach(function() {
-    return cleanupRun(appName).then(function() {
-      expect(dir(appRoot)).to.not.exist;
-    });
+    cleanupRun(appName);
+    expect(dir(appRoot)).to.not.exist;
   });
 
   it('a custom EmberENV in config/environment.js is used for window.EmberENV', function() {

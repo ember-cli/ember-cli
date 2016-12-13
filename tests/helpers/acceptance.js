@@ -58,7 +58,6 @@ function createTestTargets(projectName, options) {
 
 /**
  * Tears down the targeted project download directory
- * @return {Promise}
  */
 function teardownTestTargets() {
   // Remove all tmp directories created in this run.
@@ -66,15 +65,13 @@ function teardownTestTargets() {
   for (var i = 0; i < dirKeys.length; i++) {
     quickTemp.remove(dirs, dirKeys[i]);
   }
-
-  return Promise.resolve();
 }
 
 /**
  * Creates symbolic links from the dependency temp directories
  * to the project that is under test.
  * @param  {String} projectName The name of the project under test
- * @return {Promise}
+ * @return {String} The path to the hydrated fixture.
  */
 function linkDependencies(projectName) {
   var sourceFixture = dirs[projectName]; // original fixture for this acceptance test.
@@ -92,18 +89,15 @@ function linkDependencies(projectName) {
 
   process.chdir(runFixture);
 
-  return Promise.resolve(runFixture);
+  return runFixture;
 }
 
 /**
- * Clean a test run and optionally assert.
- * @return {Promise}
+ * Clean a test run.
  */
 function cleanupRun(projectName) {
   process.chdir(root);
   quickTemp.remove(dirs, projectName + '-clone');
-
-  return Promise.resolve();
 }
 
 module.exports = {
