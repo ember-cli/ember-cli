@@ -8,8 +8,8 @@ var Promise           = require('../../lib/ext/promise');
 var tmp               = require('./tmp');
 var existsSync        = require('exists-sync');
 var copy              = Promise.denodeify(fs.copy);
-var root              = process.cwd();
 var exec              = Promise.denodeify(require('child_process').exec);
+var root = path.resolve(__dirname, '..', '..');
 
 var runCommandOptions = {
   // Note: We must override the default logOnFailure logging, because we are
@@ -66,8 +66,9 @@ function applyCommand(command, name /*, ...flags*/) {
 }
 
 function createTmp(command) {
-  return tmp.setup('./common-tmp').then(function() {
-    process.chdir('./common-tmp');
+  var targetPath = path.join(root, 'common-tmp');
+  return tmp.setup(targetPath).then(function() {
+    process.chdir(targetPath);
     return command();
   });
 }
@@ -127,7 +128,7 @@ function createTestTargets(projectName, options) {
  * @return {Promise}
  */
 function teardownTestTargets() {
-  return tmp.teardown('./common-tmp');
+  return tmp.teardown(path.join(root, 'common-tmp'));
 }
 
 /**
@@ -137,17 +138,16 @@ function teardownTestTargets() {
  * @return {Promise}
  */
 function linkDependencies(projectName) {
-  var targetPath = './tmp/' + projectName;
+  var targetPath = path.join(root, 'tmp', projectName);
   return tmp.setup(targetPath).then(function() {
-    return copy('./common-tmp/' + projectName, targetPath);
+    return copy(path.join(root, 'common-tmp', projectName), targetPath);
   }).then(function() {
-    var nodeModulesPath = targetPath + '/node_modules/';
-    var bowerComponentsPath = targetPath + '/bower_components/';
+    var nodeModulesPath = path.join(targetPath, 'node_modules');
 
-    mvRm(nodeModulesPath, '.deps-tmp/node_modules');
+    mvRm(nodeModulesPath, path.join(root, '.deps-tmp', 'node_modules'));
 
     if (!existsSync(nodeModulesPath)) {
-      symLinkDir(targetPath, '.deps-tmp/node_modules', 'node_modules');
+      symLinkDir(targetPath, path.join(root, '.deps-tmp', 'node_modules'), 'node_modules');
     }
 
     process.chdir(targetPath);
@@ -158,6 +158,8 @@ function linkDependencies(projectName) {
     // Need to junction on windows since we likely don't have persmission to symlink
     // 3rd arg is ignored on systems other than windows
     fs.symlinkSync(path.resolve('../..'), appsECLIPath, 'junction');
+
+    return targetPath;
   });
 }
 
@@ -166,7 +168,7 @@ function linkDependencies(projectName) {
  * @return {Promise}
  */
 function cleanupRun(projectName) {
-  var targetPath = './tmp/' + projectName;
+  var targetPath = path.join(root, 'tmp', projectName);
   return tmp.teardown(targetPath);
 }
 

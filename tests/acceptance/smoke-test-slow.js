@@ -4,7 +4,6 @@ var path     = require('path');
 var fs       = require('fs-extra');
 var crypto   = require('crypto');
 var walkSync = require('walk-sync');
-var appName  = 'some-cool-app';
 var EOL      = require('os').EOL;
 
 var runCommand          = require('../helpers/run-command');
@@ -22,6 +21,9 @@ var expect = chai.expect;
 var file = chai.file;
 var dir = chai.dir;
 
+var appName = 'some-cool-app';
+var appRoot;
+
 describe('Acceptance: smoke-test', function() {
   this.timeout(500000);
   before(function() {
@@ -33,14 +35,16 @@ describe('Acceptance: smoke-test', function() {
   });
 
   beforeEach(function() {
-    return linkDependencies(appName);
+    return linkDependencies(appName).then(function(result) {
+      appRoot = result;
+    });
   });
 
   afterEach(function() {
     delete process.env._TESTEM_CONFIG_JS_RAN;
 
     return cleanupRun(appName).then(function() {
-      expect(dir('tmp/' + appName)).to.not.exist;
+      expect(dir(appRoot)).to.not.exist;
     });
   });
 
@@ -99,7 +103,7 @@ describe('Acceptance: smoke-test', function() {
   it.skip('ember new foo, build production and verify fingerprint', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
       .then(function() {
-        var dirPath = path.join('.', 'dist', 'assets');
+        var dirPath = path.join(appRoot, 'dist', 'assets');
         var dir = fs.readdirSync(dirPath);
         var files = [];
 
@@ -179,7 +183,7 @@ describe('Acceptance: smoke-test', function() {
   it('ember new foo, build development, and verify generated files', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
       .then(function() {
-        var dirPath = path.join('.', 'dist');
+        var dirPath = path.join(appRoot, 'dist');
         var paths = walkSync(dirPath);
 
         expect(paths).to.have.length.below(24, 'expected fewer than 24 files in dist, found ' + paths.length);
@@ -187,7 +191,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember build exits with non-zero code when build fails', function () {
-    var appJsPath   = path.join('.', 'app', 'app.js');
+    var appJsPath   = path.join(appRoot, 'app', 'app.js');
     var ouputContainsBuildFailed = false;
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function (result) {
@@ -216,8 +220,8 @@ describe('Acceptance: smoke-test', function() {
 
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
     var touched     = false;
-    var appJsPath   = path.join('.', 'app', 'app.js');
-    var builtJsPath = path.join('.', 'dist', 'assets', 'some-cool-app.js');
+    var appJsPath   = path.join(appRoot, 'app', 'app.js');
+    var builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
     var text        = 'anotuhaonteuhanothunaothanoteh';
     var line        = 'console.log("' + text + '");';
 
@@ -246,8 +250,8 @@ describe('Acceptance: smoke-test', function() {
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', function() {
     var buildCount  = 0;
     var touched     = false;
-    var appJsPath   = path.join('.', 'app', 'app.js');
-    var builtJsPath = path.join('.', 'dist', 'assets', 'some-cool-app.js');
+    var appJsPath   = path.join(appRoot, 'app', 'app.js');
+    var builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
     var firstText   = 'anotuhaonteuhanothunaothanoteh';
     var firstLine   = 'console.log("' + firstText + '");';
     var secondText  = 'aahsldfjlwioruoiiononociwewqwr';
@@ -299,7 +303,7 @@ describe('Acceptance: smoke-test', function() {
     return copyFixtureFiles('with-styles').then(function() {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
         .then(function() {
-          var dirPath = path.join('.', 'dist', 'assets');
+          var dirPath = path.join(appRoot, 'dist', 'assets');
           var dir = fs.readdirSync(dirPath);
           var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css','i');
           dir.forEach(function (filepath) {
@@ -316,12 +320,12 @@ describe('Acceptance: smoke-test', function() {
   it('ember new foo, build production and verify single "use strict";', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
       .then(function() {
-        var dirPath = path.join('.', 'dist', 'assets');
+        var dirPath = path.join(appRoot, 'dist', 'assets');
         var dir = fs.readdirSync(dirPath);
         var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js','i');
         dir.forEach(function(filepath) {
           if (appNameRE.test(filepath)) {
-            var contents = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
+            var contents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', filepath), { encoding: 'utf8' });
             var count = (contents.match(/(["'])use strict\1;/g) || []).length;
             expect(count).to.equal(1);
           }
