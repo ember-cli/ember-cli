@@ -13,7 +13,8 @@ var chai = require('../chai');
 var expect = chai.expect;
 var dir = chai.dir;
 
-var appName  = 'some-cool-app';
+var appName = 'some-cool-app';
+var appRoot;
 
 describe('Acceptance: blueprint smoke tests', function() {
   this.timeout(500000);
@@ -27,12 +28,14 @@ describe('Acceptance: blueprint smoke tests', function() {
   });
 
   beforeEach(function() {
-    return linkDependencies(appName);
+    return linkDependencies(appName).then(function(result) {
+      appRoot = result;
+    });
   });
 
   afterEach(function() {
     return cleanupRun(appName).then(function() {
-      expect(dir('tmp/' + appName)).to.not.exist;
+      expect(dir(appRoot)).to.not.exist;
     });
   });
 
@@ -42,7 +45,7 @@ describe('Acceptance: blueprint smoke tests', function() {
                       'api',
                       'http://localhost/api')
       .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
+        var packageJsonPath = path.join(appRoot, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
 
         expect(packageJson.devDependencies).to.have.a.property('http-proxy');

@@ -23,7 +23,7 @@ var expect = chai.expect;
 var dir = chai.dir;
 
 var addonName = 'some-cool-addon';
-var addonRoot = path.resolve(__dirname + '/../../tmp/' + addonName) + '/';
+var addonRoot;
 
 describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
@@ -39,14 +39,17 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   beforeEach(function() {
-    return linkDependencies(addonName);
+    return linkDependencies(addonName).then(function(result) {
+      addonRoot = result;
+    });
   });
 
   afterEach(function() {
-    fs.remove(addonRoot + 'node_modules/developing-addon');
+    // Cleans up a folder set up on the other side of a symlink.
+    fs.remove(path.join(addonRoot, 'node_modules', 'developing-addon'));
 
     return cleanupRun(addonName).then(function() {
-      expect(dir('tmp/' + addonName)).to.not.exist;
+      expect(dir(addonRoot)).to.not.exist;
     });
   });
 
@@ -69,7 +72,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
   it('works in most common scenarios for an example addon', function() {
     return copyFixtureFiles('addon/kitchen-sink').then(function() {
-      var packageJsonPath = addonRoot + 'package.json'
+      var packageJsonPath = path.join(addonRoot, 'package.json');
       var packageJson = fs.readJsonSync(packageJsonPath);
 
       packageJson.dependencies = packageJson.dependencies || {};
@@ -79,25 +82,24 @@ describe('Acceptance: addon-smoke-test', function() {
       // build with addon deps being developed
       packageJson.dependencies['developing-addon'] = 'latest';
 
-      fs.writeJsonSync(packageJsonPath, packageJson)
+      fs.writeJsonSync(packageJsonPath, packageJson);
 
-      symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), addonRoot + 'node_modules/developing-addon');
+      symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.join(addonRoot, 'node_modules', 'developing-addon'));
 
       return runCommand('node_modules/ember-cli/bin/ember', 'build').then(function(result) {
         expect(result.code).to.eql(0);
         var contents;
 
-        contents = fs.readFileSync(addonRoot + 'dist/index.html', { encoding: 'utf8' });
+        var indexPath = path.join(addonRoot, 'dist', 'index.html');
+        contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
         expect(contents).to.contain('"SOME AWESOME STUFF"');
 
-        var cssPath = 'dist/assets/vendor.css';
+        var cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
         contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
-
         expect(contents).to.contain('addon/styles/app.css is present');
 
-        var robotsPath = 'dist/robots.txt';
+        var robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
         contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
-
         expect(contents).to.contain('tests/dummy/public/robots.txt is present');
 
         return runCommand('node_modules/ember-cli/bin/ember', 'test').then(function(result) {
