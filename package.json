@@ -96,7 +96,7 @@
     "minimatch": "^3.0.0",
     "morgan": "^1.5.2",
     "node-modules-path": "^1.0.0",
-    "nopt": "^3.0.1",
+    "nopt": "^4.0.0",
     "npm": "3.10.8",
     "npm-package-arg": "^4.1.1",
     "portfinder": "^1.0.7",
