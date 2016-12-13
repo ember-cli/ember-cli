@@ -16,7 +16,7 @@ describe('command-generator', function() {
     expect(yarn.options.retryCommands).to.deep.equal(['install']);
   });
 
-  it('invoke defaults options', function() {
+  it('invoke passes options', function() {
     var yarn = new Command('yarn');
 
     var passedOptions = {};
@@ -26,26 +26,26 @@ describe('command-generator', function() {
 
     // Works with subcommand or argument.
     yarn.invoke('install');
-    expect(passedOptions).to.deep.equal({ stdio: ['ignore', 'ignore', 'ignore'] });
+    expect(passedOptions).to.deep.equal({});
 
     yarn.invoke('install', {});
-    expect(passedOptions).to.deep.equal({ stdio: ['ignore', 'ignore', 'ignore'] });
+    expect(passedOptions).to.deep.equal({});
 
     yarn.invoke('install', { cwd: 'foo' });
-    expect(passedOptions).to.deep.equal({ cwd: 'foo', stdio: ['ignore', 'ignore', 'ignore'] });
+    expect(passedOptions).to.deep.equal({ cwd: 'foo' });
 
     yarn.invoke('install', { stdio: ['default', 'default', 'default'] });
     expect(passedOptions).to.deep.equal({ stdio: ['default', 'default', 'default'] });
 
     // Works with no subcommand or argument.
     yarn.invoke();
-    expect(passedOptions).to.deep.equal({ stdio: ['ignore', 'ignore', 'ignore'] });
+    expect(passedOptions).to.deep.equal({});
 
     yarn.invoke({});
-    expect(passedOptions).to.deep.equal({ stdio: ['ignore', 'ignore', 'ignore'] });
+    expect(passedOptions).to.deep.equal({});
 
     yarn.invoke({ cwd: 'foo' });
-    expect(passedOptions).to.deep.equal({ cwd: 'foo', stdio: ['ignore', 'ignore', 'ignore'] });
+    expect(passedOptions).to.deep.equal({ cwd: 'foo' });
 
     yarn.invoke({ stdio: ['default', 'default', 'default'] });
     expect(passedOptions).to.deep.equal({ stdio: ['default', 'default', 'default'] });
