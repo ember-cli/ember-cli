@@ -6,13 +6,17 @@ var Configstore = require('configstore');
 
 var PackageCache = require('../../../lib/utilities/package-cache');
 
+var td = require('testdouble');
 var chai = require('../../chai');
 var expect = chai.expect;
 var file = chai.file;
 
 describe('PackageCache', function() {
   var testPackageCache;
-  var invocations;
+
+  var bower = td.function('bower');
+  var npm = td.function('npm');
+  var yarn = td.function('yarn');
 
   beforeEach(function() {
     testPackageCache = new PackageCache();
@@ -20,14 +24,15 @@ describe('PackageCache', function() {
 
     testPackageCache.__setupForTesting({
       commands: {
-        bower: { invoke: function() { invocations.push(['bower'].concat(Array.prototype.slice.call(arguments))); } },
-        npm: { invoke: function() { invocations.push(['npm'].concat(Array.prototype.slice.call(arguments))); } },
-        yarn: { invoke: function() { invocations.push(['yarn'].concat(Array.prototype.slice.call(arguments))); } }
+        bower: { invoke: bower },
+        npm: { invoke: npm },
+        yarn: { invoke: yarn }
       }
     });
   });
 
   afterEach(function() {
+    td.reset();
     testPackageCache.__resetForTesting();
     fs.unlinkSync(testPackageCache._conf.path);
   });
@@ -148,38 +153,41 @@ describe('PackageCache', function() {
     testPackageCache.destroy('bower');
   });
 
-  it('_install', function() {
+  describe('_install', function() {
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
 
-    // Fake in the dir label.
-    testPackageCache._conf.set('label', 'hello');
+    beforeEach(function() {
+      // Fake in the dir label.
+      testPackageCache._conf.set('label', 'hello');
+    });
 
-    // Trigger install.
-    invocations = [];
-    testPackageCache._install('label', 'npm');
-    expect(invocations.length).to.equal(1);
-    expect(invocations[0][1]).to.equal('install');
-    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+    afterEach(function() {
+      td.reset();
+      testPackageCache.options.linkEmberCLI = false;
+    });
 
-    // We want to make sure it attempts to link when it is supposed to.
-    invocations = [];
-    testPackageCache.options.linkEmberCLI = true;
-    testPackageCache._install('label', 'npm');
-    expect(invocations.length).to.equal(2);
-    expect(invocations[0][1]).to.equal('install');
-    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
-    expect(invocations[1][1]).to.equal('link');
-    expect(invocations[1][2]).to.equal('ember-cli');
-    expect(invocations[1][3]).to.deep.equal({ cwd: 'hello' });
+    it('Triggers install.', function() {
+      testPackageCache._install('label', 'npm');
+      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm(), { times: 1, ignoreExtraArgs: true });
+    });
 
-    // Make sure `bower` doesn't trigger link.
-    invocations = [];
-    testPackageCache.options.linkEmberCLI = true;
-    testPackageCache._install('label', 'bower');
-    expect(invocations.length).to.equal(1);
-    expect(invocations[0][1]).to.equal('install');
-    expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+    it('Attempts to link when it is supposed to.', function() {
+      testPackageCache.options.linkEmberCLI = true;
+      testPackageCache._install('label', 'npm');
+      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm(), { times: 2, ignoreExtraArgs: true });
+    });
+
+    it('Doesn\'t trigger link for `bower`.', function() {
+      testPackageCache.options.linkEmberCLI = true;
+      testPackageCache._install('label', 'bower');
+      td.verify(bower('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
+    });
+
   });
 
   describe('_upgrade (npm)', function() {
@@ -189,120 +197,97 @@ describe('PackageCache', function() {
     var label;
 
     beforeEach(function() {
-      invocations = [];
       label = 'npm-upgrade-test-' + (testCounter++);
       testPackageCache._conf.set(label, 'hello');
       testPackageCache.options.linkEmberCLI = false;
     });
 
     afterEach(function() {
+      td.reset();
       testPackageCache._conf.delete(label);
     });
 
     it('Trigger upgrade.', function() {
-      testPackageCache._upgrade(label, 'npm');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('install');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
-    });
-
-    it('Make sure npm does an install', function() {
       // npm is dumb. Upgrades are inconsistent and therefore invalid.
+      // Make sure npm does an install.
       testPackageCache._upgrade(label, 'npm');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('install');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     });
 
     it('Make sure npm unlinks, installs, re-links.', function() {
       testPackageCache.options.linkEmberCLI = true;
       testPackageCache._upgrade(label, 'npm');
-      expect(invocations.length).to.equal(3);
-      expect(invocations[0][1]).to.equal('unlink');
-      expect(invocations[0][2]).to.equal('ember-cli');
-      expect(invocations[0][3]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[1][1]).to.equal('install');
-      expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[2][1]).to.equal('link');
-      expect(invocations[2][2]).to.equal('ember-cli');
-      expect(invocations[2][3]).to.deep.equal({ cwd: 'hello' });
+      td.verify(npm('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm(), { times: 3, ignoreExtraArgs: true });
     });
 
     it('Make sure multiple invocations lock out.', function() {
       testPackageCache._upgrade(label, 'npm');
       testPackageCache._upgrade(label, 'npm');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('install');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     });
 
     it('locks out _upgrade after _install', function() {
       testPackageCache._install(label, 'npm');
       testPackageCache._upgrade(label, 'npm');
-      expect(invocations.length).to.equal(1);
+      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     });
 
   });
 
   describe('_upgrade (yarn)', function() {
+
+    // This test doesn't apply to Node.js 0.12.
+    if (process.version.indexOf('v0.12') === 0) { return; }
+
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
     var testCounter = 0;
     var label;
 
-    // This accounts for the downgrade ability.
-    var command;
-    if (process.version.indexOf('v0.12') === 0) {
-      command = 'npm';
-    } else {
-      command = 'yarn';
-    }
-    var testValue = (command === 'yarn' ? 'upgrade' : 'install');
-
     beforeEach(function() {
-      invocations = [];
       label = 'yarn-upgrade-test-' + (testCounter++);
       testPackageCache._conf.set(label, 'hello');
       testPackageCache.options.linkEmberCLI = false;
     });
 
     afterEach(function() {
+      td.reset();
       testPackageCache._conf.delete(label);
     });
 
     it('Trigger upgrade.', function() {
       testPackageCache._upgrade(label, 'yarn');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal(testValue);
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+      td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
+      td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
     });
 
     it('Make sure it unlinks, upgrades, re-links.', function() {
       testPackageCache.options.linkEmberCLI = true;
       testPackageCache._upgrade(label, 'yarn');
-      expect(invocations.length).to.equal(3);
-      expect(invocations[0][1]).to.equal('unlink');
-      expect(invocations[0][2]).to.equal('ember-cli');
-      expect(invocations[0][3]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[1][1]).to.equal(testValue);
-      expect(invocations[1][2]).to.deep.equal({ cwd: 'hello' });
-      expect(invocations[2][1]).to.equal('link');
-      expect(invocations[2][2]).to.equal('ember-cli');
-      expect(invocations[2][3]).to.deep.equal({ cwd: 'hello' });
+      td.verify(yarn('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+      td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
+      td.verify(yarn('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+      td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
     });
 
     it('Make sure multiple invocations lock out.', function() {
       testPackageCache._upgrade(label, 'yarn');
       testPackageCache._upgrade(label, 'yarn');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal(testValue);
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+      td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
+      td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
     });
 
     it('locks out _upgrade after _install', function() {
       testPackageCache._install(label, 'yarn');
       testPackageCache._upgrade(label, 'yarn');
-      expect(invocations.length).to.equal(1);
+      td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
     });
 
   });
@@ -314,73 +299,71 @@ describe('PackageCache', function() {
     var label;
 
     beforeEach(function() {
-      invocations = [];
       label = 'bower-upgrade-test-' + (testCounter++);
       testPackageCache._conf.set(label, 'hello');
       testPackageCache.options.linkEmberCLI = false;
     });
 
     afterEach(function() {
+      td.reset();
       testPackageCache._conf.delete(label);
     });
 
     it('Trigger upgrade.', function() {
       testPackageCache._upgrade(label, 'bower');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('update');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+      td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
+      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
 
     it('Make sure `bower` doesn\'t trigger link.', function() {
       testPackageCache.options.linkEmberCLI = true;
       testPackageCache._upgrade(label, 'bower');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('update');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+      td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
+      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
 
     it('Make sure multiple invocations lock out.', function() {
       testPackageCache._upgrade(label, 'bower');
       testPackageCache._upgrade(label, 'bower');
-      expect(invocations.length).to.equal(1);
-      expect(invocations[0][1]).to.equal('update');
-      expect(invocations[0][2]).to.deep.equal({ cwd: 'hello' });
+      td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
+      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
 
     it('locks out _upgrade after _install', function() {
       testPackageCache._install(label, 'bower');
       testPackageCache._upgrade(label, 'bower');
-      expect(invocations.length).to.equal(1);
+      td.verify(bower('install', { cwd: 'hello' }), { times: 1 });
+      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
 
   });
 
   it('create', function() {
-    invocations = [];
-
-    var dir = testPackageCache.create('yarn', 'yarn', '{}');
+    var dir = testPackageCache.create('npm', 'npm', '{}');
     var manifestFilePath = path.join(dir, 'package.json');
 
-    expect(invocations.length).to.equal(1);
-    expect(invocations[0][1]).to.equal('install');
+    td.verify(npm('install'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
+
     expect(file(manifestFilePath)).to.exist; // Sanity check.
     expect(file(manifestFilePath)).to.contain('_packageCache');
 
-    invocations = [];
-    testPackageCache.create('yarn', 'yarn', '{}');
-    expect(invocations.length).to.equal(0);
+    td.reset();
+    testPackageCache.create('npm', 'npm', '{}');
+    td.verify(npm(), { times: 0, ignoreExtraArgs: true });
 
-    invocations = [];
+    td.reset();
     testPackageCache.options.linkEmberCLI = true;
-    testPackageCache.create('yarn', 'yarn', '{ "dependencies": "different" }');
-    expect(invocations.length).to.equal(3);
-    expect(invocations[0][1]).to.equal('link');
-    expect(invocations[1][1]).to.equal('install');
+    testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
+    td.verify(npm('link', td.matchers.isA(Object)));
+    td.verify(npm('install'), { ignoreExtraArgs: true });
+    td.verify(npm('link', 'ember-cli'), { ignoreExtraArgs: true });
+    td.verify(npm(), { times: 3, ignoreExtraArgs: true });
 
-    invocations = [];
+    td.reset();
     testPackageCache.options.linkEmberCLI = true;
-    testPackageCache.create('yarn', 'yarn', '{ "dependencies": "different" }');
-    expect(invocations.length).to.equal(0); // Everything optimized out.
+    testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
+    td.verify(npm(), { times: 0, ignoreExtraArgs: true }); // Everything optimized out.
   });
 
   it('get', function() {
@@ -415,23 +398,16 @@ describe('PackageCache', function() {
   });
 
   it('downgrades on 0.12', function() {
-    // Set up invocations.
-    invocations = [];
     testPackageCache.create('one', 'yarn', '{}');
     testPackageCache._conf.set('two', 'hello');
     testPackageCache._install('two', 'yarn');
     testPackageCache._conf.set('three', 'hello');
     testPackageCache._install('three', 'yarn');
 
-    var expected;
     if (process.version.indexOf('v0.12') === 0) {
-      expected = 'npm';
+      td.verify(npm(), { times: 3, ignoreExtraArgs: true });
     } else {
-      expected = 'yarn';
-    }
-
-    for (var i = 0; i < invocations.length; i++) {
-      expect(invocations[i][0]).to.equal(expected);
+      td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
     }
 
   });
