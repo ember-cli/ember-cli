@@ -1,62 +1,64 @@
 'use strict';
 
+var td = require('testdouble');
 var expect = require('chai').expect;
 var Command = require('../../../lib/utilities/command-generator');
 
 describe('command-generator', function() {
+  var yarn, _invoke;
+
+  beforeEach(function() {
+    yarn = new Command('yarn');
+    _invoke = yarn._invoke = td.function('invoke');
+  });
+
+  afterEach(function() {
+    td.reset();
+  });
+
   it('invoke passes options', function() {
-    var yarn = new Command('yarn');
-
-    var passedOptions = {};
-    yarn._invoke = function(command, options) {
-      passedOptions = options;
-    };
-
     // Works with subcommand or argument.
     yarn.invoke('install');
-    expect(passedOptions).to.deep.equal({});
+    td.verify(_invoke(td.matchers.isA(Array), {}));
 
     yarn.invoke('install', {});
-    expect(passedOptions).to.deep.equal({});
+    td.verify(_invoke(td.matchers.isA(Array), {}));
 
     yarn.invoke('install', { cwd: 'foo' });
-    expect(passedOptions).to.deep.equal({ cwd: 'foo' });
+    td.verify(_invoke(td.matchers.isA(Array), { cwd: 'foo' }));
 
     yarn.invoke('install', { stdio: ['default', 'default', 'default'] });
-    expect(passedOptions).to.deep.equal({ stdio: ['default', 'default', 'default'] });
+    td.verify(_invoke(td.matchers.isA(Array), { stdio: ['default', 'default', 'default'] }));
 
     // Works with no subcommand or argument.
     yarn.invoke();
-    expect(passedOptions).to.deep.equal({});
+    td.verify(_invoke(td.matchers.isA(Array), {}));
 
     yarn.invoke({});
-    expect(passedOptions).to.deep.equal({});
+    td.verify(_invoke(td.matchers.isA(Array), {}));
 
     yarn.invoke({ cwd: 'foo' });
-    expect(passedOptions).to.deep.equal({ cwd: 'foo' });
+    td.verify(_invoke(td.matchers.isA(Array), { cwd: 'foo' }));
 
     yarn.invoke({ stdio: ['default', 'default', 'default'] });
-    expect(passedOptions).to.deep.equal({ stdio: ['default', 'default', 'default'] });
+    td.verify(_invoke(td.matchers.isA(Array), { stdio: ['default', 'default', 'default'] }));
+
+    td.verify(_invoke(), { times: 8, ignoreExtraArgs: true });
   });
 
   it('builds the proper invocation', function() {
-    var yarn = new Command('yarn');
-
-    var invocation;
-    yarn._invoke = function(args, options) {
-      invocation = args;
-    };
-
     yarn.invoke();
-    expect(invocation).to.deep.equal([]);
+    td.verify(_invoke([]), { ignoreExtraArgs: true });
 
     yarn.invoke('install');
-    expect(invocation).to.deep.equal(['install']);
+    td.verify(_invoke(['install']), { ignoreExtraArgs: true });
 
     yarn.invoke('install', 'the', 'thing');
-    expect(invocation).to.deep.equal(['install', 'the', 'thing']);
+    td.verify(_invoke(['install', 'the', 'thing']), { ignoreExtraArgs: true });
 
     yarn.invoke('install', 'the', 'thing', {});
-    expect(invocation).to.deep.equal(['install', 'the', 'thing']);
+    td.verify(_invoke(['install', 'the', 'thing']), { ignoreExtraArgs: true });
+
+    td.verify(_invoke(), { times: 4, ignoreExtraArgs: true });
   });
 });
