@@ -4,18 +4,6 @@ var expect = require('chai').expect;
 var Command = require('../../../lib/utilities/command-generator');
 
 describe('command-generator', function() {
-  it('defaults options', function() {
-    var yarn;
-    yarn = new Command('yarn');
-    expect(yarn.options.retryCommands).to.deep.equal([]);
-
-    yarn = new Command('yarn', {});
-    expect(yarn.options.retryCommands).to.deep.equal([]);
-
-    yarn = new Command('yarn', { retryCommands: ['install'] });
-    expect(yarn.options.retryCommands).to.deep.equal(['install']);
-  });
-
   it('invoke passes options', function() {
     var yarn = new Command('yarn');
 
@@ -54,34 +42,21 @@ describe('command-generator', function() {
   it('builds the proper invocation', function() {
     var yarn = new Command('yarn');
 
-    yarn.ci = function() { return []; };
-
     var invocation;
-    yarn._invoke = function(command, options) {
-      invocation = command;
+    yarn._invoke = function(args, options) {
+      invocation = args;
     };
 
     yarn.invoke();
-    expect(invocation).to.equal('yarn');
+    expect(invocation).to.deep.equal([]);
 
     yarn.invoke('install');
-    expect(invocation).to.equal('yarn install');
+    expect(invocation).to.deep.equal(['install']);
 
     yarn.invoke('install', 'the', 'thing');
-    expect(invocation).to.equal('yarn install the thing');
+    expect(invocation).to.deep.equal(['install', 'the', 'thing']);
 
     yarn.invoke('install', 'the', 'thing', {});
-    expect(invocation).to.equal('yarn install the thing');
+    expect(invocation).to.deep.equal(['install', 'the', 'thing']);
   });
-});
-
-// Don't need to write individual tests for each CI since it will run on both!
-it ('gets clever in CI environments', function() {
-  var yarn = new Command('yarn', { retryCommands: ['install'] });
-
-  if (process.env.TRAVIS === 'true') {
-    expect(yarn.ci('install')).to.deep.equal(['travis_retry']);
-  } else if (process.env.APPVEYOR === 'True') {
-    expect(yarn.ci('install')).to.deep.equal(['appveyor-retry']);
-  }
 });
