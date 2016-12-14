@@ -40,11 +40,8 @@ function downloaded(item) {
 }
 
 function mvRm(from, to) {
-  var dir = path.join(root, to);
-  from = path.resolve(from);
-
-  if (!existsSync(dir)) {
-    fs.mkdirsSync(dir);
+  if (!existsSync(to)) {
+    fs.mkdirsSync(to);
     fs.copySync(from, to);
     fs.removeSync(from);
   }
