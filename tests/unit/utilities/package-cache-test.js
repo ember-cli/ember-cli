@@ -4,7 +4,7 @@ var fs = require('fs-extra');
 var path = require('path');
 var Configstore = require('configstore');
 
-var PackageCache = require('../../../lib/utilities/package-cache');
+var PackageCache = require('../../../tests/helpers/package-cache');
 
 var td = require('testdouble');
 var chai = require('../../chai');

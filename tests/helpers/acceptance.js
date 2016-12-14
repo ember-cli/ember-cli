@@ -7,7 +7,7 @@ var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
 var root = path.resolve(__dirname, '..', '..');
 
-var PackageCache = require('../../lib/utilities/package-cache');
+var PackageCache = require('../../tests/helpers/package-cache');
 var quickTemp = require('quick-temp');
 var dirs = {};
 

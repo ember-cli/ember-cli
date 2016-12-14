@@ -2,7 +2,7 @@
 
 var td = require('testdouble');
 var expect = require('chai').expect;
-var Command = require('../../../lib/utilities/command-generator');
+var Command = require('../../../tests/helpers/command-generator');
 
 describe('command-generator', function() {
   var yarn, _invoke;
