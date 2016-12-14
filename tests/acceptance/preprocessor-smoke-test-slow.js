@@ -16,8 +16,7 @@ var expect = chai.expect;
 var file = chai.file;
 var dir = chai.dir;
 
-var appName = 'some-cool-app';
-var appRoot;
+var appName  = 'some-cool-app';
 
 describe('Acceptance: preprocessor-smoke-test', function() {
   this.timeout(360000);
@@ -31,21 +30,19 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   });
 
   beforeEach(function() {
-    return linkDependencies(appName).then(function(result) {
-      appRoot = result;
-    });
+    return linkDependencies(appName);
   });
 
   afterEach(function() {
     return cleanupRun(appName).then(function() {
-      expect(dir(appRoot)).to.not.exist;
+      expect(dir('tmp/' + appName)).to.not.exist;
     });
   });
 
   it('addons with standard preprocessors compile correctly', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-cli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
@@ -64,7 +61,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   it('addon registry entries are added in the proper order', function() {
     return copyFixtureFiles('preprocessor-tests/app-registry-ordering')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['first-dummy-preprocessor'] = 'latest';
         packageJson.devDependencies['second-dummy-preprocessor'] = 'latest';
@@ -85,7 +82,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   it('addons without preprocessors compile correctly', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-without-preprocessors')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-cli-sass'] = 'latest';
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
@@ -111,7 +108,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   it('addons depending on preprocessor addon preprocesses addon but not app', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-2')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-cool-addon'] = 'latest';
 
@@ -143,7 +140,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   it('addon N levels deep depending on preprocessor preprocesses that parent addon only', function() {
     return copyFixtureFiles('preprocessor-tests/app-with-addon-with-preprocessors-3')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-shallow-addon'] = 'latest';
 
