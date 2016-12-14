@@ -16,8 +16,7 @@ var expect = chai.expect;
 var file = chai.file;
 var dir = chai.dir;
 
-var appName = 'some-cool-app';
-var appRoot;
+var appName  = 'some-cool-app';
 
 describe('Acceptance: nested-addons-smoke-test', function() {
   this.timeout(360000);
@@ -31,21 +30,19 @@ describe('Acceptance: nested-addons-smoke-test', function() {
   });
 
   beforeEach(function() {
-    return linkDependencies(appName).then(function(result) {
-      appRoot = result;
-    });
+    return linkDependencies(appName);
   });
 
   afterEach(function() {
     return cleanupRun(appName).then(function() {
-      expect(dir(appRoot)).to.not.exist;
+      expect(dir('tmp/' + appName)).to.not.exist;
     });
   });
 
   it('addons with nested addons compile correctly', function() {
     return copyFixtureFiles('addon/with-nested-addons')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
+        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-top-addon'] = 'latest';
 
