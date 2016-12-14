@@ -110,7 +110,7 @@
     "sort-package-json": "^1.4.0",
     "symlink-or-copy": "^1.1.8",
     "temp": "0.8.3",
-    "testem": "^1.8.1",
+    "testem": "^1.14.0-0",
     "tiny-lr": "^1.0.3",
     "tree-sync": "^1.1.4",
     "uuid": "^3.0.0",
