@@ -5,11 +5,11 @@ var path              = require('path');
 var fs                = require('fs-extra');
 var runCommand        = require('./run-command');
 var Promise           = require('../../lib/ext/promise');
-var tmp               = require('./tmp');
-var existsSync        = require('exists-sync');
-var copy              = Promise.denodeify(fs.copy);
-var exec              = Promise.denodeify(require('child_process').exec);
 var root = path.resolve(__dirname, '..', '..');
+
+var PackageCache = require('../../tests/helpers/package-cache');
+var quickTemp = require('quick-temp');
+var dirs = {};
 
 var runCommandOptions = {
   // Note: We must override the default logOnFailure logging, because we are
@@ -25,49 +25,16 @@ function handleResult(result) {
   throw result;
 }
 
-function downloaded(item) {
-  var exists = false;
-  switch (item) {
-    case 'node_modules':
-      exists = existsSync(path.join(root, '.deps-tmp', 'node_modules'));
-      break;
-    case 'bower_components':
-      exists = existsSync(path.join(root, '.deps-tmp', 'bower_components'));
-      break;
-  }
-
-  return exists;
-}
-
-function mvRm(from, to) {
-  if (!existsSync(to)) {
-    fs.mkdirsSync(to);
-    fs.copySync(from, to);
-    fs.removeSync(from);
-  }
-}
-
-function symLinkDir(projectPath, from, to) {
-  symlinkOrCopySync(path.resolve(root, from), path.resolve(projectPath, to));
-}
-
 function applyCommand(command, name /*, ...flags*/) {
   var flags = [].slice.call(arguments, 2, arguments.length);
-  var args = [path.join('..', 'bin', 'ember'), command, '--disable-analytics', '--watcher=node', '--skip-git', name, runCommandOptions];
+  var binaryPath = path.resolve(path.join(__dirname, '..', '..', 'bin', 'ember'));
+  var args = [binaryPath, command, name, '--disable-analytics', '--watcher=node', '--skip-git', runCommandOptions];
 
   flags.forEach(function(flag) {
     args.splice(2, 0, flag);
   });
 
   return runCommand.apply(undefined, args);
-}
-
-function createTmp(command) {
-  var targetPath = path.join(root, 'common-tmp');
-  return tmp.setup(targetPath).then(function() {
-    process.chdir(targetPath);
-    return command();
-  });
 }
 
 /**
@@ -80,93 +47,57 @@ function createTmp(command) {
  * @return {Promise}  The result of the running the command
  */
 function createTestTargets(projectName, options) {
-  var command;
+  var outputDir = quickTemp.makeOrReuse(dirs, projectName);
+
   options = options || {};
   options.command = options.command || 'new';
 
-  var noNodeModules = !downloaded('node_modules');
-  // Fresh install
-  if (noNodeModules && !downloaded('bower_components')) {
-    command = function() {
-      return applyCommand(options.command, projectName);
-    };
-    // bower_components but no node_modules
-  } else if (noNodeModules && downloaded('bower_components')) {
-    command = function() {
-      return applyCommand(options.command, projectName, '--skip-bower');
-    };
-    // node_modules but no bower_components
-  } else if (!downloaded('bower_components') && downloaded('node_modules')) {
-    command = function() {
-      return applyCommand(options.command, projectName, '--skip-npm');
-    };
-  } else {
-    // Everything is already there
-    command = function() {
-      return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower');
-    };
-  }
-
-  return createTmp(function() {
-    return command().catch(handleResult).then(function(value) {
-      if (noNodeModules) {
-        return exec('npm install ember-disable-prototype-extensions').then(function() {
-          return value;
-        });
-      }
-
-      return value;
-    });
-  });
+  return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', '--directory=' + outputDir)
+    .catch(handleResult);
 }
 
 /**
  * Tears down the targeted project download directory
- * @return {Promise}
  */
 function teardownTestTargets() {
-  return tmp.teardown(path.join(root, 'common-tmp'));
+  // Remove all tmp directories created in this run.
+  var dirKeys = Object.keys(dirs);
+  for (var i = 0; i < dirKeys.length; i++) {
+    quickTemp.remove(dirs, dirKeys[i]);
+  }
 }
 
 /**
  * Creates symbolic links from the dependency temp directories
  * to the project that is under test.
  * @param  {String} projectName The name of the project under test
- * @return {Promise}
+ * @return {String} The path to the hydrated fixture.
  */
 function linkDependencies(projectName) {
-  var targetPath = path.join(root, 'tmp', projectName);
-  return tmp.setup(targetPath).then(function() {
-    return copy(path.join(root, 'common-tmp', projectName), targetPath);
-  }).then(function() {
-    var nodeModulesPath = path.join(targetPath, 'node_modules');
+  var sourceFixture = dirs[projectName]; // original fixture for this acceptance test.
+  var runFixture = quickTemp.makeOrRemake(dirs, projectName + '-clone');
 
-    mvRm(nodeModulesPath, path.join(root, '.deps-tmp', 'node_modules'));
+  fs.copySync(sourceFixture, runFixture);
 
-    if (!existsSync(nodeModulesPath)) {
-      symLinkDir(targetPath, path.join(root, '.deps-tmp', 'node_modules'), 'node_modules');
-    }
+  var nodeManifest = fs.readFileSync(path.join(runFixture, 'package.json'));
 
-    process.chdir(targetPath);
+  var packageCache = new PackageCache({ linkEmberCLI: true });
+  packageCache.create('node', 'npm', nodeManifest);
 
-    var appsECLIPath = path.join('node_modules', 'ember-cli');
-    fs.removeSync(appsECLIPath);
+  var nodeModulesPath = path.join(runFixture, 'node_modules');
+  symlinkOrCopySync(path.join(packageCache.get('node'), 'node_modules'), nodeModulesPath);
 
-    // Need to junction on windows since we likely don't have persmission to symlink
-    // 3rd arg is ignored on systems other than windows
-    fs.symlinkSync(path.resolve('../..'), appsECLIPath, 'junction');
+  process.chdir(runFixture);
 
-    return targetPath;
-  });
+  return runFixture;
 }
 
 /**
- * Clean a test run and optionally assert.
- * @return {Promise}
+ * Clean a test run.
  */
 function cleanupRun(projectName) {
-  var targetPath = path.join(root, 'tmp', projectName);
-  return tmp.teardown(targetPath);
+  process.chdir(root);
+  quickTemp.remove(dirs, projectName + '-clone');
 }
 
 module.exports = {

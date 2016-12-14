@@ -26,20 +26,15 @@ describe('Acceptance: nested-addons-smoke-test', function() {
     return createTestTargets(appName);
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(appName).then(function(result) {
-      appRoot = result;
-    });
+    appRoot = linkDependencies(appName);
   });
 
   afterEach(function() {
-    return cleanupRun(appName).then(function() {
-      expect(dir(appRoot)).to.not.exist;
-    });
+    cleanupRun(appName);
+    expect(dir(appRoot)).to.not.exist;
   });
 
   it('addons with nested addons compile correctly', function() {

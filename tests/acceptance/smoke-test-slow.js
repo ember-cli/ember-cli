@@ -30,22 +30,16 @@ describe('Acceptance: smoke-test', function() {
     return createTestTargets(appName);
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(appName).then(function(result) {
-      appRoot = result;
-    });
+    appRoot = linkDependencies(appName);
   });
 
   afterEach(function() {
     delete process.env._TESTEM_CONFIG_JS_RAN;
-
-    return cleanupRun(appName).then(function() {
-      expect(dir(appRoot)).to.not.exist;
-    });
+    cleanupRun(appName);
+    expect(dir(appRoot)).to.not.exist;
   });
 
   it('ember new foo, clean from scratch', function() {

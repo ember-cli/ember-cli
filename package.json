@@ -90,6 +90,7 @@
     "is-git-url": "^0.2.0",
     "isbinaryfile": "^3.0.0",
     "js-yaml": "^3.6.1",
+    "json-stable-stringify": "^1.0.1",
     "leek": "0.0.24",
     "lodash.template": "^4.2.5",
     "markdown-it": "^8.2.0",
@@ -116,7 +117,8 @@
     "tree-sync": "^1.2.1",
     "uuid": "^3.0.0",
     "walk-sync": "^0.3.0",
-    "yam": "0.0.22"
+    "yam": "0.0.22",
+    "yarn": "^0.17.8"
   },
   "devDependencies": {
     "broccoli-filter": "^1.2.2",

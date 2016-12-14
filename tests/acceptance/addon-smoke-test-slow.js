@@ -34,23 +34,18 @@ describe('Acceptance: addon-smoke-test', function() {
     });
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(addonName).then(function(result) {
-      addonRoot = result;
-    });
+    addonRoot = linkDependencies(addonName);
   });
 
   afterEach(function() {
     // Cleans up a folder set up on the other side of a symlink.
     fs.remove(path.join(addonRoot, 'node_modules', 'developing-addon'));
 
-    return cleanupRun(addonName).then(function() {
-      expect(dir(addonRoot)).to.not.exist;
-    });
+    cleanupRun(addonName);
+    expect(dir(addonRoot)).to.not.exist;
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
