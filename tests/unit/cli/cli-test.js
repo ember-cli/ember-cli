@@ -153,8 +153,6 @@ describe('Unit: CLI', function() {
           td.verify(help(), {ignoreExtraArgs: true, times: 1});
           var output = ui.output.trim();
           expect(output).to.equal('', 'expected no extra output');
-
-          //td.verify(newCommand(), {ignoreExtraArgs: true, times: 1});
         });
       });
     });
