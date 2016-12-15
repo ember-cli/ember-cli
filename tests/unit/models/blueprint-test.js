@@ -348,7 +348,6 @@ describe('Blueprint', function() {
     describe('printBasicHelp', function() {
       beforeEach(function() {
         td.replace(blueprint, '_printCommand', td.function());
-        td.when(blueprint._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
         td.replace(blueprint, 'printDetailedHelp', td.function());
         td.when(blueprint.printDetailedHelp(), {ignoreExtraArgs: true}).thenReturn('help in detail');
       });
@@ -365,20 +364,23 @@ describe('Blueprint', function() {
 
         expect(output).to.equal(testString);
 
-        td.verify(blueprint._printCommand(), {ignoreExtraArgs: true, times: 0});
+        td.verify(blueprint._printCommand(), {times: 0});
       });
 
       it('calls printCommand', function() {
+        td.when(blueprint._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+
         var output = blueprint.printBasicHelp();
 
         var testString = processHelpString('\
       my-blueprint command printed');
 
         expect(output).to.equal(testString);
-        td.verify(blueprint._printCommand('      ', true), {times: 1});
       });
 
       it('prints detailed help if verbose', function() {
+        td.when(blueprint._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+
         var availableOptions = [];
         assign(blueprint, {
           availableOptions: availableOptions
@@ -391,7 +393,6 @@ describe('Blueprint', function() {
 help in detail');
 
         expect(output).to.equal(testString);
-        td.verify(blueprint.printDetailedHelp(availableOptions));
       });
     });
 
@@ -726,8 +727,6 @@ help in detail');
           return blueprintNew.install(options);
         })
         .then(function() {
-
-          td.verify(ui.prompt(), {ignoreExtraArgs: true});
 
           var actualFiles = walkSync(tmpdir).sort();
           // Prompts contain \n EOL

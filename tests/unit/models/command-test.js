@@ -100,6 +100,10 @@ describe('models/command.js', function() {
     ui = options.ui;
   });
 
+  afterEach(function() {
+    td.reset();
+  });
+
   it('parseArgs() should parse the command options.', function() {
     expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.deep.property('options.port', 80);
   });
@@ -568,13 +572,16 @@ describe('models/command.js', function() {
         td.when(command._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
       });
 
+      afterEach(function() {
+        td.reset();
+      });
+
       it('calls printCommand', function() {
         var output = command.printBasicHelp();
 
         var testString = processHelpString('ember serve command printed' + EOL);
 
         expect(output).to.equal(testString);
-        td.verify(command._printCommand(), {times: 1});
       });
 
       it('is root', function() {

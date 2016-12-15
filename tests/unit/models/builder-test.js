@@ -312,6 +312,7 @@ describe('models/builder.js', function() {
     });
 
     afterEach(function() {
+      td.reset();
       delete process.env.BROCCOLI_VIZ;
       delete process.env.EMBER_CLI_INSTRUMENTATION;
     });
@@ -690,11 +691,9 @@ describe('models/builder.js', function() {
 
     it('allows addons to add promises preBuild', function() {
       var preBuild = td.replace(addon, 'preBuild', td.function());
-      td.when(preBuild(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+      td.when(preBuild(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
 
-      return builder.build().then(function() {
-        td.verify(preBuild(), {ignoreExtraArgs: true});
-      });
+      return builder.build();
     });
 
     it('allows addons to add promises postBuild', function() {
