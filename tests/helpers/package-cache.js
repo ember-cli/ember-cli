@@ -36,7 +36,7 @@ var DEPENDENCY_KEYS = [
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
  *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
  */
-var bower = new CommandGenerator(require.resolve('bower/bin/bower'));
+var bower = new CommandGenerator('bower');
 
 /**
  * The `npm` command helper.
@@ -47,7 +47,7 @@ var bower = new CommandGenerator(require.resolve('bower/bin/bower'));
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
  *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
  */
-var npm = new CommandGenerator(require.resolve('npm/bin/npm-cli.js'));
+var npm = new CommandGenerator('npm');
 
 /**
  * The `yarn` command helper.

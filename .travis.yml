@@ -16,26 +16,29 @@ branches:
     - /^greenkeeper.*$/
 
 cache:
+  yarn: true
   directories:
-    $HOME/.npm
-    $HOME/.cache # includes bowers cache
+    - $HOME/.npm
+    - $HOME/.cache # includes bower's cache
 
 before_install:
+  # Once we no longer support Node.js 0.12 we can drop this entire section.
   # prevent the npm loading indicator
   - npm config --global set spin false
-  # if npm version is less 3.0.0 (lets say 1.x or 2.x) we should attempt to upgrade to 3
+  # if npm version is less than 3.0.0, upgrade to 3
   - if [[ $(npm -v | cut -d '.' -f 1) -lt 3 ]]; then npm i -g npm@^3; fi
 
-install:
-  - travis_retry npm install --no-optional
-
 script:
+  # For now we will use `npm` to kick off the test suite.
+  # Can switch to `yarn` once we no longer support Node.js 0.12:
+  # - yarn run test-all:cover
   - npm run-script test-all:cover
 
-after_script:
-  - travis_retry npm install coveralls codeclimate-test-reporter
-  - cat coverage/lcov.info | node_modules/.bin/codeclimate-test-reporter
-  - cat coverage/lcov.info | node_modules/.bin/coveralls
-
 after_success:
+  # For now we will use `npm` for globals.
+  # Can switch to `yarn` once we no longer support Node.js 0.12:
+  # - travis_retry yarn global add coveralls codeclimate-test-reporter
+  - travis_retry npm install -g coveralls codeclimate-test-reporter
+  - cat coverage/lcov.info | codeclimate-test-reporter
+  - cat coverage/lcov.info | coveralls
   - .travis/deploy.sh

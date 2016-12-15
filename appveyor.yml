@@ -15,26 +15,20 @@ branches:
 
 # Install scripts. (runs after repo cloning)
 install:
-  - git rev-parse HEAD
-  # Get the latest stable version of Node 0.STABLE.latest
   - ps: Install-Product node $env:nodejs_version
-  # Install PhantomJS
-  - npm install phantomjs-prebuilt
-  - npm install mocha-appveyor-reporter
-  # Typical npm stuff.
-  - npm version
-  - npm install
+  - appveyor-retry choco install phantomjs
+  - appveyor-retry yarn
+  - appveyor-retry yarn add mocha-appveyor-reporter # must be installed locally.
 
 cache:
-  - '%APPDATA%\npm-cache'
+  - '%LOCALAPPDATA%\Yarn'
   - '%APPDATA%\Roaming\bower'
-
 
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
-  - npm version
-  - cmd: npm run test-all
+  - git rev-parse HEAD
+  - cmd: yarn run test-all
 
 # Don't actually build.
 build: off
