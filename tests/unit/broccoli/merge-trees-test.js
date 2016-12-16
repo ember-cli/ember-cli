@@ -73,4 +73,22 @@ describe('broccoli/merge-trees', function() {
     mergeTrees(['foo', 'bar', 'baz']);
     expect(actual).to.deep.equal(expected);
   });
+
+  it('removes duplicate trees with the last duplicate being the remainder', function() {
+    var treeA = {};
+    var treeB = {};
+    var expected = [treeB, treeA];
+    var actual;
+
+    mergeTreesStub = function(inputTrees) {
+      actual = inputTrees;
+      return {};
+    };
+
+    mergeTrees([treeB, treeA, treeB, treeA, treeA]);
+
+    expect(actual).to.deep.equal(expected);
+    expect(actual[0]).to.equal(treeB);
+    expect(actual[1]).to.equal(treeA);
+  });
 });
