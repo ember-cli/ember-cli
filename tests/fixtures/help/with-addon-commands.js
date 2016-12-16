@@ -628,7 +628,7 @@ module.exports = {
         },
         {
           name: 'filter',
-          description: 'A string to filter tests to run',
+          description: 'A string to filter tests to run. Invert filter by prefixing with !.',
           aliases: ['f'],
           key: 'filter',
           required: false
