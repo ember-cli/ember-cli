@@ -411,7 +411,7 @@ describe('models/addon.js', function() {
         @method hintingEnabled
        */
 
-      var originalEnvValue, originalTestCommand, addon, project;
+      var originalEnvValue, originalEmberEnvValue, originalTestCommand, addon, project;
 
       beforeEach(function() {
         var MyAddon = Addon.extend({
@@ -426,6 +426,7 @@ describe('models/addon.js', function() {
 
         addon = new MyAddon(project);
 
+        originalEmberEnvValue = process.env.EMBER_ENV;
         originalEnvValue = process.env.EMBER_ADDON_ENV;
         originalTestCommand = process.env.EMBER_CLI_TEST_COMMAND;
       });
@@ -445,6 +446,12 @@ describe('models/addon.js', function() {
           delete process.env.EMBER_CLI_TEST_COMMAND;
         } else {
           process.env.EMBER_CLI_TEST_COMMAND = originalTestCommand;
+        }
+
+        if (originalEmberEnvValue === undefined) {
+          delete process.env.EMBER_ENV;
+        } else {
+          process.env.EMBER_ENV = originalEmberEnvValue;
         }
       });
 
