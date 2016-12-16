@@ -17,16 +17,23 @@ describe('calculateCacheKeyForTree', function() {
     expect(first).to.equal(second);
   });
 
-  it('should return different value when different', function() {
-    var addon = {
+  it('should return different value for different addons', function() {
+    var firstAddon = {
+      name: 'derp',
       root: 'hoy',
       pkg: { some: 'other', value: { goes: 'elsewhere' }}
     };
 
-    var first = calculateCacheKeyForTree('app', addon);
-    var second = calculateCacheKeyForTree('app', addon);
+    var secondAddon = {
+      name: 'huzzah',
+      root: 'hoy',
+      pkg: { some: 'parsed', value: { goes: 'here' }}
+    };
 
-    expect(first).to.equal(second);
+    var first = calculateCacheKeyForTree('app', firstAddon);
+    var second = calculateCacheKeyForTree('app', secondAddon);
+
+    expect(first).to.not.equal(second);
   });
 
   it('should not return same value for same addon with different tree type', function() {

@@ -891,7 +891,7 @@ describe('models/addon.js', function() {
             init: function() {
               this._super && this._super.init.apply(this, arguments);
 
-              this.treeForMethods['app'] = 'treeForWTF_ARE_YOU_THINKING!?!';
+              this.treeForMethods['app'] = 'treeForZOMG_WHY!?!';
             }
           }));
 
