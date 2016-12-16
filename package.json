@@ -119,8 +119,7 @@
     "tree-sync": "^1.2.1",
     "uuid": "^3.0.0",
     "walk-sync": "^0.3.0",
-    "yam": "0.0.22",
-    "yarn": "^0.17.8"
+    "yam": "0.0.22"
   },
   "devDependencies": {
     "broccoli-filter": "^1.2.2",

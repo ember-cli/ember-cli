@@ -8,15 +8,14 @@ var Configstore = require('configstore');
 var CommandGenerator = require('./command-generator');
 var stableStringify = require('json-stable-stringify');
 
-// This is the "root" folder.
-var emberCLIPath = path.resolve(__dirname, '../..');
+var originalWorkingDirectory = process.cwd();
 
 // Module scoped variable to store whether a particular cache has been
 // attempted to be upgraded.
 var upgraded = {};
 
-// Module scoped variable set on first Ember CLI link attempt per type.
-var isEmberCLILinked = {};
+// List of keys which can result in things being installed.
+var DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
 
 /**
  * The `bower` command helper.
@@ -49,7 +48,7 @@ var npm = new CommandGenerator(require.resolve('npm/bin/npm-cli.js'));
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
  *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
  */
-var yarn = new CommandGenerator(require.resolve('yarn/bin/yarn.js'));
+var yarn = new CommandGenerator('yarn');
 
 // This lookup exists to make it possible to look the commands up based upon context.
 var originals;
@@ -118,7 +117,7 @@ function checkDowngrade(type) {
  *     "ember-cli": "*"
  *   }
  * }');
- * // => /somewhere/tmp/your-cache-A3B4C6D
+ * // => process.cwd()/tmp/your-cache-A3B4C6D
  * ```
  *
  * This will generate a persistent cache which contains the results
@@ -129,7 +128,7 @@ function checkDowngrade(type) {
  * compare the manifest to the previously installed one, using the manifest
  * as the cache key, and make a decision as to the fastest way to get
  * the cache up-to-date. PackageCache guarantees that your cache will
- * always be up-to-date
+ * always be up-to-date.
  *
  * If done in the same process, this simply returns the existing cache
  * directory with no change, making the following invocation simply a
@@ -142,7 +141,7 @@ function checkDowngrade(type) {
  *     "ember-cli": "*"
  *   }
  * }');
- * // => /somewhere/tmp/your-cache-A3B4C6D
+ * // => process.cwd()/tmp/your-cache-A3B4C6D
  * ```
  *
  * If you wish to modify a cache you can do so using the `update` API:
@@ -155,7 +154,7 @@ function checkDowngrade(type) {
  *     "ember-cli": "*"
  *   }
  * }');
- * // => /somewhere/tmp/your-cache-A3B4C6D
+ * // => process.cwd()/tmp/your-cache-A3B4C6D
  * ```
  *
  * Underneath the hood `create` and `update` are identical–which
@@ -172,7 +171,7 @@ function checkDowngrade(type) {
  * var manifest = fs.readJsonSync(path.join(newDir, 'package.json'));
  * manifest.dependencies['express'] = '*';
  * cache.update('modified-cache', 'yarn', JSON.stringify(manifest));
- * // => /somewhere/tmp/modified-cache-F8D5C8B
+ * // => process.cwd()/tmp/modified-cache-F8D5C8B
  * ```
  *
  * This mental model makes it easy to prevent coding mistakes, state
@@ -183,11 +182,9 @@ function checkDowngrade(type) {
  *
  * ```
  * var CommandGenerator = require('./command-generator');
- * var yarn = new CommandGenerator(require.resolve('yarn/bin/yarn.js'), {
- *   retryCommands: ['install', 'upgrade']
- * });
+ * var yarn = new CommandGenerator(require.resolve('yarn/bin/yarn.js'));
  *
- * var dir = cache.create('your-cache', 'yarn', "{ ... }");
+ * var dir = cache.create('your-cache', 'yarn', '{ ... }');
  *
  * yarn.invoke('add', 'some-addon', { cwd: dir });
  * ```
@@ -195,9 +192,8 @@ function checkDowngrade(type) {
  * The programmatic approach enables the entire set of usecases that
  * the underlying package manager supports while continuing to wrap it
  * in a persistent cache. You should not directly modify any files in the
- * cache other than the manifest as that puts the cache unless you really
- * know what you're doing as that can put the cache into a possibly
- * invalid state.
+ * cache other than the manifest unless you really know what you're doing as
+ * that can put the cache into a possibly invalid state.
  *
  * As the only caveat, PackageCache _is_ persistent. The consuming
  * code is responsible for ensuring that the cache size does not
@@ -205,10 +201,11 @@ function checkDowngrade(type) {
  *
  * @class PackageCache
  * @constructor
- * @param {Object} options Options hash. Supports:
- * @param {Boolean} [options.linkEmberCLI=false] If after installation should link Ember CLI.
+ * @param {String} rootPath Root of the directory for `PackageCache`.
  */
-function PackageCache(options) {
+function PackageCache(rootPath) {
+  this.rootPath = rootPath || originalWorkingDirectory;
+
   this._conf = new Configstore('package-cache');
 
   // The default invocation will write something we don't use.
@@ -216,14 +213,10 @@ function PackageCache(options) {
   fs.unlinkSync(this._conf.path);
 
   // Set it to where we want it to be.
-  this._conf.path = path.join(emberCLIPath, 'tmp', 'package-cache.json');
+  this._conf.path = path.join(this.rootPath, 'tmp', 'package-cache.json');
 
   // Initialize.
   this._conf.all = this._conf.all;
-
-  this.options = merge({
-    linkEmberCLI: false
-  }, options);
 
   this._cleanDirs();
 }
@@ -238,7 +231,6 @@ PackageCache.prototype = {
   __setupForTesting: function(stubs) {
     originals = commands;
     commands = stubs.commands;
-    isEmberCLILinked = {};
   },
 
   /**
@@ -309,11 +301,14 @@ PackageCache.prototype = {
    * @param {String} manifest The contents of the manifest file to write to disk.
    */
   _writeManifest: function(label, type, manifest) {
+    process.chdir(this.rootPath);
     var outputDir = quickTemp.makeOrReuse(this.dirs, label);
+    process.chdir(originalWorkingDirectory);
+
     this._conf.set(label, outputDir);
 
     var outputFile = path.join(outputDir, translate(type, 'manifest'));
-    fs.writeFileSync(outputFile, manifest);
+    fs.outputFileSync(outputFile, manifest);
 
     // Remove any existing yarn.lock file so that it doesn't try to incorrectly use it as a base.
     if (type === 'yarn') {
@@ -326,6 +321,91 @@ PackageCache.prototype = {
         }
       }
     }
+  },
+
+  /**
+   * The `_removeLinks` method removes from the dependencies of the manifest the
+   * assets which will be linked in so that we don't duplicate install. It saves
+   * off the values in the internal `PackageCache` metadata for restoration after
+   * linking as those values may be necessary.
+   *
+   * It is also responsible for removing these links prior to making any changes
+   * to the specified cache.
+   *
+   * @method _removeLinks
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   */
+  _removeLinks: function(label, type) {
+    var cachedManifest = this._readManifest(label, type);
+    if (!cachedManifest) { return; }
+
+    var jsonManifest = JSON.parse(cachedManifest);
+    var links = jsonManifest._packageCache.links;
+
+    // Blindly remove existing links whether or not they appear in the manifest.
+    var packageName;
+    for (var i = 0; i < links.length; i++) {
+      packageName = links[i];
+      commands[type].invoke('unlink', packageName, { cwd: this.dirs[label] });
+    }
+
+    // Remove things from the manifest which we know we'll link back in.
+    var removed = {};
+    var key;
+    for (i = 0; i < DEPENDENCY_KEYS.length; i++) {
+      key = DEPENDENCY_KEYS[i];
+      for (var j = 0; j < links.length; j++) {
+        packageName = links[j];
+        if (jsonManifest[key] && jsonManifest[key][packageName]) {
+          removed[key] = removed[key] || {};
+          removed[key][packageName] = jsonManifest[key][packageName];
+
+          delete jsonManifest[key][packageName];
+        }
+      }
+    }
+
+    jsonManifest._packageCache.removed = removed;
+    var manifest = JSON.stringify(jsonManifest);
+
+    this._writeManifest(label, type, manifest);
+  },
+
+  /**
+   * The `_restoreLinks` method restores the dependencies from the internal
+   * `PackageCache` metadata so that the manifest matches its original state after
+   * performing the links.
+   *
+   * It is also responsible for restoring these links into the `PackageCache`.
+   *
+   * @method _restoreLinks
+   * @param {String} label The label for the cache.
+   * @param {String} type The type of package cache.
+   */
+  _restoreLinks: function(label, type) {
+    var cachedManifest = this._readManifest(label, type);
+    if (!cachedManifest) { return; }
+
+    var jsonManifest = JSON.parse(cachedManifest);
+    var links = jsonManifest._packageCache.links;
+
+    // Blindly restore links.
+    var packageName;
+    for (var i = 0; i < links.length; i++) {
+      packageName = links[i];
+      commands[type].invoke('link', packageName, { cwd: this.dirs[label] });
+    }
+
+    // Promote any removed items back into the manifest.
+    jsonManifest = merge(jsonManifest, jsonManifest._packageCache.removed);
+
+    // Get rid of the key.
+    delete jsonManifest._packageCache.removed;
+
+    // Serialize back to disk.
+    var manifest = JSON.stringify(jsonManifest);
+    this._writeManifest(label, type, manifest);
   },
 
   /**
@@ -348,7 +428,7 @@ PackageCache.prototype = {
 
     // Only inspect the keys we care about.
     // Invalidate the cache based off the private _packageCache key as well.
-    var keys = ['_packageCache', 'dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
+    var keys = [].concat(DEPENDENCY_KEYS, '_packageCache');
 
     var key;
     for (var i = 0; i < keys.length; i++) {
@@ -372,12 +452,9 @@ PackageCache.prototype = {
   _install: function(label, type) {
     type = checkDowngrade(type);
 
+    this._removeLinks(label, type);
     commands[type].invoke('install', { cwd: this.dirs[label] });
-
-    // Link in Ember CLI after installation.
-    if (this.options.linkEmberCLI === true && (type === 'npm' || type === 'yarn')) {
-      commands[type].invoke('link', 'ember-cli', { cwd: this.dirs[label] });
-    }
+    this._restoreLinks(label, type);
 
     // If we just did a clean install we can treat it as up-to-date.
     upgraded[label] = true;
@@ -398,24 +475,16 @@ PackageCache.prototype = {
     // Lock out upgrade calls after the first time upgrading the cache.
     if (upgraded[label]) { return; }
 
-    // Unlink Ember CLI before upgrade.
-    if (this.options.linkEmberCLI === true && (type === 'npm' || type === 'yarn')) {
-      commands[type].invoke('unlink', 'ember-cli', { cwd: this.dirs[label] });
-    }
-
     // Only way to get repeatable behavior in npm: start over.
     // We turn an `_upgrade` task into an `_install` task.
     if (type === 'npm') {
       fs.removeSync(path.join(this.dirs[label], translate(type, 'path')));
-      this._install(label, type);
-    } else {
-      commands[type].invoke(translate(type, 'upgrade'), { cwd: this.dirs[label] });
-
-      // Re-link Ember CLI after upgrade.
-      if (this.options.linkEmberCLI === true && (type === 'npm' || type === 'yarn')) {
-        commands[type].invoke('link', 'ember-cli', { cwd: this.dirs[label] });
-      }
+      return this._install(label, type);
     }
+
+    this._removeLinks(label, type);
+    commands[type].invoke(translate(type, 'upgrade'), { cwd: this.dirs[label] });
+    this._restoreLinks(label, type);
 
     upgraded[label] = true;
   },
@@ -429,17 +498,12 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file for the cache.
+   * @param {Array} links Packages to elide for install and link.
    * @return {String} The directory on disk which contains the cache.
    */
-  create: function(label, type, manifest) {
+  create: function(label, type, manifest, links) {
     type = checkDowngrade(type);
-
-    // Set up the default Ember CLI link.
-    // Easier to do this every time than try and lock it out.
-    if (!isEmberCLILinked[type] && this.options.linkEmberCLI === true && (type === 'npm' || type === 'yarn')) {
-      commands[type].invoke('link', { cwd: emberCLIPath });
-      isEmberCLILinked[type] = true;
-    }
+    links = links || [];
 
     // Save metadata about the PackageCache invocation in the manifest.
     var packageManagerVersion = require(type + '/package.json').version;
@@ -448,7 +512,8 @@ PackageCache.prototype = {
     jsonManifest._packageCache = {
       node: process.version,
       packageManager: type,
-      packageManagerVersion: packageManagerVersion
+      packageManagerVersion: packageManagerVersion,
+      links: links
     };
 
     manifest = JSON.stringify(jsonManifest);
@@ -475,9 +540,10 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file for the cache.
+   * @param {Array} links Packages to elide for install and link.
    * @return {String} The directory on disk which contains the cache.
    */
-  update: function(/*label, type, manifest*/) {
+  update: function(/*label, type, manifest, links*/) {
     return this.create.apply(this, arguments);
   },
 
@@ -500,7 +566,9 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   destroy: function(label) {
+    process.chdir(this.rootPath);
     quickTemp.remove(this.dirs, label);
+    process.chdir(originalWorkingDirectory);
 
     this._conf.delete(label);
   },
@@ -514,7 +582,10 @@ PackageCache.prototype = {
    * @param {String} toLabel The label for the new cache.
    */
   clone: function(fromLabel, toLabel) {
+    process.chdir(this.rootPath);
     var outputDir = quickTemp.makeOrReuse(this.dirs, toLabel);
+    process.chdir(originalWorkingDirectory);
+
     this._conf.set(toLabel, outputDir);
 
     fs.copySync(this.get(fromLabel), outputDir);
