@@ -23,6 +23,7 @@ var MockUI = require('console-ui/mock');
 var Heimdall = require('heimdalljs/heimdall');
 var walkSync = require('walk-sync');
 var itr2Array = require('../../helpers/itr2array');
+var EventEmitter = require('events');
 
 var mockBuildResultsWithHeimdallSubgraph = {
   graph: {
@@ -63,6 +64,70 @@ describe('models/builder.js', function() {
     }
   });
 
+  describe('process signal listeners', function() {
+    var originalListenerCounts;
+
+    function getListenerCount(emitter, event) {
+      if (emitter.listenerCount) { // Present in Node >= 4.0
+        return emitter.listenerCount(event);
+      } else {
+        // deprecated in Node 4.0
+        return EventEmitter.listenerCount(emitter, event);
+      }
+    }
+
+    function getListenerCounts() {
+      return {
+        SIGINT: getListenerCount(process, 'SIGINT'),
+        SIGTERM: getListenerCount(process, 'SIGTERM'),
+        message: getListenerCount(process, 'message'),
+
+        // enable when https://github.com/ember-cli/capture-exit/pull/17 lands
+        // exit: captureExit.listenerCount(),
+      };
+    }
+
+    beforeEach(function() {
+      originalListenerCounts = getListenerCounts();
+    });
+
+    it('sets up listeners for signals', function() {
+      builder = new Builder({
+        setupBroccoliBuilder: setupBroccoliBuilder,
+        project: new MockProject()
+      });
+
+      var actualListeners = getListenerCounts();
+
+      expect(actualListeners).to.eql({
+        SIGINT: originalListenerCounts.SIGINT + 1,
+        SIGTERM: originalListenerCounts.SIGTERM + 1,
+        message: originalListenerCounts.message + 1,
+
+        // enable when https://github.com/ember-cli/capture-exit/pull/17 lands
+        // exit: originalListenerCounts.exit + 1
+      });
+    });
+
+    it('cleans up added listeners after `.cleanup`', function() {
+      builder = new Builder({
+        setupBroccoliBuilder: setupBroccoliBuilder,
+        project: new MockProject()
+      });
+
+      return builder.cleanup()
+        .then(function() {
+          var actualListeners = getListenerCounts();
+          expect(actualListeners).to.eql(originalListenerCounts);
+        })
+        .finally(function() {
+          // we have already called `.cleanup`, calling it again
+          // in the global afterEach triggers an error
+          builder = null;
+        });
+    });
+  });
+
   describe('._reportVizInfo', function() {
     var builder;
     var instrumentationWasCalled;
@@ -70,7 +135,7 @@ describe('models/builder.js', function() {
     var ui;
     beforeEach(function() {
       var addon1 = { };
-      var addon2 = { }
+      var addon2 = { };
 
       instrumentationWasCalled = 0;
 
@@ -85,7 +150,7 @@ describe('models/builder.js', function() {
           ui: new MockUI()
         },
         setupBroccoliBuilder: setupBroccoliBuilder
-      })
+      });
     });
 
     it('invokes on addons that have [BUILD_INSTRUMENTATION]', function() {
@@ -423,7 +488,6 @@ describe('models/builder.js', function() {
 
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
-        cleanup: function() { },
         trapWindowsSignals: trapWindowsSignals,
         project: new MockProject()
       });
@@ -453,6 +517,8 @@ describe('models/builder.js', function() {
 
       builder.trapSignals();
       td.verify(trapWindowsSignals(), {times: 0, ignoreExtraArgs: true});
+
+      return builder.cleanup();
     });
   });
 
