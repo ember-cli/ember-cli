@@ -506,7 +506,7 @@ PackageCache.prototype = {
     links = links || [];
 
     // Save metadata about the PackageCache invocation in the manifest.
-    var packageManagerVersion = require(type + '/package.json').version;
+    var packageManagerVersion = commands[type].invoke('--version').stdout;
 
     var jsonManifest = JSON.parse(manifest);
     jsonManifest._packageCache = {

@@ -355,46 +355,60 @@ describe('PackageCache', function() {
   });
 
   it('create', function() {
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     var dir = testPackageCache.create('npm', 'npm', '{}');
     var manifestFilePath = path.join(dir, 'package.json');
 
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('install'), { times: 1, ignoreExtraArgs: true });
-    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 2, ignoreExtraArgs: true });
 
     expect(file(manifestFilePath)).to.exist; // Sanity check.
     expect(file(manifestFilePath)).to.contain('_packageCache');
-
     td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{}');
-    td.verify(npm(), { times: 0, ignoreExtraArgs: true });
-
-    td.reset();
-    testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
-    td.verify(npm('install'), { ignoreExtraArgs: true });
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm(), { times: 1, ignoreExtraArgs: true });
-
     td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
-    td.verify(npm(), { times: 0, ignoreExtraArgs: true });
-
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('install'), { ignoreExtraArgs: true });
+    td.verify(npm(), { times: 2, ignoreExtraArgs: true });
     td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
+    td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink'), { ignoreExtraArgs: true });
     td.verify(npm('install'), { ignoreExtraArgs: true });
     td.verify(npm('link'), { ignoreExtraArgs: true });
-    td.verify(npm(), { times: 3, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 4, ignoreExtraArgs: true });
+    td.reset();
 
     // Correctly catches linked versions.
-    td.reset();
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
-    td.verify(npm(), { times: 0, ignoreExtraArgs: true });
-
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{ "dependencies": "changed again" }', ['ember-cli']);
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink'), { ignoreExtraArgs: true });
     td.verify(npm('install'), { ignoreExtraArgs: true });
     td.verify(npm('link'), { ignoreExtraArgs: true });
-    td.verify(npm(), { times: 3, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 4, ignoreExtraArgs: true });
   });
 
   it('get', function() {
@@ -429,19 +443,24 @@ describe('PackageCache', function() {
   });
 
   it('downgrades on 0.12', function() {
+    td.when(yarn('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+
     testPackageCache.create('one', 'yarn', '{}');
     testPackageCache.create('two', 'yarn', '{}');
     testPackageCache.create('three', 'yarn', '{}');
 
     if (process.version.indexOf('v0.12') === 0) {
-      td.verify(npm(), { times: 3, ignoreExtraArgs: true });
+      td.verify(npm(), { times: 6, ignoreExtraArgs: true });
     } else {
-      td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
+      td.verify(yarn(), { times: 6, ignoreExtraArgs: true });
     }
 
   });
 
   it('succeeds at a clean install', function() {
+    this.timeout(4000);
+
     // Intentionally turning off testing mode.
     testPackageCache.__resetForTesting();
 
