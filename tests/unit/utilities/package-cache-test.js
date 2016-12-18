@@ -138,21 +138,131 @@ describe('PackageCache', function() {
       }
     });
 
+    var manifestEmptyKey = JSON.stringify({
+      "name": "foo",
+      "dependencies": {
+        "ember": "2.9.0",
+        "ember-cli-shims": "0.1.3"
+      },
+      devDependencies: {}
+    });
+
     testPackageCache._writeManifest('bower', 'bower', manifest);
 
     expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
     expect(testPackageCache._checkManifest('bower', 'bower', manifestShuffled)).to.be.true;
+    expect(testPackageCache._checkManifest('bower', 'bower', manifestEmptyKey)).to.be.true;
     expect(testPackageCache._checkManifest('bower', 'bower', '{ "dependencies": "different" }')).to.be.false;
 
     testPackageCache.destroy('bower');
   });
 
   it('_removeLinks', function() {
+    var manifest = {
+      _packageCache: {
+        links: ['one', 'two', 'three', 'alpha'] // Will blindly unlink alpha.
+      },
+      dependencies: {
+        one: '1.0.0',
+        two: '2.0.0',
+        three: '3.0.0',
+        four: '4.0.0' // Doesn't remove non-linked items.
+      },
+      devDependencies: {
+        one: '1.0.0' // Handles duplicates correctly.
+      }
+    };
 
+    var result = {
+      _packageCache: {
+        links: ['one', 'two', 'three', 'alpha'],
+        originals: {
+          dependencies: {
+            one: '1.0.0',
+            two: '2.0.0',
+            three: '3.0.0',
+            four: '4.0.0'
+          },
+          devDependencies: {
+            one: '1.0.0'
+          }
+        }
+      },
+      dependencies: {
+        four: '4.0.0'
+      },
+      devDependencies: {}
+    };
+
+    var readManifest = td.function('_readManifest');
+    td.when(readManifest('label', 'npm')).thenReturn(JSON.stringify(manifest));
+    testPackageCache._readManifest = readManifest;
+
+    var writeManifest = td.function('_writeManifest');
+    testPackageCache._writeManifest = writeManifest;
+
+    testPackageCache._removeLinks('label', 'npm');
+    td.verify(writeManifest('label', 'npm', JSON.stringify(result)), { times: 1, ignoreExtraArgs: true });
+
+    td.verify(npm('unlink', 'one'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink', 'two'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink', 'three'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink', 'alpha'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink'), { times: 4, ignoreExtraArgs: true });
   });
 
   it('_restoreLinks', function() {
+    var manifest = {
+      _packageCache: {
+        links: ['one', 'two', 'three', 'alpha'],
+        originals: {
+          dependencies: {
+            one: '1.0.0',
+            two: '2.0.0',
+            three: '3.0.0',
+            four: '4.0.0'
+          },
+          devDependencies: {
+            one: '1.0.0'
+          }
+        }
+      },
+      dependencies: {
+        four: '4.0.0'
+      },
+      devDependencies: {}
+    };
 
+    var result = {
+      _packageCache: {
+        links: ['one', 'two', 'three', 'alpha'] // Will blindly link alpha.
+      },
+      dependencies: {
+        one: '1.0.0',
+        two: '2.0.0',
+        three: '3.0.0',
+        four: '4.0.0' // Order matters!
+      },
+      devDependencies: {
+        one: '1.0.0' // Restores duplicates.
+      }
+    };
+
+    var readManifest = td.function('_readManifest');
+    td.when(readManifest('label', 'npm')).thenReturn(JSON.stringify(manifest));
+    testPackageCache._readManifest = readManifest;
+
+    var writeManifest = td.function('_writeManifest');
+    testPackageCache._writeManifest = writeManifest;
+
+    testPackageCache._restoreLinks('label', 'npm');
+    td.verify(writeManifest('label', 'npm', JSON.stringify(result)), { times: 1, ignoreExtraArgs: true });
+
+    td.verify(npm('link', 'one'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link', 'two'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link', 'three'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link', 'alpha'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link'), { times: 4, ignoreExtraArgs: true });
   });
 
   describe('_install', function() {

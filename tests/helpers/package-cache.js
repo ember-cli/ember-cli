@@ -3,7 +3,6 @@
 var fs = require('fs-extra');
 var path = require('path');
 var quickTemp = require('quick-temp');
-var merge = require('ember-cli-lodash-subset').merge;
 var Configstore = require('configstore');
 var CommandGenerator = require('./command-generator');
 var stableStringify = require('json-stable-stringify');
@@ -14,8 +13,18 @@ var originalWorkingDirectory = process.cwd();
 // attempted to be upgraded.
 var upgraded = {};
 
-// List of keys which can result in things being installed.
-var DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
+/*
+List of keys which could possibly result in the package manager installing
+something. This is the "err on the side of caution" approach. It actually
+doesn't matter if something is or isn't automatically installed in any of the
+cases where we use this.
+*/
+var DEPENDENCY_KEYS = [
+  'dependencies',
+  'devDependencies',
+  'peerDependencies',
+  'optionalDependencies'
+];
 
 /**
  * The `bower` command helper.
@@ -182,7 +191,7 @@ function checkDowngrade(type) {
  *
  * ```
  * var CommandGenerator = require('./command-generator');
- * var yarn = new CommandGenerator(require.resolve('yarn/bin/yarn.js'));
+ * var yarn = new CommandGenerator('yarn');
  *
  * var dir = cache.create('your-cache', 'yarn', '{ ... }');
  *
@@ -351,22 +360,23 @@ PackageCache.prototype = {
     }
 
     // Remove things from the manifest which we know we'll link back in.
-    var removed = {};
+    var originals = {};
     var key;
     for (i = 0; i < DEPENDENCY_KEYS.length; i++) {
       key = DEPENDENCY_KEYS[i];
+      if (jsonManifest[key]) {
+        // Get a clone of the original object.
+        originals[key] = JSON.parse(JSON.stringify(jsonManifest[key]));
+      }
       for (var j = 0; j < links.length; j++) {
         packageName = links[j];
         if (jsonManifest[key] && jsonManifest[key][packageName]) {
-          removed[key] = removed[key] || {};
-          removed[key][packageName] = jsonManifest[key][packageName];
-
           delete jsonManifest[key][packageName];
         }
       }
     }
 
-    jsonManifest._packageCache.removed = removed;
+    jsonManifest._packageCache.originals = originals;
     var manifest = JSON.stringify(jsonManifest);
 
     this._writeManifest(label, type, manifest);
@@ -397,11 +407,16 @@ PackageCache.prototype = {
       commands[type].invoke('link', packageName, { cwd: this.dirs[label] });
     }
 
-    // Promote any removed items back into the manifest.
-    jsonManifest = merge(jsonManifest, jsonManifest._packageCache.removed);
+    // Restore to original state.
+    var keys = Object.keys(jsonManifest._packageCache.originals);
+    var key;
+    for (i = 0; i < keys.length; i++) {
+      key = keys[i];
+      jsonManifest[key] = jsonManifest._packageCache.originals[key];
+    }
 
-    // Get rid of the key.
-    delete jsonManifest._packageCache.removed;
+    // Get rid of the originals.
+    delete jsonManifest._packageCache.originals;
 
     // Serialize back to disk.
     var manifest = JSON.stringify(jsonManifest);
@@ -430,10 +445,15 @@ PackageCache.prototype = {
     // Invalidate the cache based off the private _packageCache key as well.
     var keys = [].concat(DEPENDENCY_KEYS, '_packageCache');
 
-    var key;
+    var key, before, after;
     for (var i = 0; i < keys.length; i++) {
       key = keys[i];
-      if (stableStringify(parsedCached[key]) !== stableStringify(parsedNew[key])) {
+
+      // Empty keys are identical to undefined keys.
+      before = stableStringify(parsedCached[key]) || '{}';
+      after = stableStringify(parsedNew[key]) || '{}';
+
+      if (before !== after) {
         return false;
       }
     }
@@ -498,7 +518,7 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file for the cache.
-   * @param {Array} links Packages to elide for install and link.
+   * @param {Array} links Packages to omit for install and link.
    * @return {String} The directory on disk which contains the cache.
    */
   create: function(label, type, manifest, links) {
