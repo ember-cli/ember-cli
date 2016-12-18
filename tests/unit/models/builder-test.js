@@ -45,6 +45,24 @@ var mockBuildResultsWithHeimdallSubgraph = {
 describe('models/builder.js', function() {
   var addon, builder, buildResults, tmpdir;
 
+  function setupBroccoliBuilder() {
+    this.builder = {
+      build: function () {
+        return Promise.resolve('build results');
+      },
+
+      cleanup: function() {
+        return Promise.resolve('cleanup result');
+      }
+    };
+  }
+
+  afterEach(function() {
+    if (builder) {
+      return builder.cleanup();
+    }
+  });
+
   describe('._reportVizInfo', function() {
     var builder;
     var instrumentationWasCalled;
@@ -63,10 +81,10 @@ describe('models/builder.js', function() {
 
       builder = new Builder({
         project: {
-          addons: [ addon1, addon2 ]
+          addons: [ addon1, addon2 ],
+          ui: new MockUI()
         },
-        setupBroccoliBuilder: function() { },
-        trapSignals: function() { }
+        setupBroccoliBuilder: setupBroccoliBuilder
       })
     });
 
@@ -404,7 +422,7 @@ describe('models/builder.js', function() {
       var trapWindowsSignals = td.function();
 
       builder = new Builder({
-        setupBroccoliBuilder: function() { },
+        setupBroccoliBuilder: setupBroccoliBuilder,
         cleanup: function() { },
         trapWindowsSignals: trapWindowsSignals,
         project: new MockProject()
@@ -428,8 +446,7 @@ describe('models/builder.js', function() {
       var trapWindowsSignals = td.function();
 
       builder = new Builder({
-        setupBroccoliBuilder: function() { },
-        cleanupOnExit: function() { },
+        setupBroccoliBuilder: setupBroccoliBuilder,
         trapWindowsSignals: trapWindowsSignals,
         project: new MockProject()
       });
@@ -444,9 +461,7 @@ describe('models/builder.js', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         builder = new Builder({
-          setupBroccoliBuilder: function() { },
-          trapSignals: function() { },
-          cleanupOnExit: function() { },
+          setupBroccoliBuilder: setupBroccoliBuilder,
           project: new MockProject()
         });
       });
@@ -471,9 +486,7 @@ describe('models/builder.js', function() {
       command = new BuildCommand(commandOptions());
 
       builder = new Builder({
-        setupBroccoliBuilder: function() { },
-        trapSignals: function() { },
-        cleanupOnExit: function() { },
+        setupBroccoliBuilder: setupBroccoliBuilder,
         project: new MockProject()
       });
     });
@@ -518,15 +531,8 @@ describe('models/builder.js', function() {
       var command = new BuildCommand(commandOptions());
 
       builder = new Builder({
-        setupBroccoliBuilder: function() { },
-        trapSignals: function() { },
-        cleanupOnExit: function() { },
+        setupBroccoliBuilder: setupBroccoliBuilder,
         project: new MockProject(),
-        builder: {
-          build: function () {
-            return Promise.resolve('build results');
-          }
-        },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
       });
     });
@@ -599,18 +605,20 @@ describe('models/builder.js', function() {
       project.addons = [addon];
 
       builder = new Builder({
-        setupBroccoliBuilder: function() { },
-        trapSignals:          function() { },
-        cleanupOnExit:        function() { },
+        setupBroccoliBuilder: function() {},
         builder: {
           build: function() {
             hooksCalled.push('build');
 
             return Promise.resolve(buildResults);
+          },
+
+          cleanup: function() {
+            return Promise.resolve('cleanup results');
           }
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
-        project: project,
+        project: project
       });
 
       buildResults = 'build results';
