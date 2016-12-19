@@ -185,7 +185,7 @@ describe('broccoli/ember-app', function() {
       });
 
       it('keeps ember-resolver.js in vendorFiles when NPM ember-resolver is not installed, but is present in bower.json', function() {
-        project.bowerDependencies = function() { return { 'ember': {}, 'ember-resolver': {} }; }
+        project.bowerDependencies = function() { return { 'ember': {}, 'ember-resolver': {} }; };
         var app = new EmberApp({
           project: project,
           registry: {
@@ -197,7 +197,7 @@ describe('broccoli/ember-app', function() {
       });
 
       it('removes ember-resolver.js from vendorFiles when not in bower.json and NPM ember-resolver not installed', function() {
-        project.bowerDependencies = function() { return { 'ember': {} }; }
+        project.bowerDependencies = function() { return { 'ember': {} }; };
         var app = new EmberApp({
           project: project,
           registry: {
@@ -987,7 +987,7 @@ describe('broccoli/ember-app', function() {
 
     expect(function() {
       app.import('vendor/b/c/foo.js', { type: 'javascript'});
-    }).to.throw(/You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/)
+    }).to.throw(/You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/);
   });
 
   describe('_resolveLocal', function() {
@@ -1050,7 +1050,7 @@ describe('broccoli/ember-app', function() {
         // we are "spying and mocking here" so to ensure we are testing our own
         // "wiring" not the implementation of our dependencies e.g. broccoli-concat
         app._concatFiles = function(tree, options) {
-          count++
+          count++;
           args.push(options);
           return tree;
         };
@@ -1152,9 +1152,9 @@ describe('broccoli/ember-app', function() {
         app.import('files/a.js', { type: 'test', prepend: true });
         app.import('files/a.js', { type: 'test' });
 
-        app.import('files/c.css', { type: 'test' })
-        app.import('files/b.css', { type: 'test' })
-        app.import('files/a.css', { type: 'test' })
+        app.import('files/c.css', { type: 'test' });
+        app.import('files/b.css', { type: 'test' });
+        app.import('files/a.css', { type: 'test' });
         app.import('files/a.css', { type: 'test', prepend: true });
 
         app.testFiles('some-tree'); // run

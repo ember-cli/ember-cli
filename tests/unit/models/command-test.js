@@ -7,7 +7,7 @@ var processHelpString = require('../../helpers/process-help-string');
 var assign            = require('ember-cli-lodash-subset').assign;
 var Yam               = require('yam');
 var EOL               = require('os').EOL;
-var td = require('testdouble')
+var td = require('testdouble');
 
 var forEachWithPropertyStub;
 var Command = proxyquire('../../../lib/models/command', {

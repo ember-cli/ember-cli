@@ -81,7 +81,7 @@ describe('Unit: in-repo-addon blueprint', function() {
       entity: {
         name: 'test-entity-name'
       }
-    }
+    };
   });
 
   it('adds to paths', function() {

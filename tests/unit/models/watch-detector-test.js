@@ -52,7 +52,7 @@ describe('WatchDetector', function() {
 
     // we could extend this to test also if change events are triggered or not..
     it('reports YES if nothing throws', function() {
-      fs.watch = function() { return { close: function() { }}};
+      fs.watch = function() { return { close: function() { }};};
 
       expect(subject.testIfNodeWatcherAppearsToWork()).to.be.true;
     });
@@ -72,7 +72,7 @@ describe('WatchDetector', function() {
         expect(option).to.have.property('watcher', 'watchman');
         expect(option.watchmanInfo).to.have.property('version');
         expect(option.watchmanInfo).to.have.property('canNestRoots');
-        expect(option.watchmanInfo).to.have.property('enabled', true)
+        expect(option.watchmanInfo).to.have.property('enabled', true);
         expect(ui.output).not.to.match(/Could not start watchman/);
         expect(ui.output).not.to.match(/fell back to: "node"/);
         expect(ui.output).not.to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
@@ -86,10 +86,10 @@ describe('WatchDetector', function() {
         });
 
         it('false back to node if it can', function() {
-          fs.watch = function() { return { close: function() { }}};
+          fs.watch = function() { return { close: function() { }};};
 
           var option = subject.findBestWatcherOption({ watcher: 'watchman' });
-          expect(option.watchmanInfo).to.have.property('enabled', false)
+          expect(option.watchmanInfo).to.have.property('enabled', false);
           expect(option).to.have.property('watcher', 'node');
           expect(option.watchmanInfo).to.have.property('version');
           expect(option.watchmanInfo).to.have.property('canNestRoots');
@@ -105,7 +105,7 @@ describe('WatchDetector', function() {
 
           var option = subject.findBestWatcherOption({ watcher: 'watchman' });
           expect(option).to.have.property('watcher', 'polling');
-          expect(option.watchmanInfo).to.have.property('enabled', false)
+          expect(option.watchmanInfo).to.have.property('enabled', false);
           expect(option.watchmanInfo).to.have.property('version');
           expect(option.watchmanInfo).to.have.property('canNestRoots');
           expect(ui.output).to.match(/Could not start watchman/);
@@ -119,15 +119,15 @@ describe('WatchDetector', function() {
       it('simply works', function() {
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'polling' });
-        expect(option.watchmanInfo).to.have.property('enabled', false)
+        expect(option.watchmanInfo).to.have.property('enabled', false);
         expect(option).to.have.property('watcher', 'polling');
         expect(ui.output).to.eql('');
-      })
+      });
     });
 
     describe('input preference.watcher === node', function() {
       it('chooses node, if everything  seems ok', function() {
-        fs.watch = function() { return { close: function() { }}};
+        fs.watch = function() { return { close: function() { }};};
 
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'node' });
@@ -156,7 +156,7 @@ describe('WatchDetector', function() {
         var option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'polling');
         expect(ui.output).to.eql('was unable to use: "node", fell back to: "polling"' + EOL);
-      })
+      });
     });
 
   });
@@ -169,7 +169,7 @@ describe('WatchDetector', function() {
         childProcess.execSync = function() {
           throw new Error();
         };
-        fs.watch = function() { return { close: function() { }}};
+        fs.watch = function() { return { close: function() { }};};
 
         var result = subject.checkWatchman();
         expect(result).to.have.property('watcher', 'node');
@@ -178,7 +178,7 @@ describe('WatchDetector', function() {
 
       it('false: shows the "watchman not found, falling back to XYZ message"', function() {
         subject.watchmanSupportsPlatform = false;
-        fs.watch = function() { return { close: function() { }}};
+        fs.watch = function() { return { close: function() { }};};
 
         childProcess.execSync = function() {
           throw new Error();
