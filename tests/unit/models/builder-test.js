@@ -24,6 +24,24 @@ var Heimdall = require('heimdalljs/heimdall');
 var walkSync = require('walk-sync');
 var itr2Array = require('../../helpers/itr2array');
 
+var mockBuildResultsWithHeimdallSubgraph = {
+  graph: {
+    __heimdall__: {
+      toJSONSubgraph: function () {
+        return [{
+          _id: 1,
+          id: { name: 'a' },
+          children: [2],
+        }, {
+          _id: 2,
+          id: { name: 'b' },
+          children: [],
+        }];
+      }
+    }
+  }
+};
+
 describe('models/builder.js', function() {
   var addon, builder, buildResults, tmpdir;
 
@@ -606,6 +624,8 @@ describe('models/builder.js', function() {
       });
 
       afterEach(function() {
+        delete process.env.EMBER_CLI_INSTRUMENTATION;
+
         process.chdir(root);
         return remove(tmproot);
       });
@@ -633,23 +653,7 @@ describe('models/builder.js', function() {
         var mockVizInfo = Object.create(null);
         var mockResultAnnotation = Object.create(null);
 
-        buildResults = {
-          graph: {
-            __heimdall__: {
-              toJSONSubgraph: function () {
-                return [{
-                  _id: 1,
-                  id: { name: 'a' },
-                  children: [2],
-                }, {
-                  _id: 2,
-                  id: { name: 'b' },
-                  children: [],
-                }];
-              }
-            }
-          }
-        };
+        buildResults = mockBuildResultsWithHeimdallSubgraph;
 
         var computeVizInfo = td.function();
         td.when(
@@ -658,7 +662,7 @@ describe('models/builder.js', function() {
 
         builder._computeVizInfo = computeVizInfo;
 
-        return builder.build('stringdir', mockResultAnnotation).then(function() {
+        return builder.build(null, mockResultAnnotation).then(function() {
           expect(hooksCalled).to.include('buildInstrumentation');
           expect(instrumentationArg).to.equal(mockVizInfo);
 
@@ -712,9 +716,18 @@ describe('models/builder.js', function() {
       });
     });
 
-    it('hooks are called in the right order', function() {
+    it('hooks are called in the right order without visualization', function() {
       return builder.build().then(function() {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady']);
+      });
+    });
+
+    it('hooks are called in the right order with visualization', function() {
+      process.env.EMBER_CLI_INSTRUMENTATION = '1';
+      buildResults = mockBuildResultsWithHeimdallSubgraph;
+
+      return builder.build(null, {}).then(function() {
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildInstrumentation', 'outputReady']);
       });
     });
 
