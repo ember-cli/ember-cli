@@ -22,13 +22,24 @@ cache:
     - $HOME/.cache # includes bower's cache
 
 env:
-  - NPM_SCRIPT=test-all:cover
+  - TEST_COMMAND=test-all
 
 matrix:
   fast_finish: true
+
+  # We run our additional tests against the most-recent LTS.
+  # Rather than make the support unclear at the top, we'll manually exclude
+  # the default build and swap in the different commands.
+  exclude:
+  - node_js: "6"
+    env: TEST_COMMAND=test-all
+
+  # This is the reworking of the tests we run against the most-recent LTS.
   include:
   - node_js: "6"
-    env: SIMULATE_EMBER_CLI_BETA=true NPM_SCRIPT=test
+    env: TEST_COMMAND=test-all:cover
+  - node_js: "6"
+    env: SIMULATE_EMBER_CLI_BETA=true
 
 before_install:
   # Once we no longer support Node.js 0.12 we can drop this entire section.
@@ -40,15 +51,9 @@ before_install:
 script:
   # For now we will use `npm` to kick off the test suite.
   # Can switch to `yarn` once we no longer support Node.js 0.12:
-  # - yarn run test-all:cover
-  - npm run-script test-all:cover
-  - npm run-script $NPM_SCRIPT
+  # - yarn run $TEST_COMMAND
+  - npm run-script $TEST_COMMAND
 
 after_success:
-  # For now we will use `npm` for globals.
-  # Can switch to `yarn` once we no longer support Node.js 0.12:
-  # - travis_retry yarn global add coveralls codeclimate-test-reporter
-  - travis_retry npm install -g coveralls codeclimate-test-reporter
-  - cat coverage/lcov.info | codeclimate-test-reporter
-  - cat coverage/lcov.info | coveralls
+  - if [[ $TEST_COMMAND == 'test-all:cover' ]]; then .travis/codecoverage.sh; fi
   - .travis/deploy.sh
