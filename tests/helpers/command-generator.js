@@ -41,10 +41,10 @@ CommandGenerator.prototype = {
       options = args.pop();
     }
 
-    this._invoke(args, options);
+    return this._invoke(args, options);
   },
 
   _invoke: function(args, options) {
-    execa.sync(this.program, args, options);
+    return execa.sync(this.program, args, options);
   }
 };

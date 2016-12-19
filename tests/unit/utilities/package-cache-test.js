@@ -5,11 +5,13 @@ var path = require('path');
 var Configstore = require('configstore');
 
 var PackageCache = require('../../../tests/helpers/package-cache');
+var symlinkOrCopySync = require('symlink-or-copy').sync;
 
 var td = require('testdouble');
 var chai = require('../../chai');
 var expect = chai.expect;
 var file = chai.file;
+var dir = chai.dir;
 
 describe('PackageCache', function() {
   var testPackageCache;
@@ -37,18 +39,12 @@ describe('PackageCache', function() {
     fs.unlinkSync(testPackageCache._conf.path);
   });
 
-  it('defaults options', function() {
+  it('defaults rootPath', function() {
     testPackageCache = new PackageCache();
-    expect(testPackageCache.options.linkEmberCLI).to.be.false;
+    expect(testPackageCache.rootPath).to.equal(process.cwd());
 
-    testPackageCache = new PackageCache({});
-    expect(testPackageCache.options.linkEmberCLI).to.be.false;
-
-    testPackageCache = new PackageCache({ linkEmberCLI: false });
-    expect(testPackageCache.options.linkEmberCLI).to.be.false;
-
-    testPackageCache = new PackageCache({ linkEmberCLI: true });
-    expect(testPackageCache.options.linkEmberCLI).to.be.true;
+    testPackageCache = new PackageCache('./');
+    expect(testPackageCache.rootPath).to.equal('./');
   });
 
   it('successfully uses getter/setter', function() {
@@ -144,13 +140,217 @@ describe('PackageCache', function() {
       }
     });
 
+    var manifestEmptyKey = JSON.stringify({
+      "name": "foo",
+      "dependencies": {
+        "ember": "2.9.0",
+        "ember-cli-shims": "0.1.3"
+      },
+      devDependencies: {}
+    });
+
     testPackageCache._writeManifest('bower', 'bower', manifest);
 
     expect(testPackageCache._checkManifest('bower', 'bower', manifest)).to.be.true;
     expect(testPackageCache._checkManifest('bower', 'bower', manifestShuffled)).to.be.true;
+    expect(testPackageCache._checkManifest('bower', 'bower', manifestEmptyKey)).to.be.true;
     expect(testPackageCache._checkManifest('bower', 'bower', '{ "dependencies": "different" }')).to.be.false;
 
     testPackageCache.destroy('bower');
+  });
+
+  it('_removeLinks', function() {
+    // This is our package that is linked in.
+    var srcDir = path.join(process.cwd(), 'tmp', 'beta');
+    expect(dir(srcDir)).to.not.exist;
+    fs.outputFileSync(path.join(srcDir, 'package.json'), 'beta');
+    expect(file(path.join(srcDir, 'package.json'))).to.contain('beta');
+
+    // This is the directory we got "back" from `PackageCache.create`.
+    var targetDir = path.join(process.cwd(), 'tmp', 'target');
+    expect(dir(targetDir)).to.not.exist;
+    testPackageCache._conf.set('label', targetDir);
+    fs.mkdirsSync(targetDir);
+    expect(dir(targetDir)).to.exist;
+
+    // This is the directory which would be created as a link.
+    var eventualDir = path.join(targetDir, 'node_modules', 'beta');
+    fs.mkdirsSync(path.dirname(eventualDir));
+    expect(dir(path.dirname(eventualDir))).to.exist;
+    expect(dir(eventualDir)).to.not.exist;
+
+    // Link or copy in the package.
+    symlinkOrCopySync(srcDir, eventualDir);
+    expect(file(path.join(eventualDir, 'package.json'))).to.contain('beta');
+
+    var manifest = {
+      _packageCache: {
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha',
+          { name: 'beta', path: srcDir }
+        ]
+      },
+      dependencies: {
+        beta: '1.0.0',
+        one: '1.0.0',
+        two: '2.0.0',
+        three: '3.0.0',
+        four: '4.0.0' // Doesn't remove non-linked items.
+      },
+      devDependencies: {
+        one: '1.0.0' // Handles duplicates correctly.
+      }
+    };
+
+    var result = {
+      _packageCache: {
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha', // Will blindly unlink alpha.
+          { name: 'beta', path: srcDir }
+        ],
+        originals: {
+          dependencies: {
+            beta: '1.0.0',
+            one: '1.0.0',
+            two: '2.0.0',
+            three: '3.0.0',
+            four: '4.0.0'
+          },
+          devDependencies: {
+            one: '1.0.0'
+          }
+        }
+      },
+      dependencies: {
+        four: '4.0.0'
+      },
+      devDependencies: {}
+    };
+
+    var readManifest = td.function('_readManifest');
+    td.when(readManifest('label', 'npm')).thenReturn(JSON.stringify(manifest));
+    testPackageCache._readManifest = readManifest;
+
+    var writeManifest = td.function('_writeManifest');
+    testPackageCache._writeManifest = writeManifest;
+
+    testPackageCache._removeLinks('label', 'npm');
+    td.verify(writeManifest('label', 'npm', JSON.stringify(result)), { times: 1, ignoreExtraArgs: true });
+
+    td.verify(npm('unlink', 'one'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink', 'two'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink', 'three'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink', 'alpha'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink'), { times: 4, ignoreExtraArgs: true });
+
+    // Confirms manual unlink behavior.
+    expect(dir(eventualDir)).to.not.exist;
+
+    // Ensures we don't delete the other side of the symlink.
+    expect(dir(srcDir)).to.exist;
+
+    // Clean up.
+    fs.removeSync(srcDir);
+    fs.removeSync(targetDir);
+  });
+
+  it('_restoreLinks', function() {
+    // This is our package that is linked in.
+    var srcDir = path.join(process.cwd(), 'tmp', 'beta');
+    expect(dir(srcDir)).to.not.exist;
+    fs.outputFileSync(path.join(srcDir, 'package.json'), 'beta');
+    expect(file(path.join(srcDir, 'package.json'))).to.contain('beta');
+
+    // This is the directory we got "back" from `PackageCache.create`.
+    var targetDir = path.join(process.cwd(), 'tmp', 'target');
+    expect(dir(targetDir)).to.not.exist;
+    testPackageCache._conf.set('label', targetDir);
+    fs.mkdirsSync(targetDir);
+    expect(dir(targetDir)).to.exist;
+
+    // This is the directory which will be created as a link.
+    var eventualDir = path.join(targetDir, 'node_modules', 'beta');
+    expect(dir(eventualDir)).to.not.exist;
+
+    var manifest = {
+      _packageCache: {
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha',
+          { name: 'beta', path: srcDir }
+        ],
+        originals: {
+          dependencies: {
+            beta: '1.0.0',
+            one: '1.0.0',
+            two: '2.0.0',
+            three: '3.0.0',
+            four: '4.0.0'
+          },
+          devDependencies: {
+            one: '1.0.0'
+          }
+        }
+      },
+      dependencies: {
+        four: '4.0.0'
+      },
+      devDependencies: {}
+    };
+
+    var result = {
+      _packageCache: {
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha', // Will blindly link alpha.
+          { name: 'beta', path: srcDir }
+        ],
+      },
+      dependencies: {
+        beta: '1.0.0',
+        one: '1.0.0',
+        two: '2.0.0',
+        three: '3.0.0',
+        four: '4.0.0' // Order matters!
+      },
+      devDependencies: {
+        one: '1.0.0' // Restores duplicates.
+      }
+    };
+
+    var readManifest = td.function('_readManifest');
+    td.when(readManifest('label', 'npm')).thenReturn(JSON.stringify(manifest));
+    testPackageCache._readManifest = readManifest;
+
+    var writeManifest = td.function('_writeManifest');
+    testPackageCache._writeManifest = writeManifest;
+
+    testPackageCache._restoreLinks('label', 'npm');
+    td.verify(writeManifest('label', 'npm', JSON.stringify(result)), { times: 1, ignoreExtraArgs: true });
+
+    td.verify(npm('link', 'one'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link', 'two'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link', 'three'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link', 'alpha'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('link'), { times: 4, ignoreExtraArgs: true });
+
+    // Confirms manual link behavior.
+    expect(dir(srcDir)).to.exist;
+    expect(file(path.join(eventualDir, 'package.json'))).to.contain('beta');
+
+    // Clean up.
+    fs.removeSync(srcDir);
+    fs.removeSync(targetDir);
   });
 
   describe('_install', function() {
@@ -164,7 +364,7 @@ describe('PackageCache', function() {
 
     afterEach(function() {
       td.reset();
-      testPackageCache.options.linkEmberCLI = false;
+      testPackageCache.destroy('label');
     });
 
     it('Triggers install.', function() {
@@ -174,18 +374,18 @@ describe('PackageCache', function() {
     });
 
     it('Attempts to link when it is supposed to.', function() {
-      testPackageCache.options.linkEmberCLI = true;
+      // Add a link.
+      testPackageCache._writeManifest('label', 'npm', JSON.stringify({
+        _packageCache: {
+          links: ['ember-cli']
+        }
+      }));
       testPackageCache._install('label', 'npm');
+
+      td.verify(npm('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
       td.verify(npm('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
-      td.verify(npm(), { times: 2, ignoreExtraArgs: true });
-    });
-
-    it('Doesn\'t trigger link for `bower`.', function() {
-      testPackageCache.options.linkEmberCLI = true;
-      testPackageCache._install('label', 'bower');
-      td.verify(bower('install', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
+      td.verify(npm(), { times: 3, ignoreExtraArgs: true });
     });
 
   });
@@ -199,12 +399,11 @@ describe('PackageCache', function() {
     beforeEach(function() {
       label = 'npm-upgrade-test-' + (testCounter++);
       testPackageCache._conf.set(label, 'hello');
-      testPackageCache.options.linkEmberCLI = false;
     });
 
     afterEach(function() {
       td.reset();
-      testPackageCache._conf.delete(label);
+      testPackageCache.destroy(label);
     });
 
     it('Trigger upgrade.', function() {
@@ -216,7 +415,12 @@ describe('PackageCache', function() {
     });
 
     it('Make sure npm unlinks, installs, re-links.', function() {
-      testPackageCache.options.linkEmberCLI = true;
+      // Add a link.
+      testPackageCache._writeManifest(label, 'npm', JSON.stringify({
+        _packageCache: {
+          links: ['ember-cli']
+        }
+      }));
       testPackageCache._upgrade(label, 'npm');
       td.verify(npm('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
@@ -253,12 +457,11 @@ describe('PackageCache', function() {
     beforeEach(function() {
       label = 'yarn-upgrade-test-' + (testCounter++);
       testPackageCache._conf.set(label, 'hello');
-      testPackageCache.options.linkEmberCLI = false;
     });
 
     afterEach(function() {
       td.reset();
-      testPackageCache._conf.delete(label);
+      testPackageCache.destroy(label);
     });
 
     it('Trigger upgrade.', function() {
@@ -268,7 +471,12 @@ describe('PackageCache', function() {
     });
 
     it('Make sure it unlinks, upgrades, re-links.', function() {
-      testPackageCache.options.linkEmberCLI = true;
+      // Add a link.
+      testPackageCache._writeManifest(label, 'yarn', JSON.stringify({
+        _packageCache: {
+          links: ['ember-cli']
+        }
+      }));
       testPackageCache._upgrade(label, 'yarn');
       td.verify(yarn('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
@@ -301,12 +509,11 @@ describe('PackageCache', function() {
     beforeEach(function() {
       label = 'bower-upgrade-test-' + (testCounter++);
       testPackageCache._conf.set(label, 'hello');
-      testPackageCache.options.linkEmberCLI = false;
     });
 
     afterEach(function() {
       td.reset();
-      testPackageCache._conf.delete(label);
+      testPackageCache.destroy(label);
     });
 
     it('Trigger upgrade.', function() {
@@ -315,11 +522,18 @@ describe('PackageCache', function() {
       td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
 
-    it('Make sure `bower` doesn\'t trigger link.', function() {
-      testPackageCache.options.linkEmberCLI = true;
+    it('Make sure it unlinks, updates, re-links.', function() {
+      // Add a link.
+      testPackageCache._writeManifest(label, 'bower', JSON.stringify({
+        _packageCache: {
+          links: ['ember-cli']
+        }
+      }));
       testPackageCache._upgrade(label, 'bower');
+      td.verify(bower('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
-      td.verify(bower(), { times: 1, ignoreExtraArgs: true });
+      td.verify(bower('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+      td.verify(bower(), { times: 3, ignoreExtraArgs: true });
     });
 
     it('Make sure multiple invocations lock out.', function() {
@@ -339,31 +553,63 @@ describe('PackageCache', function() {
   });
 
   it('create', function() {
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     var dir = testPackageCache.create('npm', 'npm', '{}');
     var manifestFilePath = path.join(dir, 'package.json');
 
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('install'), { times: 1, ignoreExtraArgs: true });
-    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 2, ignoreExtraArgs: true });
 
     expect(file(manifestFilePath)).to.exist; // Sanity check.
     expect(file(manifestFilePath)).to.contain('_packageCache');
-
     td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{}');
-    td.verify(npm(), { times: 0, ignoreExtraArgs: true });
-
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
-    testPackageCache.options.linkEmberCLI = true;
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
-    td.verify(npm('link', td.matchers.isA(Object)));
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('install'), { ignoreExtraArgs: true });
-    td.verify(npm('link', 'ember-cli'), { ignoreExtraArgs: true });
-    td.verify(npm(), { times: 3, ignoreExtraArgs: true });
-
+    td.verify(npm(), { times: 2, ignoreExtraArgs: true });
     td.reset();
-    testPackageCache.options.linkEmberCLI = true;
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
-    td.verify(npm(), { times: 0, ignoreExtraArgs: true }); // Everything optimized out.
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
+    td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink'), { ignoreExtraArgs: true });
+    td.verify(npm('install'), { ignoreExtraArgs: true });
+    td.verify(npm('link'), { ignoreExtraArgs: true });
+    td.verify(npm(), { times: 4, ignoreExtraArgs: true });
+    td.reset();
+
+    // Correctly catches linked versions.
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm(), { times: 1, ignoreExtraArgs: true });
+    td.reset();
+
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    testPackageCache.create('npm', 'npm', '{ "dependencies": "changed again" }', ['ember-cli']);
+    td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
+    td.verify(npm('unlink'), { ignoreExtraArgs: true });
+    td.verify(npm('install'), { ignoreExtraArgs: true });
+    td.verify(npm('link'), { ignoreExtraArgs: true });
+    td.verify(npm(), { times: 4, ignoreExtraArgs: true });
+
+    // Clean up.
+    testPackageCache.destroy('npm');
   });
 
   it('get', function() {
@@ -395,24 +641,34 @@ describe('PackageCache', function() {
     var toManifest = testPackageCache._readManifest('to', 'bower');
 
     expect(fromManifest).to.equal(toManifest);
+
+    // Clean up.
+    testPackageCache.destroy('from');
+    testPackageCache.destroy('to');
   });
 
   it('downgrades on 0.12', function() {
+    td.when(yarn('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+
     testPackageCache.create('one', 'yarn', '{}');
-    testPackageCache._conf.set('two', 'hello');
-    testPackageCache._install('two', 'yarn');
-    testPackageCache._conf.set('three', 'hello');
-    testPackageCache._install('three', 'yarn');
+    testPackageCache.create('two', 'yarn', '{}');
+    testPackageCache.create('three', 'yarn', '{}');
 
     if (process.version.indexOf('v0.12') === 0) {
-      td.verify(npm(), { times: 3, ignoreExtraArgs: true });
+      td.verify(npm(), { times: 6, ignoreExtraArgs: true });
     } else {
-      td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
+      td.verify(yarn(), { times: 6, ignoreExtraArgs: true });
     }
 
+    testPackageCache.destroy('one');
+    testPackageCache.destroy('two');
+    testPackageCache.destroy('three');
   });
 
   it('succeeds at a clean install', function() {
+    this.timeout(4000);
+
     // Intentionally turning off testing mode.
     testPackageCache.__resetForTesting();
 

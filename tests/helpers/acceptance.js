@@ -8,6 +8,8 @@ var Promise           = require('../../lib/ext/promise');
 var root = path.resolve(__dirname, '..', '..');
 
 var PackageCache = require('../../tests/helpers/package-cache');
+var CommandGenerator = require('../../tests/helpers/command-generator');
+
 var quickTemp = require('quick-temp');
 var dirs = {};
 
@@ -81,8 +83,8 @@ function linkDependencies(projectName) {
 
   var nodeManifest = fs.readFileSync(path.join(runFixture, 'package.json'));
 
-  var packageCache = new PackageCache({ linkEmberCLI: true });
-  packageCache.create('node', 'npm', nodeManifest);
+  var packageCache = new PackageCache(root);
+  packageCache.create('node', 'npm', nodeManifest, [{ name: 'ember-cli', path: root }]);
 
   var nodeModulesPath = path.join(runFixture, 'node_modules');
   symlinkOrCopySync(path.join(packageCache.get('node'), 'node_modules'), nodeModulesPath);
