@@ -13,6 +13,15 @@ if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
 
+// used to force `lib/experiments/index.js` to opt-out
+// of canary behavior
+if (process.env.SIMULATE_EMBER_CLI_BETA) {
+  var experiments = require('../lib/experiments');
+  for (var key in experiments) {
+    delete experiments[key];
+  }
+}
+
 fs.removeSync('.deps-tmp');
 
 var root = 'tests/{unit,integration,acceptance}';
