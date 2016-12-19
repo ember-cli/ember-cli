@@ -168,19 +168,19 @@ describe('models/builder.js', function() {
       warnInvocations = [];
       console.warn = function () {
         warnInvocations.push.apply(warnInvocations, Array.prototype.slice.call(arguments));
-      }
+      };
     });
 
     it('is true and does not warn if BROCCOLI_VIZ=1', function() {
       process.env.BROCCOLI_VIZ = '1';
-      expect(Builder._vizEnabled()).to.eql(true)
+      expect(Builder._vizEnabled()).to.eql(true);
       expect(warnInvocations).to.eql([]);
     });
 
     it('is true and warns at most once if BROCCOLI_VIZ is set but not 1', function() {
       process.env.BROCCOLI_VIZ = 'on';
-      expect(Builder._vizEnabled()).to.eql(true)
-      expect(Builder._vizEnabled()).to.eql(true)
+      expect(Builder._vizEnabled()).to.eql(true);
+      expect(Builder._vizEnabled()).to.eql(true);
       expect(warnInvocations).to.eql([
         "Please set BROCCOLI_VIZ=1 to enable visual instrumentation, rather than 'on'"
       ]);
@@ -188,7 +188,7 @@ describe('models/builder.js', function() {
 
     it('is false if BROCCOLI_VIZ is unset', function() {
       expect('BROCCOLI_VIZ' in process.env).to.eql(false);
-      expect(Builder._vizEnabled()).to.eql(false)
+      expect(Builder._vizEnabled()).to.eql(false);
       expect(warnInvocations).to.eql([]);
     });
   });
@@ -325,7 +325,7 @@ describe('models/builder.js', function() {
       expect(c1Stats.mystats).to.eql({
         x: 3,
         y: 4,
-      })
+      });
     });
 
     it('returns a pojo with the extra summary information for rebuilds', function() {
@@ -380,12 +380,12 @@ describe('models/builder.js', function() {
       var result = Builder._computeVizInfo(0, buildResults, resultAnnotation);
       var buildTree = result.buildTree;
 
-      var preOrderNames = itr2Array(buildTree.preOrderIterator()).map(function (x) { return x.label.name });
+      var preOrderNames = itr2Array(buildTree.preOrderIterator()).map(function (x) { return x.label.name; });
       expect(preOrderNames, 'pre order').to.eql([
         'a', 'b1', 'c1', 'b2', 'c2', 'c3'
       ]);
 
-      var postOrderNames = itr2Array(buildTree.postOrderIterator()).map(function (x) { return x.label.name });
+      var postOrderNames = itr2Array(buildTree.postOrderIterator()).map(function (x) { return x.label.name; });
       expect(postOrderNames, 'post order').to.eql([
         'c1', 'b1', 'c2', 'c3', 'b2', 'a'
       ]);
@@ -394,7 +394,7 @@ describe('models/builder.js', function() {
         return x.label.name === 'c2';
       })[0];
 
-      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function (x) { return x.label.name});
+      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function (x) { return x.label.name;});
       expect(ancestorNames).to.eql([
         'b2', 'a'
       ]);
@@ -662,7 +662,7 @@ describe('models/builder.js', function() {
       addon[BUILD_INSTRUMENTATION] = function (instrumentation) {
         hooksCalled.push('buildInstrumentation');
         instrumentationArg = instrumentation;
-      }
+      };
 
       var project = new MockProject();
       project.addons = [addon];

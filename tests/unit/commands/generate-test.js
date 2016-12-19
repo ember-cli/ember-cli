@@ -53,7 +53,7 @@ describe('generate command', function() {
       expect(true).to.be.false;
     }).catch(function(reason) {
       expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
-    })
+    });
   });
 
   it('runs GenerateFromBlueprint with expected options', function() {

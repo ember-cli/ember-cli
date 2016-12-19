@@ -17,7 +17,7 @@ describe('open-editor', function() {
 
   it('throws if EDITOR is not set', function() {
     td.when(openEditor._env()).thenReturn({});
-    expect(function() { openEditor('test') }).to.throw('EDITOR environment variable is not set');
+    expect(function() { openEditor('test'); }).to.throw('EDITOR environment variable is not set');
   });
 
   it('spawns EDITOR with passed file', function() {
@@ -28,7 +28,7 @@ describe('open-editor', function() {
 
   it('throws if no file option is provided', function() {
     td.when(openEditor._env()).thenReturn({ EDITOR: 'vi' });
-    expect(function() { openEditor() }).to.throw('No `file` option provided');
+    expect(function() { openEditor(); }).to.throw('No `file` option provided');
   });
 
   describe('.canEdit()', function() {

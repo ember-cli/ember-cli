@@ -1,4 +1,7 @@
 module.exports = {
+  plugins: [
+    'chai-expect',
+  ],
   env: {
     mocha: true,
   },
@@ -11,5 +14,11 @@ module.exports = {
 
     // disabled for easier asserting of file contents
     'quotes': 0,
+
+    /*** chai-expect ***/
+
+    'chai-expect/missing-assertion': 2,
+    'chai-expect/terminating-properties': 2,
+    'chai-expect/no-inner-compare': 2,
   }
 };

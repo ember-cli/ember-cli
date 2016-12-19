@@ -1,8 +1,5 @@
 module.exports = {
   root: true,
-  plugins: [
-    'chai-expect',
-  ],
   extends: 'eslint:recommended',
   env: {
     browser: false,
@@ -118,11 +115,6 @@ module.exports = {
     // JSHint "quotmark"
     'quotes': [2, 'single'],
 
-
-    /*** chai-expect ***/
-
-    'chai-expect/missing-assertion': 2,
-    'chai-expect/terminating-properties': 2,
-    'chai-expect/no-inner-compare': 2,
+    'semi': [2, 'always']
   },
 };

@@ -45,5 +45,5 @@ describe('findAddonByName', function() {
   it('should not guess addon name from string with slashes', function() {
     var addon = findAddonByName(addons, 'qux/foo');
     expect(addon).to.equal(undefined, 'should not have found the foo addon');
-  })
+  });
 });
