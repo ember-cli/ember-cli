@@ -10,7 +10,7 @@ var remove  = Promise.denodeify(fs.remove);
 var findWhere = require('ember-cli-lodash-subset').find;
 var MockUI = require('console-ui/mock');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-var experiments = require('../../../lib/experiments');
+var experiments = require('../../experiments');
 
 var broccoli  = require('broccoli-builder');
 var walkSync  = require('walk-sync');
