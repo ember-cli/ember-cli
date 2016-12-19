@@ -6,6 +6,7 @@ var quickTemp = require('quick-temp');
 var Configstore = require('configstore');
 var CommandGenerator = require('./command-generator');
 var stableStringify = require('json-stable-stringify');
+var symlinkOrCopySync = require('symlink-or-copy').sync;
 
 var originalWorkingDirectory = process.cwd();
 
@@ -204,6 +205,36 @@ function checkDowngrade(type) {
  * cache other than the manifest unless you really know what you're doing as
  * that can put the cache into a possibly invalid state.
  *
+ * PackageCache also supports linking. If you pass an array of module names to
+ * in the fourth position it will ensure that those are linked, and remain
+ * linked for the lifetime of the cache. When you link a package it uses the
+ * current global link provided by the underlying package manager and invokes
+ * their built-in `link` command.
+ *
+ * ```
+ * var dir = cache.create('your-cache', 'yarn', '{ ... }', ['ember-cli']);
+ * // => `yarn link ember-cli` happens along the way.
+ * ```
+ *
+ * Sometimes this global linking behavior is not what you want. Instead you wish
+ * to link in some other working directory. PackageCache makes a best effort
+ * attempt at supporting this workflow by allowing you to specify an object in
+ * the `links` argument array passed to `create`.
+ *
+ * var dir = cache.create('your-cache', 'yarn', '{ ... }', [
+ *   { name: 'ember-cli', path: '/the/absolute/path/to/the/package' },
+ *   'other-package'
+ * ]);
+ *
+ * This creates a symlink at the named package path to the specified directory.
+ * As package managers do different things for their own linking behavior this
+ * is "best effort" only. Be sure to review upstream behavior to identify if you
+ * rely on those features for your code to function:
+ *
+ * - [bower](https://github.com/bower/bower/blob/master/lib/commands/link.js)
+ * - [npm](https://github.com/npm/npm/blob/latest/lib/link.js)
+ * - [yarn](https://github.com/yarnpkg/yarn/blob/master/src/cli/commands/link.js)
+ *
  * As the only caveat, PackageCache _is_ persistent. The consuming
  * code is responsible for ensuring that the cache size does not
  * grow unbounded.
@@ -353,15 +384,28 @@ PackageCache.prototype = {
     var links = jsonManifest._packageCache.links;
 
     // Blindly remove existing links whether or not they appear in the manifest.
-    var packageName;
+    var link, linkPath;
     for (var i = 0; i < links.length; i++) {
-      packageName = links[i];
-      commands[type].invoke('unlink', packageName, { cwd: this.dirs[label] });
+      link = links[i];
+      if (typeof link === 'string') {
+        commands[type].invoke('unlink', link, { cwd: this.dirs[label] });
+      } else {
+        linkPath = path.join(this.dirs[label], translate(type, 'path'), link.name);
+        try {
+          fs.removeSync(linkPath);
+        } catch (error) {
+          // Catch unexceptional error but rethrow if something is truly wrong.
+          if (error.code !== 'ENOENT') {
+            throw error;
+          }
+        }
+
+      }
     }
 
     // Remove things from the manifest which we know we'll link back in.
     var originals = {};
-    var key;
+    var key, linkName;
     for (i = 0; i < DEPENDENCY_KEYS.length; i++) {
       key = DEPENDENCY_KEYS[i];
       if (jsonManifest[key]) {
@@ -369,9 +413,17 @@ PackageCache.prototype = {
         originals[key] = JSON.parse(JSON.stringify(jsonManifest[key]));
       }
       for (var j = 0; j < links.length; j++) {
-        packageName = links[j];
-        if (jsonManifest[key] && jsonManifest[key][packageName]) {
-          delete jsonManifest[key][packageName];
+        link = links[j];
+
+        // Support object-style invocation for "manual" linking.
+        if (typeof link === 'string') {
+          linkName = link;
+        } else {
+          linkName = link.name;
+        }
+
+        if (jsonManifest[key] && jsonManifest[key][linkName]) {
+          delete jsonManifest[key][linkName];
         }
       }
     }
@@ -401,10 +453,16 @@ PackageCache.prototype = {
     var links = jsonManifest._packageCache.links;
 
     // Blindly restore links.
-    var packageName;
+    var link, linkPath;
     for (var i = 0; i < links.length; i++) {
-      packageName = links[i];
-      commands[type].invoke('link', packageName, { cwd: this.dirs[label] });
+      link = links[i];
+      if (typeof link === 'string') {
+        commands[type].invoke('link', link, { cwd: this.dirs[label] });
+      } else {
+        linkPath = path.join(this.dirs[label], translate(type, 'path'), link.name);
+        fs.mkdirsSync(path.dirname(linkPath)); // Just in case the path doesn't exist.
+        symlinkOrCopySync(link.path, linkPath);
+      }
     }
 
     // Restore to original state.

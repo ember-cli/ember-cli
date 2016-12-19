@@ -5,11 +5,13 @@ var path = require('path');
 var Configstore = require('configstore');
 
 var PackageCache = require('../../../tests/helpers/package-cache');
+var symlinkOrCopySync = require('symlink-or-copy').sync;
 
 var td = require('testdouble');
 var chai = require('../../chai');
 var expect = chai.expect;
 var file = chai.file;
+var dir = chai.dir;
 
 describe('PackageCache', function() {
   var testPackageCache;
@@ -158,11 +160,41 @@ describe('PackageCache', function() {
   });
 
   it('_removeLinks', function() {
+    // This is our package that is linked in.
+    var srcDir = path.join(process.cwd(), 'tmp', 'beta');
+    expect(dir(srcDir)).to.not.exist;
+    fs.outputFileSync(path.join(srcDir, 'package.json'), 'beta');
+    expect(file(path.join(srcDir, 'package.json'))).to.contain('beta');
+
+    // This is the directory we got "back" from `PackageCache.create`.
+    var targetDir = path.join(process.cwd(), 'tmp', 'target');
+    expect(dir(targetDir)).to.not.exist;
+    testPackageCache._conf.set('label', targetDir);
+    fs.mkdirsSync(targetDir);
+    expect(dir(targetDir)).to.exist;
+
+    // This is the directory which would be created as a link.
+    var eventualDir = path.join(targetDir, 'node_modules', 'beta');
+    fs.mkdirsSync(path.dirname(eventualDir));
+    expect(dir(path.dirname(eventualDir))).to.exist;
+    expect(dir(eventualDir)).to.not.exist;
+
+    // Link or copy in the package.
+    symlinkOrCopySync(srcDir, eventualDir);
+    expect(file(path.join(eventualDir, 'package.json'))).to.contain('beta');
+
     var manifest = {
       _packageCache: {
-        links: ['one', 'two', 'three', 'alpha'] // Will blindly unlink alpha.
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha',
+          { name: 'beta', path: srcDir }
+        ]
       },
       dependencies: {
+        beta: '1.0.0',
         one: '1.0.0',
         two: '2.0.0',
         three: '3.0.0',
@@ -175,9 +207,16 @@ describe('PackageCache', function() {
 
     var result = {
       _packageCache: {
-        links: ['one', 'two', 'three', 'alpha'],
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha', // Will blindly unlink alpha.
+          { name: 'beta', path: srcDir }
+        ],
         originals: {
           dependencies: {
+            beta: '1.0.0',
             one: '1.0.0',
             two: '2.0.0',
             three: '3.0.0',
@@ -209,14 +248,48 @@ describe('PackageCache', function() {
     td.verify(npm('unlink', 'three'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink', 'alpha'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink'), { times: 4, ignoreExtraArgs: true });
+
+    // Confirms manual unlink behavior.
+    expect(dir(eventualDir)).to.not.exist;
+
+    // Ensures we don't delete the other side of the symlink.
+    expect(dir(srcDir)).to.exist;
+
+    // Clean up.
+    fs.removeSync(srcDir);
+    fs.removeSync(targetDir);
   });
 
   it('_restoreLinks', function() {
+    // This is our package that is linked in.
+    var srcDir = path.join(process.cwd(), 'tmp', 'beta');
+    expect(dir(srcDir)).to.not.exist;
+    fs.outputFileSync(path.join(srcDir, 'package.json'), 'beta');
+    expect(file(path.join(srcDir, 'package.json'))).to.contain('beta');
+
+    // This is the directory we got "back" from `PackageCache.create`.
+    var targetDir = path.join(process.cwd(), 'tmp', 'target');
+    expect(dir(targetDir)).to.not.exist;
+    testPackageCache._conf.set('label', targetDir);
+    fs.mkdirsSync(targetDir);
+    expect(dir(targetDir)).to.exist;
+
+    // This is the directory which will be created as a link.
+    var eventualDir = path.join(targetDir, 'node_modules', 'beta');
+    expect(dir(eventualDir)).to.not.exist;
+
     var manifest = {
       _packageCache: {
-        links: ['one', 'two', 'three', 'alpha'],
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha',
+          { name: 'beta', path: srcDir }
+        ],
         originals: {
           dependencies: {
+            beta: '1.0.0',
             one: '1.0.0',
             two: '2.0.0',
             three: '3.0.0',
@@ -235,9 +308,16 @@ describe('PackageCache', function() {
 
     var result = {
       _packageCache: {
-        links: ['one', 'two', 'three', 'alpha'] // Will blindly link alpha.
+        links: [
+          'one',
+          'two',
+          'three',
+          'alpha', // Will blindly link alpha.
+          { name: 'beta', path: srcDir }
+        ],
       },
       dependencies: {
+        beta: '1.0.0',
         one: '1.0.0',
         two: '2.0.0',
         three: '3.0.0',
@@ -263,6 +343,14 @@ describe('PackageCache', function() {
     td.verify(npm('link', 'three'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('link', 'alpha'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('link'), { times: 4, ignoreExtraArgs: true });
+
+    // Confirms manual link behavior.
+    expect(dir(srcDir)).to.exist;
+    expect(file(path.join(eventualDir, 'package.json'))).to.contain('beta');
+
+    // Clean up.
+    fs.removeSync(srcDir);
+    fs.removeSync(targetDir);
   });
 
   describe('_install', function() {
@@ -519,6 +607,9 @@ describe('PackageCache', function() {
     td.verify(npm('install'), { ignoreExtraArgs: true });
     td.verify(npm('link'), { ignoreExtraArgs: true });
     td.verify(npm(), { times: 4, ignoreExtraArgs: true });
+
+    // Clean up.
+    testPackageCache.destroy('npm');
   });
 
   it('get', function() {
@@ -550,6 +641,10 @@ describe('PackageCache', function() {
     var toManifest = testPackageCache._readManifest('to', 'bower');
 
     expect(fromManifest).to.equal(toManifest);
+
+    // Clean up.
+    testPackageCache.destroy('from');
+    testPackageCache.destroy('to');
   });
 
   it('downgrades on 0.12', function() {
@@ -566,6 +661,9 @@ describe('PackageCache', function() {
       td.verify(yarn(), { times: 6, ignoreExtraArgs: true });
     }
 
+    testPackageCache.destroy('one');
+    testPackageCache.destroy('two');
+    testPackageCache.destroy('three');
   });
 
   it('succeeds at a clean install', function() {
