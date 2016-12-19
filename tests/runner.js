@@ -18,9 +18,11 @@ fs.removeSync('.deps-tmp');
 var root = 'tests/{unit,integration,acceptance}';
 var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));
 var optionOrFile = process.argv[2];
+// default to `tap` reporter in CI otherwise default to `spec`
+var reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
 var mocha = new Mocha({
   timeout: 5000,
-  reporter: process.env.MOCHA_REPORTER || 'spec',
+  reporter: reporter,
   retries: 2
 });
 var testFiles = glob.sync(root + '/**/*-test.js');
