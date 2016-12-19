@@ -24,6 +24,7 @@ var Heimdall = require('heimdalljs/heimdall');
 var walkSync = require('walk-sync');
 var itr2Array = require('../../helpers/itr2array');
 var EventEmitter = require('events');
+var captureExit = require('capture-exit');
 
 var mockBuildResultsWithHeimdallSubgraph = {
   graph: {
@@ -81,9 +82,7 @@ describe('models/builder.js', function() {
         SIGINT: getListenerCount(process, 'SIGINT'),
         SIGTERM: getListenerCount(process, 'SIGTERM'),
         message: getListenerCount(process, 'message'),
-
-        // enable when https://github.com/ember-cli/capture-exit/pull/17 lands
-        // exit: captureExit.listenerCount(),
+        exit: captureExit.listenerCount()
       };
     }
 
@@ -103,9 +102,7 @@ describe('models/builder.js', function() {
         SIGINT: originalListenerCounts.SIGINT + 1,
         SIGTERM: originalListenerCounts.SIGTERM + 1,
         message: originalListenerCounts.message + 1,
-
-        // enable when https://github.com/ember-cli/capture-exit/pull/17 lands
-        // exit: originalListenerCounts.exit + 1
+        exit: originalListenerCounts.exit + 1
       });
     });
 
