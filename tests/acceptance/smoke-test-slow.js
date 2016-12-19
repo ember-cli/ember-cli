@@ -319,8 +319,35 @@ describe('Acceptance: smoke-test', function() {
           killCliProcess(child);
         }
       },
-    }).catch(function() {
-      // just eat the rejection as we are testing what happens
+    })
+    .then(result => {
+      let dirPath = path.join(appRoot, 'tmp');
+      let dir = fs.readdirSync(dirPath);
+
+      expect(result.code, 'should be zero exit code').to.equal(0);
+      expect(dir.length, '/tmp should be empty').to.equal(0);
+    })
+    .catch(function(result) {
+      expect(false, 'should not be rejected').to.equal(true);
+    });
+  });
+
+  it('ember new foo, test, SIGINT exits with error and clears tmp/', function() {
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--test-port=25522', {
+      onOutput(string, child) {
+        // wait for the first passed test and then exit
+        if (string.match(/^ok\ /)) {
+          killCliProcess(child);
+        }
+      },
+    }).then(() => {
+      expect(false, 'should not be resolved').to.equal(true);
+    }).catch(result => {
+      let dirPath = path.join(appRoot, 'tmp');
+      let dir = fs.readdirSync(dirPath);
+
+      expect(result.code, 'should be error exit code').to.not.equal(0);
+      expect(dir.length, '/tmp should be empty').to.equal(0);
     });
   });
 
