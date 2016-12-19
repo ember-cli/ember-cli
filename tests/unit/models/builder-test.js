@@ -11,7 +11,7 @@ var MockProject     = require('../../helpers/mock-project');
 var remove          = Promise.denodeify(fse.remove);
 var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
 var td              = require('testdouble');
-var BUILD_INSTRUMENTATION = require('../../../lib/experiments/').BUILD_INSTRUMENTATION;
+var experiments = require('../../../lib/experiments/');
 var chai = require('../../chai');
 var expect = chai.expect;
 var file = chai.file;
@@ -125,38 +125,40 @@ describe('models/builder.js', function() {
     });
   });
 
-  describe('._reportVizInfo', function() {
-    var builder;
-    var instrumentationWasCalled;
-    var info = {};
-    var ui;
-    beforeEach(function() {
-      var addon1 = { };
-      var addon2 = { };
+  if (experiments.BUILD_INSTRUMENTATION) {
+    describe('._reportVizInfo', function() {
+      var builder;
+      var instrumentationWasCalled;
+      var info = {};
+      var ui;
+      beforeEach(function() {
+        var addon1 = { };
+        var addon2 = { };
 
-      instrumentationWasCalled = 0;
+        instrumentationWasCalled = 0;
 
-      addon2[BUILD_INSTRUMENTATION] = function(actualInfo) {
-        instrumentationWasCalled++;
-        expect(actualInfo).to.eql(info);
-      };
+        addon2[experiments.BUILD_INSTRUMENTATION] = function(actualInfo) {
+          instrumentationWasCalled++;
+          expect(actualInfo).to.eql(info);
+        };
 
-      builder = new Builder({
-        project: {
-          addons: [ addon1, addon2 ],
-          ui: new MockUI()
-        },
-        setupBroccoliBuilder: setupBroccoliBuilder
+        builder = new Builder({
+          project: {
+            addons: [ addon1, addon2 ],
+            ui: new MockUI()
+          },
+          setupBroccoliBuilder: setupBroccoliBuilder
+        });
+      });
+
+      it('invokes on addons that have [BUILD_INSTRUMENTATION]', function() {
+        expect(builder.project.addons.length).to.eql(2);
+        expect(instrumentationWasCalled).to.eql(0);
+        builder._reportVizInfo(info);
+        expect(instrumentationWasCalled).to.eql(1);
       });
     });
-
-    it('invokes on addons that have [BUILD_INSTRUMENTATION]', function() {
-      expect(builder.project.addons.length).to.eql(2);
-      expect(instrumentationWasCalled).to.eql(0);
-      builder._reportVizInfo(info);
-      expect(instrumentationWasCalled).to.eql(1);
-    });
-  });
+  }
 
   describe('._vizEnabled', function() {
     var originalWarn = console.warn;
@@ -659,10 +661,12 @@ describe('models/builder.js', function() {
         },
       };
 
-      addon[BUILD_INSTRUMENTATION] = function (instrumentation) {
-        hooksCalled.push('buildInstrumentation');
-        instrumentationArg = instrumentation;
-      };
+      if (experiments.BUILD_INSTRUMENTATION) {
+        addon[experiments.BUILD_INSTRUMENTATION] = function (instrumentation) {
+          hooksCalled.push('buildInstrumentation');
+          instrumentationArg = instrumentation;
+        };
+      }
 
       var project = new MockProject();
       project.addons = [addon];
@@ -701,23 +705,25 @@ describe('models/builder.js', function() {
         return remove(tmproot);
       });
 
-      it('invokes build instrumentation hook when EMBER_CLI_INSTRUMENTATION=1', function() {
-        process.env.EMBER_CLI_INSTRUMENTATION = '1';
-        var mockVizInfo = Object.create(null);
-        var mockResultAnnotation = Object.create(null);
+      if (experiments.BUILD_INSTRUMENTATION) {
+        it('invokes build instrumentation hook when EMBER_CLI_INSTRUMENTATION=1', function() {
+          process.env.EMBER_CLI_INSTRUMENTATION = '1';
+          var mockVizInfo = Object.create(null);
+          var mockResultAnnotation = Object.create(null);
 
-        var computeVizInfo = td.function();
-        builder._computeVizInfo = computeVizInfo;
+          var computeVizInfo = td.function();
+          builder._computeVizInfo = computeVizInfo;
 
-        td.when(
-          computeVizInfo(td.matchers.isA(Number), buildResults, mockResultAnnotation)
-        ).thenReturn(mockVizInfo);
+          td.when(
+            computeVizInfo(td.matchers.isA(Number), buildResults, mockResultAnnotation)
+          ).thenReturn(mockVizInfo);
 
-        return builder.build('stringdir', mockResultAnnotation).then(function() {
-          expect(hooksCalled).to.include('buildInstrumentation');
-          expect(instrumentationArg).to.equal(mockVizInfo);
+          return builder.build(null, mockResultAnnotation).then(function() {
+            expect(hooksCalled).to.include('buildInstrumentation');
+            expect(instrumentationArg).to.equal(mockVizInfo);
+          });
         });
-      });
+      }
 
       it('writes and invokes build instrumentation hook when BROCCOLI_VIZ=1', function() {
         process.env.BROCCOLI_VIZ = '1';
@@ -734,8 +740,10 @@ describe('models/builder.js', function() {
         builder._computeVizInfo = computeVizInfo;
 
         return builder.build(null, mockResultAnnotation).then(function() {
-          expect(hooksCalled).to.include('buildInstrumentation');
-          expect(instrumentationArg).to.equal(mockVizInfo);
+          if (experiments.BUILD_INSTRUMENTATION) {
+            expect(hooksCalled).to.include('buildInstrumentation');
+            expect(instrumentationArg).to.equal(mockVizInfo);
+          }
 
           var vizFiles = walkSync('.', { globs: ['broccoli-viz.*.json'] });
           expect(vizFiles.length).to.equal(1);
@@ -757,7 +765,7 @@ describe('models/builder.js', function() {
           computeVizInfo(td.matchers.isA(Number), buildResults, mockResultAnnotation)
         ).thenReturn(mockVizInfo);
 
-        return builder.build('stringdir', mockResultAnnotation).then(function() {
+        return builder.build(null, mockResultAnnotation).then(function() {
           expect(hooksCalled).to.not.include('buildInstrumentation');
           expect(instrumentationArg).to.equal(undefined);
         });
@@ -793,14 +801,16 @@ describe('models/builder.js', function() {
       });
     });
 
-    it('hooks are called in the right order with visualization', function() {
-      process.env.EMBER_CLI_INSTRUMENTATION = '1';
-      buildResults = mockBuildResultsWithHeimdallSubgraph;
+    if (experiments.BUILD_INSTRUMENTATION) {
+      it('hooks are called in the right order with visualization', function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = '1';
+        buildResults = mockBuildResultsWithHeimdallSubgraph;
 
-      return builder.build(null, {}).then(function() {
-        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildInstrumentation', 'outputReady']);
+        return builder.build(null, {}).then(function() {
+          expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildInstrumentation', 'outputReady']);
+        });
       });
-    });
+    }
 
     it('should call postBuild before processBuildResult', function() {
       var called = [];
