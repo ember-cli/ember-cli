@@ -16,7 +16,7 @@ if (instrumentationEnabled()) {
   initInstrumentation = {
     cookie: initInstrumentationCookie,
     node: heimdall.current,
-  }
+  };
 }
 
 // require('time-require');

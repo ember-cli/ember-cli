@@ -345,57 +345,6 @@ describe('models/builder.js', function() {
     });
   });
 
-  describe('._enableFSMonitorIfInstrumentationEnabled', function() {
-    var originalBroccoliViz = process.env.BROCCOLI_VIZ;
-    var originalStatSync = fs.statSync;
-
-    beforeEach(function () {
-      expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
-    });
-
-    afterEach(function() {
-      td.reset();
-      delete process.env.BROCCOLI_VIZ;
-      delete process.env.EMBER_CLI_INSTRUMENTATION;
-    });
-
-    it('if VIZ is NOT enabled, do not monitor', function() {
-      var monitor = Builder._enableFSMonitorIfInstrumentationEnabled();
-      try {
-        expect(fs.statSync).to.equal(originalStatSync);
-        expect(monitor).to.eql(undefined);
-      } finally {
-        if (monitor) {
-          monitor.stop();
-        }
-      }
-    });
-
-    it('if VIZ is enabled, monitor', function() {
-      process.env.BROCCOLI_VIZ = '1';
-      var monitor = Builder._enableFSMonitorIfInstrumentationEnabled();
-      try {
-        expect(fs.statSync).to.not.equal(originalStatSync);
-      } finally {
-        if (monitor) {
-          monitor.stop();
-        }
-      }
-    });
-
-    it('if instrumentation is enabled, monitor', function() {
-      process.env.EMBER_CLI_INSTRUMENTATION = '1';
-      var monitor = Builder._enableFSMonitorIfInstrumentationEnabled();
-      try {
-        expect(fs.statSync, 'fs.statSync').to.not.equal(originalStatSync, '[original] fs.statSync');
-      } finally {
-        if (monitor) {
-          monitor.stop();
-        }
-      }
-    });
-  });
-
   describe('Windows CTRL + C Capture', function() {
     var originalPlatform, originalStdin;
 

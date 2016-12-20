@@ -1,13 +1,16 @@
 'use strict';
 
 var Project = require('../../lib/models/project');
+var Instrumentation = require('../../lib/models/instrumentation');
 var MockUI  = require('console-ui/mock');
 
 function MockProject() {
   var root = process.cwd();
   var pkg  = {};
   var ui = new MockUI();
-  Project.apply(this, [root, pkg, ui]);
+  var instr = new Instrumentation({ ui: ui });
+  var cli = { instrumentation: instr };
+  Project.apply(this, [root, pkg, ui, cli]);
 }
 
 MockProject.prototype.require = function(file) {

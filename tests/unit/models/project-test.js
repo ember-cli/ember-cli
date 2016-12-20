@@ -17,6 +17,12 @@ describe('models/project.js', function() {
     if (project) { project = null; }
   });
 
+  describe('constructor', function() {
+    it('sets up bidirectional instrumentation', function() {
+      expect('assertions exist').to.eql(true);
+    });
+  });
+
   describe('Project.prototype.config', function() {
     var called;
 
