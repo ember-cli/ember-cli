@@ -88,9 +88,9 @@ describe('models/instrumentation.js', function() {
           ui: new MockUI(),
         });
 
-        expect(instrumentation.initInstrumentation).to.not.eql(undefined);
-        expect(instrumentation.initInstrumentation.cookie).to.eql(mockCookie);
-        expect(instrumentation.initInstrumentation.node).to.not.eql(undefined);
+        expect(instrumentation.instrumentations.init).to.not.eql(undefined);
+        expect(instrumentation.instrumentations.init.cookie).to.eql(mockCookie);
+        expect(instrumentation.instrumentations.init.node).to.not.eql(undefined);
       });
 
       it('does not create an init node if init instrumentation is included', function() {
@@ -103,7 +103,7 @@ describe('models/instrumentation.js', function() {
           initInstrumentation: mockInstrumentation,
         });
 
-        expect(instrumentation.initInstrumentation).to.eql(mockInstrumentation);
+        expect(instrumentation.instrumentations.init).to.eql(mockInstrumentation);
         td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
       });
 
@@ -151,7 +151,7 @@ describe('models/instrumentation.js', function() {
 
         var instrumentation = new Instrumentation({});
 
-        expect(instrumentation.initInstrumentation).to.eql(undefined);
+        expect(instrumentation.instrumentations.init).to.eql(undefined);
         td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
       });
 
