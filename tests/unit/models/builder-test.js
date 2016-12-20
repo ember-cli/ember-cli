@@ -240,17 +240,20 @@ describe('models/builder.js', function() {
       // │   └── c1
       // └── b2
       //     ├── c2
+      //     │   └── d1
       //     └── c3
       heimdall.registerMonitor('mystats', StatsSchema);
       var a = heimdall.start('a');
-      var b1 = heimdall.start({ name: 'b1', broccoliNode: true });
+      var b1 = heimdall.start({ name: 'b1', broccoliNode: true, broccoliCachedNode: false });
       var c1 = heimdall.start('c1');
       heimdall.statsFor('mystats').x = 3;
       heimdall.statsFor('mystats').y = 4;
       c1.stop();
       b1.stop();
       var b2 = heimdall.start('b2');
-      var c2 = heimdall.start({ name: 'c2', broccoliNode: true });
+      var c2 = heimdall.start({ name: 'c2', broccoliNode: true, broccoliCachedNode: false });
+      var d1 = heimdall.start({ name: 'd1', broccoliNode: true, broccoliCachedNode: true });
+      d1.stop();
       c2.stop();
       var c3 = heimdall.start('c3');
       c3.stop();
@@ -287,23 +290,24 @@ describe('models/builder.js', function() {
 
       expect(result.summary.output).to.eql('tmp/something-abc');
       expect(result.summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
-      expect(result.summary.buildSteps).to.eql(2); // 2 nodes with broccoliNode: true
+      expect(result.summary.buildSteps).to.eql(2); // 2 nodes with broccoliNode: true and broccoliCachedNode: false
 
       var buildJSON = result.buildTree.toJSON();
 
       expect(Object.keys(buildJSON)).to.eql(['nodes']);
-      expect(buildJSON.nodes.length).to.eql(6);
+      expect(buildJSON.nodes.length).to.eql(7);
 
       expect(buildJSON.nodes.map(function(x) { return x.id; })).to.eql([
-        1, 2, 3, 4, 5, 6
+        1, 2, 3, 4, 5, 6, 7
       ]);
 
       expect(buildJSON.nodes.map(function(x) { return x.label; })).to.eql([
         { name: 'a' },
-        { name: 'b1', broccoliNode: true },
+        { name: 'b1', broccoliNode: true, broccoliCachedNode: false },
         { name: 'c1' },
         { name: 'b2' },
-        { name: 'c2', broccoliNode: true },
+        { name: 'c2', broccoliNode: true, broccoliCachedNode: false, },
+        { name: 'd1', broccoliNode: true, broccoliCachedNode: true, },
         { name: 'c3' },
       ]);
 
@@ -311,7 +315,8 @@ describe('models/builder.js', function() {
         [2, 4],
         [3],
         [],
-        [5, 6],
+        [5, 7],
+        [6],
         [],
         []
       ]);
@@ -384,12 +389,12 @@ describe('models/builder.js', function() {
 
       var preOrderNames = itr2Array(buildTree.preOrderIterator()).map(function (x) { return x.label.name; });
       expect(preOrderNames, 'pre order').to.eql([
-        'a', 'b1', 'c1', 'b2', 'c2', 'c3'
+        'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3'
       ]);
 
       var postOrderNames = itr2Array(buildTree.postOrderIterator()).map(function (x) { return x.label.name; });
       expect(postOrderNames, 'post order').to.eql([
-        'c1', 'b1', 'c2', 'c3', 'b2', 'a'
+        'c1', 'b1', 'd1', 'c2', 'c3', 'b2', 'a'
       ]);
 
       var c2 = itr2Array(buildTree.preOrderIterator()).filter(function (x) {
