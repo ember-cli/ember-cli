@@ -47,7 +47,7 @@ describe('models/project.js', function() {
       expect(called).to.equal(true);
     });
 
-    it('configPath() returns tests/dummy/config/environment', function() {
+    it('configPath returns tests/dummy/config/environment', function() {
       project.pkg = {
         'ember-addon': {
           'configPath': 'tests/dummy/config'
@@ -56,7 +56,19 @@ describe('models/project.js', function() {
 
       var expected = path.normalize('tests/dummy/config/environment');
 
-      expect(project.configPath().slice(-expected.length)).to.equal(expected);
+      expect(project.configPath.slice(-expected.length)).to.equal(expected);
+    });
+
+    it('configPath returns tests/custom/config/environment', function() {
+      project.pkg = {
+        'directories': {
+          'configPath': 'tests/custom/config'
+        }
+      };
+
+      var expected = path.normalize('tests/custom/config/environment');
+
+      expect(project.configPath.slice(-expected.length)).to.equal(expected);
     });
 
     it('calls getAddonsConfig', function() {
