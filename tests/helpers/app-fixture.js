@@ -1,120 +1,53 @@
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
-var stringUtil = require('ember-cli-string-utils');
-var execSync = require('child_process').execSync;
-var symlinkOrCopySync = require('symlink-or-copy').sync;
-
-var packageCache = require('./package-cache');
+var merge = require('ember-cli-lodash-subset').merge;
 
 var fixturify = require('fixturify');
 var quickTemp = require('quick-temp');
-var merge = require('ember-cli-lodash-subset').merge;
 
-function AppFixture(name, options) {
+var originalWorkingDirectory = process.cwd();
+var root = path.resolve(__dirname, '..', '..');
+
+var PackageCache = require('../../tests/helpers/package-cache');
+var CommandGenerator = require('../../tests/helpers/command-generator');
+
+var packageCache = new PackageCache(root);
+var ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
+
+var flags = [
+  '--disable-analytics',
+  '--watcher=node',
+  '--skip-npm',
+  '--skip-bower',
+  '--skip-git'
+];
+
+function AppFixture(name) {
   this.type = 'app';
   this.name = name;
-  this.options = options || {
-    useGlobalPackages: true
-  };
 
-  this.fixture = {};
-  this._fixtureCache = {};
-  this.dirs = {};
-  quickTemp.makeOrRemake(this.dirs, 'self');
+  process.chdir(root);
+  this.dir = quickTemp.makeOrRemake({}, this.name + '-app-fixture');
+  process.chdir(originalWorkingDirectory);
 
-  this.blueprintPath = path.resolve(__dirname, '../../blueprints/app');
-  this.blueprintOptionsShim = {
-    target: '',
-    entity: { name: name },
-    ui: {
-      writeLine: function() {}
-    },
-    project: {
-      isEmberCLIAddon: function() {
-        return false;
-      },
-      config: function() {
-        return {
-          usePodsByDefault: false
-        };
-      },
-      name: function() {
-        return name;
-      }
-    }
-  };
-
-  this.loadBlueprint();
+  ember.invoke('new', this.name, '--directory=' + this.dir, ...flags);
+  this.fixture = fixturify.readSync(this.dir);
 }
 
 AppFixture.prototype = {
-  _bowerInstall: function() {
-    if (this.options.useGlobalPackages) {
-      symlinkOrCopySync(path.join(packageCache[this.type].bower_components, 'bower_components'), path.join(this.dirs.self, 'bower_components'));
-      return;
-    }
-
-    // No need to perform a `bower install` if no packages are required.
-    if (!this.fixture['bower.json']) { return; }
-
-    // No need to perform a `bower install` if the previous bower.json is identical.
-    if (this.fixture['bower.json'] === this._fixtureCache['bower.json']) { return; }
-
-    // Save off the last seen `bower.json` to lock out additional installation attempts.
-    this._fixtureCache['bower.json'] = this.fixture['bower.json'];
-
-    quickTemp.makeOrReuse(this.dirs, 'bower_components');
-    fs.writeFileSync(path.join(this.dirs.bower_components, 'bower.json'), this.fixture['bower.json']);
-
-    var bower = require.resolve('bower/bin/bower');
-    execSync(bower + ' install', { cwd: this.dirs.bower_components });
-    symlinkOrCopySync(path.join(this.dirs.bower_components, 'bower_components'), path.join(this.dirs.self, 'bower_components'));
-  },
-  _npmInstall: function() {
-    if (this.options.useGlobalPackages) {
-      symlinkOrCopySync(path.join(packageCache[this.type].node_modules, 'node_modules'), path.join(this.dirs.self, 'node_modules'));
-      return;
-    }
-
-    // No need to perform a `npm install` if no packages are required.
-    if (!this.fixture['package.json']) { return; }
-
-    // No need to perform a `npm install` if the previous package.json is identical.
-    if (this.fixture['package.json'] === this._fixtureCache['package.json']) { return; }
-
-    // Save off the last seen `package.json` to lock out additional installation attempts.
-    this._fixtureCache['package.json'] = this.fixture['package.json'];
-
-    quickTemp.makeOrReuse(this.dirs, 'node_modules');
-    fs.writeFileSync(path.join(this.dirs.node_modules, 'package.json'), this.fixture['package.json']);
-
-    var yarn = require.resolve('yarn/bin/yarn.js');
-    execSync(yarn + ' install', { cwd: this.dirs.node_modules });
-
-    // Manually link in Ember CLI.
-    var emberCLIPath = path.resolve(__dirname, '../..');
-    execSync(yarn + ' unlink', { cwd: emberCLIPath });
-    execSync(yarn + ' link', { cwd: emberCLIPath });
-    execSync(yarn + ' link ember-cli', { cwd: this.dirs.node_modules });
-
-    // Move it into the fixture `node_modules`
-    symlinkOrCopySync(path.join(this.dirs.node_modules, 'node_modules'), path.join(this.dirs.self, 'node_modules'));
-  },
-
   serialize: function() {
-    fixturify.writeSync(this.dirs.self, this.fixture);
-
-    // Wire up node_modules and bower_components.
-    // TODO: Support merging with fixture items.
-    this._bowerInstall();
-    this._npmInstall();
-
+    fixturify.writeSync(this.dir, this.fixture);
     return this;
   },
   clean: function() {
-    quickTemp.remove(this.dirs, 'self');
-    quickTemp.remove(this.dirs, 'bower_components');
-    quickTemp.remove(this.dirs, 'node_modules');
+    // Build up object to pass to quickTemp.
+    var dir = {};
+    dir[this.name + '-app-fixture'] = this.dir;
+
+    process.chdir(root);
+    quickTemp.remove(dir, this.name + '-app-fixture');
+    process.chdir(originalWorkingDirectory);
+
     return this;
   },
 
@@ -130,6 +63,8 @@ AppFixture.prototype = {
     config['dependencies'] = config['dependencies'] || {};
     config['dependencies'][addonConfig.name] = '*';
     this.setPackageJSON(config);
+
+    // TODO: Merge output files with PackageCache.
 
     return this;
   },
@@ -149,12 +84,16 @@ AppFixture.prototype = {
 
     return this;
   },
-  install: function(type, addon) {
-    if (type === 'npm') {
-      return this._npmAddonInstall(addon);
-    } else if (type === 'in-repo') {
+  install: function(addon) {
+    if (addon.type === 'in-repo-addon') {
       return this._inRepoAddonInstall(addon);
     }
+
+    if (addon.type === 'addon') {
+      return this._npmAddonInstall(addon);
+    }
+
+    throw new Error('whoops');
   },
 
   getPackageJSON: function() {
@@ -181,21 +120,6 @@ AppFixture.prototype = {
   generateCSS: function(fileName) {
     var contents = '.' + this.name + ' { content: "' + fileName + '"; }';
     return this.generateFile(fileName, contents);
-  },
-
-  loadBlueprint: function(context) {
-    var SyncBlueprint = require('./sync-blueprint');
-    var FixtureBlueprint = new SyncBlueprint(this.blueprintPath);
-
-    var self = this;
-    FixtureBlueprint._writeFile = function(info) {
-      var contents = info.render();
-      if (contents) {
-        self.generateFile(info.outputPath, contents);
-      }
-    };
-
-    return FixtureBlueprint.install(this.blueprintOptionsShim);
   },
 
   toJSON: function() {
