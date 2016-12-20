@@ -5,6 +5,8 @@ var MockUI        = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var CLI           = require('../../../lib/cli/cli');
 var td = require('testdouble');
+var heimdall = require('heimdalljs');
+var chalk = require('chalk');
 
 var ui;
 var analytics;
@@ -99,6 +101,112 @@ describe('Unit: CLI', function() {
     expect(cli.logError(error)).to.eql(expected, 'expected error object');
   });
 */
+
+  describe('constructor', function() {
+    var heimdallStart;
+
+    beforeEach( function() {
+      heimdallStart = td.replace(heimdall, 'start');
+    });
+
+    afterEach( function() {
+      delete process.env.EMBER_CLI_INSTRUMENTATION;
+    });
+
+    describe('when instrumentation is enabled', function() {
+      beforeEach( function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = '1';
+      });
+
+      it('starts an init node if init instrumentation is missing', function() {
+        var mockCookie = {};
+
+        td.when(heimdallStart('init')).thenReturn(mockCookie);
+
+        var cli = new CLI({
+          ui: new MockUI(),
+        });
+
+        expect(cli.initInstrumentation).to.not.eql(undefined);
+        expect(cli.initInstrumentation.cookie).to.eql(mockCookie);
+        expect(cli.initInstrumentation.node).to.not.eql(undefined);
+      });
+
+      it('does not create an init node if init instrumentation is included', function() {
+        var mockCookie = {};
+        var mockInstrumentation = {};
+
+        td.when(heimdallStart('init')).thenReturn(mockCookie);
+
+        var cli = new CLI({
+          initInstrumentation: mockInstrumentation,
+        });
+
+        expect(cli.initInstrumentation).to.eql(mockInstrumentation);
+        td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
+      });
+
+      it('warns if no init instrumentation is included', function() {
+        td.when(heimdallStart('init'));
+
+        var ui = new MockUI();
+        var cli = new CLI({
+          ui: ui,
+        });
+
+        expect(ui.output).to.eql(chalk.yellow(
+          'No init instrumentation passed to CLI.  Please update your global ember or ' +
+          'invoke ember via the local executable within node_modules.  Init ' +
+          'instrumentation will still be recorded, but some bootstraping will be ' +
+          'omitted.'
+        ) + '\n');
+      });
+
+      it('does not warn if init instrumentation is included', function() {
+        td.when(heimdallStart('init'));
+
+        var mockInstrumentation = {};
+
+        var ui = new MockUI();
+        var cli = new CLI({
+          ui: ui,
+          initInstrumentation: mockInstrumentation,
+        });
+
+        expect(ui.output.trim()).to.eql('');
+      });
+    });
+
+    describe('when instrumentation is not enabled', function() {
+      beforeEach( function() {
+        expect(process.env.EMBER_CLI_INSTRUMENTATION).to.eql(undefined);
+      });
+
+      it('does not create an init node if init instrumentation is missing', function() {
+        var mockCookie = {};
+        var mockInstrumentation = {};
+
+        td.when(heimdallStart('init')).thenReturn(mockCookie);
+
+        var cli = new CLI({});
+
+        expect(cli.initInstrumentation).to.eql(undefined);
+        td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
+      });
+
+      it('does not warn when init instrumentation is missing', function() {
+        td.when(heimdallStart('init'));
+
+        var ui = new MockUI();
+        var cli = new CLI({
+          ui: ui,
+        });
+
+        expect(ui.output.trim()).to.eql('');
+      });
+    });
+  });
+
   it('callHelp', function() {
     var cli = new CLI({
       ui: ui,
