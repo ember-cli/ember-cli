@@ -2,6 +2,7 @@
 
 var AppFixture = require('../helpers/app-fixture');
 var AddonFixture = require('../helpers/addon-fixture');
+var InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
 
 var packageCache = require('../helpers/package-cache');
 
@@ -39,18 +40,25 @@ function generateStyleAddon(name) {
   return addonFixture;
 }
 
+function generateIRAddon(name) {
+  var addonFixture = new InRepoAddonFixture(name);
+  return addonFixture;
+}
+
 var root = generateRootApplication('root');
 var foo = generateStyleAddon('foo');
-root.install('in-repo', foo);
+root.install(foo);
+var bar = generateIRAddon('bar');
+root.install(bar);
 root.serialize();
 
-// describe('Acceptance: CSS file generation.', function() {
-//   before(function() {});
-//   after(function() {});
-//   beforeEach(function() {});
-//   afterEach(function() {});
+describe('Acceptance: CSS file generation.', function() {
+  before(function() {});
+  after(function() {});
+  beforeEach(function() {});
+  afterEach(function() {});
 
-//   it('generates CSS files', function() {
+  it('generates CSS files', function() {
 
-//   });
-// });
+  });
+});
