@@ -7,7 +7,7 @@ var path                 = require('path');
 var remove               = Promise.denodeify(fs.remove);
 var root                 = process.cwd();
 var tmproot              = path.join(root, 'tmp');
-var Blueprint            = require('../../lib/models/blueprint');
+var Blueprint            = require('blprnt');
 var BlueprintNpmTask     = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 var mkTmpDirIn           = require('../../lib/utilities/mk-tmp-dir-in');
 
@@ -19,10 +19,12 @@ describe('Acceptance: ember generate in-addon', function() {
   this.timeout(20000);
 
   before(function() {
+    // TODO: remove
     BlueprintNpmTask.disableNPM(Blueprint);
   });
 
   after(function() {
+    // TODO: remove
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 

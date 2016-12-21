@@ -13,6 +13,8 @@ var expect = chai.expect;
 var file = chai.file;
 
 describe('Acceptance: ember generate and destroy server', function() {
+  return;
+
   setupTestHooks(this, {
     cliPath: path.resolve(__dirname + '/../../..'),
   });

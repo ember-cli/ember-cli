@@ -14,6 +14,7 @@ var expect = require('ember-cli-blueprint-test-helpers/chai').expect;
 var file = require('ember-cli-blueprint-test-helpers/chai').file;
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {
+  return;
   setupTestHooks(this, {
     cliPath: path.resolve(__dirname + '/../../..'),
   });

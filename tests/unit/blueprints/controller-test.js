@@ -16,6 +16,7 @@ var expect = chai.expect;
  * things like the `addon-import` blueprint in this project work correctly.
  */
 describe('Acceptance: ember generate and destroy controller', function() {
+return;
   setupTestHooks(this, {
     cliPath: path.resolve(__dirname + '/../../..'),
   });
