@@ -11,6 +11,7 @@ var acceptance          = require('../helpers/acceptance');
 var copyFixtureFiles    = require('../helpers/copy-fixture-files');
 var killCliProcess      = require('../helpers/kill-cli-process');
 var ember               = require('../helpers/ember');
+var experiments = require('../../lib/experiments/');
 var createTestTargets   = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
 var linkDependencies    = acceptance.linkDependencies;
@@ -211,6 +212,35 @@ describe('Acceptance: smoke-test', function() {
       expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
     });
   });
+
+
+  if (experiments.INSTRUMENTATION) {
+    it.only('ember build generates instrumentation files when viz is enabled', function() {
+      process.env.BROCCOLI_VIZ='1';
+
+      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+        env: {
+          BROCCOLI_VIZ: '1'
+        }
+      }).then(function () {
+        [
+          'broccoli-viz.build.0.json',
+          'broccoli-viz.command.json',
+          'broccoli-viz.init.json',
+          'broccoli-viz.shutdown.json'
+        ].forEach(function (instrumentationFile) {
+          expect(fs.existsSync(instrumentationFile)).to.equal(true);
+
+          var json = fs.readJsonSync(instrumentationFile);
+          expect(Object.keys(json)).to.eql([
+            'summary', 'tree'
+          ]);
+
+          expect(Array.isArray(json.tree.nodes)).to.equal(true);
+        });
+      });
+    });
+  }
 
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
     var touched     = false;

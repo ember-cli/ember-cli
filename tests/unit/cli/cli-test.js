@@ -16,11 +16,16 @@ var isWithinProject;
 
 // helper to similate running the CLI
 function ember(args) {
-  return new CLI({
+  var cli = new CLI({
     ui: ui,
     analytics: analytics,
     testing: true
-  }).run({
+  });
+
+  var startInstr = td.replace(cli.instrumentation, 'start');
+  var stopInstr = td.replace(cli.instrumentation, 'stopAndReport');
+
+  return cli.run({
     tasks:    {},
     commands: commands,
     cliArgs:  args || [],
@@ -36,6 +41,13 @@ function ember(args) {
         return [];
       }
     }
+  }).then(function (value) {
+    td.verify(stopInstr('init'), { times: 1 });
+    td.verify(startInstr('command'), { times: 1 });
+    td.verify(stopInstr('command'), { times: 1 });
+    td.verify(startInstr('shutdown'), { times: 1 });
+
+    return value;
   });
 }
 

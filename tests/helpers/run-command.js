@@ -51,6 +51,9 @@ module.exports = function run(/* command, args, options */) {
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];
     }
+    if (options.env) {
+      opts.env = defaults(options.env, process.env);
+    }
 
     debug.info("command: %s, args: %o", command, args);
     var child = spawn(command, args, opts);

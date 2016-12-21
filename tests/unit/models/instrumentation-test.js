@@ -821,8 +821,28 @@ describe('models/instrumentation.js', function() {
     });
 
     describe('._initSummary', function() {
-      it('has tests', function() {
+      it('computes an init summary', function() {
         var summary = instrumentation._initSummary(instrTree);
+
+        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+
+        expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+      });
+    });
+
+    describe('._commandSummary', function() {
+      it('computes a command summary', function() {
+        var summary = instrumentation._commandSummary(instrTree);
+
+        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+
+        expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+      });
+    });
+
+    describe('._shutdownSummary', function() {
+      it('computes a shutdown summary', function() {
+        var summary = instrumentation._shutdownSummary(instrTree);
 
         expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
 
