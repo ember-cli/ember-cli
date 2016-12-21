@@ -80,15 +80,19 @@ describe('build task test', function() {
 
     return task.run(runOptions)
       .then(function() {
-        var vizOutputPath = 'broccoli-viz.0.json';
+        var vizOutputPath = 'broccoli-viz.build.0.json';
         expect(file(vizOutputPath)).to.exist;
 
         // confirm it is valid json
         var output = fs.readJsonSync(vizOutputPath);
+        expect(Object.keys(output)).to.eql([
+          'summary', 'tree'
+        ]);
+
         expect(output.summary.build.type).to.equal('initial');
         expect(output.summary.buildSteps).to.equal(1);
 
-        expect('assert id, label (instead of _id, id)').to.eql(true);
+        expect(Array.isArray(output.tree.nodes)).to.equal(true);
       });
   });
 });
