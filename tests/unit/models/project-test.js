@@ -452,6 +452,10 @@ describe('models/project.js', function() {
       project = new Project(projectPath, {}, new MockUI());
     });
 
+    afterEach(function() {
+      delete process.env.EMBER_BOWER_DIRECTORY;
+    });
+
     it('should be initialized in constructor', function() {
       expect(project.bowerDirectory).to.equal('bower_components');
     });
@@ -478,6 +482,14 @@ describe('models/project.js', function() {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/invalid-bowerrc');
       project = new Project(projectPath, {}, new MockUI());
       expect(project.bowerDirectory).to.equal('bower_components');
+    });
+
+    it('should be overridden by EMBER_BOWER_DIRECTORY', function() {
+      process.env.EMBER_BOWER_DIRECTORY = 'directory_override';
+
+      projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-with-directory');
+      project = new Project(projectPath, {}, new MockUI());
+      expect(project.bowerDirectory).to.equal('directory_override');
     });
   });
 
