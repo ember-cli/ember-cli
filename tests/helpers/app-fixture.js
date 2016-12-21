@@ -1,5 +1,8 @@
+'use strict';
+
 var fs = require('fs-extra');
 var path = require('path');
+var symlinkOrCopySync = require('symlink-or-copy').sync;
 var merge = require('ember-cli-lodash-subset').merge;
 
 var fixturify = require('fixturify');
@@ -11,94 +14,192 @@ var root = path.resolve(__dirname, '..', '..');
 var PackageCache = require('../../tests/helpers/package-cache');
 var CommandGenerator = require('../../tests/helpers/command-generator');
 
-var packageCache = new PackageCache(root);
 var ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
-
-var flags = [
-  '--disable-analytics',
-  '--watcher=node',
-  '--skip-npm',
-  '--skip-bower',
-  '--skip-git'
-];
 
 function AppFixture(name) {
   this.type = 'app';
+  this.command = 'new';
   this.name = name;
+  this._installedAddons = [];
 
-  process.chdir(root);
-  this.dir = quickTemp.makeOrRemake({}, this.name + '-app-fixture');
-  process.chdir(originalWorkingDirectory);
-
-  ember.invoke('new', this.name, '--directory=' + this.dir, ...flags);
-  this.fixture = fixturify.readSync(this.dir);
+  this._init();
 }
 
 AppFixture.prototype = {
-  serialize: function() {
+
+  _init: function() {
+    process.chdir(root);
+    this.dir = quickTemp.makeOrRemake({}, this.name + '-' + this.type + '-fixture');
+    process.chdir(originalWorkingDirectory);
+
+    ember.invoke(
+      this.command,
+      this.name,
+      '--directory=' + this.dir,
+      '--disable-analytics',
+      '--watcher=node',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git'
+    );
+
+    this.fixture = fixturify.readSync(this.dir);
+
+    // Clean up after the generator.
+    fs.removeSync(this.dir);
+  },
+
+  serialize: function(isChild) {
+    var npmLinks = [];
+    var inRepoLinks = [];
+    this._installedAddons.forEach(function(addon) {
+      addon.serialize(true);
+
+      if (addon.type === 'addon') {
+        npmLinks.push({
+          name: addon.name,
+          path: addon.dir
+        });
+      } else if (addon.type === 'in-repo-addon') {
+        inRepoLinks.push({
+          from: path.join(this.dir, 'lib', addon.name),
+          to: addon.dir
+        });
+      }
+    });
+
     fixturify.writeSync(this.dir, this.fixture);
+
+    var packageCache = new PackageCache(root);
+
+    var from, to;
+    if (this.fixture['package.json'] || npmLinks.length) {
+      var nodePackageCache;
+      if (isChild) {
+        process.env.NODE_ENV = 'production';
+        nodePackageCache = packageCache.create(this.type + '-node', 'yarn', this.fixture['package.json'], npmLinks);
+        delete process.env.NODE_ENV;
+      } else {
+        nodePackageCache = packageCache.create(this.type + '-node', 'yarn', this.fixture['package.json'], npmLinks);
+      }
+
+      from = path.join(nodePackageCache, 'node_modules');
+      fs.mkdirsSync(from); // Just in case the path doesn't exist.
+      to = path.join(this.dir, 'node_modules');
+      symlinkOrCopySync(from, to);
+    }
+
+    if (!isChild && this.fixture['bower.json']) {
+      var bowerPackageCache = packageCache.create(this.type + '-bower', 'bower', this.fixture['bower.json']);
+
+      from = path.join(bowerPackageCache, 'bower_components');
+      fs.mkdirsSync(from); // Just in case the path doesn't exist.
+      to = path.join(this.dir, 'bower_components');
+      symlinkOrCopySync(from, to);
+    }
+
+    inRepoLinks.forEach(function(link) {
+      fs.mkdirsSync(path.dirname(link.to)); // Just in case the path doesn't exist.
+      symlinkOrCopySync(link.from, link.to);
+    });
+
     return this;
   },
+
   clean: function() {
     // Build up object to pass to quickTemp.
     var dir = {};
-    dir[this.name + '-app-fixture'] = this.dir;
+    dir[this.name + '-' + this.type + '-fixture'] = this.dir;
 
     process.chdir(root);
-    quickTemp.remove(dir, this.name + '-app-fixture');
+    quickTemp.remove(dir, this.name + '-' + this.type + '-fixture');
     process.chdir(originalWorkingDirectory);
 
     return this;
   },
 
-  _npmAddonInstall: function(addon) {
-    var config = this.getPackageJSON();
-    var addonConfig = addon.getPackageJSON();
-
-    this.fixture['node_modules'] = this.fixture['node_modules'] || {};
-    if (!this.fixture['node_modules'][addonConfig.name]) {
-      this.fixture['node_modules'][addonConfig.name] = addon.fixture;
-    }
-
-    config['dependencies'] = config['dependencies'] || {};
-    config['dependencies'][addonConfig.name] = '*';
-    this.setPackageJSON(config);
-
-    // TODO: Merge output files with PackageCache.
-
-    return this;
-  },
-  _inRepoAddonInstall: function(addon) {
-    var config = this.getPackageJSON();
-    var addonConfig = addon.getPackageJSON();
-
-    this.fixture['lib'] = this.fixture['lib'] || {};
-    if (!this.fixture['lib'][addonConfig.name]) {
-      this.fixture['lib'][addonConfig.name] = addon.fixture;
-    }
-
-    config['ember-addon'] = config['ember-addon'] || {};
-    config['ember-addon']['paths'] = config['ember-addon']['paths'] || [];
-    config['ember-addon'].paths.push('lib/' + addonConfig.name);
-    this.setPackageJSON(config);
-
-    return this;
-  },
   install: function(addon) {
-    if (addon.type === 'in-repo-addon') {
-      return this._inRepoAddonInstall(addon);
-    }
+    this._installedAddons.push(addon);
 
     if (addon.type === 'addon') {
       return this._npmAddonInstall(addon);
     }
 
-    throw new Error('whoops');
+    if (addon.type === 'in-repo-addon') {
+      return this._inRepoAddonInstall(addon);
+    }
+
+    throw new Error('Cannot install addon.');
+  },
+
+  _npmAddonInstall: function(addon) {
+    var config = this.getPackageJSON();
+
+    config['dependencies'] = config['dependencies'] || {};
+    config['dependencies'][addon.name] = '*';
+
+    this.setPackageJSON(config);
+    return this;
+  },
+
+  _inRepoAddonInstall: function(addon) {
+    var config = this.getPackageJSON();
+
+    config['ember-addon'] = config['ember-addon'] || {};
+    config['ember-addon']['paths'] = config['ember-addon']['paths'] || [];
+    config['ember-addon'].paths.push('lib/' + addon.name);
+
+    this.setPackageJSON(config);
+    return this;
+  },
+
+  uninstall: function(addon) {
+    var needle = addon;
+    var haystack = this._installedAddons;
+
+    if (~haystack.indexOf(needle)) {
+      this._installedAddons.splice(haystack.indexOf(needle), 1);
+    }
+
+    if (addon.type === 'addon') {
+      return this._npmAddonUninstall(addon);
+    }
+
+    if (addon.type === 'in-repo-addon') {
+      return this._inRepoAddonUninstall(addon);
+    }
+
+    throw new Error('Cannot uninstall addon.');
+  },
+
+  _npmAddonUninstall: function(addon) {
+    var config = this.getPackageJSON();
+
+    config['dependencies'] = config['dependencies'] || {};
+    delete config['dependencies'][addon.name];
+
+    this.setPackageJSON(config);
+    return this;
+  },
+
+  _inRepoAddonUninstall: function(addon) {
+    var config = this.getPackageJSON();
+
+    var needle = 'lib/' + addon.name;
+    var haystack = config['ember-addon']['paths'];
+
+    if (~haystack.indexOf(needle)) {
+      config['ember-addon']['paths'].splice(haystack.indexOf(needle), 1);
+    }
+
+    this.setPackageJSON(config);
+    return this;
   },
 
   getPackageJSON: function() {
     return JSON.parse(this.fixture['package.json']);
   },
+
   setPackageJSON: function(value) {
     return this.fixture['package.json'] = JSON.stringify(value);
   },
@@ -117,13 +218,10 @@ AppFixture.prototype = {
     merge(this.fixture, root);
     return this;
   },
+
   generateCSS: function(fileName) {
     var contents = '.' + this.name + ' { content: "' + fileName + '"; }';
     return this.generateFile(fileName, contents);
-  },
-
-  toJSON: function() {
-    return this.fixture;
   }
 };
 

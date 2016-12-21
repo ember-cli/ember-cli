@@ -50,6 +50,7 @@ var foo = generateStyleAddon('foo');
 root.install(foo);
 var bar = generateIRAddon('bar');
 root.install(bar);
+root.uninstall(bar);
 root.serialize();
 
 describe('Acceptance: CSS file generation.', function() {
