@@ -13,6 +13,11 @@ var expect = chai.expect;
 var instrumentation;
 
 describe('models/instrumentation.js', function() {
+  afterEach( function() {
+    delete process.env.BROCCOLI_VIZ;
+    delete process.env.EMBER_CLI_INSTRUMENTATION;
+  });
+
   describe('._enableFSMonitorIfInstrumentationEnabled', function() {
     var originalBroccoliViz = process.env.BROCCOLI_VIZ;
     var originalStatSync = fs.statSync;
@@ -64,7 +69,6 @@ describe('models/instrumentation.js', function() {
     });
   });
 
-
   describe('constructor', function() {
     var heimdall = require('heimdalljs');
     var heimdallStart;
@@ -75,6 +79,7 @@ describe('models/instrumentation.js', function() {
 
     afterEach( function() {
       delete process.env.EMBER_CLI_INSTRUMENTATION;
+      td.reset();
     });
 
     describe('when instrumentation is enabled', function() {
@@ -85,15 +90,18 @@ describe('models/instrumentation.js', function() {
       it('starts an init node if init instrumentation is missing', function() {
         var mockCookie = {};
 
-        td.when(heimdallStart('init')).thenReturn(mockCookie);
+        td.when(heimdallStart(td.matchers.contains({
+          name: 'init',
+          emberCLI: true,
+        }))).thenReturn(mockCookie);
 
         var instrumentation = new Instrumentation({
           ui: new MockUI(),
         });
 
-        expect(instrumentation.instrumentations.init).to.not.eql(undefined);
-        expect(instrumentation.instrumentations.init.cookie).to.eql(mockCookie);
-        expect(instrumentation.instrumentations.init.node).to.not.eql(undefined);
+        expect(instrumentation.instrumentations.init).to.not.equal(undefined);
+        expect(instrumentation.instrumentations.init.cookie).to.equal(mockCookie);
+        expect(instrumentation.instrumentations.init.node).to.not.equal(undefined);
       });
 
       it('does not create an init node if init instrumentation is included', function() {
@@ -124,10 +132,6 @@ describe('models/instrumentation.js', function() {
           'instrumentation will still be recorded, but some bootstraping will be ' +
           'omitted.'
         ) + '\n');
-      });
-
-      it('throws if initInstrumentation is the wrong shape', function() {
-        expect('assertions exist').to.eql(true);
       });
 
       it('does not warn if init instrumentation is included', function() {
@@ -245,19 +249,64 @@ describe('models/instrumentation.js', function() {
     });
   });
 
-
-  // TODO: impl, plus uncleaned converted tests below
   describe('.start', function() {
+    var project;
+    var instrumentation;
+    var heimdall;
+
+    beforeEach( function() {
+      project = new MockProject();
+      instrumentation = project.instrumentation;
+      instrumentation._heimdall = heimdall = new Heimdall();
+      process.env.EMBER_CLI_INSTRUMENTATION = '1';
+    });
+
     it('starts a new subtree for name', function() {
-      expect('assertions exist').to.eql(true);
+      var heimdallStart = td.replace(heimdall, 'start');
+
+      instrumentation.start('init');
+
+      td.verify(heimdallStart(td.matchers.contains({
+        name: 'init',
+        emberCLI: true,
+      })));
+
+      instrumentation.start('build');
+
+      td.verify(heimdallStart(td.matchers.contains({
+        name: 'build',
+        emberCLI: true,
+      })));
+
+      instrumentation.start('command');
+
+      td.verify(heimdallStart(td.matchers.contains({
+        name: 'command',
+        emberCLI: true,
+      })));
+
+      instrumentation.start('shutdown');
+
+      td.verify(heimdallStart(td.matchers.contains({
+        name: 'shutdown',
+        emberCLI: true,
+      })));
     });
 
     it('does not start a subtree if instrumentation is disabled', function() {
-      expect('assertions exist').to.eql(true);
+      process.env.EMBER_CLI_INSTRUMENTATION = 'no thanks';
+
+      var heimdallStart = td.replace(heimdall, 'start');
+
+      instrumentation.start('init');
+
+      td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
     });
 
     it('throws if name is unexpected', function() {
-      expect('assertions exist').to.eql(true);
+      expect(function () {
+        instrumentation.start('a party!');
+      }).to.throw('No such instrumentation "a party!"');
     });
   });
 
@@ -279,20 +328,68 @@ describe('models/instrumentation.js', function() {
       }, addon];
     });
 
-    afterEach( function() {
-      delete process.env.EMBER_CLI_INSTRUMENTATION;
-    });
-
     it('throws if name is unexpected', function() {
-      expect('assertions exist').to.eql(true);
+      expect(function () {
+        instrumentation.stopAndReport('the weather');
+      }).to.throw('No such instrumentation "the weather"');
     });
 
     it('throws if name has not yet started', function() {
-      expect('assertions exist').to.eql(true);
+      expect(function () {
+        instrumentation.stopAndReport('init');
+      }).to.throw('Cannot stop instrumentation "init".  It has not started.');
     });
 
-    it('noops if instrumentation is disabled', function() {
-      expect('assertions exist').to.eql(true);
+    it.only('computes summary for name', function() {
+      var buildSummary = td.replace(instrumentation, '_buildSummary');
+      var initSummary = td.replace(instrumentation, '_initSummary');
+      var treeFor = td.replace(instrumentation, '_instrumentationTreeFor');
+
+      var invokeAddonHook = td.replace(instrumentation, '_invokeAddonHook');
+      var writeInstrumentation = td.replace(instrumentation, '_writeInstrumentation');
+
+      var mockInitSummary = 'init summary';
+      var mockBuildSummary = 'build summary';
+      var mockInitTree = 'init tree';
+      var mockBuildTree = 'build tree';
+
+      td.when(initSummary()).thenReturn(mockInitSummary);
+      td.when(buildSummary()).thenReturn(mockBuildSummary);
+      td.when(treeFor('init')).thenReturn(mockInitTree);
+      td.when(treeFor('build')).thenReturn(mockBuildTree);
+
+      td.verify(invokeAddonHook(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(writeInstrumentation(), { ignoreExtraArgs: true, times: 0 });
+
+      instrumentation.start('init');
+      instrumentation.stopAndReport('init');
+
+      td.verify(invokeAddonHook('init', {
+        summary: mockInitSummary,
+        tree: mockInitTree,
+      }), { ignoreExtraArgs: true, times: 1 });
+
+      td.verify(writeInstrumentation('init', {
+        summary: mockInitSummary,
+        tree: mockInitTree,
+      }), { ignoreExtraArgs: true, times: 1 });
+
+
+      td.verify(invokeAddonHook(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(writeInstrumentation(), { ignoreExtraArgs: true, times: 1 });
+
+      instrumentation.start('build');
+      instrumentation.stopAndReport('build');
+
+      td.verify(invokeAddonHook('build', {
+        summary: mockBuildSummary,
+        tree: mockBuildTree,
+      }), { ignoreExtraArgs: true, times: 1 });
+
+      td.verify(writeInstrumentation('build', {
+        summary: mockBuildSummary,
+        tree: mockBuildTree,
+      }), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('writes instrumentation info if viz is enabled', function() {
@@ -303,16 +400,16 @@ describe('models/instrumentation.js', function() {
       expect('assertions exist').to.eql(true);
     });
 
-    it('computes summary for name', function() {
-      expect('assertions exist').to.eql(true);
-    });
-
     if (experiments.INSTRUMENTATION) {
       it('invokes addons that have [INSTRUMENTATION] for init', function() {
         expect('assertions exist').to.eql(true);
       });
 
       it('invokes addons that have [INSTRUMENTATION] for build', function() {
+        expect('assertions exist').to.eql(true);
+      });
+
+      it('does not invoke addons if instrumentation is disabled', function() {
         expect('assertions exist').to.eql(true);
       });
     }
