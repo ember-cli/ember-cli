@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs-extra');
 var path = require('path');
 
@@ -7,20 +9,26 @@ var quickTemp = require('quick-temp');
 var originalWorkingDirectory = process.cwd();
 var root = path.resolve(__dirname, '..', '..');
 
-var PackageCache = require('../../tests/helpers/package-cache');
 var CommandGenerator = require('../../tests/helpers/command-generator');
-
-var packageCache = new PackageCache(root);
 var ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
 
 var AddonFixture = require('./addon-fixture');
 
 function InRepoAddonFixture(name) {
-  this.type = 'addon';
+  this.type = 'in-repo-addon';
+  this.command = null;
   this.name = name;
+  this._installedAddons = [];
 
+  this._init();
+}
+
+InRepoAddonFixture.prototype = Object.create(AddonFixture.prototype);
+InRepoAddonFixture.prototype.constructor = InRepoAddonFixture;
+
+InRepoAddonFixture.prototype._init = function() {
   process.chdir(root);
-  this.dir = quickTemp.makeOrRemake({}, this.name + '-addon-fixture');
+  this.dir = quickTemp.makeOrRemake({}, this.name + '-' + this.type + '-fixture');
   process.chdir(originalWorkingDirectory);
 
   // Lie to the generator.
@@ -34,13 +42,6 @@ function InRepoAddonFixture(name) {
 
   // Clean up after the generator.
   fs.removeSync(this.dir);
-  fs.mkdirsSync(this.dir);
-
-  // Always start serialized.
-  this.serialize();
-}
-
-InRepoAddonFixture.prototype = Object.create(AddonFixture.prototype);
-InRepoAddonFixture.prototype.constructor = InRepoAddonFixture;
+};
 
 module.exports = InRepoAddonFixture;
