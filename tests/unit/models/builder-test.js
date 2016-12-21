@@ -21,7 +21,6 @@ var tmproot         = path.join(root, 'tmp');
 var MockUI = require('console-ui/mock');
 var Heimdall = require('heimdalljs/heimdall');
 var walkSync = require('walk-sync');
-var itr2Array = require('../../helpers/itr2array');
 var EventEmitter = require('events');
 var captureExit = require('capture-exit');
 

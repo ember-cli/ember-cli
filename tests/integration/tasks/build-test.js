@@ -87,6 +87,8 @@ describe('build task test', function() {
         var output = fs.readJsonSync(vizOutputPath);
         expect(output.summary.build.type).to.equal('initial');
         expect(output.summary.buildSteps).to.equal(1);
+
+        expect('assert id, label (instead of _id, id)').to.eql(true);
       });
   });
 });
