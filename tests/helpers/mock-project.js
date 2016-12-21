@@ -8,7 +8,13 @@ function MockProject() {
   var root = process.cwd();
   var pkg  = {};
   var ui = new MockUI();
-  var instr = new Instrumentation({ ui: ui });
+  var instr = new Instrumentation({
+    ui: ui,
+    initInstrumentation: {
+      cookie: null,
+      node: null,
+    }
+  });
   var cli = { instrumentation: instr };
   Project.apply(this, [root, pkg, ui, cli]);
 }
