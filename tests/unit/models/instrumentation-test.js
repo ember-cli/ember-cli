@@ -16,6 +16,8 @@ var experiments = require('../../../lib/experiments/');
 var Instrumentation = require('../../../lib/models/instrumentation');
 
 var expect = chai.expect;
+var any = td.matchers.anything;
+var contains = td.matchers.contains;
 
 var remove = Promise.denodeify(fse.remove);
 var root = process.cwd();
@@ -104,7 +106,7 @@ describe('models/instrumentation.js', function() {
       it('starts an init node if init instrumentation is missing', function() {
         var mockCookie = {};
 
-        td.when(heimdallStart(td.matchers.contains({
+        td.when(heimdallStart(contains({
           name: 'init',
           emberCLI: true,
         }))).thenReturn(mockCookie);
@@ -369,8 +371,8 @@ describe('models/instrumentation.js', function() {
       var mockInitTree = 'init tree';
       var mockBuildTree = 'build tree';
 
-      td.when(initSummary()).thenReturn(mockInitSummary);
-      td.when(buildSummary()).thenReturn(mockBuildSummary);
+      td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
+      td.when(buildSummary(any(), 'a', 'b')).thenReturn(mockBuildSummary);
       td.when(treeFor('init')).thenReturn(mockInitTree);
       td.when(treeFor('build')).thenReturn(mockBuildTree);
 
@@ -378,7 +380,7 @@ describe('models/instrumentation.js', function() {
       td.verify(writeInstrumentation(), { ignoreExtraArgs: true, times: 0 });
 
       instrumentation.start('init');
-      instrumentation.stopAndReport('init');
+      instrumentation.stopAndReport('init', 'a', 'b');
 
       td.verify(invokeAddonHook('init', {
         summary: mockInitSummary,
@@ -395,7 +397,7 @@ describe('models/instrumentation.js', function() {
       td.verify(writeInstrumentation(), { ignoreExtraArgs: true, times: 1 });
 
       instrumentation.start('build');
-      instrumentation.stopAndReport('build');
+      instrumentation.stopAndReport('build', 'a', 'b');
 
       td.verify(invokeAddonHook('build', {
         summary: mockBuildSummary,
@@ -419,8 +421,8 @@ describe('models/instrumentation.js', function() {
         var mockBuildSummary = { ok: 'build dokie' };
         var mockBuildTree = { i: 'can build json' };
 
-        td.when(initSummary()).thenReturn(mockInitSummary);
-        td.when(buildSummary()).thenReturn(mockBuildSummary);
+        td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
+        td.when(buildSummary(any(), 'a', 'b')).thenReturn(mockBuildSummary);
         td.when(treeFor('init')).thenReturn(mockInitTree);
         td.when(treeFor('build')).thenReturn(mockBuildTree);
 
@@ -435,7 +437,7 @@ describe('models/instrumentation.js', function() {
             process.chdir(tmproot);
 
             instrumentation.start('init');
-            instrumentation.stopAndReport('init');
+            instrumentation.stopAndReport('init', 'a', 'b');
 
             expect(fs.existsSync('broccoli-viz.init.json')).to.equal(true);
             expect(fse.readJsonSync('broccoli-viz.init.json')).to.eql({
@@ -444,7 +446,7 @@ describe('models/instrumentation.js', function() {
             });
 
             instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+            instrumentation.stopAndReport('build', 'a', 'b');
 
             expect(fs.existsSync('broccoli-viz.build.0.json')).to.equal(true);
             expect(fse.readJsonSync('broccoli-viz.build.0.json')).to.eql({
@@ -453,7 +455,7 @@ describe('models/instrumentation.js', function() {
             });
 
             instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+            instrumentation.stopAndReport('build', 'a', 'b');
 
             expect(fs.existsSync('broccoli-viz.build.1.json')).to.equal(true);
             expect(fse.readJsonSync('broccoli-viz.build.1.json')).to.eql({
@@ -504,8 +506,8 @@ describe('models/instrumentation.js', function() {
         mockBuildSummary = 'build summary';
         mockBuildTree = 'build tree';
 
-        td.when(initSummary()).thenReturn(mockInitSummary);
-        td.when(buildSummary()).thenReturn(mockBuildSummary);
+        td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
+        td.when(buildSummary(any(), 'a', 'b')).thenReturn(mockBuildSummary);
         td.when(treeFor('init')).thenReturn(mockInitTree);
         td.when(treeFor('build')).thenReturn(mockBuildTree);
       });
@@ -519,7 +521,7 @@ describe('models/instrumentation.js', function() {
           addon[experiments.INSTRUMENTATION] = hook;
 
           instrumentation.start('init');
-          instrumentation.stopAndReport('init');
+          instrumentation.stopAndReport('init', 'a', 'b');
 
           td.verify(hook('init', { summary: mockInitSummary, tree: mockInitTree }));
         });
@@ -531,7 +533,7 @@ describe('models/instrumentation.js', function() {
           addon[experiments.INSTRUMENTATION] = hook;
 
           instrumentation.start('build');
-          instrumentation.stopAndReport('build');
+          instrumentation.stopAndReport('build', 'a', 'b');
 
           td.verify(hook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
         });
@@ -543,7 +545,7 @@ describe('models/instrumentation.js', function() {
           addon[experiments.INSTRUMENTATION] = hook;
 
           instrumentation.start('build');
-          instrumentation.stopAndReport('build');
+          instrumentation.stopAndReport('build', 'a', 'b');
 
           td.verify(hook(), { ignoreExtraArgs: true, times: 0 });
         });
@@ -558,7 +560,7 @@ describe('models/instrumentation.js', function() {
             addon[experiments.BUILD_INSTRUMENTATION] = hook;
 
             instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+            instrumentation.stopAndReport('build', 'a', 'b');
 
             td.verify(hook({ summary: mockBuildSummary, tree: mockBuildTree }));
           });
@@ -574,7 +576,7 @@ describe('models/instrumentation.js', function() {
             addon[experiments.BUILD_INSTRUMENTATION] = buildInstrHook;
 
             instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+            instrumentation.stopAndReport('build', 'a', 'b');
 
             td.verify(instrHook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
             td.verify(buildInstrHook(), { ignoreExtraArgs: true, times: 0});
@@ -708,7 +710,7 @@ describe('models/instrumentation.js', function() {
     });
   });
 
-  describe('._buildSummary', function() {
+  describe('summaries', function() {
     var instrTree;
     var instrumentation;
 
@@ -731,95 +733,101 @@ describe('models/instrumentation.js', function() {
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
     });
 
-    it('computes inital build sumamries', function() {
-      var result = {
-        directory: 'tmp/someplace',
-        outputChanges: ['assets/foo.js', 'assets/foo.css'],
-      };
-      var annotation = {
-        type: 'initial',
-      };
+    describe('._buildSummary', function() {
+      it('computes inital build sumamries', function() {
+        var result = {
+          directory: 'tmp/someplace',
+          outputChanges: ['assets/foo.js', 'assets/foo.css'],
+        };
+        var annotation = {
+          type: 'initial',
+        };
 
-      var summary = instrumentation._buildSummary(instrTree, result, annotation);
+        var summary = instrumentation._buildSummary(instrTree, result, annotation);
 
-      expect(Object.keys(summary)).to.eql([
-        'build', 'output', 'totalTime','buildSteps'
-      ]);
+        expect(Object.keys(summary)).to.eql([
+          'build', 'output', 'totalTime','buildSteps'
+        ]);
 
-      expect(summary.build).to.eql({
-        type: 'initial',
-        count: 0,
-        outputChangedFiles: ['assets/foo.js', 'assets/foo.css'],
+        expect(summary.build).to.eql({
+          type: 'initial',
+          count: 0,
+          outputChangedFiles: ['assets/foo.js', 'assets/foo.css'],
+        });
+
+        expect(summary.output).to.eql('tmp/someplace');
+        expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
+        expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
       });
 
-      expect(summary.output).to.eql('tmp/someplace');
-      expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
-      expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
-    });
+      it('computes rebuild summaries', function() {
+        var result = {
+          directory: 'tmp/someplace',
+          outputChanges: ['assets/foo.js', 'assets/foo.css'],
+        };
+        var annotation = {
+          type: 'rebuild',
+          primaryFile: 'a',
+          changedFiles: [
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+          ],
+        };
 
-    it('computes rebuild summaries', function() {
-      var result = {
-        directory: 'tmp/someplace',
-        outputChanges: ['assets/foo.js', 'assets/foo.css'],
-      };
-      var annotation = {
-        type: 'rebuild',
-        primaryFile: 'a',
-        changedFiles: [
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-        ],
-      };
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', result, annotation);
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', result, annotation);
 
-      instrumentation.start('build');
-      instrumentation.stopAndReport('build', result, annotation);
-      instrumentation.start('build');
-      instrumentation.stopAndReport('build', result, annotation);
+        var summary = instrumentation._buildSummary(instrTree, result, annotation);
 
-      var summary = instrumentation._buildSummary(instrTree, result, annotation);
+        expect(Object.keys(summary)).to.eql([
+          'build', 'output', 'totalTime','buildSteps'
+        ]);
 
-      expect(Object.keys(summary)).to.eql([
-        'build', 'output', 'totalTime','buildSteps'
-      ]);
+        expect(summary.build).to.eql({
+          type: 'rebuild',
+          count: 2,
+          outputChangedFiles: ['assets/foo.js', 'assets/foo.css'],
+          primaryFile: 'a',
+          changedFileCount: 11,
+          changedFiles: [
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+          ],
+        });
 
-      expect(summary.build).to.eql({
-        type: 'rebuild',
-        count: 2,
-        outputChangedFiles: ['assets/foo.js', 'assets/foo.css'],
-        primaryFile: 'a',
-        changedFileCount: 11,
-        changedFiles: [
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-        ],
+        expect(summary.output).to.eql('tmp/someplace');
+        expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
+        expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
       });
-
-      expect(summary.output).to.eql('tmp/someplace');
-      expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
-      expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
     });
-  });
 
-  describe('._initSummary', function() {
-    it('has tests', function() {
-      expect('assertions exist').to.eql(true);
+    describe('._initSummary', function() {
+      it('has tests', function() {
+        var summary = instrumentation._initSummary(instrTree);
+
+        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+
+        expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+      });
     });
   });
 });
