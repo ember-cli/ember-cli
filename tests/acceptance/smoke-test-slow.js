@@ -216,7 +216,7 @@ describe('Acceptance: smoke-test', function() {
 
   if (experiments.INSTRUMENTATION) {
     it('ember build generates instrumentation files when viz is enabled', function() {
-      process.env.BROCCOLI_VIZ='1';
+      process.env.BROCCOLI_VIZ = '1';
 
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
         env: {

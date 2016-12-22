@@ -5,14 +5,16 @@ var Project    = require('../../../lib/models/project');
 var EmberAddon = require('../../../lib/broccoli/ember-addon');
 var EmberApp = require('../../../lib/broccoli/ember-app');
 var expect     = require('chai').expect;
+var MockCLI = require('../../helpers/mock-cli');
 
 describe('EmberAddon', function() {
   var project, emberAddon, projectPath;
 
   function setupProject(rootPath) {
     var packageContents = require(path.join(rootPath, 'package.json'));
+    var cli = new MockCLI();
 
-    project = new Project(rootPath, packageContents);
+    project = new Project(rootPath, packageContents, cli.ui, cli);
     project.require = function() {
       return function() {};
     };

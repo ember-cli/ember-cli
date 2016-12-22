@@ -306,8 +306,6 @@ describe('models/builder.js', function() {
     var instrumentationArg;
 
     beforeEach(function() {
-      delete process.env.BROCCOLI_VIZ;
-      delete process.env.EMBER_CLI_INSTRUMENTATION;
       instrumentationArg = undefined;
       hooksCalled = [];
       addon = {
@@ -356,6 +354,11 @@ describe('models/builder.js', function() {
       buildResults = 'build results';
     });
 
+    afterEach(function () {
+      delete process.env.BROCCOLI_VIZ;
+      delete process.env.EMBER_CLI_INSTRUMENTATION;
+    });
+
     it('allows addons to add promises preBuild', function() {
       var preBuild = td.replace(addon, 'preBuild', td.function());
       td.when(preBuild(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
@@ -381,7 +384,7 @@ describe('models/builder.js', function() {
 
 
     describe('instrumentation hooks', function() {
-      beforeEach( function() {
+      beforeEach(function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 

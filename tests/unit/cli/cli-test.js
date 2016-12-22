@@ -44,7 +44,7 @@ function ember(args) {
   }).then(function (value) {
     td.verify(stopInstr('init'), { times: 1 });
     td.verify(startInstr('command'), { times: 1 });
-    td.verify(stopInstr('command', td.matchers.isA(String), td.matchers.isA(Array)), { times: 1 });
+    td.verify(stopInstr('command', td.matchers.anything(), td.matchers.isA(Array)), { times: 1 });
     td.verify(startInstr('shutdown'), { times: 1 });
 
     return value;

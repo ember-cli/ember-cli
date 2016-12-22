@@ -12,6 +12,7 @@ var Blueprint     = require('../../../lib/models/blueprint');
 var Project       = require('../../../lib/models/project');
 var Task          = require('../../../lib/models/task');
 var InitCommand   = require('../../../lib/commands/init');
+var MockCLI = require('../../helpers/mock-cli');
 var td = require('testdouble');
 
 describe('init command', function() {
@@ -38,10 +39,11 @@ describe('init command', function() {
   });
 
   function buildCommand(projectOpts) {
+    var cli = new MockCLI({ ui: ui });
     var options = {
       ui: ui,
       analytics: analytics,
-      project: new Project(process.cwd(), projectOpts || { name: 'some-random-name' }),
+      project: new Project(process.cwd(), projectOpts || { name: 'some-random-name' }, ui, cli),
       tasks: tasks,
       settings: {}
     };

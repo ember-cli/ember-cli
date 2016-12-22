@@ -1,3 +1,5 @@
+'use strict';
+
 var Heimdall = require('heimdalljs/heimdall');
 var tree = require('heimdalljs-tree');
 var chai = require('../../chai');
@@ -26,7 +28,7 @@ var tmproot = path.join(root, 'tmp');
 var instrumentation;
 
 describe('models/instrumentation.js', function() {
-  afterEach( function() {
+  afterEach(function() {
     delete process.env.BROCCOLI_VIZ;
     delete process.env.EMBER_CLI_INSTRUMENTATION;
 
@@ -40,6 +42,7 @@ describe('models/instrumentation.js', function() {
 
     beforeEach(function () {
       expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
+      expect(!!process.env.EMBER_CLI_INSTRUMENTATION).to.eql(false);
     });
 
     afterEach(function() {
@@ -89,17 +92,17 @@ describe('models/instrumentation.js', function() {
     var heimdall = require('heimdalljs');
     var heimdallStart;
 
-    beforeEach( function() {
+    beforeEach(function() {
       heimdallStart = td.replace(heimdall, 'start');
     });
 
-    afterEach( function() {
+    afterEach(function() {
       delete process.env.EMBER_CLI_INSTRUMENTATION;
       td.reset();
     });
 
     describe('when instrumentation is enabled', function() {
-      beforeEach( function() {
+      beforeEach(function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
@@ -166,7 +169,7 @@ describe('models/instrumentation.js', function() {
     });
 
     describe('when instrumentation is not enabled', function() {
-      beforeEach( function() {
+      beforeEach(function() {
         expect(process.env.EMBER_CLI_INSTRUMENTATION).to.eql(undefined);
       });
 
@@ -270,7 +273,7 @@ describe('models/instrumentation.js', function() {
     var instrumentation;
     var heimdall;
 
-    beforeEach( function() {
+    beforeEach(function() {
       project = new MockProject();
       instrumentation = project.instrumentation;
       instrumentation._heimdall = heimdall = new Heimdall();
@@ -332,7 +335,7 @@ describe('models/instrumentation.js', function() {
     var heimdall;
     var addon;
 
-    beforeEach( function() {
+    beforeEach(function() {
       project = new MockProject();
       instrumentation = project.instrumentation;
       heimdall = instrumentation._heimdall = new Heimdall();
@@ -411,7 +414,7 @@ describe('models/instrumentation.js', function() {
     });
 
     describe('writes to disk', function() {
-      beforeEach( function() {
+      beforeEach(function() {
         var buildSummary = td.replace(instrumentation, '_buildSummary');
         var initSummary = td.replace(instrumentation, '_initSummary');
         var treeFor = td.replace(instrumentation, '_instrumentationTreeFor');
@@ -504,12 +507,12 @@ describe('models/instrumentation.js', function() {
       var mockBuildSummary;
       var mockBuildTree;
 
-      beforeEach( function() {
+      beforeEach(function() {
         var buildSummary = td.replace(instrumentation, '_buildSummary');
         var initSummary = td.replace(instrumentation, '_initSummary');
         var treeFor = td.replace(instrumentation, '_instrumentationTreeFor');
 
-        mockInitSummary = 'init summary';;
+        mockInitSummary = 'init summary';
         mockInitTree = 'init tree';
         mockBuildSummary = 'build summary';
         mockBuildTree = 'build tree';
@@ -601,7 +604,13 @@ describe('models/instrumentation.js', function() {
     }
 
     function makeTree(name) {
-      instrumentation = new Instrumentation({ ui: new MockUI() });
+      instrumentation = new Instrumentation({
+        ui: new MockUI(),
+        initInstrumentation: {
+          node: null,
+          cookie: null,
+        }
+      });
       var heimdall = instrumentation._heimdall = new Heimdall();
 
       // {init,build,command,shutdown}
@@ -706,13 +715,13 @@ describe('models/instrumentation.js', function() {
     }
 
     it('produces a valid tree for init', function() {
-      process.env.EMBER_CLI_INSTRUMENTATION='1';
+      process.env.EMBER_CLI_INSTRUMENTATION = '1';
       makeTree('init');
       assertTreeValid('init', instrumentation._instrumentationTreeFor('init'));
     });
 
     it('produces a valid tree for build', function() {
-      process.env.EMBER_CLI_INSTRUMENTATION='1';
+      process.env.EMBER_CLI_INSTRUMENTATION = '1';
       makeTree('build');
       assertTreeValid('build', instrumentation._instrumentationTreeFor('build'));
     });
@@ -722,7 +731,7 @@ describe('models/instrumentation.js', function() {
     var instrTree;
     var instrumentation;
 
-    beforeEach( function() {
+    beforeEach(function() {
       instrumentation = new Instrumentation({ ui: new MockUI(), });
 
       var heimdall = new Heimdall();
