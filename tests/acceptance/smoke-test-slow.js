@@ -215,7 +215,7 @@ describe('Acceptance: smoke-test', function() {
 
 
   if (experiments.INSTRUMENTATION) {
-    it.only('ember build generates instrumentation files when viz is enabled', function() {
+    it('ember build generates instrumentation files when viz is enabled', function() {
       process.env.BROCCOLI_VIZ='1';
 
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
@@ -233,10 +233,10 @@ describe('Acceptance: smoke-test', function() {
 
           var json = fs.readJsonSync(instrumentationFile);
           expect(Object.keys(json)).to.eql([
-            'summary', 'tree'
+            'summary', 'nodes'
           ]);
 
-          expect(Array.isArray(json.tree.nodes)).to.equal(true);
+          expect(Array.isArray(json.nodes)).to.equal(true);
         });
       });
     });

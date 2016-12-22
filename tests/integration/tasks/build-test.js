@@ -63,7 +63,7 @@ describe('build task test', function() {
       });
   });
 
-  it('generates valid visualization output', function() {
+  it.only('generates valid visualization output', function() {
     process.env.BROCCOLI_VIZ = '1';
 
     var outputPath = 'dist';
@@ -86,13 +86,13 @@ describe('build task test', function() {
         // confirm it is valid json
         var output = fs.readJsonSync(vizOutputPath);
         expect(Object.keys(output)).to.eql([
-          'summary', 'tree'
+          'summary', 'nodes'
         ]);
 
         expect(output.summary.build.type).to.equal('initial');
         expect(output.summary.buildSteps).to.equal(1);
 
-        expect(Array.isArray(output.tree.nodes)).to.equal(true);
+        expect(Array.isArray(output.nodes)).to.equal(true);
       });
   });
 });
