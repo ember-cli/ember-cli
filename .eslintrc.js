@@ -115,6 +115,8 @@ module.exports = {
     // JSHint "quotmark"
     'quotes': [2, 'single'],
 
-    'semi': [2, 'always']
+    'semi': [2, 'always'],
+
+    'no-bitwise': [2]
   },
 };
