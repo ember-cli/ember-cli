@@ -63,7 +63,7 @@ describe('build task test', function() {
       });
   });
 
-  it.only('generates valid visualization output', function() {
+  it('generates valid visualization output', function() {
     process.env.BROCCOLI_VIZ = '1';
 
     var outputPath = 'dist';

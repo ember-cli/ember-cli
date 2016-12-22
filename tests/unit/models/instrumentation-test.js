@@ -417,9 +417,17 @@ describe('models/instrumentation.js', function() {
         var treeFor = td.replace(instrumentation, '_instrumentationTreeFor');
 
         var mockInitSummary = { ok: 'init dokie' };
-        var mockInitTree = { i: 'can init json' };
+        var mockInitTree = {
+          toJSON: function () {
+            return { nodes: [{ i: 'can init json' }] };
+          }
+        };
         var mockBuildSummary = { ok: 'build dokie' };
-        var mockBuildTree = { i: 'can build json' };
+        var mockBuildTree = {
+          toJSON: function () {
+            return { nodes: [{ i: 'can build json' }] };
+          }
+        };
 
         td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
         td.when(buildSummary(any(), 'a', 'b')).thenReturn(mockBuildSummary);
@@ -442,7 +450,7 @@ describe('models/instrumentation.js', function() {
             expect(fs.existsSync('broccoli-viz.init.json')).to.equal(true);
             expect(fse.readJsonSync('broccoli-viz.init.json')).to.eql({
               summary: { ok: 'init dokie', },
-              tree: { i: 'can init json' },
+              nodes: [{ i: 'can init json' }],
             });
 
             instrumentation.start('build');
@@ -451,7 +459,7 @@ describe('models/instrumentation.js', function() {
             expect(fs.existsSync('broccoli-viz.build.0.json')).to.equal(true);
             expect(fse.readJsonSync('broccoli-viz.build.0.json')).to.eql({
               summary: { ok: 'build dokie', },
-              tree: { i: 'can build json' },
+              nodes: [{ i: 'can build json' }],
             });
 
             instrumentation.start('build');
@@ -460,7 +468,7 @@ describe('models/instrumentation.js', function() {
             expect(fs.existsSync('broccoli-viz.build.1.json')).to.equal(true);
             expect(fse.readJsonSync('broccoli-viz.build.1.json')).to.eql({
               summary: { ok: 'build dokie', },
-              tree: { i: 'can build json' },
+              nodes: [{ i: 'can build json' }],
             });
           });
       });
@@ -832,10 +840,12 @@ describe('models/instrumentation.js', function() {
 
     describe('._commandSummary', function() {
       it('computes a command summary', function() {
-        var summary = instrumentation._commandSummary(instrTree);
+        var summary = instrumentation._commandSummary(instrTree, 'build', ['--like', '--whatever']);
 
-        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+        expect(Object.keys(summary)).to.eql([ 'name', 'args', 'totalTime' ]);
 
+        expect(summary.name).to.equal('build');
+        expect(summary.args).to.eql(['--like', '--whatever']);
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
       });
     });
