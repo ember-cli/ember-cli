@@ -13,5 +13,12 @@ module.exports = function (defaults) {
     outputFile: '/assets/output.js'
   });
 
+  app.import('vendor/anonymous-amd-example.js', {
+    using: [
+      { transformation: 'amd',  as: 'hello-world'}
+    ],
+    outputFile: '/assets/output.js'
+  });
+
   return app.toTree();
 };
