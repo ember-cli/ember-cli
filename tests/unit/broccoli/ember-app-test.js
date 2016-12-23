@@ -1060,7 +1060,7 @@ describe('broccoli/ember-app', function() {
         };
       });
 
-      it('prevents duplicate inclusion, maintains order', function() {
+      it('prevents duplicate inclusion, maintains order: CSS', function() {
         app.import('files/a.css');
         app.import('files/e.css'); // should be omitted.
         app.import('files/b.css');
@@ -1128,10 +1128,13 @@ describe('broccoli/ember-app', function() {
         });
       });
 
-      it('correct orders concats from app.javacsript()', function() {
+      it('correctly orders concats from app.javacsript()', function() {
         app.import('files/b.js');
         app.import('files/c.js');
-        app.import('files/a.js', { prepend: true });
+        app.import('files/a.js');
+        app.import('files/a.js', { prepend: true }); // Should end up second.
+        app.import('files/d.js');
+        app.import('files/d.js', { prepend: true }); // Should end up first.
         app.import('files/d.js');
 
         app.javascript(); // run
@@ -1159,13 +1162,13 @@ describe('broccoli/ember-app', function() {
           annotation: "Concat: Vendor /assets/vendor.js",
           headerFiles: [
             "vendor/ember-cli/vendor-prefix.js",
+            "files/d.js",
             "files/a.js",
             "bower_components/jquery/dist/jquery.js",
             "bower_components/ember/ember.js",
             "bower_components/ember-cli-shims/app-shims.js",
             "files/b.js",
             "files/c.js",
-            "files/d.js",
             "vendor/addons.js",
             "vendor/ember-cli/vendor-suffix.js"
           ],
@@ -1175,10 +1178,12 @@ describe('broccoli/ember-app', function() {
       });
 
       it('correctly orders concats from app.testFiles()', function() {
-        app.import('files/b.js', { type: 'test'});
-        app.import('files/c.js', { type: 'test'});
-        app.import('files/a.js', { type: 'test', prepend: true });
+        app.import('files/b.js', { type: 'test' });
+        app.import('files/c.js', { type: 'test' });
+        app.import('files/a.js', { type: 'test' });
+        app.import('files/a.js', { type: 'test', prepend: true }); // Should end up second.
         app.import('files/d.js', { type: 'test' });
+        app.import('files/d.js', { type: 'test', prepend: true }); // Should end up first.
         app.import('files/d.js', { type: 'test' });
 
         app.import('files/b.css', { type: 'test' });
@@ -1213,10 +1218,10 @@ describe('broccoli/ember-app', function() {
           ],
           headerFiles: [
             'vendor/ember-cli/test-support-prefix.js',
+            'files/d.js',
             'files/a.js',
             'files/b.js',
-            'files/c.js',
-            'files/d.js'
+            'files/c.js'
           ],
           inputFiles: [
             'addon-test-support/**/*.js'
