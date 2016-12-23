@@ -94,6 +94,10 @@ git checkout -B master --track origin/master
 
 # Merge the new beta release into the "master" branch
 git merge vX.Y.0-beta.1
+
+# Confirm that experiments are turned on before pushing it back to master.
+# Push back upstream.
+git push origin
 ```
 
 
@@ -161,6 +165,7 @@ ember serve
 * if releasing using Windows, check that it works on a Linux VM
   * we are checking if any Windows line endings snuck in, because they won't work on Unix
 * if releasing using Unix, you are set, Windows can read your line endings
+* If `release` or `beta` confirm that all experiments are off.
 
 ### Update Artifacts
 
