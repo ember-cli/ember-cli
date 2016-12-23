@@ -95,7 +95,7 @@ git checkout -B master --track origin/master
 # Merge the new beta release into the "master" branch
 git merge vX.Y.0-beta.1
 
-# Confirm that experiments are turned on.
+# Confirm that experiments are turned on before pushing it back to master.
 # Push back upstream.
 git push origin
 ```
