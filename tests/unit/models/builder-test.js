@@ -387,17 +387,17 @@ describe('models/builder.js', function() {
       var result = Builder._computeVizInfo(0, buildResults, resultAnnotation);
       var buildTree = result.buildTree;
 
-      var preOrderNames = itr2Array(buildTree.preOrderIterator()).map(function (x) { return x.label.name; });
-      expect(preOrderNames, 'pre order').to.eql([
+      var depthFirstNames = itr2Array(buildTree.dfsIterator()).map(function (x) { return x.label.name; });
+      expect(depthFirstNames, 'pre order').to.eql([
         'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3'
       ]);
 
-      var postOrderNames = itr2Array(buildTree.postOrderIterator()).map(function (x) { return x.label.name; });
-      expect(postOrderNames, 'post order').to.eql([
+      var breadthFirstNames = itr2Array(buildTree.bfsIterator()).map(function (x) { return x.label.name; });
+      expect(breadthFirstNames, 'post order').to.eql([
         'c1', 'b1', 'd1', 'c2', 'c3', 'b2', 'a'
       ]);
 
-      var c2 = itr2Array(buildTree.preOrderIterator()).filter(function (x) {
+      var c2 = itr2Array(buildTree.dfsIterator()).filter(function (x) {
         return x.label.name === 'c2';
       })[0];
 
