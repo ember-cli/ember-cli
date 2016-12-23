@@ -4,7 +4,7 @@ var expect         = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
 var map            = require('ember-cli-lodash-subset').map;
 var AddonCommand   = require('../../../lib/commands/addon');
-var Blueprint      = require('../../../lib/models/blueprint');
+var Blueprint      = require('blprnt');
 var td = require('testdouble');
 
 describe('addon command', function() {

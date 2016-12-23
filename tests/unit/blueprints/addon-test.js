@@ -1,6 +1,6 @@
 'use strict';
 
-var Blueprint   = require('../../../lib/models/blueprint');
+var Blueprint   = require('blprnt');
 var MockProject = require('../../helpers/mock-project');
 var expect      = require('chai').expect;
 var proxyquire  = require('proxyquire');

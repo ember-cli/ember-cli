@@ -8,7 +8,7 @@ var processHelpString = require('../../helpers/process-help-string');
 var MockProject       = require('../../helpers/mock-project');
 var Promise           = require('../../../lib/ext/promise');
 var Task              = require('../../../lib/models/task');
-var Blueprint         = require('../../../lib/models/blueprint');
+var Blueprint         = require('blprnt');
 var GenerateCommand   = require('../../../lib/commands/generate');
 var td = require('testdouble');
 

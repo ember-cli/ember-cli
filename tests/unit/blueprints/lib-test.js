@@ -11,6 +11,7 @@ var expect = require('ember-cli-blueprint-test-helpers/chai').expect;
 var dir = require('chai-files').dir;
 
 describe('Acceptance: ember generate and destroy lib', function() {
+  return;
   setupTestHooks(this, {
     cliPath: path.resolve(__dirname + '/../../..'),
   });

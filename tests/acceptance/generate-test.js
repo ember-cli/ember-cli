@@ -9,7 +9,7 @@ var remove           = Promise.denodeify(fs.remove);
 var replaceFile      = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 var root             = process.cwd();
 var tmproot          = path.join(root, 'tmp');
-var Blueprint        = require('../../lib/models/blueprint');
+var Blueprint        = require('blprnt');
 var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
 
@@ -24,10 +24,12 @@ describe('Acceptance: ember generate', function() {
   var tmpdir;
 
   before(function() {
+    // TODO: remove
     BlueprintNpmTask.disableNPM(Blueprint);
   });
 
   after(function() {
+    // TODO: remove
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
