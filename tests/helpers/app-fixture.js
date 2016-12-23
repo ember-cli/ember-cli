@@ -52,6 +52,7 @@ AppFixture.prototype = {
   serialize: function(isChild) {
     var npmLinks = [];
     var inRepoLinks = [];
+    var self = this;
     this._installedAddons.forEach(function(addon) {
       addon.serialize(true);
 
@@ -62,7 +63,7 @@ AppFixture.prototype = {
         });
       } else if (addon.type === 'in-repo-addon') {
         inRepoLinks.push({
-          from: path.join(this.dir, 'lib', addon.name),
+          from: path.join(self.dir, 'lib', addon.name),
           to: addon.dir
         });
       }
@@ -77,7 +78,7 @@ AppFixture.prototype = {
       var nodePackageCache;
       if (isChild) {
         process.env.NODE_ENV = 'production';
-        nodePackageCache = packageCache.create(this.type + '-node', 'yarn', this.fixture['package.json'], npmLinks);
+        nodePackageCache = packageCache.create(this.type + '-production-node', 'yarn', this.fixture['package.json'], npmLinks);
         delete process.env.NODE_ENV;
       } else {
         nodePackageCache = packageCache.create(this.type + '-node', 'yarn', this.fixture['package.json'], npmLinks);
@@ -99,8 +100,9 @@ AppFixture.prototype = {
     }
 
     inRepoLinks.forEach(function(link) {
+      fs.mkdirsSync(path.dirname(link.from)); // Just in case the path doesn't exist.
       fs.mkdirsSync(path.dirname(link.to)); // Just in case the path doesn't exist.
-      symlinkOrCopySync(link.from, link.to);
+      symlinkOrCopySync(link.to, link.from);
     });
 
     return this;
