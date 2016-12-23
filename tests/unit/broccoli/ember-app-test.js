@@ -1060,11 +1060,38 @@ describe('broccoli/ember-app', function() {
         };
       });
 
-      it('correctly orders concats from app.styles()', function() {
-        app.import('files/c.css');
-        app.import('files/b.css');
-        app.import('files/a.css', { prepend: true });
+      it('prevents duplicate inclusion, maintains order: CSS', function() {
         app.import('files/a.css');
+        app.import('files/e.css'); // should be omitted.
+        app.import('files/b.css');
+        app.import('files/c.css');
+        app.import('files/d.css');
+        app.import('files/c.css', { prepend: true }); // should be omitted.
+        app.import('files/e.css');
+
+        app.styles(); // run
+
+        expect(count).to.eql(3);
+
+        expect(args[2]).to.deep.eql({
+          annotation: 'Concat: Vendor Styles/assets/vendor.css',
+          headerFiles: [
+            'files/a.css',
+            'files/b.css',
+            'files/c.css',
+            'files/d.css',
+            'files/e.css',
+            'vendor/addons.css',
+          ],
+          outputFile: '/assets/vendor.css'
+        });
+      });
+
+      it('correctly orders concats from app.styles()', function() {
+        app.import('files/b.css');
+        app.import('files/c.css');
+        app.import('files/a.css', { prepend: true });
+        app.import('files/d.css');
 
         app.styles(); // run
 
@@ -1092,19 +1119,23 @@ describe('broccoli/ember-app', function() {
           annotation: 'Concat: Vendor Styles/assets/vendor.css',
           headerFiles: [
             'files/a.css',
-            'files/c.css',
             'files/b.css',
-            'files/a.css',
+            'files/c.css',
+            'files/d.css',
             'vendor/addons.css',
           ],
           outputFile: '/assets/vendor.css'
         });
       });
-      it('correct orders concats from app.javacsript()', function() {
-        app.import('files/c.js');
+
+      it('correctly orders concats from app.javacsript()', function() {
         app.import('files/b.js');
-        app.import('files/a.js', { prepend: true });
+        app.import('files/c.js');
         app.import('files/a.js');
+        app.import('files/a.js', { prepend: true }); // Should end up second.
+        app.import('files/d.js');
+        app.import('files/d.js', { prepend: true }); // Should end up first.
+        app.import('files/d.js');
 
         app.javascript(); // run
 
@@ -1126,18 +1157,18 @@ describe('broccoli/ember-app', function() {
           outputFile: "/assets/test-project.js"
         });
 
-        // should be: a,c,b,a in output
+        // should be: a,b,c,d in output
         expect(args[1]).to.deep.eql({
           annotation: "Concat: Vendor /assets/vendor.js",
           headerFiles: [
             "vendor/ember-cli/vendor-prefix.js",
+            "files/d.js",
             "files/a.js",
             "bower_components/jquery/dist/jquery.js",
             "bower_components/ember/ember.js",
             "bower_components/ember-cli-shims/app-shims.js",
-            "files/c.js",
             "files/b.js",
-            "files/a.js",
+            "files/c.js",
             "vendor/addons.js",
             "vendor/ember-cli/vendor-suffix.js"
           ],
@@ -1147,15 +1178,19 @@ describe('broccoli/ember-app', function() {
       });
 
       it('correctly orders concats from app.testFiles()', function() {
-        app.import('files/c.js', { type: 'test'});
-        app.import('files/b.js', { type: 'test'});
-        app.import('files/a.js', { type: 'test', prepend: true });
+        app.import('files/b.js', { type: 'test' });
+        app.import('files/c.js', { type: 'test' });
         app.import('files/a.js', { type: 'test' });
+        app.import('files/a.js', { type: 'test', prepend: true }); // Should end up second.
+        app.import('files/d.js', { type: 'test' });
+        app.import('files/d.js', { type: 'test', prepend: true }); // Should end up first.
+        app.import('files/d.js', { type: 'test' });
 
-        app.import('files/c.css', { type: 'test' });
         app.import('files/b.css', { type: 'test' });
-        app.import('files/a.css', { type: 'test' });
+        app.import('files/c.css', { type: 'test' });
         app.import('files/a.css', { type: 'test', prepend: true });
+        app.import('files/d.css', { type: 'test' });
+        app.import('files/d.css', { type: 'test' });
 
         app.testFiles('some-tree'); // run
 
@@ -1183,10 +1218,10 @@ describe('broccoli/ember-app', function() {
           ],
           headerFiles: [
             'vendor/ember-cli/test-support-prefix.js',
+            'files/d.js',
             'files/a.js',
-            'files/c.js',
             'files/b.js',
-            'files/a.js'
+            'files/c.js'
           ],
           inputFiles: [
             'addon-test-support/**/*.js'
@@ -1198,9 +1233,9 @@ describe('broccoli/ember-app', function() {
           annotation: 'Concat: Test Support CSS',
           headerFiles: [
             'files/a.css',
-            'files/c.css',
             'files/b.css',
-            'files/a.css',
+            'files/c.css',
+            'files/d.css'
           ],
           outputFile: '/assets/test-support.css'
         });
