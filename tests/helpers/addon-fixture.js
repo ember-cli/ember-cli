@@ -30,4 +30,11 @@ AddonFixture.prototype.after = function(addon) {
   return this;
 };
 
+AddonFixture.prototype.addMethod = function(methodName, method) {
+  var marker = 'module.exports = {';
+  method = '\n' + methodName + ': ' + method + ',';
+  this.fixture['index.js'] = this.fixture['index.js'].replace(marker, marker + method);
+  return this;
+};
+
 module.exports = AddonFixture;
