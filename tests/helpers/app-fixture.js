@@ -32,6 +32,12 @@ AppFixture.prototype = {
     this.dir = quickTemp.makeOrRemake({}, this.name + '-' + this.type + '-fixture');
     process.chdir(originalWorkingDirectory);
 
+    this._loadBlueprint();
+  },
+
+  _loadBlueprint: function() {
+    fs.removeSync(this.dir);
+
     ember.invoke(
       this.command,
       this.name,
