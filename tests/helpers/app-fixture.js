@@ -237,8 +237,11 @@ AppFixture.prototype = {
   },
 
   generateJS: function(fileName) {
-    var contents = '//' + this.name + ' { content: "' + fileName + '"; }';
-    return this.generateFile(fileName, contents);
+    var contents = [
+      '// ' + this.name + '/' + fileName,
+      'var a = true;'
+    ];
+    return this.generateFile(fileName, contents.join('\n'));
   },
 
   generateTemplate: function(fileName) {
