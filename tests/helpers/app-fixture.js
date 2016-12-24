@@ -109,6 +109,10 @@ AppFixture.prototype = {
   },
 
   clean: function() {
+    this._installedAddons.forEach(function(addon) {
+      addon.clean(true);
+    });
+
     // Build up object to pass to quickTemp.
     var dir = {};
     dir[this.name + '-' + this.type + '-fixture'] = this.dir;
@@ -223,6 +227,16 @@ AppFixture.prototype = {
 
   generateCSS: function(fileName) {
     var contents = '.' + this.name + ' { content: "' + fileName + '"; }';
+    return this.generateFile(fileName, contents);
+  },
+
+  generateJS: function(fileName) {
+    var contents = '//' + this.name + ' { content: "' + fileName + '"; }';
+    return this.generateFile(fileName, contents);
+  },
+
+  generateTemplate: function(fileName) {
+    var contents = '{{' + this.name + '}}';
     return this.generateFile(fileName, contents);
   }
 };
