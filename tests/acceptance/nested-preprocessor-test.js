@@ -1,25 +1,11 @@
 'use strict';
 
 var path = require('path');
+var fs = require('fs-extra');
 
 var AppFixture = require('../helpers/app-fixture');
 var AddonFixture = require('../helpers/addon-fixture');
 var InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
-
-var setupPreprocessorRegistryFixture = function(type, registry) {
-  var stew = require('broccoli-stew');
-  var addon = this;
-
-  registry.add('<%= type %>', {
-    name: '<%= name %>' + '-' + type,
-    ext: '<%= ext %>',
-    toTree: function(tree) {
-      return stew.map(tree, function(content, relativePath) {
-        return '// <%= name %>' + '-' + type + '\n' + content;
-      });
-    }
-  });
-};
 
 var processTemplate = require('../../lib/utilities/process-template');
 function generatePreprocessor(context) {
@@ -32,8 +18,25 @@ var ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
 
 var chai = require('../chai');
 var expect = chai.expect;
+var file = chai.file;
 
-describe.only('Acceptance: nested preprocessor tests.', function() {
+// THIS IS A FIXTURE. It also happens to be valid JavaScript.
+var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
+  var stew = require('broccoli-stew');
+  var addon = this;
+
+  registry.add('<%= registryType %>', {
+    name: addon.name + '-<%= registryType %>',
+    ext: '<%= ext %>',
+    toTree: function(tree) {
+      return stew.map(tree, function(content, relativePath) {
+        return '// ' + addon.name + '-<%= registryType %>-preprocessor-transform-' + selfOrParent + '\n' + content;
+      });
+    }
+  });
+};
+
+describe('Acceptance: nested preprocessor tests.', function() {
   this.timeout(1000*60*1);
   var root;
 
@@ -54,8 +57,7 @@ describe.only('Acceptance: nested preprocessor tests.', function() {
       inRepoAddons[type] = new InRepoAddonFixture(name);
       if (type !== 'css') {
         inRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
-          name: name + '-preprocessor-transform',
-          type: type,
+          registryType: type,
           ext: ext
         }));
       }
@@ -64,8 +66,7 @@ describe.only('Acceptance: nested preprocessor tests.', function() {
       nestedInRepoAddons[type] = new InRepoAddonFixture(name);
       if (type !== 'css') {
         nestedInRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
-          name: name + '-preprocessor-transform',
-          type: type,
+          registryType: type,
           ext: ext
         }));
       }
@@ -116,8 +117,8 @@ describe.only('Acceptance: nested preprocessor tests.', function() {
     nestedInRepoAddons['js'].generateJS('addon/components/thing-two.js');
 
     nestedInRepoAddons['template']._npmAddonInstall({ name: 'ember-cli-htmlbars' });
-    nestedInRepoAddons['template'].generateTemplate('app/templates/hoist.hbs');
-    nestedInRepoAddons['template'].generateTemplate('addon/templates/anchor.hbs');
+    nestedInRepoAddons['template'].generateTemplate('app/templates/nested-hoist.hbs');
+    nestedInRepoAddons['template'].generateTemplate('addon/templates/nested-anchor.hbs');
 
     root.install(child);
     root.install(inRepoAddons['css']);
@@ -130,14 +131,62 @@ describe.only('Acceptance: nested preprocessor tests.', function() {
   });
 
   after(function() {
-    // root.clean();
+    root.clean();
   });
-
-  beforeEach(function() {});
-  afterEach(function() {});
 
   it('Properly invokes preprocessors.', function() {
     ember.invoke('build', { cwd: root.dir });
-    "grep -r 'nested-preprocessor-transform' root_app_fixture-nphBnkY0.tmp/";
+
+
+    // APP
+    var appJSPath = path.join(root.dir, 'dist', 'assets', root.name + '.js');
+    var appJS = fs.readFileSync(appJSPath, { encoding: 'utf8' });
+
+    // `define` count and preprocessor invocation count should be almost identical.
+    // This is because all but the config module are included as individual files.
+    var moduleCount = appJS.split('define(').length;
+    var jsPreprocessorCount = appJS.split('js-addon-js-preprocessor-transform-parent').length;
+    expect(moduleCount - 1).to.equal(jsPreprocessorCount);
+
+    // There should be no `js` `self` preprocessor transforms.
+    // All modules in this file have been "moved" into the app tree.
+    expect(appJS.indexOf('js-addon-js-preprocessor-transform-self')).to.equal(-1);
+
+    // We have two hoisted templates and the application template.
+    var templatePreprocessorCount = appJS.split('template-addon-template-preprocessor-transform-parent').length - 1;
+    expect(templatePreprocessorCount).to.equal(3);
+
+    // There should be no `template` `self` preprocessor transforms.
+    expect(appJS.indexOf('template-addon-template-preprocessor-transform-self')).to.equal(-1);
+
+
+    // VENDOR
+    var vendorJSPath = path.join(root.dir, 'dist', 'assets', 'vendor.js');
+    var vendorJS = fs.readFileSync(vendorJSPath, { encoding: 'utf8' });
+
+    // We have two components each in two addons.
+    var vendorJSPreprocessorCount = vendorJS.split('js-preprocessor-transform-self').length - 1;
+    expect(vendorJSPreprocessorCount).to.equal(4);
+
+    // We have two non-hoisted templates.
+    var vendorTemplatePreprocessorCount = vendorJS.split('template-preprocessor-transform-self').length - 1;
+    expect(vendorTemplatePreprocessorCount).to.equal(2);
+
+    // There should be no `js` `parent` preprocessor transforms.
+    expect(vendorJS.indexOf('js-preprocessor-transform-parent')).to.equal(-1);
+
+    // There should be no `template` `parent` preprocessor transforms.
+    expect(vendorJS.indexOf('template-preprocessor-transform-parent')).to.equal(-1);
+
+
+    // TEST
+    var testJSPath = path.join(root.dir, 'dist', 'assets', 'tests.js');
+    var testJS = fs.readFileSync(testJSPath, { encoding: 'utf8' });
+
+    // `define` count and preprocessor invocation count should be identical.
+    var testModuleCount = testJS.split('define(').length;
+    var testJSPreprocessorCount = testJS.split('js-addon-js-preprocessor-transform-parent').length;
+    expect(testModuleCount).to.equal(testJSPreprocessorCount);
+
   });
 });
