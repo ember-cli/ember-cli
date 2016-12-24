@@ -8,9 +8,6 @@ var AddonFixture = require('../helpers/addon-fixture');
 var InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
 
 var processTemplate = require('../../lib/utilities/process-template');
-function generatePreprocessor(context) {
-  return processTemplate(setupPreprocessorRegistryFixture.toString(), context);
-}
 
 var root = path.resolve(__dirname, '..', '..');
 var CommandGenerator = require('../../tests/helpers/command-generator');
@@ -21,6 +18,9 @@ var expect = chai.expect;
 var file = chai.file;
 
 // THIS IS A FIXTURE. It also happens to be valid JavaScript.
+function generatePreprocessor(context) {
+  return processTemplate(setupPreprocessorRegistryFixture.toString(), context);
+}
 var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
   var stew = require('broccoli-stew');
   var addon = this;
