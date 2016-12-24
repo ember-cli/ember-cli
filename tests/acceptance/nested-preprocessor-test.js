@@ -36,6 +36,49 @@ var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
   });
 };
 
+// THIS IS A FIXTURE. It also happens to be valid JavaScript.
+var preprocessTreeFixture = function(type, tree) {
+  if (type === 'all') { return tree; }
+
+  var stew = require('broccoli-stew');
+  var addon = this;
+
+  // We're going to add a marker. The `postprocessTree` function will remove
+  // the marker if present and identify whether or not it found the marker.
+  var marker = '// ' + addon.name + '-preprocessTree(' + type + ')';
+
+  tree = stew.map(tree, function(content, relativePath) {
+    return marker + '\n' + content;
+  });
+
+  return tree;
+};
+
+// THIS IS A FIXTURE. It also happens to be valid JavaScript.
+var postprocessTreeFixture = function(type, tree) {
+  if (type === 'all') { return tree; }
+
+  var stew = require('broccoli-stew');
+  var addon = this;
+
+  var preprocessTreeMarker = '// ' + addon.name + '-preprocessTree(' + type + ')';
+  var marker = '// ' + addon.name + '-postprocessTree(' + type + ')';
+
+  // We're going to inspect state and add an appropriate marker.
+  tree = stew.map(tree, function(content, relativePath) {
+    var preprocessTreeMarkerIndex = content.indexOf(preprocessTreeMarker);
+    var preprocessTreeMarkerLastIndex = content.lastIndexOf(preprocessTreeMarker);
+
+    if (preprocessTreeMarkerIndex === -1) {
+      return marker + '-no-preprocessTree' + '\n' + content;
+    } else {
+      return content.replace(preprocessTreeMarker, marker + '-removed-preprocessTree');
+    }
+  });
+
+  return tree;
+};
+
 describe('Acceptance: nested preprocessor tests.', function() {
   this.timeout(1000*60*1);
   var root;
@@ -55,6 +98,8 @@ describe('Acceptance: nested preprocessor tests.', function() {
       name = type + '-addon';
 
       inRepoAddons[type] = new InRepoAddonFixture(name);
+      inRepoAddons[type].addMethod('preprocessTree', preprocessTreeFixture.toString());
+      inRepoAddons[type].addMethod('postprocessTree', postprocessTreeFixture.toString());
       if (type !== 'css') {
         inRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
           registryType: type,
@@ -64,6 +109,8 @@ describe('Acceptance: nested preprocessor tests.', function() {
 
       name = name + '-nested';
       nestedInRepoAddons[type] = new InRepoAddonFixture(name);
+      nestedInRepoAddons[type].addMethod('preprocessTree', preprocessTreeFixture.toString());
+      nestedInRepoAddons[type].addMethod('postprocessTree', postprocessTreeFixture.toString());
       if (type !== 'css') {
         nestedInRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
           registryType: type,
@@ -128,6 +175,8 @@ describe('Acceptance: nested preprocessor tests.', function() {
     child.install(nestedInRepoAddons['js']);
     child.install(nestedInRepoAddons['template']);
     root.serialize();
+
+    ember.invoke('build', { cwd: root.dir });
   });
 
   after(function() {
@@ -135,8 +184,6 @@ describe('Acceptance: nested preprocessor tests.', function() {
   });
 
   it('Properly invokes preprocessors.', function() {
-    ember.invoke('build', { cwd: root.dir });
-
 
     // APP
     var appJSPath = path.join(root.dir, 'dist', 'assets', root.name + '.js');
@@ -187,6 +234,10 @@ describe('Acceptance: nested preprocessor tests.', function() {
     var testModuleCount = testJS.split('define(').length;
     var testJSPreprocessorCount = testJS.split('js-addon-js-preprocessor-transform-parent').length;
     expect(testModuleCount).to.equal(testJSPreprocessorCount);
+
+  });
+
+  it('Properly invokes preprocessTree and postprocessTree.', function() {
 
   });
 });
