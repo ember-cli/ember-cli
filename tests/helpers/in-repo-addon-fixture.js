@@ -2,9 +2,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
-
 var fixturify = require('fixturify');
-var quickTemp = require('quick-temp');
 
 var originalWorkingDirectory = process.cwd();
 var root = path.resolve(__dirname, '..', '..');
@@ -26,10 +24,8 @@ function InRepoAddonFixture(name) {
 InRepoAddonFixture.prototype = Object.create(AddonFixture.prototype);
 InRepoAddonFixture.prototype.constructor = InRepoAddonFixture;
 
-InRepoAddonFixture.prototype._init = function() {
-  process.chdir(root);
-  this.dir = quickTemp.makeOrRemake({}, this.name + '-' + this.type + '-fixture');
-  process.chdir(originalWorkingDirectory);
+InRepoAddonFixture.prototype._loadBlueprint = function() {
+  fs.removeSync(this.dir);
 
   // Lie to the generator.
   fs.outputFileSync(path.join(this.dir, 'package.json'), '{}');
