@@ -52,19 +52,23 @@ describe.only('Acceptance: nested preprocessor tests.', function() {
       name = type + '-addon';
 
       inRepoAddons[type] = new InRepoAddonFixture(name);
-      inRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
-        name: name + '-preprocessor-transform',
-        type: type,
-        ext: ext
-      }));
+      if (type !== 'css') {
+        inRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
+          name: name + '-preprocessor-transform',
+          type: type,
+          ext: ext
+        }));
+      }
 
       name = name + '-nested';
       nestedInRepoAddons[type] = new InRepoAddonFixture(name);
-      nestedInRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
-        name: name + '-preprocessor-transform',
-        type: type,
-        ext: ext
-      }));
+      if (type !== 'css') {
+        nestedInRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
+          name: name + '-preprocessor-transform',
+          type: type,
+          ext: ext
+        }));
+      }
     }
 
     var child = new InRepoAddonFixture('child-addon');
