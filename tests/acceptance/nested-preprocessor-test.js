@@ -30,7 +30,9 @@ var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
     ext: '<%= ext %>',
     toTree: function(tree) {
       return stew.map(tree, function(content, relativePath) {
-        return '// ' + addon.name + '-<%= registryType %>-preprocessor-transform-' + selfOrParent + '\n' + content;
+        var marker = '// ' + addon.name + '-<%= registryType %>-preprocessor-transform-' + selfOrParent + ' /' + relativePath;
+        addon._findHost().project.ui.writeLine(marker);
+        return marker + '\n' + content;
       });
     }
   });
@@ -40,15 +42,22 @@ var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
 var preprocessTreeFixture = function(type, tree) {
   if (type === 'all') { return tree; }
 
+  // THIS IS A WORKAROUND FOR https://github.com/ember-cli/ember-cli/issues/6512
+  if (type === 'css' && tree.toString().indexOf('Concat: Vendor Styles') !== -1) {
+    return tree;
+  }
+
   var stew = require('broccoli-stew');
   var addon = this;
 
   // We're going to add a marker. The `postprocessTree` function will remove
   // the marker if present and identify whether or not it found the marker.
-  var marker = '// ' + addon.name + '-preprocessTree(' + type + ')';
+  var marker = '// ' + addon.name + '-preprocessTree(' + type + ')' + ' /';
 
   tree = stew.map(tree, function(content, relativePath) {
-    return marker + '\n' + content;
+    var localMarker = marker + relativePath;
+    addon._findHost().project.ui.writeLine(localMarker);
+    return localMarker + '\n' + content;
   });
 
   return tree;
@@ -66,13 +75,40 @@ var postprocessTreeFixture = function(type, tree) {
 
   // We're going to inspect state and add an appropriate marker.
   tree = stew.map(tree, function(content, relativePath) {
-    var preprocessTreeMarkerIndex = content.indexOf(preprocessTreeMarker);
-    var preprocessTreeMarkerLastIndex = content.lastIndexOf(preprocessTreeMarker);
+
+    // Skip assets we know that the CSS preprocessor adds.
+    var cssName = addon._findHost().name;
+    if (type === 'css') {
+      if (relativePath === 'assets/' + cssName + '.css' || relativePath === 'assets/vendor.css') {
+        return content;
+      }
+    }
+
+    // Build up the path for where the asset was previously.
+    var preprocessPath = relativePath;
+
+    if (type === 'template') {
+      preprocessPath = preprocessPath.replace(/.js$/, '.hbs');
+    } else if (type === 'css') {
+      preprocessPath = preprocessPath.replace(/^assets/, 'app/styles');
+    }
+
+    var localPreprocessTreeMarker = preprocessTreeMarker + ' /' + preprocessPath;
+    var preprocessTreeMarkerIndex = content.indexOf(localPreprocessTreeMarker);
+    var preprocessTreeMarkerLastIndex = content.lastIndexOf(localPreprocessTreeMarker);
+
+    var localMarker = marker;
 
     if (preprocessTreeMarkerIndex === -1) {
-      return marker + '-no-preprocessTree' + '\n' + content;
+      localMarker += '-no-preprocessTree';
+      localMarker += ' /' + relativePath;
+      addon._findHost().project.ui.writeLine(localMarker);
+      return localMarker + '\n' + content;
     } else {
-      return content.replace(preprocessTreeMarker, marker + '-removed-preprocessTree');
+      localMarker += '-removed-preprocessTree';
+      localMarker += ' /' + relativePath;
+      addon._findHost().project.ui.writeLine(localMarker);
+      return content.replace(localPreprocessTreeMarker, localMarker);
     }
   });
 
@@ -175,12 +211,67 @@ describe('Acceptance: nested preprocessor tests.', function() {
     child.install(nestedInRepoAddons['js']);
     child.install(nestedInRepoAddons['template']);
     root.serialize();
-
-    ember.invoke('build', { cwd: root.dir });
   });
 
   after(function() {
     root.clean();
+  });
+
+  it('Invokes hooks in correct order.', function() {
+    var result = ember.invoke('build', { cwd: root.dir });
+    expect(result.stdout).to.not.contain('no-preprocessTree');
+
+    var uniques = result.stdout.split('\n')
+      .map(function(log) {
+        return log.split(' ')[1];
+      })
+      .reduce(function(accumulator, log) {
+        // Remove spurious output.
+        if (log.indexOf('process') === -1) { return accumulator; }
+
+        // Compare to previous value, collapse.
+        if (accumulator[accumulator.length - 1] !== log) {
+          accumulator.push(log);
+        }
+
+        return accumulator;
+      }, []);
+
+    var expected = [
+      'js-addon-nested-js-preprocessor-transform-self',
+      'template-addon-nested-template-preprocessor-transform-self',
+      'js-addon-js-preprocessor-transform-self',
+      'template-addon-template-preprocessor-transform-self',
+      'css-addon-preprocessTree(template)',
+      'js-addon-preprocessTree(template)',
+      'template-addon-preprocessTree(template)',
+      'template-addon-template-preprocessor-transform-parent',
+      'css-addon-postprocessTree(template)-removed-preprocessTree',
+      'js-addon-postprocessTree(template)-removed-preprocessTree',
+      'template-addon-postprocessTree(template)-removed-preprocessTree',
+      'css-addon-preprocessTree(js)',
+      'js-addon-preprocessTree(js)',
+      'template-addon-preprocessTree(js)',
+      'js-addon-js-preprocessor-transform-parent',
+      'css-addon-postprocessTree(js)-removed-preprocessTree',
+      'js-addon-postprocessTree(js)-removed-preprocessTree',
+      'template-addon-postprocessTree(js)-removed-preprocessTree',
+      'css-addon-preprocessTree(css)',
+      'js-addon-preprocessTree(css)',
+      'template-addon-preprocessTree(css)',
+      'css-addon-postprocessTree(css)-removed-preprocessTree',
+      'js-addon-postprocessTree(css)-removed-preprocessTree',
+      'template-addon-postprocessTree(css)-removed-preprocessTree',
+      'css-addon-preprocessTree(test)',
+      'js-addon-preprocessTree(test)',
+      'template-addon-preprocessTree(test)',
+      'js-addon-js-preprocessor-transform-parent',
+      'css-addon-postprocessTree(test)-removed-preprocessTree',
+      'js-addon-postprocessTree(test)-removed-preprocessTree',
+      'template-addon-postprocessTree(test)-removed-preprocessTree'
+    ];
+
+    expect(uniques).to.deep.equal(expected);
   });
 
   it('Properly invokes preprocessors.', function() {
@@ -237,7 +328,4 @@ describe('Acceptance: nested preprocessor tests.', function() {
 
   });
 
-  it('Properly invokes preprocessTree and postprocessTree.', function() {
-
-  });
 });
