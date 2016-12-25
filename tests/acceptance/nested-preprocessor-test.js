@@ -18,9 +18,6 @@ var expect = chai.expect;
 var file = chai.file;
 
 // THIS IS A FIXTURE. It also happens to be valid JavaScript.
-function generatePreprocessor(context) {
-  return processTemplate(setupPreprocessorRegistryFixture.toString(), context);
-}
 var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
   var stew = require('broccoli-stew');
   var addon = this;
@@ -37,6 +34,9 @@ var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
     }
   });
 };
+function generatePreprocessor(context) {
+  return processTemplate(setupPreprocessorRegistryFixture.toString(), context);
+}
 
 // THIS IS A FIXTURE. It also happens to be valid JavaScript.
 var preprocessTreeFixture = function(type, tree) {
@@ -116,7 +116,7 @@ var postprocessTreeFixture = function(type, tree) {
 };
 
 describe('Acceptance: nested preprocessor tests.', function() {
-  this.timeout(1000*60*10);
+  this.timeout(1000 * 60 * 10);
   var root;
 
   before(function() {
@@ -227,6 +227,7 @@ describe('Acceptance: nested preprocessor tests.', function() {
       })
       .reduce(function(accumulator, log) {
         // Remove spurious output.
+        if (!log) { return accumulator; }
         if (log.indexOf('process') === -1) { return accumulator; }
 
         // Compare to previous value, collapse.
