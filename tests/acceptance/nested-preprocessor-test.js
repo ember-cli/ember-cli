@@ -116,7 +116,7 @@ var postprocessTreeFixture = function(type, tree) {
 };
 
 describe('Acceptance: nested preprocessor tests.', function() {
-  this.timeout(1000*60*1);
+  this.timeout(1000*60*10);
   var root;
 
   before(function() {
