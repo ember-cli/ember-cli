@@ -169,7 +169,7 @@ AppFixture.prototype = {
     var needle = addon;
     var haystack = this._installedAddons;
 
-    if (~haystack.indexOf(needle)) {
+    if (haystack.indexOf(needle) !== -1) {
       this._installedAddons.splice(haystack.indexOf(needle), 1);
     }
 
@@ -200,7 +200,7 @@ AppFixture.prototype = {
     var needle = 'lib/' + addon.name;
     var haystack = config['ember-addon']['paths'];
 
-    if (~haystack.indexOf(needle)) {
+    if (haystack.indexOf(needle) !== -1) {
       config['ember-addon']['paths'].splice(haystack.indexOf(needle), 1);
     }
 
