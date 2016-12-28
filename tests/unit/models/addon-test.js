@@ -679,7 +679,8 @@ describe('models/addon.js', function() {
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: true,
         hasTemplates: true,
-        hasPodTemplates: true
+        hasPodTemplates: true,
+        hasAppTreeFiles: false
       });
     });
 
@@ -695,7 +696,8 @@ describe('models/addon.js', function() {
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: false,
         hasTemplates: true,
-        hasPodTemplates: false
+        hasPodTemplates: false,
+        hasAppTreeFiles: false
       });
     });
 
@@ -712,7 +714,8 @@ describe('models/addon.js', function() {
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: false,
         hasTemplates: true,
-        hasPodTemplates: false
+        hasPodTemplates: false,
+        hasAppTreeFiles: false
       });
     });
 
@@ -729,7 +732,8 @@ describe('models/addon.js', function() {
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: true,
         hasTemplates: false,
-        hasPodTemplates: false
+        hasPodTemplates: false,
+        hasAppTreeFiles: false
       });
     });
 
@@ -746,7 +750,39 @@ describe('models/addon.js', function() {
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: false,
         hasTemplates: false,
-        hasPodTemplates: false
+        hasPodTemplates: false,
+        hasAppTreeFiles: false
+      });
+    });
+
+    it('does not hasAppTreeFiles when none found', function() {
+      addon._getAppTreeRootEntries = function() {
+        return [
+          '.gitkeep'
+        ];
+      };
+
+      expect(addon._fileSystemInfo()).to.deep.equal({
+        hasJSFiles: true,
+        hasTemplates: false,
+        hasPodTemplates: false,
+        hasAppTreeFiles: false
+      });
+    });
+
+    it('has hasAppTreeFiles when found', function() {
+      addon._getAppTreeRootEntries = function() {
+        return [
+          '.gitkeep',
+          'components'
+        ];
+      };
+
+      expect(addon._fileSystemInfo()).to.deep.equal({
+        hasJSFiles: true,
+        hasTemplates: false,
+        hasPodTemplates: false,
+        hasAppTreeFiles: true
       });
     });
   });
