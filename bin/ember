@@ -12,9 +12,9 @@ var initInstrumentation;
 
 if (instrumentationEnabled()) {
   var heimdall = require('heimdalljs');
-  var initInstrumentationCookie = heimdall.start('init');
+  var initInstrumentationToken = heimdall.start('init');
   initInstrumentation = {
-    cookie: initInstrumentationCookie,
+    token: initInstrumentationToken,
     node: heimdall.current,
   };
 }

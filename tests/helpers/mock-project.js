@@ -12,7 +12,7 @@ function MockProject() {
   var instr = new Instrumentation({
     ui: ui,
     initInstrumentation: {
-      cookie: null,
+      token: null,
       node: null,
     }
   });

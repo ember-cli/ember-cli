@@ -107,27 +107,27 @@ describe('models/instrumentation.js', function() {
       });
 
       it('starts an init node if init instrumentation is missing', function() {
-        var mockCookie = {};
+        var mockToken = {};
 
         td.when(heimdallStart(contains({
           name: 'init',
           emberCLI: true,
-        }))).thenReturn(mockCookie);
+        }))).thenReturn(mockToken);
 
         var instrumentation = new Instrumentation({
           ui: new MockUI(),
         });
 
         expect(instrumentation.instrumentations.init).to.not.equal(undefined);
-        expect(instrumentation.instrumentations.init.cookie).to.equal(mockCookie);
+        expect(instrumentation.instrumentations.init.token).to.equal(mockToken);
         expect(instrumentation.instrumentations.init.node).to.not.equal(undefined);
       });
 
       it('does not create an init node if init instrumentation is included', function() {
-        var mockCookie = {};
+        var mockToken = {};
         var mockInstrumentation = {};
 
-        td.when(heimdallStart('init')).thenReturn(mockCookie);
+        td.when(heimdallStart('init')).thenReturn(mockToken);
 
         var instrumentation = new Instrumentation({
           initInstrumentation: mockInstrumentation,
@@ -174,10 +174,10 @@ describe('models/instrumentation.js', function() {
       });
 
       it('does not create an init node if init instrumentation is missing', function() {
-        var mockCookie = {};
+        var mockToken = {};
         var mockInstrumentation = {};
 
-        td.when(heimdallStart('init')).thenReturn(mockCookie);
+        td.when(heimdallStart('init')).thenReturn(mockToken);
 
         var instrumentation = new Instrumentation({});
 
@@ -608,7 +608,7 @@ describe('models/instrumentation.js', function() {
         ui: new MockUI(),
         initInstrumentation: {
           node: null,
-          cookie: null,
+          token: null,
         }
       });
       var heimdall = instrumentation._heimdall = new Heimdall();
