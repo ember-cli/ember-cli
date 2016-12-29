@@ -34,7 +34,7 @@ describe('models/project.js', function() {
 
           project = new Project(projectPath, { }, new MockUI(), cli);
           expect(instrumentation.project).to.equal(project);
-          expect(project.instrumentation).to.equal(instrumentation);
+          expect(project._instrumentation).to.equal(instrumentation);
         });
     });
   });

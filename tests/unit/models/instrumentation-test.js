@@ -275,7 +275,7 @@ describe('models/instrumentation.js', function() {
 
     beforeEach(function() {
       project = new MockProject();
-      instrumentation = project.instrumentation;
+      instrumentation = project._instrumentation;
       instrumentation._heimdall = heimdall = new Heimdall();
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
     });
@@ -337,7 +337,7 @@ describe('models/instrumentation.js', function() {
 
     beforeEach(function() {
       project = new MockProject();
-      instrumentation = project.instrumentation;
+      instrumentation = project._instrumentation;
       heimdall = instrumentation._heimdall = new Heimdall();
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
 

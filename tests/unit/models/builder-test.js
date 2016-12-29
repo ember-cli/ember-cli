@@ -255,8 +255,8 @@ describe('models/builder.js', function() {
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
       });
 
-      instrumentationStart = td.replace(builder.project.instrumentation, 'start');
-      instrumentationStop = td.replace(builder.project.instrumentation, 'stopAndReport');
+      instrumentationStart = td.replace(builder.project._instrumentation, 'start');
+      instrumentationStop = td.replace(builder.project._instrumentation, 'stopAndReport');
     });
 
     afterEach(function () {
