@@ -1,7 +1,7 @@
 'use strict';
 
 var Heimdall = require('heimdalljs/heimdall');
-var tree = require('heimdalljs-tree');
+var heimdallGraph = require('heimdalljs-graph');
 var chai = require('../../chai');
 var td = require('testdouble');
 var fs = require('fs');
@@ -746,7 +746,7 @@ describe('models/instrumentation.js', function() {
       b1.stop();
       a1.stop();
 
-      instrTree = tree.loadFromNode(root);
+      instrTree = heimdallGraph.loadFromNode(root);
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
     });
 
