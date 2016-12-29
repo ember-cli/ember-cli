@@ -224,10 +224,10 @@ describe('Acceptance: smoke-test', function() {
         }
       }).then(function () {
         [
-          'broccoli-viz.build.0.json',
-          'broccoli-viz.command.json',
-          'broccoli-viz.init.json',
-          'broccoli-viz.shutdown.json'
+          'instrumentation.build.0.json',
+          'instrumentation.command.json',
+          'instrumentation.init.json',
+          'instrumentation.shutdown.json'
         ].forEach(function (instrumentationFile) {
           expect(fs.existsSync(instrumentationFile)).to.equal(true);
 

@@ -450,8 +450,8 @@ describe('models/instrumentation.js', function() {
             instrumentation.start('init');
             instrumentation.stopAndReport('init', 'a', 'b');
 
-            expect(fs.existsSync('broccoli-viz.init.json')).to.equal(true);
-            expect(fse.readJsonSync('broccoli-viz.init.json')).to.eql({
+            expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
+            expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
               summary: { ok: 'init dokie', },
               nodes: [{ i: 'can init json' }],
             });
@@ -459,8 +459,8 @@ describe('models/instrumentation.js', function() {
             instrumentation.start('build');
             instrumentation.stopAndReport('build', 'a', 'b');
 
-            expect(fs.existsSync('broccoli-viz.build.0.json')).to.equal(true);
-            expect(fse.readJsonSync('broccoli-viz.build.0.json')).to.eql({
+            expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
+            expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
               summary: { ok: 'build dokie', },
               nodes: [{ i: 'can build json' }],
             });
@@ -468,8 +468,8 @@ describe('models/instrumentation.js', function() {
             instrumentation.start('build');
             instrumentation.stopAndReport('build', 'a', 'b');
 
-            expect(fs.existsSync('broccoli-viz.build.1.json')).to.equal(true);
-            expect(fse.readJsonSync('broccoli-viz.build.1.json')).to.eql({
+            expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
+            expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
               summary: { ok: 'build dokie', },
               nodes: [{ i: 'can build json' }],
             });
@@ -486,17 +486,17 @@ describe('models/instrumentation.js', function() {
             instrumentation.start('init');
             instrumentation.stopAndReport('init');
 
-            expect(fs.existsSync('broccoli-viz.init.json')).to.equal(false);
+            expect(fs.existsSync('instrumentation.init.json')).to.equal(false);
 
             instrumentation.start('build');
             instrumentation.stopAndReport('build');
 
-            expect(fs.existsSync('broccoli-viz.build.0.json')).to.equal(false);
+            expect(fs.existsSync('instrumentation.build.0.json')).to.equal(false);
 
             instrumentation.start('build');
             instrumentation.stopAndReport('build');
 
-            expect(fs.existsSync('broccoli-viz.build.1.json')).to.equal(false);
+            expect(fs.existsSync('instrumentation.build.1.json')).to.equal(false);
           });
       });
     });

@@ -80,7 +80,7 @@ describe('build task test', function() {
 
     return task.run(runOptions)
       .then(function() {
-        var vizOutputPath = 'broccoli-viz.build.0.json';
+        var vizOutputPath = 'instrumentation.build.0.json';
         expect(file(vizOutputPath)).to.exist;
 
         // confirm it is valid json
