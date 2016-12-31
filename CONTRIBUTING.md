@@ -88,8 +88,8 @@ We love pull requests. Here's a quick guide:
 
 2. Ensure you have the development requirements:
 
-   * node (0.12 recommended) or io.js (1.x) -- *do not install node using sudo*
-   * npm (2.x)
+   * node (latest LTS recommended) -- *do not install node using sudo*
+   * npm (3.x)
    * phantomjs
 
 3. Run the tests. We only take pull requests with passing tests, and it's great
