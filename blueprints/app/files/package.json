@@ -37,7 +37,7 @@
     "loader.js": "^4.1.0"
   },
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 4"
   },
   "private": true
 }
