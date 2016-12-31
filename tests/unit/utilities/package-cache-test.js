@@ -446,9 +446,6 @@ describe('PackageCache', function() {
 
   describe('_upgrade (yarn)', function() {
 
-    // This test doesn't apply to Node.js 0.12.
-    if (process.version.indexOf('v0.12') === 0) { return; }
-
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
     var testCounter = 0;
@@ -645,25 +642,6 @@ describe('PackageCache', function() {
     // Clean up.
     testPackageCache.destroy('from');
     testPackageCache.destroy('to');
-  });
-
-  it('downgrades on 0.12', function() {
-    td.when(yarn('--version')).thenReturn({stdout: '1.0.0'});
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
-
-    testPackageCache.create('one', 'yarn', '{}');
-    testPackageCache.create('two', 'yarn', '{}');
-    testPackageCache.create('three', 'yarn', '{}');
-
-    if (process.version.indexOf('v0.12') === 0) {
-      td.verify(npm(), { times: 6, ignoreExtraArgs: true });
-    } else {
-      td.verify(yarn(), { times: 6, ignoreExtraArgs: true });
-    }
-
-    testPackageCache.destroy('one');
-    testPackageCache.destroy('two');
-    testPackageCache.destroy('three');
   });
 
   it('succeeds at a clean install', function() {
