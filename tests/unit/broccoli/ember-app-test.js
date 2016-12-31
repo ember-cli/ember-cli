@@ -9,6 +9,7 @@ var expect     = require('chai').expect;
 var proxyquire = require('proxyquire');
 var td = require('testdouble');
 
+var MockCLI = require('../../helpers/mock-cli');
 var MockUI = require('console-ui/mock');
 
 var mergeTreesStub;
@@ -23,8 +24,9 @@ describe('broccoli/ember-app', function() {
 
   function setupProject(rootPath) {
     var packageContents = require(path.join(rootPath, 'package.json'));
+    var cli = new MockCLI();
 
-    project = new Project(rootPath, packageContents, new MockUI());
+    project = new Project(rootPath, packageContents, cli.ui, cli);
     project.require = function() {
       return function() {};
     };
@@ -612,7 +614,10 @@ describe('broccoli/ember-app', function() {
       beforeEach(function() {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
         var packageContents = require(path.join(projectPath, 'package.json'));
-        project = new Project(projectPath, packageContents, new MockUI());
+        var cli = new MockCLI();
+        project = new Project(projectPath, packageContents, cli.ui, cli);
+        var discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+        td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
       });
 
       afterEach(function() {

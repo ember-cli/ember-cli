@@ -80,13 +80,19 @@ describe('build task test', function() {
 
     return task.run(runOptions)
       .then(function() {
-        var vizOutputPath = 'broccoli-viz.0.json';
+        var vizOutputPath = 'instrumentation.build.0.json';
         expect(file(vizOutputPath)).to.exist;
 
         // confirm it is valid json
         var output = fs.readJsonSync(vizOutputPath);
+        expect(Object.keys(output)).to.eql([
+          'summary', 'nodes'
+        ]);
+
         expect(output.summary.build.type).to.equal('initial');
         expect(output.summary.buildSteps).to.equal(1);
+
+        expect(Array.isArray(output.nodes)).to.equal(true);
       });
   });
 });

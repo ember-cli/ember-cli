@@ -443,8 +443,8 @@ bluebird@^2.9.33:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
 
 bluebird@^3.1.1, bluebird@^3.4.6:
-  version "3.4.6"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.4.6.tgz#01da8d821d87813d158967e743d5fe6c62cf8c0f"
+  version "3.4.7"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.4.7.tgz#f72d760be09b7f76d08ed8fae98b289a8d05fab3"
 
 body@^5.1.0:
   version "5.1.0"
@@ -1205,8 +1205,8 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 debug@2, debug@^2.1.0, debug@^2.1.1, debug@^2.1.3, debug@^2.2.0:
-  version "2.4.5"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.4.5.tgz#34c7b12a1ca96674428f41fe92c49b4ce7cd0607"
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.5.1.tgz#9107bb4a506052ec2a02314bc606313ed2b921c1"
   dependencies:
     ms "0.7.2"
 
@@ -2261,8 +2261,8 @@ getpass@^0.1.1:
     assert-plus "^1.0.0"
 
 git-repo-info@^1.0.4:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/git-repo-info/-/git-repo-info-1.3.1.tgz#0c1a19ef1964b822a7230f087396af80481ce8ec"
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/git-repo-info/-/git-repo-info-1.4.0.tgz#ed210221defd3fdefce8b16ac61985cabe242e4a"
 
 github@^7.0.0:
   version "7.1.0"
@@ -2485,11 +2485,12 @@ has-unicode@^2.0.0, has-unicode@~2.0.1:
   resolved "https://registry.yarnpkg.com/has-unicode/-/has-unicode-2.0.1.tgz#e0e6fe6a28cf51138855e086d1691e771de2a8b9"
 
 hash-for-dep@^1.0.2:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/hash-for-dep/-/hash-for-dep-1.0.4.tgz#8774e7b80c7c07be3bdc58b55278a4c6865d3737"
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/hash-for-dep/-/hash-for-dep-1.1.2.tgz#e3347ed92960eb0bb53a2c6c2b70e36d75b7cd0c"
   dependencies:
     broccoli-kitchen-sink-helpers "^0.3.1"
     heimdalljs "^0.2.3"
+    heimdalljs-logger "^0.1.7"
     resolve "^1.1.6"
 
 hawk@1.1.1:
@@ -2517,9 +2518,9 @@ heimdalljs-fs-monitor@^0.1.0:
     heimdalljs "^0.2.0"
     heimdalljs-logger "^0.1.7"
 
-heimdalljs-graph@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/heimdalljs-graph/-/heimdalljs-graph-0.2.0.tgz#aab38d8f66fee786ece31dadceb34a034667c623"
+heimdalljs-graph@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/heimdalljs-graph/-/heimdalljs-graph-0.3.1.tgz#ec0164fd3a01777718014c147409cedc28950fa9"
 
 heimdalljs-logger@^0.1.7:
   version "0.1.7"
@@ -2977,8 +2978,8 @@ jsonify@~0.0.0:
   resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
 
 jsonpointer@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.0.0.tgz#6661e161d2fc445f19f98430231343722e1fcbd5"
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.0.1.tgz#4fd92cb34e0e9db3c89c8622ecf51f9b978c6cb9"
 
 jsprim@^1.2.2:
   version "1.3.1"
@@ -4320,7 +4321,7 @@ regenerator@0.8.40:
 
 regex-cache@^0.4.2:
   version "0.4.3"
-  resolved "http://registry.npmjs.org/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
+  resolved "https://registry.yarnpkg.com/regex-cache/-/regex-cache-0.4.3.tgz#9b1a6c35d4d0dfcef5711ae651e8e9d3d7114145"
   dependencies:
     is-equal-shallow "^0.1.3"
     is-primitive "^2.0.0"
@@ -4936,16 +4937,16 @@ temp@0.8.3:
     rimraf "~2.2.6"
 
 testdouble@^1.3.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-1.10.0.tgz#855148497c1b3e2654f34ed9db948ba4359e16c7"
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-1.10.1.tgz#96b98d6b3d38a11cda3907be9f9bd4f7f4681f5d"
   dependencies:
     lodash "^4.15.0"
     quibble "^0.4.0"
     stringify-object "^2.4.0"
 
 testem@^1.8.1:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/testem/-/testem-1.14.0.tgz#14a0c0fb4f80b6d2371c997818ed85317f58b967"
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/testem/-/testem-1.14.1.tgz#2749dde585bd8dcacf5dcfd8039c85f519fd46e6"
   dependencies:
     backbone "^1.1.2"
     bluebird "^3.4.6"

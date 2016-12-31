@@ -7,6 +7,7 @@ var Project = require('../../../lib/models/project');
 var AddonDiscovery = require('../../../lib/models/addon-discovery');
 var fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 var MockUI = require('console-ui/mock');
+var MockCLI = require('../../helpers/mock-cli');
 var chalk = require('chalk');
 
 describe('models/addon-discovery.js', function() {
@@ -17,8 +18,9 @@ describe('models/addon-discovery.js', function() {
     ui = new MockUI();
     projectPath = path.resolve(fixturePath, 'simple');
     var packageContents = require(path.join(projectPath, 'package.json'));
+    var cli = new MockCLI({ ui: ui });
 
-    project = new Project(projectPath, packageContents, ui);
+    project = new Project(projectPath, packageContents, ui, cli);
   });
 
   describe('dependencies', function() {

@@ -5,6 +5,7 @@ var MockUI        = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
 var CLI           = require('../../../lib/cli/cli');
 var td = require('testdouble');
+var heimdall = require('heimdalljs');
 
 var ui;
 var analytics;
@@ -14,11 +15,16 @@ var isWithinProject;
 
 // helper to similate running the CLI
 function ember(args) {
-  return new CLI({
+  var cli = new CLI({
     ui: ui,
     analytics: analytics,
     testing: true
-  }).run({
+  });
+
+  var startInstr = td.replace(cli.instrumentation, 'start');
+  var stopInstr = td.replace(cli.instrumentation, 'stopAndReport');
+
+  return cli.run({
     tasks:    {},
     commands: commands,
     cliArgs:  args || [],
@@ -34,6 +40,13 @@ function ember(args) {
         return [];
       }
     }
+  }).then(function (value) {
+    td.verify(stopInstr('init'), { times: 1 });
+    td.verify(startInstr('command'), { times: 1 });
+    td.verify(stopInstr('command', td.matchers.anything(), td.matchers.isA(Array)), { times: 1 });
+    td.verify(startInstr('shutdown'), { times: 1 });
+
+    return value;
   });
 }
 
@@ -99,6 +112,7 @@ describe('Unit: CLI', function() {
     expect(cli.logError(error)).to.eql(expected, 'expected error object');
   });
 */
+
   it('callHelp', function() {
     var cli = new CLI({
       ui: ui,

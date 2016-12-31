@@ -9,6 +9,7 @@ var expect  = require('chai').expect;
 var remove  = Promise.denodeify(fs.remove);
 var findWhere = require('ember-cli-lodash-subset').find;
 var MockUI = require('console-ui/mock');
+var MockCLI = require('../../helpers/mock-cli');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 var experiments = require('../../experiments');
 
@@ -58,8 +59,9 @@ describe('models/addon.js', function() {
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
+      var cli = new MockCLI();
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, cli.ui, cli);
 
       FirstAddon = Addon.extend({
         name: 'first',
@@ -204,7 +206,10 @@ describe('models/addon.js', function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
       var ui = new MockUI();
-      project = new Project(projectPath, packageContents, ui);
+      var cli = new MockCLI({ ui: ui });
+      project = new Project(projectPath, packageContents, ui, cli);
+      var discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
       project.initializeAddons();
     });
 
@@ -356,8 +361,9 @@ describe('models/addon.js', function() {
 
         var projectPath = path.resolve(fixturePath, 'simple');
         var packageContents = require(path.join(projectPath, 'package.json'));
+        var cli = new MockCLI();
 
-        project = new Project(projectPath, packageContents);
+        project = new Project(projectPath, packageContents, cli.ui, cli);
 
         addon = new MyAddon(project);
 
@@ -422,8 +428,9 @@ describe('models/addon.js', function() {
 
         var projectPath = path.resolve(fixturePath, 'simple');
         var packageContents = require(path.join(projectPath, 'package.json'));
+        var cli = new MockCLI();
 
-        project = new Project(projectPath, packageContents);
+        project = new Project(projectPath, packageContents, cli.ui, cli);
 
         addon = new MyAddon(project);
 
@@ -585,8 +592,11 @@ describe('models/addon.js', function() {
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
+      var cli = new MockCLI();
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, cli.ui, cli);
+      var discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
 
       project.initializeAddons();
 
@@ -634,8 +644,11 @@ describe('models/addon.js', function() {
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
+      var cli = new MockCLI();
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, cli.ui, cli);
+      var discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
 
       project.initializeAddons();
 
@@ -759,7 +772,8 @@ describe('models/addon.js', function() {
       var packageContents = require(path.join(projectPath, 'package.json'));
 
       ui = new MockUI();
-      project = new Project(projectPath, packageContents, ui);
+      var cli = new MockCLI({ ui: ui });
+      project = new Project(projectPath, packageContents, ui, cli);
 
       var AddonTemp = Addon.extend({
         name: 'temp',
@@ -781,8 +795,9 @@ describe('models/addon.js', function() {
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'with-app-styles');
       var packageContents = require(path.join(projectPath, 'package.json'));
+      var cli = new MockCLI();
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, cli.ui, cli);
 
       var BaseAddon = Addon.extend({
         name: 'base-addon',
@@ -825,8 +840,9 @@ describe('models/addon.js', function() {
 
       var projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
+      var cli = new MockCLI();
 
-      project = new Project(projectPath, packageContents);
+      project = new Project(projectPath, packageContents, cli.ui, cli);
       addon = new MyAddon(project, project);
     });
 
@@ -859,7 +875,8 @@ describe('models/addon.js', function() {
       var packageContents = require(path.join(projectPath, 'package.json'));
 
       function createAddon(Addon) {
-        var project = new Project(projectPath, packageContents);
+        var cli = new MockCLI();
+        var project = new Project(projectPath, packageContents, cli.ui, cli);
         return new Addon(project, project);
       }
 
