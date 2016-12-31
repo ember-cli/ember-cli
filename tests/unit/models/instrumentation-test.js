@@ -9,6 +9,7 @@ var path = require('path');
 var fse = require('fs-extra');
 var MockUI = require('console-ui/mock');
 var chalk = require('chalk');
+var EOL   = require('os').EOL;
 
 var itr2Array = require('../../helpers/itr2array');
 var Promise = require('../../../lib/ext/promise');
@@ -148,7 +149,7 @@ describe('models/instrumentation.js', function() {
           'invoke ember via the local executable within node_modules.  Init ' +
           'instrumentation will still be recorded, but some bootstraping will be ' +
           'omitted.'
-        ) + '\n');
+        ) + EOL);
       });
 
       it('does not warn if init instrumentation is included', function() {
