@@ -8,5 +8,6 @@ function MockCLI(options) {
   options = options || {};
 
   this.ui = options.ui || new MockUI();
+  this.npmPackage = options.npmPackage || 'ember-cli';
   this.instrumentation = options.instrumentation || new Instrumentation({});
 }
