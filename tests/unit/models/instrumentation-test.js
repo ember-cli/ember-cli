@@ -47,8 +47,6 @@ describe('models/instrumentation.js', function() {
 
     afterEach(function() {
       td.reset();
-      delete process.env.BROCCOLI_VIZ;
-      delete process.env.EMBER_CLI_INSTRUMENTATION;
     });
 
     it('if VIZ is NOT enabled, do not monitor', function() {
