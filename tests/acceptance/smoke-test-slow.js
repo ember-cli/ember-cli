@@ -238,7 +238,10 @@ describe('Acceptance: smoke-test', function() {
 
           expect(Array.isArray(json.nodes)).to.equal(true);
         });
-      });
+      })
+        .finally(function() {
+          delete process.env.BROCCOLI_VIZ;
+        });
     });
   }
 
