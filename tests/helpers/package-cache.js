@@ -99,21 +99,6 @@ var lookups = {
 function translate(type, lookup) { return lookups[lookup][type]; }
 
 /**
- * The `checkDowngrade` command is used to turn a request for `yarn` into `npm`
- * if it is unsupported on that platform.
- *
- * @method checkDowngrade
- * @param {String} type Either 'bower', 'npm', or 'yarn'.
- */
-function checkDowngrade(type) {
-  // The only thing we support that doesn't support `yarn` is v0.12
-  if (type === 'yarn' && process.version.indexOf('v0.12') === 0) {
-    type = 'npm';
-  }
-  return type;
-}
-
-/**
  * The PackageCache wraps all package management functions. It also
  * handles initial global state setup.
  *
@@ -528,8 +513,6 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   _install: function(label, type) {
-    type = checkDowngrade(type);
-
     this._removeLinks(label, type);
     commands[type].invoke('install', { cwd: this.dirs[label] });
     this._restoreLinks(label, type);
@@ -548,8 +531,6 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   _upgrade: function(label, type) {
-    type = checkDowngrade(type);
-
     // Lock out upgrade calls after the first time upgrading the cache.
     if (upgraded[label]) { return; }
 
@@ -580,7 +561,6 @@ PackageCache.prototype = {
    * @return {String} The directory on disk which contains the cache.
    */
   create: function(label, type, manifest, links) {
-    type = checkDowngrade(type);
     links = links || [];
 
     // Save metadata about the PackageCache invocation in the manifest.
