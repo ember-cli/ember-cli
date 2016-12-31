@@ -396,7 +396,7 @@ describe('models/builder.js', function() {
           };
 
           return builder.build(null, {}).then(function() {
-            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'instrumentation', 'outputReady']);
+            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
           });
         });
       }
@@ -413,7 +413,7 @@ describe('models/builder.js', function() {
           };
 
           return builder.build(null, {}).then(function() {
-            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'instrumentation', 'outputReady']);
+            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
           });
         });
       }
@@ -426,7 +426,7 @@ describe('models/builder.js', function() {
           };
 
           return builder.build(null, {}).then(function() {
-            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildInstrumentation', 'outputReady']);
+            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildInstrumentation']);
           });
         });
       }
