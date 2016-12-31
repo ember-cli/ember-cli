@@ -6,7 +6,6 @@ var MockAnalytics = require('../../helpers/mock-analytics');
 var CLI           = require('../../../lib/cli/cli');
 var td = require('testdouble');
 var heimdall = require('heimdalljs');
-var chalk = require('chalk');
 
 var ui;
 var analytics;
