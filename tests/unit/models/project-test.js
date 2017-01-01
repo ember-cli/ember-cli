@@ -1,12 +1,12 @@
 'use strict';
 
-var path            = require('path');
-var Project         = require('../../../lib/models/project');
-var Addon           = require('../../../lib/models/addon');
-var tmp             = require('../../helpers/tmp');
-var touch           = require('../../helpers/file-utils').touch;
-var expect          = require('chai').expect;
-var MockUI          = require('console-ui/mock');
+var path = require('path');
+var Project = require('../../../lib/models/project');
+var Addon = require('../../../lib/models/addon');
+var tmp = require('../../helpers/tmp');
+var touch = require('../../helpers/file-utils').touch;
+var expect = require('chai').expect;
+var MockUI = require('console-ui/mock');
 var Instrumentation = require('../../../lib/models/instrumentation');
 var emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 var td = require('testdouble');
@@ -122,8 +122,8 @@ describe('models/project.js', function() {
       var projectConfig, addon1Config, addon2Config;
 
       beforeEach(function() {
-        addon1Config  = { addon: { derp: 'herp' } };
-        addon2Config  = { addon: { blammo: 'blahzorz' } };
+        addon1Config = { addon: { derp: 'herp' } };
+        addon2Config = { addon: { blammo: 'blahzorz' } };
 
         projectConfig = { foo: 'bar', baz: 'qux' };
         project.addons = [
@@ -333,7 +333,7 @@ describe('models/project.js', function() {
 
   describe('reloadAddon', function() {
     beforeEach(function() {
-      projectPath         = path.resolve(__dirname, '../../fixtures/addon/simple');
+      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       packageContents = require(path.join(projectPath, 'package.json'));
 
       makeProject();
@@ -377,7 +377,7 @@ describe('models/project.js', function() {
       project.initializeAddons();
 
       newProjectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
-      oldPkg         = project.pkg;
+      oldPkg = project.pkg;
 
       project.root = newProjectPath;
     });

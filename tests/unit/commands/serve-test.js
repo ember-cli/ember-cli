@@ -1,12 +1,12 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var EOL            = require('os').EOL;
+var expect = require('chai').expect;
+var EOL = require('os').EOL;
 var commandOptions = require('../../factories/command-options');
-var Task           = require('../../../lib/models/task');
-var Promise        = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var Promise = require('../../../lib/ext/promise');
 var td = require('testdouble');
-var PortFinder     = require('portfinder');
+var PortFinder = require('portfinder');
 
 PortFinder.basePort = 32768;
 var getPort = Promise.denodeify(PortFinder.getPort);

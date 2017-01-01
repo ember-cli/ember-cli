@@ -1,6 +1,6 @@
 'use strict';
 
-var expect              = require('chai').expect;
+var expect = require('chai').expect;
 var HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/history-support');
 
 describe('HistorySupportAddon', function() {

@@ -1,14 +1,14 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var LiveReloadServer  = require('../../../../lib/tasks/server/livereload-server');
-var MockUI            = require('console-ui/mock');
+var expect = require('chai').expect;
+var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
+var MockUI = require('console-ui/mock');
 var MockExpressServer = require('../../../helpers/mock-express-server');
-var net               = require('net');
-var EOL               = require('os').EOL;
-var path              = require('path');
-var MockWatcher       = require('../../../helpers/mock-watcher');
-var FSTree            = require('fs-tree-diff');
+var net = require('net');
+var EOL = require('os').EOL;
+var path = require('path');
+var MockWatcher = require('../../../helpers/mock-watcher');
+var FSTree = require('fs-tree-diff');
 
 describe('livereload-server', function() {
   var subject;

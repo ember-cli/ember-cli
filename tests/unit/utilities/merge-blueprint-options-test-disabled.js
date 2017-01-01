@@ -1,10 +1,10 @@
 'use strict';
 
-var expect                = require('chai').expect;
-var map                   = require('ember-cli-lodash-subset').map;
-var Blueprint             = require('../../../lib/models/blueprint');
-var Project               = require('../../../lib/models/project');
-var Command               = require('../../../lib/models/command');
+var expect = require('chai').expect;
+var map = require('ember-cli-lodash-subset').map;
+var Blueprint = require('../../../lib/models/blueprint');
+var Project = require('../../../lib/models/project');
+var Command = require('../../../lib/models/command');
 var mergeBlueprintOptions = require('../../../lib/utilities/merge-blueprint-options');
 var td = require('testdouble');
 

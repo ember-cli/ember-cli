@@ -1,19 +1,19 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var ExpressServer     = require('../../../../lib/tasks/server/express-server');
-var Promise           = require('../../../../lib/ext/promise');
-var MockUI            = require('console-ui/mock');
-var MockProject       = require('../../../helpers/mock-project');
-var MockWatcher       = require('../../../helpers/mock-watcher');
+var expect = require('chai').expect;
+var ExpressServer = require('../../../../lib/tasks/server/express-server');
+var Promise = require('../../../../lib/ext/promise');
+var MockUI = require('console-ui/mock');
+var MockProject = require('../../../helpers/mock-project');
+var MockWatcher = require('../../../helpers/mock-watcher');
 var MockServerWatcher = require('../../../helpers/mock-server-watcher');
-var ProxyServer       = require('../../../helpers/proxy-server');
-var chalk             = require('chalk');
-var request           = require('supertest');
-var net               = require('net');
-var EOL               = require('os').EOL;
-var nock              = require('nock');
-var express           = require('express');
+var ProxyServer = require('../../../helpers/proxy-server');
+var chalk = require('chalk');
+var request = require('supertest');
+var net = require('net');
+var EOL = require('os').EOL;
+var nock = require('nock');
+var express = require('express');
 
 describe('express-server', function() {
   var subject, ui, project, proxy, nockProxy;
@@ -58,7 +58,7 @@ describe('express-server', function() {
     it('has a good error message if a file exists, but does not export a function', function() {
       subject.project = {
         has: function() { return true; },
-        require: function() { return {};   },
+        require: function() { return {}; },
       };
 
       expect(function() {

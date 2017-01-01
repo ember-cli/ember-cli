@@ -1,14 +1,14 @@
 'use strict';
 
-var expect        = require('chai').expect;
+var expect = require('chai').expect;
 var lookupCommand = require('../../../lib/cli/lookup-command');
-var Command       = require('../../../lib/models/command');
-var Project       = require('../../../lib/models/project');
-var MockUI        = require('console-ui/mock');
-var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
-var OtherCommand  = require('../../fixtures/addon/commands/other-addon-command');
-var ClassCommand  = require('../../fixtures/addon/commands/addon-command-class');
-var OverrideCommand  = require('../../fixtures/addon/commands/addon-override-intentional');
+var Command = require('../../../lib/models/command');
+var Project = require('../../../lib/models/project');
+var MockUI = require('console-ui/mock');
+var AddonCommand = require('../../fixtures/addon/commands/addon-command');
+var OtherCommand = require('../../fixtures/addon/commands/other-addon-command');
+var ClassCommand = require('../../fixtures/addon/commands/addon-command-class');
+var OverrideCommand = require('../../fixtures/addon/commands/addon-override-intentional');
 
 var commands = {
   serve: Command.extend({

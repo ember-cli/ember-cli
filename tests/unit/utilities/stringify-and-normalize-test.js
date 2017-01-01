@@ -1,6 +1,6 @@
 'use strict';
 
-var expect                = require('chai').expect;
+var expect = require('chai').expect;
 var stringifyAndNormalize = require('../../../lib/utilities/stringify-and-normalize');
 
 describe('stringify-and-normalize', function() {

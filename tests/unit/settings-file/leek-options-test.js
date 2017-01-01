@@ -1,9 +1,9 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var MockUI         = require('console-ui/mock');
-var Yam            = require('yam');
-var cliEntry       = require('../../../lib/cli');
+var expect = require('chai').expect;
+var MockUI = require('console-ui/mock');
+var Yam = require('yam');
+var cliEntry = require('../../../lib/cli');
 
 describe('.ember-cli leek options', function() {
   var cli;

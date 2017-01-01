@@ -1,10 +1,10 @@
 'use strict';
 
-var MockUI        = require('console-ui/mock');
+var MockUI = require('console-ui/mock');
 var MockAnalytics = require('./mock-analytics');
-var cli           = require('../../lib/cli');
-var path          = require('path');
-var Promise       = require('../../lib/ext/promise');
+var cli = require('../../lib/cli');
+var path = require('path');
+var Promise = require('../../lib/ext/promise');
 
 /*
   Accepts a single array argument, that contains the
@@ -44,9 +44,9 @@ module.exports = function ember(args, options) {
   var ui = (options && options.UI) || MockUI;
   var pkg = (options && options.package) || path.resolve(__dirname, '..', '..');
   var disableDependencyChecker = (options && options.disableDependencyChecker) || true;
-  var inputStream  = [];
+  var inputStream = [];
   var outputStream = [];
-  var errorLog     = [];
+  var errorLog = [];
   var commandName = args[0];
 
   if (commandName === 'test') {

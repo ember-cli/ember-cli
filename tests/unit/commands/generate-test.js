@@ -1,15 +1,15 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var EOL               = require('os').EOL;
-var SilentError       = require('silent-error');
-var commandOptions    = require('../../factories/command-options');
+var expect = require('chai').expect;
+var EOL = require('os').EOL;
+var SilentError = require('silent-error');
+var commandOptions = require('../../factories/command-options');
 var processHelpString = require('../../helpers/process-help-string');
-var MockProject       = require('../../helpers/mock-project');
-var Promise           = require('../../../lib/ext/promise');
-var Task              = require('../../../lib/models/task');
-var Blueprint         = require('../../../lib/models/blueprint');
-var GenerateCommand   = require('../../../lib/commands/generate');
+var MockProject = require('../../helpers/mock-project');
+var Promise = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var Blueprint = require('../../../lib/models/blueprint');
+var GenerateCommand = require('../../../lib/commands/generate');
 var td = require('testdouble');
 
 describe('generate command', function() {

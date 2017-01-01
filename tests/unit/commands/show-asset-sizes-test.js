@@ -1,9 +1,9 @@
 'use strict';
 
-var expect         = require('chai').expect;
+var expect = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
-var Task           = require('../../../lib/models/task');
-var path           = require('path');
+var Task = require('../../../lib/models/task');
+var path = require('path');
 var td = require('testdouble');
 
 describe('asset-sizes command', function() {

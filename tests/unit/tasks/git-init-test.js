@@ -1,17 +1,17 @@
 'use strict';
 
-var fs          = require('fs-extra');
-var expect      = require('chai').expect;
-var MockUI      = require('console-ui/mock');
+var fs = require('fs-extra');
+var expect = require('chai').expect;
+var MockUI = require('console-ui/mock');
 var GitInitTask = require('../../../lib/tasks/git-init');
 var MockProject = require('../../helpers/mock-project');
-var Promise     = require('../../../lib/ext/promise');
-var remove      = Promise.denodeify(fs.remove);
-var path        = require('path');
-var root        = process.cwd();
-var mkTmpDirIn  = require('../../../lib/utilities/mk-tmp-dir-in');
-var tmproot     = path.join(root, 'tmp');
-var td          = require('testdouble');
+var Promise = require('../../../lib/ext/promise');
+var remove = Promise.denodeify(fs.remove);
+var path = require('path');
+var root = process.cwd();
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+var tmproot = path.join(root, 'tmp');
+var td = require('testdouble');
 
 describe('git-init', function() {
   var subject, ui, tmpdir, exec;
@@ -20,8 +20,8 @@ describe('git-init', function() {
     exec = td.function('exec');
 
     return mkTmpDirIn(tmproot).then(function(dir) {
-      tmpdir  = dir;
-      ui      = new MockUI();
+      tmpdir = dir;
+      ui = new MockUI();
       subject = new GitInitTask({
         ui: ui,
         project: new MockProject(),

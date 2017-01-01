@@ -2,8 +2,8 @@
 
 'use strict';
 
-var fs         = require('fs');
-var expect     = require('chai').expect;
+var fs = require('fs');
+var expect = require('chai').expect;
 var proxyquire = require('proxyquire');
 
 var MockUI = require('console-ui/mock');

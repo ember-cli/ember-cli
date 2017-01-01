@@ -1,8 +1,8 @@
 'use strict';
 
-var RSVP         = require('rsvp');
+var RSVP = require('rsvp');
 var EventEmitter = require('events').EventEmitter;
-var path         = require('path');
+var path = require('path');
 
 function MockServerWatcher() {
   EventEmitter.apply(this, arguments);

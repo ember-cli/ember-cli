@@ -25,6 +25,12 @@ module.exports = {
     'no-caller': 2,
     'no-eq-null': 2,
     'no-eval': 2,
+    'no-multi-spaces': [2, {
+      'exceptions': {
+        'ObjectExpression': true,
+        'Property': true,
+      },
+    }],
     'no-new': 0,
     'no-unused-expressions': [2, {
       allowShortCircuit: true,

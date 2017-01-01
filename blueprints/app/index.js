@@ -4,9 +4,9 @@ module.exports = {
   description: 'The default blueprint for ember-cli projects.',
 
   locals: function(options) {
-    var entity    = options.entity;
-    var rawName   = entity.name;
-    var name      = stringUtil.dasherize(rawName);
+    var entity = options.entity;
+    var rawName = entity.name;
+    var name = stringUtil.dasherize(rawName);
     var namespace = stringUtil.classify(rawName);
 
     return {

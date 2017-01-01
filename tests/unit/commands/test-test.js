@@ -1,13 +1,13 @@
 'use strict';
 
-var path           = require('path');
-var CoreObject     = require('core-object');
-var expect         = require('../../chai').expect;
-var MockProject    = require('../../helpers/mock-project');
+var path = require('path');
+var CoreObject = require('core-object');
+var expect = require('../../chai').expect;
+var MockProject = require('../../helpers/mock-project');
 var commandOptions = require('../../factories/command-options');
-var Promise        = require('../../../lib/ext/promise');
-var Task           = require('../../../lib/models/task');
-var TestCommand    = require('../../../lib/commands/test');
+var Promise = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var TestCommand = require('../../../lib/commands/test');
 var td = require('testdouble');
 
 describe('test command', function() {

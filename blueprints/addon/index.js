@@ -1,12 +1,12 @@
-var fs          = require('fs-extra');
-var existsSync  = require('exists-sync');
-var path        = require('path');
-var walkSync    = require('walk-sync');
-var stringUtil  = require('ember-cli-string-utils');
-var uniq        = require('ember-cli-lodash-subset').uniq;
+var fs = require('fs-extra');
+var existsSync = require('exists-sync');
+var path = require('path');
+var walkSync = require('walk-sync');
+var stringUtil = require('ember-cli-string-utils');
+var uniq = require('ember-cli-lodash-subset').uniq;
 var SilentError = require('silent-error');
 var sortPackageJson = require('sort-package-json');
-var date        = new Date();
+var date = new Date();
 
 var normalizeEntityName = require('ember-cli-normalize-entity-name');
 var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
@@ -70,14 +70,14 @@ module.exports = {
   },
 
   locals: function(options) {
-    var entity    = { name: 'dummy' };
-    var rawName   = entity.name;
-    var name      = stringUtil.dasherize(rawName);
+    var entity = { name: 'dummy' };
+    var rawName = entity.name;
+    var name = stringUtil.dasherize(rawName);
     var namespace = stringUtil.classify(rawName);
 
-    var addonEntity    = options.entity;
-    var addonRawName   = addonEntity.name;
-    var addonName      = stringUtil.dasherize(addonRawName);
+    var addonEntity = options.entity;
+    var addonRawName = addonEntity.name;
+    var addonName = stringUtil.dasherize(addonRawName);
     var addonNamespace = stringUtil.classify(addonRawName);
 
     return {
@@ -95,13 +95,13 @@ module.exports = {
   files: function() {
     if (this._files) { return this._files; }
 
-    this._appBlueprint   = this.lookupBlueprint('app');
-    var appFiles       = this._appBlueprint.files();
+    this._appBlueprint = this.lookupBlueprint('app');
+    var appFiles = this._appBlueprint.files();
 
     this.generatePackageJson();
     this.generateBowerJson();
 
-    var addonFiles   = walkSync(path.join(this.path, 'files'));
+    var addonFiles = walkSync(path.join(this.path, 'files'));
 
     return this._files = uniq(appFiles.concat(addonFiles));
   },

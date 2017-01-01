@@ -2,12 +2,12 @@
 
 var Project = require('../../lib/models/project');
 var Instrumentation = require('../../lib/models/instrumentation');
-var MockUI  = require('console-ui/mock');
+var MockUI = require('console-ui/mock');
 var td = require('testdouble');
 
 function MockProject() {
   var root = process.cwd();
-  var pkg  = {};
+  var pkg = {};
   var ui = new MockUI();
   var instr = new Instrumentation({
     ui: ui,

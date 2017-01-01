@@ -1,10 +1,10 @@
 'use strict';
 
 var symlinkOrCopySync = require('symlink-or-copy').sync;
-var path              = require('path');
-var fs                = require('fs-extra');
-var runCommand        = require('./run-command');
-var Promise           = require('../../lib/ext/promise');
+var path = require('path');
+var fs = require('fs-extra');
+var runCommand = require('./run-command');
+var Promise = require('../../lib/ext/promise');
 var root = path.resolve(__dirname, '..', '..');
 
 var PackageCache = require('../../tests/helpers/package-cache');

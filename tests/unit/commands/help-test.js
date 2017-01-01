@@ -1,12 +1,12 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var EOL               = require('os').EOL;
-var proxyquire        = require('proxyquire');
-var path              = require('path');
+var expect = require('chai').expect;
+var EOL = require('os').EOL;
+var proxyquire = require('proxyquire');
+var path = require('path');
 var processHelpString = require('../../helpers/process-help-string');
-var convertToJson     = require('../../helpers/convert-help-output-to-json');
-var commandOptions    = require('../../factories/command-options');
+var convertToJson = require('../../helpers/convert-help-output-to-json');
+var commandOptions = require('../../factories/command-options');
 var td = require('testdouble');
 
 var lookupCommandStub;

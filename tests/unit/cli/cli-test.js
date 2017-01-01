@@ -1,9 +1,9 @@
 'use strict';
 
-var expect        = require('chai').expect;
-var MockUI        = require('console-ui/mock');
+var expect = require('chai').expect;
+var MockUI = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var CLI           = require('../../../lib/cli/cli');
+var CLI = require('../../../lib/cli/cli');
 var td = require('testdouble');
 var heimdall = require('heimdalljs');
 var Command = require('../../../lib/models/command');
@@ -232,7 +232,7 @@ describe('Unit: CLI', function() {
       it('ember ' + command + ' --port 9999', function() {
         var server = stubRun('serve');
 
-        return ember([command, '--port',  '9999']).then(function() {
+        return ember([command, '--port', '9999']).then(function() {
           var captor = td.matchers.captor();
           td.verify(server(captor.capture()), { ignoreExtraArgs: true, times: 1 });
           expect(captor.value.port, 'port').to.equal(9999);
@@ -252,7 +252,7 @@ describe('Unit: CLI', function() {
       it('ember ' + command + ' --port 9292 --host localhost', function() {
         var server = stubRun('serve');
 
-        return ember([command, '--port', '9292',  '--host',  'localhost']).then(function() {
+        return ember([command, '--port', '9292', '--host', 'localhost']).then(function() {
           var captor = td.matchers.captor();
           td.verify(server(captor.capture()), { ignoreExtraArgs: true, times: 1 });
           expect(captor.value.host, 'host').to.equal('localhost');

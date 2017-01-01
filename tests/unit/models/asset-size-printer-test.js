@@ -1,15 +1,15 @@
 'use strict';
 
-var expect           = require('chai').expect;
-var MockUi           = require('console-ui/mock');
+var expect = require('chai').expect;
+var MockUi = require('console-ui/mock');
 var AssetSizePrinter = require('../../../lib/models/asset-size-printer');
-var Promise          = require('../../../lib/ext/promise');
-var path             = require('path');
-var fs               = require('fs-extra');
-var root             = process.cwd();
-var mkTmpDirIn       = require('../../../lib/utilities/mk-tmp-dir-in');
-var tmpRoot          = path.join(root, 'tmp');
-var remove           = Promise.denodeify(fs.remove);
+var Promise = require('../../../lib/ext/promise');
+var path = require('path');
+var fs = require('fs-extra');
+var root = process.cwd();
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+var tmpRoot = path.join(root, 'tmp');
+var remove = Promise.denodeify(fs.remove);
 
 describe('models/asset-size-printer', function() {
   var storedTmpDir, assetDir, assetChildDir;

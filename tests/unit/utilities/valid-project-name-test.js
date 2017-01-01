@@ -1,7 +1,7 @@
 'use strict';
 
 var validProjectName = require('../../../lib/utilities/valid-project-name');
-var expect             = require('chai').expect;
+var expect = require('chai').expect;
 
 describe('validate project name', function() {
   it('invalidates nonconformant project name', function() {

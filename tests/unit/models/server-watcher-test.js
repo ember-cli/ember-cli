@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var EOL = require('os').EOL;
 var MockUI = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var MockServerWatcher  = require('../../helpers/mock-watcher');
+var MockServerWatcher = require('../../helpers/mock-watcher');
 var ServerWatcher = require('../../../lib/models/server-watcher');
 
 describe('Server Watcher', function() {
@@ -14,9 +14,9 @@ describe('Server Watcher', function() {
   var watcher;
 
   beforeEach(function() {
-    ui        = new MockUI();
+    ui = new MockUI();
     analytics = new MockAnalytics();
-    watcher   = new MockServerWatcher();
+    watcher = new MockServerWatcher();
 
     subject = new ServerWatcher({
       ui: ui,

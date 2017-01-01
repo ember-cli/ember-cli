@@ -1,17 +1,17 @@
 'use strict';
 
-var Promise          = require('../../lib/ext/promise');
-var ember            = require('../helpers/ember');
-var fs               = require('fs-extra');
-var outputFile       = Promise.denodeify(fs.outputFile);
-var path             = require('path');
-var remove           = Promise.denodeify(fs.remove);
-var replaceFile      = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
-var root             = process.cwd();
-var tmproot          = path.join(root, 'tmp');
-var Blueprint        = require('../../lib/models/blueprint');
+var Promise = require('../../lib/ext/promise');
+var ember = require('../helpers/ember');
+var fs = require('fs-extra');
+var outputFile = Promise.denodeify(fs.outputFile);
+var path = require('path');
+var remove = Promise.denodeify(fs.remove);
+var replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
+var Blueprint = require('../../lib/models/blueprint');
 var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
+var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
 var chai = require('../chai');
 var expect = chai.expect;

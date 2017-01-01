@@ -9,7 +9,7 @@ var path = require('path');
 var fse = require('fs-extra');
 var MockUI = require('console-ui/mock');
 var chalk = require('chalk');
-var EOL   = require('os').EOL;
+var EOL = require('os').EOL;
 
 var itr2Array = require('../../helpers/itr2array');
 var Promise = require('../../../lib/ext/promise');

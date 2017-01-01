@@ -1,22 +1,22 @@
 'use strict';
 
-var fs                = require('fs-extra');
-var Task              = require('../../../lib/models/task');
-var MockProject       = require('../../helpers/mock-project');
-var MockUI            = require('console-ui/mock');
-var expect            = require('chai').expect;
-var path              = require('path');
-var glob              = require('glob');
-var walkSync          = require('walk-sync');
-var Promise           = require('../../../lib/ext/promise');
-var remove            = Promise.denodeify(fs.remove);
-var EOL               = require('os').EOL;
-var root              = process.cwd();
-var tmproot           = path.join(root, 'tmp');
-var SilentError       = require('silent-error');
-var mkTmpDirIn        = require('../../../lib/utilities/mk-tmp-dir-in');
-var td                = require('testdouble');
-var Blueprint         = require('../../../lib/models/blueprint');
+var fs = require('fs-extra');
+var Task = require('../../../lib/models/task');
+var MockProject = require('../../helpers/mock-project');
+var MockUI = require('console-ui/mock');
+var expect = require('chai').expect;
+var path = require('path');
+var glob = require('glob');
+var walkSync = require('walk-sync');
+var Promise = require('../../../lib/ext/promise');
+var remove = Promise.denodeify(fs.remove);
+var EOL = require('os').EOL;
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
+var SilentError = require('silent-error');
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+var td = require('testdouble');
+var Blueprint = require('../../../lib/models/blueprint');
 
 var localsCalled;
 var normalizeEntityNameCalled;
@@ -82,7 +82,7 @@ var instrumented = {
 
 var defaultBlueprints = path.resolve(__dirname, '..', '..', '..', 'blueprints');
 var fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'blueprints');
-var basicBlueprint    = path.join(fixtureBlueprints, 'basic');
+var basicBlueprint = path.join(fixtureBlueprints, 'basic');
 var basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
 
 var defaultIgnoredFiles = Blueprint.ignoredFiles;
@@ -237,11 +237,11 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
         td.replace(ui, 'prompt');
 
-        project   = new MockProject();
-        options   = {
+        project = new MockProject();
+        options = {
           ui: ui,
           project: project,
           target: tmpdir,
@@ -544,8 +544,8 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new BasicBlueprintClass(basicBlueprint);
-        project   = new MockProject();
-        options   = {
+        project = new MockProject();
+        options = {
           project: project,
           target: tmpdir,
         };
@@ -618,8 +618,8 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
-        project   = new MockProject();
-        options   = {
+        project = new MockProject();
+        options = {
           project: project,
           target: tmpdir,
         };
@@ -655,7 +655,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
       });
     });
 
@@ -691,7 +691,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
         blueprint.taskFor = function(name) {
           taskNameLookedUp = name;
           return new NpmInstallTask();
@@ -830,7 +830,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
         blueprint.taskFor = function(name) {
           taskNameLookedUp = name;
           return new NpmUninstallTask();
@@ -865,7 +865,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
         blueprint.taskFor = function(name) {
           taskNameLookedUp = name;
           return new NpmUninstallTask();
@@ -987,7 +987,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
         blueprint.ui = ui;
         blueprint.taskFor = function(name) {
           taskNameLookedUp = name;
@@ -1053,7 +1053,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
         blueprint.taskFor = function(name) {
           taskNameLookedUp = name;
           return new BowerInstallTask();
@@ -1160,7 +1160,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
       });
     });
 
@@ -1196,7 +1196,7 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
+        ui = new MockUI();
         blueprint.taskFor = function(name) {
           taskNameLookedUp = name;
           return new AddonInstallTask();
@@ -1238,7 +1238,7 @@ describe('Blueprint', function() {
 
       AddonInstallTask = Task.extend({
         run: function(options) {
-          pkg  = options['packages'];
+          pkg = options['packages'];
           args = options['extraArgs'];
           bluOpts = options['blueprintOptions'];
         },
@@ -1335,8 +1335,8 @@ describe('Blueprint', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui        = new MockUI();
-        project   = new MockProject();
+        ui = new MockUI();
+        project = new MockProject();
         // normally provided by `install`, but mocked here for testing
         project.root = tmpdir;
         blueprint.project = project;

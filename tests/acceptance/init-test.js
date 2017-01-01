@@ -1,20 +1,20 @@
 'use strict';
 
-var ember      = require('../helpers/ember');
-var walkSync   = require('walk-sync');
-var glob       = require('glob');
-var Blueprint  = require('../../lib/models/blueprint');
-var path       = require('path');
-var tmp        = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
-var root       = process.cwd();
-var util       = require('util');
-var minimatch  = require('minimatch');
+var ember = require('../helpers/ember');
+var walkSync = require('walk-sync');
+var glob = require('glob');
+var Blueprint = require('../../lib/models/blueprint');
+var path = require('path');
+var tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+var root = process.cwd();
+var util = require('util');
+var minimatch = require('minimatch');
 var lodash = require('ember-cli-lodash-subset');
-var intersect  = lodash.intersection;
-var remove     = lodash.remove;
-var forEach    = lodash.forEach;
-var any        = lodash.some;
-var EOL        = require('os').EOL;
+var intersect = lodash.intersection;
+var remove = lodash.remove;
+var forEach = lodash.forEach;
+var any = lodash.some;
+var EOL = require('os').EOL;
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -42,8 +42,8 @@ describe('Acceptance: ember init', function() {
 
   function confirmBlueprinted() {
     var blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    var expected      = walkSync(blueprintPath).sort();
-    var actual        = walkSync('.').sort();
+    var expected = walkSync(blueprintPath).sort();
+    var actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
@@ -57,14 +57,14 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
-                                           EOL + ' but got: ' +  util.inspect(actual));
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' + util.inspect(expected) +
+                                           EOL + ' but got: ' + util.inspect(actual));
   }
 
   function confirmGlobBlueprinted(pattern) {
     var blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    var actual        = pickSync('.', pattern);
-    var expected      = intersect(actual, pickSync(blueprintPath, pattern));
+    var actual = pickSync('.', pattern);
+    var expected = intersect(actual, pickSync(blueprintPath, pattern));
 
     removeIgnored(expected);
     removeIgnored(actual);
@@ -74,8 +74,8 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
-                                           EOL + ' but got: ' +  util.inspect(actual));
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' + util.inspect(expected) +
+                                           EOL + ' but got: ' + util.inspect(actual));
   }
 
   function pickSync(filePath, pattern) {

@@ -1,11 +1,11 @@
 'use strict';
 
-var expect              = require('chai').expect;
-var MockProject         = require('../../helpers/mock-project');
-var commandOptions      = require('../../factories/command-options');
-var Promise             = require('../../../lib/ext/promise');
-var Task                = require('../../../lib/models/task');
-var AddonInstall        = require('../../../lib/tasks/addon-install');
+var expect = require('chai').expect;
+var MockProject = require('../../helpers/mock-project');
+var commandOptions = require('../../factories/command-options');
+var Promise = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var AddonInstall = require('../../../lib/tasks/addon-install');
 var InstallAddonCommand = require('../../../lib/commands/install-addon');
 
 describe('install:addon command', function() {
@@ -39,8 +39,8 @@ describe('install:addon command', function() {
     var project = new MockProject();
 
     project.isEmberCLIProject = function() { return true; };
-    project.initializeAddons  = function() { };
-    project.reloadAddons      = function() {
+    project.initializeAddons = function() { };
+    project.reloadAddons = function() {
       this.addons = [{
         pkg: {
           name: 'ember-cli-photoswipe',

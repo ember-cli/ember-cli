@@ -17,7 +17,7 @@ describe('WatchDetector', function() {
   beforeEach(function() {
     ui = new MockUI();
 
-    fs =  {};
+    fs = {};
     childProcess = {};
 
     function exec(arg) {

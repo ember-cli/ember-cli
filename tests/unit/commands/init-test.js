@@ -1,17 +1,17 @@
 'use strict';
 
-var fs            = require('fs-extra');
-var os            = require('os');
-var path          = require('path');
-var expect        = require('chai').expect;
-var map           = require('ember-cli-lodash-subset').map;
-var MockUI        = require('console-ui/mock');
+var fs = require('fs-extra');
+var os = require('os');
+var path = require('path');
+var expect = require('chai').expect;
+var map = require('ember-cli-lodash-subset').map;
+var MockUI = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var Promise       = require('../../../lib/ext/promise');
-var Blueprint     = require('../../../lib/models/blueprint');
-var Project       = require('../../../lib/models/project');
-var Task          = require('../../../lib/models/task');
-var InitCommand   = require('../../../lib/commands/init');
+var Promise = require('../../../lib/ext/promise');
+var Blueprint = require('../../../lib/models/blueprint');
+var Project = require('../../../lib/models/project');
+var Task = require('../../../lib/models/task');
+var InitCommand = require('../../../lib/commands/init');
 var MockCLI = require('../../helpers/mock-cli');
 var td = require('testdouble');
 

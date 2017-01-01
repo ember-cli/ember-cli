@@ -1,21 +1,21 @@
 'use strict';
 
-var path     = require('path');
-var fs       = require('fs-extra');
-var crypto   = require('crypto');
+var path = require('path');
+var fs = require('fs-extra');
+var crypto = require('crypto');
 var walkSync = require('walk-sync');
-var EOL      = require('os').EOL;
+var EOL = require('os').EOL;
 
-var runCommand          = require('../helpers/run-command');
-var acceptance          = require('../helpers/acceptance');
-var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var killCliProcess      = require('../helpers/kill-cli-process');
-var ember               = require('../helpers/ember');
+var runCommand = require('../helpers/run-command');
+var acceptance = require('../helpers/acceptance');
+var copyFixtureFiles = require('../helpers/copy-fixture-files');
+var killCliProcess = require('../helpers/kill-cli-process');
+var ember = require('../helpers/ember');
 var experiments = require('../../lib/experiments/');
-var createTestTargets   = acceptance.createTestTargets;
+var createTestTargets = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies    = acceptance.linkDependencies;
-var cleanupRun          = acceptance.cleanupRun;
+var linkDependencies = acceptance.linkDependencies;
+var cleanupRun = acceptance.cleanupRun;
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -186,7 +186,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember build exits with non-zero code when build fails', function() {
-    var appJsPath   = path.join(appRoot, 'app', 'app.js');
+    var appJsPath = path.join(appRoot, 'app', 'app.js');
     var ouputContainsBuildFailed = false;
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function(result) {
@@ -246,18 +246,18 @@ describe('Acceptance: smoke-test', function() {
   }
 
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
-    var touched     = false;
-    var appJsPath   = path.join(appRoot, 'app', 'app.js');
+    var touched = false;
+    var appJsPath = path.join(appRoot, 'app', 'app.js');
     var builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
-    var text        = 'anotuhaonteuhanothunaothanoteh';
-    var line        = 'console.log("' + text + '");';
+    var text = 'anotuhaonteuhanothunaothanoteh';
+    var line = 'console.log("' + text + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
       onOutput: function(string, child) {
         if (touched) {
           if (string.match(/Build successful/)) {
             // build after change to app.js
-            var contents  = fs.readFileSync(builtJsPath).toString();
+            var contents = fs.readFileSync(builtJsPath).toString();
             expect(contents).to.contain(text, 'must contain changed line after rebuild');
             killCliProcess(child);
           }
@@ -273,14 +273,14 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', function() {
-    var buildCount  = 0;
-    var touched     = false;
-    var appJsPath   = path.join(appRoot, 'app', 'app.js');
+    var buildCount = 0;
+    var touched = false;
+    var appJsPath = path.join(appRoot, 'app', 'app.js');
     var builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
-    var firstText   = 'anotuhaonteuhanothunaothanoteh';
-    var firstLine   = 'console.log("' + firstText + '");';
-    var secondText  = 'aahsldfjlwioruoiiononociwewqwr';
-    var secondLine  = 'console.log("' + secondText + '");';
+    var firstText = 'anotuhaonteuhanothunaothanoteh';
+    var firstLine = 'console.log("' + firstText + '");';
+    var secondText = 'aahsldfjlwioruoiiononociwewqwr';
+    var secondLine = 'console.log("' + secondText + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
       onOutput: function(string, child) {
@@ -301,7 +301,7 @@ describe('Acceptance: smoke-test', function() {
         } else if (touched && buildCount === 2) {
           if (string.match(/Build successful/)) {
             // build after change to app.js
-            var contents  = fs.readFileSync(builtJsPath).toString();
+            var contents = fs.readFileSync(builtJsPath).toString();
             expect(contents).to.contain(secondText, 'must contain second changed line after rebuild');
             killCliProcess(child);
           }

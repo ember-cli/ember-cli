@@ -2,10 +2,10 @@
 
 'use strict';
 
-var fs         = require('fs');
-var path       = require('path');
-var Project    = require('../../../lib/models/project');
-var expect     = require('chai').expect;
+var fs = require('fs');
+var path = require('path');
+var Project = require('../../../lib/models/project');
+var expect = require('chai').expect;
 var proxyquire = require('proxyquire');
 var td = require('testdouble');
 

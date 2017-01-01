@@ -1,8 +1,8 @@
 'use strict';
 
-var expect              = require('chai').expect;
+var expect = require('chai').expect;
 var InstallationChecker = require('../../../lib/models/installation-checker');
-var path                = require('path');
+var path = require('path');
 
 describe('Installation Checker', function() {
   var installationChecker;

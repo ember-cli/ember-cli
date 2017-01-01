@@ -1,15 +1,15 @@
 'use strict';
 
-var fs                = require('fs-extra');
+var fs = require('fs-extra');
 var processHelpString = require('../../helpers/process-help-string');
-var expect            = require('chai').expect;
-var path              = require('path');
-var EOL               = require('os').EOL;
-var proxyquire        = require('proxyquire');
-var existsSync        = require('exists-sync');
-var MarkdownColor     = require('../../../lib/utilities/markdown-color');
-var assign            = require('ember-cli-lodash-subset').assign;
-var td                = require('testdouble');
+var expect = require('chai').expect;
+var path = require('path');
+var EOL = require('os').EOL;
+var proxyquire = require('proxyquire');
+var existsSync = require('exists-sync');
+var MarkdownColor = require('../../../lib/utilities/markdown-color');
+var assign = require('ember-cli-lodash-subset').assign;
+var td = require('testdouble');
 
 var existsSyncStub;
 var readdirSyncStub;

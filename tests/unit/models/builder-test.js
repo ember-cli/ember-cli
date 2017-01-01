@@ -1,22 +1,22 @@
 'use strict';
 
-var fs             = require('fs-extra');
-var path            = require('path');
-var Builder         = require('../../../lib/models/builder');
-var BuildCommand    = require('../../../lib/commands/build');
-var commandOptions  = require('../../factories/command-options');
-var Promise         = require('../../../lib/ext/promise');
-var MockProject     = require('../../helpers/mock-project');
-var remove          = Promise.denodeify(fs.remove);
-var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
-var td              = require('testdouble');
+var fs = require('fs-extra');
+var path = require('path');
+var Builder = require('../../../lib/models/builder');
+var BuildCommand = require('../../../lib/commands/build');
+var commandOptions = require('../../factories/command-options');
+var Promise = require('../../../lib/ext/promise');
+var MockProject = require('../../helpers/mock-project');
+var remove = Promise.denodeify(fs.remove);
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+var td = require('testdouble');
 var experiments = require('../../experiments');
 var chai = require('../../chai');
 var expect = chai.expect;
 var file = chai.file;
 
-var root            = process.cwd();
-var tmproot         = path.join(root, 'tmp');
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
 
 var MockUI = require('console-ui/mock');
 var Heimdall = require('heimdalljs/heimdall');

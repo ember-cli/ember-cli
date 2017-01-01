@@ -1,10 +1,10 @@
 'use strict';
 
-var path       = require('path');
-var Project    = require('../../../lib/models/project');
+var path = require('path');
+var Project = require('../../../lib/models/project');
 var EmberAddon = require('../../../lib/broccoli/ember-addon');
 var EmberApp = require('../../../lib/broccoli/ember-app');
-var expect     = require('chai').expect;
+var expect = require('chai').expect;
 var MockCLI = require('../../helpers/mock-cli');
 
 describe('EmberAddon', function() {

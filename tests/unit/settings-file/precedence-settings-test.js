@@ -1,11 +1,11 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var merge          = require('ember-cli-lodash-subset').merge;
-var MockUI         = require('console-ui/mock');
-var MockAnalytics  = require('../../helpers/mock-analytics');
-var Command        = require('../../../lib/models/command');
-var Yam            = require('yam');
+var expect = require('chai').expect;
+var merge = require('ember-cli-lodash-subset').merge;
+var MockUI = require('console-ui/mock');
+var MockAnalytics = require('../../helpers/mock-analytics');
+var Command = require('../../../lib/models/command');
+var Yam = require('yam');
 
 describe('.ember-cli', function() {
   var ui;
@@ -15,9 +15,9 @@ describe('.ember-cli', function() {
   var homeSettings;
 
   before(function() {
-    ui        = new MockUI();
+    ui = new MockUI();
     analytics = new MockAnalytics();
-    project   = { isEmberCLIProject: function() { return true; } };
+    project = { isEmberCLIProject: function() { return true; } };
 
     homeSettings = {
       proxy: 'http://iamstef.net/ember-cli',

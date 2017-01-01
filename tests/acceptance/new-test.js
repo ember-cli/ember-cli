@@ -1,15 +1,15 @@
 'use strict';
 
-var fs         = require('fs-extra');
-var ember      = require('../helpers/ember');
-var walkSync   = require('walk-sync');
-var Blueprint  = require('../../lib/models/blueprint');
-var path       = require('path');
-var tmp        = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
-var root       = process.cwd();
-var util       = require('util');
-var EOL        = require('os').EOL;
-var chalk      = require('chalk');
+var fs = require('fs-extra');
+var ember = require('../helpers/ember');
+var walkSync = require('walk-sync');
+var Blueprint = require('../../lib/models/blueprint');
+var path = require('path');
+var tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+var root = process.cwd();
+var util = require('util');
+var EOL = require('os').EOL;
+var chalk = require('chalk');
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -36,9 +36,9 @@ describe('Acceptance: ember new', function() {
   function confirmBlueprintedForDir(dir) {
     return function() {
       var blueprintPath = path.join(root, dir, 'files');
-      var expected      = walkSync(blueprintPath);
-      var actual        = walkSync('.').sort();
-      var directory     = path.basename(process.cwd());
+      var expected = walkSync(blueprintPath);
+      var actual = walkSync('.').sort();
+      var directory = path.basename(process.cwd());
 
       forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
         expected[expected.indexOf(srcFile)] = destFile;
@@ -47,8 +47,8 @@ describe('Acceptance: ember new', function() {
       expected.sort();
 
       expect(directory).to.equal('foo');
-      expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
-                                             EOL + ' but got: ' +  util.inspect(actual));
+      expect(expected).to.deep.equal(actual, EOL + ' expected: ' + util.inspect(expected) +
+                                             EOL + ' but got: ' + util.inspect(actual));
 
     };
   }

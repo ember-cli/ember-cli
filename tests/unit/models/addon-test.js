@@ -1,23 +1,23 @@
 'use strict';
 
-var fs      = require('fs-extra');
-var path    = require('path');
+var fs = require('fs-extra');
+var path = require('path');
 var Project = require('../../../lib/models/project');
-var Addon   = require('../../../lib/models/addon');
+var Addon = require('../../../lib/models/addon');
 var Promise = require('../../../lib/ext/promise');
-var expect  = require('chai').expect;
-var remove  = Promise.denodeify(fs.remove);
+var expect = require('chai').expect;
+var remove = Promise.denodeify(fs.remove);
 var findWhere = require('ember-cli-lodash-subset').find;
 var MockUI = require('console-ui/mock');
 var MockCLI = require('../../helpers/mock-cli');
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 var experiments = require('../../experiments');
 
-var broccoli  = require('broccoli-builder');
-var walkSync  = require('walk-sync');
-var td        = require('testdouble');
+var broccoli = require('broccoli-builder');
+var walkSync = require('walk-sync');
+var td = require('testdouble');
 
-var root    = process.cwd();
+var root = process.cwd();
 var tmproot = path.join(root, 'tmp');
 
 var fixturePath = path.resolve(__dirname, '../../fixtures/addon');

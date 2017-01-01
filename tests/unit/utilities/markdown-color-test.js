@@ -1,9 +1,9 @@
 'use strict';
 
 var MarkdownColor = require('../../../lib/utilities/markdown-color');
-var expect        = require('chai').expect;
-var path          = require('path');
-var chalk         = require('chalk');
+var expect = require('chai').expect;
+var path = require('path');
+var chalk = require('chalk');
 
 describe('MarkdownColor', function() {
   var mc;

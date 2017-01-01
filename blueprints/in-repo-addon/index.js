@@ -1,4 +1,4 @@
-var fs   = require('fs-extra');
+var fs = require('fs-extra');
 var path = require('path');
 var stringUtil = require('ember-cli-string-utils');
 var Blueprint = require('../../lib/models/blueprint');
@@ -27,9 +27,9 @@ module.exports = {
 
   _generatePackageJson: function(options, isInstall) {
     var packagePath = path.join(this.project.root, 'package.json');
-    var contents    = fs.readJsonSync(packagePath);
-    var name        = stringUtil.dasherize(options.entity.name);
-    var newPath     = ['lib', name].join('/');
+    var contents = fs.readJsonSync(packagePath);
+    var name = stringUtil.dasherize(options.entity.name);
+    var newPath = ['lib', name].join('/');
     var paths;
 
     contents['ember-addon'] = contents['ember-addon'] || {};

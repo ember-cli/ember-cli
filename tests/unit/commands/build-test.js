@@ -1,10 +1,10 @@
 'use strict';
 
-var expect         = require('chai').expect;
+var expect = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
-var Promise        = require('../../../lib/ext/promise');
-var Task           = require('../../../lib/models/task');
-var BuildCommand   = require('../../../lib/commands/build');
+var Promise = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var BuildCommand = require('../../../lib/commands/build');
 var td = require('testdouble');
 
 describe('build command', function() {

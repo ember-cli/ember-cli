@@ -1,13 +1,13 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var map            = require('ember-cli-lodash-subset').map;
+var expect = require('chai').expect;
+var map = require('ember-cli-lodash-subset').map;
 var commandOptions = require('../../factories/command-options');
-var NewCommand     = require('../../../lib/commands/new');
-var Promise        = require('../../../lib/ext/promise');
-var Blueprint      = require('../../../lib/models/blueprint');
-var Command        = require('../../../lib/models/command');
-var Task           = require('../../../lib/models/task');
+var NewCommand = require('../../../lib/commands/new');
+var Promise = require('../../../lib/ext/promise');
+var Blueprint = require('../../../lib/models/blueprint');
+var Command = require('../../../lib/models/command');
+var Task = require('../../../lib/models/task');
 var td = require('testdouble');
 
 describe('new command', function() {

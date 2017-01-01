@@ -1,6 +1,6 @@
 'use strict';
 
-var fs         = require('fs-extra');
+var fs = require('fs-extra');
 var existsSync = require('exists-sync');
 
 function touch(path, obj) {

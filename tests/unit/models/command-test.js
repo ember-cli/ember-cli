@@ -1,12 +1,12 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var proxyquire        = require('proxyquire');
-var commandOptions    = require('../../factories/command-options');
+var expect = require('chai').expect;
+var proxyquire = require('proxyquire');
+var commandOptions = require('../../factories/command-options');
 var processHelpString = require('../../helpers/process-help-string');
-var assign            = require('ember-cli-lodash-subset').assign;
-var Yam               = require('yam');
-var EOL               = require('os').EOL;
+var assign = require('ember-cli-lodash-subset').assign;
+var Yam = require('yam');
+var EOL = require('os').EOL;
 var td = require('testdouble');
 
 var forEachWithPropertyStub;

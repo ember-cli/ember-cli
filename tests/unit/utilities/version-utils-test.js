@@ -1,6 +1,6 @@
 'use strict';
 
-var expect       = require('chai').expect;
+var expect = require('chai').expect;
 var versionUtils = require('../../../lib/utilities/version-utils');
 
 describe('version-utils', function() {
