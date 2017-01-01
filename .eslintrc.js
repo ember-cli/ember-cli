@@ -16,7 +16,6 @@ module.exports = {
     'comma-dangle': 0,
     'no-cond-assign': [2, 'except-parens'],
     'no-console': 0,
-    'no-debugger': 0,
     'no-empty': 2,
     'no-template-curly-in-string': 2,
 
