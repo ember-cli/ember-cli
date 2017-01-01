@@ -66,6 +66,7 @@ module.exports = {
     'new-cap': [2, {
       properties: false,
     }],
+    'new-parens': 2,
     'no-plusplus': 0,
     'no-trailing-spaces': 2,
     'no-unneeded-ternary': 2,
