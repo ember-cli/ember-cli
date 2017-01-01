@@ -261,12 +261,10 @@ describe('Acceptance: smoke-test', function() {
             expect(contents).to.contain(text, 'must contain changed line after rebuild');
             killCliProcess(child);
           }
-        } else {
-          if (string.match(/Build successful/)) {
-            // first build
-            touched = true;
-            fs.appendFileSync(appJsPath, line);
-          }
+        } else if (string.match(/Build successful/)) {
+          // first build
+          touched = true;
+          fs.appendFileSync(appJsPath, line);
         }
       },
     }).catch(function() {

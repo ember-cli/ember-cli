@@ -69,6 +69,7 @@ module.exports = {
     'new-parens': 2,
     'no-array-constructor': 2,
     'no-bitwise': 2,
+    'no-lonely-if': 2,
     'no-plusplus': 0,
     'no-trailing-spaces': 2,
     'no-unneeded-ternary': 2,
