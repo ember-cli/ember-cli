@@ -76,6 +76,7 @@ module.exports = {
     'no-unneeded-ternary': 2,
     'no-whitespace-before-property': 2,
     'object-curly-spacing': [2, 'always'],
+    'semi-spacing': 2,
     'space-before-blocks': 2,
     'space-in-parens': 2,
     'space-infix-ops': 2,
