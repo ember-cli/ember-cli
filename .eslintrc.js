@@ -97,5 +97,6 @@ module.exports = {
 
     'arrow-body-style': 2,
     'arrow-parens': [2, 'as-needed'],
+    'arrow-spacing': 2,
   },
 };
