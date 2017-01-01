@@ -622,6 +622,7 @@ describe('Unit: CLI', function() {
           delete process.env.EMBER_VERBOSE_FAKE_OPTION_2;
         });
 
+        // eslint-disable-next-line no-template-curly-in-string
         it('sets process.env.EMBER_VERBOSE_${NAME} for each space delimited option', function() {
           return verboseCommand(['fake_option_1', 'fake_option_2']).then(function() {
             expect(false).to.be.true;

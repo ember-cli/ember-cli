@@ -18,6 +18,7 @@ module.exports = {
     'no-console': 0,
     'no-debugger': 0,
     'no-empty': 2,
+    'no-template-curly-in-string': 2,
 
     /*** Best Practices ***/
 
