@@ -6,12 +6,15 @@ var MockAnalytics = require('../../helpers/mock-analytics');
 var CLI           = require('../../../lib/cli/cli');
 var td = require('testdouble');
 var heimdall = require('heimdalljs');
+var Command = require('../../../lib/models/command');
+var Promise = require('../../../lib/ext/promise');
 
 var ui;
 var analytics;
 var commands = {};
 var argv;
 var isWithinProject;
+var project;
 
 // helper to similate running the CLI
 function ember(args) {
@@ -29,17 +32,7 @@ function ember(args) {
     commands: commands,
     cliArgs:  args || [],
     settings: {},
-    project: {
-      isEmberCLIProject: function() {  // similate being inside or outside of a project
-        return isWithinProject;
-      },
-      hasDependencies: function() {
-        return true;
-      },
-      blueprintLookupPaths: function() {
-        return [];
-      }
-    }
+    project: project
   }).then(function (value) {
     td.verify(stopInstr('init'), { times: 1 });
     td.verify(startInstr('command'), { times: 1 });
@@ -77,6 +70,17 @@ describe('Unit: CLI', function() {
     argv = [];
     commands = { };
     isWithinProject = true;
+    project = {
+      isEmberCLIProject: function() {  // similate being inside or outside of a project
+        return isWithinProject;
+      },
+      hasDependencies: function() {
+        return true;
+      },
+      blueprintLookupPaths: function() {
+        return [];
+      }
+    };
   });
 
   afterEach(function() {
@@ -145,6 +149,45 @@ describe('Unit: CLI', function() {
     cli.callHelp(helpOptions);
     td.verify(help(), {ignoreExtraArgs: true, times: 1});
     td.verify(init(), {ignoreExtraArgs: true, times: 0});
+  });
+
+  describe('custom addon command', function() {
+    it('beforeRun can return a promise', function() {
+      var CustomCommand = Command.extend({
+        name: 'custom',
+
+        init: function() {
+          this._super && this._super.init.apply(this, arguments);
+
+          this._beforeRunFinished = false;
+        },
+
+        beforeRun: function() {
+          var command = this;
+
+          return new Promise(function(resolve) {
+            setTimeout(function() {
+              command._beforeRunFinished = true;
+              resolve();
+            }, 5);
+          });
+        },
+
+        run: function() {
+          if (!this._beforeRunFinished) {
+            throw new Error('beforeRun not completed before run called!');
+          }
+        }
+      });
+
+      project.eachAddonCommand = function(callback) {
+        callback('custom-addon', {
+          custom: CustomCommand
+        });
+      };
+
+      return ember(['custom']);
+    });
   });
 
   describe('help', function() {
