@@ -85,5 +85,6 @@ module.exports = {
     'space-unary-ops': 2,
     'quotes': [2, 'single'],
     'semi': [2, 'always'],
+    'wrap-regex': 2,
   },
 };

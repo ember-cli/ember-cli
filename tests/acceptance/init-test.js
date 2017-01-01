@@ -89,7 +89,7 @@ describe('Acceptance: ember init', function() {
 
   function removeTmp(array) {
     remove(array, function(entry) {
-      return /^tmp[\\\/]$/.test(entry);
+      return (/^tmp[\\\/]$/).test(entry);
     });
   }
   function removeIgnored(array) {
