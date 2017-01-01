@@ -53,6 +53,7 @@ module.exports = {
     'camelcase': 2,
     'comma-dangle': [2, 'always-multiline'],
     'comma-spacing': 2,
+    'comma-style': 2,
     'eol-last': 2,
     'indent': [2, 2, {
       'SwitchCase': 1,
