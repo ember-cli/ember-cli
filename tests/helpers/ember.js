@@ -41,9 +41,9 @@ var Promise       = require('../../lib/ext/promise');
 */
 module.exports = function ember(args, options) {
   var cliInstance;
-  var ui = options && options.UI || MockUI;
-  var pkg = options && options.package || path.resolve(__dirname, '..', '..');
-  var disableDependencyChecker = options && options.disableDependencyChecker || true;
+  var ui = (options && options.UI) || MockUI;
+  var pkg = (options && options.package) || path.resolve(__dirname, '..', '..');
+  var disableDependencyChecker = (options && options.disableDependencyChecker) || true;
   var inputStream  = [];
   var outputStream = [];
   var errorLog     = [];
