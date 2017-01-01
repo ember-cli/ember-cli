@@ -436,7 +436,7 @@ describe('Acceptance: ember generate', function() {
           "import Ember from 'ember';\n" +
           'export default Ember.Object.extend({ foo: <%= foo %> });\n'
         ).then(function() {
-          return ember(['generate','foo','bar','-two']);
+          return ember(['generate', 'foo', 'bar', '-two']);
         });
       });
     }).then(function() {

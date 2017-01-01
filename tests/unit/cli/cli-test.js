@@ -228,7 +228,7 @@ describe('Unit: CLI', function() {
   });
 
   describe('server', function() {
-    ['server','s'].forEach(function(command) {
+    ['server', 's'].forEach(function(command) {
       it('ember ' + command + ' --port 9999', function() {
         var server = stubRun('serve');
 
@@ -426,7 +426,7 @@ describe('Unit: CLI', function() {
   });
 
   describe('build', function() {
-    ['build','b'].forEach(function(command) {
+    ['build', 'b'].forEach(function(command) {
       it('ember ' + command, function() {
         var build = stubRun('build');
 

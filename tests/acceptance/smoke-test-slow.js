@@ -64,7 +64,7 @@ describe('Acceptance: smoke-test', function() {
         fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
       })
       .then(function() {
-        var packageJsonPath = path.join('lib','my-addon','package.json');
+        var packageJsonPath = path.join('lib', 'my-addon', 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = '*';
@@ -315,7 +315,7 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember new foo, server, SIGINT clears tmp/', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323', '--live-reload=false', {
       onOutput: function(string, child) {
         if (string.match(/Build successful/)) {
           killCliProcess(child);
@@ -332,7 +332,7 @@ describe('Acceptance: smoke-test', function() {
         .then(function() {
           var dirPath = path.join(appRoot, 'dist', 'assets');
           var dir = fs.readdirSync(dirPath);
-          var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css','i');
+          var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css', 'i');
           dir.forEach(function (filepath) {
             if (cssNameRE.test(filepath)) {
               expect(file('dist/assets/' + filepath))
@@ -349,7 +349,7 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         var dirPath = path.join(appRoot, 'dist', 'assets');
         var dir = fs.readdirSync(dirPath);
-        var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js','i');
+        var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js', 'i');
         dir.forEach(function(filepath) {
           if (appNameRE.test(filepath)) {
             var contents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', filepath), { encoding: 'utf8' });

@@ -273,7 +273,7 @@ describe('Blueprint', function() {
         expect(actualFiles).to.deep.equal(basicBlueprintFiles);
 
         expect(function() {
-          fs.readFile(path.join(tmpdir , 'test.txt'), 'utf-8', function(err, content) {
+          fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function(err, content) {
             if (err) {
               throw 'error';
             }
@@ -380,7 +380,7 @@ describe('Blueprint', function() {
     });
 
     it('installs multiple globPattern files', function() {
-      options.targetFiles = ['foo.txt','test.txt'];
+      options.targetFiles = ['foo.txt', 'test.txt'];
       return blueprint.install(options)
       .then(function() {
         var actualFiles = walkSync(tmpdir).sort();

@@ -43,18 +43,18 @@ describe('Blueprint', function() {
   });
 
   describe('.mapFile', function() {
-    it('replaces all occurences of __name__ with module name',function() {
-      var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js',{dasherizedModuleName: 'my-blueprint'});
+    it('replaces all occurences of __name__ with module name', function() {
+      var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', {dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
-      path = Blueprint.prototype.mapFile('__name__/controller.js',{dasherizedModuleName: 'my-blueprint'});
+      path = Blueprint.prototype.mapFile('__name__/controller.js', {dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/controller.js');
 
-      path = Blueprint.prototype.mapFile('__name__/__name__.js',{dasherizedModuleName: 'my-blueprint'});
+      path = Blueprint.prototype.mapFile('__name__/__name__.js', {dasherizedModuleName: 'my-blueprint'});
       expect(path).to.equal('my-blueprint/my-blueprint.js');
     });
 
-    it('accepts locals.fileMap with multiple mappings',function() {
+    it('accepts locals.fileMap with multiple mappings', function() {
       var locals = {};
       locals.fileMap = {
         __name__: 'user',
@@ -63,10 +63,10 @@ describe('Blueprint', function() {
         __plural__: '',
       };
 
-      var path = Blueprint.prototype.mapFile('__name__/__type____plural__.js',locals);
+      var path = Blueprint.prototype.mapFile('__name__/__type____plural__.js', locals);
       expect(path).to.equal('user/controller.js');
 
-      path = Blueprint.prototype.mapFile('__path__/__name__/__type__.js',locals);
+      path = Blueprint.prototype.mapFile('__path__/__name__/__type__.js', locals);
       expect(path).to.equal('pods/users/user/controller.js');
     });
   });

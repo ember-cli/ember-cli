@@ -664,10 +664,10 @@ describe('models/instrumentation.js', function() {
 
       expect(json.nodes.map(function (x) { return x.children; })).to.eql([
         [2],
-        [3,5],
+        [3, 5],
         [4],
         [],
-        [6,8],
+        [6, 8],
         [7],
         [],
         [],
@@ -762,7 +762,7 @@ describe('models/instrumentation.js', function() {
         var summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime','buildSteps',
+          'build', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({
@@ -807,7 +807,7 @@ describe('models/instrumentation.js', function() {
         var summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime','buildSteps',
+          'build', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({

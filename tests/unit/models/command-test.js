@@ -282,7 +282,7 @@ describe('models/command.js', function() {
       args: [],
     });
     // last argument wins
-    expect(optionsAlias.parseArgs(['-carne','-fish'])).to.deep.equal({
+    expect(optionsAlias.parseArgs(['-carne', '-fish'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
@@ -403,7 +403,7 @@ describe('models/command.js', function() {
       'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
     ]}];
     var badObjectAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      'meat', { 'carne-asada': ['steak','grilled']}, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
+      'meat', { 'carne-asada': ['steak', 'grilled']}, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
     ]}];
     var register = optionsAlias.registerOptions.bind(optionsAlias);
 
@@ -432,7 +432,7 @@ describe('models/command.js', function() {
     var alias = { 'carnitas': 'carnitas' };
     expect(optionsAlias.parseAlias(option, alias)).to.deep.equal({
       key: 'carnitas',
-      value: ['--filling','carnitas'],
+      value: ['--filling', 'carnitas'],
       original: { 'carnitas': 'carnitas' },
     });
   });

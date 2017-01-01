@@ -208,7 +208,7 @@ describe('express-server', function() {
 
       project.require = function() {
         return function(app) {
-          app.use('/foo', function(req,res) {
+          app.use('/foo', function(req, res) {
             res.send(expected);
           });
         };
@@ -242,7 +242,7 @@ describe('express-server', function() {
 
       project.require = function() {
         var app = express();
-        app.use('/foo', function(req,res) {
+        app.use('/foo', function(req, res) {
           res.send(expected);
         });
         return app;
