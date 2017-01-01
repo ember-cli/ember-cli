@@ -39,12 +39,12 @@ describe('init command', function() {
   });
 
   function buildCommand(projectOpts) {
-    var cli = new MockCLI({ ui: ui });
+    var cli = new MockCLI({ ui });
     var options = {
-      ui: ui,
-      analytics: analytics,
+      ui,
+      analytics,
       project: new Project(process.cwd(), projectOpts || { name: 'some-random-name' }, ui, cli),
-      tasks: tasks,
+      tasks,
       settings: {},
     };
 
@@ -75,7 +75,7 @@ describe('init command', function() {
 
   it('Uses the name of the closest project to when calling installBlueprint', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
       },
@@ -91,7 +91,7 @@ describe('init command', function() {
 
   it('Uses the provided app name over the closest found project', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('provided-name');
         return Promise.reject('Called run');
       },
@@ -115,7 +115,7 @@ describe('init command', function() {
     process.chdir(workingDir);
 
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal(path.basename(process.cwd()));
         return Promise.reject('Called run');
       },
@@ -134,7 +134,7 @@ describe('init command', function() {
 
   it('doesn\'t use --dry-run or any other command option as the name', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
       },
@@ -150,7 +150,7 @@ describe('init command', function() {
 
   it('doesn\'t use . as the name', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
       },
@@ -166,7 +166,7 @@ describe('init command', function() {
 
   it('Uses the "app" blueprint by default', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('app');
         return Promise.reject('Called run');
       },
@@ -182,7 +182,7 @@ describe('init command', function() {
 
   it('Uses arguments to select files to init', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('app');
         return Promise.reject('Called run');
       },
@@ -198,7 +198,7 @@ describe('init command', function() {
 
   it('Uses the "addon" blueprint for addons', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('addon');
         return Promise.reject('Called run');
       },
@@ -228,7 +228,7 @@ describe('init command', function() {
 
   it('Passes command options through to the install blueprint task', function() {
     tasks.InstallBlueprint = Task.extend({
-      run: function(blueprintOpts) {
+      run(blueprintOpts) {
         expect(blueprintOpts).to.contain.keys('customOption');
         expect(blueprintOpts.customOption).to.equal('customValue');
         return Promise.reject('Called run');

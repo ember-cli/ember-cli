@@ -3,9 +3,9 @@ var isPackageMissing = require('ember-cli-is-package-missing');
 module.exports = {
   description: 'Generates a server directory for mocks and proxies.',
 
-  normalizeEntityName: function() {},
+  normalizeEntityName() {},
 
-  afterInstall: function(options) {
+  afterInstall(options) {
     var isMorganMissing = isPackageMissing(this, 'morgan');
     var isGlobMissing = isPackageMissing(this, 'glob');
 
@@ -25,11 +25,11 @@ module.exports = {
     }
   },
 
-  files: function() {
+  files() {
     return this.hasJSHint() ? ['server/index.js', 'server/.jshintrc'] : ['server/index.js'];
   },
 
-  hasJSHint: function() {
+  hasJSHint() {
     if (this.project) {
       return 'ember-cli-jshint' in this.project.dependencies();
     }

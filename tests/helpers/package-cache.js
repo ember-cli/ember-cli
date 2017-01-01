@@ -63,9 +63,9 @@ var yarn = new CommandGenerator('yarn');
 // This lookup exists to make it possible to look the commands up based upon context.
 var originals;
 var commands = {
-  bower: bower,
-  npm: npm,
-  yarn: yarn,
+  bower,
+  npm,
+  yarn,
 };
 
 // The definition list of translation terms.
@@ -253,7 +253,7 @@ PackageCache.prototype = {
    *
    * @method __setupForTesting
    */
-  __setupForTesting: function(stubs) {
+  __setupForTesting(stubs) {
     originals = commands;
     commands = stubs.commands;
   },
@@ -263,7 +263,7 @@ PackageCache.prototype = {
    *
    * @method __resetForTesting
    */
-  __resetForTesting: function() {
+  __resetForTesting() {
     commands = originals;
   },
 
@@ -274,7 +274,7 @@ PackageCache.prototype = {
    *
    * @method _cleanDirs
    */
-  _cleanDirs: function() {
+  _cleanDirs() {
     var labels = Object.keys(this.dirs);
 
     var label, directory;
@@ -296,7 +296,7 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    * @return {String} The manifest file contents on disk.
    */
-  _readManifest: function(label, type) {
+  _readManifest(label, type) {
     var readManifestDir = this.dirs[label];
 
     if (!readManifestDir) { return null; }
@@ -325,7 +325,7 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    * @param {String} manifest The contents of the manifest file to write to disk.
    */
-  _writeManifest: function(label, type, manifest) {
+  _writeManifest(label, type, manifest) {
     process.chdir(this.rootPath);
     var outputDir = quickTemp.makeOrReuse(this.dirs, label);
     process.chdir(originalWorkingDirectory);
@@ -361,7 +361,7 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
-  _removeLinks: function(label, type) {
+  _removeLinks(label, type) {
     var cachedManifest = this._readManifest(label, type);
     if (!cachedManifest) { return; }
 
@@ -430,7 +430,7 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
-  _restoreLinks: function(label, type) {
+  _restoreLinks(label, type) {
     var cachedManifest = this._readManifest(label, type);
     if (!cachedManifest) { return; }
 
@@ -476,7 +476,7 @@ PackageCache.prototype = {
    * @param {String} manifest The contents of the manifest file to compare to cache.
    * @return {Boolean} `true` if identical.
    */
-  _checkManifest: function(label, type, manifest) {
+  _checkManifest(label, type, manifest) {
     var cachedManifest = this._readManifest(label, type);
 
     if (cachedManifest === null) { return false; }
@@ -512,7 +512,7 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
-  _install: function(label, type) {
+  _install(label, type) {
     this._removeLinks(label, type);
     commands[type].invoke('install', { cwd: this.dirs[label] });
     this._restoreLinks(label, type);
@@ -530,7 +530,7 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
-  _upgrade: function(label, type) {
+  _upgrade(label, type) {
     // Lock out upgrade calls after the first time upgrading the cache.
     if (upgraded[label]) { return; }
 
@@ -560,7 +560,7 @@ PackageCache.prototype = {
    * @param {Array} links Packages to omit for install and link.
    * @return {String} The directory on disk which contains the cache.
    */
-  create: function(label, type, manifest, links) {
+  create(label, type, manifest, links) {
     links = links || [];
 
     // Save metadata about the PackageCache invocation in the manifest.
@@ -570,8 +570,8 @@ PackageCache.prototype = {
     jsonManifest._packageCache = {
       node: process.version,
       packageManager: type,
-      packageManagerVersion: packageManagerVersion,
-      links: links,
+      packageManagerVersion,
+      links,
     };
 
     manifest = JSON.stringify(jsonManifest);
@@ -601,7 +601,7 @@ PackageCache.prototype = {
    * @param {Array} links Packages to elide for install and link.
    * @return {String} The directory on disk which contains the cache.
    */
-  update: function(/*label, type, manifest, links*/) {
+  update(/*label, type, manifest, links*/) {
     return this.create.apply(this, arguments);
   },
 
@@ -612,7 +612,7 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @return {String} The directory on disk which contains the cache.
    */
-  get: function(label) {
+  get(label) {
     return this.dirs[label];
   },
 
@@ -623,7 +623,7 @@ PackageCache.prototype = {
    * @param {String} label The label for the cache.
    * @param {String} type The type of package cache.
    */
-  destroy: function(label) {
+  destroy(label) {
     process.chdir(this.rootPath);
     quickTemp.remove(this.dirs, label);
     process.chdir(originalWorkingDirectory);
@@ -639,7 +639,7 @@ PackageCache.prototype = {
    * @param {String} fromLabel The label for the cache to clone.
    * @param {String} toLabel The label for the new cache.
    */
-  clone: function(fromLabel, toLabel) {
+  clone(fromLabel, toLabel) {
     process.chdir(this.rootPath);
     var outputDir = quickTemp.makeOrReuse(this.dirs, toLabel);
     process.chdir(originalWorkingDirectory);
@@ -655,7 +655,7 @@ PackageCache.prototype = {
 
 // Wrap the Configstore in a pretty interface.
 Object.defineProperty(PackageCache.prototype, 'dirs', {
-  get: function() {
+  get() {
     return this._conf.all;
   },
 });

@@ -10,7 +10,7 @@ var MockUI = require('console-ui/mock');
 
 var mergeTreesStub;
 var mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {
-  'broccoli-merge-trees': function() {
+  'broccoli-merge-trees'() {
     return mergeTreesStub.apply(this, arguments);
   },
 });

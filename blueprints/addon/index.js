@@ -14,7 +14,7 @@ var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
-  generatePackageJson: function() {
+  generatePackageJson() {
     var contents = this._readContentsFromFile('package.json');
 
     delete contents.private;
@@ -52,7 +52,7 @@ module.exports = {
     this._writeContentsToFile(sortPackageJson(contents), 'package.json');
   },
 
-  generateBowerJson: function() {
+  generateBowerJson() {
     var contents = this._readContentsFromFile('bower.json');
 
     contents.name = '<%= addonName %>';
@@ -60,7 +60,7 @@ module.exports = {
     this._writeContentsToFile(contents, 'bower.json');
   },
 
-  afterInstall: function() {
+  afterInstall() {
     var packagePath = path.join(this.path, 'files', 'package.json');
     var bowerPath = path.join(this.path, 'files', 'bower.json');
 
@@ -69,7 +69,7 @@ module.exports = {
     });
   },
 
-  locals: function(options) {
+  locals(options) {
     var entity = { name: 'dummy' };
     var rawName = entity.name;
     var name = stringUtil.dasherize(rawName);
@@ -81,18 +81,18 @@ module.exports = {
     var addonNamespace = stringUtil.classify(addonRawName);
 
     return {
-      name: name,
+      name,
       modulePrefix: name,
-      namespace: namespace,
-      addonName: addonName,
+      namespace,
+      addonName,
       addonModulePrefix: addonName,
-      addonNamespace: addonNamespace,
+      addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
     };
   },
 
-  files: function() {
+  files() {
     if (this._files) { return this._files; }
 
     this._appBlueprint = this.lookupBlueprint('app');
@@ -106,7 +106,7 @@ module.exports = {
     return this._files = uniq(appFiles.concat(addonFiles));
   },
 
-  mapFile: function() {
+  mapFile() {
     var result = this._super.mapFile.apply(this, arguments);
     return this.fileMapper(result);
   },
@@ -123,7 +123,7 @@ module.exports = {
     '^npmignore': '.npmignore',
   },
 
-  fileMapper: function(path) {
+  fileMapper(path) {
     for (var pattern in this.fileMap) {
       if ((new RegExp(pattern)).test(path)) {
         return this.fileMap[pattern].replace(':path', path);
@@ -133,7 +133,7 @@ module.exports = {
     return path;
   },
 
-  srcPath: function(file) {
+  srcPath(file) {
     var filePath = path.resolve(this.path, 'files', file);
     if (existsSync(filePath)) {
       return filePath;
@@ -142,7 +142,7 @@ module.exports = {
     }
   },
 
-  normalizeEntityName: function(entityName) {
+  normalizeEntityName(entityName) {
     entityName = normalizeEntityName(entityName);
 
     if (this.project.isEmberCLIProject() && !this.project.isEmberCLIAddon()) {
@@ -152,12 +152,12 @@ module.exports = {
     return entityName;
   },
 
-  _readContentsFromFile: function(fileName) {
+  _readContentsFromFile(fileName) {
     var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
     return fs.readJsonSync(packagePath);
   },
 
-  _writeContentsToFile: function(contents, fileName) {
+  _writeContentsToFile(contents, fileName) {
     var packagePath = path.join(this.path, 'files', fileName);
     fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
   },

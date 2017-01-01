@@ -14,8 +14,8 @@ describe('bower install task', function() {
     ui = new MockUI();
 
     bowerInstallTask = new BowerInstallTask({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
   });
 

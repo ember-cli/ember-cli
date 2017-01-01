@@ -19,7 +19,7 @@ describe('asset-sizes command', function() {
   beforeEach(function() {
     tasks = {
       ShowAssetSizes: Task.extend({
-        init: function() {
+        init() {
           this._super.init && this._super.init.apply(this, arguments);
           taskInstance = this;
         },
@@ -27,7 +27,7 @@ describe('asset-sizes command', function() {
     };
 
     options = commandOptions({
-      tasks: tasks,
+      tasks,
       settings: {},
     });
 

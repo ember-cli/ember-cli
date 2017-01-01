@@ -33,7 +33,7 @@ describe('Unit - FileInfo', function() {
         inputPath: path.resolve(__dirname,
                                 '../../fixtures/blueprints/with-templating/files/foo.txt'),
         templateVariables: {},
-        ui: ui,
+        ui,
       };
     });
   });

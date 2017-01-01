@@ -22,7 +22,7 @@ describe('serve command', function() {
     };
 
     options = commandOptions({
-      tasks: tasks,
+      tasks,
     });
 
     td.replace(tasks.Serve.prototype, 'run', td.function());

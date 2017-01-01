@@ -66,8 +66,8 @@ describe('blueprint - addon', function() {
 
       blueprint = proxyquire('../../../blueprints/addon', {
         'fs-extra': {
-          readJsonSync: readJsonSync,
-          writeFileSync: writeFileSync,
+          readJsonSync,
+          writeFileSync,
         },
       });
       blueprint._appBlueprint = {

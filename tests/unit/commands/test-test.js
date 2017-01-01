@@ -27,9 +27,9 @@ describe('test command', function() {
     project.isEmberCLIProject = function() { return true; };
 
     options = commandOptions({
-      tasks: tasks,
+      tasks,
       testing: true,
-      project: project,
+      project,
     });
 
     td.replace(tasks.Test.prototype, 'run', td.function());
@@ -171,7 +171,7 @@ describe('test command', function() {
     beforeEach(function() {
       buildCleanupWasCalled = false;
       options.Builder = CoreObject.extend({
-        cleanup: function() {
+        cleanup() {
           buildCleanupWasCalled = true;
         },
       });

@@ -15,8 +15,8 @@ describe('npm install task', function() {
     ui = new MockUI();
 
     npmInstallTask = new NpmInstallTask({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
   });
 

@@ -151,7 +151,7 @@ describe('models/asset-size-printer', function() {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: outputPath,
+      outputPath,
     });
 
     return sizePrinter.print()
@@ -164,7 +164,7 @@ describe('models/asset-size-printer', function() {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: outputPath,
+      outputPath,
     });
 
     return expect(sizePrinter.print()).not.to.throw;

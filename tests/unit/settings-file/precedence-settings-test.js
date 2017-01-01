@@ -17,7 +17,7 @@ describe('.ember-cli', function() {
   before(function() {
     ui = new MockUI();
     analytics = new MockAnalytics();
-    project = { isEmberCLIProject: function() { return true; } };
+    project = { isEmberCLIProject() { return true; } };
 
     homeSettings = {
       proxy: 'http://iamstef.net/ember-cli',
@@ -34,10 +34,10 @@ describe('.ember-cli', function() {
 
   it('local settings take precedence over global settings', function() {
     var command = new Command({
-      ui: ui,
-      analytics: analytics,
-      project: project,
-      settings: settings,
+      ui,
+      analytics,
+      project,
+      settings,
     });
 
     var args = command.parseArgs();

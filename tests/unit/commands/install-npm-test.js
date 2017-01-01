@@ -20,7 +20,7 @@ describe('install:npm command', function() {
     };
 
     var options = commandOptions({
-      project: project,
+      project,
     });
 
     command = new InstallNpmCommand(options);

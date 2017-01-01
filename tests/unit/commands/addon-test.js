@@ -13,10 +13,10 @@ describe('addon command', function() {
   beforeEach(function() {
     var options = commandOptions({
       project: {
-        isEmberCLIProject: function() {
+        isEmberCLIProject() {
           return false;
         },
-        blueprintLookupPaths: function() {
+        blueprintLookupPaths() {
           return [];
         },
       },

@@ -11,7 +11,7 @@ describe('version command', function() {
   beforeEach(function() {
     options = commandOptions({
       project: {
-        isEmberCLIProject: function() {
+        isEmberCLIProject() {
           return false;
         },
       },

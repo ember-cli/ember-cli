@@ -27,12 +27,12 @@ describe('generate command', function() {
     };
 
     options = commandOptions({
-      project: project,
+      project,
 
       tasks: {
         GenerateFromBlueprint: Task.extend({
-          project: project,
-          run: function(options) {
+          project,
+          run(options) {
             return Promise.resolve(options);
           },
         }),
@@ -98,14 +98,14 @@ describe('generate command', function() {
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
             },
             {
               name: 'other-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
             },
@@ -135,7 +135,7 @@ other-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              getJson: function() {
+              getJson() {
                 return {
                   name: this.name,
                 };
@@ -144,7 +144,7 @@ other-blueprint' + EOL + '\
             {
               name: 'other-blueprint',
               availableOptions: [],
-              getJson: function() {
+              getJson() {
                 return {
                   name: this.name,
                 };
@@ -182,7 +182,7 @@ other-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
             },
@@ -214,7 +214,7 @@ my-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              getJson: function() {
+              getJson() {
                 return {
                   name: this.name,
                 };
@@ -304,7 +304,7 @@ my-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
               overridden: true,
@@ -332,7 +332,7 @@ my-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
               overridden: true,

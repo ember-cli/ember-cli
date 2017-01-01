@@ -10,11 +10,11 @@ describe('test task test', function() {
   it('transforms options for testem configuration', function() {
     subject = new TestTask({
       project: new MockProject(),
-      addonMiddlewares: function() {
+      addonMiddlewares() {
         return ['middleware1', 'middleware2'];
       },
 
-      invokeTestem: function(options) {
+      invokeTestem(options) {
         var testemOptions = this.testemOptions(options);
 
         expect(testemOptions.host).to.equal('greatwebsite.com');

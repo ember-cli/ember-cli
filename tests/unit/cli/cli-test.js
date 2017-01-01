@@ -19,8 +19,8 @@ var project;
 // helper to similate running the CLI
 function ember(args) {
   var cli = new CLI({
-    ui: ui,
-    analytics: analytics,
+    ui,
+    analytics,
     testing: true,
   });
 
@@ -29,10 +29,10 @@ function ember(args) {
 
   return cli.run({
     tasks: {},
-    commands: commands,
+    commands,
     cliArgs: args || [],
     settings: {},
-    project: project,
+    project,
   }).then(function(value) {
     td.verify(stopInstr('init'), { times: 1 });
     td.verify(startInstr('command'), { times: 1 });
@@ -71,13 +71,13 @@ describe('Unit: CLI', function() {
     commands = { };
     isWithinProject = true;
     project = {
-      isEmberCLIProject: function() {  // similate being inside or outside of a project
+      isEmberCLIProject() {  // similate being inside or outside of a project
         return isWithinProject;
       },
-      hasDependencies: function() {
+      hasDependencies() {
         return true;
       },
-      blueprintLookupPaths: function() {
+      blueprintLookupPaths() {
         return [];
       },
     };
@@ -119,8 +119,8 @@ describe('Unit: CLI', function() {
 
   it('callHelp', function() {
     var cli = new CLI({
-      ui: ui,
-      analytics: analytics,
+      ui,
+      analytics,
       testing: true,
     });
     var init = stubValidateAndRun('init');
@@ -128,17 +128,17 @@ describe('Unit: CLI', function() {
     var helpOptions = {
       environment: {
         tasks: {},
-        commands: commands,
+        commands,
         cliArgs: [],
         settings: {},
         project: {
-          isEmberCLIProject: function() {  // similate being inside or outside of a project
+          isEmberCLIProject() {  // similate being inside or outside of a project
             return isWithinProject;
           },
-          hasDependencies: function() {
+          hasDependencies() {
             return true;
           },
-          blueprintLookupPaths: function() {
+          blueprintLookupPaths() {
             return [];
           },
         },
@@ -156,13 +156,13 @@ describe('Unit: CLI', function() {
       var CustomCommand = Command.extend({
         name: 'custom',
 
-        init: function() {
+        init() {
           this._super && this._super.init.apply(this, arguments);
 
           this._beforeRunFinished = false;
         },
 
-        beforeRun: function() {
+        beforeRun() {
           var command = this;
 
           return new Promise(function(resolve) {
@@ -173,7 +173,7 @@ describe('Unit: CLI', function() {
           });
         },
 
-        run: function() {
+        run() {
           if (!this._beforeRunFinished) {
             throw new Error('beforeRun not completed before run called!');
           }

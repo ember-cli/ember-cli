@@ -22,7 +22,7 @@ describe('Installation Checker', function() {
         root: fixturePath('installation-checker/valid-bower-installation'),
         bowerDirectory: fixturePath('installation-checker/valid-bower-installation/bower_components'),
       };
-      installationChecker = new InstallationChecker({ project: project });
+      installationChecker = new InstallationChecker({ project });
 
       expect(checkInstallations).to.not.throw(/No dependencies installed/);
     });
@@ -32,7 +32,7 @@ describe('Installation Checker', function() {
         root: fixturePath('installation-checker/invalid-bower-installation'),
         bowerDirectory: fixturePath('installation-checker/invalid-bower-installation/bower_components'),
       };
-      installationChecker = new InstallationChecker({ project: project });
+      installationChecker = new InstallationChecker({ project });
 
       expect(checkInstallations).to.throw(/^SilentError: InstallationChecker: Unable to parse: .*bower.json/);
     });
@@ -46,7 +46,7 @@ describe('Installation Checker', function() {
         root: fixturePath('installation-checker/valid-npm-installation'),
         nodeModulesPath: fixturePath('installation-checker/valid-npm-installation/node_modules'),
       };
-      installationChecker = new InstallationChecker({ project: project });
+      installationChecker = new InstallationChecker({ project });
 
       expect(checkInstallations).to.not.throw(/No dependencies installed/);
     });
@@ -56,7 +56,7 @@ describe('Installation Checker', function() {
         root: fixturePath('installation-checker/invalid-npm-installation'),
         nodeModulesPath: fixturePath('installation-checker/invalid-npm-installation/node_modules'),
       };
-      installationChecker = new InstallationChecker({ project: project });
+      installationChecker = new InstallationChecker({ project });
 
       expect(checkInstallations).to.throw(/^SilentError: InstallationChecker: Unable to parse: .*package.json/);
     });
@@ -71,7 +71,7 @@ describe('Installation Checker', function() {
         bowerDirectory: fixturePath('installation-checker/invalid-bower-and-npm/bower_components'),
         nodeModulesPath: fixturePath('installation-checker/invalid-bower-and-npm/node_modules'),
       };
-      installationChecker = new InstallationChecker({ project: project });
+      installationChecker = new InstallationChecker({ project });
 
       expect(checkInstallations).to.throw(/^SilentError: InstallationChecker: Unable to parse: .*package.json/);
     });
@@ -82,7 +82,7 @@ describe('Installation Checker', function() {
         bowerDirectory: fixturePath('installation-checker/empty/bower_components'),
         nodeModulesPath: fixturePath('installation-checker/empty/node_modules'),
       };
-      installationChecker = new InstallationChecker({ project: project });
+      installationChecker = new InstallationChecker({ project });
 
       expect(checkInstallations).to.not.throw('/No dependencies installed/');
     });

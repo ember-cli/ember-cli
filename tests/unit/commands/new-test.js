@@ -16,10 +16,10 @@ describe('new command', function() {
   beforeEach(function() {
     var options = commandOptions({
       project: {
-        isEmberCLIProject: function() {
+        isEmberCLIProject() {
           return false;
         },
-        blueprintLookupPaths: function() {
+        blueprintLookupPaths() {
           return [];
         },
       },
@@ -119,13 +119,13 @@ describe('new command', function() {
 
   it('passes command options through to init command', function() {
     command.tasks.CreateAndStepIntoDirectory = Task.extend({
-      run: function() {
+      run() {
         return Promise.resolve();
       },
     });
 
     command.commands.Init = Command.extend({
-      run: function(commandOptions) {
+      run(commandOptions) {
         expect(commandOptions).to.contain.keys('customOption');
         expect(commandOptions.customOption).to.equal('customValue');
         return Promise.resolve('Called run');

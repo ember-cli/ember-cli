@@ -102,5 +102,6 @@ module.exports = {
       'allowParens': true,
     }],
     'no-useless-computed-key': 2,
+    'object-shorthand': 2,
   },
 };

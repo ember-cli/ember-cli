@@ -24,10 +24,10 @@ describe('Watcher', function() {
     watcher = new MockWatcher();
 
     subject = new Watcher({
-      ui: ui,
-      analytics: analytics,
-      builder: builder,
-      watcher: watcher,
+      ui,
+      analytics,
+      builder,
+      watcher,
     });
   });
 

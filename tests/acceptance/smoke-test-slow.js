@@ -196,7 +196,7 @@ describe('Acceptance: smoke-test', function() {
       fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
 
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-        onOutput: function(string) {
+        onOutput(string) {
           // discard output as there will be a lot of errors and a long stacktrace
           // just mark that the output contains expected text
           if (!ouputContainsBuildFailed && string.match(/Build failed/)) {
@@ -253,7 +253,7 @@ describe('Acceptance: smoke-test', function() {
     var line = 'console.log("' + text + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-      onOutput: function(string, child) {
+      onOutput(string, child) {
         if (touched) {
           if (string.match(/Build successful/)) {
             // build after change to app.js
@@ -283,7 +283,7 @@ describe('Acceptance: smoke-test', function() {
     var secondLine = 'console.log("' + secondText + '");';
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-      onOutput: function(string, child) {
+      onOutput(string, child) {
         if (buildCount === 0) {
           if (string.match(/Build successful/)) {
             // first build
@@ -314,7 +314,7 @@ describe('Acceptance: smoke-test', function() {
 
   it('ember new foo, server, SIGINT clears tmp/', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323', '--live-reload=false', {
-      onOutput: function(string, child) {
+      onOutput(string, child) {
         if (string.match(/Build successful/)) {
           killCliProcess(child);
         }

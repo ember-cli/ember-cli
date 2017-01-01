@@ -15,14 +15,18 @@ describe('.ember-cli leek options', function() {
       primary: process.cwd() + '/tests/fixtures/leek-config',
     });
 
+    var mockedLeek = function(options) {
+      passedOptions = options;
+    };
+
+    var mockedYam = function() {
+      return settings;
+    };
+
     cli = cliEntry({
       UI: MockUI,
-      Leek: function(options) {
-        passedOptions = options;
-      },
-      Yam: function() {
-        return settings;
-      },
+      Leek: mockedLeek,
+      Yam: mockedYam,
     });
 
   });

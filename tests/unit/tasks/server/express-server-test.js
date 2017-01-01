@@ -25,8 +25,8 @@ describe('express-server', function() {
     project = new MockProject();
     proxy = new ProxyServer();
     subject = new ExpressServer({
-      ui: ui,
-      project: project,
+      ui,
+      project,
       watcher: new MockWatcher(),
       serverWatcher: new MockServerWatcher(),
       serverRestartDelayTime: 100,
@@ -57,8 +57,8 @@ describe('express-server', function() {
   describe('processAppMiddlewares', function() {
     it('has a good error message if a file exists, but does not export a function', function() {
       subject.project = {
-        has: function() { return true; },
-        require: function() { return {}; },
+        has() { return true; },
+        require() { return {}; },
       };
 
       expect(function() {
@@ -68,8 +68,8 @@ describe('express-server', function() {
 
     it('returns values returned by server/index', function() {
       subject.project = {
-        has: function() { return true; },
-        require: function() {
+        has() { return true; },
+        require() {
           return function() { return 'foo'; };
         },
       };
@@ -711,11 +711,11 @@ describe('express-server', function() {
 
         project.initializeAddons = function() { };
         project.addons = [{
-          serverMiddleware: function() {
+          serverMiddleware() {
             firstCalls++;
           },
         }, {
-          serverMiddleware: function() {
+          serverMiddleware() {
             secondCalls++;
           },
         }, {
@@ -753,12 +753,12 @@ describe('express-server', function() {
         project.initializeAddons = function() { };
         project.addons = [
           {
-            serverMiddleware: function() {
+            serverMiddleware() {
               order.push('first');
             },
           },
           {
-            serverMiddleware: function() {
+            serverMiddleware() {
               return new Promise(function(resolve) {
                 setTimeout(function() {
                   order.push('second');
@@ -767,7 +767,7 @@ describe('express-server', function() {
               });
             },
           }, {
-            serverMiddleware: function() {
+            serverMiddleware() {
               order.push('third');
             },
           },
@@ -790,7 +790,7 @@ describe('express-server', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
         project.addons = [{
-          serverMiddleware: function() {
+          serverMiddleware() {
             return Promise.reject('addon middleware fail');
           },
         },

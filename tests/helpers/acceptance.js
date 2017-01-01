@@ -16,7 +16,7 @@ var dirs = {};
 var runCommandOptions = {
   // Note: We must override the default logOnFailure logging, because we are
   // not inside a test.
-  log: function() {
+  log() {
     return; // no output for initial application build
   },
 };
@@ -103,8 +103,8 @@ function cleanupRun(projectName) {
 }
 
 module.exports = {
-  createTestTargets: createTestTargets,
-  linkDependencies: linkDependencies,
-  teardownTestTargets: teardownTestTargets,
-  cleanupRun: cleanupRun,
+  createTestTargets,
+  linkDependencies,
+  teardownTestTargets,
+  cleanupRun,
 };

@@ -22,10 +22,10 @@ describe('livereload-server', function() {
     expressServer = new MockExpressServer();
 
     subject = new LiveReloadServer({
-      ui: ui,
-      watcher: watcher,
-      expressServer: expressServer,
-      analytics: { trackError: function() { } },
+      ui,
+      watcher,
+      expressServer,
+      analytics: { trackError() { } },
       project: {
         liveReloadFilterPatterns: [],
         root: '/home/user/my-project',
@@ -157,7 +157,7 @@ describe('livereload-server', function() {
         return files.map(function(file) {
           return {
             relativePath: file,
-            isDirectory: function() {
+            isDirectory() {
               return false;
             },
           };
@@ -356,7 +356,7 @@ describe('livereload-server', function() {
         var changedOptions;
         subject.liveReloadServer = function() {
           return {
-            changed: function(options) {
+            changed(options) {
               changedOptions = options;
             },
           };

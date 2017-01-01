@@ -14,7 +14,7 @@ var MockUI = require('console-ui/mock');
 
 var mergeTreesStub;
 var EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
-  './merge-trees': function() {
+  './merge-trees'() {
     return mergeTreesStub.apply(this, arguments);
   },
 });
@@ -51,7 +51,7 @@ describe('broccoli/ember-app', function() {
       var expected = 'custom config path';
 
       new EmberApp({
-        project: project,
+        project,
         configPath: expected,
       });
 
@@ -60,7 +60,7 @@ describe('broccoli/ember-app', function() {
 
     it('should set bowerDirectory for app', function() {
       var app = new EmberApp({
-        project: project,
+        project,
       });
 
       expect(app.bowerDirectory).to.equal(project.bowerDirectory);
@@ -69,7 +69,7 @@ describe('broccoli/ember-app', function() {
 
     it('should merge options with defaults to depth', function() {
       var app = new EmberApp({
-        project: project,
+        project,
         foo: {
           bar: ['baz'],
         },
@@ -103,7 +103,7 @@ describe('broccoli/ember-app', function() {
 
     it('should do the right thing when merging default object options', function() {
       var app = new EmberApp({
-        project: project,
+        project,
       }, {
         minifyJS: {
           enabled: true,
@@ -123,7 +123,7 @@ describe('broccoli/ember-app', function() {
 
     it('should watch vendor if it exists', function() {
       var app = new EmberApp({
-        project: project,
+        project,
       });
 
       expect(app.options.trees.vendor.__broccoliGetInfo__()).to.have.property('watched', true);
@@ -137,7 +137,7 @@ describe('broccoli/ember-app', function() {
 
       it('should set the app on the addons', function() {
         var app = new EmberApp({
-          project: project,
+          project,
         });
 
         var addon = project.addons[0];
@@ -149,7 +149,7 @@ describe('broccoli/ember-app', function() {
       it('does not error when loader.js is present in registry.availablePlugins', function() {
         expect(function() {
           new EmberApp({
-            project: project,
+            project,
           });
         }).to.not.throw(/loader.js addon is missing/);
       });
@@ -157,9 +157,9 @@ describe('broccoli/ember-app', function() {
       it('throws an error when loader.js is not present in registry.availablePlugins', function() {
         expect(function() {
           new EmberApp({
-            project: project,
+            project,
             registry: {
-              add: function() { },
+              add() { },
               availablePlugins: { },
             },
           });
@@ -169,9 +169,9 @@ describe('broccoli/ember-app', function() {
       it('does not throw an error if _ignoreMissingLoader is set', function() {
         expect(function() {
           new EmberApp({
-            project: project,
+            project,
             registry: {
-              add: function() { },
+              add() { },
               availablePlugins: { },
             },
             _ignoreMissingLoader: true,
@@ -182,16 +182,16 @@ describe('broccoli/ember-app', function() {
 
     describe('ember-resolver NPM vs Bower', function() {
       it('does not load ember-resolver.js as bower dep when ember-resolver is present in registry.availablePlugins', function() {
-        var app = new EmberApp({ project: project });
+        var app = new EmberApp({ project });
         expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
       });
 
       it('keeps ember-resolver.js in vendorFiles when NPM ember-resolver is not installed, but is present in bower.json', function() {
         project.bowerDependencies = function() { return { 'ember': {}, 'ember-resolver': {} }; };
         var app = new EmberApp({
-          project: project,
+          project,
           registry: {
-            add: function() { },
+            add() { },
             availablePlugins: { 'loader.js': {} },
           },
         });
@@ -201,9 +201,9 @@ describe('broccoli/ember-app', function() {
       it('removes ember-resolver.js from vendorFiles when not in bower.json and NPM ember-resolver not installed', function() {
         project.bowerDependencies = function() { return { 'ember': {} }; };
         var app = new EmberApp({
-          project: project,
+          project,
           registry: {
-            add: function() { },
+            add() { },
             availablePlugins: { 'loader.js': {} },
           },
         });
@@ -215,7 +215,7 @@ describe('broccoli/ember-app', function() {
     describe('options.babel.sourceMaps', function() {
       it('disables babel sourcemaps by default', function() {
         var app = new EmberApp({
-          project: project,
+          project,
         });
 
         expect(app.options.babel.sourceMaps).to.be.false;
@@ -223,7 +223,7 @@ describe('broccoli/ember-app', function() {
 
       it('can enable babel sourcemaps with the option', function() {
         var app = new EmberApp({
-          project: project,
+          project,
           babel: {
             sourceMaps: 'inline',
           },
@@ -242,7 +242,7 @@ describe('broccoli/ember-app', function() {
       project.addons = [];
 
       app = new EmberApp({
-        project: project,
+        project,
       });
 
       config = {
@@ -257,7 +257,7 @@ describe('broccoli/ember-app', function() {
         var calledConfig, calledType;
 
         project.addons.push({
-          contentFor: function(type, config) {
+          contentFor(type, config) {
             calledType = type;
             calledConfig = config;
 
@@ -274,13 +274,13 @@ describe('broccoli/ember-app', function() {
 
       it('calls `contentFor` on each addon', function() {
         project.addons.push({
-          contentFor: function() {
+          contentFor() {
             return 'blammo';
           },
         });
 
         project.addons.push({
-          contentFor: function() {
+          contentFor() {
             return 'blahzorz';
           },
         });
@@ -294,19 +294,19 @@ describe('broccoli/ember-app', function() {
         var calledContent;
 
         project.addons.push({
-          contentFor: function() {
+          contentFor() {
             return 'zero';
           },
         });
 
         project.addons.push({
-          contentFor: function() {
+          contentFor() {
             return 'one';
           },
         });
 
         project.addons.push({
-          contentFor: function(type, config, content) {
+          contentFor(type, config, content) {
             calledContent = content.slice();
             content.pop();
             return 'two';
@@ -410,8 +410,8 @@ describe('broccoli/ember-app', function() {
         var passedApp;
 
         addon = {
-          included: function(app) { called = true; passedApp = app; },
-          treeFor: function() { },
+          included(app) { called = true; passedApp = app; },
+          treeFor() { },
         };
 
         project.initializeAddons = function() {
@@ -419,7 +419,7 @@ describe('broccoli/ember-app', function() {
         };
 
         var app = new EmberApp({
-          project: project,
+          project,
         });
 
         expect(called).to.be.true;
@@ -435,7 +435,7 @@ describe('broccoli/ember-app', function() {
 
         expect(function() {
           new EmberApp({
-            project: project,
+            project,
           });
         }).to.not.throw(/addon must implement the `included`/);
       });
@@ -444,8 +444,8 @@ describe('broccoli/ember-app', function() {
     describe('addonTreesFor', function() {
       beforeEach(function() {
         addon = {
-          included: function() { },
-          treeFor: function() { },
+          included() { },
+          treeFor() { },
         };
 
         project.initializeAddons = function() {
@@ -453,7 +453,7 @@ describe('broccoli/ember-app', function() {
         };
 
         app = new EmberApp({
-          project: project,
+          project,
         });
       });
 
@@ -479,7 +479,7 @@ describe('broccoli/ember-app', function() {
         delete addon.treeFor;
 
         app = new EmberApp({
-          project: project,
+          project,
         });
 
         expect(function() {
@@ -490,7 +490,7 @@ describe('broccoli/ember-app', function() {
       describe('addonTreesFor is called properly', function() {
         beforeEach(function() {
           app = new EmberApp({
-            project: project,
+            project,
           });
 
           app.addonTreesFor = td.function();
@@ -518,7 +518,7 @@ describe('broccoli/ember-app', function() {
     describe('postprocessTree is called properly', function() {
       beforeEach(function() {
         app = new EmberApp({
-          project: project,
+          project,
         });
 
         app.addonPostprocessTree = td.function();
@@ -540,7 +540,7 @@ describe('broccoli/ember-app', function() {
           if (type === 'template') {
             return [
               {
-                toTree: function() {
+                toTree() {
                   return {
                     description: 'template',
                   };
@@ -563,8 +563,8 @@ describe('broccoli/ember-app', function() {
     describe('toTree', function() {
       beforeEach(function() {
         addon = {
-          included: function() { },
-          treeFor: function() { },
+          included() { },
+          treeFor() { },
           postprocessTree: td.function(),
         };
 
@@ -573,7 +573,7 @@ describe('broccoli/ember-app', function() {
         };
 
         app = new EmberApp({
-          project: project,
+          project,
         });
       });
 
@@ -634,7 +634,7 @@ describe('broccoli/ember-app', function() {
 
           it('development', function() {
             process.env.EMBER_ENV = 'development';
-            var app = new EmberApp({ project: project });
+            var app = new EmberApp({ project });
 
             emberFooEnvAddonFixture.app = app;
             expect(app._addonEnabled(emberFooEnvAddonFixture)).to.be.false;
@@ -644,7 +644,7 @@ describe('broccoli/ember-app', function() {
 
           it('foo', function() {
             process.env.EMBER_ENV = 'foo';
-            var app = new EmberApp({ project: project });
+            var app = new EmberApp({ project });
 
             emberFooEnvAddonFixture.app = app;
             expect(app._addonEnabled(emberFooEnvAddonFixture)).to.be.true;
@@ -659,7 +659,7 @@ describe('broccoli/ember-app', function() {
           process.env.EMBER_ENV = 'foo';
 
           var app = new EmberApp({
-            project: project,
+            project,
             addons: {
               blacklist: ['ember-foo-env-addon'],
             },
@@ -675,7 +675,7 @@ describe('broccoli/ember-app', function() {
             process.env.EMBER_ENV = 'foo';
 
             var app = new EmberApp({
-              project: project,
+              project,
               addons: {
                 blacklist: ['ember-cli-self-troll'],
               },
@@ -691,7 +691,7 @@ describe('broccoli/ember-app', function() {
           process.env.EMBER_ENV = 'foo';
 
           var app = new EmberApp({
-            project: project,
+            project,
             addons: {
               whitelist: ['ember-foo-env-addon'],
             },
@@ -706,7 +706,7 @@ describe('broccoli/ember-app', function() {
           function load() {
             process.env.EMBER_ENV = 'foo';
             app = new EmberApp({
-              project: project,
+              project,
               addons: {
                 whitelist: ['ember-cli-self-troll'],
               },
@@ -721,7 +721,7 @@ describe('broccoli/ember-app', function() {
         it('prevents addon to be added to the project', function() {
           process.env.EMBER_ENV = 'foo';
           app = new EmberApp({
-            project: project,
+            project,
             addons: {
               whitelist: ['ember-foo-env-addon'],
               blacklist: ['ember-foo-env-addon'],
@@ -744,7 +744,7 @@ describe('broccoli/ember-app', function() {
         };
 
         app = new EmberApp({
-          project: project,
+          project,
         });
       });
 
@@ -780,7 +780,7 @@ describe('broccoli/ember-app', function() {
   describe('import', function() {
     beforeEach(function() {
       app = new EmberApp({
-        project: project,
+        project,
       });
     });
 
@@ -846,7 +846,7 @@ describe('broccoli/ember-app', function() {
       // set EMBER_ENV before creating the project
 
       app = new EmberApp({
-        project: project,
+        project,
       });
 
       app.import({
@@ -876,7 +876,7 @@ describe('broccoli/ember-app', function() {
     describe('handlebars.js', function() {
       it('does not app.import handlebars if not present in bower.json', function() {
         var app = new EmberApp({
-          project: project,
+          project,
         });
 
         expect(app.vendorFiles).not.to.include.keys('handlebars.js');
@@ -887,7 +887,7 @@ describe('broccoli/ember-app', function() {
         project = setupProject(projectPath);
 
         var app = new EmberApp({
-          project: project,
+          project,
         });
 
         expect(app.vendorFiles).to.include.keys('handlebars.js');
@@ -895,7 +895,7 @@ describe('broccoli/ember-app', function() {
 
       it('includes handlebars if present in provided `vendorFiles`', function() {
         var app = new EmberApp({
-          project: project,
+          project,
           vendorFiles: {
             'handlebars.js': 'some/path/whatever.js',
           },
@@ -907,14 +907,14 @@ describe('broccoli/ember-app', function() {
 
     it('defines vendorFiles by default', function() {
       app = new EmberApp({
-        project: project,
+        project,
       });
       expect(Object.keys(app.vendorFiles)).to.deep.equal(defaultVendorFiles);
     });
 
     it('redefines a location of a vendor asset', function() {
       app = new EmberApp({
-        project: project,
+        project,
 
         vendorFiles: {
           'ember.js': 'vendor/ember.js',
@@ -925,7 +925,7 @@ describe('broccoli/ember-app', function() {
 
     it('defines vendorFiles in order even when option for it is passed', function() {
       app = new EmberApp({
-        project: project,
+        project,
 
         vendorFiles: {
           'ember.js': 'vendor/ember.js',
@@ -936,7 +936,7 @@ describe('broccoli/ember-app', function() {
 
     it('removes dependency in vendorFiles', function() {
       app = new EmberApp({
-        project: project,
+        project,
 
         vendorFiles: {
           'ember.js': null,
@@ -972,7 +972,7 @@ describe('broccoli/ember-app', function() {
 
     it('does not clobber an explicitly configured ember development file', function() {
       app = new EmberApp({
-        project: project,
+        project,
 
         vendorFiles: {
           'ember.js': {
@@ -987,7 +987,7 @@ describe('broccoli/ember-app', function() {
 
   it('fails with invalid type', function() {
     var app = new EmberApp({
-      project: project,
+      project,
     });
 
     expect(function() {
@@ -998,7 +998,7 @@ describe('broccoli/ember-app', function() {
   describe('_resolveLocal', function() {
     it('resolves a path relative to the project root', function() {
       var app = new EmberApp({
-        project: project,
+        project,
       });
 
       var result = app._resolveLocal('foo');
@@ -1008,7 +1008,7 @@ describe('broccoli/ember-app', function() {
 
   describe('concatFiles()', function() {
     beforeEach(function() {
-      app = new EmberApp({ project: project });
+      app = new EmberApp({ project });
     });
 
     it('shows deprecation message if called directly', function() {
@@ -1030,7 +1030,7 @@ describe('broccoli/ember-app', function() {
     describe('podTemplates', function() {
       it('works', function() {
         var app = new EmberApp({
-          project: project,
+          project,
         });
 
         var wasCalledCount = 0;

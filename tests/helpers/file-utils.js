@@ -24,6 +24,6 @@ function replaceFile(path, findString, replaceString) {
 }
 
 module.exports = {
-  touch: touch,
-  replaceFile: replaceFile,
+  touch,
+  replaceFile,
 };

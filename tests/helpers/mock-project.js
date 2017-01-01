@@ -10,7 +10,7 @@ function MockProject() {
   var pkg = {};
   var ui = new MockUI();
   var instr = new Instrumentation({
-    ui: ui,
+    ui,
     initInstrumentation: {
       token: null,
       node: null,
@@ -29,7 +29,7 @@ MockProject.prototype.require = function(file) {
   if (file === './server') {
     return function() {
       return {
-        listen: function() { arguments[arguments.length - 1](); },
+        listen() { arguments[arguments.length - 1](); },
       };
     };
   }

@@ -127,8 +127,8 @@ describe('models/project.js', function() {
 
         projectConfig = { foo: 'bar', baz: 'qux' };
         project.addons = [
-          { config: function() { return addon1Config; } },
-          { config: function() { return addon2Config; } },
+          { config() { return addon1Config; } },
+          { config() { return addon2Config; } },
         ];
 
         project._addonsInitialized = true;

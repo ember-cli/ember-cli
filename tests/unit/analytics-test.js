@@ -9,14 +9,14 @@ var called = false;
 
 beforeEach(function() {
   var analytics = {
-    track: function() {
+    track() {
       called = true;
     },
   };
 
   var FakeCommand = Command.extend({
     name: 'fake-command',
-    run: function() {},
+    run() {},
   });
 
   var project = new MockProject();
@@ -24,8 +24,8 @@ beforeEach(function() {
 
   command = new FakeCommand({
     ui: new MockUI(),
-    analytics: analytics,
-    project: project,
+    analytics,
+    project,
   });
 });
 

@@ -22,7 +22,7 @@ describe('YUIDoc', function() {
     }
 
     warnings[file].push({
-      line: line,
+      line,
       message: warning.message,
     });
   });

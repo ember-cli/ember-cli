@@ -16,12 +16,12 @@ describe('test server', function() {
 
     subject = new TestServerTask({
       project: new MockProject(),
-      ui: ui,
-      addonMiddlewares: function() {
+      ui,
+      addonMiddlewares() {
         return ['middleware1', 'middleware2'];
       },
       testem: {
-        startDev: function(options) {
+        startDev(options) {
           expect(options.host).to.equal('greatwebsite.com');
           expect(options.port).to.equal(123324);
           expect(options.cwd).to.equal('blerpy-derpy');
@@ -39,7 +39,7 @@ describe('test server', function() {
       port: 123324,
       reporter: 'xunit',
       outputPath: 'blerpy-derpy',
-      watcher: watcher,
+      watcher,
       testPage: 'http://my/test/page',
     });
     watcher.emit('change');
@@ -55,18 +55,18 @@ describe('test server', function() {
       runOptions = {
         reporter: 'xunit',
         outputPath: 'blerpy-derpy',
-        watcher: watcher,
+        watcher,
         testPage: 'http://my/test/page',
       };
 
       subject = new TestServerTask({
         project: new MockProject(),
-        ui: ui,
-        addonMiddlewares: function() {
+        ui,
+        addonMiddlewares() {
           return ['middleware1', 'middleware2'];
         },
         testem: {
-          startDev: function(options, finalizer) {
+          startDev(options, finalizer) {
             throw new TypeError('startDev not implemented');
           },
         },

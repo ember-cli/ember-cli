@@ -19,9 +19,9 @@ describe('Server Watcher', function() {
     watcher = new MockServerWatcher();
 
     subject = new ServerWatcher({
-      ui: ui,
-      analytics: analytics,
-      watcher: watcher,
+      ui,
+      analytics,
+      watcher,
     });
   });
 

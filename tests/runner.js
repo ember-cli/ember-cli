@@ -22,7 +22,7 @@ var optionOrFile = process.argv[2];
 var reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
 var mocha = new Mocha({
   timeout: 5000,
-  reporter: reporter,
+  reporter,
   retries: 2,
 });
 var testFiles = glob.sync(root + '/**/*-test.js');

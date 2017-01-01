@@ -69,8 +69,8 @@ describe('Unit: in-repo-addon blueprint', function() {
 
     blueprint = proxyquire('../../../blueprints/in-repo-addon', {
       'fs-extra': {
-        readJsonSync: readJsonSync,
-        writeFileSync: writeFileSync,
+        readJsonSync,
+        writeFileSync,
       },
     });
     blueprint.project = {

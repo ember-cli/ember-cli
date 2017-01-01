@@ -8,15 +8,15 @@ module.exports = {
     'remote-url',
   ],
 
-  locals: function(options) {
+  locals(options) {
     var proxyUrl = options.args[2];
     return {
       path: '/' + options.entity.name.replace(/^\//, ''),
-      proxyUrl: proxyUrl,
+      proxyUrl,
     };
   },
 
-  beforeInstall: function(options) {
+  beforeInstall(options) {
     var serverBlueprint = Blueprint.lookup('server', {
       ui: this.ui,
       analytics: this.analytics,
@@ -26,7 +26,7 @@ module.exports = {
     return serverBlueprint.install(options);
   },
 
-  afterInstall: function() {
+  afterInstall() {
     return this.addPackagesToProject([
       { name: 'http-proxy', target: '^1.1.6' },
     ]);

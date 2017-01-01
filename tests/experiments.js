@@ -36,7 +36,7 @@ var experiments = {};
 
 function defineFeature(featureName) {
   Object.defineProperty(experiments, featureName, {
-    get: function() {
+    get() {
       var includeFeature = true;
 
       if (process.env.DISABLE_EMBER_CLI_FEATURES === 'true') {

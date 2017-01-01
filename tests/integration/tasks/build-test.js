@@ -45,12 +45,12 @@ describe('build task test', function() {
     var outputPath = 'dist';
     var task = new BuildTask({
       analytics: new MockAnalytics(),
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     var runOptions = {
-      outputPath: outputPath,
+      outputPath,
       environment: 'development',
     };
 
@@ -69,12 +69,12 @@ describe('build task test', function() {
     var outputPath = 'dist';
     var task = new BuildTask({
       analytics: new MockAnalytics(),
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     var runOptions = {
-      outputPath: outputPath,
+      outputPath,
       environment: 'development',
     };
 

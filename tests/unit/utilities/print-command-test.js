@@ -25,7 +25,7 @@ describe('printCommand', function() {
 
     var obj = {
       description: 'a paragraph',
-      availableOptions: availableOptions,
+      availableOptions,
       anonymousOptions: ['anon-test', '<anon-test>'],
       aliases: ['ab', 'cd', '', null, undefined],
     };
