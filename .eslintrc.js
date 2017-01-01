@@ -15,7 +15,6 @@ module.exports = {
 
     'comma-dangle': 0,
     'no-console': 0,
-    'no-empty': 2,
     'no-template-curly-in-string': 2,
 
     /*** Best Practices ***/
