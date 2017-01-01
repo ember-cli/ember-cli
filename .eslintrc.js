@@ -15,6 +15,7 @@ module.exports = {
 
     'no-console': 0,
     'no-template-curly-in-string': 2,
+    'no-unsafe-negation': 2,
 
     /*** Best Practices ***/
 
