@@ -34,33 +34,33 @@ describe('EmberAddon', function() {
     emberAddon = new EmberAddon({
       project: project,
       foo: {
-        bar: ['baz']
+        bar: ['baz'],
       },
       fooz: {
         bam: {
-          boo: ['default']
-        }
-      }
+          boo: ['default'],
+        },
+      },
     }, {
       foo: {
-        bar: ['bizz']
+        bar: ['bizz'],
       },
       fizz: 'fizz',
       fooz: {
         bam: {
-          boo: ['custom']
-        }
-      }
+          boo: ['custom'],
+        },
+      },
     });
 
     expect(emberAddon.options.foo).to.deep.eql({
-      bar: ['bizz']
+      bar: ['bizz'],
     });
     expect(emberAddon.options.fizz).to.eql('fizz');
     expect(emberAddon.options.fooz).to.eql({
       bam: {
-        boo: ['custom']
-      }
+        boo: ['custom'],
+      },
     });
   });
 

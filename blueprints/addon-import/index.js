@@ -30,7 +30,7 @@ module.exports = {
           return path.join('lib', options.inRepoAddon, 'app');
         }
         return 'app';
-      }
+      },
     };
   },
   locals: function(options) {
@@ -51,7 +51,7 @@ module.exports = {
 
     return {
       modulePath: modulePathSegments.join('/'),
-      blueprintName: blueprintName
+      blueprintName: blueprintName,
     };
-  }
+  },
 };

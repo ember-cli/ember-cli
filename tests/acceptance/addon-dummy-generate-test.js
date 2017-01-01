@@ -42,7 +42,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       'addon',
       'my-addon',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(addJSHint);
   }
 

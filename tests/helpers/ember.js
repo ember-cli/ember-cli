@@ -78,8 +78,8 @@ module.exports = function ember(args, options) {
       // This prevents ember-cli from detecting any other package.json files
       // forcing ember-cli to act as the globally installed package
       npmPackage: 'ember-cli',
-      root: pkg
-    }
+      root: pkg,
+    },
   });
 
   function returnTestState(statusCode) {
@@ -88,7 +88,7 @@ module.exports = function ember(args, options) {
       statusCode: statusCode,
       inputStream: inputStream,
       outputStream: outputStream,
-      errorLog: errorLog
+      errorLog: errorLog,
     };
 
     if (statusCode) {

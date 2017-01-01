@@ -38,7 +38,7 @@ module.exports = function run(/* command, args, options */) {
       } else {
         logOnFailure(string);
       }
-    }
+    },
   });
 
   return new RSVP.Promise(function(resolve, reject) {
@@ -60,7 +60,7 @@ module.exports = function run(/* command, args, options */) {
     var result = {
       output: [],
       errors: [],
-      code: null
+      code: null,
     };
 
     if (options.onChildSpawned) {

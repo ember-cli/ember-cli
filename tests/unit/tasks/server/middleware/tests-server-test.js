@@ -15,12 +15,12 @@ describe('TestServerAddon', function () {
         method: 'GET',
         path: '',
         url: 'http://example.com',
-        headers: {}
+        headers: {},
       };
       app = {
         use: function (callback) {
           return callback(mockRequest, null, function () { nextWasCalled = true; });
-        }
+        },
       };
     });
 
@@ -28,7 +28,7 @@ describe('TestServerAddon', function () {
       addon.serverMiddleware({
         app: app,
         options: {
-          watcher: Promise.resolve()
+          watcher: Promise.resolve(),
         },
         finally: function() {
           try {
@@ -37,7 +37,7 @@ describe('TestServerAddon', function () {
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
 
@@ -47,7 +47,7 @@ describe('TestServerAddon', function () {
       addon.serverMiddleware({
         app: app,
         options: {
-          watcher: Promise.reject(mockError)
+          watcher: Promise.reject(mockError),
         },
         finally: function() {
           try {
@@ -56,7 +56,7 @@ describe('TestServerAddon', function () {
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
 
@@ -67,7 +67,7 @@ describe('TestServerAddon', function () {
         app: app,
         options: {
           watcher: Promise.resolve({ directory: 'nothing' }),
-          baseURL: '/braden/+'
+          baseURL: '/braden/+',
         },
         finally: function() {
           try {
@@ -76,7 +76,7 @@ describe('TestServerAddon', function () {
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
 
@@ -87,7 +87,7 @@ describe('TestServerAddon', function () {
         app: app,
         options: {
           watcher: Promise.resolve({directory: 'nothing'}),
-          rootURL: '/grayson/+'
+          rootURL: '/grayson/+',
         },
         finally: function () {
           try {
@@ -96,7 +96,7 @@ describe('TestServerAddon', function () {
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
   });

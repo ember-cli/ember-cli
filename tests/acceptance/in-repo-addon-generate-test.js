@@ -42,7 +42,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -51,7 +51,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       return ember([
         'generate',
         'in-repo-addon',
-        'my-addon'
+        'my-addon',
       ]);
     });
   }

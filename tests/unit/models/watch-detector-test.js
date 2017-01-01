@@ -30,7 +30,7 @@ describe('WatchDetector', function() {
       fs: fs,
       childProcess: childProcess,
       watchmanSupportsPlatform: false,
-      root: process.cwd()
+      root: process.cwd(),
     });
   });
 

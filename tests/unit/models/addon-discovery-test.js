@@ -29,16 +29,16 @@ describe('models/addon-discovery.js', function() {
     beforeEach(function() {
       deps = {
         'foo-bar': 'latest',
-        'blah-blah': '1.0.0'
+        'blah-blah': '1.0.0',
       };
 
       devDeps = {
-        'dev-foo-bar': 'latest'
+        'dev-foo-bar': 'latest',
       };
 
       mockPkg = {
         dependencies: deps,
-        devDependencies: devDeps
+        devDependencies: devDeps,
       };
     });
 
@@ -63,7 +63,7 @@ describe('models/addon-discovery.js', function() {
       var project = {
         supportedInternalAddonPaths: function() {
           return ['lib/foo/', 'baz/qux/'];
-        }
+        },
       };
 
       var discovery = new AddonDiscovery(ui);
@@ -95,7 +95,7 @@ describe('models/addon-discovery.js', function() {
 
       it('returns empty array if `ember-addon.paths` is missing in provided package', function() {
         pkg = {
-          'ember-addon': { }
+          'ember-addon': { },
         };
 
         var actual = discovery.discoverInRepoAddons(fixturePath, pkg);
@@ -105,8 +105,8 @@ describe('models/addon-discovery.js', function() {
       it('returns empty array if `ember-addon.paths` is empty in provided package', function() {
         pkg = {
           'ember-addon': {
-            paths: []
-          }
+            paths: [],
+          },
         };
 
         var actual = discovery.discoverInRepoAddons(fixturePath, pkg);
@@ -118,8 +118,8 @@ describe('models/addon-discovery.js', function() {
       var actualPaths = [];
       var pkg = {
         'ember-addon': {
-          paths: ['lib/foo', 'baz/qux']
-        }
+          paths: ['lib/foo', 'baz/qux'],
+        },
       };
       var discovery = new AddonDiscovery(ui);
 
@@ -133,7 +133,7 @@ describe('models/addon-discovery.js', function() {
 
       var expected = [
         path.join(fixturePath, 'lib', 'foo'),
-        path.join(fixturePath, 'baz', 'qux')
+        path.join(fixturePath, 'baz', 'qux'),
       ];
 
       expect(actualPaths).to.deep.equal(expected);
@@ -143,8 +143,8 @@ describe('models/addon-discovery.js', function() {
       var actualPaths = [];
       var pkg = {
         'ember-addon': {
-          paths: ['lib/foo', 'baz/qux']
-        }
+          paths: ['lib/foo', 'baz/qux'],
+        },
       };
       var discovery = new AddonDiscovery(ui);
 
@@ -158,7 +158,7 @@ describe('models/addon-discovery.js', function() {
 
       var expectedPaths = [
         path.join(fixturePath, 'lib', 'foo'),
-        path.join(fixturePath, 'baz', 'qux')
+        path.join(fixturePath, 'baz', 'qux'),
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
@@ -172,16 +172,16 @@ describe('models/addon-discovery.js', function() {
     beforeEach(function() {
       deps = {
         'foo-bar': 'latest',
-        'blah-blah': '1.0.0'
+        'blah-blah': '1.0.0',
       };
 
       devDeps = {
-        'dev-foo-bar': 'latest'
+        'dev-foo-bar': 'latest',
       };
 
       mockPkg = {
         dependencies: deps,
-        devDependencies: devDeps
+        devDependencies: devDeps,
       };
     });
 
@@ -203,7 +203,7 @@ describe('models/addon-discovery.js', function() {
       var expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
         path.join(root, 'node_modules', 'blah-blah'),
-        path.join(root, 'node_modules', 'invalid-package')
+        path.join(root, 'node_modules', 'invalid-package'),
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
@@ -231,7 +231,7 @@ describe('models/addon-discovery.js', function() {
       var expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
         path.join(root, 'node_modules', 'blah-blah'),
-        path.join(root, 'node_modules', 'blah-zorz')
+        path.join(root, 'node_modules', 'blah-zorz'),
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
@@ -254,7 +254,7 @@ describe('models/addon-discovery.js', function() {
       var expectedPaths = [
         path.join(root, '..', 'node_modules', 'dev-foo-bar'),
         path.join(root, 'node_modules', 'foo-bar'),
-        path.join(root, 'node_modules', 'blah-blah')
+        path.join(root, 'node_modules', 'blah-blah'),
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
@@ -276,7 +276,7 @@ describe('models/addon-discovery.js', function() {
 
       var expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
-        path.join(root, 'node_modules', 'blah-blah')
+        path.join(root, 'node_modules', 'blah-blah'),
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
@@ -288,7 +288,7 @@ describe('models/addon-discovery.js', function() {
       var project = {
         isEmberCLIAddon: function() {
           return false;
-        }
+        },
       };
 
       var discovery = new AddonDiscovery(ui);
@@ -303,7 +303,7 @@ describe('models/addon-discovery.js', function() {
         root: 'foo/bar/baz',
         isEmberCLIAddon: function() {
           return true;
-        }
+        },
       };
 
       var discovery = new AddonDiscovery(ui);
@@ -331,12 +331,12 @@ describe('models/addon-discovery.js', function() {
         root: fixturePath,
         pkg: {
           dependencies: {
-            'foo-bar': 'latest'
+            'foo-bar': 'latest',
           },
           devDependencies: {
-            'dev-dep-bar': 'latest'
-          }
-        }
+            'dev-dep-bar': 'latest',
+          },
+        },
       };
 
       discovery = new AddonDiscovery(ui);
@@ -401,11 +401,11 @@ describe('models/addon-discovery.js', function() {
       var cli = new MockCLI();
       var packageContents = {
         dependencies: {
-          'foo-bar': 'latest'
+          'foo-bar': 'latest',
         },
         devDependencies: {
-          'dev-dep-bar': 'latest'
-        }
+          'dev-dep-bar': 'latest',
+        },
       };
 
       project = new Project(fixturePath, packageContents, cli.ui, cli);
@@ -454,7 +454,7 @@ describe('models/addon-discovery.js', function() {
         'discoverInRepoAddons', // ember-cli's own in-repo addons
         'discoverFromInternalProjectAddons',
         'discoverFromDependencies',
-        'discoverInRepoAddons' // apps in-repo addons
+        'discoverInRepoAddons', // apps in-repo addons
       ]);
     });
   });

@@ -18,8 +18,8 @@ describe('addon command', function() {
         },
         blueprintLookupPaths: function() {
           return [];
-        }
-      }
+        },
+      },
     });
 
     command = new AddonCommand(options);
@@ -106,8 +106,8 @@ describe('addon command', function() {
 
     td.when(Blueprint.lookup('addon'), {ignoreExtraArgs: true}).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     command.beforeRun(['addon']);

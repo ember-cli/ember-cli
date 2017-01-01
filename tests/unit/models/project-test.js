@@ -38,7 +38,7 @@ describe('models/project.js', function() {
       return tmp.setup(projectPath)
         .then(function() {
           touch(projectPath + '/config/environment.js', {
-            baseURL: '/foo/bar'
+            baseURL: '/foo/bar',
           });
 
           project = new Project(projectPath, { }, cli.ui, cli);
@@ -57,7 +57,7 @@ describe('models/project.js', function() {
       return tmp.setup(projectPath)
         .then(function() {
           touch(projectPath + '/config/environment.js', {
-            baseURL: '/foo/bar'
+            baseURL: '/foo/bar',
           });
 
           makeProject();
@@ -83,8 +83,8 @@ describe('models/project.js', function() {
     it('configPath() returns tests/dummy/config/environment', function() {
       project.pkg = {
         'ember-addon': {
-          'configPath': 'tests/dummy/config'
-        }
+          'configPath': 'tests/dummy/config',
+        },
       };
 
       var expected = path.normalize('tests/dummy/config/environment');
@@ -107,7 +107,7 @@ describe('models/project.js', function() {
 
     it('returns getAddonsConfig result when configPath is not present', function() {
       var expected = {
-        foo: 'bar'
+        foo: 'bar',
       };
 
       project.getAddonsConfig = function() {
@@ -128,7 +128,7 @@ describe('models/project.js', function() {
         projectConfig = { foo: 'bar', baz: 'qux' };
         project.addons = [
           { config: function() { return addon1Config; }},
-          { config: function() { return addon2Config; }}
+          { config: function() { return addon2Config; }},
         ];
 
         project._addonsInitialized = true;
@@ -146,8 +146,8 @@ describe('models/project.js', function() {
           baz: 'qux',
           addon: {
             derp: 'herp',
-            blammo: 'blahzorz'
-          }
+            blammo: 'blahzorz',
+          },
         };
 
         var actual = project.config('development');
@@ -160,8 +160,8 @@ describe('models/project.js', function() {
           baz: 'qux',
           addon: {
             derp: 'herp',
-            blammo: 'blahzorz'
-          }
+            blammo: 'blahzorz',
+          },
         };
 
         addon1Config.foo = 'NO!!!!!!';
@@ -196,7 +196,7 @@ describe('models/project.js', function() {
         'something-else': 'latest',
         'ember-devDeps-addon': 'latest',
         'ember-addon-with-dependencies': 'latest',
-        'loader.js': 'latest'
+        'loader.js': 'latest',
       };
 
       expect(project.dependencies()).to.deep.equal(expected);
@@ -209,7 +209,7 @@ describe('models/project.js', function() {
         'ember-data': '1.0.0-beta.10',
         'ember-cli-shims': 'ember-cli/ember-cli-shims#0.0.3',
         'ember-qunit': '0.1.8',
-        'qunit': '~1.15.0'
+        'qunit': '~1.15.0',
       };
 
       expect(project.bowerDependencies()).to.deep.equal(expected);
@@ -224,7 +224,7 @@ describe('models/project.js', function() {
         'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
-        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button'
+        'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button',
       ];
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
@@ -261,7 +261,7 @@ describe('models/project.js', function() {
         process.cwd() + path.normalize('/node_modules/ember-cli-legacy-blueprints/blueprints'),
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
-        project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints')
+        project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
       ];
 
       // the first found addon blueprint should be the last one defined
@@ -276,7 +276,7 @@ describe('models/project.js', function() {
         process.cwd() + path.normalize('/node_modules/ember-cli-legacy-blueprints/blueprints'),
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
-        project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints')
+        project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
       ];
 
       // the first found addon blueprint should be the last one defined
@@ -293,7 +293,7 @@ describe('models/project.js', function() {
         project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
-        process.cwd() + path.normalize('/node_modules/ember-cli-legacy-blueprints/blueprints')
+        process.cwd() + path.normalize('/node_modules/ember-cli-legacy-blueprints/blueprints'),
       ];
 
       expect(project.blueprintLookupPaths()).to.deep.equal(expected);
@@ -436,7 +436,7 @@ describe('models/project.js', function() {
 
     it('should return true if `ember-addon` is included in keywords', function() {
       project.pkg = {
-        keywords: ['ember-addon']
+        keywords: ['ember-addon'],
       };
 
       expect(project.isEmberCLIAddon()).to.equal(true);
@@ -444,7 +444,7 @@ describe('models/project.js', function() {
 
     it('should return false if `ember-addon` is not included in keywords', function() {
       project.pkg = {
-        keywords: []
+        keywords: [],
       };
 
       expect(project.isEmberCLIAddon()).to.equal(false);
@@ -461,12 +461,12 @@ describe('models/project.js', function() {
 
       project.addons = [{
         name: 'foo',
-        pkg: { name: 'foo' }
+        pkg: { name: 'foo' },
       }, {
-        pkg: { name: 'bar-pkg' }
+        pkg: { name: 'bar-pkg' },
       }, {
         name: 'foo-bar',
-        pkg: { name: 'foo-bar' }
+        pkg: { name: 'foo-bar' },
       }];
     });
 

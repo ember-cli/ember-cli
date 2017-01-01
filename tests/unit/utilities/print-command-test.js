@@ -13,21 +13,21 @@ describe('printCommand', function() {
       default: 'my-def-val',
       required: true,
       aliases: ['a', 'long-a', { b: 'c', unused: '' }, {'long-b': 'c' }],
-      description: 'option desc'
+      description: 'option desc',
     }, {
       name: 'test-type',
       type: Boolean,
-      aliases: ['a']
+      aliases: ['a'],
     }, {
       name: 'test-type-array',
-      type: ['a-type', Number]
+      type: ['a-type', Number],
     }];
 
     var obj = {
       description: 'a paragraph',
       availableOptions: availableOptions,
       anonymousOptions: ['anon-test', '<anon-test>'],
-      aliases: ['ab', 'cd', '', null, undefined]
+      aliases: ['ab', 'cd', '', null, undefined],
     };
 
     var output = printCommand.call(obj, '  ', true);
@@ -48,7 +48,7 @@ describe('printCommand', function() {
   it('can have no margin or no options', function() {
     var output = printCommand.call({
       availableOptions: [],
-      anonymousOptions: []
+      anonymousOptions: [],
     });
 
     var testString = processHelpString('');
@@ -60,7 +60,7 @@ describe('printCommand', function() {
     var output = printCommand.call({
       description: 'a paragraph',
       availableOptions: [],
-      anonymousOptions: []
+      anonymousOptions: [],
     });
 
     var testString = processHelpString(EOL + '\
@@ -73,7 +73,7 @@ describe('printCommand', function() {
     var output = printCommand.call({
       availableOptions: [],
       anonymousOptions: [],
-      aliases: []
+      aliases: [],
     });
 
     var testString = processHelpString('');

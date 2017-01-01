@@ -202,7 +202,7 @@ describe('Acceptance: smoke-test', function() {
           if (!ouputContainsBuildFailed && string.match(/Build failed/)) {
             ouputContainsBuildFailed = true;
           }
-        }
+        },
       });
 
     }).then(function () {
@@ -220,20 +220,20 @@ describe('Acceptance: smoke-test', function() {
 
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
         env: {
-          BROCCOLI_VIZ: '1'
-        }
+          BROCCOLI_VIZ: '1',
+        },
       }).then(function () {
         [
           'instrumentation.build.0.json',
           'instrumentation.command.json',
           'instrumentation.init.json',
-          'instrumentation.shutdown.json'
+          'instrumentation.shutdown.json',
         ].forEach(function (instrumentationFile) {
           expect(fs.existsSync(instrumentationFile)).to.equal(true);
 
           var json = fs.readJsonSync(instrumentationFile);
           expect(Object.keys(json)).to.eql([
-            'summary', 'nodes'
+            'summary', 'nodes',
           ]);
 
           expect(Array.isArray(json.nodes)).to.equal(true);
@@ -268,7 +268,7 @@ describe('Acceptance: smoke-test', function() {
             fs.appendFileSync(appJsPath, line);
           }
         }
-      }
+      },
     }).catch(function() {
       // swallowing because of SIGINT
     });
@@ -308,7 +308,7 @@ describe('Acceptance: smoke-test', function() {
             killCliProcess(child);
           }
         }
-      }
+      },
     }).catch(function() {
       // swallowing because of SIGINT
     });
@@ -320,7 +320,7 @@ describe('Acceptance: smoke-test', function() {
         if (string.match(/Build successful/)) {
           killCliProcess(child);
         }
-      }
+      },
     }).catch(function() {
       // just eat the rejection as we are testing what happens
     });

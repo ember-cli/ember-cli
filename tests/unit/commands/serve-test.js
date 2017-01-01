@@ -18,11 +18,11 @@ describe('serve command', function() {
 
   beforeEach(function() {
     tasks = {
-      Serve: Task.extend()
+      Serve: Task.extend(),
     };
 
     options = commandOptions({
-      tasks: tasks
+      tasks: tasks,
     });
 
     td.replace(tasks.Serve.prototype, 'run', td.function());
@@ -48,7 +48,7 @@ describe('serve command', function() {
   it('setting --port without --live-reload-port', function() {
     return getPort().then(function(port) {
       return command.validateAndRun([
-        '--port', '' + port
+        '--port', '' + port,
       ]).then(function() {
         var captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -62,7 +62,7 @@ describe('serve command', function() {
     return getPort().then(function(port) {
       return command.validateAndRun([
         '--port', '' + port,
-        '--live-reload-port', '8005'
+        '--live-reload-port', '8005',
       ]).then(function() {
         var captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -94,7 +94,7 @@ describe('serve command', function() {
 
       return testServer({ port: '32773' }, function() {
         return command.validateAndRun([
-          '--port', '32773'
+          '--port', '32773',
         ])
         .then(function() {
           expect(true).to.equal(false, 'assertion should never run');
@@ -109,7 +109,7 @@ describe('serve command', function() {
 
   it('allows OS to choose port', function() {
     return command.validateAndRun([
-      '--port', '0'
+      '--port', '0',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -121,7 +121,7 @@ describe('serve command', function() {
   it('has correct liveLoadPort', function() {
     return command.validateAndRun([
       '--port', '0',
-      '--live-reload-port', '4001'
+      '--live-reload-port', '4001',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -132,7 +132,7 @@ describe('serve command', function() {
   it('has correct liveReloadLoadHost', function() {
     return command.validateAndRun([
       '--port', '0',
-      '--live-reload-host', '127.0.0.1'
+      '--live-reload-host', '127.0.0.1',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -143,7 +143,7 @@ describe('serve command', function() {
   it('has correct liveLoadBaseUrl', function() {
     return command.validateAndRun([
       '--port', '0',
-      '--live-reload-base-url', 'http://127.0.0.1:4200/'
+      '--live-reload-base-url', 'http://127.0.0.1:4200/',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -154,7 +154,7 @@ describe('serve command', function() {
   it('has correct proxy', function() {
     return command.validateAndRun([
       '--port', '0',
-      '--proxy', 'http://localhost:3000/'
+      '--proxy', 'http://localhost:3000/',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -165,7 +165,7 @@ describe('serve command', function() {
   it('has correct secure proxy option', function() {
     return command.validateAndRun([
       '--port', '0',
-      '--secure-proxy', 'false'
+      '--secure-proxy', 'false',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -186,7 +186,7 @@ describe('serve command', function() {
   it('requires proxy URL to include protocol', function() {
     return command.validateAndRun([
       '--port', '0',
-      '--proxy', 'localhost:3000'
+      '--proxy', 'localhost:3000',
     ]).then(function() {
       expect(false, 'it rejects when proxy URL doesn\'t include protocol').to.be.ok;
     })
@@ -214,7 +214,7 @@ describe('serve command', function() {
 
     return command.validateAndRun([
       '--port', '0',
-      '--environment', 'test'
+      '--environment', 'test',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
@@ -225,7 +225,7 @@ describe('serve command', function() {
   it('host alias does not conflict with help alias', function() {
     return command.validateAndRun([
       '--port', '0',
-      '-H', 'localhost'
+      '-H', 'localhost',
     ]).then(function() {
       var captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});

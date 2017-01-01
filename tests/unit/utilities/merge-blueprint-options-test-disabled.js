@@ -16,10 +16,10 @@ describe('merge-blueprint-options', function() {
     works: 'everywhere',
 
     availableOptions: [
-      { name: 'verbose',    type: Boolean, default: false, aliases: ['v'] }
+      { name: 'verbose',    type: Boolean, default: false, aliases: ['v'] },
     ],
 
-    beforeRun: mergeBlueprintOptions
+    beforeRun: mergeBlueprintOptions,
   });
 
   afterEach(function() {
@@ -28,7 +28,7 @@ describe('merge-blueprint-options', function() {
 
   function buildCommand() {
     return new TestCommand({
-      project: new Project(process.cwd(), { name: 'some-random-name' })
+      project: new Project(process.cwd(), { name: 'some-random-name' }),
     });
   }
 
@@ -38,8 +38,8 @@ describe('merge-blueprint-options', function() {
     td.replace(Blueprint, 'lookup', td.function());
     td.when(Blueprint.lookup('test-blueprint'), {ignoreExtraArgs: true}).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     command = buildCommand();

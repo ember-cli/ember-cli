@@ -48,7 +48,7 @@ describe('Acceptance: ember generate', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(addJSHint);
   }
 

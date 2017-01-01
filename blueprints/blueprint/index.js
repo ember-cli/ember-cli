@@ -17,5 +17,5 @@ module.exports = {
     if (this.project) {
       return 'ember-cli-jshint' in this.project.dependencies();
     }
-  }
+  },
 };

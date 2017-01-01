@@ -13,7 +13,7 @@ module.exports = {
       name: name,
       modulePrefix: name,
       namespace: namespace,
-      emberCLIVersion: require('../../package').version
+      emberCLIVersion: require('../../package').version,
     };
-  }
+  },
 };

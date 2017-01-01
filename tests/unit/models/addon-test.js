@@ -43,7 +43,7 @@ describe('models/addon.js', function() {
         root: path.resolve(fixturePath, 'simple'),
         _warn: function(message) {
           warning = '' + message;
-        }
+        },
       });
       var addon = new TheAddon();
       expect(function() {
@@ -71,7 +71,7 @@ describe('models/addon.js', function() {
           this._super.apply(this, arguments);
           this.treePaths.vendor = 'blazorz';
           this.treeForMethods.public = 'huzzah!';
-        }
+        },
       });
 
       SecondAddon = Addon.extend({
@@ -82,7 +82,7 @@ describe('models/addon.js', function() {
           this._super.apply(this, arguments);
           this.treePaths.vendor = 'blammo';
           this.treeForMethods.public = 'boooo';
-        }
+        },
       });
 
     });
@@ -96,7 +96,7 @@ describe('models/addon.js', function() {
         // TODO: fix config story...
         addon.app = {
           options: { jshintrc: {} },
-          addonLintTree: function(type, tree) { return tree; }
+          addonLintTree: function(type, tree) { return tree; },
         };
 
         addon.jshintTrees = function() {};
@@ -152,10 +152,10 @@ describe('models/addon.js', function() {
       addon = {
         pkg: {
           'ember-addon': {
-            'main': ''
-          }
+            'main': '',
+          },
         },
-        path: ''
+        path: '',
       };
     });
 
@@ -274,13 +274,13 @@ describe('models/addon.js', function() {
               return [{
                 toTree: function(tree) {
                   return tree;
-                }
+                },
               }];
             },
 
             extensionsForType: function() {
               return ['js'];
-            }
+            },
           };
           addon.app = app;
           var tree = addon.treeFor('addon');
@@ -335,7 +335,7 @@ describe('models/addon.js', function() {
       it('returns a listing of all dependencies in the addon\'s package.json', function() {
         var expected = {
           'ember-cli': 'latest',
-          'something-else': 'latest'
+          'something-else': 'latest',
         };
 
         expect(addon.dependencies()).to.deep.equal(expected);
@@ -356,7 +356,7 @@ describe('models/addon.js', function() {
       beforeEach(function() {
         var MyAddon = Addon.extend({
           name: 'test-project',
-          root: 'foo'
+          root: 'foo',
         });
 
         var projectPath = path.resolve(fixturePath, 'simple');
@@ -423,7 +423,7 @@ describe('models/addon.js', function() {
       beforeEach(function() {
         var MyAddon = Addon.extend({
           name: 'test-project',
-          root: 'foo'
+          root: 'foo',
         });
 
         var projectPath = path.resolve(fixturePath, 'simple');
@@ -441,7 +441,7 @@ describe('models/addon.js', function() {
 
       afterEach(function() {
         addon.app = {
-          options: {}
+          options: {},
         };
 
         if (originalEnvValue === undefined) {
@@ -467,7 +467,7 @@ describe('models/addon.js', function() {
         process.env.EMBER_ENV = 'development';
 
         addon.app = {
-          options: { hinting: true }
+          options: { hinting: true },
         };
 
         expect(addon.hintingEnabled()).to.be.true;
@@ -475,7 +475,7 @@ describe('models/addon.js', function() {
 
       it('returns true when `EMBER_CLI_TEST_COMMAND` is set and options.hinting is true', function() {
         addon.app = {
-          options: { hinting: true }
+          options: { hinting: true },
         };
 
         expect(addon.hintingEnabled()).to.be.true;
@@ -486,7 +486,7 @@ describe('models/addon.js', function() {
         delete process.env.EMBER_CLI_TEST_COMMAND;
 
         addon.app = {
-          options: { hinting: true }
+          options: { hinting: true },
         };
 
         expect(addon.hintingEnabled()).to.be.false;
@@ -494,7 +494,7 @@ describe('models/addon.js', function() {
 
       it('returns false when options.hinting is set to false', function() {
         addon.app = {
-          options: { hinting: false }
+          options: { hinting: false },
         };
 
         expect(addon.hintingEnabled()).to.be.false;
@@ -578,8 +578,8 @@ describe('models/addon.js', function() {
         path: 'foo/bar-baz/blah/doesnt-exist',
         pkg: {
           name: 'dummy-addon',
-          'ember-addon': { }
-        }
+          'ember-addon': { },
+        },
       };
 
       expect(function() {
@@ -685,14 +685,14 @@ describe('models/addon.js', function() {
         return [
           'foo-bar/',
           'foo-bar/component.js',
-          'foo-bar/template.hbs'
+          'foo-bar/template.hbs',
         ];
       };
 
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: true,
         hasTemplates: true,
-        hasPodTemplates: true
+        hasPodTemplates: true,
       });
     });
 
@@ -701,14 +701,14 @@ describe('models/addon.js', function() {
         return [
           'templates/',
           'templates/components/',
-          'templates/components/foo-bar.hbs'
+          'templates/components/foo-bar.hbs',
         ];
       };
 
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: false,
         hasTemplates: true,
-        hasPodTemplates: false
+        hasPodTemplates: false,
       });
     });
 
@@ -718,14 +718,14 @@ describe('models/addon.js', function() {
           'templates/',
           // this doesn't need "pod template handling" because
           // it is actually in the addon-templates tree
-          'templates/foo-bar/template.hbs'
+          'templates/foo-bar/template.hbs',
         ];
       };
 
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: false,
         hasTemplates: true,
-        hasPodTemplates: false
+        hasPodTemplates: false,
       });
     });
 
@@ -735,14 +735,14 @@ describe('models/addon.js', function() {
           'components/',
           'components/foo-bar.js',
           'templates/',
-          'templates/components/'
+          'templates/components/',
         ];
       };
 
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: true,
         hasTemplates: false,
-        hasPodTemplates: false
+        hasPodTemplates: false,
       });
     });
 
@@ -752,14 +752,14 @@ describe('models/addon.js', function() {
           'components/',
           'templates/',
           'templates/components/',
-          'styles/foo.css'
+          'styles/foo.css',
         ];
       };
 
       expect(addon._fileSystemInfo()).to.deep.equal({
         hasJSFiles: false,
         hasTemplates: false,
-        hasPodTemplates: false
+        hasPodTemplates: false,
       });
     });
   });
@@ -777,7 +777,7 @@ describe('models/addon.js', function() {
 
       var AddonTemp = Addon.extend({
         name: 'temp',
-        root: 'foo'
+        root: 'foo',
       });
 
       addon = new AddonTemp(project, project);
@@ -801,7 +801,7 @@ describe('models/addon.js', function() {
 
       var BaseAddon = Addon.extend({
         name: 'base-addon',
-        root: projectPath
+        root: projectPath,
       });
 
       addon = new BaseAddon(project, project);
@@ -823,7 +823,7 @@ describe('models/addon.js', function() {
           var expected = [
             'app/',
             'app/styles/',
-            'app/styles/foo-bar.css'
+            'app/styles/foo-bar.css',
           ];
 
           expect(walkSync(outputPath)).to.eql(expected);
@@ -835,7 +835,7 @@ describe('models/addon.js', function() {
     beforeEach(function() {
       var MyAddon = Addon.extend({
         name: 'test-project',
-        root: 'foo'
+        root: 'foo',
       });
 
       var projectPath = path.resolve(fixturePath, 'simple');
@@ -850,7 +850,7 @@ describe('models/addon.js', function() {
       var counter = 0;
       project.addons = [
         { foo: function(num) { counter += num; } },
-        { foo: function(num) { counter += num; } }
+        { foo: function(num) { counter += num; } },
       ];
 
       addon._eachProjectAddonInvoke('foo', [1]);
@@ -861,7 +861,7 @@ describe('models/addon.js', function() {
       var counter = 0;
       project.addons = [
         { foo: function() { counter += 1; } },
-        { foo: function() { counter += 1; } }
+        { foo: function() { counter += 1; } },
       ];
 
       addon._eachProjectAddonInvoke('foo');
@@ -885,7 +885,7 @@ describe('models/addon.js', function() {
           var addon = createAddon(Addon.extend({
             name: 'test-project',
             root: 'foo',
-            treeForApp: function() { }
+            treeForApp: function() { },
           }));
 
           expect(addon[experiments.ADDON_TREE_CACHING]('app')).to.equal(null);
@@ -895,7 +895,7 @@ describe('models/addon.js', function() {
           var addon = createAddon(Addon.extend({
             name: 'test-project',
             root: 'foo',
-            compileAddon: function() { }
+            compileAddon: function() { },
           }));
 
           expect(addon[experiments.ADDON_TREE_CACHING]('addon')).to.equal(null);
@@ -909,7 +909,7 @@ describe('models/addon.js', function() {
               this._super && this._super.init.apply(this, arguments);
 
               this.treeForMethods['app'] = 'treeForZOMG_WHY!?!';
-            }
+            },
           }));
 
           expect(addon[experiments.ADDON_TREE_CACHING]('app')).to.equal(null);
@@ -918,7 +918,7 @@ describe('models/addon.js', function() {
         it('returns stable value for repeated invocations', function() {
           var addon = createAddon(Addon.extend({
             name: 'test-project',
-            root: 'foo'
+            root: 'foo',
           }));
 
           var firstResult = addon[experiments.ADDON_TREE_CACHING]('app');
@@ -935,7 +935,7 @@ describe('models/addon.js', function() {
             root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
             treeForAddon: function(tree) {
               return tree;
-            }
+            },
           }));
 
           var firstTree = addon.treeFor('addon');
@@ -950,7 +950,7 @@ describe('models/addon.js', function() {
             root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
             treeForAddon: function(tree) {
               return tree;
-            }
+            },
           };
           addonProto[experiments.ADDON_TREE_CACHING] = function(type) {
             return type;

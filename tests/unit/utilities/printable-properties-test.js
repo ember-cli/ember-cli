@@ -15,7 +15,7 @@ describe('printable-properties', function() {
         works: 'sometimes',
         availableOptions: 'some options',
         anonymousOptions: 'some other options',
-        dontShowThis: true
+        dontShowThis: true,
       };
 
       var newObj = {};
@@ -45,7 +45,7 @@ describe('printable-properties', function() {
         availableOptions: 'some options',
         anonymousOptions: 'some other options',
         overridden: true,
-        dontShowThis: true
+        dontShowThis: true,
       };
 
       var newObj = {};
@@ -59,7 +59,7 @@ describe('printable-properties', function() {
         description: 'this is a test',
         availableOptions: 'some options',
         anonymousOptions: 'some other options',
-        overridden: true
+        overridden: true,
       });
     });
   });

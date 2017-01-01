@@ -21,7 +21,7 @@ function ember(args) {
   var cli = new CLI({
     ui: ui,
     analytics: analytics,
-    testing: true
+    testing: true,
   });
 
   var startInstr = td.replace(cli.instrumentation, 'start');
@@ -32,7 +32,7 @@ function ember(args) {
     commands: commands,
     cliArgs:  args || [],
     settings: {},
-    project: project
+    project: project,
   }).then(function (value) {
     td.verify(stopInstr('init'), { times: 1 });
     td.verify(startInstr('command'), { times: 1 });
@@ -79,7 +79,7 @@ describe('Unit: CLI', function() {
       },
       blueprintLookupPaths: function() {
         return [];
-      }
+      },
     };
   });
 
@@ -121,7 +121,7 @@ describe('Unit: CLI', function() {
     var cli = new CLI({
       ui: ui,
       analytics: analytics,
-      testing: true
+      testing: true,
     });
     var init = stubValidateAndRun('init');
     var help = stubValidateAndRun('help');
@@ -140,11 +140,11 @@ describe('Unit: CLI', function() {
           },
           blueprintLookupPaths: function() {
             return [];
-          }
-        }
+          },
+        },
       },
       commandName: 'init',
-      commandArgs: []
+      commandArgs: [],
     };
     cli.callHelp(helpOptions);
     td.verify(help(), {ignoreExtraArgs: true, times: 1});
@@ -177,12 +177,12 @@ describe('Unit: CLI', function() {
           if (!this._beforeRunFinished) {
             throw new Error('beforeRun not completed before run called!');
           }
-        }
+        },
       });
 
       project.eachAddonCommand = function(callback) {
         callback('custom-addon', {
-          custom: CustomCommand
+          custom: CustomCommand,
         });
       };
 
@@ -581,7 +581,7 @@ describe('Unit: CLI', function() {
     it('returns error status code in production', function() {
       var cli = new CLI({
         ui: new MockUI(),
-        testing: false
+        testing: false,
       });
 
       expect(cli.logError('foo')).to.equal(1);
@@ -590,7 +590,7 @@ describe('Unit: CLI', function() {
     it('does not throw an error in production', function() {
       var cli = new CLI({
         ui: new MockUI(),
-        testing: false
+        testing: false,
       });
 
       var invokeError = cli.logError.bind(cli, new Error('foo'));
@@ -601,7 +601,7 @@ describe('Unit: CLI', function() {
     it('throws error in testing', function() {
       var cli = new CLI({
         ui: new MockUI(),
-        testing: true
+        testing: true,
       });
 
       var invokeError = cli.logError.bind(cli, new Error('foo'));

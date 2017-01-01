@@ -19,7 +19,7 @@ describe('test command', function() {
     tasks = {
       Build: Task.extend(),
       Test: Task.extend(),
-      TestServer: Task.extend()
+      TestServer: Task.extend(),
     };
 
     var project = new MockProject();
@@ -29,7 +29,7 @@ describe('test command', function() {
     options = commandOptions({
       tasks: tasks,
       testing: true,
-      project: project
+      project: project,
     });
 
     td.replace(tasks.Test.prototype, 'run', td.function());
@@ -173,7 +173,7 @@ describe('test command', function() {
       options.Builder = CoreObject.extend({
         cleanup: function() {
           buildCleanupWasCalled = true;
-        }
+        },
       });
       options.Watcher = CoreObject.extend();
 

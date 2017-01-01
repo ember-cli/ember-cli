@@ -9,9 +9,9 @@ describe('HistorySupportAddon', function () {
       var addon = new HistorySupportAddon({
         config: function() {
           return {
-            locationType: 'auto'
+            locationType: 'auto',
           };
-        }
+        },
       });
 
       expect(addon.shouldAddMiddleware()).to.true;
@@ -21,9 +21,9 @@ describe('HistorySupportAddon', function () {
       var addon = new HistorySupportAddon({
         config: function() {
           return {
-            locationType: 'history'
+            locationType: 'history',
           };
-        }
+        },
       });
 
       expect(addon.shouldAddMiddleware()).to.true;
@@ -34,9 +34,9 @@ describe('HistorySupportAddon', function () {
         config: function() {
           return {
             locationType: 'foo-bar',
-            historySupportMiddleware: true
+            historySupportMiddleware: true,
           };
-        }
+        },
       });
 
       expect(addon.shouldAddMiddleware()).to.true;
@@ -46,9 +46,9 @@ describe('HistorySupportAddon', function () {
       var addon = new HistorySupportAddon({
         config: function() {
           return {
-            historySupportMiddleware: true
+            historySupportMiddleware: true,
           };
-        }
+        },
       });
 
       expect(addon.shouldAddMiddleware()).to.true;
@@ -59,9 +59,9 @@ describe('HistorySupportAddon', function () {
         config: function() {
           return {
             locationType: 'history',
-            historySupportMiddleware: false
+            historySupportMiddleware: false,
           };
-        }
+        },
       });
 
       expect(addon.shouldAddMiddleware()).to.false;

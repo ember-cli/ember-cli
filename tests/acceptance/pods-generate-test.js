@@ -48,7 +48,7 @@ describe('Acceptance: ember generate pod', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(addJSHint);
   }
 
@@ -57,7 +57,7 @@ describe('Acceptance: ember generate pod', function() {
       'addon',
       'my-addon',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(addJSHint);
   }
 
@@ -72,7 +72,7 @@ describe('Acceptance: ember generate pod', function() {
       return ember([
         'generate',
         'in-repo-addon',
-        'my-addon'
+        'my-addon',
       ]);
     });
   }

@@ -71,16 +71,16 @@ describe('Unit: in-repo-addon blueprint', function() {
       'fs-extra': {
         readJsonSync: readJsonSync,
         writeFileSync: writeFileSync,
-      }
+      },
     });
     blueprint.project = {
-      root: 'test-project-root'
+      root: 'test-project-root',
     };
 
     options = {
       entity: {
-        name: 'test-entity-name'
-      }
+        name: 'test-entity-name',
+      },
     };
   });
 
@@ -107,8 +107,8 @@ describe('Unit: in-repo-addon blueprint', function() {
   it('ignores if already exists', function() {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
-        paths: ['lib/test-entity-name']
-      }
+        paths: ['lib/test-entity-name'],
+      },
     });
 
     blueprint.afterInstall(options);
@@ -133,9 +133,9 @@ describe('Unit: in-repo-addon blueprint', function() {
       'ember-addon': {
         paths: [
           'lib/test-entity-name',
-          'lib/test-entity-name-2'
-        ]
-      }
+          'lib/test-entity-name-2',
+        ],
+      },
     });
 
     blueprint.afterUninstall(options);
@@ -158,8 +158,8 @@ describe('Unit: in-repo-addon blueprint', function() {
   it('removes paths if last one', function() {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
-        paths: ['lib/test-entity-name']
-      }
+        paths: ['lib/test-entity-name'],
+      },
     });
 
     blueprint.afterUninstall(options);
@@ -178,8 +178,8 @@ describe('Unit: in-repo-addon blueprint', function() {
   it('alphabetizes paths', function() {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
-        paths: ['lib/test-entity-name-2']
-      }
+        paths: ['lib/test-entity-name-2'],
+      },
     });
 
     blueprint.afterInstall(options);

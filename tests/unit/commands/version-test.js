@@ -13,8 +13,8 @@ describe('version command', function() {
       project: {
         isEmberCLIProject: function() {
           return false;
-        }
-      }
+        },
+      },
     });
 
     command = new VersionCommand(options);

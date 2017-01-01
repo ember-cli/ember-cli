@@ -31,7 +31,7 @@ describe('Acceptance: ember install', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 

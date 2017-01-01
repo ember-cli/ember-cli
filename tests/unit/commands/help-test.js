@@ -13,7 +13,7 @@ var lookupCommandStub;
 var HelpCommand = proxyquire('../../../lib/commands/help', {
   '../cli/lookup-command': function() {
     return lookupCommandStub.apply(this, arguments);
-  }
+  },
 });
 
 describe('help command', function() {
@@ -32,7 +32,7 @@ describe('help command', function() {
       Command1.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Command1: Command1
+        Command1: Command1,
       };
 
       var wasCalled;
@@ -65,7 +65,7 @@ describe('help command', function() {
       options.commands = {
         Command1: Command1,
         Command2: Command2,
-        Command3: Command3
+        Command3: Command3,
       };
 
       var command = new HelpCommand(options);
@@ -92,7 +92,7 @@ describe('help command', function() {
 
       options.commands = {
         Command1: Command1,
-        Command2: Command2
+        Command2: Command2,
       };
 
       var command = new HelpCommand(options);
@@ -115,7 +115,7 @@ describe('help command', function() {
 
       options.commands = {
         Command1: Command1,
-        Command2: Command2
+        Command2: Command2,
       };
 
       var command = new HelpCommand(options);
@@ -135,7 +135,7 @@ describe('help command', function() {
       Command1.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Command1: Command1
+        Command1: Command1,
       };
 
       var command = new HelpCommand(options);
@@ -151,7 +151,7 @@ describe('help command', function() {
       Generate.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Generate: Generate
+        Generate: Generate,
       };
 
       var command = new HelpCommand(options);
@@ -173,7 +173,7 @@ describe('help command', function() {
       Generate.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Generate: Generate
+        Generate: Generate,
       };
 
       var command = new HelpCommand(options);
@@ -196,7 +196,7 @@ describe('help command', function() {
       Generate.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Generate: Generate
+        Generate: Generate,
       };
 
       var command = new HelpCommand(options);
@@ -214,7 +214,7 @@ describe('help command', function() {
 
     it('handles missing command', function() {
       options.commands = {
-        Command1: function() {}
+        Command1: function() {},
       };
 
       var command = new HelpCommand(options);
@@ -239,7 +239,7 @@ Requested ember-cli commands:' + EOL + '\
 
       options.commands = {
         Command1: Command1,
-        Command2: Command2
+        Command2: Command2,
       };
 
       var command = new HelpCommand(options);
@@ -256,7 +256,7 @@ Requested ember-cli commands:' + EOL + '\
       Command1.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Command1: Command1
+        Command1: Command1,
       };
 
       var command = new HelpCommand(options);
@@ -275,7 +275,7 @@ Requested ember-cli commands:' + EOL + '\
       options.project.eachAddonCommand = function(callback) {
         callback('my-addon', {
           Command1: Command1,
-          Command2: Command2
+          Command2: Command2,
         });
       };
 
@@ -303,7 +303,7 @@ Available commands from my-addon:' + EOL);
       options.project.eachAddonCommand = function(callback) {
         callback('my-addon', {
           Command1: Command1,
-          Command2: Command2
+          Command2: Command2,
         });
       };
 
@@ -326,20 +326,20 @@ Available commands from my-addon:' + EOL);
           return {
             getJson: function() {
               return {
-                test1: 'bar'
+                test1: 'bar',
               };
-            }
+            },
           };
         },
         Command2: function() {
           return {
             getJson: function() {
               return {
-                test2: 'bar'
+                test2: 'bar',
               };
-            }
+            },
           };
-        }
+        },
       };
 
       var command = new HelpCommand(options);
@@ -350,11 +350,11 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          test1: 'bar'
+          test1: 'bar',
         },
         {
-          test2: 'bar'
-        }
+          test2: 'bar',
+        },
       ]);
     });
 
@@ -364,11 +364,11 @@ Available commands from my-addon:' + EOL);
           return {
             getJson: function() {
               return {
-                test1: 'Path'
+                test1: 'Path',
               };
-            }
+            },
           };
-        }
+        },
       };
 
       var command = new HelpCommand(options);
@@ -379,8 +379,8 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          test1: 'Path'
-        }
+          test1: 'Path',
+        },
       ]);
     });
 
@@ -388,18 +388,18 @@ Available commands from my-addon:' + EOL);
       options.commands = {
         Command1: function() {
           return {
-            skipHelp: true
+            skipHelp: true,
           };
         },
         Command2: function() {
           return {
             getJson: function() {
               return {
-                test2: 'bar'
+                test2: 'bar',
               };
-            }
+            },
           };
-        }
+        },
       };
 
       var command = new HelpCommand(options);
@@ -410,8 +410,8 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          test2: 'bar'
-        }
+          test2: 'bar',
+        },
       ]);
     });
 
@@ -422,20 +422,20 @@ Available commands from my-addon:' + EOL);
             return {
               getJson: function() {
                 return {
-                  test1: 'foo'
+                  test1: 'foo',
                 };
-              }
+              },
             };
           },
           Command2: function() {
             return {
               getJson: function() {
                 return {
-                  test2: 'bar'
+                  test2: 'bar',
                 };
-              }
+              },
             };
-          }
+          },
         });
       };
 
@@ -450,13 +450,13 @@ Available commands from my-addon:' + EOL);
           name: 'my-addon',
           commands: [
             {
-              test1: 'foo'
+              test1: 'foo',
             },
             {
-              test2: 'bar'
-            }
-          ]
-        }
+              test2: 'bar',
+            },
+          ],
+        },
       ]);
     });
   });

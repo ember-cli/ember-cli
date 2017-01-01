@@ -88,7 +88,7 @@ module.exports = {
       addonModulePrefix: addonName,
       addonNamespace: addonNamespace,
       emberCLIVersion: require('../../package').version,
-      year: date.getFullYear()
+      year: date.getFullYear(),
     };
   },
 
@@ -120,7 +120,7 @@ module.exports = {
     '^addon-config/environment.js': 'config/environment.js',
     '^addon-config/ember-try.js'  : 'config/ember-try.js',
 
-    '^npmignore': '.npmignore'
+    '^npmignore': '.npmignore',
   },
 
   fileMapper: function(path) {

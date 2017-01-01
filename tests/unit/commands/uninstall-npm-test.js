@@ -20,7 +20,7 @@ describe('uninstall:npm command', function() {
     };
 
     var options = commandOptions({
-      project: project
+      project: project,
     });
 
     command = new UninstallNpmCommand(options);

@@ -26,21 +26,21 @@ describe('install command', function() {
         {
           pkg: {
             name: 'ember-data',
-          }
+          },
         },
         {
           pkg: {
             name: 'ember-cli-cordova',
             'ember-addon': {
-              defaultBlueprint: 'cordova-starter-kit'
-            }
-          }
+              defaultBlueprint: 'cordova-starter-kit',
+            },
+          },
         },
         {
           pkg: {
-            name: 'ember-cli-qunit'
-          }
-        }
+            name: 'ember-cli-qunit',
+          },
+        },
       ];
     };
 
@@ -51,7 +51,7 @@ describe('install command', function() {
         init: function() {
           this._super.apply(this, arguments);
           npmInstance = this;
-        }
+        },
       }),
 
       GenerateFromBlueprint: Task.extend({
@@ -59,13 +59,13 @@ describe('install command', function() {
         init: function() {
           this._super.apply(this, arguments);
           generateBlueprintInstance = this;
-        }
-      })
+        },
+      }),
     };
 
     var options = commandOptions({
       project: project,
-      tasks: tasks
+      tasks: tasks,
     });
 
     td.replace(tasks.NpmInstall.prototype, 'run', td.function());
@@ -100,7 +100,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
       });
     });
@@ -119,7 +119,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
       });
     });
@@ -132,7 +132,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': true,
           'save-dev': false,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
       });
     });
@@ -151,7 +151,7 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': true,
           'save-dev': false,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
       });
     });
@@ -163,7 +163,7 @@ describe('install command', function() {
         td.verify(generateRun(captor.capture()));
         expect(captor.value.ignoreMissingMain).to.be.true;
         expect(captor.value.args).to.deep.equal([
-          'ember-data'
+          'ember-data',
         ], 'expected generate blueprint called with correct args');
       });
     });
@@ -177,7 +177,7 @@ describe('install command', function() {
         td.verify(generateRun(captor.capture()));
         expect(captor.value.ignoreMissingMain).to.be.true;
         expect(captor.value.args).to.deep.equal([
-          'cordova-starter-kit'
+          'cordova-starter-kit',
         ], 'expected generate blueprint called with correct args');
         expect(error.message).to.equal(
           'Install failed. Could not find addon with name: com.ember.test',
@@ -188,7 +188,7 @@ describe('install command', function() {
 
     it('runs npmInstall once and installs three addons', function() {
       return command.validateAndRun([
-        'ember-data', 'ember-cli-cordova', 'ember-cli-qunit'
+        'ember-data', 'ember-cli-cordova', 'ember-cli-qunit',
       ]).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
 
@@ -196,7 +196,7 @@ describe('install command', function() {
           packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -213,7 +213,7 @@ describe('install command', function() {
           packages: ['ember-cli/ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -229,7 +229,7 @@ describe('install command', function() {
           packages: ['ember-cli-qunit@1.2.0'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -246,7 +246,7 @@ describe('install command', function() {
           packages: ['@ember-cli/ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
+          'save-exact': false,
         }), {times: 1});
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;

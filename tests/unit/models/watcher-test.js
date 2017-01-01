@@ -27,7 +27,7 @@ describe('Watcher', function() {
       ui: ui,
       analytics: analytics,
       builder: builder,
-      watcher: watcher
+      watcher: watcher,
     });
   });
 
@@ -39,33 +39,33 @@ describe('Watcher', function() {
         verbose: true,
         poll: false,
         watchman: false,
-        node: false
+        node: false,
       });
     });
 
     it('selects the events-based watcher when given events watcher option', function () {
       subject.options = {
-        watcher: 'events'
+        watcher: 'events',
       };
 
       expect(subject.buildOptions()).to.deep.equal({
         verbose: true,
         poll: false,
         watchman: true,
-        node: false
+        node: false,
       });
     });
 
     it('selects the polling watcher when given polling watcher option', function () {
       subject.options = {
-        watcher: 'polling'
+        watcher: 'polling',
       };
 
       expect(subject.buildOptions()).to.deep.equal({
         verbose: true,
         poll: true,
         watchman: false,
-        node: false
+        node: false,
       });
     });
   });
@@ -73,14 +73,14 @@ describe('Watcher', function() {
   describe('watcher:change', function() {
     beforeEach(function() {
       watcher.emit('change', {
-        totalTime: 12344000000
+        totalTime: 12344000000,
       });
     });
 
     it('tracks events', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'ember rebuild',
-        message: 'broccoli rebuild time: 12344ms'
+        message: 'broccoli rebuild time: 12344ms',
       }]);
     });
 
@@ -89,7 +89,7 @@ describe('Watcher', function() {
         category: 'rebuild',
         variable: 'rebuild time',
         label:    'broccoli rebuild time',
-        value:    12344
+        value:    12344,
       }]);
     });
 
@@ -102,18 +102,18 @@ describe('Watcher', function() {
     it('tracks errors', function() {
       watcher.emit('error', {
         message: 'foo',
-        stack: new Error().stack
+        stack: new Error().stack,
       });
 
       expect(analytics.trackErrors).to.deep.equal([{
-        description: 'foo'
+        description: 'foo',
       }]);
     });
 
     it('emits without error.file', function() {
       subject.didError(new BuildError({
         file: 'someFile',
-        message: 'buildFailed'
+        message: 'buildFailed',
       }));
 
       expect(ui.output).to.equal('');
@@ -128,7 +128,7 @@ describe('Watcher', function() {
       subject.didError(new BuildError({
         file: 'someFile',
         line: 24,
-        message: 'buildFailed'
+        message: 'buildFailed',
       }));
 
       expect(ui.output).to.eql('');
@@ -143,7 +143,7 @@ describe('Watcher', function() {
       subject.didError(new BuildError({
         file: 'someFile',
         col: 80,
-        message: 'buildFailed'
+        message: 'buildFailed',
       }));
 
       expect(ui.output).to.eql('');
@@ -159,7 +159,7 @@ describe('Watcher', function() {
         file: 'someFile',
         line: 24,
         col: 80,
-        message: 'buildFailed'
+        message: 'buildFailed',
       }));
 
       expect(ui.output).to.eql('');
@@ -175,11 +175,11 @@ describe('Watcher', function() {
     beforeEach(function() {
       watcher.emit('error', {
         message: 'foo',
-        stack: new Error().stack
+        stack: new Error().stack,
       });
 
       watcher.emit('change', {
-        totalTime: 12344000000
+        totalTime: 12344000000,
       });
     });
 
@@ -190,7 +190,7 @@ describe('Watcher', function() {
     it('keep tracking analytics', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'ember rebuild',
-        message: 'broccoli rebuild time: 12344ms'
+        message: 'broccoli rebuild time: 12344ms',
       }]);
     });
   });

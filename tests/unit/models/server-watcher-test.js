@@ -21,7 +21,7 @@ describe('Server Watcher', function() {
     subject = new ServerWatcher({
       ui: ui,
       analytics: analytics,
-      watcher: watcher
+      watcher: watcher,
     });
   });
 
@@ -37,7 +37,7 @@ describe('Server Watcher', function() {
     it('tracks changes', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'server file changed',
-        description: 'File changed: "foo.txt"'
+        description: 'File changed: "foo.txt"',
       }]);
     });
   });
@@ -54,7 +54,7 @@ describe('Server Watcher', function() {
     it('tracks additions', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'server file addition',
-        description: 'File added: "foo.txt"'
+        description: 'File added: "foo.txt"',
       }]);
     });
   });
@@ -71,7 +71,7 @@ describe('Server Watcher', function() {
     it('tracks deletions', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'server file deletion',
-        description: 'File deleted: "foo.txt"'
+        description: 'File deleted: "foo.txt"',
       }]);
     });
   });

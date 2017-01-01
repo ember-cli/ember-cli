@@ -18,11 +18,11 @@ var FooCommand = Command.extend({
   works: 'insideProject',
 
   availableOptions: [
-    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] }
+    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] },
   ],
 
   anonymousOptions: [
-    '<speed>'
+    '<speed>',
   ],
 });
 
@@ -40,8 +40,8 @@ describe('Acceptance: ember help', function() {
         },
         blueprintLookupPaths: function() {
           return [];
-        }
-      }
+        },
+      },
     });
 
     command = new HelpCommand(options);

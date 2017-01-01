@@ -11,7 +11,7 @@ module.exports = {
     var libBlueprint = Blueprint.lookup('lib', {
       ui: this.ui,
       analytics: this.analytics,
-      project: this.project
+      project: this.project,
     });
 
     return libBlueprint.install(options);
@@ -51,5 +51,5 @@ module.exports = {
     }
 
     fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
-  }
+  },
 };

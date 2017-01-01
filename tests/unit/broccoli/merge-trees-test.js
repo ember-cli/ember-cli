@@ -12,7 +12,7 @@ var mergeTreesStub;
 var mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {
   'broccoli-merge-trees': function() {
     return mergeTreesStub.apply(this, arguments);
-  }
+  },
 });
 
 describe('broccoli/merge-trees', function() {

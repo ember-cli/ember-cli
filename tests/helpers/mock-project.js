@@ -14,10 +14,10 @@ function MockProject() {
     initInstrumentation: {
       token: null,
       node: null,
-    }
+    },
   });
   var cli = {
-    instrumentation: instr
+    instrumentation: instr,
   };
   Project.apply(this, [root, pkg, ui, cli]);
 
@@ -29,7 +29,7 @@ MockProject.prototype.require = function(file) {
   if (file === './server') {
     return function() {
       return {
-        listen: function() { arguments[arguments.length - 1](); }
+        listen: function() { arguments[arguments.length - 1](); },
       };
     };
   }
@@ -38,7 +38,7 @@ MockProject.prototype.require = function(file) {
 MockProject.prototype.config = function() {
   return this._config || {
     baseURL: '/',
-    locationType: 'auto'
+    locationType: 'auto',
   };
 };
 

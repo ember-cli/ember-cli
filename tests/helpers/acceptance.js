@@ -18,7 +18,7 @@ var runCommandOptions = {
   // not inside a test.
   log: function() {
     return; // no output for initial application build
-  }
+  },
 };
 
 function handleResult(result) {
@@ -106,5 +106,5 @@ module.exports = {
   createTestTargets: createTestTargets,
   linkDependencies: linkDependencies,
   teardownTestTargets: teardownTestTargets,
-  cleanupRun: cleanupRun
+  cleanupRun: cleanupRun,
 };

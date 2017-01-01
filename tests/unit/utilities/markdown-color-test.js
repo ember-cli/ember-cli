@@ -59,9 +59,9 @@ describe('MarkdownColor', function() {
         foo: {
           token: '^foo^',
           pattern: /(?:\^foo\^)(.*?)(?:\^foo\^)/g,
-          render: MarkdownColor.prototype.renderStylesFactory(chalk, ['blue','bgWhite'])
-        }
-      }
+          render: MarkdownColor.prototype.renderStylesFactory(chalk, ['blue','bgWhite']),
+        },
+      },
     });
     expect(mctemp.render('^foo^foo^foo^')).to.equal('\u001b[0m\u001b[34m\u001b[47mfoo\u001b[49m\u001b[39m\u001b[0m\n\n');
   });

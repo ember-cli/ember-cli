@@ -26,9 +26,9 @@ describe('destroy command', function() {
           project: project,
           run: function(options) {
             return Promise.resolve(options);
-          }
-        })
-      }
+          },
+        }),
+      },
     });
 
     command = new DestroyCommand(options);

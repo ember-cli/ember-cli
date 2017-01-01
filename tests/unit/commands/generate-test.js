@@ -34,9 +34,9 @@ describe('generate command', function() {
           project: project,
           run: function(options) {
             return Promise.resolve(options);
-          }
-        })
-      }
+          },
+        }),
+      },
     });
 
     command = new GenerateCommand(options);
@@ -100,17 +100,17 @@ describe('generate command', function() {
               availableOptions: [],
               printBasicHelp: function() {
                 return this.name;
-              }
+              },
             },
             {
               name: 'other-blueprint',
               availableOptions: [],
               printBasicHelp: function() {
                 return this.name;
-              }
-            }
-          ]
-        }
+              },
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({});
@@ -137,27 +137,27 @@ other-blueprint' + EOL + '\
               availableOptions: [],
               getJson: function() {
                 return {
-                  name: this.name
+                  name: this.name,
                 };
-              }
+              },
             },
             {
               name: 'other-blueprint',
               availableOptions: [],
               getJson: function() {
                 return {
-                  name: this.name
+                  name: this.name,
                 };
-              }
-            }
-          ]
-        }
+              },
+            },
+          ],
+        },
       ]);
 
       var json = {};
 
       command.addAdditionalJsonForHelp(json, {
-        json: true
+        json: true,
       });
 
       expect(json.availableBlueprints).to.deep.equal([
@@ -168,9 +168,9 @@ other-blueprint' + EOL + '\
             },
             {
               name: 'other-blueprint',
-            }
-          ]
-        }
+            },
+          ],
+        },
       ]);
     });
 
@@ -184,17 +184,17 @@ other-blueprint' + EOL + '\
               availableOptions: [],
               printBasicHelp: function() {
                 return this.name;
-              }
+              },
             },
             {
-              name: 'skipped-blueprint'
-            }
-          ]
-        }
+              name: 'skipped-blueprint',
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({
-        rawArgs: ['my-blueprint']
+        rawArgs: ['my-blueprint'],
       });
 
       var output = options.ui.output;
@@ -216,22 +216,22 @@ my-blueprint' + EOL + '\
               availableOptions: [],
               getJson: function() {
                 return {
-                  name: this.name
+                  name: this.name,
                 };
-              }
+              },
             },
             {
-              name: 'skipped-blueprint'
-            }
-          ]
-        }
+              name: 'skipped-blueprint',
+            },
+          ],
+        },
       ]);
 
       var json = {};
 
       command.addAdditionalJsonForHelp(json, {
         rawArgs: ['my-blueprint'],
-        json: true
+        json: true,
       });
 
       expect(json.availableBlueprints).to.deep.equal([
@@ -239,9 +239,9 @@ my-blueprint' + EOL + '\
           'my-app': [
             {
               name: 'my-blueprint',
-            }
-          ]
-        }
+            },
+          ],
+        },
       ]);
     });
 
@@ -251,14 +251,14 @@ my-blueprint' + EOL + '\
           source: 'my-app',
           blueprints: [
             {
-              name: 'my-blueprint'
-            }
-          ]
-        }
+              name: 'my-blueprint',
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({
-        rawArgs: ['missing-blueprint']
+        rawArgs: ['missing-blueprint'],
       });
 
       var output = options.ui.output;
@@ -276,23 +276,23 @@ my-blueprint' + EOL + '\
           source: 'my-app',
           blueprints: [
             {
-              name: 'my-blueprint'
-            }
-          ]
-        }
+              name: 'my-blueprint',
+            },
+          ],
+        },
       ]);
 
       var json = {};
 
       command.addAdditionalJsonForHelp(json, {
         rawArgs: ['missing-blueprint'],
-        json: true
+        json: true,
       });
 
       expect(json.availableBlueprints).to.deep.equal([
         {
-          'my-app': []
-        }
+          'my-app': [],
+        },
       ]);
     });
 
@@ -307,10 +307,10 @@ my-blueprint' + EOL + '\
               printBasicHelp: function() {
                 return this.name;
               },
-              overridden: true
-            }
-          ]
-        }
+              overridden: true,
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({});
@@ -335,14 +335,14 @@ my-blueprint' + EOL + '\
               printBasicHelp: function() {
                 return this.name;
               },
-              overridden: true
-            }
-          ]
-        }
+              overridden: true,
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({
-        verbose: true
+        verbose: true,
       });
 
       var output = options.ui.output;

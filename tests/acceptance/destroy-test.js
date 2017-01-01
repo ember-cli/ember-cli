@@ -46,7 +46,7 @@ describe('Acceptance: ember destroy', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -55,7 +55,7 @@ describe('Acceptance: ember destroy', function() {
       'addon',
       'my-addon',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -64,7 +64,7 @@ describe('Acceptance: ember destroy', function() {
       return ember([
         'generate',
         'in-repo-addon',
-        'my-addon'
+        'my-addon',
       ]);
     });
   }
@@ -174,7 +174,7 @@ describe('Acceptance: ember destroy', function() {
       'addon/components/x-foo.js',
       'addon/templates/components/x-foo.hbs',
       'app/components/x-foo.js',
-      'tests/integration/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js',
     ];
 
     return assertDestroyAfterGenerateInAddon(commandArgs, files);
@@ -186,7 +186,7 @@ describe('Acceptance: ember destroy', function() {
       'lib/my-addon/addon/components/x-foo.js',
       'lib/my-addon/addon/templates/components/x-foo.hbs',
       'lib/my-addon/app/components/x-foo.js',
-      'tests/integration/components/x-foo-test.js'
+      'tests/integration/components/x-foo-test.js',
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
@@ -198,7 +198,7 @@ describe('Acceptance: ember destroy', function() {
       'lib/my-addon/addon/components/nested/x-foo.js',
       'lib/my-addon/addon/templates/components/nested/x-foo.hbs',
       'lib/my-addon/app/components/nested/x-foo.js',
-      'tests/integration/components/nested/x-foo-test.js'
+      'tests/integration/components/nested/x-foo-test.js',
     ];
 
     return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
@@ -208,7 +208,7 @@ describe('Acceptance: ember destroy', function() {
     var commandArgs = ['component', 'x-foo'];
     var files       = [
       'tests/dummy/app/templates/components/x-foo.hbs',
-      'tests/dummy/app/components/x-foo.js'
+      'tests/dummy/app/components/x-foo.js',
     ];
 
     return assertDestroyAfterGenerateInAddonDummy(commandArgs, files);

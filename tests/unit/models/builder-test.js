@@ -35,7 +35,7 @@ describe('models/builder.js', function() {
 
       cleanup: function() {
         return Promise.resolve('cleanup result');
-      }
+      },
     };
   }
 
@@ -62,7 +62,7 @@ describe('models/builder.js', function() {
         SIGINT: getListenerCount(process, 'SIGINT'),
         SIGTERM: getListenerCount(process, 'SIGTERM'),
         message: getListenerCount(process, 'message'),
-        exit: captureExit.listenerCount()
+        exit: captureExit.listenerCount(),
       };
     }
 
@@ -73,7 +73,7 @@ describe('models/builder.js', function() {
     it('sets up listeners for signals', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       var actualListeners = getListenerCounts();
@@ -82,14 +82,14 @@ describe('models/builder.js', function() {
         SIGINT: originalListenerCounts.SIGINT + 1,
         SIGTERM: originalListenerCounts.SIGTERM + 1,
         message: originalListenerCounts.message + 1,
-        exit: originalListenerCounts.exit + 1
+        exit: originalListenerCounts.exit + 1,
       });
     });
 
     it('cleans up added listeners after `.cleanup`', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       return builder.cleanup()
@@ -115,23 +115,23 @@ describe('models/builder.js', function() {
 
     after(function () {
       Object.defineProperty(process, 'platform', {
-        value: originalPlatform
+        value: originalPlatform,
       });
 
       Object.defineProperty(process, 'stdin', {
-        value: originalStdin
+        value: originalStdin,
       });
     });
 
     it('enables raw capture on Windows', function() {
       Object.defineProperty(process, 'platform', {
-        value: 'win'
+        value: 'win',
       });
 
       Object.defineProperty(process, 'stdin', {
         value: {
-          isTTY: true
-        }
+          isTTY: true,
+        },
       });
 
       var trapWindowsSignals = td.function();
@@ -139,7 +139,7 @@ describe('models/builder.js', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
         trapWindowsSignals: trapWindowsSignals,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       builder.trapSignals();
@@ -148,13 +148,13 @@ describe('models/builder.js', function() {
 
     it('does not enable raw capture on non-Windows', function() {
       Object.defineProperty(process, 'platform', {
-        value: 'mockOS'
+        value: 'mockOS',
       });
 
       Object.defineProperty(process, 'stdin', {
         value: {
-          isTTY: true
-        }
+          isTTY: true,
+        },
       });
 
       var trapWindowsSignals = td.function();
@@ -162,7 +162,7 @@ describe('models/builder.js', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
         trapWindowsSignals: trapWindowsSignals,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       builder.trapSignals();
@@ -178,7 +178,7 @@ describe('models/builder.js', function() {
         tmpdir = dir;
         builder = new Builder({
           setupBroccoliBuilder: setupBroccoliBuilder,
-          project: new MockProject()
+          project: new MockProject(),
         });
       });
     });
@@ -203,7 +203,7 @@ describe('models/builder.js', function() {
 
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
-        project: new MockProject()
+        project: new MockProject(),
       });
     });
 
@@ -345,10 +345,10 @@ describe('models/builder.js', function() {
 
           cleanup: function() {
             return Promise.resolve('cleanup results');
-          }
+          },
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
-        project: project
+        project: project,
       });
 
       buildResults = 'build results';

@@ -9,7 +9,7 @@ var paths = glob('tests/*').filter(function(path) {
 paths = paths.concat([
   'lib',
   'bin',
-  'blueprints'
+  'blueprints',
 ]);
 
 require('mocha-eslint')(paths, {

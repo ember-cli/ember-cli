@@ -21,15 +21,15 @@ var Blueprint = proxyquire('../../../lib/models/blueprint', {
   'fs-extra': {
     readdirSync: function() {
       return readdirSyncStub.apply(this, arguments);
-    }
+    },
   },
   '../utilities/printable-properties': {
     blueprint: {
       forEachWithProperty: function() {
         return forEachWithPropertyStub.apply(this, arguments);
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 describe('Blueprint', function() {
@@ -60,7 +60,7 @@ describe('Blueprint', function() {
         __name__: 'user',
         __type__: 'controller',
         __path__: 'pods/users',
-        __plural__: ''
+        __plural__: '',
       };
 
       var path = Blueprint.prototype.mapFile('__name__/__type____plural__.js',locals);
@@ -82,7 +82,7 @@ describe('Blueprint', function() {
 
       td.replace(Blueprint, 'load', function(blueprintPath) {
         return {
-          name: path.basename(blueprintPath)
+          name: path.basename(blueprintPath),
         };
       });
     });
@@ -99,13 +99,13 @@ describe('Blueprint', function() {
         blueprints: [
           {
             name: 'test1',
-            overridden: false
+            overridden: false,
           },
           {
             name: 'test2',
-            overridden: false
-          }
-        ]
+            overridden: false,
+          },
+        ],
       });
     });
 
@@ -117,8 +117,8 @@ describe('Blueprint', function() {
       var list = Blueprint.list({
         paths: [
           'test0/blueprints',
-          'test1/blueprints'
-        ]
+          'test1/blueprints',
+        ],
       });
 
       expect(list[0]).to.deep.equal({
@@ -126,18 +126,18 @@ describe('Blueprint', function() {
         blueprints: [
           {
             name: 'test2',
-            overridden: false
-          }
-        ]
+            overridden: false,
+          },
+        ],
       });
       expect(list[1]).to.deep.equal({
         source: 'test1',
         blueprints: [
           {
             name: 'test2',
-            overridden: true
-          }
-        ]
+            overridden: true,
+          },
+        ],
       });
     });
   });
@@ -158,7 +158,7 @@ describe('Blueprint', function() {
 
       it('handles overridden', function() {
         assign(blueprint, {
-          overridden: true
+          overridden: true,
         });
 
         var output = blueprint.printBasicHelp();
@@ -187,7 +187,7 @@ describe('Blueprint', function() {
 
         var availableOptions = [];
         assign(blueprint, {
-          availableOptions: availableOptions
+          availableOptions: availableOptions,
         });
 
         var output = blueprint.printBasicHelp(true);
@@ -240,14 +240,14 @@ help in detail');
       it('iterates options', function() {
         var availableOptions = [{
           type: 'my-string-type',
-          showAnything: true
+          showAnything: true,
         }, {
-          type: function myFunctionType() {}
+          type: function myFunctionType() {},
         }];
 
         assign(blueprint, {
           test1: 'a test',
-          availableOptions: availableOptions
+          availableOptions: availableOptions,
         });
 
         var json = blueprint.getJson();
@@ -257,12 +257,12 @@ help in detail');
           availableOptions: [
             {
               type: 'my-string-type',
-              showAnything: true
+              showAnything: true,
             },
             {
-              type: 'myFunctionType'
-            }
-          ]
+              type: 'myFunctionType',
+            },
+          ],
         });
       });
 
@@ -279,7 +279,7 @@ help in detail');
 
         var availableOptions = [];
         assign(blueprint, {
-          availableOptions: availableOptions
+          availableOptions: availableOptions,
         });
 
         blueprint.getJson(true);

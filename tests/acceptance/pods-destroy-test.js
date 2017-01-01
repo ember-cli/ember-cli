@@ -50,7 +50,7 @@ describe('Acceptance: ember destroy pod', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -59,7 +59,7 @@ describe('Acceptance: ember destroy pod', function() {
       'addon',
       'my-addon',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -68,7 +68,7 @@ describe('Acceptance: ember destroy pod', function() {
       return ember([
         'generate',
         'in-repo-addon',
-        'my-addon'
+        'my-addon',
       ]);
     });
   }
@@ -201,7 +201,7 @@ describe('Acceptance: ember destroy pod', function() {
     var commandArgs = ['controller', 'foo'];
     var files       = [
       'app/foo/controller.js',
-      'tests/unit/foo/controller-test.js'
+      'tests/unit/foo/controller-test.js',
     ];
 
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
@@ -211,7 +211,7 @@ describe('Acceptance: ember destroy pod', function() {
     var commandArgs = ['controller', 'foo', '--classic'];
     var files       = [
       'app/controllers/foo.js',
-      'tests/unit/controllers/foo-test.js'
+      'tests/unit/controllers/foo-test.js',
     ];
 
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
@@ -222,7 +222,7 @@ describe('Acceptance: ember destroy pod', function() {
     var files       = [
       'app/components/x-foo/component.js',
       'app/components/x-foo/template.hbs',
-      'tests/integration/components/x-foo/component-test.js'
+      'tests/integration/components/x-foo/component-test.js',
     ];
 
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);

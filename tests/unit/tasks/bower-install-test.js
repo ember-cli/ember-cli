@@ -15,7 +15,7 @@ describe('bower install task', function() {
 
     bowerInstallTask = new BowerInstallTask({
       ui: ui,
-      project: project
+      project: project,
     });
   });
 

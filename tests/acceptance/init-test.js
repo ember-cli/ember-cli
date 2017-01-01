@@ -83,7 +83,7 @@ describe('Acceptance: ember init', function() {
       cwd: filePath,
       dot: true,
       mark: true,
-      strict: true
+      strict: true,
     }).sort();
   }
 
@@ -96,7 +96,7 @@ describe('Acceptance: ember init', function() {
     remove(array, function(fn) {
       return any(Blueprint.ignoredFiles, function(ignoredFile) {
         return minimatch(fn, ignoredFile, {
-          matchBase: true
+          matchBase: true,
         });
       });
     });
@@ -114,13 +114,13 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
         'init',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -131,7 +131,7 @@ describe('Acceptance: ember init', function() {
       'init',
       'app.js',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() { return 'app.js'; })
     .then(confirmGlobBlueprinted);
@@ -141,14 +141,14 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
         'init',
         'app.js',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -159,7 +159,7 @@ describe('Acceptance: ember init', function() {
       'init',
       'app/**',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() { return 'app/**'; })
     .then(confirmGlobBlueprinted);
@@ -169,14 +169,14 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
         'init',
         'app/**',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -189,7 +189,7 @@ describe('Acceptance: ember init', function() {
       '{package,bower}.json',
       'resolver.js',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() { return '{app/**,{package,bower}.json,resolver.js}'; })
     .then(confirmGlobBlueprinted);
@@ -199,7 +199,7 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
@@ -208,7 +208,7 @@ describe('Acceptance: ember init', function() {
         '{package,bower}.json',
         'resolver.js',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -218,7 +218,7 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       expect(dir('.git')).to.not.exist;

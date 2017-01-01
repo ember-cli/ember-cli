@@ -21,7 +21,7 @@ describe('clean-remove', function() {
     process.chdir(tempDir);
 
     fileInfo = {
-      outputBasePath: tempDir
+      outputBasePath: tempDir,
     };
   });
 

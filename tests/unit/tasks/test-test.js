@@ -26,7 +26,7 @@ describe('test task test', function() {
         expect(testemOptions.debug).to.equal('testem.log');
         expect(testemOptions.config_dir).to.be.an('string');
         expect(testemOptions.file).to.equal('custom-testem-config.json');
-      }
+      },
     });
 
     subject.run({
@@ -36,7 +36,7 @@ describe('test task test', function() {
       outputPath: 'blerpy-derpy',
       testemDebug: 'testem.log',
       testPage: 'http://my/test/page',
-      configFile: 'custom-testem-config.json'
+      configFile: 'custom-testem-config.json',
     });
   });
 });

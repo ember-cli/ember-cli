@@ -17,7 +17,7 @@ MockExpressServer.prototype = Object.create(EventEmitter.prototype);
 
 MockExpressServer.prototype.then = function() {
   var promise = RSVP.resolve({
-    directory: path.resolve(__dirname, '../fixtures/express-server')
+    directory: path.resolve(__dirname, '../fixtures/express-server'),
   });
   return promise.then.apply(promise, arguments);
 };

@@ -17,25 +17,25 @@ describe('build command', function() {
         init: function() {
           this._super.init && this._super.init.apply(this, arguments);
           buildTaskInstance = this;
-        }
+        },
       }),
 
       BuildWatch: Task.extend({
         init: function() {
           this._super.init && this._super.init.apply(this, arguments);
           buildWatchTaskInstance = this;
-        }
+        },
       }),
 
       ShowAssetSizes: Task.extend({
         init: function() {
           this._super.init && this._super.init.apply(this, arguments);
-        }
-      })
+        },
+      }),
     };
 
     options = commandOptions({
-      tasks: tasks
+      tasks: tasks,
     });
 
     command = new BuildCommand(options);

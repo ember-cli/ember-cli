@@ -22,7 +22,7 @@ describe('install:addon command', function() {
         },
         run: function() {
           return Promise.resolve();
-        }
+        },
       }),
 
       GenerateFromBlueprint: Task.extend({
@@ -32,8 +32,8 @@ describe('install:addon command', function() {
         },
         run: function() {
           return Promise.resolve();
-        }
-      })
+        },
+      }),
     };
 
     var project = new MockProject();
@@ -45,15 +45,15 @@ describe('install:addon command', function() {
         pkg: {
           name: 'ember-cli-photoswipe',
           'ember-addon': {
-            defaultBlueprint: 'photoswipe'
-          }
-        }
+            defaultBlueprint: 'photoswipe',
+          },
+        },
       }];
     };
 
     var options = commandOptions({
       project: project,
-      tasks: tasks
+      tasks: tasks,
     });
 
     command = new InstallAddonCommand(options);

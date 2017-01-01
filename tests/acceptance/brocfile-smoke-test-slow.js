@@ -46,7 +46,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         var expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
@@ -78,7 +78,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', appName + '.js'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         expect(appFileContents).to.include('//app/templates-stuff.js');
@@ -101,7 +101,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
     }).then(function(result) {
       var vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
-        encoding: 'utf8'
+        encoding: 'utf8',
       });
 
       var expected = 'var usingBrocfile = true;';
@@ -125,7 +125,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', appName + '.js'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         expect(appFileContents).to.match(/\/app"\)\["default"\]\.create\(/);
@@ -140,7 +140,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', appName + '.js'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         expect(appFileContents).to.not.match(/\/app"\)\["default"\]\.create\(/);
@@ -161,7 +161,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var subjectFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'test-support.js'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         expect(subjectFileContents).to.contain('// File for test tree imported and added via postprocessTree()');
@@ -182,7 +182,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var subjectFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'file-to-import.txt'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         expect(subjectFileContents).to.equal('EXAMPLE TEXT FILE CONTENT\n');
@@ -203,7 +203,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var subjectFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'ember-random-addon', 'some-root-file.txt'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         expect(subjectFileContents).to.equal('ROOT FILE\n');
@@ -230,7 +230,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         var packageJsonPath = path.join(appRoot, 'package.json');
         var packageJson = fs.readJsonSync(packageJsonPath);
         packageJson['ember-addon'] = {
-          paths: ['./lib/ember-random-thing']
+          paths: ['./lib/ember-random-thing'],
         };
 
         fs.writeJsonSync(packageJsonPath, packageJson);
@@ -258,7 +258,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           '/js/vendor.js',
           '/css/test-support.css',
           '/js/test-support.js',
-          '/my-app.html'
+          '/my-app.html',
         ];
 
         var basePath = path.join(appRoot, 'dist');
@@ -276,7 +276,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       .then(function() {
         var files = [
           '/assets/some-cool-app.css',
-          '/assets/other.css'
+          '/assets/other.css',
         ];
 
         var basePath = path.join(appRoot, 'dist');
@@ -311,7 +311,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           '/assets/output-file.js',
           '/assets/output-file.css',
           '/assets/vendor.css',
-          '/assets/vendor.js'
+          '/assets/vendor.js',
         ];
 
         var basePath = path.join(appRoot, 'dist');
@@ -328,7 +328,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })
       .then(function() {
         var outputJS = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'output.js'), {
-          encoding: 'utf8'
+          encoding: 'utf8',
         });
 
         (function() {
@@ -376,7 +376,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
           '/css/vendor.css',
           '/js/vendor.js',
           '/css/test-support.css',
-          '/js/test-support.js'
+          '/js/test-support.js',
         ];
 
         var basePath = path.join(appRoot, 'dist');

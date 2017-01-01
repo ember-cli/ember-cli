@@ -20,7 +20,7 @@ describe('install:bower command', function() {
     };
 
     var options = commandOptions({
-      project: project
+      project: project,
     });
 
     command = new InstallBowerCommand(options);

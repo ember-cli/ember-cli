@@ -42,7 +42,7 @@ describe('Acceptance: ember generate in-addon', function() {
       'addon',
       name,
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(addJSHint);
   }
 

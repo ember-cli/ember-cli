@@ -51,7 +51,7 @@ module.exports = {
       'allowSingleLine': true,
     }],
     'camelcase': 2,
-    'comma-dangle': 0,
+    'comma-dangle': [2, 'always-multiline'],
     'eol-last': 2,
     'indent': [2, 2, {
       'SwitchCase': 1,

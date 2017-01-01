@@ -44,14 +44,14 @@ describe('models/asset-size-printer', function () {
 
   afterEach(function () {
     return Promise.all([
-      remove(storedTmpDir)
+      remove(storedTmpDir),
     ]);
   });
 
   it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', function () {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: storedTmpDir
+      outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
@@ -69,7 +69,7 @@ describe('models/asset-size-printer', function () {
   it('does not print gzipped file sizes of empty files', function () {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: storedTmpDir
+      outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
@@ -81,7 +81,7 @@ describe('models/asset-size-printer', function () {
   it('does not print project test helper file sizes', function () {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: storedTmpDir
+      outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
@@ -96,7 +96,7 @@ describe('models/asset-size-printer', function () {
   it('does not print non-css or js file sizes', function () {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: storedTmpDir
+      outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
@@ -111,7 +111,7 @@ describe('models/asset-size-printer', function () {
     var assetObjectKeys;
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: storedTmpDir
+      outputPath: storedTmpDir,
     });
 
     return sizePrinter.printJSON()
@@ -129,7 +129,7 @@ describe('models/asset-size-printer', function () {
     var assetObjectKeys;
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: storedTmpDir
+      outputPath: storedTmpDir,
     });
 
     return sizePrinter.makeAssetSizesObject()
@@ -151,7 +151,7 @@ describe('models/asset-size-printer', function () {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: outputPath
+      outputPath: outputPath,
     });
 
     return sizePrinter.print()
@@ -164,7 +164,7 @@ describe('models/asset-size-printer', function () {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: outputPath
+      outputPath: outputPath,
     });
 
     return expect(sizePrinter.print()).not.to.throw;

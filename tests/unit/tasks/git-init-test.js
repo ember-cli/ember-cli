@@ -25,7 +25,7 @@ describe('git-init', function() {
       subject = new GitInitTask({
         ui: ui,
         project: new MockProject(),
-        exec: exec
+        exec: exec,
       });
       process.chdir(tmpdir);
     });
@@ -42,7 +42,7 @@ describe('git-init', function() {
       td.when(exec()).thenResolve();
 
       return subject.run({
-        skipGit: true
+        skipGit: true,
       }).then(function() {
         expect(ui.output).to.not.include('Successfully initialized git.');
         td.verify(exec('git --version'), { times: 0 });

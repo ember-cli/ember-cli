@@ -20,6 +20,6 @@ module.exports = function CommandOptionsFactory(options) {
     tasks:     {},
     project:   options.project || createProject(),
     commands:  {},
-    settings:  {}
+    settings:  {},
   });
 };

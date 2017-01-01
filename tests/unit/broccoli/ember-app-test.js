@@ -16,7 +16,7 @@ var mergeTreesStub;
 var EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
   './merge-trees': function() {
     return mergeTreesStub.apply(this, arguments);
-  }
+  },
 });
 
 describe('broccoli/ember-app', function() {
@@ -52,7 +52,7 @@ describe('broccoli/ember-app', function() {
 
       new EmberApp({
         project: project,
-        configPath: expected
+        configPath: expected,
       });
 
       expect(project.configPath().slice(-expected.length)).to.equal(expected);
@@ -60,7 +60,7 @@ describe('broccoli/ember-app', function() {
 
     it('should set bowerDirectory for app', function() {
       var app = new EmberApp({
-        project: project
+        project: project,
       });
 
       expect(app.bowerDirectory).to.equal(project.bowerDirectory);
@@ -71,33 +71,33 @@ describe('broccoli/ember-app', function() {
       var app = new EmberApp({
         project: project,
         foo: {
-          bar: ['baz']
+          bar: ['baz'],
         },
         fooz: {
           bam: {
-            boo: ['default']
-          }
-        }
+            boo: ['default'],
+          },
+        },
       }, {
         foo: {
-          bar: ['bizz']
+          bar: ['bizz'],
         },
         fizz: 'fizz',
         fooz: {
           bam: {
-            boo: ['custom']
-          }
-        }
+            boo: ['custom'],
+          },
+        },
       });
 
       expect(app.options.foo).to.deep.eql({
-        bar: ['bizz']
+        bar: ['bizz'],
       });
       expect(app.options.fizz).to.eql('fizz');
       expect(app.options.fooz).to.eql({
         bam: {
-          boo: ['custom']
-        }
+          boo: ['custom'],
+        },
       });
     });
 
@@ -108,22 +108,22 @@ describe('broccoli/ember-app', function() {
         minifyJS: {
           enabled: true,
           options: {
-            exclusions: ['hey', 'you']
-          }
-        }
+            exclusions: ['hey', 'you'],
+          },
+        },
       });
 
       expect(app.options.minifyJS).to.deep.equal({
         enabled: true,
         options: {
-          exclusions: ['hey', 'you']
-        }
+          exclusions: ['hey', 'you'],
+        },
       });
     });
 
     it('should watch vendor if it exists', function() {
       var app = new EmberApp({
-        project: project
+        project: project,
       });
 
       expect(app.options.trees.vendor.__broccoliGetInfo__()).to.have.property('watched', true);
@@ -137,7 +137,7 @@ describe('broccoli/ember-app', function() {
 
       it('should set the app on the addons', function() {
         var app = new EmberApp({
-          project: project
+          project: project,
         });
 
         var addon = project.addons[0];
@@ -149,7 +149,7 @@ describe('broccoli/ember-app', function() {
       it('does not error when loader.js is present in registry.availablePlugins', function() {
         expect(function() {
           new EmberApp({
-            project: project
+            project: project,
           });
         }).to.not.throw(/loader.js addon is missing/);
       });
@@ -160,8 +160,8 @@ describe('broccoli/ember-app', function() {
             project: project,
             registry: {
               add: function() { },
-              availablePlugins: { }
-            }
+              availablePlugins: { },
+            },
           });
         }).to.throw(/loader.js addon is missing/);
       });
@@ -172,9 +172,9 @@ describe('broccoli/ember-app', function() {
             project: project,
             registry: {
               add: function() { },
-              availablePlugins: { }
+              availablePlugins: { },
             },
-            _ignoreMissingLoader: true
+            _ignoreMissingLoader: true,
           });
         }).to.not.throw(/loader.js addon is missing/);
       });
@@ -192,8 +192,8 @@ describe('broccoli/ember-app', function() {
           project: project,
           registry: {
             add: function() { },
-            availablePlugins: { 'loader.js': {} }
-          }
+            availablePlugins: { 'loader.js': {} },
+          },
         });
         expect(app.vendorFiles['ember-resolver.js'][0]).to.equal('bower_components/ember-resolver/dist/modules/ember-resolver.js');
       });
@@ -204,8 +204,8 @@ describe('broccoli/ember-app', function() {
           project: project,
           registry: {
             add: function() { },
-            availablePlugins: { 'loader.js': {} }
-          }
+            availablePlugins: { 'loader.js': {} },
+          },
         });
 
         expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
@@ -215,7 +215,7 @@ describe('broccoli/ember-app', function() {
     describe('options.babel.sourceMaps', function() {
       it('disables babel sourcemaps by default', function() {
         var app = new EmberApp({
-          project: project
+          project: project,
         });
 
         expect(app.options.babel.sourceMaps).to.be.false;
@@ -225,8 +225,8 @@ describe('broccoli/ember-app', function() {
         var app = new EmberApp({
           project: project,
           babel: {
-            sourceMaps: 'inline'
-          }
+            sourceMaps: 'inline',
+          },
         });
 
         expect(app.options.babel.sourceMaps).to.equal('inline');
@@ -242,11 +242,11 @@ describe('broccoli/ember-app', function() {
       project.addons = [];
 
       app = new EmberApp({
-        project: project
+        project: project,
       });
 
       config = {
-        modulePrefix: 'cool-foo'
+        modulePrefix: 'cool-foo',
       };
 
       defaultMatch = '{{content-for \'head\'}}';
@@ -262,7 +262,7 @@ describe('broccoli/ember-app', function() {
             calledConfig = config;
 
             return 'blammo';
-          }
+          },
         });
 
         var actual = app.contentFor(config, defaultMatch, 'foo');
@@ -276,13 +276,13 @@ describe('broccoli/ember-app', function() {
         project.addons.push({
           contentFor: function() {
             return 'blammo';
-          }
+          },
         });
 
         project.addons.push({
           contentFor: function() {
             return 'blahzorz';
-          }
+          },
         });
 
         var actual = app.contentFor(config, defaultMatch, 'foo');
@@ -296,13 +296,13 @@ describe('broccoli/ember-app', function() {
         project.addons.push({
           contentFor: function() {
             return 'zero';
-          }
+          },
         });
 
         project.addons.push({
           contentFor: function() {
             return 'one';
-          }
+          },
         });
 
         project.addons.push({
@@ -310,7 +310,7 @@ describe('broccoli/ember-app', function() {
             calledContent = content.slice();
             content.pop();
             return 'two';
-          }
+          },
         });
 
         var actual = app.contentFor(config, defaultMatch, 'foo');
@@ -411,7 +411,7 @@ describe('broccoli/ember-app', function() {
 
         addon = {
           included: function(app) { called = true; passedApp = app; },
-          treeFor: function() { }
+          treeFor: function() { },
         };
 
         project.initializeAddons = function() {
@@ -419,7 +419,7 @@ describe('broccoli/ember-app', function() {
         };
 
         var app = new EmberApp({
-          project: project
+          project: project,
         });
 
         expect(called).to.be.true;
@@ -435,7 +435,7 @@ describe('broccoli/ember-app', function() {
 
         expect(function() {
           new EmberApp({
-            project: project
+            project: project,
           });
         }).to.not.throw(/addon must implement the `included`/);
       });
@@ -445,7 +445,7 @@ describe('broccoli/ember-app', function() {
       beforeEach(function() {
         addon = {
           included: function() { },
-          treeFor: function() { }
+          treeFor: function() { },
         };
 
         project.initializeAddons = function() {
@@ -453,7 +453,7 @@ describe('broccoli/ember-app', function() {
         };
 
         app = new EmberApp({
-          project: project
+          project: project,
         });
       });
 
@@ -479,7 +479,7 @@ describe('broccoli/ember-app', function() {
         delete addon.treeFor;
 
         app = new EmberApp({
-          project: project
+          project: project,
         });
 
         expect(function() {
@@ -490,7 +490,7 @@ describe('broccoli/ember-app', function() {
       describe('addonTreesFor is called properly', function() {
         beforeEach(function() {
           app = new EmberApp({
-            project: project
+            project: project,
           });
 
           app.addonTreesFor = td.function();
@@ -518,7 +518,7 @@ describe('broccoli/ember-app', function() {
     describe('postprocessTree is called properly', function() {
       beforeEach(function() {
         app = new EmberApp({
-          project: project
+          project: project,
         });
 
         app.addonPostprocessTree = td.function();
@@ -542,9 +542,9 @@ describe('broccoli/ember-app', function() {
               {
                 toTree: function() {
                   return {
-                    description: 'template'
+                    description: 'template',
                   };
-                }
+                },
               }];
           } else {
             return oldLoad.call(app.registry, type);
@@ -573,7 +573,7 @@ describe('broccoli/ember-app', function() {
         };
 
         app = new EmberApp({
-          project: project
+          project: project,
         });
       });
 
@@ -661,8 +661,8 @@ describe('broccoli/ember-app', function() {
           var app = new EmberApp({
             project: project,
             addons: {
-              blacklist: ['ember-foo-env-addon']
-            }
+              blacklist: ['ember-foo-env-addon'],
+            },
           });
 
           expect(app._addonDisabledByBlacklist({ name: 'ember-foo-env-addon' })).to.be.true;
@@ -677,8 +677,8 @@ describe('broccoli/ember-app', function() {
             var app = new EmberApp({
               project: project,
               addons: {
-                blacklist: ['ember-cli-self-troll']
-              }
+                blacklist: ['ember-cli-self-troll'],
+              },
             });
           }
 
@@ -693,8 +693,8 @@ describe('broccoli/ember-app', function() {
           var app = new EmberApp({
             project: project,
             addons: {
-              whitelist: ['ember-foo-env-addon']
-            }
+              whitelist: ['ember-foo-env-addon'],
+            },
           });
 
           expect(app._addonDisabledByWhitelist({ name: 'ember-foo-env-addon' })).to.be.false;
@@ -708,8 +708,8 @@ describe('broccoli/ember-app', function() {
             app = new EmberApp({
               project: project,
               addons: {
-                whitelist: ['ember-cli-self-troll']
-              }
+                whitelist: ['ember-cli-self-troll'],
+              },
             });
           }
 
@@ -724,8 +724,8 @@ describe('broccoli/ember-app', function() {
             project: project,
             addons: {
               whitelist: ['ember-foo-env-addon'],
-              blacklist: ['ember-foo-env-addon']
-            }
+              blacklist: ['ember-foo-env-addon'],
+            },
           });
 
           expect(app.project.addons.length).to.equal(0);
@@ -744,7 +744,7 @@ describe('broccoli/ember-app', function() {
         };
 
         app = new EmberApp({
-          project: project
+          project: project,
         });
       });
 
@@ -761,7 +761,7 @@ describe('broccoli/ember-app', function() {
 
         td.verify(mergeTreesStub(['blazorz'], {
           overwrite: true,
-          annotation: 'TreeMerger (lint blah)'
+          annotation: 'TreeMerger (lint blah)',
         }));
       });
 
@@ -780,7 +780,7 @@ describe('broccoli/ember-app', function() {
   describe('import', function() {
     beforeEach(function() {
       app = new EmberApp({
-        project: project
+        project: project,
       });
     });
 
@@ -834,7 +834,7 @@ describe('broccoli/ember-app', function() {
     it('defaults to development if production is not set', function() {
       process.env.EMBER_ENV = 'production';
       app.import({
-        'development': 'vendor/jquery.js'
+        'development': 'vendor/jquery.js',
       });
 
       var outputFile = app._scriptOutputFiles['/assets/vendor.js'];
@@ -846,12 +846,12 @@ describe('broccoli/ember-app', function() {
       // set EMBER_ENV before creating the project
 
       app = new EmberApp({
-        project: project
+        project: project,
       });
 
       app.import({
         'development': 'vendor/jquery.js',
-        'production':  null
+        'production':  null,
       });
 
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.not.contain('vendor/jquery.js');
@@ -870,13 +870,13 @@ describe('broccoli/ember-app', function() {
     var defaultVendorFiles = [
       'jquery.js',
       'ember.js',
-      'app-shims.js'
+      'app-shims.js',
     ];
 
     describe('handlebars.js', function() {
       it('does not app.import handlebars if not present in bower.json', function() {
         var app = new EmberApp({
-          project: project
+          project: project,
         });
 
         expect(app.vendorFiles).not.to.include.keys('handlebars.js');
@@ -887,7 +887,7 @@ describe('broccoli/ember-app', function() {
         project = setupProject(projectPath);
 
         var app = new EmberApp({
-          project: project
+          project: project,
         });
 
         expect(app.vendorFiles).to.include.keys('handlebars.js');
@@ -897,8 +897,8 @@ describe('broccoli/ember-app', function() {
         var app = new EmberApp({
           project: project,
           vendorFiles: {
-            'handlebars.js': 'some/path/whatever.js'
-          }
+            'handlebars.js': 'some/path/whatever.js',
+          },
         });
 
         expect(app.vendorFiles).to.include.keys('handlebars.js');
@@ -907,7 +907,7 @@ describe('broccoli/ember-app', function() {
 
     it('defines vendorFiles by default', function() {
       app = new EmberApp({
-        project: project
+        project: project,
       });
       expect(Object.keys(app.vendorFiles)).to.deep.equal(defaultVendorFiles);
     });
@@ -917,8 +917,8 @@ describe('broccoli/ember-app', function() {
         project: project,
 
         vendorFiles: {
-          'ember.js': 'vendor/ember.js'
-        }
+          'ember.js': 'vendor/ember.js',
+        },
       });
       expect(app.vendorFiles['ember.js']).to.equal('vendor/ember.js');
     });
@@ -928,8 +928,8 @@ describe('broccoli/ember-app', function() {
         project: project,
 
         vendorFiles: {
-          'ember.js': 'vendor/ember.js'
-        }
+          'ember.js': 'vendor/ember.js',
+        },
       });
       expect(Object.keys(app.vendorFiles)).to.deep.equal(defaultVendorFiles);
     });
@@ -940,8 +940,8 @@ describe('broccoli/ember-app', function() {
 
         vendorFiles: {
           'ember.js': null,
-          'handlebars.js': null
-        }
+          'handlebars.js': null,
+        },
       });
       var vendorFiles = Object.keys(app.vendorFiles);
       expect(vendorFiles).to.not.contain('ember.js');
@@ -952,7 +952,7 @@ describe('broccoli/ember-app', function() {
       var root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
 
       app = new EmberApp({
-        project: setupProject(root)
+        project: setupProject(root),
       });
 
       var files = app.vendorFiles['ember.js'];
@@ -963,7 +963,7 @@ describe('broccoli/ember-app', function() {
       var root = path.resolve(__dirname, '../../fixtures/app/without-ember-debug');
 
       app = new EmberApp({
-        project: setupProject(root)
+        project: setupProject(root),
       });
 
       var files = app.vendorFiles['ember.js'];
@@ -976,9 +976,9 @@ describe('broccoli/ember-app', function() {
 
         vendorFiles: {
           'ember.js': {
-            development: 'vendor/ember.debug.js'
-          }
-        }
+            development: 'vendor/ember.debug.js',
+          },
+        },
       });
       var files = app.vendorFiles['ember.js'];
       expect(files.development).to.equal('vendor/ember.debug.js');
@@ -987,7 +987,7 @@ describe('broccoli/ember-app', function() {
 
   it('fails with invalid type', function() {
     var app = new EmberApp({
-      project: project
+      project: project,
     });
 
     expect(function() {
@@ -998,7 +998,7 @@ describe('broccoli/ember-app', function() {
   describe('_resolveLocal', function() {
     it('resolves a path relative to the project root', function() {
       var app = new EmberApp({
-        project: project
+        project: project,
       });
 
       var result = app._resolveLocal('foo');
@@ -1013,7 +1013,7 @@ describe('broccoli/ember-app', function() {
 
     it('shows deprecation message if called directly', function() {
       app.concatFiles('input-path-somewhere', {
-        outputFile: 'foo.js'
+        outputFile: 'foo.js',
       });
 
       expect(project.ui.output).to.contain('EmberApp.concatFiles() is deprecated');
@@ -1021,7 +1021,7 @@ describe('broccoli/ember-app', function() {
 
     it('ignores deprecation message if called through _concatFiles()', function() {
       app._concatFiles('input-path-somewhere', {
-        outputFile: 'foo.js'
+        outputFile: 'foo.js',
       });
 
       expect(project.ui.output).to.not.contain('EmberApp.concatFiles() is deprecated');
@@ -1030,7 +1030,7 @@ describe('broccoli/ember-app', function() {
     describe('podTemplates', function() {
       it('works', function() {
         var app = new EmberApp({
-          project: project
+          project: project,
         });
 
         var wasCalledCount = 0;
@@ -1088,7 +1088,7 @@ describe('broccoli/ember-app', function() {
             'files/e.css',
             'vendor/addons.css',
           ],
-          outputFile: '/assets/vendor.css'
+          outputFile: '/assets/vendor.css',
         });
       });
 
@@ -1106,18 +1106,18 @@ describe('broccoli/ember-app', function() {
           allowNone: true,
           annotation: 'Concat: Addon CSS',
           inputFiles: [
-            '**/*.css'
+            '**/*.css',
           ],
-          outputFile: '/addons.css'
+          outputFile: '/addons.css',
         });
 
         expect(args[1]).to.deep.eql({
           allowNone: true,
           annotation: 'Concat: Addon JS',
           inputFiles: [
-            '**/*.js'
+            '**/*.js',
           ],
-          outputFile: '/addons.js'
+          outputFile: '/addons.js',
         });
 
         expect(args[2]).to.deep.eql({
@@ -1129,7 +1129,7 @@ describe('broccoli/ember-app', function() {
             'files/d.css',
             'vendor/addons.css',
           ],
-          outputFile: '/assets/vendor.css'
+          outputFile: '/assets/vendor.css',
         });
       });
 
@@ -1151,15 +1151,15 @@ describe('broccoli/ember-app', function() {
           footerFiles: [
             "vendor/ember-cli/app-suffix.js",
             "vendor/ember-cli/app-config.js",
-            "vendor/ember-cli/app-boot.js"
+            "vendor/ember-cli/app-boot.js",
           ],
           headerFiles: [
-            "vendor/ember-cli/app-prefix.js"
+            "vendor/ember-cli/app-prefix.js",
           ],
           inputFiles: [
-            "test-project/**/*.js"
+            "test-project/**/*.js",
           ],
-          outputFile: "/assets/test-project.js"
+          outputFile: "/assets/test-project.js",
         });
 
         // should be: a,b,c,d in output
@@ -1175,7 +1175,7 @@ describe('broccoli/ember-app', function() {
             "files/b.js",
             "files/c.js",
             "vendor/addons.js",
-            "vendor/ember-cli/vendor-suffix.js"
+            "vendor/ember-cli/vendor-suffix.js",
           ],
           outputFile: "/assets/vendor.js",
           separator: '\n;',
@@ -1205,7 +1205,7 @@ describe('broccoli/ember-app', function() {
           allowNone: true,
           annotation: 'Concat: Addon CSS',
           inputFiles: ['**/*.css'],
-          outputFile: '/addons.css'
+          outputFile: '/addons.css',
         });
 
         expect(args[1]).to.deep.eql({
@@ -1219,19 +1219,19 @@ describe('broccoli/ember-app', function() {
           allowNone: true,
           annotation: 'Concat: Test Support JS',
           footerFiles: [
-            'vendor/ember-cli/test-support-suffix.js'
+            'vendor/ember-cli/test-support-suffix.js',
           ],
           headerFiles: [
             'vendor/ember-cli/test-support-prefix.js',
             'files/d.js',
             'files/a.js',
             'files/b.js',
-            'files/c.js'
+            'files/c.js',
           ],
           inputFiles: [
-            'addon-test-support/**/*.js'
+            'addon-test-support/**/*.js',
           ],
-          outputFile: '/assets/test-support.js'
+          outputFile: '/assets/test-support.js',
         });
 
         expect(args[3]).to.deep.eql({
@@ -1240,9 +1240,9 @@ describe('broccoli/ember-app', function() {
             'files/a.css',
             'files/b.css',
             'files/c.css',
-            'files/d.css'
+            'files/d.css',
           ],
-          outputFile: '/assets/test-support.css'
+          outputFile: '/assets/test-support.css',
         });
       });
     });

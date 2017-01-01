@@ -23,12 +23,12 @@ describe('.ember-cli', function() {
       proxy:       'http://iamstef.net/ember-cli',
       liveReload:  false,
       environment: 'mock-development',
-      host:        '0.1.0.1'
+      host:        '0.1.0.1',
     };
 
     settings = new Yam('ember-cli', {
       secondary: process.cwd() + '/tests/fixtures/home',
-      primary:   process.cwd() + '/tests/fixtures/project'
+      primary:   process.cwd() + '/tests/fixtures/project',
     }).getAll();
   });
 
@@ -37,7 +37,7 @@ describe('.ember-cli', function() {
       ui:        ui,
       analytics: analytics,
       project:   project,
-      settings:  settings
+      settings:  settings,
     });
 
     var args = command.parseArgs();
@@ -45,7 +45,7 @@ describe('.ember-cli', function() {
     expect(args.options).to.include(
       merge(homeSettings, {
         port:       999,
-        liveReload: false
+        liveReload: false,
       })
     );
   });

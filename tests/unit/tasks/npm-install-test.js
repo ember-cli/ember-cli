@@ -10,13 +10,13 @@ describe('npm install task', function() {
 
   beforeEach(function() {
     var project = {
-      root: __dirname
+      root: __dirname,
     };
     ui = new MockUI();
 
     npmInstallTask = new NpmInstallTask({
       ui: ui,
-      project: project
+      project: project,
     });
   });
 

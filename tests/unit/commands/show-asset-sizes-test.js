@@ -22,13 +22,13 @@ describe('asset-sizes command', function () {
         init: function () {
           this._super.init && this._super.init.apply(this, arguments);
           taskInstance = this;
-        }
-      })
+        },
+      }),
     };
 
     options = commandOptions({
       tasks: tasks,
-      settings: {}
+      settings: {},
     });
 
     td.replace(tasks.ShowAssetSizes.prototype, 'run', td.function());

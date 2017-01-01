@@ -30,7 +30,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
   before(function() {
     return createTestTargets(addonName, {
-      command: 'addon'
+      command: 'addon',
     });
   });
 
@@ -142,12 +142,12 @@ describe('Acceptance: addon-smoke-test', function() {
           'testem.js',
           '.ember-cli',
           'bower.json',
-          '.bowerrc'
+          '.bowerrc',
         ];
 
         var unnecessaryFolders = [
           'tests/',
-          'bower_components/'
+          'bower_components/',
         ];
 
         var outputFiles = output.split('\n');

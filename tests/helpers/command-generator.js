@@ -46,5 +46,5 @@ CommandGenerator.prototype = {
 
   _invoke: function(args, options) {
     return execa.sync(this.program, args, options);
-  }
+  },
 };

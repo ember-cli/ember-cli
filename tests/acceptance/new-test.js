@@ -62,14 +62,14 @@ describe('Acceptance: ember new', function() {
       'new',
       'foo',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(confirmBlueprinted);
   });
 
   it('ember new with empty app name fails with a warning', function() {
     return ember([
       'new',
-      ''
+      '',
     ]).then(function() {
       throw new Error('this promise should be rejected');
     }, function(err) {
@@ -80,7 +80,7 @@ describe('Acceptance: ember new', function() {
 
   it('ember new without app name fails with a warning', function() {
     return ember([
-      'new'
+      'new',
     ]).then(function() {
       throw new Error('this promise should be rejected');
     }, function(err) {
@@ -95,7 +95,7 @@ describe('Acceptance: ember new', function() {
       'FooApp',
       '--skip-npm',
       '--skip-bower',
-      '--skip-git'
+      '--skip-git',
     ]).then(function() {
       expect(dir('FooApp')).to.not.exist;
       expect(file('package.json')).to.exist;
@@ -114,7 +114,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--directory=bar'
+      '--directory=bar',
     ]).catch(function(error) {
       throw new Error('this command should work');
     });
@@ -130,7 +130,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--directory=bar'
+      '--directory=bar',
     ]).then(function() {
       throw new Error('this promise should be rejected');
     }).catch(function(error) {
@@ -145,14 +145,14 @@ describe('Acceptance: ember new', function() {
       'foo',
       '--skip-npm',
       '--skip-bower',
-      '--skip-git'
+      '--skip-git',
     ]).then(function() {
       return ember([
         'new',
         'foo',
         '--skip-npm',
         '--skip-bower',
-        '--skip-git'
+        '--skip-git',
       ]).then(function() {
         throw new Error('this promise should be rejected');
       }).catch(function(error) {
@@ -173,7 +173,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--blueprint=./my_blueprint'
+      '--blueprint=./my_blueprint',
     ]).then(confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint')));
   });
 
@@ -187,7 +187,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--blueprint=' + path.resolve(process.cwd(), 'my_blueprint')
+      '--blueprint=' + path.resolve(process.cwd(), 'my_blueprint'),
     ]).then(confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint')));
   });
 
@@ -200,7 +200,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--blueprint=https://github.com/ember-cli/app-blueprint-test.git'
+      '--blueprint=https://github.com/ember-cli/app-blueprint-test.git',
     ]).then(function() {
       expect(file('.ember-cli')).to.exist;
     });
@@ -216,7 +216,7 @@ describe('Acceptance: ember new', function() {
       '      customOption: options.customOption',
       '    };',
       '  }',
-      '};'
+      '};',
     ].join('\n'));
     fs.writeFileSync('my_blueprint/files/gitignore', '<%= customOption %>');
 
@@ -227,7 +227,7 @@ describe('Acceptance: ember new', function() {
       '--skip-bower',
       '--skip-git',
       '--blueprint=./my_blueprint',
-      '--custom-option=customValue'
+      '--custom-option=customValue',
     ]).then(function() {
       expect(file('.gitignore')).to.contain('customValue');
     });
@@ -238,9 +238,9 @@ describe('Acceptance: ember new', function() {
       'new',
       'foo',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ], {
-      skipGit: false
+      skipGit: false,
     }).then(function() {
       expect(dir('.git')).to.exist;
     });
@@ -256,7 +256,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--blueprint=./my_blueprint'
+      '--blueprint=./my_blueprint',
     ]).catch(function() {
       expect(dir('foo')).to.not.exist;
     });
@@ -266,7 +266,7 @@ describe('Acceptance: ember new', function() {
     return ember([
       'new',
       'foo',
-      '--dry-run'
+      '--dry-run',
     ]).then(function() {
       expect(process.cwd()).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
       expect(dir('foo')).to.not.exist;
@@ -283,7 +283,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--directory=bar'
+      '--directory=bar',
     ]).then(function() {
       expect(dir(path.join(workdir, 'foo'))).to.not.exist;
       expect(dir(path.join(workdir, 'bar'))).to.exist;
@@ -306,7 +306,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--directory=bar'
+      '--directory=bar',
     ]).then(function() {
       expect(dir(path.join(workdir, 'foo'))).to.not.exist;
       expect(dir(path.join(workdir, 'bar'))).to.exist;

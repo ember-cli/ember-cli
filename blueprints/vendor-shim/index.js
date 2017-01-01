@@ -8,7 +8,7 @@ module.exports = {
     var name    = stringUtil.dasherize(rawName);
 
     return {
-      name: name
+      name: name,
     };
   },
 };
