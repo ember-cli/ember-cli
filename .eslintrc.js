@@ -101,5 +101,6 @@ module.exports = {
     'no-confusing-arrow': [2, {
       'allowParens': true,
     }],
+    'no-useless-computed-key': 2,
   },
 };
