@@ -9,7 +9,7 @@ var ProxyServer = function() {
   this.httpServer = http.createServer(function(req, res) {
     _this.called = true;
     _this.lastReq = req;
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('okay');
   });
   this.httpServer.listen(3001);

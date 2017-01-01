@@ -550,7 +550,7 @@ describe('PackageCache', function() {
   });
 
   it('create', function() {
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     var dir = testPackageCache.create('npm', 'npm', '{}');
     var manifestFilePath = path.join(dir, 'package.json');
 
@@ -562,26 +562,26 @@ describe('PackageCache', function() {
     expect(file(manifestFilePath)).to.contain('_packageCache');
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{}');
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('install'), { ignoreExtraArgs: true });
     td.verify(npm(), { times: 2, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink'), { ignoreExtraArgs: true });
@@ -591,13 +591,13 @@ describe('PackageCache', function() {
     td.reset();
 
     // Correctly catches linked versions.
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "changed again" }', ['ember-cli']);
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink'), { ignoreExtraArgs: true });

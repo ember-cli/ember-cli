@@ -29,7 +29,7 @@ describe('models/addon.js', function() {
   describe('root property', function() {
     it('is required', function() {
       expect(function() {
-        var TheAddon = Addon.extend({root: undefined});
+        var TheAddon = Addon.extend({ root: undefined });
         new TheAddon();
       }).to.throw(/root/);
     });
@@ -292,37 +292,37 @@ describe('models/addon.js', function() {
         it('can define treeForApp', function() {
           addon.treeForApp = td.function();
           addon.treeFor('app');
-          td.verify(addon.treeForApp(), {ignoreExtraArgs: true});
+          td.verify(addon.treeForApp(), { ignoreExtraArgs: true });
         });
 
         it('can define treeForStyles', function() {
           addon.treeForStyles = td.function();
           addon.treeFor('styles');
-          td.verify(addon.treeForStyles(), {ignoreExtraArgs: true});
+          td.verify(addon.treeForStyles(), { ignoreExtraArgs: true });
         });
 
         it('can define treeForVendor', function() {
           addon.treeForVendor = td.function();
           addon.treeFor('vendor');
-          td.verify(addon.treeForVendor(), {ignoreExtraArgs: true});
+          td.verify(addon.treeForVendor(), { ignoreExtraArgs: true });
         });
 
         it('can define treeForTemplates', function() {
           addon.treeForTemplates = td.function();
           addon.treeFor('templates');
-          td.verify(addon.treeForTemplates(), {ignoreExtraArgs: true});
+          td.verify(addon.treeForTemplates(), { ignoreExtraArgs: true });
         });
 
         it('can define treeForAddonTemplates', function() {
           addon.treeForAddonTemplates = td.function();
           addon.treeFor('addon-templates');
-          td.verify(addon.treeForAddonTemplates(), {ignoreExtraArgs: true});
+          td.verify(addon.treeForAddonTemplates(), { ignoreExtraArgs: true });
         });
 
         it('can define treeForPublic', function() {
           addon.treeForPublic = td.function();
           addon.treeFor('public');
-          td.verify(addon.treeForPublic(), {ignoreExtraArgs: true});
+          td.verify(addon.treeForPublic(), { ignoreExtraArgs: true });
         });
       });
     });

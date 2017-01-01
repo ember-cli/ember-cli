@@ -47,7 +47,7 @@ describe('help command', function() {
 
       command.run(options, ['command-2']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
       expect(wasCalled).to.be.true;
     });
 
@@ -72,12 +72,12 @@ describe('help command', function() {
 
       command.run(options, ['command-1', 'command-2']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command3.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command1.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command3.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command3.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command1.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command3.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
   });
 
@@ -99,10 +99,10 @@ describe('help command', function() {
 
       command.run(options, []);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command1.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command2.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command1.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
 
     it('works with single command', function() {
@@ -122,10 +122,10 @@ describe('help command', function() {
 
       command.run(options, ['command-1']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command1.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command1.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
 
     it('works with single command alias', function() {
@@ -142,7 +142,7 @@ describe('help command', function() {
 
       command.run(options, ['my-alias']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('passes extra commands to `generate`', function() {
@@ -160,10 +160,10 @@ describe('help command', function() {
 
       var captor = td.matchers.captor();
 
-      td.verify(Generate.prototype.printBasicHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
 
-      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
     });
 
@@ -182,10 +182,10 @@ describe('help command', function() {
 
       var captor = td.matchers.captor();
 
-      td.verify(Generate.prototype.printBasicHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.be.undefined;
 
-      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.be.undefined;
     });
 
@@ -205,10 +205,10 @@ describe('help command', function() {
 
       var captor = td.matchers.captor();
 
-      td.verify(Generate.prototype.printBasicHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
 
-      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
     });
 
@@ -246,8 +246,8 @@ Requested ember-cli commands:' + EOL + '\
 
       command.run(options, []);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('ignores skipHelp when single', function() {
@@ -263,7 +263,7 @@ Requested ember-cli commands:' + EOL + '\
 
       command.run(options, ['command-1']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('lists addons', function() {
@@ -290,8 +290,8 @@ Available commands from my-addon:' + EOL);
 
       expect(output).to.include(testString);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('finds single addon command', function() {
@@ -311,7 +311,7 @@ Available commands from my-addon:' + EOL);
 
       command.run(options, ['command-1']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
   });
 

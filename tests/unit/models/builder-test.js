@@ -166,7 +166,7 @@ describe('models/builder.js', function() {
       });
 
       builder.trapSignals();
-      td.verify(trapWindowsSignals(), {times: 0, ignoreExtraArgs: true});
+      td.verify(trapWindowsSignals(), { times: 0, ignoreExtraArgs: true });
 
       return builder.cleanup();
     });
@@ -361,7 +361,7 @@ describe('models/builder.js', function() {
 
     it('allows addons to add promises preBuild', function() {
       var preBuild = td.replace(addon, 'preBuild', td.function());
-      td.when(preBuild(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
+      td.when(preBuild(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
 
       return builder.build();
     });
@@ -370,7 +370,7 @@ describe('models/builder.js', function() {
       var postBuild = td.replace(addon, 'postBuild', td.function());
 
       return builder.build().then(function() {
-        td.verify(postBuild(buildResults), {times: 1});
+        td.verify(postBuild(buildResults), { times: 1 });
       });
     });
 
@@ -378,7 +378,7 @@ describe('models/builder.js', function() {
       var outputReady = td.replace(addon, 'outputReady', td.function());
 
       return builder.build().then(function() {
-        td.verify(outputReady(buildResults), {times: 1});
+        td.verify(outputReady(buildResults), { times: 1 });
       });
     });
 

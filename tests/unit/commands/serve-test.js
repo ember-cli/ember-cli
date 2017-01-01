@@ -39,7 +39,7 @@ describe('serve command', function() {
       '--port', '0',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.gte(4000, 'has correct port');
       expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
     });
@@ -51,7 +51,7 @@ describe('serve command', function() {
         '--port', '' + port,
       ]).then(function() {
         var captor = td.matchers.captor();
-        td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.port).to.equal(port, 'has correct port');
         expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
       });
@@ -65,7 +65,7 @@ describe('serve command', function() {
         '--live-reload-port', '8005',
       ]).then(function() {
         var captor = td.matchers.captor();
-        td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.port).to.equal(port, 'has correct port');
         expect(captor.value.liveReloadPort).to.be.within(8005, 65535, 'has live reload port > port');
       });
@@ -100,7 +100,7 @@ describe('serve command', function() {
           expect(true).to.equal(false, 'assertion should never run');
         })
         .catch(function(err) {
-          td.verify(tasks.Serve.prototype.run(), {ignoreExtraArgs: true, times: 0});
+          td.verify(tasks.Serve.prototype.run(), { ignoreExtraArgs: true, times: 0 });
           expect(err.message).to.contain('is already in use.');
         });
       });
@@ -112,7 +112,7 @@ describe('serve command', function() {
       '--port', '0',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.within(32768, 65535, 'has correct liveReloadPort');
       expect(captor.value.liveReloadPort).to.be.gt(captor.value.port, 'has a liveReload port greater than port');
     });
@@ -124,7 +124,7 @@ describe('serve command', function() {
       '--live-reload-port', '4001',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.liveReloadPort).to.be.gte(4001, 'has correct liveReload port');
     });
   });
@@ -135,7 +135,7 @@ describe('serve command', function() {
       '--live-reload-host', '127.0.0.1',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.liveReloadHost).to.equal('127.0.0.1', 'has correct liveReload host');
     });
   });
@@ -146,7 +146,7 @@ describe('serve command', function() {
       '--live-reload-base-url', 'http://127.0.0.1:4200/',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.liveReloadBaseUrl).to.equal('http://127.0.0.1:4200/', 'has correct liveReload baseUrl');
     });
   });
@@ -157,7 +157,7 @@ describe('serve command', function() {
       '--proxy', 'http://localhost:3000/',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.proxy).to.equal('http://localhost:3000/', 'has correct port');
     });
   });
@@ -168,7 +168,7 @@ describe('serve command', function() {
       '--secure-proxy', 'false',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.secureProxy).to.equal(false, 'has correct insecure proxy option');
     });
   });
@@ -178,7 +178,7 @@ describe('serve command', function() {
       '--port', '0',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.secureProxy).to.equal(true, 'has correct secure proxy option when not set');
     });
   });
@@ -202,7 +202,7 @@ describe('serve command', function() {
       '--port', '0',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.transparentProxy).to.equal(true, 'has correct transparent proxy option when not set');
     });
   });
@@ -217,7 +217,7 @@ describe('serve command', function() {
       '--environment', 'test',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.baseURL).to.equal('test', 'Uses the correct environment.');
     });
   });
@@ -228,7 +228,7 @@ describe('serve command', function() {
       '-H', 'localhost',
     ]).then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.host).to.equal('localhost', 'has correct hostname');
     });
   });

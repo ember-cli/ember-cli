@@ -401,10 +401,10 @@ describe('models/command.js', function() {
     var optionsAlias = new OptionsAliasCommand(options);
     var badArrayAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
       'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
-    ]}];
+    ] }];
     var badObjectAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      'meat', { 'carne-asada': ['steak', 'grilled']}, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
-    ]}];
+      'meat', { 'carne-asada': ['steak', 'grilled'] }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
+    ] }];
     var register = optionsAlias.registerOptions.bind(optionsAlias);
 
     optionsAlias.availableOptions = badArrayAvailableOptions;
@@ -493,10 +493,10 @@ describe('models/command.js', function() {
     optionsAlias.registerOptions({ availableOptions: garbageAvailableOptions });
     var extendedAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
       { 'carne-asada': 'carne-asada' }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
-    ]}];
+    ] }];
     var duplicateExtendedAvailableOptions = [{ name: 'filling', type: String, default: 'carnitas', aliases: [
       { 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' },
-    ]}];
+    ] }];
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     optionsAlias.availableOptions.push(duplicateExtendedAvailableOptions[0]);
 
@@ -569,7 +569,7 @@ describe('models/command.js', function() {
     describe('printBasicHelp', function() {
       beforeEach(function() {
         td.replace(command, '_printCommand', td.function());
-        td.when(command._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+        td.when(command._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
       });
 
       afterEach(function() {

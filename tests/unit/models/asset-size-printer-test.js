@@ -15,18 +15,18 @@ describe('models/asset-size-printer', function () {
   var storedTmpDir, assetDir, assetChildDir;
 
   function writeFiles() {
-    fs.writeFileSync(path.join(assetDir, 'some-project.scss'), 'body { margin: 0 20px; }', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'some-project.css4'), 'body { margin: 0 20px; }', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'some-project.css'), 'body { margin: 0 20px; }', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'some-project.js'), 'module.exports = function () {};', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'some-project.json'), 'module.exports = function () {};', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'test-loader.js'), 'module.exports = function () {};', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'test-support.js'), 'module.exports = function () {};', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'testem.js'), 'module.exports = function () {};', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'test.js'), 'module.exports = function () {};', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetDir, 'empty.js'), '', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetChildDir, 'nested-asset.css'), 'body { margin: 0 20px; }', {encoding: 'utf8'});
-    fs.writeFileSync(path.join(assetChildDir, 'nested-asset.js'), 'module.exports = function () {};', {encoding: 'utf8'});
+    fs.writeFileSync(path.join(assetDir, 'some-project.scss'), 'body { margin: 0 20px; }', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'some-project.css4'), 'body { margin: 0 20px; }', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'some-project.css'), 'body { margin: 0 20px; }', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'some-project.js'), 'module.exports = function () {};', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'some-project.json'), 'module.exports = function () {};', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'test-loader.js'), 'module.exports = function () {};', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'test-support.js'), 'module.exports = function () {};', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'testem.js'), 'module.exports = function () {};', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'test.js'), 'module.exports = function () {};', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetDir, 'empty.js'), '', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetChildDir, 'nested-asset.css'), 'body { margin: 0 20px; }', { encoding: 'utf8' });
+    fs.writeFileSync(path.join(assetChildDir, 'nested-asset.js'), 'module.exports = function () {};', { encoding: 'utf8' });
   }
 
   beforeEach(function () {

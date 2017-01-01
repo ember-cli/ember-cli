@@ -132,7 +132,7 @@ describe('broccoli/ember-app', function() {
     describe('_notifyAddonIncluded', function() {
       beforeEach(function() {
         project.initializeAddons = function() { };
-        project.addons = [{name: 'custom-addon'}];
+        project.addons = [{ name: 'custom-addon' }];
       });
 
       it('should set the app on the addons', function() {
@@ -494,7 +494,7 @@ describe('broccoli/ember-app', function() {
           });
 
           app.addonTreesFor = td.function();
-          td.when(app.addonTreesFor(), {ignoreExtraArgs: true}).thenReturn(['batman']);
+          td.when(app.addonTreesFor(), { ignoreExtraArgs: true }).thenReturn(['batman']);
         });
 
         it('_processedVendorTree calls addonTreesFor', function() {
@@ -522,7 +522,7 @@ describe('broccoli/ember-app', function() {
         });
 
         app.addonPostprocessTree = td.function();
-        td.when(app.addonPostprocessTree(), {ignoreExtraArgs: true}).thenReturn(['batman']);
+        td.when(app.addonPostprocessTree(), { ignoreExtraArgs: true }).thenReturn(['batman']);
       });
 
       it('styles calls addonTreesFor', function() {
@@ -580,8 +580,8 @@ describe('broccoli/ember-app', function() {
       it('calls postProcessTree if defined', function() {
         app.toArray = td.function();
 
-        td.when(app.toArray(), {ignoreExtraArgs: true}).thenReturn([]);
-        td.when(addon.postprocessTree(), {ignoreExtraArgs: true}).thenReturn('derp');
+        td.when(app.toArray(), { ignoreExtraArgs: true }).thenReturn([]);
+        td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('derp');
 
         expect(app.toTree()).to.equal('derp');
       });
@@ -590,8 +590,8 @@ describe('broccoli/ember-app', function() {
         app.toArray = td.function();
         app.addonPostprocessTree = td.function();
 
-        td.when(app.toArray(), {ignoreExtraArgs: true}).thenReturn([]);
-        td.when(app.addonPostprocessTree(), {ignoreExtraArgs: true}).thenReturn('blap');
+        td.when(app.toArray(), { ignoreExtraArgs: true }).thenReturn([]);
+        td.when(app.addonPostprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
 
         expect(app.toTree()).to.equal('blap');
       });
@@ -599,8 +599,8 @@ describe('broccoli/ember-app', function() {
       it('calls each addon postprocessTree hook', function() {
         app._processedTemplatesTree = td.function();
 
-        td.when(app._processedTemplatesTree(), {ignoreExtraArgs: true}).thenReturn('x');
-        td.when(addon.postprocessTree(), {ignoreExtraArgs: true}).thenReturn('blap');
+        td.when(app._processedTemplatesTree(), { ignoreExtraArgs: true }).thenReturn('x');
+        td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
 
         expect(app.toTree()).to.equal('blap');
 
@@ -768,11 +768,11 @@ describe('broccoli/ember-app', function() {
       it('filters out tree if lintTree returns falsey', function() {
         mergeTreesStub = td.function();
 
-        td.when(addon.lintTree(), {ignoreExtraArgs: true}).thenReturn(false);
+        td.when(addon.lintTree(), { ignoreExtraArgs: true }).thenReturn(false);
 
         app.addonLintTree();
 
-        td.verify(mergeTreesStub([]), {ignoreExtraArgs: true});
+        td.verify(mergeTreesStub([]), { ignoreExtraArgs: true });
       });
     });
   });
@@ -796,7 +796,7 @@ describe('broccoli/ember-app', function() {
       expect(outputFile.indexOf('vendor/moment.js')).to.equal(outputFile.length - 1);
     });
     it('appends dependencies', function() {
-      app.import('vendor/moment.js', {type: 'vendor'});
+      app.import('vendor/moment.js', { type: 'vendor' });
 
       var outputFile = app._scriptOutputFiles['/assets/vendor.js'];
 
@@ -805,7 +805,7 @@ describe('broccoli/ember-app', function() {
     });
 
     it('prepends dependencies', function() {
-      app.import('vendor/es5-shim.js', {type: 'vendor', prepend: true});
+      app.import('vendor/es5-shim.js', { type: 'vendor', prepend: true });
 
       var outputFile = app._scriptOutputFiles['/assets/vendor.js'];
 
@@ -814,7 +814,7 @@ describe('broccoli/ember-app', function() {
     });
 
     it('prepends dependencies to outputFile', function() {
-      app.import('vendor/moment.js', {outputFile: 'moment.js', prepend: true});
+      app.import('vendor/moment.js', { outputFile: 'moment.js', prepend: true });
 
       var outputFile = app._scriptOutputFiles['moment.js'];
 
@@ -823,7 +823,7 @@ describe('broccoli/ember-app', function() {
     });
 
     it('appends dependencies to outputFile', function() {
-      app.import('vendor/moment.js', {outputFile: 'moment.js'});
+      app.import('vendor/moment.js', { outputFile: 'moment.js' });
 
       var outputFile = app._scriptOutputFiles['moment.js'];
 
@@ -858,8 +858,8 @@ describe('broccoli/ember-app', function() {
     });
 
     it('normalizes asset path correctly', function() {
-      app.import('vendor\\path\\to\\lib.js', {type: 'vendor'});
-      app.import('vendor/path/to/lib2.js', {type: 'vendor'});
+      app.import('vendor\\path\\to\\lib.js', { type: 'vendor' });
+      app.import('vendor/path/to/lib2.js', { type: 'vendor' });
 
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib.js');
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib2.js');
@@ -991,7 +991,7 @@ describe('broccoli/ember-app', function() {
     });
 
     expect(function() {
-      app.import('vendor/b/c/foo.js', { type: 'javascript'});
+      app.import('vendor/b/c/foo.js', { type: 'javascript' });
     }).to.throw(/You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/);
   });
 

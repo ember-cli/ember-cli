@@ -214,7 +214,7 @@ describe('init command', function() {
 
   it('Registers blueprint options in beforeRun', function() {
     td.replace(Blueprint, 'lookup', td.function());
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
         { name: 'custom-blueprint-option', type: String },
       ],

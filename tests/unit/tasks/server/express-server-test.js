@@ -190,7 +190,7 @@ describe('express-server', function() {
         .then(function() {
           return new Promise(function(resolve, reject) {
             process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-            request('https://localhost:1337', {strictSSL: false}).
+            request('https://localhost:1337', { strictSSL: false }).
               get('/').expect(200, function(err, value) {
                 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
                 if (err) {

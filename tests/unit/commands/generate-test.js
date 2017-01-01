@@ -91,7 +91,7 @@ describe('generate command', function() {
     });
 
     it('lists available blueprints', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -128,7 +128,7 @@ other-blueprint' + EOL + '\
     });
 
     it('lists available blueprints json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -175,7 +175,7 @@ other-blueprint' + EOL + '\
     });
 
     it('works with single blueprint', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -207,7 +207,7 @@ my-blueprint' + EOL + '\
     });
 
     it('works with single blueprint json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -246,7 +246,7 @@ my-blueprint' + EOL + '\
     });
 
     it('handles missing blueprint', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -271,7 +271,7 @@ my-blueprint' + EOL + '\
     });
 
     it('handles missing blueprint json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -297,7 +297,7 @@ my-blueprint' + EOL + '\
     });
 
     it('ignores overridden blueprints when verbose false', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -325,7 +325,7 @@ my-blueprint' + EOL + '\
     });
 
     it('shows overridden blueprints when verbose true', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [

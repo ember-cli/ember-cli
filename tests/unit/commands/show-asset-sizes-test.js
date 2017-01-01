@@ -46,7 +46,7 @@ describe('asset-sizes command', function () {
   it('has correct default value for output path', function() {
     return new ShowCommand(options).validateAndRun().then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.outputPath).to.equal('dist/', 'has correct output path option when not set');
     });
   });
@@ -56,7 +56,7 @@ describe('asset-sizes command', function () {
       .validateAndRun(['--output-path', path.join('some', 'path')])
       .then(function() {
         var captor = td.matchers.captor();
-        td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), {times: 1});
+        td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
       });
   });

@@ -44,8 +44,8 @@ describe('build command', function() {
     td.replace(tasks.BuildWatch.prototype, 'run', td.function());
     td.replace(tasks.ShowAssetSizes.prototype, 'run', td.function());
 
-    td.when(tasks.Build.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
-    td.when(tasks.BuildWatch.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
+    td.when(tasks.Build.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.BuildWatch.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
   });
 
   afterEach(function() {
@@ -73,7 +73,7 @@ describe('build command', function() {
       var buildWatchRun = tasks.BuildWatch.prototype.run;
 
       var captor = td.matchers.captor();
-      td.verify(buildWatchRun(captor.capture()), {times: 1});
+      td.verify(buildWatchRun(captor.capture()), { times: 1 });
       expect(captor.value.watcherPoller).to.equal(true, 'expected run to be called with a poller option');
     });
   });
@@ -83,7 +83,7 @@ describe('build command', function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
-      td.verify(showSizesRun(), {ignoreExtraArgs: true, times: 0});
+      td.verify(showSizesRun(), { ignoreExtraArgs: true, times: 0 });
     });
   });
 
@@ -92,7 +92,7 @@ describe('build command', function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
-      td.verify(showSizesRun(), {ignoreExtraArgs: true, times: 1});
+      td.verify(showSizesRun(), { ignoreExtraArgs: true, times: 1 });
     });
   });
 
@@ -101,7 +101,7 @@ describe('build command', function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
-      td.verify(showSizesRun(), {ignoreExtraArgs: true, times: 0});
+      td.verify(showSizesRun(), { ignoreExtraArgs: true, times: 0 });
     });
   });
 });

@@ -69,7 +69,7 @@ describe('install command', function() {
     });
 
     td.replace(tasks.NpmInstall.prototype, 'run', td.function());
-    td.when(tasks.NpmInstall.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    td.when(tasks.NpmInstall.prototype.run(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve());
     td.replace(tasks.GenerateFromBlueprint.prototype, 'run', td.function());
 
     command = new InstallCommand(options);
@@ -101,7 +101,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
       });
     });
 
@@ -120,7 +120,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
       });
     });
 
@@ -133,7 +133,7 @@ describe('install command', function() {
           'save': true,
           'save-dev': false,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
       });
     });
 
@@ -152,7 +152,7 @@ describe('install command', function() {
           'save': true,
           'save-dev': false,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
       });
     });
 
@@ -197,7 +197,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
@@ -214,10 +214,10 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        td.verify(generateRun(), {ignoreExtraArgs: true, times: 0});
+        td.verify(generateRun(), { ignoreExtraArgs: true, times: 0 });
       });
     });
 
@@ -230,7 +230,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
@@ -247,7 +247,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
-        }), {times: 1});
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });

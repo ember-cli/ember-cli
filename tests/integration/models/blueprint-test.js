@@ -341,7 +341,7 @@ describe('Blueprint', function() {
         return blueprintNew.install(options);
       })
       .then(function() {
-        td.verify(ui.prompt(td.matchers.anything()), {times: 2});
+        td.verify(ui.prompt(td.matchers.anything()), { times: 2 });
 
         var actualFiles = walkSync(tmpdir).sort();
         // Prompts contain \n EOL
@@ -407,7 +407,7 @@ describe('Blueprint', function() {
       });
 
       it('ignores files in ignoredUpdateFiles', function() {
-        td.when(ui.prompt(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve({ answer: 'skip' }));
+        td.when(ui.prompt(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve({ answer: 'skip' }));
 
         return blueprint.install(options)
         .then(function() {
@@ -665,7 +665,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array for addPackagesToProject', function() {
       blueprint.addPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar'}]);
+        expect(packages).to.deep.equal([{ name: 'foo-bar' }]);
       };
 
       blueprint.addPackageToProject('foo-bar');
@@ -673,7 +673,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array with target for addPackagesToProject', function() {
       blueprint.addPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar', target: '^123.1.12'}]);
+        expect(packages).to.deep.equal([{ name: 'foo-bar', target: '^123.1.12' }]);
       };
 
       blueprint.addPackageToProject('foo-bar', '^123.1.12');
@@ -708,7 +708,7 @@ describe('Blueprint', function() {
         run: function() {},
       });
 
-      blueprint.addPackagesToProject([{name: 'foo-bar'}]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar' }]);
 
       expect(taskNameLookedUp).to.equal('npm-install');
     });
@@ -723,8 +723,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addPackagesToProject([
-        {name: 'foo-bar'},
-        {name: 'bar-foo'},
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
       ]);
 
       expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
@@ -740,8 +740,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addPackagesToProject([
-        {name: 'foo-bar', target: '^123.1.12'},
-        {name: 'bar-foo', target: '0.0.7'},
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
       ]);
 
       expect(packages).to.deep.equal(['foo-bar@^123.1.12', 'bar-foo@0.0.7']);
@@ -751,7 +751,7 @@ describe('Blueprint', function() {
       blueprint.ui = ui;
 
       blueprint.addPackagesToProject([
-        {name: 'foo-bar', target: '^123.1.12'},
+        { name: 'foo-bar', target: '^123.1.12' },
       ]);
 
       var output = ui.output.trim();
@@ -763,8 +763,8 @@ describe('Blueprint', function() {
       blueprint.ui = ui;
 
       blueprint.addPackagesToProject([
-        {name: 'foo-bar', target: '^123.1.12'},
-        {name: 'bar-foo', target: '0.0.7'},
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
       ]);
 
       var output = ui.output.trim();
@@ -776,7 +776,7 @@ describe('Blueprint', function() {
       delete blueprint.ui;
 
       blueprint.addPackagesToProject([
-        {name: 'foo-bar', target: '^123.1.12'},
+        { name: 'foo-bar', target: '^123.1.12' },
       ]);
 
       var output = ui.output.trim();
@@ -794,8 +794,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addPackagesToProject([
-        {name: 'foo-bar', target: '^123.1.12'},
-        {name: 'bar-foo', target: '0.0.7'},
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
       ]);
 
       expect(!!saveDev).to.equal(true);
@@ -811,8 +811,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addPackagesToProject([
-        {name: 'foo-bar', target: '^123.1.12'},
-        {name: 'bar-foo', target: '0.0.7'},
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
       ]);
 
       expect(verbose).to.equal(false);
@@ -847,7 +847,7 @@ describe('Blueprint', function() {
         run: function() {},
       });
 
-      blueprint.removePackageFromProject({name: 'foo-bar'});
+      blueprint.removePackageFromProject({ name: 'foo-bar' });
 
       expect(taskNameLookedUp).to.equal('npm-uninstall');
     });
@@ -882,7 +882,7 @@ describe('Blueprint', function() {
         run: function() {},
       });
 
-      blueprint.removePackagesFromProject([{name: 'foo-bar'}]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }]);
 
       expect(taskNameLookedUp).to.equal('npm-uninstall');
     });
@@ -897,8 +897,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.removePackagesFromProject([
-        {name: 'foo-bar'},
-        {name: 'bar-foo'},
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
       ]);
 
       expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
@@ -908,7 +908,7 @@ describe('Blueprint', function() {
       blueprint.ui = ui;
 
       blueprint.removePackagesFromProject([
-        {name: 'foo-bar'},
+        { name: 'foo-bar' },
       ]);
 
       var output = ui.output.trim();
@@ -920,8 +920,8 @@ describe('Blueprint', function() {
       blueprint.ui = ui;
 
       blueprint.removePackagesFromProject([
-        {name: 'foo-bar'},
-        {name: 'bar-foo'},
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
       ]);
 
       var output = ui.output.trim();
@@ -933,7 +933,7 @@ describe('Blueprint', function() {
       delete blueprint.ui;
 
       blueprint.removePackagesFromProject([
-        {name: 'foo-bar'},
+        { name: 'foo-bar' },
       ]);
 
       var output = ui.output.trim();
@@ -951,8 +951,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.removePackagesFromProject([
-        {name: 'foo-bar'},
-        {name: 'bar-foo'},
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
       ]);
 
       expect(!!saveDev).to.equal(true);
@@ -968,8 +968,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.removePackagesFromProject([
-        {name: 'foo-bar'},
-        {name: 'bar-foo'},
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
       ]);
 
       expect(verbose).to.equal(false);
@@ -1002,7 +1002,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar', source: 'foo-bar', target: '*'}]);
+        expect(packages).to.deep.equal([{ name: 'foo-bar', source: 'foo-bar', target: '*' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar');
@@ -1010,7 +1010,7 @@ describe('Blueprint', function() {
 
     it('passes a packages array with target for addBowerPackagesToProject', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar', source: 'foo-bar', target: '1.0.0'}]);
+        expect(packages).to.deep.equal([{ name: 'foo-bar', source: 'foo-bar', target: '1.0.0' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar', '1.0.0');
@@ -1018,7 +1018,7 @@ describe('Blueprint', function() {
 
     it('correctly handles local package naming, with a numbered pkg version', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '1.0.0', source: 'foo-bar'}]);
+        expect(packages).to.deep.equal([{ name: 'foo-bar-local', target: '1.0.0', source: 'foo-bar' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar-local', 'foo-bar#1.0.0');
@@ -1026,7 +1026,7 @@ describe('Blueprint', function() {
 
     it('correctly handles local package naming, with a non-versioned package', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar-local', target: '*', source: 'https://twitter.github.io/bootstrap/assets/bootstrap'}]);
+        expect(packages).to.deep.equal([{ name: 'foo-bar-local', target: '*', source: 'https://twitter.github.io/bootstrap/assets/bootstrap' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar-local', 'https://twitter.github.io/bootstrap/assets/bootstrap');
@@ -1035,7 +1035,7 @@ describe('Blueprint', function() {
     it('correctly handles a single versioned package descriptor as argument (1) (DEPRECATED)', function() {
       blueprint.ui = ui;
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{name: 'foo-bar', target: '1.11.1', source: 'foo-bar'}]);
+        expect(packages).to.deep.equal([{ name: 'foo-bar', target: '1.11.1', source: 'foo-bar' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar#1.11.1');
@@ -1069,7 +1069,7 @@ describe('Blueprint', function() {
       BowerInstallTask = Task.extend({
         run: function() {},
       });
-      blueprint.addBowerPackagesToProject([{name: 'foo-bar'}]);
+      blueprint.addBowerPackagesToProject([{ name: 'foo-bar' }]);
 
       expect(taskNameLookedUp).to.equal('bower-install');
     });
@@ -1084,8 +1084,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addBowerPackagesToProject([
-        {name: 'foo-bar'},
-        {name: 'bar-foo'},
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
       ]);
 
       expect(packages).to.deep.equal(['foo-bar=foo-bar', 'bar-foo=bar-foo']);
@@ -1101,8 +1101,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addBowerPackagesToProject([
-        {name: 'foo-bar', target: '~1.0.0'},
-        {name: 'bar-foo', target: '0.7.0'},
+        { name: 'foo-bar', target: '~1.0.0' },
+        { name: 'bar-foo', target: '0.7.0' },
       ]);
 
       expect(packages).to.deep.equal(['foo-bar=foo-bar#~1.0.0', 'bar-foo=bar-foo#0.7.0']);
@@ -1118,9 +1118,9 @@ describe('Blueprint', function() {
       });
 
       blueprint.addBowerPackagesToProject([
-        {name: '',          source: 'jquery', target: '~2.0.0'},
-        {name: 'backbone',  source: 'backbone-amd', target: '~1.0.0'},
-        {name: 'bootstrap', source: 'https://twitter.github.io/bootstrap/assets/bootstrap', target: '*'},
+        { name: '',          source: 'jquery', target: '~2.0.0' },
+        { name: 'backbone',  source: 'backbone-amd', target: '~1.0.0' },
+        { name: 'bootstrap', source: 'https://twitter.github.io/bootstrap/assets/bootstrap', target: '*' },
       ]);
 
       expect(packages).to.deep.equal([
@@ -1143,8 +1143,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addBowerPackagesToProject([
-        {name: 'foo-bar', target: '~1.0.0'},
-        {name: 'bar-foo', target: '0.7.0'},
+        { name: 'foo-bar', target: '~1.0.0' },
+        { name: 'bar-foo', target: '0.7.0' },
       ]);
 
       expect(verbose).to.equal(true);
@@ -1178,10 +1178,10 @@ describe('Blueprint', function() {
 
     it('passes a packages array with target for addAddonsToProject', function() {
       blueprint.addAddonsToProject = function(options) {
-        expect(options.packages).to.deep.equal([{name: 'foo-bar', target: '^123.1.12'}]);
+        expect(options.packages).to.deep.equal([{ name: 'foo-bar', target: '^123.1.12' }]);
       };
 
-      blueprint.addAddonToProject({name: 'foo-bar', target: '^123.1.12'});
+      blueprint.addAddonToProject({ name: 'foo-bar', target: '^123.1.12' });
     });
   });
 

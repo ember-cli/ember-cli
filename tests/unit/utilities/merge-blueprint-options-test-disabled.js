@@ -36,7 +36,7 @@ describe('merge-blueprint-options', function() {
     var command, availableOptions;
 
     td.replace(Blueprint, 'lookup', td.function());
-    td.when(Blueprint.lookup('test-blueprint'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('test-blueprint'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
         { name: 'custom-blueprint-option', type: String },
       ],

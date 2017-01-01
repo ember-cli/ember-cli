@@ -35,9 +35,9 @@ describe('test command', function() {
     td.replace(tasks.Test.prototype, 'run', td.function());
     td.replace(tasks.Build.prototype, 'run', td.function());
     td.replace(tasks.TestServer.prototype, 'run', td.function());
-    td.when(tasks.Test.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
-    td.when(tasks.Build.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
-    td.when(tasks.TestServer.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    td.when(tasks.Test.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.Build.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.TestServer.prototype.run(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve());
   });
 
   afterEach(function() {

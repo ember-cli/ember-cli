@@ -127,8 +127,8 @@ describe('models/project.js', function() {
 
         projectConfig = { foo: 'bar', baz: 'qux' };
         project.addons = [
-          { config: function() { return addon1Config; }},
-          { config: function() { return addon2Config; }},
+          { config: function() { return addon1Config; } },
+          { config: function() { return addon2Config; } },
         ];
 
         project._addonsInitialized = true;
@@ -357,11 +357,11 @@ describe('models/project.js', function() {
     });
 
     it('reloads the package', function() {
-      td.verify(Project.prototype.reloadPkg(), {ignoreExtraArgs: true});
+      td.verify(Project.prototype.reloadPkg(), { ignoreExtraArgs: true });
     });
 
     it('initializes the addons', function() {
-      td.verify(Project.prototype.initializeAddons(), {ignoreExtraArgs: true});
+      td.verify(Project.prototype.initializeAddons(), { ignoreExtraArgs: true });
     });
   });
 
@@ -412,13 +412,13 @@ describe('models/project.js', function() {
     });
 
     it('returns true when `ember-cli` is a devDependency', function() {
-      project.pkg.devDependencies = {'ember-cli': '*'};
+      project.pkg.devDependencies = { 'ember-cli': '*' };
 
       expect(project.isEmberCLIProject()).to.equal(true);
     });
 
     it('returns true when `ember-cli` is a dependency', function() {
-      project.pkg.dependencies = {'ember-cli': '*'};
+      project.pkg.dependencies = { 'ember-cli': '*' };
 
       expect(project.isEmberCLIProject()).to.equal(true);
     });
@@ -476,7 +476,7 @@ describe('models/project.js', function() {
 
     it('should call initialize addons', function() {
       project.findAddonByName('foo');
-      td.verify(project.initializeAddons(), {ignoreExtraArgs: true});
+      td.verify(project.initializeAddons(), { ignoreExtraArgs: true });
     });
 
     it('generally should work and defer to findAddonByName utlity', function() {

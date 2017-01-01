@@ -107,7 +107,7 @@ describe('new command', function() {
   });
 
   it('registers blueprint options in beforeRun', function() {
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
         { name: 'custom-blueprint-option', type: String },
       ],
@@ -132,7 +132,7 @@ describe('new command', function() {
       },
     });
 
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
         { name: 'custom-blueprint-option', type: String },
       ],

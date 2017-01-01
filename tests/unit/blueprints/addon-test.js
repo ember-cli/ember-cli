@@ -60,7 +60,7 @@ describe('blueprint - addon', function() {
 
     beforeEach(function() {
       readJsonSync = td.function();
-      td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({});
+      td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
 
       writeFileSync = td.function();
 
@@ -107,7 +107,7 @@ describe('blueprint - addon', function() {
       });
 
       it('removes the `private` property', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           private: true,
         });
 
@@ -123,7 +123,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `name`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           name: 'test-name',
         });
 
@@ -139,7 +139,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `description`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           description: 'test-description',
         });
 
@@ -155,7 +155,7 @@ describe('blueprint - addon', function() {
       });
 
       it('moves `ember-cli-babel` from devDependencies to dependencies', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           devDependencies: {
             'ember-cli-babel': '1.0.0',
           },
@@ -176,7 +176,7 @@ describe('blueprint - addon', function() {
       });
 
       it('does not push multiple `ember-addon` keywords', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           keywords: ['ember-addon'],
         });
 
@@ -192,7 +192,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites any version of `ember-disable-prototype-extensions`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           devDependencies: {
             'ember-disable-prototype-extensions': '0.0.1',
           },
@@ -210,7 +210,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `scripts.test`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           scripts: {
             test: 'test-string',
           },
@@ -228,7 +228,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `ember-addon.configPath`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           'ember-addon': {
             configPath: 'test-path',
           },
@@ -246,7 +246,7 @@ describe('blueprint - addon', function() {
       });
 
       it('preserves dependency ordering', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           dependencies: {
             b: '1',
             a: '1',

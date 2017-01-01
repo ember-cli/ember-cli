@@ -86,7 +86,7 @@ describe('TestServerAddon', function () {
       addon.serverMiddleware({
         app: app,
         options: {
-          watcher: Promise.resolve({directory: 'nothing'}),
+          watcher: Promise.resolve({ directory: 'nothing' }),
           rootURL: '/grayson/+',
         },
         finally: function () {

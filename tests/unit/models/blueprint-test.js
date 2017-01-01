@@ -44,13 +44,13 @@ describe('Blueprint', function() {
 
   describe('.mapFile', function() {
     it('replaces all occurences of __name__ with module name', function() {
-      var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', {dasherizedModuleName: 'my-blueprint'});
+      var path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', { dasherizedModuleName: 'my-blueprint' });
       expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
-      path = Blueprint.prototype.mapFile('__name__/controller.js', {dasherizedModuleName: 'my-blueprint'});
+      path = Blueprint.prototype.mapFile('__name__/controller.js', { dasherizedModuleName: 'my-blueprint' });
       expect(path).to.equal('my-blueprint/controller.js');
 
-      path = Blueprint.prototype.mapFile('__name__/__name__.js', {dasherizedModuleName: 'my-blueprint'});
+      path = Blueprint.prototype.mapFile('__name__/__name__.js', { dasherizedModuleName: 'my-blueprint' });
       expect(path).to.equal('my-blueprint/my-blueprint.js');
     });
 
@@ -153,7 +153,7 @@ describe('Blueprint', function() {
       beforeEach(function() {
         td.replace(blueprint, '_printCommand', td.function());
         td.replace(blueprint, 'printDetailedHelp', td.function());
-        td.when(blueprint.printDetailedHelp(), {ignoreExtraArgs: true}).thenReturn('help in detail');
+        td.when(blueprint.printDetailedHelp(), { ignoreExtraArgs: true }).thenReturn('help in detail');
       });
 
       it('handles overridden', function() {
@@ -168,11 +168,11 @@ describe('Blueprint', function() {
 
         expect(output).to.equal(testString);
 
-        td.verify(blueprint._printCommand(), {times: 0});
+        td.verify(blueprint._printCommand(), { times: 0 });
       });
 
       it('calls printCommand', function() {
-        td.when(blueprint._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+        td.when(blueprint._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
 
         var output = blueprint.printBasicHelp();
 
@@ -183,7 +183,7 @@ describe('Blueprint', function() {
       });
 
       it('prints detailed help if verbose', function() {
-        td.when(blueprint._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+        td.when(blueprint._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
 
         var availableOptions = [];
         assign(blueprint, {
@@ -211,7 +211,7 @@ help in detail');
         var help = blueprint.printDetailedHelp();
         expect(help).to.equal('');
 
-        td.verify(MarkdownColor.prototype.renderFile(), {ignoreExtraArgs: true, times: 0});
+        td.verify(MarkdownColor.prototype.renderFile(), { ignoreExtraArgs: true, times: 0 });
       });
 
       it('found the file', function() {
@@ -271,7 +271,7 @@ help in detail');
 
         blueprint.getJson();
 
-        td.verify(blueprint.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
+        td.verify(blueprint.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
       });
 
       it('is calling printDetailedHelp with availableOptions', function() {
@@ -292,13 +292,13 @@ help in detail');
 
         var json = blueprint.getJson(true);
 
-        td.verify(blueprint.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
+        td.verify(blueprint.printDetailedHelp(), { ignoreExtraArgs: true, times: 1 });
         expect(json).to.not.have.property('detailedHelp');
       });
 
       it('sets detailedHelp properly', function() {
         td.replace(blueprint, 'printDetailedHelp', td.function());
-        td.when(blueprint.printDetailedHelp(), {ignoreExtraArgs: true}).thenReturn('some details');
+        td.when(blueprint.printDetailedHelp(), { ignoreExtraArgs: true }).thenReturn('some details');
 
         var json = blueprint.getJson(true);
 

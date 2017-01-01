@@ -589,7 +589,7 @@ describe('models/instrumentation.js', function() {
             instrumentation.stopAndReport('build', 'a', 'b');
 
             td.verify(instrHook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
-            td.verify(buildInstrHook(), { ignoreExtraArgs: true, times: 0});
+            td.verify(buildInstrHook(), { ignoreExtraArgs: true, times: 0 });
           });
         }
       });
