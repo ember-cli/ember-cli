@@ -68,6 +68,7 @@ module.exports = {
     }],
     'new-parens': 2,
     'no-array-constructor': 2,
+    'no-bitwise': 2,
     'no-plusplus': 0,
     'no-trailing-spaces': 2,
     'no-unneeded-ternary': 2,
@@ -77,6 +78,5 @@ module.exports = {
     'space-unary-ops': 2,
     'quotes': [2, 'single'],
     'semi': [2, 'always'],
-    'no-bitwise': [2],
   },
 };
