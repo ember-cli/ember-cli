@@ -88,8 +88,8 @@ describe('Watcher', function() {
       expect(analytics.trackTimings).to.deep.equal([{
         category: 'rebuild',
         variable: 'rebuild time',
-        label:    'broccoli rebuild time',
-        value:    12344,
+        label: 'broccoli rebuild time',
+        value: 12344,
       }]);
     });
 

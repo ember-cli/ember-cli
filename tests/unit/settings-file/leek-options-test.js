@@ -12,7 +12,7 @@ describe('.ember-cli leek options', function() {
 
   before(function() {
     settings = new Yam('ember-cli', {
-      primary:   process.cwd() + '/tests/fixtures/leek-config',
+      primary: process.cwd() + '/tests/fixtures/leek-config',
     });
 
     cli = cliEntry({

@@ -113,12 +113,12 @@ module.exports = {
 
   fileMap: {
     '^app/.gitkeep': 'app/.gitkeep',
-    '^app.*':        'tests/dummy/:path',
-    '^config.*':     'tests/dummy/:path',
-    '^public.*':     'tests/dummy/:path',
+    '^app.*': 'tests/dummy/:path',
+    '^config.*': 'tests/dummy/:path',
+    '^public.*': 'tests/dummy/:path',
 
     '^addon-config/environment.js': 'config/environment.js',
-    '^addon-config/ember-try.js'  : 'config/ember-try.js',
+    '^addon-config/ember-try.js': 'config/ember-try.js',
 
     '^npmignore': '.npmignore',
   },

@@ -851,7 +851,7 @@ describe('broccoli/ember-app', function() {
 
       app.import({
         'development': 'vendor/jquery.js',
-        'production':  null,
+        'production': null,
       });
 
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.not.contain('vendor/jquery.js');

@@ -60,6 +60,7 @@ module.exports = {
       'SwitchCase': 1,
       'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 }
     }],
+    'key-spacing': 2,
     'keyword-spacing': 2,
     'linebreak-style': [2, 'unix'],
     'new-cap': [2, {

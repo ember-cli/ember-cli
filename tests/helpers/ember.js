@@ -66,10 +66,10 @@ module.exports = function ember(args, options) {
   }
 
   cliInstance = cli({
-    inputStream:  inputStream,
+    inputStream: inputStream,
     outputStream: outputStream,
-    errorLog:     errorLog,
-    cliArgs:      args,
+    errorLog: errorLog,
+    cliArgs: args,
     Leek: MockAnalytics,
     UI: ui,
     testing: true,

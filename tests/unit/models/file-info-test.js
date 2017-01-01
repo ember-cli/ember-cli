@@ -50,7 +50,7 @@ describe('Unit - FileInfo', function() {
   // eslint-disable-next-line no-template-curly-in-string
   it('does not interpolate {{ }} or ${ }', function () {
     var options = {};
-    assign(options, validOptions, {inputPath:  path.resolve(__dirname,
+    assign(options, validOptions, {inputPath: path.resolve(__dirname,
       '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' }});
     var fileInfo = new FileInfo(options);
     return fileInfo.render().then(function(output) {

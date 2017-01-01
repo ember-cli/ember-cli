@@ -91,7 +91,7 @@ describe('models/command.js', function() {
   before(function() {
     config = new Yam('ember-cli', {
       secondary: process.cwd() + '/tests/fixtures/home',
-      primary:   process.cwd() + '/tests/fixtures/project',
+      primary: process.cwd() + '/tests/fixtures/project',
     });
   });
 

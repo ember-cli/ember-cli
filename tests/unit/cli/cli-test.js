@@ -28,9 +28,9 @@ function ember(args) {
   var stopInstr = td.replace(cli.instrumentation, 'stopAndReport');
 
   return cli.run({
-    tasks:    {},
+    tasks: {},
     commands: commands,
-    cliArgs:  args || [],
+    cliArgs: args || [],
     settings: {},
     project: project,
   }).then(function (value) {
@@ -127,7 +127,7 @@ describe('Unit: CLI', function() {
     var help = stubValidateAndRun('help');
     var helpOptions = {
       environment: {
-        tasks:    {},
+        tasks: {},
         commands: commands,
         cliArgs: [],
         settings: {},

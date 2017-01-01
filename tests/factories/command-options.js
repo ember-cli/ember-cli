@@ -15,11 +15,11 @@ function createProject() {
 module.exports = function CommandOptionsFactory(options) {
   options = options || {};
   return defaults(options, {
-    ui:        new MockUI(),
+    ui: new MockUI(),
     analytics: new MockAnalytics(),
-    tasks:     {},
-    project:   options.project || createProject(),
-    commands:  {},
-    settings:  {},
+    tasks: {},
+    project: options.project || createProject(),
+    commands: {},
+    settings: {},
   });
 };

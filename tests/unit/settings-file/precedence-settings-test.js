@@ -20,31 +20,31 @@ describe('.ember-cli', function() {
     project   = { isEmberCLIProject: function() { return true; }};
 
     homeSettings = {
-      proxy:       'http://iamstef.net/ember-cli',
-      liveReload:  false,
+      proxy: 'http://iamstef.net/ember-cli',
+      liveReload: false,
       environment: 'mock-development',
-      host:        '0.1.0.1',
+      host: '0.1.0.1',
     };
 
     settings = new Yam('ember-cli', {
       secondary: process.cwd() + '/tests/fixtures/home',
-      primary:   process.cwd() + '/tests/fixtures/project',
+      primary: process.cwd() + '/tests/fixtures/project',
     }).getAll();
   });
 
   it('local settings take precedence over global settings', function() {
     var command = new Command({
-      ui:        ui,
+      ui: ui,
       analytics: analytics,
-      project:   project,
-      settings:  settings,
+      project: project,
+      settings: settings,
     });
 
     var args = command.parseArgs();
 
     expect(args.options).to.include(
       merge(homeSettings, {
-        port:       999,
+        port: 999,
         liveReload: false,
       })
     );

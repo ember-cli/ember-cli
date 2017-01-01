@@ -29,7 +29,7 @@ describe('models/addon.js', function() {
   describe('root property', function() {
     it('is required', function() {
       expect(function() {
-        var TheAddon = Addon.extend({root:undefined});
+        var TheAddon = Addon.extend({root: undefined});
         new TheAddon();
       }).to.throw(/root/);
     });

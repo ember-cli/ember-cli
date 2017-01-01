@@ -57,7 +57,7 @@ describe('express-server', function() {
   describe('processAppMiddlewares', function() {
     it('has a good error message if a file exists, but does not export a function', function() {
       subject.project = {
-        has:     function() { return true; },
+        has: function() { return true; },
         require: function() { return {};   },
       };
 
