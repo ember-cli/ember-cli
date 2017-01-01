@@ -47,6 +47,9 @@ module.exports = {
 
     'array-bracket-spacing': 2,
     'block-spacing': 2,
+    'brace-style': [2, '1tbs', {
+      'allowSingleLine': true,
+    }],
     'camelcase': 2,
     'comma-dangle': 0,
     'eol-last': 2,
