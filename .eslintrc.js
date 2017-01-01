@@ -13,7 +13,6 @@ module.exports = {
   rules: {
     /*** Possible Errors ***/
 
-    'comma-dangle': 0,
     'no-console': 0,
     'no-template-curly-in-string': 2,
 
@@ -46,6 +45,7 @@ module.exports = {
     /*** Stylistic Issues ***/
 
     'camelcase': 2,
+    'comma-dangle': 0,
     'eol-last': 2,
     'indent': [2, 2, {
       'SwitchCase': 1,
