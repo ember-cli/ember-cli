@@ -662,7 +662,7 @@ describe('models/instrumentation.js', function() {
         { name: 'c3' },
       ]);
 
-      expect(json.nodes.map(function (x) { return x.children;})).to.eql([
+      expect(json.nodes.map(function (x) { return x.children; })).to.eql([
         [2],
         [3,5],
         [4],
@@ -702,7 +702,7 @@ describe('models/instrumentation.js', function() {
         return x.label.name === 'c2';
       })[0];
 
-      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function (x) { return x.label.name;});
+      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function (x) { return x.label.name; });
       expect(ancestorNames).to.eql([
         'b2', 'a', name
       ]);

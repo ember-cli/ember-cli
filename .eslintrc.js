@@ -46,6 +46,7 @@ module.exports = {
     /*** Stylistic Issues ***/
 
     'array-bracket-spacing': 2,
+    'block-spacing': 2,
     'camelcase': 2,
     'comma-dangle': 0,
     'eol-last': 2,
