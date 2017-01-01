@@ -72,12 +72,12 @@
     "ember-try": "^0.2.6",
     "ensure-posix-path": "^1.0.2",
     "escape-string-regexp": "^1.0.3",
-    "execa": "^0.4.0",
+    "execa": "^0.5.0",
     "exists-sync": "0.0.4",
     "exit": "^0.1.2",
     "express": "^4.12.3",
     "filesize": "^3.1.3",
-    "find-up": "^1.1.2",
+    "find-up": "^2.1.0",
     "fs-extra": "1.0.0",
     "fs-tree-diff": "^0.5.2",
     "get-caller-file": "^1.0.0",
@@ -133,10 +133,10 @@
     "github": "^7.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^3.0.0",
-    "mocha-eslint": "^2.0.1",
+    "mocha-eslint": "^3.0.1",
     "mocha-only-detector": "^0.1.0",
     "multiline": "^1.0.2",
-    "nock": "^8.0.0",
+    "nock": "^9.0.2",
     "proxyquire": "^1.7.7",
     "supertest": "^2.0.0",
     "testdouble": "^1.3.0",
@@ -150,10 +150,6 @@
   "greenkeeper": {
     "ignore": [
       "diff",
-      "execa",
-      "find-up",
-      "mocha-eslint",
-      "nock",
       "npm"
     ]
   }
