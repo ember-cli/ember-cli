@@ -92,5 +92,9 @@ module.exports = {
     'quotes': [2, 'single'],
     'semi': [2, 'always'],
     'wrap-regex': 2,
+
+    /*** ECMAScript 6 ***/
+
+    'arrow-body-style': 2,
   },
 };
