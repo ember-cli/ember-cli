@@ -70,22 +70,22 @@ function stubRun(name) {
   return td.replace(commands[name].prototype, 'run', td.function());
 }
 
-beforeEach(function() {
-  ui = new MockUI();
-  analytics = new MockAnalytics();
-  argv = [];
-  commands = { };
-  isWithinProject = true;
-});
-
-afterEach(function() {
-  td.reset();
-
-  delete process.env.EMBER_ENV;
-  commands = argv = ui = undefined;
-});
-
 describe('Unit: CLI', function() {
+  beforeEach(function() {
+    ui = new MockUI();
+    analytics = new MockAnalytics();
+    argv = [];
+    commands = { };
+    isWithinProject = true;
+  });
+
+  afterEach(function() {
+    td.reset();
+
+    delete process.env.EMBER_ENV;
+    commands = argv = ui = undefined;
+  });
+
   this.timeout(10000);
   it('exists', function() {
     expect(CLI).to.be.ok;
