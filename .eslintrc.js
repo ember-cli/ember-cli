@@ -55,6 +55,7 @@ module.exports = {
     'comma-spacing': 2,
     'comma-style': 2,
     'eol-last': 2,
+    'func-call-spacing': 2,
     'indent': [2, 2, {
       'SwitchCase': 1,
       'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 }
