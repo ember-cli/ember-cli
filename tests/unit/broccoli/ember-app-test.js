@@ -415,7 +415,7 @@ describe('broccoli/ember-app', function() {
         };
 
         project.initializeAddons = function() {
-          this.addons = [ addon ];
+          this.addons = [addon];
         };
 
         var app = new EmberApp({
@@ -430,7 +430,7 @@ describe('broccoli/ember-app', function() {
         delete addon.included;
 
         project.initializeAddons = function() {
-          this.addons = [ addon ];
+          this.addons = [addon];
         };
 
         expect(function() {
@@ -449,7 +449,7 @@ describe('broccoli/ember-app', function() {
         };
 
         project.initializeAddons = function() {
-          this.addons = [ addon ];
+          this.addons = [addon];
         };
 
         app = new EmberApp({
@@ -569,7 +569,7 @@ describe('broccoli/ember-app', function() {
         };
 
         project.initializeAddons = function() {
-          this.addons = [ addon ];
+          this.addons = [addon];
         };
 
         app = new EmberApp({
@@ -740,7 +740,7 @@ describe('broccoli/ember-app', function() {
         };
 
         project.initializeAddons = function() {
-          this.addons = [ addon ];
+          this.addons = [addon];
         };
 
         app = new EmberApp({

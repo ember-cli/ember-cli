@@ -62,7 +62,7 @@ describe('models/addon-discovery.js', function() {
       var actualPaths = [];
       var project = {
         supportedInternalAddonPaths: function() {
-          return [ 'lib/foo/', 'baz/qux/' ];
+          return ['lib/foo/', 'baz/qux/'];
         }
       };
 
@@ -118,7 +118,7 @@ describe('models/addon-discovery.js', function() {
       var actualPaths = [];
       var pkg = {
         'ember-addon': {
-          paths: [ 'lib/foo', 'baz/qux' ]
+          paths: ['lib/foo', 'baz/qux']
         }
       };
       var discovery = new AddonDiscovery(ui);
@@ -143,7 +143,7 @@ describe('models/addon-discovery.js', function() {
       var actualPaths = [];
       var pkg = {
         'ember-addon': {
-          paths: [ 'lib/foo', 'baz/qux' ]
+          paths: ['lib/foo', 'baz/qux']
         }
       };
       var discovery = new AddonDiscovery(ui);
@@ -315,7 +315,7 @@ describe('models/addon-discovery.js', function() {
       };
 
       var actual = discovery.discoverFromProjectItself(project);
-      var expectedPaths = [ 'foo/bar/baz' ];
+      var expectedPaths = ['foo/bar/baz'];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
       expect(actual).to.deep.equal(expectedPaths);
@@ -363,16 +363,16 @@ describe('models/addon-discovery.js', function() {
 
     it('concats discoverInRepoAddons and discoverFromDependencies results', function() {
       discovery.discoverFromDependencies = function() {
-        return [ 'discoverFromDependencies' ];
+        return ['discoverFromDependencies'];
       };
 
       discovery.discoverInRepoAddons = function() {
-        return [ 'discoverInRepoAddons' ];
+        return ['discoverInRepoAddons'];
       };
 
       var result = discovery.discoverChildAddons(addon);
 
-      expect(result).to.deep.equal([ 'discoverFromDependencies', 'discoverInRepoAddons' ]);
+      expect(result).to.deep.equal(['discoverFromDependencies', 'discoverInRepoAddons']);
     });
 
     it('uses shouldIncludeChildAddon() to determine whether an addon should be included', function() {
@@ -381,11 +381,11 @@ describe('models/addon-discovery.js', function() {
       };
 
       discovery.discoverFromDependencies = function() {
-        return [ 'discoverFromDependencies' ];
+        return ['discoverFromDependencies'];
       };
 
       discovery.discoverInRepoAddons = function() {
-        return [ 'discoverInRepoAddons' ];
+        return ['discoverInRepoAddons'];
       };
 
       var result = discovery.discoverChildAddons(addon);
@@ -415,25 +415,25 @@ describe('models/addon-discovery.js', function() {
       discovery.discoverFromProjectItself = function() {
         discoverFromProjectItselfCalled = true;
 
-        return [ 'discoverFromProjectItself' ];
+        return ['discoverFromProjectItself'];
       };
 
       discovery.discoverFromInternalProjectAddons = function() {
         discoverFromInternalProjectAddonsCalled = true;
 
-        return [ 'discoverFromInternalProjectAddons' ];
+        return ['discoverFromInternalProjectAddons'];
       };
 
       discovery.discoverFromDependencies = function() {
         discoverFromDependenciesCalled = true;
 
-        return [ 'discoverFromDependencies' ];
+        return ['discoverFromDependencies'];
       };
 
       discovery.discoverInRepoAddons = function() {
         discoverInRepoAddonsCalled = true;
 
-        return [ 'discoverInRepoAddons' ];
+        return ['discoverInRepoAddons'];
       };
     });
 

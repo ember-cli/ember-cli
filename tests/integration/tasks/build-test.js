@@ -56,7 +56,7 @@ describe('build task test', function() {
 
     return task.run(runOptions)
       .then(function() {
-        var expected = [ 'foo.txt'];
+        var expected = ['foo.txt'];
 
         expect(walkSync(outputPath)).to.eql(['foo.txt']);
         expect(file('dist/foo.txt')).to.equal('Some file named foo.txt\n');

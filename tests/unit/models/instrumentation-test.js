@@ -840,7 +840,7 @@ describe('models/instrumentation.js', function() {
       it('computes an init summary', function() {
         var summary = instrumentation._initSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+        expect(Object.keys(summary)).to.eql(['totalTime']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
       });
@@ -850,7 +850,7 @@ describe('models/instrumentation.js', function() {
       it('computes a command summary', function() {
         var summary = instrumentation._commandSummary(instrTree, 'build', ['--like', '--whatever']);
 
-        expect(Object.keys(summary)).to.eql([ 'name', 'args', 'totalTime' ]);
+        expect(Object.keys(summary)).to.eql(['name', 'args', 'totalTime']);
 
         expect(summary.name).to.equal('build');
         expect(summary.args).to.eql(['--like', '--whatever']);
@@ -862,7 +862,7 @@ describe('models/instrumentation.js', function() {
       it('computes a shutdown summary', function() {
         var summary = instrumentation._shutdownSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+        expect(Object.keys(summary)).to.eql(['totalTime']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
       });

@@ -137,7 +137,7 @@ describe('models/asset-size-printer', function () {
         assetObjectKeys = Object.keys(assetObject[0]);
 
         expect(assetObject.length).to.eql(6);
-        expect(assetObjectKeys).to.deep.equal([ 'name', 'size', 'gzipSize', 'showGzipped' ]);
+        expect(assetObjectKeys).to.deep.equal(['name', 'size', 'gzipSize', 'showGzipped']);
         expect(assetObject[0].name).to.include('nested-asset.css');
         expect(assetObject[1].name).to.include('nested-asset.js');
         expect(assetObject[2].name).to.include('empty.js');

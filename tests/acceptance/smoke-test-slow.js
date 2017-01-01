@@ -161,7 +161,7 @@ describe('Acceptance: smoke-test', function() {
           };
         }(originalWrite));
 
-        return ember([ 'test', '--path=dist' ]);
+        return ember(['test', '--path=dist']);
       }).finally(function() {
         process.stdout.write = originalWrite;
       })

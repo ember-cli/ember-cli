@@ -436,7 +436,7 @@ describe('models/project.js', function() {
 
     it('should return true if `ember-addon` is included in keywords', function() {
       project.pkg = {
-        keywords: [ 'ember-addon' ]
+        keywords: ['ember-addon']
       };
 
       expect(project.isEmberCLIAddon()).to.equal(true);
@@ -444,7 +444,7 @@ describe('models/project.js', function() {
 
     it('should return false if `ember-addon` is not included in keywords', function() {
       project.pkg = {
-        keywords: [ ]
+        keywords: []
       };
 
       expect(project.isEmberCLIAddon()).to.equal(false);

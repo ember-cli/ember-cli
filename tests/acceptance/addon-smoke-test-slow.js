@@ -53,7 +53,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
-    expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
+    expect(packageContents.keywords).to.deep.equal(['ember-addon']);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
     var bowerContents = fs.readJsonSync('bower.json');
