@@ -98,5 +98,8 @@ module.exports = {
     'arrow-body-style': 2,
     'arrow-parens': [2, 'as-needed'],
     'arrow-spacing': 2,
+    'no-confusing-arrow': [2, {
+      'allowParens': true,
+    }],
   },
 };
