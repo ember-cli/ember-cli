@@ -753,7 +753,7 @@ describe('express-server', function() {
         project.initializeAddons = function() { };
         project.addons = [
           {
-            serverMiddleware: function () {
+            serverMiddleware: function() {
               order.push('first');
             },
           },
@@ -958,7 +958,7 @@ describe('express-server', function() {
           originalHttpServer = subject.httpServer;
           originalApp = subject.app;
           subject.serverRestartPromise = new Promise(function(resolve) {
-            setTimeout(function () {
+            setTimeout(function() {
               subject.serverRestartPromise = null;
               resolve();
             }, 20);

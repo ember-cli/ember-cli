@@ -26,7 +26,7 @@ describe('Server Watcher', function() {
   });
 
   describe('watcher:change', function() {
-    beforeEach(function () {
+    beforeEach(function() {
       watcher.emit('change', 'foo.txt');
     });
 
@@ -43,7 +43,7 @@ describe('Server Watcher', function() {
   });
 
   describe('watcher:add', function() {
-    beforeEach(function () {
+    beforeEach(function() {
       watcher.emit('add', 'foo.txt');
     });
 
@@ -60,7 +60,7 @@ describe('Server Watcher', function() {
   });
 
   describe('watcher:delete', function() {
-    beforeEach(function () {
+    beforeEach(function() {
       watcher.emit('delete', 'foo.txt');
     });
 

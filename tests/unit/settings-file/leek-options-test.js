@@ -17,10 +17,10 @@ describe('.ember-cli leek options', function() {
 
     cli = cliEntry({
       UI: MockUI,
-      Leek: function (options) {
+      Leek: function(options) {
         passedOptions = options;
       },
-      Yam: function () {
+      Yam: function() {
         return settings;
       },
     });

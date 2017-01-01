@@ -1446,7 +1446,7 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should include an inAddon and inDummy flag of true if the project is an addon', function () {
+    it('should include an inAddon and inDummy flag of true if the project is an addon', function() {
       options.dummy = true;
 
       blueprint.project.isEmberCLIAddon = function() {
@@ -1520,13 +1520,13 @@ describe('Blueprint', function() {
     it('should return a default object if no custom options are passed', function() {
       result = blueprint._locals(options);
 
-      result.then(function (locals) {
+      result.then(function(locals) {
         expect(locals).to.eql(expectation);
       });
     });
 
     it('it should call the locals method with the correct arguments', function() {
-      blueprint.locals = function (opts) {
+      blueprint.locals = function(opts) {
         expect(opts).to.equal(options);
       };
 
@@ -1571,7 +1571,7 @@ describe('Blueprint', function() {
 
       result = blueprint._locals(options);
 
-      result.then(function (locals) {
+      result.then(function(locals) {
         expect(locals).to.eql(expectation);
       });
     });
@@ -1585,7 +1585,7 @@ describe('Blueprint', function() {
 
       result = blueprint._locals(options);
 
-      result.then(function (locals) {
+      result.then(function(locals) {
         expect(locals).to.eql(expectation);
       });
     });
@@ -1599,7 +1599,7 @@ describe('Blueprint', function() {
 
       result = blueprint._locals(options);
 
-      result.then(function (locals) {
+      result.then(function(locals) {
         expect(locals).to.eql(expectation);
       });
     });

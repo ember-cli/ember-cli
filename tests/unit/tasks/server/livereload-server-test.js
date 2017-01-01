@@ -126,21 +126,21 @@ describe('livereload-server', function() {
   describe('express server restart', function() {
     it('triggers when the express server restarts', function() {
       var calls = 0;
-      subject.didRestart = function () {
+      subject.didRestart = function() {
         calls++;
       };
 
       return subject.start({
         liveReloadPort: 1337,
         liveReload: true,
-      }).then(function () {
+      }).then(function() {
         expressServer.emit('restart');
         expect(calls).to.equal(1);
       });
     });
   });
 
-  describe('livereload changes', function () {
+  describe('livereload changes', function() {
     var liveReloadServer;
     var changedCount;
     var oldChanged;
@@ -184,7 +184,7 @@ describe('livereload-server', function() {
       subject.project.liveReloadFilterPatterns = [];
     });
 
-    describe('watcher events', function () {
+    describe('watcher events', function() {
       function watcherEventTest(eventName, expectedCount) {
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries([
           'test/fixtures/proxy/file-a.js',
@@ -193,24 +193,24 @@ describe('livereload-server', function() {
         return subject.start({
           liveReloadPort: 1337,
           liveReload: true,
-        }).then(function () {
+        }).then(function() {
           watcher.emit(eventName, {
             directory: '/home/user/projects/my-project/tmp/something.tmp',
           });
-        }).finally(function () {
+        }).finally(function() {
           expect(changedCount).to.equal(expectedCount);
         });
       }
 
-      it('triggers a livereload change on a watcher change event', function () {
+      it('triggers a livereload change on a watcher change event', function() {
         return watcherEventTest('change', 1);
       });
 
-      it('triggers a livereload change on a watcher error event', function () {
+      it('triggers a livereload change on a watcher error event', function() {
         return watcherEventTest('error', 1);
       });
 
-      it('does not trigger a livereload change on other watcher events', function () {
+      it('does not trigger a livereload change on other watcher events', function() {
         return watcherEventTest('not-an-event', 0);
       });
 

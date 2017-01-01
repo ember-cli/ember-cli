@@ -4,8 +4,8 @@ var expect            = require('chai').expect;
 var TestsServerAddon  = require('../../../../../lib/tasks/server/middleware/tests-server');
 var Promise           = require('../../../../../lib/ext/promise');
 
-describe('TestServerAddon', function () {
-  describe('.serverMiddleware', function () {
+describe('TestServerAddon', function() {
+  describe('.serverMiddleware', function() {
     var addon, nextWasCalled, mockRequest, app;
 
     beforeEach(function() {
@@ -18,8 +18,8 @@ describe('TestServerAddon', function () {
         headers: {},
       };
       app = {
-        use: function (callback) {
-          return callback(mockRequest, null, function () { nextWasCalled = true; });
+        use: function(callback) {
+          return callback(mockRequest, null, function() { nextWasCalled = true; });
         },
       };
     });
@@ -89,7 +89,7 @@ describe('TestServerAddon', function () {
           watcher: Promise.resolve({ directory: 'nothing' }),
           rootURL: '/grayson/+',
         },
-        finally: function () {
+        finally: function() {
           try {
             expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
             done();

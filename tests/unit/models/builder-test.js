@@ -29,7 +29,7 @@ describe('models/builder.js', function() {
 
   function setupBroccoliBuilder() {
     this.builder = {
-      build: function () {
+      build: function() {
         return Promise.resolve('build results');
       },
 
@@ -113,7 +113,7 @@ describe('models/builder.js', function() {
       originalStdin = process.platform;
     });
 
-    after(function () {
+    after(function() {
       Object.defineProperty(process, 'platform', {
         value: originalPlatform,
       });
@@ -246,7 +246,7 @@ describe('models/builder.js', function() {
     var instrumentationStart;
     var instrumentationStop;
 
-    beforeEach(function () {
+    beforeEach(function() {
       var command = new BuildCommand(commandOptions());
 
       builder = new Builder({
@@ -259,7 +259,7 @@ describe('models/builder.js', function() {
       instrumentationStop = td.replace(builder.project._instrumentation, 'stopAndReport');
     });
 
-    afterEach(function () {
+    afterEach(function() {
       delete process._heimdall;
       delete process.env.BROCCOLI_VIZ;
       builder.project.ui.output = '';
@@ -267,7 +267,7 @@ describe('models/builder.js', function() {
 
     it('calls instrumentation.start', function() {
       var mockAnnotation = 'MockAnnotation';
-      return builder.build(null, mockAnnotation).then(function () {
+      return builder.build(null, mockAnnotation).then(function() {
         td.verify(instrumentationStart('build'), { times: 1 });
       });
     });
@@ -275,7 +275,7 @@ describe('models/builder.js', function() {
     it('calls instrumentation.stop(build, result, resultAnnotation)', function() {
       var mockAnnotation = 'MockAnnotation';
 
-      return builder.build(null, mockAnnotation).then(function () {
+      return builder.build(null, mockAnnotation).then(function() {
         td.verify(instrumentationStop('build', 'build results', mockAnnotation), { times: 1 });
       });
     });
@@ -283,7 +283,7 @@ describe('models/builder.js', function() {
     it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', function() {
       process._heimdall = {};
 
-      return builder.build().then(function () {
+      return builder.build().then(function() {
         var output = builder.project.ui.output;
 
         expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
@@ -293,7 +293,7 @@ describe('models/builder.js', function() {
     it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', function() {
       expect(process._heimdall).to.equal(undefined);
 
-      return builder.build().then(function () {
+      return builder.build().then(function() {
         var output = builder.project.ui.output;
 
         expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
@@ -354,7 +354,7 @@ describe('models/builder.js', function() {
       buildResults = 'build results';
     });
 
-    afterEach(function () {
+    afterEach(function() {
       delete process.env.BROCCOLI_VIZ;
       delete process.env.EMBER_CLI_INSTRUMENTATION;
     });
@@ -390,7 +390,7 @@ describe('models/builder.js', function() {
 
       if (experiments.INSTRUMENTATION) {
         it('invokes the instrumentation hook if it is preset', function() {
-          addon[experiments.INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('instrumentation');
             instrumentationArg = instrumentation;
           };
@@ -403,11 +403,11 @@ describe('models/builder.js', function() {
 
       if (experiments.INSTRUMENTATION && experiments.BUILD_INSTRUMENTATION) {
         it('prefers the instrumentation hook if it and build_instrumentation are present', function() {
-          addon[experiments.INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('instrumentation');
             instrumentationArg = instrumentation;
           };
-          addon[experiments.BUILD_INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.BUILD_INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('buildInstrumentation');
             instrumentationArg = instrumentation;
           };
@@ -420,7 +420,7 @@ describe('models/builder.js', function() {
 
       if (experiments.BUILD_INSTRUMENTATION) {
         it('invokes build_instrumentation if it is present and instrumentation is not', function() {
-          addon[experiments.BUILD_INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.BUILD_INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('buildInstrumentation');
             instrumentationArg = instrumentation;
           };

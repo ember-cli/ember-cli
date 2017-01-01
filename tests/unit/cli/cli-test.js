@@ -33,7 +33,7 @@ function ember(args) {
     cliArgs: args || [],
     settings: {},
     project: project,
-  }).then(function (value) {
+  }).then(function(value) {
     td.verify(stopInstr('init'), { times: 1 });
     td.verify(startInstr('command'), { times: 1 });
     td.verify(stopInstr('command', td.matchers.anything(), td.matchers.isA(Array)), { times: 1 });
@@ -270,7 +270,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --proxy https://localhost:3009/ --insecure-proxy', function () {
+      it('ember ' + command + ' --proxy https://localhost:3009/ --insecure-proxy', function() {
         var server = stubRun('serve');
 
         return ember([command, '--insecure-proxy']).then(function() {
@@ -280,7 +280,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --proxy https://localhost:3009/ --no-insecure-proxy', function () {
+      it('ember ' + command + ' --proxy https://localhost:3009/ --no-insecure-proxy', function() {
         var server = stubRun('serve');
 
         return ember([command, '--no-insecure-proxy']).then(function() {
@@ -467,7 +467,7 @@ describe('Unit: CLI', function() {
       it('ember ' + command + ' --suppress-sizes', function() {
         var build = stubRun('build');
 
-        return ember([command, '--suppress-sizes']).then(function () {
+        return ember([command, '--suppress-sizes']).then(function() {
           var captor = td.matchers.captor();
           td.verify(build(captor.capture()), { ignoreExtraArgs: true, times: 1 });
 

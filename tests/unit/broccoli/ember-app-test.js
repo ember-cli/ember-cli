@@ -948,7 +948,7 @@ describe('broccoli/ember-app', function() {
       expect(vendorFiles).to.not.contain('handlebars.js');
     });
 
-    it('defaults to ember.debug.js if exists in bower_components', function () {
+    it('defaults to ember.debug.js if exists in bower_components', function() {
       var root = path.resolve(__dirname, '../../fixtures/app/with-default-ember-debug');
 
       app = new EmberApp({
@@ -959,7 +959,7 @@ describe('broccoli/ember-app', function() {
       expect(files.development).to.equal('bower_components/ember/ember.debug.js');
     });
 
-    it('switches the default ember.debug.js to ember.js if it does not exist', function () {
+    it('switches the default ember.debug.js to ember.js if it does not exist', function() {
       var root = path.resolve(__dirname, '../../fixtures/app/without-ember-debug');
 
       app = new EmberApp({
@@ -970,7 +970,7 @@ describe('broccoli/ember-app', function() {
       expect(files.development).to.equal('bower_components/ember/ember.js');
     });
 
-    it('does not clobber an explicitly configured ember development file', function () {
+    it('does not clobber an explicitly configured ember development file', function() {
       app = new EmberApp({
         project: project,
 

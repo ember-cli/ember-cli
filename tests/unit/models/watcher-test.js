@@ -32,7 +32,7 @@ describe('Watcher', function() {
   });
 
   describe('watcher strategy selection', function() {
-    it('selects the events-based watcher by default', function () {
+    it('selects the events-based watcher by default', function() {
       subject.options = null;
 
       expect(subject.buildOptions()).to.deep.equal({
@@ -43,7 +43,7 @@ describe('Watcher', function() {
       });
     });
 
-    it('selects the events-based watcher when given events watcher option', function () {
+    it('selects the events-based watcher when given events watcher option', function() {
       subject.options = {
         watcher: 'events',
       };
@@ -56,7 +56,7 @@ describe('Watcher', function() {
       });
     });
 
-    it('selects the polling watcher when given polling watcher option', function () {
+    it('selects the polling watcher when given polling watcher option', function() {
       subject.options = {
         watcher: 'polling',
       };

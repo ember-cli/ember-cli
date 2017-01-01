@@ -64,7 +64,7 @@ module.exports = function run(/* command, args, options */) {
     };
 
     if (options.onChildSpawned) {
-      var onChildSpawnedPromise = new Promise(function (childSpawnedResolve, childSpawnedReject) {
+      var onChildSpawnedPromise = new Promise(function(childSpawnedResolve, childSpawnedReject) {
         try {
           options.onChildSpawned(child).then(childSpawnedResolve, childSpawnedReject);
         } catch (err) {
@@ -72,11 +72,11 @@ module.exports = function run(/* command, args, options */) {
         }
       });
       onChildSpawnedPromise
-        .then(function () {
+        .then(function() {
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
           }
-        }, function (err) {
+        }, function(err) {
           result.testingError = err;
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
@@ -84,7 +84,7 @@ module.exports = function run(/* command, args, options */) {
         });
     }
 
-    child.stdout.on('data', function (data) {
+    child.stdout.on('data', function(data) {
       var string = data.toString();
 
       options.onOutput(string, child);
@@ -92,7 +92,7 @@ module.exports = function run(/* command, args, options */) {
       result.output.push(string);
     });
 
-    child.stderr.on('data', function (data) {
+    child.stderr.on('data', function(data) {
       var string = data.toString();
 
       options.onError(string, child);
@@ -100,7 +100,7 @@ module.exports = function run(/* command, args, options */) {
       result.errors.push(string);
     });
 
-    child.on('close', function (code, signal) {
+    child.on('close', function(code, signal) {
       result.code = code;
       result.signal = signal;
 

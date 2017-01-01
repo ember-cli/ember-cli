@@ -41,7 +41,7 @@ describe('models/instrumentation.js', function() {
     var originalBroccoliViz = process.env.BROCCOLI_VIZ;
     var originalStatSync = fs.statSync;
 
-    beforeEach(function () {
+    beforeEach(function() {
       expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
       expect(!!process.env.EMBER_CLI_INSTRUMENTATION).to.eql(false);
     });
@@ -209,7 +209,7 @@ describe('models/instrumentation.js', function() {
       delete process.env.BROCCOLI_VIZ;
       delete process.env.EMBER_CLI_INSTRUMENTATION;
       warnInvocations = [];
-      console.warn = function () {
+      console.warn = function() {
         warnInvocations.push.apply(warnInvocations, Array.prototype.slice.call(arguments));
       };
     });
@@ -322,7 +322,7 @@ describe('models/instrumentation.js', function() {
     });
 
     it('throws if name is unexpected', function() {
-      expect(function () {
+      expect(function() {
         instrumentation.start('a party!');
       }).to.throw('No such instrumentation "a party!"');
     });
@@ -349,13 +349,13 @@ describe('models/instrumentation.js', function() {
     });
 
     it('throws if name is unexpected', function() {
-      expect(function () {
+      expect(function() {
         instrumentation.stopAndReport('the weather');
       }).to.throw('No such instrumentation "the weather"');
     });
 
     it('throws if name has not yet started', function() {
-      expect(function () {
+      expect(function() {
         instrumentation.stopAndReport('init');
       }).to.throw('Cannot stop instrumentation "init".  It has not started.');
     });
@@ -420,13 +420,13 @@ describe('models/instrumentation.js', function() {
 
         var mockInitSummary = { ok: 'init dokie' };
         var mockInitTree = {
-          toJSON: function () {
+          toJSON: function() {
             return { nodes: [{ i: 'can init json' }] };
           },
         };
         var mockBuildSummary = { ok: 'build dokie' };
         var mockBuildTree = {
-          toJSON: function () {
+          toJSON: function() {
             return { nodes: [{ i: 'can build json' }] };
           },
         };
@@ -443,7 +443,7 @@ describe('models/instrumentation.js', function() {
         process.env.BROCCOLI_VIZ = '1';
 
         return mkTmpDirIn(tmproot)
-          .then(function () {
+          .then(function() {
             process.chdir(tmproot);
 
             instrumentation.start('init');
@@ -479,7 +479,7 @@ describe('models/instrumentation.js', function() {
         delete process.env.BROCCOLI_VIZ;
 
         return mkTmpDirIn(tmproot)
-          .then(function () {
+          .then(function() {
             process.chdir(tmproot);
 
             instrumentation.start('init');
@@ -662,7 +662,7 @@ describe('models/instrumentation.js', function() {
         { name: 'c3' },
       ]);
 
-      expect(json.nodes.map(function (x) { return x.children; })).to.eql([
+      expect(json.nodes.map(function(x) { return x.children; })).to.eql([
         [2],
         [3, 5],
         [4],
@@ -673,8 +673,8 @@ describe('models/instrumentation.js', function() {
         [],
       ]);
 
-      var stats = json.nodes.map(function (x) { return x.stats; });
-      stats.forEach(function (nodeStats) {
+      var stats = json.nodes.map(function(x) { return x.stats; });
+      stats.forEach(function(nodeStats) {
         expect('own' in nodeStats).to.eql(true);
         expect('time' in nodeStats).to.eql(true);
         expect(nodeStats.time.self).to.be.within(0, 2000000); //2ms in nanoseconds
@@ -688,21 +688,21 @@ describe('models/instrumentation.js', function() {
     }
 
     function assertTreeValidAPI(name, tree) {
-      var depthFirstNames = itr2Array(tree.dfsIterator()).map(function (x) { return x.label.name; });
+      var depthFirstNames = itr2Array(tree.dfsIterator()).map(function(x) { return x.label.name; });
       expect(depthFirstNames, 'depth first name order').to.eql([
         name, 'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3',
       ]);
 
-      var breadthFirstNames = itr2Array(tree.bfsIterator()).map(function (x) { return x.label.name; });
+      var breadthFirstNames = itr2Array(tree.bfsIterator()).map(function(x) { return x.label.name; });
       expect(breadthFirstNames, 'breadth first name order').to.eql([
         name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1',
       ]);
 
-      var c2 = itr2Array(tree.dfsIterator()).filter(function (x) {
+      var c2 = itr2Array(tree.dfsIterator()).filter(function(x) {
         return x.label.name === 'c2';
       })[0];
 
-      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function (x) { return x.label.name; });
+      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function(x) { return x.label.name; });
       expect(ancestorNames).to.eql([
         'b2', 'a', name,
       ]);

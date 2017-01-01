@@ -78,8 +78,8 @@ describe('build command', function() {
     });
   });
 
-  it('Asset Size Printer task is not run after Build task in non-production environment', function () {
-    return new BuildCommand(options).validateAndRun([]).then(function () {
+  it('Asset Size Printer task is not run after Build task in non-production environment', function() {
+    return new BuildCommand(options).validateAndRun([]).then(function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
@@ -87,8 +87,8 @@ describe('build command', function() {
     });
   });
 
-  it('Asset Size Printer task is run after Build task in production environment', function () {
-    return new BuildCommand(options).validateAndRun(['--environment=production']).then(function () {
+  it('Asset Size Printer task is run after Build task in production environment', function() {
+    return new BuildCommand(options).validateAndRun(['--environment=production']).then(function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
@@ -96,8 +96,8 @@ describe('build command', function() {
     });
   });
 
-  it('Asset Size Printer task is not run if suppress sizes option is provided', function () {
-    return new BuildCommand(options).validateAndRun(['--suppress-sizes']).then(function () {
+  it('Asset Size Printer task is not run if suppress sizes option is provided', function() {
+    return new BuildCommand(options).validateAndRun(['--suppress-sizes']).then(function() {
       var buildRun = tasks.Build.prototype.run;
       var showSizesRun = tasks.ShowAssetSizes.prototype.run;
 

@@ -242,7 +242,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('specifying custom output paths works properly', function() {
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
-      .then(function () {
+      .then(function() {
         var themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
         return fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
       })
@@ -288,7 +288,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('supports deprecated legacyFilesToAppend and vendorStaticFiles', function() {
     return copyFixtureFiles('brocfile-tests/app-import-with-legacy-files')
-      .then(function () {
+      .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function(result) {
@@ -303,7 +303,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('specifying outputFile results in an explicitly generated assets', function() {
     return copyFixtureFiles('brocfile-tests/app-import-output-file')
-      .then(function () {
+      .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
@@ -323,7 +323,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('can use transformation to turn anonymous AMD into named AMD', function() {
     return copyFixtureFiles('brocfile-tests/app-import-anonymous-amd')
-      .then(function () {
+      .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
@@ -351,7 +351,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   // skipped because of potentially broken assertion that should be fixed correctly at a later point
   it.skip('specifying partial `outputPaths` hash deep merges options correctly', function() {
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
-      .then(function () {
+      .then(function() {
 
         var themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
         fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');

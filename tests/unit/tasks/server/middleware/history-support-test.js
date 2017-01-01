@@ -3,8 +3,8 @@
 var expect              = require('chai').expect;
 var HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/history-support');
 
-describe('HistorySupportAddon', function () {
-  describe('.serverMiddleware', function () {
+describe('HistorySupportAddon', function() {
+  describe('.serverMiddleware', function() {
     it('add middleware when locationType is auto', function() {
       var addon = new HistorySupportAddon({
         config: function() {

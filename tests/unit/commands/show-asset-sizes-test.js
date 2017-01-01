@@ -6,20 +6,20 @@ var Task           = require('../../../lib/models/task');
 var path           = require('path');
 var td = require('testdouble');
 
-describe('asset-sizes command', function () {
+describe('asset-sizes command', function() {
   var ShowCommand;
   var tasks;
   var options;
   var taskInstance;
 
-  before(function () {
+  before(function() {
     ShowCommand = require('../../../lib/commands/asset-sizes');
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     tasks = {
       ShowAssetSizes: Task.extend({
-        init: function () {
+        init: function() {
           this._super.init && this._super.init.apply(this, arguments);
           taskInstance = this;
         },
@@ -34,12 +34,12 @@ describe('asset-sizes command', function () {
     td.replace(tasks.ShowAssetSizes.prototype, 'run', td.function());
   });
 
-  after(function () {
+  after(function() {
     ShowCommand = null;
     taskInstance = null;
   });
 
-  afterEach(function () {
+  afterEach(function() {
     td.reset();
   });
 

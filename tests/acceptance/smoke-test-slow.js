@@ -102,7 +102,7 @@ describe('Acceptance: smoke-test', function() {
         var dir = fs.readdirSync(dirPath);
         var files = [];
 
-        dir.forEach(function (filepath) {
+        dir.forEach(function(filepath) {
           if (filepath === '.gitkeep') {
             return;
           }
@@ -119,7 +119,7 @@ describe('Acceptance: smoke-test', function() {
         });
 
         var indexHtml = file('dist/index.html');
-        files.forEach(function (filename) {
+        files.forEach(function(filename) {
           expect(indexHtml).to.contain(filename);
         });
       });
@@ -185,11 +185,11 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
-  it('ember build exits with non-zero code when build fails', function () {
+  it('ember build exits with non-zero code when build fails', function() {
     var appJsPath   = path.join(appRoot, 'app', 'app.js');
     var ouputContainsBuildFailed = false;
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function (result) {
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function(result) {
       expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
 
       // add something broken to the project to make build fail
@@ -205,9 +205,9 @@ describe('Acceptance: smoke-test', function() {
         },
       });
 
-    }).then(function () {
+    }).then(function() {
       expect(false, 'should have rejected with a failing build').to.be.ok;
-    }).catch(function (result) {
+    }).catch(function(result) {
       expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.ok;
       expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
     });
@@ -222,13 +222,13 @@ describe('Acceptance: smoke-test', function() {
         env: {
           BROCCOLI_VIZ: '1',
         },
-      }).then(function () {
+      }).then(function() {
         [
           'instrumentation.build.0.json',
           'instrumentation.command.json',
           'instrumentation.init.json',
           'instrumentation.shutdown.json',
-        ].forEach(function (instrumentationFile) {
+        ].forEach(function(instrumentationFile) {
           expect(fs.existsSync(instrumentationFile)).to.equal(true);
 
           var json = fs.readJsonSync(instrumentationFile);
@@ -331,7 +331,7 @@ describe('Acceptance: smoke-test', function() {
           var dirPath = path.join(appRoot, 'dist', 'assets');
           var dir = fs.readdirSync(dirPath);
           var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css', 'i');
-          dir.forEach(function (filepath) {
+          dir.forEach(function(filepath) {
             if (cssNameRE.test(filepath)) {
               expect(file('dist/assets/' + filepath))
                 .to.contain('.some-weird-selector')

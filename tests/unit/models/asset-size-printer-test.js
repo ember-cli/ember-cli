@@ -11,7 +11,7 @@ var mkTmpDirIn       = require('../../../lib/utilities/mk-tmp-dir-in');
 var tmpRoot          = path.join(root, 'tmp');
 var remove           = Promise.denodeify(fs.remove);
 
-describe('models/asset-size-printer', function () {
+describe('models/asset-size-printer', function() {
   var storedTmpDir, assetDir, assetChildDir;
 
   function writeFiles() {
@@ -29,8 +29,8 @@ describe('models/asset-size-printer', function () {
     fs.writeFileSync(path.join(assetChildDir, 'nested-asset.js'), 'module.exports = function () {};', { encoding: 'utf8' });
   }
 
-  beforeEach(function () {
-    return mkTmpDirIn(tmpRoot).then(function (tmpdir) {
+  beforeEach(function() {
+    return mkTmpDirIn(tmpRoot).then(function(tmpdir) {
       storedTmpDir = tmpdir;
       assetDir = path.join(storedTmpDir, 'assets');
       assetChildDir = path.join(assetDir, 'childDir');
@@ -42,20 +42,20 @@ describe('models/asset-size-printer', function () {
     });
   });
 
-  afterEach(function () {
+  afterEach(function() {
     return Promise.all([
       remove(storedTmpDir),
     ]);
   });
 
-  it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', function () {
+  it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', function() {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
-      .then(function () {
+      .then(function() {
         expect(sizePrinter.ui.output).to.include('File sizes:');
         expect(sizePrinter.ui.output).to.include('some-project.css: ');
         expect(sizePrinter.ui.output).to.include('some-project.js: ');
@@ -66,26 +66,26 @@ describe('models/asset-size-printer', function () {
       });
   });
 
-  it('does not print gzipped file sizes of empty files', function () {
+  it('does not print gzipped file sizes of empty files', function() {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
-      .then(function () {
+      .then(function() {
         expect(sizePrinter.ui.output).to.not.include('0 B gzipped)');
       });
   });
 
-  it('does not print project test helper file sizes', function () {
+  it('does not print project test helper file sizes', function() {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
-      .then(function () {
+      .then(function() {
         expect(sizePrinter.ui.output).to.not.include('test-loader');
         expect(sizePrinter.ui.output).to.not.include('test-support');
         expect(sizePrinter.ui.output).to.not.include('testem');
@@ -93,21 +93,21 @@ describe('models/asset-size-printer', function () {
       });
   });
 
-  it('does not print non-css or js file sizes', function () {
+  it('does not print non-css or js file sizes', function() {
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
     return sizePrinter.print()
-      .then(function () {
+      .then(function() {
         expect(sizePrinter.ui.output).to.not.include('some-project.scss');
         expect(sizePrinter.ui.output).to.not.include('some-project.css4');
         expect(sizePrinter.ui.output).to.not.include('some-project.json');
       });
   });
 
-  it('can print out to JSON', function () {
+  it('can print out to JSON', function() {
     var assetObjectKeys;
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
@@ -115,7 +115,7 @@ describe('models/asset-size-printer', function () {
     });
 
     return sizePrinter.printJSON()
-      .then(function () {
+      .then(function() {
         var output = JSON.parse(sizePrinter.ui.output);
 
         expect(output.files[0].name).to.include('nested-asset.css');
@@ -125,7 +125,7 @@ describe('models/asset-size-printer', function () {
       });
   });
 
-  it('creates an array of asset objects', function () {
+  it('creates an array of asset objects', function() {
     var assetObjectKeys;
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
@@ -133,7 +133,7 @@ describe('models/asset-size-printer', function () {
     });
 
     return sizePrinter.makeAssetSizesObject()
-      .then(function (assetObject) {
+      .then(function(assetObject) {
         assetObjectKeys = Object.keys(assetObject[0]);
 
         expect(assetObject.length).to.eql(6);
@@ -147,7 +147,7 @@ describe('models/asset-size-printer', function () {
       });
   });
 
-  it('prints an error when no files are found', function () {
+  it('prints an error when no files are found', function() {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
@@ -155,12 +155,12 @@ describe('models/asset-size-printer', function () {
     });
 
     return sizePrinter.print()
-      .catch(function (error) {
+      .catch(function(error) {
         expect(error.message).to.include('No asset files found in the path provided: ' + outputPath);
       });
   });
 
-  it('does not throw an error when no files are found', function () {
+  it('does not throw an error when no files are found', function() {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
