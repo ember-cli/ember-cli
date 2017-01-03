@@ -33,6 +33,9 @@ module.exports = {
     // 99% of addons don't need ember-data, make it opt-in instead
     delete contents.devDependencies['ember-data'];
 
+    // 100% of addons don't need ember-cli-app-version, make it opt-in instead
+    delete contents.devDependencies['ember-cli-app-version'];
+
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
     }
