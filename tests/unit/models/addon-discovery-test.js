@@ -398,23 +398,19 @@ describe('models/addon-discovery.js', function() {
     var addon, discovery, discoverFromProjectItselfCalled, discoverFromInternalProjectAddonsCalled, discoverFromDependenciesCalled, discoverInRepoAddonsCalled;
 
     beforeEach(function() {
-      addon = {
-        name: 'awesome-sauce',
-        root: fixturePath,
-        pkg: {
-          dependencies: {
-            'foo-bar': 'latest'
-          },
-          devDependencies: {
-            'dev-dep-bar': 'latest'
-          }
+      var cli = new MockCLI();
+      var packageContents = {
+        dependencies: {
+          'foo-bar': 'latest'
         },
-        hasDependencies: function() {
-          return true;
+        devDependencies: {
+          'dev-dep-bar': 'latest'
         }
       };
 
-      discovery = new AddonDiscovery(ui);
+      project = new Project(fixturePath, packageContents, cli.ui, cli);
+
+      discovery = new AddonDiscovery(cli.ui);
 
       discovery.discoverFromProjectItself = function() {
         discoverFromProjectItselfCalled = true;
@@ -442,7 +438,7 @@ describe('models/addon-discovery.js', function() {
     });
 
     it('delegates to internal methods', function() {
-      discovery.discoverProjectAddons(addon);
+      discovery.discoverProjectAddons(project);
 
       expect(discoverFromProjectItselfCalled).to.equal(true);
       expect(discoverFromInternalProjectAddonsCalled).to.equal(true);
@@ -451,9 +447,15 @@ describe('models/addon-discovery.js', function() {
     });
 
     it('concats  discoverInRepoAddons and discoverFromDependencies results', function() {
-      var result = discovery.discoverProjectAddons(addon);
+      var result = discovery.discoverProjectAddons(project);
 
-      expect(result).to.deep.equal([ 'discoverFromProjectItself', 'discoverFromInternalProjectAddons', 'discoverFromDependencies', 'discoverInRepoAddons' ]);
+      expect(result).to.deep.equal([
+        'discoverFromProjectItself',
+        'discoverInRepoAddons', // ember-cli's own in-repo addons
+        'discoverFromInternalProjectAddons',
+        'discoverFromDependencies',
+        'discoverInRepoAddons' // apps in-repo addons
+      ]);
     });
   });
 
