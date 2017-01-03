@@ -30,7 +30,7 @@ module.exports = {
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
     delete contents.devDependencies['ember-cli-babel'];
 
-    // 99% of blueprints don't need ember-data, make it opt-in instead
+    // 99% of addons don't need ember-data, make it opt-in instead
     delete contents.devDependencies['ember-data'];
 
     if (contents.keywords.indexOf('ember-addon') === -1) {
