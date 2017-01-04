@@ -1,3 +1,5 @@
+'use strict';
+
 const Blueprint = require('../../lib/models/blueprint');
 const isPackageMissing = require('ember-cli-is-package-missing');
 

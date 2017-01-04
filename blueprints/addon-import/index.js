@@ -1,3 +1,5 @@
+'use strict';
+
 const stringUtil = require('ember-cli-string-utils');
 const path = require('path');
 const inflector = require('inflection');

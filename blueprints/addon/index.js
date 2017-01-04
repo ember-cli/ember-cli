@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs-extra');
 const existsSync = require('exists-sync');
 const path = require('path');

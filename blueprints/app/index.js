@@ -1,3 +1,5 @@
+'use strict';
+
 const stringUtil = require('ember-cli-string-utils');
 
 module.exports = {
