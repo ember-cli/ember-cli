@@ -89,7 +89,9 @@ module.exports = {
     'space-in-parens': 2,
     'space-infix-ops': 2,
     'space-unary-ops': 2,
-    'quotes': [2, 'single'],
+    'quotes': [2, 'single', {
+      'allowTemplateLiterals': true,
+    }],
     'semi': [2, 'always'],
     'wrap-regex': 2,
 
