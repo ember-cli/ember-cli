@@ -56,7 +56,11 @@ AppFixture.prototype = {
   },
 
   serialize: function(isChild) {
-    var npmLinks = [];
+    // Default link ember-cli.
+    var npmLinks = [{
+      name: 'ember-cli',
+      path: root
+    }];
     var inRepoLinks = [];
     var self = this;
     this._installedAddons.forEach(function(addon) {
