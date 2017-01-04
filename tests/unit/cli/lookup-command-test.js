@@ -1,14 +1,14 @@
 'use strict';
 
-let expect = require('chai').expect;
-let lookupCommand = require('../../../lib/cli/lookup-command');
-let Command = require('../../../lib/models/command');
-let Project = require('../../../lib/models/project');
-let MockUI = require('console-ui/mock');
-let AddonCommand = require('../../fixtures/addon/commands/addon-command');
-let OtherCommand = require('../../fixtures/addon/commands/other-addon-command');
-let ClassCommand = require('../../fixtures/addon/commands/addon-command-class');
-let OverrideCommand = require('../../fixtures/addon/commands/addon-override-intentional');
+const expect = require('chai').expect;
+const lookupCommand = require('../../../lib/cli/lookup-command');
+const Command = require('../../../lib/models/command');
+const Project = require('../../../lib/models/project');
+const MockUI = require('console-ui/mock');
+const AddonCommand = require('../../fixtures/addon/commands/addon-command');
+const OtherCommand = require('../../fixtures/addon/commands/other-addon-command');
+const ClassCommand = require('../../fixtures/addon/commands/addon-command-class');
+const OverrideCommand = require('../../fixtures/addon/commands/addon-override-intentional');
 
 let commands = {
   serve: Command.extend({

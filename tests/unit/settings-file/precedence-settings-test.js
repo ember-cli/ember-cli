@@ -1,11 +1,11 @@
 'use strict';
 
-let expect = require('chai').expect;
-let merge = require('ember-cli-lodash-subset').merge;
-let MockUI = require('console-ui/mock');
-let MockAnalytics = require('../../helpers/mock-analytics');
-let Command = require('../../../lib/models/command');
-let Yam = require('yam');
+const expect = require('chai').expect;
+const merge = require('ember-cli-lodash-subset').merge;
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const Command = require('../../../lib/models/command');
+const Yam = require('yam');
 
 describe('.ember-cli', function() {
   let ui;

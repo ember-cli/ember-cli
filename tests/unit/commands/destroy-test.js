@@ -1,13 +1,13 @@
 'use strict';
 
-let expect = require('chai').expect;
-let EOL = require('os').EOL;
-let MockProject = require('../../helpers/mock-project');
-let processHelpString = require('../../helpers/process-help-string');
-let commandOptions = require('../../factories/command-options');
-let Promise = require('../../../lib/ext/promise');
-let Task = require('../../../lib/models/task');
-let DestroyCommand = require('../../../lib/commands/destroy');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const MockProject = require('../../helpers/mock-project');
+const processHelpString = require('../../helpers/process-help-string');
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const Task = require('../../../lib/models/task');
+const DestroyCommand = require('../../../lib/commands/destroy');
 
 describe('destroy command', function() {
   let options, command;

@@ -1,19 +1,19 @@
 'use strict';
 
-let Promise = require('../../lib/ext/promise');
-let path = require('path');
-let fs = require('fs-extra');
+const Promise = require('../../lib/ext/promise');
+const path = require('path');
+const fs = require('fs-extra');
 let remove = Promise.denodeify(fs.remove);
 
-let runCommand = require('../helpers/run-command');
-let acceptance = require('../helpers/acceptance');
-let copyFixtureFiles = require('../helpers/copy-fixture-files');
+const runCommand = require('../helpers/run-command');
+const acceptance = require('../helpers/acceptance');
+const copyFixtureFiles = require('../helpers/copy-fixture-files');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
 let cleanupRun = acceptance.cleanupRun;
 
-let chai = require('../chai');
+const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;

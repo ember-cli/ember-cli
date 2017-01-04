@@ -1,9 +1,9 @@
 'use strict';
 
-let expect = require('chai').expect;
-let EOL = require('os').EOL;
-let commandOptions = require('../../factories/command-options');
-let VersionCommand = require('../../../lib/commands/version');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const commandOptions = require('../../factories/command-options');
+const VersionCommand = require('../../../lib/commands/version');
 
 describe('version command', function() {
   let options, command;

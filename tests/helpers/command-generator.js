@@ -1,6 +1,6 @@
 'use strict';
 
-let execa = require('execa');
+const execa = require('execa');
 
 /**
  * A simple tool to make behavior and API consistent between commands

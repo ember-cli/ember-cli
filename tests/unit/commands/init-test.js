@@ -1,19 +1,19 @@
 'use strict';
 
-let fs = require('fs-extra');
-let os = require('os');
-let path = require('path');
-let expect = require('chai').expect;
-let map = require('ember-cli-lodash-subset').map;
-let MockUI = require('console-ui/mock');
-let MockAnalytics = require('../../helpers/mock-analytics');
-let Promise = require('../../../lib/ext/promise');
-let Blueprint = require('../../../lib/models/blueprint');
-let Project = require('../../../lib/models/project');
-let Task = require('../../../lib/models/task');
-let InitCommand = require('../../../lib/commands/init');
-let MockCLI = require('../../helpers/mock-cli');
-let td = require('testdouble');
+const fs = require('fs-extra');
+const os = require('os');
+const path = require('path');
+const expect = require('chai').expect;
+const map = require('ember-cli-lodash-subset').map;
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const Promise = require('../../../lib/ext/promise');
+const Blueprint = require('../../../lib/models/blueprint');
+const Project = require('../../../lib/models/project');
+const Task = require('../../../lib/models/task');
+const InitCommand = require('../../../lib/commands/init');
+const MockCLI = require('../../helpers/mock-cli');
+const td = require('testdouble');
 
 describe('init command', function() {
   let ui, analytics, tasks, command, workingDir;

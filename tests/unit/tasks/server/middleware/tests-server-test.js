@@ -1,8 +1,8 @@
 'use strict';
 
-let expect = require('chai').expect;
-let TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
-let Promise = require('../../../../../lib/ext/promise');
+const expect = require('chai').expect;
+const TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
+const Promise = require('../../../../../lib/ext/promise');
 
 describe('TestServerAddon', function() {
   describe('.serverMiddleware', function() {

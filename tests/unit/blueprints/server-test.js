@@ -1,14 +1,14 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
+const fs = require('fs-extra');
+const path = require('path');
+const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
 let setupTestHooks = blueprintHelpers.setupTestHooks;
 let emberNew = blueprintHelpers.emberNew;
 let emberGenerate = blueprintHelpers.emberGenerate;
 let modifyPackages = blueprintHelpers.modifyPackages;
 
-let chai = require('ember-cli-blueprint-test-helpers/chai');
+const chai = require('ember-cli-blueprint-test-helpers/chai');
 let expect = chai.expect;
 let file = chai.file;
 

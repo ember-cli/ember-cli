@@ -1,14 +1,14 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let Configstore = require('configstore');
+const fs = require('fs-extra');
+const path = require('path');
+const Configstore = require('configstore');
 
-let PackageCache = require('../../../tests/helpers/package-cache');
-let symlinkOrCopySync = require('symlink-or-copy').sync;
+const PackageCache = require('../../../tests/helpers/package-cache');
+const symlinkOrCopySync = require('symlink-or-copy').sync;
 
-let td = require('testdouble');
-let chai = require('../../chai');
+const td = require('testdouble');
+const chai = require('../../chai');
 let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;

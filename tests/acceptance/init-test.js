@@ -1,22 +1,22 @@
 'use strict';
 
-let ember = require('../helpers/ember');
-let walkSync = require('walk-sync');
-let glob = require('glob');
-let Blueprint = require('../../lib/models/blueprint');
-let path = require('path');
-let tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+const ember = require('../helpers/ember');
+const walkSync = require('walk-sync');
+const glob = require('glob');
+const Blueprint = require('../../lib/models/blueprint');
+const path = require('path');
+const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 let root = process.cwd();
-let util = require('util');
-let minimatch = require('minimatch');
-let lodash = require('ember-cli-lodash-subset');
+const util = require('util');
+const minimatch = require('minimatch');
+const lodash = require('ember-cli-lodash-subset');
 let intersect = lodash.intersection;
 let remove = lodash.remove;
 let forEach = lodash.forEach;
 let any = lodash.some;
-let EOL = require('os').EOL;
+const EOL = require('os').EOL;
 
-let chai = require('../chai');
+const chai = require('../chai');
 let expect = chai.expect;
 let dir = chai.dir;
 

@@ -1,14 +1,14 @@
 'use strict';
 
-let path = require('path');
-let expect = require('chai').expect;
-let assign = require('ember-cli-lodash-subset').assign;
-let Project = require('../../../lib/models/project');
-let AddonDiscovery = require('../../../lib/models/addon-discovery');
+const path = require('path');
+const expect = require('chai').expect;
+const assign = require('ember-cli-lodash-subset').assign;
+const Project = require('../../../lib/models/project');
+const AddonDiscovery = require('../../../lib/models/addon-discovery');
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
-let MockUI = require('console-ui/mock');
-let MockCLI = require('../../helpers/mock-cli');
-let chalk = require('chalk');
+const MockUI = require('console-ui/mock');
+const MockCLI = require('../../helpers/mock-cli');
+const chalk = require('chalk');
 
 describe('models/addon-discovery.js', function() {
   let project, projectPath, ui;
@@ -17,7 +17,7 @@ describe('models/addon-discovery.js', function() {
   beforeEach(function() {
     ui = new MockUI();
     projectPath = path.resolve(fixturePath, 'simple');
-    let packageContents = require(path.join(projectPath, 'package.json'));
+    const packageContents = require(path.join(projectPath, 'package.json'));
     let cli = new MockCLI({ ui });
 
     project = new Project(projectPath, packageContents, ui, cli);
@@ -462,7 +462,7 @@ describe('models/addon-discovery.js', function() {
   describe('discoverAtPath', function() {
     it('returns an info object when addon is found', function() {
       let addonPath = path.join(fixturePath, 'simple/node_modules/ember-random-addon');
-      let addonPkg = require(path.join(addonPath, 'package.json'));
+      const addonPkg = require(path.join(addonPath, 'package.json'));
       let discovery = new AddonDiscovery(ui);
 
       let result = discovery.discoverAtPath(addonPath);

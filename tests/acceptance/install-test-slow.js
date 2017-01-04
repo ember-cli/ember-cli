@@ -1,14 +1,14 @@
 'use strict';
 
-let Promise = require('../../lib/ext/promise');
-let ember = require('../helpers/ember');
-let path = require('path');
+const Promise = require('../../lib/ext/promise');
+const ember = require('../helpers/ember');
+const path = require('path');
 let remove = Promise.denodeify(require('fs-extra').remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
-let mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-let chai = require('../chai');
+const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 

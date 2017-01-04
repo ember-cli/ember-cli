@@ -1,17 +1,17 @@
 'use strict';
 
-let fs = require('fs-extra');
-let expect = require('chai').expect;
-let MockUI = require('console-ui/mock');
-let GitInitTask = require('../../../lib/tasks/git-init');
-let MockProject = require('../../helpers/mock-project');
-let Promise = require('../../../lib/ext/promise');
+const fs = require('fs-extra');
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const GitInitTask = require('../../../lib/tasks/git-init');
+const MockProject = require('../../helpers/mock-project');
+const Promise = require('../../../lib/ext/promise');
 let remove = Promise.denodeify(fs.remove);
-let path = require('path');
+const path = require('path');
 let root = process.cwd();
-let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmproot = path.join(root, 'tmp');
-let td = require('testdouble');
+const td = require('testdouble');
 
 describe('git-init', function() {
   let subject, ui, tmpdir, exec;

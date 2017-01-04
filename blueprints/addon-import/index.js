@@ -1,7 +1,7 @@
-let stringUtil = require('ember-cli-string-utils');
-let path = require('path');
-let inflector = require('inflection');
-let SilentError = require('silent-error');
+const stringUtil = require('ember-cli-string-utils');
+const path = require('path');
+const inflector = require('inflection');
+const SilentError = require('silent-error');
 
 module.exports = {
   description: 'Generates an import wrapper.',

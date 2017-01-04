@@ -1,13 +1,13 @@
 'use strict';
 
-let expect = require('chai').expect;
-let EOL = require('os').EOL;
-let proxyquire = require('proxyquire');
-let path = require('path');
-let processHelpString = require('../../helpers/process-help-string');
-let convertToJson = require('../../helpers/convert-help-output-to-json');
-let commandOptions = require('../../factories/command-options');
-let td = require('testdouble');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const proxyquire = require('proxyquire');
+const path = require('path');
+const processHelpString = require('../../helpers/process-help-string');
+const convertToJson = require('../../helpers/convert-help-output-to-json');
+const commandOptions = require('../../factories/command-options');
+const td = require('testdouble');
 
 let lookupCommandStub;
 let HelpCommand = proxyquire('../../../lib/commands/help', {

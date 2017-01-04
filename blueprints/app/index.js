@@ -1,4 +1,4 @@
-let stringUtil = require('ember-cli-string-utils');
+const stringUtil = require('ember-cli-string-utils');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',

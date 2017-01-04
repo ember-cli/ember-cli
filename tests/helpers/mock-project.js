@@ -1,9 +1,9 @@
 'use strict';
 
-let Project = require('../../lib/models/project');
-let Instrumentation = require('../../lib/models/instrumentation');
-let MockUI = require('console-ui/mock');
-let td = require('testdouble');
+const Project = require('../../lib/models/project');
+const Instrumentation = require('../../lib/models/instrumentation');
+const MockUI = require('console-ui/mock');
+const td = require('testdouble');
 
 function MockProject() {
   let root = process.cwd();

@@ -1,28 +1,28 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let Builder = require('../../../lib/models/builder');
-let BuildCommand = require('../../../lib/commands/build');
-let commandOptions = require('../../factories/command-options');
-let Promise = require('../../../lib/ext/promise');
-let MockProject = require('../../helpers/mock-project');
+const fs = require('fs-extra');
+const path = require('path');
+const Builder = require('../../../lib/models/builder');
+const BuildCommand = require('../../../lib/commands/build');
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const MockProject = require('../../helpers/mock-project');
 let remove = Promise.denodeify(fs.remove);
-let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-let td = require('testdouble');
-let experiments = require('../../experiments');
-let chai = require('../../chai');
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const td = require('testdouble');
+const experiments = require('../../experiments');
+const chai = require('../../chai');
 let expect = chai.expect;
 let file = chai.file;
 
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
-let MockUI = require('console-ui/mock');
-let Heimdall = require('heimdalljs/heimdall');
-let walkSync = require('walk-sync');
-let EventEmitter = require('events');
-let captureExit = require('capture-exit');
+const MockUI = require('console-ui/mock');
+const Heimdall = require('heimdalljs/heimdall');
+const walkSync = require('walk-sync');
+const EventEmitter = require('events');
+const captureExit = require('capture-exit');
 
 describe('models/builder.js', function() {
   let addon, builder, buildResults, tmpdir;

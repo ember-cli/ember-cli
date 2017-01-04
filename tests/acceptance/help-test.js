@@ -1,16 +1,16 @@
 'use strict';
 
-let fs = require('fs');
-let path = require('path');
-let chai = require('chai');
+const fs = require('fs');
+const path = require('path');
+const chai = require('chai');
 let expect = chai.expect;
-let EOL = require('os').EOL;
-let processHelpString = require('../helpers/process-help-string');
-let convertToJson = require('../helpers/convert-help-output-to-json');
-let commandOptions = require('../factories/command-options');
-let HelpCommand = require('../../lib/commands/help');
-let requireAsHash = require('../../lib/utilities/require-as-hash');
-let Command = require('../../lib/models/command');
+const EOL = require('os').EOL;
+const processHelpString = require('../helpers/process-help-string');
+const convertToJson = require('../helpers/convert-help-output-to-json');
+const commandOptions = require('../factories/command-options');
+const HelpCommand = require('../../lib/commands/help');
+const requireAsHash = require('../../lib/utilities/require-as-hash');
+const Command = require('../../lib/models/command');
 
 let FooCommand = Command.extend({
   name: 'foo',
@@ -143,7 +143,7 @@ describe('Acceptance: ember help', function() {
       command.run(options, []);
 
       let json = convertToJson(options.ui.output);
-      let expected = require('../fixtures/help/help.js');
+      const expected = require('../fixtures/help/help.js');
 
       expect(json).to.deep.equal(expected);
     });
@@ -156,7 +156,7 @@ describe('Acceptance: ember help', function() {
       command.run(options, []);
 
       let json = convertToJson(options.ui.output);
-      let expected = require('../fixtures/help/with-addon-commands.js');
+      const expected = require('../fixtures/help/with-addon-commands.js');
 
       expect(json).to.deep.equal(expected);
     });
@@ -169,7 +169,7 @@ describe('Acceptance: ember help', function() {
       command.run(options, []);
 
       let json = convertToJson(options.ui.output);
-      let expected = require('../fixtures/help/with-addon-blueprints.js');
+      const expected = require('../fixtures/help/with-addon-blueprints.js');
 
       expect(json).to.deep.equal(expected);
     });

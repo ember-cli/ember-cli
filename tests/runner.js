@@ -1,13 +1,13 @@
 'use strict';
 
-let captureExit = require('capture-exit');
+const captureExit = require('capture-exit');
 captureExit.captureExit();
 
-let glob = require('glob');
-let Mocha = require('mocha');
-let RSVP = require('rsvp');
-let fs = require('fs-extra');
-let mochaOnlyDetector = require('mocha-only-detector');
+const glob = require('glob');
+const Mocha = require('mocha');
+const RSVP = require('rsvp');
+const fs = require('fs-extra');
+const mochaOnlyDetector = require('mocha-only-detector');
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';

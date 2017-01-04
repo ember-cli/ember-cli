@@ -1,4 +1,4 @@
-var Command = require('../../../../lib/models/command');
+const Command = require('../../../../lib/models/command');
 
 function Addon() {
   this.name = "Ember CLI Addon Class Command Test"

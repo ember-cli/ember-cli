@@ -1,4 +1,4 @@
-let isPackageMissing = require('ember-cli-is-package-missing');
+const isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
   description: 'Generates a server directory for mocks and proxies.',

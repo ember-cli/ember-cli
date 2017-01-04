@@ -1,8 +1,8 @@
 'use strict';
 
-let expect = require('chai').expect;
-let TestTask = require('../../../lib/tasks/test');
-let MockProject = require('../../helpers/mock-project');
+const expect = require('chai').expect;
+const TestTask = require('../../../lib/tasks/test');
+const MockProject = require('../../helpers/mock-project');
 
 describe('test task test', function() {
   let subject;

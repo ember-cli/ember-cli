@@ -1,17 +1,17 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
+const fs = require('fs-extra');
+const path = require('path');
+const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
 let setupTestHooks = blueprintHelpers.setupTestHooks;
 let emberNew = blueprintHelpers.emberNew;
 let emberGenerate = blueprintHelpers.emberGenerate;
 let emberDestroy = blueprintHelpers.emberDestroy;
-let proxyquire = require('proxyquire');
-let td = require('testdouble');
+const proxyquire = require('proxyquire');
+const td = require('testdouble');
 
-let expect = require('ember-cli-blueprint-test-helpers/chai').expect;
-let file = require('ember-cli-blueprint-test-helpers/chai').file;
+const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
+const file = require('ember-cli-blueprint-test-helpers/chai').file;
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   setupTestHooks(this, {

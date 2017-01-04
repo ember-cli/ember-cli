@@ -1,13 +1,13 @@
 'use strict';
 
-let expect = require('chai').expect;
-let proxyquire = require('proxyquire');
-let commandOptions = require('../../factories/command-options');
-let processHelpString = require('../../helpers/process-help-string');
-let assign = require('ember-cli-lodash-subset').assign;
-let Yam = require('yam');
-let EOL = require('os').EOL;
-let td = require('testdouble');
+const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const commandOptions = require('../../factories/command-options');
+const processHelpString = require('../../helpers/process-help-string');
+const assign = require('ember-cli-lodash-subset').assign;
+const Yam = require('yam');
+const EOL = require('os').EOL;
+const td = require('testdouble');
 
 let forEachWithPropertyStub;
 let Command = proxyquire('../../../lib/models/command', {

@@ -1,11 +1,11 @@
 'use strict';
 
-let expect = require('chai').expect;
-let cleanRemove = require('../../../lib/utilities/clean-remove');
-let temp = require('temp');
-let path = require('path');
-let Promise = require('../../../lib/ext/promise');
-let fs = require('fs-extra');
+const expect = require('chai').expect;
+const cleanRemove = require('../../../lib/utilities/clean-remove');
+const temp = require('temp');
+const path = require('path');
+const Promise = require('../../../lib/ext/promise');
+const fs = require('fs-extra');
 
 let outputFile = Promise.denodeify(fs.outputFile);
 let stat = Promise.denodeify(fs.stat);

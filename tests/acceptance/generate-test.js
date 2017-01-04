@@ -1,19 +1,19 @@
 'use strict';
 
-let Promise = require('../../lib/ext/promise');
-let ember = require('../helpers/ember');
-let fs = require('fs-extra');
+const Promise = require('../../lib/ext/promise');
+const ember = require('../helpers/ember');
+const fs = require('fs-extra');
 let outputFile = Promise.denodeify(fs.outputFile);
-let path = require('path');
+const path = require('path');
 let remove = Promise.denodeify(fs.remove);
-let replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
+const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
-let Blueprint = require('../../lib/models/blueprint');
-let BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-let mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const Blueprint = require('../../lib/models/blueprint');
+const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-let chai = require('../chai');
+const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;

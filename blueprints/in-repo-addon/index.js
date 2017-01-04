@@ -1,8 +1,8 @@
-let fs = require('fs-extra');
-let path = require('path');
-let stringUtil = require('ember-cli-string-utils');
-let Blueprint = require('../../lib/models/blueprint');
-let stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
+const fs = require('fs-extra');
+const path = require('path');
+const stringUtil = require('ember-cli-string-utils');
+const Blueprint = require('../../lib/models/blueprint');
+const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 
 module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',

@@ -1,9 +1,9 @@
 'use strict';
 
-let BowerInstallTask = require('../../../lib/tasks/bower-install');
-let MockUI = require('console-ui/mock');
-let MockProject = require('../../helpers/mock-project');
-let expect = require('chai').expect;
+const BowerInstallTask = require('../../../lib/tasks/bower-install');
+const MockUI = require('console-ui/mock');
+const MockProject = require('../../helpers/mock-project');
+const expect = require('chai').expect;
 
 describe('bower install task', function() {
   let bowerInstallTask;

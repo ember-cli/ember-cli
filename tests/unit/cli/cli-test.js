@@ -1,13 +1,13 @@
 'use strict';
 
-let expect = require('chai').expect;
-let MockUI = require('console-ui/mock');
-let MockAnalytics = require('../../helpers/mock-analytics');
-let CLI = require('../../../lib/cli/cli');
-let td = require('testdouble');
-let heimdall = require('heimdalljs');
-let Command = require('../../../lib/models/command');
-let Promise = require('../../../lib/ext/promise');
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const CLI = require('../../../lib/cli/cli');
+const td = require('testdouble');
+const heimdall = require('heimdalljs');
+const Command = require('../../../lib/models/command');
+const Promise = require('../../../lib/ext/promise');
 
 let ui;
 let analytics;

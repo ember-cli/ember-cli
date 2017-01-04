@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let semver = require('semver');
+const expect = require('chai').expect;
+const semver = require('semver');
 
 function assertVersionLock(_deps) {
   let deps = _deps || {};

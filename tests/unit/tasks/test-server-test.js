@@ -1,11 +1,11 @@
 'use strict';
 
-let expect = require('chai').expect;
-let SilentError = require('silent-error');
-let TestServerTask = require('../../../lib/tasks/test-server');
-let MockProject = require('../../helpers/mock-project');
-let MockUI = require('console-ui/mock');
-let MockWatcher = require('../../helpers/mock-watcher');
+const expect = require('chai').expect;
+const SilentError = require('silent-error');
+const TestServerTask = require('../../../lib/tasks/test-server');
+const MockProject = require('../../helpers/mock-project');
+const MockUI = require('console-ui/mock');
+const MockWatcher = require('../../helpers/mock-watcher');
 
 describe('test server', function() {
   let subject;

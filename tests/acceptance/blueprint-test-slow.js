@@ -1,15 +1,15 @@
 'use strict';
 
-let path = require('path');
-let fs = require('fs-extra');
-let acceptance = require('../helpers/acceptance');
-let runCommand = require('../helpers/run-command');
+const path = require('path');
+const fs = require('fs-extra');
+const acceptance = require('../helpers/acceptance');
+const runCommand = require('../helpers/run-command');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
 let cleanupRun = acceptance.cleanupRun;
 
-let chai = require('../chai');
+const chai = require('../chai');
 let expect = chai.expect;
 let dir = chai.dir;
 

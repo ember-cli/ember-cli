@@ -1,9 +1,9 @@
 'use strict';
 
-let expect = require('chai').expect;
-let MockProject = require('../../helpers/mock-project');
-let commandOptions = require('../../factories/command-options');
-let UninstallNpmCommand = require('../../../lib/commands/uninstall-npm');
+const expect = require('chai').expect;
+const MockProject = require('../../helpers/mock-project');
+const commandOptions = require('../../factories/command-options');
+const UninstallNpmCommand = require('../../../lib/commands/uninstall-npm');
 
 describe('uninstall:npm command', function() {
   let command;

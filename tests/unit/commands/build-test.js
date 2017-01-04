@@ -1,11 +1,11 @@
 'use strict';
 
-let expect = require('chai').expect;
-let commandOptions = require('../../factories/command-options');
-let Promise = require('../../../lib/ext/promise');
-let Task = require('../../../lib/models/task');
-let BuildCommand = require('../../../lib/commands/build');
-let td = require('testdouble');
+const expect = require('chai').expect;
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const Task = require('../../../lib/models/task');
+const BuildCommand = require('../../../lib/commands/build');
+const td = require('testdouble');
 
 describe('build command', function() {
   let tasks, options, command;

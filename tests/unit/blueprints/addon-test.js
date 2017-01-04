@@ -1,12 +1,12 @@
 'use strict';
 
-let Blueprint = require('../../../lib/models/blueprint');
-let MockProject = require('../../helpers/mock-project');
-let expect = require('chai').expect;
-let proxyquire = require('proxyquire');
-let fs = require('fs');
-let path = require('path');
-let td = require('testdouble');
+const Blueprint = require('../../../lib/models/blueprint');
+const MockProject = require('../../helpers/mock-project');
+const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const fs = require('fs');
+const path = require('path');
+const td = require('testdouble');
 
 describe('blueprint - addon', function() {
   describe('Blueprint.lookup', function() {

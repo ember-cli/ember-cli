@@ -1,14 +1,14 @@
 'use strict';
 
-let path = require('path');
-let CoreObject = require('core-object');
-let expect = require('../../chai').expect;
-let MockProject = require('../../helpers/mock-project');
-let commandOptions = require('../../factories/command-options');
-let Promise = require('../../../lib/ext/promise');
-let Task = require('../../../lib/models/task');
-let TestCommand = require('../../../lib/commands/test');
-let td = require('testdouble');
+const path = require('path');
+const CoreObject = require('core-object');
+const expect = require('../../chai').expect;
+const MockProject = require('../../helpers/mock-project');
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const Task = require('../../../lib/models/task');
+const TestCommand = require('../../../lib/commands/test');
+const td = require('testdouble');
 
 describe('test command', function() {
   this.timeout(30000);

@@ -1,12 +1,12 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let quickTemp = require('quick-temp');
-let Configstore = require('configstore');
-let CommandGenerator = require('./command-generator');
-let stableStringify = require('json-stable-stringify');
-let symlinkOrCopySync = require('symlink-or-copy').sync;
+const fs = require('fs-extra');
+const path = require('path');
+const quickTemp = require('quick-temp');
+const Configstore = require('configstore');
+const CommandGenerator = require('./command-generator');
+const stableStringify = require('json-stable-stringify');
+const symlinkOrCopySync = require('symlink-or-copy').sync;
 
 let originalWorkingDirectory = process.cwd();
 

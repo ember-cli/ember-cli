@@ -1,11 +1,11 @@
 'use strict';
 
-let expect = require('chai').expect;
-let EOL = require('os').EOL;
-let MockUI = require('console-ui/mock');
-let MockAnalytics = require('../../helpers/mock-analytics');
-let MockServerWatcher = require('../../helpers/mock-watcher');
-let ServerWatcher = require('../../../lib/models/server-watcher');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const MockServerWatcher = require('../../helpers/mock-watcher');
+const ServerWatcher = require('../../../lib/models/server-watcher');
 
 describe('Server Watcher', function() {
   let ui;

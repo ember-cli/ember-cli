@@ -1,10 +1,10 @@
 'use strict';
 
-let MockUI = require('console-ui/mock');
-let MockAnalytics = require('./mock-analytics');
-let cli = require('../../lib/cli');
-let path = require('path');
-let Promise = require('../../lib/ext/promise');
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('./mock-analytics');
+const cli = require('../../lib/cli');
+const path = require('path');
+const Promise = require('../../lib/ext/promise');
 
 /*
   Accepts a single array argument, that contains the

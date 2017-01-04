@@ -1,15 +1,15 @@
 'use strict';
 
-let expect = require('chai').expect;
+const expect = require('chai').expect;
 
-let MockUI = require('console-ui/mock');
-let MockAnalytics = require('../../helpers/mock-analytics');
-let MockWatcher = require('../../helpers/mock-watcher');
-let Watcher = require('../../../lib/models/watcher');
-let EOL = require('os').EOL;
-let chalk = require('chalk');
-let BuildError = require('../../helpers/build-error');
-let Promise = require('../../../lib/ext/promise');
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const MockWatcher = require('../../helpers/mock-watcher');
+const Watcher = require('../../../lib/models/watcher');
+const EOL = require('os').EOL;
+const chalk = require('chalk');
+const BuildError = require('../../helpers/build-error');
+const Promise = require('../../../lib/ext/promise');
 
 describe('Watcher', function() {
   let ui;

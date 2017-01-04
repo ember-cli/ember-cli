@@ -1,19 +1,19 @@
 'use strict';
 
-let expect = require('chai').expect;
-let ExpressServer = require('../../../../lib/tasks/server/express-server');
-let Promise = require('../../../../lib/ext/promise');
-let MockUI = require('console-ui/mock');
-let MockProject = require('../../../helpers/mock-project');
-let MockWatcher = require('../../../helpers/mock-watcher');
-let MockServerWatcher = require('../../../helpers/mock-server-watcher');
-let ProxyServer = require('../../../helpers/proxy-server');
-let chalk = require('chalk');
-let request = require('supertest');
-let net = require('net');
-let EOL = require('os').EOL;
-let nock = require('nock');
-let express = require('express');
+const expect = require('chai').expect;
+const ExpressServer = require('../../../../lib/tasks/server/express-server');
+const Promise = require('../../../../lib/ext/promise');
+const MockUI = require('console-ui/mock');
+const MockProject = require('../../../helpers/mock-project');
+const MockWatcher = require('../../../helpers/mock-watcher');
+const MockServerWatcher = require('../../../helpers/mock-server-watcher');
+const ProxyServer = require('../../../helpers/proxy-server');
+const chalk = require('chalk');
+const request = require('supertest');
+const net = require('net');
+const EOL = require('os').EOL;
+const nock = require('nock');
+const express = require('express');
 
 describe('express-server', function() {
   let subject, ui, project, proxy, nockProxy;

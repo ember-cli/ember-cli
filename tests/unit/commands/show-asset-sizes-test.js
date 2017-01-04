@@ -1,10 +1,10 @@
 'use strict';
 
-let expect = require('chai').expect;
-let commandOptions = require('../../factories/command-options');
-let Task = require('../../../lib/models/task');
-let path = require('path');
-let td = require('testdouble');
+const expect = require('chai').expect;
+const commandOptions = require('../../factories/command-options');
+const Task = require('../../../lib/models/task');
+const path = require('path');
+const td = require('testdouble');
 
 describe('asset-sizes command', function() {
   let ShowCommand;

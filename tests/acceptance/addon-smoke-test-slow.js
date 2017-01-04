@@ -1,24 +1,24 @@
 'use strict';
 
-let Promise = require('../../lib/ext/promise');
-let path = require('path');
-let fs = require('fs-extra');
+const Promise = require('../../lib/ext/promise');
+const path = require('path');
+const fs = require('fs-extra');
 let remove = Promise.denodeify(fs.remove);
-let spawn = require('child_process').spawn;
-let chalk = require('chalk');
+const spawn = require('child_process').spawn;
+const chalk = require('chalk');
 
-let symlinkOrCopySync = require('symlink-or-copy').sync;
-let runCommand = require('../helpers/run-command');
-let ember = require('../helpers/ember');
-let copyFixtureFiles = require('../helpers/copy-fixture-files');
-let killCliProcess = require('../helpers/kill-cli-process');
-let acceptance = require('../helpers/acceptance');
+const symlinkOrCopySync = require('symlink-or-copy').sync;
+const runCommand = require('../helpers/run-command');
+const ember = require('../helpers/ember');
+const copyFixtureFiles = require('../helpers/copy-fixture-files');
+const killCliProcess = require('../helpers/kill-cli-process');
+const acceptance = require('../helpers/acceptance');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
 let cleanupRun = acceptance.cleanupRun;
 
-let chai = require('../chai');
+const chai = require('../chai');
 let expect = chai.expect;
 let dir = chai.dir;
 

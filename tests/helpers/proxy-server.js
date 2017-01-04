@@ -1,6 +1,6 @@
 'use strict';
 
-let http = require('http');
+const http = require('http');
 
 let ProxyServer = function() {
   let _this = this;

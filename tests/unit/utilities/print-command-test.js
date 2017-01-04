@@ -1,9 +1,9 @@
 'use strict';
 
-let printCommand = require('../../../lib/utilities/print-command');
-let processHelpString = require('../../helpers/process-help-string');
-let expect = require('chai').expect;
-let EOL = require('os').EOL;
+const printCommand = require('../../../lib/utilities/print-command');
+const processHelpString = require('../../helpers/process-help-string');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
 
 describe('printCommand', function() {
   it('handles all possible options', function() {

@@ -1,27 +1,27 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let Project = require('../../../lib/models/project');
-let Addon = require('../../../lib/models/addon');
-let Promise = require('../../../lib/ext/promise');
-let expect = require('chai').expect;
+const fs = require('fs-extra');
+const path = require('path');
+const Project = require('../../../lib/models/project');
+const Addon = require('../../../lib/models/addon');
+const Promise = require('../../../lib/ext/promise');
+const expect = require('chai').expect;
 let remove = Promise.denodeify(fs.remove);
-let findWhere = require('ember-cli-lodash-subset').find;
-let MockUI = require('console-ui/mock');
-let MockCLI = require('../../helpers/mock-cli');
-let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-let experiments = require('../../experiments');
+const findWhere = require('ember-cli-lodash-subset').find;
+const MockUI = require('console-ui/mock');
+const MockCLI = require('../../helpers/mock-cli');
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const experiments = require('../../experiments');
 
-let broccoli = require('broccoli-builder');
-let walkSync = require('walk-sync');
-let td = require('testdouble');
+const broccoli = require('broccoli-builder');
+const walkSync = require('walk-sync');
+const td = require('testdouble');
 
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
-let ensurePosixPath = require('ensure-posix-path');
+const ensurePosixPath = require('ensure-posix-path');
 
 describe('models/addon.js', function() {
   let addon, project, projectPath;
@@ -58,7 +58,7 @@ describe('models/addon.js', function() {
 
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
@@ -204,7 +204,7 @@ describe('models/addon.js', function() {
     this.timeout(40000);
     before(function() {
       projectPath = path.resolve(fixturePath, 'simple');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
       let ui = new MockUI();
       let cli = new MockCLI({ ui });
       project = new Project(projectPath, packageContents, ui, cli);
@@ -360,7 +360,7 @@ describe('models/addon.js', function() {
         });
 
         let projectPath = path.resolve(fixturePath, 'simple');
-        let packageContents = require(path.join(projectPath, 'package.json'));
+        const packageContents = require(path.join(projectPath, 'package.json'));
         let cli = new MockCLI();
 
         project = new Project(projectPath, packageContents, cli.ui, cli);
@@ -427,7 +427,7 @@ describe('models/addon.js', function() {
         });
 
         let projectPath = path.resolve(fixturePath, 'simple');
-        let packageContents = require(path.join(projectPath, 'package.json'));
+        const packageContents = require(path.join(projectPath, 'package.json'));
         let cli = new MockCLI();
 
         project = new Project(projectPath, packageContents, cli.ui, cli);
@@ -591,7 +591,7 @@ describe('models/addon.js', function() {
   describe('compileTemplates', function() {
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
@@ -638,7 +638,7 @@ describe('models/addon.js', function() {
   describe('_fileSystemInfo', function() {
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
@@ -764,7 +764,7 @@ describe('models/addon.js', function() {
 
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
 
       ui = new MockUI();
       let cli = new MockCLI({ ui });
@@ -789,7 +789,7 @@ describe('models/addon.js', function() {
 
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'with-app-styles');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
@@ -834,7 +834,7 @@ describe('models/addon.js', function() {
       });
 
       let projectPath = path.resolve(fixturePath, 'simple');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
@@ -867,7 +867,7 @@ describe('models/addon.js', function() {
   if (experiments.ADDON_TREE_CACHING) {
     describe('addon tree caching', function() {
       let projectPath = path.resolve(fixturePath, 'simple');
-      let packageContents = require(path.join(projectPath, 'package.json'));
+      const packageContents = require(path.join(projectPath, 'package.json'));
 
       function createAddon(Addon) {
         let cli = new MockCLI();

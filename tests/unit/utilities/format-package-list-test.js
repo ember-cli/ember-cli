@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let formatPackageList = require('../../../lib/utilities/format-package-list');
+const expect = require('chai').expect;
+const formatPackageList = require('../../../lib/utilities/format-package-list');
 
 describe('format-package-list', function() {
   it('correctly formats package list with 1 item', function() {

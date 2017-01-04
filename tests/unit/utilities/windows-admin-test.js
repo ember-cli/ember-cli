@@ -1,10 +1,10 @@
 'use strict';
 
-let WindowsSymlinkChecker = require('../../../lib/utilities/windows-admin');
-let expect = require('chai').expect;
-let MockUI = require('console-ui/mock');
-let td = require('testdouble');
-let symlinkOrCopy = require('symlink-or-copy');
+const WindowsSymlinkChecker = require('../../../lib/utilities/windows-admin');
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const td = require('testdouble');
+const symlinkOrCopy = require('symlink-or-copy');
 
 describe('windows-admin', function() {
   let ui;

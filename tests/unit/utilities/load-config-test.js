@@ -1,8 +1,8 @@
 'use strict';
 
-let expect = require('chai').expect;
-let path = require('path');
-let loadConfig = require('../../../lib/utilities/load-config');
+const expect = require('chai').expect;
+const path = require('path');
+const loadConfig = require('../../../lib/utilities/load-config');
 
 describe('load-config', function() {
   let fixtureDirectory = path.resolve(__dirname, '../../fixtures/load-config');

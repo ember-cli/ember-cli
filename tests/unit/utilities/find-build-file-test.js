@@ -1,10 +1,10 @@
 'use strict';
 
-let expect = require('chai').expect;
-let fs = require('fs-extra');
-let path = require('path');
-let tmp = require('../../helpers/tmp');
-let findBuildFile = require('../../../lib/utilities/find-build-file');
+const expect = require('chai').expect;
+const fs = require('fs-extra');
+const path = require('path');
+const tmp = require('../../helpers/tmp');
+const findBuildFile = require('../../../lib/utilities/find-build-file');
 
 describe('find-build-file', function() {
   let tmpPath = 'tmp/find-build-file-test';

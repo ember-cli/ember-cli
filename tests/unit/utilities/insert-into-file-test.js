@@ -1,12 +1,12 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let temp = require('temp');
-let EOL = require('os').EOL;
-let insertIntoFile = require('../../../lib/utilities/insert-into-file');
+const fs = require('fs-extra');
+const path = require('path');
+const temp = require('temp');
+const EOL = require('os').EOL;
+const insertIntoFile = require('../../../lib/utilities/insert-into-file');
 
-let expect = require('chai').expect;
+const expect = require('chai').expect;
 
 describe('insertIntoFile()', function() {
   let tempDir, filePath;

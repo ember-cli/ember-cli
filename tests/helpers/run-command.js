@@ -1,12 +1,12 @@
 'use strict';
 
-let RSVP = require('rsvp');
-let Promise = require('../../lib/ext/promise');
-let chalk = require('chalk');
-let spawn = require('child_process').spawn;
-let defaults = require('ember-cli-lodash-subset').defaults;
-let killCliProcess = require('./kill-cli-process');
-let logOnFailure = require('./log-on-failure');
+const RSVP = require('rsvp');
+const Promise = require('../../lib/ext/promise');
+const chalk = require('chalk');
+const spawn = require('child_process').spawn;
+const defaults = require('ember-cli-lodash-subset').defaults;
+const killCliProcess = require('./kill-cli-process');
+const logOnFailure = require('./log-on-failure');
 let debug = require('heimdalljs-logger')('run-command');
 
 module.exports = function run(/* command, args, options */) {

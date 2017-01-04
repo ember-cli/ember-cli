@@ -1,8 +1,8 @@
 'use strict';
 
-let fs = require('fs-extra');
-let path = require('path');
-let Promise = require('../../lib/ext/promise');
+const fs = require('fs-extra');
+const path = require('path');
+const Promise = require('../../lib/ext/promise');
 let copy = Promise.denodeify(fs.copy);
 
 let rootPath = process.cwd();

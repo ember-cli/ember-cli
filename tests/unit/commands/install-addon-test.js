@@ -1,12 +1,12 @@
 'use strict';
 
-let expect = require('chai').expect;
-let MockProject = require('../../helpers/mock-project');
-let commandOptions = require('../../factories/command-options');
-let Promise = require('../../../lib/ext/promise');
-let Task = require('../../../lib/models/task');
-let AddonInstall = require('../../../lib/tasks/addon-install');
-let InstallAddonCommand = require('../../../lib/commands/install-addon');
+const expect = require('chai').expect;
+const MockProject = require('../../helpers/mock-project');
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const Task = require('../../../lib/models/task');
+const AddonInstall = require('../../../lib/tasks/addon-install');
+const InstallAddonCommand = require('../../../lib/commands/install-addon');
 
 describe('install:addon command', function() {
   let npmInstance, generateBlueprintInstance;

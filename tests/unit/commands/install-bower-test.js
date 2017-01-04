@@ -1,9 +1,9 @@
 'use strict';
 
-let expect = require('chai').expect;
-let MockProject = require('../../helpers/mock-project');
-let commandOptions = require('../../factories/command-options');
-let InstallBowerCommand = require('../../../lib/commands/install-bower');
+const expect = require('chai').expect;
+const MockProject = require('../../helpers/mock-project');
+const commandOptions = require('../../factories/command-options');
+const InstallBowerCommand = require('../../../lib/commands/install-bower');
 
 describe('install:bower command', function() {
   let command;

@@ -1,22 +1,22 @@
 'use strict';
 
-let Heimdall = require('heimdalljs/heimdall');
-let heimdallGraph = require('heimdalljs-graph');
-let chai = require('../../chai');
-let td = require('testdouble');
-let fs = require('fs');
-let path = require('path');
-let fse = require('fs-extra');
-let MockUI = require('console-ui/mock');
-let chalk = require('chalk');
-let EOL = require('os').EOL;
+const Heimdall = require('heimdalljs/heimdall');
+const heimdallGraph = require('heimdalljs-graph');
+const chai = require('../../chai');
+const td = require('testdouble');
+const fs = require('fs');
+const path = require('path');
+const fse = require('fs-extra');
+const MockUI = require('console-ui/mock');
+const chalk = require('chalk');
+const EOL = require('os').EOL;
 
-let itr2Array = require('../../helpers/itr2array');
-let Promise = require('../../../lib/ext/promise');
-let MockProject = require('../../helpers/mock-project');
-let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-let experiments = require('../../../lib/experiments/');
-let Instrumentation = require('../../../lib/models/instrumentation');
+const itr2Array = require('../../helpers/itr2array');
+const Promise = require('../../../lib/ext/promise');
+const MockProject = require('../../helpers/mock-project');
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const experiments = require('../../../lib/experiments/');
+const Instrumentation = require('../../../lib/models/instrumentation');
 
 let expect = chai.expect;
 let any = td.matchers.anything;
@@ -88,7 +88,7 @@ describe('models/instrumentation.js', function() {
   });
 
   describe('constructor', function() {
-    let heimdall = require('heimdalljs');
+    const heimdall = require('heimdalljs');
     let heimdallStart;
 
     beforeEach(function() {

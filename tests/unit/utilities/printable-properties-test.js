@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let printableProperties = require('../../../lib/utilities/printable-properties');
+const expect = require('chai').expect;
+const printableProperties = require('../../../lib/utilities/printable-properties');
 
 describe('printable-properties', function() {
   describe('command', function() {

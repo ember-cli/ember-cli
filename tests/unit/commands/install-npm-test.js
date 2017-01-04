@@ -1,9 +1,9 @@
 'use strict';
 
-let expect = require('chai').expect;
-let MockProject = require('../../helpers/mock-project');
-let commandOptions = require('../../factories/command-options');
-let InstallNpmCommand = require('../../../lib/commands/install-npm');
+const expect = require('chai').expect;
+const MockProject = require('../../helpers/mock-project');
+const commandOptions = require('../../factories/command-options');
+const InstallNpmCommand = require('../../../lib/commands/install-npm');
 
 describe('install:npm command', function() {
   let command;

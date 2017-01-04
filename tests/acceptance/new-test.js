@@ -1,21 +1,21 @@
 'use strict';
 
-let fs = require('fs-extra');
-let ember = require('../helpers/ember');
-let walkSync = require('walk-sync');
-let Blueprint = require('../../lib/models/blueprint');
-let path = require('path');
-let tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+const fs = require('fs-extra');
+const ember = require('../helpers/ember');
+const walkSync = require('walk-sync');
+const Blueprint = require('../../lib/models/blueprint');
+const path = require('path');
+const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 let root = process.cwd();
-let util = require('util');
-let EOL = require('os').EOL;
-let chalk = require('chalk');
+const util = require('util');
+const EOL = require('os').EOL;
+const chalk = require('chalk');
 
-let chai = require('../chai');
+const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;
-let forEach = require('ember-cli-lodash-subset').forEach;
+const forEach = require('ember-cli-lodash-subset').forEach;
 
 let tmpDir = './tmp/new-test';
 

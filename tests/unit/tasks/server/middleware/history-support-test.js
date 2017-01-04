@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/history-support');
+const expect = require('chai').expect;
+const HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/history-support');
 
 describe('HistorySupportAddon', function() {
   describe('.serverMiddleware', function() {

@@ -1,14 +1,14 @@
 'use strict';
 
-let expect = require('chai').expect;
-let LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
-let MockUI = require('console-ui/mock');
-let MockExpressServer = require('../../../helpers/mock-express-server');
-let net = require('net');
-let EOL = require('os').EOL;
-let path = require('path');
-let MockWatcher = require('../../../helpers/mock-watcher');
-let FSTree = require('fs-tree-diff');
+const expect = require('chai').expect;
+const LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
+const MockUI = require('console-ui/mock');
+const MockExpressServer = require('../../../helpers/mock-express-server');
+const net = require('net');
+const EOL = require('os').EOL;
+const path = require('path');
+const MockWatcher = require('../../../helpers/mock-watcher');
+const FSTree = require('fs-tree-diff');
 
 describe('livereload-server', function() {
   let subject;

@@ -1,4 +1,4 @@
-let Blueprint = require('../../lib/models/blueprint');
+const Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {
   description: 'Generates a relative proxy to another server.',

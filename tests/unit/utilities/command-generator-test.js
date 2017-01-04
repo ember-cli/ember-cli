@@ -1,8 +1,8 @@
 'use strict';
 
-let td = require('testdouble');
-let expect = require('chai').expect;
-let Command = require('../../../tests/helpers/command-generator');
+const td = require('testdouble');
+const expect = require('chai').expect;
+const Command = require('../../../tests/helpers/command-generator');
 
 describe('command-generator', function() {
   let yarn, _invoke;

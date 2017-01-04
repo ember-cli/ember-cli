@@ -30,7 +30,7 @@
   });
   ```
  */
-let defaultExperiments = require('../lib/experiments');
+const defaultExperiments = require('../lib/experiments');
 
 let experiments = {};
 

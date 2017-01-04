@@ -1,7 +1,7 @@
 'use strict';
 
-let Y = require('yuidocjs');
-let EOL = require('os').EOL;
+const Y = require('yuidocjs');
+const EOL = require('os').EOL;
 
 describe('YUIDoc', function() {
   let options = Y.Project.init({

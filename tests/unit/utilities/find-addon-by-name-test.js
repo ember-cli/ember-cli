@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let findAddonByName = require('../../../lib/utilities/find-addon-by-name');
+const expect = require('chai').expect;
+const findAddonByName = require('../../../lib/utilities/find-addon-by-name');
 
 describe('findAddonByName', function() {
   let addons;

@@ -1,15 +1,15 @@
-let fs = require('fs-extra');
-let existsSync = require('exists-sync');
-let path = require('path');
-let walkSync = require('walk-sync');
-let stringUtil = require('ember-cli-string-utils');
-let uniq = require('ember-cli-lodash-subset').uniq;
-let SilentError = require('silent-error');
-let sortPackageJson = require('sort-package-json');
+const fs = require('fs-extra');
+const existsSync = require('exists-sync');
+const path = require('path');
+const walkSync = require('walk-sync');
+const stringUtil = require('ember-cli-string-utils');
+const uniq = require('ember-cli-lodash-subset').uniq;
+const SilentError = require('silent-error');
+const sortPackageJson = require('sort-package-json');
 let date = new Date();
 
-let normalizeEntityName = require('ember-cli-normalize-entity-name');
-let stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
+const normalizeEntityName = require('ember-cli-normalize-entity-name');
+const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',

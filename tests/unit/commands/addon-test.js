@@ -1,11 +1,11 @@
 'use strict';
 
-let expect = require('chai').expect;
-let commandOptions = require('../../factories/command-options');
-let map = require('ember-cli-lodash-subset').map;
-let AddonCommand = require('../../../lib/commands/addon');
-let Blueprint = require('../../../lib/models/blueprint');
-let td = require('testdouble');
+const expect = require('chai').expect;
+const commandOptions = require('../../factories/command-options');
+const map = require('ember-cli-lodash-subset').map;
+const AddonCommand = require('../../../lib/commands/addon');
+const Blueprint = require('../../../lib/models/blueprint');
+const td = require('testdouble');
 
 describe('addon command', function() {
   let command;

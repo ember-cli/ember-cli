@@ -1,17 +1,17 @@
 'use strict';
 
-let expect = require('chai').expect;
-let EOL = require('os').EOL;
-let commandOptions = require('../../factories/command-options');
-let Task = require('../../../lib/models/task');
-let Promise = require('../../../lib/ext/promise');
-let td = require('testdouble');
-let PortFinder = require('portfinder');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const commandOptions = require('../../factories/command-options');
+const Task = require('../../../lib/models/task');
+const Promise = require('../../../lib/ext/promise');
+const td = require('testdouble');
+const PortFinder = require('portfinder');
 
 PortFinder.basePort = 32768;
 let getPort = Promise.denodeify(PortFinder.getPort);
 
-let ServeCommand = require('../../../lib/commands/serve');
+const ServeCommand = require('../../../lib/commands/serve');
 
 describe('serve command', function() {
   let tasks, options, command;

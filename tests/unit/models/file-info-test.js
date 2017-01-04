@@ -1,18 +1,18 @@
 'use strict';
 
-let expect = require('chai').expect;
-let MockUI = require('console-ui/mock');
-let FileInfo = require('../../../lib/models/file-info');
-let path = require('path');
-let fs = require('fs-extra');
-let EOL = require('os').EOL;
-let Promise = require('../../../lib/ext/promise');
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const FileInfo = require('../../../lib/models/file-info');
+const path = require('path');
+const fs = require('fs-extra');
+const EOL = require('os').EOL;
+const Promise = require('../../../lib/ext/promise');
 let writeFile = Promise.denodeify(fs.writeFile);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
-let assign = require('ember-cli-lodash-subset').assign;
-let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-let td = require('testdouble');
+const assign = require('ember-cli-lodash-subset').assign;
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const td = require('testdouble');
 let testOutputPath;
 
 describe('Unit - FileInfo', function() {

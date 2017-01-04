@@ -1,10 +1,10 @@
 'use strict';
 
-let AddonInstallTask = require('../../../lib/tasks/addon-install');
-let MockProject = require('console-ui/mock');
-let expect = require('chai').expect;
-let CoreObject = require('core-object');
-let Promise = require('rsvp').Promise;
+const AddonInstallTask = require('../../../lib/tasks/addon-install');
+const MockProject = require('console-ui/mock');
+const expect = require('chai').expect;
+const CoreObject = require('core-object');
+const Promise = require('rsvp').Promise;
 
 describe('addon install task', function() {
   let ui;

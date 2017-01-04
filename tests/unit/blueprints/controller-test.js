@@ -1,13 +1,13 @@
 'use strict';
 
-let path = require('path');
-let blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
+const path = require('path');
+const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
 let setupTestHooks = blueprintHelpers.setupTestHooks;
 let emberNew = blueprintHelpers.emberNew;
 let emberGenerateDestroy = blueprintHelpers.emberGenerateDestroy;
 let setupPodConfig = blueprintHelpers.setupPodConfig;
 
-let chai = require('ember-cli-blueprint-test-helpers/chai');
+const chai = require('ember-cli-blueprint-test-helpers/chai');
 let expect = chai.expect;
 
 /**

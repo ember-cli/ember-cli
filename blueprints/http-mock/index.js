@@ -1,5 +1,5 @@
-let Blueprint = require('../../lib/models/blueprint');
-let isPackageMissing = require('ember-cli-is-package-missing');
+const Blueprint = require('../../lib/models/blueprint');
+const isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
   description: 'Generates a mock api endpoint in /api prefix.',

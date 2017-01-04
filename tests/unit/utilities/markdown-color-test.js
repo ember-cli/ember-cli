@@ -1,9 +1,9 @@
 'use strict';
 
-let MarkdownColor = require('../../../lib/utilities/markdown-color');
-let expect = require('chai').expect;
-let path = require('path');
-let chalk = require('chalk');
+const MarkdownColor = require('../../../lib/utilities/markdown-color');
+const expect = require('chai').expect;
+const path = require('path');
+const chalk = require('chalk');
 
 describe('MarkdownColor', function() {
   let mc;

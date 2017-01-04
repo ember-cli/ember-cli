@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let walkUp = require('../../../lib/utilities/walk-up-path');
+const expect = require('chai').expect;
+const walkUp = require('../../../lib/utilities/walk-up-path');
 
 describe('walk-up-path', function() {
   it('walks up paths', function() {

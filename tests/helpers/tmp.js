@@ -1,8 +1,8 @@
 'use strict';
 
-let fs = require('fs-extra');
-let existsSync = require('exists-sync');
-let Promise = require('../../lib/ext/promise');
+const fs = require('fs-extra');
+const existsSync = require('exists-sync');
+const Promise = require('../../lib/ext/promise');
 let remove = Promise.denodeify(fs.remove);
 let root = process.cwd();
 

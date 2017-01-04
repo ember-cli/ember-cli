@@ -1,9 +1,9 @@
 'use strict';
 
-let expect = require('chai').expect;
-let Command = require('../../lib/models/command');
-let MockUI = require('console-ui/mock');
-let MockProject = require('../helpers/mock-project');
+const expect = require('chai').expect;
+const Command = require('../../lib/models/command');
+const MockUI = require('console-ui/mock');
+const MockProject = require('../helpers/mock-project');
 let command;
 let called = false;
 

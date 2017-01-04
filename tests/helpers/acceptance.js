@@ -1,16 +1,16 @@
 'use strict';
 
-let symlinkOrCopySync = require('symlink-or-copy').sync;
-let path = require('path');
-let fs = require('fs-extra');
-let runCommand = require('./run-command');
-let Promise = require('../../lib/ext/promise');
+const symlinkOrCopySync = require('symlink-or-copy').sync;
+const path = require('path');
+const fs = require('fs-extra');
+const runCommand = require('./run-command');
+const Promise = require('../../lib/ext/promise');
 let root = path.resolve(__dirname, '..', '..');
 
-let PackageCache = require('../../tests/helpers/package-cache');
-let CommandGenerator = require('../../tests/helpers/command-generator');
+const PackageCache = require('../../tests/helpers/package-cache');
+const CommandGenerator = require('../../tests/helpers/command-generator');
 
-let quickTemp = require('quick-temp');
+const quickTemp = require('quick-temp');
 let dirs = {};
 
 let runCommandOptions = {

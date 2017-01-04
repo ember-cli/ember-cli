@@ -1,10 +1,10 @@
 'use strict';
 
-let attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
-let quickTemp = require('quick-temp');
+const attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
+const quickTemp = require('quick-temp');
 let isDarwin = (/darwin/i).test(require('os').type());
 
-let chai = require('../../chai');
+const chai = require('../../chai');
 let expect = chai.expect;
 let file = chai.file;
 

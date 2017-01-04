@@ -1,22 +1,22 @@
 'use strict';
 
-let fs = require('fs-extra');
-let Task = require('../../../lib/models/task');
-let MockProject = require('../../helpers/mock-project');
-let MockUI = require('console-ui/mock');
-let expect = require('chai').expect;
-let path = require('path');
-let glob = require('glob');
-let walkSync = require('walk-sync');
-let Promise = require('../../../lib/ext/promise');
+const fs = require('fs-extra');
+const Task = require('../../../lib/models/task');
+const MockProject = require('../../helpers/mock-project');
+const MockUI = require('console-ui/mock');
+const expect = require('chai').expect;
+const path = require('path');
+const glob = require('glob');
+const walkSync = require('walk-sync');
+const Promise = require('../../../lib/ext/promise');
 let remove = Promise.denodeify(fs.remove);
-let EOL = require('os').EOL;
+const EOL = require('os').EOL;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
-let SilentError = require('silent-error');
-let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-let td = require('testdouble');
-let Blueprint = require('../../../lib/models/blueprint');
+const SilentError = require('silent-error');
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const td = require('testdouble');
+const Blueprint = require('../../../lib/models/blueprint');
 
 let localsCalled;
 let normalizeEntityNameCalled;
@@ -99,7 +99,7 @@ let basicBlueprintFiles = [
 ];
 
 describe('Blueprint', function() {
-  let BasicBlueprintClass = require(basicBlueprint);
+  const BasicBlueprintClass = require(basicBlueprint);
   let InstrumentedBasicBlueprint = BasicBlueprintClass.extend(instrumented);
 
   beforeEach(function() {
@@ -154,7 +154,7 @@ describe('Blueprint', function() {
 
   describe('.lookup', function() {
     it('uses an explicit path if one is given', function() {
-      let expectedClass = require(basicBlueprint);
+      const expectedClass = require(basicBlueprint);
       let blueprint = Blueprint.lookup(basicBlueprint);
 
       expect(blueprint.name).to.equal('basic');
@@ -163,7 +163,7 @@ describe('Blueprint', function() {
     });
 
     it('finds blueprints within given lookup paths', function() {
-      let expectedClass = require(basicBlueprint);
+      const expectedClass = require(basicBlueprint);
       let blueprint = Blueprint.lookup('basic', {
         paths: [fixtureBlueprints],
       });
@@ -528,7 +528,7 @@ describe('Blueprint', function() {
   });
 
   describe('basic blueprint uninstallation', function() {
-    let BasicBlueprintClass = require(basicBlueprint);
+    const BasicBlueprintClass = require(basicBlueprint);
     let blueprint;
     let ui;
     let project;

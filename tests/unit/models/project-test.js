@@ -1,16 +1,16 @@
 'use strict';
 
-let path = require('path');
-let Project = require('../../../lib/models/project');
-let Addon = require('../../../lib/models/addon');
-let tmp = require('../../helpers/tmp');
-let touch = require('../../helpers/file-utils').touch;
-let expect = require('chai').expect;
-let MockUI = require('console-ui/mock');
-let Instrumentation = require('../../../lib/models/instrumentation');
-let emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
-let td = require('testdouble');
-let MockCLI = require('../../helpers/mock-cli');
+const path = require('path');
+const Project = require('../../../lib/models/project');
+const Addon = require('../../../lib/models/addon');
+const tmp = require('../../helpers/tmp');
+const touch = require('../../helpers/file-utils').touch;
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const Instrumentation = require('../../../lib/models/instrumentation');
+const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
+const td = require('testdouble');
+const MockCLI = require('../../helpers/mock-cli');
 
 describe('models/project.js', function() {
   let project, projectPath, packageContents, tmpPath;

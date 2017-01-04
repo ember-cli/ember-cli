@@ -1,7 +1,7 @@
 'use strict';
 
-let fs = require('fs-extra');
-let existsSync = require('exists-sync');
+const fs = require('fs-extra');
+const existsSync = require('exists-sync');
 
 function touch(path, obj) {
   if (!existsSync(path)) {

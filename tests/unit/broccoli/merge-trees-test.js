@@ -2,11 +2,11 @@
 
 'use strict';
 
-let fs = require('fs');
-let expect = require('chai').expect;
-let proxyquire = require('proxyquire');
+const fs = require('fs');
+const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
 
-let MockUI = require('console-ui/mock');
+const MockUI = require('console-ui/mock');
 
 let mergeTreesStub;
 let mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {

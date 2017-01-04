@@ -1,17 +1,17 @@
 'use strict';
 
-let path = require('path');
-let Project = require('../../../lib/models/project');
-let EmberAddon = require('../../../lib/broccoli/ember-addon');
-let EmberApp = require('../../../lib/broccoli/ember-app');
-let expect = require('chai').expect;
-let MockCLI = require('../../helpers/mock-cli');
+const path = require('path');
+const Project = require('../../../lib/models/project');
+const EmberAddon = require('../../../lib/broccoli/ember-addon');
+const EmberApp = require('../../../lib/broccoli/ember-app');
+const expect = require('chai').expect;
+const MockCLI = require('../../helpers/mock-cli');
 
 describe('EmberAddon', function() {
   let project, emberAddon, projectPath;
 
   function setupProject(rootPath) {
-    let packageContents = require(path.join(rootPath, 'package.json'));
+    const packageContents = require(path.join(rootPath, 'package.json'));
     let cli = new MockCLI();
 
     project = new Project(rootPath, packageContents, cli.ui, cli);

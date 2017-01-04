@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let stringifyAndNormalize = require('../../../lib/utilities/stringify-and-normalize');
+const expect = require('chai').expect;
+const stringifyAndNormalize = require('../../../lib/utilities/stringify-and-normalize');
 
 describe('stringify-and-normalize', function() {
   let packageJson = {

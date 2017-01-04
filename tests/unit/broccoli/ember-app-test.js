@@ -2,15 +2,15 @@
 
 'use strict';
 
-let fs = require('fs');
-let path = require('path');
-let Project = require('../../../lib/models/project');
-let expect = require('chai').expect;
-let proxyquire = require('proxyquire');
-let td = require('testdouble');
+const fs = require('fs');
+const path = require('path');
+const Project = require('../../../lib/models/project');
+const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const td = require('testdouble');
 
-let MockCLI = require('../../helpers/mock-cli');
-let MockUI = require('console-ui/mock');
+const MockCLI = require('../../helpers/mock-cli');
+const MockUI = require('console-ui/mock');
 
 let mergeTreesStub;
 let EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
@@ -23,7 +23,7 @@ describe('broccoli/ember-app', function() {
   let project, projectPath, app, addon;
 
   function setupProject(rootPath) {
-    let packageContents = require(path.join(rootPath, 'package.json'));
+    const packageContents = require(path.join(rootPath, 'package.json'));
     let cli = new MockCLI();
 
     project = new Project(rootPath, packageContents, cli.ui, cli);
@@ -611,7 +611,7 @@ describe('broccoli/ember-app', function() {
     describe('addons can be disabled', function() {
       beforeEach(function() {
         projectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
-        let packageContents = require(path.join(projectPath, 'package.json'));
+        const packageContents = require(path.join(projectPath, 'package.json'));
         let cli = new MockCLI();
         project = new Project(projectPath, packageContents, cli.ui, cli);
         let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');

@@ -1,16 +1,16 @@
 'use strict';
 
-let expect = require('chai').expect;
-let EOL = require('os').EOL;
-let SilentError = require('silent-error');
-let commandOptions = require('../../factories/command-options');
-let processHelpString = require('../../helpers/process-help-string');
-let MockProject = require('../../helpers/mock-project');
-let Promise = require('../../../lib/ext/promise');
-let Task = require('../../../lib/models/task');
-let Blueprint = require('../../../lib/models/blueprint');
-let GenerateCommand = require('../../../lib/commands/generate');
-let td = require('testdouble');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const SilentError = require('silent-error');
+const commandOptions = require('../../factories/command-options');
+const processHelpString = require('../../helpers/process-help-string');
+const MockProject = require('../../helpers/mock-project');
+const Promise = require('../../../lib/ext/promise');
+const Task = require('../../../lib/models/task');
+const Blueprint = require('../../../lib/models/blueprint');
+const GenerateCommand = require('../../../lib/commands/generate');
+const td = require('testdouble');
 
 describe('generate command', function() {
   let options, command;

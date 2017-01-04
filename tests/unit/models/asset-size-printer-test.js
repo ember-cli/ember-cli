@@ -1,13 +1,13 @@
 'use strict';
 
-let expect = require('chai').expect;
-let MockUi = require('console-ui/mock');
-let AssetSizePrinter = require('../../../lib/models/asset-size-printer');
-let Promise = require('../../../lib/ext/promise');
-let path = require('path');
-let fs = require('fs-extra');
+const expect = require('chai').expect;
+const MockUi = require('console-ui/mock');
+const AssetSizePrinter = require('../../../lib/models/asset-size-printer');
+const Promise = require('../../../lib/ext/promise');
+const path = require('path');
+const fs = require('fs-extra');
 let root = process.cwd();
-let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmpRoot = path.join(root, 'tmp');
 let remove = Promise.denodeify(fs.remove);
 

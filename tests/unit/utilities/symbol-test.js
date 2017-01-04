@@ -1,7 +1,7 @@
 'use strict';
 
-let symbol = require('../../../lib/utilities/symbol');
-let expect = require('chai').expect;
+const symbol = require('../../../lib/utilities/symbol');
+const expect = require('chai').expect;
 
 describe('symbol', function() {
   it('expect format', function() {

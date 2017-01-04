@@ -1,7 +1,7 @@
 'use strict';
 
-let expect = require('chai').expect;
-let versionUtils = require('../../../lib/utilities/version-utils');
+const expect = require('chai').expect;
+const versionUtils = require('../../../lib/utilities/version-utils');
 
 describe('version-utils', function() {
   it('`isDevelopment` returns false if a release version was passed in', function() {
