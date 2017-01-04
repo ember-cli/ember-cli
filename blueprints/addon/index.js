@@ -64,7 +64,7 @@ module.exports = {
     var packagePath = path.join(this.path, 'files', 'package.json');
     var bowerPath = path.join(this.path, 'files', 'bower.json');
 
-    [packagePath, bowerPath].forEach(function(filePath) {
+    [packagePath, bowerPath].forEach(filePath => {
       fs.remove(filePath);
     });
   },

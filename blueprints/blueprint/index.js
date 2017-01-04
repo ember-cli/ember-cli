@@ -5,9 +5,7 @@ module.exports = {
     var files = this._super.files.apply(this, arguments);
 
     if (!this.hasJSHint()) {
-      files = files.filter(function(file) {
-        return file !== 'blueprints/.jshintrc';
-      });
+      files = files.filter(file => file !== 'blueprints/.jshintrc');
     }
 
     return files;

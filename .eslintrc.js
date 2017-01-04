@@ -105,6 +105,9 @@ module.exports = {
     }],
     'no-useless-computed-key': 2,
     'object-shorthand': 2,
+    'prefer-arrow-callback': [2, {
+      'allowNamedFunctions': true,
+    }],
     'prefer-template': 2,
     'template-curly-spacing': 2,
   },

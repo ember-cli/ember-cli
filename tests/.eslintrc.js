@@ -15,6 +15,9 @@ module.exports = {
     // disabled for easier asserting of file contents
     'quotes': 0,
 
+    // disabled because describe(), it(), etc. should not use arrow functions
+    'prefer-arrow-callback': 0,
+
     /*** chai-expect ***/
 
     'chai-expect/missing-assertion': 2,

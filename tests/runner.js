@@ -54,14 +54,13 @@ function addFiles(mocha, files) {
 
 function checkOnlyInTests() {
   console.log('Verifing `.only` in tests');
-  return _checkOnlyInTests().then(function() {
-    console.log('No `.only` found');
-  });
+  return _checkOnlyInTests()
+    .then(() => console.log('No `.only` found'));
 }
 
 function runMocha() {
   console.time('Mocha Tests Running Time');
-  mocha.run(function(failures) {
+  mocha.run(failures => {
     console.timeEnd('Mocha Tests Running Time');
     process.exit(failures);
   });
@@ -76,10 +75,8 @@ function ciVerificationStep() {
 }
 
 ciVerificationStep()
-  .then(function() {
-    runMocha();
-  })
-  .catch(function(error) {
+  .then(() => runMocha())
+  .catch(error => {
     console.error(error);
     console.error(error.stack);
     process.exit(1);
