@@ -1,6 +1,6 @@
 'use strict';
 
-var chalk = require('chalk');
+let chalk = require('chalk');
 
 module.exports = function(helpString) {
   // currently windows

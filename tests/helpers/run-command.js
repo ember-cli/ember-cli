@@ -1,18 +1,18 @@
 'use strict';
 
-var RSVP = require('rsvp');
-var Promise = require('../../lib/ext/promise');
-var chalk = require('chalk');
-var spawn = require('child_process').spawn;
-var defaults = require('ember-cli-lodash-subset').defaults;
-var killCliProcess = require('./kill-cli-process');
-var logOnFailure = require('./log-on-failure');
-var debug = require('heimdalljs-logger')('run-command');
+let RSVP = require('rsvp');
+let Promise = require('../../lib/ext/promise');
+let chalk = require('chalk');
+let spawn = require('child_process').spawn;
+let defaults = require('ember-cli-lodash-subset').defaults;
+let killCliProcess = require('./kill-cli-process');
+let logOnFailure = require('./log-on-failure');
+let debug = require('heimdalljs-logger')('run-command');
 
 module.exports = function run(/* command, args, options */) {
-  var command = arguments[0];
-  var args = Array.prototype.slice.call(arguments, 1);
-  var options = {};
+  let command = arguments[0];
+  let args = Array.prototype.slice.call(arguments, 1);
+  let options = {};
 
   if (typeof args[args.length - 1] === 'object') {
     options = args.pop();
@@ -44,7 +44,7 @@ module.exports = function run(/* command, args, options */) {
   return new RSVP.Promise(function(resolve, reject) {
     options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
-    var opts = {};
+    let opts = {};
     if (process.platform === 'win32') {
       args = [`"${command}"`].concat(args);
       command = 'node';
@@ -56,15 +56,15 @@ module.exports = function run(/* command, args, options */) {
     }
 
     debug.info("command: %s, args: %o", command, args);
-    var child = spawn(command, args, opts);
-    var result = {
+    let child = spawn(command, args, opts);
+    let result = {
       output: [],
       errors: [],
       code: null,
     };
 
     if (options.onChildSpawned) {
-      var onChildSpawnedPromise = new Promise(function(childSpawnedResolve, childSpawnedReject) {
+      let onChildSpawnedPromise = new Promise(function(childSpawnedResolve, childSpawnedReject) {
         try {
           options.onChildSpawned(child).then(childSpawnedResolve, childSpawnedReject);
         } catch (err) {
@@ -85,7 +85,7 @@ module.exports = function run(/* command, args, options */) {
     }
 
     child.stdout.on('data', function(data) {
-      var string = data.toString();
+      let string = data.toString();
 
       options.onOutput(string, child);
 
@@ -93,7 +93,7 @@ module.exports = function run(/* command, args, options */) {
     });
 
     child.stderr.on('data', function(data) {
-      var string = data.toString();
+      let string = data.toString();
 
       options.onError(string, child);
 

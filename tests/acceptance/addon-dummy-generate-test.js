@@ -1,19 +1,19 @@
 'use strict';
 
-var Promise = require('../../lib/ext/promise');
-var ember = require('../helpers/ember');
-var fs = require('fs-extra');
-var path = require('path');
-var remove = Promise.denodeify(fs.remove);
-var root = process.cwd();
-var tmproot = path.join(root, 'tmp');
-var Blueprint = require('../../lib/models/blueprint');
-var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+let Promise = require('../../lib/ext/promise');
+let ember = require('../helpers/ember');
+let fs = require('fs-extra');
+let path = require('path');
+let remove = Promise.denodeify(fs.remove);
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
+let Blueprint = require('../../lib/models/blueprint');
+let BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+let mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
+let chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
 
 describe('Acceptance: ember generate in-addon-dummy', function() {
   this.timeout(20000);
@@ -47,13 +47,13 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
   }
 
   function addJSHint() {
-    var pkg = fs.readJsonSync('package.json');
+    let pkg = fs.readJsonSync('package.json');
     pkg.devDependencies['ember-cli-jshint'] = '*';
     fs.writeJsonSync('package.json', pkg);
   }
 
   function generateInAddon(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initAddon().then(function() {
       return ember(generateArgs);

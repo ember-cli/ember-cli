@@ -1,19 +1,19 @@
 'use strict';
 
-var path = require('path');
-var CoreObject = require('core-object');
-var expect = require('../../chai').expect;
-var MockProject = require('../../helpers/mock-project');
-var commandOptions = require('../../factories/command-options');
-var Promise = require('../../../lib/ext/promise');
-var Task = require('../../../lib/models/task');
-var TestCommand = require('../../../lib/commands/test');
-var td = require('testdouble');
+let path = require('path');
+let CoreObject = require('core-object');
+let expect = require('../../chai').expect;
+let MockProject = require('../../helpers/mock-project');
+let commandOptions = require('../../factories/command-options');
+let Promise = require('../../../lib/ext/promise');
+let Task = require('../../../lib/models/task');
+let TestCommand = require('../../../lib/commands/test');
+let td = require('testdouble');
 
 describe('test command', function() {
   this.timeout(30000);
 
-  var tasks, options, command;
+  let tasks, options, command;
 
   beforeEach(function() {
     tasks = {
@@ -22,7 +22,7 @@ describe('test command', function() {
       TestServer: Task.extend(),
     };
 
-    var project = new MockProject();
+    let project = new MockProject();
 
     project.isEmberCLIProject = function() { return true; };
 
@@ -59,7 +59,7 @@ describe('test command', function() {
 
     it('has the correct options', function() {
       return command.validateAndRun([]).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Build.prototype.run(captor.capture()));
         expect(captor.value.environment).to.equal('test', 'has correct env');
@@ -73,7 +73,7 @@ describe('test command', function() {
 
     it('passes through custom configFile option', function() {
       return command.validateAndRun(['--config-file=some-random/path.json']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.configFile).to.equal('some-random/path.json');
@@ -82,7 +82,7 @@ describe('test command', function() {
 
     it('does not pass any port options', function() {
       return command.validateAndRun([]).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.port).to.equal(7357);
@@ -91,7 +91,7 @@ describe('test command', function() {
 
     it('passes through a custom test port option', function() {
       return command.validateAndRun(['--test-port=5679']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.port).to.equal(5679);
@@ -100,7 +100,7 @@ describe('test command', function() {
 
     it('passes through a custom test port option of 0 to allow OS to choose open system port', function() {
       return command.validateAndRun(['--test-port=0']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.port).to.equal(0);
@@ -109,7 +109,7 @@ describe('test command', function() {
 
     it('only passes through the port option', function() {
       return command.validateAndRun(['--port=5678']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.port).to.equal(5679);
@@ -118,7 +118,7 @@ describe('test command', function() {
 
     it('passes both the port and the test port options', function() {
       return command.validateAndRun(['--port=5678', '--test-port=5900']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.port).to.equal(5900);
@@ -127,7 +127,7 @@ describe('test command', function() {
 
     it('passes through custom host option', function() {
       return command.validateAndRun(['--host=greatwebsite.com']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.host).to.equal('greatwebsite.com');
@@ -136,7 +136,7 @@ describe('test command', function() {
 
     it('passes through custom reporter option', function() {
       return command.validateAndRun(['--reporter=xunit']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Test.prototype.run(captor.capture()));
         expect(captor.value.reporter).to.equal('xunit');
@@ -145,7 +145,7 @@ describe('test command', function() {
 
     it('has the correct options when called with a build path and does not run a build task', function() {
       return command.validateAndRun(['--path=tests']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.Build.prototype.run(td.matchers.anything()), { times: 0 });
         td.verify(tasks.Test.prototype.run(captor.capture()));
@@ -160,14 +160,14 @@ describe('test command', function() {
       return command.validateAndRun(['--path=bad/path/to/build']).then(function() {
         expect(false, 'should have rejected the build path').to.be.ok;
       }).catch(function(error) {
-        var expectedPath = path.resolve('bad/path/to/build');
+        let expectedPath = path.resolve('bad/path/to/build');
         expect(error.message).to.equal(`The path ${expectedPath} does not exist. Please specify a valid build directory to test.`);
       });
     });
   });
 
   describe('--server option', function() {
-    var buildCleanupWasCalled;
+    let buildCleanupWasCalled;
     beforeEach(function() {
       buildCleanupWasCalled = false;
       options.Builder = CoreObject.extend({
@@ -182,7 +182,7 @@ describe('test command', function() {
 
     it('builds a watcher with verbose set to false', function() {
       return command.validateAndRun(['--server']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.TestServer.prototype.run(captor.capture()));
         expect(captor.value.watcher.verbose).to.be.false;
@@ -193,7 +193,7 @@ describe('test command', function() {
 
     it('builds a watcher with options.watcher set to value provided', function() {
       return command.validateAndRun(['--server', '--watcher=polling']).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(tasks.TestServer.prototype.run(captor.capture()));
         expect(captor.value.watcher.options.watcher).to.equal('polling');
@@ -212,7 +212,7 @@ describe('test command', function() {
   });
 
   describe('_generateCustomConfigs', function() {
-    var runOptions;
+    let runOptions;
 
     beforeEach(function() {
       buildCommand();
@@ -220,27 +220,27 @@ describe('test command', function() {
     });
 
     it('should return an object even if passed param is empty object', function() {
-      var result = command._generateCustomConfigs(runOptions);
+      let result = command._generateCustomConfigs(runOptions);
       expect(result).to.be.an('object');
     });
 
     it('when launch option is present, should be reflected in returned config', function() {
       runOptions.launch = 'fooLauncher';
-      var result = command._generateCustomConfigs(runOptions);
+      let result = command._generateCustomConfigs(runOptions);
 
       expect(result.launch).to.equal('fooLauncher');
     });
 
     it('when query option is present, should be reflected in returned config', function() {
       runOptions.query = 'someQuery=test';
-      var result = command._generateCustomConfigs(runOptions);
+      let result = command._generateCustomConfigs(runOptions);
 
       expect(result.queryString).to.equal(runOptions.query);
     });
 
     it('when provided test-page the new file returned contains the value in test_page', function() {
       runOptions['test-page'] = 'foo/test.html?foo';
-      var result = command._generateCustomConfigs(runOptions);
+      let result = command._generateCustomConfigs(runOptions);
 
       expect(result.testPage).to.be.equal('foo/test.html?foo&');
     });
@@ -250,7 +250,7 @@ describe('test command', function() {
       runOptions.filter = 'bar';
       runOptions.query = 'someQuery=test';
       runOptions['test-page'] = 'foo/test.html?foo';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('foo/test.html?foo&module=fooModule&filter=bar&someQuery=test');
     });
@@ -259,7 +259,7 @@ describe('test command', function() {
       runOptions.module = 'fooModule';
       runOptions.filter = 'bar';
       runOptions['test-page'] = 'foo/test.html?foo';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('foo/test.html?foo&module=fooModule&filter=bar');
     });
@@ -268,7 +268,7 @@ describe('test command', function() {
       runOptions.query = 'someQuery=test';
       runOptions.filter = 'bar';
       runOptions['test-page'] = 'foo/test.html?foo';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('foo/test.html?foo&filter=bar&someQuery=test');
     });
@@ -277,14 +277,14 @@ describe('test command', function() {
       runOptions.module = 'fooModule';
       runOptions.query = 'someQuery=test';
       runOptions['test-page'] = 'foo/test.html?foo';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('foo/test.html?foo&module=fooModule&someQuery=test');
     });
 
     it('when provided launch the new file returned contains the value in launch', function() {
       runOptions.launch = 'fooLauncher';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents['launch']).to.be.equal('fooLauncher');
     });
@@ -292,7 +292,7 @@ describe('test command', function() {
     it('when provided filter is all lowercase to match the test name', function() {
       runOptions['test-page'] = 'tests/index.html';
       runOptions.filter = 'BAR';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?filter=bar');
     });
@@ -306,7 +306,7 @@ describe('test command', function() {
         return 'blah=zorz';
       };
 
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?blah=zorz');
     });
@@ -314,7 +314,7 @@ describe('test command', function() {
     it('new file returned contains the filter option value in test_page', function() {
       runOptions.filter = 'foo';
       runOptions['test-page'] = 'tests/index.html';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?filter=foo');
     });
@@ -322,7 +322,7 @@ describe('test command', function() {
     it('adds with a `&` if query string contains `?` already', function() {
       runOptions.filter = 'foo';
       runOptions['test-page'] = 'tests/index.html?hidepassed';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?hidepassed&filter=foo');
     });
@@ -330,7 +330,7 @@ describe('test command', function() {
     it('new file returned contains the module option value in test_page', function() {
       runOptions.module = 'fooModule';
       runOptions['test-page'] = 'tests/index.html';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?module=fooModule');
     });
@@ -338,7 +338,7 @@ describe('test command', function() {
     it('new file returned contains the query option value in test_page', function() {
       runOptions.query = 'someQuery=test';
       runOptions['test-page'] = 'tests/index.html';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?someQuery=test');
     });
@@ -346,7 +346,7 @@ describe('test command', function() {
     it('new file returned contains the query option value with multiple queries in test_page', function() {
       runOptions.query = 'someQuery=test&something&else=false';
       runOptions['test-page'] = 'tests/index.html';
-      var contents = command._generateCustomConfigs(runOptions);
+      let contents = command._generateCustomConfigs(runOptions);
 
       expect(contents.testPage).to.be.equal('tests/index.html?someQuery=test&something&else=false');
     });

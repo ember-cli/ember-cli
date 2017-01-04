@@ -1,9 +1,9 @@
 'use strict';
 
-var openEditor = require('../../../lib/utilities/open-editor');
+let openEditor = require('../../../lib/utilities/open-editor');
 
-var expect = require('chai').expect;
-var td = require('testdouble');
+let expect = require('chai').expect;
+let td = require('testdouble');
 
 describe('open-editor', function() {
   beforeEach(function() {

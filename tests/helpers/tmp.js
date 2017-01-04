@@ -1,10 +1,10 @@
 'use strict';
 
-var fs = require('fs-extra');
-var existsSync = require('exists-sync');
-var Promise = require('../../lib/ext/promise');
-var remove = Promise.denodeify(fs.remove);
-var root = process.cwd();
+let fs = require('fs-extra');
+let existsSync = require('exists-sync');
+let Promise = require('../../lib/ext/promise');
+let remove = Promise.denodeify(fs.remove);
+let root = process.cwd();
 
 module.exports.setup = function(path) {
   process.chdir(root);

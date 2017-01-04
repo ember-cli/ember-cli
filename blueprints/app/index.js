@@ -1,13 +1,13 @@
-var stringUtil = require('ember-cli-string-utils');
+let stringUtil = require('ember-cli-string-utils');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
 
   locals(options) {
-    var entity = options.entity;
-    var rawName = entity.name;
-    var name = stringUtil.dasherize(rawName);
-    var namespace = stringUtil.classify(rawName);
+    let entity = options.entity;
+    let rawName = entity.name;
+    let name = stringUtil.dasherize(rawName);
+    let namespace = stringUtil.classify(rawName);
 
     return {
       name,

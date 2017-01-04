@@ -1,6 +1,6 @@
 'use strict';
 
-var execa = require('execa');
+let execa = require('execa');
 
 /**
  * A simple tool to make behavior and API consistent between commands
@@ -34,8 +34,8 @@ CommandGenerator.prototype = {
    *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
    */
   invoke() {
-    var args = Array.prototype.slice.call(arguments);
-    var options = {};
+    let args = Array.prototype.slice.call(arguments);
+    let options = {};
 
     if (typeof args[args.length - 1] === 'object') {
       options = args.pop();

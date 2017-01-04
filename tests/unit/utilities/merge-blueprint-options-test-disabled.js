@@ -1,15 +1,15 @@
 'use strict';
 
-var expect = require('chai').expect;
-var map = require('ember-cli-lodash-subset').map;
-var Blueprint = require('../../../lib/models/blueprint');
-var Project = require('../../../lib/models/project');
-var Command = require('../../../lib/models/command');
-var mergeBlueprintOptions = require('../../../lib/utilities/merge-blueprint-options');
-var td = require('testdouble');
+let expect = require('chai').expect;
+let map = require('ember-cli-lodash-subset').map;
+let Blueprint = require('../../../lib/models/blueprint');
+let Project = require('../../../lib/models/project');
+let Command = require('../../../lib/models/command');
+let mergeBlueprintOptions = require('../../../lib/utilities/merge-blueprint-options');
+let td = require('testdouble');
 
 describe('merge-blueprint-options', function() {
-  var TestCommand = Command.extend({
+  let TestCommand = Command.extend({
     name: 'test-command',
     description: 'Runs a test command.',
     aliases: ['t'],
@@ -33,7 +33,7 @@ describe('merge-blueprint-options', function() {
   }
 
   it('it works as a command\'s beforeRun()', function() {
-    var command, availableOptions;
+    let command, availableOptions;
 
     td.replace(Blueprint, 'lookup', td.function());
     td.when(Blueprint.lookup('test-blueprint'), { ignoreExtraArgs: true }).thenReturn({

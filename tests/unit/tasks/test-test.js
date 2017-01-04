@@ -1,11 +1,11 @@
 'use strict';
 
-var expect = require('chai').expect;
-var TestTask = require('../../../lib/tasks/test');
-var MockProject = require('../../helpers/mock-project');
+let expect = require('chai').expect;
+let TestTask = require('../../../lib/tasks/test');
+let MockProject = require('../../helpers/mock-project');
 
 describe('test task test', function() {
-  var subject;
+  let subject;
 
   it('transforms options for testem configuration', function() {
     subject = new TestTask({
@@ -15,7 +15,7 @@ describe('test task test', function() {
       },
 
       invokeTestem(options) {
-        var testemOptions = this.testemOptions(options);
+        let testemOptions = this.testemOptions(options);
 
         expect(testemOptions.host).to.equal('greatwebsite.com');
         expect(testemOptions.port).to.equal(123324);

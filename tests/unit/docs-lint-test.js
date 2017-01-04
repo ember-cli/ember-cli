@@ -1,21 +1,21 @@
 'use strict';
 
-var Y = require('yuidocjs');
-var EOL = require('os').EOL;
+let Y = require('yuidocjs');
+let EOL = require('os').EOL;
 
 describe('YUIDoc', function() {
-  var options = Y.Project.init({
+  let options = Y.Project.init({
     quiet: true,
   });
-  var yuiDoc = new Y.YUIDoc(options);
+  let yuiDoc = new Y.YUIDoc(options);
 
-  var json = yuiDoc.run();
+  let json = yuiDoc.run();
 
-  var warnings = {};
+  let warnings = {};
   json.warnings.forEach(function(warning) {
-    var tmp = warning.line.split(':');
-    var file = tmp[0].trim();
-    var line = tmp[1];
+    let tmp = warning.line.split(':');
+    let file = tmp[0].trim();
+    let line = tmp[1];
 
     if (!warnings[file]) {
       warnings[file] = [];
@@ -29,14 +29,14 @@ describe('YUIDoc', function() {
 
   Object.keys(json.files).forEach(function(file) {
     it(file, function() {
-      var fileWarnings = warnings[file];
+      let fileWarnings = warnings[file];
       if (fileWarnings) {
-        var message = `YUIDoc issues found:${EOL}${EOL}`;
+        let message = `YUIDoc issues found:${EOL}${EOL}`;
         fileWarnings.forEach(function(warning) {
           message += `line ${warning.line}: ${warning.message}${EOL}`;
         });
 
-        var error = new Error(message);
+        let error = new Error(message);
         delete error.stack;
         throw error;
       }

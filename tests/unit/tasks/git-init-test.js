@@ -1,20 +1,20 @@
 'use strict';
 
-var fs = require('fs-extra');
-var expect = require('chai').expect;
-var MockUI = require('console-ui/mock');
-var GitInitTask = require('../../../lib/tasks/git-init');
-var MockProject = require('../../helpers/mock-project');
-var Promise = require('../../../lib/ext/promise');
-var remove = Promise.denodeify(fs.remove);
-var path = require('path');
-var root = process.cwd();
-var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-var tmproot = path.join(root, 'tmp');
-var td = require('testdouble');
+let fs = require('fs-extra');
+let expect = require('chai').expect;
+let MockUI = require('console-ui/mock');
+let GitInitTask = require('../../../lib/tasks/git-init');
+let MockProject = require('../../helpers/mock-project');
+let Promise = require('../../../lib/ext/promise');
+let remove = Promise.denodeify(fs.remove);
+let path = require('path');
+let root = process.cwd();
+let mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+let tmproot = path.join(root, 'tmp');
+let td = require('testdouble');
 
 describe('git-init', function() {
-  var subject, ui, tmpdir, exec;
+  let subject, ui, tmpdir, exec;
 
   beforeEach(function() {
     exec = td.function('exec');

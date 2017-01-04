@@ -1,8 +1,8 @@
 'use strict';
 
-var glob = require('glob').sync;
+let glob = require('glob').sync;
 
-var paths = glob('tests/*').filter(function(path) {
+let paths = glob('tests/*').filter(function(path) {
   return !(/fixtures/).test(path);
 });
 

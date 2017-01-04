@@ -1,22 +1,22 @@
 'use strict';
 
-var expect = require('chai').expect;
-var ExpressServer = require('../../../../lib/tasks/server/express-server');
-var Promise = require('../../../../lib/ext/promise');
-var MockUI = require('console-ui/mock');
-var MockProject = require('../../../helpers/mock-project');
-var MockWatcher = require('../../../helpers/mock-watcher');
-var MockServerWatcher = require('../../../helpers/mock-server-watcher');
-var ProxyServer = require('../../../helpers/proxy-server');
-var chalk = require('chalk');
-var request = require('supertest');
-var net = require('net');
-var EOL = require('os').EOL;
-var nock = require('nock');
-var express = require('express');
+let expect = require('chai').expect;
+let ExpressServer = require('../../../../lib/tasks/server/express-server');
+let Promise = require('../../../../lib/ext/promise');
+let MockUI = require('console-ui/mock');
+let MockProject = require('../../../helpers/mock-project');
+let MockWatcher = require('../../../helpers/mock-watcher');
+let MockServerWatcher = require('../../../helpers/mock-server-watcher');
+let ProxyServer = require('../../../helpers/proxy-server');
+let chalk = require('chalk');
+let request = require('supertest');
+let net = require('net');
+let EOL = require('os').EOL;
+let nock = require('nock');
+let express = require('express');
 
 describe('express-server', function() {
-  var subject, ui, project, proxy, nockProxy;
+  let subject, ui, project, proxy, nockProxy;
   nock.enableNetConnect();
 
   beforeEach(function() {
@@ -90,7 +90,7 @@ describe('express-server', function() {
         sslKey: 'tests/fixtures/ssl/server.key',
         rootURL: '/',
       }).then(function() {
-        var output = ui.output.trim().split(EOL);
+        let output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on https://localhost:1337/');
       });
     });
@@ -102,7 +102,7 @@ describe('express-server', function() {
         port: '1337',
         rootURL: '/',
       }).then(function() {
-        var output = ui.output.trim().split(EOL);
+        let output = ui.output.trim().split(EOL);
         expect(output[1]).to.equal('Serving on http://localhost:1337/');
         expect(output[0]).to.equal('Proxying to http://localhost:3001/');
         expect(output.length).to.equal(2, 'expected only two lines of output');
@@ -115,7 +115,7 @@ describe('express-server', function() {
         port: '1337',
         rootURL: '/',
       }).then(function() {
-        var output = ui.output.trim().split(EOL);
+        let output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on http://localhost:1337/');
         expect(output.length).to.equal(1, 'expected only one line of output');
       });
@@ -127,7 +127,7 @@ describe('express-server', function() {
         port: '1337',
         baseURL: '/foo',
       }).then(function() {
-        var output = ui.output.trim().split(EOL);
+        let output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on http://localhost:1337/foo/');
         expect(output.length).to.equal(1, 'expected only one line of output');
       });
@@ -139,7 +139,7 @@ describe('express-server', function() {
         port: '1337',
         rootURL: '/foo',
       }).then(function() {
-        var output = ui.output.trim().split(EOL);
+        let output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on http://localhost:1337/foo/');
         expect(output.length).to.equal(1, 'expected only one line of output');
       });
@@ -151,14 +151,14 @@ describe('express-server', function() {
         port: '1337',
         rootURL: '',
       }).then(function() {
-        var output = ui.output.trim().split(EOL);
+        let output = ui.output.trim().split(EOL);
         expect(output[0]).to.equal('Serving on http://localhost:1337/');
         expect(output.length).to.equal(1, 'expected only one line of output');
       });
     });
 
     it('address in use', function() {
-      var preexistingServer = net.createServer();
+      let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
       return subject.start({
@@ -204,7 +204,7 @@ describe('express-server', function() {
     });
 
     it('app middlewares are processed before the proxy', function(done) {
-      var expected = '/foo was hit';
+      let expected = '/foo was hit';
 
       project.require = function() {
         return function(app) {
@@ -238,10 +238,10 @@ describe('express-server', function() {
     });
 
     it('works with a regular express app', function(done) {
-      var expected = '/foo was hit';
+      let expected = '/foo was hit';
 
       project.require = function() {
-        var app = express();
+        let app = express();
         app.use('/foo', function(req, res) {
           res.send(expected);
         });
@@ -306,7 +306,7 @@ describe('express-server', function() {
       });
 
       function apiTest(app, method, url, done) {
-        var req = request(app);
+        let req = request(app);
         return req[method].call(req, url)
           .set('content-length', 0)
           .set('accept', 'text/json')
@@ -370,7 +370,7 @@ describe('express-server', function() {
       });
 
       function apiTest(app, method, url, done) {
-        var req = request(app);
+        let req = request(app);
         return req[method].call(req, url)
           .set('accept', 'text/json')
           .end(function(err) {
@@ -683,7 +683,7 @@ describe('express-server', function() {
     });
 
     describe('addons', function() {
-      var calls;
+      let calls;
       beforeEach(function() {
         calls = 0;
 
@@ -703,8 +703,8 @@ describe('express-server', function() {
     });
 
     describe('addon middleware', function() {
-      var firstCalls;
-      var secondCalls;
+      let firstCalls;
+      let secondCalls;
       beforeEach(function() {
         firstCalls = 0;
         secondCalls = 0;
@@ -748,7 +748,7 @@ describe('express-server', function() {
     });
 
     describe('addon middleware is async', function() {
-      var order = [];
+      let order = [];
       beforeEach(function() {
         project.initializeAddons = function() { };
         project.addons = [
@@ -808,8 +808,8 @@ describe('express-server', function() {
     });
 
     describe('app middleware', function() {
-      var passedOptions;
-      var calls;
+      let passedOptions;
+      let calls;
 
       beforeEach(function() {
         passedOptions = null;
@@ -822,7 +822,7 @@ describe('express-server', function() {
       });
 
       it('calls processAppMiddlewares upon start', function() {
-        var realOptions = {
+        let realOptions = {
           host: undefined,
           port: '1337',
         };
@@ -834,12 +834,12 @@ describe('express-server', function() {
       });
 
       it('calls processAppMiddlewares upon restart', function() {
-        var realOptions = {
+        let realOptions = {
           host: undefined,
           port: '1337',
         };
 
-        var originalApp;
+        let originalApp;
 
         return subject.start(realOptions)
           .then(function() {
@@ -856,13 +856,13 @@ describe('express-server', function() {
       });
 
       it('includes httpServer instance in options', function() {
-        var passedOptions;
+        let passedOptions;
 
         subject.processAppMiddlewares = function(options) {
           passedOptions = options;
         };
 
-        var realOptions = {
+        let realOptions = {
           host: undefined,
           port: '1337',
         };
@@ -875,7 +875,7 @@ describe('express-server', function() {
 
     describe('serverWatcherDidChange', function() {
       it('is called on file change', function() {
-        var calls = 0;
+        let calls = 0;
         subject.serverWatcherDidChange = function() {
           calls++;
         };
@@ -890,7 +890,7 @@ describe('express-server', function() {
       });
 
       it('schedules a server restart', function() {
-        var calls = 0;
+        let calls = 0;
         subject.scheduleServerRestart = function() {
           calls++;
         };
@@ -908,7 +908,7 @@ describe('express-server', function() {
 
     describe('scheduleServerRestart', function() {
       it('schedules exactly one call of restartHttpServer', function(done) {
-        var calls = 0;
+        let calls = 0;
         subject.restartHttpServer = function() {
           calls++;
         };
@@ -928,8 +928,8 @@ describe('express-server', function() {
 
     describe('restartHttpServer', function() {
       it('restarts the server', function() {
-        var originalHttpServer;
-        var originalApp;
+        let originalHttpServer;
+        let originalApp;
         return subject.start({
           host: undefined,
           port: '1337',
@@ -949,8 +949,8 @@ describe('express-server', function() {
       });
 
       it('restarts the server again if one or more files change during a previous restart', function() {
-        var originalHttpServer;
-        var originalApp;
+        let originalHttpServer;
+        let originalApp;
         return subject.start({
           host: undefined,
           port: '1337',
@@ -974,7 +974,7 @@ describe('express-server', function() {
       });
 
       it('emits the restart event', function() {
-        var calls = 0;
+        let calls = 0;
         subject.on('restart', function() {
           calls++;
         });

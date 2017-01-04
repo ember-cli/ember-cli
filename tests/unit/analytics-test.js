@@ -1,25 +1,25 @@
 'use strict';
 
-var expect = require('chai').expect;
-var Command = require('../../lib/models/command');
-var MockUI = require('console-ui/mock');
-var MockProject = require('../helpers/mock-project');
-var command;
-var called = false;
+let expect = require('chai').expect;
+let Command = require('../../lib/models/command');
+let MockUI = require('console-ui/mock');
+let MockProject = require('../helpers/mock-project');
+let command;
+let called = false;
 
 beforeEach(function() {
-  var analytics = {
+  let analytics = {
     track() {
       called = true;
     },
   };
 
-  var FakeCommand = Command.extend({
+  let FakeCommand = Command.extend({
     name: 'fake-command',
     run() {},
   });
 
-  var project = new MockProject();
+  let project = new MockProject();
   project.isEmberCLIProject = function() { return true; };
 
   command = new FakeCommand({

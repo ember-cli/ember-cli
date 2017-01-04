@@ -1,14 +1,14 @@
 'use strict';
 
-var expect = require('chai').expect;
-var printableProperties = require('../../../lib/utilities/printable-properties');
+let expect = require('chai').expect;
+let printableProperties = require('../../../lib/utilities/printable-properties');
 
 describe('printable-properties', function() {
   describe('command', function() {
-    var command = printableProperties.command;
+    let command = printableProperties.command;
 
     it('forEachWithProperty', function() {
-      var obj = {
+      let obj = {
         name: 'kelly',
         description: 'this is a test',
         aliases: 'james bond',
@@ -18,7 +18,7 @@ describe('printable-properties', function() {
         dontShowThis: true,
       };
 
-      var newObj = {};
+      let newObj = {};
 
       command.forEachWithProperty(function(key) {
         newObj[key] = obj[key];
@@ -36,10 +36,10 @@ describe('printable-properties', function() {
   });
 
   describe('blueprint', function() {
-    var blueprint = printableProperties.blueprint;
+    let blueprint = printableProperties.blueprint;
 
     it('forEachWithProperty', function() {
-      var obj = {
+      let obj = {
         name: 'kelly',
         description: 'this is a test',
         availableOptions: 'some options',
@@ -48,7 +48,7 @@ describe('printable-properties', function() {
         dontShowThis: true,
       };
 
-      var newObj = {};
+      let newObj = {};
 
       blueprint.forEachWithProperty(function(key) {
         newObj[key] = obj[key];

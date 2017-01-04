@@ -1,15 +1,15 @@
 'use strict';
 
-var NpmInstallTask = require('../../../lib/tasks/npm-install');
-var MockUI = require('console-ui/mock');
-var expect = require('chai').expect;
+let NpmInstallTask = require('../../../lib/tasks/npm-install');
+let MockUI = require('console-ui/mock');
+let expect = require('chai').expect;
 
 describe('npm install task', function() {
-  var npmInstallTask;
-  var ui;
+  let npmInstallTask;
+  let ui;
 
   beforeEach(function() {
-    var project = {
+    let project = {
       root: __dirname,
     };
     ui = new MockUI();

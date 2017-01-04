@@ -1,16 +1,16 @@
 'use strict';
 
-var Promise = require('../../lib/ext/promise');
-var ember = require('../helpers/ember');
-var path = require('path');
-var remove = Promise.denodeify(require('fs-extra').remove);
-var root = process.cwd();
-var tmproot = path.join(root, 'tmp');
-var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+let Promise = require('../../lib/ext/promise');
+let ember = require('../helpers/ember');
+let path = require('path');
+let remove = Promise.denodeify(require('fs-extra').remove);
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
+let mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
+let chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
 
 describe('Acceptance: ember install', function() {
   this.timeout(60000);
@@ -36,7 +36,7 @@ describe('Acceptance: ember install', function() {
   }
 
   function installAddon(args) {
-    var generateArgs = ['install'].concat(args);
+    let generateArgs = ['install'].concat(args);
 
     return initApp().then(function() {
       return ember(generateArgs);

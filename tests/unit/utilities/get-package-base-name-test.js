@@ -1,7 +1,7 @@
 'use strict';
 
-var expect = require('chai').expect;
-var getPackageBaseName = require('../../../lib/utilities/get-package-base-name');
+let expect = require('chai').expect;
+let getPackageBaseName = require('../../../lib/utilities/get-package-base-name');
 
 describe('getPackageBaseName', function() {
   it('should return the full package name if it is unscoped', function() {

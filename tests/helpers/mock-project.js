@@ -1,27 +1,27 @@
 'use strict';
 
-var Project = require('../../lib/models/project');
-var Instrumentation = require('../../lib/models/instrumentation');
-var MockUI = require('console-ui/mock');
-var td = require('testdouble');
+let Project = require('../../lib/models/project');
+let Instrumentation = require('../../lib/models/instrumentation');
+let MockUI = require('console-ui/mock');
+let td = require('testdouble');
 
 function MockProject() {
-  var root = process.cwd();
-  var pkg = {};
-  var ui = new MockUI();
-  var instr = new Instrumentation({
+  let root = process.cwd();
+  let pkg = {};
+  let ui = new MockUI();
+  let instr = new Instrumentation({
     ui,
     initInstrumentation: {
       token: null,
       node: null,
     },
   });
-  var cli = {
+  let cli = {
     instrumentation: instr,
   };
   Project.apply(this, [root, pkg, ui, cli]);
 
-  var discoverFromCli = td.replace(this.addonDiscovery, 'discoverFromCli');
+  let discoverFromCli = td.replace(this.addonDiscovery, 'discoverFromCli');
   td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
 }
 

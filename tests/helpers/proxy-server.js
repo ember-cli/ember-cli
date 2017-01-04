@@ -1,9 +1,9 @@
 'use strict';
 
-var http = require('http');
+let http = require('http');
 
-var ProxyServer = function() {
-  var _this = this;
+let ProxyServer = function() {
+  let _this = this;
   this.called = false;
   this.lastReq = null;
   this.httpServer = http.createServer(function(req, res) {

@@ -1,8 +1,8 @@
 'use strict';
 
-var path = require('path');
-var MockUI = require('console-ui/mock');
-var Instrumentation = require('../../lib/models/instrumentation');
+let path = require('path');
+let MockUI = require('console-ui/mock');
+let Instrumentation = require('../../lib/models/instrumentation');
 
 module.exports = MockCLI;
 function MockCLI(options) {

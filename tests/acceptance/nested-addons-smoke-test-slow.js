@@ -1,23 +1,23 @@
 'use strict';
 
-var path = require('path');
-var fs = require('fs-extra');
+let path = require('path');
+let fs = require('fs-extra');
 
-var runCommand = require('../helpers/run-command');
-var acceptance = require('../helpers/acceptance');
-var copyFixtureFiles = require('../helpers/copy-fixture-files');
-var createTestTargets = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies = acceptance.linkDependencies;
-var cleanupRun = acceptance.cleanupRun;
+let runCommand = require('../helpers/run-command');
+let acceptance = require('../helpers/acceptance');
+let copyFixtureFiles = require('../helpers/copy-fixture-files');
+let createTestTargets = acceptance.createTestTargets;
+let teardownTestTargets = acceptance.teardownTestTargets;
+let linkDependencies = acceptance.linkDependencies;
+let cleanupRun = acceptance.cleanupRun;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
-var dir = chai.dir;
+let chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
+let dir = chai.dir;
 
-var appName = 'some-cool-app';
-var appRoot;
+let appName = 'some-cool-app';
+let appRoot;
 
 describe('Acceptance: nested-addons-smoke-test', function() {
   this.timeout(360000);
@@ -40,8 +40,8 @@ describe('Acceptance: nested-addons-smoke-test', function() {
   it('addons with nested addons compile correctly', function() {
     return copyFixtureFiles('addon/with-nested-addons')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-top-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);

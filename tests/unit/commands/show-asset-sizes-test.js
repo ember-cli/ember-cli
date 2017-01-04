@@ -1,16 +1,16 @@
 'use strict';
 
-var expect = require('chai').expect;
-var commandOptions = require('../../factories/command-options');
-var Task = require('../../../lib/models/task');
-var path = require('path');
-var td = require('testdouble');
+let expect = require('chai').expect;
+let commandOptions = require('../../factories/command-options');
+let Task = require('../../../lib/models/task');
+let path = require('path');
+let td = require('testdouble');
 
 describe('asset-sizes command', function() {
-  var ShowCommand;
-  var tasks;
-  var options;
-  var taskInstance;
+  let ShowCommand;
+  let tasks;
+  let options;
+  let taskInstance;
 
   before(function() {
     ShowCommand = require('../../../lib/commands/asset-sizes');
@@ -45,7 +45,7 @@ describe('asset-sizes command', function() {
 
   it('has correct default value for output path', function() {
     return new ShowCommand(options).validateAndRun().then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.outputPath).to.equal('dist/', 'has correct output path option when not set');
     });
@@ -55,7 +55,7 @@ describe('asset-sizes command', function() {
     return new ShowCommand(options)
       .validateAndRun(['--output-path', path.join('some', 'path')])
       .then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
         td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
       });

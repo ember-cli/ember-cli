@@ -1,20 +1,20 @@
 'use strict';
 
-var expect = require('chai').expect;
-var map = require('ember-cli-lodash-subset').map;
-var commandOptions = require('../../factories/command-options');
-var NewCommand = require('../../../lib/commands/new');
-var Promise = require('../../../lib/ext/promise');
-var Blueprint = require('../../../lib/models/blueprint');
-var Command = require('../../../lib/models/command');
-var Task = require('../../../lib/models/task');
-var td = require('testdouble');
+let expect = require('chai').expect;
+let map = require('ember-cli-lodash-subset').map;
+let commandOptions = require('../../factories/command-options');
+let NewCommand = require('../../../lib/commands/new');
+let Promise = require('../../../lib/ext/promise');
+let Blueprint = require('../../../lib/models/blueprint');
+let Command = require('../../../lib/models/command');
+let Task = require('../../../lib/models/task');
+let td = require('testdouble');
 
 describe('new command', function() {
-  var command;
+  let command;
 
   beforeEach(function() {
-    var options = commandOptions({
+    let options = commandOptions({
       project: {
         isEmberCLIProject() {
           return false;

@@ -1,7 +1,7 @@
 'use strict';
 
-var expect = require('chai').expect;
-var processTemplate = require('../../../lib/utilities/process-template');
+let expect = require('chai').expect;
+let processTemplate = require('../../../lib/utilities/process-template');
 
 describe('process-template', function() {
   it('successfully transforms a template', function() {

@@ -1,25 +1,25 @@
 'use strict';
 
-var expect = require('chai').expect;
-var MockProject = require('../../helpers/mock-project');
-var commandOptions = require('../../factories/command-options');
-var InstallNpmCommand = require('../../../lib/commands/install-npm');
+let expect = require('chai').expect;
+let MockProject = require('../../helpers/mock-project');
+let commandOptions = require('../../factories/command-options');
+let InstallNpmCommand = require('../../../lib/commands/install-npm');
 
 describe('install:npm command', function() {
-  var command;
+  let command;
 
-  var msg =
+  let msg =
       'This command has been removed. Please use `npm install ' +
       '<packageName> --save-dev --save-exact` instead.';
 
   beforeEach(function() {
-    var project = new MockProject();
+    let project = new MockProject();
 
     project.isEmberCLIProject = function() {
       return true;
     };
 
-    var options = commandOptions({
+    let options = commandOptions({
       project,
     });
 

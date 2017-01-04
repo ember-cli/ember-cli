@@ -1,4 +1,4 @@
-var isPackageMissing = require('ember-cli-is-package-missing');
+let isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
   description: 'Generates a server directory for mocks and proxies.',
@@ -6,11 +6,11 @@ module.exports = {
   normalizeEntityName() {},
 
   afterInstall(options) {
-    var isMorganMissing = isPackageMissing(this, 'morgan');
-    var isGlobMissing = isPackageMissing(this, 'glob');
+    let isMorganMissing = isPackageMissing(this, 'morgan');
+    let isGlobMissing = isPackageMissing(this, 'glob');
 
-    var areDependenciesMissing = isMorganMissing || isGlobMissing;
-    var libsToInstall = [];
+    let areDependenciesMissing = isMorganMissing || isGlobMissing;
+    let libsToInstall = [];
 
     if (isMorganMissing) {
       libsToInstall.push({ name: 'morgan', target: '^1.3.2' });

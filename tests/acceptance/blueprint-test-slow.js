@@ -1,20 +1,20 @@
 'use strict';
 
-var path = require('path');
-var fs = require('fs-extra');
-var acceptance = require('../helpers/acceptance');
-var runCommand = require('../helpers/run-command');
-var createTestTargets = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies = acceptance.linkDependencies;
-var cleanupRun = acceptance.cleanupRun;
+let path = require('path');
+let fs = require('fs-extra');
+let acceptance = require('../helpers/acceptance');
+let runCommand = require('../helpers/run-command');
+let createTestTargets = acceptance.createTestTargets;
+let teardownTestTargets = acceptance.teardownTestTargets;
+let linkDependencies = acceptance.linkDependencies;
+let cleanupRun = acceptance.cleanupRun;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var dir = chai.dir;
+let chai = require('../chai');
+let expect = chai.expect;
+let dir = chai.dir;
 
-var appName = 'some-cool-app';
-var appRoot;
+let appName = 'some-cool-app';
+let appRoot;
 
 describe('Acceptance: blueprint smoke tests', function() {
   this.timeout(500000);
@@ -40,8 +40,8 @@ describe('Acceptance: blueprint smoke tests', function() {
                       'api',
                       'http://localhost/api')
       .then(function() {
-        var packageJsonPath = path.join(appRoot, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
 
         expect(packageJson.devDependencies).to.have.a.property('http-proxy');
         expect(packageJson.devDependencies).to.have.a.property('morgan');

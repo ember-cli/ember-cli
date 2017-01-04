@@ -2,14 +2,14 @@
 
 'use strict';
 
-var fs = require('fs');
-var expect = require('chai').expect;
-var proxyquire = require('proxyquire');
+let fs = require('fs');
+let expect = require('chai').expect;
+let proxyquire = require('proxyquire');
 
-var MockUI = require('console-ui/mock');
+let MockUI = require('console-ui/mock');
 
-var mergeTreesStub;
-var mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {
+let mergeTreesStub;
+let mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {
   'broccoli-merge-trees'() {
     return mergeTreesStub.apply(this, arguments);
   },
@@ -29,26 +29,26 @@ describe('broccoli/merge-trees', function() {
   });
 
   it('returns the first item when merging single item array', function() {
-    var actual = mergeTrees(['foo']);
+    let actual = mergeTrees(['foo']);
 
     expect(actual).to.equal('foo');
   });
 
   it('returns a constant "empty tree" when passed an empty array', function() {
-    var expected = {};
+    let expected = {};
 
     mergeTrees._overrideEmptyTree(expected);
 
-    var first = mergeTrees([]);
-    var second = mergeTrees([]);
+    let first = mergeTrees([]);
+    let second = mergeTrees([]);
 
     expect(first).to.equal(expected);
     expect(second).to.equal(expected);
   });
 
   it('passes all inputTrees through when non-empty', function() {
-    var expected = ['foo', 'bar'];
-    var actual;
+    let expected = ['foo', 'bar'];
+    let actual;
 
     mergeTreesStub = function(inputTrees) {
       actual = inputTrees;
@@ -60,8 +60,8 @@ describe('broccoli/merge-trees', function() {
   });
 
   it('filters out empty trees from inputs', function() {
-    var expected = ['bar', 'baz'];
-    var actual;
+    let expected = ['bar', 'baz'];
+    let actual;
 
     mergeTrees._overrideEmptyTree('foo');
 
@@ -75,10 +75,10 @@ describe('broccoli/merge-trees', function() {
   });
 
   it('removes duplicate trees with the last duplicate being the remainder', function() {
-    var treeA = {};
-    var treeB = {};
-    var expected = [treeB, treeA];
-    var actual;
+    let treeA = {};
+    let treeB = {};
+    let expected = [treeB, treeA];
+    let actual;
 
     mergeTreesStub = function(inputTrees) {
       actual = inputTrees;

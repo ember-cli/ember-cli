@@ -1,7 +1,7 @@
 'use strict';
 
-var expect = require('chai').expect;
-var PlatformChecker = require('../../../lib/utilities/platform-checker');
+let expect = require('chai').expect;
+let PlatformChecker = require('../../../lib/utilities/platform-checker');
 
 describe('platform-checker', function() {
   it('checkIsDeprecated', function() {

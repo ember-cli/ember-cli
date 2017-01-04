@@ -1,20 +1,20 @@
 'use strict';
 
-var expect = require('chai').expect;
-var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
-var MockUI = require('console-ui/mock');
-var MockExpressServer = require('../../../helpers/mock-express-server');
-var net = require('net');
-var EOL = require('os').EOL;
-var path = require('path');
-var MockWatcher = require('../../../helpers/mock-watcher');
-var FSTree = require('fs-tree-diff');
+let expect = require('chai').expect;
+let LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
+let MockUI = require('console-ui/mock');
+let MockExpressServer = require('../../../helpers/mock-express-server');
+let net = require('net');
+let EOL = require('os').EOL;
+let path = require('path');
+let MockWatcher = require('../../../helpers/mock-watcher');
+let FSTree = require('fs-tree-diff');
 
 describe('livereload-server', function() {
-  var subject;
-  var ui;
-  var watcher;
-  var expressServer;
+  let subject;
+  let ui;
+  let watcher;
+  let expressServer;
 
   beforeEach(function() {
     ui = new MockUI();
@@ -63,7 +63,7 @@ describe('livereload-server', function() {
     });
 
     it('informs of error during startup', function(done) {
-      var preexistingServer = net.createServer();
+      let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
       subject.start({
@@ -104,7 +104,7 @@ describe('livereload-server', function() {
     });
 
     it('informs of error during startup', function(done) {
-      var preexistingServer = net.createServer();
+      let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
       subject.start({
@@ -125,7 +125,7 @@ describe('livereload-server', function() {
 
   describe('express server restart', function() {
     it('triggers when the express server restarts', function() {
-      var calls = 0;
+      let calls = 0;
       subject.didRestart = function() {
         calls++;
       };
@@ -141,18 +141,18 @@ describe('livereload-server', function() {
   });
 
   describe('livereload changes', function() {
-    var liveReloadServer;
-    var changedCount;
-    var oldChanged;
-    var stubbedChanged = function() {
+    let liveReloadServer;
+    let changedCount;
+    let oldChanged;
+    let stubbedChanged = function() {
       changedCount += 1;
     };
-    var trackCount;
-    var oldTrack;
-    var stubbedTrack = function() {
+    let trackCount;
+    let oldTrack;
+    let stubbedTrack = function() {
       trackCount += 1;
     };
-    var createStubbedGetDirectoryEntries = function(files) {
+    let createStubbedGetDirectoryEntries = function(files) {
       return function() {
         return files.map(function(file) {
           return {
@@ -217,37 +217,37 @@ describe('livereload-server', function() {
       describe('filter pattern', function() {
         it('shouldTriggerReload must be true if there are no liveReloadFilterPatterns', function() {
           subject.project.liveReloadFilterPatterns = [];
-          var result = subject.shouldTriggerReload({
+          let result = subject.shouldTriggerReload({
             filePath: '/home/user/my-project/app/styles/app.css',
           });
           expect(result).to.be.true;
         });
 
         it('shouldTriggerReload is true when no liveReloadFilterPatterns matches the filePath', function() {
-          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp(`^${basePath}`);
+          let basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          let filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
-          var result = subject.shouldTriggerReload({
+          let result = subject.shouldTriggerReload({
             filePath: '/home/user/my-project/app/styles/app.css',
           });
           expect(result).to.be.true;
         });
 
         it('shouldTriggerReload is false when one or more of the liveReloadFilterPatterns matches filePath', function() {
-          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp(`^${basePath}`);
+          let basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          let filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
-          var result = subject.shouldTriggerReload({
+          let result = subject.shouldTriggerReload({
             filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
           expect(result).to.be.false;
         });
 
         it('shouldTriggerReload writes a banner after skipping reload for a file', function() {
-          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp(`^${basePath}`);
+          let basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          let filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
           subject.shouldTriggerReload({
@@ -269,8 +269,8 @@ describe('livereload-server', function() {
           // normalize test regex for windows
           // path.normalize with change forward slashes to back slashes if test is running on windows
           // we then replace backslashes with double backslahes to escape the backslash in the regex
-          var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp(`^${basePath}`);
+          let basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
+          let filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
 
@@ -286,9 +286,9 @@ describe('livereload-server', function() {
     });
 
     describe('specific files', function() {
-      var reloadedFiles;
+      let reloadedFiles;
 
-      var stubbedChanged = function(options) {
+      let stubbedChanged = function(options) {
         reloadedFiles = options.body.files;
       };
 
@@ -301,7 +301,7 @@ describe('livereload-server', function() {
       });
 
       it('triggers livereload with modified files', function() {
-        var changedFiles = [
+        let changedFiles = [
           'assets/my-project.css',
           'assets/my-project.js',
         ];
@@ -315,7 +315,7 @@ describe('livereload-server', function() {
       });
 
       it('triggers livereload with deleted directories', function() {
-        var changedFiles = [
+        let changedFiles = [
           'assets/my-project.css',
           'assets/my-project.js',
         ];
@@ -335,12 +335,12 @@ describe('livereload-server', function() {
       });
 
       it('triggers livereload ignoring source map files', function() {
-        var changedFiles = [
+        let changedFiles = [
           'assets/my-project.css',
           'assets/my-project.css.map',
         ];
 
-        var expectedResult = [
+        let expectedResult = [
           'assets/my-project.css',
         ];
 
@@ -353,7 +353,7 @@ describe('livereload-server', function() {
       });
 
       it('triggers livereload with "LiveReload files" if no results.directory was provided', function() {
-        var changedOptions;
+        let changedOptions;
         subject.liveReloadServer = function() {
           return {
             changed(options) {

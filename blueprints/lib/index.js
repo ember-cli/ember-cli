@@ -1,4 +1,4 @@
-var fs = require('fs-extra');
+let fs = require('fs-extra');
 
 module.exports = {
   description: 'Generates a lib directory for in-repo addons.',

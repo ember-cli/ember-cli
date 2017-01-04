@@ -1,12 +1,12 @@
 'use strict';
 
-var expect = require('chai').expect;
-var HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/history-support');
+let expect = require('chai').expect;
+let HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/history-support');
 
 describe('HistorySupportAddon', function() {
   describe('.serverMiddleware', function() {
     it('add middleware when locationType is auto', function() {
-      var addon = new HistorySupportAddon({
+      let addon = new HistorySupportAddon({
         config() {
           return {
             locationType: 'auto',
@@ -18,7 +18,7 @@ describe('HistorySupportAddon', function() {
     });
 
     it('add middleware when locationType is history', function() {
-      var addon = new HistorySupportAddon({
+      let addon = new HistorySupportAddon({
         config() {
           return {
             locationType: 'history',
@@ -30,7 +30,7 @@ describe('HistorySupportAddon', function() {
     });
 
     it('add middleware when locationType is an unknown type', function() {
-      var addon = new HistorySupportAddon({
+      let addon = new HistorySupportAddon({
         config() {
           return {
             locationType: 'foo-bar',
@@ -43,7 +43,7 @@ describe('HistorySupportAddon', function() {
     });
 
     it('add middleware when historySupportMiddleware is true', function() {
-      var addon = new HistorySupportAddon({
+      let addon = new HistorySupportAddon({
         config() {
           return {
             historySupportMiddleware: true,
@@ -55,7 +55,7 @@ describe('HistorySupportAddon', function() {
     });
 
     it('do not add middleware when historySupportMiddleware is false and locationType is history', function() {
-      var addon = new HistorySupportAddon({
+      let addon = new HistorySupportAddon({
         config() {
           return {
             locationType: 'history',

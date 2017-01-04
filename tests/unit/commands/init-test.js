@@ -1,22 +1,22 @@
 'use strict';
 
-var fs = require('fs-extra');
-var os = require('os');
-var path = require('path');
-var expect = require('chai').expect;
-var map = require('ember-cli-lodash-subset').map;
-var MockUI = require('console-ui/mock');
-var MockAnalytics = require('../../helpers/mock-analytics');
-var Promise = require('../../../lib/ext/promise');
-var Blueprint = require('../../../lib/models/blueprint');
-var Project = require('../../../lib/models/project');
-var Task = require('../../../lib/models/task');
-var InitCommand = require('../../../lib/commands/init');
-var MockCLI = require('../../helpers/mock-cli');
-var td = require('testdouble');
+let fs = require('fs-extra');
+let os = require('os');
+let path = require('path');
+let expect = require('chai').expect;
+let map = require('ember-cli-lodash-subset').map;
+let MockUI = require('console-ui/mock');
+let MockAnalytics = require('../../helpers/mock-analytics');
+let Promise = require('../../../lib/ext/promise');
+let Blueprint = require('../../../lib/models/blueprint');
+let Project = require('../../../lib/models/project');
+let Task = require('../../../lib/models/task');
+let InitCommand = require('../../../lib/commands/init');
+let MockCLI = require('../../helpers/mock-cli');
+let td = require('testdouble');
 
 describe('init command', function() {
-  var ui, analytics, tasks, command, workingDir;
+  let ui, analytics, tasks, command, workingDir;
 
   beforeEach(function() {
     ui = new MockUI();
@@ -28,7 +28,7 @@ describe('init command', function() {
       BowerInstall: Task.extend({}),
     };
 
-    var tmpDir = os.tmpdir();
+    let tmpDir = os.tmpdir();
     workingDir = `${tmpDir}/ember-cli-test-project`;
     fs.mkdirSync(workingDir);
   });
@@ -39,8 +39,8 @@ describe('init command', function() {
   });
 
   function buildCommand(projectOpts) {
-    var cli = new MockCLI({ ui });
-    var options = {
+    let cli = new MockCLI({ ui });
+    let options = {
       ui,
       analytics,
       project: new Project(process.cwd(), projectOpts || { name: 'some-random-name' }, ui, cli),
@@ -110,7 +110,7 @@ describe('init command', function() {
     // change the working dir so `process.cwd` can't be an invalid path for base directories
     // named `ember-cli`.
 
-    var currentWorkingDir = process.cwd();
+    let currentWorkingDir = process.cwd();
 
     process.chdir(workingDir);
 

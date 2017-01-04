@@ -1,17 +1,17 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
-var setupTestHooks = blueprintHelpers.setupTestHooks;
-var emberNew = blueprintHelpers.emberNew;
-var emberGenerate = blueprintHelpers.emberGenerate;
-var emberDestroy = blueprintHelpers.emberDestroy;
-var proxyquire = require('proxyquire');
-var td = require('testdouble');
+let fs = require('fs-extra');
+let path = require('path');
+let blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
+let setupTestHooks = blueprintHelpers.setupTestHooks;
+let emberNew = blueprintHelpers.emberNew;
+let emberGenerate = blueprintHelpers.emberGenerate;
+let emberDestroy = blueprintHelpers.emberDestroy;
+let proxyquire = require('proxyquire');
+let td = require('testdouble');
 
-var expect = require('ember-cli-blueprint-test-helpers/chai').expect;
-var file = require('ember-cli-blueprint-test-helpers/chai').file;
+let expect = require('ember-cli-blueprint-test-helpers/chai').expect;
+let file = require('ember-cli-blueprint-test-helpers/chai').file;
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   setupTestHooks(this, {
@@ -19,7 +19,7 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   });
 
   it('in-repo-addon fooBar', function() {
-    var args = ['in-repo-addon', 'fooBar'];
+    let args = ['in-repo-addon', 'fooBar'];
 
     return emberNew()
       .then(function() {
@@ -58,10 +58,10 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
 });
 
 describe('Unit: in-repo-addon blueprint', function() {
-  var blueprint;
-  var readJsonSync;
-  var writeFileSync;
-  var options;
+  let blueprint;
+  let readJsonSync;
+  let writeFileSync;
+  let options;
 
   beforeEach(function() {
     readJsonSync = td.function();
@@ -89,7 +89,7 @@ describe('Unit: in-repo-addon blueprint', function() {
 
     blueprint.afterInstall(options);
 
-    var captor = td.matchers.captor();
+    let captor = td.matchers.captor();
 
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
@@ -113,7 +113,7 @@ describe('Unit: in-repo-addon blueprint', function() {
 
     blueprint.afterInstall(options);
 
-    var captor = td.matchers.captor();
+    let captor = td.matchers.captor();
 
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
@@ -140,7 +140,7 @@ describe('Unit: in-repo-addon blueprint', function() {
 
     blueprint.afterUninstall(options);
 
-    var captor = td.matchers.captor();
+    let captor = td.matchers.captor();
 
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
@@ -164,7 +164,7 @@ describe('Unit: in-repo-addon blueprint', function() {
 
     blueprint.afterUninstall(options);
 
-    var captor = td.matchers.captor();
+    let captor = td.matchers.captor();
 
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
@@ -184,7 +184,7 @@ describe('Unit: in-repo-addon blueprint', function() {
 
     blueprint.afterInstall(options);
 
-    var captor = td.matchers.captor();
+    let captor = td.matchers.captor();
 
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));

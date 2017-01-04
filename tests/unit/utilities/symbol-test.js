@@ -1,11 +1,11 @@
 'use strict';
 
-var symbol = require('../../../lib/utilities/symbol');
-var expect = require('chai').expect;
+let symbol = require('../../../lib/utilities/symbol');
+let expect = require('chai').expect;
 
 describe('symbol', function() {
   it('expect format', function() {
-    var foo = symbol('FOO');
+    let foo = symbol('FOO');
     expect(foo).to.match(/__FOO__\s\[id=\w+\]/);
   });
 

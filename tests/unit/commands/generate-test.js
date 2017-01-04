@@ -1,22 +1,22 @@
 'use strict';
 
-var expect = require('chai').expect;
-var EOL = require('os').EOL;
-var SilentError = require('silent-error');
-var commandOptions = require('../../factories/command-options');
-var processHelpString = require('../../helpers/process-help-string');
-var MockProject = require('../../helpers/mock-project');
-var Promise = require('../../../lib/ext/promise');
-var Task = require('../../../lib/models/task');
-var Blueprint = require('../../../lib/models/blueprint');
-var GenerateCommand = require('../../../lib/commands/generate');
-var td = require('testdouble');
+let expect = require('chai').expect;
+let EOL = require('os').EOL;
+let SilentError = require('silent-error');
+let commandOptions = require('../../factories/command-options');
+let processHelpString = require('../../helpers/process-help-string');
+let MockProject = require('../../helpers/mock-project');
+let Promise = require('../../../lib/ext/promise');
+let Task = require('../../../lib/models/task');
+let Blueprint = require('../../../lib/models/blueprint');
+let GenerateCommand = require('../../../lib/commands/generate');
+let td = require('testdouble');
 
 describe('generate command', function() {
-  var options, command;
+  let options, command;
 
   beforeEach(function() {
-    var project = new MockProject();
+    let project = new MockProject();
 
     project.isEmberCLIProject = function() {
       return true;
@@ -115,9 +115,9 @@ describe('generate command', function() {
 
       command.printDetailedHelp({});
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`${EOL}\
+      let testString = processHelpString(`${EOL}\
   Available blueprints:${EOL}\
     my-app:${EOL}\
 my-blueprint${EOL}\
@@ -154,7 +154,7 @@ ${EOL}`);
         },
       ]);
 
-      var json = {};
+      let json = {};
 
       command.addAdditionalJsonForHelp(json, {
         json: true,
@@ -197,9 +197,9 @@ ${EOL}`);
         rawArgs: ['my-blueprint'],
       });
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`\
+      let testString = processHelpString(`\
 my-blueprint${EOL}\
 ${EOL}`);
 
@@ -227,7 +227,7 @@ ${EOL}`);
         },
       ]);
 
-      var json = {};
+      let json = {};
 
       command.addAdditionalJsonForHelp(json, {
         rawArgs: ['my-blueprint'],
@@ -261,9 +261,9 @@ ${EOL}`);
         rawArgs: ['missing-blueprint'],
       });
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`\
+      let testString = processHelpString(`\
 \u001b[33mThe 'missing-blueprint' blueprint does not exist in this project.\u001b[39m${EOL}\
 ${EOL}`);
 
@@ -282,7 +282,7 @@ ${EOL}`);
         },
       ]);
 
-      var json = {};
+      let json = {};
 
       command.addAdditionalJsonForHelp(json, {
         rawArgs: ['missing-blueprint'],
@@ -315,9 +315,9 @@ ${EOL}`);
 
       command.printDetailedHelp({});
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`${EOL}\
+      let testString = processHelpString(`${EOL}\
   Available blueprints:${EOL}\
 ${EOL}`);
 
@@ -345,9 +345,9 @@ ${EOL}`);
         verbose: true,
       });
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`${EOL}\
+      let testString = processHelpString(`${EOL}\
   Available blueprints:${EOL}\
     my-app:${EOL}\
 my-blueprint${EOL}\

@@ -1,12 +1,12 @@
 'use strict';
 
-var MarkdownColor = require('../../../lib/utilities/markdown-color');
-var expect = require('chai').expect;
-var path = require('path');
-var chalk = require('chalk');
+let MarkdownColor = require('../../../lib/utilities/markdown-color');
+let expect = require('chai').expect;
+let path = require('path');
+let chalk = require('chalk');
 
 describe('MarkdownColor', function() {
-  var mc;
+  let mc;
 
   before(function() {
     if (!chalk.supportsColor) {
@@ -54,7 +54,7 @@ describe('MarkdownColor', function() {
   });
 
   it('accepts tokens on instantiation', function() {
-    var mctemp = new MarkdownColor({
+    let mctemp = new MarkdownColor({
       tokens: {
         foo: {
           token: '^foo^',

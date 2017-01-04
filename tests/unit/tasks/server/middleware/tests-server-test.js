@@ -1,12 +1,12 @@
 'use strict';
 
-var expect = require('chai').expect;
-var TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
-var Promise = require('../../../../../lib/ext/promise');
+let expect = require('chai').expect;
+let TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
+let Promise = require('../../../../../lib/ext/promise');
 
 describe('TestServerAddon', function() {
   describe('.serverMiddleware', function() {
-    var addon, nextWasCalled, mockRequest, app;
+    let addon, nextWasCalled, mockRequest, app;
 
     beforeEach(function() {
       addon = new TestsServerAddon();
@@ -42,7 +42,7 @@ describe('TestServerAddon', function() {
     });
 
     it('invokes next when the watcher fails', function(done) {
-      var mockError = 'bad things are bad';
+      let mockError = 'bad things are bad';
 
       addon.serverMiddleware({
         app,
