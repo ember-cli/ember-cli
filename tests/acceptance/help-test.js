@@ -33,12 +33,12 @@ describe('Acceptance: ember help', function() {
     var commands = requireAsHash('../../lib/commands/*.js', Command);
 
     options = commandOptions({
-      commands: commands,
+      commands,
       project: {
-        isEmberCLIProject: function() {
+        isEmberCLIProject() {
           return true;
         },
-        blueprintLookupPaths: function() {
+        blueprintLookupPaths() {
           return [];
         },
       },

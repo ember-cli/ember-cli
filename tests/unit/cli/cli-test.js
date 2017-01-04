@@ -19,8 +19,8 @@ var project;
 // helper to similate running the CLI
 function ember(args) {
   var cli = new CLI({
-    ui: ui,
-    analytics: analytics,
+    ui,
+    analytics,
     testing: true,
   });
 
@@ -29,10 +29,10 @@ function ember(args) {
 
   return cli.run({
     tasks: {},
-    commands: commands,
+    commands,
     cliArgs: args || [],
     settings: {},
-    project: project,
+    project,
   }).then(function(value) {
     td.verify(stopInstr('init'), { times: 1 });
     td.verify(startInstr('command'), { times: 1 });
@@ -54,12 +54,12 @@ function stubValidateAndRunHelp(name) {
 }
 
 function stubValidateAndRun(name) {
-  commands[name] = require('../../../lib/commands/' + name);
+  commands[name] = require(`../../../lib/commands/${name}`);
   return td.replace(commands[name].prototype, 'validateAndRun', td.function());
 }
 
 function stubRun(name) {
-  commands[name] = require('../../../lib/commands/' + name);
+  commands[name] = require(`../../../lib/commands/${name}`);
   return td.replace(commands[name].prototype, 'run', td.function());
 }
 
@@ -71,13 +71,13 @@ describe('Unit: CLI', function() {
     commands = { };
     isWithinProject = true;
     project = {
-      isEmberCLIProject: function() {  // similate being inside or outside of a project
+      isEmberCLIProject() {  // similate being inside or outside of a project
         return isWithinProject;
       },
-      hasDependencies: function() {
+      hasDependencies() {
         return true;
       },
-      blueprintLookupPaths: function() {
+      blueprintLookupPaths() {
         return [];
       },
     };
@@ -119,8 +119,8 @@ describe('Unit: CLI', function() {
 
   it('callHelp', function() {
     var cli = new CLI({
-      ui: ui,
-      analytics: analytics,
+      ui,
+      analytics,
       testing: true,
     });
     var init = stubValidateAndRun('init');
@@ -128,17 +128,17 @@ describe('Unit: CLI', function() {
     var helpOptions = {
       environment: {
         tasks: {},
-        commands: commands,
+        commands,
         cliArgs: [],
         settings: {},
         project: {
-          isEmberCLIProject: function() {  // similate being inside or outside of a project
+          isEmberCLIProject() {  // similate being inside or outside of a project
             return isWithinProject;
           },
-          hasDependencies: function() {
+          hasDependencies() {
             return true;
           },
-          blueprintLookupPaths: function() {
+          blueprintLookupPaths() {
             return [];
           },
         },
@@ -156,13 +156,13 @@ describe('Unit: CLI', function() {
       var CustomCommand = Command.extend({
         name: 'custom',
 
-        init: function() {
+        init() {
           this._super && this._super.init.apply(this, arguments);
 
           this._beforeRunFinished = false;
         },
 
-        beforeRun: function() {
+        beforeRun() {
           var command = this;
 
           return new Promise(function(resolve) {
@@ -173,7 +173,7 @@ describe('Unit: CLI', function() {
           });
         },
 
-        run: function() {
+        run() {
           if (!this._beforeRunFinished) {
             throw new Error('beforeRun not completed before run called!');
           }
@@ -192,7 +192,7 @@ describe('Unit: CLI', function() {
 
   describe('help', function() {
     ['--help', '-h'].forEach(function(command) {
-      it('ember ' + command, function() {
+      it(`ember ${command}`, function() {
         var help = stubValidateAndRun('help');
 
         return ember([command]).then(function() {
@@ -202,7 +202,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember new ' + command, function() {
+      it(`ember new ${command}`, function() {
         var help = stubCallHelp();
         var newCommand = stubValidateAndRunHelp('new');
 
@@ -216,7 +216,7 @@ describe('Unit: CLI', function() {
   });
 
   ['--version', '-v'].forEach(function(command) {
-    it('ember ' + command, function() {
+    it(`ember ${command}`, function() {
       var version = stubValidateAndRun('version');
 
       return ember([command]).then(function() {
@@ -229,7 +229,7 @@ describe('Unit: CLI', function() {
 
   describe('server', function() {
     ['server', 's'].forEach(function(command) {
-      it('ember ' + command + ' --port 9999', function() {
+      it(`ember ${command} --port 9999`, function() {
         var server = stubRun('serve');
 
         return ember([command, '--port', '9999']).then(function() {
@@ -239,7 +239,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --host localhost', function() {
+      it(`ember ${command} --host localhost`, function() {
         var server = stubRun('serve');
 
         return ember(['server', '--host', 'localhost']).then(function() {
@@ -249,7 +249,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --port 9292 --host localhost', function() {
+      it(`ember ${command} --port 9292 --host localhost`, function() {
         var server = stubRun('serve');
 
         return ember([command, '--port', '9292', '--host', 'localhost']).then(function() {
@@ -260,7 +260,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --proxy http://localhost:3000/', function() {
+      it(`ember ${command} --proxy http://localhost:3000/`, function() {
         var server = stubRun('serve');
 
         return ember([command, '--proxy', 'http://localhost:3000/']).then(function() {
@@ -270,7 +270,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --proxy https://localhost:3009/ --insecure-proxy', function() {
+      it(`ember ${command} --proxy https://localhost:3009/ --insecure-proxy`, function() {
         var server = stubRun('serve');
 
         return ember([command, '--insecure-proxy']).then(function() {
@@ -280,7 +280,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --proxy https://localhost:3009/ --no-insecure-proxy', function() {
+      it(`ember ${command} --proxy https://localhost:3009/ --no-insecure-proxy`, function() {
         var server = stubRun('serve');
 
         return ember([command, '--no-insecure-proxy']).then(function() {
@@ -290,7 +290,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --watcher events', function() {
+      it(`ember ${command} --watcher events`, function() {
         var server = stubRun('serve');
 
         return ember([command, '--watcher', 'events']).then(function() {
@@ -300,7 +300,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --watcher polling', function() {
+      it(`ember ${command} --watcher polling`, function() {
         var server = stubRun('serve');
 
         return ember([command, '--watcher', 'polling']).then(function() {
@@ -310,7 +310,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command, function() {
+      it(`ember ${command}`, function() {
         var server = stubRun('serve');
 
         return ember([command]).then(function() {
@@ -321,7 +321,7 @@ describe('Unit: CLI', function() {
       });
 
       ['production', 'development', 'foo'].forEach(function(env) {
-        it('ember ' + command + ' --environment ' + env, function() {
+        it(`ember ${command} --environment ${env}`, function() {
           var server = stubRun('serve');
 
           return ember([command, '--environment', env]).then(function() {
@@ -333,7 +333,7 @@ describe('Unit: CLI', function() {
       });
 
       ['development', 'foo'].forEach(function(env) {
-        it('ember ' + command + ' --environment ' + env, function() {
+        it(`ember ${command} --environment ${env}`, function() {
           var server = stubRun('serve');
           process.env.EMBER_ENV = 'production';
 
@@ -346,7 +346,7 @@ describe('Unit: CLI', function() {
       });
 
       ['production', 'development', 'foo'].forEach(function(env) {
-        it('EMBER_ENV=' + env + ' ember ' + command, function() {
+        it(`EMBER_ENV=${env} ember ${command}`, function() {
           var server = stubRun('serve');
 
           process.env.EMBER_ENV = env;
@@ -363,7 +363,7 @@ describe('Unit: CLI', function() {
 
   describe('generate', function() {
     ['generate', 'g'].forEach(function(command) {
-      it('ember ' + command + ' foo bar baz', function() {
+      it(`ember ${command} foo bar baz`, function() {
         var generate = stubRun('generate');
 
         return ember([command, 'foo', 'bar', 'baz']).then(function() {
@@ -380,7 +380,7 @@ describe('Unit: CLI', function() {
 
   describe('init', function() {
     ['init'].forEach(function(command) {
-      it('ember ' + command, function() {
+      it(`ember ${command}`, function() {
         var init = stubValidateAndRun('init');
 
         return ember([command]).then(function() {
@@ -388,7 +388,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' <app-name>', function() {
+      it(`ember ${command} <app-name>`, function() {
         var init = stubRun('init');
 
         return ember([command, 'my-blog']).then(function() {
@@ -427,7 +427,7 @@ describe('Unit: CLI', function() {
 
   describe('build', function() {
     ['build', 'b'].forEach(function(command) {
-      it('ember ' + command, function() {
+      it(`ember ${command}`, function() {
         var build = stubRun('build');
 
         return ember([command]).then(function() {
@@ -440,7 +440,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --disable-analytics', function() {
+      it(`ember ${command} --disable-analytics`, function() {
         var build = stubRun('build');
 
         return ember([command, '--disable-analytics']).then(function() {
@@ -452,7 +452,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --watch', function() {
+      it(`ember ${command} --watch`, function() {
         var build = stubRun('build');
 
         return ember([command, '--watch']).then(function() {
@@ -464,7 +464,7 @@ describe('Unit: CLI', function() {
         });
       });
 
-      it('ember ' + command + ' --suppress-sizes', function() {
+      it(`ember ${command} --suppress-sizes`, function() {
         var build = stubRun('build');
 
         return ember([command, '--suppress-sizes']).then(function() {
@@ -477,7 +477,7 @@ describe('Unit: CLI', function() {
       });
 
       ['production', 'development', 'baz'].forEach(function(env) {
-        it('ember ' + command + ' --environment ' + env, function() {
+        it(`ember ${command} --environment ${env}`, function() {
           var build = stubRun('build');
 
           return ember([command, '--environment', env]).then(function() {
@@ -491,7 +491,7 @@ describe('Unit: CLI', function() {
       });
 
       ['development', 'baz'].forEach(function(env) {
-        it('EMBER_ENV=production ember ' + command + ' --environment ' + env, function() {
+        it(`EMBER_ENV=production ember ${command} --environment ${env}`, function() {
           var build = stubRun('build');
 
           process.env.EMBER_ENV = 'production';
@@ -505,7 +505,7 @@ describe('Unit: CLI', function() {
       });
 
       ['production', 'development', 'baz'].forEach(function(env) {
-        it('EMBER_ENV=' + env + ' ember ' + command + ' ', function() {
+        it(`EMBER_ENV=${env} ember ${command} `, function() {
           var build = stubRun('build');
 
           process.env.EMBER_ENV = env;

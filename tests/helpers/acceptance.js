@@ -16,7 +16,7 @@ var dirs = {};
 var runCommandOptions = {
   // Note: We must override the default logOnFailure logging, because we are
   // not inside a test.
-  log: function() {
+  log() {
     return; // no output for initial application build
   },
 };
@@ -54,7 +54,7 @@ function createTestTargets(projectName, options) {
   options = options || {};
   options.command = options.command || 'new';
 
-  return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', '--directory=' + outputDir)
+  return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', `--directory=${outputDir}`)
     .catch(handleResult);
 }
 
@@ -77,7 +77,7 @@ function teardownTestTargets() {
  */
 function linkDependencies(projectName) {
   var sourceFixture = dirs[projectName]; // original fixture for this acceptance test.
-  var runFixture = quickTemp.makeOrRemake(dirs, projectName + '-clone');
+  var runFixture = quickTemp.makeOrRemake(dirs, `${projectName}-clone`);
 
   fs.copySync(sourceFixture, runFixture);
 
@@ -99,12 +99,12 @@ function linkDependencies(projectName) {
  */
 function cleanupRun(projectName) {
   process.chdir(root);
-  quickTemp.remove(dirs, projectName + '-clone');
+  quickTemp.remove(dirs, `${projectName}-clone`);
 }
 
 module.exports = {
-  createTestTargets: createTestTargets,
-  linkDependencies: linkDependencies,
-  teardownTestTargets: teardownTestTargets,
-  cleanupRun: cleanupRun,
+  createTestTargets,
+  linkDependencies,
+  teardownTestTargets,
+  cleanupRun,
 };

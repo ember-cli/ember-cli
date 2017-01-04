@@ -27,12 +27,12 @@ describe('generate command', function() {
     };
 
     options = commandOptions({
-      project: project,
+      project,
 
       tasks: {
         GenerateFromBlueprint: Task.extend({
-          project: project,
-          run: function(options) {
+          project,
+          run(options) {
             return Promise.resolve(options);
           },
         }),
@@ -98,14 +98,14 @@ describe('generate command', function() {
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
             },
             {
               name: 'other-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
             },
@@ -117,12 +117,12 @@ describe('generate command', function() {
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-  Available blueprints:' + EOL + '\
-    my-app:' + EOL + '\
-my-blueprint' + EOL + '\
-other-blueprint' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`${EOL}\
+  Available blueprints:${EOL}\
+    my-app:${EOL}\
+my-blueprint${EOL}\
+other-blueprint${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -135,7 +135,7 @@ other-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              getJson: function() {
+              getJson() {
                 return {
                   name: this.name,
                 };
@@ -144,7 +144,7 @@ other-blueprint' + EOL + '\
             {
               name: 'other-blueprint',
               availableOptions: [],
-              getJson: function() {
+              getJson() {
                 return {
                   name: this.name,
                 };
@@ -182,7 +182,7 @@ other-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
             },
@@ -199,9 +199,9 @@ other-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString('\
-my-blueprint' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`\
+my-blueprint${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -214,7 +214,7 @@ my-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              getJson: function() {
+              getJson() {
                 return {
                   name: this.name,
                 };
@@ -263,9 +263,9 @@ my-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString('\
-\u001b[33mThe \'missing-blueprint\' blueprint does not exist in this project.\u001b[39m' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`\
+\u001b[33mThe 'missing-blueprint' blueprint does not exist in this project.\u001b[39m${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -304,7 +304,7 @@ my-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
               overridden: true,
@@ -317,9 +317,9 @@ my-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-  Available blueprints:' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`${EOL}\
+  Available blueprints:${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -332,7 +332,7 @@ my-blueprint' + EOL + '\
             {
               name: 'my-blueprint',
               availableOptions: [],
-              printBasicHelp: function() {
+              printBasicHelp() {
                 return this.name;
               },
               overridden: true,
@@ -347,11 +347,11 @@ my-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-  Available blueprints:' + EOL + '\
-    my-app:' + EOL + '\
-my-blueprint' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`${EOL}\
+  Available blueprints:${EOL}\
+    my-app:${EOL}\
+my-blueprint${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });

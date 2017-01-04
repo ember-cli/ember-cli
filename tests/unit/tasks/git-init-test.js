@@ -23,9 +23,9 @@ describe('git-init', function() {
       tmpdir = dir;
       ui = new MockUI();
       subject = new GitInitTask({
-        ui: ui,
+        ui,
         project: new MockProject(),
-        exec: exec,
+        exec,
       });
       process.chdir(tmpdir);
     });

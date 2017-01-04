@@ -13,7 +13,7 @@ var forEachWithPropertyStub;
 var Command = proxyquire('../../../lib/models/command', {
   '../utilities/printable-properties': {
     command: {
-      forEachWithProperty: function() {
+      forEachWithProperty() {
         return forEachWithPropertyStub.apply(this, arguments);
       },
     },
@@ -31,7 +31,7 @@ var ServeCommand = Command.extend({
     { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)' },
     { name: 'environment', type: String, default: 'development' },
   ],
-  run: function(options) { return options; },
+  run(options) { return options; },
 });
 
 var DevelopEmberCLICommand = Command.extend({
@@ -40,19 +40,19 @@ var DevelopEmberCLICommand = Command.extend({
   availableOptions: [
     { name: 'package-name', key: 'packageName', type: String, required: true },
   ],
-  run: function(options) { return options; },
+  run(options) { return options; },
 });
 
 var InsideProjectCommand = Command.extend({
   name: 'inside-project',
   works: 'insideProject',
-  run: function(options) { return options; },
+  run(options) { return options; },
 });
 
 var OutsideProjectCommand = Command.extend({
   name: 'outside-project',
   works: 'outsideProject',
-  run: function(options) { return options; },
+  run(options) { return options; },
 });
 
 var OptionsAliasCommand = Command.extend({
@@ -80,7 +80,7 @@ var OptionsAliasCommand = Command.extend({
       { 'hw': 'Hello world' },
     ],
   }],
-  run: function(options) { return options; },
+  run(options) { return options; },
 });
 
 describe('models/command.js', function() {
@@ -90,8 +90,8 @@ describe('models/command.js', function() {
 
   before(function() {
     config = new Yam('ember-cli', {
-      secondary: process.cwd() + '/tests/fixtures/home',
-      primary: process.cwd() + '/tests/fixtures/project',
+      secondary: `${process.cwd()}/tests/fixtures/home`,
+      primary: `${process.cwd()}/tests/fixtures/project`,
     });
   });
 
@@ -170,8 +170,8 @@ describe('models/command.js', function() {
     it('should print a message if outside a project and command is not valid there.', function() {
       return new InsideProjectCommand(assign(options, {
         project: {
-          hasDependencies: function() { return true; },
-          isEmberCLIProject: function() { return false; },
+          hasDependencies() { return true; },
+          isEmberCLIProject() { return false; },
         },
       })).validateAndRun([]).catch(function(reason) {
         expect(reason.message).to.match(/You have to be inside an ember-cli project/);
@@ -182,8 +182,8 @@ describe('models/command.js', function() {
       return new InsideProjectCommand(assign(options, {
         availableOptions: [{ type: 'string', name: 'watcher' }],
         project: {
-          hasDependencies: function() { return true; },
-          isEmberCLIProject: function() { return true; },
+          hasDependencies() { return true; },
+          isEmberCLIProject() { return true; },
         },
       })).validateAndRun([]).then(function(options) {
         expect(options).to.have.property('watcher');
@@ -194,8 +194,8 @@ describe('models/command.js', function() {
       return new InsideProjectCommand(assign(options, {
         availableOptions: [{ type: 'string', name: 'foo' }],
         project: {
-          hasDependencies: function() { return true; },
-          isEmberCLIProject: function() { return true; },
+          hasDependencies() { return true; },
+          isEmberCLIProject() { return true; },
         },
       })).validateAndRun([]).then(function(options) {
         expect(options).to.not.have.property('watcher');
@@ -579,7 +579,7 @@ describe('models/command.js', function() {
       it('calls printCommand', function() {
         var output = command.printBasicHelp();
 
-        var testString = processHelpString('ember serve command printed' + EOL);
+        var testString = processHelpString(`ember serve command printed${EOL}`);
 
         expect(output).to.equal(testString);
       });
@@ -589,7 +589,7 @@ describe('models/command.js', function() {
 
         var output = command.printBasicHelp();
 
-        var testString = processHelpString('Usage: serve command printed' + EOL);
+        var testString = processHelpString(`Usage: serve command printed${EOL}`);
 
         expect(output).to.equal(testString);
       });

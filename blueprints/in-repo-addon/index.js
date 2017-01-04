@@ -7,7 +7,7 @@ var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize
 module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',
 
-  beforeInstall: function(options) {
+  beforeInstall(options) {
     var libBlueprint = Blueprint.lookup('lib', {
       ui: this.ui,
       analytics: this.analytics,
@@ -17,15 +17,15 @@ module.exports = {
     return libBlueprint.install(options);
   },
 
-  afterInstall: function(options) {
+  afterInstall(options) {
     this._generatePackageJson(options, true);
   },
 
-  afterUninstall: function(options) {
+  afterUninstall(options) {
     this._generatePackageJson(options, false);
   },
 
-  _generatePackageJson: function(options, isInstall) {
+  _generatePackageJson(options, isInstall) {
     var packagePath = path.join(this.project.root, 'package.json');
     var contents = fs.readJsonSync(packagePath);
     var name = stringUtil.dasherize(options.entity.name);

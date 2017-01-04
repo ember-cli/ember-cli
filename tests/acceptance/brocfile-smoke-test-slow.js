@@ -77,7 +77,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', appName + '.js'), {
+        var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
           encoding: 'utf8',
         });
 
@@ -124,7 +124,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', appName + '.js'), {
+        var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
           encoding: 'utf8',
         });
 
@@ -139,7 +139,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', appName + '.js'), {
+        var appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
           encoding: 'utf8',
         });
 
@@ -412,7 +412,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   it('app.css is output to <app name>.css by default', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
       .then(function() {
-        expect(file('dist/assets/' + appName + '.css')).to.exist;
+        expect(file(`dist/assets/${appName}.css`)).to.exist;
       });
   });
 
@@ -438,7 +438,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        expect(file('dist/assets/' + appName + '.css'))
+        expect(file(`dist/assets/${appName}.css`))
           .to.equal('body { background: green; }\n');
       });
   });

@@ -7,7 +7,7 @@ describe('HistorySupportAddon', function() {
   describe('.serverMiddleware', function() {
     it('add middleware when locationType is auto', function() {
       var addon = new HistorySupportAddon({
-        config: function() {
+        config() {
           return {
             locationType: 'auto',
           };
@@ -19,7 +19,7 @@ describe('HistorySupportAddon', function() {
 
     it('add middleware when locationType is history', function() {
       var addon = new HistorySupportAddon({
-        config: function() {
+        config() {
           return {
             locationType: 'history',
           };
@@ -31,7 +31,7 @@ describe('HistorySupportAddon', function() {
 
     it('add middleware when locationType is an unknown type', function() {
       var addon = new HistorySupportAddon({
-        config: function() {
+        config() {
           return {
             locationType: 'foo-bar',
             historySupportMiddleware: true,
@@ -44,7 +44,7 @@ describe('HistorySupportAddon', function() {
 
     it('add middleware when historySupportMiddleware is true', function() {
       var addon = new HistorySupportAddon({
-        config: function() {
+        config() {
           return {
             historySupportMiddleware: true,
           };
@@ -56,7 +56,7 @@ describe('HistorySupportAddon', function() {
 
     it('do not add middleware when historySupportMiddleware is false and locationType is history', function() {
       var addon = new HistorySupportAddon({
-        config: function() {
+        config() {
           return {
             locationType: 'history',
             historySupportMiddleware: false,

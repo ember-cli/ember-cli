@@ -151,12 +151,12 @@ describe('models/asset-size-printer', function() {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: outputPath,
+      outputPath,
     });
 
     return sizePrinter.print()
       .catch(function(error) {
-        expect(error.message).to.include('No asset files found in the path provided: ' + outputPath);
+        expect(error.message).to.include(`No asset files found in the path provided: ${outputPath}`);
       });
   });
 
@@ -164,7 +164,7 @@ describe('models/asset-size-printer', function() {
     var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
     var sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
-      outputPath: outputPath,
+      outputPath,
     });
 
     return expect(sizePrinter.print()).not.to.throw;

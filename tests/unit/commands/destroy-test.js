@@ -20,11 +20,11 @@ describe('destroy command', function() {
     };
 
     options = commandOptions({
-      project: project,
+      project,
       tasks: {
         DestroyFromBlueprint: Task.extend({
-          project: project,
-          run: function(options) {
+          project,
+          run(options) {
             return Promise.resolve(options);
           },
         }),
@@ -87,8 +87,8 @@ describe('destroy command', function() {
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-  Run `ember help generate` to view a list of available blueprints.' + EOL);
+      var testString = processHelpString(`${EOL}\
+  Run \`ember help generate\` to view a list of available blueprints.${EOL}`);
 
       expect(output).to.equal(testString);
     });

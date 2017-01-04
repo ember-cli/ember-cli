@@ -8,13 +8,13 @@ module.exports = {
     'endpoint-path',
   ],
 
-  locals: function(options) {
+  locals(options) {
     return {
-      path: '/' + options.entity.name.replace(/^\//, ''),
+      path: `/${options.entity.name.replace(/^\//, '')}`,
     };
   },
 
-  beforeInstall: function(options) {
+  beforeInstall(options) {
     var serverBlueprint = Blueprint.lookup('server', {
       ui: this.ui,
       analytics: this.analytics,
@@ -24,7 +24,7 @@ module.exports = {
     return serverBlueprint.install(options);
   },
 
-  afterInstall: function(options) {
+  afterInstall(options) {
 
     if (!options.dryRun && isPackageMissing(this, 'express')) {
       return this.addPackagesToProject([

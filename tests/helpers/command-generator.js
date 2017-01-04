@@ -33,7 +33,7 @@ CommandGenerator.prototype = {
    * @param {Object} [options={}] The options passed into child_process.spawnSync.
    *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
    */
-  invoke: function() {
+  invoke() {
     var args = Array.prototype.slice.call(arguments);
     var options = {};
 
@@ -44,7 +44,7 @@ CommandGenerator.prototype = {
     return this._invoke(args, options);
   },
 
-  _invoke: function(args, options) {
+  _invoke(args, options) {
     return execa.sync(this.program, args, options);
   },
 };

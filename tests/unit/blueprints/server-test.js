@@ -14,7 +14,7 @@ var file = chai.file;
 
 describe('Acceptance: ember generate and destroy server', function() {
   setupTestHooks(this, {
-    cliPath: path.resolve(__dirname + '/../../..'),
+    cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
   it('server', function() {

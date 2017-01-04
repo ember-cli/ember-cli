@@ -26,9 +26,9 @@ describe('WatchDetector', function() {
     }
 
     subject = new WatchDetector({
-      ui: ui,
-      fs: fs,
-      childProcess: childProcess,
+      ui,
+      fs,
+      childProcess,
       watchmanSupportsPlatform: false,
       root: process.cwd(),
     });
@@ -52,7 +52,7 @@ describe('WatchDetector', function() {
 
     // we could extend this to test also if change events are triggered or not..
     it('reports YES if nothing throws', function() {
-      fs.watch = function() { return { close: function() { } }; };
+      fs.watch = function() { return { close() { } }; };
 
       expect(subject.testIfNodeWatcherAppearsToWork()).to.be.true;
     });
@@ -86,7 +86,7 @@ describe('WatchDetector', function() {
         });
 
         it('false back to node if it can', function() {
-          fs.watch = function() { return { close: function() { } }; };
+          fs.watch = function() { return { close() { } }; };
 
           var option = subject.findBestWatcherOption({ watcher: 'watchman' });
           expect(option.watchmanInfo).to.have.property('enabled', false);
@@ -127,7 +127,7 @@ describe('WatchDetector', function() {
 
     describe('input preference.watcher === node', function() {
       it('chooses node, if everything  seems ok', function() {
-        fs.watch = function() { return { close: function() { } }; };
+        fs.watch = function() { return { close() { } }; };
 
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'node' });
@@ -142,7 +142,7 @@ describe('WatchDetector', function() {
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'polling');
-        expect(ui.output).to.eql('was unable to use: "node", fell back to: "polling"' + EOL);
+        expect(ui.output).to.eql(`was unable to use: "node", fell back to: "polling"${EOL}`);
       });
 
       it('falls back to polling if unwatch fails', function() {
@@ -155,7 +155,7 @@ describe('WatchDetector', function() {
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'polling');
-        expect(ui.output).to.eql('was unable to use: "node", fell back to: "polling"' + EOL);
+        expect(ui.output).to.eql(`was unable to use: "node", fell back to: "polling"${EOL}`);
       });
     });
 
@@ -169,7 +169,7 @@ describe('WatchDetector', function() {
         childProcess.execSync = function() {
           throw new Error();
         };
-        fs.watch = function() { return { close: function() { } }; };
+        fs.watch = function() { return { close() { } }; };
 
         var result = subject.checkWatchman();
         expect(result).to.have.property('watcher', 'node');
@@ -178,7 +178,7 @@ describe('WatchDetector', function() {
 
       it('false: shows the "watchman not found, falling back to XYZ message"', function() {
         subject.watchmanSupportsPlatform = false;
-        fs.watch = function() { return { close: function() { } }; };
+        fs.watch = function() { return { close() { } }; };
 
         childProcess.execSync = function() {
           throw new Error();

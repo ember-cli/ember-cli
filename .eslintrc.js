@@ -89,8 +89,26 @@ module.exports = {
     'space-in-parens': 2,
     'space-infix-ops': 2,
     'space-unary-ops': 2,
-    'quotes': [2, 'single'],
+    'quotes': [2, 'single', {
+      'allowTemplateLiterals': true,
+    }],
     'semi': [2, 'always'],
     'wrap-regex': 2,
+
+    /*** ECMAScript 6 ***/
+
+    'arrow-body-style': 2,
+    'arrow-parens': [2, 'as-needed'],
+    'arrow-spacing': 2,
+    'no-confusing-arrow': [2, {
+      'allowParens': true,
+    }],
+    'no-useless-computed-key': 2,
+    'object-shorthand': 2,
+    'prefer-arrow-callback': [2, {
+      'allowNamedFunctions': true,
+    }],
+    'prefer-template': 2,
+    'template-curly-spacing': 2,
   },
 };

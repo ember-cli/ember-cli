@@ -47,8 +47,8 @@ describe('Acceptance: ember new', function() {
       expected.sort();
 
       expect(directory).to.equal('foo');
-      expect(expected).to.deep.equal(actual, EOL + ' expected: ' + util.inspect(expected) +
-                                             EOL + ' but got: ' + util.inspect(actual));
+      expect(expected)
+        .to.deep.equal(actual, `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`);
 
     };
   }
@@ -158,7 +158,7 @@ describe('Acceptance: ember new', function() {
       }).catch(function(error) {
         expect(dir('foo')).to.not.exist;
         expect(error.name).to.equal('SilentError');
-        expect(error.message).to.equal('You cannot use the ' + chalk.green('new') + ' command inside an ember-cli project.');
+        expect(error.message).to.equal(`You cannot use the ${chalk.green('new')} command inside an ember-cli project.`);
       });
     }).then(confirmBlueprinted);
   });
@@ -187,7 +187,7 @@ describe('Acceptance: ember new', function() {
       '--skip-npm',
       '--skip-bower',
       '--skip-git',
-      '--blueprint=' + path.resolve(process.cwd(), 'my_blueprint'),
+      `--blueprint=${path.resolve(process.cwd(), 'my_blueprint')}`,
     ]).then(confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint')));
   });
 

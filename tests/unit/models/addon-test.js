@@ -41,8 +41,8 @@ describe('models/addon.js', function() {
       var TheAddon = Addon.extend({
         name: 'such name',
         root: path.resolve(fixturePath, 'simple'),
-        _warn: function(message) {
-          warning = '' + message;
+        _warn(message) {
+          warning = `${message}`;
         },
       });
       var addon = new TheAddon();
@@ -67,7 +67,7 @@ describe('models/addon.js', function() {
         name: 'first',
         root: projectPath,
 
-        init: function() {
+        init() {
           this._super.apply(this, arguments);
           this.treePaths.vendor = 'blazorz';
           this.treeForMethods.public = 'huzzah!';
@@ -78,7 +78,7 @@ describe('models/addon.js', function() {
         name: 'first',
         root: projectPath,
 
-        init: function() {
+        init() {
           this._super.apply(this, arguments);
           this.treePaths.vendor = 'blammo';
           this.treeForMethods.public = 'boooo';
@@ -96,7 +96,7 @@ describe('models/addon.js', function() {
         // TODO: fix config story...
         addon.app = {
           options: { jshintrc: {} },
-          addonLintTree: function(type, tree) { return tree; },
+          addonLintTree(type, tree) { return tree; },
         };
 
         addon.jshintTrees = function() {};
@@ -206,7 +206,7 @@ describe('models/addon.js', function() {
       projectPath = path.resolve(fixturePath, 'simple');
       var packageContents = require(path.join(projectPath, 'package.json'));
       var ui = new MockUI();
-      var cli = new MockCLI({ ui: ui });
+      var cli = new MockCLI({ ui });
       project = new Project(projectPath, packageContents, ui, cli);
       var discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
       td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
@@ -270,15 +270,15 @@ describe('models/addon.js', function() {
           };
           addon.registry = {
             app: addon,
-            load: function() {
+            load() {
               return [{
-                toTree: function(tree) {
+                toTree(tree) {
                   return tree;
                 },
               }];
             },
 
-            extensionsForType: function() {
+            extensionsForType() {
               return ['js'];
             },
           };
@@ -609,12 +609,9 @@ describe('models/addon.js', function() {
       expect(function() {
         addon.compileTemplates();
       }).to.throw(
-        'Addon templates were detected, but there ' +
-        'are no template compilers registered for `' + addon.name + '`. ' +
-        'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
-        'is listed in `dependencies` (NOT `devDependencies`) in ' +
-        '`' + addon.name + '`\'s `package.json`.'
-      );
+        `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
+        `Please make sure your template precompiler (commonly \`ember-cli-htmlbars\`) is listed in \`dependencies\` ` +
+        `(NOT \`devDependencies\`) in \`${addon.name}\`'s \`package.json\`.`);
     });
 
     it('should throw a useful error if a template compiler is not present -- pods', function() {
@@ -623,11 +620,9 @@ describe('models/addon.js', function() {
       expect(function() {
         addon.compileTemplates();
       }).to.throw(
-        'Addon templates were detected, but there ' +
-        'are no template compilers registered for `' + addon.name + '`. ' +
-        'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
-        'is listed in `dependencies` (NOT `devDependencies`) in ' +
-        '`' + addon.name + '`\'s `package.json`.'
+        `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
+        `Please make sure your template precompiler (commonly \`ember-cli-htmlbars\`) is listed in \`dependencies\` ` +
+        `(NOT \`devDependencies\`) in \`${addon.name}\`'s \`package.json\`.`
       );
     });
 
@@ -772,7 +767,7 @@ describe('models/addon.js', function() {
       var packageContents = require(path.join(projectPath, 'package.json'));
 
       ui = new MockUI();
-      var cli = new MockCLI({ ui: ui });
+      var cli = new MockCLI({ ui });
       project = new Project(projectPath, packageContents, ui, cli);
 
       var AddonTemp = Addon.extend({
@@ -849,8 +844,8 @@ describe('models/addon.js', function() {
     it('should invoke the method on each of the project addons', function() {
       var counter = 0;
       project.addons = [
-        { foo: function(num) { counter += num; } },
-        { foo: function(num) { counter += num; } },
+        { foo(num) { counter += num; } },
+        { foo(num) { counter += num; } },
       ];
 
       addon._eachProjectAddonInvoke('foo', [1]);
@@ -860,8 +855,8 @@ describe('models/addon.js', function() {
     it('should provide default arguments if none are specified', function() {
       var counter = 0;
       project.addons = [
-        { foo: function() { counter += 1; } },
-        { foo: function() { counter += 1; } },
+        { foo() { counter += 1; } },
+        { foo() { counter += 1; } },
       ];
 
       addon._eachProjectAddonInvoke('foo');
@@ -885,7 +880,7 @@ describe('models/addon.js', function() {
           var addon = createAddon(Addon.extend({
             name: 'test-project',
             root: 'foo',
-            treeForApp: function() { },
+            treeForApp() { },
           }));
 
           expect(addon[experiments.ADDON_TREE_CACHING]('app')).to.equal(null);
@@ -895,7 +890,7 @@ describe('models/addon.js', function() {
           var addon = createAddon(Addon.extend({
             name: 'test-project',
             root: 'foo',
-            compileAddon: function() { },
+            compileAddon() { },
           }));
 
           expect(addon[experiments.ADDON_TREE_CACHING]('addon')).to.equal(null);
@@ -905,7 +900,7 @@ describe('models/addon.js', function() {
           var addon = createAddon(Addon.extend({
             name: 'test-project',
             root: 'foo',
-            init: function() {
+            init() {
               this._super && this._super.init.apply(this, arguments);
 
               this.treeForMethods['app'] = 'treeForZOMG_WHY!?!';
@@ -933,7 +928,7 @@ describe('models/addon.js', function() {
           var addon = createAddon(Addon.extend({
             name: 'test-project',
             root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
-            treeForAddon: function(tree) {
+            treeForAddon(tree) {
               return tree;
             },
           }));
@@ -948,7 +943,7 @@ describe('models/addon.js', function() {
           var addonProto = {
             name: 'test-project',
             root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
-            treeForAddon: function(tree) {
+            treeForAddon(tree) {
               return tree;
             },
           };

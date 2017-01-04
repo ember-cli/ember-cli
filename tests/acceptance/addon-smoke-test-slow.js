@@ -107,7 +107,7 @@ describe('Acceptance: addon-smoke-test', function() {
   it('npm pack does not include unnecessary files', function() {
     var handleError = function(error, commandName) {
       if (error.code === 'ENOENT') {
-        console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
+        console.warn(chalk.yellow(`      Your system does not provide ${commandName} -> Skipped this test.`));
       } else {
         throw new Error(error);
       }
@@ -124,7 +124,7 @@ describe('Acceptance: addon-smoke-test', function() {
     }).then(function() {
       return new Promise(function(resolve, reject) {
         var output;
-        var tar = spawn('tar', ['-tf', addonName + '-0.0.0.tgz']);
+        var tar = spawn('tar', ['-tf', `${addonName}-0.0.0.tgz`]);
         tar.on('error', function(error) {
           reject(error);
         });

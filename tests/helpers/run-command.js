@@ -23,15 +23,15 @@ module.exports = function run(/* command, args, options */) {
     // If false, only pass through stdout/stderr if the current test fails.
     verbose: false,
 
-    onOutput: function(string) {
+    onOutput(string) {
       options.log(string);
     },
 
-    onError: function(string) {
+    onError(string) {
       options.log(chalk.red(string));
     },
 
-    log: function(string) {
+    log(string) {
       debug.debug(string);
       if (options.verbose) {
         console.log(string);
@@ -42,11 +42,11 @@ module.exports = function run(/* command, args, options */) {
   });
 
   return new RSVP.Promise(function(resolve, reject) {
-    options.log('      Running: ' + command + ' ' + args.join(' ') + ' in: ' + process.cwd());
+    options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
     var opts = {};
     if (process.platform === 'win32') {
-      args = ['"' + command + '"'].concat(args);
+      args = [`"${command}"`].concat(args);
       command = 'node';
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];

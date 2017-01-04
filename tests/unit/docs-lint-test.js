@@ -22,7 +22,7 @@ describe('YUIDoc', function() {
     }
 
     warnings[file].push({
-      line: line,
+      line,
       message: warning.message,
     });
   });
@@ -31,9 +31,9 @@ describe('YUIDoc', function() {
     it(file, function() {
       var fileWarnings = warnings[file];
       if (fileWarnings) {
-        var message = 'YUIDoc issues found:' + EOL + EOL;
+        var message = `YUIDoc issues found:${EOL}${EOL}`;
         fileWarnings.forEach(function(warning) {
-          message += 'line ' + warning.line + ': ' + warning.message + EOL;
+          message += `line ${warning.line}: ${warning.message}${EOL}`;
         });
 
         var error = new Error(message);

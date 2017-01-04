@@ -397,7 +397,7 @@ describe('PackageCache', function() {
     var label;
 
     beforeEach(function() {
-      label = 'npm-upgrade-test-' + (testCounter++);
+      label = `npm-upgrade-test-${testCounter++}`;
       testPackageCache._conf.set(label, 'hello');
     });
 
@@ -452,7 +452,7 @@ describe('PackageCache', function() {
     var label;
 
     beforeEach(function() {
-      label = 'yarn-upgrade-test-' + (testCounter++);
+      label = `yarn-upgrade-test-${testCounter++}`;
       testPackageCache._conf.set(label, 'hello');
     });
 
@@ -504,7 +504,7 @@ describe('PackageCache', function() {
     var label;
 
     beforeEach(function() {
-      label = 'bower-upgrade-test-' + (testCounter++);
+      label = `bower-upgrade-test-${testCounter++}`;
       testPackageCache._conf.set(label, 'hello');
     });
 

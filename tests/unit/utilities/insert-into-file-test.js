@@ -165,7 +165,7 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { after: 'not found' + EOL })
+    return insertIntoFile(filePath, toInsert, { after: `not found${EOL}` })
       .then(function(result) {
         var contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
@@ -181,7 +181,7 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { before: 'not found' + EOL })
+    return insertIntoFile(filePath, toInsert, { before: `not found${EOL}` })
       .then(function(result) {
         var contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 

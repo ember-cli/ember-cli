@@ -18,7 +18,7 @@ describe('TestServerAddon', function() {
         headers: {},
       };
       app = {
-        use: function(callback) {
+        use(callback) {
           return callback(mockRequest, null, function() { nextWasCalled = true; });
         },
       };
@@ -26,11 +26,11 @@ describe('TestServerAddon', function() {
 
     it('invokes next when the watcher succeeds', function(done) {
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
           watcher: Promise.resolve(),
         },
-        finally: function() {
+        finally() {
           try {
             expect(nextWasCalled).to.true;
             done();
@@ -45,11 +45,11 @@ describe('TestServerAddon', function() {
       var mockError = 'bad things are bad';
 
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
           watcher: Promise.reject(mockError),
         },
-        finally: function() {
+        finally() {
           try {
             expect(nextWasCalled).to.true;
             done();
@@ -64,12 +64,12 @@ describe('TestServerAddon', function() {
       mockRequest.path = '/braden/+/tests/any-old-file';
       mockRequest.headers.accept = ['*/*'];
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
           watcher: Promise.resolve({ directory: 'nothing' }),
           baseURL: '/braden/+',
         },
-        finally: function() {
+        finally() {
           try {
             expect(mockRequest.url).to.equal('/braden/+/tests/index.html');
             done();
@@ -84,12 +84,12 @@ describe('TestServerAddon', function() {
       mockRequest.path = '/grayson/+/tests/any-old-file';
       mockRequest.headers.accept = ['text/html'];
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
           watcher: Promise.resolve({ directory: 'nothing' }),
           rootURL: '/grayson/+',
         },
-        finally: function() {
+        finally() {
           try {
             expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
             done();

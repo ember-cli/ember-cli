@@ -18,7 +18,7 @@ describe('models/addon-discovery.js', function() {
     ui = new MockUI();
     projectPath = path.resolve(fixturePath, 'simple');
     var packageContents = require(path.join(projectPath, 'package.json'));
-    var cli = new MockCLI({ ui: ui });
+    var cli = new MockCLI({ ui });
 
     project = new Project(projectPath, packageContents, ui, cli);
   });
@@ -61,7 +61,7 @@ describe('models/addon-discovery.js', function() {
     it('calls discoverAtPath for each path in project.supportedInternalAddonPaths', function() {
       var actualPaths = [];
       var project = {
-        supportedInternalAddonPaths: function() {
+        supportedInternalAddonPaths() {
           return ['lib/foo/', 'baz/qux/'];
         },
       };
@@ -209,7 +209,7 @@ describe('models/addon-discovery.js', function() {
       expect(actualPaths).to.deep.equal(expectedPaths);
 
       var output = ui.output.trim();
-      var expectedWarning = chalk.yellow('The package `invalid-package` is not a properly formatted package, we have used a fallback lookup to resolve it at `' + path.join(root, 'node_modules', 'invalid-package') + '`. This is generally caused by an addon not having a `main` entry point (or `index.js`).');
+      var expectedWarning = chalk.yellow(`The package \`invalid-package\` is not a properly formatted package, we have used a fallback lookup to resolve it at \`${path.join(root, 'node_modules', 'invalid-package')}\`. This is generally caused by an addon not having a \`main\` entry point (or \`index.js\`).`);
       expect(output).to.equal(expectedWarning);
     });
 
@@ -286,7 +286,7 @@ describe('models/addon-discovery.js', function() {
   describe('discoverFromProjectItself', function() {
     it('adds the project.root if it is an addon', function() {
       var project = {
-        isEmberCLIAddon: function() {
+        isEmberCLIAddon() {
           return false;
         },
       };
@@ -301,7 +301,7 @@ describe('models/addon-discovery.js', function() {
       var actualPaths = [];
       var project = {
         root: 'foo/bar/baz',
-        isEmberCLIAddon: function() {
+        isEmberCLIAddon() {
           return true;
         },
       };

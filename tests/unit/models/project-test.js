@@ -37,7 +37,7 @@ describe('models/project.js', function() {
       projectPath = 'tmp/test-app';
       return tmp.setup(projectPath)
         .then(function() {
-          touch(projectPath + '/config/environment.js', {
+          touch(`${projectPath}/config/environment.js`, {
             baseURL: '/foo/bar',
           });
 
@@ -56,7 +56,7 @@ describe('models/project.js', function() {
       called = false;
       return tmp.setup(projectPath)
         .then(function() {
-          touch(projectPath + '/config/environment.js', {
+          touch(`${projectPath}/config/environment.js`, {
             baseURL: '/foo/bar',
           });
 
@@ -127,8 +127,8 @@ describe('models/project.js', function() {
 
         projectConfig = { foo: 'bar', baz: 'qux' };
         project.addons = [
-          { config: function() { return addon1Config; } },
-          { config: function() { return addon2Config; } },
+          { config() { return addon1Config; } },
+          { config() { return addon2Config; } },
         ];
 
         project._addonsInitialized = true;
@@ -391,7 +391,7 @@ describe('models/project.js', function() {
 
   describe('emberCLIVersion', function() {
     beforeEach(function() {
-      projectPath = process.cwd() + '/tmp/test-app';
+      projectPath = `${process.cwd()}/tmp/test-app`;
       makeProject();
     });
 
@@ -402,7 +402,7 @@ describe('models/project.js', function() {
 
   describe('isEmberCLIProject', function() {
     beforeEach(function() {
-      projectPath = process.cwd() + '/tmp/test-app';
+      projectPath = `${process.cwd()}/tmp/test-app`;
 
       makeProject();
     });
@@ -426,7 +426,7 @@ describe('models/project.js', function() {
 
   describe('isEmberCLIAddon', function() {
     beforeEach(function() {
-      projectPath = process.cwd() + '/tmp/test-app';
+      projectPath = `${process.cwd()}/tmp/test-app`;
 
       makeProject();
       var discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
@@ -453,7 +453,7 @@ describe('models/project.js', function() {
 
   describe('findAddonByName', function() {
     beforeEach(function() {
-      projectPath = process.cwd() + '/tmp/test-app';
+      projectPath = `${process.cwd()}/tmp/test-app`;
 
       makeProject();
 

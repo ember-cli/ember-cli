@@ -14,23 +14,23 @@ describe('install:addon command', function() {
 
   beforeEach(function() {
     var tasks = {
-      AddonInstall: AddonInstall,
+      AddonInstall,
       NpmInstall: Task.extend({
-        init: function() {
+        init() {
           this._super.apply(this, arguments);
           npmInstance = this;
         },
-        run: function() {
+        run() {
           return Promise.resolve();
         },
       }),
 
       GenerateFromBlueprint: Task.extend({
-        init: function() {
+        init() {
           this._super.apply(this, arguments);
           generateBlueprintInstance = this;
         },
-        run: function() {
+        run() {
           return Promise.resolve();
         },
       }),
@@ -52,8 +52,8 @@ describe('install:addon command', function() {
     };
 
     var options = commandOptions({
-      project: project,
-      tasks: tasks,
+      project,
+      tasks,
     });
 
     command = new InstallAddonCommand(options);

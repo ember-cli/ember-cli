@@ -29,11 +29,11 @@ describe('models/builder.js', function() {
 
   function setupBroccoliBuilder() {
     this.builder = {
-      build: function() {
+      build() {
         return Promise.resolve('build results');
       },
 
-      cleanup: function() {
+      cleanup() {
         return Promise.resolve('cleanup result');
       },
     };
@@ -72,7 +72,7 @@ describe('models/builder.js', function() {
 
     it('sets up listeners for signals', function() {
       builder = new Builder({
-        setupBroccoliBuilder: setupBroccoliBuilder,
+        setupBroccoliBuilder,
         project: new MockProject(),
       });
 
@@ -88,7 +88,7 @@ describe('models/builder.js', function() {
 
     it('cleans up added listeners after `.cleanup`', function() {
       builder = new Builder({
-        setupBroccoliBuilder: setupBroccoliBuilder,
+        setupBroccoliBuilder,
         project: new MockProject(),
       });
 
@@ -137,8 +137,8 @@ describe('models/builder.js', function() {
       var trapWindowsSignals = td.function();
 
       builder = new Builder({
-        setupBroccoliBuilder: setupBroccoliBuilder,
-        trapWindowsSignals: trapWindowsSignals,
+        setupBroccoliBuilder,
+        trapWindowsSignals,
         project: new MockProject(),
       });
 
@@ -160,8 +160,8 @@ describe('models/builder.js', function() {
       var trapWindowsSignals = td.function();
 
       builder = new Builder({
-        setupBroccoliBuilder: setupBroccoliBuilder,
-        trapWindowsSignals: trapWindowsSignals,
+        setupBroccoliBuilder,
+        trapWindowsSignals,
         project: new MockProject(),
       });
 
@@ -177,7 +177,7 @@ describe('models/builder.js', function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         builder = new Builder({
-          setupBroccoliBuilder: setupBroccoliBuilder,
+          setupBroccoliBuilder,
           project: new MockProject(),
         });
       });
@@ -196,13 +196,13 @@ describe('models/builder.js', function() {
 
     var command;
 
-    var parentPath = '..' + path.sep + '..' + path.sep;
+    var parentPath = `..${path.sep}..${path.sep}`;
 
     before(function() {
       command = new BuildCommand(commandOptions());
 
       builder = new Builder({
-        setupBroccoliBuilder: setupBroccoliBuilder,
+        setupBroccoliBuilder,
         project: new MockProject(),
       });
     });
@@ -224,8 +224,8 @@ describe('models/builder.js', function() {
       expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
     });
 
-    it('when outputPath is a parent directory ie., `--output-path=' + parentPath + '`', function() {
-      var outputPathArg = '--output-path=' + parentPath;
+    it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function() {
+      var outputPathArg = `--output-path=${parentPath}`;
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       builder.outputPath = outputPath;
 
@@ -250,9 +250,9 @@ describe('models/builder.js', function() {
       var command = new BuildCommand(commandOptions());
 
       builder = new Builder({
-        setupBroccoliBuilder: setupBroccoliBuilder,
+        setupBroccoliBuilder,
         project: new MockProject(),
-        processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
       });
 
       instrumentationStart = td.replace(builder.project._instrumentation, 'start');
@@ -310,23 +310,23 @@ describe('models/builder.js', function() {
       hooksCalled = [];
       addon = {
         name: 'TestAddon',
-        preBuild: function() {
+        preBuild() {
           hooksCalled.push('preBuild');
 
           return Promise.resolve();
         },
 
-        postBuild: function() {
+        postBuild() {
           hooksCalled.push('postBuild');
 
           return Promise.resolve();
         },
 
-        outputReady: function() {
+        outputReady() {
           hooksCalled.push('outputReady');
         },
 
-        buildError: function() {
+        buildError() {
           hooksCalled.push('buildError');
         },
       };
@@ -335,20 +335,20 @@ describe('models/builder.js', function() {
       project.addons = [addon];
 
       builder = new Builder({
-        setupBroccoliBuilder: function() {},
+        setupBroccoliBuilder() {},
         builder: {
-          build: function() {
+          build() {
             hooksCalled.push('build');
 
             return Promise.resolve(buildResults);
           },
 
-          cleanup: function() {
+          cleanup() {
             return Promise.resolve('cleanup results');
           },
         },
-        processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
-        project: project,
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+        project,
       });
 
       buildResults = 'build results';

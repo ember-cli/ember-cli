@@ -141,7 +141,7 @@ describe('models/instrumentation.js', function() {
 
         var ui = new MockUI();
         var instrumentation = new Instrumentation({
-          ui: ui,
+          ui,
         });
 
         expect(ui.output).to.eql(chalk.yellow(
@@ -159,7 +159,7 @@ describe('models/instrumentation.js', function() {
 
         var ui = new MockUI();
         var instrumentation = new Instrumentation({
-          ui: ui,
+          ui,
           initInstrumentation: mockInstrumentation,
         });
 
@@ -189,7 +189,7 @@ describe('models/instrumentation.js', function() {
 
         var ui = new MockUI();
         var instrumentation = new Instrumentation({
-          ui: ui,
+          ui,
         });
 
         expect(ui.output.trim()).to.eql('');
@@ -420,13 +420,13 @@ describe('models/instrumentation.js', function() {
 
         var mockInitSummary = { ok: 'init dokie' };
         var mockInitTree = {
-          toJSON: function() {
+          toJSON() {
             return { nodes: [{ i: 'can init json' }] };
           },
         };
         var mockBuildSummary = { ok: 'build dokie' };
         var mockBuildTree = {
-          toJSON: function() {
+          toJSON() {
             return { nodes: [{ i: 'can build json' }] };
           },
         };
@@ -652,7 +652,7 @@ describe('models/instrumentation.js', function() {
       ]);
 
       expect(json.nodes.map(function(x) { return x.label; })).to.eql([
-        { name: name, emberCLI: true },
+        { name, emberCLI: true },
         { name: 'a' },
         { name: 'b1', broccoliNode: true, broccoliCachedNode: false },
         { name: 'c1' },

@@ -15,17 +15,17 @@ var existsSyncStub;
 var readdirSyncStub;
 var forEachWithPropertyStub;
 var Blueprint = proxyquire('../../../lib/models/blueprint', {
-  'exists-sync': function() {
+  'exists-sync'() {
     return existsSyncStub.apply(this, arguments);
   },
   'fs-extra': {
-    readdirSync: function() {
+    readdirSync() {
       return readdirSyncStub.apply(this, arguments);
     },
   },
   '../utilities/printable-properties': {
     blueprint: {
-      forEachWithProperty: function() {
+      forEachWithProperty() {
         return forEachWithPropertyStub.apply(this, arguments);
       },
     },
@@ -187,14 +187,14 @@ describe('Blueprint', function() {
 
         var availableOptions = [];
         assign(blueprint, {
-          availableOptions: availableOptions,
+          availableOptions,
         });
 
         var output = blueprint.printBasicHelp(true);
 
-        var testString = processHelpString('\
-      my-blueprint command printed' + EOL + '\
-help in detail');
+        var testString = processHelpString(`\
+      my-blueprint command printed${EOL}\
+help in detail`);
 
         expect(output).to.equal(testString);
       });
@@ -247,7 +247,7 @@ help in detail');
 
         assign(blueprint, {
           test1: 'a test',
-          availableOptions: availableOptions,
+          availableOptions,
         });
 
         var json = blueprint.getJson();
@@ -279,7 +279,7 @@ help in detail');
 
         var availableOptions = [];
         assign(blueprint, {
-          availableOptions: availableOptions,
+          availableOptions,
         });
 
         blueprint.getJson(true);

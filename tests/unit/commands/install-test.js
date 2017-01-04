@@ -45,18 +45,18 @@ describe('install command', function() {
     };
 
     tasks = {
-      AddonInstall: AddonInstall,
+      AddonInstall,
       NpmInstall: Task.extend({
-        project: project,
-        init: function() {
+        project,
+        init() {
           this._super.apply(this, arguments);
           npmInstance = this;
         },
       }),
 
       GenerateFromBlueprint: Task.extend({
-        project: project,
-        init: function() {
+        project,
+        init() {
           this._super.apply(this, arguments);
           generateBlueprintInstance = this;
         },
@@ -64,8 +64,8 @@ describe('install command', function() {
     };
 
     var options = commandOptions({
-      project: project,
-      tasks: tasks,
+      project,
+      tasks,
     });
 
     td.replace(tasks.NpmInstall.prototype, 'run', td.function());

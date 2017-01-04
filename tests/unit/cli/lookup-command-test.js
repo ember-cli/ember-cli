@@ -18,7 +18,7 @@ var commands = {
     availableOptions: [
       { name: 'port', key: 'port', type: Number, default: 4200, required: true },
     ],
-    run: function() {},
+    run() {},
   }),
 };
 
@@ -35,8 +35,8 @@ AddonServeCommand.prototype.includedCommands = function() {
 describe('cli/lookup-command.js', function() {
   var ui;
   var project = {
-    isEmberCLIProject: function() { return true; },
-    initializeAddons: function() {
+    isEmberCLIProject() { return true; },
+    initializeAddons() {
       this.addons = [new AddonCommand(), new OtherCommand(), new ClassCommand()];
     },
     addonCommands: Project.prototype.addonCommands,
@@ -58,60 +58,60 @@ describe('cli/lookup-command.js', function() {
     var command, Command;
 
     Command = lookupCommand(commands, 'addon-command', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
     command = new Command({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
 
     expect(command.name).to.equal('addon-command');
 
     Command = lookupCommand(commands, 'ac', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     command = new Command({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
 
     expect(command.name).to.equal('addon-command');
 
     Command = lookupCommand(commands, 'other-addon-command', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     command = new Command({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
 
     expect(command.name).to.equal('other-addon-command');
 
     Command = lookupCommand(commands, 'oac', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     command = new Command({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
 
     expect(command.name).to.equal('other-addon-command');
 
     Command = lookupCommand(commands, 'class-addon-command', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     command = new Command({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
 
     expect(command.name).to.equal('class-addon-command');
@@ -120,8 +120,8 @@ describe('cli/lookup-command.js', function() {
 
   it('lookupCommand() should write out a warning when overriding a core command', function() {
     project = {
-      isEmberCLIProject: function() { return true; },
-      initializeAddons: function() {
+      isEmberCLIProject() { return true; },
+      initializeAddons() {
         this.addons = [new AddonServeCommand()];
       },
       addonCommands: Project.prototype.addonCommands,
@@ -129,8 +129,8 @@ describe('cli/lookup-command.js', function() {
     };
 
     lookupCommand(commands, 'serve', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     expect(ui.output).to.match(/WARNING: An ember-addon has attempted to override the core command "serve"\. The core command will be used.*/);
@@ -138,8 +138,8 @@ describe('cli/lookup-command.js', function() {
 
   it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function() {
     project = {
-      isEmberCLIProject: function() { return true; },
-      initializeAddons: function() {
+      isEmberCLIProject() { return true; },
+      initializeAddons() {
         this.addons = [new OverrideCommand()];
       },
       addonCommands: Project.prototype.addonCommands,
@@ -147,8 +147,8 @@ describe('cli/lookup-command.js', function() {
     };
 
     lookupCommand(commands, 'serve', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
 
     expect(ui.output).to.match(/WARNING: An ember-addon has attempted to override the core command "serve"\. The addon command will be used as the overridding was explicit.*/);
@@ -156,12 +156,12 @@ describe('cli/lookup-command.js', function() {
 
   it('lookupCommand() should return UnknownCommand object when command name is not present.', function() {
     var Command = lookupCommand(commands, 'something-else', [], {
-      project: project,
-      ui: ui,
+      project,
+      ui,
     });
     var command = new Command({
-      ui: ui,
-      project: project,
+      ui,
+      project,
     });
 
     expect(command.name).to.equal('something-else');

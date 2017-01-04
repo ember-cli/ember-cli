@@ -32,7 +32,7 @@ describe('EmberAddon', function() {
 
   it('should merge options with defaults to depth', function() {
     emberAddon = new EmberAddon({
-      project: project,
+      project,
       foo: {
         bar: ['baz'],
       },

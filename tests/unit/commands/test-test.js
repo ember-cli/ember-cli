@@ -27,9 +27,9 @@ describe('test command', function() {
     project.isEmberCLIProject = function() { return true; };
 
     options = commandOptions({
-      tasks: tasks,
+      tasks,
       testing: true,
-      project: project,
+      project,
     });
 
     td.replace(tasks.Test.prototype, 'run', td.function());
@@ -161,7 +161,7 @@ describe('test command', function() {
         expect(false, 'should have rejected the build path').to.be.ok;
       }).catch(function(error) {
         var expectedPath = path.resolve('bad/path/to/build');
-        expect(error.message).to.equal('The path ' + expectedPath + ' does not exist. Please specify a valid build directory to test.');
+        expect(error.message).to.equal(`The path ${expectedPath} does not exist. Please specify a valid build directory to test.`);
       });
     });
   });
@@ -171,7 +171,7 @@ describe('test command', function() {
     beforeEach(function() {
       buildCleanupWasCalled = false;
       options.Builder = CoreObject.extend({
-        cleanup: function() {
+        cleanup() {
           buildCleanupWasCalled = true;
         },
       });

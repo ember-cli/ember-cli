@@ -66,14 +66,14 @@ module.exports = function ember(args, options) {
   }
 
   cliInstance = cli({
-    inputStream: inputStream,
-    outputStream: outputStream,
-    errorLog: errorLog,
+    inputStream,
+    outputStream,
+    errorLog,
     cliArgs: args,
     Leek: MockAnalytics,
     UI: ui,
     testing: true,
-    disableDependencyChecker: disableDependencyChecker,
+    disableDependencyChecker,
     cli: {
       // This prevents ember-cli from detecting any other package.json files
       // forcing ember-cli to act as the globally installed package
@@ -85,10 +85,10 @@ module.exports = function ember(args, options) {
   function returnTestState(statusCode) {
     var result = {
       exitCode: statusCode,
-      statusCode: statusCode,
-      inputStream: inputStream,
-      outputStream: outputStream,
-      errorLog: errorLog,
+      statusCode,
+      inputStream,
+      outputStream,
+      errorLog,
     };
 
     if (statusCode) {
