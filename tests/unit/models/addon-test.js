@@ -42,7 +42,7 @@ describe('models/addon.js', function() {
         name: 'such name',
         root: path.resolve(fixturePath, 'simple'),
         _warn(message) {
-          warning = '' + message;
+          warning = `${message}`;
         },
       });
       var addon = new TheAddon();
@@ -609,12 +609,9 @@ describe('models/addon.js', function() {
       expect(function() {
         addon.compileTemplates();
       }).to.throw(
-        'Addon templates were detected, but there ' +
-        'are no template compilers registered for `' + addon.name + '`. ' +
-        'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
-        'is listed in `dependencies` (NOT `devDependencies`) in ' +
-        '`' + addon.name + '`\'s `package.json`.'
-      );
+        `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
+        `Please make sure your template precompiler (commonly \`ember-cli-htmlbars\`) is listed in \`dependencies\` ` +
+        `(NOT \`devDependencies\`) in \`${addon.name}\`'s \`package.json\`.`);
     });
 
     it('should throw a useful error if a template compiler is not present -- pods', function() {
@@ -623,11 +620,9 @@ describe('models/addon.js', function() {
       expect(function() {
         addon.compileTemplates();
       }).to.throw(
-        'Addon templates were detected, but there ' +
-        'are no template compilers registered for `' + addon.name + '`. ' +
-        'Please make sure your template precompiler (commonly `ember-cli-htmlbars`) ' +
-        'is listed in `dependencies` (NOT `devDependencies`) in ' +
-        '`' + addon.name + '`\'s `package.json`.'
+        `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
+        `Please make sure your template precompiler (commonly \`ember-cli-htmlbars\`) is listed in \`dependencies\` ` +
+        `(NOT \`devDependencies\`) in \`${addon.name}\`'s \`package.json\`.`
       );
     });
 

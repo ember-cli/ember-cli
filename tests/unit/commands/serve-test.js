@@ -48,7 +48,7 @@ describe('serve command', function() {
   it('setting --port without --live-reload-port', function() {
     return getPort().then(function(port) {
       return command.validateAndRun([
-        '--port', '' + port,
+        '--port', `${port}`,
       ]).then(function() {
         var captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
@@ -61,7 +61,7 @@ describe('serve command', function() {
   it('setting both --port and --live-reload-port', function() {
     return getPort().then(function(port) {
       return command.validateAndRun([
-        '--port', '' + port,
+        '--port', `${port}`,
         '--live-reload-port', '8005',
       ]).then(function() {
         var captor = td.matchers.captor();
@@ -192,7 +192,7 @@ describe('serve command', function() {
     })
     .catch(function(error) {
       expect(error.message).to.equal(
-        'You need to include a protocol with the proxy URL.' + EOL + 'Try --proxy http://localhost:3000'
+        `You need to include a protocol with the proxy URL.${EOL}Try --proxy http://localhost:3000`
       );
     });
   });

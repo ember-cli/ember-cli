@@ -20,14 +20,14 @@ describe('attempt-never-index', function() {
   });
 
   it('sets the hint to spotlight if possible', function() {
-    expect(file(tmpPath + '/.metadata_never_index')).to.not.exist;
+    expect(file(`${tmpPath}/.metadata_never_index`)).to.not.exist;
 
     attemptNeverIndex(tmpPath);
 
     if (isDarwin) {
-      expect(file(tmpPath + '/.metadata_never_index')).to.exist;
+      expect(file(`${tmpPath}/.metadata_never_index`)).to.exist;
     } else {
-      expect(file(tmpPath + '/.metadata_never_index')).to.not.exist;
+      expect(file(`${tmpPath}/.metadata_never_index`)).to.not.exist;
     }
   });
 });

@@ -117,12 +117,12 @@ describe('generate command', function() {
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-  Available blueprints:' + EOL + '\
-    my-app:' + EOL + '\
-my-blueprint' + EOL + '\
-other-blueprint' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`${EOL}\
+  Available blueprints:${EOL}\
+    my-app:${EOL}\
+my-blueprint${EOL}\
+other-blueprint${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -199,9 +199,9 @@ other-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString('\
-my-blueprint' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`\
+my-blueprint${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -263,9 +263,9 @@ my-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString('\
-\u001b[33mThe \'missing-blueprint\' blueprint does not exist in this project.\u001b[39m' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`\
+\u001b[33mThe 'missing-blueprint' blueprint does not exist in this project.\u001b[39m${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -317,9 +317,9 @@ my-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-  Available blueprints:' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`${EOL}\
+  Available blueprints:${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });
@@ -347,11 +347,11 @@ my-blueprint' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-  Available blueprints:' + EOL + '\
-    my-app:' + EOL + '\
-my-blueprint' + EOL + '\
-' + EOL);
+      var testString = processHelpString(`${EOL}\
+  Available blueprints:${EOL}\
+    my-app:${EOL}\
+my-blueprint${EOL}\
+${EOL}`);
 
       expect(output).to.equal(testString);
     });

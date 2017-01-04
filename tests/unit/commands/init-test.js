@@ -29,7 +29,7 @@ describe('init command', function() {
     };
 
     var tmpDir = os.tmpdir();
-    workingDir = tmpDir + '/ember-cli-test-project';
+    workingDir = `${tmpDir}/ember-cli-test-project`;
     fs.mkdirSync(workingDir);
   });
 

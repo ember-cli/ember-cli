@@ -101,11 +101,11 @@ describe('Unit - FileInfo', function() {
     validOptions.templateVariables.friend = 'Billy';
     var fileInfo = new FileInfo(validOptions);
 
-    return writeFile(testOutputPath, 'Something Old' + EOL).then(function() {
+    return writeFile(testOutputPath, `Something Old${EOL}`).then(function() {
       return fileInfo.displayDiff();
     }).then(function() {
       var output = ui.output.trim().split(EOL);
-      expect(output.shift()).to.equal('Index: ' + testOutputPath);
+      expect(output.shift()).to.equal(`Index: ${testOutputPath}`);
       expect(output.shift()).to.match(/=+/);
       expect(output.shift()).to.match(/---/);
       expect(output.shift()).to.match(/\+{3}/);

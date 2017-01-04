@@ -11,7 +11,7 @@ function assertVersionLock(_deps) {
         semver.valid(deps[name]) &&
         semver.gtr('1.0.0', deps[name])) {
       // only valid if the version is fixed
-      expect(semver.valid(deps[name]), '"' + name + '" has a valid version').to.be.ok;
+      expect(semver.valid(deps[name]), `"${name}" has a valid version`).to.be.ok;
     }
   });
 }

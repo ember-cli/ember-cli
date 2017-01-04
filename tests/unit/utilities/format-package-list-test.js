@@ -27,7 +27,7 @@ describe('format-package-list', function() {
   it('correctly formats package list with 100 items', function() {
     var list = [];
     for (var i = 1; i <= 100; i++) {
-      list.push('package-' + i);
+      list.push(`package-${i}`);
     }
 
     var result = formatPackageList(list);

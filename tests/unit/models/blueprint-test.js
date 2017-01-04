@@ -192,9 +192,9 @@ describe('Blueprint', function() {
 
         var output = blueprint.printBasicHelp(true);
 
-        var testString = processHelpString('\
-      my-blueprint command printed' + EOL + '\
-help in detail');
+        var testString = processHelpString(`\
+      my-blueprint command printed${EOL}\
+help in detail`);
 
         expect(output).to.equal(testString);
       });

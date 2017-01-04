@@ -58,7 +58,7 @@ describe('livereload-server', function() {
         liveReloadHost: 'localhost',
         liveReload: true,
       }).then(function() {
-        expect(ui.output).to.equal('Livereload server on http://localhost:1337' + EOL);
+        expect(ui.output).to.equal(`Livereload server on http://localhost:1337${EOL}`);
       });
     });
 
@@ -71,7 +71,7 @@ describe('livereload-server', function() {
         liveReload: true,
       })
         .catch(function(reason) {
-          expect(reason).to.equal('Livereload failed on http://localhost:1337.  It is either in use or you do not have permission.' + EOL);
+          expect(reason).to.equal(`Livereload failed on http://localhost:1337.  It is either in use or you do not have permission.${EOL}`);
         })
         .finally(function() {
           preexistingServer.close(done);
@@ -84,7 +84,7 @@ describe('livereload-server', function() {
         liveReloadPort: 1337,
         liveReload: true,
       }).then(function() {
-        expect(ui.output).to.equal('Livereload server on http://127.0.0.1:1337' + EOL);
+        expect(ui.output).to.equal(`Livereload server on http://127.0.0.1:1337${EOL}`);
       });
     });
   });
@@ -99,7 +99,7 @@ describe('livereload-server', function() {
         sslKey: 'tests/fixtures/ssl/server.key',
         sslCert: 'tests/fixtures/ssl/server.crt',
       }).then(function() {
-        expect(ui.output).to.equal('Livereload server on https://localhost:1337' + EOL);
+        expect(ui.output).to.equal(`Livereload server on https://localhost:1337${EOL}`);
       });
     });
 
@@ -115,7 +115,7 @@ describe('livereload-server', function() {
         sslCert: 'tests/fixtures/ssl/server.crt',
       })
         .catch(function(reason) {
-          expect(reason).to.equal('Livereload failed on https://localhost:1337.  It is either in use or you do not have permission.' + EOL);
+          expect(reason).to.equal(`Livereload failed on https://localhost:1337.  It is either in use or you do not have permission.${EOL}`);
         })
         .finally(function() {
           preexistingServer.close(done);
@@ -225,7 +225,7 @@ describe('livereload-server', function() {
 
         it('shouldTriggerReload is true when no liveReloadFilterPatterns matches the filePath', function() {
           var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp('^' + basePath);
+          var filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
           var result = subject.shouldTriggerReload({
@@ -236,7 +236,7 @@ describe('livereload-server', function() {
 
         it('shouldTriggerReload is false when one or more of the liveReloadFilterPatterns matches filePath', function() {
           var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp('^' + basePath);
+          var filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
           var result = subject.shouldTriggerReload({
@@ -247,13 +247,13 @@ describe('livereload-server', function() {
 
         it('shouldTriggerReload writes a banner after skipping reload for a file', function() {
           var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp('^' + basePath);
+          var filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
           subject.shouldTriggerReload({
             filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
-          expect(ui.output).to.equal('Skipping livereload for: ' + path.join('test', 'fixtures', 'proxy', 'file-a.js') + EOL);
+          expect(ui.output).to.equal(`Skipping livereload for: ${path.join('test', 'fixtures', 'proxy', 'file-a.js')}${EOL}`);
         });
 
         it('triggers the livereload server of a change when no pattern matches', function() {
@@ -270,7 +270,7 @@ describe('livereload-server', function() {
           // path.normalize with change forward slashes to back slashes if test is running on windows
           // we then replace backslashes with double backslahes to escape the backslash in the regex
           var basePath = path.normalize('test/fixtures/proxy').replace(/\\/g, '\\\\');
-          var filter = new RegExp('^' + basePath);
+          var filter = new RegExp(`^${basePath}`);
 
           subject.project.liveReloadFilterPatterns = [filter];
 

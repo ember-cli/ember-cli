@@ -12,7 +12,7 @@ var dir = require('chai-files').dir;
 
 describe('Acceptance: ember generate and destroy lib', function() {
   setupTestHooks(this, {
-    cliPath: path.resolve(__dirname + '/../../..'),
+    cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
   it('lib foo', function() {

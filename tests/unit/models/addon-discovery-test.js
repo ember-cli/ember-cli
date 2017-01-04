@@ -209,7 +209,7 @@ describe('models/addon-discovery.js', function() {
       expect(actualPaths).to.deep.equal(expectedPaths);
 
       var output = ui.output.trim();
-      var expectedWarning = chalk.yellow('The package `invalid-package` is not a properly formatted package, we have used a fallback lookup to resolve it at `' + path.join(root, 'node_modules', 'invalid-package') + '`. This is generally caused by an addon not having a `main` entry point (or `index.js`).');
+      var expectedWarning = chalk.yellow(`The package \`invalid-package\` is not a properly formatted package, we have used a fallback lookup to resolve it at \`${path.join(root, 'node_modules', 'invalid-package')}\`. This is generally caused by an addon not having a \`main\` entry point (or \`index.js\`).`);
       expect(output).to.equal(expectedWarning);
     });
 

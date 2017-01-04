@@ -31,7 +31,7 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was changed', function() {
-      expect(ui.output).to.equal('File changed: "foo.txt"' + EOL);
+      expect(ui.output).to.equal(`File changed: "foo.txt"${EOL}`);
     });
 
     it('tracks changes', function() {
@@ -48,7 +48,7 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was added', function() {
-      expect(ui.output).to.equal('File added: "foo.txt"' + EOL);
+      expect(ui.output).to.equal(`File added: "foo.txt"${EOL}`);
     });
 
     it('tracks additions', function() {
@@ -65,7 +65,7 @@ describe('Server Watcher', function() {
     });
 
     it('logs that the file was deleted', function() {
-      expect(ui.output).to.equal('File deleted: "foo.txt"' + EOL);
+      expect(ui.output).to.equal(`File deleted: "foo.txt"${EOL}`);
     });
 
     it('tracks deletions', function() {

@@ -142,7 +142,7 @@ describe('WatchDetector', function() {
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'polling');
-        expect(ui.output).to.eql('was unable to use: "node", fell back to: "polling"' + EOL);
+        expect(ui.output).to.eql(`was unable to use: "node", fell back to: "polling"${EOL}`);
       });
 
       it('falls back to polling if unwatch fails', function() {
@@ -155,7 +155,7 @@ describe('WatchDetector', function() {
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'polling');
-        expect(ui.output).to.eql('was unable to use: "node", fell back to: "polling"' + EOL);
+        expect(ui.output).to.eql(`was unable to use: "node", fell back to: "polling"${EOL}`);
       });
     });
 

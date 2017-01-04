@@ -90,8 +90,8 @@ describe('models/command.js', function() {
 
   before(function() {
     config = new Yam('ember-cli', {
-      secondary: process.cwd() + '/tests/fixtures/home',
-      primary: process.cwd() + '/tests/fixtures/project',
+      secondary: `${process.cwd()}/tests/fixtures/home`,
+      primary: `${process.cwd()}/tests/fixtures/project`,
     });
   });
 
@@ -579,7 +579,7 @@ describe('models/command.js', function() {
       it('calls printCommand', function() {
         var output = command.printBasicHelp();
 
-        var testString = processHelpString('ember serve command printed' + EOL);
+        var testString = processHelpString(`ember serve command printed${EOL}`);
 
         expect(output).to.equal(testString);
       });
@@ -589,7 +589,7 @@ describe('models/command.js', function() {
 
         var output = command.printBasicHelp();
 
-        var testString = processHelpString('Usage: serve command printed' + EOL);
+        var testString = processHelpString(`Usage: serve command printed${EOL}`);
 
         expect(output).to.equal(testString);
       });

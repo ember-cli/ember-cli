@@ -15,7 +15,7 @@ var file = require('ember-cli-blueprint-test-helpers/chai').file;
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   setupTestHooks(this, {
-    cliPath: path.resolve(__dirname + '/../../..'),
+    cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
   it('in-repo-addon fooBar', function() {

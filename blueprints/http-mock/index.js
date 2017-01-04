@@ -10,7 +10,7 @@ module.exports = {
 
   locals(options) {
     return {
-      path: '/' + options.entity.name.replace(/^\//, ''),
+      path: `/${options.entity.name.replace(/^\//, '')}`,
     };
   },
 

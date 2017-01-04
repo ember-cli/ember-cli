@@ -105,5 +105,6 @@ module.exports = {
     }],
     'no-useless-computed-key': 2,
     'object-shorthand': 2,
+    'prefer-template': 2,
   },
 };

@@ -196,7 +196,7 @@ describe('models/builder.js', function() {
 
     var command;
 
-    var parentPath = '..' + path.sep + '..' + path.sep;
+    var parentPath = `..${path.sep}..${path.sep}`;
 
     before(function() {
       command = new BuildCommand(commandOptions());
@@ -224,8 +224,8 @@ describe('models/builder.js', function() {
       expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
     });
 
-    it('when outputPath is a parent directory ie., `--output-path=' + parentPath + '`', function() {
-      var outputPathArg = '--output-path=' + parentPath;
+    it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function() {
+      var outputPathArg = `--output-path=${parentPath}`;
       var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       builder.outputPath = outputPath;
 

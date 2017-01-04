@@ -225,10 +225,10 @@ describe('help command', function() {
 
       var output = options.ui.output;
 
-      var testString = processHelpString('\
-Requested ember-cli commands:' + EOL + '\
-' + EOL + '\
-\u001b[31mNo help entry for \'missing-command\'\u001b[39m' + EOL);
+      var testString = processHelpString(`\
+Requested ember-cli commands:${EOL}\
+${EOL}\
+\u001b[31mNo help entry for 'missing-command'\u001b[39m${EOL}`);
 
       expect(output).to.include(testString);
     });
@@ -287,8 +287,8 @@ Requested ember-cli commands:' + EOL + '\
 
       var output = options.ui.output;
 
-      var testString = processHelpString(EOL + '\
-Available commands from my-addon:' + EOL);
+      var testString = processHelpString(`${EOL}\
+Available commands from my-addon:${EOL}`);
 
       expect(output).to.include(testString);
 

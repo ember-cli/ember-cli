@@ -115,7 +115,7 @@ describe('Acceptance: smoke-test', function() {
           md5.update(file);
           var hex = md5.digest('hex');
 
-          expect(filepath).to.contain(hex, filepath + ' contains the fingerprint (' + hex + ')');
+          expect(filepath).to.contain(hex, `${filepath} contains the fingerprint (${hex})`);
         });
 
         var indexHtml = file('dist/index.html');
@@ -181,7 +181,7 @@ describe('Acceptance: smoke-test', function() {
         var dirPath = path.join(appRoot, 'dist');
         var paths = walkSync(dirPath);
 
-        expect(paths).to.have.length.below(24, 'expected fewer than 24 files in dist, found ' + paths.length);
+        expect(paths).to.have.length.below(24, `expected fewer than 24 files in dist, found ${paths.length}`);
       });
   });
 
@@ -190,7 +190,7 @@ describe('Acceptance: smoke-test', function() {
     var ouputContainsBuildFailed = false;
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function(result) {
-      expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
+      expect(result.code).to.equal(0, `expected exit code to be zero, but got ${result.code}`);
 
       // add something broken to the project to make build fail
       fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
@@ -209,7 +209,7 @@ describe('Acceptance: smoke-test', function() {
       expect(false, 'should have rejected with a failing build').to.be.ok;
     }).catch(function(result) {
       expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.ok;
-      expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
+      expect(result.code).to.not.equal(0, `expected exit code to be non-zero, but got ${result.code}`);
     });
   });
 
@@ -250,7 +250,7 @@ describe('Acceptance: smoke-test', function() {
     var appJsPath = path.join(appRoot, 'app', 'app.js');
     var builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
     var text = 'anotuhaonteuhanothunaothanoteh';
-    var line = 'console.log("' + text + '");';
+    var line = `console.log("${text}");`;
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
       onOutput(string, child) {
@@ -278,9 +278,9 @@ describe('Acceptance: smoke-test', function() {
     var appJsPath = path.join(appRoot, 'app', 'app.js');
     var builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
     var firstText = 'anotuhaonteuhanothunaothanoteh';
-    var firstLine = 'console.log("' + firstText + '");';
+    var firstLine = `console.log("${firstText}");`;
     var secondText = 'aahsldfjlwioruoiiononociwewqwr';
-    var secondLine = 'console.log("' + secondText + '");';
+    var secondLine = `console.log("${secondText}");`;
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
       onOutput(string, child) {
@@ -330,10 +330,10 @@ describe('Acceptance: smoke-test', function() {
         .then(function() {
           var dirPath = path.join(appRoot, 'dist', 'assets');
           var dir = fs.readdirSync(dirPath);
-          var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css', 'i');
+          var cssNameRE = new RegExp(`${appName}-([a-f0-9]+)\\.css`, 'i');
           dir.forEach(function(filepath) {
             if (cssNameRE.test(filepath)) {
-              expect(file('dist/assets/' + filepath))
+              expect(file(`dist/assets/${filepath}`))
                 .to.contain('.some-weird-selector')
                 .to.contain('.some-even-weirder-selector');
             }
@@ -347,7 +347,7 @@ describe('Acceptance: smoke-test', function() {
       .then(function() {
         var dirPath = path.join(appRoot, 'dist', 'assets');
         var dir = fs.readdirSync(dirPath);
-        var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js', 'i');
+        var appNameRE = new RegExp(`${appName}-([a-f0-9]+)\\.js`, 'i');
         dir.forEach(function(filepath) {
           if (appNameRE.test(filepath)) {
             var contents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', filepath), { encoding: 'utf8' });

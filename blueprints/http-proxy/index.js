@@ -11,7 +11,7 @@ module.exports = {
   locals(options) {
     var proxyUrl = options.args[2];
     return {
-      path: '/' + options.entity.name.replace(/^\//, ''),
+      path: `/${options.entity.name.replace(/^\//, '')}`,
       proxyUrl,
     };
   },

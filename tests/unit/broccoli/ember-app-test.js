@@ -323,8 +323,7 @@ describe('broccoli/ember-app', function() {
     describe('contentFor("head")', function() {
       it('includes the `meta` tag in `head` by default', function() {
         var escapedConfig = escape(JSON.stringify(config));
-        var metaExpected = '<meta name="cool-foo/config/environment" ' +
-          'content="' + escapedConfig + '" />';
+        var metaExpected = `<meta name="cool-foo/config/environment" content="${escapedConfig}" />`;
         var actual = app.contentFor(config, defaultMatch, 'head');
 
         expect(actual).to.contain(metaExpected);
@@ -334,8 +333,7 @@ describe('broccoli/ember-app', function() {
         app.options.storeConfigInMeta = false;
 
         var escapedConfig = escape(JSON.stringify(config));
-        var metaExpected = '<meta name="cool-foo/config/environment" ' +
-          'content="' + escapedConfig + '" />';
+        var metaExpected = `<meta name="cool-foo/config/environment" content="${escapedConfig}" />`;
         var actual = app.contentFor(config, defaultMatch, 'head');
 
         expect(actual).to.not.contain(metaExpected);

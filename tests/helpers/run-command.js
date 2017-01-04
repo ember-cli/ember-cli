@@ -42,11 +42,11 @@ module.exports = function run(/* command, args, options */) {
   });
 
   return new RSVP.Promise(function(resolve, reject) {
-    options.log('      Running: ' + command + ' ' + args.join(' ') + ' in: ' + process.cwd());
+    options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
     var opts = {};
     if (process.platform === 'win32') {
-      args = ['"' + command + '"'].concat(args);
+      args = [`"${command}"`].concat(args);
       command = 'node';
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];

@@ -156,7 +156,7 @@ describe('models/asset-size-printer', function() {
 
     return sizePrinter.print()
       .catch(function(error) {
-        expect(error.message).to.include('No asset files found in the path provided: ' + outputPath);
+        expect(error.message).to.include(`No asset files found in the path provided: ${outputPath}`);
       });
   });
 

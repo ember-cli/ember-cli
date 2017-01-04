@@ -16,7 +16,7 @@ if (process.env.EOLNEWLINE) {
 fs.removeSync('.deps-tmp');
 
 var root = 'tests/{unit,integration,acceptance}';
-var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));
+var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, `${root}/**/*{-test,-slow}.js`));
 var optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`
 var reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
@@ -25,7 +25,7 @@ var mocha = new Mocha({
   reporter,
   retries: 2,
 });
-var testFiles = glob.sync(root + '/**/*-test.js');
+var testFiles = glob.sync(`${root}/**/*-test.js`);
 var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
 var lint = testFiles.splice(lintPosition, 1);
 var docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');

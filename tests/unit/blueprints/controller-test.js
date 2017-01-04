@@ -17,7 +17,7 @@ var expect = chai.expect;
  */
 describe('Acceptance: ember generate and destroy controller', function() {
   setupTestHooks(this, {
-    cliPath: path.resolve(__dirname + '/../../..'),
+    cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
   it('controller foo', function() {

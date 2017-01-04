@@ -27,8 +27,8 @@ describe('.ember-cli', function() {
     };
 
     settings = new Yam('ember-cli', {
-      secondary: process.cwd() + '/tests/fixtures/home',
-      primary: process.cwd() + '/tests/fixtures/project',
+      secondary: `${process.cwd()}/tests/fixtures/home`,
+      primary: `${process.cwd()}/tests/fixtures/project`,
     }).getAll();
   });
 
