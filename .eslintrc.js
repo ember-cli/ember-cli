@@ -111,5 +111,9 @@ module.exports = {
     }],
     'prefer-template': 2,
     'template-curly-spacing': 2,
+    'generator-star-spacing': 2,
+    'yield-star-spacing': 2,
+    'rest-spread-spacing': 2,
+    'symbol-description': 2,
   },
 };
