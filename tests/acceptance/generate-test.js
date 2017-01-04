@@ -1,27 +1,27 @@
 'use strict';
 
-var Promise = require('../../lib/ext/promise');
-var ember = require('../helpers/ember');
-var fs = require('fs-extra');
-var outputFile = Promise.denodeify(fs.outputFile);
-var path = require('path');
-var remove = Promise.denodeify(fs.remove);
-var replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
-var root = process.cwd();
-var tmproot = path.join(root, 'tmp');
-var Blueprint = require('../../lib/models/blueprint');
-var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const Promise = require('../../lib/ext/promise');
+const ember = require('../helpers/ember');
+const fs = require('fs-extra');
+let outputFile = Promise.denodeify(fs.outputFile);
+const path = require('path');
+let remove = Promise.denodeify(fs.remove);
+const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
+const Blueprint = require('../../lib/models/blueprint');
+const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
-var dir = chai.dir;
+const chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
+let dir = chai.dir;
 
 describe('Acceptance: ember generate', function() {
   this.timeout(20000);
 
-  var tmpdir;
+  let tmpdir;
 
   before(function() {
     BlueprintNpmTask.disableNPM(Blueprint);
@@ -53,13 +53,13 @@ describe('Acceptance: ember generate', function() {
   }
 
   function addJSHint() {
-    var pkg = fs.readJsonSync('package.json');
+    let pkg = fs.readJsonSync('package.json');
     pkg.devDependencies['ember-cli-jshint'] = '*';
     fs.writeJsonSync('package.json', pkg);
   }
 
   function generate(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
       return ember(generateArgs);

@@ -1,23 +1,23 @@
 'use strict';
 
-var expect = require('chai').expect;
-var EOL = require('os').EOL;
-var proxyquire = require('proxyquire');
-var path = require('path');
-var processHelpString = require('../../helpers/process-help-string');
-var convertToJson = require('../../helpers/convert-help-output-to-json');
-var commandOptions = require('../../factories/command-options');
-var td = require('testdouble');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const proxyquire = require('proxyquire');
+const path = require('path');
+const processHelpString = require('../../helpers/process-help-string');
+const convertToJson = require('../../helpers/convert-help-output-to-json');
+const commandOptions = require('../../factories/command-options');
+const td = require('testdouble');
 
-var lookupCommandStub;
-var HelpCommand = proxyquire('../../../lib/commands/help', {
+let lookupCommandStub;
+let HelpCommand = proxyquire('../../../lib/commands/help', {
   '../cli/lookup-command'() {
     return lookupCommandStub.apply(this, arguments);
   },
 });
 
 describe('help command', function() {
-  var options;
+  let options;
 
   beforeEach(function() {
     options = commandOptions();
@@ -27,7 +27,7 @@ describe('help command', function() {
 
   describe('common to both', function() {
     it('finds command on disk', function() {
-      var Command1 = function() {};
+      let Command1 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
 
@@ -35,7 +35,7 @@ describe('help command', function() {
         Command1,
       };
 
-      var wasCalled;
+      let wasCalled;
       lookupCommandStub = function() {
         expect(arguments[0]).to.equal(options.commands);
         expect(arguments[1]).to.equal('command-2');
@@ -43,7 +43,7 @@ describe('help command', function() {
         return Command1;
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['command-2']);
 
@@ -52,9 +52,9 @@ describe('help command', function() {
     });
 
     it('looks up multiple commands', function() {
-      var Command1 = function() {};
-      var Command2 = function() {};
-      var Command3 = function() {};
+      let Command1 = function() {};
+      let Command2 = function() {};
+      let Command3 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
       Command3.prototype.printBasicHelp = td.function();
@@ -68,7 +68,7 @@ describe('help command', function() {
         Command3,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['command-1', 'command-2']);
 
@@ -83,8 +83,8 @@ describe('help command', function() {
 
   describe('unique to text printing', function() {
     it('lists commands', function() {
-      var Command1 = function() {};
-      var Command2 = function() {};
+      let Command1 = function() {};
+      let Command2 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
@@ -95,7 +95,7 @@ describe('help command', function() {
         Command2,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, []);
 
@@ -106,8 +106,8 @@ describe('help command', function() {
     });
 
     it('works with single command', function() {
-      var Command1 = function() {};
-      var Command2 = function() {};
+      let Command1 = function() {};
+      let Command2 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
@@ -118,7 +118,7 @@ describe('help command', function() {
         Command2,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['command-1']);
 
@@ -129,7 +129,7 @@ describe('help command', function() {
     });
 
     it('works with single command alias', function() {
-      var Command1 = function() {};
+      let Command1 = function() {};
       Command1.prototype.aliases = ['my-alias'];
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
@@ -138,7 +138,7 @@ describe('help command', function() {
         Command1,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['my-alias']);
 
@@ -146,7 +146,7 @@ describe('help command', function() {
     });
 
     it('passes extra commands to `generate`', function() {
-      var Generate = function() {};
+      let Generate = function() {};
       Generate.prototype.printBasicHelp = td.function();
       Generate.prototype.printDetailedHelp = td.function();
 
@@ -154,11 +154,11 @@ describe('help command', function() {
         Generate,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['generate', 'something', 'else']);
 
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
 
       td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
@@ -168,7 +168,7 @@ describe('help command', function() {
     });
 
     it('handles no extra commands to `generate`', function() {
-      var Generate = function() {};
+      let Generate = function() {};
       Generate.prototype.printBasicHelp = td.function();
       Generate.prototype.printDetailedHelp = td.function();
 
@@ -176,11 +176,11 @@ describe('help command', function() {
         Generate,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['generate']);
 
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
 
       td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.be.undefined;
@@ -190,7 +190,7 @@ describe('help command', function() {
     });
 
     it('passes extra commands to `generate` alias', function() {
-      var Generate = function() {};
+      let Generate = function() {};
       Generate.prototype.aliases = ['g'];
       Generate.prototype.printBasicHelp = td.function();
       Generate.prototype.printDetailedHelp = td.function();
@@ -199,11 +199,11 @@ describe('help command', function() {
         Generate,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['g', 'something', 'else']);
 
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
 
       td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
@@ -213,19 +213,19 @@ describe('help command', function() {
     });
 
     it('handles missing command', function() {
-      var Command1 = function() {};
+      let Command1 = function() {};
 
       options.commands = {
         Command1,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['missing-command']);
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`\
+      let testString = processHelpString(`\
 Requested ember-cli commands:${EOL}\
 ${EOL}\
 \u001b[31mNo help entry for 'missing-command'\u001b[39m${EOL}`);
@@ -234,8 +234,8 @@ ${EOL}\
     });
 
     it('respects skipHelp when listing', function() {
-      var Command1 = function() { this.skipHelp = true; };
-      var Command2 = function() {};
+      let Command1 = function() { this.skipHelp = true; };
+      let Command2 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
 
@@ -244,7 +244,7 @@ ${EOL}\
         Command2,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, []);
 
@@ -253,7 +253,7 @@ ${EOL}\
     });
 
     it('ignores skipHelp when single', function() {
-      var Command1 = function() { this.skipHelp = true; };
+      let Command1 = function() { this.skipHelp = true; };
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
 
@@ -261,7 +261,7 @@ ${EOL}\
         Command1,
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['command-1']);
 
@@ -269,8 +269,8 @@ ${EOL}\
     });
 
     it('lists addons', function() {
-      var Command1 = function() {};
-      var Command2 = function() {};
+      let Command1 = function() {};
+      let Command2 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
 
@@ -281,13 +281,13 @@ ${EOL}\
         });
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, []);
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`${EOL}\
+      let testString = processHelpString(`${EOL}\
 Available commands from my-addon:${EOL}`);
 
       expect(output).to.include(testString);
@@ -297,8 +297,8 @@ Available commands from my-addon:${EOL}`);
     });
 
     it('finds single addon command', function() {
-      var Command1 = function() {};
-      var Command2 = function() {};
+      let Command1 = function() {};
+      let Command2 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
 
@@ -309,7 +309,7 @@ Available commands from my-addon:${EOL}`);
         });
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['command-1']);
 
@@ -323,7 +323,7 @@ Available commands from my-addon:${EOL}`);
     });
 
     it('lists commands', function() {
-      var Command1 = function() {
+      let Command1 = function() {
         return {
           getJson() {
             return {
@@ -333,7 +333,7 @@ Available commands from my-addon:${EOL}`);
         };
       };
 
-      var Command2 = function() {
+      let Command2 = function() {
         return {
           getJson() {
             return {
@@ -345,11 +345,11 @@ Available commands from my-addon:${EOL}`);
 
       options.commands = { Command1, Command2 };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, []);
 
-      var json = convertToJson(options.ui.output);
+      let json = convertToJson(options.ui.output);
 
       expect(json.commands).to.deep.equal([
         {
@@ -362,7 +362,7 @@ Available commands from my-addon:${EOL}`);
     });
 
     it('handles special option `Path`', function() {
-      var Command1 = function() {
+      let Command1 = function() {
         return {
           getJson() {
             return {
@@ -374,11 +374,11 @@ Available commands from my-addon:${EOL}`);
 
       options.commands = { Command1 };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, ['command-1']);
 
-      var json = convertToJson(options.ui.output);
+      let json = convertToJson(options.ui.output);
 
       expect(json.commands).to.deep.equal([
         {
@@ -388,13 +388,13 @@ Available commands from my-addon:${EOL}`);
     });
 
     it('respects skipHelp when listing', function() {
-      var Command1 = function() {
+      let Command1 = function() {
         return {
           skipHelp: true,
         };
       };
 
-      var Command2 = function() {
+      let Command2 = function() {
         return {
           getJson() {
             return {
@@ -406,11 +406,11 @@ Available commands from my-addon:${EOL}`);
 
       options.commands = { Command1, Command2 };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, []);
 
-      var json = convertToJson(options.ui.output);
+      let json = convertToJson(options.ui.output);
 
       expect(json.commands).to.deep.equal([
         {
@@ -420,7 +420,7 @@ Available commands from my-addon:${EOL}`);
     });
 
     it('lists addons', function() {
-      var Command1 = function() {
+      let Command1 = function() {
         return {
           getJson() {
             return {
@@ -430,7 +430,7 @@ Available commands from my-addon:${EOL}`);
         };
       };
 
-      var Command2 = function() {
+      let Command2 = function() {
         return {
           getJson() {
             return {
@@ -444,11 +444,11 @@ Available commands from my-addon:${EOL}`);
         callback('my-addon', { Command1, Command2 });
       };
 
-      var command = new HelpCommand(options);
+      let command = new HelpCommand(options);
 
       command.run(options, []);
 
-      var json = convertToJson(options.ui.output);
+      let json = convertToJson(options.ui.output);
 
       expect(json.addons).to.deep.equal([
         {

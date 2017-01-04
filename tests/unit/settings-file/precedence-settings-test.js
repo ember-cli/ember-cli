@@ -1,18 +1,18 @@
 'use strict';
 
-var expect = require('chai').expect;
-var merge = require('ember-cli-lodash-subset').merge;
-var MockUI = require('console-ui/mock');
-var MockAnalytics = require('../../helpers/mock-analytics');
-var Command = require('../../../lib/models/command');
-var Yam = require('yam');
+const expect = require('chai').expect;
+const merge = require('ember-cli-lodash-subset').merge;
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const Command = require('../../../lib/models/command');
+const Yam = require('yam');
 
 describe('.ember-cli', function() {
-  var ui;
-  var analytics;
-  var project;
-  var settings;
-  var homeSettings;
+  let ui;
+  let analytics;
+  let project;
+  let settings;
+  let homeSettings;
 
   before(function() {
     ui = new MockUI();
@@ -33,14 +33,14 @@ describe('.ember-cli', function() {
   });
 
   it('local settings take precedence over global settings', function() {
-    var command = new Command({
+    let command = new Command({
       ui,
       analytics,
       project,
       settings,
     });
 
-    var args = command.parseArgs();
+    let args = command.parseArgs();
 
     expect(args.options).to.include(
       merge(homeSettings, {

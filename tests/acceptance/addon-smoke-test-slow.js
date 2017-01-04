@@ -1,29 +1,29 @@
 'use strict';
 
-var Promise = require('../../lib/ext/promise');
-var path = require('path');
-var fs = require('fs-extra');
-var remove = Promise.denodeify(fs.remove);
-var spawn = require('child_process').spawn;
-var chalk = require('chalk');
+const Promise = require('../../lib/ext/promise');
+const path = require('path');
+const fs = require('fs-extra');
+let remove = Promise.denodeify(fs.remove);
+const spawn = require('child_process').spawn;
+const chalk = require('chalk');
 
-var symlinkOrCopySync = require('symlink-or-copy').sync;
-var runCommand = require('../helpers/run-command');
-var ember = require('../helpers/ember');
-var copyFixtureFiles = require('../helpers/copy-fixture-files');
-var killCliProcess = require('../helpers/kill-cli-process');
-var acceptance = require('../helpers/acceptance');
-var createTestTargets = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies = acceptance.linkDependencies;
-var cleanupRun = acceptance.cleanupRun;
+const symlinkOrCopySync = require('symlink-or-copy').sync;
+const runCommand = require('../helpers/run-command');
+const ember = require('../helpers/ember');
+const copyFixtureFiles = require('../helpers/copy-fixture-files');
+const killCliProcess = require('../helpers/kill-cli-process');
+const acceptance = require('../helpers/acceptance');
+let createTestTargets = acceptance.createTestTargets;
+let teardownTestTargets = acceptance.teardownTestTargets;
+let linkDependencies = acceptance.linkDependencies;
+let cleanupRun = acceptance.cleanupRun;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var dir = chai.dir;
+const chai = require('../chai');
+let expect = chai.expect;
+let dir = chai.dir;
 
-var addonName = 'some-cool-addon';
-var addonRoot;
+let addonName = 'some-cool-addon';
+let addonRoot;
 
 describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
@@ -49,14 +49,14 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
-    var packageContents = fs.readJsonSync('package.json');
+    let packageContents = fs.readJsonSync('package.json');
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
     expect(packageContents.keywords).to.deep.equal(['ember-addon']);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
-    var bowerContents = fs.readJsonSync('bower.json');
+    let bowerContents = fs.readJsonSync('bower.json');
 
     expect(bowerContents.name).to.equal(addonName);
   });
@@ -67,8 +67,8 @@ describe('Acceptance: addon-smoke-test', function() {
 
   it('works in most common scenarios for an example addon', function() {
     return copyFixtureFiles('addon/kitchen-sink').then(function() {
-      var packageJsonPath = path.join(addonRoot, 'package.json');
-      var packageJson = fs.readJsonSync(packageJsonPath);
+      let packageJsonPath = path.join(addonRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
 
       packageJson.dependencies = packageJson.dependencies || {};
       // add HTMLBars for templates (generators do this automatically when components/templates are added)
@@ -83,17 +83,17 @@ describe('Acceptance: addon-smoke-test', function() {
 
       return runCommand('node_modules/ember-cli/bin/ember', 'build').then(function(result) {
         expect(result.code).to.eql(0);
-        var contents;
+        let contents;
 
-        var indexPath = path.join(addonRoot, 'dist', 'index.html');
+        let indexPath = path.join(addonRoot, 'dist', 'index.html');
         contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
         expect(contents).to.contain('"SOME AWESOME STUFF"');
 
-        var cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
+        let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
         contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
         expect(contents).to.contain('addon/styles/app.css is present');
 
-        var robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
+        let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
         contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
         expect(contents).to.contain('tests/dummy/public/robots.txt is present');
 
@@ -105,7 +105,7 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   it('npm pack does not include unnecessary files', function() {
-    var handleError = function(error, commandName) {
+    let handleError = function(error, commandName) {
       if (error.code === 'ENOENT') {
         console.warn(chalk.yellow(`      Your system does not provide ${commandName} -> Skipped this test.`));
       } else {
@@ -114,7 +114,7 @@ describe('Acceptance: addon-smoke-test', function() {
     };
 
     return new Promise(function(resolve, reject) {
-      var npmPack = spawn('npm', ['pack']);
+      let npmPack = spawn('npm', ['pack']);
       npmPack.on('error', function(error) {
         reject(error);
       });
@@ -123,8 +123,8 @@ describe('Acceptance: addon-smoke-test', function() {
       });
     }).then(function() {
       return new Promise(function(resolve, reject) {
-        var output;
-        var tar = spawn('tar', ['-tf', `${addonName}-0.0.0.tgz`]);
+        let output;
+        let tar = spawn('tar', ['-tf', `${addonName}-0.0.0.tgz`]);
         tar.on('error', function(error) {
           reject(error);
         });
@@ -135,7 +135,7 @@ describe('Acceptance: addon-smoke-test', function() {
           resolve(output);
         });
       }).then(function(output) {
-        var unnecessaryFiles = [
+        let unnecessaryFiles = [
           '.gitkeep',
           '.travis.yml',
           '.editorconfig',
@@ -145,12 +145,12 @@ describe('Acceptance: addon-smoke-test', function() {
           '.bowerrc',
         ];
 
-        var unnecessaryFolders = [
+        let unnecessaryFolders = [
           'tests/',
           'bower_components/',
         ];
 
-        var outputFiles = output.split('\n');
+        let outputFiles = output.split('\n');
         expect(outputFiles).to.not.contain(unnecessaryFiles);
         expect(outputFiles).to.not.contain(unnecessaryFolders);
       }, function(error) {

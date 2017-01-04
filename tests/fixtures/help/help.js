@@ -1,5 +1,5 @@
-var processHelpString = require('../../helpers/process-help-string');
-var versionUtils      = require('../../../lib/utilities/version-utils');
+const processHelpString = require('../../helpers/process-help-string');
+const versionUtils      = require('../../../lib/utilities/version-utils');
 var emberCLIVersion   = versionUtils.emberCLIVersion;
 
 module.exports = {

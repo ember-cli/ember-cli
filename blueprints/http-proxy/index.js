@@ -1,4 +1,6 @@
-var Blueprint = require('../../lib/models/blueprint');
+'use strict';
+
+const Blueprint = require('../../lib/models/blueprint');
 
 module.exports = {
   description: 'Generates a relative proxy to another server.',
@@ -9,7 +11,7 @@ module.exports = {
   ],
 
   locals(options) {
-    var proxyUrl = options.args[2];
+    let proxyUrl = options.args[2];
     return {
       path: `/${options.entity.name.replace(/^\//, '')}`,
       proxyUrl,
@@ -17,7 +19,7 @@ module.exports = {
   },
 
   beforeInstall(options) {
-    var serverBlueprint = Blueprint.lookup('server', {
+    let serverBlueprint = Blueprint.lookup('server', {
       ui: this.ui,
       analytics: this.analytics,
       project: this.project,

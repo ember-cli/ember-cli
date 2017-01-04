@@ -1,28 +1,28 @@
 'use strict';
 
-var ember = require('../helpers/ember');
-var walkSync = require('walk-sync');
-var glob = require('glob');
-var Blueprint = require('../../lib/models/blueprint');
-var path = require('path');
-var tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
-var root = process.cwd();
-var util = require('util');
-var minimatch = require('minimatch');
-var lodash = require('ember-cli-lodash-subset');
-var intersect = lodash.intersection;
-var remove = lodash.remove;
-var forEach = lodash.forEach;
-var any = lodash.some;
-var EOL = require('os').EOL;
+const ember = require('../helpers/ember');
+const walkSync = require('walk-sync');
+const glob = require('glob');
+const Blueprint = require('../../lib/models/blueprint');
+const path = require('path');
+const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+let root = process.cwd();
+const util = require('util');
+const minimatch = require('minimatch');
+const lodash = require('ember-cli-lodash-subset');
+let intersect = lodash.intersection;
+let remove = lodash.remove;
+let forEach = lodash.forEach;
+let any = lodash.some;
+const EOL = require('os').EOL;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var dir = chai.dir;
+const chai = require('../chai');
+let expect = chai.expect;
+let dir = chai.dir;
 
-var defaultIgnoredFiles = Blueprint.ignoredFiles;
+let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
-var tmpPath = './tmp/init-test';
+let tmpPath = './tmp/init-test';
 
 describe('Acceptance: ember init', function() {
   this.timeout(20000);
@@ -41,9 +41,9 @@ describe('Acceptance: ember init', function() {
   });
 
   function confirmBlueprinted() {
-    var blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    var expected = walkSync(blueprintPath).sort();
-    var actual = walkSync('.').sort();
+    let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
+    let expected = walkSync(blueprintPath).sort();
+    let actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
@@ -62,9 +62,9 @@ describe('Acceptance: ember init', function() {
   }
 
   function confirmGlobBlueprinted(pattern) {
-    var blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    var actual = pickSync('.', pattern);
-    var expected = intersect(actual, pickSync(blueprintPath, pattern));
+    let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
+    let actual = pickSync('.', pattern);
+    let expected = intersect(actual, pickSync(blueprintPath, pattern));
 
     removeIgnored(expected);
     removeIgnored(actual);

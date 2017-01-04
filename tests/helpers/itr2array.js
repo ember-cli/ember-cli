@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = function(iterator) {
-  var nextItem;
-  var results = [];
+  let nextItem;
+  let results = [];
 
   nextItem = iterator.next();
   while (!nextItem.done) {

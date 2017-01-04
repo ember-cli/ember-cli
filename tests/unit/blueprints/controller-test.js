@@ -1,14 +1,14 @@
 'use strict';
 
-var path = require('path');
-var blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
-var setupTestHooks = blueprintHelpers.setupTestHooks;
-var emberNew = blueprintHelpers.emberNew;
-var emberGenerateDestroy = blueprintHelpers.emberGenerateDestroy;
-var setupPodConfig = blueprintHelpers.setupPodConfig;
+const path = require('path');
+const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
+let setupTestHooks = blueprintHelpers.setupTestHooks;
+let emberNew = blueprintHelpers.emberNew;
+let emberGenerateDestroy = blueprintHelpers.emberGenerateDestroy;
+let setupPodConfig = blueprintHelpers.setupPodConfig;
 
-var chai = require('ember-cli-blueprint-test-helpers/chai');
-var expect = chai.expect;
+const chai = require('ember-cli-blueprint-test-helpers/chai');
+let expect = chai.expect;
 
 /**
  * This test case is checking the `controller` blueprint, which is actually
@@ -21,7 +21,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('controller foo', function() {
-    var args = ['controller', 'foo'];
+    let args = ['controller', 'foo'];
 
     return emberNew()
       .then(function() {
@@ -32,7 +32,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('controller foo/bar', function() {
-    var args = ['controller', 'foo/bar'];
+    let args = ['controller', 'foo/bar'];
 
     return emberNew()
       .then(function() {
@@ -43,7 +43,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('in-addon controller foo', function() {
-    var args = ['controller', 'foo'];
+    let args = ['controller', 'foo'];
 
     return emberNew({ target: 'addon' })
       .then(function() {
@@ -56,7 +56,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('in-addon controller foo/bar', function() {
-    var args = ['controller', 'foo/bar'];
+    let args = ['controller', 'foo/bar'];
 
     return emberNew({ target: 'addon' })
       .then(function() {
@@ -69,7 +69,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('dummy controller foo', function() {
-    var args = ['controller', 'foo', '--dummy'];
+    let args = ['controller', 'foo', '--dummy'];
 
     return emberNew({ target: 'addon' })
       .then(function() {
@@ -81,7 +81,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('in-repo-addon controller foo', function() {
-    var args = ['controller', 'foo', '--in-repo-addon=my-addon'];
+    let args = ['controller', 'foo', '--in-repo-addon=my-addon'];
 
     return emberNew({ target: 'in-repo-addon' })
       .then(function() {
@@ -94,7 +94,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('in-repo-addon controller foo/bar', function() {
-    var args = ['controller', 'foo/bar', '--in-repo-addon=my-addon'];
+    let args = ['controller', 'foo/bar', '--in-repo-addon=my-addon'];
 
     return emberNew({ target: 'in-repo-addon' })
       .then(function() {
@@ -107,7 +107,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('controller foo --pod', function() {
-    var args = ['controller', 'foo', '--pod'];
+    let args = ['controller', 'foo', '--pod'];
 
     return emberNew()
       .then(function() {
@@ -118,7 +118,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('controller foo --pod podModulePrefix', function() {
-    var args = ['controller', 'foo', '--pod'];
+    let args = ['controller', 'foo', '--pod'];
 
     return emberNew()
       .then(function() {
@@ -132,7 +132,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('controller foo/bar --pod', function() {
-    var args = ['controller', 'foo/bar', '--pod'];
+    let args = ['controller', 'foo/bar', '--pod'];
 
     return emberNew()
       .then(function() {
@@ -143,7 +143,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('controller foo/bar --pod podModulePrefix', function() {
-    var args = ['controller', 'foo/bar', '--pod'];
+    let args = ['controller', 'foo/bar', '--pod'];
 
     return emberNew()
       .then(function() {
@@ -157,7 +157,7 @@ describe('Acceptance: ember generate and destroy controller', function() {
   });
 
   it('in-addon controller foo --pod', function() {
-    var args = ['controller', 'foo', '--pod'];
+    let args = ['controller', 'foo', '--pod'];
 
     return emberNew({ target: 'addon' })
       .then(function() {

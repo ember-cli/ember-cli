@@ -1,31 +1,31 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var Builder = require('../../../lib/models/builder');
-var BuildCommand = require('../../../lib/commands/build');
-var commandOptions = require('../../factories/command-options');
-var Promise = require('../../../lib/ext/promise');
-var MockProject = require('../../helpers/mock-project');
-var remove = Promise.denodeify(fs.remove);
-var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-var td = require('testdouble');
-var experiments = require('../../experiments');
-var chai = require('../../chai');
-var expect = chai.expect;
-var file = chai.file;
+const fs = require('fs-extra');
+const path = require('path');
+const Builder = require('../../../lib/models/builder');
+const BuildCommand = require('../../../lib/commands/build');
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const MockProject = require('../../helpers/mock-project');
+let remove = Promise.denodeify(fs.remove);
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const td = require('testdouble');
+const experiments = require('../../experiments');
+const chai = require('../../chai');
+let expect = chai.expect;
+let file = chai.file;
 
-var root = process.cwd();
-var tmproot = path.join(root, 'tmp');
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
 
-var MockUI = require('console-ui/mock');
-var Heimdall = require('heimdalljs/heimdall');
-var walkSync = require('walk-sync');
-var EventEmitter = require('events');
-var captureExit = require('capture-exit');
+const MockUI = require('console-ui/mock');
+const Heimdall = require('heimdalljs/heimdall');
+const walkSync = require('walk-sync');
+const EventEmitter = require('events');
+const captureExit = require('capture-exit');
 
 describe('models/builder.js', function() {
-  var addon, builder, buildResults, tmpdir;
+  let addon, builder, buildResults, tmpdir;
 
   function setupBroccoliBuilder() {
     this.builder = {
@@ -46,7 +46,7 @@ describe('models/builder.js', function() {
   });
 
   describe('process signal listeners', function() {
-    var originalListenerCounts;
+    let originalListenerCounts;
 
     function getListenerCount(emitter, event) {
       if (emitter.listenerCount) { // Present in Node >= 4.0
@@ -76,7 +76,7 @@ describe('models/builder.js', function() {
         project: new MockProject(),
       });
 
-      var actualListeners = getListenerCounts();
+      let actualListeners = getListenerCounts();
 
       expect(actualListeners).to.eql({
         SIGINT: originalListenerCounts.SIGINT + 1,
@@ -94,7 +94,7 @@ describe('models/builder.js', function() {
 
       return builder.cleanup()
         .then(function() {
-          var actualListeners = getListenerCounts();
+          let actualListeners = getListenerCounts();
           expect(actualListeners).to.eql(originalListenerCounts);
         })
         .finally(function() {
@@ -106,7 +106,7 @@ describe('models/builder.js', function() {
   });
 
   describe('Windows CTRL + C Capture', function() {
-    var originalPlatform, originalStdin;
+    let originalPlatform, originalStdin;
 
     before(function() {
       originalPlatform = process.platform;
@@ -134,7 +134,7 @@ describe('models/builder.js', function() {
         },
       });
 
-      var trapWindowsSignals = td.function();
+      let trapWindowsSignals = td.function();
 
       builder = new Builder({
         setupBroccoliBuilder,
@@ -157,7 +157,7 @@ describe('models/builder.js', function() {
         },
       });
 
-      var trapWindowsSignals = td.function();
+      let trapWindowsSignals = td.function();
 
       builder = new Builder({
         setupBroccoliBuilder,
@@ -194,9 +194,9 @@ describe('models/builder.js', function() {
       expect(file(path.join(builder.outputPath, 'files', 'foo.txt'))).to.exist;
     });
 
-    var command;
+    let command;
 
-    var parentPath = `..${path.sep}..${path.sep}`;
+    let parentPath = `..${path.sep}..${path.sep}`;
 
     before(function() {
       command = new BuildCommand(commandOptions());
@@ -208,8 +208,8 @@ describe('models/builder.js', function() {
     });
 
     it('when outputPath is root directory ie., `--output-path=/` or `--output-path=C:`', function() {
-      var outputPathArg = '--output-path=.';
-      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let outputPathArg = '--output-path=.';
+      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       outputPath = outputPath.split(path.sep)[0] + path.sep;
       builder.outputPath = outputPath;
 
@@ -217,24 +217,24 @@ describe('models/builder.js', function() {
     });
 
     it('when outputPath is project root ie., `--output-path=.`', function() {
-      var outputPathArg = '--output-path=.';
-      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let outputPathArg = '--output-path=.';
+      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       builder.outputPath = outputPath;
 
       expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
     });
 
     it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function() {
-      var outputPathArg = `--output-path=${parentPath}`;
-      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let outputPathArg = `--output-path=${parentPath}`;
+      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       builder.outputPath = outputPath;
 
       expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
     });
 
     it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function() {
-      var outputPathArg = '--output-path=.';
-      var outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let outputPathArg = '--output-path=.';
+      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
       outputPath = outputPath.substr(0, outputPath.length - 1);
       builder.outputPath = outputPath;
 
@@ -243,11 +243,11 @@ describe('models/builder.js', function() {
   });
 
   describe('build', function() {
-    var instrumentationStart;
-    var instrumentationStop;
+    let instrumentationStart;
+    let instrumentationStop;
 
     beforeEach(function() {
-      var command = new BuildCommand(commandOptions());
+      let command = new BuildCommand(commandOptions());
 
       builder = new Builder({
         setupBroccoliBuilder,
@@ -266,14 +266,14 @@ describe('models/builder.js', function() {
     });
 
     it('calls instrumentation.start', function() {
-      var mockAnnotation = 'MockAnnotation';
+      let mockAnnotation = 'MockAnnotation';
       return builder.build(null, mockAnnotation).then(function() {
         td.verify(instrumentationStart('build'), { times: 1 });
       });
     });
 
     it('calls instrumentation.stop(build, result, resultAnnotation)', function() {
-      var mockAnnotation = 'MockAnnotation';
+      let mockAnnotation = 'MockAnnotation';
 
       return builder.build(null, mockAnnotation).then(function() {
         td.verify(instrumentationStop('build', 'build results', mockAnnotation), { times: 1 });
@@ -284,7 +284,7 @@ describe('models/builder.js', function() {
       process._heimdall = {};
 
       return builder.build().then(function() {
-        var output = builder.project.ui.output;
+        let output = builder.project.ui.output;
 
         expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
       });
@@ -294,7 +294,7 @@ describe('models/builder.js', function() {
       expect(process._heimdall).to.equal(undefined);
 
       return builder.build().then(function() {
-        var output = builder.project.ui.output;
+        let output = builder.project.ui.output;
 
         expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
       });
@@ -302,8 +302,8 @@ describe('models/builder.js', function() {
   });
 
   describe('addons', function() {
-    var hooksCalled;
-    var instrumentationArg;
+    let hooksCalled;
+    let instrumentationArg;
 
     beforeEach(function() {
       instrumentationArg = undefined;
@@ -331,7 +331,7 @@ describe('models/builder.js', function() {
         },
       };
 
-      var project = new MockProject();
+      let project = new MockProject();
       project.addons = [addon];
 
       builder = new Builder({
@@ -360,14 +360,14 @@ describe('models/builder.js', function() {
     });
 
     it('allows addons to add promises preBuild', function() {
-      var preBuild = td.replace(addon, 'preBuild', td.function());
+      let preBuild = td.replace(addon, 'preBuild', td.function());
       td.when(preBuild(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
 
       return builder.build();
     });
 
     it('allows addons to add promises postBuild', function() {
-      var postBuild = td.replace(addon, 'postBuild', td.function());
+      let postBuild = td.replace(addon, 'postBuild', td.function());
 
       return builder.build().then(function() {
         td.verify(postBuild(buildResults), { times: 1 });
@@ -375,7 +375,7 @@ describe('models/builder.js', function() {
     });
 
     it('allows addons to add promises outputReady', function() {
-      var outputReady = td.replace(addon, 'outputReady', td.function());
+      let outputReady = td.replace(addon, 'outputReady', td.function());
 
       return builder.build().then(function() {
         td.verify(outputReady(buildResults), { times: 1 });
@@ -439,7 +439,7 @@ describe('models/builder.js', function() {
     });
 
     it('should call postBuild before processBuildResult', function() {
-      var called = [];
+      let called = [];
 
       addon.postBuild = function() {
         called.push('postBuild');
@@ -455,7 +455,7 @@ describe('models/builder.js', function() {
     });
 
     it('should call outputReady after processBuildResult', function() {
-      var called = [];
+      let called = [];
 
       builder.processBuildResult = function() {
         called.push('processBuildResult');
@@ -471,8 +471,8 @@ describe('models/builder.js', function() {
     });
 
     it('buildError receives the error object from the errored step', function() {
-      var thrownBuildError = new Error('buildError');
-      var receivedBuildError;
+      let thrownBuildError = new Error('buildError');
+      let receivedBuildError;
 
       addon.buildError = function(errorThrown) {
         receivedBuildError = errorThrown;

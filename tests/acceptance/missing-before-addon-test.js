@@ -1,8 +1,8 @@
 'use strict';
 
-var path = require('path');
-var ember = require('../helpers/ember');
-var root = process.cwd();
+const path = require('path');
+const ember = require('../helpers/ember');
+let root = process.cwd();
 
 describe('Acceptance: missing a before/after addon', function() {
   before(function() {

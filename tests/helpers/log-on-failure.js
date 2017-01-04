@@ -1,6 +1,6 @@
 'use strict';
 
-var logSink;
+let logSink;
 
 beforeEach(function() {
   logSink = [];

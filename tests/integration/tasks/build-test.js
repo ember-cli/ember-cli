@@ -1,24 +1,24 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var chai = require('../../chai');
-var expect = chai.expect;
-var file = chai.file;
-var walkSync = require('walk-sync');
-var assign = require('ember-cli-lodash-subset').assign;
-var BuildTask = require('../../../lib/tasks/build');
-var Promise = require('../../../lib/ext/promise');
-var MockProject = require('../../helpers/mock-project');
-var MockAnalytics = require('../../helpers/mock-analytics');
-var copyFixtureFiles = require('../../helpers/copy-fixture-files');
-var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-var remove = Promise.denodeify(fs.remove);
-var root = process.cwd();
-var tmproot = path.join(root, 'tmp');
+const fs = require('fs-extra');
+const path = require('path');
+const chai = require('../../chai');
+let expect = chai.expect;
+let file = chai.file;
+const walkSync = require('walk-sync');
+const assign = require('ember-cli-lodash-subset').assign;
+const BuildTask = require('../../../lib/tasks/build');
+const Promise = require('../../../lib/ext/promise');
+const MockProject = require('../../helpers/mock-project');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const copyFixtureFiles = require('../../helpers/copy-fixture-files');
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+let remove = Promise.denodeify(fs.remove);
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
 
 describe('build task test', function() {
-  var project, ui;
+  let project, ui;
 
   beforeEach(function() {
     return mkTmpDirIn(tmproot)
@@ -42,21 +42,21 @@ describe('build task test', function() {
   });
 
   it('can build', function() {
-    var outputPath = 'dist';
-    var task = new BuildTask({
+    let outputPath = 'dist';
+    let task = new BuildTask({
       analytics: new MockAnalytics(),
       project,
       ui,
     });
 
-    var runOptions = {
+    let runOptions = {
       outputPath,
       environment: 'development',
     };
 
     return task.run(runOptions)
       .then(function() {
-        var expected = ['foo.txt'];
+        let expected = ['foo.txt'];
 
         expect(walkSync(outputPath)).to.eql(['foo.txt']);
         expect(file('dist/foo.txt')).to.equal('Some file named foo.txt\n');
@@ -66,25 +66,25 @@ describe('build task test', function() {
   it('generates valid visualization output', function() {
     process.env.BROCCOLI_VIZ = '1';
 
-    var outputPath = 'dist';
-    var task = new BuildTask({
+    let outputPath = 'dist';
+    let task = new BuildTask({
       analytics: new MockAnalytics(),
       project,
       ui,
     });
 
-    var runOptions = {
+    let runOptions = {
       outputPath,
       environment: 'development',
     };
 
     return task.run(runOptions)
       .then(function() {
-        var vizOutputPath = 'instrumentation.build.0.json';
+        let vizOutputPath = 'instrumentation.build.0.json';
         expect(file(vizOutputPath)).to.exist;
 
         // confirm it is valid json
-        var output = fs.readJsonSync(vizOutputPath);
+        let output = fs.readJsonSync(vizOutputPath);
         expect(Object.keys(output)).to.eql([
           'summary', 'nodes',
         ]);

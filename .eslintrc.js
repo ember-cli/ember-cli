@@ -97,6 +97,7 @@ module.exports = {
 
     /*** ECMAScript 6 ***/
 
+    'no-var': 2,
     'arrow-body-style': 2,
     'arrow-parens': [2, 'as-needed'],
     'arrow-spacing': 2,

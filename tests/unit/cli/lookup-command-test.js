@@ -1,16 +1,16 @@
 'use strict';
 
-var expect = require('chai').expect;
-var lookupCommand = require('../../../lib/cli/lookup-command');
-var Command = require('../../../lib/models/command');
-var Project = require('../../../lib/models/project');
-var MockUI = require('console-ui/mock');
-var AddonCommand = require('../../fixtures/addon/commands/addon-command');
-var OtherCommand = require('../../fixtures/addon/commands/other-addon-command');
-var ClassCommand = require('../../fixtures/addon/commands/addon-command-class');
-var OverrideCommand = require('../../fixtures/addon/commands/addon-override-intentional');
+const expect = require('chai').expect;
+const lookupCommand = require('../../../lib/cli/lookup-command');
+const Command = require('../../../lib/models/command');
+const Project = require('../../../lib/models/project');
+const MockUI = require('console-ui/mock');
+const AddonCommand = require('../../fixtures/addon/commands/addon-command');
+const OtherCommand = require('../../fixtures/addon/commands/other-addon-command');
+const ClassCommand = require('../../fixtures/addon/commands/addon-command-class');
+const OverrideCommand = require('../../fixtures/addon/commands/addon-override-intentional');
 
-var commands = {
+let commands = {
   serve: Command.extend({
     name: 'serve',
     aliases: ['s'],
@@ -33,8 +33,8 @@ AddonServeCommand.prototype.includedCommands = function() {
 };
 
 describe('cli/lookup-command.js', function() {
-  var ui;
-  var project = {
+  let ui;
+  let project = {
     isEmberCLIProject() { return true; },
     initializeAddons() {
       this.addons = [new AddonCommand(), new OtherCommand(), new ClassCommand()];
@@ -55,7 +55,7 @@ describe('cli/lookup-command.js', function() {
   });
 
   it('lookupCommand() should find commands that addons add by name and aliases.', function() {
-    var command, Command;
+    let command, Command;
 
     Command = lookupCommand(commands, 'addon-command', [], {
       project,
@@ -155,11 +155,11 @@ describe('cli/lookup-command.js', function() {
   });
 
   it('lookupCommand() should return UnknownCommand object when command name is not present.', function() {
-    var Command = lookupCommand(commands, 'something-else', [], {
+    let Command = lookupCommand(commands, 'something-else', [], {
       project,
       ui,
     });
-    var command = new Command({
+    let command = new Command({
       ui,
       project,
     });

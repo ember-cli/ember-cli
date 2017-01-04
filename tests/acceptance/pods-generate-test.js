@@ -1,27 +1,27 @@
 'use strict';
 
-var Promise = require('../../lib/ext/promise');
-var ember = require('../helpers/ember');
-var replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
-var fs = require('fs-extra');
-var outputFile = Promise.denodeify(fs.outputFile);
-var path = require('path');
-var remove = Promise.denodeify(fs.remove);
-var root = process.cwd();
-var tmproot = path.join(root, 'tmp');
-var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const Promise = require('../../lib/ext/promise');
+const ember = require('../helpers/ember');
+const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
+const fs = require('fs-extra');
+let outputFile = Promise.denodeify(fs.outputFile);
+const path = require('path');
+let remove = Promise.denodeify(fs.remove);
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
+const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var Blueprint = require('../../lib/models/blueprint');
-var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+const Blueprint = require('../../lib/models/blueprint');
+const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
+const chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
 
 describe('Acceptance: ember generate pod', function() {
   this.timeout(60000);
 
-  var tmpdir;
+  let tmpdir;
 
   before(function() {
     BlueprintNpmTask.disableNPM(Blueprint);
@@ -62,7 +62,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function addJSHint() {
-    var pkg = fs.readJsonSync('package.json');
+    let pkg = fs.readJsonSync('package.json');
     pkg.devDependencies['ember-cli-jshint'] = '*';
     fs.writeJsonSync('package.json', pkg);
   }
@@ -78,7 +78,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function preGenerate(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
       return ember(generateArgs);
@@ -86,7 +86,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function generate(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
       return ember(generateArgs);
@@ -94,7 +94,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function generateWithPrefix(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
       replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
@@ -103,7 +103,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function generateWithUsePods(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
       replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,\n"usePods" : true\n');
@@ -112,7 +112,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function generateWithUsePodsDeprecated(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
       replaceFile('config/environment.js', "var ENV = {", "var ENV = {\nusePodsByDefault: true, \n");
@@ -121,7 +121,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function generateInAddon(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initAddon().then(function() {
       return ember(generateArgs);
@@ -129,7 +129,7 @@ describe('Acceptance: ember generate pod', function() {
   }
 
   function generateInRepoAddon(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initInRepoAddon().then(function() {
       return ember(generateArgs);

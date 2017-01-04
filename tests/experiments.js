@@ -30,14 +30,14 @@
   });
   ```
  */
-var defaultExperiments = require('../lib/experiments');
+const defaultExperiments = require('../lib/experiments');
 
-var experiments = {};
+let experiments = {};
 
 function defineFeature(featureName) {
   Object.defineProperty(experiments, featureName, {
     get() {
-      var includeFeature = true;
+      let includeFeature = true;
 
       if (process.env.DISABLE_EMBER_CLI_FEATURES === 'true') {
         includeFeature = false;
@@ -58,7 +58,7 @@ function defineFeature(featureName) {
 
 // used to force `lib/experiments/index.js` to opt-out
 // of canary behavior
-for (var featureName in defaultExperiments) {
+for (let featureName in defaultExperiments) {
   defineFeature(featureName);
 }
 

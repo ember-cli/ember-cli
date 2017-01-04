@@ -1,11 +1,11 @@
 'use strict';
 
-var expect = require('chai').expect;
-var path = require('path');
-var loadConfig = require('../../../lib/utilities/load-config');
+const expect = require('chai').expect;
+const path = require('path');
+const loadConfig = require('../../../lib/utilities/load-config');
 
 describe('load-config', function() {
-  var fixtureDirectory = path.resolve(__dirname, '../../fixtures/load-config');
+  let fixtureDirectory = path.resolve(__dirname, '../../fixtures/load-config');
 
   it('loads and parses a yml file', function() {
     expect(loadConfig('.travis.yml', fixtureDirectory).hello).to.equal('world');
@@ -26,8 +26,8 @@ describe('load-config', function() {
 });
 
 describe('publishes the appropriate config files', function() {
-  var EmberCLIDir = path.resolve(__dirname, '../../../');
-  var npmignore = loadConfig('.npmignore', EmberCLIDir);
+  let EmberCLIDir = path.resolve(__dirname, '../../../');
+  let npmignore = loadConfig('.npmignore', EmberCLIDir);
 
   it('has the config files', function() {
     expect(npmignore).to.include('!.travis.yml');

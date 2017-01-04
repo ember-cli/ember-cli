@@ -1,4 +1,4 @@
-var Command = require('../../../../lib/models/command');
+const Command = require('../../../../lib/models/command');
 
 function Addon() {
   this.name = "Other Ember CLI Addon Command To Test Intentional Core Command Override"

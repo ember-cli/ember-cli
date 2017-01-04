@@ -1,20 +1,20 @@
 'use strict';
 
-var expect = require('chai').expect;
-var EOL = require('os').EOL;
-var commandOptions = require('../../factories/command-options');
-var Task = require('../../../lib/models/task');
-var Promise = require('../../../lib/ext/promise');
-var td = require('testdouble');
-var PortFinder = require('portfinder');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const commandOptions = require('../../factories/command-options');
+const Task = require('../../../lib/models/task');
+const Promise = require('../../../lib/ext/promise');
+const td = require('testdouble');
+const PortFinder = require('portfinder');
 
 PortFinder.basePort = 32768;
-var getPort = Promise.denodeify(PortFinder.getPort);
+let getPort = Promise.denodeify(PortFinder.getPort);
 
-var ServeCommand = require('../../../lib/commands/serve');
+const ServeCommand = require('../../../lib/commands/serve');
 
 describe('serve command', function() {
-  var tasks, options, command;
+  let tasks, options, command;
 
   beforeEach(function() {
     tasks = {
@@ -38,7 +38,7 @@ describe('serve command', function() {
     return command.validateAndRun([
       '--port', '0',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.gte(4000, 'has correct port');
       expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
@@ -50,7 +50,7 @@ describe('serve command', function() {
       return command.validateAndRun([
         '--port', `${port}`,
       ]).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.port).to.equal(port, 'has correct port');
         expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
@@ -64,7 +64,7 @@ describe('serve command', function() {
         '--port', `${port}`,
         '--live-reload-port', '8005',
       ]).then(function() {
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.port).to.equal(port, 'has correct port');
         expect(captor.value.liveReloadPort).to.be.within(8005, 65535, 'has live reload port > port');
@@ -80,7 +80,7 @@ describe('serve command', function() {
     // a valid code path.
     it('should throw error when -p PORT is taken', function() {
       function testServer(opts, test) {
-        var server = require('http').createServer(function() {});
+        let server = require('http').createServer(function() {});
         return new Promise(function(resolve) {
           server.listen(opts.port, opts.host, function() {
             resolve(test(opts, server));
@@ -111,7 +111,7 @@ describe('serve command', function() {
     return command.validateAndRun([
       '--port', '0',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.within(32768, 65535, 'has correct liveReloadPort');
       expect(captor.value.liveReloadPort).to.be.gt(captor.value.port, 'has a liveReload port greater than port');
@@ -123,7 +123,7 @@ describe('serve command', function() {
       '--port', '0',
       '--live-reload-port', '4001',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.liveReloadPort).to.be.gte(4001, 'has correct liveReload port');
     });
@@ -134,7 +134,7 @@ describe('serve command', function() {
       '--port', '0',
       '--live-reload-host', '127.0.0.1',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.liveReloadHost).to.equal('127.0.0.1', 'has correct liveReload host');
     });
@@ -145,7 +145,7 @@ describe('serve command', function() {
       '--port', '0',
       '--live-reload-base-url', 'http://127.0.0.1:4200/',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.liveReloadBaseUrl).to.equal('http://127.0.0.1:4200/', 'has correct liveReload baseUrl');
     });
@@ -156,7 +156,7 @@ describe('serve command', function() {
       '--port', '0',
       '--proxy', 'http://localhost:3000/',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.proxy).to.equal('http://localhost:3000/', 'has correct port');
     });
@@ -167,7 +167,7 @@ describe('serve command', function() {
       '--port', '0',
       '--secure-proxy', 'false',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.secureProxy).to.equal(false, 'has correct insecure proxy option');
     });
@@ -177,7 +177,7 @@ describe('serve command', function() {
     return command.validateAndRun([
       '--port', '0',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.secureProxy).to.equal(true, 'has correct secure proxy option when not set');
     });
@@ -201,7 +201,7 @@ describe('serve command', function() {
     return command.validateAndRun([
       '--port', '0',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.transparentProxy).to.equal(true, 'has correct transparent proxy option when not set');
     });
@@ -216,7 +216,7 @@ describe('serve command', function() {
       '--port', '0',
       '--environment', 'test',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.baseURL).to.equal('test', 'Uses the correct environment.');
     });
@@ -227,7 +227,7 @@ describe('serve command', function() {
       '--port', '0',
       '-H', 'localhost',
     ]).then(function() {
-      var captor = td.matchers.captor();
+      let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.host).to.equal('localhost', 'has correct hostname');
     });

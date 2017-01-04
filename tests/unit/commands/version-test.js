@@ -1,12 +1,12 @@
 'use strict';
 
-var expect = require('chai').expect;
-var EOL = require('os').EOL;
-var commandOptions = require('../../factories/command-options');
-var VersionCommand = require('../../../lib/commands/version');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const commandOptions = require('../../factories/command-options');
+const VersionCommand = require('../../../lib/commands/version');
 
 describe('version command', function() {
-  var options, command;
+  let options, command;
 
   beforeEach(function() {
     options = commandOptions({
@@ -22,7 +22,7 @@ describe('version command', function() {
 
   it('reports node, npm, and os versions', function() {
     return command.validateAndRun().then(function() {
-      var lines = options.ui.output.split(EOL);
+      let lines = options.ui.output.split(EOL);
       expect(someLineStartsWith(lines, 'ember-cli:'), 'contains the version of ember-cli').to.be.ok;
       expect(someLineStartsWith(lines, 'node:'), 'contains the version of node').to.be.ok;
       expect(someLineStartsWith(lines, 'os:'), 'contains the version of os').to.be.ok;
@@ -31,7 +31,7 @@ describe('version command', function() {
 
   it('supports a --verbose flag', function() {
     return command.validateAndRun(['--verbose']).then(function() {
-      var lines = options.ui.output.split(EOL);
+      let lines = options.ui.output.split(EOL);
       expect(someLineStartsWith(lines, 'node:'), 'contains the version of node').to.be.ok;
       expect(someLineStartsWith(lines, 'os:'), 'contains the version of os').to.be.ok;
       expect(someLineStartsWith(lines, 'v8:'), 'contains the version of v8').to.be.ok;

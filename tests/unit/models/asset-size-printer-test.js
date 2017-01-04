@@ -1,18 +1,18 @@
 'use strict';
 
-var expect = require('chai').expect;
-var MockUi = require('console-ui/mock');
-var AssetSizePrinter = require('../../../lib/models/asset-size-printer');
-var Promise = require('../../../lib/ext/promise');
-var path = require('path');
-var fs = require('fs-extra');
-var root = process.cwd();
-var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-var tmpRoot = path.join(root, 'tmp');
-var remove = Promise.denodeify(fs.remove);
+const expect = require('chai').expect;
+const MockUi = require('console-ui/mock');
+const AssetSizePrinter = require('../../../lib/models/asset-size-printer');
+const Promise = require('../../../lib/ext/promise');
+const path = require('path');
+const fs = require('fs-extra');
+let root = process.cwd();
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+let tmpRoot = path.join(root, 'tmp');
+let remove = Promise.denodeify(fs.remove);
 
 describe('models/asset-size-printer', function() {
-  var storedTmpDir, assetDir, assetChildDir;
+  let storedTmpDir, assetDir, assetChildDir;
 
   function writeFiles() {
     fs.writeFileSync(path.join(assetDir, 'some-project.scss'), 'body { margin: 0 20px; }', { encoding: 'utf8' });
@@ -49,7 +49,7 @@ describe('models/asset-size-printer', function() {
   });
 
   it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', function() {
-    var sizePrinter = new AssetSizePrinter({
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
@@ -67,7 +67,7 @@ describe('models/asset-size-printer', function() {
   });
 
   it('does not print gzipped file sizes of empty files', function() {
-    var sizePrinter = new AssetSizePrinter({
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
@@ -79,7 +79,7 @@ describe('models/asset-size-printer', function() {
   });
 
   it('does not print project test helper file sizes', function() {
-    var sizePrinter = new AssetSizePrinter({
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
@@ -94,7 +94,7 @@ describe('models/asset-size-printer', function() {
   });
 
   it('does not print non-css or js file sizes', function() {
-    var sizePrinter = new AssetSizePrinter({
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
@@ -108,15 +108,15 @@ describe('models/asset-size-printer', function() {
   });
 
   it('can print out to JSON', function() {
-    var assetObjectKeys;
-    var sizePrinter = new AssetSizePrinter({
+    let assetObjectKeys;
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
     return sizePrinter.printJSON()
       .then(function() {
-        var output = JSON.parse(sizePrinter.ui.output);
+        let output = JSON.parse(sizePrinter.ui.output);
 
         expect(output.files[0].name).to.include('nested-asset.css');
         expect(output.files[1].name).to.include('nested-asset.js');
@@ -126,8 +126,8 @@ describe('models/asset-size-printer', function() {
   });
 
   it('creates an array of asset objects', function() {
-    var assetObjectKeys;
-    var sizePrinter = new AssetSizePrinter({
+    let assetObjectKeys;
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
@@ -148,8 +148,8 @@ describe('models/asset-size-printer', function() {
   });
 
   it('prints an error when no files are found', function() {
-    var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
-    var sizePrinter = new AssetSizePrinter({
+    let outputPath = path.join('path', 'that', 'does', 'not', 'exist');
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath,
     });
@@ -161,8 +161,8 @@ describe('models/asset-size-printer', function() {
   });
 
   it('does not throw an error when no files are found', function() {
-    var outputPath = path.join('path', 'that', 'does', 'not', 'exist');
-    var sizePrinter = new AssetSizePrinter({
+    let outputPath = path.join('path', 'that', 'does', 'not', 'exist');
+    let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath,
     });

@@ -1,25 +1,25 @@
 'use strict';
 
-var Promise = require('../../lib/ext/promise');
-var ember = require('../helpers/ember');
-var fs = require('fs-extra');
-var outputFile = Promise.denodeify(fs.outputFile);
-var path = require('path');
-var remove = Promise.denodeify(fs.remove);
-var root = process.cwd();
-var tmproot = path.join(root, 'tmp');
-var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const Promise = require('../../lib/ext/promise');
+const ember = require('../helpers/ember');
+const fs = require('fs-extra');
+let outputFile = Promise.denodeify(fs.outputFile);
+const path = require('path');
+let remove = Promise.denodeify(fs.remove);
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
+const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var Blueprint = require('../../lib/models/blueprint');
-var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+const Blueprint = require('../../lib/models/blueprint');
+const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
+const chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
 
 describe('Acceptance: ember destroy', function() {
   this.timeout(60000);
-  var tmpdir;
+  let tmpdir;
 
   before(function() {
     BlueprintNpmTask.disableNPM(Blueprint);
@@ -70,12 +70,12 @@ describe('Acceptance: ember destroy', function() {
   }
 
   function generate(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
     return ember(generateArgs);
   }
 
   function generateInAddon(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initAddon().then(function() {
       return ember(generateArgs);
@@ -83,7 +83,7 @@ describe('Acceptance: ember destroy', function() {
   }
 
   function generateInRepoAddon(args) {
-    var generateArgs = ['generate'].concat(args);
+    let generateArgs = ['generate'].concat(args);
 
     return initInRepoAddon().then(function() {
       return ember(generateArgs);
@@ -91,7 +91,7 @@ describe('Acceptance: ember destroy', function() {
   }
 
   function destroy(args) {
-    var destroyArgs = ['destroy'].concat(args);
+    let destroyArgs = ['destroy'].concat(args);
     return ember(destroyArgs);
   }
 
@@ -169,8 +169,8 @@ describe('Acceptance: ember destroy', function() {
   }
 
   it('in-addon component x-foo', function() {
-    var commandArgs = ['component', 'x-foo'];
-    var files = [
+    let commandArgs = ['component', 'x-foo'];
+    let files = [
       'addon/components/x-foo.js',
       'addon/templates/components/x-foo.hbs',
       'app/components/x-foo.js',
@@ -181,8 +181,8 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('in-repo-addon component x-foo', function() {
-    var commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon'];
-    var files = [
+    let commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon'];
+    let files = [
       'lib/my-addon/addon/components/x-foo.js',
       'lib/my-addon/addon/templates/components/x-foo.hbs',
       'lib/my-addon/app/components/x-foo.js',
@@ -193,8 +193,8 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('in-repo-addon component nested/x-foo', function() {
-    var commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon'];
-    var files = [
+    let commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon'];
+    let files = [
       'lib/my-addon/addon/components/nested/x-foo.js',
       'lib/my-addon/addon/templates/components/nested/x-foo.hbs',
       'lib/my-addon/app/components/nested/x-foo.js',
@@ -205,8 +205,8 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('in-addon-dummy component x-foo', function() {
-    var commandArgs = ['component', 'x-foo'];
-    var files = [
+    let commandArgs = ['component', 'x-foo'];
+    let files = [
       'tests/dummy/app/templates/components/x-foo.hbs',
       'tests/dummy/app/components/x-foo.js',
     ];
@@ -215,36 +215,36 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('blueprint foo', function() {
-    var commandArgs = ['blueprint', 'foo'];
-    var files = ['blueprints/foo/index.js'];
+    let commandArgs = ['blueprint', 'foo'];
+    let files = ['blueprints/foo/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('blueprint foo/bar', function() {
-    var commandArgs = ['blueprint', 'foo/bar'];
-    var files = ['blueprints/foo/bar/index.js'];
+    let commandArgs = ['blueprint', 'foo/bar'];
+    let files = ['blueprints/foo/bar/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-mock foo', function() {
-    var commandArgs = ['http-mock', 'foo'];
-    var files = ['server/mocks/foo.js'];
+    let commandArgs = ['http-mock', 'foo'];
+    let files = ['server/mocks/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-proxy foo', function() {
-    var commandArgs = ['http-proxy', 'foo', 'bar'];
-    var files = ['server/proxies/foo.js'];
+    let commandArgs = ['http-proxy', 'foo', 'bar'];
+    let files = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('deletes files generated using blueprints from the project directory', function() {
-    var commandArgs = ['foo', 'bar'];
-    var files = ['app/foos/bar.js'];
+    let commandArgs = ['foo', 'bar'];
+    let files = ['app/foos/bar.js'];
     return initApp()
       .then(function() {
         return outputFile(
@@ -268,8 +268,8 @@ describe('Acceptance: ember destroy', function() {
   });
 
   it('correctly identifies the root of the project', function() {
-    var commandArgs = ['controller', 'foo'];
-    var files = ['app/controllers/foo.js'];
+    let commandArgs = ['controller', 'foo'];
+    let files = ['app/controllers/foo.js'];
     return initApp()
       .then(function() {
         return outputFile(

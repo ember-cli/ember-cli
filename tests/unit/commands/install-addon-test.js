@@ -1,19 +1,19 @@
 'use strict';
 
-var expect = require('chai').expect;
-var MockProject = require('../../helpers/mock-project');
-var commandOptions = require('../../factories/command-options');
-var Promise = require('../../../lib/ext/promise');
-var Task = require('../../../lib/models/task');
-var AddonInstall = require('../../../lib/tasks/addon-install');
-var InstallAddonCommand = require('../../../lib/commands/install-addon');
+const expect = require('chai').expect;
+const MockProject = require('../../helpers/mock-project');
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const Task = require('../../../lib/models/task');
+const AddonInstall = require('../../../lib/tasks/addon-install');
+const InstallAddonCommand = require('../../../lib/commands/install-addon');
 
 describe('install:addon command', function() {
-  var npmInstance, generateBlueprintInstance;
-  var command;
+  let npmInstance, generateBlueprintInstance;
+  let command;
 
   beforeEach(function() {
-    var tasks = {
+    let tasks = {
       AddonInstall,
       NpmInstall: Task.extend({
         init() {
@@ -36,7 +36,7 @@ describe('install:addon command', function() {
       }),
     };
 
-    var project = new MockProject();
+    let project = new MockProject();
 
     project.isEmberCLIProject = function() { return true; };
     project.initializeAddons = function() { };
@@ -51,7 +51,7 @@ describe('install:addon command', function() {
       }];
     };
 
-    var options = commandOptions({
+    let options = commandOptions({
       project,
       tasks,
     });

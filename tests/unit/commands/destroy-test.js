@@ -1,19 +1,19 @@
 'use strict';
 
-var expect = require('chai').expect;
-var EOL = require('os').EOL;
-var MockProject = require('../../helpers/mock-project');
-var processHelpString = require('../../helpers/process-help-string');
-var commandOptions = require('../../factories/command-options');
-var Promise = require('../../../lib/ext/promise');
-var Task = require('../../../lib/models/task');
-var DestroyCommand = require('../../../lib/commands/destroy');
+const expect = require('chai').expect;
+const EOL = require('os').EOL;
+const MockProject = require('../../helpers/mock-project');
+const processHelpString = require('../../helpers/process-help-string');
+const commandOptions = require('../../factories/command-options');
+const Promise = require('../../../lib/ext/promise');
+const Task = require('../../../lib/models/task');
+const DestroyCommand = require('../../../lib/commands/destroy');
 
 describe('destroy command', function() {
-  var options, command;
+  let options, command;
 
   beforeEach(function() {
-    var project = new MockProject();
+    let project = new MockProject();
 
     project.isEmberCLIProject = function() {
       return true;
@@ -85,9 +85,9 @@ describe('destroy command', function() {
     it('prints extra info', function() {
       command.printDetailedHelp();
 
-      var output = options.ui.output;
+      let output = options.ui.output;
 
-      var testString = processHelpString(`${EOL}\
+      let testString = processHelpString(`${EOL}\
   Run \`ember help generate\` to view a list of available blueprints.${EOL}`);
 
       expect(output).to.equal(testString);

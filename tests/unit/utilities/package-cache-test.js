@@ -1,24 +1,24 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var Configstore = require('configstore');
+const fs = require('fs-extra');
+const path = require('path');
+const Configstore = require('configstore');
 
-var PackageCache = require('../../../tests/helpers/package-cache');
-var symlinkOrCopySync = require('symlink-or-copy').sync;
+const PackageCache = require('../../../tests/helpers/package-cache');
+const symlinkOrCopySync = require('symlink-or-copy').sync;
 
-var td = require('testdouble');
-var chai = require('../../chai');
-var expect = chai.expect;
-var file = chai.file;
-var dir = chai.dir;
+const td = require('testdouble');
+const chai = require('../../chai');
+let expect = chai.expect;
+let file = chai.file;
+let dir = chai.dir;
 
 describe('PackageCache', function() {
-  var testPackageCache;
+  let testPackageCache;
 
-  var bower = td.function('bower');
-  var npm = td.function('npm');
-  var yarn = td.function('yarn');
+  let bower = td.function('bower');
+  let npm = td.function('npm');
+  let yarn = td.function('yarn');
 
   beforeEach(function() {
     testPackageCache = new PackageCache();
@@ -67,11 +67,11 @@ describe('PackageCache', function() {
   });
 
   it('_readManifest', function() {
-    var emberCLIPath = path.resolve(__dirname, '../../..');
+    let emberCLIPath = path.resolve(__dirname, '../../..');
     testPackageCache._conf.set('self', emberCLIPath);
     testPackageCache._conf.set('boom', __dirname);
 
-    var manifest;
+    let manifest;
     manifest = JSON.parse(testPackageCache._readManifest('self', 'yarn'));
     expect(manifest.name).to.equal('ember-cli');
 
@@ -83,7 +83,7 @@ describe('PackageCache', function() {
   });
 
   it('_writeManifest', function() {
-    var manifest = JSON.stringify({
+    let manifest = JSON.stringify({
       "name": "foo",
       "dependencies": {
         "ember": "2.9.0",
@@ -93,20 +93,20 @@ describe('PackageCache', function() {
 
     // Confirm it writes the file.
     testPackageCache._writeManifest('bower', 'bower', manifest);
-    var firstWrite = testPackageCache.dirs['bower'];
-    var manifestFilePath = path.join(firstWrite, 'bower.json');
+    let firstWrite = testPackageCache.dirs['bower'];
+    let manifestFilePath = path.join(firstWrite, 'bower.json');
     expect(file(manifestFilePath)).to.exist;
     expect(file(manifestFilePath)).to.equal(manifest);
 
     // Confirm that it reuses directories.
     testPackageCache._writeManifest('bower', 'bower', manifest);
-    var secondWrite = testPackageCache.dirs['bower'];
+    let secondWrite = testPackageCache.dirs['bower'];
     expect(firstWrite).to.equal(secondWrite);
 
     // Confirm that it removes a yarn.lock file if present and type is yarn.
     testPackageCache._writeManifest('yarn', 'yarn', manifest);
-    var yarn = testPackageCache.dirs['yarn'];
-    var lockFileLocation = path.join(yarn, 'yarn.lock');
+    let yarn = testPackageCache.dirs['yarn'];
+    let lockFileLocation = path.join(yarn, 'yarn.lock');
 
     // Make sure it doesn't throw if it doesn't exist.
     expect(function() { testPackageCache._writeManifest('yarn', 'yarn', manifest); }).to.not.throw(Error);
@@ -124,7 +124,7 @@ describe('PackageCache', function() {
   });
 
   it('_checkManifest', function() {
-    var manifest = JSON.stringify({
+    let manifest = JSON.stringify({
       "name": "foo",
       "dependencies": {
         "ember": "2.9.0",
@@ -132,7 +132,7 @@ describe('PackageCache', function() {
       },
     });
 
-    var manifestShuffled = JSON.stringify({
+    let manifestShuffled = JSON.stringify({
       "name": "foo",
       "dependencies": {
         "ember-cli-shims": "0.1.3",
@@ -140,7 +140,7 @@ describe('PackageCache', function() {
       },
     });
 
-    var manifestEmptyKey = JSON.stringify({
+    let manifestEmptyKey = JSON.stringify({
       "name": "foo",
       "dependencies": {
         "ember": "2.9.0",
@@ -161,20 +161,20 @@ describe('PackageCache', function() {
 
   it('_removeLinks', function() {
     // This is our package that is linked in.
-    var srcDir = path.join(process.cwd(), 'tmp', 'beta');
+    let srcDir = path.join(process.cwd(), 'tmp', 'beta');
     expect(dir(srcDir)).to.not.exist;
     fs.outputFileSync(path.join(srcDir, 'package.json'), 'beta');
     expect(file(path.join(srcDir, 'package.json'))).to.contain('beta');
 
     // This is the directory we got "back" from `PackageCache.create`.
-    var targetDir = path.join(process.cwd(), 'tmp', 'target');
+    let targetDir = path.join(process.cwd(), 'tmp', 'target');
     expect(dir(targetDir)).to.not.exist;
     testPackageCache._conf.set('label', targetDir);
     fs.mkdirsSync(targetDir);
     expect(dir(targetDir)).to.exist;
 
     // This is the directory which would be created as a link.
-    var eventualDir = path.join(targetDir, 'node_modules', 'beta');
+    let eventualDir = path.join(targetDir, 'node_modules', 'beta');
     fs.mkdirsSync(path.dirname(eventualDir));
     expect(dir(path.dirname(eventualDir))).to.exist;
     expect(dir(eventualDir)).to.not.exist;
@@ -183,7 +183,7 @@ describe('PackageCache', function() {
     symlinkOrCopySync(srcDir, eventualDir);
     expect(file(path.join(eventualDir, 'package.json'))).to.contain('beta');
 
-    var manifest = {
+    let manifest = {
       _packageCache: {
         links: [
           'one',
@@ -205,7 +205,7 @@ describe('PackageCache', function() {
       },
     };
 
-    var result = {
+    let result = {
       _packageCache: {
         links: [
           'one',
@@ -233,11 +233,11 @@ describe('PackageCache', function() {
       devDependencies: {},
     };
 
-    var readManifest = td.function('_readManifest');
+    let readManifest = td.function('_readManifest');
     td.when(readManifest('label', 'npm')).thenReturn(JSON.stringify(manifest));
     testPackageCache._readManifest = readManifest;
 
-    var writeManifest = td.function('_writeManifest');
+    let writeManifest = td.function('_writeManifest');
     testPackageCache._writeManifest = writeManifest;
 
     testPackageCache._removeLinks('label', 'npm');
@@ -262,23 +262,23 @@ describe('PackageCache', function() {
 
   it('_restoreLinks', function() {
     // This is our package that is linked in.
-    var srcDir = path.join(process.cwd(), 'tmp', 'beta');
+    let srcDir = path.join(process.cwd(), 'tmp', 'beta');
     expect(dir(srcDir)).to.not.exist;
     fs.outputFileSync(path.join(srcDir, 'package.json'), 'beta');
     expect(file(path.join(srcDir, 'package.json'))).to.contain('beta');
 
     // This is the directory we got "back" from `PackageCache.create`.
-    var targetDir = path.join(process.cwd(), 'tmp', 'target');
+    let targetDir = path.join(process.cwd(), 'tmp', 'target');
     expect(dir(targetDir)).to.not.exist;
     testPackageCache._conf.set('label', targetDir);
     fs.mkdirsSync(targetDir);
     expect(dir(targetDir)).to.exist;
 
     // This is the directory which will be created as a link.
-    var eventualDir = path.join(targetDir, 'node_modules', 'beta');
+    let eventualDir = path.join(targetDir, 'node_modules', 'beta');
     expect(dir(eventualDir)).to.not.exist;
 
-    var manifest = {
+    let manifest = {
       _packageCache: {
         links: [
           'one',
@@ -306,7 +306,7 @@ describe('PackageCache', function() {
       devDependencies: {},
     };
 
-    var result = {
+    let result = {
       _packageCache: {
         links: [
           'one',
@@ -328,11 +328,11 @@ describe('PackageCache', function() {
       },
     };
 
-    var readManifest = td.function('_readManifest');
+    let readManifest = td.function('_readManifest');
     td.when(readManifest('label', 'npm')).thenReturn(JSON.stringify(manifest));
     testPackageCache._readManifest = readManifest;
 
-    var writeManifest = td.function('_writeManifest');
+    let writeManifest = td.function('_writeManifest');
     testPackageCache._writeManifest = writeManifest;
 
     testPackageCache._restoreLinks('label', 'npm');
@@ -393,8 +393,8 @@ describe('PackageCache', function() {
   describe('_upgrade (npm)', function() {
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
-    var testCounter = 0;
-    var label;
+    let testCounter = 0;
+    let label;
 
     beforeEach(function() {
       label = `npm-upgrade-test-${testCounter++}`;
@@ -448,8 +448,8 @@ describe('PackageCache', function() {
 
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
-    var testCounter = 0;
-    var label;
+    let testCounter = 0;
+    let label;
 
     beforeEach(function() {
       label = `yarn-upgrade-test-${testCounter++}`;
@@ -500,8 +500,8 @@ describe('PackageCache', function() {
   describe('_upgrade (bower)', function() {
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
-    var testCounter = 0;
-    var label;
+    let testCounter = 0;
+    let label;
 
     beforeEach(function() {
       label = `bower-upgrade-test-${testCounter++}`;
@@ -551,8 +551,8 @@ describe('PackageCache', function() {
 
   it('create', function() {
     td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
-    var dir = testPackageCache.create('npm', 'npm', '{}');
-    var manifestFilePath = path.join(dir, 'package.json');
+    let dir = testPackageCache.create('npm', 'npm', '{}');
+    let manifestFilePath = path.join(dir, 'package.json');
 
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('install'), { times: 1, ignoreExtraArgs: true });
@@ -617,8 +617,8 @@ describe('PackageCache', function() {
   it('destroy', function() {
     testPackageCache._writeManifest('label', 'bower', '{}');
 
-    var dir = testPackageCache.get('label');
-    var manifestFilePath = path.join(dir, 'bower.json');
+    let dir = testPackageCache.get('label');
+    let manifestFilePath = path.join(dir, 'bower.json');
     expect(file(manifestFilePath)).to.exist; // Sanity check.
 
     testPackageCache.destroy('label');
@@ -629,13 +629,13 @@ describe('PackageCache', function() {
   it('clone', function() {
     testPackageCache._writeManifest('from', 'bower', '{}');
 
-    var fromDir = testPackageCache.dirs['from'];
-    var toDir = testPackageCache.clone('from', 'to');
+    let fromDir = testPackageCache.dirs['from'];
+    let toDir = testPackageCache.clone('from', 'to');
 
     expect(fromDir).to.not.equal(toDir);
 
-    var fromManifest = testPackageCache._readManifest('from', 'bower');
-    var toManifest = testPackageCache._readManifest('to', 'bower');
+    let fromManifest = testPackageCache._readManifest('from', 'bower');
+    let toManifest = testPackageCache._readManifest('to', 'bower');
 
     expect(fromManifest).to.equal(toManifest);
 
@@ -650,16 +650,16 @@ describe('PackageCache', function() {
     // Intentionally turning off testing mode.
     testPackageCache.__resetForTesting();
 
-    var manifest = JSON.stringify({
+    let manifest = JSON.stringify({
       "name": "foo",
       "dependencies": {
         "left-pad": "latest",
       },
     });
 
-    var dir = testPackageCache.create('npm', 'npm', manifest);
-    var manifestFilePath = path.join(dir, 'package.json');
-    var assetPath = path.join(dir, 'node_modules', 'left-pad', 'package.json');
+    let dir = testPackageCache.create('npm', 'npm', manifest);
+    let manifestFilePath = path.join(dir, 'package.json');
+    let assetPath = path.join(dir, 'node_modules', 'left-pad', 'package.json');
 
     // the manifest was written
     expect(file(manifestFilePath)).to.exist;

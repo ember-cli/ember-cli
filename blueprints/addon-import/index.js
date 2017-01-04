@@ -1,7 +1,9 @@
-var stringUtil = require('ember-cli-string-utils');
-var path = require('path');
-var inflector = require('inflection');
-var SilentError = require('silent-error');
+'use strict';
+
+const stringUtil = require('ember-cli-string-utils');
+const path = require('path');
+const inflector = require('inflection');
+const SilentError = require('silent-error');
 
 module.exports = {
   description: 'Generates an import wrapper.',
@@ -34,11 +36,11 @@ module.exports = {
     };
   },
   locals(options) {
-    var addonRawName = options.inRepoAddon ? options.inRepoAddon : options.project.name();
-    var addonName = stringUtil.dasherize(addonRawName);
-    var fileName = stringUtil.dasherize(options.entity.name);
-    var blueprintName = options.originBlueprintName;
-    var modulePathSegments = [addonName, inflector.pluralize(options.originBlueprintName), fileName];
+    let addonRawName = options.inRepoAddon ? options.inRepoAddon : options.project.name();
+    let addonName = stringUtil.dasherize(addonRawName);
+    let fileName = stringUtil.dasherize(options.entity.name);
+    let blueprintName = options.originBlueprintName;
+    let modulePathSegments = [addonName, inflector.pluralize(options.originBlueprintName), fileName];
 
     if (blueprintName.match(/-addon/)) {
       blueprintName = blueprintName.substr(0, blueprintName.indexOf('-addon'));

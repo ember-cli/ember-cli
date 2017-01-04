@@ -1,18 +1,18 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var quickTemp = require('quick-temp');
-var Configstore = require('configstore');
-var CommandGenerator = require('./command-generator');
-var stableStringify = require('json-stable-stringify');
-var symlinkOrCopySync = require('symlink-or-copy').sync;
+const fs = require('fs-extra');
+const path = require('path');
+const quickTemp = require('quick-temp');
+const Configstore = require('configstore');
+const CommandGenerator = require('./command-generator');
+const stableStringify = require('json-stable-stringify');
+const symlinkOrCopySync = require('symlink-or-copy').sync;
 
-var originalWorkingDirectory = process.cwd();
+let originalWorkingDirectory = process.cwd();
 
 // Module scoped variable to store whether a particular cache has been
 // attempted to be upgraded.
-var upgraded = {};
+let upgraded = {};
 
 /*
 List of keys which could possibly result in the package manager installing
@@ -20,7 +20,7 @@ something. This is the "err on the side of caution" approach. It actually
 doesn't matter if something is or isn't automatically installed in any of the
 cases where we use this.
 */
-var DEPENDENCY_KEYS = [
+let DEPENDENCY_KEYS = [
   'dependencies',
   'devDependencies',
   'peerDependencies',
@@ -36,7 +36,7 @@ var DEPENDENCY_KEYS = [
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
  *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
  */
-var bower = new CommandGenerator('bower');
+let bower = new CommandGenerator('bower');
 
 /**
  * The `npm` command helper.
@@ -47,7 +47,7 @@ var bower = new CommandGenerator('bower');
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
  *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
  */
-var npm = new CommandGenerator('npm');
+let npm = new CommandGenerator('npm');
 
 /**
  * The `yarn` command helper.
@@ -58,18 +58,18 @@ var npm = new CommandGenerator('npm');
  * @param {Object} [options={}] The options passed into child_process.spawnSync.
  *   (https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options)
  */
-var yarn = new CommandGenerator('yarn');
+let yarn = new CommandGenerator('yarn');
 
 // This lookup exists to make it possible to look the commands up based upon context.
-var originals;
-var commands = {
+let originals;
+let commands = {
   bower,
   npm,
   yarn,
 };
 
 // The definition list of translation terms.
-var lookups = {
+let lookups = {
   manifest: {
     bower: 'bower.json',
     npm: 'package.json',
@@ -105,8 +105,8 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * Usage:
  *
  * ```
- * var cache = new PackageCache();
- * var dir = cache.create('your-cache', 'yarn', '{
+ * let cache = new PackageCache();
+ * let dir = cache.create('your-cache', 'yarn', '{
  *   "dependencies": {
  *     "lodash": "*",
  *     "ember-cli": "*"
@@ -130,7 +130,7 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * cache validation check:
  *
  * ```
- * var dir2 = cache.create('your-cache', 'yarn', '{
+ * let dir2 = cache.create('your-cache', 'yarn', '{
  *   "dependencies": {
  *     "lodash": "*",
  *     "ember-cli": "*"
@@ -142,7 +142,7 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * If you wish to modify a cache you can do so using the `update` API:
  *
  * ```
- * var dir3 = cache.update('your-cache', 'yarn', '{
+ * let dir3 = cache.update('your-cache', 'yarn', '{
  *   "dependencies": {
  *     "": "*",
  *     "lodash": "*",
@@ -162,8 +162,8 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * the original you can invoke the `clone` command:
  *
  * ```
- * var newDir = cache.clone('your-cache', 'modified-cache');
- * var manifest = fs.readJsonSync(path.join(newDir, 'package.json'));
+ * let newDir = cache.clone('your-cache', 'modified-cache');
+ * let manifest = fs.readJsonSync(path.join(newDir, 'package.json'));
  * manifest.dependencies['express'] = '*';
  * cache.update('modified-cache', 'yarn', JSON.stringify(manifest));
  * // => process.cwd()/tmp/modified-cache-F8D5C8B
@@ -176,10 +176,10 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * You can even programatically update a cache:
  *
  * ```
- * var CommandGenerator = require('./command-generator');
- * var yarn = new CommandGenerator('yarn');
+ * let CommandGenerator = require('./command-generator');
+ * let yarn = new CommandGenerator('yarn');
  *
- * var dir = cache.create('your-cache', 'yarn', '{ ... }');
+ * let dir = cache.create('your-cache', 'yarn', '{ ... }');
  *
  * yarn.invoke('add', 'some-addon', { cwd: dir });
  * ```
@@ -197,7 +197,7 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * their built-in `link` command.
  *
  * ```
- * var dir = cache.create('your-cache', 'yarn', '{ ... }', ['ember-cli']);
+ * let dir = cache.create('your-cache', 'yarn', '{ ... }', ['ember-cli']);
  * // => `yarn link ember-cli` happens along the way.
  * ```
  *
@@ -206,7 +206,7 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * attempt at supporting this workflow by allowing you to specify an object in
  * the `links` argument array passed to `create`.
  *
- * var dir = cache.create('your-cache', 'yarn', '{ ... }', [
+ * let dir = cache.create('your-cache', 'yarn', '{ ... }', [
  *   { name: 'ember-cli', path: '/the/absolute/path/to/the/package' },
  *   'other-package'
  * ]);
@@ -275,10 +275,10 @@ PackageCache.prototype = {
    * @method _cleanDirs
    */
   _cleanDirs() {
-    var labels = Object.keys(this.dirs);
+    let labels = Object.keys(this.dirs);
 
-    var label, directory;
-    for (var i = 0; i < labels.length; i++) {
+    let label, directory;
+    for (let i = 0; i < labels.length; i++) {
       label = labels[i];
       directory = this.dirs[label];
       if (!fs.existsSync(directory)) {
@@ -297,13 +297,13 @@ PackageCache.prototype = {
    * @return {String} The manifest file contents on disk.
    */
   _readManifest(label, type) {
-    var readManifestDir = this.dirs[label];
+    let readManifestDir = this.dirs[label];
 
     if (!readManifestDir) { return null; }
 
-    var inputPath = path.join(readManifestDir, translate(type, 'manifest'));
+    let inputPath = path.join(readManifestDir, translate(type, 'manifest'));
 
-    var result = null;
+    let result = null;
     try {
       result = fs.readFileSync(inputPath, 'utf8');
     } catch (error) {
@@ -327,12 +327,12 @@ PackageCache.prototype = {
    */
   _writeManifest(label, type, manifest) {
     process.chdir(this.rootPath);
-    var outputDir = quickTemp.makeOrReuse(this.dirs, label);
+    let outputDir = quickTemp.makeOrReuse(this.dirs, label);
     process.chdir(originalWorkingDirectory);
 
     this._conf.set(label, outputDir);
 
-    var outputFile = path.join(outputDir, translate(type, 'manifest'));
+    let outputFile = path.join(outputDir, translate(type, 'manifest'));
     fs.outputFileSync(outputFile, manifest);
 
     // Remove any existing yarn.lock file so that it doesn't try to incorrectly use it as a base.
@@ -362,15 +362,15 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   _removeLinks(label, type) {
-    var cachedManifest = this._readManifest(label, type);
+    let cachedManifest = this._readManifest(label, type);
     if (!cachedManifest) { return; }
 
-    var jsonManifest = JSON.parse(cachedManifest);
-    var links = jsonManifest._packageCache.links;
+    let jsonManifest = JSON.parse(cachedManifest);
+    let links = jsonManifest._packageCache.links;
 
     // Blindly remove existing links whether or not they appear in the manifest.
-    var link, linkPath;
-    for (var i = 0; i < links.length; i++) {
+    let link, linkPath;
+    for (let i = 0; i < links.length; i++) {
       link = links[i];
       if (typeof link === 'string') {
         commands[type].invoke('unlink', link, { cwd: this.dirs[label] });
@@ -389,15 +389,15 @@ PackageCache.prototype = {
     }
 
     // Remove things from the manifest which we know we'll link back in.
-    var originals = {};
-    var key, linkName;
-    for (i = 0; i < DEPENDENCY_KEYS.length; i++) {
+    let originals = {};
+    let key, linkName;
+    for (let i = 0; i < DEPENDENCY_KEYS.length; i++) {
       key = DEPENDENCY_KEYS[i];
       if (jsonManifest[key]) {
         // Get a clone of the original object.
         originals[key] = JSON.parse(JSON.stringify(jsonManifest[key]));
       }
-      for (var j = 0; j < links.length; j++) {
+      for (let j = 0; j < links.length; j++) {
         link = links[j];
 
         // Support object-style invocation for "manual" linking.
@@ -414,7 +414,7 @@ PackageCache.prototype = {
     }
 
     jsonManifest._packageCache.originals = originals;
-    var manifest = JSON.stringify(jsonManifest);
+    let manifest = JSON.stringify(jsonManifest);
 
     this._writeManifest(label, type, manifest);
   },
@@ -431,15 +431,15 @@ PackageCache.prototype = {
    * @param {String} type The type of package cache.
    */
   _restoreLinks(label, type) {
-    var cachedManifest = this._readManifest(label, type);
+    let cachedManifest = this._readManifest(label, type);
     if (!cachedManifest) { return; }
 
-    var jsonManifest = JSON.parse(cachedManifest);
-    var links = jsonManifest._packageCache.links;
+    let jsonManifest = JSON.parse(cachedManifest);
+    let links = jsonManifest._packageCache.links;
 
     // Blindly restore links.
-    var link, linkPath;
-    for (var i = 0; i < links.length; i++) {
+    let link, linkPath;
+    for (let i = 0; i < links.length; i++) {
       link = links[i];
       if (typeof link === 'string') {
         commands[type].invoke('link', link, { cwd: this.dirs[label] });
@@ -451,9 +451,9 @@ PackageCache.prototype = {
     }
 
     // Restore to original state.
-    var keys = Object.keys(jsonManifest._packageCache.originals);
-    var key;
-    for (i = 0; i < keys.length; i++) {
+    let keys = Object.keys(jsonManifest._packageCache.originals);
+    let key;
+    for (let i = 0; i < keys.length; i++) {
       key = keys[i];
       jsonManifest[key] = jsonManifest._packageCache.originals[key];
     }
@@ -462,7 +462,7 @@ PackageCache.prototype = {
     delete jsonManifest._packageCache.originals;
 
     // Serialize back to disk.
-    var manifest = JSON.stringify(jsonManifest);
+    let manifest = JSON.stringify(jsonManifest);
     this._writeManifest(label, type, manifest);
   },
 
@@ -477,19 +477,19 @@ PackageCache.prototype = {
    * @return {Boolean} `true` if identical.
    */
   _checkManifest(label, type, manifest) {
-    var cachedManifest = this._readManifest(label, type);
+    let cachedManifest = this._readManifest(label, type);
 
     if (cachedManifest === null) { return false; }
 
-    var parsedCached = JSON.parse(cachedManifest);
-    var parsedNew = JSON.parse(manifest);
+    let parsedCached = JSON.parse(cachedManifest);
+    let parsedNew = JSON.parse(manifest);
 
     // Only inspect the keys we care about.
     // Invalidate the cache based off the private _packageCache key as well.
-    var keys = [].concat(DEPENDENCY_KEYS, '_packageCache');
+    let keys = [].concat(DEPENDENCY_KEYS, '_packageCache');
 
-    var key, before, after;
-    for (var i = 0; i < keys.length; i++) {
+    let key, before, after;
+    for (let i = 0; i < keys.length; i++) {
       key = keys[i];
 
       // Empty keys are identical to undefined keys.
@@ -564,9 +564,9 @@ PackageCache.prototype = {
     links = links || [];
 
     // Save metadata about the PackageCache invocation in the manifest.
-    var packageManagerVersion = commands[type].invoke('--version').stdout;
+    let packageManagerVersion = commands[type].invoke('--version').stdout;
 
-    var jsonManifest = JSON.parse(manifest);
+    let jsonManifest = JSON.parse(manifest);
     jsonManifest._packageCache = {
       node: process.version,
       packageManager: type,
@@ -577,7 +577,7 @@ PackageCache.prototype = {
     manifest = JSON.stringify(jsonManifest);
 
     // Compare any existing manifest to the ideal per current blueprint.
-    var identical = this._checkManifest(label, type, manifest);
+    let identical = this._checkManifest(label, type, manifest);
 
     if (identical) {
       // Use what we have, but opt in to SemVer drift.
@@ -641,7 +641,7 @@ PackageCache.prototype = {
    */
   clone(fromLabel, toLabel) {
     process.chdir(this.rootPath);
-    var outputDir = quickTemp.makeOrReuse(this.dirs, toLabel);
+    let outputDir = quickTemp.makeOrReuse(this.dirs, toLabel);
     process.chdir(originalWorkingDirectory);
 
     this._conf.set(toLabel, outputDir);

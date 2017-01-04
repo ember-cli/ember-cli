@@ -1,5 +1,7 @@
-var Blueprint = require('../../lib/models/blueprint');
-var isPackageMissing = require('ember-cli-is-package-missing');
+'use strict';
+
+const Blueprint = require('../../lib/models/blueprint');
+const isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
   description: 'Generates a mock api endpoint in /api prefix.',
@@ -15,7 +17,7 @@ module.exports = {
   },
 
   beforeInstall(options) {
-    var serverBlueprint = Blueprint.lookup('server', {
+    let serverBlueprint = Blueprint.lookup('server', {
       ui: this.ui,
       analytics: this.analytics,
       project: this.project,

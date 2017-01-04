@@ -1,25 +1,25 @@
 'use strict';
 
-var expect = require('chai').expect;
-var MockProject = require('../../helpers/mock-project');
-var commandOptions = require('../../factories/command-options');
-var UninstallNpmCommand = require('../../../lib/commands/uninstall-npm');
+const expect = require('chai').expect;
+const MockProject = require('../../helpers/mock-project');
+const commandOptions = require('../../factories/command-options');
+const UninstallNpmCommand = require('../../../lib/commands/uninstall-npm');
 
 describe('uninstall:npm command', function() {
-  var command;
+  let command;
 
-  var msg =
+  let msg =
       'This command has been removed. Please use `npm uninstall ' +
       '<packageName> --save-dev` instead.';
 
   beforeEach(function() {
-    var project = new MockProject();
+    let project = new MockProject();
 
     project.isEmberCLIProject = function() {
       return true;
     };
 
-    var options = commandOptions({
+    let options = commandOptions({
       project,
     });
 

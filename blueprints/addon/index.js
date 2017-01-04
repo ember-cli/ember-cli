@@ -1,21 +1,23 @@
-var fs = require('fs-extra');
-var existsSync = require('exists-sync');
-var path = require('path');
-var walkSync = require('walk-sync');
-var stringUtil = require('ember-cli-string-utils');
-var uniq = require('ember-cli-lodash-subset').uniq;
-var SilentError = require('silent-error');
-var sortPackageJson = require('sort-package-json');
-var date = new Date();
+'use strict';
 
-var normalizeEntityName = require('ember-cli-normalize-entity-name');
-var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
+const fs = require('fs-extra');
+const existsSync = require('exists-sync');
+const path = require('path');
+const walkSync = require('walk-sync');
+const stringUtil = require('ember-cli-string-utils');
+const uniq = require('ember-cli-lodash-subset').uniq;
+const SilentError = require('silent-error');
+const sortPackageJson = require('sort-package-json');
+let date = new Date();
+
+const normalizeEntityName = require('ember-cli-normalize-entity-name');
+const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
   generatePackageJson() {
-    var contents = this._readContentsFromFile('package.json');
+    let contents = this._readContentsFromFile('package.json');
 
     delete contents.private;
     contents.name = '<%= addonName %>';
@@ -53,7 +55,7 @@ module.exports = {
   },
 
   generateBowerJson() {
-    var contents = this._readContentsFromFile('bower.json');
+    let contents = this._readContentsFromFile('bower.json');
 
     contents.name = '<%= addonName %>';
 
@@ -61,8 +63,8 @@ module.exports = {
   },
 
   afterInstall() {
-    var packagePath = path.join(this.path, 'files', 'package.json');
-    var bowerPath = path.join(this.path, 'files', 'bower.json');
+    let packagePath = path.join(this.path, 'files', 'package.json');
+    let bowerPath = path.join(this.path, 'files', 'bower.json');
 
     [packagePath, bowerPath].forEach(filePath => {
       fs.remove(filePath);
@@ -70,15 +72,15 @@ module.exports = {
   },
 
   locals(options) {
-    var entity = { name: 'dummy' };
-    var rawName = entity.name;
-    var name = stringUtil.dasherize(rawName);
-    var namespace = stringUtil.classify(rawName);
+    let entity = { name: 'dummy' };
+    let rawName = entity.name;
+    let name = stringUtil.dasherize(rawName);
+    let namespace = stringUtil.classify(rawName);
 
-    var addonEntity = options.entity;
-    var addonRawName = addonEntity.name;
-    var addonName = stringUtil.dasherize(addonRawName);
-    var addonNamespace = stringUtil.classify(addonRawName);
+    let addonEntity = options.entity;
+    let addonRawName = addonEntity.name;
+    let addonName = stringUtil.dasherize(addonRawName);
+    let addonNamespace = stringUtil.classify(addonRawName);
 
     return {
       name,
@@ -96,18 +98,18 @@ module.exports = {
     if (this._files) { return this._files; }
 
     this._appBlueprint = this.lookupBlueprint('app');
-    var appFiles = this._appBlueprint.files();
+    let appFiles = this._appBlueprint.files();
 
     this.generatePackageJson();
     this.generateBowerJson();
 
-    var addonFiles = walkSync(path.join(this.path, 'files'));
+    let addonFiles = walkSync(path.join(this.path, 'files'));
 
     return this._files = uniq(appFiles.concat(addonFiles));
   },
 
   mapFile() {
-    var result = this._super.mapFile.apply(this, arguments);
+    let result = this._super.mapFile.apply(this, arguments);
     return this.fileMapper(result);
   },
 
@@ -124,7 +126,7 @@ module.exports = {
   },
 
   fileMapper(path) {
-    for (var pattern in this.fileMap) {
+    for (let pattern in this.fileMap) {
       if ((new RegExp(pattern)).test(path)) {
         return this.fileMap[pattern].replace(':path', path);
       }
@@ -134,7 +136,7 @@ module.exports = {
   },
 
   srcPath(file) {
-    var filePath = path.resolve(this.path, 'files', file);
+    let filePath = path.resolve(this.path, 'files', file);
     if (existsSync(filePath)) {
       return filePath;
     } else {
@@ -153,12 +155,12 @@ module.exports = {
   },
 
   _readContentsFromFile(fileName) {
-    var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
+    let packagePath = path.join(this._appBlueprint.path, 'files', fileName);
     return fs.readJsonSync(packagePath);
   },
 
   _writeContentsToFile(contents, fileName) {
-    var packagePath = path.join(this.path, 'files', fileName);
+    let packagePath = path.join(this.path, 'files', fileName);
     fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
   },
 };

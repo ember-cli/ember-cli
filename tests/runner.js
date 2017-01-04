@@ -1,13 +1,13 @@
 'use strict';
 
-var captureExit = require('capture-exit');
+const captureExit = require('capture-exit');
 captureExit.captureExit();
 
-var glob = require('glob');
-var Mocha = require('mocha');
-var RSVP = require('rsvp');
-var fs = require('fs-extra');
-var mochaOnlyDetector = require('mocha-only-detector');
+const glob = require('glob');
+const Mocha = require('mocha');
+const RSVP = require('rsvp');
+const fs = require('fs-extra');
+const mochaOnlyDetector = require('mocha-only-detector');
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
@@ -15,21 +15,21 @@ if (process.env.EOLNEWLINE) {
 
 fs.removeSync('.deps-tmp');
 
-var root = 'tests/{unit,integration,acceptance}';
-var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, `${root}/**/*{-test,-slow}.js`));
-var optionOrFile = process.argv[2];
+let root = 'tests/{unit,integration,acceptance}';
+let _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, `${root}/**/*{-test,-slow}.js`));
+let optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`
-var reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
-var mocha = new Mocha({
+let reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
+let mocha = new Mocha({
   timeout: 5000,
   reporter,
   retries: 2,
 });
-var testFiles = glob.sync(`${root}/**/*-test.js`);
-var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
-var lint = testFiles.splice(lintPosition, 1);
-var docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
-var docsLint = testFiles.splice(docsLintPosition, 1);
+let testFiles = glob.sync(`${root}/**/*-test.js`);
+let lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
+let lint = testFiles.splice(lintPosition, 1);
+let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
+let docsLint = testFiles.splice(docsLintPosition, 1);
 
 testFiles = lint.concat(docsLint).concat(testFiles);
 

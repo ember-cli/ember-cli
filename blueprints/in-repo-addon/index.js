@@ -1,14 +1,16 @@
-var fs = require('fs-extra');
-var path = require('path');
-var stringUtil = require('ember-cli-string-utils');
-var Blueprint = require('../../lib/models/blueprint');
-var stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
+'use strict';
+
+const fs = require('fs-extra');
+const path = require('path');
+const stringUtil = require('ember-cli-string-utils');
+const Blueprint = require('../../lib/models/blueprint');
+const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 
 module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',
 
   beforeInstall(options) {
-    var libBlueprint = Blueprint.lookup('lib', {
+    let libBlueprint = Blueprint.lookup('lib', {
       ui: this.ui,
       analytics: this.analytics,
       project: this.project,
@@ -26,11 +28,11 @@ module.exports = {
   },
 
   _generatePackageJson(options, isInstall) {
-    var packagePath = path.join(this.project.root, 'package.json');
-    var contents = fs.readJsonSync(packagePath);
-    var name = stringUtil.dasherize(options.entity.name);
-    var newPath = ['lib', name].join('/');
-    var paths;
+    let packagePath = path.join(this.project.root, 'package.json');
+    let contents = fs.readJsonSync(packagePath);
+    let name = stringUtil.dasherize(options.entity.name);
+    let newPath = ['lib', name].join('/');
+    let paths;
 
     contents['ember-addon'] = contents['ember-addon'] || {};
     paths = contents['ember-addon']['paths'] = contents['ember-addon']['paths'] || [];
@@ -41,7 +43,7 @@ module.exports = {
         contents['ember-addon']['paths'] = paths.sort();
       }
     } else {
-      var newPathIndex = paths.indexOf(newPath);
+      let newPathIndex = paths.indexOf(newPath);
       if (newPathIndex > -1) {
         paths.splice(newPathIndex, 1);
         if (paths.length === 0) {

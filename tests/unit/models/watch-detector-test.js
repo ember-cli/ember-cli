@@ -1,18 +1,18 @@
 'use strict';
 
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
-var MockUI = require('console-ui/mock');
-var WatchDetector = require('../../../lib/models/watch-detector');
-var EOL = require('os').EOL;
-var chalk = require('chalk');
-var Promise = require('../../../lib/ext/promise');
+const MockUI = require('console-ui/mock');
+const WatchDetector = require('../../../lib/models/watch-detector');
+const EOL = require('os').EOL;
+const chalk = require('chalk');
+const Promise = require('../../../lib/ext/promise');
 
 describe('WatchDetector', function() {
-  var ui;
-  var subject;
-  var execArg, execValue;
-  var fs, childProcess;
+  let ui;
+  let subject;
+  let execArg, execValue;
+  let fs, childProcess;
 
   beforeEach(function() {
     ui = new MockUI();
@@ -68,7 +68,7 @@ describe('WatchDetector', function() {
       });
 
       it('chooses watchman', function() {
-        var option = subject.findBestWatcherOption({ watcher: 'watchman' });
+        let option = subject.findBestWatcherOption({ watcher: 'watchman' });
         expect(option).to.have.property('watcher', 'watchman');
         expect(option.watchmanInfo).to.have.property('version');
         expect(option.watchmanInfo).to.have.property('canNestRoots');
@@ -88,7 +88,7 @@ describe('WatchDetector', function() {
         it('false back to node if it can', function() {
           fs.watch = function() { return { close() { } }; };
 
-          var option = subject.findBestWatcherOption({ watcher: 'watchman' });
+          let option = subject.findBestWatcherOption({ watcher: 'watchman' });
           expect(option.watchmanInfo).to.have.property('enabled', false);
           expect(option).to.have.property('watcher', 'node');
           expect(option.watchmanInfo).to.have.property('version');
@@ -103,7 +103,7 @@ describe('WatchDetector', function() {
             throw new Error('something went wrong');
           };
 
-          var option = subject.findBestWatcherOption({ watcher: 'watchman' });
+          let option = subject.findBestWatcherOption({ watcher: 'watchman' });
           expect(option).to.have.property('watcher', 'polling');
           expect(option.watchmanInfo).to.have.property('enabled', false);
           expect(option.watchmanInfo).to.have.property('version');
@@ -118,7 +118,7 @@ describe('WatchDetector', function() {
     describe('input preference.watcher === polling', function() {
       it('simply works', function() {
         // we assuming polling can never not work, if it doesn't sorry..
-        var option = subject.findBestWatcherOption({ watcher: 'polling' });
+        let option = subject.findBestWatcherOption({ watcher: 'polling' });
         expect(option.watchmanInfo).to.have.property('enabled', false);
         expect(option).to.have.property('watcher', 'polling');
         expect(ui.output).to.eql('');
@@ -130,7 +130,7 @@ describe('WatchDetector', function() {
         fs.watch = function() { return { close() { } }; };
 
         // we assuming polling can never not work, if it doesn't sorry..
-        var option = subject.findBestWatcherOption({ watcher: 'node' });
+        let option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'node');
         expect(ui.output).to.eql('');
       });
@@ -140,7 +140,7 @@ describe('WatchDetector', function() {
           throw new Error('OMG');
         };
         // we assuming polling can never not work, if it doesn't sorry..
-        var option = subject.findBestWatcherOption({ watcher: 'node' });
+        let option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'polling');
         expect(ui.output).to.eql(`was unable to use: "node", fell back to: "polling"${EOL}`);
       });
@@ -153,7 +153,7 @@ describe('WatchDetector', function() {
           throw new Error('OMG');
         };
         // we assuming polling can never not work, if it doesn't sorry..
-        var option = subject.findBestWatcherOption({ watcher: 'node' });
+        let option = subject.findBestWatcherOption({ watcher: 'node' });
         expect(option).to.have.property('watcher', 'polling');
         expect(ui.output).to.eql(`was unable to use: "node", fell back to: "polling"${EOL}`);
       });
@@ -171,7 +171,7 @@ describe('WatchDetector', function() {
         };
         fs.watch = function() { return { close() { } }; };
 
-        var result = subject.checkWatchman();
+        let result = subject.checkWatchman();
         expect(result).to.have.property('watcher', 'node');
         expect(ui.output).to.eql('');
       });
@@ -184,7 +184,7 @@ describe('WatchDetector', function() {
           throw new Error();
         };
 
-        var result = subject.checkWatchman();
+        let result = subject.checkWatchman();
         expect(result).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Could not start watchman/);
         expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
@@ -195,7 +195,7 @@ describe('WatchDetector', function() {
         return '{"version":"3.0.0"}';
       };
 
-      var preference = subject.checkWatchman();
+      let preference = subject.checkWatchman();
       expect(preference).to.have.property('watcher', 'watchman');
       expect(ui.output).to.not.match(/Could not start watchman/);
       expect(ui.output).to.not.match(/falling back to NodeWatcher/);
@@ -205,14 +205,14 @@ describe('WatchDetector', function() {
     });
 
     describe('fallse back to NODE', function() {
-      var iff = it;
+      let iff = it;
 
       iff('the exec rejects', function() {
         childProcess.execSync = function() {
           throw new Error();
         };
 
-        var preference = subject.checkWatchman();
+        let preference = subject.checkWatchman();
         expect(preference).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Could not start watchman/);
         expect(ui.output).to.match(/ember-cli\.com\/user-guide\/\#watchman/);
@@ -223,7 +223,7 @@ describe('WatchDetector', function() {
           return 'not json';
         };
 
-        var preference = subject.checkWatchman();
+        let preference = subject.checkWatchman();
         expect(preference).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Looks like you have a different program called watchman/);
         expect(ui.output).to.match(/ember-cli\.com\/user-guide\/\#watchman/);
@@ -235,7 +235,7 @@ describe('WatchDetector', function() {
           return '{"version":"2.9.9"}';
         };
 
-        var preference = subject.checkWatchman();
+        let preference = subject.checkWatchman();
         expect(preference).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Invalid watchman found/);
         expect(ui.output).to.match(/version: \[2\.9\.9\] did not satisfy/);

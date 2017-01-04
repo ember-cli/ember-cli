@@ -1,16 +1,16 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
-var setupTestHooks = blueprintHelpers.setupTestHooks;
-var emberNew = blueprintHelpers.emberNew;
-var emberGenerate = blueprintHelpers.emberGenerate;
-var modifyPackages = blueprintHelpers.modifyPackages;
+const fs = require('fs-extra');
+const path = require('path');
+const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
+let setupTestHooks = blueprintHelpers.setupTestHooks;
+let emberNew = blueprintHelpers.emberNew;
+let emberGenerate = blueprintHelpers.emberGenerate;
+let modifyPackages = blueprintHelpers.modifyPackages;
 
-var chai = require('ember-cli-blueprint-test-helpers/chai');
-var expect = chai.expect;
-var file = chai.file;
+const chai = require('ember-cli-blueprint-test-helpers/chai');
+let expect = chai.expect;
+let file = chai.file;
 
 describe('Acceptance: ember generate and destroy server', function() {
   setupTestHooks(this, {
@@ -18,7 +18,7 @@ describe('Acceptance: ember generate and destroy server', function() {
   });
 
   it('server', function() {
-    var args = ['server'];
+    let args = ['server'];
 
     return emberNew()
       .then(function() {
@@ -33,7 +33,7 @@ describe('Acceptance: ember generate and destroy server', function() {
   });
 
   it('server with ember-cli-jshint', function() {
-    var args = ['server'];
+    let args = ['server'];
 
     return emberNew()
       .then(function() {

@@ -1,23 +1,23 @@
 'use strict';
 
-var fs = require('fs-extra');
-var ember = require('../helpers/ember');
-var walkSync = require('walk-sync');
-var Blueprint = require('../../lib/models/blueprint');
-var path = require('path');
-var tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
-var root = process.cwd();
-var util = require('util');
-var EOL = require('os').EOL;
-var chalk = require('chalk');
+const fs = require('fs-extra');
+const ember = require('../helpers/ember');
+const walkSync = require('walk-sync');
+const Blueprint = require('../../lib/models/blueprint');
+const path = require('path');
+const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+let root = process.cwd();
+const util = require('util');
+const EOL = require('os').EOL;
+const chalk = require('chalk');
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
-var dir = chai.dir;
-var forEach = require('ember-cli-lodash-subset').forEach;
+const chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
+let dir = chai.dir;
+const forEach = require('ember-cli-lodash-subset').forEach;
 
-var tmpDir = './tmp/new-test';
+let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
@@ -35,10 +35,10 @@ describe('Acceptance: ember new', function() {
 
   function confirmBlueprintedForDir(dir) {
     return function() {
-      var blueprintPath = path.join(root, dir, 'files');
-      var expected = walkSync(blueprintPath);
-      var actual = walkSync('.').sort();
-      var directory = path.basename(process.cwd());
+      let blueprintPath = path.join(root, dir, 'files');
+      let expected = walkSync(blueprintPath);
+      let actual = walkSync('.').sort();
+      let directory = path.basename(process.cwd());
 
       forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
         expected[expected.indexOf(srcFile)] = destFile;
@@ -100,7 +100,7 @@ describe('Acceptance: ember new', function() {
       expect(dir('FooApp')).to.not.exist;
       expect(file('package.json')).to.exist;
 
-      var pkgJson = fs.readJsonSync('package.json');
+      let pkgJson = fs.readJsonSync('package.json');
       expect(pkgJson.name).to.equal('foo-app');
     });
   });
@@ -275,7 +275,7 @@ describe('Acceptance: ember new', function() {
   });
 
   it('ember new with --directory uses given directory name and has correct package name', function() {
-    var workdir = process.cwd();
+    let workdir = process.cwd();
 
     return ember([
       'new',
@@ -288,17 +288,17 @@ describe('Acceptance: ember new', function() {
       expect(dir(path.join(workdir, 'foo'))).to.not.exist;
       expect(dir(path.join(workdir, 'bar'))).to.exist;
 
-      var cwd = process.cwd();
+      let cwd = process.cwd();
       expect(cwd).to.not.match(/foo/, 'does not use app name for directory name');
       expect(cwd).to.match(/bar/, 'uses given directory name');
 
-      var pkgJson = fs.readJsonSync('package.json');
+      let pkgJson = fs.readJsonSync('package.json');
       expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
     });
   });
 
   it('ember addon with --directory uses given directory name and has correct package name', function() {
-    var workdir = process.cwd();
+    let workdir = process.cwd();
 
     return ember([
       'addon',
@@ -311,11 +311,11 @@ describe('Acceptance: ember new', function() {
       expect(dir(path.join(workdir, 'foo'))).to.not.exist;
       expect(dir(path.join(workdir, 'bar'))).to.exist;
 
-      var cwd = process.cwd();
+      let cwd = process.cwd();
       expect(cwd).to.not.match(/foo/, 'does not use addon name for directory name');
       expect(cwd).to.match(/bar/, 'uses given directory name');
 
-      var pkgJson = fs.readJsonSync('package.json');
+      let pkgJson = fs.readJsonSync('package.json');
       expect(pkgJson.name).to.equal('foo', 'uses addon name for package name');
     });
   });

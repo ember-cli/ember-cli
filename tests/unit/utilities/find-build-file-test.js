@@ -1,14 +1,14 @@
 'use strict';
 
-var expect = require('chai').expect;
-var fs = require('fs-extra');
-var path = require('path');
-var tmp = require('../../helpers/tmp');
-var findBuildFile = require('../../../lib/utilities/find-build-file');
+const expect = require('chai').expect;
+const fs = require('fs-extra');
+const path = require('path');
+const tmp = require('../../helpers/tmp');
+const findBuildFile = require('../../../lib/utilities/find-build-file');
 
 describe('find-build-file', function() {
-  var tmpPath = 'tmp/find-build-file-test';
-  var tmpFilename = 'ember-cli-build.js';
+  let tmpPath = 'tmp/find-build-file-test';
+  let tmpFilename = 'ember-cli-build.js';
 
   beforeEach(function() {
     return tmp.setup(tmpPath)
@@ -18,7 +18,7 @@ describe('find-build-file', function() {
   });
 
   afterEach(function() {
-    var tmpFilePath = path.resolve(tmpFilename);
+    let tmpFilePath = path.resolve(tmpFilename);
     delete require.cache[require.resolve(tmpFilePath)];
 
     return tmp.teardown(tmpPath);
@@ -27,7 +27,7 @@ describe('find-build-file', function() {
   it('does not throw an error when the file is valid syntax', function() {
     fs.writeFileSync(tmpFilename, 'module.exports = function() {return {\'a\': \'A\', \'b\': \'B\'};}', { encoding: 'utf8' });
 
-    var result = findBuildFile(tmpFilename);
+    let result = findBuildFile(tmpFilename);
     expect(result).to.be.a('function');
     expect(result()).to.deep.equal({ a: 'A', b: 'B' });
   });
@@ -41,7 +41,7 @@ describe('find-build-file', function() {
   });
 
   it('does not throw an error when the file is mss', function() {
-    var result = findBuildFile('missing-file.js');
+    let result = findBuildFile('missing-file.js');
     expect(result).to.be.null;
   });
 });

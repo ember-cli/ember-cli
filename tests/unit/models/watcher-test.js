@@ -1,22 +1,22 @@
 'use strict';
 
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
-var MockUI = require('console-ui/mock');
-var MockAnalytics = require('../../helpers/mock-analytics');
-var MockWatcher = require('../../helpers/mock-watcher');
-var Watcher = require('../../../lib/models/watcher');
-var EOL = require('os').EOL;
-var chalk = require('chalk');
-var BuildError = require('../../helpers/build-error');
-var Promise = require('../../../lib/ext/promise');
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('../../helpers/mock-analytics');
+const MockWatcher = require('../../helpers/mock-watcher');
+const Watcher = require('../../../lib/models/watcher');
+const EOL = require('os').EOL;
+const chalk = require('chalk');
+const BuildError = require('../../helpers/build-error');
+const Promise = require('../../../lib/ext/promise');
 
 describe('Watcher', function() {
-  var ui;
-  var subject;
-  var builder;
-  var analytics;
-  var watcher;
+  let ui;
+  let subject;
+  let builder;
+  let analytics;
+  let watcher;
 
   beforeEach(function() {
     ui = new MockUI();
@@ -118,7 +118,7 @@ describe('Watcher', function() {
 
       expect(ui.output).to.equal('');
 
-      var outs = ui.errors.split(EOL);
+      let outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
@@ -133,7 +133,7 @@ describe('Watcher', function() {
 
       expect(ui.output).to.eql('');
 
-      var outs = ui.errors.split(EOL);
+      let outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile (24)'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
@@ -148,7 +148,7 @@ describe('Watcher', function() {
 
       expect(ui.output).to.eql('');
 
-      var outs = ui.errors.split(EOL);
+      let outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));
@@ -164,7 +164,7 @@ describe('Watcher', function() {
 
       expect(ui.output).to.eql('');
 
-      var outs = ui.errors.split(EOL);
+      let outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile (24:80)'));
       expect(outs[1]).to.equal(chalk.red('buildFailed'));

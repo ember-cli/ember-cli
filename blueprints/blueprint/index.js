@@ -1,8 +1,10 @@
+'use strict';
+
 module.exports = {
   description: 'Generates a blueprint and definition.',
 
   files() {
-    var files = this._super.files.apply(this, arguments);
+    let files = this._super.files.apply(this, arguments);
 
     if (!this.hasJSHint()) {
       files = files.filter(file => file !== 'blueprints/.jshintrc');

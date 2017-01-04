@@ -1,17 +1,17 @@
 'use strict';
 
-var expect = require('chai').expect;
-var commandOptions = require('../../factories/command-options');
-var map = require('ember-cli-lodash-subset').map;
-var AddonCommand = require('../../../lib/commands/addon');
-var Blueprint = require('../../../lib/models/blueprint');
-var td = require('testdouble');
+const expect = require('chai').expect;
+const commandOptions = require('../../factories/command-options');
+const map = require('ember-cli-lodash-subset').map;
+const AddonCommand = require('../../../lib/commands/addon');
+const Blueprint = require('../../../lib/models/blueprint');
+const td = require('testdouble');
 
 describe('addon command', function() {
-  var command;
+  let command;
 
   beforeEach(function() {
-    var options = commandOptions({
+    let options = commandOptions({
       project: {
         isEmberCLIProject() {
           return false;
