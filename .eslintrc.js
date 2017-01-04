@@ -97,23 +97,23 @@ module.exports = {
 
     /*** ECMAScript 6 ***/
 
-    'no-var': 2,
     'arrow-body-style': 2,
     'arrow-parens': [2, 'as-needed'],
     'arrow-spacing': 2,
+    'generator-star-spacing': 2,
     'no-confusing-arrow': [2, {
       'allowParens': true,
     }],
     'no-useless-computed-key': 2,
+    'no-var': 2,
     'object-shorthand': 2,
     'prefer-arrow-callback': [2, {
       'allowNamedFunctions': true,
     }],
     'prefer-template': 2,
-    'template-curly-spacing': 2,
-    'generator-star-spacing': 2,
-    'yield-star-spacing': 2,
     'rest-spread-spacing': 2,
     'symbol-description': 2,
+    'template-curly-spacing': 2,
+    'yield-star-spacing': 2,
   },
 };
