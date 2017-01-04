@@ -1,12 +1,12 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var proxyquire        = require('proxyquire');
-var commandOptions    = require('../../factories/command-options');
+var expect = require('chai').expect;
+var proxyquire = require('proxyquire');
+var commandOptions = require('../../factories/command-options');
 var processHelpString = require('../../helpers/process-help-string');
-var assign            = require('ember-cli-lodash-subset').assign;
-var Yam               = require('yam');
-var EOL               = require('os').EOL;
+var assign = require('ember-cli-lodash-subset').assign;
+var Yam = require('yam');
+var EOL = require('os').EOL;
 var td = require('testdouble');
 
 var forEachWithPropertyStub;
@@ -15,9 +15,9 @@ var Command = proxyquire('../../../lib/models/command', {
     command: {
       forEachWithProperty: function() {
         return forEachWithPropertyStub.apply(this, arguments);
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 var ServeCommand = Command.extend({
@@ -29,30 +29,30 @@ var ServeCommand = Command.extend({
     { name: 'proxy',  type: String },
     { name: 'live-reload',  type: Boolean, default: true, aliases: ['lr'] },
     { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)' },
-    { name: 'environment', type: String, default: 'development' }
+    { name: 'environment', type: String, default: 'development' },
   ],
-  run: function(options) { return options; }
+  run: function(options) { return options; },
 });
 
 var DevelopEmberCLICommand = Command.extend({
   name: 'develop-ember-cli',
   works: 'everywhere',
   availableOptions: [
-    { name: 'package-name', key: 'packageName', type: String, required: true }
+    { name: 'package-name', key: 'packageName', type: String, required: true },
   ],
-  run: function(options) { return options; }
+  run: function(options) { return options; },
 });
 
 var InsideProjectCommand = Command.extend({
   name: 'inside-project',
   works: 'insideProject',
-  run: function(options) { return options; }
+  run: function(options) { return options; },
 });
 
 var OutsideProjectCommand = Command.extend({
   name: 'outside-project',
   works: 'outsideProject',
-  run: function(options) { return options; }
+  run: function(options) { return options; },
 });
 
 var OptionsAliasCommand = Command.extend({
@@ -63,24 +63,24 @@ var OptionsAliasCommand = Command.extend({
     default: 'traditional',
     aliases: [
       { 'hard-shell': 'hard-shell' },
-      { 'soft-shell': 'soft-shell' }
-    ]
+      { 'soft-shell': 'soft-shell' },
+    ],
   }, {
     name: 'spicy',
     type: Boolean,
     default: true,
     aliases: [
-      { 'mild': false }
-    ]
+      { 'mild': false },
+    ],
   }, {
     name: 'display-message',
     type: String,
     aliases: [
       'dm',
-      { 'hw': 'Hello world' }
-    ]
+      { 'hw': 'Hello world' },
+    ],
   }],
-  run: function(options) { return options; }
+  run: function(options) { return options; },
 });
 
 describe('models/command.js', function() {
@@ -91,7 +91,7 @@ describe('models/command.js', function() {
   before(function() {
     config = new Yam('ember-cli', {
       secondary: process.cwd() + '/tests/fixtures/home',
-      primary:   process.cwd() + '/tests/fixtures/project'
+      primary: process.cwd() + '/tests/fixtures/project',
     });
   });
 
@@ -110,7 +110,7 @@ describe('models/command.js', function() {
 
   it('parseArgs() should get command options from the config file and command line', function() {
     expect(new ServeCommand(assign(options, {
-      settings: config.getAll()
+      settings: config.getAll(),
     })).parseArgs(['--port', '789'])).to.deep.equal({
       options: {
         port: 789,
@@ -118,9 +118,9 @@ describe('models/command.js', function() {
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
         liveReload: false,
-        checkForUpdates: true
+        checkForUpdates: true,
       },
-      args: []
+      args: [],
     });
   });
 
@@ -130,7 +130,7 @@ describe('models/command.js', function() {
 
   it('parseArgs() should return args too.', function() {
     expect(new ServeCommand(assign(options, {
-      settings: config.getAll()
+      settings: config.getAll(),
     })).parseArgs(['foo', '--port', '80'])).to.deep.equal({
       args: ['foo'],
       options: {
@@ -139,14 +139,14 @@ describe('models/command.js', function() {
         proxy: 'http://iamstef.net/ember-cli',
         liveReload: false,
         port: 80,
-        checkForUpdates: true
-      }
+        checkForUpdates: true,
+      },
     });
   });
 
   it('parseArgs() should warn if an option is invalid.', function() {
     new ServeCommand(assign(options, {
-      settings: config.getAll()
+      settings: config.getAll(),
     })).parseArgs(['foo', '--envirmont', 'production']);
     expect(ui.output).to.match(/The option '--envirmont' is not registered with the serve command. Run `ember serve --help` for a list of supported options./);
   });
@@ -172,7 +172,7 @@ describe('models/command.js', function() {
         project: {
           hasDependencies: function() { return true; },
           isEmberCLIProject: function() { return false; },
-        }
+        },
       })).validateAndRun([]).catch(function(reason) {
         expect(reason.message).to.match(/You have to be inside an ember-cli project/);
       });
@@ -184,7 +184,7 @@ describe('models/command.js', function() {
         project: {
           hasDependencies: function() { return true; },
           isEmberCLIProject: function() { return true; },
-        }
+        },
       })).validateAndRun([]).then(function(options) {
         expect(options).to.have.property('watcher');
       });
@@ -196,7 +196,7 @@ describe('models/command.js', function() {
         project: {
           hasDependencies: function() { return true; },
           isEmberCLIProject: function() { return true; },
-        }
+        },
       })).validateAndRun([]).then(function(options) {
         expect(options).to.not.have.property('watcher');
       });
@@ -213,9 +213,9 @@ describe('models/command.js', function() {
     expect(new OptionsAliasCommand(options).parseArgs(['-soft-shell'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
-        spicy: true
+        spicy: true,
       },
-      args: []
+      args: [],
     });
   });
 
@@ -223,9 +223,9 @@ describe('models/command.js', function() {
     expect(new OptionsAliasCommand(options).parseArgs(['-so'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
-        spicy: true
+        spicy: true,
       },
-      args: []
+      args: [],
     });
   });
 
@@ -234,18 +234,18 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        displayMessage: 'hi'
+        displayMessage: 'hi',
       },
-      args: []
+      args: [],
     });
 
     expect(new OptionsAliasCommand(options).parseArgs(['-hw'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
-        displayMessage: 'Hello world'
+        displayMessage: 'Hello world',
       },
-      args: []
+      args: [],
     });
   });
 
@@ -258,8 +258,8 @@ describe('models/command.js', function() {
       aliases: [
         { 'carne-asada': 'carne-asada' },
         { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' }
-      ]
+        { 'fish': 'fish' },
+      ],
     }];
 
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
@@ -268,27 +268,27 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'adobada'
+        filling: 'adobada',
       },
-      args: []
+      args: [],
     });
     // shorthand
     expect(optionsAlias.parseArgs(['-carne'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carne-asada'
+        filling: 'carne-asada',
       },
-      args: []
+      args: [],
     });
     // last argument wins
-    expect(optionsAlias.parseArgs(['-carne','-fish'])).to.deep.equal({
+    expect(optionsAlias.parseArgs(['-carne', '-fish'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'fish'
+        filling: 'fish',
       },
-      args: []
+      args: [],
     });
   });
 
@@ -301,8 +301,8 @@ describe('models/command.js', function() {
       aliases: [
         { 'carne-asada': 'carne-asada' },
         { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' }
-      ]
+        { 'fish': 'fish' },
+      ],
     }];
     var duplicateExtendedAvailableOptions = [{
       name: 'filling',
@@ -310,8 +310,8 @@ describe('models/command.js', function() {
       default: 'carnitas',
       aliases: [
         { 'pollo-asado': 'pollo-asado' },
-        { 'carne-asada': 'carne-asada' }
-      ]
+        { 'carne-asada': 'carne-asada' },
+      ],
     }];
 
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
@@ -320,18 +320,18 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'adobada'
+        filling: 'adobada',
       },
-      args: []
+      args: [],
     });
     // shorthand
     expect(optionsAlias.parseArgs(['-carne'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carne-asada'
+        filling: 'carne-asada',
       },
-      args: []
+      args: [],
     });
     optionsAlias.registerOptions({ availableOptions: duplicateExtendedAvailableOptions });
     // override default
@@ -339,18 +339,18 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carnitas'
+        filling: 'carnitas',
       },
-      args: []
+      args: [],
     });
     // last argument wins
     expect(optionsAlias.parseArgs(['-fish', '-pollo'])).to.deep.equal({
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'pollo-asado'
+        filling: 'pollo-asado',
       },
-      args: []
+      args: [],
     });
   });
 
@@ -363,8 +363,8 @@ describe('models/command.js', function() {
       aliases: [
         { 'carne-asada': 'carne-asada' },
         { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' }
-      ]
+        { 'fish': 'fish' },
+      ],
     }, {
       name: 'favorite',
       type: String,
@@ -372,8 +372,8 @@ describe('models/command.js', function() {
       aliases: [
         { 'carne-asada': 'carne-asada' },
         { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' }
-      ]
+        { 'fish': 'fish' },
+      ],
     }];
     var register = optionsAlias.registerOptions.bind(optionsAlias);
 
@@ -389,8 +389,8 @@ describe('models/command.js', function() {
       type: Boolean,
       default: true,
       aliases: [
-        { 'mild': true }
-      ]
+        { 'mild': true },
+      ],
     }];
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     expect(ui.output).to.match(/The ".*" alias cannot be overridden. Please use a different alias./);
@@ -400,11 +400,11 @@ describe('models/command.js', function() {
     //check for different types, validate proper errors are thrown
     var optionsAlias = new OptionsAliasCommand(options);
     var badArrayAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
-    ]}];
+      'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
+    ] }];
     var badObjectAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      'meat', { 'carne-asada': ['steak','grilled']}, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
-    ]}];
+      'meat', { 'carne-asada': ['steak', 'grilled'] }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
+    ] }];
     var register = optionsAlias.registerOptions.bind(optionsAlias);
 
     optionsAlias.availableOptions = badArrayAvailableOptions;
@@ -426,14 +426,14 @@ describe('models/command.js', function() {
       aliases: [
         { 'carne-asada': 'carne-asada' },
         { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' }
-      ]
+        { 'fish': 'fish' },
+      ],
     };
     var alias = { 'carnitas': 'carnitas' };
     expect(optionsAlias.parseAlias(option, alias)).to.deep.equal({
       key: 'carnitas',
-      value: ['--filling','carnitas'],
-      original: { 'carnitas': 'carnitas' }
+      value: ['--filling', 'carnitas'],
+      original: { 'carnitas': 'carnitas' },
     });
   });
 
@@ -445,8 +445,8 @@ describe('models/command.js', function() {
       aliases: [
         { 'carne-asada': 'carne-asada' },
         { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' }
-      ]
+        { 'fish': 'fish' },
+      ],
     };
     var dupe = { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': false }] };
     var noAlias = { name: 'reload', type: Boolean, default: false };
@@ -472,11 +472,11 @@ describe('models/command.js', function() {
     var optionsAlias = new OptionsAliasCommand(options);
     var capital = {
       name: 'Taco',
-      type: Boolean
+      type: Boolean,
     };
     var camel = {
       name: 'tacoTown',
-      type: Boolean
+      type: Boolean,
     };
 
     expect(optionsAlias.validateOption.bind(optionsAlias, capital)).to.throw('The "Taco" option\'s name of the "options-alias"' +
@@ -488,15 +488,15 @@ describe('models/command.js', function() {
   it('mergeDuplicateOption() should merge duplicate options together', function() {
     var optionsAlias = new OptionsAliasCommand(options);
     var garbageAvailableOptions = [
-      { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': true }] }
+      { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': true }] },
     ];
     optionsAlias.registerOptions({ availableOptions: garbageAvailableOptions });
     var extendedAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      { 'carne-asada': 'carne-asada' }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' }
-    ]}];
+      { 'carne-asada': 'carne-asada' }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
+    ] }];
     var duplicateExtendedAvailableOptions = [{ name: 'filling', type: String, default: 'carnitas', aliases: [
-      { 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' }
-    ]}];
+      { 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' },
+    ] }];
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     optionsAlias.availableOptions.push(duplicateExtendedAvailableOptions[0]);
 
@@ -507,30 +507,30 @@ describe('models/command.js', function() {
         default: 'traditional',
         aliases: [
           { 'hard-shell': 'hard-shell' },
-          { 'soft-shell': 'soft-shell' }
+          { 'soft-shell': 'soft-shell' },
         ],
         key: 'taco',
-        required: false
+        required: false,
       },
       {
         name: 'display-message',
         type: String,
         aliases: [
           'dm',
-          { 'hw': 'Hello world' }
+          { 'hw': 'Hello world' },
         ],
         key: 'displayMessage',
-        required: false
+        required: false,
       },
       {
         name: 'spicy',
         type: Boolean,
         default: true,
         aliases: [
-          { 'mild': false }
+          { 'mild': false },
         ],
         key: 'spicy',
-        required: false
+        required: false,
       },
       {
         name: 'filling',
@@ -540,11 +540,11 @@ describe('models/command.js', function() {
           { 'carne-asada': 'carne-asada' },
           { 'carnitas': 'carnitas' },
           { 'fish': 'fish' },
-          { 'pollo-asado': 'pollo-asado' }
+          { 'pollo-asado': 'pollo-asado' },
         ],
         key: 'filling',
-        required: false
-      }
+        required: false,
+      },
     ]);
   });
 
@@ -552,9 +552,9 @@ describe('models/command.js', function() {
     expect(new OptionsAliasCommand(options).parseArgs(['-s', 'false', '-t', 'hard-shell'])).to.deep.equal({
       options: {
         taco: 'hard-shell',
-        spicy: false
+        spicy: false,
       },
-      args: []
+      args: [],
     });
   });
 
@@ -569,7 +569,7 @@ describe('models/command.js', function() {
     describe('printBasicHelp', function() {
       beforeEach(function() {
         td.replace(command, '_printCommand', td.function());
-        td.when(command._printCommand(), {ignoreExtraArgs: true}).thenReturn(' command printed');
+        td.when(command._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
       });
 
       afterEach(function() {
@@ -623,14 +623,14 @@ describe('models/command.js', function() {
       it('iterates options', function() {
         assign(command, {
           test1: 'a test',
-          test2: 'another test'
+          test2: 'another test',
         });
 
         var json = command.getJson();
 
         expect(json).to.deep.equal({
           test1: 'a test',
-          test2: 'another test'
+          test2: 'another test',
         });
       });
 

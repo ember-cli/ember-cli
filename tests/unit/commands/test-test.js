@@ -1,13 +1,13 @@
 'use strict';
 
-var path           = require('path');
-var CoreObject     = require('core-object');
-var expect         = require('../../chai').expect;
-var MockProject    = require('../../helpers/mock-project');
+var path = require('path');
+var CoreObject = require('core-object');
+var expect = require('../../chai').expect;
+var MockProject = require('../../helpers/mock-project');
 var commandOptions = require('../../factories/command-options');
-var Promise        = require('../../../lib/ext/promise');
-var Task           = require('../../../lib/models/task');
-var TestCommand    = require('../../../lib/commands/test');
+var Promise = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var TestCommand = require('../../../lib/commands/test');
 var td = require('testdouble');
 
 describe('test command', function() {
@@ -19,7 +19,7 @@ describe('test command', function() {
     tasks = {
       Build: Task.extend(),
       Test: Task.extend(),
-      TestServer: Task.extend()
+      TestServer: Task.extend(),
     };
 
     var project = new MockProject();
@@ -29,15 +29,15 @@ describe('test command', function() {
     options = commandOptions({
       tasks: tasks,
       testing: true,
-      project: project
+      project: project,
     });
 
     td.replace(tasks.Test.prototype, 'run', td.function());
     td.replace(tasks.Build.prototype, 'run', td.function());
     td.replace(tasks.TestServer.prototype, 'run', td.function());
-    td.when(tasks.Test.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
-    td.when(tasks.Build.prototype.run(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
-    td.when(tasks.TestServer.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    td.when(tasks.Test.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.Build.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.TestServer.prototype.run(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve());
   });
 
   afterEach(function() {
@@ -173,7 +173,7 @@ describe('test command', function() {
       options.Builder = CoreObject.extend({
         cleanup: function() {
           buildCleanupWasCalled = true;
-        }
+        },
       });
       options.Watcher = CoreObject.extend();
 

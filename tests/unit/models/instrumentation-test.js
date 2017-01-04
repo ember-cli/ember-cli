@@ -9,7 +9,7 @@ var path = require('path');
 var fse = require('fs-extra');
 var MockUI = require('console-ui/mock');
 var chalk = require('chalk');
-var EOL   = require('os').EOL;
+var EOL = require('os').EOL;
 
 var itr2Array = require('../../helpers/itr2array');
 var Promise = require('../../../lib/ext/promise');
@@ -41,7 +41,7 @@ describe('models/instrumentation.js', function() {
     var originalBroccoliViz = process.env.BROCCOLI_VIZ;
     var originalStatSync = fs.statSync;
 
-    beforeEach(function () {
+    beforeEach(function() {
       expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
       expect(!!process.env.EMBER_CLI_INSTRUMENTATION).to.eql(false);
     });
@@ -209,7 +209,7 @@ describe('models/instrumentation.js', function() {
       delete process.env.BROCCOLI_VIZ;
       delete process.env.EMBER_CLI_INSTRUMENTATION;
       warnInvocations = [];
-      console.warn = function () {
+      console.warn = function() {
         warnInvocations.push.apply(warnInvocations, Array.prototype.slice.call(arguments));
       };
     });
@@ -225,7 +225,7 @@ describe('models/instrumentation.js', function() {
       expect(instrumentation.isVizEnabled()).to.eql(true);
       expect(instrumentation.isVizEnabled()).to.eql(true);
       expect(warnInvocations).to.eql([
-        "Please set BROCCOLI_VIZ=1 to enable visual instrumentation, rather than 'on'"
+        "Please set BROCCOLI_VIZ=1 to enable visual instrumentation, rather than 'on'",
       ]);
     });
 
@@ -322,7 +322,7 @@ describe('models/instrumentation.js', function() {
     });
 
     it('throws if name is unexpected', function() {
-      expect(function () {
+      expect(function() {
         instrumentation.start('a party!');
       }).to.throw('No such instrumentation "a party!"');
     });
@@ -349,13 +349,13 @@ describe('models/instrumentation.js', function() {
     });
 
     it('throws if name is unexpected', function() {
-      expect(function () {
+      expect(function() {
         instrumentation.stopAndReport('the weather');
       }).to.throw('No such instrumentation "the weather"');
     });
 
     it('throws if name has not yet started', function() {
-      expect(function () {
+      expect(function() {
         instrumentation.stopAndReport('init');
       }).to.throw('Cannot stop instrumentation "init".  It has not started.');
     });
@@ -420,15 +420,15 @@ describe('models/instrumentation.js', function() {
 
         var mockInitSummary = { ok: 'init dokie' };
         var mockInitTree = {
-          toJSON: function () {
+          toJSON: function() {
             return { nodes: [{ i: 'can init json' }] };
-          }
+          },
         };
         var mockBuildSummary = { ok: 'build dokie' };
         var mockBuildTree = {
-          toJSON: function () {
+          toJSON: function() {
             return { nodes: [{ i: 'can build json' }] };
-          }
+          },
         };
 
         td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
@@ -443,7 +443,7 @@ describe('models/instrumentation.js', function() {
         process.env.BROCCOLI_VIZ = '1';
 
         return mkTmpDirIn(tmproot)
-          .then(function () {
+          .then(function() {
             process.chdir(tmproot);
 
             instrumentation.start('init');
@@ -451,7 +451,7 @@ describe('models/instrumentation.js', function() {
 
             expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
             expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
-              summary: { ok: 'init dokie', },
+              summary: { ok: 'init dokie' },
               nodes: [{ i: 'can init json' }],
             });
 
@@ -460,7 +460,7 @@ describe('models/instrumentation.js', function() {
 
             expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
             expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
-              summary: { ok: 'build dokie', },
+              summary: { ok: 'build dokie' },
               nodes: [{ i: 'can build json' }],
             });
 
@@ -469,7 +469,7 @@ describe('models/instrumentation.js', function() {
 
             expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
             expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
-              summary: { ok: 'build dokie', },
+              summary: { ok: 'build dokie' },
               nodes: [{ i: 'can build json' }],
             });
           });
@@ -479,7 +479,7 @@ describe('models/instrumentation.js', function() {
         delete process.env.BROCCOLI_VIZ;
 
         return mkTmpDirIn(tmproot)
-          .then(function () {
+          .then(function() {
             process.chdir(tmproot);
 
             instrumentation.start('init');
@@ -589,7 +589,7 @@ describe('models/instrumentation.js', function() {
             instrumentation.stopAndReport('build', 'a', 'b');
 
             td.verify(instrHook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
-            td.verify(buildInstrHook(), { ignoreExtraArgs: true, times: 0});
+            td.verify(buildInstrHook(), { ignoreExtraArgs: true, times: 0 });
           });
         }
       });
@@ -608,7 +608,7 @@ describe('models/instrumentation.js', function() {
         initInstrumentation: {
           node: null,
           token: null,
-        }
+        },
       });
       var heimdall = instrumentation._heimdall = new Heimdall();
 
@@ -648,7 +648,7 @@ describe('models/instrumentation.js', function() {
       expect(json.nodes.length).to.eql(8);
 
       expect(json.nodes.map(function(x) { return x.id; })).to.eql([
-        1, 2, 3, 4, 5, 6, 7, 8
+        1, 2, 3, 4, 5, 6, 7, 8,
       ]);
 
       expect(json.nodes.map(function(x) { return x.label; })).to.eql([
@@ -662,19 +662,19 @@ describe('models/instrumentation.js', function() {
         { name: 'c3' },
       ]);
 
-      expect(json.nodes.map(function (x) { return x.children;})).to.eql([
+      expect(json.nodes.map(function(x) { return x.children; })).to.eql([
         [2],
-        [3,5],
+        [3, 5],
         [4],
         [],
-        [6,8],
+        [6, 8],
         [7],
         [],
-        []
+        [],
       ]);
 
-      var stats = json.nodes.map(function (x) { return x.stats; });
-      stats.forEach(function (nodeStats) {
+      var stats = json.nodes.map(function(x) { return x.stats; });
+      stats.forEach(function(nodeStats) {
         expect('own' in nodeStats).to.eql(true);
         expect('time' in nodeStats).to.eql(true);
         expect(nodeStats.time.self).to.be.within(0, 2000000); //2ms in nanoseconds
@@ -688,23 +688,23 @@ describe('models/instrumentation.js', function() {
     }
 
     function assertTreeValidAPI(name, tree) {
-      var depthFirstNames = itr2Array(tree.dfsIterator()).map(function (x) { return x.label.name; });
+      var depthFirstNames = itr2Array(tree.dfsIterator()).map(function(x) { return x.label.name; });
       expect(depthFirstNames, 'depth first name order').to.eql([
-        name, 'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3'
+        name, 'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3',
       ]);
 
-      var breadthFirstNames = itr2Array(tree.bfsIterator()).map(function (x) { return x.label.name; });
+      var breadthFirstNames = itr2Array(tree.bfsIterator()).map(function(x) { return x.label.name; });
       expect(breadthFirstNames, 'breadth first name order').to.eql([
-        name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1'
+        name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1',
       ]);
 
-      var c2 = itr2Array(tree.dfsIterator()).filter(function (x) {
+      var c2 = itr2Array(tree.dfsIterator()).filter(function(x) {
         return x.label.name === 'c2';
       })[0];
 
-      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function (x) { return x.label.name;});
+      var ancestorNames = itr2Array(c2.ancestorsIterator()).map(function(x) { return x.label.name; });
       expect(ancestorNames).to.eql([
-        'b2', 'a', name
+        'b2', 'a', name,
       ]);
     }
 
@@ -731,7 +731,7 @@ describe('models/instrumentation.js', function() {
     var instrumentation;
 
     beforeEach(function() {
-      instrumentation = new Instrumentation({ ui: new MockUI(), });
+      instrumentation = new Instrumentation({ ui: new MockUI() });
 
       var heimdall = new Heimdall();
       var root;
@@ -762,7 +762,7 @@ describe('models/instrumentation.js', function() {
         var summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime','buildSteps'
+          'build', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({
@@ -807,7 +807,7 @@ describe('models/instrumentation.js', function() {
         var summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime','buildSteps'
+          'build', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({
@@ -840,7 +840,7 @@ describe('models/instrumentation.js', function() {
       it('computes an init summary', function() {
         var summary = instrumentation._initSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+        expect(Object.keys(summary)).to.eql(['totalTime']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
       });
@@ -850,7 +850,7 @@ describe('models/instrumentation.js', function() {
       it('computes a command summary', function() {
         var summary = instrumentation._commandSummary(instrTree, 'build', ['--like', '--whatever']);
 
-        expect(Object.keys(summary)).to.eql([ 'name', 'args', 'totalTime' ]);
+        expect(Object.keys(summary)).to.eql(['name', 'args', 'totalTime']);
 
         expect(summary.name).to.equal('build');
         expect(summary.args).to.eql(['--like', '--whatever']);
@@ -862,7 +862,7 @@ describe('models/instrumentation.js', function() {
       it('computes a shutdown summary', function() {
         var summary = instrumentation._shutdownSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql([ 'totalTime' ]);
+        expect(Object.keys(summary)).to.eql(['totalTime']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
       });

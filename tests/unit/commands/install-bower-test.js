@@ -1,8 +1,8 @@
 'use strict';
 
-var expect              = require('chai').expect;
-var MockProject         = require('../../helpers/mock-project');
-var commandOptions      = require('../../factories/command-options');
+var expect = require('chai').expect;
+var MockProject = require('../../helpers/mock-project');
+var commandOptions = require('../../factories/command-options');
 var InstallBowerCommand = require('../../../lib/commands/install-bower');
 
 describe('install:bower command', function() {
@@ -20,7 +20,7 @@ describe('install:bower command', function() {
     };
 
     var options = commandOptions({
-      project: project
+      project: project,
     });
 
     command = new InstallBowerCommand(options);

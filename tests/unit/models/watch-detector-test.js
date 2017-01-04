@@ -17,7 +17,7 @@ describe('WatchDetector', function() {
   beforeEach(function() {
     ui = new MockUI();
 
-    fs =  {};
+    fs = {};
     childProcess = {};
 
     function exec(arg) {
@@ -30,15 +30,15 @@ describe('WatchDetector', function() {
       fs: fs,
       childProcess: childProcess,
       watchmanSupportsPlatform: false,
-      root: process.cwd()
+      root: process.cwd(),
     });
   });
 
   it('#extractPreferenceFromOptions works', function() {
     expect(subject.extractPreferenceFromOptions({})).to.have.property('watcher', 'watchman');
-    expect(subject.extractPreferenceFromOptions({watcher: 'polling'})).to.have.property('watcher', 'polling');
-    expect(subject.extractPreferenceFromOptions({watcher: 'node'})).to.have.property('watcher', 'node');
-    expect(subject.extractPreferenceFromOptions({watcher: 'nodsdfe'})).to.have.property('watcher', 'watchman');
+    expect(subject.extractPreferenceFromOptions({ watcher: 'polling' })).to.have.property('watcher', 'polling');
+    expect(subject.extractPreferenceFromOptions({ watcher: 'node' })).to.have.property('watcher', 'node');
+    expect(subject.extractPreferenceFromOptions({ watcher: 'nodsdfe' })).to.have.property('watcher', 'watchman');
   });
 
   describe('#testIfNodeWatcherAppearsToWork', function() {
@@ -52,7 +52,7 @@ describe('WatchDetector', function() {
 
     // we could extend this to test also if change events are triggered or not..
     it('reports YES if nothing throws', function() {
-      fs.watch = function() { return { close: function() { }};};
+      fs.watch = function() { return { close: function() { } }; };
 
       expect(subject.testIfNodeWatcherAppearsToWork()).to.be.true;
     });
@@ -86,7 +86,7 @@ describe('WatchDetector', function() {
         });
 
         it('false back to node if it can', function() {
-          fs.watch = function() { return { close: function() { }};};
+          fs.watch = function() { return { close: function() { } }; };
 
           var option = subject.findBestWatcherOption({ watcher: 'watchman' });
           expect(option.watchmanInfo).to.have.property('enabled', false);
@@ -127,7 +127,7 @@ describe('WatchDetector', function() {
 
     describe('input preference.watcher === node', function() {
       it('chooses node, if everything  seems ok', function() {
-        fs.watch = function() { return { close: function() { }};};
+        fs.watch = function() { return { close: function() { } }; };
 
         // we assuming polling can never not work, if it doesn't sorry..
         var option = subject.findBestWatcherOption({ watcher: 'node' });
@@ -169,7 +169,7 @@ describe('WatchDetector', function() {
         childProcess.execSync = function() {
           throw new Error();
         };
-        fs.watch = function() { return { close: function() { }};};
+        fs.watch = function() { return { close: function() { } }; };
 
         var result = subject.checkWatchman();
         expect(result).to.have.property('watcher', 'node');
@@ -178,7 +178,7 @@ describe('WatchDetector', function() {
 
       it('false: shows the "watchman not found, falling back to XYZ message"', function() {
         subject.watchmanSupportsPlatform = false;
-        fs.watch = function() { return { close: function() { }};};
+        fs.watch = function() { return { close: function() { } }; };
 
         childProcess.execSync = function() {
           throw new Error();

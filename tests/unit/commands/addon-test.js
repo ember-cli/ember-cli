@@ -1,10 +1,10 @@
 'use strict';
 
-var expect         = require('chai').expect;
+var expect = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
-var map            = require('ember-cli-lodash-subset').map;
-var AddonCommand   = require('../../../lib/commands/addon');
-var Blueprint      = require('../../../lib/models/blueprint');
+var map = require('ember-cli-lodash-subset').map;
+var AddonCommand = require('../../../lib/commands/addon');
+var Blueprint = require('../../../lib/models/blueprint');
 var td = require('testdouble');
 
 describe('addon command', function() {
@@ -18,8 +18,8 @@ describe('addon command', function() {
         },
         blueprintLookupPaths: function() {
           return [];
-        }
-      }
+        },
+      },
     });
 
     command = new AddonCommand(options);
@@ -104,10 +104,10 @@ describe('addon command', function() {
   it('registers blueprint options in beforeRun', function() {
     td.replace(Blueprint, 'lookup', td.function());
 
-    td.when(Blueprint.lookup('addon'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('addon'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     command.beforeRun(['addon']);

@@ -1,17 +1,17 @@
 'use strict';
 
-var fs            = require('fs-extra');
-var os            = require('os');
-var path          = require('path');
-var expect        = require('chai').expect;
-var map           = require('ember-cli-lodash-subset').map;
-var MockUI        = require('console-ui/mock');
+var fs = require('fs-extra');
+var os = require('os');
+var path = require('path');
+var expect = require('chai').expect;
+var map = require('ember-cli-lodash-subset').map;
+var MockUI = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var Promise       = require('../../../lib/ext/promise');
-var Blueprint     = require('../../../lib/models/blueprint');
-var Project       = require('../../../lib/models/project');
-var Task          = require('../../../lib/models/task');
-var InitCommand   = require('../../../lib/commands/init');
+var Promise = require('../../../lib/ext/promise');
+var Blueprint = require('../../../lib/models/blueprint');
+var Project = require('../../../lib/models/project');
+var Task = require('../../../lib/models/task');
+var InitCommand = require('../../../lib/commands/init');
 var MockCLI = require('../../helpers/mock-cli');
 var td = require('testdouble');
 
@@ -25,7 +25,7 @@ describe('init command', function() {
       AddonInstall: Task.extend({}),
       InstallBlueprint: Task.extend({}),
       NpmInstall: Task.extend({}),
-      BowerInstall: Task.extend({})
+      BowerInstall: Task.extend({}),
     };
 
     var tmpDir = os.tmpdir();
@@ -45,7 +45,7 @@ describe('init command', function() {
       analytics: analytics,
       project: new Project(process.cwd(), projectOpts || { name: 'some-random-name' }, ui, cli),
       tasks: tasks,
-      settings: {}
+      settings: {},
     };
 
     command = new InitCommand(options);
@@ -78,7 +78,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand();
@@ -94,7 +94,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('provided-name');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand();
@@ -118,7 +118,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal(path.basename(process.cwd()));
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand({ name: path.basename(process.cwd()) });
@@ -137,7 +137,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand();
@@ -153,7 +153,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand();
@@ -169,7 +169,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('app');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand();
@@ -185,7 +185,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('app');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand();
@@ -201,7 +201,7 @@ describe('init command', function() {
       run: function(blueprintOpts) {
         expect(blueprintOpts.blueprint).to.equal('addon');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand({ keywords: ['ember-addon'], name: 'some-random-name' });
@@ -214,10 +214,10 @@ describe('init command', function() {
 
   it('Registers blueprint options in beforeRun', function() {
     td.replace(Blueprint, 'lookup', td.function());
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     buildCommand();
@@ -232,7 +232,7 @@ describe('init command', function() {
         expect(blueprintOpts).to.contain.keys('customOption');
         expect(blueprintOpts.customOption).to.equal('customValue');
         return Promise.reject('Called run');
-      }
+      },
     });
 
     buildCommand();

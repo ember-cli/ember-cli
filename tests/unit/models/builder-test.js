@@ -1,22 +1,22 @@
 'use strict';
 
-var fs             = require('fs-extra');
-var path            = require('path');
-var Builder         = require('../../../lib/models/builder');
-var BuildCommand    = require('../../../lib/commands/build');
-var commandOptions  = require('../../factories/command-options');
-var Promise         = require('../../../lib/ext/promise');
-var MockProject     = require('../../helpers/mock-project');
-var remove          = Promise.denodeify(fs.remove);
-var mkTmpDirIn      = require('../../../lib/utilities/mk-tmp-dir-in');
-var td              = require('testdouble');
+var fs = require('fs-extra');
+var path = require('path');
+var Builder = require('../../../lib/models/builder');
+var BuildCommand = require('../../../lib/commands/build');
+var commandOptions = require('../../factories/command-options');
+var Promise = require('../../../lib/ext/promise');
+var MockProject = require('../../helpers/mock-project');
+var remove = Promise.denodeify(fs.remove);
+var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+var td = require('testdouble');
 var experiments = require('../../experiments');
 var chai = require('../../chai');
 var expect = chai.expect;
 var file = chai.file;
 
-var root            = process.cwd();
-var tmproot         = path.join(root, 'tmp');
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
 
 var MockUI = require('console-ui/mock');
 var Heimdall = require('heimdalljs/heimdall');
@@ -29,13 +29,13 @@ describe('models/builder.js', function() {
 
   function setupBroccoliBuilder() {
     this.builder = {
-      build: function () {
+      build: function() {
         return Promise.resolve('build results');
       },
 
       cleanup: function() {
         return Promise.resolve('cleanup result');
-      }
+      },
     };
   }
 
@@ -62,7 +62,7 @@ describe('models/builder.js', function() {
         SIGINT: getListenerCount(process, 'SIGINT'),
         SIGTERM: getListenerCount(process, 'SIGTERM'),
         message: getListenerCount(process, 'message'),
-        exit: captureExit.listenerCount()
+        exit: captureExit.listenerCount(),
       };
     }
 
@@ -73,7 +73,7 @@ describe('models/builder.js', function() {
     it('sets up listeners for signals', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       var actualListeners = getListenerCounts();
@@ -82,14 +82,14 @@ describe('models/builder.js', function() {
         SIGINT: originalListenerCounts.SIGINT + 1,
         SIGTERM: originalListenerCounts.SIGTERM + 1,
         message: originalListenerCounts.message + 1,
-        exit: originalListenerCounts.exit + 1
+        exit: originalListenerCounts.exit + 1,
       });
     });
 
     it('cleans up added listeners after `.cleanup`', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       return builder.cleanup()
@@ -113,25 +113,25 @@ describe('models/builder.js', function() {
       originalStdin = process.platform;
     });
 
-    after(function () {
+    after(function() {
       Object.defineProperty(process, 'platform', {
-        value: originalPlatform
+        value: originalPlatform,
       });
 
       Object.defineProperty(process, 'stdin', {
-        value: originalStdin
+        value: originalStdin,
       });
     });
 
     it('enables raw capture on Windows', function() {
       Object.defineProperty(process, 'platform', {
-        value: 'win'
+        value: 'win',
       });
 
       Object.defineProperty(process, 'stdin', {
         value: {
-          isTTY: true
-        }
+          isTTY: true,
+        },
       });
 
       var trapWindowsSignals = td.function();
@@ -139,7 +139,7 @@ describe('models/builder.js', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
         trapWindowsSignals: trapWindowsSignals,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       builder.trapSignals();
@@ -148,13 +148,13 @@ describe('models/builder.js', function() {
 
     it('does not enable raw capture on non-Windows', function() {
       Object.defineProperty(process, 'platform', {
-        value: 'mockOS'
+        value: 'mockOS',
       });
 
       Object.defineProperty(process, 'stdin', {
         value: {
-          isTTY: true
-        }
+          isTTY: true,
+        },
       });
 
       var trapWindowsSignals = td.function();
@@ -162,11 +162,11 @@ describe('models/builder.js', function() {
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
         trapWindowsSignals: trapWindowsSignals,
-        project: new MockProject()
+        project: new MockProject(),
       });
 
       builder.trapSignals();
-      td.verify(trapWindowsSignals(), {times: 0, ignoreExtraArgs: true});
+      td.verify(trapWindowsSignals(), { times: 0, ignoreExtraArgs: true });
 
       return builder.cleanup();
     });
@@ -178,7 +178,7 @@ describe('models/builder.js', function() {
         tmpdir = dir;
         builder = new Builder({
           setupBroccoliBuilder: setupBroccoliBuilder,
-          project: new MockProject()
+          project: new MockProject(),
         });
       });
     });
@@ -203,7 +203,7 @@ describe('models/builder.js', function() {
 
       builder = new Builder({
         setupBroccoliBuilder: setupBroccoliBuilder,
-        project: new MockProject()
+        project: new MockProject(),
       });
     });
 
@@ -246,7 +246,7 @@ describe('models/builder.js', function() {
     var instrumentationStart;
     var instrumentationStop;
 
-    beforeEach(function () {
+    beforeEach(function() {
       var command = new BuildCommand(commandOptions());
 
       builder = new Builder({
@@ -259,7 +259,7 @@ describe('models/builder.js', function() {
       instrumentationStop = td.replace(builder.project._instrumentation, 'stopAndReport');
     });
 
-    afterEach(function () {
+    afterEach(function() {
       delete process._heimdall;
       delete process.env.BROCCOLI_VIZ;
       builder.project.ui.output = '';
@@ -267,7 +267,7 @@ describe('models/builder.js', function() {
 
     it('calls instrumentation.start', function() {
       var mockAnnotation = 'MockAnnotation';
-      return builder.build(null, mockAnnotation).then(function () {
+      return builder.build(null, mockAnnotation).then(function() {
         td.verify(instrumentationStart('build'), { times: 1 });
       });
     });
@@ -275,7 +275,7 @@ describe('models/builder.js', function() {
     it('calls instrumentation.stop(build, result, resultAnnotation)', function() {
       var mockAnnotation = 'MockAnnotation';
 
-      return builder.build(null, mockAnnotation).then(function () {
+      return builder.build(null, mockAnnotation).then(function() {
         td.verify(instrumentationStop('build', 'build results', mockAnnotation), { times: 1 });
       });
     });
@@ -283,7 +283,7 @@ describe('models/builder.js', function() {
     it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', function() {
       process._heimdall = {};
 
-      return builder.build().then(function () {
+      return builder.build().then(function() {
         var output = builder.project.ui.output;
 
         expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
@@ -293,7 +293,7 @@ describe('models/builder.js', function() {
     it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', function() {
       expect(process._heimdall).to.equal(undefined);
 
-      return builder.build().then(function () {
+      return builder.build().then(function() {
         var output = builder.project.ui.output;
 
         expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
@@ -345,23 +345,23 @@ describe('models/builder.js', function() {
 
           cleanup: function() {
             return Promise.resolve('cleanup results');
-          }
+          },
         },
         processBuildResult: function(buildResults) { return Promise.resolve(buildResults); },
-        project: project
+        project: project,
       });
 
       buildResults = 'build results';
     });
 
-    afterEach(function () {
+    afterEach(function() {
       delete process.env.BROCCOLI_VIZ;
       delete process.env.EMBER_CLI_INSTRUMENTATION;
     });
 
     it('allows addons to add promises preBuild', function() {
       var preBuild = td.replace(addon, 'preBuild', td.function());
-      td.when(preBuild(), {ignoreExtraArgs: true, times: 1}).thenReturn(Promise.resolve());
+      td.when(preBuild(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
 
       return builder.build();
     });
@@ -370,7 +370,7 @@ describe('models/builder.js', function() {
       var postBuild = td.replace(addon, 'postBuild', td.function());
 
       return builder.build().then(function() {
-        td.verify(postBuild(buildResults), {times: 1});
+        td.verify(postBuild(buildResults), { times: 1 });
       });
     });
 
@@ -378,7 +378,7 @@ describe('models/builder.js', function() {
       var outputReady = td.replace(addon, 'outputReady', td.function());
 
       return builder.build().then(function() {
-        td.verify(outputReady(buildResults), {times: 1});
+        td.verify(outputReady(buildResults), { times: 1 });
       });
     });
 
@@ -390,7 +390,7 @@ describe('models/builder.js', function() {
 
       if (experiments.INSTRUMENTATION) {
         it('invokes the instrumentation hook if it is preset', function() {
-          addon[experiments.INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('instrumentation');
             instrumentationArg = instrumentation;
           };
@@ -403,11 +403,11 @@ describe('models/builder.js', function() {
 
       if (experiments.INSTRUMENTATION && experiments.BUILD_INSTRUMENTATION) {
         it('prefers the instrumentation hook if it and build_instrumentation are present', function() {
-          addon[experiments.INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('instrumentation');
             instrumentationArg = instrumentation;
           };
-          addon[experiments.BUILD_INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.BUILD_INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('buildInstrumentation');
             instrumentationArg = instrumentation;
           };
@@ -420,7 +420,7 @@ describe('models/builder.js', function() {
 
       if (experiments.BUILD_INSTRUMENTATION) {
         it('invokes build_instrumentation if it is present and instrumentation is not', function() {
-          addon[experiments.BUILD_INSTRUMENTATION] = function (instrumentation) {
+          addon[experiments.BUILD_INSTRUMENTATION] = function(instrumentation) {
             hooksCalled.push('buildInstrumentation');
             instrumentationArg = instrumentation;
           };

@@ -29,7 +29,7 @@ describe('walk-up-path', function() {
 
     expect(paths).to.deep.equal([
       'foo/foo',
-      'foo'
+      'foo',
     ]);
   });
 });

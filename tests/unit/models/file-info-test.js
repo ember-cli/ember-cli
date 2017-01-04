@@ -1,18 +1,18 @@
 'use strict';
 
-var expect    = require('chai').expect;
-var MockUI    = require('console-ui/mock');
-var FileInfo  = require('../../../lib/models/file-info');
-var path      = require('path');
-var fs        = require('fs-extra');
-var EOL       = require('os').EOL;
-var Promise   = require('../../../lib/ext/promise');
+var expect = require('chai').expect;
+var MockUI = require('console-ui/mock');
+var FileInfo = require('../../../lib/models/file-info');
+var path = require('path');
+var fs = require('fs-extra');
+var EOL = require('os').EOL;
+var Promise = require('../../../lib/ext/promise');
 var writeFile = Promise.denodeify(fs.writeFile);
-var root       = process.cwd();
-var tmproot    = path.join(root, 'tmp');
-var assign     = require('ember-cli-lodash-subset').assign;
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
+var assign = require('ember-cli-lodash-subset').assign;
 var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-var td         = require('testdouble');
+var td = require('testdouble');
 var testOutputPath;
 
 describe('Unit - FileInfo', function() {
@@ -33,7 +33,7 @@ describe('Unit - FileInfo', function() {
         inputPath: path.resolve(__dirname,
                                 '../../fixtures/blueprints/with-templating/files/foo.txt'),
         templateVariables: {},
-        ui: ui
+        ui: ui,
       };
     });
   });
@@ -47,12 +47,14 @@ describe('Unit - FileInfo', function() {
     new FileInfo(validOptions);
   });
 
-  it('does not interpolate {{ }} or ${ }', function () {
+  // eslint-disable-next-line no-template-curly-in-string
+  it('does not interpolate {{ }} or ${ }', function() {
     var options = {};
-    assign(options, validOptions, {inputPath:  path.resolve(__dirname,
-      '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' }});
+    assign(options, validOptions, { inputPath: path.resolve(__dirname,
+      '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' } });
     var fileInfo = new FileInfo(options);
     return fileInfo.render().then(function(output) {
+      // eslint-disable-next-line no-template-curly-in-string
       expect(output.trim()).to.equal('{{ name }} ${ name }  tacocat tacocat');
     });
   });
@@ -119,7 +121,7 @@ describe('Unit - FileInfo', function() {
     var fileInfo = new FileInfo(validOptions);
 
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
-      td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+      td.verify(ui.prompt(td.matchers.anything()), { times: 1 });
       expect(action).to.equal('overwrite');
     });
   });
@@ -130,7 +132,7 @@ describe('Unit - FileInfo', function() {
     var fileInfo = new FileInfo(validOptions);
 
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
-      td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+      td.verify(ui.prompt(td.matchers.anything()), { times: 1 });
       expect(action).to.equal('skip');
     });
   });
@@ -141,7 +143,7 @@ describe('Unit - FileInfo', function() {
     var fileInfo = new FileInfo(validOptions);
 
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
-      td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+      td.verify(ui.prompt(td.matchers.anything()), { times: 1 });
       expect(action).to.equal('diff');
     });
   });

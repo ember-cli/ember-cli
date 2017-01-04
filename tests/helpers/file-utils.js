@@ -1,6 +1,6 @@
 'use strict';
 
-var fs         = require('fs-extra');
+var fs = require('fs-extra');
 var existsSync = require('exists-sync');
 
 function touch(path, obj) {
@@ -24,6 +24,6 @@ function replaceFile(path, findString, replaceString) {
 }
 
 module.exports = {
-  touch:       touch,
-  replaceFile: replaceFile
+  touch: touch,
+  replaceFile: replaceFile,
 };

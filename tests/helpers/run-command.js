@@ -1,13 +1,13 @@
 'use strict';
 
-var RSVP           = require('rsvp');
-var Promise        = require('../../lib/ext/promise');
-var chalk          = require('chalk');
-var spawn          = require('child_process').spawn;
-var defaults       = require('ember-cli-lodash-subset').defaults;
+var RSVP = require('rsvp');
+var Promise = require('../../lib/ext/promise');
+var chalk = require('chalk');
+var spawn = require('child_process').spawn;
+var defaults = require('ember-cli-lodash-subset').defaults;
 var killCliProcess = require('./kill-cli-process');
-var logOnFailure   = require('./log-on-failure');
-var debug          = require('heimdalljs-logger')('run-command');
+var logOnFailure = require('./log-on-failure');
+var debug = require('heimdalljs-logger')('run-command');
 
 module.exports = function run(/* command, args, options */) {
   var command = arguments[0];
@@ -38,7 +38,7 @@ module.exports = function run(/* command, args, options */) {
       } else {
         logOnFailure(string);
       }
-    }
+    },
   });
 
   return new RSVP.Promise(function(resolve, reject) {
@@ -60,11 +60,11 @@ module.exports = function run(/* command, args, options */) {
     var result = {
       output: [],
       errors: [],
-      code: null
+      code: null,
     };
 
     if (options.onChildSpawned) {
-      var onChildSpawnedPromise = new Promise(function (childSpawnedResolve, childSpawnedReject) {
+      var onChildSpawnedPromise = new Promise(function(childSpawnedResolve, childSpawnedReject) {
         try {
           options.onChildSpawned(child).then(childSpawnedResolve, childSpawnedReject);
         } catch (err) {
@@ -72,11 +72,11 @@ module.exports = function run(/* command, args, options */) {
         }
       });
       onChildSpawnedPromise
-        .then(function () {
+        .then(function() {
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
           }
-        }, function (err) {
+        }, function(err) {
           result.testingError = err;
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
@@ -84,7 +84,7 @@ module.exports = function run(/* command, args, options */) {
         });
     }
 
-    child.stdout.on('data', function (data) {
+    child.stdout.on('data', function(data) {
       var string = data.toString();
 
       options.onOutput(string, child);
@@ -92,7 +92,7 @@ module.exports = function run(/* command, args, options */) {
       result.output.push(string);
     });
 
-    child.stderr.on('data', function (data) {
+    child.stderr.on('data', function(data) {
       var string = data.toString();
 
       options.onError(string, child);
@@ -100,7 +100,7 @@ module.exports = function run(/* command, args, options */) {
       result.errors.push(string);
     });
 
-    child.on('close', function (code, signal) {
+    child.on('close', function(code, signal) {
       result.code = code;
       result.signal = signal;
 

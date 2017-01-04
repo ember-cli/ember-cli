@@ -38,7 +38,7 @@ describe('Acceptance: ember generate and destroy server', function() {
     return emberNew()
       .then(function() {
         return modifyPackages([
-          {name: 'ember-cli-jshint', dev: true},
+          { name: 'ember-cli-jshint', dev: true },
         ]);
       })
       .then(function() {

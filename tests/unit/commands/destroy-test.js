@@ -1,13 +1,13 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var EOL               = require('os').EOL;
-var MockProject       = require('../../helpers/mock-project');
+var expect = require('chai').expect;
+var EOL = require('os').EOL;
+var MockProject = require('../../helpers/mock-project');
 var processHelpString = require('../../helpers/process-help-string');
-var commandOptions    = require('../../factories/command-options');
-var Promise           = require('../../../lib/ext/promise');
-var Task              = require('../../../lib/models/task');
-var DestroyCommand    = require('../../../lib/commands/destroy');
+var commandOptions = require('../../factories/command-options');
+var Promise = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var DestroyCommand = require('../../../lib/commands/destroy');
 
 describe('destroy command', function() {
   var options, command;
@@ -26,9 +26,9 @@ describe('destroy command', function() {
           project: project,
           run: function(options) {
             return Promise.resolve(options);
-          }
-        })
-      }
+          },
+        }),
+      },
     });
 
     command = new DestroyCommand(options);

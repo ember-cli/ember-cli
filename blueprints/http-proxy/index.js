@@ -5,14 +5,14 @@ module.exports = {
 
   anonymousOptions: [
     'local-path',
-    'remote-url'
+    'remote-url',
   ],
 
   locals: function(options) {
     var proxyUrl = options.args[2];
     return {
       path: '/' + options.entity.name.replace(/^\//, ''),
-      proxyUrl: proxyUrl
+      proxyUrl: proxyUrl,
     };
   },
 
@@ -20,7 +20,7 @@ module.exports = {
     var serverBlueprint = Blueprint.lookup('server', {
       ui: this.ui,
       analytics: this.analytics,
-      project: this.project
+      project: this.project,
     });
 
     return serverBlueprint.install(options);
@@ -28,7 +28,7 @@ module.exports = {
 
   afterInstall: function() {
     return this.addPackagesToProject([
-      { name: 'http-proxy', target: '^1.1.6' }
+      { name: 'http-proxy', target: '^1.1.6' },
     ]);
-  }
+  },
 };

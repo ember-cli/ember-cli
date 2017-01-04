@@ -4,7 +4,7 @@ var expect = require('chai').expect;
 var EOL = require('os').EOL;
 var MockUI = require('console-ui/mock');
 var MockAnalytics = require('../../helpers/mock-analytics');
-var MockServerWatcher  = require('../../helpers/mock-watcher');
+var MockServerWatcher = require('../../helpers/mock-watcher');
 var ServerWatcher = require('../../../lib/models/server-watcher');
 
 describe('Server Watcher', function() {
@@ -14,19 +14,19 @@ describe('Server Watcher', function() {
   var watcher;
 
   beforeEach(function() {
-    ui        = new MockUI();
+    ui = new MockUI();
     analytics = new MockAnalytics();
-    watcher   = new MockServerWatcher();
+    watcher = new MockServerWatcher();
 
     subject = new ServerWatcher({
       ui: ui,
       analytics: analytics,
-      watcher: watcher
+      watcher: watcher,
     });
   });
 
   describe('watcher:change', function() {
-    beforeEach(function () {
+    beforeEach(function() {
       watcher.emit('change', 'foo.txt');
     });
 
@@ -37,13 +37,13 @@ describe('Server Watcher', function() {
     it('tracks changes', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'server file changed',
-        description: 'File changed: "foo.txt"'
+        description: 'File changed: "foo.txt"',
       }]);
     });
   });
 
   describe('watcher:add', function() {
-    beforeEach(function () {
+    beforeEach(function() {
       watcher.emit('add', 'foo.txt');
     });
 
@@ -54,13 +54,13 @@ describe('Server Watcher', function() {
     it('tracks additions', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'server file addition',
-        description: 'File added: "foo.txt"'
+        description: 'File added: "foo.txt"',
       }]);
     });
   });
 
   describe('watcher:delete', function() {
-    beforeEach(function () {
+    beforeEach(function() {
       watcher.emit('delete', 'foo.txt');
     });
 
@@ -71,7 +71,7 @@ describe('Server Watcher', function() {
     it('tracks deletions', function() {
       expect(analytics.tracks).to.deep.equal([{
         name: 'server file deletion',
-        description: 'File deleted: "foo.txt"'
+        description: 'File deleted: "foo.txt"',
       }]);
     });
   });

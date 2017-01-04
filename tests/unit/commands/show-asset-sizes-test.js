@@ -1,52 +1,52 @@
 'use strict';
 
-var expect         = require('chai').expect;
+var expect = require('chai').expect;
 var commandOptions = require('../../factories/command-options');
-var Task           = require('../../../lib/models/task');
-var path           = require('path');
+var Task = require('../../../lib/models/task');
+var path = require('path');
 var td = require('testdouble');
 
-describe('asset-sizes command', function () {
+describe('asset-sizes command', function() {
   var ShowCommand;
   var tasks;
   var options;
   var taskInstance;
 
-  before(function () {
+  before(function() {
     ShowCommand = require('../../../lib/commands/asset-sizes');
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     tasks = {
       ShowAssetSizes: Task.extend({
-        init: function () {
+        init: function() {
           this._super.init && this._super.init.apply(this, arguments);
           taskInstance = this;
-        }
-      })
+        },
+      }),
     };
 
     options = commandOptions({
       tasks: tasks,
-      settings: {}
+      settings: {},
     });
 
     td.replace(tasks.ShowAssetSizes.prototype, 'run', td.function());
   });
 
-  after(function () {
+  after(function() {
     ShowCommand = null;
     taskInstance = null;
   });
 
-  afterEach(function () {
+  afterEach(function() {
     td.reset();
   });
 
   it('has correct default value for output path', function() {
     return new ShowCommand(options).validateAndRun().then(function() {
       var captor = td.matchers.captor();
-      td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), {times: 1});
+      td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.outputPath).to.equal('dist/', 'has correct output path option when not set');
     });
   });
@@ -56,7 +56,7 @@ describe('asset-sizes command', function () {
       .validateAndRun(['--output-path', path.join('some', 'path')])
       .then(function() {
         var captor = td.matchers.captor();
-        td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), {times: 1});
+        td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
       });
   });

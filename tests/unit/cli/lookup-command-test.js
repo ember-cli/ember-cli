@@ -1,14 +1,14 @@
 'use strict';
 
-var expect        = require('chai').expect;
+var expect = require('chai').expect;
 var lookupCommand = require('../../../lib/cli/lookup-command');
-var Command       = require('../../../lib/models/command');
-var Project       = require('../../../lib/models/project');
-var MockUI        = require('console-ui/mock');
-var AddonCommand  = require('../../fixtures/addon/commands/addon-command');
-var OtherCommand  = require('../../fixtures/addon/commands/other-addon-command');
-var ClassCommand  = require('../../fixtures/addon/commands/addon-command-class');
-var OverrideCommand  = require('../../fixtures/addon/commands/addon-override-intentional');
+var Command = require('../../../lib/models/command');
+var Project = require('../../../lib/models/project');
+var MockUI = require('console-ui/mock');
+var AddonCommand = require('../../fixtures/addon/commands/addon-command');
+var OtherCommand = require('../../fixtures/addon/commands/other-addon-command');
+var ClassCommand = require('../../fixtures/addon/commands/addon-command-class');
+var OverrideCommand = require('../../fixtures/addon/commands/addon-override-intentional');
 
 var commands = {
   serve: Command.extend({
@@ -16,10 +16,10 @@ var commands = {
     aliases: ['s'],
     works: 'everywhere',
     availableOptions: [
-      { name: 'port', key: 'port', type: Number, default: 4200, required: true }
+      { name: 'port', key: 'port', type: Number, default: 4200, required: true },
     ],
-    run: function() {}
-  })
+    run: function() {},
+  }),
 };
 
 function AddonServeCommand() { return this; }
@@ -27,8 +27,8 @@ AddonServeCommand.prototype.includedCommands = function() {
   return {
     'Serve': {
       name: 'serve',
-      description: 'overrides the serve command'
-    }
+      description: 'overrides the serve command',
+    },
   };
 };
 
@@ -40,7 +40,7 @@ describe('cli/lookup-command.js', function() {
       this.addons = [new AddonCommand(), new OtherCommand(), new ClassCommand()];
     },
     addonCommands: Project.prototype.addonCommands,
-    eachAddonCommand: Project.prototype.eachAddonCommand
+    eachAddonCommand: Project.prototype.eachAddonCommand,
   };
 
   before(function() {
@@ -59,59 +59,59 @@ describe('cli/lookup-command.js', function() {
 
     Command = lookupCommand(commands, 'addon-command', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
     command = new Command({
       ui: ui,
-      project: project
+      project: project,
     });
 
     expect(command.name).to.equal('addon-command');
 
     Command = lookupCommand(commands, 'ac', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     command = new Command({
       ui: ui,
-      project: project
+      project: project,
     });
 
     expect(command.name).to.equal('addon-command');
 
     Command = lookupCommand(commands, 'other-addon-command', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     command = new Command({
       ui: ui,
-      project: project
+      project: project,
     });
 
     expect(command.name).to.equal('other-addon-command');
 
     Command = lookupCommand(commands, 'oac', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     command = new Command({
       ui: ui,
-      project: project
+      project: project,
     });
 
     expect(command.name).to.equal('other-addon-command');
 
     Command = lookupCommand(commands, 'class-addon-command', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     command = new Command({
       ui: ui,
-      project: project
+      project: project,
     });
 
     expect(command.name).to.equal('class-addon-command');
@@ -125,12 +125,12 @@ describe('cli/lookup-command.js', function() {
         this.addons = [new AddonServeCommand()];
       },
       addonCommands: Project.prototype.addonCommands,
-      eachAddonCommand: Project.prototype.eachAddonCommand
+      eachAddonCommand: Project.prototype.eachAddonCommand,
     };
 
     lookupCommand(commands, 'serve', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     expect(ui.output).to.match(/WARNING: An ember-addon has attempted to override the core command "serve"\. The core command will be used.*/);
@@ -143,12 +143,12 @@ describe('cli/lookup-command.js', function() {
         this.addons = [new OverrideCommand()];
       },
       addonCommands: Project.prototype.addonCommands,
-      eachAddonCommand: Project.prototype.eachAddonCommand
+      eachAddonCommand: Project.prototype.eachAddonCommand,
     };
 
     lookupCommand(commands, 'serve', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     expect(ui.output).to.match(/WARNING: An ember-addon has attempted to override the core command "serve"\. The addon command will be used as the overridding was explicit.*/);
@@ -157,11 +157,11 @@ describe('cli/lookup-command.js', function() {
   it('lookupCommand() should return UnknownCommand object when command name is not present.', function() {
     var Command = lookupCommand(commands, 'something-else', [], {
       project: project,
-      ui: ui
+      ui: ui,
     });
     var command = new Command({
       ui: ui,
-      project: project
+      project: project,
     });
 
     expect(command.name).to.equal('something-else');

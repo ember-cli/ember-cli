@@ -1,20 +1,20 @@
 'use strict';
 
-var ember      = require('../helpers/ember');
-var walkSync   = require('walk-sync');
-var glob       = require('glob');
-var Blueprint  = require('../../lib/models/blueprint');
-var path       = require('path');
-var tmp        = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
-var root       = process.cwd();
-var util       = require('util');
-var minimatch  = require('minimatch');
+var ember = require('../helpers/ember');
+var walkSync = require('walk-sync');
+var glob = require('glob');
+var Blueprint = require('../../lib/models/blueprint');
+var path = require('path');
+var tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
+var root = process.cwd();
+var util = require('util');
+var minimatch = require('minimatch');
 var lodash = require('ember-cli-lodash-subset');
-var intersect  = lodash.intersection;
-var remove     = lodash.remove;
-var forEach    = lodash.forEach;
-var any        = lodash.some;
-var EOL        = require('os').EOL;
+var intersect = lodash.intersection;
+var remove = lodash.remove;
+var forEach = lodash.forEach;
+var any = lodash.some;
+var EOL = require('os').EOL;
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -42,8 +42,8 @@ describe('Acceptance: ember init', function() {
 
   function confirmBlueprinted() {
     var blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    var expected      = walkSync(blueprintPath).sort();
-    var actual        = walkSync('.').sort();
+    var expected = walkSync(blueprintPath).sort();
+    var actual = walkSync('.').sort();
 
     forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
@@ -57,14 +57,14 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
-                                           EOL + ' but got: ' +  util.inspect(actual));
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' + util.inspect(expected) +
+                                           EOL + ' but got: ' + util.inspect(actual));
   }
 
   function confirmGlobBlueprinted(pattern) {
     var blueprintPath = path.join(root, 'blueprints', 'app', 'files');
-    var actual        = pickSync('.', pattern);
-    var expected      = intersect(actual, pickSync(blueprintPath, pattern));
+    var actual = pickSync('.', pattern);
+    var expected = intersect(actual, pickSync(blueprintPath, pattern));
 
     removeIgnored(expected);
     removeIgnored(actual);
@@ -74,8 +74,8 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected).to.deep.equal(actual, EOL + ' expected: ' +  util.inspect(expected) +
-                                           EOL + ' but got: ' +  util.inspect(actual));
+    expect(expected).to.deep.equal(actual, EOL + ' expected: ' + util.inspect(expected) +
+                                           EOL + ' but got: ' + util.inspect(actual));
   }
 
   function pickSync(filePath, pattern) {
@@ -83,20 +83,20 @@ describe('Acceptance: ember init', function() {
       cwd: filePath,
       dot: true,
       mark: true,
-      strict: true
+      strict: true,
     }).sort();
   }
 
   function removeTmp(array) {
     remove(array, function(entry) {
-      return /^tmp[\\\/]$/.test(entry);
+      return (/^tmp[\\\/]$/).test(entry);
     });
   }
   function removeIgnored(array) {
     remove(array, function(fn) {
       return any(Blueprint.ignoredFiles, function(ignoredFile) {
         return minimatch(fn, ignoredFile, {
-          matchBase: true
+          matchBase: true,
         });
       });
     });
@@ -114,13 +114,13 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
         'init',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -131,7 +131,7 @@ describe('Acceptance: ember init', function() {
       'init',
       'app.js',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() { return 'app.js'; })
     .then(confirmGlobBlueprinted);
@@ -141,14 +141,14 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
         'init',
         'app.js',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -159,7 +159,7 @@ describe('Acceptance: ember init', function() {
       'init',
       'app/**',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() { return 'app/**'; })
     .then(confirmGlobBlueprinted);
@@ -169,14 +169,14 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
         'init',
         'app/**',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -189,7 +189,7 @@ describe('Acceptance: ember init', function() {
       '{package,bower}.json',
       'resolver.js',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() { return '{app/**,{package,bower}.json,resolver.js}'; })
     .then(confirmGlobBlueprinted);
@@ -199,7 +199,7 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       return ember([
@@ -208,7 +208,7 @@ describe('Acceptance: ember init', function() {
         '{package,bower}.json',
         'resolver.js',
         '--skip-npm',
-        '--skip-bower'
+        '--skip-bower',
       ]);
     })
     .then(confirmBlueprinted);
@@ -218,7 +218,7 @@ describe('Acceptance: ember init', function() {
     return ember([
       'init',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ])
     .then(function() {
       expect(dir('.git')).to.not.exist;

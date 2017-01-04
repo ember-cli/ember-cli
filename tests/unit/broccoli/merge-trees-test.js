@@ -2,8 +2,8 @@
 
 'use strict';
 
-var fs         = require('fs');
-var expect     = require('chai').expect;
+var fs = require('fs');
+var expect = require('chai').expect;
 var proxyquire = require('proxyquire');
 
 var MockUI = require('console-ui/mock');
@@ -12,7 +12,7 @@ var mergeTreesStub;
 var mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {
   'broccoli-merge-trees': function() {
     return mergeTreesStub.apply(this, arguments);
-  }
+  },
 });
 
 describe('broccoli/merge-trees', function() {

@@ -1,19 +1,19 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var EOL               = require('os').EOL;
-var proxyquire        = require('proxyquire');
-var path              = require('path');
+var expect = require('chai').expect;
+var EOL = require('os').EOL;
+var proxyquire = require('proxyquire');
+var path = require('path');
 var processHelpString = require('../../helpers/process-help-string');
-var convertToJson     = require('../../helpers/convert-help-output-to-json');
-var commandOptions    = require('../../factories/command-options');
+var convertToJson = require('../../helpers/convert-help-output-to-json');
+var commandOptions = require('../../factories/command-options');
 var td = require('testdouble');
 
 var lookupCommandStub;
 var HelpCommand = proxyquire('../../../lib/commands/help', {
   '../cli/lookup-command': function() {
     return lookupCommandStub.apply(this, arguments);
-  }
+  },
 });
 
 describe('help command', function() {
@@ -32,7 +32,7 @@ describe('help command', function() {
       Command1.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Command1: Command1
+        Command1: Command1,
       };
 
       var wasCalled;
@@ -47,7 +47,7 @@ describe('help command', function() {
 
       command.run(options, ['command-2']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
       expect(wasCalled).to.be.true;
     });
 
@@ -65,19 +65,19 @@ describe('help command', function() {
       options.commands = {
         Command1: Command1,
         Command2: Command2,
-        Command3: Command3
+        Command3: Command3,
       };
 
       var command = new HelpCommand(options);
 
       command.run(options, ['command-1', 'command-2']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command3.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command1.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command3.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command3.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command1.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command3.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
   });
 
@@ -92,17 +92,17 @@ describe('help command', function() {
 
       options.commands = {
         Command1: Command1,
-        Command2: Command2
+        Command2: Command2,
       };
 
       var command = new HelpCommand(options);
 
       command.run(options, []);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command1.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command2.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command1.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
 
     it('works with single command', function() {
@@ -115,17 +115,17 @@ describe('help command', function() {
 
       options.commands = {
         Command1: Command1,
-        Command2: Command2
+        Command2: Command2,
       };
 
       var command = new HelpCommand(options);
 
       command.run(options, ['command-1']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command1.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printDetailedHelp(), {ignoreExtraArgs: true, times: 0});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command1.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
 
     it('works with single command alias', function() {
@@ -135,14 +135,14 @@ describe('help command', function() {
       Command1.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Command1: Command1
+        Command1: Command1,
       };
 
       var command = new HelpCommand(options);
 
       command.run(options, ['my-alias']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('passes extra commands to `generate`', function() {
@@ -151,7 +151,7 @@ describe('help command', function() {
       Generate.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Generate: Generate
+        Generate: Generate,
       };
 
       var command = new HelpCommand(options);
@@ -160,10 +160,10 @@ describe('help command', function() {
 
       var captor = td.matchers.captor();
 
-      td.verify(Generate.prototype.printBasicHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
 
-      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
     });
 
@@ -173,7 +173,7 @@ describe('help command', function() {
       Generate.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Generate: Generate
+        Generate: Generate,
       };
 
       var command = new HelpCommand(options);
@@ -182,10 +182,10 @@ describe('help command', function() {
 
       var captor = td.matchers.captor();
 
-      td.verify(Generate.prototype.printBasicHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.be.undefined;
 
-      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.be.undefined;
     });
 
@@ -196,7 +196,7 @@ describe('help command', function() {
       Generate.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Generate: Generate
+        Generate: Generate,
       };
 
       var command = new HelpCommand(options);
@@ -205,16 +205,16 @@ describe('help command', function() {
 
       var captor = td.matchers.captor();
 
-      td.verify(Generate.prototype.printBasicHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printBasicHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
 
-      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), {times: 1});
+      td.verify(Generate.prototype.printDetailedHelp(captor.capture()), { times: 1 });
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
     });
 
     it('handles missing command', function() {
       options.commands = {
-        Command1: function() {}
+        Command1: function() {},
       };
 
       var command = new HelpCommand(options);
@@ -239,15 +239,15 @@ Requested ember-cli commands:' + EOL + '\
 
       options.commands = {
         Command1: Command1,
-        Command2: Command2
+        Command2: Command2,
       };
 
       var command = new HelpCommand(options);
 
       command.run(options, []);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 0});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 0 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('ignores skipHelp when single', function() {
@@ -256,14 +256,14 @@ Requested ember-cli commands:' + EOL + '\
       Command1.prototype.printDetailedHelp = td.function();
 
       options.commands = {
-        Command1: Command1
+        Command1: Command1,
       };
 
       var command = new HelpCommand(options);
 
       command.run(options, ['command-1']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('lists addons', function() {
@@ -275,7 +275,7 @@ Requested ember-cli commands:' + EOL + '\
       options.project.eachAddonCommand = function(callback) {
         callback('my-addon', {
           Command1: Command1,
-          Command2: Command2
+          Command2: Command2,
         });
       };
 
@@ -290,8 +290,8 @@ Available commands from my-addon:' + EOL);
 
       expect(output).to.include(testString);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
-      td.verify(Command2.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
+      td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
     it('finds single addon command', function() {
@@ -303,7 +303,7 @@ Available commands from my-addon:' + EOL);
       options.project.eachAddonCommand = function(callback) {
         callback('my-addon', {
           Command1: Command1,
-          Command2: Command2
+          Command2: Command2,
         });
       };
 
@@ -311,7 +311,7 @@ Available commands from my-addon:' + EOL);
 
       command.run(options, ['command-1']);
 
-      td.verify(Command1.prototype.printBasicHelp(), {ignoreExtraArgs: true, times: 1});
+      td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
   });
 
@@ -326,20 +326,20 @@ Available commands from my-addon:' + EOL);
           return {
             getJson: function() {
               return {
-                test1: 'bar'
+                test1: 'bar',
               };
-            }
+            },
           };
         },
         Command2: function() {
           return {
             getJson: function() {
               return {
-                test2: 'bar'
+                test2: 'bar',
               };
-            }
+            },
           };
-        }
+        },
       };
 
       var command = new HelpCommand(options);
@@ -350,11 +350,11 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          test1: 'bar'
+          test1: 'bar',
         },
         {
-          test2: 'bar'
-        }
+          test2: 'bar',
+        },
       ]);
     });
 
@@ -364,11 +364,11 @@ Available commands from my-addon:' + EOL);
           return {
             getJson: function() {
               return {
-                test1: 'Path'
+                test1: 'Path',
               };
-            }
+            },
           };
-        }
+        },
       };
 
       var command = new HelpCommand(options);
@@ -379,8 +379,8 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          test1: 'Path'
-        }
+          test1: 'Path',
+        },
       ]);
     });
 
@@ -388,18 +388,18 @@ Available commands from my-addon:' + EOL);
       options.commands = {
         Command1: function() {
           return {
-            skipHelp: true
+            skipHelp: true,
           };
         },
         Command2: function() {
           return {
             getJson: function() {
               return {
-                test2: 'bar'
+                test2: 'bar',
               };
-            }
+            },
           };
-        }
+        },
       };
 
       var command = new HelpCommand(options);
@@ -410,8 +410,8 @@ Available commands from my-addon:' + EOL);
 
       expect(json.commands).to.deep.equal([
         {
-          test2: 'bar'
-        }
+          test2: 'bar',
+        },
       ]);
     });
 
@@ -422,20 +422,20 @@ Available commands from my-addon:' + EOL);
             return {
               getJson: function() {
                 return {
-                  test1: 'foo'
+                  test1: 'foo',
                 };
-              }
+              },
             };
           },
           Command2: function() {
             return {
               getJson: function() {
                 return {
-                  test2: 'bar'
+                  test2: 'bar',
                 };
-              }
+              },
             };
-          }
+          },
         });
       };
 
@@ -450,13 +450,13 @@ Available commands from my-addon:' + EOL);
           name: 'my-addon',
           commands: [
             {
-              test1: 'foo'
+              test1: 'foo',
             },
             {
-              test2: 'bar'
-            }
-          ]
-        }
+              test2: 'bar',
+            },
+          ],
+        },
       ]);
     });
   });

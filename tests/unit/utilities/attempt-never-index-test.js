@@ -2,7 +2,7 @@
 
 var attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
 var quickTemp = require('quick-temp');
-var isDarwin = /darwin/i.test(require('os').type());
+var isDarwin = (/darwin/i).test(require('os').type());
 
 var chai = require('../../chai');
 var expect = chai.expect;

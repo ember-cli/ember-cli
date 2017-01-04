@@ -52,7 +52,7 @@ function defineFeature(featureName) {
       }
 
       return undefined;
-    }
+    },
   });
 }
 

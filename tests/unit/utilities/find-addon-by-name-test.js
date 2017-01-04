@@ -8,12 +8,12 @@ describe('findAddonByName', function() {
   beforeEach(function() {
     addons = [{
       name: 'foo',
-      pkg: { name: 'foo' }
+      pkg: { name: 'foo' },
     }, {
-      pkg: { name: 'bar-pkg' }
+      pkg: { name: 'bar-pkg' },
     }, {
       name: 'foo-bar',
-      pkg: { name: 'foo-bar' }
+      pkg: { name: 'foo-bar' },
     }];
   });
 

@@ -23,7 +23,7 @@ var reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
 var mocha = new Mocha({
   timeout: 5000,
   reporter: reporter,
-  retries: 2
+  retries: 2,
 });
 var testFiles = glob.sync(root + '/**/*-test.js');
 var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
@@ -36,12 +36,12 @@ testFiles = lint.concat(docsLint).concat(testFiles);
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
   addFiles(mocha, '/**/*-slow.js');
-} else if (optionOrFile === 'slow')  {
+} else if (optionOrFile === 'slow') {
   addFiles(mocha, '/**/*-slow.js');
-} else if (optionOrFile === 'lint')  {
+} else if (optionOrFile === 'lint') {
   addFiles(mocha, lint);
   addFiles(mocha, docsLint);
-} else if (process.argv.length > 2)  {
+} else if (process.argv.length > 2) {
   addFiles(mocha, process.argv.slice(2));
 } else {
   addFiles(mocha, testFiles);

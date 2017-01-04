@@ -1,17 +1,17 @@
 'use strict';
 
-var Promise          = require('../../lib/ext/promise');
-var ember            = require('../helpers/ember');
-var replaceFile      = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
-var fs               = require('fs-extra');
-var outputFile       = Promise.denodeify(fs.outputFile);
-var path             = require('path');
-var remove           = Promise.denodeify(fs.remove);
-var root             = process.cwd();
-var tmproot          = path.join(root, 'tmp');
-var mkTmpDirIn       = require('../../lib/utilities/mk-tmp-dir-in');
+var Promise = require('../../lib/ext/promise');
+var ember = require('../helpers/ember');
+var replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
+var fs = require('fs-extra');
+var outputFile = Promise.denodeify(fs.outputFile);
+var path = require('path');
+var remove = Promise.denodeify(fs.remove);
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
+var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var Blueprint        = require('../../lib/models/blueprint');
+var Blueprint = require('../../lib/models/blueprint');
 var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
 var chai = require('../chai');
@@ -48,7 +48,7 @@ describe('Acceptance: ember generate pod', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(addJSHint);
   }
 
@@ -57,7 +57,7 @@ describe('Acceptance: ember generate pod', function() {
       'addon',
       'my-addon',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]).then(addJSHint);
   }
 
@@ -72,7 +72,7 @@ describe('Acceptance: ember generate pod', function() {
       return ember([
         'generate',
         'in-repo-addon',
-        'my-addon'
+        'my-addon',
       ]);
     });
   }

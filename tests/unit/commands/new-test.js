@@ -1,13 +1,13 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var map            = require('ember-cli-lodash-subset').map;
+var expect = require('chai').expect;
+var map = require('ember-cli-lodash-subset').map;
 var commandOptions = require('../../factories/command-options');
-var NewCommand     = require('../../../lib/commands/new');
-var Promise        = require('../../../lib/ext/promise');
-var Blueprint      = require('../../../lib/models/blueprint');
-var Command        = require('../../../lib/models/command');
-var Task           = require('../../../lib/models/task');
+var NewCommand = require('../../../lib/commands/new');
+var Promise = require('../../../lib/ext/promise');
+var Blueprint = require('../../../lib/models/blueprint');
+var Command = require('../../../lib/models/command');
+var Task = require('../../../lib/models/task');
 var td = require('testdouble');
 
 describe('new command', function() {
@@ -21,8 +21,8 @@ describe('new command', function() {
         },
         blueprintLookupPaths: function() {
           return [];
-        }
-      }
+        },
+      },
     });
 
     command = new NewCommand(options);
@@ -107,10 +107,10 @@ describe('new command', function() {
   });
 
   it('registers blueprint options in beforeRun', function() {
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     command.beforeRun(['app']);
@@ -121,7 +121,7 @@ describe('new command', function() {
     command.tasks.CreateAndStepIntoDirectory = Task.extend({
       run: function() {
         return Promise.resolve();
-      }
+      },
     });
 
     command.commands.Init = Command.extend({
@@ -129,13 +129,13 @@ describe('new command', function() {
         expect(commandOptions).to.contain.keys('customOption');
         expect(commandOptions.customOption).to.equal('customValue');
         return Promise.resolve('Called run');
-      }
+      },
     });
 
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     return command.validateAndRun(['foo', '--custom-option=customValue']).then(function(reason) {

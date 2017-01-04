@@ -1,14 +1,14 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var LiveReloadServer  = require('../../../../lib/tasks/server/livereload-server');
-var MockUI            = require('console-ui/mock');
+var expect = require('chai').expect;
+var LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
+var MockUI = require('console-ui/mock');
 var MockExpressServer = require('../../../helpers/mock-express-server');
-var net               = require('net');
-var EOL               = require('os').EOL;
-var path              = require('path');
-var MockWatcher       = require('../../../helpers/mock-watcher');
-var FSTree            = require('fs-tree-diff');
+var net = require('net');
+var EOL = require('os').EOL;
+var path = require('path');
+var MockWatcher = require('../../../helpers/mock-watcher');
+var FSTree = require('fs-tree-diff');
 
 describe('livereload-server', function() {
   var subject;
@@ -28,8 +28,8 @@ describe('livereload-server', function() {
       analytics: { trackError: function() { } },
       project: {
         liveReloadFilterPatterns: [],
-        root: '/home/user/my-project'
-      }
+        root: '/home/user/my-project',
+      },
     });
   });
 
@@ -45,7 +45,7 @@ describe('livereload-server', function() {
     it('does not start the server if `liveReload` option is not true', function() {
       return subject.start({
         liveReloadPort: 1337,
-        liveReload: false
+        liveReload: false,
       }).then(function(output) {
         expect(output).to.equal('Livereload server manually disabled.');
         expect(!!subject._liveReloadServer).to.equal(false);
@@ -56,7 +56,7 @@ describe('livereload-server', function() {
       return subject.start({
         liveReloadPort: 1337,
         liveReloadHost: 'localhost',
-        liveReload: true
+        liveReload: true,
       }).then(function() {
         expect(ui.output).to.equal('Livereload server on http://localhost:1337' + EOL);
       });
@@ -68,7 +68,7 @@ describe('livereload-server', function() {
 
       subject.start({
         liveReloadPort: 1337,
-        liveReload: true
+        liveReload: true,
       })
         .catch(function(reason) {
           expect(reason).to.equal('Livereload failed on http://localhost:1337.  It is either in use or you do not have permission.' + EOL);
@@ -82,7 +82,7 @@ describe('livereload-server', function() {
       return subject.start({
         liveReloadHost: '127.0.0.1',
         liveReloadPort: 1337,
-        liveReload: true
+        liveReload: true,
       }).then(function() {
         expect(ui.output).to.equal('Livereload server on http://127.0.0.1:1337' + EOL);
       });
@@ -97,7 +97,7 @@ describe('livereload-server', function() {
         liveReload: true,
         ssl: true,
         sslKey: 'tests/fixtures/ssl/server.key',
-        sslCert: 'tests/fixtures/ssl/server.crt'
+        sslCert: 'tests/fixtures/ssl/server.crt',
       }).then(function() {
         expect(ui.output).to.equal('Livereload server on https://localhost:1337' + EOL);
       });
@@ -112,7 +112,7 @@ describe('livereload-server', function() {
         liveReload: true,
         ssl: true,
         sslKey: 'tests/fixtures/ssl/server.key',
-        sslCert: 'tests/fixtures/ssl/server.crt'
+        sslCert: 'tests/fixtures/ssl/server.crt',
       })
         .catch(function(reason) {
           expect(reason).to.equal('Livereload failed on https://localhost:1337.  It is either in use or you do not have permission.' + EOL);
@@ -126,21 +126,21 @@ describe('livereload-server', function() {
   describe('express server restart', function() {
     it('triggers when the express server restarts', function() {
       var calls = 0;
-      subject.didRestart = function () {
+      subject.didRestart = function() {
         calls++;
       };
 
       return subject.start({
         liveReloadPort: 1337,
-        liveReload: true
-      }).then(function () {
+        liveReload: true,
+      }).then(function() {
         expressServer.emit('restart');
         expect(calls).to.equal(1);
       });
     });
   });
 
-  describe('livereload changes', function () {
+  describe('livereload changes', function() {
     var liveReloadServer;
     var changedCount;
     var oldChanged;
@@ -159,7 +159,7 @@ describe('livereload-server', function() {
             relativePath: file,
             isDirectory: function() {
               return false;
-            }
+            },
           };
         });
       };
@@ -184,33 +184,33 @@ describe('livereload-server', function() {
       subject.project.liveReloadFilterPatterns = [];
     });
 
-    describe('watcher events', function () {
+    describe('watcher events', function() {
       function watcherEventTest(eventName, expectedCount) {
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries([
-          'test/fixtures/proxy/file-a.js'
+          'test/fixtures/proxy/file-a.js',
         ]);
         subject.project.liveReloadFilterPatterns = [];
         return subject.start({
           liveReloadPort: 1337,
-          liveReload: true
-        }).then(function () {
+          liveReload: true,
+        }).then(function() {
           watcher.emit(eventName, {
-            directory: '/home/user/projects/my-project/tmp/something.tmp'
+            directory: '/home/user/projects/my-project/tmp/something.tmp',
           });
-        }).finally(function () {
+        }).finally(function() {
           expect(changedCount).to.equal(expectedCount);
         });
       }
 
-      it('triggers a livereload change on a watcher change event', function () {
+      it('triggers a livereload change on a watcher change event', function() {
         return watcherEventTest('change', 1);
       });
 
-      it('triggers a livereload change on a watcher error event', function () {
+      it('triggers a livereload change on a watcher error event', function() {
         return watcherEventTest('error', 1);
       });
 
-      it('does not trigger a livereload change on other watcher events', function () {
+      it('does not trigger a livereload change on other watcher events', function() {
         return watcherEventTest('not-an-event', 0);
       });
 
@@ -218,7 +218,7 @@ describe('livereload-server', function() {
         it('shouldTriggerReload must be true if there are no liveReloadFilterPatterns', function() {
           subject.project.liveReloadFilterPatterns = [];
           var result = subject.shouldTriggerReload({
-            filePath: '/home/user/my-project/app/styles/app.css'
+            filePath: '/home/user/my-project/app/styles/app.css',
           });
           expect(result).to.be.true;
         });
@@ -229,7 +229,7 @@ describe('livereload-server', function() {
 
           subject.project.liveReloadFilterPatterns = [filter];
           var result = subject.shouldTriggerReload({
-            filePath: '/home/user/my-project/app/styles/app.css'
+            filePath: '/home/user/my-project/app/styles/app.css',
           });
           expect(result).to.be.true;
         });
@@ -240,7 +240,7 @@ describe('livereload-server', function() {
 
           subject.project.liveReloadFilterPatterns = [filter];
           var result = subject.shouldTriggerReload({
-            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
           expect(result).to.be.false;
         });
@@ -251,7 +251,7 @@ describe('livereload-server', function() {
 
           subject.project.liveReloadFilterPatterns = [filter];
           subject.shouldTriggerReload({
-            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
           expect(ui.output).to.equal('Skipping livereload for: ' + path.join('test', 'fixtures', 'proxy', 'file-a.js') + EOL);
         });
@@ -259,7 +259,7 @@ describe('livereload-server', function() {
         it('triggers the livereload server of a change when no pattern matches', function() {
           subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
           subject.didChange({
-            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
           expect(changedCount).to.equal(1);
           expect(trackCount).to.equal(1);
@@ -276,7 +276,7 @@ describe('livereload-server', function() {
 
           subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
           subject.didChange({
-            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js'
+            filePath: '/home/user/my-project/test/fixtures/proxy/file-a.js',
           });
 
           expect(changedCount).to.equal(0);
@@ -303,12 +303,12 @@ describe('livereload-server', function() {
       it('triggers livereload with modified files', function() {
         var changedFiles = [
           'assets/my-project.css',
-          'assets/my-project.js'
+          'assets/my-project.js',
         ];
 
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
         subject.didChange({
-          directory: '/home/user/projects/my-project/tmp/something.tmp'
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
         });
 
         expect(reloadedFiles).to.deep.equal(changedFiles);
@@ -317,19 +317,19 @@ describe('livereload-server', function() {
       it('triggers livereload with deleted directories', function() {
         var changedFiles = [
           'assets/my-project.css',
-          'assets/my-project.js'
+          'assets/my-project.js',
         ];
 
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
         subject.didChange({
-          directory: '/home/user/projects/my-project/tmp/something.tmp'
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
         });
         expect(reloadedFiles).to.deep.equal(changedFiles);
 
         // Pretend every files were removed from the tree.
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries([]);
         subject.didChange({
-          directory: '/home/user/projects/my-project/tmp/something.tmp'
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
         });
         expect(reloadedFiles).to.deep.equal([]);
       });
@@ -337,16 +337,16 @@ describe('livereload-server', function() {
       it('triggers livereload ignoring source map files', function() {
         var changedFiles = [
           'assets/my-project.css',
-          'assets/my-project.css.map'
+          'assets/my-project.css.map',
         ];
 
         var expectedResult = [
-          'assets/my-project.css'
+          'assets/my-project.css',
         ];
 
         subject.getDirectoryEntries = createStubbedGetDirectoryEntries(changedFiles);
         subject.didChange({
-          directory: '/home/user/projects/my-project/tmp/something.tmp'
+          directory: '/home/user/projects/my-project/tmp/something.tmp',
         });
 
         expect(reloadedFiles).to.deep.equal(expectedResult);
@@ -358,7 +358,7 @@ describe('livereload-server', function() {
           return {
             changed: function(options) {
               changedOptions = options;
-            }
+            },
           };
         };
 
@@ -366,8 +366,8 @@ describe('livereload-server', function() {
 
         expect(changedOptions).to.deep.equal({
           body: {
-            files: ['LiveReload files']
-          }
+            files: ['LiveReload files'],
+          },
         });
       });
     });

@@ -1,22 +1,22 @@
 'use strict';
 
-var Promise    = require('../../lib/ext/promise');
-var path       = require('path');
-var fs         = require('fs-extra');
-var remove     = Promise.denodeify(fs.remove);
-var spawn      = require('child_process').spawn;
-var chalk      = require('chalk');
+var Promise = require('../../lib/ext/promise');
+var path = require('path');
+var fs = require('fs-extra');
+var remove = Promise.denodeify(fs.remove);
+var spawn = require('child_process').spawn;
+var chalk = require('chalk');
 
-var symlinkOrCopySync   = require('symlink-or-copy').sync;
-var runCommand          = require('../helpers/run-command');
-var ember               = require('../helpers/ember');
-var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var killCliProcess      = require('../helpers/kill-cli-process');
-var acceptance          = require('../helpers/acceptance');
-var createTestTargets   = acceptance.createTestTargets;
+var symlinkOrCopySync = require('symlink-or-copy').sync;
+var runCommand = require('../helpers/run-command');
+var ember = require('../helpers/ember');
+var copyFixtureFiles = require('../helpers/copy-fixture-files');
+var killCliProcess = require('../helpers/kill-cli-process');
+var acceptance = require('../helpers/acceptance');
+var createTestTargets = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies    = acceptance.linkDependencies;
-var cleanupRun          = acceptance.cleanupRun;
+var linkDependencies = acceptance.linkDependencies;
+var cleanupRun = acceptance.cleanupRun;
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -30,7 +30,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
   before(function() {
     return createTestTargets(addonName, {
-      command: 'addon'
+      command: 'addon',
     });
   });
 
@@ -53,7 +53,7 @@ describe('Acceptance: addon-smoke-test', function() {
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
-    expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
+    expect(packageContents.keywords).to.deep.equal(['ember-addon']);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
     var bowerContents = fs.readJsonSync('bower.json');
@@ -142,12 +142,12 @@ describe('Acceptance: addon-smoke-test', function() {
           'testem.js',
           '.ember-cli',
           'bower.json',
-          '.bowerrc'
+          '.bowerrc',
         ];
 
         var unnecessaryFolders = [
           'tests/',
-          'bower_components/'
+          'bower_components/',
         ];
 
         var outputFiles = output.split('\n');

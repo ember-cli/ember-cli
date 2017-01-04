@@ -46,17 +46,17 @@ describe('build task test', function() {
     var task = new BuildTask({
       analytics: new MockAnalytics(),
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     var runOptions = {
       outputPath: outputPath,
-      environment: 'development'
+      environment: 'development',
     };
 
     return task.run(runOptions)
       .then(function() {
-        var expected = [ 'foo.txt'];
+        var expected = ['foo.txt'];
 
         expect(walkSync(outputPath)).to.eql(['foo.txt']);
         expect(file('dist/foo.txt')).to.equal('Some file named foo.txt\n');
@@ -70,12 +70,12 @@ describe('build task test', function() {
     var task = new BuildTask({
       analytics: new MockAnalytics(),
       project: project,
-      ui: ui
+      ui: ui,
     });
 
     var runOptions = {
       outputPath: outputPath,
-      environment: 'development'
+      environment: 'development',
     };
 
     return task.run(runOptions)
@@ -86,7 +86,7 @@ describe('build task test', function() {
         // confirm it is valid json
         var output = fs.readJsonSync(vizOutputPath);
         expect(Object.keys(output)).to.eql([
-          'summary', 'nodes'
+          'summary', 'nodes',
         ]);
 
         expect(output.summary.build.type).to.equal('initial');

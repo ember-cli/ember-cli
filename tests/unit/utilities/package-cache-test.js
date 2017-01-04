@@ -28,8 +28,8 @@ describe('PackageCache', function() {
       commands: {
         bower: { invoke: bower },
         npm: { invoke: npm },
-        yarn: { invoke: yarn }
-      }
+        yarn: { invoke: yarn },
+      },
     });
   });
 
@@ -87,8 +87,8 @@ describe('PackageCache', function() {
       "name": "foo",
       "dependencies": {
         "ember": "2.9.0",
-        "ember-cli-shims": "0.1.3"
-      }
+        "ember-cli-shims": "0.1.3",
+      },
     });
 
     // Confirm it writes the file.
@@ -128,25 +128,25 @@ describe('PackageCache', function() {
       "name": "foo",
       "dependencies": {
         "ember": "2.9.0",
-        "ember-cli-shims": "0.1.3"
-      }
+        "ember-cli-shims": "0.1.3",
+      },
     });
 
     var manifestShuffled = JSON.stringify({
       "name": "foo",
       "dependencies": {
         "ember-cli-shims": "0.1.3",
-        "ember": "2.9.0"
-      }
+        "ember": "2.9.0",
+      },
     });
 
     var manifestEmptyKey = JSON.stringify({
       "name": "foo",
       "dependencies": {
         "ember": "2.9.0",
-        "ember-cli-shims": "0.1.3"
+        "ember-cli-shims": "0.1.3",
       },
-      devDependencies: {}
+      devDependencies: {},
     });
 
     testPackageCache._writeManifest('bower', 'bower', manifest);
@@ -190,19 +190,19 @@ describe('PackageCache', function() {
           'two',
           'three',
           'alpha',
-          { name: 'beta', path: srcDir }
-        ]
+          { name: 'beta', path: srcDir },
+        ],
       },
       dependencies: {
         beta: '1.0.0',
         one: '1.0.0',
         two: '2.0.0',
         three: '3.0.0',
-        four: '4.0.0' // Doesn't remove non-linked items.
+        four: '4.0.0', // Doesn't remove non-linked items.
       },
       devDependencies: {
-        one: '1.0.0' // Handles duplicates correctly.
-      }
+        one: '1.0.0', // Handles duplicates correctly.
+      },
     };
 
     var result = {
@@ -212,7 +212,7 @@ describe('PackageCache', function() {
           'two',
           'three',
           'alpha', // Will blindly unlink alpha.
-          { name: 'beta', path: srcDir }
+          { name: 'beta', path: srcDir },
         ],
         originals: {
           dependencies: {
@@ -220,17 +220,17 @@ describe('PackageCache', function() {
             one: '1.0.0',
             two: '2.0.0',
             three: '3.0.0',
-            four: '4.0.0'
+            four: '4.0.0',
           },
           devDependencies: {
-            one: '1.0.0'
-          }
-        }
+            one: '1.0.0',
+          },
+        },
       },
       dependencies: {
-        four: '4.0.0'
+        four: '4.0.0',
       },
-      devDependencies: {}
+      devDependencies: {},
     };
 
     var readManifest = td.function('_readManifest');
@@ -285,7 +285,7 @@ describe('PackageCache', function() {
           'two',
           'three',
           'alpha',
-          { name: 'beta', path: srcDir }
+          { name: 'beta', path: srcDir },
         ],
         originals: {
           dependencies: {
@@ -293,17 +293,17 @@ describe('PackageCache', function() {
             one: '1.0.0',
             two: '2.0.0',
             three: '3.0.0',
-            four: '4.0.0'
+            four: '4.0.0',
           },
           devDependencies: {
-            one: '1.0.0'
-          }
-        }
+            one: '1.0.0',
+          },
+        },
       },
       dependencies: {
-        four: '4.0.0'
+        four: '4.0.0',
       },
-      devDependencies: {}
+      devDependencies: {},
     };
 
     var result = {
@@ -313,7 +313,7 @@ describe('PackageCache', function() {
           'two',
           'three',
           'alpha', // Will blindly link alpha.
-          { name: 'beta', path: srcDir }
+          { name: 'beta', path: srcDir },
         ],
       },
       dependencies: {
@@ -321,11 +321,11 @@ describe('PackageCache', function() {
         one: '1.0.0',
         two: '2.0.0',
         three: '3.0.0',
-        four: '4.0.0' // Order matters!
+        four: '4.0.0', // Order matters!
       },
       devDependencies: {
-        one: '1.0.0' // Restores duplicates.
-      }
+        one: '1.0.0', // Restores duplicates.
+      },
     };
 
     var readManifest = td.function('_readManifest');
@@ -377,8 +377,8 @@ describe('PackageCache', function() {
       // Add a link.
       testPackageCache._writeManifest('label', 'npm', JSON.stringify({
         _packageCache: {
-          links: ['ember-cli']
-        }
+          links: ['ember-cli'],
+        },
       }));
       testPackageCache._install('label', 'npm');
 
@@ -418,8 +418,8 @@ describe('PackageCache', function() {
       // Add a link.
       testPackageCache._writeManifest(label, 'npm', JSON.stringify({
         _packageCache: {
-          links: ['ember-cli']
-        }
+          links: ['ember-cli'],
+        },
       }));
       testPackageCache._upgrade(label, 'npm');
       td.verify(npm('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
@@ -471,8 +471,8 @@ describe('PackageCache', function() {
       // Add a link.
       testPackageCache._writeManifest(label, 'yarn', JSON.stringify({
         _packageCache: {
-          links: ['ember-cli']
-        }
+          links: ['ember-cli'],
+        },
       }));
       testPackageCache._upgrade(label, 'yarn');
       td.verify(yarn('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
@@ -523,8 +523,8 @@ describe('PackageCache', function() {
       // Add a link.
       testPackageCache._writeManifest(label, 'bower', JSON.stringify({
         _packageCache: {
-          links: ['ember-cli']
-        }
+          links: ['ember-cli'],
+        },
       }));
       testPackageCache._upgrade(label, 'bower');
       td.verify(bower('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
@@ -550,7 +550,7 @@ describe('PackageCache', function() {
   });
 
   it('create', function() {
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     var dir = testPackageCache.create('npm', 'npm', '{}');
     var manifestFilePath = path.join(dir, 'package.json');
 
@@ -562,26 +562,26 @@ describe('PackageCache', function() {
     expect(file(manifestFilePath)).to.contain('_packageCache');
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{}');
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('install'), { ignoreExtraArgs: true });
     td.verify(npm(), { times: 2, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }');
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink'), { ignoreExtraArgs: true });
@@ -591,13 +591,13 @@ describe('PackageCache', function() {
     td.reset();
 
     // Correctly catches linked versions.
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "different" }', ['ember-cli']);
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     td.reset();
 
-    td.when(npm('--version')).thenReturn({stdout: '1.0.0'});
+    td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     testPackageCache.create('npm', 'npm', '{ "dependencies": "changed again" }', ['ember-cli']);
     td.verify(npm('--version'), { times: 1, ignoreExtraArgs: true });
     td.verify(npm('unlink'), { ignoreExtraArgs: true });
@@ -654,7 +654,7 @@ describe('PackageCache', function() {
       "name": "foo",
       "dependencies": {
         "left-pad": "latest",
-      }
+      },
     });
 
     var dir = testPackageCache.create('npm', 'npm', manifest);

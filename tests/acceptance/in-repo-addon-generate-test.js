@@ -1,15 +1,15 @@
 'use strict';
 
-var Promise              = require('../../lib/ext/promise');
-var ember                = require('../helpers/ember');
-var fs                   = require('fs-extra');
-var path                 = require('path');
-var remove               = Promise.denodeify(fs.remove);
-var root                 = process.cwd();
-var tmproot              = path.join(root, 'tmp');
-var Blueprint            = require('../../lib/models/blueprint');
-var BlueprintNpmTask     = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
-var mkTmpDirIn           = require('../../lib/utilities/mk-tmp-dir-in');
+var Promise = require('../../lib/ext/promise');
+var ember = require('../helpers/ember');
+var fs = require('fs-extra');
+var path = require('path');
+var remove = Promise.denodeify(fs.remove);
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
+var Blueprint = require('../../lib/models/blueprint');
+var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
+var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
 var chai = require('../chai');
 var expect = chai.expect;
@@ -42,7 +42,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -51,7 +51,7 @@ describe('Acceptance: ember generate in-repo-addon', function() {
       return ember([
         'generate',
         'in-repo-addon',
-        'my-addon'
+        'my-addon',
       ]);
     });
   }

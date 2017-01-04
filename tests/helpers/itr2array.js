@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (iterator) {
+module.exports = function(iterator) {
   var nextItem;
   var results = [];
 

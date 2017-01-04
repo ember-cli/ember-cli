@@ -1,13 +1,13 @@
 'use strict';
 
-var path                = require('path');
-var fs                  = require('fs-extra');
-var acceptance          = require('../helpers/acceptance');
-var runCommand          = require('../helpers/run-command');
-var createTestTargets   = acceptance.createTestTargets;
+var path = require('path');
+var fs = require('fs-extra');
+var acceptance = require('../helpers/acceptance');
+var runCommand = require('../helpers/run-command');
+var createTestTargets = acceptance.createTestTargets;
 var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies    = acceptance.linkDependencies;
-var cleanupRun          = acceptance.cleanupRun;
+var linkDependencies = acceptance.linkDependencies;
+var cleanupRun = acceptance.cleanupRun;
 
 var chai = require('../chai');
 var expect = chai.expect;

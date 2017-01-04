@@ -1,15 +1,15 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var EOL               = require('os').EOL;
-var SilentError       = require('silent-error');
-var commandOptions    = require('../../factories/command-options');
+var expect = require('chai').expect;
+var EOL = require('os').EOL;
+var SilentError = require('silent-error');
+var commandOptions = require('../../factories/command-options');
 var processHelpString = require('../../helpers/process-help-string');
-var MockProject       = require('../../helpers/mock-project');
-var Promise           = require('../../../lib/ext/promise');
-var Task              = require('../../../lib/models/task');
-var Blueprint         = require('../../../lib/models/blueprint');
-var GenerateCommand   = require('../../../lib/commands/generate');
+var MockProject = require('../../helpers/mock-project');
+var Promise = require('../../../lib/ext/promise');
+var Task = require('../../../lib/models/task');
+var Blueprint = require('../../../lib/models/blueprint');
+var GenerateCommand = require('../../../lib/commands/generate');
 var td = require('testdouble');
 
 describe('generate command', function() {
@@ -34,9 +34,9 @@ describe('generate command', function() {
           project: project,
           run: function(options) {
             return Promise.resolve(options);
-          }
-        })
-      }
+          },
+        }),
+      },
     });
 
     command = new GenerateCommand(options);
@@ -91,7 +91,7 @@ describe('generate command', function() {
     });
 
     it('lists available blueprints', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -100,17 +100,17 @@ describe('generate command', function() {
               availableOptions: [],
               printBasicHelp: function() {
                 return this.name;
-              }
+              },
             },
             {
               name: 'other-blueprint',
               availableOptions: [],
               printBasicHelp: function() {
                 return this.name;
-              }
-            }
-          ]
-        }
+              },
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({});
@@ -128,7 +128,7 @@ other-blueprint' + EOL + '\
     });
 
     it('lists available blueprints json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -137,27 +137,27 @@ other-blueprint' + EOL + '\
               availableOptions: [],
               getJson: function() {
                 return {
-                  name: this.name
+                  name: this.name,
                 };
-              }
+              },
             },
             {
               name: 'other-blueprint',
               availableOptions: [],
               getJson: function() {
                 return {
-                  name: this.name
+                  name: this.name,
                 };
-              }
-            }
-          ]
-        }
+              },
+            },
+          ],
+        },
       ]);
 
       var json = {};
 
       command.addAdditionalJsonForHelp(json, {
-        json: true
+        json: true,
       });
 
       expect(json.availableBlueprints).to.deep.equal([
@@ -168,14 +168,14 @@ other-blueprint' + EOL + '\
             },
             {
               name: 'other-blueprint',
-            }
-          ]
-        }
+            },
+          ],
+        },
       ]);
     });
 
     it('works with single blueprint', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -184,17 +184,17 @@ other-blueprint' + EOL + '\
               availableOptions: [],
               printBasicHelp: function() {
                 return this.name;
-              }
+              },
             },
             {
-              name: 'skipped-blueprint'
-            }
-          ]
-        }
+              name: 'skipped-blueprint',
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({
-        rawArgs: ['my-blueprint']
+        rawArgs: ['my-blueprint'],
       });
 
       var output = options.ui.output;
@@ -207,7 +207,7 @@ my-blueprint' + EOL + '\
     });
 
     it('works with single blueprint json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -216,22 +216,22 @@ my-blueprint' + EOL + '\
               availableOptions: [],
               getJson: function() {
                 return {
-                  name: this.name
+                  name: this.name,
                 };
-              }
+              },
             },
             {
-              name: 'skipped-blueprint'
-            }
-          ]
-        }
+              name: 'skipped-blueprint',
+            },
+          ],
+        },
       ]);
 
       var json = {};
 
       command.addAdditionalJsonForHelp(json, {
         rawArgs: ['my-blueprint'],
-        json: true
+        json: true,
       });
 
       expect(json.availableBlueprints).to.deep.equal([
@@ -239,26 +239,26 @@ my-blueprint' + EOL + '\
           'my-app': [
             {
               name: 'my-blueprint',
-            }
-          ]
-        }
+            },
+          ],
+        },
       ]);
     });
 
     it('handles missing blueprint', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
             {
-              name: 'my-blueprint'
-            }
-          ]
-        }
+              name: 'my-blueprint',
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({
-        rawArgs: ['missing-blueprint']
+        rawArgs: ['missing-blueprint'],
       });
 
       var output = options.ui.output;
@@ -271,33 +271,33 @@ my-blueprint' + EOL + '\
     });
 
     it('handles missing blueprint json', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
             {
-              name: 'my-blueprint'
-            }
-          ]
-        }
+              name: 'my-blueprint',
+            },
+          ],
+        },
       ]);
 
       var json = {};
 
       command.addAdditionalJsonForHelp(json, {
         rawArgs: ['missing-blueprint'],
-        json: true
+        json: true,
       });
 
       expect(json.availableBlueprints).to.deep.equal([
         {
-          'my-app': []
-        }
+          'my-app': [],
+        },
       ]);
     });
 
     it('ignores overridden blueprints when verbose false', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -307,10 +307,10 @@ my-blueprint' + EOL + '\
               printBasicHelp: function() {
                 return this.name;
               },
-              overridden: true
-            }
-          ]
-        }
+              overridden: true,
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({});
@@ -325,7 +325,7 @@ my-blueprint' + EOL + '\
     });
 
     it('shows overridden blueprints when verbose true', function() {
-      td.when(Blueprint.list(), {ignoreExtraArgs: true}).thenReturn([
+      td.when(Blueprint.list(), { ignoreExtraArgs: true }).thenReturn([
         {
           source: 'my-app',
           blueprints: [
@@ -335,14 +335,14 @@ my-blueprint' + EOL + '\
               printBasicHelp: function() {
                 return this.name;
               },
-              overridden: true
-            }
-          ]
-        }
+              overridden: true,
+            },
+          ],
+        },
       ]);
 
       command.printDetailedHelp({
-        verbose: true
+        verbose: true,
       });
 
       var output = options.ui.output;

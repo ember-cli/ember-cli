@@ -1,17 +1,17 @@
 'use strict';
 
-var Promise     = require('../../lib/ext/promise');
-var ember       = require('../helpers/ember');
-var fs          = require('fs-extra');
+var Promise = require('../../lib/ext/promise');
+var ember = require('../helpers/ember');
+var fs = require('fs-extra');
 var replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
-var outputFile  = Promise.denodeify(fs.outputFile);
-var path        = require('path');
-var remove      = Promise.denodeify(fs.remove);
-var root        = process.cwd();
-var tmproot     = path.join(root, 'tmp');
-var mkTmpDirIn  = require('../../lib/utilities/mk-tmp-dir-in');
+var outputFile = Promise.denodeify(fs.outputFile);
+var path = require('path');
+var remove = Promise.denodeify(fs.remove);
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
+var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var Blueprint        = require('../../lib/models/blueprint');
+var Blueprint = require('../../lib/models/blueprint');
 var BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
 var chai = require('../chai');
@@ -50,7 +50,7 @@ describe('Acceptance: ember destroy pod', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -59,7 +59,7 @@ describe('Acceptance: ember destroy pod', function() {
       'addon',
       'my-addon',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
@@ -68,7 +68,7 @@ describe('Acceptance: ember destroy pod', function() {
       return ember([
         'generate',
         'in-repo-addon',
-        'my-addon'
+        'my-addon',
       ]);
     });
   }
@@ -199,9 +199,9 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('.ember-cli usePods setting destroys in pod structure without --pod flag', function() {
     var commandArgs = ['controller', 'foo'];
-    var files       = [
+    var files = [
       'app/foo/controller.js',
-      'tests/unit/foo/controller-test.js'
+      'tests/unit/foo/controller-test.js',
     ];
 
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
@@ -209,9 +209,9 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('.ember-cli usePods setting destroys in classic structure with --classic flag', function() {
     var commandArgs = ['controller', 'foo', '--classic'];
-    var files       = [
+    var files = [
       'app/controllers/foo.js',
-      'tests/unit/controllers/foo-test.js'
+      'tests/unit/controllers/foo-test.js',
     ];
 
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
@@ -219,10 +219,10 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('.ember-cli usePods setting correctly destroys component', function() {
     var commandArgs = ['component', 'x-foo'];
-    var files       = [
+    var files = [
       'app/components/x-foo/component.js',
       'app/components/x-foo/template.hbs',
-      'tests/integration/components/x-foo/component-test.js'
+      'tests/integration/components/x-foo/component-test.js',
     ];
 
     return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
@@ -230,35 +230,35 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('blueprint foo --pod', function() {
     var commandArgs = ['blueprint', 'foo', '--pod'];
-    var files       = ['blueprints/foo/index.js'];
+    var files = ['blueprints/foo/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('blueprint foo/bar --pod', function() {
     var commandArgs = ['blueprint', 'foo/bar', '--pod'];
-    var files       = ['blueprints/foo/bar/index.js'];
+    var files = ['blueprints/foo/bar/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-mock foo --pod', function() {
     var commandArgs = ['http-mock', 'foo', '--pod'];
-    var files       = ['server/mocks/foo.js'];
+    var files = ['server/mocks/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('http-proxy foo --pod', function() {
     var commandArgs = ['http-proxy', 'foo', 'bar', '--pod'];
-    var files       = ['server/proxies/foo.js'];
+    var files = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
   it('deletes files generated using blueprints from the project directory', function() {
     var commandArgs = ['foo', 'bar', '--pod'];
-    var files       = ['app/foos/bar.js'];
+    var files = ['app/foos/bar.js'];
     return initApp()
       .then(function() {
         return outputFile(
@@ -283,7 +283,7 @@ describe('Acceptance: ember destroy pod', function() {
 
   it('correctly identifies the root of the project', function() {
     var commandArgs = ['controller', 'foo', '--pod'];
-    var files       = ['app/foo/controller.js'];
+    var files = ['app/foo/controller.js'];
     return initApp()
       .then(function() {
         return outputFile(

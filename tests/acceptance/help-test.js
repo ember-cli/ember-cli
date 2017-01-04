@@ -1,16 +1,16 @@
 'use strict';
 
-var fs                = require('fs');
-var path              = require('path');
-var chai              = require('chai');
-var expect            = chai.expect;
-var EOL               = require('os').EOL;
+var fs = require('fs');
+var path = require('path');
+var chai = require('chai');
+var expect = chai.expect;
+var EOL = require('os').EOL;
 var processHelpString = require('../helpers/process-help-string');
-var convertToJson     = require('../helpers/convert-help-output-to-json');
-var commandOptions    = require('../factories/command-options');
-var HelpCommand       = require('../../lib/commands/help');
-var requireAsHash     = require('../../lib/utilities/require-as-hash');
-var Command           = require('../../lib/models/command');
+var convertToJson = require('../helpers/convert-help-output-to-json');
+var commandOptions = require('../factories/command-options');
+var HelpCommand = require('../../lib/commands/help');
+var requireAsHash = require('../../lib/utilities/require-as-hash');
+var Command = require('../../lib/models/command');
 
 var FooCommand = Command.extend({
   name: 'foo',
@@ -18,11 +18,11 @@ var FooCommand = Command.extend({
   works: 'insideProject',
 
   availableOptions: [
-    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] }
+    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] },
   ],
 
   anonymousOptions: [
-    '<speed>'
+    '<speed>',
   ],
 });
 
@@ -40,8 +40,8 @@ describe('Acceptance: ember help', function() {
         },
         blueprintLookupPaths: function() {
           return [];
-        }
-      }
+        },
+      },
     });
 
     command = new HelpCommand(options);
@@ -184,7 +184,7 @@ function loadTextFixture(path) {
 }
 
 function decodeUnicode(str) {
-  return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
+  return str.replace(/\\u([\d\w]{4})/gi, function(match, grp) {
     return String.fromCharCode(parseInt(grp, 16));
   });
 }

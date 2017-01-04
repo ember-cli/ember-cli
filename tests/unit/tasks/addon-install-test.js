@@ -1,10 +1,10 @@
 'use strict';
 
 var AddonInstallTask = require('../../../lib/tasks/addon-install');
-var MockProject      = require('console-ui/mock');
-var expect           = require('chai').expect;
-var CoreObject       = require('core-object');
-var Promise          = require('rsvp').Promise;
+var MockProject = require('console-ui/mock');
+var expect = require('chai').expect;
+var CoreObject = require('core-object');
+var Promise = require('rsvp').Promise;
 
 describe('addon install task', function() {
   var ui;
@@ -14,7 +14,7 @@ describe('addon install task', function() {
     ui = {
       startProgress: function() {
 
-      }
+      },
     };
   });
 
@@ -32,13 +32,13 @@ describe('addon install task', function() {
           expect(options['save-dev']).to.be.true;
           done();
           return Promise.resolve();
-        }
+        },
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: MockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask,
       });
 
       addonInstallTask.run({});
@@ -53,19 +53,19 @@ describe('addon install task', function() {
           expect(options['save-dev']).to.not.be.true;
           done();
           return Promise.resolve();
-        }
+        },
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: MockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask,
       });
 
       addonInstallTask.run({
         blueprintOptions: {
-          save: true
-        }
+          save: true,
+        },
       });
     });
   });
@@ -78,19 +78,19 @@ describe('addon install task', function() {
           expect(options['save-dev']).to.be.true;
           done();
           return Promise.resolve();
-        }
+        },
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: MockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask,
       });
 
       addonInstallTask.run({
         blueprintOptions: {
-          saveDev: true
-        }
+          saveDev: true,
+        },
       });
     });
   });
@@ -103,20 +103,20 @@ describe('addon install task', function() {
           expect(options['save-dev']).to.not.be.true;
           done();
           return Promise.resolve();
-        }
+        },
       });
 
       var addonInstallTask = new AddonInstallTask({
         ui: ui,
         project: project,
-        NpmInstallTask: MockNpmInstallTask
+        NpmInstallTask: MockNpmInstallTask,
       });
 
       addonInstallTask.run({
         blueprintOptions: {
           save: true,
-          saveDev: true
-        }
+          saveDev: true,
+        },
       });
     });
   });

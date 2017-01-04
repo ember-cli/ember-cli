@@ -1,11 +1,11 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var MockProject    = require('../../helpers/mock-project');
+var expect = require('chai').expect;
+var MockProject = require('../../helpers/mock-project');
 var commandOptions = require('../../factories/command-options');
-var Task           = require('../../../lib/models/task');
-var Promise        = require('../../../lib/ext/promise');
-var AddonInstall   = require('../../../lib/tasks/addon-install');
+var Task = require('../../../lib/models/task');
+var Promise = require('../../../lib/ext/promise');
+var AddonInstall = require('../../../lib/tasks/addon-install');
 var InstallCommand = require('../../../lib/commands/install');
 var td = require('testdouble');
 
@@ -26,21 +26,21 @@ describe('install command', function() {
         {
           pkg: {
             name: 'ember-data',
-          }
+          },
         },
         {
           pkg: {
             name: 'ember-cli-cordova',
             'ember-addon': {
-              defaultBlueprint: 'cordova-starter-kit'
-            }
-          }
+              defaultBlueprint: 'cordova-starter-kit',
+            },
+          },
         },
         {
           pkg: {
-            name: 'ember-cli-qunit'
-          }
-        }
+            name: 'ember-cli-qunit',
+          },
+        },
       ];
     };
 
@@ -51,7 +51,7 @@ describe('install command', function() {
         init: function() {
           this._super.apply(this, arguments);
           npmInstance = this;
-        }
+        },
       }),
 
       GenerateFromBlueprint: Task.extend({
@@ -59,17 +59,17 @@ describe('install command', function() {
         init: function() {
           this._super.apply(this, arguments);
           generateBlueprintInstance = this;
-        }
-      })
+        },
+      }),
     };
 
     var options = commandOptions({
       project: project,
-      tasks: tasks
+      tasks: tasks,
     });
 
     td.replace(tasks.NpmInstall.prototype, 'run', td.function());
-    td.when(tasks.NpmInstall.prototype.run(), {ignoreExtraArgs: true}).thenReturn(Promise.resolve());
+    td.when(tasks.NpmInstall.prototype.run(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve());
     td.replace(tasks.GenerateFromBlueprint.prototype, 'run', td.function());
 
     command = new InstallCommand(options);
@@ -100,8 +100,8 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
       });
     });
 
@@ -119,8 +119,8 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
       });
     });
 
@@ -132,8 +132,8 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': true,
           'save-dev': false,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
       });
     });
 
@@ -151,8 +151,8 @@ describe('install command', function() {
           packages: ['ember-data'],
           'save': true,
           'save-dev': false,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
       });
     });
 
@@ -163,7 +163,7 @@ describe('install command', function() {
         td.verify(generateRun(captor.capture()));
         expect(captor.value.ignoreMissingMain).to.be.true;
         expect(captor.value.args).to.deep.equal([
-          'ember-data'
+          'ember-data',
         ], 'expected generate blueprint called with correct args');
       });
     });
@@ -177,7 +177,7 @@ describe('install command', function() {
         td.verify(generateRun(captor.capture()));
         expect(captor.value.ignoreMissingMain).to.be.true;
         expect(captor.value.args).to.deep.equal([
-          'cordova-starter-kit'
+          'cordova-starter-kit',
         ], 'expected generate blueprint called with correct args');
         expect(error.message).to.equal(
           'Install failed. Could not find addon with name: com.ember.test',
@@ -188,7 +188,7 @@ describe('install command', function() {
 
     it('runs npmInstall once and installs three addons', function() {
       return command.validateAndRun([
-        'ember-data', 'ember-cli-cordova', 'ember-cli-qunit'
+        'ember-data', 'ember-cli-cordova', 'ember-cli-qunit',
       ]).then(function() {
         var npmRun = tasks.NpmInstall.prototype.run;
 
@@ -196,8 +196,8 @@ describe('install command', function() {
           packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
@@ -213,11 +213,11 @@ describe('install command', function() {
           packages: ['ember-cli/ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        td.verify(generateRun(), {ignoreExtraArgs: true, times: 0});
+        td.verify(generateRun(), { ignoreExtraArgs: true, times: 0 });
       });
     });
 
@@ -229,8 +229,8 @@ describe('install command', function() {
           packages: ['ember-cli-qunit@1.2.0'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
@@ -246,8 +246,8 @@ describe('install command', function() {
           packages: ['@ember-cli/ember-cli-qunit'],
           'save': false,
           'save-dev': true,
-          'save-exact': false
-        }), {times: 1});
+          'save-exact': false,
+        }), { times: 1 });
 
         var generateRun = tasks.GenerateFromBlueprint.prototype.run;
         var generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });

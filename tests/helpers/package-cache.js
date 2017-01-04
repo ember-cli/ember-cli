@@ -24,7 +24,7 @@ var DEPENDENCY_KEYS = [
   'dependencies',
   'devDependencies',
   'peerDependencies',
-  'optionalDependencies'
+  'optionalDependencies',
 ];
 
 /**
@@ -65,7 +65,7 @@ var originals;
 var commands = {
   bower: bower,
   npm: npm,
-  yarn: yarn
+  yarn: yarn,
 };
 
 // The definition list of translation terms.
@@ -73,18 +73,18 @@ var lookups = {
   manifest: {
     bower: 'bower.json',
     npm: 'package.json',
-    yarn: 'package.json'
+    yarn: 'package.json',
   },
   path: {
     bower: 'bower_components',
     npm: 'node_modules',
-    yarn: 'node_modules'
+    yarn: 'node_modules',
   },
   upgrade: {
     bower: 'update',
     npm: 'install',
-    yarn: 'upgrade'
-  }
+    yarn: 'upgrade',
+  },
 };
 
 /**
@@ -571,7 +571,7 @@ PackageCache.prototype = {
       node: process.version,
       packageManager: type,
       packageManagerVersion: packageManagerVersion,
-      links: links
+      links: links,
     };
 
     manifest = JSON.stringify(jsonManifest);
@@ -649,7 +649,7 @@ PackageCache.prototype = {
     fs.copySync(this.get(fromLabel), outputDir);
 
     return this.dirs[toLabel];
-  }
+  },
 
 };
 
@@ -657,7 +657,7 @@ PackageCache.prototype = {
 Object.defineProperty(PackageCache.prototype, 'dirs', {
   get: function() {
     return this._conf.all;
-  }
+  },
 });
 
 module.exports = PackageCache;

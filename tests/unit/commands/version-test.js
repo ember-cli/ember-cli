@@ -1,7 +1,7 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var EOL            = require('os').EOL;
+var expect = require('chai').expect;
+var EOL = require('os').EOL;
 var commandOptions = require('../../factories/command-options');
 var VersionCommand = require('../../../lib/commands/version');
 
@@ -13,8 +13,8 @@ describe('version command', function() {
       project: {
         isEmberCLIProject: function() {
           return false;
-        }
-      }
+        },
+      },
     });
 
     command = new VersionCommand(options);

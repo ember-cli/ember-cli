@@ -1,11 +1,11 @@
 'use strict';
 
-var Promise    = require('../../lib/ext/promise');
-var ember      = require('../helpers/ember');
-var path       = require('path');
-var remove     = Promise.denodeify(require('fs-extra').remove);
-var root       = process.cwd();
-var tmproot    = path.join(root, 'tmp');
+var Promise = require('../../lib/ext/promise');
+var ember = require('../helpers/ember');
+var path = require('path');
+var remove = Promise.denodeify(require('fs-extra').remove);
+var root = process.cwd();
+var tmproot = path.join(root, 'tmp');
 var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
 var chai = require('../chai');
@@ -31,7 +31,7 @@ describe('Acceptance: ember install', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 

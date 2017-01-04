@@ -1,11 +1,11 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var SilentError    = require('silent-error');
+var expect = require('chai').expect;
+var SilentError = require('silent-error');
 var TestServerTask = require('../../../lib/tasks/test-server');
-var MockProject    = require('../../helpers/mock-project');
-var MockUI         = require('console-ui/mock');
-var MockWatcher    = require('../../helpers/mock-watcher');
+var MockProject = require('../../helpers/mock-project');
+var MockUI = require('console-ui/mock');
+var MockWatcher = require('../../helpers/mock-watcher');
 
 describe('test server', function() {
   var subject;
@@ -30,8 +30,8 @@ describe('test server', function() {
           expect(options.test_page).to.equal('http://my/test/page');
           expect(options.config_dir).to.be.an('string');
           done();
-        }
-      }
+        },
+      },
     });
 
     subject.run({
@@ -40,7 +40,7 @@ describe('test server', function() {
       reporter: 'xunit',
       outputPath: 'blerpy-derpy',
       watcher: watcher,
-      testPage: 'http://my/test/page'
+      testPage: 'http://my/test/page',
     });
     watcher.emit('change');
   });
@@ -56,7 +56,7 @@ describe('test server', function() {
         reporter: 'xunit',
         outputPath: 'blerpy-derpy',
         watcher: watcher,
-        testPage: 'http://my/test/page'
+        testPage: 'http://my/test/page',
       };
 
       subject = new TestServerTask({
@@ -68,8 +68,8 @@ describe('test server', function() {
         testem: {
           startDev: function(options, finalizer) {
             throw new TypeError('startDev not implemented');
-          }
-        }
+          },
+        },
       });
     });
 

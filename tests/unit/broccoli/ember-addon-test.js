@@ -1,10 +1,10 @@
 'use strict';
 
-var path       = require('path');
-var Project    = require('../../../lib/models/project');
+var path = require('path');
+var Project = require('../../../lib/models/project');
 var EmberAddon = require('../../../lib/broccoli/ember-addon');
 var EmberApp = require('../../../lib/broccoli/ember-app');
-var expect     = require('chai').expect;
+var expect = require('chai').expect;
 var MockCLI = require('../../helpers/mock-cli');
 
 describe('EmberAddon', function() {
@@ -34,33 +34,33 @@ describe('EmberAddon', function() {
     emberAddon = new EmberAddon({
       project: project,
       foo: {
-        bar: ['baz']
+        bar: ['baz'],
       },
       fooz: {
         bam: {
-          boo: ['default']
-        }
-      }
+          boo: ['default'],
+        },
+      },
     }, {
       foo: {
-        bar: ['bizz']
+        bar: ['bizz'],
       },
       fizz: 'fizz',
       fooz: {
         bam: {
-          boo: ['custom']
-        }
-      }
+          boo: ['custom'],
+        },
+      },
     });
 
     expect(emberAddon.options.foo).to.deep.eql({
-      bar: ['bizz']
+      bar: ['bizz'],
     });
     expect(emberAddon.options.fizz).to.eql('fizz');
     expect(emberAddon.options.fooz).to.eql({
       bam: {
-        boo: ['custom']
-      }
+        boo: ['custom'],
+      },
     });
   });
 

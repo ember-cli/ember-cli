@@ -1,11 +1,11 @@
 'use strict';
 
-var Blueprint   = require('../../../lib/models/blueprint');
+var Blueprint = require('../../../lib/models/blueprint');
 var MockProject = require('../../helpers/mock-project');
-var expect      = require('chai').expect;
-var proxyquire  = require('proxyquire');
-var fs          = require('fs');
-var path        = require('path');
+var expect = require('chai').expect;
+var proxyquire = require('proxyquire');
+var fs = require('fs');
+var path = require('path');
 var td = require('testdouble');
 
 describe('blueprint - addon', function() {
@@ -60,7 +60,7 @@ describe('blueprint - addon', function() {
 
     beforeEach(function() {
       readJsonSync = td.function();
-      td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({});
+      td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
 
       writeFileSync = td.function();
 
@@ -68,10 +68,10 @@ describe('blueprint - addon', function() {
         'fs-extra': {
           readJsonSync: readJsonSync,
           writeFileSync: writeFileSync,
-        }
+        },
       });
       blueprint._appBlueprint = {
-        path: 'test-app-blueprint-path'
+        path: 'test-app-blueprint-path',
       };
       blueprint.path = 'test-blueprint-path';
     });
@@ -107,8 +107,8 @@ describe('blueprint - addon', function() {
       });
 
       it('removes the `private` property', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          private: true
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          private: true,
         });
 
         blueprint.generatePackageJson();
@@ -123,8 +123,8 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `name`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          name: 'test-name'
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          name: 'test-name',
         });
 
         blueprint.generatePackageJson();
@@ -139,8 +139,8 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `description`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          description: 'test-description'
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          description: 'test-description',
         });
 
         blueprint.generatePackageJson();
@@ -155,10 +155,10 @@ describe('blueprint - addon', function() {
       });
 
       it('moves `ember-cli-babel` from devDependencies to dependencies', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           devDependencies: {
-            'ember-cli-babel': '1.0.0'
-          }
+            'ember-cli-babel': '1.0.0',
+          },
         });
 
         blueprint.generatePackageJson();
@@ -170,14 +170,14 @@ describe('blueprint - addon', function() {
 
         var json = JSON.parse(captor.value);
         expect(json.dependencies).to.deep.equal({
-          'ember-cli-babel': '1.0.0'
+          'ember-cli-babel': '1.0.0',
         });
         expect(json.devDependencies).to.not.have.property('ember-cli-babel');
       });
 
       it('does not push multiple `ember-addon` keywords', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          keywords: ['ember-addon']
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          keywords: ['ember-addon'],
         });
 
         blueprint.generatePackageJson();
@@ -192,10 +192,10 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites any version of `ember-disable-prototype-extensions`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           devDependencies: {
-            'ember-disable-prototype-extensions': '0.0.1'
-          }
+            'ember-disable-prototype-extensions': '0.0.1',
+          },
         });
 
         blueprint.generatePackageJson();
@@ -210,10 +210,10 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `scripts.test`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           scripts: {
-            test: 'test-string'
-          }
+            test: 'test-string',
+          },
         });
 
         blueprint.generatePackageJson();
@@ -228,10 +228,10 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `ember-addon.configPath`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           'ember-addon': {
-            configPath: 'test-path'
-          }
+            configPath: 'test-path',
+          },
         });
 
         blueprint.generatePackageJson();
@@ -246,15 +246,15 @@ describe('blueprint - addon', function() {
       });
 
       it('preserves dependency ordering', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           dependencies: {
             b: '1',
-            a: '1'
+            a: '1',
           },
           devDependencies: {
             b: '1',
-            a: '1'
-          }
+            a: '1',
+          },
         });
 
         blueprint.generatePackageJson();
