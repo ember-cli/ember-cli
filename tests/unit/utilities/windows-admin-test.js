@@ -1,41 +1,106 @@
 'use strict';
 
-var win = require('../../../lib/utilities/windows-admin');
-var expect = require('chai').expect;
-var MockUI = require('../../helpers/mock-ui');
+const WindowsSymlinkChecker = require('../../../lib/utilities/windows-admin');
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const td = require('testdouble');
+const symlinkOrCopy = require('symlink-or-copy');
 
 describe('windows-admin', function() {
-  before(function() {
-    this.originalPlatform = process.platform;
+  let ui;
+
+  beforeEach(function() {
+    ui = new MockUI();
   });
 
-  after(function () {
-    Object.defineProperty(process, 'platform', {
-      value: this.originalPlatform
+  describe('on windows', function() {
+    let isWindows = true;
+
+    describe('can symlink', function() {
+      let canSymlink = true;
+
+      it('attempts to determine admin rights if Windows', function() {
+        let exec = td.function('exec');
+
+        let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
+
+        return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+          expect(result).to.be.ok;
+          expect(result.windows).to.be.eql(true);
+          expect(result.elevated).to.be.eql(null);
+          td.verify(exec(), { times: 0 });
+          expect(ui.output).to.eql('');
+        });
+      });
+    });
+
+    describe('cannot symlink', function() {
+      let canSymlink = false;
+
+      describe('attempts to determine admin rights', function() {
+        it('gets STDERR during NET SESSION exec', function() {
+          let exec = td.function('exec');
+          td.when(exec('NET SESSION', td.callback(null, null, 'error'))).thenReturn();
+
+          let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
+
+          return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+            expect(result.windows, 'is windows').to.be.eql(true);
+            expect(result.elevated, 'is not elevated').to.be.eql(false);
+            td.verify(exec(td.matchers.contains('NET SESSION'), td.matchers.anything()), { times: 1 });
+            expect(ui.output).to.match(/Running without permission to symlink will degrade build peformance/);
+            expect(ui.output).to.match(/See http\:\/\/ember-cli\.com\/user-guide\/#windows for details./);
+          });
+        });
+
+        it('gets no stdrrduring NET  SESSION exec', function() {
+          let exec = td.function('exec');
+          td.when(exec('NET SESSION', td.callback(null, null, null))).thenReturn();
+
+          let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
+
+          return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+            expect(result.windows, 'is windows').to.be.eql(true);
+            expect(result.elevated, 'is elevated').to.be.eql(true);
+            td.verify(exec(td.matchers.contains('NET SESSION'), td.matchers.anything()), { times: 1 });
+            expect(ui.output).to.eql('');
+          });
+        });
+      });
     });
   });
 
-  it('attempts to determine admin rights if Windows', function(done) {
-    Object.defineProperty(process, 'platform', {
-      value: 'win'
-    });
+  describe('on linux', function() {
+    let isWindows = false;
+    let canSymlink = true;
 
-    win.checkWindowsElevation(new MockUI()).then(function (result) {
-      expect(result).to.be.ok;
-      expect(result.windows).to.be.true;
-      done();
+    it('does not attempt to determine admin', function() {
+      let exec = td.function('exec');
+      let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
+
+      return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+        expect(result.windows).to.be.eql(false);
+        expect(result.elevated).to.be.eql(null);
+        expect(td.explain(exec).callCount).to.eql(0);
+        expect(ui.output).to.eql('');
+      });
     });
   });
 
-  it('does not attempt to determine admin rights if not on Windows', function(done) {
-    Object.defineProperty(process, 'platform', {
-      value: 'MockOS'
-    });
+  describe('on darwin', function() {
+    let isWindows = false;
+    let canSymlink = true;
 
-    win.checkWindowsElevation(new MockUI()).then(function (result) {
-      expect(result).to.be.ok;
-      expect(result.windows).to.be.false;
-      done();
+    it('does not attempt to determine admin', function() {
+      let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink /* exec spy */);
+      let exec = td.function('exec');
+
+      return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+        expect(result.windows).to.be.eql(false);
+        expect(result.elevated).to.be.eql(null);
+        expect(td.explain(exec).callCount).to.eql(0);
+        expect(ui.output).to.eql('');
+      });
     });
   });
 });

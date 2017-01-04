@@ -1,12 +1,12 @@
 'use strict';
 
-var expect            = require('chai').expect;
-var TestsServerAddon  = require('../../../../../lib/tasks/server/middleware/tests-server');
-var Promise           = require('../../../../../lib/ext/promise');
+const expect = require('chai').expect;
+const TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
+const Promise = require('../../../../../lib/ext/promise');
 
-describe('TestServerAddon', function () {
-  describe('.serverMiddleware', function () {
-    var addon, nextWasCalled, mockRequest, app;
+describe('TestServerAddon', function() {
+  describe('.serverMiddleware', function() {
+    let addon, nextWasCalled, mockRequest, app;
 
     beforeEach(function() {
       addon = new TestsServerAddon();
@@ -15,48 +15,48 @@ describe('TestServerAddon', function () {
         method: 'GET',
         path: '',
         url: 'http://example.com',
-        headers: {}
+        headers: {},
       };
       app = {
-        use: function (callback) {
-          return callback(mockRequest, null, function () { nextWasCalled = true; });
-        }
+        use(callback) {
+          return callback(mockRequest, null, function() { nextWasCalled = true; });
+        },
       };
     });
 
     it('invokes next when the watcher succeeds', function(done) {
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
-          watcher: Promise.resolve()
+          watcher: Promise.resolve(),
         },
-        finally: function() {
+        finally() {
           try {
             expect(nextWasCalled).to.true;
             done();
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
 
     it('invokes next when the watcher fails', function(done) {
-      var mockError = 'bad things are bad';
+      let mockError = 'bad things are bad';
 
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
-          watcher: Promise.reject(mockError)
+          watcher: Promise.reject(mockError),
         },
-        finally: function() {
+        finally() {
           try {
             expect(nextWasCalled).to.true;
             done();
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
 
@@ -64,19 +64,19 @@ describe('TestServerAddon', function () {
       mockRequest.path = '/braden/+/tests/any-old-file';
       mockRequest.headers.accept = ['*/*'];
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
           watcher: Promise.resolve({ directory: 'nothing' }),
-          baseURL: '/braden/+'
+          baseURL: '/braden/+',
         },
-        finally: function() {
+        finally() {
           try {
             expect(mockRequest.url).to.equal('/braden/+/tests/index.html');
             done();
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
 
@@ -84,19 +84,19 @@ describe('TestServerAddon', function () {
       mockRequest.path = '/grayson/+/tests/any-old-file';
       mockRequest.headers.accept = ['text/html'];
       addon.serverMiddleware({
-        app: app,
+        app,
         options: {
-          watcher: Promise.resolve({directory: 'nothing'}),
-          rootURL: '/grayson/+'
+          watcher: Promise.resolve({ directory: 'nothing' }),
+          rootURL: '/grayson/+',
         },
-        finally: function () {
+        finally() {
           try {
             expect(mockRequest.url).to.equal('/grayson/+/tests/index.html');
             done();
           } catch (e) {
             done(e);
           }
-        }
+        },
       });
     });
   });

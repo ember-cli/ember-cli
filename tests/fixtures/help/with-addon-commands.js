@@ -1,5 +1,5 @@
-var processHelpString = require('../../helpers/process-help-string');
-var versionUtils      = require('../../../lib/utilities/version-utils');
+const processHelpString = require('../../helpers/process-help-string');
+const versionUtils      = require('../../../lib/utilities/version-utils');
 var emberCLIVersion   = versionUtils.emberCLIVersion;
 
 module.exports = {
@@ -400,6 +400,13 @@ module.exports = {
           aliases: ['D'],
           key: 'saveDev',
           required: false
+        },
+        {
+          name: 'save-exact',
+          default: false,
+          aliases: ['E', 'exact'],
+          key: 'saveExact',
+          required: false
         }
       ],
       anonymousOptions: ['<addon-name>']
@@ -470,6 +477,7 @@ module.exports = {
         {
           name: 'port',
           default: 4200,
+          description: 'To use a port different than 4200. Pass 0 to automatically pick an available port.',
           aliases: ['p'],
           key: 'port',
           required: false
@@ -488,11 +496,11 @@ module.exports = {
           required: false
         },
         {
-          name: 'insecure-proxy',
-          default: false,
-          description: 'Set false to proxy self-signed SSL certificates',
-          aliases: ['inspr'],
-          key: 'insecureProxy',
+          name: 'secure-proxy',
+          default: true,
+          description: 'Set to false to proxy self-signed SSL certificates',
+          aliases: ['spr'],
+          key: 'secureProxy',
           required: false
         },
         {
@@ -658,6 +666,12 @@ module.exports = {
           default: false,
           description: 'Suppress any output except for the test report',
           key: 'silent',
+          required: false
+        },
+        {
+          name: 'testem-debug',
+          description: 'File to write a debug log from testem',
+          key: 'testemDebug',
           required: false
         },
         {

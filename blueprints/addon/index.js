@@ -1,22 +1,26 @@
-var fs          = require('fs-extra');
-var existsSync  = require('exists-sync');
-var path        = require('path');
-var walkSync    = require('walk-sync');
-var stringUtil  = require('ember-cli-string-utils');
-var uniq        = require('ember-cli-lodash-subset').uniq;
-var SilentError = require('silent-error');
-var date        = new Date();
+'use strict';
 
-var normalizeEntityName = require('ember-cli-normalize-entity-name');
+const fs = require('fs-extra');
+const existsSync = require('exists-sync');
+const path = require('path');
+const walkSync = require('walk-sync');
+const stringUtil = require('ember-cli-string-utils');
+const uniq = require('ember-cli-lodash-subset').uniq;
+const SilentError = require('silent-error');
+const sortPackageJson = require('sort-package-json');
+let date = new Date();
+
+const normalizeEntityName = require('ember-cli-normalize-entity-name');
+const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
-  generatePackageJson: function() {
-    var contents = readContentsFromFile.call(this, 'package.json');
+  generatePackageJson() {
+    let contents = this._readContentsFromFile('package.json');
 
     delete contents.private;
-    contents.name = this.project.name();
+    contents.name = '<%= addonName %>';
     contents.description = this.description;
     contents.scripts = contents.scripts || {};
     contents.keywords = contents.keywords || [];
@@ -27,6 +31,12 @@ module.exports = {
     // and dummy app still uses it when in deps
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
     delete contents.devDependencies['ember-cli-babel'];
+
+    // 99% of addons don't need ember-data, make it opt-in instead
+    delete contents.devDependencies['ember-data'];
+
+    // 100% of addons don't need ember-cli-app-version, make it opt-in instead
+    delete contents.devDependencies['ember-cli-app-version'];
 
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
@@ -41,85 +51,82 @@ module.exports = {
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
-    // sort the dependencies like an `npm install` would
-    alphabetizeDependencies(contents);
-
-    writeContentsToFile.call(this, contents, 'package.json');
+    this._writeContentsToFile(sortPackageJson(contents), 'package.json');
   },
 
-  generateBowerJson: function() {
-    var contents = readContentsFromFile.call(this, 'bower.json');
+  generateBowerJson() {
+    let contents = this._readContentsFromFile('bower.json');
 
-    contents.name = this.project.name();
+    contents.name = '<%= addonName %>';
 
-    writeContentsToFile.call(this, contents, 'bower.json');
+    this._writeContentsToFile(contents, 'bower.json');
   },
 
-  afterInstall: function() {
-    var packagePath = path.join(this.path, 'files', 'package.json');
-    var bowerPath = path.join(this.path, 'files', 'bower.json');
+  afterInstall() {
+    let packagePath = path.join(this.path, 'files', 'package.json');
+    let bowerPath = path.join(this.path, 'files', 'bower.json');
 
-    [packagePath, bowerPath].forEach(function(filePath) {
+    [packagePath, bowerPath].forEach(filePath => {
       fs.remove(filePath);
     });
   },
 
-  locals: function(options) {
-    var entity    = { name: 'dummy' };
-    var rawName   = entity.name;
-    var name      = stringUtil.dasherize(rawName);
-    var namespace = stringUtil.classify(rawName);
+  locals(options) {
+    let entity = { name: 'dummy' };
+    let rawName = entity.name;
+    let name = stringUtil.dasherize(rawName);
+    let namespace = stringUtil.classify(rawName);
 
-    var addonEntity    = options.entity;
-    var addonRawName   = addonEntity.name;
-    var addonName      = stringUtil.dasherize(addonRawName);
-    var addonNamespace = stringUtil.classify(addonRawName);
+    let addonEntity = options.entity;
+    let addonRawName = addonEntity.name;
+    let addonName = stringUtil.dasherize(addonRawName);
+    let addonNamespace = stringUtil.classify(addonRawName);
 
     return {
-      name: name,
+      name,
       modulePrefix: name,
-      namespace: namespace,
-      addonName: addonName,
+      namespace,
+      addonName,
       addonModulePrefix: addonName,
-      addonNamespace: addonNamespace,
+      addonNamespace,
       emberCLIVersion: require('../../package').version,
-      year: date.getFullYear()
+      year: date.getFullYear(),
     };
   },
 
-  files: function() {
+  files() {
     if (this._files) { return this._files; }
 
-    this._appBlueprint   = this.lookupBlueprint('app');
-    var appFiles       = this._appBlueprint.files();
+    this._appBlueprint = this.lookupBlueprint('app');
+    let appFiles = this._appBlueprint.files();
 
     this.generatePackageJson();
     this.generateBowerJson();
 
-    var addonFiles   = walkSync(path.join(this.path, 'files'));
+    let addonFiles = walkSync(path.join(this.path, 'files'));
 
     return this._files = uniq(appFiles.concat(addonFiles));
   },
 
-  mapFile: function() {
-    var result = this._super.mapFile.apply(this, arguments);
+  mapFile() {
+    let result = this._super.mapFile.apply(this, arguments);
     return this.fileMapper(result);
   },
 
   fileMap: {
     '^app/.gitkeep': 'app/.gitkeep',
-    '^app.*':        'tests/dummy/:path',
-    '^config.*':     'tests/dummy/:path',
-    '^public.*':     'tests/dummy/:path',
+    '^app.*': 'tests/dummy/:path',
+    '^config.*': 'tests/dummy/:path',
+    '^public.*': 'tests/dummy/:path',
 
     '^addon-config/environment.js': 'config/environment.js',
-    '^addon-config/ember-try.js'  : 'config/ember-try.js',
+    '^addon-config/ember-try.js': 'config/ember-try.js',
 
-    '^npmignore': '.npmignore'
+    '^npmignore': '.npmignore',
   },
 
-  fileMapper: function(path) {
-    for (var pattern in this.fileMap) {
+  fileMapper(path) {
+    for (let pattern in this.fileMap) {
       if ((new RegExp(pattern)).test(path)) {
         return this.fileMap[pattern].replace(':path', path);
       }
@@ -128,8 +135,8 @@ module.exports = {
     return path;
   },
 
-  srcPath: function(file) {
-    var filePath = path.resolve(this.path, 'files', file);
+  srcPath(file) {
+    let filePath = path.resolve(this.path, 'files', file);
     if (existsSync(filePath)) {
       return filePath;
     } else {
@@ -137,7 +144,7 @@ module.exports = {
     }
   },
 
-  normalizeEntityName: function(entityName) {
+  normalizeEntityName(entityName) {
     entityName = normalizeEntityName(entityName);
 
     if (this.project.isEmberCLIProject() && !this.project.isEmberCLIAddon()) {
@@ -145,27 +152,15 @@ module.exports = {
     }
 
     return entityName;
-  }
+  },
+
+  _readContentsFromFile(fileName) {
+    let packagePath = path.join(this._appBlueprint.path, 'files', fileName);
+    return fs.readJsonSync(packagePath);
+  },
+
+  _writeContentsToFile(contents, fileName) {
+    let packagePath = path.join(this.path, 'files', fileName);
+    fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+  },
 };
-
-function readContentsFromFile(fileName) {
-  var packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-  return fs.readJsonSync(packagePath);
-}
-
-function alphabetizeDependencies(contents) {
-  contents.dependencies = alphabetizeObjectKeys(contents.dependencies);
-  contents.devDependencies = alphabetizeObjectKeys(contents.devDependencies);
-}
-
-function alphabetizeObjectKeys(unordered) {
-  var ordered = {};
-  Object.keys(unordered).sort().forEach(function(key) {
-    ordered[key] = unordered[key];
-  });
-  return ordered;
-}
-
-function writeContentsToFile(contents, fileName) {
-  fs.writeFileSync(path.join(this.path, 'files', fileName), JSON.stringify(contents, null, 2) + '\n');
-}

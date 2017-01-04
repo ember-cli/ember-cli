@@ -1,19 +1,20 @@
 'use strict';
 
-var path                = require('path');
-var fs                  = require('fs-extra');
-var acceptance          = require('../helpers/acceptance');
-var runCommand          = require('../helpers/run-command');
-var createTestTargets   = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies    = acceptance.linkDependencies;
-var cleanupRun          = acceptance.cleanupRun;
+const path = require('path');
+const fs = require('fs-extra');
+const acceptance = require('../helpers/acceptance');
+const runCommand = require('../helpers/run-command');
+let createTestTargets = acceptance.createTestTargets;
+let teardownTestTargets = acceptance.teardownTestTargets;
+let linkDependencies = acceptance.linkDependencies;
+let cleanupRun = acceptance.cleanupRun;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var dir = chai.dir;
+const chai = require('../chai');
+let expect = chai.expect;
+let dir = chai.dir;
 
-var appName  = 'some-cool-app';
+let appName = 'some-cool-app';
+let appRoot;
 
 describe('Acceptance: blueprint smoke tests', function() {
   this.timeout(500000);
@@ -22,18 +23,15 @@ describe('Acceptance: blueprint smoke tests', function() {
     return createTestTargets(appName);
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(appName);
+    appRoot = linkDependencies(appName);
   });
 
   afterEach(function() {
-    return cleanupRun(appName).then(function() {
-      expect(dir('tmp/' + appName)).to.not.exist;
-    });
+    cleanupRun(appName);
+    expect(dir(appRoot)).to.not.exist;
   });
 
   it('generating an http-proxy installs packages to package.json', function() {
@@ -42,8 +40,8 @@ describe('Acceptance: blueprint smoke tests', function() {
                       'api',
                       'http://localhost/api')
       .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
 
         expect(packageJson.devDependencies).to.have.a.property('http-proxy');
         expect(packageJson.devDependencies).to.have.a.property('morgan');

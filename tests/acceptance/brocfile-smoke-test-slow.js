@@ -1,24 +1,25 @@
 'use strict';
 
-var Promise    = require('../../lib/ext/promise');
-var path       = require('path');
-var fs         = require('fs-extra');
-var remove     = Promise.denodeify(fs.remove);
+const Promise = require('../../lib/ext/promise');
+const path = require('path');
+const fs = require('fs-extra');
+let remove = Promise.denodeify(fs.remove);
 
-var runCommand          = require('../helpers/run-command');
-var acceptance          = require('../helpers/acceptance');
-var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var createTestTargets   = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies    = acceptance.linkDependencies;
-var cleanupRun          = acceptance.cleanupRun;
+const runCommand = require('../helpers/run-command');
+const acceptance = require('../helpers/acceptance');
+const copyFixtureFiles = require('../helpers/copy-fixture-files');
+let createTestTargets = acceptance.createTestTargets;
+let teardownTestTargets = acceptance.teardownTestTargets;
+let linkDependencies = acceptance.linkDependencies;
+let cleanupRun = acceptance.cleanupRun;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
-var dir = chai.dir;
+const chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
+let dir = chai.dir;
 
-var appName  = 'some-cool-app';
+let appName = 'some-cool-app';
+let appRoot;
 
 describe('Acceptance: brocfile-smoke-test', function() {
   this.timeout(500000);
@@ -27,18 +28,15 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return createTestTargets(appName);
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(appName);
+    appRoot = linkDependencies(appName);
   });
 
   afterEach(function() {
-    return cleanupRun(appName).then(function() {
-      expect(dir('tmp/' + appName)).to.not.exist;
-    });
+    cleanupRun(appName);
+    expect(dir(appRoot)).to.not.exist;
   });
 
   it('a custom EmberENV in config/environment.js is used for window.EmberENV', function() {
@@ -47,11 +45,11 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
-          encoding: 'utf8'
+        let vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
+          encoding: 'utf8',
         });
 
-        var expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
+        let expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
         expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
       });
   });
@@ -79,8 +77,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.js'), {
-          encoding: 'utf8'
+        let appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
+          encoding: 'utf8',
         });
 
         expect(appFileContents).to.include('//app/templates-stuff.js');
@@ -102,11 +100,11 @@ describe('Acceptance: brocfile-smoke-test', function() {
     return copyFixtureFiles('brocfile-tests/both-build-files').then(function() {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
     }).then(function(result) {
-      var vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
-        encoding: 'utf8'
+      let vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
+        encoding: 'utf8',
       });
 
-      var expected = 'var usingBrocfile = true;';
+      let expected = 'var usingBrocfile = true;';
 
       expect(vendorContents).to.contain(expected, 'includes file imported from Brocfile');
       expect(result.output.join('\n')).to.include('Brocfile.js has been deprecated');
@@ -126,8 +124,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.js'), {
-          encoding: 'utf8'
+        let appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
+          encoding: 'utf8',
         });
 
         expect(appFileContents).to.match(/\/app"\)\["default"\]\.create\(/);
@@ -141,33 +139,19 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var appFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', appName + '.js'), {
-          encoding: 'utf8'
+        let appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
+          encoding: 'utf8',
         });
 
         expect(appFileContents).to.not.match(/\/app"\)\["default"\]\.create\(/);
       });
   });
 
-  it('default development build does not fail', function() {
-    return copyFixtureFiles('brocfile-tests/query')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      });
-  });
-
-  it('default development build tests', function() {
-    return copyFixtureFiles('brocfile-tests/default-development')
-    .then(function() {
-      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-    });
-  });
-
   it('app.import works properly with test tree files', function() {
     return copyFixtureFiles('brocfile-tests/app-test-import')
       .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-test-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
@@ -176,8 +160,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', 'test-support.js'), {
-          encoding: 'utf8'
+        let subjectFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'test-support.js'), {
+          encoding: 'utf8',
         });
 
         expect(subjectFileContents).to.contain('// File for test tree imported and added via postprocessTree()');
@@ -187,8 +171,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
   it('app.import works properly with non-js/css files', function() {
     return copyFixtureFiles('brocfile-tests/app-import')
       .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-random-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
@@ -197,33 +181,19 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'assets', 'file-to-import.txt'), {
-          encoding: 'utf8'
+        let subjectFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'file-to-import.txt'), {
+          encoding: 'utf8',
         });
 
         expect(subjectFileContents).to.equal('EXAMPLE TEXT FILE CONTENT\n');
       });
   });
 
-  it('app.import fails when options.type is not `vendor` or `test`', function() {
-    return expect(copyFixtureFiles('brocfile-tests/app-import')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['ember-bad-addon'] = 'latest';
-
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      })
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })).to.be.rejected;
-  });
-
   it('addons can have a public tree that is merged and returned namespaced by default', function() {
     return copyFixtureFiles('brocfile-tests/public-tree')
       .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies['ember-random-addon'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
@@ -232,8 +202,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var subjectFileContents = fs.readFileSync(path.join('.', 'dist', 'ember-random-addon', 'some-root-file.txt'), {
-          encoding: 'utf8'
+        let subjectFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'ember-random-addon', 'some-root-file.txt'), {
+          encoding: 'utf8',
         });
 
         expect(subjectFileContents).to.equal('ROOT FILE\n');
@@ -257,10 +227,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
   it('addon trees are not jshinted', function() {
     return copyFixtureFiles('brocfile-tests/jshint-addon')
       .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
         packageJson['ember-addon'] = {
-          paths: ['./lib/ember-random-thing']
+          paths: ['./lib/ember-random-thing'],
         };
 
         fs.writeJsonSync(packageJsonPath, packageJson);
@@ -272,15 +242,15 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('specifying custom output paths works properly', function() {
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
-      .then(function () {
-        var themeCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'theme.css');
+      .then(function() {
+        let themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
         return fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
       })
       .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var files = [
+        let files = [
           '/css/app.css',
           '/css/theme/a.css',
           '/js/app.js',
@@ -288,10 +258,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
           '/js/vendor.js',
           '/css/test-support.css',
           '/js/test-support.js',
-          '/my-app.html'
+          '/my-app.html',
         ];
 
-        var basePath = path.join('.', 'dist');
+        let basePath = path.join(appRoot, 'dist');
         files.forEach(function(f) {
           expect(file(path.join(basePath, f))).to.exist;
         });
@@ -304,12 +274,12 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var files = [
+        let files = [
           '/assets/some-cool-app.css',
-          '/assets/other.css'
+          '/assets/other.css',
         ];
 
-        var basePath = path.join('.', 'dist');
+        let basePath = path.join(appRoot, 'dist');
         files.forEach(function(f) {
           expect(file(path.join(basePath, f))).to.exist;
         });
@@ -318,7 +288,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('supports deprecated legacyFilesToAppend and vendorStaticFiles', function() {
     return copyFixtureFiles('brocfile-tests/app-import-with-legacy-files')
-      .then(function () {
+      .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function(result) {
@@ -331,36 +301,63 @@ describe('Acceptance: brocfile-smoke-test', function() {
       });
   });
 
-  it('specifying outputFile results in a explicitly generated assets', function() {
+  it('specifying outputFile results in an explicitly generated assets', function() {
     return copyFixtureFiles('brocfile-tests/app-import-output-file')
-      .then(function () {
+      .then(function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var files = [
+        let files = [
           '/assets/output-file.js',
           '/assets/output-file.css',
           '/assets/vendor.css',
-          '/assets/vendor.js'
+          '/assets/vendor.js',
         ];
 
-        var basePath = path.join('.', 'dist');
+        let basePath = path.join(appRoot, 'dist');
         files.forEach(function(f) {
           expect(file(path.join(basePath, f))).to.exist;
         });
       });
   });
 
+  it('can use transformation to turn anonymous AMD into named AMD', function() {
+    return copyFixtureFiles('brocfile-tests/app-import-anonymous-amd')
+      .then(function() {
+        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      })
+      .then(function() {
+        let outputJS = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'output.js'), {
+          encoding: 'utf8',
+        });
+
+        (function() {
+          let defineCount = 0;
+          function define(name, deps, factory) {
+            expect(name).to.equal('hello-world');
+            expect(deps).to.deep.equal([]);
+            expect(factory()()).to.equal('Hello World');
+            defineCount++;
+          }
+          /* eslint-disable no-eval */
+          eval(outputJS);
+          /* eslint-enable no-eval */
+          expect(defineCount).to.eql(1);
+        })();
+      });
+  });
+
+
   // skipped because of potentially broken assertion that should be fixed correctly at a later point
   it.skip('specifying partial `outputPaths` hash deep merges options correctly', function() {
     return copyFixtureFiles('brocfile-tests/custom-output-paths')
-      .then(function () {
+      .then(function() {
 
-        var themeCSSPath = path.join(__dirname, '..', '..', 'tmp', appName, 'app', 'styles', 'theme.css');
+        let themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
         fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
 
-        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'ember-cli-build.js');
-        var brocfile = fs.readFileSync(brocfilePath, 'utf8');
+        let brocfilePath = path.join(appRoot, 'ember-cli-build.js');
+        let brocfile = fs.readFileSync(brocfilePath, 'utf8');
 
         // remove outputPaths.app.js option
         brocfile = brocfile.replace(/js: '\/js\/app.js'/, '');
@@ -373,16 +370,16 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        var files = [
+        let files = [
           '/css/theme/a.css',
           '/assets/some-cool-app.js',
           '/css/vendor.css',
           '/js/vendor.js',
           '/css/test-support.css',
-          '/js/test-support.js'
+          '/js/test-support.js',
         ];
 
-        var basePath = path.join('.', 'dist');
+        let basePath = path.join(appRoot, 'dist');
         files.forEach(function(f) {
           expect(file(path.join(basePath, f))).to.exist;
         });
@@ -394,9 +391,9 @@ describe('Acceptance: brocfile-smoke-test', function() {
   it('multiple paths can be CSS preprocessed', function() {
     return copyFixtureFiles('brocfile-tests/multiple-sass-files')
       .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['broccoli-sass'] = 'latest';
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
+        packageJson.devDependencies['ember-cli-sass'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
       })
@@ -415,7 +412,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   it('app.css is output to <app name>.css by default', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
       .then(function() {
-        expect(file('dist/assets/' + appName + '.css')).to.exist;
+        expect(file(`dist/assets/${appName}.css`)).to.exist;
       });
   });
 
@@ -423,17 +420,17 @@ describe('Acceptance: brocfile-smoke-test', function() {
   it('app.scss is output to <app name>.css by default', function() {
     return copyFixtureFiles('brocfile-tests/multiple-sass-files')
       .then(function() {
-        var brocfilePath = path.join(__dirname, '..', '..', 'tmp', appName, 'ember-cli-build.js');
-        var brocfile = fs.readFileSync(brocfilePath, 'utf8');
+        let brocfilePath = path.join(appRoot, 'ember-cli-build.js');
+        let brocfile = fs.readFileSync(brocfilePath, 'utf8');
 
         // remove custom preprocessCss paths, use app.scss instead
         brocfile = brocfile.replace(/outputPaths.*/, '');
 
         fs.writeFileSync(brocfilePath, brocfile, 'utf8');
 
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', appName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['broccoli-sass'] = 'latest';
+        let packageJsonPath = path.join(appRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
+        packageJson.devDependencies['ember-cli-sass'] = 'latest';
 
         return fs.writeJsonSync(packageJsonPath, packageJson);
       })
@@ -441,7 +438,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       })
       .then(function() {
-        expect(file('dist/assets/' + appName + '.css'))
+        expect(file(`dist/assets/${appName}.css`))
           .to.equal('body { background: green; }\n');
       });
   });

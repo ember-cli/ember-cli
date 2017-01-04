@@ -1,17 +1,18 @@
 'use strict';
 
-var RSVP           = require('rsvp');
-var Promise        = require('../../lib/ext/promise');
-var chalk          = require('chalk');
-var spawn          = require('child_process').spawn;
-var defaults       = require('ember-cli-lodash-subset').defaults;
-var killCliProcess = require('./kill-cli-process');
-var logOnFailure   = require('./log-on-failure');
+const RSVP = require('rsvp');
+const Promise = require('../../lib/ext/promise');
+const chalk = require('chalk');
+const spawn = require('child_process').spawn;
+const defaults = require('ember-cli-lodash-subset').defaults;
+const killCliProcess = require('./kill-cli-process');
+const logOnFailure = require('./log-on-failure');
+let debug = require('heimdalljs-logger')('run-command');
 
 module.exports = function run(/* command, args, options */) {
-  var command = arguments[0];
-  var args = Array.prototype.slice.call(arguments, 1);
-  var options = {};
+  let command = arguments[0];
+  let args = Array.prototype.slice.call(arguments, 1);
+  let options = {};
 
   if (typeof args[args.length - 1] === 'object') {
     options = args.pop();
@@ -22,42 +23,48 @@ module.exports = function run(/* command, args, options */) {
     // If false, only pass through stdout/stderr if the current test fails.
     verbose: false,
 
-    onOutput: function(string) {
+    onOutput(string) {
       options.log(string);
     },
 
-    onError: function(string) {
+    onError(string) {
       options.log(chalk.red(string));
     },
 
-    log: function(string) {
+    log(string) {
+      debug.debug(string);
       if (options.verbose) {
         console.log(string);
       } else {
         logOnFailure(string);
       }
-    }
+    },
   });
 
   return new RSVP.Promise(function(resolve, reject) {
-    options.log('      Running: ' + command + ' ' + args.join(' ') + ' in: ' + process.cwd());
+    options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
-    var opts = {};
+    let opts = {};
     if (process.platform === 'win32') {
-      args = ['"' + command + '"'].concat(args);
+      args = [`"${command}"`].concat(args);
       command = 'node';
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];
     }
-    var child = spawn(command, args, opts);
-    var result = {
+    if (options.env) {
+      opts.env = defaults(options.env, process.env);
+    }
+
+    debug.info("command: %s, args: %o", command, args);
+    let child = spawn(command, args, opts);
+    let result = {
       output: [],
       errors: [],
-      code: null
+      code: null,
     };
 
     if (options.onChildSpawned) {
-      var onChildSpawnedPromise = new Promise(function (childSpawnedResolve, childSpawnedReject) {
+      let onChildSpawnedPromise = new Promise(function(childSpawnedResolve, childSpawnedReject) {
         try {
           options.onChildSpawned(child).then(childSpawnedResolve, childSpawnedReject);
         } catch (err) {
@@ -65,11 +72,11 @@ module.exports = function run(/* command, args, options */) {
         }
       });
       onChildSpawnedPromise
-        .then(function () {
+        .then(function() {
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
           }
-        }, function (err) {
+        }, function(err) {
           result.testingError = err;
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
@@ -77,23 +84,23 @@ module.exports = function run(/* command, args, options */) {
         });
     }
 
-    child.stdout.on('data', function (data) {
-      var string = data.toString();
+    child.stdout.on('data', function(data) {
+      let string = data.toString();
 
       options.onOutput(string, child);
 
       result.output.push(string);
     });
 
-    child.stderr.on('data', function (data) {
-      var string = data.toString();
+    child.stderr.on('data', function(data) {
+      let string = data.toString();
 
       options.onError(string, child);
 
       result.errors.push(string);
     });
 
-    child.on('close', function (code, signal) {
+    child.on('close', function(code, signal) {
       result.code = code;
       result.signal = signal;
 

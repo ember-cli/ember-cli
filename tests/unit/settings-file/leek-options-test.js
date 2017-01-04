@@ -1,28 +1,32 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var MockUI         = require('../../helpers/mock-ui');
-var Yam            = require('yam');
-var cliEntry       = require('../../../lib/cli');
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const Yam = require('yam');
+const cliEntry = require('../../../lib/cli');
 
 describe('.ember-cli leek options', function() {
-  var cli;
-  var settings;
-  var passedOptions;
+  let cli;
+  let settings;
+  let passedOptions;
 
   before(function() {
     settings = new Yam('ember-cli', {
-      primary:   process.cwd() + '/tests/fixtures/leek-config'
+      primary: `${process.cwd()}/tests/fixtures/leek-config`,
     });
+
+    let mockedLeek = function(options) {
+      passedOptions = options;
+    };
+
+    let mockedYam = function() {
+      return settings;
+    };
 
     cli = cliEntry({
       UI: MockUI,
-      Leek: function (options) {
-        passedOptions = options;
-      },
-      Yam: function () {
-        return settings;
-      }
+      Leek: mockedLeek,
+      Yam: mockedYam,
     });
 
   });

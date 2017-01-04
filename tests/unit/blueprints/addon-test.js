@@ -1,23 +1,23 @@
 'use strict';
 
-var Blueprint   = require('../../../lib/models/blueprint');
-var MockProject = require('../../helpers/mock-project');
-var expect      = require('chai').expect;
-var proxyquire  = require('proxyquire');
-var fs          = require('fs');
-var path        = require('path');
-var td = require('testdouble');
+const Blueprint = require('../../../lib/models/blueprint');
+const MockProject = require('../../helpers/mock-project');
+const expect = require('chai').expect;
+const proxyquire = require('proxyquire');
+const fs = require('fs');
+const path = require('path');
+const td = require('testdouble');
 
 describe('blueprint - addon', function() {
   describe('Blueprint.lookup', function() {
-    var blueprint;
+    let blueprint;
 
     beforeEach(function() {
       blueprint = Blueprint.lookup('addon');
     });
 
     describe('entityName', function() {
-      var mockProject;
+      let mockProject;
 
       beforeEach(function() {
         mockProject = new MockProject();
@@ -46,7 +46,7 @@ describe('blueprint - addon', function() {
 
       it('keeps existing behavior by calling Blueprint.normalizeEntityName', function() {
         expect(function() {
-          var nonConformantComponentName = 'foo/';
+          let nonConformantComponentName = 'foo/';
           blueprint.normalizeEntityName(nonConformantComponentName);
         }).to.throw(/trailing slash/);
       });
@@ -54,29 +54,24 @@ describe('blueprint - addon', function() {
   });
 
   describe('direct blueprint require', function() {
-    var blueprint;
-    var readJsonSync;
-    var writeFileSync;
+    let blueprint;
+    let readJsonSync;
+    let writeFileSync;
 
     beforeEach(function() {
       readJsonSync = td.function();
-      td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({});
+      td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
 
       writeFileSync = td.function();
 
       blueprint = proxyquire('../../../blueprints/addon', {
         'fs-extra': {
-          readJsonSync: readJsonSync,
-          writeFileSync: writeFileSync,
-        }
+          readJsonSync,
+          writeFileSync,
+        },
       });
       blueprint._appBlueprint = {
-        path: 'test-app-blueprint-path'
-      };
-      blueprint.project = {
-        name: function() {
-          return 'test-project-name';
-        }
+        path: 'test-app-blueprint-path',
       };
       blueprint.path = 'test-blueprint-path';
     });
@@ -85,22 +80,22 @@ describe('blueprint - addon', function() {
       it('works', function() {
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
         // string to test ordering
-        expect(captor.value).to.deep.equal('\
+        expect(captor.value).to.equal('\
 {\n\
-  "name": "test-project-name",\n\
+  "name": "<%= addonName %>",\n\
   "description": "The default blueprint for ember-cli addons.",\n\
-  "scripts": {\n\
-    "test": "ember try:each"\n\
-  },\n\
   "keywords": [\n\
     "ember-addon"\n\
   ],\n\
+  "scripts": {\n\
+    "test": "ember try:each"\n\
+  },\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
     "ember-disable-prototype-extensions": "^1.1.0"\n\
@@ -112,179 +107,167 @@ describe('blueprint - addon', function() {
       });
 
       it('removes the `private` property', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          private: true
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          private: true,
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         expect(json.private).to.be.undefined;
       });
 
       it('overwrites `name`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          name: 'test-name'
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          name: 'test-name',
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
-        expect(json.name).to.equal('test-project-name');
+        let json = JSON.parse(captor.value);
+        expect(json.name).to.equal('<%= addonName %>');
       });
 
       it('overwrites `description`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          description: 'test-description'
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          description: 'test-description',
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         expect(json.description).to.equal('The default blueprint for ember-cli addons.');
       });
 
       it('moves `ember-cli-babel` from devDependencies to dependencies', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           devDependencies: {
-            'ember-cli-babel': '1.0.0'
-          }
+            'ember-cli-babel': '1.0.0',
+          },
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         expect(json.dependencies).to.deep.equal({
-          'ember-cli-babel': '1.0.0'
+          'ember-cli-babel': '1.0.0',
         });
         expect(json.devDependencies).to.not.have.property('ember-cli-babel');
       });
 
       it('does not push multiple `ember-addon` keywords', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
-          keywords: ['ember-addon']
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
+          keywords: ['ember-addon'],
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         expect(json.keywords).to.deep.equal(['ember-addon']);
       });
 
       it('overwrites any version of `ember-disable-prototype-extensions`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           devDependencies: {
-            'ember-disable-prototype-extensions': '0.0.1'
-          }
+            'ember-disable-prototype-extensions': '0.0.1',
+          },
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.0');
       });
 
       it('overwrites `scripts.test`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           scripts: {
-            test: 'test-string'
-          }
+            test: 'test-string',
+          },
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         expect(json.scripts.test).to.equal('ember try:each');
       });
 
       it('overwrites `ember-addon.configPath`', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           'ember-addon': {
-            configPath: 'test-path'
-          }
+            configPath: 'test-path',
+          },
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         expect(json['ember-addon'].configPath).to.equal('tests/dummy/config');
       });
 
       it('preserves dependency ordering', function() {
-        td.when(readJsonSync(), {ignoreExtraArgs: true}).thenReturn({
+        td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
           dependencies: {
             b: '1',
-            a: '1'
+            a: '1',
           },
           devDependencies: {
             b: '1',
-            a: '1'
-          }
+            a: '1',
+          },
         });
 
         blueprint.generatePackageJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
 
-        var json = JSON.parse(captor.value);
+        let json = JSON.parse(captor.value);
         delete json.devDependencies['ember-disable-prototype-extensions'];
         expect(json.dependencies).to.deep.equal({ a: "1", b: "1" });
         expect(json.devDependencies).to.deep.equal({ a: "1", b: "1" });
-      });
-
-      it('appends ending newline', function() {
-        blueprint.generatePackageJson();
-
-        var captor = td.matchers.captor();
-
-        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
-        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
-
-        var contents = captor.value;
-        expect(contents[contents.length - 1]).to.equal('\n');
       });
     });
 
@@ -292,28 +275,16 @@ describe('blueprint - addon', function() {
       it('works', function() {
         blueprint.generateBowerJson();
 
-        var captor = td.matchers.captor();
+        let captor = td.matchers.captor();
 
         td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/bower.json')));
         td.verify(writeFileSync(path.normalize('test-blueprint-path/files/bower.json'), captor.capture()));
 
         // string to test ordering
-        expect(captor.value).to.deep.equal('\
+        expect(captor.value).to.equal('\
 {\n\
-  "name": "test-project-name"\n\
+  "name": "<%= addonName %>"\n\
 }\n');
-      });
-
-      it('appends ending newline', function() {
-        blueprint.generateBowerJson();
-
-        var captor = td.matchers.captor();
-
-        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/bower.json')));
-        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/bower.json'), captor.capture()));
-
-        var contents = captor.value;
-        expect(contents[contents.length - 1]).to.equal('\n');
       });
     });
   });

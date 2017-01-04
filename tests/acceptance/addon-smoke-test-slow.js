@@ -1,61 +1,62 @@
 'use strict';
 
-var Promise    = require('../../lib/ext/promise');
-var path       = require('path');
-var fs         = require('fs-extra');
-var remove     = Promise.denodeify(fs.remove);
-var spawn      = require('child_process').spawn;
-var chalk      = require('chalk');
+const Promise = require('../../lib/ext/promise');
+const path = require('path');
+const fs = require('fs-extra');
+let remove = Promise.denodeify(fs.remove);
+const spawn = require('child_process').spawn;
+const chalk = require('chalk');
 
-var symlinkOrCopySync   = require('symlink-or-copy').sync;
-var runCommand          = require('../helpers/run-command');
-var ember               = require('../helpers/ember');
-var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var killCliProcess      = require('../helpers/kill-cli-process');
-var acceptance          = require('../helpers/acceptance');
-var createTestTargets   = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies    = acceptance.linkDependencies;
-var cleanupRun          = acceptance.cleanupRun;
+const symlinkOrCopySync = require('symlink-or-copy').sync;
+const runCommand = require('../helpers/run-command');
+const ember = require('../helpers/ember');
+const copyFixtureFiles = require('../helpers/copy-fixture-files');
+const killCliProcess = require('../helpers/kill-cli-process');
+const acceptance = require('../helpers/acceptance');
+let createTestTargets = acceptance.createTestTargets;
+let teardownTestTargets = acceptance.teardownTestTargets;
+let linkDependencies = acceptance.linkDependencies;
+let cleanupRun = acceptance.cleanupRun;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var dir = chai.dir;
+const chai = require('../chai');
+let expect = chai.expect;
+let dir = chai.dir;
 
-var addonName  = 'some-cool-addon';
+let addonName = 'some-cool-addon';
+let addonRoot;
 
 describe('Acceptance: addon-smoke-test', function() {
   this.timeout(450000);
 
   before(function() {
     return createTestTargets(addonName, {
-      command: 'addon'
+      command: 'addon',
     });
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(addonName);
+    addonRoot = linkDependencies(addonName);
   });
 
   afterEach(function() {
-    return cleanupRun(addonName).then(function() {
-      expect(dir('tmp/' + addonName)).to.not.exist;
-    });
+    // Cleans up a folder set up on the other side of a symlink.
+    fs.remove(path.join(addonRoot, 'node_modules', 'developing-addon'));
+
+    cleanupRun(addonName);
+    expect(dir(addonRoot)).to.not.exist;
   });
 
   it('generates package.json and bower.json with proper metadata', function() {
-    var packageContents = fs.readJsonSync('package.json');
+    let packageContents = fs.readJsonSync('package.json');
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
-    expect(packageContents.keywords).to.deep.equal([ 'ember-addon' ]);
+    expect(packageContents.keywords).to.deep.equal(['ember-addon']);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
 
-    var bowerContents = fs.readJsonSync('bower.json');
+    let bowerContents = fs.readJsonSync('bower.json');
 
     expect(bowerContents.name).to.equal(addonName);
   });
@@ -64,147 +65,56 @@ describe('Acceptance: addon-smoke-test', function() {
     return ember(['test']);
   });
 
-  it('ember addon without addon/ directory', function() {
-    return remove('addon')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
-          onOutput: function(string, child) {
-            if (string.match(/Build successful/)) {
-              killCliProcess(child);
-            }
-          }
-        })
-        .catch(function() {
-          // just eat the rejection as we are testing what happens
+  it('works in most common scenarios for an example addon', function() {
+    return copyFixtureFiles('addon/kitchen-sink').then(function() {
+      let packageJsonPath = path.join(addonRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+
+      packageJson.dependencies = packageJson.dependencies || {};
+      // add HTMLBars for templates (generators do this automatically when components/templates are added)
+      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+      // build with addon deps being developed
+      packageJson.dependencies['developing-addon'] = 'latest';
+
+      fs.writeJsonSync(packageJsonPath, packageJson);
+
+      symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.join(addonRoot, 'node_modules', 'developing-addon'));
+
+      return runCommand('node_modules/ember-cli/bin/ember', 'build').then(function(result) {
+        expect(result.code).to.eql(0);
+        let contents;
+
+        let indexPath = path.join(addonRoot, 'dist', 'index.html');
+        contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+        expect(contents).to.contain('"SOME AWESOME STUFF"');
+
+        let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
+        contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
+        expect(contents).to.contain('addon/styles/app.css is present');
+
+        let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
+        contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
+        expect(contents).to.contain('tests/dummy/public/robots.txt is present');
+
+        return runCommand('node_modules/ember-cli/bin/ember', 'test').then(function(result) {
+          expect(result.code).to.eql(0);
         });
       });
-  });
-
-  it('can render a component with a manually imported template', function() {
-    return copyFixtureFiles('addon/component-with-template')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.dependencies = packageJson.dependencies || {};
-        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
-
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      })
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-      });
-  });
-
-  it('can add things to `{{content-for "head"}}` section', function() {
-    return copyFixtureFiles('addon/content-for-head')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var indexPath = path.join('dist', 'index.html');
-        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-
-        expect(contents).to.contain('"SOME AWESOME STUFF"');
-      });
-  });
-
-  it('build with only pod templates', function() {
-    return copyFixtureFiles('addon/pod-templates-only')
-      .then(function() {
-        var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.dependencies = packageJson.dependencies || {};
-        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
-
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      }).then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var indexPath = path.join('dist', 'assets', 'vendor.js');
-        var contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-        expect(contents).to.contain('MY-COMPONENT-TEMPLATE-CONTENT');
-      });
-  });
-
-  it('build with addon dependencies being developed', function() {
-    var packageJsonPath = path.join(__dirname, '..', '..', 'tmp', addonName, 'package.json');
-    var packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.dependencies = packageJson.dependencies || {};
-    packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
-    packageJson.dependencies['developing-addon'] = 'latest';
-
-    fs.writeJsonSync(packageJsonPath, packageJson);
-
-    symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.resolve('../../tmp/', addonName, 'node_modules/developing-addon'));
-
-    return ember(['test'])
-      .then(function(result) {
-        expect(result.exitCode).to.eql(0);
-      });
-  });
-
-  it('ember addon with addon/styles directory', function() {
-    return copyFixtureFiles('addon/with-styles')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var cssPath = path.join('dist', 'assets', 'vendor.css');
-        var contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
-
-        expect(contents).to.contain('addon/styles/app.css is present');
-      });
-  });
-
-  it('ember addon with addon-test-support directory', function() {
-    return copyFixtureFiles('addon/with-addon-test-support')
-      .then(function() {
-        return ember(['test']);
-      })
-      .then(function(result) {
-        expect(result.exitCode).to.eql(0);
-      });
-  });
-
-  it('ember addon with linting errors', function() {
-    return copyFixtureFiles('addon/with-linting-errors')
-      .then(function() {
-        return ember(['test']);
-      })
-      .then(function() {
-        expect(false, 'should have rejected with a failed linter').to.be.ok;
-      })
-      .catch(function(result) {
-        expect(result.exitCode).to.not.eql(0);
-      });
-  });
-
-  it('ember addon with tests/dummy/public directory', function() {
-    return copyFixtureFiles('addon/with-dummy-public')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        var robotsPath = path.join('dist', 'robots.txt');
-        var contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
-
-        expect(contents).to.contain('tests/dummy/public/robots.txt is present');
-      });
+    });
   });
 
   it('npm pack does not include unnecessary files', function() {
-    console.log('    running the slow end-to-end it will take some time');
-    var handleError = function(error, commandName) {
+    let handleError = function(error, commandName) {
       if (error.code === 'ENOENT') {
-        console.warn(chalk.yellow('      Your system does not provide ' + commandName + ' -> Skipped this test.'));
+        console.warn(chalk.yellow(`      Your system does not provide ${commandName} -> Skipped this test.`));
       } else {
         throw new Error(error);
       }
     };
 
     return new Promise(function(resolve, reject) {
-      var npmPack = spawn('npm', ['pack']);
+      let npmPack = spawn('npm', ['pack']);
       npmPack.on('error', function(error) {
         reject(error);
       });
@@ -213,8 +123,8 @@ describe('Acceptance: addon-smoke-test', function() {
       });
     }).then(function() {
       return new Promise(function(resolve, reject) {
-        var output;
-        var tar = spawn('tar', ['-tf', addonName + '-0.0.0.tgz']);
+        let output;
+        let tar = spawn('tar', ['-tf', `${addonName}-0.0.0.tgz`]);
         tar.on('error', function(error) {
           reject(error);
         });
@@ -225,22 +135,22 @@ describe('Acceptance: addon-smoke-test', function() {
           resolve(output);
         });
       }).then(function(output) {
-        var unnecessaryFiles = [
+        let unnecessaryFiles = [
           '.gitkeep',
           '.travis.yml',
           '.editorconfig',
           'testem.js',
           '.ember-cli',
           'bower.json',
-          '.bowerrc'
+          '.bowerrc',
         ];
 
-        var unnecessaryFolders = [
+        let unnecessaryFolders = [
           'tests/',
-          'bower_components/'
+          'bower_components/',
         ];
 
-        var outputFiles = output.split('\n');
+        let outputFiles = output.split('\n');
         expect(outputFiles).to.not.contain(unnecessaryFiles);
         expect(outputFiles).to.not.contain(unnecessaryFolders);
       }, function(error) {
@@ -249,42 +159,5 @@ describe('Acceptance: addon-smoke-test', function() {
     }, function(error) {
       handleError(error, 'npm');
     });
-  });
-
-  function wait(time) {
-    return new Promise(function(resolve) {
-      setTimeout(function() {
-        resolve();
-      }, time);
-    });
-  }
-
-  var isWindows = /^win/.test(process.platform);
-
-  (isWindows ? it.skip : it)('doesn\'t fail to build new files', function() {
-    var testemOutput = '';
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--launch=PhantomJS', '--server', {
-      onOutput: function(string) {
-        testemOutput += string;
-      },
-      onChildSpawned: function(child) {
-        return wait(12000).then(function() {
-
-          return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'initializer', 'foo')
-          .then(function() {
-            return wait(5000);
-          })
-          .then(function() {
-            child.stdin.write('q'); // quit test server
-            child.stdin.end();
-            expect(testemOutput).to.contain('✔');
-            expect(testemOutput).to.not.contain('✘');
-          });
-
-        });
-
-      }
-    });
-
   });
 });

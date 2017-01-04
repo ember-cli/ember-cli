@@ -1,18 +1,20 @@
 'use strict';
 
-var path       = require('path');
-var Project    = require('../../../lib/models/project');
-var EmberAddon = require('../../../lib/broccoli/ember-addon');
-var EmberApp = require('../../../lib/broccoli/ember-app');
-var expect     = require('chai').expect;
+const path = require('path');
+const Project = require('../../../lib/models/project');
+const EmberAddon = require('../../../lib/broccoli/ember-addon');
+const EmberApp = require('../../../lib/broccoli/ember-app');
+const expect = require('chai').expect;
+const MockCLI = require('../../helpers/mock-cli');
 
 describe('EmberAddon', function() {
-  var project, emberAddon, projectPath;
+  let project, emberAddon, projectPath;
 
   function setupProject(rootPath) {
-    var packageContents = require(path.join(rootPath, 'package.json'));
+    const packageContents = require(path.join(rootPath, 'package.json'));
+    let cli = new MockCLI();
 
-    project = new Project(rootPath, packageContents);
+    project = new Project(rootPath, packageContents, cli.ui, cli);
     project.require = function() {
       return function() {};
     };
@@ -30,35 +32,35 @@ describe('EmberAddon', function() {
 
   it('should merge options with defaults to depth', function() {
     emberAddon = new EmberAddon({
-      project: project,
+      project,
       foo: {
-        bar: ['baz']
+        bar: ['baz'],
       },
       fooz: {
         bam: {
-          boo: ['default']
-        }
-      }
+          boo: ['default'],
+        },
+      },
     }, {
       foo: {
-        bar: ['bizz']
+        bar: ['bizz'],
       },
       fizz: 'fizz',
       fooz: {
         bam: {
-          boo: ['custom']
-        }
-      }
+          boo: ['custom'],
+        },
+      },
     });
 
     expect(emberAddon.options.foo).to.deep.eql({
-      bar: ['bizz']
+      bar: ['bizz'],
     });
     expect(emberAddon.options.fizz).to.eql('fizz');
     expect(emberAddon.options.fooz).to.eql({
       bam: {
-        boo: ['custom']
-      }
+        boo: ['custom'],
+      },
     });
   });
 

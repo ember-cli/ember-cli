@@ -1,35 +1,37 @@
-var Blueprint = require('../../lib/models/blueprint');
-var isPackageMissing = require('ember-cli-is-package-missing');
+'use strict';
+
+const Blueprint = require('../../lib/models/blueprint');
+const isPackageMissing = require('ember-cli-is-package-missing');
 
 module.exports = {
   description: 'Generates a mock api endpoint in /api prefix.',
 
   anonymousOptions: [
-    'endpoint-path'
+    'endpoint-path',
   ],
 
-  locals: function(options) {
+  locals(options) {
     return {
-      path: '/' + options.entity.name.replace(/^\//, '')
+      path: `/${options.entity.name.replace(/^\//, '')}`,
     };
   },
 
-  beforeInstall: function(options) {
-    var serverBlueprint = Blueprint.lookup('server', {
+  beforeInstall(options) {
+    let serverBlueprint = Blueprint.lookup('server', {
       ui: this.ui,
       analytics: this.analytics,
-      project: this.project
+      project: this.project,
     });
 
     return serverBlueprint.install(options);
   },
 
-  afterInstall: function(options) {
+  afterInstall(options) {
 
     if (!options.dryRun && isPackageMissing(this, 'express')) {
       return this.addPackagesToProject([
-        { name: 'express', target: '^4.8.5' }
+        { name: 'express', target: '^4.8.5' },
       ]);
     }
-  }
+  },
 };

@@ -1,47 +1,47 @@
 'use strict';
 
-var fs                = require('fs');
-var path              = require('path');
-var chai              = require('chai');
-var expect            = chai.expect;
-var EOL               = require('os').EOL;
-var processHelpString = require('../helpers/process-help-string');
-var convertToJson     = require('../helpers/convert-help-output-to-json');
-var commandOptions    = require('../factories/command-options');
-var HelpCommand       = require('../../lib/commands/help');
-var requireAsHash     = require('../../lib/utilities/require-as-hash');
-var Command           = require('../../lib/models/command');
+const fs = require('fs');
+const path = require('path');
+const chai = require('chai');
+let expect = chai.expect;
+const EOL = require('os').EOL;
+const processHelpString = require('../helpers/process-help-string');
+const convertToJson = require('../helpers/convert-help-output-to-json');
+const commandOptions = require('../factories/command-options');
+const HelpCommand = require('../../lib/commands/help');
+const requireAsHash = require('../../lib/utilities/require-as-hash');
+const Command = require('../../lib/models/command');
 
-var FooCommand = Command.extend({
+let FooCommand = Command.extend({
   name: 'foo',
   description: 'Initializes the warp drive.',
   works: 'insideProject',
 
   availableOptions: [
-    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] }
+    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] },
   ],
 
   anonymousOptions: [
-    '<speed>'
+    '<speed>',
   ],
 });
 
 describe('Acceptance: ember help', function() {
-  var options, command;
+  let options, command;
 
   beforeEach(function() {
-    var commands = requireAsHash('../../lib/commands/*.js', Command);
+    let commands = requireAsHash('../../lib/commands/*.js', Command);
 
     options = commandOptions({
-      commands: commands,
+      commands,
       project: {
-        isEmberCLIProject: function() {
+        isEmberCLIProject() {
           return true;
         },
-        blueprintLookupPaths: function() {
+        blueprintLookupPaths() {
           return [];
-        }
-      }
+        },
+      },
     });
 
     command = new HelpCommand(options);
@@ -50,10 +50,10 @@ describe('Acceptance: ember help', function() {
   it('works', function() {
     command.run(options, []);
 
-    var output = options.ui.output;
+    let output = options.ui.output;
 
-    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help.txt');
-    var expected = loadTextFixture(fixturePath);
+    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help.txt');
+    let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
   });
@@ -65,10 +65,10 @@ describe('Acceptance: ember help', function() {
 
     command.run(options, []);
 
-    var output = options.ui.output;
+    let output = options.ui.output;
 
-    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help-with-addon.txt');
-    var expected = loadTextFixture(fixturePath);
+    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help-with-addon.txt');
+    let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
   });
@@ -80,10 +80,10 @@ describe('Acceptance: ember help', function() {
 
     command.run(options, ['foo']);
 
-    var output = options.ui.output;
+    let output = options.ui.output;
 
-    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'foo.txt');
-    var expected = loadTextFixture(fixturePath);
+    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'foo.txt');
+    let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
   });
@@ -91,18 +91,18 @@ describe('Acceptance: ember help', function() {
   it('prints all blueprints', function() {
     command.run(options, ['generate']);
 
-    var output = options.ui.output;
+    let output = options.ui.output;
 
-    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate.txt');
-    var expected = loadTextFixture(fixturePath);
+    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate.txt');
+    let expected = loadTextFixture(fixturePath);
 
     expect(output).to.contain(expected);
   });
 
-  it('prints helpfull message for unknown command', function() {
+  it('prints helpful message for unknown command', function() {
     command.run(options, ['asdf']);
 
-    var output = options.ui.output;
+    let output = options.ui.output;
 
     expect(output).to.contain("No help entry for 'asdf'");
     expect(output).to.not.contain('undefined');
@@ -111,10 +111,10 @@ describe('Acceptance: ember help', function() {
   it('prints a single blueprints', function() {
     command.run(options, ['generate', 'blueprint']);
 
-    var output = options.ui.output;
+    let output = options.ui.output;
 
-    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-blueprint.txt');
-    var expected = loadTextFixture(fixturePath);
+    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-blueprint.txt');
+    let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
   });
@@ -126,10 +126,10 @@ describe('Acceptance: ember help', function() {
 
     command.run(options, ['generate']);
 
-    var output = options.ui.output;
+    let output = options.ui.output;
 
-    var fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-with-addon.txt');
-    var expected = loadTextFixture(fixturePath);
+    let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-with-addon.txt');
+    let expected = loadTextFixture(fixturePath);
 
     expect(output).to.equal(expected);
   });
@@ -142,8 +142,8 @@ describe('Acceptance: ember help', function() {
     it('works', function() {
       command.run(options, []);
 
-      var json = convertToJson(options.ui.output);
-      var expected = require('../fixtures/help/help.js');
+      let json = convertToJson(options.ui.output);
+      const expected = require('../fixtures/help/help.js');
 
       expect(json).to.deep.equal(expected);
     });
@@ -155,8 +155,8 @@ describe('Acceptance: ember help', function() {
 
       command.run(options, []);
 
-      var json = convertToJson(options.ui.output);
-      var expected = require('../fixtures/help/with-addon-commands.js');
+      let json = convertToJson(options.ui.output);
+      const expected = require('../fixtures/help/with-addon-commands.js');
 
       expect(json).to.deep.equal(expected);
     });
@@ -168,8 +168,8 @@ describe('Acceptance: ember help', function() {
 
       command.run(options, []);
 
-      var json = convertToJson(options.ui.output);
-      var expected = require('../fixtures/help/with-addon-blueprints.js');
+      let json = convertToJson(options.ui.output);
+      const expected = require('../fixtures/help/with-addon-blueprints.js');
 
       expect(json).to.deep.equal(expected);
     });
@@ -177,14 +177,14 @@ describe('Acceptance: ember help', function() {
 });
 
 function loadTextFixture(path) {
-  var content = fs.readFileSync(path, { encoding: 'utf8' });
-  var decoded = decodeUnicode(content);
-  var processed = processHelpString(decoded);
+  let content = fs.readFileSync(path, { encoding: 'utf8' });
+  let decoded = decodeUnicode(content);
+  let processed = processHelpString(decoded);
   return processed.replace(/\n/g, EOL);
 }
 
 function decodeUnicode(str) {
-  return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
+  return str.replace(/\\u([\d\w]{4})/gi, function(match, grp) {
     return String.fromCharCode(parseInt(grp, 16));
   });
 }

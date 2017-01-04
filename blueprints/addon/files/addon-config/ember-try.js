@@ -2,19 +2,36 @@
 module.exports = {
   scenarios: [
     {
-      name: 'default',
+      name: 'ember-lts-2.4',
       bower: {
-        dependencies: { }
+        dependencies: {
+          'ember': 'components/ember#lts-2-4',
+          'ember-cli-shims': '0.1.3'
+        },
+        resolutions: {
+          'ember': 'lts-2-4'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
-      name: 'ember-1.13',
+      name: 'ember-lts-2.8',
       bower: {
         dependencies: {
-          'ember': '~1.13.0'
+          'ember': 'components/ember#lts-2-8',
+          'ember-cli-shims': '0.1.3'
         },
         resolutions: {
-          'ember': '~1.13.0'
+          'ember': 'lts-2-8'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -22,10 +39,16 @@ module.exports = {
       name: 'ember-release',
       bower: {
         dependencies: {
-          'ember': 'components/ember#release'
+          'ember': 'components/ember#release',
+          'ember-cli-shims': '0.1.3'
         },
         resolutions: {
           'ember': 'release'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -33,10 +56,16 @@ module.exports = {
       name: 'ember-beta',
       bower: {
         dependencies: {
-          'ember': 'components/ember#beta'
+          'ember': 'components/ember#beta',
+          'ember-cli-shims': '0.1.3'
         },
         resolutions: {
           'ember': 'beta'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -44,11 +73,23 @@ module.exports = {
       name: 'ember-canary',
       bower: {
         dependencies: {
-          'ember': 'components/ember#canary'
+          'ember': 'components/ember#canary',
+          'ember-cli-shims': '0.1.3'
         },
         resolutions: {
           'ember': 'canary'
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
+      }
+    },
+    {
+      name: 'ember-default',
+      npm: {
+        devDependencies: {}
       }
     }
   ]

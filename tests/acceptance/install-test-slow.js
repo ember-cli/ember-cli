@@ -1,28 +1,19 @@
 'use strict';
 
-var Promise    = require('../../lib/ext/promise');
-var conf       = require('../helpers/conf');
-var ember      = require('../helpers/ember');
-var path       = require('path');
-var remove     = Promise.denodeify(require('fs-extra').remove);
-var root       = process.cwd();
-var tmproot    = path.join(root, 'tmp');
-var mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const Promise = require('../../lib/ext/promise');
+const ember = require('../helpers/ember');
+const path = require('path');
+let remove = Promise.denodeify(require('fs-extra').remove);
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
+const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
+const chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
 
 describe('Acceptance: ember install', function() {
   this.timeout(60000);
-
-  before(function() {
-    conf.setup();
-  });
-
-  after(function() {
-    conf.restore();
-  });
 
   beforeEach(function() {
     return mkTmpDirIn(tmproot).then(function(tmpdir) {
@@ -40,12 +31,12 @@ describe('Acceptance: ember install', function() {
       'init',
       '--name=my-app',
       '--skip-npm',
-      '--skip-bower'
+      '--skip-bower',
     ]);
   }
 
   function installAddon(args) {
-    var generateArgs = ['install'].concat(args);
+    let generateArgs = ['install'].concat(args);
 
     return initApp().then(function() {
       return ember(generateArgs);
@@ -59,7 +50,6 @@ describe('Acceptance: ember install', function() {
         .to.match(/"ember-cli-photoswipe": ".*"/);
 
       expect(file('bower.json'))
-        .to.match(/"fastclick": ".*"/)
         .to.match(/"photoswipe": ".*"/);
 
       expect(result.outputStream.join()).not.to.include('The `ember generate` command ' +

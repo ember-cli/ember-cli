@@ -1,7 +1,7 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 var aCache = require.cache[path.resolve('./subfolder/a')];
 var bCache = require.cache[path.resolve('./subfolder/b')];
 

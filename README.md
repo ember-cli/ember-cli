@@ -27,7 +27,7 @@ Features
 ------------------------------------------------------------------------------
 
 - Asset build pipeline using [Broccoli.js](http://broccolijs.com/)
-- ES6 transpilation using [Babel](http://babeljs.io/)
+- ES6 transpilation using [Babel](https://babeljs.io/)
 - Project structure conventions using ES6 module syntax
 - Development server including live-reload and API proxy
 - File/Project generator using blueprints
@@ -50,7 +50,7 @@ After installation the `ember` CLI tool will be available to you. It is the
 entrypoint for all the functionality mentioned above.
 
 You can call `ember <command> --help` to find out more about all of the
-following commands or visit <http://ember-cli.com/user-guide/> to read
+following commands or visit <https://ember-cli.com/user-guide/> to read
 the in-depth documentation.
 
 
@@ -135,7 +135,7 @@ Community
 - Slack: [Get your invite](https://ember-community-slackin.herokuapp.com/)
 - IRC: #ember-cli on [freenode](https://webchat.freenode.net/?channels=%23ember-cli)
 - Issues: [ember-cli/issues](https://github.com/ember-cli/ember-cli/issues)
-- Website: [ember-cli.com](http://ember-cli.com)
+- Website: [ember-cli.com](https://ember-cli.com)
 
 
 Development

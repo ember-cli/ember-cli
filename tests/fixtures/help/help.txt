@@ -97,6 +97,8 @@ ember install \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -S\u001b[39m
   \u001b[36m--save-dev\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m
     \u001b[90maliases: -D\u001b[39m
+  \u001b[36m--save-exact\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
+    \u001b[90maliases: -E, --exact\u001b[39m
 
 ember new \u001b[33m<app-name>\u001b[39m \u001b[36m<options...>\u001b[39m
   Creates a new directory and runs \u001b[32member init\u001b[39m in it.
@@ -118,14 +120,14 @@ ember new \u001b[33m<app-name>\u001b[39m \u001b[36m<options...>\u001b[39m
 ember serve \u001b[36m<options...>\u001b[39m
   Builds and serves your app, rebuilding on file changes.
   \u001b[90maliases: server, s\u001b[39m
-  \u001b[36m--port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 4200)\u001b[39m
+  \u001b[36m--port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 4200)\u001b[39m To use a port different than 4200. Pass 0 to automatically pick an available port.
     \u001b[90maliases: -p <value>\u001b[39m
   \u001b[36m--host\u001b[39m \u001b[36m(String)\u001b[39m Listens on all interfaces by default
     \u001b[90maliases: -H <value>\u001b[39m
   \u001b[36m--proxy\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -pr <value>, -pxy <value>\u001b[39m
-  \u001b[36m--insecure-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Set false to proxy self-signed SSL certificates
-    \u001b[90maliases: --inspr\u001b[39m
+  \u001b[36m--secure-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Set to false to proxy self-signed SSL certificates
+    \u001b[90maliases: -spr\u001b[39m
   \u001b[36m--transparent-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Set to false to omit x-forwarded-* headers when proxying
     \u001b[90maliases: --transp\u001b[39m
   \u001b[36m--watcher\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: events)\u001b[39m
@@ -169,6 +171,7 @@ ember test \u001b[36m<options...>\u001b[39m
   \u001b[36m--reporter\u001b[39m \u001b[36m(String)\u001b[39m Test reporter to use [tap|dot|xunit] (default: tap)
     \u001b[90maliases: -r <value>\u001b[39m
   \u001b[36m--silent\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Suppress any output except for the test report
+  \u001b[36m--testem-debug\u001b[39m \u001b[36m(String)\u001b[39m File to write a debug log from testem
   \u001b[36m--test-page\u001b[39m \u001b[36m(String)\u001b[39m Test page to invoke
   \u001b[36m--path\u001b[39m \u001b[36m(Path)\u001b[39m Reuse an existing build at given path.
   \u001b[36m--query\u001b[39m \u001b[36m(String)\u001b[39m A query string to append to the test page URL.

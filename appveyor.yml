@@ -1,38 +1,34 @@
-# http://www.appveyor.com/docs/appveyor-yml
+# https://www.appveyor.com/docs/appveyor-yml/
 
 # Test against these versions of Node.js.
 environment:
   MOCHA_REPORTER: "mocha-appveyor-reporter"
   matrix:
-    - nodejs_version: "4.2"
-    - nodejs_version: "5.0"
+    - nodejs_version: "4"
+    - nodejs_version: "6"
 
 branches:
-  except:
-    - canary
+  only:
+    - master
+    - beta
+    - release
 
 # Install scripts. (runs after repo cloning)
 install:
-  - git rev-parse HEAD
-  # Get the latest stable version of Node 0.STABLE.latest
   - ps: Install-Product node $env:nodejs_version
-  # Install PhantomJS
-  - npm install phantomjs-prebuilt
-  - npm install mocha-appveyor-reporter
-  # Typical npm stuff.
-  - npm version
-  - npm install
+  - appveyor-retry choco install phantomjs
+  - appveyor-retry yarn
+  - appveyor-retry yarn add mocha-appveyor-reporter # must be installed locally.
 
 cache:
-  - '%APPDATA%\npm-cache'
+  - '%LOCALAPPDATA%\Yarn'
   - '%APPDATA%\Roaming\bower'
-
 
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
-  - npm version
-  - cmd: npm run test-all
+  - git rev-parse HEAD
+  - cmd: yarn run test-all
 
 # Don't actually build.
 build: off

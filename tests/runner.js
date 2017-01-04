@@ -1,43 +1,47 @@
 'use strict';
 
-var glob = require('glob');
-var Mocha = require('mocha');
-var RSVP = require('rsvp');
-var fs = require('fs-extra');
-var mochaOnlyDetector = require('mocha-only-detector');
+const captureExit = require('capture-exit');
+captureExit.captureExit();
+
+const glob = require('glob');
+const Mocha = require('mocha');
+const RSVP = require('rsvp');
+const fs = require('fs-extra');
+const mochaOnlyDetector = require('mocha-only-detector');
 
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
 
-fs.removeSync('.node_modules-tmp');
-fs.removeSync('.bower_components-tmp');
+fs.removeSync('.deps-tmp');
 
-var root = 'tests/{unit,acceptance}';
-var _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, root + '/**/*{-test,-slow}.js'));
-var optionOrFile = process.argv[2];
-var mocha = new Mocha({
+let root = 'tests/{unit,integration,acceptance}';
+let _checkOnlyInTests = RSVP.denodeify(mochaOnlyDetector.checkFolder.bind(null, `${root}/**/*{-test,-slow}.js`));
+let optionOrFile = process.argv[2];
+// default to `tap` reporter in CI otherwise default to `spec`
+let reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
+let mocha = new Mocha({
   timeout: 5000,
-  reporter: process.env.MOCHA_REPORTER || 'spec',
-  retries: 2
+  reporter,
+  retries: 2,
 });
-var testFiles = glob.sync(root + '/**/*-test.js');
-var lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
-var lint = testFiles.splice(lintPosition, 1);
-var docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
-var docsLint = testFiles.splice(docsLintPosition, 1);
+let testFiles = glob.sync(`${root}/**/*-test.js`);
+let lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
+let lint = testFiles.splice(lintPosition, 1);
+let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
+let docsLint = testFiles.splice(docsLintPosition, 1);
 
 testFiles = lint.concat(docsLint).concat(testFiles);
 
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
   addFiles(mocha, '/**/*-slow.js');
-} else if (optionOrFile === 'slow')  {
+} else if (optionOrFile === 'slow') {
   addFiles(mocha, '/**/*-slow.js');
-} else if (optionOrFile === 'lint')  {
+} else if (optionOrFile === 'lint') {
   addFiles(mocha, lint);
   addFiles(mocha, docsLint);
-} else if (process.argv.length > 2)  {
+} else if (process.argv.length > 2) {
   addFiles(mocha, process.argv.slice(2));
 } else {
   addFiles(mocha, testFiles);
@@ -50,18 +54,15 @@ function addFiles(mocha, files) {
 
 function checkOnlyInTests() {
   console.log('Verifing `.only` in tests');
-  return _checkOnlyInTests().then(function() {
-    console.log('No `.only` found');
-  });
+  return _checkOnlyInTests()
+    .then(() => console.log('No `.only` found'));
 }
 
 function runMocha() {
   console.time('Mocha Tests Running Time');
-  mocha.run(function(failures) {
-    process.on('exit', function() {
-      console.timeEnd('Mocha Tests Running Time');
-      process.exit(failures);
-    });
+  mocha.run(failures => {
+    console.timeEnd('Mocha Tests Running Time');
+    process.exit(failures);
   });
 }
 
@@ -74,10 +75,8 @@ function ciVerificationStep() {
 }
 
 ciVerificationStep()
-  .then(function() {
-    runMocha();
-  })
-  .catch(function(error) {
+  .then(() => runMocha())
+  .catch(error => {
     console.error(error);
     console.error(error.stack);
     process.exit(1);

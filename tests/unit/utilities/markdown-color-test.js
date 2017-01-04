@@ -1,12 +1,12 @@
 'use strict';
 
-var MarkdownColor = require('../../../lib/utilities/markdown-color');
-var expect        = require('chai').expect;
-var path          = require('path');
-var chalk         = require('chalk');
+const MarkdownColor = require('../../../lib/utilities/markdown-color');
+const expect = require('chai').expect;
+const path = require('path');
+const chalk = require('chalk');
 
 describe('MarkdownColor', function() {
-  var mc;
+  let mc;
 
   before(function() {
     if (!chalk.supportsColor) {
@@ -54,21 +54,21 @@ describe('MarkdownColor', function() {
   });
 
   it('accepts tokens on instantiation', function() {
-    var mctemp = new MarkdownColor({
+    let mctemp = new MarkdownColor({
       tokens: {
         foo: {
           token: '^foo^',
           pattern: /(?:\^foo\^)(.*?)(?:\^foo\^)/g,
-          render: MarkdownColor.prototype.renderStylesFactory(chalk, ['blue','bgWhite'])
-        }
-      }
+          render: MarkdownColor.prototype.renderStylesFactory(chalk, ['blue', 'bgWhite']),
+        },
+      },
     });
     expect(mctemp.render('^foo^foo^foo^')).to.equal('\u001b[0m\u001b[34m\u001b[47mfoo\u001b[49m\u001b[39m\u001b[0m\n\n');
   });
 
   it('parses markdown files', function() {
     // console.log(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md')))
-    expect(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md'))).to
+    expect(mc.renderFile(path.join(__dirname, '../../../tests/fixtures/markdown/foo.md'))).to
       .equal('\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them\u001b[39m\u001b[0m\n\n');
   });
 

@@ -7,12 +7,12 @@ if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then
   exit 0
 fi
 
-if [[ $TRAVIS_BRANCH != "master" ]]; then
+if [[ $TRAVIS_BRANCH != "release" ]]; then
   echo "not publishing because this is not the master branch."
   exit 0
 fi
 
-if [[ $TRAVIS_NODE_VERSION != "4" ]]; then
+if [[ $TRAVIS_NODE_VERSION != "6" ]]; then
   echo "not publishing because we only publish on the Node 4.x build."
   exit 0
 fi

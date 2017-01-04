@@ -1,26 +1,27 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var TestServerTask = require('../../../lib/tasks/test-server');
-var MockProject    = require('../../helpers/mock-project');
-var MockUI         = require('../../helpers/mock-ui');
-var MockWatcher    = require('../../helpers/mock-watcher');
+const expect = require('chai').expect;
+const SilentError = require('silent-error');
+const TestServerTask = require('../../../lib/tasks/test-server');
+const MockProject = require('../../helpers/mock-project');
+const MockUI = require('console-ui/mock');
+const MockWatcher = require('../../helpers/mock-watcher');
 
 describe('test server', function() {
-  var subject;
+  let subject;
 
   it('transforms the options and invokes testem properly', function(done) {
-    var ui = new MockUI();
-    var watcher = new MockWatcher();
+    let ui = new MockUI();
+    let watcher = new MockWatcher();
 
     subject = new TestServerTask({
       project: new MockProject(),
-      ui: ui,
-      addonMiddlewares: function() {
+      ui,
+      addonMiddlewares() {
         return ['middleware1', 'middleware2'];
       },
       testem: {
-        startDev: function(options) {
+        startDev(options) {
           expect(options.host).to.equal('greatwebsite.com');
           expect(options.port).to.equal(123324);
           expect(options.cwd).to.equal('blerpy-derpy');
@@ -29,8 +30,8 @@ describe('test server', function() {
           expect(options.test_page).to.equal('http://my/test/page');
           expect(options.config_dir).to.be.an('string');
           done();
-        }
-      }
+        },
+      },
     });
 
     subject.run({
@@ -38,14 +39,14 @@ describe('test server', function() {
       port: 123324,
       reporter: 'xunit',
       outputPath: 'blerpy-derpy',
-      watcher: watcher,
-      testPage: 'http://my/test/page'
+      watcher,
+      testPage: 'http://my/test/page',
     });
     watcher.emit('change');
   });
 
   describe('completion', function() {
-    var ui, watcher, subject, runOptions;
+    let ui, watcher, subject, runOptions;
 
     before(function() {
       ui = new MockUI();
@@ -54,33 +55,33 @@ describe('test server', function() {
       runOptions = {
         reporter: 'xunit',
         outputPath: 'blerpy-derpy',
-        watcher: watcher,
-        testPage: 'http://my/test/page'
+        watcher,
+        testPage: 'http://my/test/page',
       };
 
       subject = new TestServerTask({
         project: new MockProject(),
-        ui: ui,
-        addonMiddlewares: function() {
+        ui,
+        addonMiddlewares() {
           return ['middleware1', 'middleware2'];
         },
         testem: {
-          startDev: function(options, finalizer) {
+          startDev(options, finalizer) {
             throw new TypeError('startDev not implemented');
-          }
-        }
+          },
+        },
       });
     });
 
     describe('firstRun', function() {
       it('rejects with testem exceptions', function() {
-        var error = new Error('OMG');
+        let error = new Error('OMG');
 
         subject.testem.startDev = function(options, finalizer) {
           finalizer(1, error);
         };
 
-        var runResult = subject.run(runOptions).then(function() {
+        let runResult = subject.run(runOptions).then(function() {
           expect(true, 'should have rejected, but fulfilled').to.be.false;
         }, function(reason) {
           expect(reason).to.eql(error);
@@ -91,13 +92,17 @@ describe('test server', function() {
         return runResult;
       });
 
-      it('resolves with exit status (1)', function() {
+      it('rejects with exit status (1)', function() {
+        let error = new SilentError('Testem finished with non-zero exit code. Tests failed.');
+
         subject.testem.startDev = function(options, finalizer) {
           finalizer(1);
         };
 
-        var runResult = subject.run(runOptions).then(function(value) {
-          expect(value, 'expected exist status of 1').to.eql(1);
+        let runResult = subject.run(runOptions).then(function() {
+          expect(true, 'should have rejected, but fulfilled').to.be.false;
+        }, function(reason) {
+          expect(reason).to.eql(error);
         });
 
         watcher.emit('change');
@@ -110,7 +115,7 @@ describe('test server', function() {
           finalizer(0);
         };
 
-        var runResult = subject.run(runOptions).then(function(value) {
+        let runResult = subject.run(runOptions).then(function(value) {
           expect(value, 'expected exist status of 0').to.eql(0);
         });
 
@@ -122,19 +127,19 @@ describe('test server', function() {
 
     describe('restart', function() {
       it('rejects with testem exceptions', function() {
-        var error = new Error('OMG');
+        let error = new Error('OMG');
 
         subject.testem.startDev = function(options, finalizer) {
-          finalizer(1);
+          finalizer(0);
         };
 
-        var runResult = subject.run(runOptions);
+        let runResult = subject.run(runOptions);
 
         watcher.emit('change');
 
         return runResult.then(function() {
           subject.testem.startDev = function(options, finalizer) {
-            finalizer(1, error);
+            finalizer(0, error);
           };
 
           runResult = subject.run(runOptions).then(function() {

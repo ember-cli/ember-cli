@@ -1,10 +1,10 @@
 'use strict';
 
-var MockUI        = require('./mock-ui');
-var MockAnalytics = require('./mock-analytics');
-var cli           = require('../../lib/cli');
-var path          = require('path');
-var Promise       = require('../../lib/ext/promise');
+const MockUI = require('console-ui/mock');
+const MockAnalytics = require('./mock-analytics');
+const cli = require('../../lib/cli');
+const path = require('path');
+const Promise = require('../../lib/ext/promise');
 
 /*
   Accepts a single array argument, that contains the
@@ -40,14 +40,14 @@ var Promise       = require('../../lib/ext/promise');
 
 */
 module.exports = function ember(args, options) {
-  var cliInstance;
-  var ui = options && options.UI || MockUI;
-  var pkg = options && options.package || path.resolve(__dirname, '..', '..');
-  var disableDependencyChecker = options && options.disableDependencyChecker || true;
-  var inputStream  = [];
-  var outputStream = [];
-  var errorLog     = [];
-  var commandName = args[0];
+  let cliInstance;
+  let ui = (options && options.UI) || MockUI;
+  let pkg = (options && options.package) || path.resolve(__dirname, '..', '..');
+  let disableDependencyChecker = (options && options.disableDependencyChecker) || true;
+  let inputStream = [];
+  let outputStream = [];
+  let errorLog = [];
+  let commandName = args[0];
 
   if (commandName === 'test') {
     /*
@@ -66,29 +66,29 @@ module.exports = function ember(args, options) {
   }
 
   cliInstance = cli({
-    inputStream:  inputStream,
-    outputStream: outputStream,
-    errorLog:     errorLog,
-    cliArgs:      args,
+    inputStream,
+    outputStream,
+    errorLog,
+    cliArgs: args,
     Leek: MockAnalytics,
     UI: ui,
     testing: true,
-    disableDependencyChecker: disableDependencyChecker,
+    disableDependencyChecker,
     cli: {
       // This prevents ember-cli from detecting any other package.json files
       // forcing ember-cli to act as the globally installed package
       npmPackage: 'ember-cli',
-      root: pkg
-    }
+      root: pkg,
+    },
   });
 
   function returnTestState(statusCode) {
-    var result = {
+    let result = {
       exitCode: statusCode,
-      statusCode: statusCode,
-      inputStream: inputStream,
-      outputStream: outputStream,
-      errorLog: errorLog
+      statusCode,
+      inputStream,
+      outputStream,
+      errorLog,
     };
 
     if (statusCode) {

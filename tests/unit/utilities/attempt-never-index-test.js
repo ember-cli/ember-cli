@@ -1,16 +1,16 @@
 'use strict';
 
-var attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
-var quickTemp = require('quick-temp');
-var isDarwin = /darwin/i.test(require('os').type());
+const attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
+const quickTemp = require('quick-temp');
+let isDarwin = (/darwin/i).test(require('os').type());
 
-var chai = require('../../chai');
-var expect = chai.expect;
-var file = chai.file;
+const chai = require('../../chai');
+let expect = chai.expect;
+let file = chai.file;
 
 describe('attempt-never-index', function() {
-  var context = {};
-  var tmpPath;
+  let context = {};
+  let tmpPath;
   before(function() {
     tmpPath = quickTemp.makeOrRemake(context, 'attempt-never-index');
   });
@@ -20,14 +20,14 @@ describe('attempt-never-index', function() {
   });
 
   it('sets the hint to spotlight if possible', function() {
-    expect(file(tmpPath + '/.metadata_never_index')).to.not.exist;
+    expect(file(`${tmpPath}/.metadata_never_index`)).to.not.exist;
 
     attemptNeverIndex(tmpPath);
 
     if (isDarwin) {
-      expect(file(tmpPath + '/.metadata_never_index')).to.exist;
+      expect(file(`${tmpPath}/.metadata_never_index`)).to.exist;
     } else {
-      expect(file(tmpPath + '/.metadata_never_index')).to.not.exist;
+      expect(file(`${tmpPath}/.metadata_never_index`)).to.not.exist;
     }
   });
 });

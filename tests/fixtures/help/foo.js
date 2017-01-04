@@ -1,4 +1,4 @@
-var versionUtils      = require('../../../lib/utilities/version-utils');
+const versionUtils      = require('../../../lib/utilities/version-utils');
 var emberCLIVersion   = versionUtils.emberCLIVersion;
 
 module.exports = {

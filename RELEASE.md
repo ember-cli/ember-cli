@@ -94,6 +94,10 @@ git checkout -B master --track origin/master
 
 # Merge the new beta release into the "master" branch
 git merge vX.Y.0-beta.1
+
+# Confirm that experiments are turned on before pushing it back to master.
+# Push back upstream.
+git push origin
 ```
 
 
@@ -119,18 +123,21 @@ git merge vX.Y.0-beta.N
 
 ### Setup
 
+* Update Ember and Ember Data versions.
+  * `blueprints/app/files/bower.json`
+  * `blueprints/app/files/package.json`
 * generate changelog
   * if on master branch
     * run `./dev/changelog`
-  * if this is a hotfix
-    * run `./dev/changelog <branch-name>`
+  * if this is a beta
+    * run `./dev/changelog beta`
 * prepend changelog output to `CHANGELOG.md`
 * edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes, non-code changes, etc.)
 * replace any "ember-cli" user references in the changelog to whomever made the change
 * bump `package.json` version
 * don't commit these changes until later
-* `./dev/prepare-release`
-* the `du` command should give you ballbark 344K as of 2.2.0-beta.5
+* run `./dev/prepare-release`
+* the `du` command should give you ballbark 200K as of 2.7.0-beta.6
 
 ### Test
 
@@ -158,13 +165,19 @@ ember serve
 * if releasing using Windows, check that it works on a Linux VM
   * we are checking if any Windows line endings snuck in, because they won't work on Unix
 * if releasing using Unix, you are set, Windows can read your line endings
+* If `release` or `beta` confirm that all experiments are off.
 
 ### Update Artifacts
 
 * if normal release
   * run `./dev/add-to-output-repos.sh`
-* if beta release
+* if incremental beta release
   * run `./dev/add-to-output-repos.sh beta`
+* if promoting canary to beta
+  * run `./dev/add-to-output-repos.sh beta fork`
+* copy the [`ember new` diff] and [`ember addon` diff] lines from the previous
+  release changelog and paste into the current, then update the url with the
+  newer tags
 
 ### Publish
 

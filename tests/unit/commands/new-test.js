@@ -1,28 +1,28 @@
 'use strict';
 
-var expect         = require('chai').expect;
-var map            = require('ember-cli-lodash-subset').map;
-var commandOptions = require('../../factories/command-options');
-var NewCommand     = require('../../../lib/commands/new');
-var Promise        = require('../../../lib/ext/promise');
-var Blueprint      = require('../../../lib/models/blueprint');
-var Command        = require('../../../lib/models/command');
-var Task           = require('../../../lib/models/task');
-var td = require('testdouble');
+const expect = require('chai').expect;
+const map = require('ember-cli-lodash-subset').map;
+const commandOptions = require('../../factories/command-options');
+const NewCommand = require('../../../lib/commands/new');
+const Promise = require('../../../lib/ext/promise');
+const Blueprint = require('../../../lib/models/blueprint');
+const Command = require('../../../lib/models/command');
+const Task = require('../../../lib/models/task');
+const td = require('testdouble');
 
 describe('new command', function() {
-  var command;
+  let command;
 
   beforeEach(function() {
-    var options = commandOptions({
+    let options = commandOptions({
       project: {
-        isEmberCLIProject: function() {
+        isEmberCLIProject() {
           return false;
         },
-        blueprintLookupPaths: function() {
+        blueprintLookupPaths() {
           return [];
-        }
-      }
+        },
+      },
     });
 
     command = new NewCommand(options);
@@ -107,10 +107,10 @@ describe('new command', function() {
   });
 
   it('registers blueprint options in beforeRun', function() {
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     command.beforeRun(['app']);
@@ -119,23 +119,23 @@ describe('new command', function() {
 
   it('passes command options through to init command', function() {
     command.tasks.CreateAndStepIntoDirectory = Task.extend({
-      run: function() {
+      run() {
         return Promise.resolve();
-      }
+      },
     });
 
     command.commands.Init = Command.extend({
-      run: function(commandOptions) {
+      run(commandOptions) {
         expect(commandOptions).to.contain.keys('customOption');
         expect(commandOptions.customOption).to.equal('customValue');
         return Promise.resolve('Called run');
-      }
+      },
     });
 
-    td.when(Blueprint.lookup('app'), {ignoreExtraArgs: true}).thenReturn({
+    td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
       availableOptions: [
-        { name: 'custom-blueprint-option', type: String }
-      ]
+        { name: 'custom-blueprint-option', type: String },
+      ],
     });
 
     return command.validateAndRun(['foo', '--custom-option=customValue']).then(function(reason) {

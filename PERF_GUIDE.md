@@ -8,17 +8,17 @@ are several build phases:
 + rebuild (subsequent rebuilds that happen on file change)
 
 *Cold build* is the slowest because the cache is not yet populated and the
-application is booting for the first time.  Build time varies and depends on
+application is booting for the first time. Build time varies and depends on
 the number of dependencies that application has but ballpark should be around 5
 seconds for small to middle size applications and around 15 seconds for large
 size applications.
 
 *Warm build* is faster then cold one because the cache was populated already
-and it takes less time re-compute dependecies.  Build time varies but ballpark
+and it takes less time re-compute dependencies. Build time varies but ballpark
 should be around 2 seconds for small to middle size applications and around 10
 seconds for large size applications.
 
-*Rebuild* aims to be the fastest because it happens the most often.  App/
+*Rebuild* aims to be the fastest because it happens the most often. App/
 JavaScript Rebuild time varies but ballpark should be around 200-300ms for
 small to middle size applications and up to 1 second for large size
 applications (200kloc js + 3000 modules).
@@ -57,17 +57,16 @@ My rebuilds are slow. (And I have anti-virus installed)
 
 ##### A
 
-Our build-system assumes a relative fast/performant file-system (although, we
+Our build-system assumes a relative fast/performant file system (although, we
 continue to reduce IO related work). It is quite common for a Anti-virus to
 slow down IO.
 
 Common issues:
 
 * anti-virus scanning of <project-root>/tmp/, oftentimes this can be avoided
-  alltogether.
+  altogether.
 * anti-virus on-file-access re-scanning files, oftentimes this can be disabled
   for the app directory. or ember can be whitelisted.
-
 
 ##### Q
 
@@ -76,10 +75,10 @@ My rebuilds are slow. (And I am using an encrypted thumb-drive to host my projec
 ##### A
 
 These sorts of drives are notoriously slow. Although we continue to reduce our
-IO overahead, you will be running at a dis-advantage. Often-times, a much
+IO overhead, you will be running at a disadvantage. Oftentimes, a much
 better alternative is hardware supported full-disk encryption, like on most OSX
-corpoerate laptops (mine included) use. This setup is both reasonably secure,
-and has negible impact on performance.
+corporate laptops (mine included) use. This setup is both reasonably secure,
+and has negligible impact on performance.
 
 ##### Q
 
@@ -153,7 +152,7 @@ Be sure to include:
 * ideally a reproduction
   * we are aware some are unable to share apps (even privately), this may prove
     more difficult to debug. Although in some cases, consulting and proper IP
-    related paprwork to allow sharing could enable improved debugging
+    related paperwork to allow sharing could enable improved debugging
 
 
 ##### Q
@@ -170,20 +169,26 @@ We would love a PR improving this guide.
 
 ### DEBUG logging
 
-We use the more or less standard [debug](https://github.com/visionmedia/debug)
-node_module for instrumentation. Often times this can be used, to quickly
-discover obviously wrong things.
+We use [heimdalljs-logger](https://github.com/heimdalljs/heimdalljs-logger) for
+logging, which supports the same usage as the de facto standard
+[debug](https://github.com/visionmedia/debug).  Quite often this can be used to
+quickly discover obviously wrong things.
 
 Usage:
 
 * `DEBUG=<pattern> ember s`
-* `DEBUG=*  ember s` for all logging (this will be very erbose)
+* `DEBUG=*  ember s` for all logging (this will be very verbose)
 * `DEBUG=ember-cli* ember s` for all ember-cli logging
 * `DEBUG=broccoli* ember s` for all broccoli logging
-* `DEBUG=broccoli*,ember-cli* ember s` for both broccoli and ember-cli loggin
+* `DEBUG=broccoli*,ember-cli* ember s` for both broccoli and ember-cli logging
 
-The above patterns will be very verbose, a currated set of performance related
-logging flags are:
+The above patterns will be very verbose.  But to make them even more verbose you
+can set the log level via `DEBUG_LEVEL`
+
+* `DEBUG=* DEBUG_LEVEL=debug ember s`
+
+To make them a bit less verbose, a curated set of performance related logging
+flags are:
 
 + `DEBUG=broccoli-caching-writer:* ember s`
 + `DEBUG=broccoli-funnel:* ember s`
@@ -195,6 +200,27 @@ logging flags are:
 + `DEBUG=broccoli-merge-trees:compileTemplates* ember s`
 + `DEBUG=broccoli-merge-trees:compileTemplates* ember s`
 
+Because many plugins are used repeatedly it may be difficult to see the context
+for log entries.  By default, 3 nodes of context are shown.
+
+```
+DEBUG_LEVEL=debug DEBUG=broccoli-merge-trees: ember build
+broccoli-merge-trees: [TreeMerger (testFiles)#777 -> ConcatWithMaps#782 -> BroccoliMergeTrees#783] deriving patches
+```
+
+To show more (or fewer) lines of context, specify the environment variable
+`DEBUG_DEPTH`.
+
+```
+DEBUG_DEPTH=5 DEBUG_LEVEL=debug DEBUG=broccoli-merge-trees: ember build
+# => broccoli-merge-trees: [TreeMerger (allTrees)#1 -> BroccoliMergeTrees#668 -> TreeMerger (testFiles)#777 -> ConcatWithMaps#782 -> BroccoliMergeTrees#783]
+```
+
+`[... ConcatWithMaps#782 -> BroccoliMergeTrees#783]` means that the log entry
+occurred in broccoli merge-trees node with id 783, whose parent was a concat
+with maps node with id 782.  These ids are shown in the visualization graph.
+See [Visualization](#Visualization) for details.
+
 ... more on what to look for ...
 
 ### `broccoli-viz`
@@ -205,11 +231,17 @@ To visualize build tree, we use [graphviz](http://www.graphviz.org/). To
 install it run `brew install graphviz` or download it directly from
 [here](http://www.graphviz.org/Download.php).
 
+You will also need to install
+[broccoli-viz](https://github.com/stefanpenner/broccoli-viz) version `3.0.3` or
+higher.  `npm install -g broccoli-viz@^3.0.3`.
+
 To generate visualization:
 
 + `BROCCOLI_VIZ=true ember build`
-+ `dot -Tpng graph.<version>.dot > out.png` (each build, will generate an
-  additional graph.<build-number>.dot  graph.<build-number>.json)
++ `broccoli-viz broccoli-viz.0.json > broccoli-viz.0.dot`
++ `dot -Tpng broccoli-viz.0.dot > broccoli-viz.0.png`
+
+Each build will generate an additional graph, `broccoli-viz.<build-number>.json`
 
 #### in-depth look
 

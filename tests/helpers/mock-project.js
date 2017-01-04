@@ -1,18 +1,35 @@
 'use strict';
 
-var Project = require('../../lib/models/project');
+const Project = require('../../lib/models/project');
+const Instrumentation = require('../../lib/models/instrumentation');
+const MockUI = require('console-ui/mock');
+const td = require('testdouble');
 
 function MockProject() {
-  var root = process.cwd();
-  var pkg  = {};
-  Project.apply(this, [root, pkg]);
+  let root = process.cwd();
+  let pkg = {};
+  let ui = new MockUI();
+  let instr = new Instrumentation({
+    ui,
+    initInstrumentation: {
+      token: null,
+      node: null,
+    },
+  });
+  let cli = {
+    instrumentation: instr,
+  };
+  Project.apply(this, [root, pkg, ui, cli]);
+
+  let discoverFromCli = td.replace(this.addonDiscovery, 'discoverFromCli');
+  td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
 }
 
 MockProject.prototype.require = function(file) {
   if (file === './server') {
     return function() {
       return {
-        listen: function() { arguments[arguments.length - 1](); }
+        listen() { arguments[arguments.length - 1](); },
       };
     };
   }
@@ -21,7 +38,7 @@ MockProject.prototype.require = function(file) {
 MockProject.prototype.config = function() {
   return this._config || {
     baseURL: '/',
-    locationType: 'auto'
+    locationType: 'auto',
   };
 };
 

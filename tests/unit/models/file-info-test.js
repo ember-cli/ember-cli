@@ -1,23 +1,23 @@
 'use strict';
 
-var expect    = require('chai').expect;
-var MockUI    = require('../../helpers/mock-ui');
-var FileInfo  = require('../../../lib/models/file-info');
-var path      = require('path');
-var fs        = require('fs-extra');
-var EOL       = require('os').EOL;
-var Promise   = require('../../../lib/ext/promise');
-var writeFile = Promise.denodeify(fs.writeFile);
-var root       = process.cwd();
-var tmproot    = path.join(root, 'tmp');
-var assign     = require('ember-cli-lodash-subset').assign;
-var mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-var td         = require('testdouble');
-var testOutputPath;
+const expect = require('chai').expect;
+const MockUI = require('console-ui/mock');
+const FileInfo = require('../../../lib/models/file-info');
+const path = require('path');
+const fs = require('fs-extra');
+const EOL = require('os').EOL;
+const Promise = require('../../../lib/ext/promise');
+let writeFile = Promise.denodeify(fs.writeFile);
+let root = process.cwd();
+let tmproot = path.join(root, 'tmp');
+const assign = require('ember-cli-lodash-subset').assign;
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const td = require('testdouble');
+let testOutputPath;
 
 describe('Unit - FileInfo', function() {
 
-  var validOptions, ui;
+  let validOptions, ui;
 
   beforeEach(function() {
     return mkTmpDirIn(tmproot).then(function(tmpdir) {
@@ -33,7 +33,7 @@ describe('Unit - FileInfo', function() {
         inputPath: path.resolve(__dirname,
                                 '../../fixtures/blueprints/with-templating/files/foo.txt'),
         templateVariables: {},
-        ui: ui
+        ui,
       };
     });
   });
@@ -47,19 +47,21 @@ describe('Unit - FileInfo', function() {
     new FileInfo(validOptions);
   });
 
-  it('does not interpolate {{ }} or ${ }', function () {
-    var options = {};
-    assign(options, validOptions, {inputPath:  path.resolve(__dirname,
-      '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' }});
-    var fileInfo = new FileInfo(options);
+  // eslint-disable-next-line no-template-curly-in-string
+  it('does not interpolate {{ }} or ${ }', function() {
+    let options = {};
+    assign(options, validOptions, { inputPath: path.resolve(__dirname,
+      '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' } });
+    let fileInfo = new FileInfo(options);
     return fileInfo.render().then(function(output) {
+      // eslint-disable-next-line no-template-curly-in-string
       expect(output.trim()).to.equal('{{ name }} ${ name }  tacocat tacocat');
     });
   });
 
   it('renders an input file', function() {
     validOptions.templateVariables.friend = 'Billy';
-    var fileInfo = new FileInfo(validOptions);
+    let fileInfo = new FileInfo(validOptions);
 
     return fileInfo.render().then(function(output) {
       expect(output.trim()).to.equal('Howdy Billy',
@@ -68,11 +70,11 @@ describe('Unit - FileInfo', function() {
   });
 
   it('rejects if templating throws', function() {
-    var templateWithUndefinedVariable = path.resolve(__dirname,
+    let templateWithUndefinedVariable = path.resolve(__dirname,
       '../../fixtures/blueprints/with-templating/files/with-undefined-variable.txt');
-    var options = {};
+    let options = {};
     assign(options, validOptions, { inputPath: templateWithUndefinedVariable });
-    var fileInfo = new FileInfo(options);
+    let fileInfo = new FileInfo(options);
 
     return fileInfo.render().then(function() {
       throw new Error('FileInfo.render should reject if templating throws');
@@ -84,11 +86,11 @@ describe('Unit - FileInfo', function() {
   });
 
   it('does not explode when trying to template binary files', function() {
-    var binary = path.resolve(__dirname, '../../fixtures/problem-binary.png');
+    let binary = path.resolve(__dirname, '../../fixtures/problem-binary.png');
 
     validOptions.inputPath = binary;
 
-    var fileInfo = new FileInfo(validOptions);
+    let fileInfo = new FileInfo(validOptions);
 
     return fileInfo.render().then(function(output) {
       expect(!!output, 'expects the file to be processed without error').to.equal(true);
@@ -97,13 +99,13 @@ describe('Unit - FileInfo', function() {
 
   it('renders a diff to the UI', function() {
     validOptions.templateVariables.friend = 'Billy';
-    var fileInfo = new FileInfo(validOptions);
+    let fileInfo = new FileInfo(validOptions);
 
-    return writeFile(testOutputPath, 'Something Old' + EOL).then(function() {
+    return writeFile(testOutputPath, `Something Old${EOL}`).then(function() {
       return fileInfo.displayDiff();
     }).then(function() {
-      var output = ui.output.trim().split(EOL);
-      expect(output.shift()).to.equal('Index: ' + testOutputPath);
+      let output = ui.output.trim().split(EOL);
+      expect(output.shift()).to.equal(`Index: ${testOutputPath}`);
       expect(output.shift()).to.match(/=+/);
       expect(output.shift()).to.match(/---/);
       expect(output.shift()).to.match(/\+{3}/);
@@ -116,33 +118,51 @@ describe('Unit - FileInfo', function() {
   it('renders a menu with an overwrite option', function() {
     td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'overwrite' }));
 
-    var fileInfo = new FileInfo(validOptions);
+    let fileInfo = new FileInfo(validOptions);
 
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
-      td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+      td.verify(ui.prompt(td.matchers.anything()), { times: 1 });
       expect(action).to.equal('overwrite');
     });
   });
 
-  it('renders a menu with an skip option', function() {
+  it('renders a menu with a skip option', function() {
     td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
 
-    var fileInfo = new FileInfo(validOptions);
+    let fileInfo = new FileInfo(validOptions);
 
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
-      td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+      td.verify(ui.prompt(td.matchers.anything()), { times: 1 });
       expect(action).to.equal('skip');
     });
   });
 
-  it('renders a menu with an diff option', function() {
+  it('renders a menu with a diff option', function() {
     td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'diff' }));
 
-    var fileInfo = new FileInfo(validOptions);
+    let fileInfo = new FileInfo(validOptions);
 
     return fileInfo.confirmOverwrite('test.js').then(function(action) {
-      td.verify(ui.prompt(td.matchers.anything()), {times: 1});
+      td.verify(ui.prompt(td.matchers.anything()), { times: 1 });
       expect(action).to.equal('diff');
+    });
+  });
+
+  it('renders a menu without diff and edit options when dealing with binary files', function() {
+    td.when(ui.prompt(td.matchers.anything())).thenReturn(Promise.resolve({ answer: 'skip' }));
+
+    let binary = path.resolve(__dirname, '../../fixtures/problem-binary.png');
+    validOptions.inputPath = binary;
+    let fileInfo = new FileInfo(validOptions);
+
+    return fileInfo.confirmOverwrite('test.png').then(function(action) {
+      td.verify(ui.prompt(td.matchers.argThat(function(options) {
+        return (
+          options.choices.length === 2 &&
+          options.choices[0].key === 'y' &&
+          options.choices[1].key === 'n'
+        );
+      })));
     });
   });
 

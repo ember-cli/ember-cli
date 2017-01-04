@@ -1,26 +1,29 @@
 'use strict';
 
-var path     = require('path');
-var fs       = require('fs-extra');
-var crypto   = require('crypto');
-var walkSync = require('walk-sync');
-var appName  = 'some-cool-app';
-var EOL      = require('os').EOL;
+const path = require('path');
+const fs = require('fs-extra');
+const crypto = require('crypto');
+const walkSync = require('walk-sync');
+const EOL = require('os').EOL;
 
-var runCommand          = require('../helpers/run-command');
-var acceptance          = require('../helpers/acceptance');
-var copyFixtureFiles    = require('../helpers/copy-fixture-files');
-var killCliProcess      = require('../helpers/kill-cli-process');
-var ember               = require('../helpers/ember');
-var createTestTargets   = acceptance.createTestTargets;
-var teardownTestTargets = acceptance.teardownTestTargets;
-var linkDependencies    = acceptance.linkDependencies;
-var cleanupRun          = acceptance.cleanupRun;
+const runCommand = require('../helpers/run-command');
+const acceptance = require('../helpers/acceptance');
+const copyFixtureFiles = require('../helpers/copy-fixture-files');
+const killCliProcess = require('../helpers/kill-cli-process');
+const ember = require('../helpers/ember');
+const experiments = require('../../lib/experiments/');
+let createTestTargets = acceptance.createTestTargets;
+let teardownTestTargets = acceptance.teardownTestTargets;
+let linkDependencies = acceptance.linkDependencies;
+let cleanupRun = acceptance.cleanupRun;
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
-var dir = chai.dir;
+const chai = require('../chai');
+let expect = chai.expect;
+let file = chai.file;
+let dir = chai.dir;
+
+let appName = 'some-cool-app';
+let appRoot;
 
 describe('Acceptance: smoke-test', function() {
   this.timeout(500000);
@@ -28,20 +31,16 @@ describe('Acceptance: smoke-test', function() {
     return createTestTargets(appName);
   });
 
-  after(function() {
-    return teardownTestTargets();
-  });
+  after(teardownTestTargets);
 
   beforeEach(function() {
-    return linkDependencies(appName);
+    appRoot = linkDependencies(appName);
   });
 
   afterEach(function() {
     delete process.env._TESTEM_CONFIG_JS_RAN;
-
-    return cleanupRun(appName).then(function() {
-      expect(dir('tmp/' + appName)).to.not.exist;
-    });
+    cleanupRun(appName);
+    expect(dir(appRoot)).to.not.exist;
   });
 
   it('ember new foo, clean from scratch', function() {
@@ -60,13 +59,13 @@ describe('Acceptance: smoke-test', function() {
         //return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
 
         // temporary work around
-        var templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
+        let templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
         fs.mkdirsSync(path.dirname(templatePath));
         fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
       })
       .then(function() {
-        var packageJsonPath = path.join('lib','my-addon','package.json');
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = path.join('lib', 'my-addon', 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.dependencies = packageJson.dependencies || {};
         packageJson.dependencies['ember-cli-htmlbars'] = '*';
 
@@ -82,59 +81,7 @@ describe('Acceptance: smoke-test', function() {
       });
   });
 
-  it('ember test exits with non-zero when tests fail', function() {
-    return copyFixtureFiles('smoke-tests/failing-test')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
-          .then(function() {
-            expect(false, 'should have rejected with a failing test').to.be.ok;
-          })
-          .catch(function(result) {
-            expect(result.code).to.equal(1);
-          });
-      });
-  });
-
-  it('ember test exits with non-zero when build fails', function() {
-    return copyFixtureFiles('smoke-tests/test-with-syntax-error')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
-          .then(function() {
-            expect(false, 'should have rejected with a failing test').to.be.ok;
-          })
-          .catch(function(result) {
-            expect(result.code).to.equal(1);
-          });
-      });
-  });
-
-  it('ember test exits with non-zero when no tests are run', function() {
-    return copyFixtureFiles('smoke-tests/no-testem-launchers')
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test')
-          .then(function() {
-            expect(false, 'should have rejected with a failing test').to.be.ok;
-          })
-          .catch(function(result) {
-            expect(result.code).to.equal(1);
-          });
-      });
-  });
-
-  it('ember test exits with zero when tests pass', function() {
-    return copyFixtureFiles('smoke-tests/passing-test')
-      .then(function() {
-        return ember(['test'])
-          .then(function(result) {
-            expect(result.exitCode).to.equal(0);
-          })
-          .catch(function() {
-            expect(false, 'should NOT have rejected with a failing test').to.be.ok;
-          });
-      });
-  });
-
-  it('ember test still runs when only a JavaScript testem config exists', function() {
+  it('ember test still runs when a JavaScript testem config exists', function() {
     return copyFixtureFiles('smoke-tests/js-testem-config')
       .then(function() {
         return ember(['test']);
@@ -151,28 +98,28 @@ describe('Acceptance: smoke-test', function() {
   it.skip('ember new foo, build production and verify fingerprint', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
       .then(function() {
-        var dirPath = path.join('.', 'dist', 'assets');
-        var dir = fs.readdirSync(dirPath);
-        var files = [];
+        let dirPath = path.join(appRoot, 'dist', 'assets');
+        let dir = fs.readdirSync(dirPath);
+        let files = [];
 
-        dir.forEach(function (filepath) {
+        dir.forEach(function(filepath) {
           if (filepath === '.gitkeep') {
             return;
           }
 
           files.push(filepath);
 
-          var file = fs.readFileSync(path.join(dirPath, filepath), { encoding: null });
+          let file = fs.readFileSync(path.join(dirPath, filepath), { encoding: null });
 
-          var md5 = crypto.createHash('md5');
+          let md5 = crypto.createHash('md5');
           md5.update(file);
-          var hex = md5.digest('hex');
+          let hex = md5.digest('hex');
 
-          expect(filepath).to.contain(hex, filepath + ' contains the fingerprint (' + hex + ')');
+          expect(filepath).to.contain(hex, `${filepath} contains the fingerprint (${hex})`);
         });
 
-        var indexHtml = file('dist/index.html');
-        files.forEach(function (filename) {
+        let indexHtml = file('dist/index.html');
+        files.forEach(function(filename) {
           expect(indexHtml).to.contain(filename);
         });
       });
@@ -187,8 +134,8 @@ describe('Acceptance: smoke-test', function() {
         return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--environment=production');
       })
       .then(function(result) {
-        var exitCode = result.code;
-        var output = result.output.join(EOL);
+        let exitCode = result.code;
+        let output = result.output.join(EOL);
 
         expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
         expect(output).to.match(/JSHint/, 'JSHint should be run on production assets');
@@ -198,8 +145,8 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember test --path with previous build', function() {
-    var originalWrite = process.stdout.write;
-    var output = [];
+    let originalWrite = process.stdout.write;
+    let output = [];
 
     return copyFixtureFiles('smoke-tests/passing-test')
       .then(function() {
@@ -214,7 +161,7 @@ describe('Acceptance: smoke-test', function() {
           };
         }(originalWrite));
 
-        return ember([ 'test', '--path=dist' ]);
+        return ember(['test', '--path=dist']);
       }).finally(function() {
         process.stdout.write = originalWrite;
       })
@@ -223,91 +170,120 @@ describe('Acceptance: smoke-test', function() {
 
         output = output.join(EOL);
 
-        expect(output).to.match(/JSHint/, 'JSHint should be run');
         expect(output).to.match(/fail\s+0/, 'no failures');
-        expect(output).to.match(/pass\s+12/, '1 passing');
+        expect(output).to.match(/pass\s+2/, '2 passing');
       });
   });
 
   it('ember new foo, build development, and verify generated files', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')
       .then(function() {
-        var dirPath = path.join('.', 'dist');
-        var paths = walkSync(dirPath);
+        let dirPath = path.join(appRoot, 'dist');
+        let paths = walkSync(dirPath);
 
-        expect(paths).to.have.length.below(23, 'expected fewer than 23 files in dist, found ' + paths.length);
+        expect(paths).to.have.length.below(24, `expected fewer than 24 files in dist, found ${paths.length}`);
       });
   });
 
-  it('ember build exits with non-zero code when build fails', function () {
-    var appJsPath   = path.join('.', 'app', 'app.js');
-    var ouputContainsBuildFailed = false;
+  it('ember build exits with non-zero code when build fails', function() {
+    let appJsPath = path.join(appRoot, 'app', 'app.js');
+    let ouputContainsBuildFailed = false;
 
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function (result) {
-      expect(result.code).to.equal(0, 'expected exit code to be zero, but got ' + result.code);
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build').then(function(result) {
+      expect(result.code).to.equal(0, `expected exit code to be zero, but got ${result.code}`);
 
       // add something broken to the project to make build fail
       fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
 
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-        onOutput: function(string) {
+        onOutput(string) {
           // discard output as there will be a lot of errors and a long stacktrace
           // just mark that the output contains expected text
           if (!ouputContainsBuildFailed && string.match(/Build failed/)) {
             ouputContainsBuildFailed = true;
           }
-        }
+        },
       });
 
-    }).then(function () {
+    }).then(function() {
       expect(false, 'should have rejected with a failing build').to.be.ok;
-    }).catch(function (result) {
+    }).catch(function(result) {
       expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.ok;
-      expect(result.code).to.not.equal(0, 'expected exit code to be non-zero, but got ' + result.code);
+      expect(result.code).to.not.equal(0, `expected exit code to be non-zero, but got ${result.code}`);
     });
   });
 
+
+  if (experiments.INSTRUMENTATION) {
+    it('ember build generates instrumentation files when viz is enabled', function() {
+      process.env.BROCCOLI_VIZ = '1';
+
+      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+        env: {
+          BROCCOLI_VIZ: '1',
+        },
+      }).then(function() {
+        [
+          'instrumentation.build.0.json',
+          'instrumentation.command.json',
+          'instrumentation.init.json',
+          'instrumentation.shutdown.json',
+        ].forEach(function(instrumentationFile) {
+          expect(fs.existsSync(instrumentationFile)).to.equal(true);
+
+          let json = fs.readJsonSync(instrumentationFile);
+          expect(Object.keys(json)).to.eql([
+            'summary', 'nodes',
+          ]);
+
+          expect(Array.isArray(json.nodes)).to.equal(true);
+        });
+      })
+        .finally(function() {
+          delete process.env.BROCCOLI_VIZ;
+        });
+    });
+  }
+
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
-    var touched     = false;
-    var appJsPath   = path.join('.', 'app', 'app.js');
-    var builtJsPath = path.join('.', 'dist', 'assets', 'some-cool-app.js');
-    var text        = 'anotuhaonteuhanothunaothanoteh';
-    var line        = 'console.log("' + text + '");';
+    let touched = false;
+    let appJsPath = path.join(appRoot, 'app', 'app.js');
+    let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
+    let text = 'anotuhaonteuhanothunaothanoteh';
+    let line = `console.log("${text}");`;
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-      onOutput: function(string, child) {
+      onOutput(string, child) {
         if (touched) {
           if (string.match(/Build successful/)) {
             // build after change to app.js
-            var contents  = fs.readFileSync(builtJsPath).toString();
+            let contents = fs.readFileSync(builtJsPath).toString();
             expect(contents).to.contain(text, 'must contain changed line after rebuild');
             killCliProcess(child);
           }
-        } else {
-          if (string.match(/Build successful/)) {
-            // first build
-            touched = true;
-            fs.appendFileSync(appJsPath, line);
-          }
+        } else if (string.match(/Build successful/)) {
+          // first build
+          touched = true;
+          fs.appendFileSync(appJsPath, line);
         }
-      }
+      },
     }).catch(function() {
       // swallowing because of SIGINT
     });
   });
 
   it('ember new foo, build --watch development, and verify rebuilt after multiple changes', function() {
-    var buildCount  = 0;
-    var touched     = false;
-    var appJsPath   = path.join('.', 'app', 'app.js');
-    var builtJsPath = path.join('.', 'dist', 'assets', 'some-cool-app.js');
-    var firstText   = 'anotuhaonteuhanothunaothanoteh';
-    var firstLine   = 'console.log("' + firstText + '");';
-    var secondText  = 'aahsldfjlwioruoiiononociwewqwr';
-    var secondLine  = 'console.log("' + secondText + '");';
+    let buildCount = 0;
+    let touched = false;
+    let appJsPath = path.join(appRoot, 'app', 'app.js');
+    let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
+    let firstText = 'anotuhaonteuhanothunaothanoteh';
+    let firstLine = `console.log("${firstText}");`;
+    let secondText = 'aahsldfjlwioruoiiononociwewqwr';
+    let secondLine = `console.log("${secondText}");`;
 
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-      onOutput: function(string, child) {
+      onOutput(string, child) {
         if (buildCount === 0) {
           if (string.match(/Build successful/)) {
             // first build
@@ -325,24 +301,24 @@ describe('Acceptance: smoke-test', function() {
         } else if (touched && buildCount === 2) {
           if (string.match(/Build successful/)) {
             // build after change to app.js
-            var contents  = fs.readFileSync(builtJsPath).toString();
+            let contents = fs.readFileSync(builtJsPath).toString();
             expect(contents).to.contain(secondText, 'must contain second changed line after rebuild');
             killCliProcess(child);
           }
         }
-      }
+      },
     }).catch(function() {
       // swallowing because of SIGINT
     });
   });
 
   it('ember new foo, server, SIGINT clears tmp/', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323','--live-reload=false', {
-      onOutput: function(string, child) {
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323', '--live-reload=false', {
+      onOutput(string, child) {
         if (string.match(/Build successful/)) {
           killCliProcess(child);
         }
-      }
+      },
     }).catch(function() {
       // just eat the rejection as we are testing what happens
     });
@@ -352,12 +328,12 @@ describe('Acceptance: smoke-test', function() {
     return copyFixtureFiles('with-styles').then(function() {
       return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
         .then(function() {
-          var dirPath = path.join('.', 'dist', 'assets');
-          var dir = fs.readdirSync(dirPath);
-          var cssNameRE = new RegExp(appName + '-([a-f0-9]+)\\.css','i');
-          dir.forEach(function (filepath) {
+          let dirPath = path.join(appRoot, 'dist', 'assets');
+          let dir = fs.readdirSync(dirPath);
+          let cssNameRE = new RegExp(`${appName}-([a-f0-9]+)\\.css`, 'i');
+          dir.forEach(function(filepath) {
             if (cssNameRE.test(filepath)) {
-              expect(file('dist/assets/' + filepath))
+              expect(file(`dist/assets/${filepath}`))
                 .to.contain('.some-weird-selector')
                 .to.contain('.some-even-weirder-selector');
             }
@@ -369,13 +345,13 @@ describe('Acceptance: smoke-test', function() {
   it('ember new foo, build production and verify single "use strict";', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production')
       .then(function() {
-        var dirPath = path.join('.', 'dist', 'assets');
-        var dir = fs.readdirSync(dirPath);
-        var appNameRE = new RegExp(appName + '-([a-f0-9]+)\\.js','i');
+        let dirPath = path.join(appRoot, 'dist', 'assets');
+        let dir = fs.readdirSync(dirPath);
+        let appNameRE = new RegExp(`${appName}-([a-f0-9]+)\\.js`, 'i');
         dir.forEach(function(filepath) {
           if (appNameRE.test(filepath)) {
-            var contents = fs.readFileSync(path.join('.', 'dist', 'assets', filepath), { encoding: 'utf8' });
-            var count = (contents.match(/(["'])use strict\1;/g) || []).length;
+            let contents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', filepath), { encoding: 'utf8' });
+            let count = (contents.match(/(["'])use strict\1;/g) || []).length;
             expect(count).to.equal(1);
           }
         });
@@ -396,8 +372,8 @@ describe('Acceptance: smoke-test', function() {
   it('template linting works properly for pods and classic structured templates', function() {
     return copyFixtureFiles('smoke-tests/with-template-failing-linting')
       .then(function() {
-        var packageJsonPath = 'package.json';
-        var packageJson = fs.readJsonSync(packageJsonPath);
+        let packageJsonPath = 'package.json';
+        let packageJson = fs.readJsonSync(packageJsonPath);
         packageJson.devDependencies = packageJson.devDependencies || {};
         packageJson.devDependencies['fake-template-linter'] = 'latest';
 
@@ -409,7 +385,7 @@ describe('Acceptance: smoke-test', function() {
             expect(false, 'should have rejected with a failing test').to.be.ok;
           })
           .catch(function(result) {
-            var output = result.output.join(EOL);
+            let output = result.output.join(EOL);
             expect(output).to.match(/TemplateLint:/, 'ran template linter');
             expect(output).to.match(/fail\s+2/, 'two templates failed linting');
             expect(result.code).to.equal(1);

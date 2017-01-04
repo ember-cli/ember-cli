@@ -9,7 +9,7 @@ improve documentation or work on any of the features on the
 This is the issue tracker for `ember-cli`. The community uses this site
 to collect and track bugs and discussions of new features. If you are
 having difficulties using `ember-cli` or have a question about usage
-please ask a question on Stack Overflow: http://stackoverflow.com/questions/ask?tags=ember-cli
+please ask a question on Stack Overflow: https://stackoverflow.com/questions/ask?tags=ember-cli
 
 # Issues
 
@@ -53,7 +53,7 @@ Be sure to include (At the very least):
 
 And ideally
 
-* a isolated demonstration of this issue as a github repo
+* an isolated demonstration of this issue as a github repo
 
 ## Requesting a Feature
 
@@ -88,8 +88,8 @@ We love pull requests. Here's a quick guide:
 
 2. Ensure you have the development requirements:
 
-   * node (0.12 recommended) or io.js (1.x) -- *do not install node using sudo*
-   * npm (2.x)
+   * node (latest LTS recommended) -- *do not install node using sudo*
+   * npm (3.x)
    * phantomjs
 
 3. Run the tests. We only take pull requests with passing tests, and it's great
@@ -160,7 +160,7 @@ updating or writing new documentation:
 
 #### Website
 
-The codebase for the website [ember-cli.com](http://ember-cli.com) is located
+The codebase for the website [ember-cli.com](https://ember-cli.com) is located
 at: https://github.com/ember-cli/ember-cli.github.io
 
 #### Code Words

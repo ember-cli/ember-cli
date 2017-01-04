@@ -1,8 +1,8 @@
 'use strict';
 
-var RSVP         = require('rsvp');
-var EventEmitter = require('events').EventEmitter;
-var path         = require('path');
+const RSVP = require('rsvp');
+const EventEmitter = require('events').EventEmitter;
+const path = require('path');
 
 function MockServerWatcher() {
   EventEmitter.apply(this, arguments);
@@ -16,8 +16,8 @@ module.exports = MockServerWatcher;
 MockServerWatcher.prototype = Object.create(EventEmitter.prototype);
 
 MockServerWatcher.prototype.then = function() {
-  var promise = RSVP.resolve({
-    directory: path.resolve(__dirname, '../fixtures/express-server')
+  let promise = RSVP.resolve({
+    directory: path.resolve(__dirname, '../fixtures/express-server'),
   });
   return promise.then.apply(promise, arguments);
 };
