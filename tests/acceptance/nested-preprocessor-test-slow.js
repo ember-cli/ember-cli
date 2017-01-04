@@ -28,7 +28,7 @@ var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
     toTree: function(tree) {
       return stew.map(tree, function(content, relativePath) {
         var marker = '// ' + addon.name + '-<%= registryType %>-preprocessor-transform-' + selfOrParent + ' /' + relativePath;
-        addon._findHost().project.ui.writeLine(marker);
+        addon.project.ui.writeLine(marker);
         return marker + '\n' + content;
       });
     }
@@ -56,7 +56,7 @@ var preprocessTreeFixture = function(type, tree) {
 
   tree = stew.map(tree, function(content, relativePath) {
     var localMarker = marker + relativePath;
-    addon._findHost().project.ui.writeLine(localMarker);
+    addon.project.ui.writeLine(localMarker);
     return localMarker + '\n' + content;
   });
 
@@ -102,12 +102,12 @@ var postprocessTreeFixture = function(type, tree) {
     if (preprocessTreeMarkerIndex === -1) {
       localMarker += '-no-preprocessTree';
       localMarker += ' /' + relativePath;
-      addon._findHost().project.ui.writeLine(localMarker);
+      addon.project.ui.writeLine(localMarker);
       return localMarker + '\n' + content;
     } else {
       localMarker += '-removed-preprocessTree';
       localMarker += ' /' + relativePath;
-      addon._findHost().project.ui.writeLine(localMarker);
+      addon.project.ui.writeLine(localMarker);
       return content.replace(localPreprocessTreeMarker, localMarker);
     }
   });
