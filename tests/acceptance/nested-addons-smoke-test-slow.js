@@ -52,6 +52,20 @@ describe('Acceptance: nested-addons-smoke-test', function() {
       .then(function() {
         expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_APP_IMPORT');
         expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_THIS_IMPORT');
+
+        // RAW comments should have been converted to PREPROCESSED by
+        // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/preprocesstree-addon
+        // then from PREPROCESSED to POSTPROCESSED by
+        // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/postprocesstree-addon
+        expect(file('dist/assets/vendor.js')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/templates/application.hbs');
+        expect(file('dist/assets/vendor.js')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/index.js');
+        expect(file('dist/assets/vendor.css')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/styles/app.css');
+
+        // the pre/post process tree hooks above should *not* have changed RAW's in the current app
+        expect(file('dist/assets/some-cool-app.js')).to.contain('RAW app/foo.js');
+
+        // should *not* have changed RAW's in sibling addons
+        expect(file('dist/assets/vendor.js')).to.contain('RAW node_modules/ember-top-addon/node_modules/ember-inner-addon/addon/index.js');
       });
   });
 });
