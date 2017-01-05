@@ -1,37 +1,37 @@
 'use strict';
 
-var path = require('path');
-var fs = require('fs-extra');
+const path = require('path');
+const fs = require('fs-extra');
 
-var AppFixture = require('../helpers/app-fixture');
-var AddonFixture = require('../helpers/addon-fixture');
-var InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
+const AppFixture = require('../helpers/app-fixture');
+const AddonFixture = require('../helpers/addon-fixture');
+const InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
 
-var processTemplate = require('../../lib/utilities/process-template');
+const processTemplate = require('../../lib/utilities/process-template');
 
-var root = path.resolve(__dirname, '..', '..');
-var CommandGenerator = require('../../tests/helpers/command-generator');
-var ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
+const root = path.resolve(__dirname, '..', '..');
+const CommandGenerator = require('../../tests/helpers/command-generator');
+const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
 
-var chai = require('../chai');
-var expect = chai.expect;
-var file = chai.file;
+const chai = require('../chai');
+const expect = chai.expect;
+const file = chai.file;
 
 // THIS IS A FIXTURE. It also happens to be valid JavaScript.
-var setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
-  var stew = require('broccoli-stew');
-  var addon = this;
+const setupPreprocessorRegistryFixture = function(selfOrParent, registry) {
+  const stew = require('broccoli-stew');
+  let addon = this;
 
   registry.add('<%= registryType %>', {
-    name: addon.name + '-<%= registryType %>',
+    name: `${addon.name}-<%= registryType %>`,
     ext: '<%= ext %>',
-    toTree: function(tree) {
+    toTree(tree) {
       return stew.map(tree, function(content, relativePath) {
-        var marker = '// ' + addon.name + '-<%= registryType %>-preprocessor-transform-' + selfOrParent + ' /' + relativePath;
+        let marker = `// ${addon.name}-<%= registryType %>-preprocessor-transform-${selfOrParent} /${relativePath}`;
         addon.project.ui.writeLine(marker);
-        return marker + '\n' + content;
+        return `${marker} \n ${content}`;
       });
-    }
+    },
   });
 };
 function generatePreprocessor(context) {
@@ -39,7 +39,7 @@ function generatePreprocessor(context) {
 }
 
 // THIS IS A FIXTURE. It also happens to be valid JavaScript.
-var preprocessTreeFixture = function(type, tree) {
+const preprocessTreeFixture = function(type, tree) {
   if (type === 'all') { return tree; }
 
   // THIS IS A WORKAROUND FOR https://github.com/ember-cli/ember-cli/issues/6512
@@ -47,45 +47,45 @@ var preprocessTreeFixture = function(type, tree) {
     return tree;
   }
 
-  var stew = require('broccoli-stew');
-  var addon = this;
+  const stew = require('broccoli-stew');
+  let addon = this;
 
   // We're going to add a marker. The `postprocessTree` function will remove
   // the marker if present and identify whether or not it found the marker.
-  var marker = '// ' + addon.name + '-preprocessTree(' + type + ')' + ' /';
+  let marker = `// ${addon.name}-preprocessTree(${type}) /`;
 
   tree = stew.map(tree, function(content, relativePath) {
-    var localMarker = marker + relativePath;
+    let localMarker = marker + relativePath;
     addon.project.ui.writeLine(localMarker);
-    return localMarker + '\n' + content;
+    return `${localMarker} \n ${content}`;
   });
 
   return tree;
 };
 
 // THIS IS A FIXTURE. It also happens to be valid JavaScript.
-var postprocessTreeFixture = function(type, tree) {
+const postprocessTreeFixture = function(type, tree) {
   if (type === 'all') { return tree; }
 
-  var stew = require('broccoli-stew');
-  var addon = this;
+  const stew = require('broccoli-stew');
+  let addon = this;
 
-  var preprocessTreeMarker = '// ' + addon.name + '-preprocessTree(' + type + ')';
-  var marker = '// ' + addon.name + '-postprocessTree(' + type + ')';
+  let preprocessTreeMarker = `// ${addon.name}-preprocessTree(${type})`;
+  let marker = `// ${addon.name}-postprocessTree(${type})`;
 
   // We're going to inspect state and add an appropriate marker.
   tree = stew.map(tree, function(content, relativePath) {
 
     // Skip assets we know that the CSS preprocessor adds.
-    var cssName = addon._findHost().name;
+    let cssName = addon._findHost().name;
     if (type === 'css') {
-      if (relativePath === 'assets/' + cssName + '.css' || relativePath === 'assets/vendor.css') {
+      if (relativePath === `assets/${cssName}.css` || relativePath === 'assets/vendor.css') {
         return content;
       }
     }
 
     // Build up the path for where the asset was previously.
-    var preprocessPath = relativePath;
+    let preprocessPath = relativePath;
 
     if (type === 'template') {
       preprocessPath = preprocessPath.replace(/.js$/, '.hbs');
@@ -93,20 +93,18 @@ var postprocessTreeFixture = function(type, tree) {
       preprocessPath = preprocessPath.replace(/^assets/, 'app/styles');
     }
 
-    var localPreprocessTreeMarker = preprocessTreeMarker + ' /' + preprocessPath;
-    var preprocessTreeMarkerIndex = content.indexOf(localPreprocessTreeMarker);
-    var preprocessTreeMarkerLastIndex = content.lastIndexOf(localPreprocessTreeMarker);
+    let localPreprocessTreeMarker = `${preprocessTreeMarker} /${preprocessPath}`;
+    let preprocessTreeMarkerIndex = content.indexOf(localPreprocessTreeMarker);
+    let preprocessTreeMarkerLastIndex = content.lastIndexOf(localPreprocessTreeMarker);
 
-    var localMarker = marker;
+    let localMarker = marker;
 
     if (preprocessTreeMarkerIndex === -1) {
-      localMarker += '-no-preprocessTree';
-      localMarker += ' /' + relativePath;
+      localMarker = `${localMarker}-no-preprocessTree /${relativePath}`;
       addon.project.ui.writeLine(localMarker);
-      return localMarker + '\n' + content;
+      return `${localMarker}\n${content}`;
     } else {
-      localMarker += '-removed-preprocessTree';
-      localMarker += ' /' + relativePath;
+      localMarker = `${localMarker}-removed-preprocessTree /${relativePath}`;
       addon.project.ui.writeLine(localMarker);
       return content.replace(localPreprocessTreeMarker, localMarker);
     }
@@ -117,21 +115,21 @@ var postprocessTreeFixture = function(type, tree) {
 
 describe('Acceptance: nested preprocessor tests.', function() {
   this.timeout(1000 * 60 * 10);
-  var root;
+  let root;
 
   before(function() {
     root = new AppFixture('root');
 
-    var types = ['js', 'css', 'template'];
-    var extensions = ['js', 'css', 'hbs'];
+    const types = ['js', 'css', 'template'];
+    const extensions = ['js', 'css', 'hbs'];
 
-    var name, type, ext;
-    var inRepoAddons = {};
-    var nestedInRepoAddons = {};
-    for (var i = 0; i < types.length; i++) {
+    let name, type, ext;
+    let inRepoAddons = {};
+    let nestedInRepoAddons = {};
+    for (let i = 0; i < types.length; i++) {
       type = types[i];
       ext = extensions[i];
-      name = type + '-addon';
+      name = `${type}-addon`;
 
       inRepoAddons[type] = new InRepoAddonFixture(name);
       inRepoAddons[type].addMethod('preprocessTree', preprocessTreeFixture.toString());
@@ -139,34 +137,34 @@ describe('Acceptance: nested preprocessor tests.', function() {
       if (type !== 'css') {
         inRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
           registryType: type,
-          ext: ext
+          ext,
         }));
       }
 
-      name = name + '-nested';
+      name = `${name}-nested`;
       nestedInRepoAddons[type] = new InRepoAddonFixture(name);
       nestedInRepoAddons[type].addMethod('preprocessTree', preprocessTreeFixture.toString());
       nestedInRepoAddons[type].addMethod('postprocessTree', postprocessTreeFixture.toString());
       if (type !== 'css') {
         nestedInRepoAddons[type].addMethod('setupPreprocessorRegistry', generatePreprocessor({
           registryType: type,
-          ext: ext
+          ext,
         }));
       }
     }
 
-    var child = new InRepoAddonFixture('child-addon');
+    let child = new InRepoAddonFixture('child-addon');
 
     inRepoAddons['css'].generateCSS('app/styles/app.css');
     inRepoAddons['css'].generateCSS('app/styles/addon.css');
     inRepoAddons['css'].generateCSS('app/styles/_import.css');
-    inRepoAddons['css'].generateCSS('app/styles/' + inRepoAddons['css'].name + '.css');
+    inRepoAddons['css'].generateCSS(`app/styles/${inRepoAddons['css'].name}.css`);
     inRepoAddons['css'].generateCSS('app/styles/alpha.css');
     inRepoAddons['css'].generateCSS('app/styles/zeta.css');
     inRepoAddons['css'].generateCSS('addon/styles/addon.css');
     inRepoAddons['css'].generateCSS('addon/styles/app.css');
     inRepoAddons['css'].generateCSS('addon/styles/_import.css');
-    inRepoAddons['css'].generateCSS('addon/styles/' + inRepoAddons['css'].name + '.css');
+    inRepoAddons['css'].generateCSS(`addon/styles/${inRepoAddons['css'].name}.css`);
     inRepoAddons['css'].generateCSS('addon/styles/alpha.css');
     inRepoAddons['css'].generateCSS('addon/styles/zeta.css');
 
@@ -183,13 +181,13 @@ describe('Acceptance: nested preprocessor tests.', function() {
     nestedInRepoAddons['css'].generateCSS('app/styles/app.css');
     nestedInRepoAddons['css'].generateCSS('app/styles/addon.css');
     nestedInRepoAddons['css'].generateCSS('app/styles/_import.css');
-    nestedInRepoAddons['css'].generateCSS('app/styles/' + nestedInRepoAddons['css'].name + '.css');
+    nestedInRepoAddons['css'].generateCSS(`app/styles/${nestedInRepoAddons['css'].name}.css`);
     nestedInRepoAddons['css'].generateCSS('app/styles/alpha.css');
     nestedInRepoAddons['css'].generateCSS('app/styles/zeta.css');
     nestedInRepoAddons['css'].generateCSS('addon/styles/addon.css');
     nestedInRepoAddons['css'].generateCSS('addon/styles/app.css');
     nestedInRepoAddons['css'].generateCSS('addon/styles/_import.css');
-    nestedInRepoAddons['css'].generateCSS('addon/styles/' + nestedInRepoAddons['css'].name + '.css');
+    nestedInRepoAddons['css'].generateCSS(`addon/styles/${nestedInRepoAddons['css'].name}.css`);
     nestedInRepoAddons['css'].generateCSS('addon/styles/alpha.css');
     nestedInRepoAddons['css'].generateCSS('addon/styles/zeta.css');
 
@@ -218,10 +216,10 @@ describe('Acceptance: nested preprocessor tests.', function() {
   });
 
   it('Invokes hooks in correct order.', function() {
-    var result = ember.invoke('build', { cwd: root.dir });
+    let result = ember.invoke('build', { cwd: root.dir });
     expect(result.stdout).to.not.contain('no-preprocessTree');
 
-    var uniques = result.stdout.split('\n')
+    let uniques = result.stdout.split('\n')
       .map(function(log) {
         return log.split(' ')[1];
       })
@@ -238,7 +236,7 @@ describe('Acceptance: nested preprocessor tests.', function() {
         return accumulator;
       }, []);
 
-    var expected = [
+    let expected = [
       'js-addon-nested-js-preprocessor-transform-self',
       'template-addon-nested-template-preprocessor-transform-self',
       'js-addon-js-preprocessor-transform-self',
@@ -269,7 +267,7 @@ describe('Acceptance: nested preprocessor tests.', function() {
       'js-addon-js-preprocessor-transform-parent',
       'css-addon-postprocessTree(test)-removed-preprocessTree',
       'js-addon-postprocessTree(test)-removed-preprocessTree',
-      'template-addon-postprocessTree(test)-removed-preprocessTree'
+      'template-addon-postprocessTree(test)-removed-preprocessTree',
     ];
 
     expect(uniques).to.deep.equal(expected);
@@ -278,13 +276,13 @@ describe('Acceptance: nested preprocessor tests.', function() {
   it('Properly invokes preprocessors.', function() {
 
     // APP
-    var appJSPath = path.join(root.dir, 'dist', 'assets', root.name + '.js');
-    var appJS = fs.readFileSync(appJSPath, { encoding: 'utf8' });
+    let appJSPath = path.join(root.dir, 'dist', 'assets', `${root.name}.js`);
+    let appJS = fs.readFileSync(appJSPath, { encoding: 'utf8' });
 
     // `define` count and preprocessor invocation count should be almost identical.
     // This is because all but the config module are included as individual files.
-    var moduleCount = appJS.split('define(').length;
-    var jsPreprocessorCount = appJS.split('js-addon-js-preprocessor-transform-parent').length;
+    let moduleCount = appJS.split('define(').length;
+    let jsPreprocessorCount = appJS.split('js-addon-js-preprocessor-transform-parent').length;
     expect(moduleCount - 1).to.equal(jsPreprocessorCount);
 
     // There should be no `js` `self` preprocessor transforms.
@@ -292,7 +290,7 @@ describe('Acceptance: nested preprocessor tests.', function() {
     expect(appJS.indexOf('js-addon-js-preprocessor-transform-self')).to.equal(-1);
 
     // We have two hoisted templates and the application template.
-    var templatePreprocessorCount = appJS.split('template-addon-template-preprocessor-transform-parent').length - 1;
+    let templatePreprocessorCount = appJS.split('template-addon-template-preprocessor-transform-parent').length - 1;
     expect(templatePreprocessorCount).to.equal(3);
 
     // There should be no `template` `self` preprocessor transforms.
@@ -300,15 +298,15 @@ describe('Acceptance: nested preprocessor tests.', function() {
 
 
     // VENDOR
-    var vendorJSPath = path.join(root.dir, 'dist', 'assets', 'vendor.js');
-    var vendorJS = fs.readFileSync(vendorJSPath, { encoding: 'utf8' });
+    let vendorJSPath = path.join(root.dir, 'dist', 'assets', 'vendor.js');
+    let vendorJS = fs.readFileSync(vendorJSPath, { encoding: 'utf8' });
 
     // We have two components each in two addons.
-    var vendorJSPreprocessorCount = vendorJS.split('js-preprocessor-transform-self').length - 1;
+    let vendorJSPreprocessorCount = vendorJS.split('js-preprocessor-transform-self').length - 1;
     expect(vendorJSPreprocessorCount).to.equal(4);
 
     // We have two non-hoisted templates.
-    var vendorTemplatePreprocessorCount = vendorJS.split('template-preprocessor-transform-self').length - 1;
+    let vendorTemplatePreprocessorCount = vendorJS.split('template-preprocessor-transform-self').length - 1;
     expect(vendorTemplatePreprocessorCount).to.equal(2);
 
     // There should be no `js` `parent` preprocessor transforms.
@@ -319,12 +317,12 @@ describe('Acceptance: nested preprocessor tests.', function() {
 
 
     // TEST
-    var testJSPath = path.join(root.dir, 'dist', 'assets', 'tests.js');
-    var testJS = fs.readFileSync(testJSPath, { encoding: 'utf8' });
+    let testJSPath = path.join(root.dir, 'dist', 'assets', 'tests.js');
+    let testJS = fs.readFileSync(testJSPath, { encoding: 'utf8' });
 
     // `define` count and preprocessor invocation count should be identical.
-    var testModuleCount = testJS.split('define(').length;
-    var testJSPreprocessorCount = testJS.split('js-addon-js-preprocessor-transform-parent').length;
+    let testModuleCount = testJS.split('define(').length;
+    let testJSPreprocessorCount = testJS.split('js-addon-js-preprocessor-transform-parent').length;
     expect(testModuleCount).to.equal(testJSPreprocessorCount);
 
   });
