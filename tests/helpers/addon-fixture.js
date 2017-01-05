@@ -1,6 +1,6 @@
 'use strict';
 
-var AppFixture = require('./app-fixture');
+const AppFixture = require('./app-fixture');
 
 function AddonFixture(name, options) {
   this.type = 'addon';
@@ -15,7 +15,7 @@ AddonFixture.prototype = Object.create(AppFixture.prototype);
 AddonFixture.prototype.constructor = AddonFixture;
 
 AddonFixture.prototype.before = function(addon) {
-  var config = this.getPackageJSON();
+  let config = this.getPackageJSON();
   config['ember-addon'].before = config['ember-addon'].before || [];
   config['ember-addon'].before.push(addon.name);
   this.setPackageJSON(config);
@@ -23,7 +23,7 @@ AddonFixture.prototype.before = function(addon) {
 };
 
 AddonFixture.prototype.after = function(addon) {
-  var config = this.getPackageJSON();
+  let config = this.getPackageJSON();
   config['ember-addon'].after = config['ember-addon'].after || [];
   config['ember-addon'].after.push(addon.name);
   this.setPackageJSON(config);
@@ -31,8 +31,8 @@ AddonFixture.prototype.after = function(addon) {
 };
 
 AddonFixture.prototype.addMethod = function(methodName, method) {
-  var marker = 'module.exports = {';
-  method = '\n' + methodName + ': ' + method + ',';
+  let marker = 'module.exports = {';
+  method = `\n${methodName}: ${method},`;
   this.fixture['index.js'] = this.fixture['index.js'].replace(marker, marker + method);
   return this;
 };
