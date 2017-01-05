@@ -1,16 +1,16 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var fixturify = require('fixturify');
+const fs = require('fs-extra');
+const path = require('path');
+const fixturify = require('fixturify');
 
-var originalWorkingDirectory = process.cwd();
-var root = path.resolve(__dirname, '..', '..');
+const originalWorkingDirectory = process.cwd();
+const root = path.resolve(__dirname, '..', '..');
 
-var CommandGenerator = require('../../tests/helpers/command-generator');
-var ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
+const CommandGenerator = require('../../tests/helpers/command-generator');
+const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
 
-var AddonFixture = require('./addon-fixture');
+const AddonFixture = require('./addon-fixture');
 
 function InRepoAddonFixture(name) {
   this.type = 'in-repo-addon';

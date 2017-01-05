@@ -1,20 +1,20 @@
 'use strict';
 
-var fs = require('fs-extra');
-var path = require('path');
-var symlinkOrCopySync = require('symlink-or-copy').sync;
-var merge = require('ember-cli-lodash-subset').merge;
+const fs = require('fs-extra');
+const path = require('path');
+const symlinkOrCopySync = require('symlink-or-copy').sync;
+const merge = require('ember-cli-lodash-subset').merge;
 
-var fixturify = require('fixturify');
-var quickTemp = require('quick-temp');
+const fixturify = require('fixturify');
+const quickTemp = require('quick-temp');
 
-var originalWorkingDirectory = process.cwd();
-var root = path.resolve(__dirname, '..', '..');
+const originalWorkingDirectory = process.cwd();
+const root = path.resolve(__dirname, '..', '..');
 
-var PackageCache = require('../../tests/helpers/package-cache');
-var CommandGenerator = require('../../tests/helpers/command-generator');
+const PackageCache = require('../../tests/helpers/package-cache');
+const CommandGenerator = require('../../tests/helpers/command-generator');
 
-var ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
+const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
 
 function AppFixture(name) {
   this.type = 'app';
@@ -27,21 +27,22 @@ function AppFixture(name) {
 
 AppFixture.prototype = {
 
-  _init: function() {
+  _init() {
     process.chdir(root);
-    this.dir = quickTemp.makeOrRemake({}, this.name + '-' + this.type + '-fixture');
+    let dirName = `${this.name}-${this.type}-fixture`;
+    this.dir = quickTemp.makeOrRemake({}, dirName);
     process.chdir(originalWorkingDirectory);
 
     this._loadBlueprint();
   },
 
-  _loadBlueprint: function() {
+  _loadBlueprint() {
     fs.removeSync(this.dir);
 
     ember.invoke(
       this.command,
       this.name,
-      '--directory=' + this.dir,
+      `--directory=${this.dir}`,
       '--disable-analytics',
       '--watcher=node',
       '--skip-npm',
@@ -55,43 +56,45 @@ AppFixture.prototype = {
     fs.removeSync(this.dir);
   },
 
-  serialize: function(isChild) {
+  serialize(isChild) {
     // Default link ember-cli.
-    var npmLinks = [{
+    let npmLinks = [{
       name: 'ember-cli',
-      path: root
+      path: root,
     }];
-    var inRepoLinks = [];
-    var self = this;
+    let inRepoLinks = [];
+    let self = this;
     this._installedAddons.forEach(function(addon) {
       addon.serialize(true);
 
       if (addon.type === 'addon') {
         npmLinks.push({
           name: addon.name,
-          path: addon.dir
+          path: addon.dir,
         });
       } else if (addon.type === 'in-repo-addon') {
         inRepoLinks.push({
           from: path.join(self.dir, 'lib', addon.name),
-          to: addon.dir
+          to: addon.dir,
         });
       }
     });
 
     fixturify.writeSync(this.dir, this.fixture);
 
-    var packageCache = new PackageCache(root);
+    let packageCache = new PackageCache(root);
 
-    var from, to;
+    let from, to;
     if (this.fixture['package.json'] || npmLinks.length) {
-      var nodePackageCache;
+      let nodePackageCache;
       if (isChild) {
         process.env.NODE_ENV = 'production';
-        nodePackageCache = packageCache.create(this.type + '-production-node', 'yarn', this.fixture['package.json'], npmLinks);
+        let cacheName = `${this.type}-production-node`;
+        nodePackageCache = packageCache.create(cacheName, 'yarn', this.fixture['package.json'], npmLinks);
         delete process.env.NODE_ENV;
       } else {
-        nodePackageCache = packageCache.create(this.type + '-node', 'yarn', this.fixture['package.json'], npmLinks);
+        let cacheName = `${this.type}-node`;
+        nodePackageCache = packageCache.create(cacheName, 'yarn', this.fixture['package.json'], npmLinks);
       }
 
       from = path.join(nodePackageCache, 'node_modules');
@@ -101,7 +104,8 @@ AppFixture.prototype = {
     }
 
     if (!isChild && this.fixture['bower.json']) {
-      var bowerPackageCache = packageCache.create(this.type + '-bower', 'bower', this.fixture['bower.json']);
+      let cacheName = `${this.type}-bower`;
+      let bowerPackageCache = packageCache.create(cacheName, 'bower', this.fixture['bower.json']);
 
       from = path.join(bowerPackageCache, 'bower_components');
       fs.mkdirsSync(from); // Just in case the path doesn't exist.
@@ -118,23 +122,24 @@ AppFixture.prototype = {
     return this;
   },
 
-  clean: function() {
+  clean() {
     this._installedAddons.forEach(function(addon) {
       addon.clean(true);
     });
 
     // Build up object to pass to quickTemp.
-    var dir = {};
-    dir[this.name + '-' + this.type + '-fixture'] = this.dir;
+    let dir = {};
+    let dirName = `${this.name}-${this.type}-fixture`;
+    dir[dirName] = this.dir;
 
     process.chdir(root);
-    quickTemp.remove(dir, this.name + '-' + this.type + '-fixture');
+    quickTemp.remove(dir, dirName);
     process.chdir(originalWorkingDirectory);
 
     return this;
   },
 
-  install: function(addon) {
+  install(addon) {
     this._installedAddons.push(addon);
 
     if (addon.type === 'addon') {
@@ -148,8 +153,8 @@ AppFixture.prototype = {
     throw new Error('Cannot install addon.');
   },
 
-  _npmAddonInstall: function(addon) {
-    var config = this.getPackageJSON();
+  _npmAddonInstall(addon) {
+    let config = this.getPackageJSON();
 
     config['dependencies'] = config['dependencies'] || {};
     config['dependencies'][addon.name] = '*';
@@ -158,20 +163,20 @@ AppFixture.prototype = {
     return this;
   },
 
-  _inRepoAddonInstall: function(addon) {
-    var config = this.getPackageJSON();
+  _inRepoAddonInstall(addon) {
+    let config = this.getPackageJSON();
 
     config['ember-addon'] = config['ember-addon'] || {};
     config['ember-addon']['paths'] = config['ember-addon']['paths'] || [];
-    config['ember-addon'].paths.push('lib/' + addon.name);
+    config['ember-addon'].paths.push(`lib/${addon.name}`);
 
     this.setPackageJSON(config);
     return this;
   },
 
-  uninstall: function(addon) {
-    var needle = addon;
-    var haystack = this._installedAddons;
+  uninstall(addon) {
+    let needle = addon;
+    let haystack = this._installedAddons;
 
     if (haystack.indexOf(needle) !== -1) {
       this._installedAddons.splice(haystack.indexOf(needle), 1);
@@ -188,8 +193,8 @@ AppFixture.prototype = {
     throw new Error('Cannot uninstall addon.');
   },
 
-  _npmAddonUninstall: function(addon) {
-    var config = this.getPackageJSON();
+  _npmAddonUninstall(addon) {
+    let config = this.getPackageJSON();
 
     config['dependencies'] = config['dependencies'] || {};
     delete config['dependencies'][addon.name];
@@ -198,11 +203,11 @@ AppFixture.prototype = {
     return this;
   },
 
-  _inRepoAddonUninstall: function(addon) {
-    var config = this.getPackageJSON();
+  _inRepoAddonUninstall(addon) {
+    let config = this.getPackageJSON();
 
-    var needle = 'lib/' + addon.name;
-    var haystack = config['ember-addon']['paths'];
+    let needle = `lib/${addon.name}`;
+    let haystack = config['ember-addon']['paths'];
 
     if (haystack.indexOf(needle) !== -1) {
       config['ember-addon']['paths'].splice(haystack.indexOf(needle), 1);
@@ -212,21 +217,22 @@ AppFixture.prototype = {
     return this;
   },
 
-  getPackageJSON: function() {
+  getPackageJSON() {
     return JSON.parse(this.fixture['package.json']);
   },
 
-  setPackageJSON: function(value) {
+  setPackageJSON(value) {
     return this.fixture['package.json'] = JSON.stringify(value);
   },
 
-  generateFile: function(fileName, contents) {
+  generateFile(fileName, contents) {
     fileName = fileName.replace(/^\//, '');
-    var keyPath = fileName.split('/');
+    let keyPath = fileName.split('/');
 
-    var root = {};
-    var cursor = root;
-    for (var i = 0; i < keyPath.length - 1; i++) {
+    let root = {};
+    let cursor = root;
+    let i = 0;
+    for (i = 0; i < keyPath.length - 1; i++) {
       cursor = cursor[keyPath[i]] = {};
     }
     cursor[keyPath[i]] = contents;
@@ -235,23 +241,20 @@ AppFixture.prototype = {
     return this;
   },
 
-  generateCSS: function(fileName) {
-    var contents = '.' + this.name + ' { content: "' + fileName + '"; }';
+  generateCSS(fileName) {
+    let contents = `.${this.name} { content: "${fileName}"; }`;
     return this.generateFile(fileName, contents);
   },
 
-  generateJS: function(fileName) {
-    var contents = [
-      '// ' + this.name + '/' + fileName,
-      'var a = true;'
-    ];
-    return this.generateFile(fileName, contents.join('\n'));
+  generateJS(fileName) {
+    let contents = `// ${this.name}/${fileName}\nlet a = true;`;
+    return this.generateFile(fileName, contents);
   },
 
-  generateTemplate: function(fileName) {
-    var contents = '{{' + this.name + '}}';
+  generateTemplate(fileName) {
+    let contents = `{{${this.name}}}`;
     return this.generateFile(fileName, contents);
-  }
+  },
 };
 
 module.exports = AppFixture;
