@@ -12,6 +12,7 @@ const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const experiments = require('../../experiments');
 const chai = require('../../chai');
+const oneLine = require('common-tags').oneLine;
 let expect = chai.expect;
 let file = chai.file;
 
@@ -401,32 +402,17 @@ describe('models/builder.js', function() {
         });
       }
 
-      if (experiments.INSTRUMENTATION && experiments.BUILD_INSTRUMENTATION) {
-        it('prefers the instrumentation hook if it and build_instrumentation are present', function() {
-          addon[experiments.INSTRUMENTATION] = function(instrumentation) {
-            hooksCalled.push('instrumentation');
-            instrumentationArg = instrumentation;
-          };
-          addon[experiments.BUILD_INSTRUMENTATION] = function(instrumentation) {
-            hooksCalled.push('buildInstrumentation');
-            instrumentationArg = instrumentation;
-          };
-
-          return builder.build(null, {}).then(function() {
-            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
-          });
-        });
-      }
-
       if (experiments.BUILD_INSTRUMENTATION) {
-        it('invokes build_instrumentation if it is present and instrumentation is not', function() {
-          addon[experiments.BUILD_INSTRUMENTATION] = function(instrumentation) {
-            hooksCalled.push('buildInstrumentation');
-            instrumentationArg = instrumentation;
-          };
+        it('throws if [BUILD_INSTRUMENTATION] is set', function() {
+          addon[experiments.BUILD_INSTRUMENTATION] = function() { };
 
           return builder.build(null, {}).then(function() {
-            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildInstrumentation']);
+            throw new Error('Expected build to reject from thrown error');
+          }, function(reason) {
+            expect(reason.message).to.eql(oneLine`
+              TestAddon defines experiments.BUILD_INSTRUMENTATION. Update to use
+              experiments.INSTRUMENTATION
+            `);
           });
         });
       }

@@ -326,6 +326,37 @@ describe('models/instrumentation.js', function() {
         instrumentation.start('a party!');
       }).to.throw('No such instrumentation "a party!"');
     });
+
+    it('removes any prior instrumentation information to avoid leaks', function() {
+      function build() {
+        instrumentation.start('build');
+        let a = heimdall.start('a');
+        let b = heimdall.start('b');
+        b.stop();
+        a.stop();
+        instrumentation.stopAndReport('build');
+      }
+
+      function countNodes() {
+        let graph = heimdallGraph.loadFromNode(heimdall.root);
+        let count = 0;
+
+        for (let n of graph.dfsIterator()) {
+          ++count;
+        }
+
+        return count;
+      }
+
+      td.replace(instrumentation, '_buildSummary');
+      td.replace(instrumentation, '_invokeAddonHook');
+
+
+      build();
+      let count = countNodes();
+      build();
+      expect(countNodes()).to.equal(count);
+    });
   });
 
   describe('.stopAndReport', function() {
@@ -563,33 +594,18 @@ describe('models/instrumentation.js', function() {
 
       describe('(build)', function() {
         if (experiments.BUILD_INSTRUMENTATION) {
-          it('invokes addons that have [BUILD_INSTRUMENTATION] and not [INSTRUMENTATION]', function() {
+          it('throws if an addon specifies [BUILD_INSTRUMENTATION]', function() {
             process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
-            let hook = td.function();
-            addon[experiments.BUILD_INSTRUMENTATION] = hook;
+            addon[experiments.BUILD_INSTRUMENTATION] = function() {};
 
             instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
 
-            td.verify(hook({ summary: mockBuildSummary, tree: mockBuildTree }));
-          });
-        }
-
-        if (experiments.BUILD_INSTRUMENTATION && experiments.INSTRUMENTATION) {
-          it('prefers [INSTRUMENTATION] to [BUILD_INSTRUMENTATION]', function() {
-            process.env.EMBER_CLI_INSTRUMENTATION = '1';
-
-            let instrHook = td.function();
-            let buildInstrHook = td.function();
-            addon[experiments.INSTRUMENTATION] = instrHook;
-            addon[experiments.BUILD_INSTRUMENTATION] = buildInstrHook;
-
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
-
-            td.verify(instrHook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
-            td.verify(buildInstrHook(), { ignoreExtraArgs: true, times: 0 });
+            expect(function() {
+              instrumentation.stopAndReport('build', 'a', 'b');
+            }).to.throw(
+              'Test Addon defines experiments.BUILD_INSTRUMENTATION. Update to use experiments.INSTRUMENTATION'
+            );
           });
         }
       });
@@ -762,7 +778,7 @@ describe('models/instrumentation.js', function() {
         let summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime', 'buildSteps',
+          'build', 'platform', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({
@@ -774,6 +790,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.output).to.eql('tmp/someplace');
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
 
       it('computes rebuild summaries', function() {
@@ -807,7 +824,7 @@ describe('models/instrumentation.js', function() {
         let summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime', 'buildSteps',
+          'build', 'platform', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({
@@ -833,6 +850,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.output).to.eql('tmp/someplace');
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
 
@@ -840,9 +858,10 @@ describe('models/instrumentation.js', function() {
       it('computes an init summary', function() {
         let summary = instrumentation._initSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql(['totalTime']);
+        expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
 
@@ -850,11 +869,12 @@ describe('models/instrumentation.js', function() {
       it('computes a command summary', function() {
         let summary = instrumentation._commandSummary(instrTree, 'build', ['--like', '--whatever']);
 
-        expect(Object.keys(summary)).to.eql(['name', 'args', 'totalTime']);
+        expect(Object.keys(summary)).to.eql(['name', 'args', 'totalTime', 'platform']);
 
         expect(summary.name).to.equal('build');
         expect(summary.args).to.eql(['--like', '--whatever']);
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
 
@@ -862,9 +882,10 @@ describe('models/instrumentation.js', function() {
       it('computes a shutdown summary', function() {
         let summary = instrumentation._shutdownSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql(['totalTime']);
+        expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
   });
