@@ -154,6 +154,10 @@ describe('Acceptance: nested preprocessor tests.', function() {
     }
 
     let child = new InRepoAddonFixture('child-addon');
+    child._npmAddonInstall({ name: 'ember-cli-htmlbars' });
+    child.generateCSS(`addon/styles/${child.name}.css`);
+    child.generateJS('addon/components/thing-one.js');
+    child.generateTemplate('addon/templates/anchor.hbs');
 
     inRepoAddons['css'].generateCSS('app/styles/app.css');
     inRepoAddons['css'].generateCSS('app/styles/addon.css');
@@ -239,6 +243,26 @@ describe('Acceptance: nested preprocessor tests.', function() {
     let expected = [
       'js-addon-nested-js-preprocessor-transform-self',
       'template-addon-nested-template-preprocessor-transform-self',
+      'css-addon-nested-preprocessTree(js)',
+      'js-addon-nested-preprocessTree(js)',
+      'template-addon-nested-preprocessTree(js)',
+      'js-addon-nested-js-preprocessor-transform-parent',
+      'css-addon-nested-postprocessTree(js)-removed-preprocessTree',
+      'js-addon-nested-postprocessTree(js)-removed-preprocessTree',
+      'template-addon-nested-postprocessTree(js)-removed-preprocessTree',
+      'css-addon-nested-preprocessTree(template)',
+      'js-addon-nested-preprocessTree(template)',
+      'template-addon-nested-preprocessTree(template)',
+      'template-addon-nested-template-preprocessor-transform-parent',
+      'css-addon-nested-postprocessTree(template)-removed-preprocessTree',
+      'js-addon-nested-postprocessTree(template)-removed-preprocessTree',
+      'template-addon-nested-postprocessTree(template)-removed-preprocessTree',
+      'css-addon-nested-preprocessTree(css)',
+      'js-addon-nested-preprocessTree(css)',
+      'template-addon-nested-preprocessTree(css)',
+      'css-addon-nested-postprocessTree(css)-removed-preprocessTree',
+      'js-addon-nested-postprocessTree(css)-removed-preprocessTree',
+      'template-addon-nested-postprocessTree(css)-removed-preprocessTree',
       'js-addon-js-preprocessor-transform-self',
       'template-addon-template-preprocessor-transform-self',
       'css-addon-preprocessTree(template)',
@@ -302,18 +326,20 @@ describe('Acceptance: nested preprocessor tests.', function() {
     let vendorJS = fs.readFileSync(vendorJSPath, { encoding: 'utf8' });
 
     // We have two components each in two addons.
-    let vendorJSPreprocessorCount = vendorJS.split('js-preprocessor-transform-self').length - 1;
-    expect(vendorJSPreprocessorCount).to.equal(4);
+    let vendorJSPreprocessorSelfCount = vendorJS.split('js-preprocessor-transform-self').length - 1;
+    expect(vendorJSPreprocessorSelfCount).to.equal(4);
 
     // We have two non-hoisted templates.
-    let vendorTemplatePreprocessorCount = vendorJS.split('template-preprocessor-transform-self').length - 1;
-    expect(vendorTemplatePreprocessorCount).to.equal(2);
+    let vendorTemplatePreprocessorSelfCount = vendorJS.split('template-preprocessor-transform-self').length - 1;
+    expect(vendorTemplatePreprocessorSelfCount).to.equal(2);
 
-    // There should be no `js` `parent` preprocessor transforms.
-    expect(vendorJS.indexOf('js-preprocessor-transform-parent')).to.equal(-1);
+    // There should be one `js` `parent` preprocessor transform (from nested to child-addon).
+    let vendorJSPreprocessorParentCount = vendorJS.split('js-preprocessor-transform-parent').length - 1;
+    expect(vendorJSPreprocessorParentCount).to.equal(1);
 
-    // There should be no `template` `parent` preprocessor transforms.
-    expect(vendorJS.indexOf('template-preprocessor-transform-parent')).to.equal(-1);
+    // There should be one `template` `parent` preprocessor transforms (from nested to child-addon).
+    let vendorTemplatePreprocessorParentCount = vendorJS.split('js-preprocessor-transform-parent').length - 1;
+    expect(vendorTemplatePreprocessorParentCount).to.equal(1);
 
 
     // TEST
