@@ -326,6 +326,37 @@ describe('models/instrumentation.js', function() {
         instrumentation.start('a party!');
       }).to.throw('No such instrumentation "a party!"');
     });
+
+    it('removes any prior instrumentation information to avoid leaks', function() {
+      function build() {
+        instrumentation.start('build');
+        let a = heimdall.start('a');
+        let b = heimdall.start('b');
+        b.stop();
+        a.stop();
+        instrumentation.stopAndReport('build');
+      }
+
+      function countNodes() {
+        let graph = heimdallGraph.loadFromNode(heimdall.root);
+        let count = 0;
+
+        for (let n of graph.dfsIterator()) {
+          ++count;
+        }
+
+        return count;
+      }
+
+      td.replace(instrumentation, '_buildSummary');
+      td.replace(instrumentation, '_invokeAddonHook');
+
+
+      build();
+      let count = countNodes();
+      build();
+      expect(countNodes()).to.equal(count);
+    });
   });
 
   describe('.stopAndReport', function() {
