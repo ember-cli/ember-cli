@@ -10,10 +10,10 @@ const Task = require('../../../lib/models/task');
 const DestroyCommand = require('../../../lib/commands/destroy');
 
 describe('destroy command', function() {
-  let options, command;
+  let options, command, project;
 
   beforeEach(function() {
-    let project = new MockProject();
+    project = new MockProject();
 
     project.isEmberCLIProject = function() {
       return true;
@@ -76,6 +76,8 @@ describe('destroy command', function() {
   });
 
   it('rethrows errors from beforeRun', function() {
+    project.blueprintLookupPaths = undefined;
+
     expect(function() {
       command.beforeRun(['controller', 'foo']);
     }).to.throw(/(is not a function)|(has no method)/);
