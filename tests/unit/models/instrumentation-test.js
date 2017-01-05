@@ -563,33 +563,18 @@ describe('models/instrumentation.js', function() {
 
       describe('(build)', function() {
         if (experiments.BUILD_INSTRUMENTATION) {
-          it('invokes addons that have [BUILD_INSTRUMENTATION] and not [INSTRUMENTATION]', function() {
+          it('throws if an addon specifies [BUILD_INSTRUMENTATION]', function() {
             process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
-            let hook = td.function();
-            addon[experiments.BUILD_INSTRUMENTATION] = hook;
+            addon[experiments.BUILD_INSTRUMENTATION] = function() {};
 
             instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
 
-            td.verify(hook({ summary: mockBuildSummary, tree: mockBuildTree }));
-          });
-        }
-
-        if (experiments.BUILD_INSTRUMENTATION && experiments.INSTRUMENTATION) {
-          it('prefers [INSTRUMENTATION] to [BUILD_INSTRUMENTATION]', function() {
-            process.env.EMBER_CLI_INSTRUMENTATION = '1';
-
-            let instrHook = td.function();
-            let buildInstrHook = td.function();
-            addon[experiments.INSTRUMENTATION] = instrHook;
-            addon[experiments.BUILD_INSTRUMENTATION] = buildInstrHook;
-
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
-
-            td.verify(instrHook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
-            td.verify(buildInstrHook(), { ignoreExtraArgs: true, times: 0 });
+            expect(function() {
+              instrumentation.stopAndReport('build', 'a', 'b');
+            }).to.throw(
+              'Test Addon defines experiments.BUILD_INSTRUMENTATION. Update to use experiments.INSTRUMENTATION'
+            );
           });
         }
       });
