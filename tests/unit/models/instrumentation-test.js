@@ -747,7 +747,7 @@ describe('models/instrumentation.js', function() {
         let summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime', 'buildSteps',
+          'build', 'platform', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({
@@ -759,6 +759,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.output).to.eql('tmp/someplace');
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
 
       it('computes rebuild summaries', function() {
@@ -792,7 +793,7 @@ describe('models/instrumentation.js', function() {
         let summary = instrumentation._buildSummary(instrTree, result, annotation);
 
         expect(Object.keys(summary)).to.eql([
-          'build', 'output', 'totalTime', 'buildSteps',
+          'build', 'platform', 'output', 'totalTime', 'buildSteps',
         ]);
 
         expect(summary.build).to.eql({
@@ -818,6 +819,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.output).to.eql('tmp/someplace');
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
 
@@ -825,9 +827,10 @@ describe('models/instrumentation.js', function() {
       it('computes an init summary', function() {
         let summary = instrumentation._initSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql(['totalTime']);
+        expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
 
@@ -835,11 +838,12 @@ describe('models/instrumentation.js', function() {
       it('computes a command summary', function() {
         let summary = instrumentation._commandSummary(instrTree, 'build', ['--like', '--whatever']);
 
-        expect(Object.keys(summary)).to.eql(['name', 'args', 'totalTime']);
+        expect(Object.keys(summary)).to.eql(['name', 'args', 'totalTime', 'platform']);
 
         expect(summary.name).to.equal('build');
         expect(summary.args).to.eql(['--like', '--whatever']);
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
 
@@ -847,9 +851,10 @@ describe('models/instrumentation.js', function() {
       it('computes a shutdown summary', function() {
         let summary = instrumentation._shutdownSummary(instrTree);
 
-        expect(Object.keys(summary)).to.eql(['totalTime']);
+        expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
+        expect(summary).to.have.deep.property('platform.name', process.platform);
       });
     });
   });
