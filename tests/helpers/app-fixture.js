@@ -16,11 +16,19 @@ const CommandGenerator = require('../../tests/helpers/command-generator');
 
 /*
 TODO:
- - Ensure that `dir` is read-only.
- - Guarantee that the directory is always present (even if empty) so that we
-   don't accidentally clobber it.
- - Provide a helper to run `ember` commands in the context of a fixture?
- */
+- Ensure that `dir` is read-only.
+- Guarantee that the directory is always present (even if empty) so that we
+  don't accidentally clobber it.
+- Provide a helper to run `ember` commands in the context of a fixture?
+- Mark fixture as dirty if there are any modifications. If dirty it will
+  re-`serialize` on next serialization call.
+- Make `serialize` a no-op if already serialized and a "clean" fixture.
+- Guarantee `serialize` is idempotent.
+- Allow for setting custom `PackageCache` cache names, and `clone`ing from
+  an existing cache.
+- Provide an API in `PackageCache` to make the `node_modules` symlinking a
+  single method call.
+*/
 
 /**
  * The `ember` command helper.
@@ -48,9 +56,10 @@ const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
  * ```
  * const fs = require('fs');
  * const path = require('path');
+ * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+ *
  * const CommandGenerator = require('ember-cli/tests/helpers/command-generator');
  * const ember = new CommandGenerator(require.resolve('ember-cli/bin/ember'));
- *
  *
  * let root = new AppFixture('name');
  * root.serialize();
@@ -146,34 +155,97 @@ AppFixture.prototype = {
   /**
    * If you call serialize on an `AppFixture` it will depth-first materialize
    * itself and set up its `PackageCache`. This guarantees that the assets will
-   * be present by the time they're needed by any parents.
+   * be present by the time they're needed by any parents. `serialize` is also
+   * completely idempotent. Invoking `serialize` multiple times will perform no
+   * unnecessary work and will always guarantee consistency. This is designed
+   * to make usage inside of a test suite's `beforeEach` hook ergonomic.
    *
-   * Takes great care to handle linking so as to emulate `npm link` behavior.
+   * For example, given this code:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   *
+   * let root = new AppFixture('root');
+   * let child = new InRepoAddonFixture('child');
+   * let grandchild = new InRepoAddonFixture('grandchild');
+   * let greatgrandchild = new InRepoAddonFixture('greatgrandchild');
+   *
+   * child.installAddonFixture(grandchild);
+   * root.installAddonFixture(child);
+   * grandchild.installAddonFixture(greatgrandchild);
+   *
+   * root.serialize();
+   *
+   * child.generateFile('something.js', 'console.log("Hello, world!");');
+   * root.serialize();
+   * ```
+   *
+   * 1. Each of the `AppFixture`/`InRepoAddonFixture`s are created but not
+   *    materialized.
+   * 2. All of the fixtures are symlinked together. The code example is
+   *    intentionally done in a screwball order to demonstrate that _order does
+   *    not matter_.
+   * 3. Serialization occurs. The order of serialization is the depth-first
+   *    resolution of the graph you've generated. It does not do a topsort of a
+   *    DAG as that is believed to be unnecessary. In this case the order is:
+   *    `greatgrandchild`, `grandchild`, `child`, `root`.
+   * 4. Each of those assets are symlinked together making them composable
+   *    primitives which can be used across test runs. They will not be
+   *    regenerated unless the fixture itself has changed.
+   * 5. The second `serialize` call will walk the `Fixture`s depth-first,
+   *    identify that only `child` needs to change, regenerate that fixture, and
+   *    return without any additional file I/O.
    *
    * @method serialize
    * @param {Boolean} _isChild Private. Enables smarter dependency installation.
    */
   serialize(_isChild) {
-    // Default link ember-cli.
+    // Default link in ember-cli.
+    // This is required in order to be able to use these helpers in Ember CLI.
+    // Possibly move this to a public API in the future.
     let npmLinks = [{
       name: 'ember-cli',
       path: root,
     }];
+
     let inRepoLinks = [];
     let self = this;
     this._installedAddonFixtures.forEach(function(addon) {
+
+      // This triggers the depth-first handling.
       addon.serialize(true);
 
       if (addon.type === 'addon') {
+        /*
+        This leverages `PackageCache`s imitation `npm link` behavior.
+        It is provided by `PackageCache` as "best effort." To debug this start
+        by reviewing the symlinks in the ouput fixture directory.
+
+        Note: you _must_ use the `PackageCache` linking behavior here. Do _not_
+        manually attempt to symlink things inside of the `node_modules` folder
+        as that _will_ end up trolling yourself and your test suite.
+        */
         npmLinks.push({
           name: addon.name,
           path: addon.dir,
         });
       } else if (addon.type === 'in-repo-addon') {
+        /*
+        These links are managed and maintained by `AppFixture`.
+        We are intentionally _not_ using path traversal via `path.resolve()`
+        to generate relative paths between these addons and setting up a
+        symlink instead to:
+
+        1. Be more consistent with typical usage patterns.
+        2. Make it easier to identify and uninstall an addon from the `paths`
+           property inside of `package.json`.
+        */
         inRepoLinks.push({
           from: path.join(self.dir, 'lib', addon.name),
           to: addon.dir,
         });
+      } else {
+        throw new Error('Cannot serialize addon.');
       }
     });
 
@@ -184,6 +256,18 @@ AppFixture.prototype = {
     let from, to;
     if (this.fixture['package.json'] || npmLinks.length) {
       let nodePackageCache;
+      /*
+      So, let's say you're trying to make your installation faster. It turns out
+      that our default blueprints include _tons_ of `devDependencies`. Because
+      of the node module installation pattern (only installs `devDependencies`
+      of the item being installed, not its dependencies) we can short-circuit a
+      lot of install time and disk I/O by simply forcing the package manager
+      into `production` mode and skip the `devDependencies` altogether.
+
+      We still have to account for the possiblity that something gets
+      re-serialized in a non-child state, so we must identify which cache to
+      use when linking.
+      */
       if (_isChild) {
         process.env.NODE_ENV = 'production';
         let cacheName = `${this.type}-production-node`;
@@ -194,16 +278,26 @@ AppFixture.prototype = {
         nodePackageCache = packageCache.create(cacheName, 'yarn', this.fixture['package.json'], npmLinks);
       }
 
+      // Symlink the `PackageCache` into the fixture directory.
       from = path.join(nodePackageCache, 'node_modules');
       fs.mkdirsSync(from); // Just in case the path doesn't exist.
       to = path.join(this.dir, 'node_modules');
       symlinkOrCopySync(from, to);
     }
 
+    /*
+    Given that:
+    - The default blueprints no longer have `bower` dependencies.
+    - We've never had a `bower` dependency in `devDependencies`.
+    - There is no nesting.
+
+    We therefore do not perform the `_isChild` ceremony for `bower`.
+    */
     if (!_isChild && this.fixture['bower.json']) {
       let cacheName = `${this.type}-bower`;
       let bowerPackageCache = packageCache.create(cacheName, 'bower', this.fixture['bower.json']);
 
+      // Symlink the `PackageCache` into the fixture directory.
       from = path.join(bowerPackageCache, 'bower_components');
       fs.mkdirsSync(from); // Just in case the path doesn't exist.
       to = path.join(this.dir, 'bower_components');
