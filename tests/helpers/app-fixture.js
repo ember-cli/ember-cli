@@ -153,7 +153,7 @@ AppFixture.prototype = {
   },
 
   /**
-   * If you call serialize on an `AppFixture` it will depth-first materialize
+   * If you call `serialize` on an `AppFixture` it will depth-first materialize
    * itself and set up its `PackageCache`. This guarantees that the assets will
    * be present by the time they're needed by any parents. `serialize` is also
    * completely idempotent. Invoking `serialize` multiple times will perform no
@@ -314,14 +314,24 @@ AppFixture.prototype = {
   },
 
   /**
+   * The `clean` method on an `AppFixture` removes the serialized assets from
+   * disk. This is a destructive command and should likely only be used at the
+   * very end of the test suite as calling `serialize` will do the minimum work
+   * necessary in order to update the fixture.
    *
+   * For parallel behavior it does a depth-first `clean` of all `Fixture`s
+   * descending from it.
+   *
+   * @method clean
    */
   clean() {
     this._installedAddonFixtures.forEach(function(addon) {
+      // This triggers the depth-first handling.
       addon.clean(true);
     });
 
-    // Build up object to pass to quickTemp.
+    // Build up object to pass to quickTemp. The API needs some work for this
+    // use case: https://github.com/joliss/node-quick-temp/pull/16
     let dir = {};
     let dirName = `${this.name}-${this.type}-fixture`;
     dir[dirName] = this.dir;
@@ -333,6 +343,23 @@ AppFixture.prototype = {
     return this;
   },
 
+  /**
+   * `installNodeModule` is a convenience method around making modifications to
+   * `package.json` inside of the fixture.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * let root = new AppFixture('root');
+   * root.installNodeModule('dependencies', 'left-pad', '*');
+   * ```
+   *
+   * @method installNodeModule
+   * @param {String} key Which key to add the node module to, e.g. `dependencies`.
+   * @param {String} name The name of the node module.
+   * @param {String} version The `package.json` compatible version identifier.
+   */
   installNodeModule(key, name, version) {
     version = version || '*';
 
