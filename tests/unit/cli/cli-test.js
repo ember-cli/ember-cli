@@ -151,6 +151,36 @@ describe('Unit: CLI', function() {
     td.verify(init(), { ignoreExtraArgs: true, times: 0 });
   });
 
+  it('errors correctly if the init hook errors', function() {
+    let help = stubValidateAndRun('help');
+
+    let cli = new CLI({
+      ui,
+      analytics,
+      testing: true,
+    });
+
+    let startInstr = td.replace(cli.instrumentation, 'start');
+    let stopInstr = td.replace(cli.instrumentation, 'stopAndReport');
+    let logError = td.replace(cli, 'logError');
+    let err = new Error('init failed');
+
+    td.when(stopInstr('init')).thenThrow(err);
+
+    return cli.run({
+      tasks: {},
+      commands,
+      cliArgs: [],
+      settings: {},
+      project,
+    }).then(function() {
+      td.verify(startInstr('command'), { times: 0 });
+      td.verify(stopInstr('command'), { times: 0 });
+      td.verify(startInstr('shutdown'), { times: 1 });
+      td.verify(logError(err));
+    });
+  });
+
   describe('custom addon command', function() {
     it('beforeRun can return a promise', function() {
       let CustomCommand = Command.extend({
