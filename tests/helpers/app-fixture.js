@@ -48,6 +48,17 @@ const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
  * interactions between multiple addons and provides useful utility functions
  * for interacting with the fixture.
  *
+ * The primary need for `AppFixture` is to be able to quickly, repeatably,
+ * maintainably, and in an understandable manner create complex fixtures.
+ * Meeting these ergonomic goals makes it possible to cover all of the
+ * permutations you will need to test. Prior to this we have numerous
+ * examples of fixtures which did not cover all edge cases as creating and
+ * maintaining them was too tedious, expensive, and complicated.
+ *
+ * These fixtures must also be aware of their performance impact so
+ * consolidating on a single pattern and approach enables us to focus our
+ * performance efforts in one place.
+ *
  * In typical use cases AppFixture will be used in a testing context where you
  * generate the fixture in `before` and then clean up in `after`.
  *
@@ -345,7 +356,8 @@ AppFixture.prototype = {
 
   /**
    * `installNodeModule` is a convenience method around making modifications to
-   * `package.json` inside of the fixture.
+   * `package.json` inside of the fixture. It adds a dependency to the file but
+   * does not do so by invoking `npm install` or `yarn add`.
    *
    * Usage:
    *
@@ -353,6 +365,7 @@ AppFixture.prototype = {
    * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
    * let root = new AppFixture('root');
    * root.installNodeModule('dependencies', 'left-pad', '*');
+   * root.serialize();
    * ```
    *
    * @method installNodeModule
@@ -372,6 +385,24 @@ AppFixture.prototype = {
     return this;
   },
 
+  /**
+   * `uninstallNodeModule` is a convenience method around making modifications
+   * to `package.json` inside of the fixture. It removes the specified
+   * dependency from the passed in key.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * let root = new AppFixture('root');
+   * root.uninstallNodeModule('dependencies', 'ember-welcome-page');
+   * root.serialize();
+   * ```
+   *
+   * @method uninstallNodeModule
+   * @param {String} key Which key to remove the node module from, e.g. `dependencies`.
+   * @param {String} name The name of the node module.
+   */
   uninstallNodeModule(key, name) {
     let config = this.getPackageJSON();
 
@@ -383,6 +414,25 @@ AppFixture.prototype = {
     return this;
   },
 
+  /**
+   * `installAddonFixture` handles the entire setup for installing (and
+   * linking) an `AddonFixture`. It delegates to the type-specific
+   * `AddonFixture` installation process.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * const AddonFixture = require.resolve('ember-cli/tests/helpers/addon-fixture');
+   * let root = new AppFixture('root');
+   * let child = new AddonFixture('child');
+   * root.installAddonFixture(child);
+   * root.serialize();
+   * ```
+   *
+   * @method installAddonFixture
+   * @param {AddonFixture} addon The addon which you wish to install.
+   */
   installAddonFixture(addon) {
     this._installedAddonFixtures.push(addon);
 
@@ -397,10 +447,27 @@ AppFixture.prototype = {
     throw new Error('Cannot install addon.');
   },
 
+  /**
+   * Handles node module installation for a fixture. Delegates to
+   * `installNodeModule`. Reference is captured in `installAddonFixture` for
+   * proper serialization.
+   *
+   * @private
+   * @method _npmAddonFixtureInstall
+   * @param {AddonFixture} addon The addon which you wish to install.
+   */
   _npmAddonFixtureInstall(addon) {
     return this.installNodeModule('dependencies', addon.name);
   },
 
+  /**
+   * Handles Ember Addon installation for a fixture. Adds the `path` to
+   * the `ember-addon` object.
+   *
+   * @private
+   * @method _inRepoAddonFixtureInstall
+   * @param {AddonFixture} addon The addon which you wish to install.
+   */
   _inRepoAddonFixtureInstall(addon) {
     let config = this.getPackageJSON();
 
@@ -412,6 +479,29 @@ AppFixture.prototype = {
     return this;
   },
 
+  /**
+   * `uninstallAddonFixture` removes a previously installed addon fixture from
+   * the `AppFixture`. It delegates to the type-specific `AddonFixture`
+   * uninstallation methods.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * const AddonFixture = require.resolve('ember-cli/tests/helpers/addon-fixture');
+   * let root = new AppFixture('root');
+   * let child = new AddonFixture('child');
+   * root.serialize();
+   *
+   * // Perform some test.
+   *
+   * root.uninstallAddonFixture(child);
+   * root.serialize();
+   * ```
+   *
+   * @method uninstallAddonFixture
+   * @param {AddonFixture} addon The addon which you wish to uninstall.
+   */
   uninstallAddonFixture(addon) {
     let needle = addon;
     let haystack = this._installedAddonFixtures;
@@ -431,10 +521,27 @@ AppFixture.prototype = {
     throw new Error('Cannot uninstall addon.');
   },
 
+  /**
+   * Handles node module uninstallation for a fixture. Delegates to
+   * `uninstallNodeModule`. Reference is removed in `uninstallAddonFixture` for
+   * proper serialization.
+   *
+   * @private
+   * @method _npmAddonFixtureUninstall
+   * @param {AddonFixture} addon The addon which you wish to uninstall.
+   */
   _npmAddonFixtureUninstall(addon) {
     return this.uninstallNodeModule('dependencies', addon.name);
   },
 
+  /**
+   * Handles Ember Addon uninstallation for a fixture. Removes the `path` to
+   * the `ember-addon` object.
+   *
+   * @private
+   * @method _inRepoAddonFixtureInstall
+   * @param {AddonFixture} addon The addon which you wish to uninstall.
+   */
   _inRepoAddonFixtureUninstall(addon) {
     let config = this.getPackageJSON();
 
@@ -449,40 +556,128 @@ AppFixture.prototype = {
     return this;
   },
 
+  /**
+   * Convenience method to get the `AppFixture`'s `package.json` file and
+   * return it as a parsed JSON object.
+   *
+   * @method getPackageJSON
+   */
   getPackageJSON() {
     return JSON.parse(this.fixture['package.json']);
   },
 
+  /**
+   * Convenience method to set the `AppFixture`'s `package.json` to the
+   * `JSON.stringify` of the passed in object.
+   *
+   * @method getPackageJSON
+   * @param {Object} value The JSON object to serialize into `package.json`.
+   */
   setPackageJSON(value) {
     return this.fixture['package.json'] = JSON.stringify(value);
   },
 
+  /**
+   * The `generate` series of methods are used to create the pattern and
+   * structure in tests that make it easy to understand what has been added
+   * to a fixture. `generateFile` is the generic version which many other
+   * `generate` functions delegate to.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * let root = new AppFixture('root');
+   * root.generateFile('app/templates/index.hbs', 'Hello, world!');
+   * root.serialize();
+   * ```
+   *
+   * @method generateFile
+   * @param {String} fileName The _POSIX_ path of the file to create.
+   * @param {String} contents The contents of that file.
+   */
   generateFile(fileName, contents) {
     fileName = fileName.replace(/^\//, '');
     let keyPath = fileName.split('/');
 
+    // Build up the object structure that matches the shape needed by
+    // `fixturify`. We do this seperately and then `merge` it with the existing
+    // object.
     let root = {};
     let cursor = root;
     let i = 0;
     for (i = 0; i < keyPath.length - 1; i++) {
       cursor = cursor[keyPath[i]] = {};
     }
+
+    // Note that we are using the index from the iterator outside of the loop.
     cursor[keyPath[i]] = contents;
 
     merge(this.fixture, root);
     return this;
   },
 
+  /**
+   * The `generateCSS` method generates a (valid) default CSS pattern which you
+   * can look for in the output of a build. Useful when you don't care about the
+   * contents and instead just want to find a marker in the output.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * let root = new AppFixture('root');
+   * root.generateCSS('app/styles/app.css');
+   * root.serialize();
+   * ```
+   *
+   * @method generateCSS
+   * @param {String} fileName The _POSIX_ path of the file to create.
+   */
   generateCSS(fileName) {
     let contents = `.${this.name} { content: "${fileName}"; }`;
     return this.generateFile(fileName, contents);
   },
 
+  /**
+   * The `generateJS` method generates a (valid) default JS pattern which you
+   * can look for in the output of a build. Useful when you don't care about the
+   * contents and instead just want to find a marker in the output.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * let root = new AppFixture('root');
+   * root.generateJS('app/components/thing-one.js');
+   * root.serialize();
+   * ```
+   *
+   * @method generateCSS
+   * @param {String} fileName The _POSIX_ path of the file to create.
+   */
   generateJS(fileName) {
     let contents = `// ${this.name}/${fileName}\nlet a = true;`;
     return this.generateFile(fileName, contents);
   },
 
+  /**
+   * The `generateTemplate` method generates a (valid) default template pattern
+   * which you can look for in the output of a build. Useful when you don't care
+   * about the contents and instead just want to find a marker in the output.
+   *
+   * Usage:
+   *
+   * ```
+   * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
+   * let root = new AppFixture('root');
+   * root.generateTemplate('app/templates/index.hbs');
+   * root.serialize();
+   * ```
+   *
+   * @method generateTemplate
+   * @param {String} fileName The _POSIX_ path of the file to create.
+   */
   generateTemplate(fileName) {
     let contents = `{{${this.name}}}`;
     return this.generateFile(fileName, contents);
