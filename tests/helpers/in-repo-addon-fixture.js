@@ -12,6 +12,14 @@ const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
 
 const AddonFixture = require('./addon-fixture');
 
+/**
+ * The `InRepoAddonFixture` object leverages the similarities between itself and
+ * `AddonFixture to minimize its own set of custom helpers. It is used in the
+ * same way and for the same reasons as `AppFixture`. Read documentation there.
+ *
+ * @class InRepoAddonFixture
+ * @extends AddonFixture
+ */
 function InRepoAddonFixture(name) {
   this.type = 'in-repo-addon';
   this.command = null;
@@ -24,6 +32,13 @@ function InRepoAddonFixture(name) {
 InRepoAddonFixture.prototype = Object.create(AddonFixture.prototype);
 InRepoAddonFixture.prototype.constructor = InRepoAddonFixture;
 
+/**
+ * The `AppFixture` version of this is not designed to use `ember generate`
+ * which is necessary for an in-repo-addon.
+ *
+ * @method _loadBlueprint
+ * @override
+ */
 InRepoAddonFixture.prototype._loadBlueprint = function() {
   fs.removeSync(this.dir);
 
