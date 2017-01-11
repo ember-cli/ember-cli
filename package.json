@@ -130,7 +130,7 @@
     "ember-cli-blueprint-test-helpers": "^0.14.0",
     "ember-cli-internal-test-helpers": "^0.9.0",
     "eslint-plugin-chai-expect": "^1.1.1",
-    "github": "^7.0.0",
+    "github": "^8.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^3.0.0",
     "mocha-eslint": "^3.0.1",
