@@ -14,22 +14,6 @@ const root = path.resolve(__dirname, '..', '..');
 const PackageCache = require('../../tests/helpers/package-cache');
 const CommandGenerator = require('../../tests/helpers/command-generator');
 
-/*
-TODO:
-- Ensure that `dir` is read-only.
-- Guarantee that the directory is always present (even if empty) so that we
-  don't accidentally clobber it.
-- Provide a helper to run `ember` commands in the context of a fixture?
-- Mark fixture as dirty if there are any modifications. If dirty it will
-  re-`serialize` on next serialization call.
-- Make `serialize` a no-op if already serialized and a "clean" fixture.
-- Guarantee `serialize` is idempotent.
-- Allow for setting custom `PackageCache` cache names, and `clone`ing from
-  an existing cache.
-- Provide an API in `PackageCache` to make the `node_modules` symlinking a
-  single method call.
-*/
-
 /**
  * The `ember` command helper.
  *
