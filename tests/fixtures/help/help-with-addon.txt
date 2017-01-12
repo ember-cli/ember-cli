@@ -27,7 +27,7 @@ ember asset-sizes \u001b[36m<options...>\u001b[39m
 ember build \u001b[36m<options...>\u001b[39m
   Builds your app and places it into the output path (dist/ by default).
   \u001b[90maliases: b\u001b[39m
-  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m
+  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m Possible values are "development", "production", and "test".
     \u001b[90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m
   \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
     \u001b[90maliases: -o <value>\u001b[39m
