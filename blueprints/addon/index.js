@@ -19,6 +19,15 @@ module.exports = {
   generatePackageJson() {
     let contents = this._readContentsFromFile('package.json');
 
+    // preprocessors should be under dependencies
+    var preprocessors = ['ember-cli-htmlbars'];
+    preprocessors.forEach(function(name) {
+      var version = contents.devDependencies[name];
+      delete contents.devDependencies[name];
+      contents.dependencies = contents.dependencies || {};
+      contents.dependencies[name] = version;
+    });
+
     delete contents.private;
     contents.name = '<%= addonName %>';
     contents.description = this.description;
