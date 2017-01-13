@@ -160,4 +160,30 @@ describe('Acceptance: addon-smoke-test', function() {
       handleError(error, 'npm');
     });
   });
+
+  it('ember addon with linting errors', function() {
+    return copyFixtureFiles('addon/with-linting-errors')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function() {
+        expect(false, 'should have rejected with a failed linter').to.be.ok;
+      })
+      .catch(function(result) {
+        expect(result.exitCode).to.not.eql(0);
+      });
+  });
+
+  it('ember addon app folder with linting errors', function() {
+    return copyFixtureFiles('addon/with-linting-app-errors')
+      .then(function() {
+        return ember(['test']);
+      })
+      .then(function() {
+        expect(false, 'should have rejected with a failed linter').to.be.ok;
+      })
+      .catch(function(result) {
+        expect(result.exitCode).to.not.eql(0);
+      });
+  });
 });
