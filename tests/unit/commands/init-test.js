@@ -22,7 +22,7 @@ describe('init command', function() {
     ui = new MockUI();
     analytics = new MockAnalytics();
     tasks = {
-      AddonInstall: Task.extend({}),
+      GenerateFromBlueprint: Task.extend({}),
       InstallBlueprint: Task.extend({}),
       NpmInstall: Task.extend({}),
       BowerInstall: Task.extend({}),
