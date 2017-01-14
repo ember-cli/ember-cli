@@ -16,6 +16,7 @@ branches:
 # Install scripts. (runs after repo cloning)
 install:
   - ps: Install-Product node $env:nodejs_version
+  - appveyor-retry npm i -g npm@^3
   - appveyor-retry choco install phantomjs
   - appveyor-retry yarn
   - appveyor-retry yarn add mocha-appveyor-reporter # must be installed locally.
