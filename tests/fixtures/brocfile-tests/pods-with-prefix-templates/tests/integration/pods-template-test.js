@@ -1,6 +1,3 @@
-/*jshint strict:false */
-/* globals visit, andThen */
-
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';

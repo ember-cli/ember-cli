@@ -206,7 +206,7 @@ module.exports = Task.extend({
 - Line break at the end of every file
 - Make constructors take an options object to avoid order-dependence
 
-This list only contains style decisions not already covered by JSHint (e.g.
+This list only contains style decisions not already covered by ESLint (e.g.
 mandatory semicolons and other rules are omitted).
 
 ### Indentation

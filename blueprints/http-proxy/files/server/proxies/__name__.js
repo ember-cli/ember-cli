@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* eslint-env node */
 var proxyPath = '/<%=camelizedModuleName %>';
 
 module.exports = function(app) {

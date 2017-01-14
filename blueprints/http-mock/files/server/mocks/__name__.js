@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* eslint-env node */
 module.exports = function(app) {
   var express = require('express');
   var <%= camelizedModuleName %>Router = express.Router();
