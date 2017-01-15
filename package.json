@@ -68,7 +68,7 @@
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^3.0.0",
     "ember-cli-string-utils": "^1.0.0",
-    "ember-try": "^0.2.6",
+    "ember-try": "^0.2.9",
     "ensure-posix-path": "^1.0.2",
     "escape-string-regexp": "^1.0.3",
     "execa": "^0.6.0",
