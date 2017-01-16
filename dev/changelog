@@ -14,11 +14,11 @@
 
 var EOL       = require('os').EOL;
 var multiline = require('multiline');
-var Promise   = require('../lib/ext/promise');
+var RSVP      = require('rsvp');
 var GitHubApi = require('github');
 
 var github         = new GitHubApi({version: '3.0.0'});
-var compareCommits = Promise.denodeify(github.repos.compareCommits);
+var compareCommits = RSVP.denodeify(github.repos.compareCommits);
 var currentVersion = 'v' + require('../package').version;
 var branch         = process.argv[2] || 'master';
 
