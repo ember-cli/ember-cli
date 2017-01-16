@@ -3,6 +3,7 @@ language: node_js
 node_js:
   - "6"
 
+# feel free to remove this line if your project is newer than 2015
 sudo: false
 
 cache:
