@@ -25,7 +25,8 @@ describe('bower install task', function() {
   });
 
   it('skips bower installs if there is no bower.json', function() {
-    bowerInstallTask.run({});
-    expect(ui.output).to.include('Skipping bower install: bower.json not found');
+    return bowerInstallTask.run({}).then(() => {
+      expect(ui.output).to.include('Skipping bower install: bower.json not found');
+    });
   });
 });
