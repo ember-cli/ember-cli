@@ -4,12 +4,14 @@ const expect = require('chai').expect;
 const EOL = require('os').EOL;
 const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
-const Promise = require('../../../lib/ext/promise');
+const RSVP = require('rsvp');
 const td = require('testdouble');
 const PortFinder = require('portfinder');
 
 PortFinder.basePort = 32768;
-let getPort = Promise.denodeify(PortFinder.getPort);
+
+const Promise = RSVP.Promise;
+const getPort = RSVP.denodeify(PortFinder.getPort);
 
 const ServeCommand = require('../../../lib/commands/serve');
 

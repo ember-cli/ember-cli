@@ -1,9 +1,8 @@
 'use strict';
 
-const Promise = require('../../lib/ext/promise');
+const Promise = require('rsvp').Promise;
 const path = require('path');
 const fs = require('fs-extra');
-let remove = Promise.denodeify(fs.remove);
 const spawn = require('child_process').spawn;
 const chalk = require('chalk');
 

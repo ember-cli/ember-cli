@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 const ExpressServer = require('../../../../lib/tasks/server/express-server');
-const Promise = require('../../../../lib/ext/promise');
+const Promise = require('rsvp').Promise;
 const MockUI = require('console-ui/mock');
 const MockProject = require('../../../helpers/mock-project');
 const MockWatcher = require('../../../helpers/mock-watcher');

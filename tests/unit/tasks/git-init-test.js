@@ -5,13 +5,14 @@ const expect = require('chai').expect;
 const MockUI = require('console-ui/mock');
 const GitInitTask = require('../../../lib/tasks/git-init');
 const MockProject = require('../../helpers/mock-project');
-const Promise = require('../../../lib/ext/promise');
-let remove = Promise.denodeify(fs.remove);
+const RSVP = require('rsvp');
 const path = require('path');
 let root = process.cwd();
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmproot = path.join(root, 'tmp');
 const td = require('testdouble');
+
+const remove = RSVP.denodeify(fs.remove);
 
 describe('git-init', function() {
   let subject, ui, tmpdir, exec;

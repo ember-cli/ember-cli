@@ -1,11 +1,11 @@
 'use strict';
 
-const Promise = require('../../lib/ext/promise');
+const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
-let outputFile = Promise.denodeify(fs.outputFile);
+let outputFile = RSVP.denodeify(fs.outputFile);
 const path = require('path');
-let remove = Promise.denodeify(fs.remove);
+let remove = RSVP.denodeify(fs.remove);
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');

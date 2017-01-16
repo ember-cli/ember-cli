@@ -6,7 +6,6 @@ const MockUI = require('console-ui/mock');
 const WatchDetector = require('../../../lib/models/watch-detector');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
-const Promise = require('../../../lib/ext/promise');
 
 describe('WatchDetector', function() {
   let ui;

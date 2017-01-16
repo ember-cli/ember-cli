@@ -1,7 +1,6 @@
 'use strict';
 
-const RSVP = require('rsvp');
-const Promise = require('../../lib/ext/promise');
+const Promise = require('rsvp').Promise;
 const chalk = require('chalk');
 const spawn = require('child_process').spawn;
 const defaults = require('ember-cli-lodash-subset').defaults;
@@ -41,7 +40,7 @@ module.exports = function run(/* command, args, options */) {
     },
   });
 
-  return new RSVP.Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
     options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
     let opts = {};

@@ -1,10 +1,10 @@
 'use strict';
 
-const Promise = require('../../lib/ext/promise');
+const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
 const path = require('path');
-let remove = Promise.denodeify(fs.remove);
+let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');

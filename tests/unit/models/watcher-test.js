@@ -9,7 +9,6 @@ const Watcher = require('../../../lib/models/watcher');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
 const BuildError = require('../../helpers/build-error');
-const Promise = require('../../../lib/ext/promise');
 
 describe('Watcher', function() {
   let ui;

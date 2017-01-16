@@ -8,8 +8,7 @@ const expect = require('chai').expect;
 const path = require('path');
 const glob = require('glob');
 const walkSync = require('walk-sync');
-const Promise = require('../../../lib/ext/promise');
-let remove = Promise.denodeify(fs.remove);
+const RSVP = require('rsvp');
 const EOL = require('os').EOL;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -17,6 +16,9 @@ const SilentError = require('silent-error');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const Blueprint = require('../../../lib/models/blueprint');
+
+const Promise = RSVP.Promise;
+const remove = RSVP.denodeify(fs.remove);
 
 let localsCalled;
 let normalizeEntityNameCalled;

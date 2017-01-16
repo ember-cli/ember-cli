@@ -2,7 +2,6 @@
 
 const expect = require('chai').expect;
 const commandOptions = require('../../factories/command-options');
-const Promise = require('../../../lib/ext/promise');
 const Task = require('../../../lib/models/task');
 const BuildCommand = require('../../../lib/commands/build');
 const td = require('testdouble');
@@ -44,8 +43,8 @@ describe('build command', function() {
     td.replace(tasks.BuildWatch.prototype, 'run', td.function());
     td.replace(tasks.ShowAssetSizes.prototype, 'run', td.function());
 
-    td.when(tasks.Build.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
-    td.when(tasks.BuildWatch.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
+    td.when(tasks.Build.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenResolve();
+    td.when(tasks.BuildWatch.prototype.run(), { ignoreExtraArgs: true, times: 1 }).thenResolve();
   });
 
   afterEach(function() {

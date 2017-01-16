@@ -1,9 +1,9 @@
 'use strict';
 
-const Promise = require('../../lib/ext/promise');
+const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const path = require('path');
-let remove = Promise.denodeify(require('fs-extra').remove);
+let remove = RSVP.denodeify(require('fs-extra').remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');

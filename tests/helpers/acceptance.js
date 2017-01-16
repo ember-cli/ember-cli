@@ -4,7 +4,7 @@ const symlinkOrCopySync = require('symlink-or-copy').sync;
 const path = require('path');
 const fs = require('fs-extra');
 const runCommand = require('./run-command');
-const Promise = require('../../lib/ext/promise');
+
 let root = path.resolve(__dirname, '..', '..');
 
 const PackageCache = require('../../tests/helpers/package-cache');
