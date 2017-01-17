@@ -8,5 +8,5 @@ let copy = Promise.denodeify(fs.copy);
 let rootPath = process.cwd();
 
 module.exports = function copyFixtureFiles(sourceDir) {
-  return copy(path.join(rootPath, 'tests', 'fixtures', sourceDir), '.', { clobber: true });
+  return copy(path.join(rootPath, 'tests', 'fixtures', sourceDir), '.', { overwrite: true });
 };
