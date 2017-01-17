@@ -159,7 +159,7 @@ ember test \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -s\u001b[39m
   \u001b[36m--host\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -H <value>\u001b[39m
-  \u001b[36m--test-port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 7357)\u001b[39m The test port to use when running with --server.
+  \u001b[36m--test-port\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 7357)\u001b[39m The test port to use when running with --server. Pass 0 to automatically pick an available port
     \u001b[90maliases: -tp <value>\u001b[39m
   \u001b[36m--filter\u001b[39m \u001b[36m(String)\u001b[39m A string to filter tests to run
     \u001b[90maliases: -f <value>\u001b[39m
