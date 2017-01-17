@@ -14,7 +14,15 @@ describe('findAddonByName', function() {
     }, {
       name: 'foo-bar',
       pkg: { name: 'foo-bar' },
+    }, {
+      name: 'foo-bar-baz',
+      pkg: { name: '@foo/bar-baz' },
     }];
+  });
+
+  it('should return the foo-bar-baz addon when the unscoped package name is supplied', function() {
+    let addon = findAddonByName(addons, 'bar-baz');
+    expect(addon.name).to.equal('foo-bar-baz', 'should have found the foo-bar-baz addon');
   });
 
   it('should return the foo addon from name', function() {
