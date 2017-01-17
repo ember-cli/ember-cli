@@ -8,12 +8,12 @@ let file = chai.file;
 const walkSync = require('walk-sync');
 const assign = require('ember-cli-lodash-subset').assign;
 const BuildTask = require('../../../lib/tasks/build');
-const Promise = require('../../../lib/ext/promise');
+const RSVP = require('rsvp');
 const MockProject = require('../../helpers/mock-project');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const copyFixtureFiles = require('../../helpers/copy-fixture-files');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-let remove = Promise.denodeify(fs.remove);
+let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 

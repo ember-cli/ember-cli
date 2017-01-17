@@ -4,11 +4,11 @@ const expect = require('chai').expect;
 const cleanRemove = require('../../../lib/utilities/clean-remove');
 const temp = require('temp');
 const path = require('path');
-const Promise = require('../../../lib/ext/promise');
+const RSVP = require('rsvp');
 const fs = require('fs-extra');
 
-let outputFile = Promise.denodeify(fs.outputFile);
-let stat = Promise.denodeify(fs.stat);
+let outputFile = RSVP.denodeify(fs.outputFile);
+let stat = RSVP.denodeify(fs.stat);
 
 describe('clean-remove', function() {
   let tempDir;

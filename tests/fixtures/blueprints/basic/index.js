@@ -1,7 +1,7 @@
 'use strict';
 
 const Blueprint = require('../../../../lib/models/blueprint');
-const Promise = require('../../../../lib/ext/promise');
+const Promise = require('rsvp').Promise;
 
 module.exports = Blueprint.extend({
   description: 'A basic blueprint',

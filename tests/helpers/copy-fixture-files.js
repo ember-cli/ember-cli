@@ -2,8 +2,9 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const Promise = require('../../lib/ext/promise');
-let copy = Promise.denodeify(fs.copy);
+const RSVP = require('rsvp');
+
+const copy = RSVP.denodeify(fs.copy);
 
 let rootPath = process.cwd();
 

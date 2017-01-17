@@ -5,9 +5,8 @@ const path = require('path');
 const Builder = require('../../../lib/models/builder');
 const BuildCommand = require('../../../lib/commands/build');
 const commandOptions = require('../../factories/command-options');
-const Promise = require('../../../lib/ext/promise');
+const RSVP = require('rsvp');
 const MockProject = require('../../helpers/mock-project');
-let remove = Promise.denodeify(fs.remove);
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const experiments = require('../../experiments');
@@ -24,6 +23,9 @@ const Heimdall = require('heimdalljs/heimdall');
 const walkSync = require('walk-sync');
 const EventEmitter = require('events');
 const captureExit = require('capture-exit');
+
+const Promise = RSVP.Promise;
+const remove = RSVP.denodeify(fs.remove);
 
 describe('models/builder.js', function() {
   let addon, builder, buildResults, tmpdir;

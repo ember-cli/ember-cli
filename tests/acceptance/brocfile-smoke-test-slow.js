@@ -1,9 +1,9 @@
 'use strict';
 
-const Promise = require('../../lib/ext/promise');
+const RSVP = require('rsvp');
 const path = require('path');
 const fs = require('fs-extra');
-let remove = Promise.denodeify(fs.remove);
+let remove = RSVP.denodeify(fs.remove);
 
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');

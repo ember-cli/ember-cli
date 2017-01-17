@@ -3,13 +3,15 @@
 const expect = require('chai').expect;
 const MockUi = require('console-ui/mock');
 const AssetSizePrinter = require('../../../lib/models/asset-size-printer');
-const Promise = require('../../../lib/ext/promise');
+const RSVP = require('rsvp');
 const path = require('path');
 const fs = require('fs-extra');
 let root = process.cwd();
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmpRoot = path.join(root, 'tmp');
-let remove = Promise.denodeify(fs.remove);
+
+const Promise = RSVP.Promise;
+const remove = RSVP.denodeify(fs.remove);
 
 describe('models/asset-size-printer', function() {
   let storedTmpDir, assetDir, assetChildDir;

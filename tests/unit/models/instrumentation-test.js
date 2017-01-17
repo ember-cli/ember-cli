@@ -9,10 +9,10 @@ const path = require('path');
 const fse = require('fs-extra');
 const MockUI = require('console-ui/mock');
 const chalk = require('chalk');
+const RSVP = require('rsvp');
 const EOL = require('os').EOL;
 
 const itr2Array = require('../../helpers/itr2array');
-const Promise = require('../../../lib/ext/promise');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const experiments = require('../../../lib/experiments/');
@@ -22,7 +22,7 @@ let expect = chai.expect;
 let any = td.matchers.anything;
 let contains = td.matchers.contains;
 
-let remove = Promise.denodeify(fse.remove);
+let remove = RSVP.denodeify(fse.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 

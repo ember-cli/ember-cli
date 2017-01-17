@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 const TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
-const Promise = require('../../../../../lib/ext/promise');
+const Promise = require('rsvp').Promise;
 
 describe('TestServerAddon', function() {
   describe('.serverMiddleware', function() {

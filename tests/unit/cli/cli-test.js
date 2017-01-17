@@ -7,7 +7,7 @@ const CLI = require('../../../lib/cli/cli');
 const td = require('testdouble');
 const heimdall = require('heimdalljs');
 const Command = require('../../../lib/models/command');
-const Promise = require('../../../lib/ext/promise');
+const Promise = require('rsvp').Promise;
 
 let ui;
 let analytics;

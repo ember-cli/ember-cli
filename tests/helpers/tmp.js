@@ -2,8 +2,9 @@
 
 const fs = require('fs-extra');
 const existsSync = require('exists-sync');
-const Promise = require('../../lib/ext/promise');
-let remove = Promise.denodeify(fs.remove);
+const RSVP = require('rsvp');
+
+let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 
 module.exports.setup = function(path) {
