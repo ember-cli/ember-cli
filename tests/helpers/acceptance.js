@@ -3,12 +3,15 @@
 const symlinkOrCopySync = require('symlink-or-copy').sync;
 const path = require('path');
 const fs = require('fs-extra');
+const RSVP = require('rsvp');
 const runCommand = require('./run-command');
 
 let root = path.resolve(__dirname, '..', '..');
 
 const PackageCache = require('../../tests/helpers/package-cache');
 const CommandGenerator = require('../../tests/helpers/command-generator');
+
+const outputFile = RSVP.denodeify(fs.outputFile);
 
 const quickTemp = require('quick-temp');
 let dirs = {};
@@ -55,6 +58,18 @@ function createTestTargets(projectName, options) {
   options.command = options.command || 'new';
 
   return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', `--directory=${outputDir}`)
+    .then(() => {
+      if (options.createESLintConfig) {
+        let eslintConfig = `module.exports = {
+          root: true, 
+          parserOptions: { 
+            sourceType: 'module'
+          },
+        };`;
+
+        return outputFile(`${outputDir}/.eslintrc.js`, eslintConfig);
+      }
+    })
     .catch(handleResult);
 }
 

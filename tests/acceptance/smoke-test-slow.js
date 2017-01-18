@@ -28,7 +28,7 @@ let appRoot;
 describe('Acceptance: smoke-test', function() {
   this.timeout(500000);
   before(function() {
-    return createTestTargets(appName);
+    return createTestTargets(appName, { createESLintConfig: true });
   });
 
   after(teardownTestTargets);
