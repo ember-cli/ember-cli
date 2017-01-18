@@ -20,8 +20,8 @@ the release gotchas and will hopefully result in a successful release.
 Make sure that you're running the most recent stable `node` and bundled `npm`.
 
 ```sh
-$ node --version
-$ npm --version
+node --version
+npm --version
 ```
 
 
