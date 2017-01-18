@@ -29,7 +29,7 @@ for i in ${commands[@]}; do
     local_folder=my-app
   fi
 
-  git clone https://github.com/ember-cli/$repo_folder.git --branch $branch
+  git clone git@github.com:ember-cli/$repo_folder.git --branch $branch
   pushd $repo_folder
   git rm -rf .
   ember $command $local_folder -sb -sn -sg
