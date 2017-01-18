@@ -24,7 +24,7 @@ install:
   - npm install
 
 cache:
-  - '%APPDATA%\npm-cache'
+  - '%APPDATA%\npm-cache -> package.json'
   - '%APPDATA%\Roaming\bower'
 
 
