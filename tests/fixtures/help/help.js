@@ -621,7 +621,7 @@ module.exports = {
         {
           name: 'test-port',
           default: 7357,
-          description: 'The test port to use when running with --server.',
+          description: 'The test port to use when running with --server. Pass 0 to automatically pick an available port',
           aliases: ['tp'],
           key: 'testPort',
           required: false
