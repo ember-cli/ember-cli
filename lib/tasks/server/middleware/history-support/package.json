@@ -4,6 +4,6 @@
     "ember-addon"
   ],
   "ember-addon": {
-    "before": "serve-files-middleware"
+    "before": "broccoli-watcher"
   }
 }
