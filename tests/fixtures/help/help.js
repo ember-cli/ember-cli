@@ -549,6 +549,7 @@ module.exports = {
         },
         {
           name: 'environment',
+          description: 'Possible values are "development", "production", and "test".',
           default: 'development',
           aliases: [
             'e',
@@ -595,6 +596,7 @@ module.exports = {
       availableOptions: [
         {
           name: 'environment',
+          description: 'Possible values are "development", "production", and "test".',
           default: 'test',
           aliases: ['e'],
           key: 'environment',
