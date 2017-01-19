@@ -93,6 +93,7 @@ module.exports = {
       availableOptions: [
         {
           name: 'environment',
+          description: 'Possible values are "development", "production", and "test".',
           default: 'development',
           aliases: [
             'e',
