@@ -114,7 +114,8 @@ describe('models/command.js', function() {
         host: '0.1.0.1',
         proxy: 'http://iamstef.net/ember-cli',
         liveReload: false,
-        checkForUpdates: true
+        checkForUpdates: true,
+        noColor: false
       },
       args: []
     });
@@ -135,9 +136,17 @@ describe('models/command.js', function() {
         proxy: 'http://iamstef.net/ember-cli',
         liveReload: false,
         port: 80,
-        checkForUpdates: true
+        checkForUpdates: true,
+        noColor: false
       }
     });
+  });
+
+  it('parseArgs() should allow --no-color option', function() {
+    new ServeCommand(assign(options, {
+      settings: config.getAll()
+    })).parseArgs(['--no-color']);
+    expect(ui.output).to.not.match(/is not registered with the serve command/);
   });
 
   it('parseArgs() should warn if an option is invalid.', function() {
@@ -209,7 +218,8 @@ describe('models/command.js', function() {
     expect(new OptionsAliasCommand(options).parseArgs(['-soft-shell'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
-        spicy: true
+        spicy: true,
+        noColor: false
       },
       args: []
     });
@@ -219,7 +229,8 @@ describe('models/command.js', function() {
     expect(new OptionsAliasCommand(options).parseArgs(['-so'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
-        spicy: true
+        spicy: true,
+        noColor: false
       },
       args: []
     });
@@ -230,7 +241,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        displayMessage: 'hi'
+        displayMessage: 'hi',
+        noColor: false
       },
       args: []
     });
@@ -239,7 +251,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        displayMessage: 'Hello world'
+        displayMessage: 'Hello world',
+        noColor: false
       },
       args: []
     });
@@ -264,7 +277,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'adobada'
+        filling: 'adobada',
+        noColor: false
       },
       args: []
     });
@@ -273,7 +287,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carne-asada'
+        filling: 'carne-asada',
+        noColor: false
       },
       args: []
     });
@@ -282,7 +297,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'fish'
+        filling: 'fish',
+        noColor: false
       },
       args: []
     });
@@ -316,7 +332,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'adobada'
+        filling: 'adobada',
+        noColor: false
       },
       args: []
     });
@@ -325,7 +342,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carne-asada'
+        filling: 'carne-asada',
+        noColor: false
       },
       args: []
     });
@@ -335,7 +353,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'carnitas'
+        filling: 'carnitas',
+        noColor: false
       },
       args: []
     });
@@ -344,7 +363,8 @@ describe('models/command.js', function() {
       options: {
         taco: 'traditional',
         spicy: true,
-        filling: 'pollo-asado'
+        filling: 'pollo-asado',
+        noColor: false
       },
       args: []
     });
@@ -519,6 +539,15 @@ describe('models/command.js', function() {
         required: false
       },
       {
+        aliases: [],
+        default: false,
+        description: "To disable usage of colors in the output.",
+        key: "noColor",
+        name: "no-color",
+        required: false,
+        type: Boolean
+      },
+      {
         name: 'spicy',
         type: Boolean,
         default: true,
@@ -548,7 +577,8 @@ describe('models/command.js', function() {
     expect(new OptionsAliasCommand(options).parseArgs(['-s', 'false', '-t', 'hard-shell'])).to.deep.equal({
       options: {
         taco: 'hard-shell',
-        spicy: false
+        spicy: false,
+        noColor: false
       },
       args: []
     });
