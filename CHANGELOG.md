@@ -1,5 +1,31 @@
 # ember-cli Changelog
 
+### 2.11.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.11.0-beta.1...v2.11.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.11.0-beta.1...v2.11.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6531](https://github.com/ember-cli/ember-cli/pull/6531) Update to latest capture-exit, revert work around. [@ember-cli](https://github.com/rwjblue)
+- [#6525](https://github.com/ember-cli/ember-cli/pull/6525) utilities/npm: Run NPM commands via "execa" [@Turbo87](https://github.com/Turbo87)
+- [#6533](https://github.com/ember-cli/ember-cli/pull/6533) blueprints/addon: Fix path to "ember" executable in ".travis.yml" [@Turbo87](https://github.com/Turbo87)
+- [#6536](https://github.com/ember-cli/ember-cli/pull/6536) fix phantom use on travis [@kellyselden](https://github.com/kellyselden)
+- [#6537](https://github.com/ember-cli/ember-cli/pull/6537) Prevent deprecation from `ember-cli-babel` config options. [@rwjblue](https://github.com/rwjblue)
+- [#6693](https://github.com/ember-cli/ember-cli/pull/6693) Backport subprocess invocation of npm to v2.10 [@Turbo87](https://github.com/Turbo87)
+- [#6707](https://github.com/ember-cli/ember-cli/pull/6707) Change usage of shims for ember-source@2.11.0 final. [@ember-cli](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ### 2.11.0-beta.1
 
 The following changes are required if you are upgrading from the previous
