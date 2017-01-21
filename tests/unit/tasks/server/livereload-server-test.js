@@ -28,6 +28,7 @@ describe('livereload-server', function() {
       analytics: { trackError() { } },
       project: {
         liveReloadFilterPatterns: [],
+        liveReloadFilters: [],
         root: '/home/user/my-project',
       },
     });
@@ -215,6 +216,16 @@ describe('livereload-server', function() {
       });
 
       describe('filter pattern', function() {
+
+        it('shouldTriggerReload must be false if liveReloadFilters matches all changed files', function() {
+          subject.project.liveReloadFilterPatterns = [];
+          subject.project.liveReloadFilters = [/humble-twin\.jpg/];
+          let result = subject.shouldTriggerReload({
+            filePath: '/home/user/my-project/app/humble-twin.jpg',
+          });
+          expect(result).to.be.true;
+        });
+
         it('shouldTriggerReload must be true if there are no liveReloadFilterPatterns', function() {
           subject.project.liveReloadFilterPatterns = [];
           let result = subject.shouldTriggerReload({
