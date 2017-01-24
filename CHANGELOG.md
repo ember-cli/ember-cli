@@ -1,41 +1,15 @@
 # ember-cli Changelog
 
-### 2.11.0-beta.2
+### 2.11.0
 
 The following changes are required if you are upgrading from the previous
 version:
 
 - Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.11.0-beta.1...v2.11.0-beta.2)
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.10.2...v2.11.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.11.0-beta.1...v2.11.0-beta.2)
-  + No changes required
-- Core Contributors
-  + No changes required
-
-#### Community Contributions
-
-- [#6531](https://github.com/ember-cli/ember-cli/pull/6531) Update to latest capture-exit, revert work around. [@ember-cli](https://github.com/rwjblue)
-- [#6525](https://github.com/ember-cli/ember-cli/pull/6525) utilities/npm: Run NPM commands via "execa" [@Turbo87](https://github.com/Turbo87)
-- [#6533](https://github.com/ember-cli/ember-cli/pull/6533) blueprints/addon: Fix path to "ember" executable in ".travis.yml" [@Turbo87](https://github.com/Turbo87)
-- [#6536](https://github.com/ember-cli/ember-cli/pull/6536) fix phantom use on travis [@kellyselden](https://github.com/kellyselden)
-- [#6537](https://github.com/ember-cli/ember-cli/pull/6537) Prevent deprecation from `ember-cli-babel` config options. [@rwjblue](https://github.com/rwjblue)
-- [#6693](https://github.com/ember-cli/ember-cli/pull/6693) Backport subprocess invocation of npm to v2.10 [@Turbo87](https://github.com/Turbo87)
-- [#6707](https://github.com/ember-cli/ember-cli/pull/6707) Change usage of shims for ember-source@2.11.0 final. [@ember-cli](https://github.com/rwjblue)
-
-Thank you to all who took the time to contribute!
-
-### 2.11.0-beta.1
-
-The following changes are required if you are upgrading from the previous
-version:
-
-- Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.10.0...v2.11.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
-- Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.10.0...v2.11.0-beta.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.10.2...v2.11.0)
   + No changes required
 - Core Contributors
   + No changes required
@@ -46,6 +20,12 @@ version:
 
 #### Community Contributions
 
+- [#6531](https://github.com/ember-cli/ember-cli/pull/6531) Update to latest capture-exit, revert work around. [@ember-cli](https://github.com/rwjblue)
+- [#6525](https://github.com/ember-cli/ember-cli/pull/6525) utilities/npm: Run NPM commands via "execa" [@Turbo87](https://github.com/Turbo87)
+- [#6533](https://github.com/ember-cli/ember-cli/pull/6533) blueprints/addon: Fix path to "ember" executable in ".travis.yml" [@Turbo87](https://github.com/Turbo87)
+- [#6536](https://github.com/ember-cli/ember-cli/pull/6536) fix phantom use on travis [@kellyselden](https://github.com/kellyselden)
+- [#6537](https://github.com/ember-cli/ember-cli/pull/6537) Prevent deprecation from `ember-cli-babel` config options. [@rwjblue](https://github.com/rwjblue)
+- [#6707](https://github.com/ember-cli/ember-cli/pull/6707) Change usage of shims for ember-source@2.11.0 final. [@ember-cli](https://github.com/rwjblue)
 - [#6254](https://github.com/ember-cli/ember-cli/pull/6254) [BUGFIX] Do not rely on ember-resolver, detect bower package instead [@martndemus](https://github.com/martndemus)
 - [#6319](https://github.com/ember-cli/ember-cli/pull/6319) Use --save-dev by default when installing addons [@binhums](https://github.com/binhums)
 - [#6378](https://github.com/ember-cli/ember-cli/pull/6378) Prepares Ember CLI for new version of ember-welcome-page [@locks](https://github.com/locks)
@@ -66,10 +46,7 @@ version:
 - [#6475](https://github.com/ember-cli/ember-cli/pull/6475) extract ui to console-ui [@stefanpenner](https://github.com/stefanpenner)
 - [#6479](https://github.com/ember-cli/ember-cli/pull/6479) docs: Blueprint:renamedFiles [@les2](https://github.com/les2)
 
-Thank you to all who took the time to contribute! A special thanks to those who
-helped us bring this release to a close after discovering that CI was broken for
-the two weeks leading up to the release.
-
+Thank you to all who took the time to contribute!
 
 ### 2.10.1
 
