@@ -1,5 +1,43 @@
 # ember-cli Changelog
 
+### 2.12.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.11.0...v2.12.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.11.0...v2.12.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6645](https://github.com/ember-cli/ember-cli/pull/6645) Make project.config() public [@simonihmig](https://github.com/simonihmig)
+- [#6540](https://github.com/ember-cli/ember-cli/pull/6540) removing jshint reference in blueprints [@kellyselden](https://github.com/kellyselden)
+- [#5874](https://github.com/ember-cli/ember-cli/pull/5874) Don't process CSS imports by default [@wagenet](https://github.com/wagenet)
+- [#6516](https://github.com/ember-cli/ember-cli/pull/6516) Properly call `preprocessTree` / `postprocessTree` for addons. [@rwjblue](https://github.com/rwjblue)
+- [#6600](https://github.com/ember-cli/ember-cli/pull/6600) Apply clean-base-url to config.rootURL [@nathanhammond](https://github.com/nathanhammond)
+- [#6622](https://github.com/ember-cli/ember-cli/pull/6622) Remove support for Node 0.12. [@rwjblue](https://github.com/rwjblue)
+- [#6624](https://github.com/ember-cli/ember-cli/pull/6624) Update version of ember-cli-eslint used in new applications. [@rwjblue](https://github.com/rwjblue)
+- [#6625](https://github.com/ember-cli/ember-cli/pull/6625) Update dependencies previous avoided due to Node 0.12 support. [@rwjblue](https://github.com/rwjblue)
+- [#6633](https://github.com/ember-cli/ember-cli/pull/6633) Split serving assets into two different in-repo addons [@kratiahuja](https://github.com/kratiahuja)
+- [#6634](https://github.com/ember-cli/ember-cli/pull/6634) Remove "ember-cli-app-version" from "addon" blueprint [@Turbo87](https://github.com/Turbo87)
+- [#6630](https://github.com/ember-cli/ember-cli/pull/6630) [DOC] Update license year [@cjnething](https://github.com/cjnething)
+- [#6631](https://github.com/ember-cli/ember-cli/pull/6631) 🏎 Lazily install "bower" if required [@Turbo87](https://github.com/Turbo87)
+- [#6636](https://github.com/ember-cli/ember-cli/pull/6636) Use ES6 features [@Turbo87](https://github.com/Turbo87)
+- [#6649](https://github.com/ember-cli/ember-cli/pull/6649) Make in-repo-addon blueprint 'use strict'. [@ember-cli](https://github.com/ember-cli)
+- [#6647](https://github.com/ember-cli/ember-cli/pull/6647) Convert CoreObject classes to ES6 classes extending CoreObject [@Turbo87](https://github.com/Turbo87)
+- [#6644](https://github.com/ember-cli/ember-cli/pull/6644) Use  ES6 classes for internal classes [@Turbo87](https://github.com/Turbo87)
+- [#6654](https://github.com/ember-cli/ember-cli/pull/6654) blueprints/app: Update "ember-cli-qunit" dependency [@Turbo87](https://github.com/Turbo87)
+- [#6688](https://github.com/ember-cli/ember-cli/pull/6688) Replace custom Promise class with RSVP [@Turbo87](https://github.com/Turbo87)
+- [#6680](https://github.com/ember-cli/ember-cli/pull/6680) Use global NPM with version check [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
 ### 2.11.0
 
 The following changes are required if you are upgrading from the previous
