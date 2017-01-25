@@ -364,10 +364,12 @@ describe('models/instrumentation.js', function() {
     let instrumentation;
     let heimdall;
     let addon;
+    let ui;
 
     beforeEach(function() {
       project = new MockProject();
       instrumentation = project._instrumentation;
+      ui = instrumentation.ui;
       heimdall = instrumentation._heimdall = new Heimdall();
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
@@ -389,6 +391,17 @@ describe('models/instrumentation.js', function() {
       expect(function() {
         instrumentation.stopAndReport('init');
       }).to.throw('Cannot stop instrumentation "init".  It has not started.');
+    });
+
+    it('warns if heimdall stop throws (eg when unbalanced)', function() {
+      instrumentation.start('init');
+      heimdall.start('a ruckus');
+
+      expect(function() {
+        instrumentation.stopAndReport('init');
+      }).to.not.throw();
+
+      expect(ui.output).to.eql(`${chalk.red('Error reporting instrumentation \'init\'.  Stack: init,a ruckus')}\n`);
     });
 
     it('computes summary for name', function() {
