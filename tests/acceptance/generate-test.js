@@ -311,6 +311,19 @@ describe('Acceptance: ember generate', function() {
     });
   });
 
+  it('api-stub-static foo/bar', function() {
+    return generate(['api-stub-static', '/foo/bar']).then(function() {
+      assertFile('server/index.js');
+      assertFile('server/util/walkRoutes.js');
+      assertFile('server/routes');
+      assertFile('server/routes/foo');
+      assertFile('server/routes/foo/bar');
+      assertFile('server/routes/foo/bar/index.json', {
+        contains: '{\n  "data": "Hello World"\n}'
+      });
+    });
+  });
+
   it('uses blueprints from the project directory', function() {
     return initApp()
       .then(function() {
