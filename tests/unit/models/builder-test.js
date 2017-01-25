@@ -2,7 +2,6 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const Builder = require('../../../lib/models/builder');
 const BuildCommand = require('../../../lib/commands/build');
 const commandOptions = require('../../factories/command-options');
 const RSVP = require('rsvp');
@@ -18,11 +17,7 @@ let file = chai.file;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
-const MockUI = require('console-ui/mock');
-const Heimdall = require('heimdalljs/heimdall');
-const walkSync = require('walk-sync');
-const EventEmitter = require('events');
-const captureExit = require('capture-exit');
+let willInterruptProcess, Builder;
 
 const Promise = RSVP.Promise;
 const remove = RSVP.denodeify(fs.remove);
@@ -42,137 +37,19 @@ describe('models/builder.js', function() {
     };
   }
 
+  before(function() {
+    willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
+      addHandler: td.function(),
+      removeHandler: td.function(),
+    });
+
+    Builder = require('../../../lib/models/builder');
+  });
+
   afterEach(function() {
     if (builder) {
       return builder.cleanup();
     }
-  });
-
-  describe('process signal listeners', function() {
-    let originalListenerCounts;
-
-    function getListenerCount(emitter, event) {
-      if (emitter.listenerCount) { // Present in Node >= 4.0
-        return emitter.listenerCount(event);
-      } else {
-        // deprecated in Node 4.0
-        return EventEmitter.listenerCount(emitter, event);
-      }
-    }
-
-    function getListenerCounts() {
-      return {
-        SIGINT: getListenerCount(process, 'SIGINT'),
-        SIGTERM: getListenerCount(process, 'SIGTERM'),
-        message: getListenerCount(process, 'message'),
-        exit: captureExit.listenerCount(),
-      };
-    }
-
-    beforeEach(function() {
-      originalListenerCounts = getListenerCounts();
-    });
-
-    it('sets up listeners for signals', function() {
-      builder = new Builder({
-        setupBroccoliBuilder,
-        project: new MockProject(),
-      });
-
-      let actualListeners = getListenerCounts();
-
-      expect(actualListeners).to.eql({
-        SIGINT: originalListenerCounts.SIGINT + 1,
-        SIGTERM: originalListenerCounts.SIGTERM + 1,
-        message: originalListenerCounts.message + 1,
-        exit: originalListenerCounts.exit + 1,
-      });
-    });
-
-    it('cleans up added listeners after `.cleanup`', function() {
-      builder = new Builder({
-        setupBroccoliBuilder,
-        project: new MockProject(),
-      });
-
-      return builder.cleanup()
-        .then(function() {
-          let actualListeners = getListenerCounts();
-          expect(actualListeners).to.eql(originalListenerCounts);
-        })
-        .finally(function() {
-          // we have already called `.cleanup`, calling it again
-          // in the global afterEach triggers an error
-          builder = null;
-        });
-    });
-  });
-
-  describe('Windows CTRL + C Capture', function() {
-    let originalPlatform, originalStdin;
-
-    before(function() {
-      originalPlatform = process.platform;
-      originalStdin = process.platform;
-    });
-
-    after(function() {
-      Object.defineProperty(process, 'platform', {
-        value: originalPlatform,
-      });
-
-      Object.defineProperty(process, 'stdin', {
-        value: originalStdin,
-      });
-    });
-
-    it('enables raw capture on Windows', function() {
-      Object.defineProperty(process, 'platform', {
-        value: 'win',
-      });
-
-      Object.defineProperty(process, 'stdin', {
-        value: {
-          isTTY: true,
-        },
-      });
-
-      let trapWindowsSignals = td.function();
-
-      builder = new Builder({
-        setupBroccoliBuilder,
-        trapWindowsSignals,
-        project: new MockProject(),
-      });
-
-      builder.trapSignals();
-      td.verify(trapWindowsSignals());
-    });
-
-    it('does not enable raw capture on non-Windows', function() {
-      Object.defineProperty(process, 'platform', {
-        value: 'mockOS',
-      });
-
-      Object.defineProperty(process, 'stdin', {
-        value: {
-          isTTY: true,
-        },
-      });
-
-      let trapWindowsSignals = td.function();
-
-      builder = new Builder({
-        setupBroccoliBuilder,
-        trapWindowsSignals,
-        project: new MockProject(),
-      });
-
-      builder.trapSignals();
-      td.verify(trapWindowsSignals(), { times: 0, ignoreExtraArgs: true });
-
-      return builder.cleanup();
-    });
   });
 
   describe('copyToOutputPath', function() {

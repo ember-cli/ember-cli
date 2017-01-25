@@ -3,7 +3,6 @@
 const expect = require('chai').expect;
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
-const CLI = require('../../../lib/cli/cli');
 const td = require('testdouble');
 const heimdall = require('heimdalljs');
 const Command = require('../../../lib/models/command');
@@ -15,6 +14,9 @@ let commands = {};
 let argv;
 let isWithinProject;
 let project;
+let willInterruptProcess;
+
+let CLI;
 
 // helper to similate running the CLI
 function ember(args) {
@@ -55,6 +57,7 @@ function stubValidateAndRunHelp(name) {
 
 function stubValidateAndRun(name) {
   commands[name] = require(`../../../lib/commands/${name}`);
+
   return td.replace(commands[name].prototype, 'validateAndRun', td.function());
 }
 
@@ -65,6 +68,12 @@ function stubRun(name) {
 
 describe('Unit: CLI', function() {
   beforeEach(function() {
+    willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
+      addHandler: td.function(),
+      removeHandler: td.function(),
+    });
+
+    CLI = require('../../../lib/cli/cli');
     ui = new MockUI();
     analytics = new MockAnalytics();
     argv = [];
@@ -91,6 +100,7 @@ describe('Unit: CLI', function() {
   });
 
   this.timeout(10000);
+
   it('exists', function() {
     expect(CLI).to.be.ok;
   });
@@ -104,6 +114,7 @@ describe('Unit: CLI', function() {
       expect(output).to.equal('', 'expected no extra output');
     });
   });
+
 /*
   it('logError', function() {
     var cli = new CLI({
@@ -217,6 +228,45 @@ describe('Unit: CLI', function() {
       };
 
       return ember(['custom']);
+    });
+  });
+
+  describe('command interruption handler', function() {
+    let onCommandInterrupt;
+    beforeEach(function() {
+      onCommandInterrupt = td.matchers.isA(Function);
+    });
+
+    it('sets up handler before command run', function() {
+      const CustomCommand = Command.extend({
+        name: 'custom',
+
+        beforeRun() {
+          td.verify(willInterruptProcess.addHandler(onCommandInterrupt));
+
+          return Promise.resolve();
+        },
+
+        run() {
+          return Promise.resolve();
+        },
+      });
+
+      project.eachAddonCommand = function(callback) {
+        callback('custom-addon', {
+          CustomCommand,
+        });
+      };
+
+      return ember(['custom']);
+    });
+
+    it('cleans up handler after command finished', function() {
+      stubValidateAndRun('serve');
+
+      return ember(['serve']).finally(function() {
+        td.verify(willInterruptProcess.removeHandler(onCommandInterrupt));
+      });
     });
   });
 
