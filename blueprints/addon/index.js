@@ -38,6 +38,10 @@ module.exports = {
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
 
+    // 100% of addons don't need these, make it opt-in instead
+    delete contents.devDependencies['ember-cli-sri'];
+    delete contents.devDependencies['ember-cli-uglify'];
+
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
     }
