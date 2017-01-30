@@ -270,5 +270,22 @@ describe('blueprint - addon', function() {
         expect(json.devDependencies).to.deep.equal({ a: "1", b: "1" });
       });
     });
+
+    describe('generateBowerJson', function() {
+      it('works', function() {
+        blueprint.generateBowerJson();
+
+        let captor = td.matchers.captor();
+
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/bower.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/bower.json'), captor.capture()));
+
+        // string to test ordering
+        expect(captor.value).to.equal('\
+{\n\
+  "name": "<%= addonName %>"\n\
+}\n');
+      });
+    });
   });
 });
