@@ -1,3 +1,5 @@
 module.exports = {
-  description: 'Another basic blueprint'
+  description: 'Another basic blueprint',
+
+  filesToRemove: ['file-to-remove.txt']
 };
