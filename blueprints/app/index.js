@@ -5,6 +5,11 @@ const stringUtil = require('ember-cli-string-utils');
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
 
+  filesToRemove: [
+    'Brocfile.js',
+    'testem.json',
+  ],
+
   locals(options) {
     let entity = options.entity;
     let rawName = entity.name;
