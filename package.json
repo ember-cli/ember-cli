@@ -116,6 +116,7 @@
     "tiny-lr": "^1.0.3",
     "tree-sync": "^1.2.1",
     "uuid": "^3.0.0",
+    "validate-npm-package-name": "^2.2.2",
     "walk-sync": "^0.3.0",
     "yam": "0.0.22"
   },

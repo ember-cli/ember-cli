@@ -206,6 +206,21 @@ describe('Acceptance: ember new', function() {
     });
   });
 
+  it('ember new with package blueprint installs the package and uses it', function() {
+    this.timeout(20000); // relies on GH network stuff
+
+    return ember([
+      'new',
+      'app-from-npm',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--blueprint=ember-cli-app-blueprint-test',
+    ]).then(function() {
+      expect(file('.ember-cli')).to.exist;
+    });
+  });
+
   it('ember new passes blueprint options through to blueprint', function() {
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', [
