@@ -60,14 +60,6 @@ module.exports = {
     this._writeContentsToFile(sortPackageJson(contents), 'package.json');
   },
 
-  generateBowerJson() {
-    let contents = this._readContentsFromFile('bower.json');
-
-    contents.name = '<%= addonName %>';
-
-    this._writeContentsToFile(contents, 'bower.json');
-  },
-
   afterInstall() {
     let packagePath = path.join(this.path, 'files', 'package.json');
     let bowerPath = path.join(this.path, 'files', 'bower.json');
@@ -107,7 +99,6 @@ module.exports = {
     let appFiles = this._appBlueprint.files();
 
     this.generatePackageJson();
-    this.generateBowerJson();
 
     let addonFiles = walkSync(path.join(this.path, 'files'));
 
