@@ -21,10 +21,6 @@ install:
   - appveyor-retry yarn
   - appveyor-retry yarn add mocha-appveyor-reporter # must be installed locally.
 
-cache:
-  - '%LOCALAPPDATA%\Yarn'
-  - '%APPDATA%\Roaming\bower'
-
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
