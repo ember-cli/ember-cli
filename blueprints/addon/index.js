@@ -17,6 +17,7 @@ module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
   filesToRemove: [
+    'bower.json',
     'Brocfile.js',
     'testem.json',
   ],
