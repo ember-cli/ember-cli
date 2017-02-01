@@ -207,7 +207,7 @@ describe('Acceptance: ember new', function() {
   });
 
   it('ember new with package blueprint installs the package and uses it', function() {
-    this.timeout(20000); // relies on GH network stuff
+    this.timeout(20000); // relies on npm over the network
 
     return ember([
       'new',
