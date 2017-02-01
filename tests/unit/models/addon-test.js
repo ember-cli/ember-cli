@@ -864,100 +864,98 @@ describe('models/addon.js', function() {
     });
   });
 
-  if (experiments.ADDON_TREE_CACHING) {
-    describe('addon tree caching', function() {
-      let projectPath = path.resolve(fixturePath, 'simple');
-      const packageContents = require(path.join(projectPath, 'package.json'));
+  describe('addon tree caching', function() {
+    let projectPath = path.resolve(fixturePath, 'simple');
+    const packageContents = require(path.join(projectPath, 'package.json'));
 
-      function createAddon(Addon) {
-        let cli = new MockCLI();
-        let project = new Project(projectPath, packageContents, cli.ui, cli);
-        return new Addon(project, project);
-      }
+    function createAddon(Addon) {
+      let cli = new MockCLI();
+      let project = new Project(projectPath, packageContents, cli.ui, cli);
+      return new Addon(project, project);
+    }
 
-      describe('cacheKeyForTree', function() {
-        it('returns null if `treeForApp` methods are implemented for the app tree', function() {
-          let addon = createAddon(Addon.extend({
-            name: 'test-project',
-            root: 'foo',
-            treeForApp() { },
-          }));
+    describe('cacheKeyForTree', function() {
+      it('returns null if `treeForApp` methods are implemented for the app tree', function() {
+        let addon = createAddon(Addon.extend({
+          name: 'test-project',
+          root: 'foo',
+          treeForApp() { },
+        }));
 
-          expect(addon[experiments.ADDON_TREE_CACHING]('app')).to.equal(null);
-        });
-
-        it('returns null if `compileAddon` methods are implemented for the addon tree', function() {
-          let addon = createAddon(Addon.extend({
-            name: 'test-project',
-            root: 'foo',
-            compileAddon() { },
-          }));
-
-          expect(addon[experiments.ADDON_TREE_CACHING]('addon')).to.equal(null);
-        });
-
-        it('returns null if `treeForMethods` is modified', function() {
-          let addon = createAddon(Addon.extend({
-            name: 'test-project',
-            root: 'foo',
-            init() {
-              this._super && this._super.init.apply(this, arguments);
-
-              this.treeForMethods['app'] = 'treeForZOMG_WHY!?!';
-            },
-          }));
-
-          expect(addon[experiments.ADDON_TREE_CACHING]('app')).to.equal(null);
-        });
-
-        it('returns stable value for repeated invocations', function() {
-          let addon = createAddon(Addon.extend({
-            name: 'test-project',
-            root: 'foo',
-          }));
-
-          let firstResult = addon[experiments.ADDON_TREE_CACHING]('app');
-          let secondResult = addon[experiments.ADDON_TREE_CACHING]('app');
-
-          expect(firstResult).to.equal(secondResult);
-        });
+        expect(addon.cacheKeyForTree('app')).to.equal(null);
       });
 
-      describe('treeFor caching', function() {
-        it('defining custom treeForAddon without modifying cacheKeyForTree does not cache', function() {
-          let addon = createAddon(Addon.extend({
-            name: 'test-project',
-            root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
-            treeForAddon(tree) {
-              return tree;
-            },
-          }));
+      it('returns null if `compileAddon` methods are implemented for the addon tree', function() {
+        let addon = createAddon(Addon.extend({
+          name: 'test-project',
+          root: 'foo',
+          compileAddon() { },
+        }));
 
-          let firstTree = addon.treeFor('addon');
-          let secondTree = addon.treeFor('addon');
+        expect(addon.cacheKeyForTree('addon')).to.equal(null);
+      });
 
-          expect(firstTree).not.to.equal(secondTree);
-        });
+      it('returns null if `treeForMethods` is modified', function() {
+        let addon = createAddon(Addon.extend({
+          name: 'test-project',
+          root: 'foo',
+          init() {
+            this._super && this._super.init.apply(this, arguments);
 
-        it('defining custom cacheKeyForTree allows addon control of cache', function() {
-          let addonProto = {
-            name: 'test-project',
-            root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
-            treeForAddon(tree) {
-              return tree;
-            },
-          };
-          addonProto[experiments.ADDON_TREE_CACHING] = function(type) {
-            return type;
-          };
+            this.treeForMethods['app'] = 'treeForZOMG_WHY!?!';
+          },
+        }));
 
-          let addon = createAddon(Addon.extend(addonProto));
-          let firstTree = addon.treeFor('addon');
-          let secondTree = addon.treeFor('addon');
+        expect(addon.cacheKeyForTree('app')).to.equal(null);
+      });
 
-          expect(firstTree).to.equal(secondTree);
-        });
+      it('returns stable value for repeated invocations', function() {
+        let addon = createAddon(Addon.extend({
+          name: 'test-project',
+          root: 'foo',
+        }));
+
+        let firstResult = addon.cacheKeyForTree('app');
+        let secondResult = addon.cacheKeyForTree('app');
+
+        expect(firstResult).to.equal(secondResult);
       });
     });
-  }
+
+    describe('treeFor caching', function() {
+      it('defining custom treeForAddon without modifying cacheKeyForTree does not cache', function() {
+        let addon = createAddon(Addon.extend({
+          name: 'test-project',
+          root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
+          treeForAddon(tree) {
+            return tree;
+          },
+        }));
+
+        let firstTree = addon.treeFor('addon');
+        let secondTree = addon.treeFor('addon');
+
+        expect(firstTree).not.to.equal(secondTree);
+      });
+
+      it('defining custom cacheKeyForTree allows addon control of cache', function() {
+        let addonProto = {
+          name: 'test-project',
+          root: path.join(projectPath, 'node_modules', 'ember-generated-with-export-addon'),
+          treeForAddon(tree) {
+            return tree;
+          },
+        };
+        addonProto.cacheKeyForTree = function(type) {
+          return type;
+        };
+
+        let addon = createAddon(Addon.extend(addonProto));
+        let firstTree = addon.treeFor('addon');
+        let secondTree = addon.treeFor('addon');
+
+        expect(firstTree).to.equal(secondTree);
+      });
+    });
+  });
 });
