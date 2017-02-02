@@ -127,8 +127,6 @@ describe('models/builder.js', function() {
     let instrumentationStop;
 
     beforeEach(function() {
-      let command = new BuildCommand(commandOptions());
-
       builder = new Builder({
         setupBroccoliBuilder,
         project: new MockProject(),
