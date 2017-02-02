@@ -7,17 +7,17 @@ const td = require('testdouble');
 const SilentError = require('silent-error');
 
 describe('NpmTask', function() {
-  describe('checkNpmVersion()', function() {
-    let task, ui, npmFn;
+  describe('checkNpmVersion', function() {
+    let task, ui, npm;
 
     beforeEach(function() {
       ui = new MockUI();
-      npmFn = td.function();
-      task = new NpmTask({ ui, npm: npmFn });
+      npm = td.function();
+      task = new NpmTask({ ui, npm });
     });
 
     it('resolves when a compatible version is found', function() {
-      td.when(npmFn(['--version'])).thenResolve({ stdout: '3.2.1' });
+      td.when(npm(['--version'])).thenResolve({ stdout: '3.2.1' });
 
       return expect(task.checkNpmVersion()).to.be.fulfilled.then(() => {
         expect(ui.output).to.be.empty;
@@ -26,7 +26,7 @@ describe('NpmTask', function() {
     });
 
     it('resolves with warning when a newer version is found', function() {
-      td.when(npmFn(['--version'])).thenResolve({ stdout: '5.0.0' });
+      td.when(npm(['--version'])).thenResolve({ stdout: '5.0.0' });
 
       return expect(task.checkNpmVersion()).to.be.fulfilled.then(() => {
         expect(ui.output).to.contain('WARNING');
@@ -35,7 +35,7 @@ describe('NpmTask', function() {
     });
 
     it('rejects when an older version is found', function() {
-      td.when(npmFn(['--version'])).thenResolve({ stdout: '2.9.9' });
+      td.when(npm(['--version'])).thenResolve({ stdout: '2.9.9' });
 
       return expect(task.checkNpmVersion()).to.be.rejectedWith(SilentError, /npm install -g npm/).then(() => {
         expect(ui.output).to.be.empty;
@@ -47,7 +47,7 @@ describe('NpmTask', function() {
       let error = new Error('npm not found');
       error.code = 'ENOENT';
 
-      td.when(npmFn(['--version'])).thenReject(error);
+      td.when(npm(['--version'])).thenReject(error);
 
       return expect(task.checkNpmVersion()).to.be.rejectedWith(SilentError, /instructions at https:\/\/github.com\/npm\/npm/).then(() => {
         expect(ui.output).to.be.empty;
@@ -56,7 +56,7 @@ describe('NpmTask', function() {
     });
 
     it('rejects when npm returns an unreadable version', function() {
-      td.when(npmFn(['--version'])).thenResolve({ stdout: '5' });
+      td.when(npm(['--version'])).thenResolve({ stdout: '5' });
 
       return expect(task.checkNpmVersion()).to.be.rejectedWith(TypeError, /Invalid Version/).then(() => {
         expect(ui.output).to.be.empty;
@@ -65,7 +65,7 @@ describe('NpmTask', function() {
     });
 
     it('rejects when an unknown error is thrown', function() {
-      td.when(npmFn(['--version'])).thenReject(new Error('foobar?'));
+      td.when(npm(['--version'])).thenReject(new Error('foobar?'));
 
       return expect(task.checkNpmVersion()).to.be.rejectedWith('foobar?').then(() => {
         expect(ui.output).to.be.empty;
