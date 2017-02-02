@@ -104,4 +104,122 @@ describe('NpmTask', function() {
       return expect(task.checkYarn()).to.be.rejectedWith('foobar?');
     });
   });
+
+  describe('findPackageManager', function() {
+    let task;
+
+    beforeEach(function() {
+      task = new NpmTask();
+    });
+
+    it('resolves when no yarn.lock file was found and npm is compatible', function() {
+      task.hasYarnLock = td.function();
+      td.when(task.hasYarnLock()).thenReturn(false);
+
+      task.checkNpmVersion = td.function();
+      td.when(task.checkNpmVersion()).thenResolve();
+
+      return expect(task.findPackageManager()).to.be.fulfilled;
+    });
+
+    it('resolves when no yarn.lock file was found and npm is incompatible', function() {
+      task.hasYarnLock = td.function();
+      td.when(task.hasYarnLock()).thenReturn(false);
+
+      task.checkNpmVersion = td.function();
+      td.when(task.checkNpmVersion()).thenReject();
+
+      return expect(task.findPackageManager()).to.be.rejected;
+    });
+
+    it('resolves when yarn.lock file and yarn were found and sets useYarn = true', function() {
+      task.hasYarnLock = td.function();
+      td.when(task.hasYarnLock()).thenReturn(true);
+
+      task.checkYarn = td.function();
+      td.when(task.checkYarn()).thenResolve();
+
+      expect(task.useYarn).to.be.undefined;
+      return expect(task.findPackageManager()).to.be.fulfilled.then(() => {
+        expect(task.useYarn).to.be.true;
+      });
+    });
+
+    it('resolves when yarn.lock file was found, yarn was not found and npm is compatible', function() {
+      task.hasYarnLock = td.function();
+      td.when(task.hasYarnLock()).thenReturn(true);
+
+      task.checkYarn = td.function();
+      td.when(task.checkYarn()).thenReject();
+
+      task.checkNpmVersion = td.function();
+      td.when(task.checkNpmVersion()).thenResolve();
+
+      expect(task.useYarn).to.be.undefined;
+      return expect(task.findPackageManager()).to.be.fulfilled.then(() => {
+        expect(task.useYarn).to.not.be.true;
+      });
+    });
+
+    it('rejects when yarn.lock file was found, yarn was not found and npm is incompatible', function() {
+      task.hasYarnLock = td.function();
+      td.when(task.hasYarnLock()).thenReturn(true);
+
+      task.checkYarn = td.function();
+      td.when(task.checkYarn()).thenReject();
+
+      task.checkNpmVersion = td.function();
+      td.when(task.checkNpmVersion()).thenReject();
+
+      return expect(task.findPackageManager()).to.be.rejected;
+    });
+
+    it('resolves when yarn is requested and found', function() {
+      task.useYarn = true;
+
+      task.checkYarn = td.function();
+      td.when(task.checkYarn()).thenResolve();
+
+      return expect(task.findPackageManager()).to.be.fulfilled;
+    });
+
+    it('rejects with SilentError when yarn is requested but not found', function() {
+      task.useYarn = true;
+
+      let error = new Error('yarn not found');
+      error.code = 'ENOENT';
+
+      task.checkYarn = td.function();
+      td.when(task.checkYarn()).thenReject(error);
+
+      return expect(task.findPackageManager()).to.be.rejectedWith(SilentError, /Yarn could not be found/);
+    });
+
+    it('rejects when yarn is requested and yarn check errors', function() {
+      task.useYarn = true;
+
+      task.checkYarn = td.function();
+      td.when(task.checkYarn()).thenReject(new Error('foobar'));
+
+      return expect(task.findPackageManager()).to.be.rejectedWith('foobar');
+    });
+
+    it('resolves when npm is requested and compatible', function() {
+      task.useYarn = false;
+
+      task.checkNpmVersion = td.function();
+      td.when(task.checkNpmVersion()).thenResolve();
+
+      return expect(task.findPackageManager()).to.be.fulfilled;
+    });
+
+    it('rejects when npm is requested but incompatible', function() {
+      task.useYarn = false;
+
+      task.checkNpmVersion = td.function();
+      td.when(task.checkNpmVersion()).thenReject();
+
+      return expect(task.findPackageManager()).to.be.rejected;
+    });
+  });
 });
