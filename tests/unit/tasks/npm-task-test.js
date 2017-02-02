@@ -222,4 +222,40 @@ describe('NpmTask', function() {
       return expect(task.findPackageManager()).to.be.rejected;
     });
   });
+
+  describe('toYarnArgs', function() {
+    let task;
+
+    beforeEach(function() {
+      task = new NpmTask();
+    });
+
+    it('converts "npm install --no-optional" to "yarn install --ignore-optional"', function() {
+      let args = task.toYarnArgs('install', { optional: false });
+
+      return expect(args).to.deep.equal(['install', '--ignore-optional']);
+    });
+
+    it('converts "npm install --save foobar" to "yarn add foobar"', function() {
+      let args = task.toYarnArgs('install', { save: true, packages: ['foobar'] });
+
+      return expect(args).to.deep.equal(['add', 'foobar']);
+    });
+
+    it('converts "npm install --save-dev --save-exact foo" to "yarn add --dev --exact foo"', function() {
+      let args = task.toYarnArgs('install', {
+        'save-dev': true,
+        'save-exact': true,
+        packages: ['foo'],
+      });
+
+      return expect(args).to.deep.equal(['add', '--dev', '--exact', 'foo']);
+    });
+
+    it('converts "npm uninstall bar" to "yarn remove bar"', function() {
+      let args = task.toYarnArgs('uninstall', { packages: ['bar'] });
+
+      return expect(args).to.deep.equal(['remove', 'bar']);
+    });
+  });
 });
