@@ -179,6 +179,23 @@ describe('models/builder.js', function() {
     });
   });
 
+  describe('cleanup', function() {
+    beforeEach(function() {
+      builder = new Builder({
+        setupBroccoliBuilder,
+        project: new MockProject(),
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+      });
+    });
+
+    it('is idempotent', function() {
+      let firstCleanupPromise = builder.cleanup();
+      expect(builder.cleanup()).to.equal(firstCleanupPromise);
+
+      return firstCleanupPromise;
+    });
+  });
+
   describe('addons', function() {
     let hooksCalled;
     let instrumentationArg;
