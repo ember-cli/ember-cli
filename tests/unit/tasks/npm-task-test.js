@@ -73,4 +73,35 @@ describe('NpmTask', function() {
       });
     });
   });
+
+  describe('checkYarn', function() {
+    let task, ui, yarn;
+
+    beforeEach(function() {
+      ui = new MockUI();
+      yarn = td.function();
+      task = new NpmTask({ ui, yarn });
+    });
+
+    it('resolves when yarn is found', function() {
+      td.when(yarn(['--version'])).thenResolve({ stdout: '0.22.1' });
+
+      return expect(task.checkYarn()).to.be.fulfilled;
+    });
+
+    it('rejects when yarn is not found', function() {
+      let error = new Error('yarn not found');
+      error.code = 'ENOENT';
+
+      td.when(yarn(['--version'])).thenReject(error);
+
+      return expect(task.checkYarn()).to.be.rejectedWith('yarn not found');
+    });
+
+    it('rejects when an unknown error is thrown', function() {
+      td.when(yarn(['--version'])).thenReject(new Error('foobar?'));
+
+      return expect(task.checkYarn()).to.be.rejectedWith('foobar?');
+    });
+  });
 });
