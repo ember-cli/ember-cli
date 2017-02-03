@@ -419,7 +419,13 @@ module.exports = {
           aliases: ['E', 'exact'],
           key: 'saveExact',
           required: false
-        }
+        },
+        {
+          name: 'yarn',
+          key: 'yarn',
+          required: false,
+          description: 'Use --yarn to enforce yarn usage, or --no-yarn to enforce NPM'
+        },
       ],
       anonymousOptions: ['<addon-name>']
     },
