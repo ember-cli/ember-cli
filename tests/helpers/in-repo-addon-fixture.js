@@ -24,7 +24,7 @@ function InRepoAddonFixture(name) {
   this.type = 'in-repo-addon';
   this.command = null;
   this.name = name;
-  this._installedAddons = [];
+  this._installedAddonFixtures = [];
 
   this._init();
 }

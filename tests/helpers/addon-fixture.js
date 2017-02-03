@@ -14,7 +14,7 @@ function AddonFixture(name, options) {
   this.type = 'addon';
   this.command = 'addon';
   this.name = name;
-  this._installedAddons = [];
+  this._installedAddonFixtures = [];
 
   this._init();
 }

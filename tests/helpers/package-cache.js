@@ -334,18 +334,6 @@ PackageCache.prototype = {
 
     let outputFile = path.join(outputDir, translate(type, 'manifest'));
     fs.outputFileSync(outputFile, manifest);
-
-    // Remove any existing yarn.lock file so that it doesn't try to incorrectly use it as a base.
-    if (type === 'yarn') {
-      try {
-        fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
-      } catch (error) {
-        // Catch unexceptional error but rethrow if something is truly wrong.
-        if (error.code !== 'ENOENT') {
-          throw error;
-        }
-      }
-    }
   },
 
   /**

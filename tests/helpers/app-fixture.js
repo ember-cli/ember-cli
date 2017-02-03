@@ -78,8 +78,9 @@ const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
  *
  * An AppFixture has two properties of note:
  *
- * - `dir`: A read-only property on the prototype specifying the place on disk
- *   where the fixture will live after serialization.
+ * - `_dir`: A read-only property on the prototype specifying the place on disk
+ *   where the fixture will live after serialization. Has a getter at `.dir` on
+ *   the prototype.
  * - `fixture`: JSON specifying the structure of the project in the format
  *   specified by [`fixturify`](https://github.com/joliss/node-fixturify).
  *
@@ -110,7 +111,7 @@ AppFixture.prototype = {
   _init() {
     process.chdir(root);
     let dirName = `${this.name}-${this.type}-fixture`;
-    this.dir = quickTemp.makeOrRemake({}, dirName);
+    this._dir = quickTemp.makeOrRemake({}, dirName);
     process.chdir(originalWorkingDirectory);
 
     this._loadBlueprint();
@@ -667,5 +668,17 @@ AppFixture.prototype = {
     return this.generateFile(fileName, contents);
   },
 };
+
+
+/**
+ * A read-only property on the prototype specifying the place on disk
+ * where the fixture will live after serialization.
+ * @property dir
+ */
+Object.defineProperty(AppFixture.prototype, 'dir', {
+  get() {
+    return this._dir;
+  },
+});
 
 module.exports = AppFixture;

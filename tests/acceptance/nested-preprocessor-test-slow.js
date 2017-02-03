@@ -120,6 +120,8 @@ describe('Acceptance: nested preprocessor tests.', function() {
   before(function() {
     root = new AppFixture('root');
 
+    root.fixture['ember-cli-build.js'] = root.fixture['ember-cli-build.js'].replace('// Add options here', 'hinting: false');
+
     const types = ['js', 'css', 'template'];
     const extensions = ['js', 'css', 'hbs'];
 
@@ -154,7 +156,7 @@ describe('Acceptance: nested preprocessor tests.', function() {
     }
 
     let child = new InRepoAddonFixture('child-addon');
-    child._npmAddonInstall({ name: 'ember-cli-htmlbars' });
+    child.installNodeModule('dependencies', 'ember-cli-htmlbars');
     child.generateCSS(`addon/styles/${child.name}.css`);
     child.generateJS('addon/components/thing-one.js');
     child.generateTemplate('addon/templates/anchor.hbs');
@@ -172,13 +174,13 @@ describe('Acceptance: nested preprocessor tests.', function() {
     inRepoAddons['css'].generateCSS('addon/styles/alpha.css');
     inRepoAddons['css'].generateCSS('addon/styles/zeta.css');
 
-    inRepoAddons['js']._npmAddonInstall({ name: 'ember-cli-babel' });
+    inRepoAddons['js'].installNodeModule('dependencies' , 'ember-cli-babel');
     inRepoAddons['js'].generateJS('app/routes/hat.js');
     inRepoAddons['js'].generateJS('app/routes/cat.js');
     inRepoAddons['js'].generateJS('addon/components/thing-one.js');
     inRepoAddons['js'].generateJS('addon/components/thing-two.js');
 
-    inRepoAddons['template']._npmAddonInstall({ name: 'ember-cli-htmlbars' });
+    inRepoAddons['template'].installNodeModule('dependencies', 'ember-cli-htmlbars');
     inRepoAddons['template'].generateTemplate('app/templates/hoist.hbs');
     inRepoAddons['template'].generateTemplate('addon/templates/anchor.hbs');
 
@@ -195,23 +197,23 @@ describe('Acceptance: nested preprocessor tests.', function() {
     nestedInRepoAddons['css'].generateCSS('addon/styles/alpha.css');
     nestedInRepoAddons['css'].generateCSS('addon/styles/zeta.css');
 
-    nestedInRepoAddons['js']._npmAddonInstall({ name: 'ember-cli-babel' });
+    nestedInRepoAddons['js'].installNodeModule('dependencies', 'ember-cli-babel');
     nestedInRepoAddons['js'].generateJS('app/routes/hat.js');
     nestedInRepoAddons['js'].generateJS('app/routes/cat.js');
     nestedInRepoAddons['js'].generateJS('addon/components/thing-one.js');
     nestedInRepoAddons['js'].generateJS('addon/components/thing-two.js');
 
-    nestedInRepoAddons['template']._npmAddonInstall({ name: 'ember-cli-htmlbars' });
+    nestedInRepoAddons['template'].installNodeModule('dependencies', 'ember-cli-htmlbars');
     nestedInRepoAddons['template'].generateTemplate('app/templates/nested-hoist.hbs');
     nestedInRepoAddons['template'].generateTemplate('addon/templates/nested-anchor.hbs');
 
-    root.install(child);
-    root.install(inRepoAddons['css']);
-    root.install(inRepoAddons['js']);
-    root.install(inRepoAddons['template']);
-    child.install(nestedInRepoAddons['css']);
-    child.install(nestedInRepoAddons['js']);
-    child.install(nestedInRepoAddons['template']);
+    root.installAddonFixture(child);
+    root.installAddonFixture(inRepoAddons['css']);
+    root.installAddonFixture(inRepoAddons['js']);
+    root.installAddonFixture(inRepoAddons['template']);
+    child.installAddonFixture(nestedInRepoAddons['css']);
+    child.installAddonFixture(nestedInRepoAddons['js']);
+    child.installAddonFixture(nestedInRepoAddons['template']);
     root.serialize();
   });
 

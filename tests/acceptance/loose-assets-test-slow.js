@@ -49,8 +49,8 @@ describe('Acceptance: Loose module concat.', function() {
     root = new AppFixture('root');
 
     let child = new InRepoAddonFixture('child-addon');
-    child._npmAddonInstall({ name: 'ember-cli-htmlbars' });
-    child._npmAddonInstall({ name: 'ember-cli-babel' });
+    child.installNodeModule('dependencies', 'ember-cli-htmlbars');
+    child.installNodeModule('dependencies', 'ember-cli-babel');
     // child.addMethod('included', includedFixture.toString());
 
     child.generateCSS('app/styles/app.css');
@@ -75,8 +75,8 @@ describe('Acceptance: Loose module concat.', function() {
     child.generateFile('funnel/addon.css', 'child/funnel/addon.css');
 
     let grandchild = new InRepoAddonFixture('grandchild-addon');
-    grandchild._npmAddonInstall({ name: 'ember-cli-htmlbars' });
-    grandchild._npmAddonInstall({ name: 'ember-cli-babel' });
+    grandchild.installNodeModule('dependencies', 'ember-cli-htmlbars');
+    grandchild.installNodeModule('dependencies', 'ember-cli-babel');
     // grandchild.addMethod('included', includedFixture.toString());
 
     grandchild.generateCSS('app/styles/app.css');
@@ -100,8 +100,8 @@ describe('Acceptance: Loose module concat.', function() {
     grandchild.generateFile('funnel/app.css', 'grandchild/funnel/app.css');
     grandchild.generateFile('funnel/addon.css', 'grandchild/funnel/addon.css');
 
-    root.install(child);
-    child.install(grandchild);
+    root.installAddonFixture(child);
+    child.installAddonFixture(grandchild);
     root.serialize();
   });
 
@@ -132,22 +132,6 @@ describe('Acceptance: Loose module concat.', function() {
       '.child-addon { content: "addon/styles/app.css"; }',
       '.child-addon { content: "addon/styles/child-addon.css"; }',
       '.grandchild-addon { content: "addon/styles/grandchild-addon.css"; }',
-
-      // These are included via vendor.css. (Note alpha position.)
-      '.child-addon { content: "addon/styles/_import.css"; }',
-      '.child-addon { content: "addon/styles/addon.css"; }',
-      '.child-addon { content: "addon/styles/alpha.css"; }',
-      '.child-addon { content: "addon/styles/app.css"; }',
-      '.child-addon { content: "addon/styles/child-addon.css"; }',
-      '.child-addon { content: "addon/styles/zeta.css"; }',
-      '.grandchild-addon { content: "addon/styles/_import.css"; }',
-      '.grandchild-addon { content: "addon/styles/addon.css"; }',
-      '.grandchild-addon { content: "addon/styles/alpha.css"; }',
-      '.grandchild-addon { content: "addon/styles/app.css"; }',
-      '.grandchild-addon { content: "addon/styles/grandchild-addon.css"; }',
-      '.grandchild-addon { content: "addon/styles/zeta.css"; }',
-      // End included via vendor.css.
-
       '.child-addon { content: "addon/styles/zeta.css"; }',
     ];
 
