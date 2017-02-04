@@ -212,6 +212,11 @@ AppFixture.prototype = {
    * @param {Boolean} _isChild Private. Enables smarter dependency installation.
    */
   serialize(_isChild) {
+    // Short-circuit abort for a clean fixture.
+    if (this.serialized) {
+      return this;
+    }
+
     // Default link in ember-cli.
     // This is required in order to be able to use these helpers in Ember CLI.
     // Possibly move this to a public API in the future.
