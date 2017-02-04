@@ -129,7 +129,7 @@ AppFixture.prototype = {
    * @method _loadBlueprint
    */
   _loadBlueprint() {
-    fs.removeSync(this.dir);
+    fs.emptyDirSync(this.dir);
 
     ember.invoke(
       this.command,
@@ -145,7 +145,7 @@ AppFixture.prototype = {
     this.fixture = fixturify.readSync(this.dir);
 
     // Clean up after the generator.
-    fs.removeSync(this.dir);
+    fs.emptyDirSync(this.dir);
   },
 
   /**

@@ -40,7 +40,7 @@ InRepoAddonFixture.prototype.constructor = InRepoAddonFixture;
  * @override
  */
 InRepoAddonFixture.prototype._loadBlueprint = function() {
-  fs.removeSync(this.dir);
+  fs.emptyDirSync(this.dir);
 
   // Lie to the generator.
   fs.outputFileSync(path.join(this.dir, 'package.json'), '{}');
@@ -52,7 +52,7 @@ InRepoAddonFixture.prototype._loadBlueprint = function() {
   this.fixture = fixturify.readSync(path.join(this.dir, 'lib', this.name));
 
   // Clean up after the generator.
-  fs.removeSync(this.dir);
+  fs.emptyDirSync(this.dir);
 };
 
 module.exports = InRepoAddonFixture;
