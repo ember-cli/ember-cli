@@ -143,22 +143,20 @@ AppFixture.prototype = {
       '--skip-git'
     );
 
-    this.fixture = fixturify.readSync(this.dir);
+    var handler = {
+      set: function(target, property, value) {
+        target.serialized = false;
+        target[property] = value;
+        return true;
+      },
+      deleteProperty: function(target, property) {
+        target.serialized = false;
+        delete target[property];
+        return true;
+      }
+    };
 
-    // var handler = {
-    //   set: function(target, property, value) {
-    //     target.serialized = false;
-    //     target[property] = value;
-    //     return true;
-    //   },
-    //   deleteProperty: function(target, property) {
-    //     target.serialized = false;
-    //     delete target[property];
-    //     return true;
-    //   }
-    // };
-
-    // this.fixture = new Proxy(fixturify.readSync(this.dir), handler);
+    this.fixture = new Proxy(fixturify.readSync(this.dir), handler);
 
     // Clean up after the generator.
     fs.emptyDirSync(this.dir);
