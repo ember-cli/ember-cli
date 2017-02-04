@@ -143,14 +143,15 @@ AppFixture.prototype = {
       '--skip-git'
     );
 
+    var self = this;
     var handler = {
       set: function(target, property, value) {
-        target.serialized = false;
+        self.serialized = false;
         target[property] = value;
         return true;
       },
       deleteProperty: function(target, property) {
-        target.serialized = false;
+        self.serialized = false;
         delete target[property];
         return true;
       }
@@ -210,11 +211,6 @@ AppFixture.prototype = {
    * @param {Boolean} _isChild Private. Enables smarter dependency installation.
    */
   serialize(_isChild) {
-    // Short-circuit abort for a clean fixture.
-    if (this.serialized) {
-      return this;
-    }
-
     // Default link in ember-cli.
     // This is required in order to be able to use these helpers in Ember CLI.
     // Possibly move this to a public API in the future.
@@ -263,6 +259,14 @@ AppFixture.prototype = {
         throw new Error('Cannot serialize addon.');
       }
     });
+
+    // Short-circuit abort for a clean fixture.
+    if (this.serialized) {
+      console.log('skipping!');
+      return this;
+    }
+
+    console.log('serializing!');
 
     fixturify.writeSync(this.dir, this.fixture);
 
