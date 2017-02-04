@@ -174,7 +174,7 @@ describe('Acceptance: nested preprocessor tests.', function() {
     inRepoAddons['css'].generateCSS('addon/styles/alpha.css');
     inRepoAddons['css'].generateCSS('addon/styles/zeta.css');
 
-    inRepoAddons['js'].installNodeModule('dependencies' , 'ember-cli-babel');
+    inRepoAddons['js'].installNodeModule('dependencies', 'ember-cli-babel');
     inRepoAddons['js'].generateJS('app/routes/hat.js');
     inRepoAddons['js'].generateJS('app/routes/cat.js');
     inRepoAddons['js'].generateJS('addon/components/thing-one.js');

@@ -25,6 +25,7 @@ function InRepoAddonFixture(name) {
   this.command = null;
   this.name = name;
   this._installedAddonFixtures = [];
+  this.serialized = false;
 
   this._init();
 }

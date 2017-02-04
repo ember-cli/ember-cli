@@ -96,6 +96,7 @@ function AppFixture(name) {
   this.command = 'new';
   this.name = name;
   this._installedAddonFixtures = [];
+  this.serialized = false;
 
   this._init();
 }
@@ -143,6 +144,21 @@ AppFixture.prototype = {
     );
 
     this.fixture = fixturify.readSync(this.dir);
+
+    // var handler = {
+    //   set: function(target, property, value) {
+    //     target.serialized = false;
+    //     target[property] = value;
+    //     return true;
+    //   },
+    //   deleteProperty: function(target, property) {
+    //     target.serialized = false;
+    //     delete target[property];
+    //     return true;
+    //   }
+    // };
+
+    // this.fixture = new Proxy(fixturify.readSync(this.dir), handler);
 
     // Clean up after the generator.
     fs.emptyDirSync(this.dir);
@@ -306,6 +322,7 @@ AppFixture.prototype = {
       symlinkOrCopySync(link.to, link.from);
     });
 
+    this.serialized = true;
     return this;
   },
 

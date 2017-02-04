@@ -317,8 +317,7 @@ PackageCache.prototype = {
 
   /**
    * The `_writeManifest` method generates the on-disk folder for the package cache
-   * and saves the manifest into it. If it is a yarn package cache it will remove
-   * the existing lock file.
+   * and saves the manifest into it.
    *
    * @method _writeManifest
    * @param {String} label The label for the cache.
