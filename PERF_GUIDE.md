@@ -237,7 +237,7 @@ higher.  `npm install -g broccoli-viz@^3.0.3`.
 
 To generate visualization:
 
-+ `BROCCOLI_VIZ=true ember build`
++ `BROCCOLI_VIZ=1 ember build`
 + `broccoli-viz broccoli-viz.0.json > broccoli-viz.0.dot`
 + `dot -Tpng broccoli-viz.0.dot > broccoli-viz.0.png`
 
