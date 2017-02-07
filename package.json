@@ -107,7 +107,7 @@
     "resolve": "^1.1.6",
     "rsvp": "^3.3.3",
     "sane": "^1.1.1",
-    "semver": "^5.1.1",
+    "semver": "^5.2.0",
     "silent-error": "^1.0.0",
     "sort-package-json": "^1.4.0",
     "symlink-or-copy": "^1.1.8",
