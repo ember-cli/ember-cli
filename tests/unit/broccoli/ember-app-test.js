@@ -500,7 +500,7 @@ describe('broccoli/ember-app', function() {
 
           let args = td.explain(app.addonTreesFor).calls.map(function(call) { return call.args[0]; });
 
-          expect(args).to.deep.equal(['addon', 'vendor']);
+          expect(args).to.deep.equal(['vendor']);
         });
 
         it('_processedAppTree calls addonTreesFor', function() {
@@ -523,13 +523,10 @@ describe('broccoli/ember-app', function() {
         td.when(app.addonPostprocessTree(), { ignoreExtraArgs: true }).thenReturn(['batman']);
       });
 
-      it('styles calls addonTreesFor', function() {
-        app.styles();
+      it('from .styles()', function() {
+        let stylesOutput = app.styles();
 
-        let captor = td.matchers.captor();
-        td.verify(app.addonPostprocessTree('css', captor.capture()));
-
-        expect(captor.value.description).to.equal('styles', 'should be called with consolidated tree');
+        expect(stylesOutput).to.eql(['batman']);
       });
 
       it('template type is called', function() {
@@ -1074,18 +1071,19 @@ describe('broccoli/ember-app', function() {
 
         app.styles(); // run
 
-        expect(count).to.eql(3);
+        expect(count).to.eql(1);
 
-        expect(args[2]).to.deep.eql({
+        expect(args[0]).to.deep.eql({
           annotation: 'Concat: Vendor Styles/assets/vendor.css',
+          allowNone: true,
           headerFiles: [
             'files/a.css',
             'files/b.css',
             'files/c.css',
             'files/d.css',
             'files/e.css',
-            'vendor/addons.css',
           ],
+          inputFiles: ['addon-tree-output/**/*.css'],
           outputFile: '/assets/vendor.css',
         });
       });
@@ -1098,40 +1096,23 @@ describe('broccoli/ember-app', function() {
 
         app.styles(); // run
 
-        expect(count).to.eql(3);
+        expect(count).to.eql(1);
 
         expect(args[0]).to.deep.eql({
-          allowNone: true,
-          annotation: 'Concat: Addon CSS',
-          inputFiles: [
-            '**/*.css',
-          ],
-          outputFile: '/addons.css',
-        });
-
-        expect(args[1]).to.deep.eql({
-          allowNone: true,
-          annotation: 'Concat: Addon JS',
-          inputFiles: [
-            '**/*.js',
-          ],
-          outputFile: '/addons.js',
-        });
-
-        expect(args[2]).to.deep.eql({
           annotation: 'Concat: Vendor Styles/assets/vendor.css',
+          allowNone: true,
           headerFiles: [
             'files/a.css',
             'files/b.css',
             'files/c.css',
             'files/d.css',
-            'vendor/addons.css',
           ],
+          inputFiles: ['addon-tree-output/**/*.css'],
           outputFile: '/assets/vendor.css',
         });
       });
 
-      it('correctly orders concats from app.javacsript()', function() {
+      it('correctly orders concats from app.javascript()', function() {
         app.import('files/b.js');
         app.import('files/c.js');
         app.import('files/a.js');
@@ -1163,6 +1144,7 @@ describe('broccoli/ember-app', function() {
         // should be: a,b,c,d in output
         expect(args[1]).to.deep.eql({
           annotation: "Concat: Vendor /assets/vendor.js",
+          allowNone: true,
           headerFiles: [
             "vendor/ember-cli/vendor-prefix.js",
             "files/d.js",
@@ -1172,9 +1154,9 @@ describe('broccoli/ember-app', function() {
             "bower_components/ember-cli-shims/app-shims.js",
             "files/b.js",
             "files/c.js",
-            "vendor/addons.js",
-            "vendor/ember-cli/vendor-suffix.js",
           ],
+          inputFiles: ['addon-tree-output/**/*.js'],
+          footerFiles: ['vendor/ember-cli/vendor-suffix.js'],
           outputFile: "/assets/vendor.js",
           separator: '\n;',
         });
@@ -1197,23 +1179,9 @@ describe('broccoli/ember-app', function() {
 
         app.testFiles('some-tree'); // run
 
-        expect(count).to.eql(4);
+        expect(count).to.eql(2);
 
         expect(args[0]).to.deep.eql({
-          allowNone: true,
-          annotation: 'Concat: Addon CSS',
-          inputFiles: ['**/*.css'],
-          outputFile: '/addons.css',
-        });
-
-        expect(args[1]).to.deep.eql({
-          allowNone: true,
-          annotation: 'Concat: Addon JS',
-          inputFiles: ['**/*.js'],
-          outputFile: '/addons.js',
-        });
-
-        expect(args[2]).to.deep.eql({
           allowNone: true,
           annotation: 'Concat: Test Support JS',
           footerFiles: [
@@ -1232,7 +1200,7 @@ describe('broccoli/ember-app', function() {
           outputFile: '/assets/test-support.js',
         });
 
-        expect(args[3]).to.deep.eql({
+        expect(args[1]).to.deep.eql({
           annotation: 'Concat: Test Support CSS',
           headerFiles: [
             'files/a.css',
