@@ -4,6 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const symlinkOrCopySync = require('symlink-or-copy').sync;
 const merge = require('ember-cli-lodash-subset').merge;
+const existsSync = require('exists-sync');
 
 const fixturify = require('fixturify');
 const quickTemp = require('quick-temp');
@@ -96,6 +97,9 @@ function AppFixture(name) {
   this.command = 'new';
   this.name = name;
   this._installedAddonFixtures = [];
+
+  // For handling idempotent re-serialization
+  this._cached = {};
   this.serialized = false;
 
   this._init();
@@ -143,8 +147,33 @@ AppFixture.prototype = {
       '--skip-git'
     );
 
+    this.fixture = this._writeTraps(fixturify.readSync(this.dir));
+
+    // Clean up after the generator.
+    fs.emptyDirSync(this.dir);
+  },
+
+  /**
+   * Sets up a Proxy with traps registered to detect writes. Sets the
+   * `serialized` property to false when it detects a change.
+   *
+   * @param {Object} target The object to monitor for writes.
+   * @method _writeTraps
+   * @private
+   */
+  _writeTraps(target) {
+    // Old node doesn't like `Proxy`.
+    if (typeof Proxy === 'undefined') { return target; }
+
     let self = this;
     let handler = {
+      get(target, property) {
+        if (typeof target[property] === 'object' && target[property] !== null) {
+          return new Proxy(target[property], handler);
+        } else {
+          return target[property];
+        }
+      },
       set(target, property, value) {
         self.serialized = false;
         target[property] = value;
@@ -157,10 +186,7 @@ AppFixture.prototype = {
       },
     };
 
-    this.fixture = new Proxy(fixturify.readSync(this.dir), handler);
-
-    // Clean up after the generator.
-    fs.emptyDirSync(this.dir);
+    return new Proxy(target, handler);
   },
 
   /**
@@ -261,12 +287,18 @@ AppFixture.prototype = {
     });
 
     // Short-circuit abort for a clean fixture.
-    if (this.serialized) {
-      console.log('skipping!');
+    if (this.serialized && typeof Proxy === 'undefined' && _.isEqual(this._fixture, this._cached)) {
+      // If we have written this fixture before.
+      // And we don't have dirty-tracking.
+      // And the cached version matches what we've last seen.
+      // Then our serialization is still valid.
+      return this;
+    } else if (this.serialized && typeof Proxy !== 'undefined') {
+      // If we have written this fixture before.
+      // And we have dirty-tracking.
+      // Then our serialization is still valid.
       return this;
     }
-
-    console.log('serializing!');
 
     fixturify.writeSync(this.dir, this.fixture);
 
@@ -289,11 +321,11 @@ AppFixture.prototype = {
       */
       if (_isChild) {
         process.env.NODE_ENV = 'production';
-        let cacheName = `${this.type}-production-node`;
+        let cacheName = `${this.name}-${this.type}-production-node`;
         nodePackageCache = packageCache.create(cacheName, 'yarn', this.fixture['package.json'], npmLinks);
         delete process.env.NODE_ENV;
       } else {
-        let cacheName = `${this.type}-node`;
+        let cacheName = `${this.name}-${this.type}-node`;
         nodePackageCache = packageCache.create(cacheName, 'yarn', this.fixture['package.json'], npmLinks);
       }
 
@@ -301,6 +333,9 @@ AppFixture.prototype = {
       from = path.join(nodePackageCache, 'node_modules');
       fs.mkdirsSync(from); // Just in case the path doesn't exist.
       to = path.join(this.dir, 'node_modules');
+
+      // ... but not if we've already symlinked it.
+      if (existsSync(to)) { fs.removeSync(to); }
       symlinkOrCopySync(from, to);
     }
 
@@ -320,15 +355,22 @@ AppFixture.prototype = {
       from = path.join(bowerPackageCache, 'bower_components');
       fs.mkdirsSync(from); // Just in case the path doesn't exist.
       to = path.join(this.dir, 'bower_components');
+
+      // ... but not if we've already symlinked it.
+      if (existsSync(to)) { fs.removeSync(to); }
       symlinkOrCopySync(from, to);
     }
 
     inRepoLinks.forEach(function(link) {
       fs.mkdirsSync(path.dirname(link.from)); // Just in case the path doesn't exist.
       fs.mkdirsSync(path.dirname(link.to)); // Just in case the path doesn't exist.
+
+      // ... but not if we've already symlinked it.
+      if (existsSync(link.from)) { fs.removeSync(link.from); }
       symlinkOrCopySync(link.to, link.from);
     });
 
+    this._cached = this._fixture;
     this.serialized = true;
     return this;
   },

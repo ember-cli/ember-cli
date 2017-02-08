@@ -103,6 +103,10 @@ describe('Acceptance: Loose module concat.', function() {
     root.installAddonFixture(child);
     child.installAddonFixture(grandchild);
     root.serialize();
+
+    grandchild.installNodeModule('dependencies', 'ember-cli-babel');
+
+    root.serialize();
   });
 
   after(function() {
