@@ -51,7 +51,7 @@ InRepoAddonFixture.prototype._loadBlueprint = function() {
   ember.invoke('generate', 'in-repo-addon', this.name);
   process.chdir(originalWorkingDirectory);
 
-  this.fixture = this._writeTraps(fixturify.readSync(path.join(this.dir, 'lib', this.name)));
+  this.fixture = fixturify.readSync(path.join(this.dir, 'lib', this.name));
 
   // Clean up after the generator.
   fs.emptyDirSync(this.dir);

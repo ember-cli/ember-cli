@@ -3,7 +3,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 const symlinkOrCopySync = require('symlink-or-copy').sync;
-const merge = require('ember-cli-lodash-subset').merge;
+const _ = require('ember-cli-lodash-subset');
+const { isEqual, merge } = _;
 const existsSync = require('exists-sync');
 
 const fixturify = require('fixturify');
@@ -147,46 +148,10 @@ AppFixture.prototype = {
       '--skip-git'
     );
 
-    this.fixture = this._writeTraps(fixturify.readSync(this.dir));
+    this.fixture = fixturify.readSync(this.dir);
 
     // Clean up after the generator.
     fs.emptyDirSync(this.dir);
-  },
-
-  /**
-   * Sets up a Proxy with traps registered to detect writes. Sets the
-   * `serialized` property to false when it detects a change.
-   *
-   * @param {Object} target The object to monitor for writes.
-   * @method _writeTraps
-   * @private
-   */
-  _writeTraps(target) {
-    // Old node doesn't like `Proxy`.
-    if (typeof Proxy === 'undefined') { return target; }
-
-    let self = this;
-    let handler = {
-      get(target, property) {
-        if (typeof target[property] === 'object' && target[property] !== null) {
-          return new Proxy(target[property], handler);
-        } else {
-          return target[property];
-        }
-      },
-      set(target, property, value) {
-        self.serialized = false;
-        target[property] = value;
-        return true;
-      },
-      deleteProperty(target, property) {
-        self.serialized = false;
-        delete target[property];
-        return true;
-      },
-    };
-
-    return new Proxy(target, handler);
   },
 
   /**
@@ -287,15 +252,10 @@ AppFixture.prototype = {
     });
 
     // Short-circuit abort for a clean fixture.
-    if (this.serialized && typeof Proxy === 'undefined' && _.isEqual(this._fixture, this._cached)) {
+    if (this.serialized && isEqual(this._cached, this.fixture)) {
       // If we have written this fixture before.
       // And we don't have dirty-tracking.
       // And the cached version matches what we've last seen.
-      // Then our serialization is still valid.
-      return this;
-    } else if (this.serialized && typeof Proxy !== 'undefined') {
-      // If we have written this fixture before.
-      // And we have dirty-tracking.
       // Then our serialization is still valid.
       return this;
     }
@@ -370,7 +330,7 @@ AppFixture.prototype = {
       symlinkOrCopySync(link.to, link.from);
     });
 
-    this._cached = this._fixture;
+    this._cached = JSON.parse(JSON.stringify(this.fixture));
     this.serialized = true;
     return this;
   },
