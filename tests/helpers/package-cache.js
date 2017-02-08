@@ -317,8 +317,7 @@ PackageCache.prototype = {
 
   /**
    * The `_writeManifest` method generates the on-disk folder for the package cache
-   * and saves the manifest into it. If it is a yarn package cache it will remove
-   * the existing lock file.
+   * and saves the manifest into it.
    *
    * @method _writeManifest
    * @param {String} label The label for the cache.
@@ -334,18 +333,6 @@ PackageCache.prototype = {
 
     let outputFile = path.join(outputDir, translate(type, 'manifest'));
     fs.outputFileSync(outputFile, manifest);
-
-    // Remove any existing yarn.lock file so that it doesn't try to incorrectly use it as a base.
-    if (type === 'yarn') {
-      try {
-        fs.unlinkSync(path.join(outputDir, 'yarn.lock'));
-      } catch (error) {
-        // Catch unexceptional error but rethrow if something is truly wrong.
-        if (error.code !== 'ENOENT') {
-          throw error;
-        }
-      }
-    }
   },
 
   /**

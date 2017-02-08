@@ -103,24 +103,7 @@ describe('PackageCache', function() {
     let secondWrite = testPackageCache.dirs['bower'];
     expect(firstWrite).to.equal(secondWrite);
 
-    // Confirm that it removes a yarn.lock file if present and type is yarn.
-    testPackageCache._writeManifest('yarn', 'yarn', manifest);
-    let yarn = testPackageCache.dirs['yarn'];
-    let lockFileLocation = path.join(yarn, 'yarn.lock');
-
-    // Make sure it doesn't throw if it doesn't exist.
-    expect(function() { testPackageCache._writeManifest('yarn', 'yarn', manifest); }).to.not.throw(Error);
-
-    // Add a "lockfile".
-    fs.writeFileSync(lockFileLocation, 'Hello, world!');
-    expect(file(lockFileLocation)).to.exist; // Sanity check.
-
-    // Make sure it gets removed.
-    testPackageCache._writeManifest('yarn', 'yarn', manifest);
-    expect(file(lockFileLocation)).to.not.exist;
-
     testPackageCache.destroy('bower');
-    testPackageCache.destroy('yarn');
   });
 
   it('_checkManifest', function() {
