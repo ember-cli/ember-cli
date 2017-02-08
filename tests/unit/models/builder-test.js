@@ -127,8 +127,6 @@ describe('models/builder.js', function() {
     let instrumentationStop;
 
     beforeEach(function() {
-      let command = new BuildCommand(commandOptions());
-
       builder = new Builder({
         setupBroccoliBuilder,
         project: new MockProject(),
@@ -178,6 +176,23 @@ describe('models/builder.js', function() {
 
         expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
       });
+    });
+  });
+
+  describe('cleanup', function() {
+    beforeEach(function() {
+      builder = new Builder({
+        setupBroccoliBuilder,
+        project: new MockProject(),
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+      });
+    });
+
+    it('is idempotent', function() {
+      let firstCleanupPromise = builder.cleanup();
+      expect(builder.cleanup()).to.equal(firstCleanupPromise);
+
+      return firstCleanupPromise;
     });
   });
 
