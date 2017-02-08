@@ -4,7 +4,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const symlinkOrCopySync = require('symlink-or-copy').sync;
 const _ = require('ember-cli-lodash-subset');
-const { isEqual, merge } = _;
+const isEqual = _.isEqual;
+const merge = _.merge;
 const existsSync = require('exists-sync');
 
 const fixturify = require('fixturify');
