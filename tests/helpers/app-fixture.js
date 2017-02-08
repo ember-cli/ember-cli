@@ -56,13 +56,10 @@ const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
  * const path = require('path');
  * const AppFixture = require.resolve('ember-cli/tests/helpers/app-fixture');
  *
- * const CommandGenerator = require('ember-cli/tests/helpers/command-generator');
- * const ember = new CommandGenerator(require.resolve('ember-cli/bin/ember'));
- *
  * let root = new AppFixture('name');
  * root.serialize();
  *
- * let result = ember.invoke('build', { cwd: root.dir });
+ * let result = root.ember('build');
  * let appJSPath = path.join(root.dir, 'dist', 'assets', `${root.name}.js`);
  * let appJS = fs.readFileSync(appJSPath, { encoding: 'utf8' });
  *
@@ -334,6 +331,28 @@ AppFixture.prototype = {
     this._cached = JSON.parse(JSON.stringify(this.fixture));
     this.serialized = true;
     return this;
+  },
+
+  /**
+   * Exposes the `ember` command line interface inside of the fixture.
+   *
+   * @method ember
+   * @param {String} subcommand The subcommand to be passed into ember.
+   * @param {String} [...arguments] Arguments to be passed into the ember subcommand.
+   */
+  ember() {
+    // Can't run `ember` commands in a non-serialized addon.
+    if (!this.serialized || !isEqual(this._cached, this.fixture)) {
+      this.serialize();
+    }
+
+    // Pass as many arguments as you want...
+    let args = Array.prototype.slice.call(arguments);
+
+    // ...but we don't give you full freedom to set options.
+    args.push({ cwd: this.dir });
+
+    return ember.invoke.apply(ember, args);
   },
 
   /**

@@ -9,10 +9,6 @@ const InRepoAddonFixture = require('../helpers/in-repo-addon-fixture');
 
 const processTemplate = require('../../lib/utilities/process-template');
 
-const root = path.resolve(__dirname, '..', '..');
-const CommandGenerator = require('../../tests/helpers/command-generator');
-const ember = new CommandGenerator(path.join(root, 'bin', 'ember'));
-
 const chai = require('../chai');
 const expect = chai.expect;
 const file = chai.file;
@@ -110,7 +106,7 @@ describe('Acceptance: Loose module concat.', function() {
   });
 
   it('Generates the correct output given a complicated addon structure.', function() {
-    let result = ember.invoke('build', { cwd: root.dir });
+    let result = root.ember('build');
 
     // APP
     let appJSPath = path.join(root.dir, 'dist', 'assets', `${root.name}.js`);
