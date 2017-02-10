@@ -283,18 +283,16 @@ describe('models/builder.js', function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      if (experiments.INSTRUMENTATION) {
-        it('invokes the instrumentation hook if it is preset', function() {
-          addon[experiments.INSTRUMENTATION] = function(instrumentation) {
-            hooksCalled.push('instrumentation');
-            instrumentationArg = instrumentation;
-          };
+      it('invokes the instrumentation hook if it is preset', function() {
+        addon.instrumentation = function(instrumentation) {
+          hooksCalled.push('instrumentation');
+          instrumentationArg = instrumentation;
+        };
 
-          return builder.build(null, {}).then(function() {
-            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
-          });
+        return builder.build(null, {}).then(function() {
+          expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
         });
-      }
+      });
 
       if (experiments.BUILD_INSTRUMENTATION) {
         it('throws if [BUILD_INSTRUMENTATION] is set', function() {
