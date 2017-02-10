@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+### 2.11.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.11.0...v2.11.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.11.0...v2.11.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6711](https://github.com/ember-cli/ember-cli/pull/6711) Update `ember-cli-htmlbars-inline-precompile` requirement [@SaladFork](https://github.com/SaladFork)
+- [#6720](https://github.com/ember-cli/ember-cli/pull/6720) ignore license change on init [@kellyselden](https://github.com/kellyselden)
+- [#6721](https://github.com/ember-cli/ember-cli/pull/6721) use ~ instead of ^ for ember-source [@kellyselden](https://github.com/kellyselden)
+- [#6763](https://github.com/ember-cli/ember-cli/pull/6763) Change livereload PortFinder.basePort to 49153 [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.11.0
 
 The following changes are required if you are upgrading from the previous
@@ -47,6 +70,7 @@ version:
 - [#6479](https://github.com/ember-cli/ember-cli/pull/6479) docs: Blueprint:renamedFiles [@les2](https://github.com/les2)
 
 Thank you to all who took the time to contribute!
+
 
 ### 2.10.1
 
