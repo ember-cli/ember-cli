@@ -609,24 +609,6 @@ describe('models/instrumentation.js', function() {
 
         td.verify(hook(), { ignoreExtraArgs: true, times: 0 });
       });
-
-      describe('(build)', function() {
-        if (experiments.BUILD_INSTRUMENTATION) {
-          it('throws if an addon specifies [BUILD_INSTRUMENTATION]', function() {
-            process.env.EMBER_CLI_INSTRUMENTATION = '1';
-
-            addon[experiments.BUILD_INSTRUMENTATION] = function() {};
-
-            instrumentation.start('build');
-
-            expect(function() {
-              instrumentation.stopAndReport('build', 'a', 'b');
-            }).to.throw(
-              'Test Addon defines experiments.BUILD_INSTRUMENTATION. Update to use experiments.INSTRUMENTATION'
-            );
-          });
-        }
-      });
     });
   });
 

@@ -293,21 +293,6 @@ describe('models/builder.js', function() {
           expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
         });
       });
-
-      if (experiments.BUILD_INSTRUMENTATION) {
-        it('throws if [BUILD_INSTRUMENTATION] is set', function() {
-          addon[experiments.BUILD_INSTRUMENTATION] = function() { };
-
-          return builder.build(null, {}).then(function() {
-            throw new Error('Expected build to reject from thrown error');
-          }, function(reason) {
-            expect(reason.message).to.eql(oneLine`
-              TestAddon defines experiments.BUILD_INSTRUMENTATION. Update to use
-              experiments.INSTRUMENTATION
-            `);
-          });
-        });
-      }
     });
 
     it('hooks are called in the right order without visualization', function() {
