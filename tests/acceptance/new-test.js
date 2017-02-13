@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra');
 const ember = require('../helpers/ember');
+const experiments = require('../experiments');
 const walkSync = require('walk-sync');
 const Blueprint = require('../../lib/models/blueprint');
 const path = require('path');
@@ -206,20 +207,23 @@ describe('Acceptance: ember new', function() {
     });
   });
 
-  it('ember new with package blueprint installs the package and uses it', function() {
-    this.timeout(20000); // relies on npm over the network
+  if (experiments.NPM_BLUEPRINTS) {
+    it('ember new with package blueprint installs the package and uses it', function() {
+      this.timeout(20000); // relies on npm over the network
 
-    return ember([
-      'new',
-      'app-from-npm',
-      '--skip-npm',
-      '--skip-bower',
-      '--skip-git',
-      '--blueprint=ember-cli-app-blueprint-test',
-    ]).then(function() {
-      expect(file('.ember-cli')).to.exist;
+      return ember([
+        'new',
+        'app-from-npm',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--blueprint=ember-cli-app-blueprint-test',
+      ]).then(function() {
+        expect(file('.ember-cli')).to.exist;
+        expect(file('package.json')).to.contain('"name": "app-from-npm"');
+      });
     });
-  });
+  }
 
   it('ember new passes blueprint options through to blueprint', function() {
     fs.mkdirsSync('my_blueprint/files');
