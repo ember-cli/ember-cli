@@ -96,6 +96,7 @@ module.exports = {
       addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
+      yarn: options.yarn,
     };
   },
 
