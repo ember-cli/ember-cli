@@ -401,7 +401,14 @@ describe('models/instrumentation.js', function() {
         instrumentation.stopAndReport('init');
       }).to.not.throw();
 
-      expect(ui.output).to.eql(`${chalk.red('Error reporting instrumentation \'init\'.  Stack: init,a ruckus')}${EOL}`);
+      expect(ui.output).to.eql(`${chalk.red('Error reporting instrumentation \'init\'.')}${EOL}`);
+
+      instrumentation.start('init');
+      heimdall.start('trouble');
+
+      expect(function() {
+        instrumentation.stopAndReport('init');
+      }).to.not.throw();
     });
 
     it('computes summary for name', function() {
