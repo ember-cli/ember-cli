@@ -21,6 +21,7 @@ module.exports = {
       modulePrefix: name,
       namespace,
       emberCLIVersion: require('../../package').version,
+      yarn: options.yarn,
     };
   },
 };
