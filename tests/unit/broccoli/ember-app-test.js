@@ -19,7 +19,7 @@ let EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
   },
 });
 
-describe('broccoli/ember-app', function() {
+describe('EmberApp', function() {
   let project, projectPath, app, addon;
 
   function setupProject(rootPath) {
