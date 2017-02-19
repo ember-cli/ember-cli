@@ -3,8 +3,6 @@
 const Blueprint = require('../../../lib/models/blueprint');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
-const fs = require('fs');
 const path = require('path');
 const td = require('testdouble');
 
@@ -59,21 +57,20 @@ describe('blueprint - addon', function() {
     let writeFileSync;
 
     beforeEach(function() {
-      readJsonSync = td.function();
-      td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
-
-      writeFileSync = td.function();
-
-      blueprint = proxyquire('../../../blueprints/addon', {
-        'fs-extra': {
-          readJsonSync,
-          writeFileSync,
-        },
-      });
+      blueprint = require('../../../blueprints/addon');
       blueprint._appBlueprint = {
         path: 'test-app-blueprint-path',
       };
       blueprint.path = 'test-blueprint-path';
+
+      readJsonSync = td.replace(blueprint, '_readJsonSync');
+      td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
+
+      writeFileSync = td.replace(blueprint, '_writeFileSync');
+    });
+
+    afterEach(function() {
+      td.reset();
     });
 
     describe('generatePackageJson', function() {
