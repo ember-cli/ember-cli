@@ -1,7 +1,6 @@
 'use strict';
 
 const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const assign = require('ember-cli-lodash-subset').assign;
@@ -11,17 +10,8 @@ const td = require('testdouble');
 const RSVP = require('rsvp');
 const Promise = RSVP.Promise;
 
-let forEachWithPropertyStub;
 let Task = require('../../../lib/models/task');
-let Command = proxyquire('../../../lib/models/command', {
-  '../utilities/printable-properties': {
-    command: {
-      forEachWithProperty() {
-        return forEachWithPropertyStub.apply(this, arguments);
-      },
-    },
-  },
-});
+let Command = require('../../../lib/models/command');
 
 let ServeCommand = Command.extend({
   name: 'serve',
@@ -709,9 +699,7 @@ describe('models/command.js', function() {
 
     describe('getJson', function() {
       beforeEach(function() {
-        forEachWithPropertyStub = function(forEach, context) {
-          ['test1', 'test2'].forEach(forEach, context);
-        };
+        command._printableProperties = ['test1', 'test2'];
       });
 
       it('iterates options', function() {

@@ -13,7 +13,6 @@ const td = require('testdouble');
 
 let existsSyncStub;
 let readdirSyncStub;
-let forEachWithPropertyStub;
 let Blueprint = proxyquire('../../../lib/models/blueprint', {
   'exists-sync'() {
     return existsSyncStub.apply(this, arguments);
@@ -21,13 +20,6 @@ let Blueprint = proxyquire('../../../lib/models/blueprint', {
   'fs-extra': {
     readdirSync() {
       return readdirSyncStub.apply(this, arguments);
-    },
-  },
-  '../utilities/printable-properties': {
-    blueprint: {
-      forEachWithProperty() {
-        return forEachWithPropertyStub.apply(this, arguments);
-      },
     },
   },
 });
@@ -232,9 +224,7 @@ help in detail`);
 
     describe('getJson', function() {
       beforeEach(function() {
-        forEachWithPropertyStub = function(forEach, context) {
-          ['test1', 'availableOptions'].forEach(forEach, context);
-        };
+        blueprint._printableProperties = ['test1', 'availableOptions'];
       });
 
       it('iterates options', function() {
