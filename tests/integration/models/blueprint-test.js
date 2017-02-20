@@ -621,6 +621,19 @@ describe('Blueprint', function() {
         expect(actualFiles).to.contain('app/basics/mock-project.txt');
       });
     });
+
+    it('uninstall doesn\'t log remove messages when file does not exist', function() {
+      options.entity = { name: 'does-not-exist' };
+
+      return blueprint.uninstall(options)
+      .then(function() {
+        let output = ui.output.trim().split(EOL);
+        expect(output.shift()).to.match(/^uninstalling/);
+        expect(output.shift()).to.match(/remove.* .ember-cli/);
+        expect(output.shift()).to.match(/remove.* .gitignore/);
+        expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
+      });
+    });
   });
 
   describe('instrumented blueprint uninstallation', function() {
