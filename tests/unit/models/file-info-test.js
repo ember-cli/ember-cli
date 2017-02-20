@@ -168,4 +168,17 @@ describe('Unit - FileInfo', function() {
     });
   });
 
+  it('normalizes line endings before comparing files', function() {
+    if (EOL === '\n') {
+      return true;
+    }
+    validOptions.inputPath = path.resolve(__dirname, '../../fixtures/file-info/test_crlf.js');
+    validOptions.outputPath = path.resolve(__dirname, '../../fixtures/file-info/test_lf.js');
+    let fileInfo = new FileInfo(validOptions);
+
+    return fileInfo.checkForConflict().then(function(type) {
+      expect(type).to.equal('identical');
+    });
+  });
+
 });
