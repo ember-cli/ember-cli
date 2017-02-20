@@ -149,8 +149,7 @@
   "trackingCode": "UA-49225444-1",
   "greenkeeper": {
     "ignore": [
-      "diff",
-      "npm"
+      "diff"
     ]
   }
 }
