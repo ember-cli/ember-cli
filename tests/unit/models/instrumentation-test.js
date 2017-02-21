@@ -574,60 +574,40 @@ describe('models/instrumentation.js', function() {
       });
 
 
-      if (experiments.INSTRUMENTATION) {
-        it('invokes addons that have [INSTRUMENTATION] for init', function() {
-          process.env.EMBER_CLI_INSTRUMENTATION = '1';
+      it('invokes addons that have [INSTRUMENTATION] for init', function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
-          let hook = td.function();
-          addon[experiments.INSTRUMENTATION] = hook;
+        let hook = td.function();
+        addon.instrumentation = hook;
 
-          instrumentation.start('init');
-          instrumentation.stopAndReport('init', 'a', 'b');
+        instrumentation.start('init');
+        instrumentation.stopAndReport('init', 'a', 'b');
 
-          td.verify(hook('init', { summary: mockInitSummary, tree: mockInitTree }));
-        });
+        td.verify(hook('init', { summary: mockInitSummary, tree: mockInitTree }));
+      });
 
-        it('invokes addons that have [INSTRUMENTATION] for build', function() {
-          process.env.EMBER_CLI_INSTRUMENTATION = '1';
+      it('invokes addons that have [INSTRUMENTATION] for build', function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
-          let hook = td.function();
-          addon[experiments.INSTRUMENTATION] = hook;
+        let hook = td.function();
+        addon.instrumentation = hook;
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build', 'a', 'b');
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', 'a', 'b');
 
-          td.verify(hook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
-        });
+        td.verify(hook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
+      });
 
-        it('does not invoke addons if instrumentation is disabled', function() {
-          process.env.EMBER_CLI_INSTRUMENTATION = 'not right now thanks';
+      it('does not invoke addons if instrumentation is disabled', function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = 'not right now thanks';
 
-          let hook = td.function();
-          addon[experiments.INSTRUMENTATION] = hook;
+        let hook = td.function();
+        addon.instrumentation = hook;
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build', 'a', 'b');
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', 'a', 'b');
 
-          td.verify(hook(), { ignoreExtraArgs: true, times: 0 });
-        });
-      }
-
-      describe('(build)', function() {
-        if (experiments.BUILD_INSTRUMENTATION) {
-          it('throws if an addon specifies [BUILD_INSTRUMENTATION]', function() {
-            process.env.EMBER_CLI_INSTRUMENTATION = '1';
-
-            addon[experiments.BUILD_INSTRUMENTATION] = function() {};
-
-            instrumentation.start('build');
-
-            expect(function() {
-              instrumentation.stopAndReport('build', 'a', 'b');
-            }).to.throw(
-              'Test Addon defines experiments.BUILD_INSTRUMENTATION. Update to use experiments.INSTRUMENTATION'
-            );
-          });
-        }
+        td.verify(hook(), { ignoreExtraArgs: true, times: 0 });
       });
     });
   });
