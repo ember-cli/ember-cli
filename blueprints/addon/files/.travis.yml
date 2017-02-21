@@ -7,12 +7,9 @@ sudo: false
 
 <% if (yarn) { %>cache:
   yarn: true
-  directories:
-    - $HOME/.cache # includes bowers cache
 <% } else { %>cache:
   directories:
     - $HOME/.npm
-    - $HOME/.cache # includes bowers cache
 <% } %>
 env:
   # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
@@ -31,23 +28,20 @@ matrix:
 <% if (yarn) { %>before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add bower phantomjs-prebuilt
-  - bower --version
+  - yarn global add phantomjs-prebuilt
   - phantomjs --version
 
 install:
   - yarn install
-  - bower install
 <% } else { %>before_install:
   - npm config set spin false
-  - npm install -g bower phantomjs-prebuilt
-  - bower --version
+  - npm install -g phantomjs-prebuilt
   - phantomjs --version
 
 install:
   - npm install
-  - bower install
 <% } %>
+
 script:
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".
