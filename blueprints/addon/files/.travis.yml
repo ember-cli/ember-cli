@@ -5,11 +5,12 @@ node_js:
 
 sudo: false
 
-cache:
+<% if (yarn) { %>cache:
+  yarn: true
+<% } else { %>cache:
   directories:
     - $HOME/.npm
-    - $HOME/.cache # includes bowers cache
-
+<% } %>
 env:
   # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
   - EMBER_TRY_SCENARIO=ember-lts-2.4
@@ -24,13 +25,22 @@ matrix:
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
 
-before_install:
+<% if (yarn) { %>before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add phantomjs-prebuilt
+  - phantomjs --version
+
+install:
+  - yarn install
+<% } else { %>before_install:
   - npm config set spin false
   - npm install -g phantomjs-prebuilt
   - phantomjs --version
 
 install:
   - npm install
+<% } %>
 
 script:
   # Usually, it's ok to finish the test scenario without reverting

@@ -656,7 +656,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                expect(response.text.trim()).to.equal('some other content');
+                expect(response.body.toString().trim()).to.equal('some other content');
 
                 done();
               });
@@ -674,7 +674,7 @@ describe('express-server', function() {
                   return done(err);
                 }
 
-                expect(response.text.trim()).to.equal('some other content');
+                expect(response.body.toString().trim()).to.equal('some other content');
 
                 done();
               });

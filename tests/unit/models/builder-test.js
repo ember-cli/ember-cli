@@ -127,8 +127,6 @@ describe('models/builder.js', function() {
     let instrumentationStop;
 
     beforeEach(function() {
-      let command = new BuildCommand(commandOptions());
-
       builder = new Builder({
         setupBroccoliBuilder,
         project: new MockProject(),
@@ -178,6 +176,23 @@ describe('models/builder.js', function() {
 
         expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
       });
+    });
+  });
+
+  describe('cleanup', function() {
+    beforeEach(function() {
+      builder = new Builder({
+        setupBroccoliBuilder,
+        project: new MockProject(),
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+      });
+    });
+
+    it('is idempotent', function() {
+      let firstCleanupPromise = builder.cleanup();
+      expect(builder.cleanup()).to.equal(firstCleanupPromise);
+
+      return firstCleanupPromise;
     });
   });
 
@@ -268,33 +283,16 @@ describe('models/builder.js', function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      if (experiments.INSTRUMENTATION) {
-        it('invokes the instrumentation hook if it is preset', function() {
-          addon[experiments.INSTRUMENTATION] = function(instrumentation) {
-            hooksCalled.push('instrumentation');
-            instrumentationArg = instrumentation;
-          };
+      it('invokes the instrumentation hook if it is preset', function() {
+        addon.instrumentation = function(instrumentation) {
+          hooksCalled.push('instrumentation');
+          instrumentationArg = instrumentation;
+        };
 
-          return builder.build(null, {}).then(function() {
-            expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
-          });
+        return builder.build(null, {}).then(function() {
+          expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
         });
-      }
-
-      if (experiments.BUILD_INSTRUMENTATION) {
-        it('throws if [BUILD_INSTRUMENTATION] is set', function() {
-          addon[experiments.BUILD_INSTRUMENTATION] = function() { };
-
-          return builder.build(null, {}).then(function() {
-            throw new Error('Expected build to reject from thrown error');
-          }, function(reason) {
-            expect(reason.message).to.eql(oneLine`
-              TestAddon defines experiments.BUILD_INSTRUMENTATION. Update to use
-              experiments.INSTRUMENTATION
-            `);
-          });
-        });
-      }
+      });
     });
 
     it('hooks are called in the right order without visualization', function() {

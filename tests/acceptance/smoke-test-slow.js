@@ -214,36 +214,34 @@ describe('Acceptance: smoke-test', function() {
   });
 
 
-  if (experiments.INSTRUMENTATION) {
-    it('ember build generates instrumentation files when viz is enabled', function() {
-      process.env.BROCCOLI_VIZ = '1';
+  it('ember build generates instrumentation files when viz is enabled', function() {
+    process.env.BROCCOLI_VIZ = '1';
 
-      return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-        env: {
-          BROCCOLI_VIZ: '1',
-        },
-      }).then(function() {
-        [
-          'instrumentation.build.0.json',
-          'instrumentation.command.json',
-          'instrumentation.init.json',
-          'instrumentation.shutdown.json',
-        ].forEach(function(instrumentationFile) {
-          expect(fs.existsSync(instrumentationFile)).to.equal(true);
+    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+      env: {
+        BROCCOLI_VIZ: '1',
+      },
+    }).then(function() {
+      [
+        'instrumentation.build.0.json',
+        'instrumentation.command.json',
+        'instrumentation.init.json',
+        'instrumentation.shutdown.json',
+      ].forEach(function(instrumentationFile) {
+        expect(fs.existsSync(instrumentationFile)).to.equal(true);
 
-          let json = fs.readJsonSync(instrumentationFile);
-          expect(Object.keys(json)).to.eql([
-            'summary', 'nodes',
-          ]);
+        let json = fs.readJsonSync(instrumentationFile);
+        expect(Object.keys(json)).to.eql([
+          'summary', 'nodes',
+        ]);
 
-          expect(Array.isArray(json.nodes)).to.equal(true);
-        });
-      })
-        .finally(function() {
-          delete process.env.BROCCOLI_VIZ;
-        });
-    });
-  }
+        expect(Array.isArray(json.nodes)).to.equal(true);
+      });
+    })
+      .finally(function() {
+        delete process.env.BROCCOLI_VIZ;
+      });
+  });
 
   it('ember new foo, build --watch development, and verify rebuilt after change', function() {
     let touched = false;

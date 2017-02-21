@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs-extra');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
 const tmp = require('../../helpers/tmp');
@@ -11,6 +12,7 @@ const Instrumentation = require('../../../lib/models/instrumentation');
 const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
+const experiments = require('../../experiments');
 
 describe('models/project.js', function() {
   let project, projectPath, packageContents, tmpPath;
@@ -171,6 +173,67 @@ describe('models/project.js', function() {
       });
     });
   });
+
+  if (!experiments.BROWSER_TARGETS) {
+    describe('Project.prototype.targets', function() {
+
+      beforeEach(function() {
+        projectPath = 'tmp/test-app';
+      });
+
+      afterEach(function() {
+        return tmp.teardown(projectPath);
+      });
+
+      describe('when the is a `/config/targets.js` file', function() {
+        beforeEach(function() {
+          return tmp.setup(projectPath).then(function() {
+            let targetsPath = path.join(projectPath, 'config', 'targets.js');
+            fs.createFileSync(targetsPath);
+            fs.writeFileSync(
+              targetsPath,
+              'module.exports = { browsers: ["last 2 versions", "safari >= 7"] };',
+              { encoding: 'utf8' }
+            );
+
+            makeProject();
+            let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+            td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
+            project.require = function() {
+              return { browsers: ["last 2 versions", "safari >= 7"] };
+            };
+          });
+        });
+
+        it('returns the object defined in `/config/targets` if present', function() {
+          expect(project.targets).to.deep.equal({
+            browsers: ['last 2 versions', 'safari >= 7'],
+          });
+        });
+      });
+
+      describe('when there isn\'t a `/config/targets.js` file', function() {
+        beforeEach(function() {
+          return tmp.setup(projectPath).then(function() {
+            makeProject();
+            let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+            td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
+          });
+        });
+
+        it('returns the default targets', function() {
+          expect(project.targets).to.deep.equal({
+            browsers: [
+              'ie 9',
+              'last 1 Chrome versions',
+              'last 1 Firefox versions',
+              'last 1 Safari versions',
+            ],
+          });
+        });
+      });
+    });
+  }
 
   describe('addons', function() {
     beforeEach(function() {

@@ -4,7 +4,25 @@ node_js:
   - "6"
 
 sudo: false
+<% if (yarn) { %>
+cache:
+  yarn: true
+  directories:
+    - $HOME/.cache # includes bowers cache
 
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add bower phantomjs-prebuilt
+  - bower --version
+  - phantomjs --version
+
+install:
+  - yarn install
+  - bower install
+
+script:
+  - yarn test<% } else { %>
 cache:
   directories:
     - $HOME/.npm
@@ -19,4 +37,4 @@ install:
   - npm install
 
 script:
-  - npm test
+  - npm test<% } %>

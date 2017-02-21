@@ -16,6 +16,12 @@ const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normali
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
+  filesToRemove: [
+    'bower.json',
+    'Brocfile.js',
+    'testem.json',
+  ],
+
   generatePackageJson() {
     let contents = this._readContentsFromFile('package.json');
 
@@ -83,6 +89,7 @@ module.exports = {
       addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
+      yarn: options.yarn,
     };
   },
 

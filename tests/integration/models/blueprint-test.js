@@ -96,6 +96,18 @@ let basicBlueprintFiles = [
   'app/basics/',
   'app/basics/mock-project.txt',
   'bar',
+  'file-to-remove.txt',
+  'foo.txt',
+  'test.txt',
+];
+
+let basicBlueprintFilesAfterBasic2 = [
+  '.ember-cli',
+  '.gitignore',
+  'app/',
+  'app/basics/',
+  'app/basics/mock-project.txt',
+  'bar',
   'foo.txt',
   'test.txt',
 ];
@@ -268,6 +280,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/create.* .gitignore/);
         expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
         expect(output.length).to.equal(0);
@@ -296,6 +309,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/create.* .gitignore/);
         expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
         expect(output.length).to.equal(0);
@@ -311,6 +325,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/identical.* .gitignore/);
         expect(output.shift()).to.match(/identical.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/identical.* bar/);
+        expect(output.shift()).to.match(/identical.* file-to-remove.txt/);
         expect(output.shift()).to.match(/identical.* foo.txt/);
         expect(output.shift()).to.match(/identical.* test.txt/);
         expect(output.length).to.equal(0);
@@ -334,11 +349,12 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/create.* .gitignore/);
         expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
         expect(output.length).to.equal(0);
 
-        let blueprintNew = new Blueprint(basicNewBlueprint);
+        let blueprintNew = Blueprint.lookup(basicNewBlueprint);
 
         return blueprintNew.install(options);
       })
@@ -354,9 +370,10 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/identical.* \.gitignore/);
         expect(output.shift()).to.match(/skip.* foo.txt/);
         expect(output.shift()).to.match(/overwrite.* test.txt/);
+        expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
         expect(output.length).to.equal(0);
 
-        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+        expect(actualFiles).to.deep.equal(basicBlueprintFilesAfterBasic2);
       });
     });
 
@@ -421,6 +438,7 @@ describe('Blueprint', function() {
           expect(output.shift()).to.match(/create.* .gitignore/);
           expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
           expect(output.shift()).to.match(/create.* bar/);
+          expect(output.shift()).to.match(/create.* file-to-remove.txt/);
           expect(output.shift()).to.match(/create.* foo.txt/);
           expect(output.shift()).to.match(/create.* test.txt/);
           expect(output.length).to.equal(0);
@@ -573,6 +591,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/remove.* .gitignore/);
         expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/remove.* bar/);
+        expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
         expect(output.shift()).to.match(/remove.* foo.txt/);
         expect(output.shift()).to.match(/remove.* test.txt/);
         expect(output.length).to.equal(0);
@@ -600,6 +619,19 @@ describe('Blueprint', function() {
 
         expect(actualFiles).to.not.contain('app/basics/foo.txt');
         expect(actualFiles).to.contain('app/basics/mock-project.txt');
+      });
+    });
+
+    it('uninstall doesn\'t log remove messages when file does not exist', function() {
+      options.entity = { name: 'does-not-exist' };
+
+      return blueprint.uninstall(options)
+      .then(function() {
+        let output = ui.output.trim().split(EOL);
+        expect(output.shift()).to.match(/^uninstalling/);
+        expect(output.shift()).to.match(/remove.* .ember-cli/);
+        expect(output.shift()).to.match(/remove.* .gitignore/);
+        expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
       });
     });
   });
