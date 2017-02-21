@@ -29,24 +29,20 @@ describe('blueprint - addon', function() {
       });
 
       it('throws error when current project is an existing ember-cli project', function() {
-        expect(function() {
-          blueprint.normalizeEntityName('foo');
-        }).to.throw('Generating an addon in an existing ember-cli project is not supported.');
+        expect(() => blueprint.normalizeEntityName('foo'))
+          .to.throw('Generating an addon in an existing ember-cli project is not supported.');
       });
 
       it('works when current project is an existing ember-cli addon', function() {
         mockProject.isEmberCLIAddon = function() { return true; };
 
-        expect(function() {
-          blueprint.normalizeEntityName('foo');
-        }).not.to.throw('Generating an addon in an existing ember-cli project is not supported.');
+        expect(() => blueprint.normalizeEntityName('foo'))
+          .not.to.throw('Generating an addon in an existing ember-cli project is not supported.');
       });
 
       it('keeps existing behavior by calling Blueprint.normalizeEntityName', function() {
-        expect(function() {
-          let nonConformantComponentName = 'foo/';
-          blueprint.normalizeEntityName(nonConformantComponentName);
-        }).to.throw(/trailing slash/);
+        expect(() => blueprint.normalizeEntityName('foo/'))
+          .to.throw(/trailing slash/);
       });
     });
   });
