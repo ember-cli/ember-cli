@@ -48,17 +48,13 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(dir(addonRoot)).to.not.exist;
   });
 
-  it('generates package.json and bower.json with proper metadata', function() {
+  it('generates package.json with proper metadata', function() {
     let packageContents = fs.readJsonSync('package.json');
 
     expect(packageContents.name).to.equal(addonName);
     expect(packageContents.private).to.be.an('undefined');
     expect(packageContents.keywords).to.deep.equal(['ember-addon']);
     expect(packageContents['ember-addon']).to.deep.equal({ 'configPath': 'tests/dummy/config' });
-
-    let bowerContents = fs.readJsonSync('bower.json');
-
-    expect(bowerContents.name).to.equal(addonName);
   });
 
   it('ember addon foo, clean from scratch', function() {
