@@ -2,27 +2,19 @@
 
 const expect = require('chai').expect;
 const EOL = require('os').EOL;
-const proxyquire = require('proxyquire');
 const path = require('path');
 const processHelpString = require('../../helpers/process-help-string');
 const convertToJson = require('../../helpers/convert-help-output-to-json');
 const commandOptions = require('../../factories/command-options');
 const td = require('testdouble');
 
-let lookupCommandStub;
-let HelpCommand = proxyquire('../../../lib/commands/help', {
-  '../cli/lookup-command'() {
-    return lookupCommandStub.apply(this, arguments);
-  },
-});
+let HelpCommand = require('../../../lib/commands/help');
 
 describe('help command', function() {
   let options;
 
   beforeEach(function() {
     options = commandOptions();
-
-    lookupCommandStub = require('../../../lib/cli/lookup-command');
   });
 
   describe('common to both', function() {
@@ -35,15 +27,15 @@ describe('help command', function() {
         Command1,
       };
 
+      let command = new HelpCommand(options);
+
       let wasCalled;
-      lookupCommandStub = function() {
+      command._lookupCommand = function() {
         expect(arguments[0]).to.equal(options.commands);
         expect(arguments[1]).to.equal('command-2');
         wasCalled = true;
         return Command1;
       };
-
-      let command = new HelpCommand(options);
 
       command.run(options, ['command-2']);
 

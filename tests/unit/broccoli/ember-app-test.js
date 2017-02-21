@@ -6,18 +6,12 @@ const fs = require('fs');
 const path = require('path');
 const Project = require('../../../lib/models/project');
 const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
 const td = require('testdouble');
 
 const MockCLI = require('../../helpers/mock-cli');
 const MockUI = require('console-ui/mock');
 
-let mergeTreesStub;
-let EmberApp = proxyquire('../../../lib/broccoli/ember-app', {
-  './merge-trees'() {
-    return mergeTreesStub.apply(this, arguments);
-  },
-});
+let EmberApp = require('../../../lib/broccoli/ember-app');
 
 describe('EmberApp', function() {
   let project, projectPath, app, addon;
@@ -40,8 +34,6 @@ describe('EmberApp', function() {
   beforeEach(function() {
     projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
     project = setupProject(projectPath);
-
-    mergeTreesStub = require('../../../lib/broccoli/merge-trees');
   });
 
   describe('constructor', function() {
@@ -748,26 +740,26 @@ describe('EmberApp', function() {
       });
 
       it('calls lintTree on the addon', function() {
-        mergeTreesStub = td.function();
+        app._mergeTrees = td.function();
 
         td.when(addon.lintTree('blah', 'blam')).thenReturn('blazorz');
 
         app.addonLintTree('blah', 'blam');
 
-        td.verify(mergeTreesStub(['blazorz'], {
+        td.verify(app._mergeTrees(['blazorz'], {
           overwrite: true,
           annotation: 'TreeMerger (lint blah)',
         }));
       });
 
       it('filters out tree if lintTree returns falsey', function() {
-        mergeTreesStub = td.function();
+        app._mergeTrees = td.function();
 
         td.when(addon.lintTree(), { ignoreExtraArgs: true }).thenReturn(false);
 
         app.addonLintTree();
 
-        td.verify(mergeTreesStub([]), { ignoreExtraArgs: true });
+        td.verify(app._mergeTrees([]), { ignoreExtraArgs: true });
       });
     });
   });

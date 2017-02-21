@@ -154,11 +154,19 @@ module.exports = {
 
   _readContentsFromFile(fileName) {
     let packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-    return fs.readJsonSync(packagePath);
+    return this._readJsonSync(packagePath);
   },
 
   _writeContentsToFile(contents, fileName) {
     let packagePath = path.join(this.path, 'files', fileName);
-    fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+    this._writeFileSync(packagePath, stringifyAndNormalize(contents));
+  },
+
+  _readJsonSync(path) {
+    return fs.readJsonSync(path);
+  },
+
+  _writeFileSync(path, content) {
+    fs.writeFileSync(path, content);
   },
 };

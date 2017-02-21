@@ -1,43 +1,16 @@
 'use strict';
 
-const fs = require('fs-extra');
 const processHelpString = require('../../helpers/process-help-string');
 const expect = require('chai').expect;
 const path = require('path');
 const EOL = require('os').EOL;
-const proxyquire = require('proxyquire');
-const existsSync = require('exists-sync');
 const MarkdownColor = require('../../../lib/utilities/markdown-color');
 const assign = require('ember-cli-lodash-subset').assign;
 const td = require('testdouble');
 
-let existsSyncStub;
-let readdirSyncStub;
-let forEachWithPropertyStub;
-let Blueprint = proxyquire('../../../lib/models/blueprint', {
-  'exists-sync'() {
-    return existsSyncStub.apply(this, arguments);
-  },
-  'fs-extra': {
-    readdirSync() {
-      return readdirSyncStub.apply(this, arguments);
-    },
-  },
-  '../utilities/printable-properties': {
-    blueprint: {
-      forEachWithProperty() {
-        return forEachWithPropertyStub.apply(this, arguments);
-      },
-    },
-  },
-});
+let Blueprint = require('../../../lib/models/blueprint');
 
 describe('Blueprint', function() {
-  beforeEach(function() {
-    existsSyncStub = existsSync;
-    readdirSyncStub = fs.readdirSync;
-  });
-
   afterEach(function() {
     td.reset();
   });
@@ -73,9 +46,9 @@ describe('Blueprint', function() {
 
   describe('.list', function() {
     beforeEach(function() {
-      existsSyncStub = function(path) {
+      td.replace(Blueprint, '_existsSync', function(path) {
         return path.indexOf('package.json') === -1;
-      };
+      });
 
       td.replace(Blueprint, 'defaultLookupPaths');
       td.when(Blueprint.defaultLookupPaths()).thenReturn([]);
@@ -88,9 +61,9 @@ describe('Blueprint', function() {
     });
 
     it('returns a list of blueprints grouped by lookup path', function() {
-      readdirSyncStub = function() {
+      td.replace(Blueprint, '_readdirSync', function() {
         return ['test1', 'test2'];
-      };
+      });
 
       let list = Blueprint.list({ paths: ['test0/blueprints'] });
 
@@ -110,9 +83,9 @@ describe('Blueprint', function() {
     });
 
     it('overrides a blueprint of the same name from another package', function() {
-      readdirSyncStub = function() {
+      td.replace(Blueprint, '_readdirSync', function() {
         return ['test2'];
-      };
+      });
 
       let list = Blueprint.list({
         paths: [
@@ -202,9 +175,9 @@ help in detail`);
 
     describe('printDetailedHelp', function() {
       it('did not find the file', function() {
-        existsSyncStub = function() {
+        td.replace(Blueprint, '_existsSync', function() {
           return false;
-        };
+        });
 
         td.replace(MarkdownColor.prototype, 'renderFile');
 
@@ -215,9 +188,9 @@ help in detail`);
       });
 
       it('found the file', function() {
-        existsSyncStub = function() {
+        td.replace(Blueprint, '_existsSync', function() {
           return true;
-        };
+        });
 
         td.replace(MarkdownColor.prototype, 'renderFile', function() {
           expect(arguments[1].indent).to.equal('        ');
@@ -232,9 +205,7 @@ help in detail`);
 
     describe('getJson', function() {
       beforeEach(function() {
-        forEachWithPropertyStub = function(forEach, context) {
-          ['test1', 'availableOptions'].forEach(forEach, context);
-        };
+        blueprint._printableProperties = ['test1', 'availableOptions'];
       });
 
       it('iterates options', function() {

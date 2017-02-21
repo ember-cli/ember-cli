@@ -7,7 +7,6 @@ let setupTestHooks = blueprintHelpers.setupTestHooks;
 let emberNew = blueprintHelpers.emberNew;
 let emberGenerate = blueprintHelpers.emberGenerate;
 let emberDestroy = blueprintHelpers.emberDestroy;
-const proxyquire = require('proxyquire');
 const td = require('testdouble');
 
 const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
@@ -64,15 +63,7 @@ describe('Unit: in-repo-addon blueprint', function() {
   let options;
 
   beforeEach(function() {
-    readJsonSync = td.function();
-    writeFileSync = td.function();
-
-    blueprint = proxyquire('../../../blueprints/in-repo-addon', {
-      'fs-extra': {
-        readJsonSync,
-        writeFileSync,
-      },
-    });
+    blueprint = require('../../../blueprints/in-repo-addon');
     blueprint.project = {
       root: 'test-project-root',
     };
@@ -82,6 +73,13 @@ describe('Unit: in-repo-addon blueprint', function() {
         name: 'test-entity-name',
       },
     };
+
+    readJsonSync = td.replace(blueprint, '_readJsonSync');
+    writeFileSync = td.replace(blueprint, '_writeFileSync');
+  });
+
+  afterEach(function() {
+    td.reset();
   });
 
   it('adds to paths', function() {
