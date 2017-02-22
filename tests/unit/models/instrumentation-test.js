@@ -136,22 +136,6 @@ describe('models/instrumentation.js', function() {
         td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
       });
 
-      it('warns if no init instrumentation is included', function() {
-        td.when(heimdallStart('init'));
-
-        let ui = new MockUI();
-        let instrumentation = new Instrumentation({
-          ui,
-        });
-
-        expect(ui.output).to.eql(chalk.yellow(
-          'No init instrumentation passed to CLI.  Please update your global ember or ' +
-          'invoke ember via the local executable within node_modules.  Init ' +
-          'instrumentation will still be recorded, but some bootstraping will be ' +
-          'omitted.'
-        ) + EOL);
-      });
-
       it('does not warn if init instrumentation is included', function() {
         td.when(heimdallStart('init'));
 
