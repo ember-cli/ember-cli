@@ -17,6 +17,10 @@ module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
   filesToRemove: [
+    'tests/dummy/app/styles/.gitkeep',
+    'tests/dummy/app/templates/.gitkeep',
+    'tests/dummy/app/views/.gitkeep',
+    'tests/dummy/public/.gitkeep',
     'bower.json',
     'Brocfile.js',
     'testem.json',
