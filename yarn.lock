@@ -1226,7 +1226,7 @@ ember-cli-babel@^5.1.3:
 
 ember-cli-blueprint-test-helpers@^0.15.0:
   version "0.15.0"
-  resolved "https://registry.npmjs.org/ember-cli-blueprint-test-helpers/-/ember-cli-blueprint-test-helpers-0.15.0.tgz#59c4e064d929120eaf6c38e311174667f0f0a9f0"
+  resolved "https://registry.yarnpkg.com/ember-cli-blueprint-test-helpers/-/ember-cli-blueprint-test-helpers-0.15.0.tgz#59c4e064d929120eaf6c38e311174667f0f0a9f0"
   dependencies:
     chai "^3.3.0"
     chai-as-promised "^6.0.0"
@@ -1533,6 +1533,12 @@ eslint-plugin-chai-expect@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-chai-expect/-/eslint-plugin-chai-expect-1.1.1.tgz#cd640b8b38cf6c3abcc378673b7b173b99ddc70a"
 
+eslint-plugin-mocha@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-4.8.0.tgz#7627b35a61e5a720412da96eab06f0e03a1dcdb6"
+  dependencies:
+    ramda "^0.22.1"
+
 eslint@^3.0.0:
   version "3.16.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-3.16.0.tgz#4a468ab93618a9eb6e3f1499038b38851f828630"
@@ -1587,17 +1593,13 @@ esprima-fb@~15001.1001.0-dev-harmony-fb:
   version "15001.1001.0-dev-harmony-fb"
   resolved "https://registry.yarnpkg.com/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz#43beb57ec26e8cf237d3dd8b33e42533577f2659"
 
-esprima@2.7.x, esprima@^2.6.0, esprima@^2.7.0, esprima@^2.7.1:
+esprima@2.7.x, esprima@^2.6.0, esprima@^2.7.1:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-2.7.3.tgz#96e3b70d5779f6ad49cd032673d1c312767ba581"
 
 esprima@^3.1.1, esprima@~3.1.0:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
-
-esprimaq@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/esprimaq/-/esprimaq-0.0.1.tgz#3ea3a41f55ba0ab98fc3564c875818bd890aa2a3"
 
 esrecurse@^4.1.0:
   version "4.1.0"
@@ -2077,15 +2079,6 @@ glob@7.1.1, glob@^7.0.0, glob@^7.0.3, glob@^7.0.4, glob@^7.0.5:
     minimatch "^3.0.2"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
-
-glob@^4.3.2:
-  version "4.5.3"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-4.5.3.tgz#c6cb73d3226c1efef04de3c56d012f03377ee15f"
-  dependencies:
-    inflight "^1.0.4"
-    inherits "2"
-    minimatch "^2.0.1"
-    once "^1.3.0"
 
 glob@^5.0.10, glob@^5.0.15:
   version "5.0.15"
@@ -3050,7 +3043,7 @@ minimatch@^1.0.0:
     lru-cache "2"
     sigmund "~1.0.0"
 
-minimatch@^2.0.1, minimatch@^2.0.3:
+minimatch@^2.0.3:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-2.0.10.tgz#8d087c39c6b38c001b97fca7ce6d0e1e80afbac7"
   dependencies:
@@ -3094,14 +3087,6 @@ mocha-eslint@^3.0.1:
     eslint "^3.0.0"
     glob-all "^3.0.1"
     replaceall "^0.1.6"
-
-mocha-only-detector@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/mocha-only-detector/-/mocha-only-detector-0.1.0.tgz#c326faca698ed8d5bc682e2ca3e873e5b5601154"
-  dependencies:
-    esprima "^2.7.0"
-    esprimaq "^0.0.1"
-    glob "^4.3.2"
 
 mocha@^3.0.0:
   version "3.2.0"
@@ -3554,6 +3539,10 @@ quick-temp@^0.1.2, quick-temp@^0.1.3, quick-temp@^0.1.5, quick-temp@^0.1.8:
     rimraf "^2.5.4"
     underscore.string "~3.3.4"
 
+ramda@^0.22.1:
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.22.1.tgz#031da0c3df417c5b33c96234757eb37033f36a0e"
+
 randomatic@^1.1.3:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-1.1.6.tgz#110dcabff397e9dcff7c0789ccc0a49adf1ec5bb"
@@ -3740,11 +3729,7 @@ resolve@1.1.x:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-resolve@^1.1.2, resolve@^1.1.6:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.2.0.tgz#9589c3f2f6149d1417a40becc1663db6ec6bc26c"
-
-resolve@^1.3.0:
+resolve@^1.1.2, resolve@^1.1.6, resolve@^1.3.0:
   version "1.3.1"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.3.1.tgz#5d0a1632609b6b00a22284293db1d5d973676314"
   dependencies:

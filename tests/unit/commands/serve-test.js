@@ -80,20 +80,21 @@ describe('serve command', function() {
     //
     // Works correctly on Travis and has been left for context as it does test
     // a valid code path.
-    it('should throw error when -p PORT is taken', function() {
-      function testServer(opts, test) {
-        let server = require('http').createServer(function() {});
-        return new Promise(function(resolve) {
-          server.listen(opts.port, opts.host, function() {
-            resolve(test(opts, server));
-          });
-        }).finally(function() {
-          return new Promise(function(resolve) {
-            server.close(function() { resolve(); });
-          });
-        });
-      }
 
+    let testServer = function(opts, test) {
+      let server = require('http').createServer(function() {});
+      return new Promise(function(resolve) {
+        server.listen(opts.port, opts.host, function() {
+          resolve(test(opts, server));
+        });
+      }).finally(function() {
+        return new Promise(function(resolve) {
+          server.close(function() { resolve(); });
+        });
+      });
+    };
+
+    it('should throw error when -p PORT is taken', function() {
       return testServer({ port: '32773' }, function() {
         return command.validateAndRun([
           '--port', '32773',

@@ -692,7 +692,7 @@ describe('models/command.js', function() {
         expect(command.hasOption('no-option-by-this-name')).to.be.false;
       });
 
-      it('reports false if no option with that name is present', function() {
+      it('reports true if option with that name is present', function() {
         expect(command.hasOption('port')).to.be.true;
       });
     });
