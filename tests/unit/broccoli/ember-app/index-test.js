@@ -35,7 +35,7 @@ describe('EmberApp.index()', function() {
     }, options);
   }
 
-  it('moves "app/index.html" to "index.html"', function() {
+  it('moves "app/index.html" to "index.html"', async function() {
     input.write({
       'app': {
         'index.html': 'foobar',
@@ -44,14 +44,14 @@ describe('EmberApp.index()', function() {
     });
 
     let app = createApp();
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'index.html': 'foobar',
-      });
+    let output = await buildOutput(app.index());
+
+    expect(output.read()).to.deep.equal({
+      'index.html': 'foobar',
     });
   });
 
-  it('respects "outputPaths.app.html" option', function() {
+  it('respects "outputPaths.app.html" option', async function() {
     input.write({
       'app': {
         'index.html': 'foobar',
@@ -66,16 +66,15 @@ describe('EmberApp.index()', function() {
         },
       },
     });
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'foo': {
-          'bar.htm': 'foobar',
-        },
-      });
+    let output = await buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'foo': {
+        'bar.htm': 'foobar',
+      },
     });
   });
 
-  it('only returns the "index.html" file', function() {
+  it('only returns the "index.html" file', async function() {
     input.write({
       'app': {
         'bar': {
@@ -88,14 +87,13 @@ describe('EmberApp.index()', function() {
     });
 
     let app = createApp();
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'index.html': 'foobar',
-      });
+    let output = await buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'index.html': 'foobar',
     });
   });
 
-  it('replaces config patterns', function() {
+  it('replaces config patterns', async function() {
     input.write({
       'app': {
         'index.html': 'ab{{rootURL}}cd',
@@ -108,10 +106,9 @@ describe('EmberApp.index()', function() {
     });
 
     let app = createApp();
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'index.html': 'ab/foo/cd',
-      });
+    let output = await buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'index.html': 'ab/foo/cd',
     });
   });
 });
