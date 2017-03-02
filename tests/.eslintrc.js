@@ -1,4 +1,7 @@
 module.exports = {
+  parserOptions: {
+    ecmaVersion: 2017,
+  },
   plugins: [
     'chai-expect',
     'mocha'

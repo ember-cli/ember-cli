@@ -121,6 +121,7 @@
     "yam": "0.0.22"
   },
   "devDependencies": {
+    "babel-register": "^6.23.0",
     "broccoli-filter": "^1.2.2",
     "broccoli-plugin": "^1.2.0",
     "broccoli-test-helper": "^1.0.0",
@@ -132,6 +133,7 @@
     "ember-cli-internal-test-helpers": "^0.9.0",
     "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-mocha": "^4.8.0",
+    "fast-async": "^6.2.1",
     "github": "^9.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^3.0.0",

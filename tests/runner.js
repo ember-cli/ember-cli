@@ -3,6 +3,12 @@
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
+require('babel-register')({
+  only(path) {
+    return path.indexOf(__dirname) === 0;
+  },
+});
+
 const glob = require('glob');
 const Mocha = require('mocha');
 const RSVP = require('rsvp');
