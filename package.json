@@ -47,7 +47,7 @@
     "broccoli-config-replace": "^1.1.2",
     "broccoli-funnel": "^1.0.6",
     "broccoli-funnel-reducer": "^1.0.0",
-    "broccoli-merge-trees": "^1.1.3",
+    "broccoli-merge-trees": "^1.2.3",
     "broccoli-middleware": "^1.0.0-beta.8",
     "broccoli-source": "^1.1.0",
     "broccoli-stew": "^1.2.0",
