@@ -114,4 +114,25 @@ describe('EmberApp.index()', function() {
       });
     });
   });
+
+  it('prefers "src/ui/index.html" over "app/index.html"', function() {
+    input.write({
+      'app': {
+        'index.html': 'app',
+      },
+      'src': {
+        'ui': {
+          'index.html': 'src',
+        },
+      },
+      'config': {},
+    });
+
+    let app = createApp();
+    return buildOutput(app.index()).then(output => {
+      expect(output.read()).to.deep.equal({
+        'index.html': 'src',
+      });
+    });
+  });
 });
