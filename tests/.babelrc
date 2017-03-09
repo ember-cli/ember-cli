@@ -1,0 +1,13 @@
+{
+  "presets": [
+    ["env", {
+      "debug": true,
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ],
+  "ignore": [
+    "fixtures/**/*.*"
+  ]
+}

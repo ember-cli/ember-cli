@@ -121,6 +121,8 @@
     "yam": "0.0.22"
   },
   "devDependencies": {
+    "babel-preset-env": "^1.1.11",
+    "babel-register": "^6.23.0",
     "broccoli-filter": "^1.2.2",
     "broccoli-plugin": "^1.2.0",
     "broccoli-test-helper": "^1.0.0",
