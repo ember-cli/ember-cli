@@ -82,4 +82,10 @@ describe('git-init', function() {
       expect(ui.errors).to.equal('');
     });
   });
+
+  it('includes the HOME environment variable in the environment passed to git', function() {
+    let env = subject.buildGitEnvironment();
+    expect(env.HOME).to.equal(process.env.HOME);
+  });
+
 });
