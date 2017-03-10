@@ -1,5 +1,6 @@
 'use strict';
 
+const co = require('co');
 const path = require('path');
 const fs = require('fs-extra');
 const acceptance = require('../helpers/acceptance');
@@ -34,17 +35,16 @@ describe('Acceptance: blueprint smoke tests', function() {
     expect(dir(appRoot)).to.not.exist;
   });
 
-  it('generating an http-proxy installs packages to package.json', function() {
-    return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
+  it('generating an http-proxy installs packages to package.json', co.wrap(function *() {
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate',
                       'http-proxy',
                       'api',
-                      'http://localhost/api')
-      .then(function() {
-        let packageJsonPath = path.join(appRoot, 'package.json');
-        let packageJson = fs.readJsonSync(packageJsonPath);
+                      'http://localhost/api');
 
-        expect(packageJson.devDependencies).to.have.a.property('http-proxy');
-        expect(packageJson.devDependencies).to.have.a.property('morgan');
-      });
-  });
+    let packageJsonPath = path.join(appRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+
+    expect(packageJson.devDependencies).to.have.a.property('http-proxy');
+    expect(packageJson.devDependencies).to.have.a.property('morgan');
+  }));
 });
