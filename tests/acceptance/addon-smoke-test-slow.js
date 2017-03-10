@@ -1,5 +1,6 @@
 'use strict';
 
+const co = require('co');
 const Promise = require('rsvp').Promise;
 const path = require('path');
 const fs = require('fs-extra');
@@ -61,46 +62,46 @@ describe('Acceptance: addon-smoke-test', function() {
     return ember(['test']);
   });
 
-  it('works in most common scenarios for an example addon', function() {
-    return copyFixtureFiles('addon/kitchen-sink').then(function() {
-      let packageJsonPath = path.join(addonRoot, 'package.json');
-      let packageJson = fs.readJsonSync(packageJsonPath);
+  it('works in most common scenarios for an example addon', co.wrap(function *() {
+    yield copyFixtureFiles('addon/kitchen-sink');
 
-      packageJson.dependencies = packageJson.dependencies || {};
-      // add HTMLBars for templates (generators do this automatically when components/templates are added)
-      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+    let packageJsonPath = path.join(addonRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
 
-      // build with addon deps being developed
-      packageJson.dependencies['developing-addon'] = 'latest';
+    packageJson.dependencies = packageJson.dependencies || {};
+    // add HTMLBars for templates (generators do this automatically when components/templates are added)
+    packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
-      fs.writeJsonSync(packageJsonPath, packageJson);
+    // build with addon deps being developed
+    packageJson.dependencies['developing-addon'] = 'latest';
 
-      symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.join(addonRoot, 'node_modules', 'developing-addon'));
+    fs.writeJsonSync(packageJsonPath, packageJson);
 
-      return runCommand('node_modules/ember-cli/bin/ember', 'build').then(function(result) {
-        expect(result.code).to.eql(0);
-        let contents;
+    symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.join(addonRoot, 'node_modules', 'developing-addon'));
 
-        let indexPath = path.join(addonRoot, 'dist', 'index.html');
-        contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-        expect(contents).to.contain('"SOME AWESOME STUFF"');
+    let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
 
-        let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
-        contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
-        expect(contents).to.contain('addon/styles/app.css is present');
+    expect(result.code).to.eql(0);
+    let contents;
 
-        let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
-        contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
-        expect(contents).to.contain('tests/dummy/public/robots.txt is present');
+    let indexPath = path.join(addonRoot, 'dist', 'index.html');
+    contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+    expect(contents).to.contain('"SOME AWESOME STUFF"');
 
-        return runCommand('node_modules/ember-cli/bin/ember', 'test').then(function(result) {
-          expect(result.code).to.eql(0);
-        });
-      });
-    });
-  });
+    let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
+    contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
+    expect(contents).to.contain('addon/styles/app.css is present');
 
-  it('npm pack does not include unnecessary files', function() {
+    let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
+    contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
+    expect(contents).to.contain('tests/dummy/public/robots.txt is present');
+
+    result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
+
+    expect(result.code).to.eql(0);
+  }));
+
+  it('npm pack does not include unnecessary files', co.wrap(function *() {
     let handleError = function(error, commandName) {
       if (error.code === 'ENOENT') {
         console.warn(chalk.yellow(`      Your system does not provide ${commandName} -> Skipped this test.`));
@@ -109,51 +110,54 @@ describe('Acceptance: addon-smoke-test', function() {
       }
     };
 
-    return new Promise(function(resolve, reject) {
-      let npmPack = spawn('npm', ['pack']);
-      npmPack.on('error', function(error) {
-        reject(error);
-      });
-      npmPack.on('close', function() {
-        resolve();
-      });
-    }).then(function() {
-      return new Promise(function(resolve, reject) {
-        let output;
-        let tar = spawn('tar', ['-tf', `${addonName}-0.0.0.tgz`]);
-        tar.on('error', function(error) {
-          reject(error);
-        });
-        tar.stdout.on('data', function(data) {
-          output = data.toString();
-        });
-        tar.on('close', function() {
-          resolve(output);
-        });
-      }).then(function(output) {
-        let unnecessaryFiles = [
-          '.gitkeep',
-          '.travis.yml',
-          '.editorconfig',
-          'testem.js',
-          '.ember-cli',
-          'bower.json',
-          '.bowerrc',
-        ];
+    try {
+      yield npmPack();
+    } catch (error) {
+      return handleError(error, 'npm');
+    }
 
-        let unnecessaryFolders = [
-          'tests/',
-          'bower_components/',
-        ];
+    let output;
+    try {
+      output = yield tar();
+    } catch (error) {
+      return handleError(error, 'tar');
+    }
 
-        let outputFiles = output.split('\n');
-        expect(outputFiles).to.not.contain(unnecessaryFiles);
-        expect(outputFiles).to.not.contain(unnecessaryFolders);
-      }, function(error) {
-        handleError(error, 'tar');
-      });
-    }, function(error) {
-      handleError(error, 'npm');
-    });
-  });
+    let unnecessaryFiles = [
+      '.gitkeep',
+      '.travis.yml',
+      '.editorconfig',
+      'testem.js',
+      '.ember-cli',
+      'bower.json',
+      '.bowerrc',
+    ];
+
+    let unnecessaryFolders = [
+      'tests/',
+      'bower_components/',
+    ];
+
+    let outputFiles = output.split('\n');
+    expect(outputFiles).to.not.contain(unnecessaryFiles);
+    expect(outputFiles).to.not.contain(unnecessaryFolders);
+  }));
 });
+
+function npmPack() {
+  return new Promise((resolve, reject) => {
+    let npmPack = spawn('npm', ['pack']);
+    npmPack.on('error', reject);
+    npmPack.on('close', () => resolve());
+  });
+}
+
+function tar() {
+  return new Promise((resolve, reject) => {
+    let output;
+    let tar = spawn('tar', ['-tf', `${addonName}-0.0.0.tgz`]);
+    tar.on('error', reject);
+    tar.stdout.on('data', data => (output = data.toString()));
+    tar.on('close', () => resolve(output));
+  });
+}
