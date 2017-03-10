@@ -7,6 +7,7 @@ const expect = require('chai').expect;
 const EmberApp = require('../../../../lib/broccoli/ember-app');
 const MockCLI = require('../../../helpers/mock-cli');
 const Project = require('../../../../lib/models/project');
+const experiments = require("../../../../lib/experiments/index.js");
 
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
@@ -112,23 +113,25 @@ describe('EmberApp.index()', function() {
     });
   }));
 
-  it('prefers "src/ui/index.html" over "app/index.html"', co.wrap(function *() {
-    input.write({
-      'app': {
-        'index.html': 'app',
-      },
-      'src': {
-        'ui': {
-          'index.html': 'src',
+  if (experiments.MODULE_UNIFICATION) {
+    it('prefers "src/ui/index.html" over "app/index.html"', co.wrap(function *() {
+      input.write({
+        'app': {
+          'index.html': 'app',
         },
-      },
-      'config': {},
-    });
+        'src': {
+          'ui': {
+            'index.html': 'src',
+          },
+        },
+        'config': {},
+      });
 
-    let app = createApp();
-    let output = yield buildOutput(app.index());
-    expect(output.read()).to.deep.equal({
-      'index.html': 'src',
-    });
-  }));
+      let app = createApp();
+      let output = yield buildOutput(app.index());
+      expect(output.read()).to.deep.equal({
+        'index.html': 'src',
+      });
+    }));
+  }
 });
