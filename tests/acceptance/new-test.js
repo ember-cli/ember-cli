@@ -65,32 +65,22 @@ describe('Acceptance: ember new', function() {
   }));
 
   it('ember new with empty app name fails with a warning', co.wrap(function *() {
-    try {
-      yield ember([
-        'new',
-        '',
-      ]);
+    let err = yield expect(ember([
+      'new',
+      '',
+    ])).to.be.rejected;
 
-      throw new Error('this promise should be rejected');
-
-    } catch (err) {
-      expect(err.name).to.equal('SilentError');
-      expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
-    }
+    expect(err.name).to.equal('SilentError');
+    expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
   }));
 
   it('ember new without app name fails with a warning', co.wrap(function *() {
-    try {
-      yield ember([
-        'new',
-      ]);
+    let err = yield expect(ember([
+      'new',
+    ])).to.be.rejected;
 
-      throw new Error('this promise should be rejected');
-
-    } catch (err) {
-      expect(err.name).to.equal('SilentError');
-      expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
-    }
+    expect(err.name).to.equal('SilentError');
+    expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
   }));
 
   it('ember new with app name creates new directory and has a dasherized package name', co.wrap(function *() {
@@ -126,22 +116,17 @@ describe('Acceptance: ember new', function() {
     fs.mkdirsSync('bar');
     fs.writeFileSync(path.join('bar', 'package.json'), '{}');
 
-    try {
-      yield ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-bower',
-        '--skip-git',
-        '--directory=bar',
-      ]);
+    let error = yield expect(ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--directory=bar',
+    ])).to.be.rejected;
 
-      throw new Error('this promise should be rejected');
-
-    } catch (error) {
-      expect(error.name).to.equal('SilentError');
-      expect(error.message).to.equal('Directory \'bar\' already exists.');
-    }
+    expect(error.name).to.equal('SilentError');
+    expect(error.message).to.equal('Directory \'bar\' already exists.');
   }));
 
   it('Cannot run ember new, inside of ember-cli project', co.wrap(function *() {
@@ -153,22 +138,17 @@ describe('Acceptance: ember new', function() {
       '--skip-git',
     ]);
 
-    try {
-      yield ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-bower',
-        '--skip-git',
-      ]);
+    let error = yield expect(ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+    ])).to.be.rejected;
 
-      throw new Error('this promise should be rejected');
-
-    } catch (error) {
-      expect(dir('foo')).to.not.exist;
-      expect(error.name).to.equal('SilentError');
-      expect(error.message).to.equal(`You cannot use the ${chalk.green('new')} command inside an ember-cli project.`);
-    }
+    expect(dir('foo')).to.not.exist;
+    expect(error.name).to.equal('SilentError');
+    expect(error.message).to.equal(`You cannot use the ${chalk.green('new')} command inside an ember-cli project.`);
 
     confirmBlueprinted();
   }));
@@ -281,18 +261,16 @@ describe('Acceptance: ember new', function() {
     fs.mkdirsSync('my_blueprint');
     fs.writeFileSync('my_blueprint/index.js', 'throw("this will break");');
 
-    try {
-      yield ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-bower',
-        '--skip-git',
-        '--blueprint=./my_blueprint',
-      ]);
-    } catch (err) {
-      expect(dir('foo')).to.not.exist;
-    }
+    yield ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--blueprint=./my_blueprint',
+    ]);
+
+    expect(dir('foo')).to.not.exist;
   }));
 
   it('ember new with --dry-run does not create new directory', co.wrap(function *() {
