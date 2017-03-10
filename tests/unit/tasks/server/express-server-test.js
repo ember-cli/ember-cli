@@ -44,6 +44,26 @@ describe('express-server', function() {
     } catch (err) { /* ignore */ }
   });
 
+
+  it('address in use', function() {
+    let preexistingServer = net.createServer();
+    preexistingServer.listen(1337);
+
+    return subject.start({
+      host: undefined,
+      port: '1337',
+    })
+      .then(function() {
+        expect(false, 'should have rejected').to.be.ok;
+      })
+      .catch(function(reason) {
+        expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
+      })
+      .finally(function() {
+        preexistingServer.close();
+      });
+  });
+
   describe('displayHost', function() {
     it('should use the specified host if specified', function() {
       expect(subject.displayHost('1.2.3.4')).to.equal('1.2.3.4');
@@ -80,82 +100,6 @@ describe('express-server', function() {
 
   describe('output', function() {
     this.timeout(40000);
-
-    it('with ssl', function() {
-      return subject.start({
-        host: undefined,
-        port: '1337',
-        ssl: true,
-        sslCert: 'tests/fixtures/ssl/server.crt',
-        sslKey: 'tests/fixtures/ssl/server.key',
-        rootURL: '/',
-      }).then(function() {
-        let output = ui.output.trim().split(EOL);
-        expect(output[0]).to.equal('Serving on https://localhost:1337/');
-      });
-    });
-
-    it('with proxy', function() {
-      return subject.start({
-        proxy: 'http://localhost:3001/',
-        host: undefined,
-        port: '1337',
-        rootURL: '/',
-      }).then(function() {
-        let output = ui.output.trim().split(EOL);
-        expect(output[1]).to.equal('Serving on http://localhost:1337/');
-        expect(output[0]).to.equal('Proxying to http://localhost:3001/');
-        expect(output.length).to.equal(2, 'expected only two lines of output');
-      });
-    });
-
-    it('without proxy', function() {
-      return subject.start({
-        host: undefined,
-        port: '1337',
-        rootURL: '/',
-      }).then(function() {
-        let output = ui.output.trim().split(EOL);
-        expect(output[0]).to.equal('Serving on http://localhost:1337/');
-        expect(output.length).to.equal(1, 'expected only one line of output');
-      });
-    });
-
-    it('with baseURL', function() {
-      return subject.start({
-        host: undefined,
-        port: '1337',
-        baseURL: '/foo',
-      }).then(function() {
-        let output = ui.output.trim().split(EOL);
-        expect(output[0]).to.equal('Serving on http://localhost:1337/foo/');
-        expect(output.length).to.equal(1, 'expected only one line of output');
-      });
-    });
-
-    it('with rootURL', function() {
-      return subject.start({
-        host: undefined,
-        port: '1337',
-        rootURL: '/foo',
-      }).then(function() {
-        let output = ui.output.trim().split(EOL);
-        expect(output[0]).to.equal('Serving on http://localhost:1337/foo/');
-        expect(output.length).to.equal(1, 'expected only one line of output');
-      });
-    });
-
-    it('with empty rootURL', function() {
-      return subject.start({
-        host: undefined,
-        port: '1337',
-        rootURL: '',
-      }).then(function() {
-        let output = ui.output.trim().split(EOL);
-        expect(output[0]).to.equal('Serving on http://localhost:1337/');
-        expect(output.length).to.equal(1, 'expected only one line of output');
-      });
-    });
 
     it('address in use', function() {
       let preexistingServer = net.createServer();
