@@ -1,5 +1,6 @@
 'use strict';
 
+const co = require('co');
 const broccoliTestHelper = require('broccoli-test-helper');
 const expect = require('chai').expect;
 
@@ -35,7 +36,7 @@ describe('EmberApp.index()', function() {
     }, options);
   }
 
-  it('moves "app/index.html" to "index.html"', function() {
+  it('moves "app/index.html" to "index.html"', co.wrap(function *() {
     input.write({
       'app': {
         'index.html': 'foobar',
@@ -44,14 +45,13 @@ describe('EmberApp.index()', function() {
     });
 
     let app = createApp();
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'index.html': 'foobar',
-      });
+    let output = yield buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'index.html': 'foobar',
     });
-  });
+  }));
 
-  it('respects "outputPaths.app.html" option', function() {
+  it('respects "outputPaths.app.html" option', co.wrap(function *() {
     input.write({
       'app': {
         'index.html': 'foobar',
@@ -66,16 +66,15 @@ describe('EmberApp.index()', function() {
         },
       },
     });
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'foo': {
-          'bar.htm': 'foobar',
-        },
-      });
+    let output = yield buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'foo': {
+        'bar.htm': 'foobar',
+      },
     });
-  });
+  }));
 
-  it('only returns the "index.html" file', function() {
+  it('only returns the "index.html" file', co.wrap(function *() {
     input.write({
       'app': {
         'bar': {
@@ -88,14 +87,13 @@ describe('EmberApp.index()', function() {
     });
 
     let app = createApp();
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'index.html': 'foobar',
-      });
+    let output = yield buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'index.html': 'foobar',
     });
-  });
+  }));
 
-  it('replaces config patterns', function() {
+  it('replaces config patterns', co.wrap(function *() {
     input.write({
       'app': {
         'index.html': 'ab{{rootURL}}cd',
@@ -108,14 +106,13 @@ describe('EmberApp.index()', function() {
     });
 
     let app = createApp();
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'index.html': 'ab/foo/cd',
-      });
+    let output = yield buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'index.html': 'ab/foo/cd',
     });
-  });
+  }));
 
-  it('prefers "src/ui/index.html" over "app/index.html"', function() {
+  it('prefers "src/ui/index.html" over "app/index.html"', co.wrap(function *() {
     input.write({
       'app': {
         'index.html': 'app',
@@ -129,10 +126,9 @@ describe('EmberApp.index()', function() {
     });
 
     let app = createApp();
-    return buildOutput(app.index()).then(output => {
-      expect(output.read()).to.deep.equal({
-        'index.html': 'src',
-      });
+    let output = yield buildOutput(app.index());
+    expect(output.read()).to.deep.equal({
+      'index.html': 'src',
     });
-  });
+  }));
 });
