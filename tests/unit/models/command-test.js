@@ -576,7 +576,7 @@ describe('models/command.js', function() {
         tasks: {
           Async: AsyncTask,
           Sync: SyncTask,
-          Failing: SyncTask,
+          Failing: FailingTask,
         },
       }));
     });
