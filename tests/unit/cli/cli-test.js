@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
@@ -634,9 +634,7 @@ describe('Unit: CLI', function() {
   it('ember <invalid command>', function() {
     let help = stubValidateAndRun('help');
 
-    return ember(['unknownCommand']).then(function() {
-      expect(false).to.be.ok;
-    }).catch(function(error) {
+    return (expect(ember(['unknownCommand'])).to.be.rejected).then(error => {
       expect(help.called, 'help command was executed').to.not.be.ok;
       expect(error.name).to.equal('SilentError');
       expect(error.message).to.equal('The specified command unknownCommand is invalid. For available options, see `ember help`.');
@@ -704,9 +702,7 @@ describe('Unit: CLI', function() {
 
         // eslint-disable-next-line no-template-curly-in-string
         it('sets process.env.EMBER_VERBOSE_${NAME} for each space delimited option', function() {
-          return verboseCommand(['fake_option_1', 'fake_option_2']).then(function() {
-            expect(false).to.be.true;
-          }).catch(function(error) {
+          return expect(verboseCommand(['fake_option_1', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.be.ok;
             expect(error.name).to.equal('SilentError');
@@ -715,9 +711,7 @@ describe('Unit: CLI', function() {
         });
 
         it('ignores verbose options after --', function() {
-          return verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2']).then(function() {
-            expect(false).to.be.true;
-          }).catch(function(error) {
+          return expect(verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
             expect(error.name).to.equal('SilentError');
@@ -726,9 +720,7 @@ describe('Unit: CLI', function() {
         });
 
         it('ignores verbose options after -', function() {
-          return verboseCommand(['fake_option_1', '-f', 'fake_option_2']).then(function() {
-            expect(false).to.be.true;
-          }).catch(function(error) {
+          return expect(verboseCommand(['fake_option_1', '-f', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
             expect(error.name).to.equal('SilentError');

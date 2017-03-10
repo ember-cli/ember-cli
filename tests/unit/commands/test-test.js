@@ -157,9 +157,7 @@ describe('test command', function() {
     });
 
     it('throws an error if the build path does not exist', function() {
-      return command.validateAndRun(['--path=bad/path/to/build']).then(function() {
-        expect(false, 'should have rejected the build path').to.be.ok;
-      }).catch(function(error) {
+      return expect(command.validateAndRun(['--path=bad/path/to/build'])).to.be.rejected.then(error => {
         let expectedPath = path.resolve('bad/path/to/build');
         expect(error.message).to.equal(`The path ${expectedPath} does not exist. Please specify a valid build directory to test.`);
       });
@@ -203,9 +201,7 @@ describe('test command', function() {
     });
 
     it('throws an error if using a build path', function() {
-      return command.validateAndRun(['--server', '--path=tests']).then(function() {
-        expect(false, 'should have rejected using a build path with the server').to.be.ok;
-      }).catch(function(error) {
+      return expect(command.validateAndRun(['--server', '--path=tests'])).to.be.rejected.then(error => {
         expect(error.message).to.equal('Specifying a build is not allowed with the `--server` option.');
       });
     });

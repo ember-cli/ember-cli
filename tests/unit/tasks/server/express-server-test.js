@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../../chai').expect;
 const ExpressServer = require('../../../../lib/tasks/server/express-server');
 const Promise = require('rsvp').Promise;
 const MockUI = require('console-ui/mock');
@@ -161,19 +161,14 @@ describe('express-server', function() {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
-      return subject.start({
+      return expect(subject.start({
         host: undefined,
         port: '1337',
-      })
-        .then(function() {
-          expect(false, 'should have rejected').to.be.ok;
-        })
-        .catch(function(reason) {
-          expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
-        })
-        .finally(function() {
-          preexistingServer.close();
-        });
+      })).to.be.rejected.then(reason => {
+        expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
+      }).finally(function() {
+        preexistingServer.close();
+      });
     });
   });
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const assign = require('ember-cli-lodash-subset').assign;
@@ -576,7 +576,7 @@ describe('models/command.js', function() {
         tasks: {
           Async: AsyncTask,
           Sync: SyncTask,
-          Failing: SyncTask,
+          Failing: FailingTask,
         },
       }));
     });
@@ -610,21 +610,18 @@ describe('models/command.js', function() {
     });
 
     it('_currentTask should cleanup current task on fail', function() {
-      return command.runTask('Failing', { param: 'value' })
-        .then(() => expect(false, 'should not be resolved').to.equal(true))
-        .catch(result => expect(command._currentTask).to.be.undefined);
+      return expect(command.runTask('Failing', { param: 'value' })).to.be.rejected.then(() => {
+        expect(command._currentTask).to.be.undefined;
+      });
     });
 
     it('throws on attempt to launch concurrent tasks', function() {
       let asyncTaskRun, syncTaskRun;
-      try {
+
+      expect(() => {
         asyncTaskRun = command.runTask('Async');
         syncTaskRun = command.runTask('Sync');
-
-        expect(false, 'should not launch concurrent task').to.equal(true);
-      } catch (e) {
-        expect(e.message).to.equal(`Concurrent tasks are not supported`);
-      }
+      }).to.throw(`Concurrent tasks are not supported`);
 
       return Promise.all([AsyncTask, syncTaskRun]);
     });

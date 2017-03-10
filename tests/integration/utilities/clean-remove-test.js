@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const cleanRemove = require('../../../lib/utilities/clean-remove');
 const temp = require('temp');
 const path = require('path');
@@ -42,11 +42,7 @@ describe('clean-remove', function() {
     }).then(function() {
       return cleanRemove(fileInfo);
     }).then(function() {
-      return stat('nested1').then(function() {
-        expect(false).to.be.ok;
-      }).catch(function(err) {
-        expect(err).to.be.ok;
-      });
+      return expect(stat('nested1')).to.be.rejected;
     });
   });
 
@@ -65,11 +61,7 @@ describe('clean-remove', function() {
     }).then(function() {
       return cleanRemove(fileInfo);
     }).then(function() {
-      return stat(removedDisplayPath).then(function() {
-        expect(false).to.be.ok;
-      }).catch(function(err) {
-        expect(err).to.be.ok;
-      });
+      return expect(stat(removedDisplayPath)).to.be.rejected;
     }).then(function() {
       return stat(preservedDisplayPath).then(function(stats) {
         expect(stats).to.be.ok;
