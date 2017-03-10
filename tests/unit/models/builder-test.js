@@ -347,9 +347,7 @@ describe('models/builder.js', function() {
         return Promise.reject(thrownBuildError);
       };
 
-      return builder.build().then(function() {
-        expect(false, 'should not succeed').to.be.ok;
-      }).catch(function() {
+      return expect(builder.build()).to.be.rejected.then(() => {
         expect(receivedBuildError).to.equal(thrownBuildError);
       });
     });
@@ -361,9 +359,7 @@ describe('models/builder.js', function() {
         return Promise.reject(new Error('preBuild Error'));
       };
 
-      return builder.build().then(function() {
-        expect(false, 'should not succeed').to.be.ok;
-      }).catch(function() {
+      return expect(builder.build()).to.be.rejected.then(() => {
         expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
       });
     });
@@ -375,9 +371,7 @@ describe('models/builder.js', function() {
         return Promise.reject(new Error('build Error'));
       };
 
-      return builder.build().then(function() {
-        expect(false, 'should not succeed').to.be.ok;
-      }).catch(function() {
+      return expect(builder.build()).to.be.rejected.then(() => {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
       });
     });
@@ -389,9 +383,7 @@ describe('models/builder.js', function() {
         return Promise.reject(new Error('preBuild Error'));
       };
 
-      return builder.build().then(function() {
-        expect(false, 'should not succeed').to.be.ok;
-      }).catch(function() {
+      return expect(builder.build()).to.be.rejected.then(() => {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
       });
     });
@@ -403,9 +395,7 @@ describe('models/builder.js', function() {
         return Promise.reject(new Error('outputReady Error'));
       };
 
-      return builder.build().then(function() {
-        expect(false, 'should not succeed').to.be.ok;
-      }).catch(function() {
+      return expect(builder.build()).to.be.rejected.then(() => {
         expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildError']);
       });
     });

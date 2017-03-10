@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const MockProject = require('../../helpers/mock-project');
 const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
@@ -169,9 +169,7 @@ describe('install command', function() {
     });
 
     it('fails to install second argument for unknown addon', function() {
-      return command.validateAndRun(['ember-cli-cordova', 'com.ember.test']).then(function() {
-        expect(false, 'should reject with error').to.be.ok;
-      }).catch(function(error) {
+      return expect(command.validateAndRun(['ember-cli-cordova', 'com.ember.test'])).to.be.rejected.then(error => {
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
         let captor = td.matchers.captor();
         td.verify(generateRun(captor.capture()));
@@ -256,9 +254,7 @@ describe('install command', function() {
     });
 
     it('gives helpful message if it can\'t find the addon', function() {
-      return command.validateAndRun(['unknown-addon']).then(function() {
-        expect(false, 'should reject with error').to.be.ok;
-      }).catch(function(error) {
+      return expect(command.validateAndRun(['unknown-addon'])).to.be.rejected.then(error => {
         expect(error.message).to.equal(
           'Install failed. Could not find addon with name: unknown-addon',
           'expected error to have helpful message'
@@ -269,9 +265,7 @@ describe('install command', function() {
 
   describe('without args', function() {
     it('gives a helpful message if no arguments are passed', function() {
-      return command.validateAndRun([]).then(function() {
-        expect(false, 'should reject with error').to.be.ok;
-      }).catch(function(error) {
+      return expect(command.validateAndRun([])).to.be.rejected.then(error => {
         expect(error.message).to.equal(
           'The `install` command must take an argument with the name ' +
           'of an ember-cli addon. For installing all npm and bower ' +

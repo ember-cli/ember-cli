@@ -3,7 +3,7 @@
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const map = require('ember-cli-lodash-subset').map;
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
@@ -54,10 +54,7 @@ describe('init command', function() {
   it('doesn\'t allow to create an application named `test`', function() {
     buildCommand({ name: 'test' });
 
-    return command.validateAndRun([]).then(function() {
-      expect(false, 'should have rejected with an application name of test').to.be.ok;
-    })
-    .catch(function(error) {
+    return expect(command.validateAndRun([])).to.be.rejected.then(error => {
       expect(error.message).to.equal('We currently do not support a name of `test`.');
     });
   });
@@ -65,10 +62,7 @@ describe('init command', function() {
   it('doesn\'t allow to create an application without project name', function() {
     buildCommand({ name: undefined });
 
-    return command.validateAndRun([]).then(function() {
-      expect(false, 'should have rejected with an application without project name').to.be.ok;
-    })
-    .catch(function(error) {
+    return expect(command.validateAndRun([])).to.be.rejected.then(error => {
       expect(error.message).to.equal('The `ember init` command requires a package.json in current folder with name attribute or a specified name via arguments. For more details, use `ember help`.');
     });
   });
@@ -237,12 +231,8 @@ describe('init command', function() {
 
     buildCommand();
 
-    return command.validateAndRun(['--custom-option=customValue'])
-      .then(function() {
-        expect(false, 'promise should have rejected').to.be.ok;
-      })
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return expect(command.validateAndRun(['--custom-option=customValue'])).to.be.rejected.then(reason => {
+      expect(reason).to.equal('Called run');
+    });
   });
 });

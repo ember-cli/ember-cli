@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const EOL = require('os').EOL;
 const SilentError = require('silent-error');
 const commandOptions = require('../../factories/command-options');
@@ -49,9 +49,7 @@ describe('generate command', function() {
   it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
     command.project.hasDependencies = function() { return false; };
 
-    return command.validateAndRun(['controller', 'foo']).then(function() {
-      expect(true).to.be.false;
-    }).catch(function(reason) {
+    return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
       expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
     });
   });
@@ -73,16 +71,12 @@ describe('generate command', function() {
   });
 
   it('complains if no blueprint name is given', function() {
-    return command.validateAndRun([])
-      .then(function() {
-        expect(false, 'should not have called run').to.be.ok;
-      })
-      .catch(function(error) {
-        expect(error.message).to.equal(
-            'The `ember generate` command requires a ' +
-            'blueprint name to be specified. ' +
-            'For more details, use `ember help`.');
-      });
+    return expect(command.validateAndRun([])).to.be.rejected.then(error => {
+      expect(error.message).to.equal(
+          'The `ember generate` command requires a ' +
+          'blueprint name to be specified. ' +
+          'For more details, use `ember help`.');
+    });
   });
 
   describe('help', function() {

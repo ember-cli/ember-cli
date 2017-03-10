@@ -119,7 +119,7 @@ describe('models/addon.js', function() {
 
       it('lints the files before preprocessing', function() {
         addon.preprocessJs = function() {
-          expect(false, 'should not preprocess files').to.eql(true);
+          throw new Error('should not preprocess files');
         };
 
         let root = path.join(fixturePath, 'with-styles');
