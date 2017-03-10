@@ -1,5 +1,6 @@
 'use strict';
 
+const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
@@ -29,12 +30,10 @@ describe('Acceptance: ember destroy', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(function() {
-    return mkTmpDirIn(tmproot).then(function(dir) {
-      tmpdir = dir;
-      process.chdir(tmpdir);
-    });
-  });
+  beforeEach(co.wrap(function *() {
+    tmpdir = yield mkTmpDirIn(tmproot);
+    process.chdir(tmpdir);
+  }));
 
   afterEach(function() {
     process.chdir(root);
@@ -107,66 +106,45 @@ describe('Acceptance: ember destroy', function() {
     });
   }
 
-  function assertDestroyAfterGenerate(args, files) {
-    return initApp()
-      .then(function() {
-        return generate(args);
-      })
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+  const assertDestroyAfterGenerate = co.wrap(function *(args, files) {
+    yield initApp();
 
-  function assertDestroyAfterGenerateInAddon(args, files) {
-    return generateInAddon(args)
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+    yield generate(args);
+    assertFilesExist(files);
 
-  function assertDestroyAfterGenerateInRepoAddon(args, files) {
-    return generateInRepoAddon(args)
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
 
-  function assertDestroyAfterGenerateInAddonDummy(args, files) {
+  const assertDestroyAfterGenerateInAddon = co.wrap(function *(args, files) {
+    yield generateInAddon(args);
+    assertFilesExist(files);
+
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
+
+  const assertDestroyAfterGenerateInRepoAddon = co.wrap(function *(args, files) {
+    yield generateInRepoAddon(args);
+    assertFilesExist(files);
+
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
+
+  const assertDestroyAfterGenerateInAddonDummy = co.wrap(function *(args, files) {
     args = args.concat('--dummy');
 
-    return generateInAddon(args)
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+    yield generateInAddon(args);
+    assertFilesExist(files);
+
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
 
   it('in-addon component x-foo', function() {
     let commandArgs = ['component', 'x-foo'];
@@ -242,70 +220,52 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('deletes files generated using blueprints from the project directory', function() {
+  it('deletes files generated using blueprints from the project directory', co.wrap(function *() {
     let commandArgs = ['foo', 'bar'];
     let files = ['app/foos/bar.js'];
-    return initApp()
-      .then(function() {
-        return outputFile(
-          'blueprints/foo/files/app/foos/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          'export default Ember.Object.extend({ foo: true });\n'
-        );
-      })
-      .then(function() {
-        return generate(commandArgs);
-      })
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(commandArgs);
-      })
-      .then(function() {
-        assertFilesNotExist(files);
-      });
-  });
+    yield initApp();
 
-  it('correctly identifies the root of the project', function() {
+    yield outputFile(
+      'blueprints/foo/files/app/foos/__name__.js',
+      "import Ember from 'ember';\n\n" +
+      'export default Ember.Object.extend({ foo: true });\n'
+    );
+
+    yield generate(commandArgs);
+    assertFilesExist(files);
+
+    yield destroy(commandArgs);
+    assertFilesNotExist(files);
+  }));
+
+  it('correctly identifies the root of the project', co.wrap(function *() {
     let commandArgs = ['controller', 'foo'];
     let files = ['app/controllers/foo.js'];
-    return initApp()
-      .then(function() {
-        return outputFile(
-          'blueprints/controller/files/app/controllers/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          "export default Ember.Controller.extend({ custom: true });\n"
-        );
-      })
-      .then(function() {
-        return generate(commandArgs);
-      })
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        process.chdir(path.join(tmpdir, 'app'));
-      })
-      .then(function() {
-        return destroy(commandArgs);
-      })
-      .then(function() {
-        process.chdir(tmpdir);
-      })
-      .then(function() {
-        assertFilesNotExist(files);
-      });
-  });
+    yield initApp();
 
-  it('http-mock <name> does not remove server/', function() {
-    return initApp()
-      .then(function() { return generate(['http-mock', 'foo']); })
-      .then(function() { return generate(['http-mock', 'bar']); })
-      .then(function() { return destroy(['http-mock', 'foo']); })
-      .then(function() {
-        expect(file('server/index.js')).to.exist;
-      });
-  });
+    yield outputFile(
+      'blueprints/controller/files/app/controllers/__name__.js',
+      "import Ember from 'ember';\n\n" +
+      "export default Ember.Controller.extend({ custom: true });\n"
+    );
+
+    yield generate(commandArgs);
+    assertFilesExist(files);
+
+    process.chdir(path.join(tmpdir, 'app'));
+    yield destroy(commandArgs);
+
+    process.chdir(tmpdir);
+    assertFilesNotExist(files);
+  }));
+
+  it('http-mock <name> does not remove server/', co.wrap(function *() {
+    yield initApp();
+    yield generate(['http-mock', 'foo']);
+    yield generate(['http-mock', 'bar']);
+    yield destroy(['http-mock', 'foo']);
+
+    expect(file('server/index.js')).to.exist;
+  }));
 
 });
