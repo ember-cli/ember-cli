@@ -1,5 +1,6 @@
 'use strict';
 
+const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
@@ -31,12 +32,10 @@ describe('Acceptance: ember destroy pod', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(function() {
-    return mkTmpDirIn(tmproot).then(function(dir) {
-      tmpdir = dir;
-      process.chdir(tmpdir);
-    });
-  });
+  beforeEach(co.wrap(function *() {
+    tmpdir = yield mkTmpDirIn(tmproot);
+    process.chdir(tmpdir);
+  }));
 
   afterEach(function() {
     this.timeout(10000);
@@ -111,91 +110,67 @@ describe('Acceptance: ember destroy pod', function() {
     });
   }
 
-  function assertDestroyAfterGenerate(args, files) {
-    return initApp()
-      .then(function() {
-        replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
-        return generate(args);
-      })
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+  const assertDestroyAfterGenerate = co.wrap(function *(args, files) {
+    yield initApp();
 
-  function assertDestroyAfterGenerateWithUsePods(args, files) {
-    return initApp()
-      .then(function() {
-        replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,\n"usePods" : true\n');
-        return generate(args);
-      })
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+    replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
 
-  function assertDestroyAfterGenerateInAddon(args, files) {
-    return generateInAddon(args)
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+    yield generate(args);
+    assertFilesExist(files);
 
-  function assertDestroyAfterGenerateInRepoAddon(args, files) {
-    return generateInRepoAddon(args)
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(args);
-      })
-      .then(function(result) {
-        expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-        assertFilesNotExist(files);
-      });
-  }
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
 
-  function destroyAfterGenerateWithPodsByDefault(args) {
-    return initApp()
-      .then(function() {
-        replaceFile('config/environment.js', "var ENV = {", "var ENV = {\nusePodsByDefault: true, \n");
-        return generate(args);
-      })
-      .then(function() {
-        return destroy(args);
-      });
-  }
+  const assertDestroyAfterGenerateWithUsePods = co.wrap(function *(args, files) {
+    yield initApp();
 
-  function destroyAfterGenerate(args) {
-    return initApp()
-      .then(function() {
-        replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
-        return generate(args);
-      })
-      .then(function() {
-        return destroy(args);
-      });
-  }
+    replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,\n"usePods" : true\n');
+
+    yield generate(args);
+    assertFilesExist(files);
+
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
+
+  const assertDestroyAfterGenerateInAddon = co.wrap(function *(args, files) {
+    yield generateInAddon(args);
+    assertFilesExist(files);
+
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
+
+  const assertDestroyAfterGenerateInRepoAddon = co.wrap(function *(args, files) {
+    yield generateInRepoAddon(args);
+    assertFilesExist(files);
+
+    let result = yield destroy(args);
+    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
+    assertFilesNotExist(files);
+  });
+
+  const destroyAfterGenerateWithPodsByDefault = co.wrap(function *(args) {
+    yield initApp();
+
+    replaceFile('config/environment.js', "var ENV = {", "var ENV = {\nusePodsByDefault: true, \n");
+
+    yield generate(args);
+    return yield destroy(args);
+  });
+
+  const destroyAfterGenerate = co.wrap(function *(args) {
+    yield initApp();
+
+    replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
+
+    yield generate(args);
+    return yield destroy(args);
+  });
 
   it('.ember-cli usePods setting destroys in pod structure without --pod flag', function() {
     let commandArgs = ['controller', 'foo'];
@@ -256,76 +231,61 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('deletes files generated using blueprints from the project directory', function() {
+  it('deletes files generated using blueprints from the project directory', co.wrap(function *() {
     let commandArgs = ['foo', 'bar', '--pod'];
     let files = ['app/foos/bar.js'];
-    return initApp()
-      .then(function() {
-        return outputFile(
-          'blueprints/foo/files/app/foos/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          'export default Ember.Object.extend({ foo: true });\n'
-        );
-      })
-      .then(function() {
-        return generate(commandArgs);
-      })
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        return destroy(commandArgs);
-      })
-      .then(function() {
-        assertFilesNotExist(files);
-      });
-  });
 
-  it('correctly identifies the root of the project', function() {
+    yield initApp();
+
+    yield outputFile(
+      'blueprints/foo/files/app/foos/__name__.js',
+      "import Ember from 'ember';\n\n" +
+      'export default Ember.Object.extend({ foo: true });\n'
+    );
+
+    yield generate(commandArgs);
+    assertFilesExist(files);
+
+    yield destroy(commandArgs);
+    assertFilesNotExist(files);
+  }));
+
+  it('correctly identifies the root of the project', co.wrap(function *() {
     let commandArgs = ['controller', 'foo', '--pod'];
     let files = ['app/foo/controller.js'];
-    return initApp()
-      .then(function() {
-        return outputFile(
-          'blueprints/controller/files/app/__path__/__name__.js',
-          "import Ember from 'ember';\n\n" +
-          "export default Ember.Controller.extend({ custom: true });\n"
-        );
-      })
-      .then(function() {
-        return generate(commandArgs);
-      })
-      .then(function() {
-        assertFilesExist(files);
-      })
-      .then(function() {
-        process.chdir(path.join(tmpdir, 'app'));
-      })
-      .then(function() {
-        return destroy(commandArgs);
-      })
-      .then(function() {
-        process.chdir(tmpdir);
-      })
-      .then(function() {
-        assertFilesNotExist(files);
-      });
-  });
+
+    yield initApp();
+
+    yield outputFile(
+      'blueprints/controller/files/app/__path__/__name__.js',
+      "import Ember from 'ember';\n\n" +
+      "export default Ember.Controller.extend({ custom: true });\n"
+    );
+
+    yield generate(commandArgs);
+    assertFilesExist(files);
+
+    process.chdir(path.join(tmpdir, 'app'));
+    yield destroy(commandArgs);
+
+    process.chdir(tmpdir);
+    assertFilesNotExist(files);
+  }));
 
   // Skip until podModulePrefix is deprecated
-  it.skip('podModulePrefix deprecation warning', function() {
-    return destroyAfterGenerate(['controller', 'foo', '--pod']).then(function(result) {
-      expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be" +
+  it.skip('podModulePrefix deprecation warning', co.wrap(function *() {
+    let result = yield destroyAfterGenerate(['controller', 'foo', '--pod']);
+
+    expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be" +
       " removed from future versions of ember-cli. Please move existing pods from" +
       " 'app/pods/' to 'app/'.");
-    });
-  });
+  }));
 
-  it('usePodsByDefault deprecation warning', function() {
-    return destroyAfterGenerateWithPodsByDefault(['controller', 'foo', '--pod']).then(function(result) {
-      expect(result.outputStream.join()).to.include('`usePodsByDefault` is no longer supported in' +
-        ' \'config/environment.js\', use `usePods` in \'.ember-cli\' instead.');
-    });
-  });
+  it('usePodsByDefault deprecation warning', co.wrap(function *() {
+    let result = yield destroyAfterGenerateWithPodsByDefault(['controller', 'foo', '--pod']);
+
+    expect(result.outputStream.join()).to.include('`usePodsByDefault` is no longer supported in' +
+      ' \'config/environment.js\', use `usePods` in \'.ember-cli\' instead.');
+  }));
 
 });
