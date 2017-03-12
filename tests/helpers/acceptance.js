@@ -9,7 +9,6 @@ const runCommand = require('./run-command');
 let root = path.resolve(__dirname, '..', '..');
 
 const PackageCache = require('../../tests/helpers/package-cache');
-const CommandGenerator = require('../../tests/helpers/command-generator');
 
 const outputFile = RSVP.denodeify(fs.outputFile);
 
