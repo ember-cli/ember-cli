@@ -365,33 +365,28 @@ describe('models/instrumentation.js', function() {
     });
 
     it('throws if name is unexpected', function() {
-      expect(function() {
-        instrumentation.stopAndReport('the weather');
-      }).to.throw('No such instrumentation "the weather"');
+      expect(() => instrumentation.stopAndReport('the weather'))
+        .to.throw('No such instrumentation "the weather"');
     });
 
     it('throws if name has not yet started', function() {
-      expect(function() {
-        instrumentation.stopAndReport('init');
-      }).to.throw('Cannot stop instrumentation "init".  It has not started.');
+      expect(() => instrumentation.stopAndReport('init'))
+        .to.throw('Cannot stop instrumentation "init".  It has not started.');
     });
 
     it('warns if heimdall stop throws (eg when unbalanced)', function() {
       instrumentation.start('init');
       heimdall.start('a ruckus');
 
-      expect(function() {
-        instrumentation.stopAndReport('init');
-      }).to.not.throw();
+      expect(() => instrumentation.stopAndReport('init'))
+        .to.not.throw();
 
       expect(ui.output).to.eql(`${chalk.red('Error reporting instrumentation \'init\'.')}${EOL}`);
 
       instrumentation.start('init');
       heimdall.start('trouble');
 
-      expect(function() {
-        instrumentation.stopAndReport('init');
-      }).to.not.throw();
+      expect(() => instrumentation.stopAndReport('init')).to.not.throw();
     });
 
     it('computes summary for name', function() {
@@ -476,61 +471,59 @@ describe('models/instrumentation.js', function() {
       it('writes instrumentation info if viz is enabled', function() {
         process.env.BROCCOLI_VIZ = '1';
 
-        return mkTmpDirIn(tmproot)
-          .then(function() {
-            process.chdir(tmproot);
+        return mkTmpDirIn(tmproot).then(() => {
+          process.chdir(tmproot);
 
-            instrumentation.start('init');
-            instrumentation.stopAndReport('init', 'a', 'b');
+          instrumentation.start('init');
+          instrumentation.stopAndReport('init', 'a', 'b');
 
-            expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
-            expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
-              summary: { ok: 'init dokie' },
-              nodes: [{ i: 'can init json' }],
-            });
-
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
-
-            expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
-            expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
-              summary: { ok: 'build dokie' },
-              nodes: [{ i: 'can build json' }],
-            });
-
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
-
-            expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
-            expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
-              summary: { ok: 'build dokie' },
-              nodes: [{ i: 'can build json' }],
-            });
+          expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
+          expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
+            summary: { ok: 'init dokie' },
+            nodes: [{ i: 'can init json' }],
           });
+
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build', 'a', 'b');
+
+          expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
+          expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
+            summary: { ok: 'build dokie' },
+            nodes: [{ i: 'can build json' }],
+          });
+
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build', 'a', 'b');
+
+          expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
+          expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
+            summary: { ok: 'build dokie' },
+            nodes: [{ i: 'can build json' }],
+          });
+        });
       });
 
       it('does not write instrumentation info if viz is disabled', function() {
         delete process.env.BROCCOLI_VIZ;
 
-        return mkTmpDirIn(tmproot)
-          .then(function() {
-            process.chdir(tmproot);
+        return mkTmpDirIn(tmproot).then(() => {
+          process.chdir(tmproot);
 
-            instrumentation.start('init');
-            instrumentation.stopAndReport('init');
+          instrumentation.start('init');
+          instrumentation.stopAndReport('init');
 
-            expect(fs.existsSync('instrumentation.init.json')).to.equal(false);
+          expect(fs.existsSync('instrumentation.init.json')).to.equal(false);
 
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build');
 
-            expect(fs.existsSync('instrumentation.build.0.json')).to.equal(false);
+          expect(fs.existsSync('instrumentation.build.0.json')).to.equal(false);
 
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build');
 
-            expect(fs.existsSync('instrumentation.build.1.json')).to.equal(false);
-          });
+          expect(fs.existsSync('instrumentation.build.1.json')).to.equal(false);
+        });
       });
     });
 
@@ -646,11 +639,11 @@ describe('models/instrumentation.js', function() {
       expect(Object.keys(json)).to.eql(['nodes']);
       expect(json.nodes.length).to.eql(8);
 
-      expect(json.nodes.map(function(x) { return x.id; })).to.eql([
+      expect(json.nodes.map(x => x.id)).to.eql([
         1, 2, 3, 4, 5, 6, 7, 8,
       ]);
 
-      expect(json.nodes.map(function(x) { return x.label; })).to.eql([
+      expect(json.nodes.map(x => x.label)).to.eql([
         { name, emberCLI: true },
         { name: 'a' },
         { name: 'b1', broccoliNode: true, broccoliCachedNode: false },
@@ -661,7 +654,7 @@ describe('models/instrumentation.js', function() {
         { name: 'c3' },
       ]);
 
-      expect(json.nodes.map(function(x) { return x.children; })).to.eql([
+      expect(json.nodes.map(x => x.children)).to.eql([
         [2],
         [3, 5],
         [4],
@@ -672,8 +665,8 @@ describe('models/instrumentation.js', function() {
         [],
       ]);
 
-      let stats = json.nodes.map(function(x) { return x.stats; });
-      stats.forEach(function(nodeStats) {
+      let stats = json.nodes.map(x => x.stats);
+      stats.forEach(nodeStats => {
         expect('own' in nodeStats).to.eql(true);
         expect('time' in nodeStats).to.eql(true);
         expect(nodeStats.time.self).to.be.within(0, 2000000); //2ms in nanoseconds
@@ -687,21 +680,19 @@ describe('models/instrumentation.js', function() {
     }
 
     function assertTreeValidAPI(name, tree) {
-      let depthFirstNames = Array.from(tree.dfsIterator()).map(function(x) { return x.label.name; });
+      let depthFirstNames = Array.from(tree.dfsIterator()).map(x => x.label.name);
       expect(depthFirstNames, 'depth first name order').to.eql([
         name, 'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3',
       ]);
 
-      let breadthFirstNames = Array.from(tree.bfsIterator()).map(function(x) { return x.label.name; });
+      let breadthFirstNames = Array.from(tree.bfsIterator()).map(x => x.label.name);
       expect(breadthFirstNames, 'breadth first name order').to.eql([
         name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1',
       ]);
 
-      let c2 = Array.from(tree.dfsIterator()).filter(function(x) {
-        return x.label.name === 'c2';
-      })[0];
+      let c2 = Array.from(tree.dfsIterator()).filter(x => x.label.name === 'c2')[0];
 
-      let ancestorNames = Array.from(c2.ancestorsIterator()).map(function(x) { return x.label.name; });
+      let ancestorNames = Array.from(c2.ancestorsIterator()).map(x => x.label.name);
       expect(ancestorNames).to.eql([
         'b2', 'a', name,
       ]);
