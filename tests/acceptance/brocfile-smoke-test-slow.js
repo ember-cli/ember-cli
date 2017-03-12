@@ -283,6 +283,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
     (function() {
       let defineCount = 0;
+      // eslint-disable-next-line no-unused-vars
       function define(name, deps, factory) {
         expect(name).to.equal('hello-world');
         expect(deps).to.deep.equal([]);
