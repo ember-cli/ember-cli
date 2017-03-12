@@ -12,7 +12,6 @@ const chalk = require('chalk');
 const RSVP = require('rsvp');
 const EOL = require('os').EOL;
 
-const itr2Array = require('../../helpers/itr2array');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const experiments = require('../../../lib/experiments/');
@@ -688,21 +687,21 @@ describe('models/instrumentation.js', function() {
     }
 
     function assertTreeValidAPI(name, tree) {
-      let depthFirstNames = itr2Array(tree.dfsIterator()).map(function(x) { return x.label.name; });
+      let depthFirstNames = Array.from(tree.dfsIterator()).map(function(x) { return x.label.name; });
       expect(depthFirstNames, 'depth first name order').to.eql([
         name, 'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3',
       ]);
 
-      let breadthFirstNames = itr2Array(tree.bfsIterator()).map(function(x) { return x.label.name; });
+      let breadthFirstNames = Array.from(tree.bfsIterator()).map(function(x) { return x.label.name; });
       expect(breadthFirstNames, 'breadth first name order').to.eql([
         name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1',
       ]);
 
-      let c2 = itr2Array(tree.dfsIterator()).filter(function(x) {
+      let c2 = Array.from(tree.dfsIterator()).filter(function(x) {
         return x.label.name === 'c2';
       })[0];
 
-      let ancestorNames = itr2Array(c2.ancestorsIterator()).map(function(x) { return x.label.name; });
+      let ancestorNames = Array.from(c2.ancestorsIterator()).map(function(x) { return x.label.name; });
       expect(ancestorNames).to.eql([
         'b2', 'a', name,
       ]);
