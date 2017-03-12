@@ -395,7 +395,7 @@ describe('models/addon-discovery.js', function() {
   });
 
   describe('discoverProjectAddons', function() {
-    let addon, discovery, discoverFromProjectItselfCalled, discoverFromInternalProjectAddonsCalled, discoverFromDependenciesCalled, discoverInRepoAddonsCalled;
+    let discovery, discoverFromProjectItselfCalled, discoverFromInternalProjectAddonsCalled, discoverFromDependenciesCalled, discoverInRepoAddonsCalled;
 
     beforeEach(function() {
       let cli = new MockCLI();

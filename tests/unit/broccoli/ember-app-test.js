@@ -9,7 +9,6 @@ const expect = require('chai').expect;
 const td = require('testdouble');
 
 const MockCLI = require('../../helpers/mock-cli');
-const MockUI = require('console-ui/mock');
 
 let EmberApp = require('../../../lib/broccoli/ember-app');
 
@@ -661,7 +660,7 @@ describe('EmberApp', function() {
           function load() {
             process.env.EMBER_ENV = 'foo';
 
-            let app = new EmberApp({
+            new EmberApp({
               project,
               addons: {
                 blacklist: ['ember-cli-self-troll'],

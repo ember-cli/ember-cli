@@ -6,7 +6,6 @@ const Yam = require('yam');
 const cliEntry = require('../../../lib/cli');
 
 describe('.ember-cli leek options', function() {
-  let cli;
   let settings;
   let passedOptions;
 
@@ -23,12 +22,11 @@ describe('.ember-cli leek options', function() {
       return settings;
     };
 
-    cli = cliEntry({
+    cliEntry({
       UI: MockUI,
       Leek: mockedLeek,
       Yam: mockedYam,
     });
-
   });
 
   it('should contain the leek options from .ember-cli file', function() {

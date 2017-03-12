@@ -4,14 +4,12 @@ const expect = require('../../chai').expect;
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
-const heimdall = require('heimdalljs');
 const Command = require('../../../lib/models/command');
 const Promise = require('rsvp').Promise;
 
 let ui;
 let analytics;
 let commands = {};
-let argv;
 let isWithinProject;
 let project;
 let willInterruptProcess;
@@ -76,7 +74,6 @@ describe('Unit: CLI', function() {
     CLI = require('../../../lib/cli/cli');
     ui = new MockUI();
     analytics = new MockAnalytics();
-    argv = [];
     commands = { };
     isWithinProject = true;
     project = {
@@ -96,7 +93,7 @@ describe('Unit: CLI', function() {
     td.reset();
 
     delete process.env.EMBER_ENV;
-    commands = argv = ui = undefined;
+    commands = ui = undefined;
   });
 
   this.timeout(10000);
@@ -163,7 +160,7 @@ describe('Unit: CLI', function() {
   });
 
   it('errors correctly if the init hook errors', function() {
-    let help = stubValidateAndRun('help');
+    stubValidateAndRun('help');
 
     let cli = new CLI({
       ui,
@@ -284,7 +281,7 @@ describe('Unit: CLI', function() {
 
       it(`ember new ${command}`, function() {
         let help = stubCallHelp();
-        let newCommand = stubValidateAndRunHelp('new');
+        stubValidateAndRunHelp('new');
 
         return ember(['new', command]).then(function() {
           td.verify(help(), { ignoreExtraArgs: true, times: 1 });

@@ -1,7 +1,6 @@
 'use strict';
 
 const RSVP = require('rsvp');
-const MockUI = require('console-ui/mock');
 const ServeTask = require('../../../lib/tasks/serve');
 const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');

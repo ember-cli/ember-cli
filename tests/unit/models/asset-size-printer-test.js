@@ -110,7 +110,6 @@ describe('models/asset-size-printer', function() {
   });
 
   it('can print out to JSON', function() {
-    let assetObjectKeys;
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,

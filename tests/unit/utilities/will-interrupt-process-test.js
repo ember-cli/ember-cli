@@ -17,15 +17,6 @@ function getSignalListenersCount(emitter, event) {
   }
 }
 
-function getListenerCounts() {
-  return {
-    SIGINT: getSignalListenersCount(process, 'SIGINT'),
-    SIGTERM: getSignalListenersCount(process, 'SIGTERM'),
-    message: getSignalListenersCount(process, 'message'),
-    exit: captureExit.listenerCount(),
-  };
-}
-
 function getSignalListenerCounts() {
   return {
     SIGINT: getSignalListenersCount(process, 'SIGINT'),
@@ -172,7 +163,6 @@ describe('will interrupt process', function() {
         },
       });
 
-      let trapWindowsSignals = td.function();
       let windowsCtrlCTrap = td.matchers.isA(Function);
 
       willInterruptProcess.addHandler(cb);
@@ -193,7 +183,6 @@ describe('will interrupt process', function() {
         },
       });
 
-      let trapWindowsSignals = td.function();
       let windowsCtrlCTrap = td.matchers.isA(Function);
 
       willInterruptProcess.addHandler(cb);

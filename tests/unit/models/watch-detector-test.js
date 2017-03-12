@@ -5,12 +5,10 @@ const expect = require('chai').expect;
 const MockUI = require('console-ui/mock');
 const WatchDetector = require('../../../lib/models/watch-detector');
 const EOL = require('os').EOL;
-const chalk = require('chalk');
 
 describe('WatchDetector', function() {
   let ui;
   let subject;
-  let execArg, execValue;
   let fs, childProcess;
 
   beforeEach(function() {
@@ -18,11 +16,6 @@ describe('WatchDetector', function() {
 
     fs = {};
     childProcess = {};
-
-    function exec(arg) {
-      execArg = arg;
-      return execValue;
-    }
 
     subject = new WatchDetector({
       ui,

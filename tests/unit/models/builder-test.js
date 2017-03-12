@@ -8,16 +8,14 @@ const RSVP = require('rsvp');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
-const experiments = require('../../experiments');
 const chai = require('../../chai');
-const oneLine = require('common-tags').oneLine;
 let expect = chai.expect;
 let file = chai.file;
 
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
-let willInterruptProcess, Builder;
+let Builder;
 
 const Promise = RSVP.Promise;
 const remove = RSVP.denodeify(fs.remove);
@@ -38,7 +36,7 @@ describe('models/builder.js', function() {
   }
 
   before(function() {
-    willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
+    td.replace('../../../lib/utilities/will-interrupt-process', {
       addHandler: td.function(),
       removeHandler: td.function(),
     });
@@ -198,10 +196,8 @@ describe('models/builder.js', function() {
 
   describe('addons', function() {
     let hooksCalled;
-    let instrumentationArg;
 
     beforeEach(function() {
-      instrumentationArg = undefined;
       hooksCalled = [];
       addon = {
         name: 'TestAddon',
@@ -284,9 +280,8 @@ describe('models/builder.js', function() {
       });
 
       it('invokes the instrumentation hook if it is preset', function() {
-        addon.instrumentation = function(instrumentation) {
+        addon.instrumentation = function() {
           hooksCalled.push('instrumentation');
-          instrumentationArg = instrumentation;
         };
 
         return builder.build(null, {}).then(function() {

@@ -2,7 +2,6 @@
 
 const expect = require('../../chai').expect;
 const EOL = require('os').EOL;
-const SilentError = require('silent-error');
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const MockProject = require('../../helpers/mock-project');

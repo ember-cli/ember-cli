@@ -1,7 +1,6 @@
 'use strict';
 
 const td = require('testdouble');
-const expect = require('chai').expect;
 const Command = require('../../../tests/helpers/command-generator');
 
 describe('command-generator', function() {

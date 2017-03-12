@@ -1,7 +1,6 @@
 'use strict';
 
 const AddonInstallTask = require('../../../lib/tasks/addon-install');
-const MockProject = require('console-ui/mock');
 const expect = require('chai').expect;
 const CoreObject = require('core-object');
 const Promise = require('rsvp').Promise;
