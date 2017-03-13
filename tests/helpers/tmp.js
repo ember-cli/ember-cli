@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs-extra');
-const existsSync = require('exists-sync');
 const RSVP = require('rsvp');
 
 let remove = RSVP.denodeify(fs.remove);

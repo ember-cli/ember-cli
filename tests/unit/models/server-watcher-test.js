@@ -9,7 +9,6 @@ const ServerWatcher = require('../../../lib/models/server-watcher');
 
 describe('Server Watcher', function() {
   let ui;
-  let subject;
   let analytics;
   let watcher;
 
@@ -18,7 +17,7 @@ describe('Server Watcher', function() {
     analytics = new MockAnalytics();
     watcher = new MockServerWatcher();
 
-    subject = new ServerWatcher({
+    new ServerWatcher({
       ui,
       analytics,
       watcher,

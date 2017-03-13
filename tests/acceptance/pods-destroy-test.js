@@ -53,44 +53,9 @@ describe('Acceptance: ember destroy pod', function() {
     ]);
   }
 
-  function initAddon() {
-    return ember([
-      'addon',
-      'my-addon',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
-  }
-
-  function initInRepoAddon() {
-    return initApp().then(function() {
-      return ember([
-        'generate',
-        'in-repo-addon',
-        'my-addon',
-      ]);
-    });
-  }
-
   function generate(args) {
     let generateArgs = ['generate'].concat(args);
     return ember(generateArgs);
-  }
-
-  function generateInAddon(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initAddon().then(function() {
-      return ember(generateArgs);
-    });
-  }
-
-  function generateInRepoAddon(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initInRepoAddon().then(function() {
-      return ember(generateArgs);
-    });
   }
 
   function destroy(args) {
@@ -129,24 +94,6 @@ describe('Acceptance: ember destroy pod', function() {
     replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,\n"usePods" : true\n');
 
     yield generate(args);
-    assertFilesExist(files);
-
-    let result = yield destroy(args);
-    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-    assertFilesNotExist(files);
-  });
-
-  const assertDestroyAfterGenerateInAddon = co.wrap(function *(args, files) {
-    yield generateInAddon(args);
-    assertFilesExist(files);
-
-    let result = yield destroy(args);
-    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-    assertFilesNotExist(files);
-  });
-
-  const assertDestroyAfterGenerateInRepoAddon = co.wrap(function *(args, files) {
-    yield generateInRepoAddon(args);
     assertFilesExist(files);
 
     let result = yield destroy(args);

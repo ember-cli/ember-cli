@@ -11,7 +11,6 @@ const symlinkOrCopySync = require('symlink-or-copy').sync;
 const runCommand = require('../helpers/run-command');
 const ember = require('../helpers/ember');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-const killCliProcess = require('../helpers/kill-cli-process');
 const acceptance = require('../helpers/acceptance');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;

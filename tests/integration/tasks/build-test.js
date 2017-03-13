@@ -6,7 +6,6 @@ const chai = require('../../chai');
 let expect = chai.expect;
 let file = chai.file;
 const walkSync = require('walk-sync');
-const assign = require('ember-cli-lodash-subset').assign;
 const BuildTask = require('../../../lib/tasks/build');
 const RSVP = require('rsvp');
 const MockProject = require('../../helpers/mock-project');
@@ -54,13 +53,10 @@ describe('build task test', function() {
       environment: 'development',
     };
 
-    return task.run(runOptions)
-      .then(function() {
-        let expected = ['foo.txt'];
-
-        expect(walkSync(outputPath)).to.eql(['foo.txt']);
-        expect(file('dist/foo.txt')).to.equal('Some file named foo.txt\n');
-      });
+    return task.run(runOptions).then(() => {
+      expect(walkSync(outputPath)).to.eql(['foo.txt']);
+      expect(file('dist/foo.txt')).to.equal('Some file named foo.txt\n');
+    });
   });
 
   it('generates valid visualization output', function() {

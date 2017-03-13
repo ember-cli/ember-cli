@@ -2,7 +2,6 @@
 
 const expect = require('chai').expect;
 const EOL = require('os').EOL;
-const path = require('path');
 const processHelpString = require('../../helpers/process-help-string');
 const convertToJson = require('../../helpers/convert-help-output-to-json');
 const commandOptions = require('../../factories/command-options');

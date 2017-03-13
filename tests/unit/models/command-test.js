@@ -567,7 +567,7 @@ describe('models/command.js', function() {
     }
 
     class FailingTask extends Task {
-      run(options) { throw new Error('I was born to fail'); }
+      run(/* options */) { throw new Error('I was born to fail'); }
     }
 
     beforeEach(function() {
@@ -601,7 +601,7 @@ describe('models/command.js', function() {
 
     it('_currentTask should store a reference to the current task', function() {
       expect(command._currentTask).to.be.undefined;
-      let taskRun = command.runTask('Sync', { param: 'value' }).then(result => {
+      let taskRun = command.runTask('Sync', { param: 'value' }).then(() => {
         expect(command._currentTask).to.be.undefined;
       });
       expect(command._currentTask).to.be.an.instanceof(SyncTask);
@@ -623,7 +623,7 @@ describe('models/command.js', function() {
         syncTaskRun = command.runTask('Sync');
       }).to.throw(`Concurrent tasks are not supported`);
 
-      return Promise.all([AsyncTask, syncTaskRun]);
+      return Promise.all([asyncTaskRun, syncTaskRun]);
     });
 
     it('throws if the task is not found', function() {

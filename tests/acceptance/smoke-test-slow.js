@@ -12,7 +12,6 @@ const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
 const killCliProcess = require('../helpers/kill-cli-process');
 const ember = require('../helpers/ember');
-const experiments = require('../../lib/experiments/');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;

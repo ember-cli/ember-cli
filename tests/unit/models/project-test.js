@@ -7,15 +7,12 @@ const Addon = require('../../../lib/models/addon');
 const tmp = require('../../helpers/tmp');
 const touch = require('../../helpers/file-utils').touch;
 const expect = require('chai').expect;
-const MockUI = require('console-ui/mock');
-const Instrumentation = require('../../../lib/models/instrumentation');
 const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
-const experiments = require('../../experiments');
 
 describe('models/project.js', function() {
-  let project, projectPath, packageContents, tmpPath;
+  let project, projectPath, packageContents;
 
   function makeProject() {
     let cli = new MockCLI();

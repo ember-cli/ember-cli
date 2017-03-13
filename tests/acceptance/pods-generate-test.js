@@ -51,37 +51,10 @@ describe('Acceptance: ember generate pod', function() {
     ]).then(addJSHint);
   }
 
-  function initAddon() {
-    return ember([
-      'addon',
-      'my-addon',
-      '--skip-npm',
-      '--skip-bower',
-    ]).then(addJSHint);
-  }
-
   function addJSHint() {
     let pkg = fs.readJsonSync('package.json');
     pkg.devDependencies['ember-cli-jshint'] = '*';
     fs.writeJsonSync('package.json', pkg);
-  }
-
-  function initInRepoAddon() {
-    return initApp().then(function() {
-      return ember([
-        'generate',
-        'in-repo-addon',
-        'my-addon',
-      ]);
-    });
-  }
-
-  function preGenerate(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initApp().then(function() {
-      return ember(generateArgs);
-    });
   }
 
   function generate(args) {
@@ -115,22 +88,6 @@ describe('Acceptance: ember generate pod', function() {
 
     return initApp().then(function() {
       replaceFile('config/environment.js', "var ENV = {", "var ENV = {\nusePodsByDefault: true, \n");
-      return ember(generateArgs);
-    });
-  }
-
-  function generateInAddon(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initAddon().then(function() {
-      return ember(generateArgs);
-    });
-  }
-
-  function generateInRepoAddon(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initInRepoAddon().then(function() {
       return ember(generateArgs);
     });
   }

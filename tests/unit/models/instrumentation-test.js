@@ -14,7 +14,6 @@ const EOL = require('os').EOL;
 
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-const experiments = require('../../../lib/experiments/');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
 let expect = chai.expect;
@@ -37,7 +36,6 @@ describe('models/instrumentation.js', function() {
   });
 
   describe('._enableFSMonitorIfInstrumentationEnabled', function() {
-    let originalBroccoliViz = process.env.BROCCOLI_VIZ;
     let originalStatSync = fs.statSync;
 
     beforeEach(function() {
@@ -141,7 +139,8 @@ describe('models/instrumentation.js', function() {
         let mockInstrumentation = {};
 
         let ui = new MockUI();
-        let instrumentation = new Instrumentation({
+
+        new Instrumentation({
           ui,
           initInstrumentation: mockInstrumentation,
         });
@@ -157,7 +156,6 @@ describe('models/instrumentation.js', function() {
 
       it('does not create an init node if init instrumentation is missing', function() {
         let mockToken = {};
-        let mockInstrumentation = {};
 
         td.when(heimdallStart('init')).thenReturn(mockToken);
 
@@ -171,7 +169,8 @@ describe('models/instrumentation.js', function() {
         td.when(heimdallStart('init'));
 
         let ui = new MockUI();
-        let instrumentation = new Instrumentation({
+
+        new Instrumentation({
           ui,
         });
 
@@ -195,6 +194,10 @@ describe('models/instrumentation.js', function() {
       console.warn = function() {
         warnInvocations.push.apply(warnInvocations, Array.prototype.slice.call(arguments));
       };
+    });
+
+    afterEach(function() {
+      console.warn = originalWarn;
     });
 
     it('is true and does not warn if BROCCOLI_VIZ=1', function() {
@@ -324,6 +327,7 @@ describe('models/instrumentation.js', function() {
         let graph = heimdallGraph.loadFromNode(heimdall.root);
         let count = 0;
 
+        // eslint-disable-next-line no-unused-vars
         for (let n of graph.dfsIterator()) {
           ++count;
         }

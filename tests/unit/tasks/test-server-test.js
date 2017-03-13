@@ -66,7 +66,7 @@ describe('test server', function() {
           return ['middleware1', 'middleware2'];
         },
         testem: {
-          startDev(options, finalizer) {
+          startDev(/* options, finalizer */) {
             throw new TypeError('startDev not implemented');
           },
         },

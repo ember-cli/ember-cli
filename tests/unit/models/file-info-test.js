@@ -157,7 +157,7 @@ describe('Unit - FileInfo', function() {
     validOptions.inputPath = binary;
     let fileInfo = new FileInfo(validOptions);
 
-    return fileInfo.confirmOverwrite('test.png').then(function(action) {
+    return fileInfo.confirmOverwrite('test.png').then(function(/* action */) {
       td.verify(ui.prompt(td.matchers.argThat(function(options) {
         return (
           options.choices.length === 2 &&
