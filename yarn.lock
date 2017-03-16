@@ -1595,9 +1595,9 @@ ember-try-config@^2.0.1:
     rsvp "^3.2.1"
     semver "^5.1.0"
 
-ember-try@^0.2.10:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/ember-try/-/ember-try-0.2.10.tgz#8a11191fe8e5a45fb94b3bfdb0dc57d71899f16c"
+ember-try@^0.2.11:
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/ember-try/-/ember-try-0.2.11.tgz#a793fbfe9c327e6dface808f53262a0b5f69e7b8"
   dependencies:
     chalk "^1.0.0"
     cli-table2 "^0.2.0"
