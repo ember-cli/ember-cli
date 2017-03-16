@@ -1,5 +1,81 @@
 # ember-cli Changelog
 
+### 2.13.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.0...v2.13.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.0...v2.13.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6795](https://github.com/ember-cli/ember-cli/pull/6795) Cleanup EmberApp class [@Turbo87](https://github.com/Turbo87)
+- [#6615](https://github.com/ember-cli/ember-cli/pull/6615) Command interruption [@ro0gr](https://github.com/ro0gr)
+- [#6472](https://github.com/ember-cli/ember-cli/pull/6472) add ability to clean up old files in generators [@kellyselden](https://github.com/kellyselden)
+- [#6796](https://github.com/ember-cli/ember-cli/pull/6796) Update dependencies to latest versions. [@ember-cli](https://github.com/ember-cli)
+- [#6718](https://github.com/ember-cli/ember-cli/pull/6718) Pass init instrumentation to CLI if we have it [@ember-cli](https://github.com/ember-cli)
+- [#6717](https://github.com/ember-cli/ember-cli/pull/6717) Make instrumentation more resilient to errors [@ember-cli](https://github.com/ember-cli)
+- [#6716](https://github.com/ember-cli/ember-cli/pull/6716) Remove link to transition guide when ember-cli-build.js file is missing [@status200](https://github.com/status200)
+- [#6715](https://github.com/ember-cli/ember-cli/pull/6715) Fix build console output when using environment variable [@status200](https://github.com/status200)
+- [#6690](https://github.com/ember-cli/ember-cli/pull/6690) BUGFIX #6679 - workaround for tiny-lr not reloading on empty files arguments [@gandalfar](https://github.com/gandalfar)
+- [#6617](https://github.com/ember-cli/ember-cli/pull/6617) Remove wasted work around addon's addon trees. [@rwjblue](https://github.com/rwjblue)
+- [#6798](https://github.com/ember-cli/ember-cli/pull/6798) Update ember-cli-preprocess-registry to get latest clean-css. [@ember-cli](https://github.com/ember-cli)
+- [#6747](https://github.com/ember-cli/ember-cli/pull/6747) Use EOL to fix one Windows CI failure. [@rwjblue](https://github.com/rwjblue)
+- [#6727](https://github.com/ember-cli/ember-cli/pull/6727) remove bower install from travis [@kellyselden](https://github.com/kellyselden)
+- [#6745](https://github.com/ember-cli/ember-cli/pull/6745) ensure SIGINT ember serve produces instrumentation [@ember-cli](https://github.com/ember-cli)
+- [#6731](https://github.com/ember-cli/ember-cli/pull/6731) This reverts commit cb6bac632dc8dc1c49b30583f0fa135364c5c408, reversing
+changes made to be142aaf7801bf64f4322583c7d82ae7c7066c52. [@rwjblue](https://github.com/rwjblue)
+- [#6737](https://github.com/ember-cli/ember-cli/pull/6737) Make project require public [@asakusuma](https://github.com/asakusuma)
+- [#6741](https://github.com/ember-cli/ember-cli/pull/6741) addon needs to mirror filesToRemove from app [@kellyselden](https://github.com/kellyselden)
+- [#6742](https://github.com/ember-cli/ember-cli/pull/6742) Promote cacheKeyForTree to public API [@trentmwillis](https://github.com/trentmwillis)
+- [#6734](https://github.com/ember-cli/ember-cli/pull/6734) chore(package): update broccoli-concat to version 3.1.1 [@ember-cli](https://github.com/ember-cli)
+- [#6739](https://github.com/ember-cli/ember-cli/pull/6739) Remove bower.json files again [@Turbo87](https://github.com/Turbo87)
+- [#6728](https://github.com/ember-cli/ember-cli/pull/6728) remove application.hbs newline [@ember-cli](https://github.com/ember-cli)
+- [#6736](https://github.com/ember-cli/ember-cli/pull/6736) start using filesToRemove [@kellyselden](https://github.com/kellyselden)
+- [#6748](https://github.com/ember-cli/ember-cli/pull/6748) Use yarn if yarn.lock exists or `--yarn` is used [@Turbo87](https://github.com/Turbo87)
+- [#6805](https://github.com/ember-cli/ember-cli/pull/6805) more old file cleanup [@kellyselden](https://github.com/kellyselden)
+- [#6789](https://github.com/ember-cli/ember-cli/pull/6789) Support npm packages as `ember new` blueprints [@Turbo87](https://github.com/Turbo87)
+- [#6758](https://github.com/ember-cli/ember-cli/pull/6758) Fixes blueprints noop log removals [@gadogado](https://github.com/gadogado)
+- [#6768](https://github.com/ember-cli/ember-cli/pull/6768) Normalize end-of-line characters in strings to compare prior to diffing [@koopa](https://github.com/koopa)
+- [#6785](https://github.com/ember-cli/ember-cli/pull/6785) Refactor InstallBlueprintTask class [@Turbo87](https://github.com/Turbo87)
+- [#6776](https://github.com/ember-cli/ember-cli/pull/6776) Implement targets RFC [@cibernox](https://github.com/cibernox)
+- [#6778](https://github.com/ember-cli/ember-cli/pull/6778) Don't print heimdall stack on errors [@ember-cli](https://github.com/ember-cli)
+- [#6766](https://github.com/ember-cli/ember-cli/pull/6766) Remove flagging for `experiments.INSTRUMENTATION`. [@ember-cli](https://github.com/ember-cli)
+- [#6759](https://github.com/ember-cli/ember-cli/pull/6759) Enable instrumentation experiment with public `instrument` method. [@rwjblue](https://github.com/rwjblue)
+- [#6756](https://github.com/ember-cli/ember-cli/pull/6756) `yarn upgrade` [@rwjblue](https://github.com/rwjblue)
+- [#6754](https://github.com/ember-cli/ember-cli/pull/6754) Interrupt command with an error if no _currentTask [@ro0gr](https://github.com/ro0gr)
+- [#6825](https://github.com/ember-cli/ember-cli/pull/6825) EmberApp: Use "src/ui/index.html" if it exists [@Turbo87](https://github.com/Turbo87)
+- [#6797](https://github.com/ember-cli/ember-cli/pull/6797) Remove "proxyquire" dependency [@Turbo87](https://github.com/Turbo87)
+- [#6792](https://github.com/ember-cli/ember-cli/pull/6792) package.json: Remove "npm" from greenkeeper ignore list [@ember-cli](https://github.com/ember-cli)
+- [#6791](https://github.com/ember-cli/ember-cli/pull/6791) Convert EmberApp and EmberAddon to ES6 classes [@Turbo87](https://github.com/Turbo87)
+- [#6840](https://github.com/ember-cli/ember-cli/pull/6840) Add logging for `this.runTask` within commands. [@rwjblue](https://github.com/rwjblue)
+- [#6804](https://github.com/ember-cli/ember-cli/pull/6804) Remove missing init instrumentation warning [@ember-cli](https://github.com/ember-cli)
+- [#6800](https://github.com/ember-cli/ember-cli/pull/6800) tests/blueprints: Use arrow functions for callbacks [@Turbo87](https://github.com/Turbo87)
+- [#6799](https://github.com/ember-cli/ember-cli/pull/6799) Refactor `capture-exit` usage to avoid releasing exit. [@rwjblue](https://github.com/rwjblue)
+- [#6845](https://github.com/ember-cli/ember-cli/pull/6845) Convert more promise chains to coroutines [@Turbo87](https://github.com/Turbo87)
+- [#6806](https://github.com/ember-cli/ember-cli/pull/6806) Adds eslint-plugin-mocha [@gadogado](https://github.com/gadogado)
+- [#6835](https://github.com/ember-cli/ember-cli/pull/6835) EmberApp: Use "src/ui/styles" over "app/styles" if it exists [@Turbo87](https://github.com/Turbo87)
+- [#6824](https://github.com/ember-cli/ember-cli/pull/6824) chore(package): update broccoli-merge-trees to version 1.2.3 [@ember-cli](https://github.com/ember-cli)
+- [#6816](https://github.com/ember-cli/ember-cli/pull/6816) Resolve path when calling UnwatchedDir for Bower [@arthirm](https://github.com/arthirm)
+- [#6821](https://github.com/ember-cli/ember-cli/pull/6821) Add tests for EmberApp.index() method [@Turbo87](https://github.com/Turbo87)
+- [#6828](https://github.com/ember-cli/ember-cli/pull/6828) Use Babel 6 [@ember-cli](https://github.com/ember-cli)
+- [#6839](https://github.com/ember-cli/ember-cli/pull/6839) Allow `ember new -b <blueprint> foo` to opt-in to yarn by default. [@rwjblue](https://github.com/rwjblue)
+- [#6846](https://github.com/ember-cli/ember-cli/pull/6846) tests: Use "chai-as-promised" assertions [@Turbo87](https://github.com/Turbo87)
+- [#6847](https://github.com/ember-cli/ember-cli/pull/6847) print the `serving on http://host:port/basePath` after each rebuild [@ember-cli](https://github.com/ember-cli)
+- [#6852](https://github.com/ember-cli/ember-cli/pull/6852) Replace "itr2array" helper with Array.from() [@Turbo87](https://github.com/Turbo87)
+- [#6853](https://github.com/ember-cli/ember-cli/pull/6853) tests: Remove unused variables [@Turbo87](https://github.com/Turbo87)
+- [#6857](https://github.com/ember-cli/ember-cli/pull/6857) Update testdouble to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.12.0
 
 The following changes are required if you are upgrading from the previous
