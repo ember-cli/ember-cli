@@ -7,3 +7,7 @@ npm-debug.log
 .deps-tmp
 /coverage
 *.pem
+
+# JetBrains files
+.idea/
+*.iml
