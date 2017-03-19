@@ -331,4 +331,36 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('foo', 'uses addon name for package name');
   }));
 
+  it('ember new adds ember-welcome-page by default', co.wrap(function *() {
+    yield ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+    ]);
+
+    expect(file('package.json'))
+      .to.match(/"ember-welcome-page"/);
+
+    expect(file('app/templates/application.hbs'))
+      .to.contain("{{welcome-page}}");
+  }));
+
+  it('ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
+    yield ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--no-welcome',
+    ]);
+
+    expect(file('package.json'))
+      .not.to.match(/"ember-welcome-page"/);
+
+    expect(file('app/templates/application.hbs'))
+      .to.contain("Welcome to Ember");
+  }));
 });
