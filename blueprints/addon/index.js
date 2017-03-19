@@ -93,6 +93,7 @@ module.exports = {
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
       yarn: options.yarn,
+      welcome: options.welcome,
     };
   },
 
