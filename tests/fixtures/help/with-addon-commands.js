@@ -379,6 +379,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'welcome',
+          key: 'welcome',
+          default: true,
+          required: false
+        },
+        {
           name: 'yarn',
           key: 'yarn',
           required: false
@@ -475,6 +481,12 @@ module.exports = {
           default: false,
           aliases: ['sg'],
           key: 'skipGit',
+          required: false
+        },
+        {
+          name: 'welcome',
+          key: 'welcome',
+          default: true,
           required: false
         },
         {
