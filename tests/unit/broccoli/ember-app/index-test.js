@@ -133,5 +133,23 @@ describe('EmberApp.index()', function() {
         'index.html': 'src',
       });
     }));
+
+    it('works if only "src/ui/index.html" exists', co.wrap(function *() {
+      input.write({
+        'app': {},
+        'src': {
+          'ui': {
+            'index.html': 'src',
+          },
+        },
+        'config': {},
+      });
+
+      let app = createApp();
+      let output = yield buildOutput(app.index());
+      expect(output.read()).to.deep.equal({
+        'index.html': 'src',
+      });
+    }));
   }
 });
