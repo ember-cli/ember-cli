@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+### 2.13.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0-beta.1...v2.13.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0-beta.1...v2.13.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6861](https://github.com/ember-cli/ember-cli/pull/6861) Don't generate `addon-config/targets.js` in addons [@cibernox](https://github.com/cibernox)
+- [#6871](https://github.com/ember-cli/ember-cli/pull/6871) Use `yarn install --no-lockfile` in travis for addons [@rwwagner90](https://github.com/rwwagner90)
+- [#6874](https://github.com/ember-cli/ember-cli/pull/6874) Add .eslintrc.js files to blueprints [@rwwagner90](https://github.com/rwwagner90)
+- [#6884](https://github.com/ember-cli/ember-cli/pull/6884) Remove guard in `treeForAddon` around `addon/**/*.js` files. [@rwjblue](https://github.com/rwjblue)
+- [#6885](https://github.com/ember-cli/ember-cli/pull/6885) Work around broken bower installation for old npm versions [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.0-beta.1
 
 The following changes are required if you are upgrading from the previous
