@@ -1,0 +1,7 @@
+{
+  "name": "test-project",
+  "private": true,
+  "ember-addon": {
+    "paths": ["./lib/ember-invalid-addon"]
+  }
+}
