@@ -173,8 +173,8 @@ describe('Acceptance: ember generate', function() {
 
     expect(file('server/mocks/foo.js'))
       .to.contain("module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooRouter = express.Router();\n" +
+                  "  const express = require('express');\n" +
+                  "  let fooRouter = express.Router();\n" +
                   "\n" +
                   "  fooRouter.get('/', function(req, res) {\n" +
                   "    res.send({\n" +
@@ -231,8 +231,8 @@ describe('Acceptance: ember generate', function() {
 
     expect(file('server/mocks/foo-bar.js'))
       .to.contain("module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooBarRouter = express.Router();\n" +
+                  "  const express = require('express');\n" +
+                  "  let fooBarRouter = express.Router();\n" +
                   "\n" +
                   "  fooBarRouter.get('/', function(req, res) {\n" +
                   "    res.send({\n" +
@@ -288,12 +288,12 @@ describe('Acceptance: ember generate', function() {
       .to.contain("proxies.forEach(function(route) { route(app); });");
 
     expect(file('server/proxies/foo.js'))
-      .to.contain("var proxyPath = '/foo';\n" +
+      .to.contain("const proxyPath = '/foo';\n" +
                   "\n" +
                   "module.exports = function(app) {\n" +
                   "  // For options, see:\n" +
                   "  // https://github.com/nodejitsu/node-http-proxy\n" +
-                  "  var proxy = require('http-proxy').createProxyServer({});\n" +
+                  "  let proxy = require('http-proxy').createProxyServer({});\n" +
                   "\n" +
                   "  proxy.on('error', function(err, req) {\n" +
                   "    console.error(err, req.url);\n" +
