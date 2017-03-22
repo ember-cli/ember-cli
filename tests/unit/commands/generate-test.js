@@ -10,6 +10,8 @@ const Task = require('../../../lib/models/task');
 const Blueprint = require('../../../lib/models/blueprint');
 const GenerateCommand = require('../../../lib/commands/generate');
 const td = require('testdouble');
+const fs = require('fs-extra');
+const path = require('path');
 
 describe('generate command', function() {
   let options, command;
@@ -47,15 +49,17 @@ describe('generate command', function() {
 
   it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
     command.project.hasDependencies = function() { return false; };
+    let originalYarnLockPath = path.join(command.project.root, 'yarn.lock');
+    let dummyYarnLockPath = path.join(command.project.root, 'foo.bar');
+    fs.renameSync(originalYarnLockPath, dummyYarnLockPath);
 
     return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
       expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
-    });
+    }).then(() => fs.renameSync(dummyYarnLockPath, originalYarnLockPath));
   });
 
   it('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
     command.project.hasDependencies = function() { return false; };
-    command.project.hasYarnLockFile = function() { return true; };
 
     return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
       expect(reason.message).to.eql('node_modules appears empty, you may need to run `yarn`');

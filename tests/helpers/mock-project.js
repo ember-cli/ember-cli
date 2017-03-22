@@ -56,10 +56,6 @@ class MockProject extends Project {
     return true;
   }
 
-  hasYarnLockFile() {
-    return false;
-  }
-
   dependencies() {
     return [];
   }
