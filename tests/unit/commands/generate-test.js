@@ -53,6 +53,15 @@ describe('generate command', function() {
     });
   });
 
+  it('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
+    command.project.hasDependencies = function() { return false; };
+    command.project.hasYarnLockFile = function() { return true; };
+
+    return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
+      expect(reason.message).to.eql('node_modules appears empty, you may need to run `yarn`');
+    });
+  });
+
   it('runs GenerateFromBlueprint with expected options', function() {
     return command.validateAndRun(['controller', 'foo'])
       .then(function(options) {
