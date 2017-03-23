@@ -62,7 +62,7 @@ describe('generate command', function() {
     command.project.hasDependencies = function() { return false; };
 
     return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
-      expect(reason.message).to.eql('node_modules appears empty, you may need to run `yarn`');
+      expect(reason.message).to.eql('node_modules appears empty, you may need to run `yarn install`');
     });
   });
 
