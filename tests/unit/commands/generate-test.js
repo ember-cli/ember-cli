@@ -47,15 +47,26 @@ describe('generate command', function() {
     td.reset();
   });
 
-  it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
-    command.project.hasDependencies = function() { return false; };
-    let originalYarnLockPath = path.join(command.project.root, 'yarn.lock');
-    let dummyYarnLockPath = path.join(command.project.root, 'foo.bar');
-    fs.renameSync(originalYarnLockPath, dummyYarnLockPath);
+  describe('without yarn.lock file', function() {
+    let originalYarnLockPath, dummyYarnLockPath;
 
-    return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
-      expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
-    }).then(() => fs.renameSync(dummyYarnLockPath, originalYarnLockPath));
+    beforeEach(function() {
+      originalYarnLockPath = path.join(command.project.root, 'yarn.lock');
+      dummyYarnLockPath = path.join(command.project.root, 'foo.bar');
+      fs.renameSync(originalYarnLockPath, dummyYarnLockPath);
+    });
+
+    afterEach(function() {
+      fs.renameSync(dummyYarnLockPath, originalYarnLockPath);
+    });
+
+    it('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
+      command.project.hasDependencies = function() { return false; };
+
+      return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
+        expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
+      });
+    });
   });
 
   it('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
