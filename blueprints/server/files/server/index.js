@@ -1,3 +1,4 @@
+'use strict';
 /* eslint-env node */
 
 // To use it create some files under `mocks/`
@@ -11,8 +12,8 @@
 
 module.exports = function(app) {
   const globSync   = require('glob').sync;
-  var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
-  var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
+  const mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
+  const proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
 
   // Log proxy requests
   const morgan  = require('morgan');

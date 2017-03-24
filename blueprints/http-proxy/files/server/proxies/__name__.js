@@ -1,10 +1,11 @@
+'use strict';
 /* eslint-env node */
-var proxyPath = '/<%=camelizedModuleName %>';
+const proxyPath = '/<%=camelizedModuleName %>';
 
 module.exports = function(app) {
   // For options, see:
   // https://github.com/nodejitsu/node-http-proxy
-  var proxy = require('http-proxy').createProxyServer({});
+  let proxy = require('http-proxy').createProxyServer({});
 
   proxy.on('error', function(err, req) {
     console.error(err, req.url);
