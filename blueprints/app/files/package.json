@@ -31,7 +31,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.13.0-beta.1",
     "ember-export-application-global": "^2.0.0",
-    "ember-load-initializers": "^0.6.0",
+    "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^3.0.0",
     "ember-source": "~2.13.0-beta.1",
     "ember-welcome-page": "^2.0.2",
