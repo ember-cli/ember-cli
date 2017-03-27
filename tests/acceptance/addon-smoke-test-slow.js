@@ -7,7 +7,6 @@ const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
 const chalk = require('chalk');
 
-const symlinkOrCopySync = require('symlink-or-copy').sync;
 const runCommand = require('../helpers/run-command');
 const ember = require('../helpers/ember');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
