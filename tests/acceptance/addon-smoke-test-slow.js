@@ -7,7 +7,6 @@ const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
 const chalk = require('chalk');
 
-const symlinkOrCopySync = require('symlink-or-copy').sync;
 const runCommand = require('../helpers/run-command');
 const ember = require('../helpers/ember');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -71,12 +70,7 @@ describe('Acceptance: addon-smoke-test', function() {
     // add HTMLBars for templates (generators do this automatically when components/templates are added)
     packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
 
-    // build with addon deps being developed
-    packageJson.dependencies['developing-addon'] = 'latest';
-
     fs.writeJsonSync(packageJsonPath, packageJson);
-
-    symlinkOrCopySync(path.resolve('../../tests/fixtures/addon/developing-addon'), path.join(addonRoot, 'node_modules', 'developing-addon'));
 
     let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
 
