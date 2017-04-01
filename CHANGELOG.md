@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+### 2.13.0-beta.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0-beta.2...v2.13.0-beta.3)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0-beta.2...v2.13.0-beta.3)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6901](https://github.com/ember-cli/ember-cli/pull/6901) Update ember-welcome-page to use Babel 6. [@rwjblue](https://github.com/rwjblue)
+- [#6904](https://github.com/ember-cli/ember-cli/pull/6904) Update ember-cli-qunit to use Babel 6. [@rwjblue](https://github.com/rwjblue)
+- [#6905](https://github.com/ember-cli/ember-cli/pull/6905) Update various addons to use Babel 6. [@rwjblue](https://github.com/rwjblue)
+- [#6928](https://github.com/ember-cli/ember-cli/pull/6928) Add 🐹 as "ember" alias [@Turbo87](https://github.com/Turbo87)
+- [#6929](https://github.com/ember-cli/ember-cli/pull/6929) Backport fixes to release branch [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.0-beta.2
 
 The following changes are required if you are upgrading from the previous

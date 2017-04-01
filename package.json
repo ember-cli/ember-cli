@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "2.13.0-beta.2",
+  "version": "2.13.0-beta.3",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -19,7 +19,8 @@
   "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
   "main": "lib/cli/index.js",
   "bin": {
-    "ember": "./bin/ember"
+    "ember": "./bin/ember",
+    "🐹": "./bin/ember"
   },
   "repository": {
     "type": "git",
