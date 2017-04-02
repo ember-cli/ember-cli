@@ -7,6 +7,7 @@ const SilentError = require('silent-error');
 
 module.exports = {
   description: 'Generates an import wrapper.',
+
   beforeInstall(options) {
     if (options.originBlueprintName === 'addon-import') {
       throw new SilentError('You cannot call the addon-import blueprint directly.');
@@ -35,6 +36,7 @@ module.exports = {
       },
     };
   },
+
   locals(options) {
     let addonRawName = options.inRepoAddon ? options.inRepoAddon : options.project.name();
     let addonName = stringUtil.dasherize(addonRawName);

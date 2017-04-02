@@ -1,5 +1,6 @@
-'use strict';
 /* eslint-env node */
+'use strict';
+
 module.exports = function(app) {
   const express = require('express');
   let <%= camelizedModuleName %>Router = express.Router();
