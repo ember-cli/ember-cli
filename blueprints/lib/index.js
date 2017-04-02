@@ -13,7 +13,7 @@ module.exports = {
   },
 
   files() {
-    return this.hasJSHint() ? ['lib/.jshintrc'] : [];
+    return [this.hasJSHint() ? 'lib/.jshintrc' : 'lib/.eslintrc.js'];
   },
 
   hasJSHint() {
