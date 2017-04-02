@@ -27,7 +27,6 @@ module.exports = {
   },
 
   afterInstall(options) {
-
     if (!options.dryRun && isPackageMissing(this, 'express')) {
       return this.addPackagesToProject([
         { name: 'express', target: '^4.8.5' },

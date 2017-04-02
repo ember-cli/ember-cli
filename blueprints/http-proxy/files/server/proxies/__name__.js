@@ -1,5 +1,6 @@
-'use strict';
 /* eslint-env node */
+'use strict';
+
 const proxyPath = '/<%=camelizedModuleName %>';
 
 module.exports = function(app) {
