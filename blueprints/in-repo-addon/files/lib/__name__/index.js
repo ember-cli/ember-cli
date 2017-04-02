@@ -4,7 +4,7 @@
 module.exports = {
   name: '<%= dasherizedModuleName %>',
 
-  isDevelopingAddon: function() {
+  isDevelopingAddon() {
     return true;
   }
 };

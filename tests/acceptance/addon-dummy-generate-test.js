@@ -82,14 +82,14 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");
@@ -102,14 +102,14 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");

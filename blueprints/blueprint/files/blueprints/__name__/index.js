@@ -2,14 +2,14 @@
 module.exports = {
   description: ''
 
-  // locals: function(options) {
+  // locals(options) {
   //   // Return custom template variables here.
   //   return {
   //     foo: options.entity.options.foo
   //   };
   // }
 
-  // afterInstall: function(options) {
+  // afterInstall(options) {
   //   // Perform extra work here.
   // }
 };
