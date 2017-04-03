@@ -2,9 +2,7 @@
 
 const glob = require('glob').sync;
 
-let paths = glob('tests/*').filter(function(path) {
-  return !(/fixtures/).test(path);
-});
+let paths = glob('tests/*');
 
 paths = paths.concat([
   'lib',
