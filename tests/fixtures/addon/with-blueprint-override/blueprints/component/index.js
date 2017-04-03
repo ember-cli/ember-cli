@@ -1,5 +1,5 @@
 module.exports = {
-  locals: function(options) {
+  locals(options) {
     return {
       importTemplate: '',
       contents: '',

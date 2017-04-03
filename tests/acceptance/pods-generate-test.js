@@ -141,14 +141,14 @@ describe('Acceptance: ember generate pod', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");
@@ -161,14 +161,14 @@ describe('Acceptance: ember generate pod', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");
@@ -355,14 +355,14 @@ describe('Acceptance: ember generate pod', function() {
     yield outputFile(
       'blueprints/customblue/index.js',
       "module.exports = {\n" +
-      "  fileMapTokens: function(options) {\n" +
+      "  fileMapTokens(options) {\n" +
       "    return {\n" +
-      "      __name__: function(options) {\n" +
+      "      __name__(options) {\n" +
       "         return options.dasherizedModuleName;\n" +
       "      }\n" +
       "    };\n" +
       "  },\n" +
-      "  locals: function(options) {\n" +
+      "  locals(options) {\n" +
       "    var loc = {};\n" +
       "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';\n" +
       "    return loc;\n" +

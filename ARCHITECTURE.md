@@ -85,13 +85,13 @@ module.exports = Command.extend({
     ...
   ],
 
-  run: function(options) { // Required
+  run(options) { // Required
     // options === { packageName, ... }
 
     // Run tasks and return a promise
   },
 
-  printDetailedHelp: function() { // Optional
+  printDetailedHelp() { // Optional
     this.ui.write('Detailed help...');
   }
 });
@@ -166,7 +166,7 @@ The file format of a task looks like this:
 var Task = require('../task');
 
 module.exports = Task.extend({
-  run: function(options) {
+  run(options) {
     // return promise
   }
 });
@@ -272,7 +272,7 @@ when that task is invoked, not for `ember help` `ember version` or even
 var npm = require('npm');
 
 module.exports = Task.extend({
-  run: function() {
+  run() {
     npm.install() // or something
   }
 });
@@ -287,10 +287,10 @@ example:
 
 ```js
 module.exports = Task.extend({
-  init: function() {
+  init() {
     this.npm = this.npm || require('npm');
   },
-  run: function() {
+  run() {
     this.npm.install() // or something
   }
 });
