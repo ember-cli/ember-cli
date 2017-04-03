@@ -119,7 +119,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     yield generateInAddon(['http-mock', 'foo', '--dummy']);
 
     expect(file('server/index.js'))
-      .to.contain("mocks.forEach(function(route) { route(app); });");
+      .to.contain("mocks.forEach(route => route(app));");
 
     expect(file('server/mocks/foo.js'))
       .to.contain("module.exports = function(app) {\n" +
@@ -177,7 +177,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     yield generateInAddon(['http-mock', 'foo-bar', '--dummy']);
 
     expect(file('server/index.js'))
-      .to.contain("mocks.forEach(function(route) { route(app); });");
+      .to.contain("mocks.forEach(route => route(app));");
 
     expect(file('server/mocks/foo-bar.js'))
       .to.contain("module.exports = function(app) {\n" +
@@ -235,7 +235,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     yield generateInAddon(['http-proxy', 'foo', 'http://localhost:5000', '--dummy']);
 
     expect(file('server/index.js'))
-      .to.contain("proxies.forEach(function(route) { route(app); });");
+      .to.contain("proxies.forEach(route => route(app));");
 
     expect(file('server/proxies/foo.js'))
       .to.contain("const proxyPath = '/foo';\n" +
