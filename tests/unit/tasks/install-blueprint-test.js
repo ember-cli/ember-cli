@@ -1,7 +1,6 @@
 'use strict';
 
 const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
-const experiments = require('../../../lib/experiments');
 const td = require('testdouble');
 const SilentError = require('silent-error');
 const expect = require('../../chai').expect;
@@ -33,46 +32,36 @@ describe('InstallBlueprintTask', function() {
         .to.eventually.equal(foobarBlueprint);
     });
 
-    if (!experiments.NPM_BLUEPRINTS) {
-      it('rejects if the "foobar" blueprint was not found locally', function() {
-        let error = new Error('foobar not found');
-        td.when(task._lookupBlueprint('foobar')).thenReject(error);
 
-        return expect(task._resolveBlueprint('foobar'))
-          .to.be.rejectedWith(error);
-      });
+    it('rejects invalid npm package name "foo:bar"', function() {
+      let error = new Error('foobar not found');
+      td.when(task._lookupBlueprint('foo:bar')).thenReject(error);
 
-    } else {
-      it('rejects invalid npm package name "foo:bar"', function() {
-        let error = new Error('foobar not found');
-        td.when(task._lookupBlueprint('foo:bar')).thenReject(error);
+      return expect(task._resolveBlueprint('foo:bar'))
+      .to.be.rejectedWith(error);
+    });
 
-        return expect(task._resolveBlueprint('foo:bar'))
-          .to.be.rejectedWith(error);
-      });
+    it('tries to resolve "foobar" as npm package as a fallback', function() {
+      let error = new Error('foobar not found');
+      td.when(task._lookupBlueprint('foobar')).thenReject(error);
 
-      it('tries to resolve "foobar" as npm package as a fallback', function() {
-        let error = new Error('foobar not found');
-        td.when(task._lookupBlueprint('foobar')).thenReject(error);
+      let foobarBlueprint = { name: 'foobar npm blueprint' };
+      td.when(task._tryNpmBlueprint('foobar')).thenResolve(foobarBlueprint);
 
-        let foobarBlueprint = { name: 'foobar npm blueprint' };
-        td.when(task._tryNpmBlueprint('foobar')).thenResolve(foobarBlueprint);
+      return expect(task._resolveBlueprint('foobar'))
+      .to.eventually.equal(foobarBlueprint);
+    });
 
-        return expect(task._resolveBlueprint('foobar'))
-          .to.eventually.equal(foobarBlueprint);
-      });
+    it('rejects if npm module resolution failed', function() {
+      let error = new Error('foobar not found');
+      td.when(task._lookupBlueprint('foobar')).thenReject(error);
 
-      it('rejects if npm module resolution failed', function() {
-        let error = new Error('foobar not found');
-        td.when(task._lookupBlueprint('foobar')).thenReject(error);
+      let npmError = new Error('npm failure');
+      td.when(task._tryNpmBlueprint('foobar')).thenReject(npmError);
 
-        let npmError = new Error('npm failure');
-        td.when(task._tryNpmBlueprint('foobar')).thenReject(npmError);
-
-        return expect(task._resolveBlueprint('foobar'))
-          .to.be.rejectedWith(npmError);
-      });
-    }
+      return expect(task._resolveBlueprint('foobar'))
+      .to.be.rejectedWith(npmError);
+    });
 
     it('resolves "https://github.com/ember-cli/app-blueprint-test.git" blueprint by cloning, ' +
       'installing dependencies and loading the blueprint', function() {
