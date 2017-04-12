@@ -7,6 +7,7 @@ const AddonDiscovery = require('../../../lib/models/addon-discovery');
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
+const fs = require('fs');
 
 describe('models/addon-discovery.js', function() {
   let project, projectPath, ui;
@@ -458,6 +459,32 @@ describe('models/addon-discovery.js', function() {
 
       expect(result.name).to.equal('ember-random-addon');
       expect(result.path).to.equal(addonPath);
+      expect(result.pkg).to.deep.equal(addonPkg);
+    });
+
+    it('discovered path resolves symlinks', function() {
+      let addonPath = path.join(fixturePath, 'simple/node_modules/symlinked-addon');
+      let targetPath = path.join(fixturePath, 'simple/node_modules/ember-random-addon');
+
+      try {
+        // remove any prior symlink that's floating around here
+        fs.unlinkSync(addonPath);
+      } catch (err) {
+        // allowed to fail because symlink may not have existed
+      }
+
+      // Make our symlink. We do it here instead of committing the
+      // symlink to our repo because checking out repos with symlinks
+      // does the wrong thing in Windows non-administrator shells.
+      fs.symlinkSync(targetPath, addonPath);
+
+      const addonPkg = require(path.join(addonPath, 'package.json'));
+      let discovery = new AddonDiscovery(ui);
+
+      let result = discovery.discoverAtPath(addonPath);
+
+      expect(result.name).to.equal('ember-random-addon');
+      expect(result.path).to.equal(addonPath.replace('symlinked-addon', 'ember-random-addon'));
       expect(result.pkg).to.deep.equal(addonPkg);
     });
 
