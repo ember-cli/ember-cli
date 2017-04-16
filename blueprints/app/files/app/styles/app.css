@@ -1,0 +1,6 @@
+/* 
+ * This makes touch events work for all elements that have Ember actions.
+ */
+[data-ember-action] {
+  cursor: pointer;
+}
