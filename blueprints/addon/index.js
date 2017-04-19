@@ -21,6 +21,7 @@ module.exports = {
     'tests/dummy/app/templates/.gitkeep',
     'tests/dummy/app/views/.gitkeep',
     'tests/dummy/public/.gitkeep',
+    '.bowerrc',
     'bower.json',
     'Brocfile.js',
     'testem.json',
