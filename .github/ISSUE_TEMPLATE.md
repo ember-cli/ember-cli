@@ -6,7 +6,7 @@ it will make it easier for us to track down the issue you're having.
 
 ---
 
-Output from `ember version --verbose && npm --version`:
+Output from `ember version --verbose && echo "npm: $(npm --version)"`:
 ```
 [Replace this line with the output.]
 ```
