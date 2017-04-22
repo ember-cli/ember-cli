@@ -29,11 +29,11 @@
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-data": "^2.13.0-beta.1",
+    "ember-data": "^2.13.0-beta.4",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
-    "ember-source": "~2.13.0-beta.1",
+    "ember-source": "~2.13.0-beta.2",
     "ember-welcome-page": "^3.0.0",
     "loader.js": "^4.2.3"
   },
