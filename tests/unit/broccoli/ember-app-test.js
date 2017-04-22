@@ -504,6 +504,22 @@ describe('EmberApp', function() {
       });
     });
 
+    describe('default vendor/vendor.css exists', function() {
+      beforeEach(function() {
+        app = new EmberApp({
+          project,
+        });
+      });
+
+      it('has default vendor.css', function() {
+        let styles = app.styles()._inputNodes.map(String);
+
+        expect(styles.length).to.eql(2);
+        expect(styles[0]).to.match(/Funnel/);
+        expect(styles[1]).to.match(/assets\/vendor.css/);
+      });
+    });
+
     describe('postprocessTree is called properly', function() {
       beforeEach(function() {
         app = new EmberApp({
