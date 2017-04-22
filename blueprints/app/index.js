@@ -10,7 +10,6 @@ module.exports = {
     'app/templates/.gitkeep',
     'app/views/.gitkeep',
     'public/.gitkeep',
-    'bower.json',
     'Brocfile.js',
     'testem.json',
   ],
