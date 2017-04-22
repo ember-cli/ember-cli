@@ -82,14 +82,14 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");
@@ -102,14 +102,14 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");
@@ -119,12 +119,12 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     yield generateInAddon(['http-mock', 'foo', '--dummy']);
 
     expect(file('server/index.js'))
-      .to.contain("mocks.forEach(function(route) { route(app); });");
+      .to.contain("mocks.forEach(route => route(app));");
 
     expect(file('server/mocks/foo.js'))
       .to.contain("module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooRouter = express.Router();\n" +
+                  "  const express = require('express');\n" +
+                  "  let fooRouter = express.Router();\n" +
                   "\n" +
                   "  fooRouter.get('/', function(req, res) {\n" +
                   "    res.send({\n" +
@@ -177,12 +177,12 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     yield generateInAddon(['http-mock', 'foo-bar', '--dummy']);
 
     expect(file('server/index.js'))
-      .to.contain("mocks.forEach(function(route) { route(app); });");
+      .to.contain("mocks.forEach(route => route(app));");
 
     expect(file('server/mocks/foo-bar.js'))
       .to.contain("module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooBarRouter = express.Router();\n" +
+                  "  const express = require('express');\n" +
+                  "  let fooBarRouter = express.Router();\n" +
                   "\n" +
                   "  fooBarRouter.get('/', function(req, res) {\n" +
                   "    res.send({\n" +
@@ -235,15 +235,15 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     yield generateInAddon(['http-proxy', 'foo', 'http://localhost:5000', '--dummy']);
 
     expect(file('server/index.js'))
-      .to.contain("proxies.forEach(function(route) { route(app); });");
+      .to.contain("proxies.forEach(route => route(app));");
 
     expect(file('server/proxies/foo.js'))
-      .to.contain("var proxyPath = '/foo';\n" +
+      .to.contain("const proxyPath = '/foo';\n" +
                   "\n" +
                   "module.exports = function(app) {\n" +
                   "  // For options, see:\n" +
                   "  // https://github.com/nodejitsu/node-http-proxy\n" +
-                  "  var proxy = require('http-proxy').createProxyServer({});\n" +
+                  "  let proxy = require('http-proxy').createProxyServer({});\n" +
                   "\n" +
                   "  proxy.on('error', function(err, req) {\n" +
                   "    console.error(err, req.url);\n" +

@@ -78,7 +78,7 @@ describe('Acceptance: ember destroy pod', function() {
   const assertDestroyAfterGenerate = co.wrap(function *(args, files) {
     yield initApp();
 
-    replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
+    replaceFile('config/environment.js', "(var|let|const) ENV = {", "$1 ENV = {\npodModulePrefix: 'app/pods', \n");
 
     yield generate(args);
     assertFilesExist(files);
@@ -104,7 +104,7 @@ describe('Acceptance: ember destroy pod', function() {
   const destroyAfterGenerateWithPodsByDefault = co.wrap(function *(args) {
     yield initApp();
 
-    replaceFile('config/environment.js', "var ENV = {", "var ENV = {\nusePodsByDefault: true, \n");
+    replaceFile('config/environment.js', "(var|let|const) ENV = {", "$1 ENV = {\nusePodsByDefault: true, \n");
 
     yield generate(args);
     return yield destroy(args);
@@ -113,7 +113,7 @@ describe('Acceptance: ember destroy pod', function() {
   const destroyAfterGenerate = co.wrap(function *(args) {
     yield initApp();
 
-    replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
+    replaceFile('config/environment.js', "(var|let|const) ENV = {", "$1 ENV = {\npodModulePrefix: 'app/pods', \n");
 
     yield generate(args);
     return yield destroy(args);

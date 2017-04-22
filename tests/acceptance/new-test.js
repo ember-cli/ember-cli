@@ -205,7 +205,7 @@ describe('Acceptance: ember new', function() {
     fs.writeFileSync('my_blueprint/index.js', [
       'module.exports = {',
       '  availableOptions: [ { name: \'custom-option\' } ],',
-      '  locals: function(options) {',
+      '  locals(options) {',
       '    return {',
       '      customOption: options.customOption',
       '    };',

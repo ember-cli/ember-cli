@@ -4,10 +4,10 @@ import destroyApp from '../helpers/destroy-app';
 import { module, test } from 'qunit';
 
 module('default-development - Integration', {
-  beforeEach: function() {
+  beforeEach() {
     this.application = startApp();
   },
-  afterEach: function() {
+  afterEach() {
     destroyApp(this.application);
   }
 });

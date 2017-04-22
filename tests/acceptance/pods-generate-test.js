@@ -69,7 +69,7 @@ describe('Acceptance: ember generate pod', function() {
     let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
-      replaceFile('config/environment.js', "var ENV = {", "var ENV = {\npodModulePrefix: 'app/pods', \n");
+      replaceFile('config/environment.js', "(var|let|const) ENV = {", "$1 ENV = {\npodModulePrefix: 'app/pods', \n");
       return ember(generateArgs);
     });
   }
@@ -87,7 +87,7 @@ describe('Acceptance: ember generate pod', function() {
     let generateArgs = ['generate'].concat(args);
 
     return initApp().then(function() {
-      replaceFile('config/environment.js', "var ENV = {", "var ENV = {\nusePodsByDefault: true, \n");
+      replaceFile('config/environment.js', "(var|let|const) ENV = {", "$1 ENV = {\nusePodsByDefault: true, \n");
       return ember(generateArgs);
     });
   }
@@ -141,14 +141,14 @@ describe('Acceptance: ember generate pod', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");
@@ -161,14 +161,14 @@ describe('Acceptance: ember generate pod', function() {
       .to.contain("module.exports = {\n" +
                   "  description: ''\n" +
                   "\n" +
-                  "  // locals: function(options) {\n" +
+                  "  // locals(options) {\n" +
                   "  //   // Return custom template variables here.\n" +
                   "  //   return {\n" +
                   "  //     foo: options.entity.options.foo\n" +
                   "  //   };\n" +
                   "  // }\n" +
                   "\n" +
-                  "  // afterInstall: function(options) {\n" +
+                  "  // afterInstall(options) {\n" +
                   "  //   // Perform extra work here.\n" +
                   "  // }\n" +
                   "};");
@@ -178,12 +178,12 @@ describe('Acceptance: ember generate pod', function() {
     yield generate(['http-mock', 'foo', '--pod']);
 
     expect(file('server/index.js'))
-      .to.contain("mocks.forEach(function(route) { route(app); });");
+      .to.contain("mocks.forEach(route => route(app));");
 
     expect(file('server/mocks/foo.js'))
       .to.contain("module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooRouter = express.Router();\n" +
+                  "  const express = require('express');\n" +
+                  "  let fooRouter = express.Router();\n" +
                   "\n" +
                   "  fooRouter.get('/', function(req, res) {\n" +
                   "    res.send({\n" +
@@ -236,12 +236,12 @@ describe('Acceptance: ember generate pod', function() {
     yield generate(['http-mock', 'foo-bar', '--pod']);
 
     expect(file('server/index.js'))
-      .to.contain("mocks.forEach(function(route) { route(app); });");
+      .to.contain("mocks.forEach(route => route(app));");
 
     expect(file('server/mocks/foo-bar.js'))
       .to.contain("module.exports = function(app) {\n" +
-                  "  var express = require('express');\n" +
-                  "  var fooBarRouter = express.Router();\n" +
+                  "  const express = require('express');\n" +
+                  "  let fooBarRouter = express.Router();\n" +
                   "\n" +
                   "  fooBarRouter.get('/', function(req, res) {\n" +
                   "    res.send({\n" +
@@ -294,15 +294,15 @@ describe('Acceptance: ember generate pod', function() {
     yield generate(['http-proxy', 'foo', 'http://localhost:5000', '--pod']);
 
     expect(file('server/index.js'))
-      .to.contain("proxies.forEach(function(route) { route(app); });");
+      .to.contain("proxies.forEach(route => route(app));");
 
     expect(file('server/proxies/foo.js'))
-      .to.contain("var proxyPath = '/foo';\n" +
+      .to.contain("const proxyPath = '/foo';\n" +
                   "\n" +
                   "module.exports = function(app) {\n" +
                   "  // For options, see:\n" +
                   "  // https://github.com/nodejitsu/node-http-proxy\n" +
-                  "  var proxy = require('http-proxy').createProxyServer({});\n" +
+                  "  let proxy = require('http-proxy').createProxyServer({});\n" +
                   "\n" +
                   "  proxy.on('error', function(err, req) {\n" +
                   "    console.error(err, req.url);\n" +
@@ -355,14 +355,14 @@ describe('Acceptance: ember generate pod', function() {
     yield outputFile(
       'blueprints/customblue/index.js',
       "module.exports = {\n" +
-      "  fileMapTokens: function(options) {\n" +
+      "  fileMapTokens(options) {\n" +
       "    return {\n" +
-      "      __name__: function(options) {\n" +
+      "      __name__(options) {\n" +
       "         return options.dasherizedModuleName;\n" +
       "      }\n" +
       "    };\n" +
       "  },\n" +
-      "  locals: function(options) {\n" +
+      "  locals(options) {\n" +
       "    var loc = {};\n" +
       "    loc.hasCustomCommand = (options.customCommand) ? 'Yes!' : 'No. :C';\n" +
       "    return loc;\n" +

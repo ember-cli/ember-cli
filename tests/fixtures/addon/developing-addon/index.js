@@ -2,7 +2,7 @@
 module.exports = {
   name: 'developing-addon',
 
-  isDevelopingAddon: function() {
+  isDevelopingAddon() {
     return true;
   }
 };

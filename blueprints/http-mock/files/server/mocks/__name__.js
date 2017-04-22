@@ -1,7 +1,9 @@
 /* eslint-env node */
+'use strict';
+
 module.exports = function(app) {
-  var express = require('express');
-  var <%= camelizedModuleName %>Router = express.Router();
+  const express = require('express');
+  let <%= camelizedModuleName %>Router = express.Router();
 
   <%= camelizedModuleName %>Router.get('/', function(req, res) {
     res.send({
