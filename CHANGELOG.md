@@ -1,5 +1,29 @@
 # ember-cli Changelog
 
+### 2.13.0-beta.4
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0-beta.3...v2.13.0-beta.4)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0-beta.3...v2.13.0-beta.4)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6944](https://github.com/ember-cli/ember-cli/pull/6944) Include ember-testing.js when using ember-source [@trentmwillis](https://github.com/trentmwillis)
+- [#6961](https://github.com/ember-cli/ember-cli/pull/6961) ensure addon.css is always included [@stefanpenner](https://github.com/stefanpenner)
+- [#6968](https://github.com/ember-cli/ember-cli/pull/6968) Configure ESLint to parse ES2017 by default [@cibernox](https://github.com/cibernox)
+- [#6969](https://github.com/ember-cli/ember-cli/pull/6969) Remove `.bowerrc` from blueprints [@pichfl](https://github.com/pichfl)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.0-beta.3
 
 The following changes are required if you are upgrading from the previous
@@ -122,6 +146,29 @@ changes made to be142aaf7801bf64f4322583c7d82ae7c7066c52. [@rwjblue](https://git
 - [#6852](https://github.com/ember-cli/ember-cli/pull/6852) Replace "itr2array" helper with Array.from() [@Turbo87](https://github.com/Turbo87)
 - [#6853](https://github.com/ember-cli/ember-cli/pull/6853) tests: Remove unused variables [@Turbo87](https://github.com/Turbo87)
 - [#6857](https://github.com/ember-cli/ember-cli/pull/6857) Update testdouble to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.12.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.1...v2.12.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.1...v2.12.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6929](https://github.com/ember-cli/ember-cli/pull/6929) Backport fixes to release branch [@Turbo87](https://github.com/Turbo87)
+- [#6944](https://github.com/ember-cli/ember-cli/pull/6944) Include ember-testing.js when using ember-source [@trentmwillis](https://github.com/trentmwillis)
+- [#6974](https://github.com/ember-cli/ember-cli/pull/6974) Unnecessary "ember-cli-eslint" install [@tylerturdenpants](https://github.com/tylerturdenpants)
 
 Thank you to all who took the time to contribute!
 
