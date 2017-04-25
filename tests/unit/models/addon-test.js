@@ -403,6 +403,27 @@ describe('models/addon.js', function() {
       });
     });
 
+    describe('findOwnAddonByName', function() {
+      let ThisAddon = Addon.extend({
+        root: 'foo',
+        name: 'this-addon',
+      });
+
+      it('it has the given addon', function() {
+        let addon = new ThisAddon();
+        let ownAddon = { name: 'my-cool-addon' };
+        addon.addons = [ownAddon];
+        expect(addon.findOwnAddonByName('my-cool-addon')).to.eql(ownAddon);
+      });
+
+      it('it does not the given addon', function() {
+        let addon = new ThisAddon();
+        let ownAddon = { name: 'my-cool-addon' };
+        addon.addons = [ownAddon];
+        expect(addon.findOwnAddonByName('my-non-existentcool-addon')).to.eql(undefined);
+      });
+    });
+
     describe('hintingEnabled', function() {
       /**
         Tests the various configuration options that affect the hintingEnabled method.
