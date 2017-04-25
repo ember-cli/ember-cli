@@ -16,6 +16,7 @@ ember addon \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -sb\u001b[39m
   \u001b[36m--skip-git\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
     \u001b[90maliases: -sg\u001b[39m
+  \u001b[36m--yarn\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
   \u001b[36m--directory\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -dir <value>\u001b[39m
 
@@ -27,7 +28,7 @@ ember asset-sizes \u001b[36m<options...>\u001b[39m
 ember build \u001b[36m<options...>\u001b[39m
   Builds your app and places it into the output path (dist/ by default).
   \u001b[90maliases: b\u001b[39m
-  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m
+  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m Possible values are "development", "production", and "test".
     \u001b[90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m
   \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
     \u001b[90maliases: -o <value>\u001b[39m
@@ -87,6 +88,8 @@ ember init \u001b[33m<glob-pattern>\u001b[39m \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -sn\u001b[39m
   \u001b[36m--skip-bower\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
     \u001b[90maliases: -sb\u001b[39m
+  \u001b[36m--welcome\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.
+  \u001b[36m--yarn\u001b[39m \u001b[36m(Boolean)\u001b[39m
   \u001b[36m--name\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: )\u001b[39m
     \u001b[90maliases: -n <value>\u001b[39m
 
@@ -99,6 +102,7 @@ ember install \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -D\u001b[39m
   \u001b[36m--save-exact\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
     \u001b[90maliases: -E, --exact\u001b[39m
+  \u001b[36m--yarn\u001b[39m \u001b[36m(Boolean)\u001b[39m Use --yarn to enforce yarn usage, or --no-yarn to enforce NPM
 
 ember new \u001b[33m<app-name>\u001b[39m \u001b[36m<options...>\u001b[39m
   Creates a new directory and runs \u001b[32member init\u001b[39m in it.
@@ -114,6 +118,8 @@ ember new \u001b[33m<app-name>\u001b[39m \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -sb\u001b[39m
   \u001b[36m--skip-git\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
     \u001b[90maliases: -sg\u001b[39m
+  \u001b[36m--welcome\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.
+  \u001b[36m--yarn\u001b[39m \u001b[36m(Boolean)\u001b[39m
   \u001b[36m--directory\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -dir <value>\u001b[39m
 
@@ -140,7 +146,7 @@ ember serve \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -lrbu <value>\u001b[39m
   \u001b[36m--live-reload-port\u001b[39m \u001b[36m(Number)\u001b[39m (Defaults to port number within [49152...65535])
     \u001b[90maliases: -lrp <value>\u001b[39m
-  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m
+  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m Possible values are "development", "production", and "test".
     \u001b[90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m
   \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
     \u001b[90maliases: -op <value>, -out <value>\u001b[39m
@@ -151,7 +157,7 @@ ember serve \u001b[36m<options...>\u001b[39m
 ember test \u001b[36m<options...>\u001b[39m
   Runs your app's test suite.
   \u001b[90maliases: t\u001b[39m
-  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: test)\u001b[39m
+  \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: test)\u001b[39m Possible values are "development", "production", and "test".
     \u001b[90maliases: -e <value>\u001b[39m
   \u001b[36m--config-file\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -c <value>, -cf <value>\u001b[39m

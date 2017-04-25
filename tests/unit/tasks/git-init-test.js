@@ -15,22 +15,21 @@ const td = require('testdouble');
 const remove = RSVP.denodeify(fs.remove);
 
 describe('git-init', function() {
-  let subject, ui, tmpdir, exec;
+  let task;
 
   beforeEach(function() {
-    exec = td.function('exec');
-
-    return mkTmpDirIn(tmproot).then(function(dir) {
-      tmpdir = dir;
-      ui = new MockUI();
-      subject = new GitInitTask({
-        ui,
-        project: new MockProject(),
-        exec,
-      });
-      process.chdir(tmpdir);
+    task = new GitInitTask({
+      ui: new MockUI(),
+      project: new MockProject(),
+      _gitVersion: td.function(),
+      _gitInit: td.function(),
+      _gitAdd: td.function(),
+      _gitCommit: td.function(),
     });
 
+    return mkTmpDirIn(tmproot).then(function(tmpdir) {
+      process.chdir(tmpdir);
+    });
   });
 
   afterEach(function() {
@@ -40,46 +39,50 @@ describe('git-init', function() {
 
   describe('skipGit: true', function() {
     it('does not initialize git', function() {
-      td.when(exec()).thenResolve();
-
-      return subject.run({
+      return task.run({
         skipGit: true,
       }).then(function() {
-        expect(ui.output).to.not.include('Successfully initialized git.');
-        td.verify(exec('git --version'), { times: 0 });
+        expect(task.ui.output).to.not.include('Successfully initialized git.');
+        td.verify(task._gitVersion(), { times: 0 });
       });
     });
   });
 
   it('correctly initializes git if git is around, and more or less works', function() {
-    td.when(exec(td.matchers.contains('git --version'))).thenResolve();
-    td.when(exec(td.matchers.contains('git init'))).thenResolve();
-    td.when(exec(td.matchers.contains('git add .'))).thenResolve();
-    td.when(exec(td.matchers.contains('git commit -m'))).thenResolve();
+    td.when(task._gitVersion()).thenResolve();
+    td.when(task._gitInit()).thenResolve();
+    td.when(task._gitAdd()).thenResolve();
+    td.when(task._gitCommit(td.matchers.anything())).thenResolve();
 
-    return subject.run().then(function() {
-      td.verify(exec(td.matchers.contains('git --version')));
-      td.verify(exec(td.matchers.contains('git init')));
-      td.verify(exec(td.matchers.contains('git add .')));
-      td.verify(exec(td.matchers.contains('git commit -m "'), td.matchers.anything()));
+    return task.run().then(function() {
+      td.verify(task._gitVersion());
+      td.verify(task._gitInit());
+      td.verify(task._gitAdd());
+      td.verify(task._gitCommit(td.matchers.anything()));
 
-      expect(ui.output).to.contain('Successfully initialized git.');
-      expect(ui.errors).to.equal('');
+      expect(task.ui.output).to.contain('Successfully initialized git.');
+      expect(task.ui.errors).to.equal('');
     });
   });
 
 
   it('skips initializing git, if `git --version` fails', function() {
-    td.when(exec(td.matchers.contains('git --version'))).thenReject();
+    td.when(task._gitVersion()).thenReject();
 
-    return subject.run().then(function() {
-      td.verify(exec(td.matchers.contains('git --version')), { times: 1 });
-      td.verify(exec(td.matchers.contains('git init')), { times: 0 });
-      td.verify(exec(td.matchers.contains('git add .')), { times: 0 });
-      td.verify(exec(td.matchers.contains('git commit -m "'), td.matchers.anything()), { times: 0 });
+    return task.run().then(function() {
+      td.verify(task._gitVersion(), { times: 1 });
+      td.verify(task._gitInit(), { times: 0 });
+      td.verify(task._gitAdd(), { times: 0 });
+      td.verify(task._gitCommit(td.matchers.anything()), { times: 0 });
 
-      expect(ui.output).to.contain('');
-      expect(ui.errors).to.equal('');
+      expect(task.ui.output).to.contain('');
+      expect(task.ui.errors).to.equal('');
     });
   });
+
+  it('includes the HOME environment variable in the environment passed to git', function() {
+    let env = task.buildGitEnvironment();
+    expect(env.HOME).to.equal(process.env.HOME);
+  });
+
 });

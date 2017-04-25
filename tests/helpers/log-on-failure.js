@@ -1,3 +1,5 @@
+/* eslint mocha/no-top-level-hooks: 0 */
+
 'use strict';
 
 let logSink;

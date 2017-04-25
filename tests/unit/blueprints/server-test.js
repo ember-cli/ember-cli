@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs-extra');
 const path = require('path');
 const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
 let setupTestHooks = blueprintHelpers.setupTestHooks;
@@ -21,10 +20,8 @@ describe('Acceptance: ember generate and destroy server', function() {
     let args = ['server'];
 
     return emberNew()
-      .then(function() {
-        return emberGenerate(args);
-      })
-      .then(function() {
+      .then(() => emberGenerate(args))
+      .then(() => {
         expect(file('server/index.js')).to.contain('module.exports = function(app) {');
         expect(file('server/.jshintrc')).to.not.exist;
 
@@ -36,15 +33,11 @@ describe('Acceptance: ember generate and destroy server', function() {
     let args = ['server'];
 
     return emberNew()
-      .then(function() {
-        return modifyPackages([
-          { name: 'ember-cli-jshint', dev: true },
-        ]);
-      })
-      .then(function() {
-        return emberGenerate(args);
-      })
-      .then(function() {
+      .then(() => modifyPackages([
+        { name: 'ember-cli-jshint', dev: true },
+      ]))
+      .then(() => emberGenerate(args))
+      .then(() => {
         expect(file('server/.jshintrc')).to.exist;
       });
   });

@@ -53,16 +53,12 @@ describe('build command', function() {
 
   it('Build task is provided with the project instance', function() {
     return command.validateAndRun([]).then(function() {
-      let buildRun = tasks.Build.prototype.run;
-
       expect(buildTaskInstance.project).to.equal(options.project, 'has correct project instance');
     });
   });
 
   it('BuildWatch task is provided with the project instance', function() {
     return command.validateAndRun(['--watch']).then(function() {
-      let buildWatchRun = tasks.BuildWatch.prototype.run;
-
       expect(buildWatchTaskInstance.project).to.equal(options.project, 'has correct project instance');
     });
   });
@@ -79,7 +75,6 @@ describe('build command', function() {
 
   it('Asset Size Printer task is not run after Build task in non-production environment', function() {
     return new BuildCommand(options).validateAndRun([]).then(function() {
-      let buildRun = tasks.Build.prototype.run;
       let showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
       td.verify(showSizesRun(), { ignoreExtraArgs: true, times: 0 });
@@ -88,7 +83,6 @@ describe('build command', function() {
 
   it('Asset Size Printer task is run after Build task in production environment', function() {
     return new BuildCommand(options).validateAndRun(['--environment=production']).then(function() {
-      let buildRun = tasks.Build.prototype.run;
       let showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
       td.verify(showSizesRun(), { ignoreExtraArgs: true, times: 1 });
@@ -97,7 +91,6 @@ describe('build command', function() {
 
   it('Asset Size Printer task is not run if suppress sizes option is provided', function() {
     return new BuildCommand(options).validateAndRun(['--suppress-sizes']).then(function() {
-      let buildRun = tasks.Build.prototype.run;
       let showSizesRun = tasks.ShowAssetSizes.prototype.run;
 
       td.verify(showSizesRun(), { ignoreExtraArgs: true, times: 0 });

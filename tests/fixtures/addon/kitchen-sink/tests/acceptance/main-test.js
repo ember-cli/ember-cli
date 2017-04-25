@@ -4,10 +4,10 @@ import truthyHelper from 'kitchen-sink/test-support/helper';
 import { module, test } from 'qunit';
 
 module('Acceptance', {
-  beforeEach: function() {
+  beforeEach() {
     this.application = startApp();
   },
-  afterEach: function() {
+  afterEach() {
     destroyApp(this.application);
   }
 });

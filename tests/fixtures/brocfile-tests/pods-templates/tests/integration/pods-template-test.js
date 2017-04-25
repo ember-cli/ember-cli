@@ -4,10 +4,10 @@ import destroyApp from '../helpers/destroy-app';
 import { module, test } from 'qunit';
 
 module('pods based templates', {
-  beforeEach: function() {
+  beforeEach() {
     this.application = startApp();
   },
-  afterEach: function() {
+  afterEach() {
     destroyApp(this.application);
   }
 });

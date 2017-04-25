@@ -2,22 +2,16 @@
 
 'use strict';
 
-const fs = require('fs');
 const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
 
-const MockUI = require('console-ui/mock');
-
-let mergeTreesStub;
-let mergeTrees = proxyquire('../../../lib/broccoli/merge-trees', {
-  'broccoli-merge-trees'() {
-    return mergeTreesStub.apply(this, arguments);
-  },
-});
+const mergeTrees = require('../../../lib/broccoli/merge-trees');
 
 describe('broccoli/merge-trees', function() {
+  let originalUpstreamMergeTrees;
+
   beforeEach(function() {
-    mergeTreesStub = function() {
+    originalUpstreamMergeTrees = mergeTrees._upstreamMergeTrees;
+    mergeTrees._upstreamMergeTrees = function() {
       return {};
     };
   });
@@ -26,6 +20,7 @@ describe('broccoli/merge-trees', function() {
     // reset the shared EMPTY_MERGE_TREE to ensure
     // we end up back in a consistent state
     mergeTrees._overrideEmptyTree(null);
+    mergeTrees._upstreamMergeTrees = originalUpstreamMergeTrees;
   });
 
   it('returns the first item when merging single item array', function() {
@@ -50,7 +45,7 @@ describe('broccoli/merge-trees', function() {
     let expected = ['foo', 'bar'];
     let actual;
 
-    mergeTreesStub = function(inputTrees) {
+    mergeTrees._upstreamMergeTrees = function(inputTrees) {
       actual = inputTrees;
       return {};
     };
@@ -65,7 +60,7 @@ describe('broccoli/merge-trees', function() {
 
     mergeTrees._overrideEmptyTree('foo');
 
-    mergeTreesStub = function(inputTrees) {
+    mergeTrees._upstreamMergeTrees = function(inputTrees) {
       actual = inputTrees;
       return {};
     };
@@ -80,7 +75,7 @@ describe('broccoli/merge-trees', function() {
     let expected = [treeB, treeA];
     let actual;
 
-    mergeTreesStub = function(inputTrees) {
+    mergeTrees._upstreamMergeTrees = function(inputTrees) {
       actual = inputTrees;
       return {};
     };

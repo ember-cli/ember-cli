@@ -5,8 +5,7 @@ module.exports = {
       name: 'ember-lts-2.4',
       bower: {
         dependencies: {
-          'ember': 'components/ember#lts-2-4',
-          'ember-cli-shims': '0.1.3'
+          'ember': 'components/ember#lts-2-4'
         },
         resolutions: {
           'ember': 'lts-2-4'
@@ -22,8 +21,7 @@ module.exports = {
       name: 'ember-lts-2.8',
       bower: {
         dependencies: {
-          'ember': 'components/ember#lts-2-8',
-          'ember-cli-shims': '0.1.3'
+          'ember': 'components/ember#lts-2-8'
         },
         resolutions: {
           'ember': 'lts-2-8'
@@ -39,8 +37,7 @@ module.exports = {
       name: 'ember-release',
       bower: {
         dependencies: {
-          'ember': 'components/ember#release',
-          'ember-cli-shims': '0.1.3'
+          'ember': 'components/ember#release'
         },
         resolutions: {
           'ember': 'release'
@@ -56,8 +53,7 @@ module.exports = {
       name: 'ember-beta',
       bower: {
         dependencies: {
-          'ember': 'components/ember#beta',
-          'ember-cli-shims': '0.1.3'
+          'ember': 'components/ember#beta'
         },
         resolutions: {
           'ember': 'beta'
@@ -73,8 +69,7 @@ module.exports = {
       name: 'ember-canary',
       bower: {
         dependencies: {
-          'ember': 'components/ember#canary',
-          'ember-cli-shims': '0.1.3'
+          'ember': 'components/ember#canary'
         },
         resolutions: {
           'ember': 'canary'

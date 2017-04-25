@@ -214,6 +214,38 @@ describe('livereload-server', function() {
         return watcherEventTest('not-an-event', 0);
       });
 
+      it('recovers from error when file is already cached in previous cache step', function() {
+        let compileError = function() {
+          try {
+            throw new Error('Compile time error');
+          } catch (error) {
+            return error;
+          }
+        }.apply();
+
+        subject.getDirectoryEntries = createStubbedGetDirectoryEntries([
+          'test/fixtures/proxy/file-a.js',
+        ]);
+
+        return subject.start({
+          liveReloadPort: 1337,
+          liveReload: true,
+        }).then(function() {
+          return watcher.emit('error', compileError);
+        }).then(function(result) {
+          expect(result).to.be.true;
+          expect(subject._hasCompileError).to.be.true;
+          expect(changedCount).to.equal(1);
+          return watcher.emit('change', {
+            directory: '/home/user/projects/my-project/tmp/something.tmp',
+          });
+        }).then(function(result) {
+          expect(result).to.be.true;
+          expect(subject._hasCompileError).to.be.false;
+          expect(changedCount).to.equal(2);
+        });
+      });
+
       describe('filter pattern', function() {
         it('shouldTriggerReload must be true if there are no liveReloadFilterPatterns', function() {
           subject.project.liveReloadFilterPatterns = [];

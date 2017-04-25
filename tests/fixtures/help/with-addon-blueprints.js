@@ -60,6 +60,12 @@ module.exports = {
           required: false
         },
         {
+          name: 'yarn',
+          default: false,
+          key: 'yarn',
+          required: false
+        },
+        {
           name: 'directory',
           aliases: ['dir'],
           key: 'directory',
@@ -93,6 +99,7 @@ module.exports = {
       availableOptions: [
         {
           name: 'environment',
+          description: 'Possible values are "development", "production", and "test".',
           default: 'development',
           aliases: [
             'e',
@@ -404,6 +411,18 @@ module.exports = {
           required: false
         },
         {
+          name: 'welcome',
+          key: 'welcome',
+          description: 'Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.',
+          default: true,
+          required: false
+        },
+        {
+          name: 'yarn',
+          key: 'yarn',
+          required: false
+        },
+        {
           name: 'name',
           default: '',
           aliases: ['n'],
@@ -439,6 +458,12 @@ module.exports = {
           aliases: ['E', 'exact'],
           key: 'saveExact',
           required: false
+        },
+        {
+          name: 'yarn',
+          key: 'yarn',
+          required: false,
+          description: 'Use --yarn to enforce yarn usage, or --no-yarn to enforce NPM'
         }
       ],
       anonymousOptions: ['<addon-name>']
@@ -489,6 +514,18 @@ module.exports = {
           default: false,
           aliases: ['sg'],
           key: 'skipGit',
+          required: false
+        },
+        {
+          name: 'welcome',
+          key: 'welcome',
+          description: 'Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.',
+          default: true,
+          required: false
+        },
+        {
+          name: 'yarn',
+          key: 'yarn',
           required: false
         },
         {
@@ -580,6 +617,7 @@ module.exports = {
         },
         {
           name: 'environment',
+          description: 'Possible values are "development", "production", and "test".',
           default: 'development',
           aliases: [
             'e',
@@ -626,6 +664,7 @@ module.exports = {
       availableOptions: [
         {
           name: 'environment',
+          description: 'Possible values are "development", "production", and "test".',
           default: 'test',
           aliases: ['e'],
           key: 'environment',

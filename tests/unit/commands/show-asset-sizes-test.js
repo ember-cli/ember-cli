@@ -10,7 +10,6 @@ describe('asset-sizes command', function() {
   let ShowCommand;
   let tasks;
   let options;
-  let taskInstance;
 
   before(function() {
     ShowCommand = require('../../../lib/commands/asset-sizes');
@@ -18,12 +17,7 @@ describe('asset-sizes command', function() {
 
   beforeEach(function() {
     tasks = {
-      ShowAssetSizes: Task.extend({
-        init() {
-          this._super.init && this._super.init.apply(this, arguments);
-          taskInstance = this;
-        },
-      }),
+      ShowAssetSizes: Task.extend({}),
     };
 
     options = commandOptions({
@@ -36,7 +30,6 @@ describe('asset-sizes command', function() {
 
   after(function() {
     ShowCommand = null;
-    taskInstance = null;
   });
 
   afterEach(function() {

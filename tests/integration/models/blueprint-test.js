@@ -41,12 +41,12 @@ function resetCalled() {
 }
 
 let instrumented = {
-  locals(opts) {
+  locals(/* opts */) {
     localsCalled = true;
     return this._super.locals.apply(this, arguments);
   },
 
-  normalizeEntityName(name) {
+  normalizeEntityName(/* name */) {
     normalizeEntityNameCalled = true;
     return this._super.normalizeEntityName.apply(this, arguments);
   },
@@ -56,17 +56,17 @@ let instrumented = {
     return this._super.fileMapTokens.apply(this, arguments);
   },
 
-  filesPath(opts) {
+  filesPath(/* opts */) {
     filesPathCalled = true;
     return this._super.filesPath.apply(this, arguments);
   },
 
-  beforeInstall(opts) {
+  beforeInstall(/* opts */) {
     beforeInstallCalled = true;
     return this._super.beforeInstall.apply(this, arguments);
   },
 
-  afterInstall(opts) {
+  afterInstall(/* opts */) {
     afterInstallCalled = true;
     return this._super.afterInstall.apply(this, arguments);
   },
@@ -90,6 +90,18 @@ let basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
 let basicBlueprintFiles = [
+  '.ember-cli',
+  '.gitignore',
+  'app/',
+  'app/basics/',
+  'app/basics/mock-project.txt',
+  'bar',
+  'file-to-remove.txt',
+  'foo.txt',
+  'test.txt',
+];
+
+let basicBlueprintFilesAfterBasic2 = [
   '.ember-cli',
   '.gitignore',
   'app/',
@@ -268,6 +280,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/create.* .gitignore/);
         expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
         expect(output.length).to.equal(0);
@@ -296,6 +309,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/create.* .gitignore/);
         expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
         expect(output.length).to.equal(0);
@@ -311,6 +325,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/identical.* .gitignore/);
         expect(output.shift()).to.match(/identical.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/identical.* bar/);
+        expect(output.shift()).to.match(/identical.* file-to-remove.txt/);
         expect(output.shift()).to.match(/identical.* foo.txt/);
         expect(output.shift()).to.match(/identical.* test.txt/);
         expect(output.length).to.equal(0);
@@ -334,11 +349,12 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/create.* .gitignore/);
         expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
         expect(output.shift()).to.match(/create.* foo.txt/);
         expect(output.shift()).to.match(/create.* test.txt/);
         expect(output.length).to.equal(0);
 
-        let blueprintNew = new Blueprint(basicNewBlueprint);
+        let blueprintNew = Blueprint.lookup(basicNewBlueprint);
 
         return blueprintNew.install(options);
       })
@@ -354,9 +370,10 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/identical.* \.gitignore/);
         expect(output.shift()).to.match(/skip.* foo.txt/);
         expect(output.shift()).to.match(/overwrite.* test.txt/);
+        expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
         expect(output.length).to.equal(0);
 
-        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+        expect(actualFiles).to.deep.equal(basicBlueprintFilesAfterBasic2);
       });
     });
 
@@ -421,6 +438,7 @@ describe('Blueprint', function() {
           expect(output.shift()).to.match(/create.* .gitignore/);
           expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
           expect(output.shift()).to.match(/create.* bar/);
+          expect(output.shift()).to.match(/create.* file-to-remove.txt/);
           expect(output.shift()).to.match(/create.* foo.txt/);
           expect(output.shift()).to.match(/create.* test.txt/);
           expect(output.length).to.equal(0);
@@ -573,6 +591,7 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/remove.* .gitignore/);
         expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
         expect(output.shift()).to.match(/remove.* bar/);
+        expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
         expect(output.shift()).to.match(/remove.* foo.txt/);
         expect(output.shift()).to.match(/remove.* test.txt/);
         expect(output.length).to.equal(0);
@@ -600,6 +619,19 @@ describe('Blueprint', function() {
 
         expect(actualFiles).to.not.contain('app/basics/foo.txt');
         expect(actualFiles).to.contain('app/basics/mock-project.txt');
+      });
+    });
+
+    it('uninstall doesn\'t log remove messages when file does not exist', function() {
+      options.entity = { name: 'does-not-exist' };
+
+      return blueprint.uninstall(options)
+      .then(function() {
+        let output = ui.output.trim().split(EOL);
+        expect(output.shift()).to.match(/^uninstalling/);
+        expect(output.shift()).to.match(/remove.* .ember-cli/);
+        expect(output.shift()).to.match(/remove.* .gitignore/);
+        expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
       });
     });
   });
@@ -650,19 +682,9 @@ describe('Blueprint', function() {
 
   describe('addPackageToProject', function() {
     let blueprint;
-    let ui;
-    let tmpdir;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-      });
-    });
-
-    afterEach(function() {
-      return remove(tmproot);
+      blueprint = new Blueprint(basicBlueprint);
     });
 
     it('passes a packages array for addPackagesToProject', function() {
@@ -685,20 +707,16 @@ describe('Blueprint', function() {
   describe('addPackagesToProject', function() {
     let blueprint;
     let ui;
-    let tmpdir;
     let NpmInstallTask;
     let taskNameLookedUp;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-        blueprint.taskFor = function(name) {
-          taskNameLookedUp = name;
-          return new NpmInstallTask();
-        };
-      });
+      blueprint = new Blueprint(basicBlueprint);
+      ui = new MockUI();
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+        return new NpmInstallTask();
+      };
     });
 
     afterEach(function() {
@@ -823,21 +841,15 @@ describe('Blueprint', function() {
 
   describe('removePackageFromProject', function() {
     let blueprint;
-    let ui;
-    let tmpdir;
     let NpmUninstallTask;
     let taskNameLookedUp;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-        blueprint.taskFor = function(name) {
-          taskNameLookedUp = name;
-          return new NpmUninstallTask();
-        };
-      });
+      blueprint = new Blueprint(basicBlueprint);
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+        return new NpmUninstallTask();
+      };
     });
 
     afterEach(function() {
@@ -859,20 +871,16 @@ describe('Blueprint', function() {
   describe('removePackagesFromProject', function() {
     let blueprint;
     let ui;
-    let tmpdir;
     let NpmUninstallTask;
     let taskNameLookedUp;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-        blueprint.taskFor = function(name) {
-          taskNameLookedUp = name;
-          return new NpmUninstallTask();
-        };
-      });
+      blueprint = new Blueprint(basicBlueprint);
+      ui = new MockUI();
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+        return new NpmUninstallTask();
+      };
     });
 
     afterEach(function() {
@@ -981,21 +989,15 @@ describe('Blueprint', function() {
   describe('addBowerPackageToProject', function() {
     let blueprint;
     let ui;
-    let tmpdir;
     let BowerInstallTask;
-    let taskNameLookedUp;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-        blueprint.ui = ui;
-        blueprint.taskFor = function(name) {
-          taskNameLookedUp = name;
-          return new BowerInstallTask();
-        };
-      });
+      blueprint = new Blueprint(basicBlueprint);
+      ui = new MockUI();
+      blueprint.ui = ui;
+      blueprint.taskFor = function() {
+        return new BowerInstallTask();
+      };
     });
 
     afterEach(function() {
@@ -1046,21 +1048,15 @@ describe('Blueprint', function() {
 
   describe('addBowerPackagesToProject', function() {
     let blueprint;
-    let ui;
-    let tmpdir;
     let BowerInstallTask;
     let taskNameLookedUp;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-        blueprint.taskFor = function(name) {
-          taskNameLookedUp = name;
-          return new BowerInstallTask();
-        };
-      });
+      blueprint = new Blueprint(basicBlueprint);
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+        return new BowerInstallTask();
+      };
     });
 
     afterEach(function() {
@@ -1155,15 +1151,9 @@ describe('Blueprint', function() {
 
   describe('addAddonToProject', function() {
     let blueprint;
-    let ui;
-    let tmpdir;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-      });
+      blueprint = new Blueprint(basicBlueprint);
     });
 
     afterEach(function() {
@@ -1190,21 +1180,16 @@ describe('Blueprint', function() {
   describe('addAddonsToProject', function() {
     let blueprint;
     let ui;
-    let tmpdir;
     let AddonInstallTask;
     let taskNameLookedUp;
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
-        blueprint.taskFor = function(name) {
-          taskNameLookedUp = name;
-          return new AddonInstallTask();
-        };
-      });
-
+      blueprint = new Blueprint(basicBlueprint);
+      ui = new MockUI();
+      blueprint.taskFor = function(name) {
+        taskNameLookedUp = name;
+        return new AddonInstallTask();
+      };
     });
 
     afterEach(function() {
@@ -1328,16 +1313,13 @@ describe('Blueprint', function() {
 
   describe('lookupBlueprint', function() {
     let blueprint;
-    let ui;
     let tmpdir;
     let project;
-    let filename;
 
     beforeEach(function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         blueprint = new Blueprint(basicBlueprint);
-        ui = new MockUI();
         project = new MockProject();
         // normally provided by `install`, but mocked here for testing
         project.root = tmpdir;
@@ -1345,7 +1327,6 @@ describe('Blueprint', function() {
         project.blueprintLookupPaths = function() {
           return [fixtureBlueprints];
         };
-        filename = 'foo-bar-baz.txt';
       });
     });
 

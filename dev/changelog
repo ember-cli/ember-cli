@@ -28,7 +28,7 @@ compareCommits({
   base: currentVersion,
   head: branch
 }).then(function(res) {
-  return res.commits.map(function(commitInfo) {
+  return res.data.commits.map(function(commitInfo) {
     return commitInfo.commit.message
 
   }).filter(function(message) {

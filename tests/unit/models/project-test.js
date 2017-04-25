@@ -1,19 +1,18 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs-extra');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
 const tmp = require('../../helpers/tmp');
 const touch = require('../../helpers/file-utils').touch;
 const expect = require('chai').expect;
-const MockUI = require('console-ui/mock');
-const Instrumentation = require('../../../lib/models/instrumentation');
 const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
 
 describe('models/project.js', function() {
-  let project, projectPath, packageContents, tmpPath;
+  let project, projectPath, packageContents;
 
   function makeProject() {
     let cli = new MockCLI();
@@ -172,6 +171,65 @@ describe('models/project.js', function() {
     });
   });
 
+  describe('Project.prototype.targets', function() {
+
+    beforeEach(function() {
+      projectPath = 'tmp/test-app';
+    });
+
+    afterEach(function() {
+      return tmp.teardown(projectPath);
+    });
+
+    describe('when the is a `/config/targets.js` file', function() {
+      beforeEach(function() {
+        return tmp.setup(projectPath).then(function() {
+          let targetsPath = path.join(projectPath, 'config', 'targets.js');
+          fs.createFileSync(targetsPath);
+          fs.writeFileSync(
+            targetsPath,
+            'module.exports = { browsers: ["last 2 versions", "safari >= 7"] };',
+            { encoding: 'utf8' }
+          );
+
+          makeProject();
+          let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+          td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
+          project.require = function() {
+            return { browsers: ["last 2 versions", "safari >= 7"] };
+          };
+        });
+      });
+
+      it('returns the object defined in `/config/targets` if present', function() {
+        expect(project.targets).to.deep.equal({
+          browsers: ['last 2 versions', 'safari >= 7'],
+        });
+      });
+    });
+
+    describe('when there isn\'t a `/config/targets.js` file', function() {
+      beforeEach(function() {
+        return tmp.setup(projectPath).then(function() {
+          makeProject();
+          let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
+          td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
+        });
+      });
+
+      it('returns the default targets', function() {
+        expect(project.targets).to.deep.equal({
+          browsers: [
+            'ie 9',
+            'last 1 Chrome versions',
+            'last 1 Firefox versions',
+            'last 1 Safari versions',
+          ],
+        });
+      });
+    });
+  });
+
   describe('addons', function() {
     beforeEach(function() {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
@@ -219,7 +277,8 @@ describe('models/project.js', function() {
       let expected = [
         'testem-url-rewriter-middleware',
         'tests-server-middleware',
-        'history-support-middleware', 'serve-files-middleware',
+        'history-support-middleware',
+        'broccoli-watcher', 'broccoli-serve-files',
         'proxy-server-middleware', 'ember-cli-legacy-blueprints', 'ember-try',
         'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon',
@@ -232,10 +291,10 @@ describe('models/project.js', function() {
     it('returns instances of the addons', function() {
       let addons = project.addons;
 
-      expect(addons[8].name).to.equal('Ember Non Root Addon');
-      expect(addons[14].name).to.equal('Ember Super Button');
-      expect(addons[14].addons[0].name).to.equal('Ember Yagni');
-      expect(addons[14].addons[1].name).to.equal('Ember Ng');
+      expect(addons[9].name).to.equal('Ember Non Root Addon');
+      expect(addons[15].name).to.equal('Ember Super Button');
+      expect(addons[15].addons[0].name).to.equal('Ember Yagni');
+      expect(addons[15].addons[1].name).to.equal('Ember Ng');
     });
 
     it('addons get passed the project instance', function() {
@@ -247,7 +306,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       let addons = project.addons;
 
-      expect(addons[10].name).to.equal('Ember Random Addon');
+      expect(addons[11].name).to.equal('Ember Random Addon');
     });
 
     it('returns the default blueprints path', function() {
@@ -310,8 +369,8 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       let addons = project.addons;
 
-      expect(addons[7] instanceof Addon).to.equal(true);
-      expect(addons[7].name).to.equal('Ember CLI Generated with export');
+      expect(addons[8] instanceof Addon).to.equal(true);
+      expect(addons[8].name).to.equal('Ember CLI Generated with export');
     });
 
     it('adds the project itself if it is an addon', function() {
@@ -328,6 +387,21 @@ describe('models/project.js', function() {
       project.discoverAddons();
 
       expect(added).to.be.ok;
+    });
+
+    it('should catch addon constructor errors', function() {
+      projectPath = path.resolve(__dirname, '../../fixtures/addon/invalid-constructor');
+      packageContents = require(path.join(projectPath, 'package.json'));
+
+      makeProject();
+
+      const invalidAddonName = 'ember-invalid-addon';
+      const expectedPath = path.join(projectPath, '/lib/', invalidAddonName);
+      const expectedError = `SilentError: An error occured in the constructor for ${invalidAddonName} at ${expectedPath}`;
+
+      expect(function() {
+        project.initializeAddons();
+      }).to.throw(expectedError);
     });
   });
 

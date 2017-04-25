@@ -1,7 +1,7 @@
 module.exports = {
   name: 'content-for-head',
 
-  contentFor: function(type, config) {
+  contentFor(type, config) {
     return '"SOME AWESOME STUFF"';
   }
 };

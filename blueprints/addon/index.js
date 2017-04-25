@@ -16,6 +16,15 @@ const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normali
 module.exports = {
   description: 'The default blueprint for ember-cli addons.',
 
+  filesToRemove: [
+    'tests/dummy/app/styles/.gitkeep',
+    'tests/dummy/app/templates/.gitkeep',
+    'tests/dummy/app/views/.gitkeep',
+    'tests/dummy/public/.gitkeep',
+    'Brocfile.js',
+    'testem.json',
+  ],
+
   generatePackageJson() {
     let contents = this._readContentsFromFile('package.json');
 
@@ -54,20 +63,12 @@ module.exports = {
     this._writeContentsToFile(sortPackageJson(contents), 'package.json');
   },
 
-  generateBowerJson() {
-    let contents = this._readContentsFromFile('bower.json');
-
-    contents.name = '<%= addonName %>';
-
-    this._writeContentsToFile(contents, 'bower.json');
-  },
-
   afterInstall() {
     let packagePath = path.join(this.path, 'files', 'package.json');
     let bowerPath = path.join(this.path, 'files', 'bower.json');
 
     [packagePath, bowerPath].forEach(filePath => {
-      fs.remove(filePath);
+      fs.removeSync(filePath);
     });
   },
 
@@ -91,6 +92,8 @@ module.exports = {
       addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
+      yarn: options.yarn,
+      welcome: options.welcome,
     };
   },
 
@@ -101,7 +104,6 @@ module.exports = {
     let appFiles = this._appBlueprint.files();
 
     this.generatePackageJson();
-    this.generateBowerJson();
 
     let addonFiles = walkSync(path.join(this.path, 'files'));
 
@@ -156,11 +158,19 @@ module.exports = {
 
   _readContentsFromFile(fileName) {
     let packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-    return fs.readJsonSync(packagePath);
+    return this._readJsonSync(packagePath);
   },
 
   _writeContentsToFile(contents, fileName) {
     let packagePath = path.join(this.path, 'files', fileName);
-    fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+    this._writeFileSync(packagePath, stringifyAndNormalize(contents));
+  },
+
+  _readJsonSync(path) {
+    return fs.readJsonSync(path);
+  },
+
+  _writeFileSync(path, content) {
+    fs.writeFileSync(path, content);
   },
 };

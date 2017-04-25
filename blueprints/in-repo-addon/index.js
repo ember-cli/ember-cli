@@ -29,7 +29,7 @@ module.exports = {
 
   _generatePackageJson(options, isInstall) {
     let packagePath = path.join(this.project.root, 'package.json');
-    let contents = fs.readJsonSync(packagePath);
+    let contents = this._readJsonSync(packagePath);
     let name = stringUtil.dasherize(options.entity.name);
     let newPath = ['lib', name].join('/');
     let paths;
@@ -52,6 +52,14 @@ module.exports = {
       }
     }
 
-    fs.writeFileSync(packagePath, stringifyAndNormalize(contents));
+    this._writeFileSync(packagePath, stringifyAndNormalize(contents));
+  },
+
+  _readJsonSync(path) {
+    return fs.readJsonSync(path);
+  },
+
+  _writeFileSync(path, content) {
+    fs.writeFileSync(path, content);
   },
 };

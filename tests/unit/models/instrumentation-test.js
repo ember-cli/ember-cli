@@ -12,10 +12,8 @@ const chalk = require('chalk');
 const RSVP = require('rsvp');
 const EOL = require('os').EOL;
 
-const itr2Array = require('../../helpers/itr2array');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-const experiments = require('../../../lib/experiments/');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
 let expect = chai.expect;
@@ -38,7 +36,6 @@ describe('models/instrumentation.js', function() {
   });
 
   describe('._enableFSMonitorIfInstrumentationEnabled', function() {
-    let originalBroccoliViz = process.env.BROCCOLI_VIZ;
     let originalStatSync = fs.statSync;
 
     beforeEach(function() {
@@ -136,29 +133,14 @@ describe('models/instrumentation.js', function() {
         td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
       });
 
-      it('warns if no init instrumentation is included', function() {
-        td.when(heimdallStart('init'));
-
-        let ui = new MockUI();
-        let instrumentation = new Instrumentation({
-          ui,
-        });
-
-        expect(ui.output).to.eql(chalk.yellow(
-          'No init instrumentation passed to CLI.  Please update your global ember or ' +
-          'invoke ember via the local executable within node_modules.  Init ' +
-          'instrumentation will still be recorded, but some bootstraping will be ' +
-          'omitted.'
-        ) + EOL);
-      });
-
       it('does not warn if init instrumentation is included', function() {
         td.when(heimdallStart('init'));
 
         let mockInstrumentation = {};
 
         let ui = new MockUI();
-        let instrumentation = new Instrumentation({
+
+        new Instrumentation({
           ui,
           initInstrumentation: mockInstrumentation,
         });
@@ -174,7 +156,6 @@ describe('models/instrumentation.js', function() {
 
       it('does not create an init node if init instrumentation is missing', function() {
         let mockToken = {};
-        let mockInstrumentation = {};
 
         td.when(heimdallStart('init')).thenReturn(mockToken);
 
@@ -188,7 +169,8 @@ describe('models/instrumentation.js', function() {
         td.when(heimdallStart('init'));
 
         let ui = new MockUI();
-        let instrumentation = new Instrumentation({
+
+        new Instrumentation({
           ui,
         });
 
@@ -212,6 +194,10 @@ describe('models/instrumentation.js', function() {
       console.warn = function() {
         warnInvocations.push.apply(warnInvocations, Array.prototype.slice.call(arguments));
       };
+    });
+
+    afterEach(function() {
+      console.warn = originalWarn;
     });
 
     it('is true and does not warn if BROCCOLI_VIZ=1', function() {
@@ -341,6 +327,7 @@ describe('models/instrumentation.js', function() {
         let graph = heimdallGraph.loadFromNode(heimdall.root);
         let count = 0;
 
+        // eslint-disable-next-line no-unused-vars
         for (let n of graph.dfsIterator()) {
           ++count;
         }
@@ -364,10 +351,12 @@ describe('models/instrumentation.js', function() {
     let instrumentation;
     let heimdall;
     let addon;
+    let ui;
 
     beforeEach(function() {
       project = new MockProject();
       instrumentation = project._instrumentation;
+      ui = instrumentation.ui;
       heimdall = instrumentation._heimdall = new Heimdall();
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
@@ -380,15 +369,28 @@ describe('models/instrumentation.js', function() {
     });
 
     it('throws if name is unexpected', function() {
-      expect(function() {
-        instrumentation.stopAndReport('the weather');
-      }).to.throw('No such instrumentation "the weather"');
+      expect(() => instrumentation.stopAndReport('the weather'))
+        .to.throw('No such instrumentation "the weather"');
     });
 
     it('throws if name has not yet started', function() {
-      expect(function() {
-        instrumentation.stopAndReport('init');
-      }).to.throw('Cannot stop instrumentation "init".  It has not started.');
+      expect(() => instrumentation.stopAndReport('init'))
+        .to.throw('Cannot stop instrumentation "init".  It has not started.');
+    });
+
+    it('warns if heimdall stop throws (eg when unbalanced)', function() {
+      instrumentation.start('init');
+      heimdall.start('a ruckus');
+
+      expect(() => instrumentation.stopAndReport('init'))
+        .to.not.throw();
+
+      expect(ui.output).to.eql(`${chalk.red('Error reporting instrumentation \'init\'.')}${EOL}`);
+
+      instrumentation.start('init');
+      heimdall.start('trouble');
+
+      expect(() => instrumentation.stopAndReport('init')).to.not.throw();
     });
 
     it('computes summary for name', function() {
@@ -473,61 +475,59 @@ describe('models/instrumentation.js', function() {
       it('writes instrumentation info if viz is enabled', function() {
         process.env.BROCCOLI_VIZ = '1';
 
-        return mkTmpDirIn(tmproot)
-          .then(function() {
-            process.chdir(tmproot);
+        return mkTmpDirIn(tmproot).then(() => {
+          process.chdir(tmproot);
 
-            instrumentation.start('init');
-            instrumentation.stopAndReport('init', 'a', 'b');
+          instrumentation.start('init');
+          instrumentation.stopAndReport('init', 'a', 'b');
 
-            expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
-            expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
-              summary: { ok: 'init dokie' },
-              nodes: [{ i: 'can init json' }],
-            });
-
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
-
-            expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
-            expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
-              summary: { ok: 'build dokie' },
-              nodes: [{ i: 'can build json' }],
-            });
-
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build', 'a', 'b');
-
-            expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
-            expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
-              summary: { ok: 'build dokie' },
-              nodes: [{ i: 'can build json' }],
-            });
+          expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
+          expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
+            summary: { ok: 'init dokie' },
+            nodes: [{ i: 'can init json' }],
           });
+
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build', 'a', 'b');
+
+          expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
+          expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
+            summary: { ok: 'build dokie' },
+            nodes: [{ i: 'can build json' }],
+          });
+
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build', 'a', 'b');
+
+          expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
+          expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
+            summary: { ok: 'build dokie' },
+            nodes: [{ i: 'can build json' }],
+          });
+        });
       });
 
       it('does not write instrumentation info if viz is disabled', function() {
         delete process.env.BROCCOLI_VIZ;
 
-        return mkTmpDirIn(tmproot)
-          .then(function() {
-            process.chdir(tmproot);
+        return mkTmpDirIn(tmproot).then(() => {
+          process.chdir(tmproot);
 
-            instrumentation.start('init');
-            instrumentation.stopAndReport('init');
+          instrumentation.start('init');
+          instrumentation.stopAndReport('init');
 
-            expect(fs.existsSync('instrumentation.init.json')).to.equal(false);
+          expect(fs.existsSync('instrumentation.init.json')).to.equal(false);
 
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build');
 
-            expect(fs.existsSync('instrumentation.build.0.json')).to.equal(false);
+          expect(fs.existsSync('instrumentation.build.0.json')).to.equal(false);
 
-            instrumentation.start('build');
-            instrumentation.stopAndReport('build');
+          instrumentation.start('build');
+          instrumentation.stopAndReport('build');
 
-            expect(fs.existsSync('instrumentation.build.1.json')).to.equal(false);
-          });
+          expect(fs.existsSync('instrumentation.build.1.json')).to.equal(false);
+        });
       });
     });
 
@@ -554,60 +554,40 @@ describe('models/instrumentation.js', function() {
       });
 
 
-      if (experiments.INSTRUMENTATION) {
-        it('invokes addons that have [INSTRUMENTATION] for init', function() {
-          process.env.EMBER_CLI_INSTRUMENTATION = '1';
+      it('invokes addons that have [INSTRUMENTATION] for init', function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
-          let hook = td.function();
-          addon[experiments.INSTRUMENTATION] = hook;
+        let hook = td.function();
+        addon.instrumentation = hook;
 
-          instrumentation.start('init');
-          instrumentation.stopAndReport('init', 'a', 'b');
+        instrumentation.start('init');
+        instrumentation.stopAndReport('init', 'a', 'b');
 
-          td.verify(hook('init', { summary: mockInitSummary, tree: mockInitTree }));
-        });
+        td.verify(hook('init', { summary: mockInitSummary, tree: mockInitTree }));
+      });
 
-        it('invokes addons that have [INSTRUMENTATION] for build', function() {
-          process.env.EMBER_CLI_INSTRUMENTATION = '1';
+      it('invokes addons that have [INSTRUMENTATION] for build', function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
-          let hook = td.function();
-          addon[experiments.INSTRUMENTATION] = hook;
+        let hook = td.function();
+        addon.instrumentation = hook;
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build', 'a', 'b');
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', 'a', 'b');
 
-          td.verify(hook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
-        });
+        td.verify(hook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
+      });
 
-        it('does not invoke addons if instrumentation is disabled', function() {
-          process.env.EMBER_CLI_INSTRUMENTATION = 'not right now thanks';
+      it('does not invoke addons if instrumentation is disabled', function() {
+        process.env.EMBER_CLI_INSTRUMENTATION = 'not right now thanks';
 
-          let hook = td.function();
-          addon[experiments.INSTRUMENTATION] = hook;
+        let hook = td.function();
+        addon.instrumentation = hook;
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build', 'a', 'b');
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', 'a', 'b');
 
-          td.verify(hook(), { ignoreExtraArgs: true, times: 0 });
-        });
-      }
-
-      describe('(build)', function() {
-        if (experiments.BUILD_INSTRUMENTATION) {
-          it('throws if an addon specifies [BUILD_INSTRUMENTATION]', function() {
-            process.env.EMBER_CLI_INSTRUMENTATION = '1';
-
-            addon[experiments.BUILD_INSTRUMENTATION] = function() {};
-
-            instrumentation.start('build');
-
-            expect(function() {
-              instrumentation.stopAndReport('build', 'a', 'b');
-            }).to.throw(
-              'Test Addon defines experiments.BUILD_INSTRUMENTATION. Update to use experiments.INSTRUMENTATION'
-            );
-          });
-        }
+        td.verify(hook(), { ignoreExtraArgs: true, times: 0 });
       });
     });
   });
@@ -663,11 +643,11 @@ describe('models/instrumentation.js', function() {
       expect(Object.keys(json)).to.eql(['nodes']);
       expect(json.nodes.length).to.eql(8);
 
-      expect(json.nodes.map(function(x) { return x.id; })).to.eql([
+      expect(json.nodes.map(x => x.id)).to.eql([
         1, 2, 3, 4, 5, 6, 7, 8,
       ]);
 
-      expect(json.nodes.map(function(x) { return x.label; })).to.eql([
+      expect(json.nodes.map(x => x.label)).to.eql([
         { name, emberCLI: true },
         { name: 'a' },
         { name: 'b1', broccoliNode: true, broccoliCachedNode: false },
@@ -678,7 +658,7 @@ describe('models/instrumentation.js', function() {
         { name: 'c3' },
       ]);
 
-      expect(json.nodes.map(function(x) { return x.children; })).to.eql([
+      expect(json.nodes.map(x => x.children)).to.eql([
         [2],
         [3, 5],
         [4],
@@ -689,8 +669,8 @@ describe('models/instrumentation.js', function() {
         [],
       ]);
 
-      let stats = json.nodes.map(function(x) { return x.stats; });
-      stats.forEach(function(nodeStats) {
+      let stats = json.nodes.map(x => x.stats);
+      stats.forEach(nodeStats => {
         expect('own' in nodeStats).to.eql(true);
         expect('time' in nodeStats).to.eql(true);
         expect(nodeStats.time.self).to.be.within(0, 2000000); //2ms in nanoseconds
@@ -704,21 +684,19 @@ describe('models/instrumentation.js', function() {
     }
 
     function assertTreeValidAPI(name, tree) {
-      let depthFirstNames = itr2Array(tree.dfsIterator()).map(function(x) { return x.label.name; });
+      let depthFirstNames = Array.from(tree.dfsIterator()).map(x => x.label.name);
       expect(depthFirstNames, 'depth first name order').to.eql([
         name, 'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3',
       ]);
 
-      let breadthFirstNames = itr2Array(tree.bfsIterator()).map(function(x) { return x.label.name; });
+      let breadthFirstNames = Array.from(tree.bfsIterator()).map(x => x.label.name);
       expect(breadthFirstNames, 'breadth first name order').to.eql([
         name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1',
       ]);
 
-      let c2 = itr2Array(tree.dfsIterator()).filter(function(x) {
-        return x.label.name === 'c2';
-      })[0];
+      let c2 = Array.from(tree.dfsIterator()).filter(x => x.label.name === 'c2')[0];
 
-      let ancestorNames = itr2Array(c2.ancestorsIterator()).map(function(x) { return x.label.name; });
+      let ancestorNames = Array.from(c2.ancestorsIterator()).map(x => x.label.name);
       expect(ancestorNames).to.eql([
         'b2', 'a', name,
       ]);

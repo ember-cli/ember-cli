@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const EOL = require('os').EOL;
 const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
@@ -80,28 +80,23 @@ describe('serve command', function() {
     //
     // Works correctly on Travis and has been left for context as it does test
     // a valid code path.
-    it('should throw error when -p PORT is taken', function() {
-      function testServer(opts, test) {
-        let server = require('http').createServer(function() {});
-        return new Promise(function(resolve) {
-          server.listen(opts.port, opts.host, function() {
-            resolve(test(opts, server));
-          });
-        }).finally(function() {
-          return new Promise(function(resolve) {
-            server.close(function() { resolve(); });
-          });
-        });
-      }
 
+    let testServer = function(opts, test) {
+      let server = require('http').createServer(function() {});
+      return new Promise(function(resolve) {
+        server.listen(opts.port, opts.host, function() {
+          resolve(test(opts, server));
+        });
+      }).finally(function() {
+        return new Promise(function(resolve) {
+          server.close(function() { resolve(); });
+        });
+      });
+    };
+
+    it('should throw error when -p PORT is taken', function() {
       return testServer({ port: '32773' }, function() {
-        return command.validateAndRun([
-          '--port', '32773',
-        ])
-        .then(function() {
-          expect(true).to.equal(false, 'assertion should never run');
-        })
-        .catch(function(err) {
+        return expect(command.validateAndRun(['--port', '32773'])).to.be.rejected.then(err => {
           td.verify(tasks.Serve.prototype.run(), { ignoreExtraArgs: true, times: 0 });
           expect(err.message).to.contain('is already in use.');
         });
@@ -186,13 +181,10 @@ describe('serve command', function() {
   });
 
   it('requires proxy URL to include protocol', function() {
-    return command.validateAndRun([
+    return expect(command.validateAndRun([
       '--port', '0',
       '--proxy', 'localhost:3000',
-    ]).then(function() {
-      expect(false, 'it rejects when proxy URL doesn\'t include protocol').to.be.ok;
-    })
-    .catch(function(error) {
+    ])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
         `You need to include a protocol with the proxy URL.${EOL}Try --proxy http://localhost:3000`
       );

@@ -1,20 +1,20 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
-const CLI = require('../../../lib/cli/cli');
 const td = require('testdouble');
-const heimdall = require('heimdalljs');
 const Command = require('../../../lib/models/command');
 const Promise = require('rsvp').Promise;
 
 let ui;
 let analytics;
 let commands = {};
-let argv;
 let isWithinProject;
 let project;
+let willInterruptProcess;
+
+let CLI;
 
 // helper to similate running the CLI
 function ember(args) {
@@ -55,6 +55,7 @@ function stubValidateAndRunHelp(name) {
 
 function stubValidateAndRun(name) {
   commands[name] = require(`../../../lib/commands/${name}`);
+
   return td.replace(commands[name].prototype, 'validateAndRun', td.function());
 }
 
@@ -65,9 +66,14 @@ function stubRun(name) {
 
 describe('Unit: CLI', function() {
   beforeEach(function() {
+    willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
+      addHandler: td.function(),
+      removeHandler: td.function(),
+    });
+
+    CLI = require('../../../lib/cli/cli');
     ui = new MockUI();
     analytics = new MockAnalytics();
-    argv = [];
     commands = { };
     isWithinProject = true;
     project = {
@@ -87,10 +93,11 @@ describe('Unit: CLI', function() {
     td.reset();
 
     delete process.env.EMBER_ENV;
-    commands = argv = ui = undefined;
+    commands = ui = undefined;
   });
 
   this.timeout(10000);
+
   it('exists', function() {
     expect(CLI).to.be.ok;
   });
@@ -104,6 +111,7 @@ describe('Unit: CLI', function() {
       expect(output).to.equal('', 'expected no extra output');
     });
   });
+
 /*
   it('logError', function() {
     var cli = new CLI({
@@ -152,7 +160,7 @@ describe('Unit: CLI', function() {
   });
 
   it('errors correctly if the init hook errors', function() {
-    let help = stubValidateAndRun('help');
+    stubValidateAndRun('help');
 
     let cli = new CLI({
       ui,
@@ -220,6 +228,45 @@ describe('Unit: CLI', function() {
     });
   });
 
+  describe('command interruption handler', function() {
+    let onCommandInterrupt;
+    beforeEach(function() {
+      onCommandInterrupt = td.matchers.isA(Function);
+    });
+
+    it('sets up handler before command run', function() {
+      const CustomCommand = Command.extend({
+        name: 'custom',
+
+        beforeRun() {
+          td.verify(willInterruptProcess.addHandler(onCommandInterrupt));
+
+          return Promise.resolve();
+        },
+
+        run() {
+          return Promise.resolve();
+        },
+      });
+
+      project.eachAddonCommand = function(callback) {
+        callback('custom-addon', {
+          CustomCommand,
+        });
+      };
+
+      return ember(['custom']);
+    });
+
+    it('cleans up handler after command finished', function() {
+      stubValidateAndRun('serve');
+
+      return ember(['serve']).finally(function() {
+        td.verify(willInterruptProcess.removeHandler(onCommandInterrupt));
+      });
+    });
+  });
+
   describe('help', function() {
     ['--help', '-h'].forEach(function(command) {
       it(`ember ${command}`, function() {
@@ -234,7 +281,7 @@ describe('Unit: CLI', function() {
 
       it(`ember new ${command}`, function() {
         let help = stubCallHelp();
-        let newCommand = stubValidateAndRunHelp('new');
+        stubValidateAndRunHelp('new');
 
         return ember(['new', command]).then(function() {
           td.verify(help(), { ignoreExtraArgs: true, times: 1 });
@@ -584,9 +631,7 @@ describe('Unit: CLI', function() {
   it('ember <invalid command>', function() {
     let help = stubValidateAndRun('help');
 
-    return ember(['unknownCommand']).then(function() {
-      expect(false).to.be.ok;
-    }).catch(function(error) {
+    return (expect(ember(['unknownCommand'])).to.be.rejected).then(error => {
       expect(help.called, 'help command was executed').to.not.be.ok;
       expect(error.name).to.equal('SilentError');
       expect(error.message).to.equal('The specified command unknownCommand is invalid. For available options, see `ember help`.');
@@ -654,9 +699,7 @@ describe('Unit: CLI', function() {
 
         // eslint-disable-next-line no-template-curly-in-string
         it('sets process.env.EMBER_VERBOSE_${NAME} for each space delimited option', function() {
-          return verboseCommand(['fake_option_1', 'fake_option_2']).then(function() {
-            expect(false).to.be.true;
-          }).catch(function(error) {
+          return expect(verboseCommand(['fake_option_1', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.be.ok;
             expect(error.name).to.equal('SilentError');
@@ -665,9 +708,7 @@ describe('Unit: CLI', function() {
         });
 
         it('ignores verbose options after --', function() {
-          return verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2']).then(function() {
-            expect(false).to.be.true;
-          }).catch(function(error) {
+          return expect(verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
             expect(error.name).to.equal('SilentError');
@@ -676,9 +717,7 @@ describe('Unit: CLI', function() {
         });
 
         it('ignores verbose options after -', function() {
-          return verboseCommand(['fake_option_1', '-f', 'fake_option_2']).then(function() {
-            expect(false).to.be.true;
-          }).catch(function(error) {
+          return expect(verboseCommand(['fake_option_1', '-f', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
             expect(error.name).to.equal('SilentError');

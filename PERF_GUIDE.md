@@ -241,6 +241,7 @@ To generate visualization:
 + `broccoli-viz instrumentation.build.0.json > instrumentation.build.0.dot`
 + `dot -Tpng instrumentation.build.0.dot > instrumentation.build.0.png`
 
+
 Each build will generate an additional graph, `instrumentation.build.<build-number>.json`
 
 #### in-depth look

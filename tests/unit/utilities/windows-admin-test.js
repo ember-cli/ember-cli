@@ -4,7 +4,6 @@ const WindowsSymlinkChecker = require('../../../lib/utilities/windows-admin');
 const expect = require('chai').expect;
 const MockUI = require('console-ui/mock');
 const td = require('testdouble');
-const symlinkOrCopy = require('symlink-or-copy');
 
 describe('windows-admin', function() {
   let ui;

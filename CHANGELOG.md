@@ -1,15 +1,377 @@
 # ember-cli Changelog
 
-### 2.11.0-beta.1
+### 2.13.0-beta.4
 
 The following changes are required if you are upgrading from the previous
 version:
 
 - Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.10.0...v2.11.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](http://ember-cli.com/user-guide/#upgrading)
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0-beta.3...v2.13.0-beta.4)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.10.0...v2.11.0-beta.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0-beta.3...v2.13.0-beta.4)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6944](https://github.com/ember-cli/ember-cli/pull/6944) Include ember-testing.js when using ember-source [@trentmwillis](https://github.com/trentmwillis)
+- [#6961](https://github.com/ember-cli/ember-cli/pull/6961) ensure addon.css is always included [@stefanpenner](https://github.com/stefanpenner)
+- [#6968](https://github.com/ember-cli/ember-cli/pull/6968) Configure ESLint to parse ES2017 by default [@cibernox](https://github.com/cibernox)
+- [#6969](https://github.com/ember-cli/ember-cli/pull/6969) Remove `.bowerrc` from blueprints [@pichfl](https://github.com/pichfl)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.13.0-beta.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0-beta.2...v2.13.0-beta.3)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0-beta.2...v2.13.0-beta.3)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6901](https://github.com/ember-cli/ember-cli/pull/6901) Update ember-welcome-page to use Babel 6. [@rwjblue](https://github.com/rwjblue)
+- [#6904](https://github.com/ember-cli/ember-cli/pull/6904) Update ember-cli-qunit to use Babel 6. [@rwjblue](https://github.com/rwjblue)
+- [#6905](https://github.com/ember-cli/ember-cli/pull/6905) Update various addons to use Babel 6. [@rwjblue](https://github.com/rwjblue)
+- [#6928](https://github.com/ember-cli/ember-cli/pull/6928) Add 🐹 as "ember" alias [@Turbo87](https://github.com/Turbo87)
+- [#6929](https://github.com/ember-cli/ember-cli/pull/6929) Backport fixes to release branch [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.13.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0-beta.1...v2.13.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0-beta.1...v2.13.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6861](https://github.com/ember-cli/ember-cli/pull/6861) Don't generate `addon-config/targets.js` in addons [@cibernox](https://github.com/cibernox)
+- [#6871](https://github.com/ember-cli/ember-cli/pull/6871) Use `yarn install --no-lockfile` in travis for addons [@rwwagner90](https://github.com/rwwagner90)
+- [#6874](https://github.com/ember-cli/ember-cli/pull/6874) Add .eslintrc.js files to blueprints [@rwwagner90](https://github.com/rwwagner90)
+- [#6884](https://github.com/ember-cli/ember-cli/pull/6884) Remove guard in `treeForAddon` around `addon/**/*.js` files. [@rwjblue](https://github.com/rwjblue)
+- [#6885](https://github.com/ember-cli/ember-cli/pull/6885) Work around broken bower installation for old npm versions [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.13.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.0...v2.13.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.0...v2.13.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6795](https://github.com/ember-cli/ember-cli/pull/6795) Cleanup EmberApp class [@Turbo87](https://github.com/Turbo87)
+- [#6615](https://github.com/ember-cli/ember-cli/pull/6615) Command interruption [@ro0gr](https://github.com/ro0gr)
+- [#6472](https://github.com/ember-cli/ember-cli/pull/6472) add ability to clean up old files in generators [@kellyselden](https://github.com/kellyselden)
+- [#6796](https://github.com/ember-cli/ember-cli/pull/6796) Update dependencies to latest versions. [@ember-cli](https://github.com/ember-cli)
+- [#6718](https://github.com/ember-cli/ember-cli/pull/6718) Pass init instrumentation to CLI if we have it [@ember-cli](https://github.com/ember-cli)
+- [#6717](https://github.com/ember-cli/ember-cli/pull/6717) Make instrumentation more resilient to errors [@ember-cli](https://github.com/ember-cli)
+- [#6716](https://github.com/ember-cli/ember-cli/pull/6716) Remove link to transition guide when ember-cli-build.js file is missing [@status200](https://github.com/status200)
+- [#6715](https://github.com/ember-cli/ember-cli/pull/6715) Fix build console output when using environment variable [@status200](https://github.com/status200)
+- [#6690](https://github.com/ember-cli/ember-cli/pull/6690) BUGFIX #6679 - workaround for tiny-lr not reloading on empty files arguments [@gandalfar](https://github.com/gandalfar)
+- [#6617](https://github.com/ember-cli/ember-cli/pull/6617) Remove wasted work around addon's addon trees. [@rwjblue](https://github.com/rwjblue)
+- [#6798](https://github.com/ember-cli/ember-cli/pull/6798) Update ember-cli-preprocess-registry to get latest clean-css. [@ember-cli](https://github.com/ember-cli)
+- [#6747](https://github.com/ember-cli/ember-cli/pull/6747) Use EOL to fix one Windows CI failure. [@rwjblue](https://github.com/rwjblue)
+- [#6727](https://github.com/ember-cli/ember-cli/pull/6727) remove bower install from travis [@kellyselden](https://github.com/kellyselden)
+- [#6745](https://github.com/ember-cli/ember-cli/pull/6745) ensure SIGINT ember serve produces instrumentation [@ember-cli](https://github.com/ember-cli)
+- [#6731](https://github.com/ember-cli/ember-cli/pull/6731) This reverts commit cb6bac632dc8dc1c49b30583f0fa135364c5c408, reversing
+changes made to be142aaf7801bf64f4322583c7d82ae7c7066c52. [@rwjblue](https://github.com/rwjblue)
+- [#6737](https://github.com/ember-cli/ember-cli/pull/6737) Make project require public [@asakusuma](https://github.com/asakusuma)
+- [#6741](https://github.com/ember-cli/ember-cli/pull/6741) addon needs to mirror filesToRemove from app [@kellyselden](https://github.com/kellyselden)
+- [#6742](https://github.com/ember-cli/ember-cli/pull/6742) Promote cacheKeyForTree to public API [@trentmwillis](https://github.com/trentmwillis)
+- [#6734](https://github.com/ember-cli/ember-cli/pull/6734) chore(package): update broccoli-concat to version 3.1.1 [@ember-cli](https://github.com/ember-cli)
+- [#6739](https://github.com/ember-cli/ember-cli/pull/6739) Remove bower.json files again [@Turbo87](https://github.com/Turbo87)
+- [#6728](https://github.com/ember-cli/ember-cli/pull/6728) remove application.hbs newline [@ember-cli](https://github.com/ember-cli)
+- [#6736](https://github.com/ember-cli/ember-cli/pull/6736) start using filesToRemove [@kellyselden](https://github.com/kellyselden)
+- [#6748](https://github.com/ember-cli/ember-cli/pull/6748) Use yarn if yarn.lock exists or `--yarn` is used [@Turbo87](https://github.com/Turbo87)
+- [#6805](https://github.com/ember-cli/ember-cli/pull/6805) more old file cleanup [@kellyselden](https://github.com/kellyselden)
+- [#6789](https://github.com/ember-cli/ember-cli/pull/6789) Support npm packages as `ember new` blueprints [@Turbo87](https://github.com/Turbo87)
+- [#6758](https://github.com/ember-cli/ember-cli/pull/6758) Fixes blueprints noop log removals [@gadogado](https://github.com/gadogado)
+- [#6768](https://github.com/ember-cli/ember-cli/pull/6768) Normalize end-of-line characters in strings to compare prior to diffing [@koopa](https://github.com/koopa)
+- [#6785](https://github.com/ember-cli/ember-cli/pull/6785) Refactor InstallBlueprintTask class [@Turbo87](https://github.com/Turbo87)
+- [#6776](https://github.com/ember-cli/ember-cli/pull/6776) Implement targets RFC [@cibernox](https://github.com/cibernox)
+- [#6778](https://github.com/ember-cli/ember-cli/pull/6778) Don't print heimdall stack on errors [@ember-cli](https://github.com/ember-cli)
+- [#6766](https://github.com/ember-cli/ember-cli/pull/6766) Remove flagging for `experiments.INSTRUMENTATION`. [@ember-cli](https://github.com/ember-cli)
+- [#6759](https://github.com/ember-cli/ember-cli/pull/6759) Enable instrumentation experiment with public `instrument` method. [@rwjblue](https://github.com/rwjblue)
+- [#6756](https://github.com/ember-cli/ember-cli/pull/6756) `yarn upgrade` [@rwjblue](https://github.com/rwjblue)
+- [#6754](https://github.com/ember-cli/ember-cli/pull/6754) Interrupt command with an error if no _currentTask [@ro0gr](https://github.com/ro0gr)
+- [#6825](https://github.com/ember-cli/ember-cli/pull/6825) EmberApp: Use "src/ui/index.html" if it exists [@Turbo87](https://github.com/Turbo87)
+- [#6797](https://github.com/ember-cli/ember-cli/pull/6797) Remove "proxyquire" dependency [@Turbo87](https://github.com/Turbo87)
+- [#6792](https://github.com/ember-cli/ember-cli/pull/6792) package.json: Remove "npm" from greenkeeper ignore list [@ember-cli](https://github.com/ember-cli)
+- [#6791](https://github.com/ember-cli/ember-cli/pull/6791) Convert EmberApp and EmberAddon to ES6 classes [@Turbo87](https://github.com/Turbo87)
+- [#6840](https://github.com/ember-cli/ember-cli/pull/6840) Add logging for `this.runTask` within commands. [@rwjblue](https://github.com/rwjblue)
+- [#6804](https://github.com/ember-cli/ember-cli/pull/6804) Remove missing init instrumentation warning [@ember-cli](https://github.com/ember-cli)
+- [#6800](https://github.com/ember-cli/ember-cli/pull/6800) tests/blueprints: Use arrow functions for callbacks [@Turbo87](https://github.com/Turbo87)
+- [#6799](https://github.com/ember-cli/ember-cli/pull/6799) Refactor `capture-exit` usage to avoid releasing exit. [@rwjblue](https://github.com/rwjblue)
+- [#6845](https://github.com/ember-cli/ember-cli/pull/6845) Convert more promise chains to coroutines [@Turbo87](https://github.com/Turbo87)
+- [#6806](https://github.com/ember-cli/ember-cli/pull/6806) Adds eslint-plugin-mocha [@gadogado](https://github.com/gadogado)
+- [#6835](https://github.com/ember-cli/ember-cli/pull/6835) EmberApp: Use "src/ui/styles" over "app/styles" if it exists [@Turbo87](https://github.com/Turbo87)
+- [#6824](https://github.com/ember-cli/ember-cli/pull/6824) chore(package): update broccoli-merge-trees to version 1.2.3 [@ember-cli](https://github.com/ember-cli)
+- [#6816](https://github.com/ember-cli/ember-cli/pull/6816) Resolve path when calling UnwatchedDir for Bower [@arthirm](https://github.com/arthirm)
+- [#6821](https://github.com/ember-cli/ember-cli/pull/6821) Add tests for EmberApp.index() method [@Turbo87](https://github.com/Turbo87)
+- [#6828](https://github.com/ember-cli/ember-cli/pull/6828) Use Babel 6 [@ember-cli](https://github.com/ember-cli)
+- [#6839](https://github.com/ember-cli/ember-cli/pull/6839) Allow `ember new -b <blueprint> foo` to opt-in to yarn by default. [@rwjblue](https://github.com/rwjblue)
+- [#6846](https://github.com/ember-cli/ember-cli/pull/6846) tests: Use "chai-as-promised" assertions [@Turbo87](https://github.com/Turbo87)
+- [#6847](https://github.com/ember-cli/ember-cli/pull/6847) print the `serving on http://host:port/basePath` after each rebuild [@ember-cli](https://github.com/ember-cli)
+- [#6852](https://github.com/ember-cli/ember-cli/pull/6852) Replace "itr2array" helper with Array.from() [@Turbo87](https://github.com/Turbo87)
+- [#6853](https://github.com/ember-cli/ember-cli/pull/6853) tests: Remove unused variables [@Turbo87](https://github.com/Turbo87)
+- [#6857](https://github.com/ember-cli/ember-cli/pull/6857) Update testdouble to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.12.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.1...v2.12.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.1...v2.12.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6929](https://github.com/ember-cli/ember-cli/pull/6929) Backport fixes to release branch [@Turbo87](https://github.com/Turbo87)
+- [#6944](https://github.com/ember-cli/ember-cli/pull/6944) Include ember-testing.js when using ember-source [@trentmwillis](https://github.com/trentmwillis)
+- [#6974](https://github.com/ember-cli/ember-cli/pull/6974) Unnecessary "ember-cli-eslint" install [@tylerturdenpants](https://github.com/tylerturdenpants)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.12.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.0...v2.12.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.0...v2.12.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6879](https://github.com/ember-cli/ember-cli/pull/6879) Add .eslintrc.js files to blueprints [@rwwagner90](https://github.com/rwwagner90)
+- [#6884](https://github.com/ember-cli/ember-cli/pull/6884) Remove guard in `treeForAddon` around `addon/**/*.js` files. [@rwjblue](https://github.com/rwjblue)
+- [#6885](https://github.com/ember-cli/ember-cli/pull/6885) Work around broken bower installation for old npm versions [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.12.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.11.1...v2.12.0)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.11.1...v2.12.0)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6669](https://github.com/ember-cli/ember-cli/pull/6669) tasks/bower-install: Fix "bower" lookup [@Turbo87](https://github.com/Turbo87)
+- [#6606](https://github.com/ember-cli/ember-cli/pull/6606) Instrumentation [@ember-cli](https://github.com/ember-cli)
+- [#6540](https://github.com/ember-cli/ember-cli/pull/6540) removing jshint reference in blueprints [@kellyselden](https://github.com/kellyselden)
+- [#5874](https://github.com/ember-cli/ember-cli/pull/5874) Don't process CSS imports by default [@ember-cli](https://github.com/ember-cli)
+- [#6516](https://github.com/ember-cli/ember-cli/pull/6516) Properly call `preprocessTree` / `postprocessTree` for addons. [@rwjblue](https://github.com/rwjblue)
+- [#6627](https://github.com/ember-cli/ember-cli/pull/6627) Lazily require `broccoli-babel-transpiler`. [@rwjblue](https://github.com/rwjblue)
+- [#6630](https://github.com/ember-cli/ember-cli/pull/6630) [DOC] Update license year [@cjnething](https://github.com/cjnething)
+- [#6626](https://github.com/ember-cli/ember-cli/pull/6626) Flesh out `init` instrumentation. [@ember-cli](https://github.com/ember-cli)
+- [#6629](https://github.com/ember-cli/ember-cli/pull/6629) Enable more ESLint rules [@Turbo87](https://github.com/Turbo87)
+- [#6624](https://github.com/ember-cli/ember-cli/pull/6624) Update version of ember-cli-eslint used in new applications. [@rwjblue](https://github.com/rwjblue)
+- [#6613](https://github.com/ember-cli/ember-cli/pull/6613) Add missing annotations. [@rwjblue](https://github.com/rwjblue)
+- [#6625](https://github.com/ember-cli/ember-cli/pull/6625) Update dependencies previous avoided due to Node 0.12 support. [@rwjblue](https://github.com/rwjblue)
+- [#6628](https://github.com/ember-cli/ember-cli/pull/6628) Ensure `beforeRun` is included in `command` instrumentation. [@rwjblue](https://github.com/rwjblue)
+- [#6684](https://github.com/ember-cli/ember-cli/pull/6684) [fixes #6672] ensure example clearly indicates promise usage [@ember-cli](https://github.com/ember-cli)
+- [#6641](https://github.com/ember-cli/ember-cli/pull/6641) Properly sort the linting rules in the ES6 section. [@rwjblue](https://github.com/rwjblue)
+- [#6639](https://github.com/ember-cli/ember-cli/pull/6639) Disable usage of `var`. [@rwjblue](https://github.com/rwjblue)
+- [#6633](https://github.com/ember-cli/ember-cli/pull/6633) Split serving assets into two different in-repo addons [@kratiahuja](https://github.com/kratiahuja)
+- [#6640](https://github.com/ember-cli/ember-cli/pull/6640) Enable a few additional ES6 linting rules. [@rwjblue](https://github.com/rwjblue)
+- [#6634](https://github.com/ember-cli/ember-cli/pull/6634) Remove "ember-cli-app-version" from "addon" blueprint [@Turbo87](https://github.com/Turbo87)
+- [#6631](https://github.com/ember-cli/ember-cli/pull/6631) 🏎 Lazily install "bower" if required [@Turbo87](https://github.com/Turbo87)
+- [#6636](https://github.com/ember-cli/ember-cli/pull/6636) Use ES6 features [@Turbo87](https://github.com/Turbo87)
+- [#6689](https://github.com/ember-cli/ember-cli/pull/6689) Update fs-extra to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+- [#6649](https://github.com/ember-cli/ember-cli/pull/6649) Make in-repo-addon blueprint 'use strict'. [@ember-cli](https://github.com/ember-cli)
+- [#6644](https://github.com/ember-cli/ember-cli/pull/6644) Use  ES6 classes for internal classes [@Turbo87](https://github.com/Turbo87)
+- [#6646](https://github.com/ember-cli/ember-cli/pull/6646) Fix some of the issues in #6623 [@ember-cli](https://github.com/ember-cli)
+- [#6645](https://github.com/ember-cli/ember-cli/pull/6645) Make project.config() public [@simonihmig](https://github.com/simonihmig)
+- [#6647](https://github.com/ember-cli/ember-cli/pull/6647) Convert CoreObject classes to ES6 classes extending CoreObject [@Turbo87](https://github.com/Turbo87)
+- [#6699](https://github.com/ember-cli/ember-cli/pull/6699) RELEASE: Make code snippet copy-pasta compatible [@Turbo87](https://github.com/Turbo87)
+- [#6663](https://github.com/ember-cli/ember-cli/pull/6663) Add stats and logging for addon tree caching opt out [@trentmwillis](https://github.com/trentmwillis)
+- [#6655](https://github.com/ember-cli/ember-cli/pull/6655) Update execa to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+- [#6660](https://github.com/ember-cli/ember-cli/pull/6660) Preserve user errors in instrumentation hook [@ember-cli](https://github.com/ember-cli)
+- [#6652](https://github.com/ember-cli/ember-cli/pull/6652) [BUGFIX] Revert "Remove arbitrary *.js filtering for addon tree." [@nathanhammond](https://github.com/nathanhammond)
+- [#6654](https://github.com/ember-cli/ember-cli/pull/6654) blueprints/app: Update "ember-cli-qunit" dependency [@Turbo87](https://github.com/Turbo87)
+- [#6674](https://github.com/ember-cli/ember-cli/pull/6674) Update core-object to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+- [#6685](https://github.com/ember-cli/ember-cli/pull/6685) Revert "remove travis sudo check" [@ember-cli](https://github.com/ember-cli)
+- [#6683](https://github.com/ember-cli/ember-cli/pull/6683) ensure `Task.prototype.run` returns promises [@ember-cli](https://github.com/ember-cli)
+- [#6680](https://github.com/ember-cli/ember-cli/pull/6680) Use global NPM with version check [@Turbo87](https://github.com/Turbo87)
+- [#6681](https://github.com/ember-cli/ember-cli/pull/6681) Run "ember-cli-eslint" blueprint on "ember init" [@Turbo87](https://github.com/Turbo87)
+- [#6678](https://github.com/ember-cli/ember-cli/pull/6678) Avoid error upon registering a heimdall monitor twice. [@rwjblue](https://github.com/rwjblue)
+- [#6682](https://github.com/ember-cli/ember-cli/pull/6682) Update the minimum version of ember-try [@kategengler](https://github.com/kategengler)
+- [#6671](https://github.com/ember-cli/ember-cli/pull/6671) add description to build environment option [@kellyselden](https://github.com/kellyselden)
+- [#6664](https://github.com/ember-cli/ember-cli/pull/6664) Update github to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+- [#6731](https://github.com/ember-cli/ember-cli/pull/6731) Revert changes removing `bower.json` from default blueprints. [@rwjblue](https://github.com/rwjblue)
+- [#6704](https://github.com/ember-cli/ember-cli/pull/6704) Update lockfile to use latest allowed versions. [@ember-cli](https://github.com/ember-cli)
+- [#6688](https://github.com/ember-cli/ember-cli/pull/6688) Replace custom Promise class with RSVP [@Turbo87](https://github.com/Turbo87)
+- [#6696](https://github.com/ember-cli/ember-cli/pull/6696) Add --test-port 0 for random port [@morhook](https://github.com/morhook)
+- [#6698](https://github.com/ember-cli/ember-cli/pull/6698) Remove "bower.json" and only create if necessary [@Turbo87](https://github.com/Turbo87)
+- [#6692](https://github.com/ember-cli/ember-cli/pull/6692) tests/acceptance/generate: Fix flaky tests [@Turbo87](https://github.com/Turbo87)
+- [#6705](https://github.com/ember-cli/ember-cli/pull/6705) add description to serve and test environment option [@kellyselden](https://github.com/kellyselden)
+- [#6710](https://github.com/ember-cli/ember-cli/pull/6710) Fix linting issue with beta branch. [@rwjblue](https://github.com/rwjblue)
+- [#6770](https://github.com/ember-cli/ember-cli/pull/6770) models/addon: Add @since tag to this.import() [@ember-cli](https://github.com/ember-cli)
+- [#6808](https://github.com/ember-cli/ember-cli/pull/6808) Use `_shouldCompileJS` to guard precompilation of addon JS. [@rwjblue](https://github.com/rwjblue)
+- [#6827](https://github.com/ember-cli/ember-cli/pull/6827) Use `amd` for transpiling modules with babel@5. [@ember-cli](https://github.com/ember-cli)
+- [#6830](https://github.com/ember-cli/ember-cli/pull/6830) Revert "Use `amd` for transpiling modules with babel@5." [@ember-cli](https://github.com/ember-cli)
+- [#6856](https://github.com/ember-cli/ember-cli/pull/6856) models/project: Fix dependencies() documentation [@Turbo87](https://github.com/Turbo87)
+- [#6860](https://github.com/ember-cli/ember-cli/pull/6860) blueprints/app: Update "ember-source" and "ember-data" to v2.12.0 [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.12.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.0-beta.1...v2.12.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.0-beta.1...v2.12.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6681](https://github.com/ember-cli/ember-cli/pull/6681) Run "ember-cli-eslint" blueprint on "ember init" [@Turbo87](https://github.com/Turbo87)
+- [#6698](https://github.com/ember-cli/ember-cli/pull/6698) Remove "bower.json" and only create if necessary [@Turbo87](https://github.com/Turbo87)
+- [#6711](https://github.com/ember-cli/ember-cli/pull/6711) Update `ember-cli-htmlbars-inline-precompile` requirement [@SaladFork](https://github.com/SaladFork)
+- [#6720](https://github.com/ember-cli/ember-cli/pull/6720) ignore license change on init [@kellyselden](https://github.com/kellyselden)
+- [#6721](https://github.com/ember-cli/ember-cli/pull/6721) use ~ instead of ^ for ember-source [@kellyselden](https://github.com/kellyselden)
+- [#6763](https://github.com/ember-cli/ember-cli/pull/6763) Change livereload PortFinder.basePort to 49153 [@Turbo87](https://github.com/Turbo87)
+- [#6808](https://github.com/ember-cli/ember-cli/pull/6808) Use `_shouldCompileJS` to guard precompilation of addon JS. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.12.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.11.0...v2.12.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.11.0...v2.12.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6645](https://github.com/ember-cli/ember-cli/pull/6645) Make project.config() public [@simonihmig](https://github.com/simonihmig)
+- [#6540](https://github.com/ember-cli/ember-cli/pull/6540) removing jshint reference in blueprints [@kellyselden](https://github.com/kellyselden)
+- [#5874](https://github.com/ember-cli/ember-cli/pull/5874) Don't process CSS imports by default [@wagenet](https://github.com/wagenet)
+- [#6516](https://github.com/ember-cli/ember-cli/pull/6516) Properly call `preprocessTree` / `postprocessTree` for addons. [@rwjblue](https://github.com/rwjblue)
+- [#6600](https://github.com/ember-cli/ember-cli/pull/6600) Apply clean-base-url to config.rootURL [@nathanhammond](https://github.com/nathanhammond)
+- [#6622](https://github.com/ember-cli/ember-cli/pull/6622) Remove support for Node 0.12. [@rwjblue](https://github.com/rwjblue)
+- [#6624](https://github.com/ember-cli/ember-cli/pull/6624) Update version of ember-cli-eslint used in new applications. [@rwjblue](https://github.com/rwjblue)
+- [#6625](https://github.com/ember-cli/ember-cli/pull/6625) Update dependencies previous avoided due to Node 0.12 support. [@rwjblue](https://github.com/rwjblue)
+- [#6633](https://github.com/ember-cli/ember-cli/pull/6633) Split serving assets into two different in-repo addons [@kratiahuja](https://github.com/kratiahuja)
+- [#6634](https://github.com/ember-cli/ember-cli/pull/6634) Remove "ember-cli-app-version" from "addon" blueprint [@Turbo87](https://github.com/Turbo87)
+- [#6630](https://github.com/ember-cli/ember-cli/pull/6630) [DOC] Update license year [@cjnething](https://github.com/cjnething)
+- [#6631](https://github.com/ember-cli/ember-cli/pull/6631) 🏎 Lazily install "bower" if required [@Turbo87](https://github.com/Turbo87)
+- [#6636](https://github.com/ember-cli/ember-cli/pull/6636) Use ES6 features [@Turbo87](https://github.com/Turbo87)
+- [#6649](https://github.com/ember-cli/ember-cli/pull/6649) Make in-repo-addon blueprint 'use strict'. [@ember-cli](https://github.com/ember-cli)
+- [#6647](https://github.com/ember-cli/ember-cli/pull/6647) Convert CoreObject classes to ES6 classes extending CoreObject [@Turbo87](https://github.com/Turbo87)
+- [#6644](https://github.com/ember-cli/ember-cli/pull/6644) Use  ES6 classes for internal classes [@Turbo87](https://github.com/Turbo87)
+- [#6654](https://github.com/ember-cli/ember-cli/pull/6654) blueprints/app: Update "ember-cli-qunit" dependency [@Turbo87](https://github.com/Turbo87)
+- [#6688](https://github.com/ember-cli/ember-cli/pull/6688) Replace custom Promise class with RSVP [@Turbo87](https://github.com/Turbo87)
+- [#6680](https://github.com/ember-cli/ember-cli/pull/6680) Use global NPM with version check [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.11.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.11.0...v2.11.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.11.0...v2.11.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6711](https://github.com/ember-cli/ember-cli/pull/6711) Update `ember-cli-htmlbars-inline-precompile` requirement [@SaladFork](https://github.com/SaladFork)
+- [#6720](https://github.com/ember-cli/ember-cli/pull/6720) ignore license change on init [@kellyselden](https://github.com/kellyselden)
+- [#6721](https://github.com/ember-cli/ember-cli/pull/6721) use ~ instead of ^ for ember-source [@kellyselden](https://github.com/kellyselden)
+- [#6763](https://github.com/ember-cli/ember-cli/pull/6763) Change livereload PortFinder.basePort to 49153 [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.11.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.10.2...v2.11.0)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.10.2...v2.11.0)
   + No changes required
 - Core Contributors
   + No changes required
@@ -20,6 +382,12 @@ version:
 
 #### Community Contributions
 
+- [#6531](https://github.com/ember-cli/ember-cli/pull/6531) Update to latest capture-exit, revert work around. [@ember-cli](https://github.com/rwjblue)
+- [#6525](https://github.com/ember-cli/ember-cli/pull/6525) utilities/npm: Run NPM commands via "execa" [@Turbo87](https://github.com/Turbo87)
+- [#6533](https://github.com/ember-cli/ember-cli/pull/6533) blueprints/addon: Fix path to "ember" executable in ".travis.yml" [@Turbo87](https://github.com/Turbo87)
+- [#6536](https://github.com/ember-cli/ember-cli/pull/6536) fix phantom use on travis [@kellyselden](https://github.com/kellyselden)
+- [#6537](https://github.com/ember-cli/ember-cli/pull/6537) Prevent deprecation from `ember-cli-babel` config options. [@rwjblue](https://github.com/rwjblue)
+- [#6707](https://github.com/ember-cli/ember-cli/pull/6707) Change usage of shims for ember-source@2.11.0 final. [@ember-cli](https://github.com/rwjblue)
 - [#6254](https://github.com/ember-cli/ember-cli/pull/6254) [BUGFIX] Do not rely on ember-resolver, detect bower package instead [@martndemus](https://github.com/martndemus)
 - [#6319](https://github.com/ember-cli/ember-cli/pull/6319) Use --save-dev by default when installing addons [@binhums](https://github.com/binhums)
 - [#6378](https://github.com/ember-cli/ember-cli/pull/6378) Prepares Ember CLI for new version of ember-welcome-page [@locks](https://github.com/locks)
@@ -40,9 +408,7 @@ version:
 - [#6475](https://github.com/ember-cli/ember-cli/pull/6475) extract ui to console-ui [@stefanpenner](https://github.com/stefanpenner)
 - [#6479](https://github.com/ember-cli/ember-cli/pull/6479) docs: Blueprint:renamedFiles [@les2](https://github.com/les2)
 
-Thank you to all who took the time to contribute! A special thanks to those who
-helped us bring this release to a close after discovering that CI was broken for
-the two weeks leading up to the release.
+Thank you to all who took the time to contribute!
 
 
 ### 2.10.1

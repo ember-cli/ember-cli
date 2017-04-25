@@ -3,8 +3,6 @@
 const Blueprint = require('../../../lib/models/blueprint');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
-const fs = require('fs');
 const path = require('path');
 const td = require('testdouble');
 
@@ -31,24 +29,20 @@ describe('blueprint - addon', function() {
       });
 
       it('throws error when current project is an existing ember-cli project', function() {
-        expect(function() {
-          blueprint.normalizeEntityName('foo');
-        }).to.throw('Generating an addon in an existing ember-cli project is not supported.');
+        expect(() => blueprint.normalizeEntityName('foo'))
+          .to.throw('Generating an addon in an existing ember-cli project is not supported.');
       });
 
       it('works when current project is an existing ember-cli addon', function() {
         mockProject.isEmberCLIAddon = function() { return true; };
 
-        expect(function() {
-          blueprint.normalizeEntityName('foo');
-        }).not.to.throw('Generating an addon in an existing ember-cli project is not supported.');
+        expect(() => blueprint.normalizeEntityName('foo'))
+          .not.to.throw('Generating an addon in an existing ember-cli project is not supported.');
       });
 
       it('keeps existing behavior by calling Blueprint.normalizeEntityName', function() {
-        expect(function() {
-          let nonConformantComponentName = 'foo/';
-          blueprint.normalizeEntityName(nonConformantComponentName);
-        }).to.throw(/trailing slash/);
+        expect(() => blueprint.normalizeEntityName('foo/'))
+          .to.throw(/trailing slash/);
       });
     });
   });
@@ -59,21 +53,20 @@ describe('blueprint - addon', function() {
     let writeFileSync;
 
     beforeEach(function() {
-      readJsonSync = td.function();
-      td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
-
-      writeFileSync = td.function();
-
-      blueprint = proxyquire('../../../blueprints/addon', {
-        'fs-extra': {
-          readJsonSync,
-          writeFileSync,
-        },
-      });
+      blueprint = require('../../../blueprints/addon');
       blueprint._appBlueprint = {
         path: 'test-app-blueprint-path',
       };
       blueprint.path = 'test-blueprint-path';
+
+      readJsonSync = td.replace(blueprint, '_readJsonSync');
+      td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
+
+      writeFileSync = td.replace(blueprint, '_writeFileSync');
+    });
+
+    afterEach(function() {
+      td.reset();
     });
 
     describe('generatePackageJson', function() {
@@ -268,23 +261,6 @@ describe('blueprint - addon', function() {
         delete json.devDependencies['ember-disable-prototype-extensions'];
         expect(json.dependencies).to.deep.equal({ a: "1", b: "1" });
         expect(json.devDependencies).to.deep.equal({ a: "1", b: "1" });
-      });
-    });
-
-    describe('generateBowerJson', function() {
-      it('works', function() {
-        blueprint.generateBowerJson();
-
-        let captor = td.matchers.captor();
-
-        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/bower.json')));
-        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/bower.json'), captor.capture()));
-
-        // string to test ordering
-        expect(captor.value).to.equal('\
-{\n\
-  "name": "<%= addonName %>"\n\
-}\n');
       });
     });
   });

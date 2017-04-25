@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const SilentError = require('silent-error');
 const TestServerTask = require('../../../lib/tasks/test-server');
 const MockProject = require('../../helpers/mock-project');
@@ -66,7 +66,7 @@ describe('test server', function() {
           return ['middleware1', 'middleware2'];
         },
         testem: {
-          startDev(options, finalizer) {
+          startDev(/* options, finalizer */) {
             throw new TypeError('startDev not implemented');
           },
         },
@@ -81,9 +81,7 @@ describe('test server', function() {
           finalizer(1, error);
         };
 
-        let runResult = subject.run(runOptions).then(function() {
-          expect(true, 'should have rejected, but fulfilled').to.be.false;
-        }, function(reason) {
+        let runResult = expect(subject.run(runOptions)).to.be.rejected.then(reason => {
           expect(reason).to.eql(error);
         });
 
@@ -99,9 +97,7 @@ describe('test server', function() {
           finalizer(1);
         };
 
-        let runResult = subject.run(runOptions).then(function() {
-          expect(true, 'should have rejected, but fulfilled').to.be.false;
-        }, function(reason) {
+        let runResult = expect(subject.run(runOptions)).to.be.rejected.then(reason => {
           expect(reason).to.eql(error);
         });
 
@@ -142,9 +138,7 @@ describe('test server', function() {
             finalizer(0, error);
           };
 
-          runResult = subject.run(runOptions).then(function() {
-            expect(true, 'should have rejected, but fulfilled').to.be.false;
-          }, function(reason) {
+          runResult = expect(subject.run(runOptions)).to.be.rejected.then(reason => {
             expect(reason).to.eql(error);
           });
 

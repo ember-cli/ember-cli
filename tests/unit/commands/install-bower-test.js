@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const MockProject = require('../../helpers/mock-project');
 const commandOptions = require('../../factories/command-options');
 const InstallBowerCommand = require('../../../lib/commands/install-bower');
@@ -27,9 +27,7 @@ describe('install:bower command', function() {
   });
 
   it('throws a friendly silent error with args', function() {
-    return command.validateAndRun(['moment', 'lodash']).then(function() {
-      expect(false, 'should reject with error').to.be.ok;
-    }).catch(function(error) {
+    return expect(command.validateAndRun(['moment', 'lodash'])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
         msg, 'expect error to have a helpful message'
       );
@@ -37,9 +35,7 @@ describe('install:bower command', function() {
   });
 
   it('throws a friendly silent error without args', function() {
-    return command.validateAndRun([]).then(function() {
-      expect(false, 'should reject with error').to.be.ok;
-    }).catch(function(error) {
+    return expect(command.validateAndRun([])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
         msg, 'expect error to have a helpful message'
       );

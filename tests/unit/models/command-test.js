@@ -1,24 +1,17 @@
 'use strict';
 
-const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
+const expect = require('../../chai').expect;
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const assign = require('ember-cli-lodash-subset').assign;
 const Yam = require('yam');
 const EOL = require('os').EOL;
 const td = require('testdouble');
+const RSVP = require('rsvp');
+const Promise = RSVP.Promise;
 
-let forEachWithPropertyStub;
-let Command = proxyquire('../../../lib/models/command', {
-  '../utilities/printable-properties': {
-    command: {
-      forEachWithProperty() {
-        return forEachWithPropertyStub.apply(this, arguments);
-      },
-    },
-  },
-});
+let Task = require('../../../lib/models/task');
+let Command = require('../../../lib/models/command');
 
 let ServeCommand = Command.extend({
   name: 'serve',
@@ -558,6 +551,94 @@ describe('models/command.js', function() {
     });
   });
 
+  describe('runTask', function() {
+    let command;
+
+    class AsyncTask extends Task {
+      run(options) {
+        return new Promise(function(resolve) {
+          setTimeout(() => resolve(options), 50);
+        });
+      }
+    }
+
+    class SyncTask extends Task {
+      run(options) { return options; }
+    }
+
+    class FailingTask extends Task {
+      run(/* options */) { throw new Error('I was born to fail'); }
+    }
+
+    beforeEach(function() {
+      // this should be changed to new Command(), but needs more mocking
+      command = new ServeCommand(Object.assign({}, options, {
+        tasks: {
+          Async: AsyncTask,
+          Sync: SyncTask,
+          Failing: FailingTask,
+        },
+      }));
+    });
+
+    it('always handles task as a promise', function() {
+      return command.runTask('Sync', { param: 'value' }).then(result => {
+        expect(result).to.eql({
+          param: 'value',
+        });
+      });
+    });
+
+    it('command environment should be shared with a task', function() {
+      let taskRun = command.runTask('Async', { param: 'value' });
+
+      expect(command._currentTask.ui).to.eql(command.ui);
+      expect(command._currentTask.analytics).to.eql(command.analytics);
+      expect(command._currentTask.project).to.eql(command.project);
+
+      return taskRun;
+    });
+
+    it('_currentTask should store a reference to the current task', function() {
+      expect(command._currentTask).to.be.undefined;
+      let taskRun = command.runTask('Sync', { param: 'value' }).then(() => {
+        expect(command._currentTask).to.be.undefined;
+      });
+      expect(command._currentTask).to.be.an.instanceof(SyncTask);
+
+      return taskRun;
+    });
+
+    it('_currentTask should cleanup current task on fail', function() {
+      return expect(command.runTask('Failing', { param: 'value' })).to.be.rejected.then(() => {
+        expect(command._currentTask).to.be.undefined;
+      });
+    });
+
+    it('throws on attempt to launch concurrent tasks', function() {
+      let asyncTaskRun, syncTaskRun;
+
+      expect(() => {
+        asyncTaskRun = command.runTask('Async');
+        syncTaskRun = command.runTask('Sync');
+      }).to.throw(`Concurrent tasks are not supported`);
+
+      return Promise.all([asyncTaskRun, syncTaskRun]);
+    });
+
+    it('throws if the task is not found', function() {
+      try {
+        let taskRun = command.runTask('notfound');
+
+        expect(false, 'task should not be launched').to.equal(true);
+
+        return taskRun;
+      } catch (e) {
+        expect(e.message).to.equal(`Unknown task "notfound"`);
+      }
+    });
+  });
+
   describe('help', function() {
     let command;
 
@@ -608,16 +689,14 @@ describe('models/command.js', function() {
         expect(command.hasOption('no-option-by-this-name')).to.be.false;
       });
 
-      it('reports false if no option with that name is present', function() {
+      it('reports true if option with that name is present', function() {
         expect(command.hasOption('port')).to.be.true;
       });
     });
 
     describe('getJson', function() {
       beforeEach(function() {
-        forEachWithPropertyStub = function(forEach, context) {
-          ['test1', 'test2'].forEach(forEach, context);
-        };
+        command._printableProperties = ['test1', 'test2'];
       });
 
       it('iterates options', function() {

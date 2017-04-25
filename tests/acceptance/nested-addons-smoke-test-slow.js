@@ -1,5 +1,6 @@
 'use strict';
 
+const co = require('co');
 const path = require('path');
 const fs = require('fs-extra');
 
@@ -37,35 +38,31 @@ describe('Acceptance: nested-addons-smoke-test', function() {
     expect(dir(appRoot)).to.not.exist;
   });
 
-  it('addons with nested addons compile correctly', function() {
-    return copyFixtureFiles('addon/with-nested-addons')
-      .then(function() {
-        let packageJsonPath = path.join(appRoot, 'package.json');
-        let packageJson = fs.readJsonSync(packageJsonPath);
-        packageJson.devDependencies['ember-top-addon'] = 'latest';
+  it('addons with nested addons compile correctly', co.wrap(function *() {
+    yield copyFixtureFiles('addon/with-nested-addons');
 
-        return fs.writeJsonSync(packageJsonPath, packageJson);
-      })
-      .then(function() {
-        return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      })
-      .then(function() {
-        expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_APP_IMPORT');
-        expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_THIS_IMPORT');
+    let packageJsonPath = path.join(appRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.devDependencies['ember-top-addon'] = 'latest';
+    fs.writeJsonSync(packageJsonPath, packageJson);
 
-        // RAW comments should have been converted to PREPROCESSED by
-        // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/preprocesstree-addon
-        // then from PREPROCESSED to POSTPROCESSED by
-        // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/postprocesstree-addon
-        expect(file('dist/assets/vendor.js')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/templates/application.hbs');
-        expect(file('dist/assets/vendor.js')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/index.js');
-        expect(file('dist/assets/vendor.css')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/styles/app.css');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-        // the pre/post process tree hooks above should *not* have changed RAW's in the current app
-        expect(file('dist/assets/some-cool-app.js')).to.contain('RAW app/foo.js');
+    expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_APP_IMPORT');
+    expect(file('dist/assets/vendor.js')).to.contain('INNER_ADDON_IMPORT_WITH_THIS_IMPORT');
 
-        // should *not* have changed RAW's in sibling addons
-        expect(file('dist/assets/vendor.js')).to.contain('RAW node_modules/ember-top-addon/node_modules/ember-inner-addon/addon/index.js');
-      });
-  });
+    // RAW comments should have been converted to PREPROCESSED by
+    // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/preprocesstree-addon
+    // then from PREPROCESSED to POSTPROCESSED by
+    // tests/fixtures/addon/with-nested-addons/node_modules/ember-top-addon/node_modules/postprocesstree-addon
+    expect(file('dist/assets/vendor.js')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/templates/application.hbs');
+    expect(file('dist/assets/vendor.js')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/index.js');
+    expect(file('dist/assets/vendor.css')).to.contain('POSTPROCESSED node_modules/ember-top-addon/addon/styles/app.css');
+
+    // the pre/post process tree hooks above should *not* have changed RAW's in the current app
+    expect(file('dist/assets/some-cool-app.js')).to.contain('RAW app/foo.js');
+
+    // should *not* have changed RAW's in sibling addons
+    expect(file('dist/assets/vendor.js')).to.contain('RAW node_modules/ember-top-addon/node_modules/ember-inner-addon/addon/index.js');
+  }));
 });

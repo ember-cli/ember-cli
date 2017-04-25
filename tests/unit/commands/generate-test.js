@@ -1,8 +1,7 @@
 'use strict';
 
-const expect = require('chai').expect;
+const expect = require('../../chai').expect;
 const EOL = require('os').EOL;
-const SilentError = require('silent-error');
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const MockProject = require('../../helpers/mock-project');
@@ -11,6 +10,8 @@ const Task = require('../../../lib/models/task');
 const Blueprint = require('../../../lib/models/blueprint');
 const GenerateCommand = require('../../../lib/commands/generate');
 const td = require('testdouble');
+const fs = require('fs-extra');
+const path = require('path');
 
 describe('generate command', function() {
   let options, command;
@@ -46,13 +47,33 @@ describe('generate command', function() {
     td.reset();
   });
 
-  it('runs GenerateFromBlueprint but with null nodeModulesPath', function() {
+  describe('without yarn.lock file', function() {
+    let originalYarnLockPath, dummyYarnLockPath;
+
+    beforeEach(function() {
+      originalYarnLockPath = path.join(command.project.root, 'yarn.lock');
+      dummyYarnLockPath = path.join(command.project.root, 'foo.bar');
+      fs.renameSync(originalYarnLockPath, dummyYarnLockPath);
+    });
+
+    afterEach(function() {
+      fs.renameSync(dummyYarnLockPath, originalYarnLockPath);
+    });
+
+    it('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
+      command.project.hasDependencies = function() { return false; };
+
+      return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
+        expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
+      });
+    });
+  });
+
+  it('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
     command.project.hasDependencies = function() { return false; };
 
-    return command.validateAndRun(['controller', 'foo']).then(function() {
-      expect(true).to.be.false;
-    }).catch(function(reason) {
-      expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
+    return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
+      expect(reason.message).to.eql('node_modules appears empty, you may need to run `yarn install`');
     });
   });
 
@@ -73,16 +94,12 @@ describe('generate command', function() {
   });
 
   it('complains if no blueprint name is given', function() {
-    return command.validateAndRun([])
-      .then(function() {
-        expect(false, 'should not have called run').to.be.ok;
-      })
-      .catch(function(error) {
-        expect(error.message).to.equal(
-            'The `ember generate` command requires a ' +
-            'blueprint name to be specified. ' +
-            'For more details, use `ember help`.');
-      });
+    return expect(command.validateAndRun([])).to.be.rejected.then(error => {
+      expect(error.message).to.equal(
+          'The `ember generate` command requires a ' +
+          'blueprint name to be specified. ' +
+          'For more details, use `ember help`.');
+    });
   });
 
   describe('help', function() {
