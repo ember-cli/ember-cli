@@ -388,6 +388,21 @@ describe('models/project.js', function() {
 
       expect(added).to.be.ok;
     });
+
+    it('should catch addon constructor errors', function() {
+      projectPath = path.resolve(__dirname, '../../fixtures/addon/invalid-constructor');
+      packageContents = require(path.join(projectPath, 'package.json'));
+
+      makeProject();
+
+      const invalidAddonName = 'ember-invalid-addon';
+      const expectedPath = path.join(projectPath, '/lib/', invalidAddonName);
+      const expectedError = `SilentError: An error occured in the constructor for ${invalidAddonName} at ${expectedPath}`;
+
+      expect(function() {
+        project.initializeAddons();
+      }).to.throw(expectedError);
+    });
   });
 
   describe('reloadAddon', function() {
