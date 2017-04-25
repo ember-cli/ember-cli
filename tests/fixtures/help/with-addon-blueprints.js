@@ -411,6 +411,13 @@ module.exports = {
           required: false
         },
         {
+          name: 'welcome',
+          key: 'welcome',
+          description: 'Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.',
+          default: true,
+          required: false
+        },
+        {
           name: 'yarn',
           key: 'yarn',
           required: false
@@ -507,6 +514,13 @@ module.exports = {
           default: false,
           aliases: ['sg'],
           key: 'skipGit',
+          required: false
+        },
+        {
+          name: 'welcome',
+          key: 'welcome',
+          description: 'Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.',
+          default: true,
           required: false
         },
         {
