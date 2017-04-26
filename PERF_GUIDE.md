@@ -238,10 +238,11 @@ higher.  `npm install -g broccoli-viz@^3.0.3`.
 To generate visualization:
 
 + `BROCCOLI_VIZ=1 ember build`
-+ `broccoli-viz broccoli-viz.0.json > broccoli-viz.0.dot`
-+ `dot -Tpng broccoli-viz.0.dot > broccoli-viz.0.png`
++ `broccoli-viz instrumentation.build.0.json > instrumentation.build.0.dot`
++ `dot -Tpng instrumentation.build.0.dot > instrumentation.build.0.png`
 
-Each build will generate an additional graph, `broccoli-viz.<build-number>.json`
+
+Each build will generate an additional graph, `instrumentation.build.<build-number>.json`
 
 #### in-depth look
 
