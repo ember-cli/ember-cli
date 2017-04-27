@@ -83,7 +83,7 @@ let OptionsAliasCommand = Command.extend({
   run(options) { return options; },
 });
 
-describe('models/command.js', function() {
+describe.only('models/command.js', function() {
   let ui;
   let config;
   let options;
@@ -157,6 +157,19 @@ describe('models/command.js', function() {
 
   it('parseArgs() should parse shorthand dasherized options.', function() {
     expect(new ServeCommand(options).parseArgs(['-lr', 'false'])).to.have.deep.property('options.liveReload', false);
+  });
+
+  it('parseArgs() should parse string options.', function() {
+    let CustomAliasCommand = Command.extend({
+      name: 'custom-alias',
+      availableOptions: [{
+        name: 'options',
+        type: String,
+      }],
+      run(options) { return options; },
+    });
+    const command = new CustomAliasCommand(options).parseArgs(['1', '--options', '--split 2 --random']);
+    expect(command).to.have.deep.property('options.options', '--split 2 --random');
   });
 
   describe('#validateAndRun', function() {
