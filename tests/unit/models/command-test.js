@@ -83,7 +83,7 @@ let OptionsAliasCommand = Command.extend({
   run(options) { return options; },
 });
 
-describe.only('models/command.js', function() {
+describe('models/command.js', function() {
   let ui;
   let config;
   let options;
