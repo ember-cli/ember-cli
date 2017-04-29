@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "2.13.0-beta.4",
+  "version": "2.13.0",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -71,7 +71,7 @@
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^3.1.0",
     "ember-cli-string-utils": "^1.0.0",
-    "ember-try": "^0.2.11",
+    "ember-try": "^0.2.14",
     "ensure-posix-path": "^1.0.2",
     "escape-string-regexp": "^1.0.3",
     "execa": "^0.6.0",
@@ -102,7 +102,7 @@
     "minimatch": "^3.0.0",
     "morgan": "^1.8.1",
     "node-modules-path": "^1.0.0",
-    "nopt": "^4.0.0",
+    "nopt": "^3.0.6",
     "npm-package-arg": "^4.1.1",
     "portfinder": "^1.0.7",
     "promise-map-series": "^0.2.1",
