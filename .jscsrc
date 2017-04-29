@@ -1,0 +1,77 @@
+{
+  "esnext": true,
+  "verbose": true,
+
+  "disallowEmptyBlocks": true,
+  "disallowKeywordsOnNewLine": ["else"],
+  "disallowMultipleLineBreaks": true,
+  "disallowMultipleVarDecl": "exceptUndefined",
+  "disallowNewlineBeforeBlockStatements": true,
+  "disallowOperatorBeforeLineBreak": ["."],
+  "disallowSpaceAfterObjectKeys": true,
+  "disallowSpaceAfterPrefixUnaryOperators": true,
+  "disallowSpaceBeforePostfixUnaryOperators": true,
+  "disallowSpaceBeforeSemicolon": true,
+  "disallowSpacesInFunction": {
+    "beforeOpeningRoundBrace": true
+  },
+  "disallowSpacesInsideParentheses": true,
+  "disallowSpacesInCallExpression": true,
+  "disallowTrailingComma": true,
+  "disallowTrailingWhitespace": true,
+  "requireBlocksOnNewline": true,
+  "requireCamelCaseOrUpperCaseIdentifiers": true,
+  "requireCapitalizedConstructors": true,
+  "requireCommaBeforeLineBreak": true,
+  "requireCurlyBraces": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "try",
+    "catch",
+    "switch"
+  ],
+  "requireDotNotation": true,
+  "requireLineBreakAfterVariableAssignment": true,
+  "requireParenthesesAroundArrowParam": true,
+  "requireSemicolons": true,
+  "requireSpaceAfterBinaryOperators": true,
+  "requireSpaceAfterKeywords": [
+    "do",
+    "for",
+    "if",
+    "else",
+    "switch",
+    "case",
+    "try",
+    "void",
+    "while",
+    "with",
+    "return",
+    "typeof"
+  ],
+  "requireSpaceAfterLineComment": true,
+  "requireSpaceBeforeBinaryOperators": true,
+  "requireSpaceBeforeBlockStatements": true,
+  "requireSpaceBeforeKeywords": [
+    "else",
+    "while",
+    "catch"
+  ],
+  "requireSpaceBeforeObjectValues": true,
+  "requireSpaceBetweenArguments": true,
+  "requireSpacesInFunction": {
+    "beforeOpeningCurlyBrace": true
+  },
+  "requireSpacesInConditionalExpression": true,
+  "requireSpacesInForStatement": true,
+  "requireSpacesInsideObjectBrackets": "all",
+  "validateIndentation": 2,
+  "validateParameterSeparator": ", ",
+  "validateQuoteMarks": {
+    "mark": "'",
+    "escape": true
+  }
+}
