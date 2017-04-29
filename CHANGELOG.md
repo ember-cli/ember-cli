@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+### 2.13.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.3...v2.13.0)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.3...v2.13.0)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6978](https://github.com/ember-cli/ember-cli/pull/6978) Update dependencies to Babel 6 versions. [@rwjblue](https://github.com/rwjblue)
+- [#6980](https://github.com/ember-cli/ember-cli/pull/6980) Update ember-ajax to v3.0.0. [@rwjblue](https://github.com/rwjblue)
+- [#6983](https://github.com/ember-cli/ember-cli/pull/6983) blueprints: Remove Bower from README [@ember-cli](https://github.com/ember-cli)
+- [#6986](https://github.com/ember-cli/ember-cli/pull/6986) Revert nopt dependency update [@calderas](https://github.com/calderas)
+- [#6992](https://github.com/ember-cli/ember-cli/pull/6992) blueprints/app: Update "ember-source" and "ember-data" to v2.13.0 [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.0-beta.4
 
 The following changes are required if you are upgrading from the previous
