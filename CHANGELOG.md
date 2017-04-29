@@ -1,5 +1,57 @@
 # ember-cli Changelog
 
+### 2.14.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0...v2.14.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0...v2.14.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6918](https://github.com/ember-cli/ember-cli/pull/6918) Update markdown-it-terminal to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+- [#6862](https://github.com/ember-cli/ember-cli/pull/6862) Update minimum ember-try version. [@rwjblue](https://github.com/rwjblue)
+- [#6859](https://github.com/ember-cli/ember-cli/pull/6859) Update fs-extra to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+- [#6937](https://github.com/ember-cli/ember-cli/pull/6937) various blueprint cleanup and consistency [@kellyselden](https://github.com/kellyselden)
+- [#6874](https://github.com/ember-cli/ember-cli/pull/6874) Add .eslintrc.js files to blueprints [@rwwagner90](https://github.com/rwwagner90)
+- [#6868](https://github.com/ember-cli/ember-cli/pull/6868) Add --welcome option to `new` and `init` so that it can be skipped with --no-welcome [@romulomachado](https://github.com/romulomachado)
+- [#6873](https://github.com/ember-cli/ember-cli/pull/6873) Add ~ to ember-cli in package.json in blueprints [@rwwagner90](https://github.com/rwwagner90)
+- [#6932](https://github.com/ember-cli/ember-cli/pull/6932) make blueprint files public [@kellyselden](https://github.com/kellyselden)
+- [#6890](https://github.com/ember-cli/ember-cli/pull/6890) Replace lib/utilities/DAG.js with dag-map package [@rwwagner90](https://github.com/rwwagner90)
+- [#6888](https://github.com/ember-cli/ember-cli/pull/6888) Print out `yarn install` when yarn.lock file is present [@samdemaeyer](https://github.com/samdemaeyer)
+- [#6883](https://github.com/ember-cli/ember-cli/pull/6883) broccoli/ember-app: Make app/index.html optional [@Turbo87](https://github.com/Turbo87)
+- [#6886](https://github.com/ember-cli/ember-cli/pull/6886) Handle addon constructor errors gracefully [@jsturgis](https://github.com/jsturgis)
+- [#6889](https://github.com/ember-cli/ember-cli/pull/6889) Use const/let in all blueprints [@simonihmig](https://github.com/simonihmig)
+- [#6940](https://github.com/ember-cli/ember-cli/pull/6940) remove lint filter [@kellyselden](https://github.com/kellyselden)
+- [#6910](https://github.com/ember-cli/ember-cli/pull/6910) [BUGFIX] Add yuidocs for the addon:init method [@mattmarcum](https://github.com/mattmarcum)
+- [#6896](https://github.com/ember-cli/ember-cli/pull/6896) Removed all references to Bower in blueprint README. [@michielboekhoff](https://github.com/michielboekhoff)
+- [#6903](https://github.com/ember-cli/ember-cli/pull/6903) remove npm experiment refs [@tylerturdenpants](https://github.com/tylerturdenpants)
+- [#6907](https://github.com/ember-cli/ember-cli/pull/6907) Ignore files created by Ember-Try [@elwayman02](https://github.com/elwayman02)
+- [#6898](https://github.com/ember-cli/ember-cli/pull/6898) Update ember-export-application-global to babel@6 version. [@rwjblue](https://github.com/rwjblue)
+- [#6942](https://github.com/ember-cli/ember-cli/pull/6942) object shorthand blueprint cleanup [@ember-cli](https://github.com/ember-cli)
+- [#6936](https://github.com/ember-cli/ember-cli/pull/6936) use RSVP.resolve shorthand [@kellyselden](https://github.com/kellyselden)
+- [#6934](https://github.com/ember-cli/ember-cli/pull/6934) missed node 4 - es6 updates in blueprints [@kellyselden](https://github.com/kellyselden)
+- [#6912](https://github.com/ember-cli/ember-cli/pull/6912) Stop creating recursive symlink (addon requiring itself) [@clekstro](https://github.com/clekstro)
+- [#6935](https://github.com/ember-cli/ember-cli/pull/6935) use our string style since converted from json [@kellyselden](https://github.com/kellyselden)
+- [#6919](https://github.com/ember-cli/ember-cli/pull/6919) Do not use `chalk.white` when displaying asset sizes [@lucasmazza](https://github.com/lucasmazza)
+- [#6915](https://github.com/ember-cli/ember-cli/pull/6915) Run YUIDoc on single `it` [@sduquej](https://github.com/sduquej)
+- [#6911](https://github.com/ember-cli/ember-cli/pull/6911) Fix dirty git state [@clekstro](https://github.com/clekstro)
+- [#6938](https://github.com/ember-cli/ember-cli/pull/6938) Add ESLint config to "server" and "lib" blueprints [@kellyselden](https://github.com/kellyselden)
+- [#6939](https://github.com/ember-cli/ember-cli/pull/6939) replace ': function(' with '(' [@kellyselden](https://github.com/kellyselden)
+- [#6966](https://github.com/ember-cli/ember-cli/pull/6966) ENHANCEMENT: throw when converting `npm install foo` to `yarn install foo` [@pichfl](https://github.com/pichfl)
+- [#6984](https://github.com/ember-cli/ember-cli/pull/6984) Fix perf-guide to have correct file names for build visualization [@kratiahuja](https://github.com/kratiahuja)
+- [#6987](https://github.com/ember-cli/ember-cli/pull/6987) Update fs-extra to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.0
 
 The following changes are required if you are upgrading from the previous
