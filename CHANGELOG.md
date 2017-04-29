@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+### 2.12.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.12.2...v2.12.3)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.12.2...v2.12.3)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6986](https://github.com/ember-cli/ember-cli/pull/6986) Revert nopt dependency update [@calderas](https://github.com/calderas)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.12.2
 
 The following changes are required if you are upgrading from the previous
