@@ -35,7 +35,8 @@ install:
   - yarn install --no-lockfile
 <% } else { %>before_install:
   - npm config set spin false
-  - npm install -g phantomjs-prebuilt
+  - npm install -g npm phantomjs-prebuilt
+  - npm --version
   - phantomjs --version
 
 install:
