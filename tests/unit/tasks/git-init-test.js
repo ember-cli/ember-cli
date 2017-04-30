@@ -52,13 +52,13 @@ describe('git-init', function() {
     td.when(task._gitVersion()).thenResolve();
     td.when(task._gitInit()).thenResolve();
     td.when(task._gitAdd()).thenResolve();
-    td.when(task._gitCommit(td.matchers.anything())).thenResolve();
+    td.when(task._gitCommit()).thenResolve();
 
     return task.run().then(function() {
       td.verify(task._gitVersion());
       td.verify(task._gitInit());
       td.verify(task._gitAdd());
-      td.verify(task._gitCommit(td.matchers.anything()));
+      td.verify(task._gitCommit());
 
       expect(task.ui.output).to.contain('Successfully initialized git.');
       expect(task.ui.errors).to.equal('');
