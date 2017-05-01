@@ -4,10 +4,11 @@ node_js:
   - "4"
 
 sudo: false
-
-<% if (yarn) { %>cache:
+<% if (yarn) { %>
+cache:
   yarn: true
-<% } else { %>cache:
+<% } else { %>
+cache:
   directories:
     - $HOME/.npm
 <% } %>
@@ -24,8 +25,8 @@ matrix:
   fast_finish: true
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
-
-<% if (yarn) { %>before_install:
+<% if (yarn) { %>
+before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
   - yarn global add phantomjs-prebuilt
@@ -33,7 +34,8 @@ matrix:
 
 install:
   - yarn install --no-lockfile
-<% } else { %>before_install:
+<% } else { %>
+before_install:
   - npm config set spin false
   - npm install -g phantomjs-prebuilt
   - phantomjs --version
@@ -41,7 +43,6 @@ install:
 install:
   - npm install
 <% } %>
-
 script:
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".
