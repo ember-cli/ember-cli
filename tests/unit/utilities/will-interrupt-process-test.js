@@ -51,10 +51,10 @@ describe('will interrupt process', function() {
     });
 
     it('removes exit handler', function() {
-      willInterruptProcess.addHandler(cb);
+      let teardown = willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
-      willInterruptProcess.removeHandler(cb);
+      teardown();
 
       expect(captureExit.listenerCount()).to.equal(originalExitHandlersCount + 1);
     });
@@ -98,21 +98,21 @@ describe('will interrupt process', function() {
     });
 
     it('cleans up interruption signal listeners', function() {
-      willInterruptProcess.addHandler(cb);
+      let teardown = willInterruptProcess.addHandler(cb);
       // will-interrupt-process doesn't have any public API to get actual handlers count
       // so here we make a side test to ensure that we don't add the same callback twice
       willInterruptProcess.addHandler(cb);
 
-      willInterruptProcess.removeHandler(cb);
+      teardown();
 
       expect(getSignalListenerCounts()).to.eql(originalSignalListenersCounts);
     });
 
     it(`doesn't clean up interruption signal listeners if there are remaining handlers`, function() {
-      willInterruptProcess.addHandler(cb);
+      let teardown = willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(() => cb());
 
-      willInterruptProcess.removeHandler(cb);
+      teardown();
 
       expect(getSignalListenerCounts()).to.eql({
         SIGINT: originalSignalListenersCounts.SIGINT + 1,
