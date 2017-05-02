@@ -210,7 +210,7 @@ describe('Watcher', function() {
       });
 
       expect(analytics.trackErrors).to.deep.equal([{
-        description: 'foo',
+        description: undefined,
       }]);
     });
 
