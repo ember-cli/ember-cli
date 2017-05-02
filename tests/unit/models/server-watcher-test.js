@@ -33,11 +33,8 @@ describe('Server Watcher', function() {
       expect(ui.output).to.equal(`File changed: "foo.txt"${EOL}`);
     });
 
-    it('tracks changes', function() {
-      expect(analytics.tracks).to.deep.equal([{
-        name: 'server file changed',
-        description: 'File changed: "foo.txt"',
-      }]);
+    it('does NOT tracks changes', function() {
+      expect(analytics.tracks).to.deep.equal([]);
     });
   });
 
@@ -50,11 +47,8 @@ describe('Server Watcher', function() {
       expect(ui.output).to.equal(`File added: "foo.txt"${EOL}`);
     });
 
-    it('tracks additions', function() {
-      expect(analytics.tracks).to.deep.equal([{
-        name: 'server file addition',
-        description: 'File added: "foo.txt"',
-      }]);
+    it('does NOT track additions', function() {
+      expect(analytics.tracks).to.deep.equal([]);
     });
   });
 
@@ -67,11 +61,8 @@ describe('Server Watcher', function() {
       expect(ui.output).to.equal(`File deleted: "foo.txt"${EOL}`);
     });
 
-    it('tracks deletions', function() {
-      expect(analytics.tracks).to.deep.equal([{
-        name: 'server file deletion',
-        description: 'File deleted: "foo.txt"',
-      }]);
+    it('does NOT tracks deletions', function() {
+      expect(analytics.tracks).to.deep.equal([]);
     });
   });
 });
