@@ -236,5 +236,9 @@ describe('NpmTask', function() {
 
       return expect(args).to.deep.equal(['remove', 'bar']);
     });
+
+    it('throws when "yarn install" is called with packages', function() {
+      return expect(() => task.toYarnArgs('install', { packages: ['foo'] })).to.throw(Error, /install foo/);
+    });
   });
 });
