@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+### 2.13.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.0...v2.13.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.0...v2.13.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#6991](https://github.com/ember-cli/ember-cli/pull/6991) cleanup [@stefanpenner](https://github.com/stefanpenner)
+- [#6996](https://github.com/ember-cli/ember-cli/pull/6996) Update to non-beta version of ember-cli-qunit [@rwjblue](https://github.com/rwjblue)
+- [#7009](https://github.com/ember-cli/ember-cli/pull/7009) fix extra new line and easier to read indentation [@Turbo87](https://github.com/Turbo87)
+- [#7011](https://github.com/ember-cli/ember-cli/pull/7011) npmTask should throw when trying to convert `npm install foo` to `yarn install foo` [@Turbo87](https://github.com/Turbo87)
+- [#7015](https://github.com/ember-cli/ember-cli/pull/7015) Do not set committer for the initial git commit [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.0
 
 The following changes are required if you are upgrading from the previous
