@@ -12,7 +12,8 @@ sudo: false
     - $HOME/.npm
 <% } %>
 env:
-  # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
+  # we recommend new addons test the current and previous LTS
+  # as well as latest stable release (bonus points to beta/canary)
   - EMBER_TRY_SCENARIO=ember-lts-2.8
   - EMBER_TRY_SCENARIO=ember-lts-2.12
   - EMBER_TRY_SCENARIO=ember-release
