@@ -125,7 +125,9 @@ module.exports = {
 
   files() {
     let appFiles = this.lookupBlueprint('app').files();
-    let addonFiles = walkSync(path.join(this.path, 'files'));
+
+    let addonFilesPath = this.filesPath(this.options);
+    let addonFiles = walkSync(addonFilesPath);
 
     return uniq(appFiles.concat(addonFiles));
   },
