@@ -8,46 +8,53 @@ let chai = require('../../chai');
 let expect = chai.expect;
 let EventEmitter = require('events');
 
-function getSignalListenersCount(emitter, event) {
-  if (emitter.listenerCount) { // Present in Node >= 4.0
-    return emitter.listenerCount(event);
-  } else {
-    // deprecated in Node 4.0
-    return EventEmitter.listenerCount(emitter, event);
+class MockProcess extends EventEmitter {
+  constructor(options) {
+    super();
+
+    options = options || {};
+
+    const stdin = Object.assign(new EventEmitter(), {
+      isRaw: false,
+      setRawMode: td.function(),
+    }, options.stdin || {});
+
+    const topLevelProps = Object.assign({
+      platform: 'MockOS',
+      exit: td.function(),
+    }, options);
+
+    Object.assign(this, topLevelProps, { stdin });
+  }
+
+  getSignalListenerCounts() {
+    return {
+      SIGINT: this.listenerCount('SIGINT'),
+      SIGTERM: this.listenerCount('SIGTERM'),
+      message: this.listenerCount('message'),
+    };
   }
 }
 
-function getSignalListenerCounts() {
-  return {
-    SIGINT: getSignalListenersCount(process, 'SIGINT'),
-    SIGTERM: getSignalListenersCount(process, 'SIGTERM'),
-    message: getSignalListenersCount(process, 'message'),
-  };
-}
-
 describe('will interrupt process', function() {
-  let cb;
+  let cb, originalProcess;
   beforeEach(function() {
     willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+    originalProcess = willInterruptProcess._process;
     captureExit = require('capture-exit');
     cb = td.function();
   });
 
   afterEach(function() {
     willInterruptProcess.teardown();
+    willInterruptProcess._process = originalProcess;
   });
 
-  describe('capture-exit integration', function() {
-    let originalExitHandlersCount;
-
-    beforeEach(function() {
-      originalExitHandlersCount = captureExit.listenerCount();
-    });
-
+  describe('capture-exit', function() {
     it('adds exit handler', function() {
       willInterruptProcess.addHandler(cb);
 
-      expect(captureExit.listenerCount()).to.equal(originalExitHandlersCount + 1);
+      expect(captureExit.listenerCount()).to.equal(1);
     });
 
     it('removes exit handler', function() {
@@ -56,7 +63,7 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.removeHandler(cb);
 
-      expect(captureExit.listenerCount()).to.equal(originalExitHandlersCount + 1);
+      expect(captureExit.listenerCount()).to.equal(1);
     });
 
     it('removes all exit handlers', function() {
@@ -65,24 +72,25 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.teardown();
 
-      expect(captureExit.listenerCount()).to.equal(originalExitHandlersCount);
+      expect(captureExit.listenerCount()).to.equal(0);
     });
   });
 
   describe('process interruption signal listeners', function() {
-    let originalSignalListenersCounts;
+    let process;
 
     beforeEach(function() {
-      originalSignalListenersCounts = getSignalListenerCounts();
+      process = new MockProcess();
+      willInterruptProcess._process = process;
     });
 
-    it('sets up interruption signal listeners when then first handler added', function() {
+    it('sets up interruption signal listeners when the first handler added', function() {
       willInterruptProcess.addHandler(cb);
 
-      expect(getSignalListenerCounts()).to.eql({
-        SIGINT: originalSignalListenersCounts.SIGINT + 1,
-        SIGTERM: originalSignalListenersCounts.SIGTERM + 1,
-        message: originalSignalListenersCounts.message + 1,
+      expect(process.getSignalListenerCounts()).to.eql({
+        SIGINT: 1,
+        SIGTERM: 1,
+        message: 1,
       });
     });
 
@@ -90,22 +98,25 @@ describe('will interrupt process', function() {
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
-      expect(getSignalListenerCounts()).to.eql({
-        SIGINT: originalSignalListenersCounts.SIGINT + 1,
-        SIGTERM: originalSignalListenersCounts.SIGTERM + 1,
-        message: originalSignalListenersCounts.message + 1,
+      expect(process.getSignalListenerCounts()).to.eql({
+        SIGINT: 1,
+        SIGTERM: 1,
+        message: 1,
       });
     });
 
-    it('cleans up interruption signal listeners', function() {
-      willInterruptProcess.addHandler(cb);
+    it('cleans up interruption signal listener', function() {
       // will-interrupt-process doesn't have any public API to get actual handlers count
       // so here we make a side test to ensure that we don't add the same callback twice
       willInterruptProcess.addHandler(cb);
 
       willInterruptProcess.removeHandler(cb);
 
-      expect(getSignalListenerCounts()).to.eql(originalSignalListenersCounts);
+      expect(process.getSignalListenerCounts()).to.eql({
+        SIGINT: 0,
+        SIGTERM: 0,
+        message: 0,
+      });
     });
 
     it(`doesn't clean up interruption signal listeners if there are remaining handlers`, function() {
@@ -114,10 +125,10 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.removeHandler(cb);
 
-      expect(getSignalListenerCounts()).to.eql({
-        SIGINT: originalSignalListenersCounts.SIGINT + 1,
-        SIGTERM: originalSignalListenersCounts.SIGTERM + 1,
-        message: originalSignalListenersCounts.message + 1,
+      expect(process.getSignalListenerCounts()).to.eql({
+        SIGINT: 1,
+        SIGTERM: 1,
+        message: 1,
       });
     });
 
@@ -128,63 +139,40 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.teardown();
 
-      expect(getSignalListenerCounts()).to.eql(originalSignalListenersCounts);
+      expect(process.getSignalListenerCounts()).to.eql({
+        SIGINT: 0,
+        SIGTERM: 0,
+        message: 0,
+      });
     });
   });
 
   describe('Windows CTRL + C Capture', function() {
-    let originalPlatform, originalStdin;
-
-    before(function() {
-      originalPlatform = process.platform;
-      originalStdin = process.platform;
-    });
-
-    after(function() {
-      Object.defineProperty(process, 'platform', {
-        value: originalPlatform,
-      });
-
-      Object.defineProperty(process, 'stdin', {
-        value: originalStdin,
-      });
-    });
-
-    it('enables raw capture on Windows', function() {
-      Object.defineProperty(process, 'platform', {
-        value: 'win',
-      });
-
-      Object.defineProperty(process, 'stdin', {
-        value: {
+    it('exits on CTRL+C when TTY', function() {
+      let process = new MockProcess({
+        platform: 'win',
+        stdin: {
           isTTY: true,
-          on: td.function(),
-          setRawMode: td.function(),
-          removeListener: td.function(),
         },
       });
 
-      let windowsCtrlCTrap = td.matchers.isA(Function);
-
+      willInterruptProcess._process = process;
       willInterruptProcess.addHandler(cb);
-      td.verify(process.stdin.on('data', windowsCtrlCTrap));
+
+      process.stdin.emit('data', [0x03]);
+
+      td.verify(process.exit());
     });
 
     it('adds and reverts rawMode on Windows', function() {
-      Object.defineProperty(process, 'platform', {
-        value: 'win',
-      });
-
-      Object.defineProperty(process, 'stdin', {
-        value: {
-          isRaw: false,
+      const process = new MockProcess({
+        platform: 'win',
+        stdin: {
           isTTY: true,
-          on: td.function(),
-          setRawMode: td.function(),
-          removeListener: td.function(),
         },
       });
 
+      willInterruptProcess._process = process;
       willInterruptProcess.addHandler(cb);
       td.verify(process.stdin.setRawMode(true));
 
@@ -197,21 +185,12 @@ describe('will interrupt process', function() {
       });
     });
 
-    it('does not enable raw capture on non-Windows', function() {
-      Object.defineProperty(process, 'platform', {
-        value: 'mockOS',
-      });
-
-      Object.defineProperty(process, 'stdin', {
-        value: {
+    it('does not enable raw capture when not a Windows', function() {
+      const process = new MockProcess({
+        stdin: {
           isTTY: true,
-          on: td.function(),
-          setRawMode: td.function(),
-          removeListener: td.function(),
         },
       });
-
-      let windowsCtrlCTrap = td.matchers.isA(Function);
 
       willInterruptProcess.addHandler(cb);
 
@@ -219,9 +198,25 @@ describe('will interrupt process', function() {
         times: 0,
       });
 
-      td.verify(process.stdin.on('data', windowsCtrlCTrap), {
+      process.stdin.emit('data', [0x03]);
+
+      td.verify(process.exit(), { times: 0 });
+    });
+
+    it('does not enable raw capture when not a TTY', function() {
+      const process = new MockProcess({
+        platform: 'win',
+      });
+
+      willInterruptProcess.addHandler(cb);
+
+      td.verify(process.stdin.setRawMode(true), {
         times: 0,
       });
+
+      process.stdin.emit('data', [0x03]);
+
+      td.verify(process.exit(), { times: 0 });
     });
   });
 });
