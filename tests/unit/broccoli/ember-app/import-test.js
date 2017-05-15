@@ -143,4 +143,79 @@ describe('EmberApp.import()', function() {
     expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
     expect(outputTree['assets']['vendor.js']).to.contain('verysmallmoment');
   }));
+
+  it('can import node dependencies into vendor.js', co.wrap(function *() {
+    input.copy(`${__dirname}/../../../fixtures/app-import`);
+    input.write({
+      'node_modules': {
+        'moment': {
+          'moment.js': 'window.moment = "what does time even mean?";',
+        },
+      },
+    });
+
+    let app = createApp();
+
+    app.import('node_modules/moment/moment.js');
+
+    let output = yield buildOutput(app.javascript());
+    let outputTree = output.read();
+    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
+    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
+    expect(outputTree['assets']['vendor.js']).to.contain('window.Ember = {');
+    expect(outputTree['assets']['vendor.js']).to.contain('window.$ = function() {');
+    expect(outputTree['assets']['vendor.js']).to.contain('window.moment');
+  }));
+
+  it('handles imports from node with different environments (development)', co.wrap(function *() {
+    input.copy(`${__dirname}/../../../fixtures/app-import`);
+    input.write({
+      'node_modules': {
+        'moment': {
+          'moment.js': 'window.moment = "what does time even mean?";',
+          'moment.min.js': 'window.moment="what does time even mean?"',
+        },
+      },
+    });
+
+    let app = createApp();
+
+    app.import({
+      development: 'node_modules/moment/moment.js',
+      production: 'node_modules/moment/moment.min.js',
+    });
+
+    let output = yield buildOutput(app.javascript());
+    let outputTree = output.read();
+    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
+    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
+    expect(outputTree['assets']['vendor.js']).to.contain('window.moment = "');
+  }));
+
+  it('handles imports from node with different environments (production)', co.wrap(function *() {
+    input.copy(`${__dirname}/../../../fixtures/app-import`);
+    input.write({
+      'node_modules': {
+        'moment': {
+          'moment.js': 'window.moment = "what does time even mean?";',
+          'moment.min.js': 'window.moment = "verysmallmoment"',
+        },
+      },
+    });
+
+    process.env.EMBER_ENV = 'production';
+
+    let app = createApp();
+
+    app.import({
+      development: 'node_modules/moment/moment.js',
+      production: 'node_modules/moment/moment.min.js',
+    });
+
+    let output = yield buildOutput(app.javascript());
+    let outputTree = output.read();
+    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
+    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
+    expect(outputTree['assets']['vendor.js']).to.contain('verysmallmoment');
+  }));
 });
