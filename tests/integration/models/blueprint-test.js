@@ -843,9 +843,13 @@ describe('Blueprint', function() {
     let blueprint;
     let NpmUninstallTask;
     let taskNameLookedUp;
+    let project;
 
     beforeEach(function() {
+      project = new MockProject();
+
       blueprint = new Blueprint(basicBlueprint);
+      blueprint.project = project;
       blueprint.taskFor = function(name) {
         taskNameLookedUp = name;
         return new NpmUninstallTask();
@@ -861,6 +865,11 @@ describe('Blueprint', function() {
         run() {},
       });
 
+      project.dependencies = function() {
+        return {
+          'foo-bar': '1.0.0',
+        };
+      };
       blueprint.removePackageFromProject({ name: 'foo-bar' });
 
       expect(taskNameLookedUp).to.equal('npm-uninstall');
@@ -873,10 +882,14 @@ describe('Blueprint', function() {
     let ui;
     let NpmUninstallTask;
     let taskNameLookedUp;
+    let project;
 
     beforeEach(function() {
+      project = new MockProject();
+
       blueprint = new Blueprint(basicBlueprint);
       ui = new MockUI();
+      blueprint.project = project;
       blueprint.taskFor = function(name) {
         taskNameLookedUp = name;
         return new NpmUninstallTask();
@@ -897,6 +910,30 @@ describe('Blueprint', function() {
       expect(taskNameLookedUp).to.equal('npm-uninstall');
     });
 
+    it('calls the task with only existing packages', function() {
+      let packages;
+
+      NpmUninstallTask = Task.extend({
+        run(options) {
+          packages = options.packages;
+        },
+      });
+
+      project.dependencies = function() {
+        return {
+          'foo-bar': '1.0.0',
+          'bar-zoo': '2.0.0',
+        };
+      };
+
+      blueprint.removePackagesFromProject([
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
+      ]);
+
+      expect(packages).to.deep.equal(['foo-bar']);
+    });
+
     it('calls the task with package names', function() {
       let packages;
 
@@ -905,6 +942,13 @@ describe('Blueprint', function() {
           packages = options.packages;
         },
       });
+
+      project.dependencies = function() {
+        return {
+          'foo-bar': '1.0.0',
+          'bar-foo': '2.0.0',
+        };
+      };
 
       blueprint.removePackagesFromProject([
         { name: 'foo-bar' },
@@ -917,6 +961,12 @@ describe('Blueprint', function() {
     it('writes information to the ui log for a single package', function() {
       blueprint.ui = ui;
 
+      project.dependencies = function() {
+        return {
+          'foo-bar': '1.0.0',
+        };
+      };
+
       blueprint.removePackagesFromProject([
         { name: 'foo-bar' },
       ]);
@@ -928,6 +978,13 @@ describe('Blueprint', function() {
 
     it('writes information to the ui log for multiple packages', function() {
       blueprint.ui = ui;
+
+      project.dependencies = function() {
+        return {
+          'foo-bar': '1.0.0',
+          'bar-foo': '2.0.0',
+        };
+      };
 
       blueprint.removePackagesFromProject([
         { name: 'foo-bar' },
