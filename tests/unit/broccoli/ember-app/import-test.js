@@ -149,6 +149,7 @@ describe('EmberApp.import()', function() {
     input.write({
       'node_modules': {
         'moment': {
+          'package.json': '{}',
           'moment.js': 'window.moment = "what does time even mean?";',
         },
       },
@@ -172,6 +173,7 @@ describe('EmberApp.import()', function() {
     input.write({
       'node_modules': {
         'moment': {
+          'package.json': '{}',
           'moment.js': 'window.moment = "what does time even mean?";',
           'moment.min.js': 'window.moment="what does time even mean?"',
         },
@@ -197,6 +199,7 @@ describe('EmberApp.import()', function() {
     input.write({
       'node_modules': {
         'moment': {
+          'package.json': '{}',
           'moment.js': 'window.moment = "what does time even mean?";',
           'moment.min.js': 'window.moment = "verysmallmoment"',
         },
