@@ -47,7 +47,7 @@ describe('windows-admin', function() {
             expect(result.windows, 'is windows').to.be.eql(true);
             expect(result.elevated, 'is not elevated').to.be.eql(false);
             td.verify(exec(td.matchers.contains('NET SESSION'), td.matchers.anything()), { times: 1 });
-            expect(ui.output).to.match(/Running without permission to symlink will degrade build peformance/);
+            expect(ui.output).to.match(/Running without permission to symlink will degrade build performance/);
             expect(ui.output).to.match(/See http\:\/\/ember-cli\.com\/user-guide\/#windows for details./);
           });
         });
