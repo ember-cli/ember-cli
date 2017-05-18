@@ -1,5 +1,38 @@
 # ember-cli Changelog
 
+### 2.14.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.14.0-beta.1...v2.14.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.14.0-beta.1...v2.14.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7007](https://github.com/ember-cli/ember-cli/pull/7007) Updated npm version for ember-data to use ~ instead of ^ [@fushi](https://github.com/fushi)
+- [#6996](https://github.com/ember-cli/ember-cli/pull/6996) Update to non-beta version of ember-cli-qunit. [@rwjblue](https://github.com/rwjblue)
+- [#6991](https://github.com/ember-cli/ember-cli/pull/6991) cleanup [@stefanpenner](https://github.com/stefanpenner)
+- [#7009](https://github.com/ember-cli/ember-cli/pull/7009) fix extra new line and easier to read indentation [@Turbo87](https://github.com/Turbo87)
+- [#7011](https://github.com/ember-cli/ember-cli/pull/7011) npmTask should throw when trying to convert `npm install foo` to `yarn install foo` [@Turbo87](https://github.com/Turbo87)
+- [#7015](https://github.com/ember-cli/ember-cli/pull/7015) Do not set committer for the initial git commit [@Turbo87](https://github.com/Turbo87)
+- [#7023](https://github.com/ember-cli/ember-cli/pull/7023) Allow broccoli-babel-transpiler to float with SemVer. [@rwjblue](https://github.com/rwjblue)
+- [#7028](https://github.com/ember-cli/ember-cli/pull/7028) add yarn missing default comment [@kellyselden](https://github.com/kellyselden)
+- [#7036](https://github.com/ember-cli/ember-cli/pull/7036) Ensure `lintTree` results cannot clobber tests. [@rwjblue](https://github.com/rwjblue)
+- [#7038](https://github.com/ember-cli/ember-cli/pull/7038) Update "ember-cli-htmlbars" [@stefanpenner](https://github.com/stefanpenner)
+- [#7049](https://github.com/ember-cli/ember-cli/pull/7049) Prevent warnings from broccoli-babel-transpiler. [@rwjblue](https://github.com/rwjblue)
+- [#7051](https://github.com/ember-cli/ember-cli/pull/7051) Corrected a typo in Windows elevation test error message. [@Turbo87](https://github.com/Turbo87)
+- [#7052](https://github.com/ember-cli/ember-cli/pull/7052) Pass only package to npm uninstall task that exist [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.14.0-beta.1
 
 The following changes are required if you are upgrading from the previous
@@ -48,6 +81,32 @@ version:
 - [#6966](https://github.com/ember-cli/ember-cli/pull/6966) ENHANCEMENT: throw when converting `npm install foo` to `yarn install foo` [@pichfl](https://github.com/pichfl)
 - [#6984](https://github.com/ember-cli/ember-cli/pull/6984) Fix perf-guide to have correct file names for build visualization [@kratiahuja](https://github.com/kratiahuja)
 - [#6987](https://github.com/ember-cli/ember-cli/pull/6987) Update fs-extra to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
+
+### 2.13.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.1...v2.13.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.1...v2.13.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7023](https://github.com/ember-cli/ember-cli/pull/7023) Allow broccoli-babel-transpiler to float with SemVer. [@rwjblue](https://github.com/rwjblue)
+- [#7028](https://github.com/ember-cli/ember-cli/pull/7028) add yarn missing default comment [@kellyselden](https://github.com/kellyselden)
+- [#7036](https://github.com/ember-cli/ember-cli/pull/7036) Ensure `lintTree` results cannot clobber tests. [@rwjblue](https://github.com/rwjblue)
+- [#7049](https://github.com/ember-cli/ember-cli/pull/7049) Prevent warnings from broccoli-babel-transpiler. [@rwjblue](https://github.com/rwjblue)
+- [#7051](https://github.com/ember-cli/ember-cli/pull/7051) Corrected a typo in Windows elevation test error message. [@Turbo87](https://github.com/Turbo87)
+- [#7052](https://github.com/ember-cli/ember-cli/pull/7052) Pass only package to npm uninstall task that exist [@Turbo87](https://github.com/Turbo87)
 
 Thank you to all who took the time to contribute!
 
