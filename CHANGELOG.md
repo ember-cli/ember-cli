@@ -1,5 +1,31 @@
 # ember-cli Changelog
 
+### 2.13.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.1...v2.13.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.1...v2.13.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7023](https://github.com/ember-cli/ember-cli/pull/7023) Allow broccoli-babel-transpiler to float with SemVer. [@rwjblue](https://github.com/rwjblue)
+- [#7028](https://github.com/ember-cli/ember-cli/pull/7028) add yarn missing default comment [@kellyselden](https://github.com/kellyselden)
+- [#7036](https://github.com/ember-cli/ember-cli/pull/7036) Ensure `lintTree` results cannot clobber tests. [@rwjblue](https://github.com/rwjblue)
+- [#7049](https://github.com/ember-cli/ember-cli/pull/7049) Prevent warnings from broccoli-babel-transpiler. [@rwjblue](https://github.com/rwjblue)
+- [#7051](https://github.com/ember-cli/ember-cli/pull/7051) Corrected a typo in Windows elevation test error message. [@Turbo87](https://github.com/Turbo87)
+- [#7052](https://github.com/ember-cli/ember-cli/pull/7052) Pass only package to npm uninstall task that exist [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.1
 
 The following changes are required if you are upgrading from the previous
