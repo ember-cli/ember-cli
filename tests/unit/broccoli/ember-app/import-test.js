@@ -152,12 +152,19 @@ describe('EmberApp.import()', function() {
           'package.json': '{}',
           'moment.js': 'window.moment = "what does time even mean?";',
         },
+        '@scoped': {
+          'private': {
+            'package.json': '{}',
+            'index.js': 'window.secret = "sssshhhhh";',
+          },
+        },
       },
     });
 
     let app = createApp();
 
     app.import('node_modules/moment/moment.js');
+    app.import('node_modules/@scoped/private/index.js');
 
     let output = yield buildOutput(app.javascript());
     let outputTree = output.read();
@@ -166,6 +173,7 @@ describe('EmberApp.import()', function() {
     expect(outputTree['assets']['vendor.js']).to.contain('window.Ember = {');
     expect(outputTree['assets']['vendor.js']).to.contain('window.$ = function() {');
     expect(outputTree['assets']['vendor.js']).to.contain('window.moment');
+    expect(outputTree['assets']['vendor.js']).to.contain('window.secret');
   }));
 
   it('handles imports from node with different environments (development)', co.wrap(function *() {
