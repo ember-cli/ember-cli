@@ -43,7 +43,7 @@ Specify what it takes to deploy your app.
 
 ## Further Reading / Useful Links
 
-* [ember.js](http://emberjs.com/)
+* [ember.js](https://emberjs.com/)
 * [ember-cli](https://ember-cli.com/)
 * Development Browser Extensions
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
