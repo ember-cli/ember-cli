@@ -744,7 +744,7 @@ describe('models/instrumentation.js', function() {
     });
 
     describe('._buildSummary', function() {
-      it('computes inital build sumamries', function() {
+      it('computes initial build sumamries', function() {
         let result = {
           directory: 'tmp/someplace',
           outputChanges: ['assets/foo.js', 'assets/foo.css'],

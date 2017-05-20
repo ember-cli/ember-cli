@@ -16,7 +16,7 @@ describe('Blueprint', function() {
   });
 
   describe('.mapFile', function() {
-    it('replaces all occurences of __name__ with module name', function() {
+    it('replaces all occurrences of __name__ with module name', function() {
       let path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', { dasherizedModuleName: 'my-blueprint' });
       expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
