@@ -559,7 +559,7 @@ version:
   + No changes required
 
 #### Notes:
-- This version of Ember CLI _will not officially support Node.js v0.12_ per the [Ember Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- This version of Ember CLI _will not officially support Node.js v0.12_ per the [Ember Node.js LTS Support policy](https://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
 - As part of this release we have made the default behavior inclusion of Ember from npm via the `ember-source` npm package.
 
 #### Community Contributions
@@ -634,7 +634,7 @@ version:
   + No changes required
 
 #### Notes:
-- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](https://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
 - As part of this release we have experimental support for including Ember from npm via the `ember-source` npm package. We hope to discover the gaps during this release cycle and make that the default in a future release.
 
 #### Community Contributions
@@ -671,7 +671,7 @@ version:
   + No changes required
 
 #### Notes:
-- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](https://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
 - As part of this release we have experimental support for including Ember from npm via the `ember-source` npm package. We hope to discover the gaps during this release cycle and make that the default in a future release.
 
 #### Community Contributions
@@ -696,7 +696,7 @@ version:
   + No changes required
 
 #### Notes:
-- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- This version of Ember CLI _no longer supports Node.js v0.10_ per the [Ember Node.js LTS Support policy](https://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
 - As part of this release we have experimental support for including Ember from npm via the `ember-source` npm package. We hope to discover the gaps during this release cycle and make that the default in a future release.
 
 #### Community Contributions
@@ -807,7 +807,7 @@ version:
 
 Notes:
 - This update includes a version bump of QUnit to 2.0.0. Please pay close attention to your test suites.
-- This update is marked as unsupporting Node 0.10. Please prepare for removal of support per [Ember's Node.js LTS Support policy](http://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
+- This update is marked as unsupporting Node 0.10. Please prepare for removal of support per [Ember's Node.js LTS Support policy](https://emberjs.com/blog/2016/09/07/ember-node-lts-support.html).
 
 #### Community Contributions
 
@@ -1124,7 +1124,7 @@ version:
 - Users
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.6.0...v2.7.0-beta.1)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
-  + [Ensure your `rootURL` is properly set.](http://emberjs.com/blog/2016/04/28/baseURL.html)
+  + [Ensure your `rootURL` is properly set.](https://emberjs.com/blog/2016/04/28/baseURL.html)
 - Addon Developers
   + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.6.0...v2.7.0-beta.1)
   + No changes required
