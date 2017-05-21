@@ -120,16 +120,42 @@ describe('EmberApp', function() {
       expect(app.options.trees.vendor.__broccoliGetInfo__()).to.have.property('watched', true);
     });
 
-    describe('_notifyAddonIncluded', function() {
+    describe('Addons included hook', function() {
+      let includedWasCalled;
+      let setupPreprocessorRegistryWasCalled;
+      let addonsAppIncluded, addonsApp;
+      let addon = {
+        name: 'custom-addon',
+        included() {
+          includedWasCalled++;
+          expect(setupPreprocessorRegistryWasCalled).to.eql(1);
+          addonsAppIncluded = this.app;
+        },
+
+        setupPreprocessorRegistry() {
+          expect(includedWasCalled).to.eql(0);
+          setupPreprocessorRegistryWasCalled++;
+          addonsApp = this.app;
+        },
+      };
+
       beforeEach(function() {
+        setupPreprocessorRegistryWasCalled = includedWasCalled = 0;
+        addonsApp = null;
+        addonsAppIncluded = null;
         project.initializeAddons = function() { };
-        project.addons = [{ name: 'custom-addon' }];
+        project.addons = [addon];
       });
 
       it('should set the app on the addons', function() {
+        expect(includedWasCalled).to.eql(0);
         let app = new EmberApp({
           project,
         });
+        expect(includedWasCalled).to.eql(1);
+        expect(setupPreprocessorRegistryWasCalled).to.eql(1);
+        expect(addonsAppIncluded).to.eql(app);
+        expect(addonsApp).to.eql(app);
 
         let addon = project.addons[0];
         expect(addon.app).to.deep.equal(app);
