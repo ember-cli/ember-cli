@@ -2086,7 +2086,7 @@ version:
 - [#4849](https://github.com/ember-cli/ember-cli/pull/4849) cleanup whitespace in the commands [@kellyselden](https://github.com/kellyselden)
 - [#4857](https://github.com/ember-cli/ember-cli/pull/4857) Only exclude node_modules at root [@joliss](https://github.com/joliss)
 - [#4881](https://github.com/ember-cli/ember-cli/pull/4881) add unit tests for blueprint help printing [@kellyselden](https://github.com/kellyselden)
-- [#4913](https://github.com/ember-cli/ember-cli/pull/4913) adding addtional help tests [@kellyselden](https://github.com/kellyselden)
+- [#4913](https://github.com/ember-cli/ember-cli/pull/4913) adding additional help tests [@kellyselden](https://github.com/kellyselden)
 - [#4946](https://github.com/ember-cli/ember-cli/pull/4946) Fix beforeEach/afterEach callbacks with moduleForAcceptance. [@rwjblue](https://github.com/rwjblue)
 - [#4954](https://github.com/ember-cli/ember-cli/pull/4954) Add smoke test for `moduleForAcceptance` [@seanpdoyle](https://github.com/seanpdoyle)
 - [#4970](https://github.com/ember-cli/ember-cli/pull/4970) Upgrade testem to 0.9.8 [@rzurad](https://github.com/rzurad)
@@ -2582,7 +2582,7 @@ version:
 - [#4027](https://github.com/ember-cli/ember-cli/pull/4027) Re-order postBuild hook [@chadhietala](https://github.com/chadhietala)
 - [#4008](https://github.com/ember-cli/ember-cli/pull/4008) Disable leek for `ember -v` [@twokul](https://github.com/twokul)
 - [#4020](https://github.com/ember-cli/ember-cli/pull/4020) Allowed failures [@stefanpenner](https://github.com/stefanpenner)
-- [#4007](https://github.com/ember-cli/ember-cli/pull/4007) Hide Python on appveyor so npm won't build native extentions [@raytiley](https://github.com/raytiley)
+- [#4007](https://github.com/ember-cli/ember-cli/pull/4007) Hide Python on appveyor so npm won't build native extensions [@raytiley](https://github.com/raytiley)
 - [#4022](https://github.com/ember-cli/ember-cli/pull/4022) Run all tests again [@marcioj](https://github.com/marcioj)
 - [#4032](https://github.com/ember-cli/ember-cli/pull/4032) Update ember-cli-qunit to v0.3.2 [@HeroicEric](https://github.com/HeroicEric)
 - [#4037](https://github.com/ember-cli/ember-cli/pull/4037) Add ember-disable-proxy-controllers to app blueprint [@cibernox](https://github.com/cibernox)
@@ -3056,7 +3056,7 @@ The following changes are required if you are upgrading from the previous versio
 - [#3130](https://github.com/ember-cli/ember-cli/pull/3130) [ENHANCEMENT] Tomster looks fabulous without breaking `ember new`[@johnnyshields](https://github.com/johnnyshields)
 - [#3132](https://github.com/ember-cli/ember-cli/pull/3132) [BUGFIX] Update ember-cli-qunit to v0.3.1. Fixes `tests/.jshintrc` being used instead of app `.jshintrc`. [@rwjblue](https://github.com/rwjblue)
 - [#3133](https://github.com/ember-cli/ember-cli/pull/3133) [BUGFIX] Fix analytics being disabled by default. Users can opt out of anylytics with `--disable-analytics` [@stefanpenner](https://github.com/stefanpenner)
-- [#3153](https://github.com/ember-cli/ember-cli/pull/3153) [ENHANCEMENT]  Remove deafult css from `app/styles/app.css` [@mattjmorrison](https://github.com/mattjmorrison)
+- [#3153](https://github.com/ember-cli/ember-cli/pull/3153) [ENHANCEMENT]  Remove default css from `app/styles/app.css` [@mattjmorrison](https://github.com/mattjmorrison)
 - [#3132](https://github.com/ember-cli/ember-cli/pull/3157) [BUGFIX] Ensure `ember test --environment=production` runs JSHint. [@rwjblue](https://github.com/rwjblue)
 
 Thank you to all who took the time to contribute!
@@ -3293,7 +3293,7 @@ Thank you to all who took the time to contribute!
 - [#2668](https://github.com/ember-cli/ember-cli/pull/2668) added the
   `prepend` flag to `app.import` in `Brocfile.js`, allowing to prepend
   a file to the vendor bundle rather than appended which is the
-  default behaviour.
+  default behavior.
 
    ```
    // Brocfile.js
@@ -3781,7 +3781,7 @@ in the output path. [#1930](https://github.com/stefanpenner/ember-cli/pull/1930)
 * [ENHANCEMENT] Remove `.bowerrc` file from application blueprint (will still use directory specified in `.bowerrc`, but uses the default
   of `bower_components/` if no `.bowerrc` exists). [#1679](https://github.com/stefanpenner/ember-cli/pull/1679)
 * [BUGFIX] Fixes support for `.ember-cli` settings file. [#1676](https://github.com/stefanpenner/ember-cli/pull/1676)
-* [BUGFIX] Blueprint: replace multiple occurences of `__name__` with module name. [#1658](https://github.com/stefanpenner/ember-cli/pull/1658)
+* [BUGFIX] Blueprint: replace multiple occurrences of `__name__` with module name. [#1658](https://github.com/stefanpenner/ember-cli/pull/1658)
 * [ENHANCEMENT] Replace internal live-reload middleware with addon. [#1643](https://github.com/stefanpenner/ember-cli/pull/1643)
 * [ENHANCEMENT] Add .travis.yml to app blueprint. [#1636](https://github.com/stefanpenner/ember-cli/pull/1636)
 * [ENHANCEMENT] Allow individual Blueprints to determine if an entity name is required. [#1631](https://github.com/stefanpenner/ember-cli/pull/1631)
@@ -3879,7 +3879,7 @@ in the output path. [#1930](https://github.com/stefanpenner/ember-cli/pull/1930)
 * [BUGFIX] Update `ember-cli-ic-ajax` to prevent warnings. [#1180](https://github.com/stefanpenner/ember-cli/pull/1180)
 * [BUGFIX] Throw error when trailing slash present in argument to `ember generate`. [#1184](https://github.com/stefanpenner/ember-cli/pull/1184)
 * [ENHANCEMENT] Don't expect `Ember` or `Em` to be global in tests. `Ember` or `Em` needs to be imported. [#1201](https://github.com/stefanpenner/ember-cli/pull/1201)
-* [BUGFIX] Make behaviour of `--dry-run` more obvious & add `--skip-npm` and `--skip-bower`. [#1205](https://github.com/stefanpenner/ember-cli/pull/1205)
+* [BUGFIX] Make behavior of `--dry-run` more obvious & add `--skip-npm` and `--skip-bower`. [#1205](https://github.com/stefanpenner/ember-cli/pull/1205)
 * [ENHANCEMENT] Remove .gitkeep files from `ember init` inside an existing project [#1209](https://github.com/stefanpenner/ember-cli/pull/1209)
 * [ENHANCEMENT] Addons can add commands to the local `ember` command. [#1196](https://github.com/stefanpenner/ember-cli/pull/1196)
 * [ENHANCEMENT] Addons can implement a postBuild hook. [#1215](https://github.com/stefanpenner/ember-cli/pull/1215)
@@ -4016,7 +4016,7 @@ in the output path. [#1930](https://github.com/stefanpenner/ember-cli/pull/1930)
 * [ENHANCEMENT] Update to Broccoli 0.12. Prevents double initial rebuilds when running `ember server`. [#648](https://github.com/stefanpenner/ember-cli/pull/648)
 * [BREAKING ENHANCEMENT] The generated `app.js` and `app.css` files are now named for your application name. [#638](https://github.com/stefanpenner/ember-cli/pull/638)
 * [ENHANCEMENT] added first iteration of a slow but thorough acceptance
-  test. A new app is generated, depedencies resolve, and the test for
+  test. A new app is generated, dependencies resolve, and the test for
   that base app are run.  [#614](https://github.com/stefanpenner/ember-cli/pull/614)
 * [ENHANCEMENT] Use handlebars-runtime in production. [#675](https://github.com/stefanpenner/ember-cli/pull/675)
 * [BUGFIX] Do not watch `vendor/` for changes (watching vendor dramatically increases CPU usage). [#693](https://github.com/stefanpenner/ember-cli/pull/693)

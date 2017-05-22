@@ -513,7 +513,7 @@ describe('Unit: CLI', function() {
 
           let options = captor.value;
           expect(options.watch).to.equal(false, 'expected the default watch flag to be false');
-          expect(options.suppressSizes).to.equal(false, 'expected the default supress-sizes flag to be false');
+          expect(options.suppressSizes).to.equal(false, 'expected the default suppress-sizes flag to be false');
         });
       });
 
