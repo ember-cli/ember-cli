@@ -2,10 +2,10 @@
   "framework": "qunit",
   "test_page": "tests/index.html?hidepassed",
   "launch_in_ci": [
-    "PhantomJS"
+    "Firefox"
   ],
   "launch_in_dev": [
-    "PhantomJS",
+    "Firefox",
     "Chrome"
   ]
 }
