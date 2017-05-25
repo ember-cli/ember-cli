@@ -43,9 +43,6 @@ before_install:
   - npm install -g npm phantomjs-prebuilt
   - npm --version
   - phantomjs --version
-
-install:
-  - npm install
 <% } %>
 script:
   # Usually, it's ok to finish the test scenario without reverting
