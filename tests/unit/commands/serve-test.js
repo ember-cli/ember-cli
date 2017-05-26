@@ -8,8 +8,6 @@ const RSVP = require('rsvp');
 const td = require('testdouble');
 const PortFinder = require('portfinder');
 
-PortFinder.basePort = 32768;
-
 const Promise = RSVP.Promise;
 const getPort = RSVP.denodeify(PortFinder.getPort);
 
@@ -42,8 +40,8 @@ describe('serve command', function() {
     ]).then(function() {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
-      expect(captor.value.port).to.be.gte(4000, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
+      expect(captor.value.port).to.be.gte(4200, 'has correct port');
+      expect(captor.value.liveReloadPort).to.be.within(7020, 65535, 'has correct liveReload port');
     });
   });
 
@@ -55,7 +53,7 @@ describe('serve command', function() {
         let captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.port).to.equal(port, 'has correct port');
-        expect(captor.value.liveReloadPort).to.be.within(32768, 65535, 'has correct liveReload port');
+        expect(captor.value.liveReloadPort).to.be.within(7020, 65535, 'has correct liveReload port');
       });
     });
   });
@@ -110,7 +108,7 @@ describe('serve command', function() {
     ]).then(function() {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
-      expect(captor.value.port).to.be.within(32768, 65535, 'has correct liveReloadPort');
+      expect(captor.value.port).to.be.within(7020, 65535, 'has correct port');
       expect(captor.value.liveReloadPort).to.be.gt(captor.value.port, 'has a liveReload port greater than port');
     });
   });
