@@ -181,7 +181,6 @@ module.exports = Task.extend({
 ```
 
 ## Style guide
-- Everything Promise based ( use: lib/ext/promise)
 - Everything async (except require)
 - Short files
 - Tests, tests, tests
