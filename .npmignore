@@ -3,6 +3,8 @@
 /docs
 /tests/!(helpers)
 /tmp
+/.travis
+/.github
 /*.*
 !.travis.yml
 !appveyor.yml
