@@ -1,1 +1,1 @@
-[moved -->](./docs/TRANSITION.md)
+see [./docs/TRANSITION.md](./docs/TRANSITION.md)
