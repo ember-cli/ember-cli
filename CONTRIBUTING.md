@@ -1,1 +1,1 @@
-[see](./docs/CONTRIBUTING.md)
+[see ./docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md)
