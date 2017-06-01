@@ -211,6 +211,8 @@ describe('express-server', function() {
     });
 
     describe('with proxy', function() {
+      this.timeout(10000);
+
       beforeEach(function() {
         return subject.start({
           proxy: 'http://localhost:3001/',
