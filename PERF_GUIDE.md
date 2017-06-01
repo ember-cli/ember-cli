@@ -1,1 +1,1 @@
-[see](./docs/PERF_GUIDE.md)
+see [./docs/PERF_GUIDE.md](./docs/PERF_GUIDE.md)
