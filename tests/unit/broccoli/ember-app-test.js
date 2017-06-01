@@ -108,6 +108,13 @@ describe('EmberApp', function() {
         enabled: true,
         options: {
           exclusions: ['hey', 'you'],
+          compress: {
+            'negate_iife': false,
+            sequences: 30,
+          },
+          output: {
+            semicolons: false,
+          },
         },
       });
     });
