@@ -142,7 +142,7 @@
     "multiline": "^1.0.2",
     "nock": "^9.0.6",
     "supertest": "^3.0.0",
-    "testdouble": "^2.0.1",
+    "testdouble": "^3.0.0",
     "yuidoc-ember-cli-theme": "^1.0.0",
     "yuidocjs": "0.10.2"
   },
