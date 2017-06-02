@@ -209,11 +209,6 @@ This list only contains style decisions not already covered by ESLint (e.g.
 mandatory semicolons and other rules are omitted).
 
 ### Indentation
-#### Aligned require statements
-``` JavaScript
-let RSVP    = require('rsvp');
-let Promise = RSVP.Promise;
-```
 
 #### Multi-line return statement
 ``` JavaScript
