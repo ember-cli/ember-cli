@@ -18,7 +18,8 @@ This information is used to:
 
 ## Still Not comfortable?
 
-We understand! To permanently disable any analytics gathering you can update your project's `.ember-cli` file (or `$HOME/.ember-cli` for user-wide):
+We understand! To permanently disable any analytics gathering you can update
+your project's `.ember-cli` file (or `$HOME/.ember-cli` for user-wide):
 
 ```json
 {
