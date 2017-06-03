@@ -5,13 +5,13 @@
 process.title = 'ember';
 
 // require('time-require');
-var resolve = require('resolve');
-var exit = require('exit');
+const resolve = require('resolve');
+const exit = require('exit');
 
 resolve('ember-cli', {
-  basedir: process.cwd()
-}, function(error, projectLocalCli) {
-  var cli;
+  basedir: process.cwd(),
+}, (error, projectLocalCli) => {
+  let cli;
   if (error) {
     // If there is an error, resolve could not find the ember-cli
     // library from a package.json. Instead, include it from a relative
@@ -28,9 +28,9 @@ resolve('ember-cli', {
     cliArgs: process.argv.slice(2),
     inputStream: process.stdin,
     outputStream: process.stdout,
-    errorStream: process.stderr
-  }).then(function(result) {
-    var exitCode = typeof result === 'object' ? result.exitCode : result;
+    errorStream: process.stderr,
+  }).then(result => {
+    let exitCode = typeof result === 'object' ? result.exitCode : result;
     exit(exitCode);
   });
 });
