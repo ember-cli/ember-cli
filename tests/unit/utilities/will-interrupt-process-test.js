@@ -1,6 +1,6 @@
 'use strict';
 
-let willInterruptProcess;
+let willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
 let captureExit;
 
 let td = require('testdouble');
@@ -37,27 +37,27 @@ class MockProcess extends EventEmitter {
 }
 
 describe('will interrupt process', function() {
-  let cb, originalProcess;
+  let cb;
   beforeEach(function() {
-    willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
-    originalProcess = willInterruptProcess._process;
     captureExit = require('capture-exit');
     cb = td.function();
   });
 
   afterEach(function() {
     willInterruptProcess.teardown();
-    willInterruptProcess._process = originalProcess;
+    willInterruptProcess.free();
   });
 
   describe('capture-exit', function() {
     it('adds exit handler', function() {
+      willInterruptProcess.capture();
       willInterruptProcess.addHandler(cb);
 
       expect(captureExit.listenerCount()).to.equal(1);
     });
 
     it('removes exit handler', function() {
+      willInterruptProcess.capture();
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
@@ -67,6 +67,8 @@ describe('will interrupt process', function() {
     });
 
     it('removes all exit handlers', function() {
+      willInterruptProcess.capture();
+
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
@@ -81,7 +83,7 @@ describe('will interrupt process', function() {
 
     beforeEach(function() {
       process = new MockProcess();
-      willInterruptProcess._process = process;
+      willInterruptProcess.capture(process);
     });
 
     it('sets up interruption signal listeners when the first handler added', function() {
@@ -156,7 +158,7 @@ describe('will interrupt process', function() {
         },
       });
 
-      willInterruptProcess._process = process;
+      willInterruptProcess.capture(process);
       willInterruptProcess.addHandler(cb);
 
       process.stdin.emit('data', [0x03]);
@@ -172,7 +174,7 @@ describe('will interrupt process', function() {
         },
       });
 
-      willInterruptProcess._process = process;
+      willInterruptProcess.capture(process);
       willInterruptProcess.addHandler(cb);
       td.verify(process.stdin.setRawMode(true));
 
@@ -192,6 +194,7 @@ describe('will interrupt process', function() {
         },
       });
 
+      willInterruptProcess.capture(process);
       willInterruptProcess.addHandler(cb);
 
       td.verify(process.stdin.setRawMode(true), {
@@ -208,6 +211,7 @@ describe('will interrupt process', function() {
         platform: 'win',
       });
 
+      willInterruptProcess.capture(process);
       willInterruptProcess.addHandler(cb);
 
       td.verify(process.stdin.setRawMode(true), {
