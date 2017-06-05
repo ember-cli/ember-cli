@@ -16,7 +16,7 @@ function replaceFile(path, findString, replaceString) {
     let file = fs.readFileSync(path, 'utf-8');
     let find = new RegExp(findString);
     let match = new RegExp(replaceString);
-    if (!file.match(match)) {
+    if (!match.test(file)) {
       newFile = file.replace(find, replaceString);
       fs.writeFileSync(path, newFile, 'utf-8');
     }
