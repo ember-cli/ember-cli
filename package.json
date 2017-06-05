@@ -127,7 +127,7 @@
     "broccoli-filter": "^1.2.2",
     "broccoli-plugin": "^1.2.0",
     "broccoli-test-helper": "^1.0.0",
-    "chai": "^3.4.1",
+    "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "chai-files": "^1.2.0",
     "co": "^4.6.0",
