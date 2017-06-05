@@ -7,7 +7,6 @@ const path = require('path');
 const fs = require('fs-extra');
 const EOL = require('os').EOL;
 const RSVP = require('rsvp');
-const assign = require('ember-cli-lodash-subset').assign;
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 
@@ -52,7 +51,7 @@ describe('Unit - FileInfo', function() {
   // eslint-disable-next-line no-template-curly-in-string
   it('does not interpolate {{ }} or ${ }', function() {
     let options = {};
-    assign(options, validOptions, { inputPath: path.resolve(__dirname,
+    Object.assign(options, validOptions, { inputPath: path.resolve(__dirname,
       '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' } });
     let fileInfo = new FileInfo(options);
     return fileInfo.render().then(function(output) {
@@ -75,7 +74,7 @@ describe('Unit - FileInfo', function() {
     let templateWithUndefinedVariable = path.resolve(__dirname,
       '../../fixtures/blueprints/with-templating/files/with-undefined-variable.txt');
     let options = {};
-    assign(options, validOptions, { inputPath: templateWithUndefinedVariable });
+    Object.assign(options, validOptions, { inputPath: templateWithUndefinedVariable });
     let fileInfo = new FileInfo(options);
 
     return fileInfo.render().then(function() {

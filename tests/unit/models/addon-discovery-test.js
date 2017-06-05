@@ -2,7 +2,6 @@
 
 const path = require('path');
 const expect = require('chai').expect;
-const assign = require('ember-cli-lodash-subset').assign;
 const Project = require('../../../lib/models/project');
 const AddonDiscovery = require('../../../lib/models/addon-discovery');
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
@@ -43,14 +42,14 @@ describe('models/addon-discovery.js', function() {
     });
 
     it('returns an object containing dependencies from the provided package.json', function() {
-      let expected = assign({}, deps, devDeps);
+      let expected = Object.assign({}, deps, devDeps);
       let discovery = new AddonDiscovery(ui);
 
       expect(discovery.dependencies(mockPkg)).to.deep.equal(expected);
     });
 
     it('excludes development dependencies if instructed', function() {
-      let expected = assign({}, deps);
+      let expected = Object.assign({}, deps);
       let discovery = new AddonDiscovery(ui);
 
       expect(discovery.dependencies(mockPkg, true)).to.deep.equal(expected);

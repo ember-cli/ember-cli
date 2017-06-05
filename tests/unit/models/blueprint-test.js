@@ -5,7 +5,6 @@ const expect = require('chai').expect;
 const path = require('path');
 const EOL = require('os').EOL;
 const MarkdownColor = require('../../../lib/utilities/markdown-color');
-const assign = require('ember-cli-lodash-subset').assign;
 const td = require('testdouble');
 
 let Blueprint = require('../../../lib/models/blueprint');
@@ -130,7 +129,7 @@ describe('Blueprint', function() {
       });
 
       it('handles overridden', function() {
-        assign(blueprint, {
+        Object.assign(blueprint, {
           overridden: true,
         });
 
@@ -159,7 +158,7 @@ describe('Blueprint', function() {
         td.when(blueprint._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
 
         let availableOptions = [];
-        assign(blueprint, {
+        Object.assign(blueprint, {
           availableOptions,
         });
 
@@ -216,7 +215,7 @@ help in detail`);
           type: function myFunctionType() {},
         }];
 
-        assign(blueprint, {
+        Object.assign(blueprint, {
           test1: 'a test',
           availableOptions,
         });
@@ -249,7 +248,7 @@ help in detail`);
         td.replace(blueprint, 'printDetailedHelp', td.function());
 
         let availableOptions = [];
-        assign(blueprint, {
+        Object.assign(blueprint, {
           availableOptions,
         });
 
