@@ -1,40 +1,12 @@
 'use strict';
 
 let willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+let MockProcess = require('../../helpers/mock-process');
 let captureExit;
 
 let td = require('testdouble');
 let chai = require('../../chai');
 let expect = chai.expect;
-let EventEmitter = require('events');
-
-class MockProcess extends EventEmitter {
-  constructor(options) {
-    super();
-
-    options = options || {};
-
-    const stdin = Object.assign(new EventEmitter(), {
-      isRaw: false,
-      setRawMode: td.function(),
-    }, options.stdin || {});
-
-    const topLevelProps = Object.assign({
-      platform: 'MockOS',
-      exit: td.function(),
-    }, options);
-
-    Object.assign(this, topLevelProps, { stdin });
-  }
-
-  getSignalListenerCounts() {
-    return {
-      SIGINT: this.listenerCount('SIGINT'),
-      SIGTERM: this.listenerCount('SIGTERM'),
-      message: this.listenerCount('message'),
-    };
-  }
-}
 
 describe('will interrupt process', function() {
   let cb;
@@ -50,14 +22,14 @@ describe('will interrupt process', function() {
 
   describe('capture-exit', function() {
     it('adds exit handler', function() {
-      willInterruptProcess.capture();
+      willInterruptProcess.capture(new MockProcess());
       willInterruptProcess.addHandler(cb);
 
       expect(captureExit.listenerCount()).to.equal(1);
     });
 
     it('removes exit handler', function() {
-      willInterruptProcess.capture();
+      willInterruptProcess.capture(new MockProcess());
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
@@ -67,7 +39,7 @@ describe('will interrupt process', function() {
     });
 
     it('removes all exit handlers', function() {
-      willInterruptProcess.capture();
+      willInterruptProcess.capture(new MockProcess());
 
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
