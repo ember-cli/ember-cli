@@ -89,7 +89,7 @@
     "heimdalljs-fs-monitor": "^0.1.0",
     "heimdalljs-graph": "^0.3.1",
     "heimdalljs-logger": "^0.1.7",
-    "http-proxy": "^1.9.0",
+    "http-proxy": "^1.15.1",
     "inflection": "^1.7.0",
     "is-git-url": "^1.0.0",
     "isbinaryfile": "^3.0.0",
