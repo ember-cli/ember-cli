@@ -6,7 +6,7 @@ let paths = glob('tests/*');
 
 paths = paths.concat([
   'lib',
-  'bin',
+  'bin/ember',
   'blueprints',
 ]);
 
