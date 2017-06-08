@@ -16,8 +16,7 @@ describe('will interrupt process', function() {
   });
 
   afterEach(function() {
-    willInterruptProcess.teardown();
-    willInterruptProcess.free();
+    willInterruptProcess.release();
   });
 
   describe('capture-exit', function() {
@@ -44,7 +43,7 @@ describe('will interrupt process', function() {
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
-      willInterruptProcess.teardown();
+      willInterruptProcess.release();
 
       expect(captureExit.listenerCount()).to.equal(0);
     });
@@ -111,7 +110,7 @@ describe('will interrupt process', function() {
       willInterruptProcess.addHandler(function() {});
       willInterruptProcess.addHandler(() => cb);
 
-      willInterruptProcess.teardown();
+      willInterruptProcess.release();
 
       expect(process.getSignalListenerCounts()).to.eql({
         SIGINT: 0,

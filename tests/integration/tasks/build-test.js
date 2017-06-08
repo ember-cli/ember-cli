@@ -38,7 +38,7 @@ describe('build task test', function() {
   });
 
   afterEach(function() {
-    willInterruptProcess.free();
+    willInterruptProcess.release();
     process.chdir(root);
     delete process.env.BROCCOLI_VIZ;
 
