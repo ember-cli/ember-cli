@@ -5,6 +5,7 @@ node_js:
   # so that your addon works for all apps
   - "4"
 
+# feel free to remove this line if your project is newer than 2015
 sudo: false
 <% if (yarn) { %>
 cache:
