@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 'use strict';
 
+// This file is intentionally left compatible with older versions of
+// node for the following scenario:
+// * user runs node 0.12
+// * user is still running an older node 0.12 compatible ember-cli locally
+// * user unintentionally installs ember-cli latest globally
+
 // Provide a title to the process in `ps`
 process.title = 'ember';
 
