@@ -19,6 +19,69 @@ describe('will interrupt process', function() {
     willInterruptProcess.release();
   });
 
+  describe('capture', function() {
+    it('throws if already captured', function() {
+      const mockProcess = new MockProcess();
+
+      willInterruptProcess.capture(mockProcess);
+      try {
+        willInterruptProcess.capture(mockProcess);
+        expect(true).to.equal(false);
+      } catch (e) {
+        expect(e.message).to.equal('process already captured');
+      }
+    });
+
+    it('throws if the process is not an EventEmitter instance', function() {
+      const dissallowedArgs = [null, true, '', [], {}];
+
+      dissallowedArgs.forEach(arg => {
+        try {
+          willInterruptProcess.capture(arg);
+          expect(true).to.equal(false);
+        } catch (e) {
+          expect(e.message).to.equal('attempt to capture bad process instance');
+        }
+      });
+    });
+
+    it('sets process maxListeners count', function() {
+      const mockProcess = new MockProcess();
+
+      willInterruptProcess.capture(mockProcess);
+
+      expect(mockProcess.getMaxListeners()).to.equal(1000);
+    });
+  });
+
+  describe('addHandler', function() {
+    it('throws if process is not captured', function() {
+      try {
+        willInterruptProcess.addHandler(() => {});
+        expect(true).to.equal(false);
+      } catch (e) {
+        expect(e.message).to.equal('process is not captured');
+      }
+
+      const mockProcess = new MockProcess();
+
+      willInterruptProcess.capture(mockProcess);
+      willInterruptProcess.release();
+    });
+
+    it('throws if process is released', function() {
+      willInterruptProcess.capture(new MockProcess());
+      willInterruptProcess.release();
+
+      try {
+        willInterruptProcess.addHandler(() => {});
+        expect(true).to.equal(false);
+      } catch (e) {
+        expect(e.message).to.equal('process is not captured');
+      }
+    });
+  });
+
   describe('capture-exit', function() {
     it('adds exit handler', function() {
       willInterruptProcess.capture(new MockProcess());
