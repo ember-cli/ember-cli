@@ -25,6 +25,7 @@ install:
 cache:
   - '%LOCALAPPDATA%\Yarn'
   - '%APPDATA%\Roaming\bower'
+  - '%APPDATA%\Roaming\npm-cache'
 
 # Post-install test scripts.
 test_script:
