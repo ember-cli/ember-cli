@@ -15,7 +15,7 @@ before_install:
   - phantomjs --version
 
 install:
-  - yarn install
+  - yarn install --non-interactive
 
 script:
   - yarn test<% } else { %>
