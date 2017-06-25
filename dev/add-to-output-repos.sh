@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # so you can run this script from any folder and it will find the tmp dir
 cd "`git rev-parse --show-toplevel`"
 
