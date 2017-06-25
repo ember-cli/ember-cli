@@ -13,6 +13,6 @@ paths = paths.concat([
 ]);
 
 require('mocha-eslint')(paths, {
-  timeout: 5000,
+  timeout: 10000,
   slow: 1000,
 });

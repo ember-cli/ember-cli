@@ -7,6 +7,7 @@ environment:
     - nodejs_version: "4"
     - nodejs_version: "6"
     - nodejs_version: "7"
+    - nodejs_version: "8"
 
 branches:
   only:
@@ -17,7 +18,7 @@ branches:
 # Install scripts. (runs after repo cloning)
 install:
   - ps: Install-Product node $env:nodejs_version
-  - appveyor-retry npm i -g npm@^3
+  - appveyor-retry npm i -g npm@^4
   - appveyor-retry choco install phantomjs
   - appveyor-retry yarn
   - appveyor-retry yarn add mocha-appveyor-reporter # must be installed locally.
