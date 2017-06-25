@@ -1,20 +1,27 @@
 'use strict';
 
 const fs = require('fs-extra');
-const existsSync = require('exists-sync');
 const path = require('path');
 const walkSync = require('walk-sync');
 const stringUtil = require('ember-cli-string-utils');
 const uniq = require('ember-cli-lodash-subset').uniq;
 const SilentError = require('silent-error');
 const sortPackageJson = require('sort-package-json');
+
 let date = new Date();
 
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
-const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
+const FileInfo = require('../../lib/models/file-info');
 
+const replacers = {
+  'package.json'(content) {
+    return this.updatePackgeJson(content);
+  },
+};
+
+const description = 'The default blueprint for ember-cli addons.';
 module.exports = {
-  description: 'The default blueprint for ember-cli addons.',
+  description,
 
   filesToRemove: [
     'tests/dummy/app/styles/.gitkeep',
@@ -25,12 +32,12 @@ module.exports = {
     'testem.json',
   ],
 
-  generatePackageJson() {
-    let contents = this._readContentsFromFile('package.json');
+  updatePackgeJson(content) {
+    let contents = JSON.parse(content);
 
+    contents.name = this.locals(this.options).addonName;
+    contents.description = description;
     delete contents.private;
-    contents.name = '<%= addonName %>';
-    contents.description = this.description;
     contents.scripts = contents.scripts || {};
     contents.keywords = contents.keywords || [];
     contents.dependencies = contents.dependencies || {};
@@ -60,7 +67,26 @@ module.exports = {
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
-    this._writeContentsToFile(sortPackageJson(contents), 'package.json');
+    return JSON.stringify(sortPackageJson(contents), null, 2);
+  },
+
+  buildFileInfo(intoDir, templateVariables, file) {
+    let mappedPath = this.mapFile(file, templateVariables);
+    let options = {
+      action: 'write',
+      outputBasePath: path.normalize(intoDir),
+      outputPath: path.join(intoDir, mappedPath),
+      displayPath: path.normalize(mappedPath),
+      inputPath: this.srcPath(file),
+      templateVariables,
+      ui: this.ui,
+    };
+
+    if (file in replacers) {
+      options.replacer = replacers[file].bind(this);
+    }
+
+    return new FileInfo(options);
   },
 
   afterInstall() {
@@ -98,16 +124,10 @@ module.exports = {
   },
 
   files() {
-    if (this._files) { return this._files; }
-
-    this._appBlueprint = this.lookupBlueprint('app');
-    let appFiles = this._appBlueprint.files();
-
-    this.generatePackageJson();
-
+    let appFiles = this.lookupBlueprint('app').files();
     let addonFiles = walkSync(path.join(this.path, 'files'));
 
-    return this._files = uniq(appFiles.concat(addonFiles));
+    return uniq(appFiles.concat(addonFiles));
   },
 
   mapFile() {
@@ -137,15 +157,6 @@ module.exports = {
     return path;
   },
 
-  srcPath(file) {
-    let filePath = path.resolve(this.path, 'files', file);
-    if (existsSync(filePath)) {
-      return filePath;
-    } else {
-      return path.resolve(this._appBlueprint.path, 'files', file);
-    }
-  },
-
   normalizeEntityName(entityName) {
     entityName = normalizeEntityName(entityName);
 
@@ -156,21 +167,9 @@ module.exports = {
     return entityName;
   },
 
-  _readContentsFromFile(fileName) {
-    let packagePath = path.join(this._appBlueprint.path, 'files', fileName);
-    return this._readJsonSync(packagePath);
-  },
-
-  _writeContentsToFile(contents, fileName) {
-    let packagePath = path.join(this.path, 'files', fileName);
-    this._writeFileSync(packagePath, stringifyAndNormalize(contents));
-  },
-
-  _readJsonSync(path) {
-    return fs.readJsonSync(path);
-  },
-
-  _writeFileSync(path, content) {
-    fs.writeFileSync(path, content);
+  srcPath(file) {
+    let path = `${this.path}/files/${file}`;
+    let superPath = `${this.lookupBlueprint('app').path}/files/${file}`;
+    return fs.existsSync(path) ? path : superPath;
   },
 };

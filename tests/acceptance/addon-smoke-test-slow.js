@@ -148,7 +148,11 @@ function npmPack() {
 function tar() {
   return new Promise((resolve, reject) => {
     let output;
-    let tar = spawn('tar', ['-tf', `${addonName}-0.0.0.tgz`]);
+    let fileName = `${addonName}-0.0.0.tgz`;
+    if (fs.existsSync(fileName) === false) {
+      throw new Error(`unknown file: '${path.resolve(fileName)}'`);
+    }
+    let tar = spawn('tar', ['-tf', fileName]);
     tar.on('error', reject);
     tar.stdout.on('data', data => (output = data.toString()));
     tar.on('close', () => resolve(output));
