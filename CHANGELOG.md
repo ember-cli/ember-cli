@@ -85,6 +85,28 @@ version:
 Thank you to all who took the time to contribute!
 
 
+### 2.13.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.13.2...v2.13.3)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.13.2...v2.13.3)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7076](https://github.com/ember-cli/ember-cli/pull/7076) node 8 [@stefanpenner](https://github.com/stefanpenner)
+- [#7077](https://github.com/ember-cli/ember-cli/pull/7077) Add reasonable `uglify-js` options. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ### 2.13.2
 
 The following changes are required if you are upgrading from the previous
