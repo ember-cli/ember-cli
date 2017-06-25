@@ -131,6 +131,8 @@ git merge vX.Y.0-beta.N
     * run `./dev/changelog`
   * if this is a beta
     * run `./dev/changelog beta`
+  * if this is a release
+    * run `./dev/changelog release`
 * prepend changelog output to `CHANGELOG.md`
 * edit changelog output to be as user-friendly as possible (drop [INTERNAL] changes, non-code changes, etc.)
 * replace any "ember-cli" user references in the changelog to whomever made the change
