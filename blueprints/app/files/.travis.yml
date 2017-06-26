@@ -27,4 +27,4 @@ cache:
     - $HOME/.npm
 
 before_install:
-  - npm config set spin false
+  - npm config set spin false<% } %>
