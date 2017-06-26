@@ -90,7 +90,6 @@ We love pull requests. Here's a quick guide:
 
    * node (latest LTS recommended) -- *do not install node using sudo*
    * npm (3.x)
-   * phantomjs
 
 3. Run the tests. We only take pull requests with passing tests, and it's great
    to know that you have a clean slate: `npm install && npm run test-all`.
