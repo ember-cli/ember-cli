@@ -816,6 +816,13 @@ chai-as-promised@^6.0.0:
   dependencies:
     check-error "^1.0.2"
 
+chai-as-promised@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/chai-as-promised/-/chai-as-promised-7.0.0.tgz#c87ee613eaa196766393da6fbb4052f112acf675"
+  dependencies:
+    check-error "^1.0.2"
+    eslint "^3.19.0"
+
 chai-files@^1.0.0, chai-files@^1.1.0, chai-files@^1.2.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/chai-files/-/chai-files-1.4.0.tgz#0e25610fadc551b1eae79c2f4ee79faf2f842296"
@@ -1578,7 +1585,7 @@ eslint-plugin-mocha@^4.8.0:
   dependencies:
     ramda "^0.23.0"
 
-eslint@^3.0.0:
+eslint@^3.0.0, eslint@^3.19.0:
   version "3.19.0"
   resolved "https://registry.npmjs.org/eslint/-/eslint-3.19.0.tgz#c8fc6201c7f40dd08941b87c085767386a679acc"
   dependencies:
