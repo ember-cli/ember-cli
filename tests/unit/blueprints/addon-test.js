@@ -60,7 +60,7 @@ describe('blueprint - addon', function() {
 
     describe('generatePackageJson', function() {
       it('works', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({}));
+        let output = blueprint.updatePackageJson(JSON.stringify({}));
         // string to test ordering
         expect(output).to.equal('\
 {\n\
@@ -83,25 +83,25 @@ describe('blueprint - addon', function() {
       });
 
       it('removes the `private` property', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({}));
+        let output = blueprint.updatePackageJson(JSON.stringify({}));
 
         expect(JSON.parse(output).private).to.be.undefined;
       });
 
       it('overwrites `name`', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({ name: 'OMG' }));
+        let output = blueprint.updatePackageJson(JSON.stringify({ name: 'OMG' }));
         expect(JSON.parse(output).name).to.eql('my-cool-addon');
       });
 
       it('overwrites `description`', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({ description: 'OMG' }));
+        let output = blueprint.updatePackageJson(JSON.stringify({ description: 'OMG' }));
         let json = JSON.parse(output);
 
         expect(json.description).to.equal('The default blueprint for ember-cli addons.');
       });
 
       it('moves `ember-cli-babel` from devDependencies to dependencies', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({
+        let output = blueprint.updatePackageJson(JSON.stringify({
           devDependencies: {
             'ember-cli-babel': '1.0.0',
           },
@@ -115,7 +115,7 @@ describe('blueprint - addon', function() {
       });
 
       it('does not push multiple `ember-addon` keywords', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({
+        let output = blueprint.updatePackageJson(JSON.stringify({
           keywords: ['ember-addon'],
         }));
         let json = JSON.parse(output);
@@ -123,7 +123,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites any version of `ember-disable-prototype-extensions`', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({
+        let output = blueprint.updatePackageJson(JSON.stringify({
           devDependencies: {
             'ember-disable-prototype-extensions': '0.0.1',
           },
@@ -134,7 +134,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `scripts.test`', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({
+        let output = blueprint.updatePackageJson(JSON.stringify({
           scripts: {
             test: 'test-string',
           },
@@ -145,7 +145,7 @@ describe('blueprint - addon', function() {
       });
 
       it('overwrites `ember-addon.configPath`', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({
+        let output = blueprint.updatePackageJson(JSON.stringify({
           'ember-addon': {
             configPath: 'test-path',
           },
@@ -156,7 +156,7 @@ describe('blueprint - addon', function() {
       });
 
       it('preserves dependency ordering', function() {
-        let output = blueprint.updatePackgeJson(JSON.stringify({
+        let output = blueprint.updatePackageJson(JSON.stringify({
           dependencies: {
             b: '1',
             a: '1',

@@ -15,7 +15,7 @@ const FileInfo = require('../../lib/models/file-info');
 
 const replacers = {
   'package.json'(content) {
-    return this.updatePackgeJson(content);
+    return this.updatePackageJson(content);
   },
 };
 
@@ -32,7 +32,7 @@ module.exports = {
     'testem.json',
   ],
 
-  updatePackgeJson(content) {
+  updatePackageJson(content) {
     let contents = JSON.parse(content);
 
     contents.name = this.locals(this.options).addonName;
