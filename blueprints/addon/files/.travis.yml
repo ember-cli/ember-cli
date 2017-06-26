@@ -6,6 +6,9 @@ node_js:
   - "4"
 
 sudo: false
+
+addons:
+  firefox: latest
 <% if (yarn) { %>
 cache:
   yarn: true
@@ -28,21 +31,20 @@ matrix:
   fast_finish: true
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
-<% if (yarn) { %>
+
 before_install:
+  # Firefox virtual display setup
+  - export DISPLAY=:99
+  - sh -e /etc/init.d/xvfb start
+<% if (yarn) { %>
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add phantomjs-prebuilt
-  - phantomjs --version
 
 install:
   - yarn install --no-lockfile
 <% } else { %>
-before_install:
   - npm config set spin false
-  - npm install -g npm phantomjs-prebuilt
   - npm --version
-  - phantomjs --version
 <% } %>
 script:
   # Usually, it's ok to finish the test scenario without reverting
