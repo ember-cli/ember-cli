@@ -10,7 +10,6 @@ dist: trusty
 
 addons:
   chrome: stable
-
 <% if (yarn) { %>
 cache:
   yarn: true
@@ -33,15 +32,15 @@ matrix:
   fast_finish: true
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
-<% if (yarn) { %>
+
 before_install:
+<% if (yarn) { %>
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
   - yarn install --no-lockfile
 <% } else { %>
-before_install:
   - npm config set spin false
   - npm --version
 <% } %>
