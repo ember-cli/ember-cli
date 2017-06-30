@@ -1,4 +1,4 @@
-# <%= name %>
+# foo
 
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
@@ -8,16 +8,15 @@ A short introduction of this app could easily go here.
 You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/)<% if (yarn) { %>
-* [Yarn](https://yarnpkg.com/)<% } else { %> (with NPM)<% } %>
+* [Node.js](https://nodejs.org/) (with NPM)
 * [Ember CLI](https://ember-cli.com/)
 * [Google Chrome](https://google.com/chrome/)
 
 ## Installation
 
 * `git clone <repository-url>` this repository
-* `cd <%= name %>`
-* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> install`
+* `cd foo`
+* `npm install`
 
 ## Running / Development
 

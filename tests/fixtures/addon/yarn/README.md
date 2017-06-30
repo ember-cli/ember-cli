@@ -1,12 +1,12 @@
-# <%= addonName %>
+# foo
 
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
 
 * `git clone <repository-url>` this repository
-* `cd <%= addonName %>`
-* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> install`
+* `cd foo`
+* `yarn install`
 
 ## Running
 
@@ -15,7 +15,7 @@ This README outlines the details of collaborating on this Ember addon.
 
 ## Running Tests
 
-* `<% if (yarn) { %>yarn<% } else { %>npm<% } %> test` (Runs `ember try:each` to test your addon against multiple Ember versions)
+* `yarn test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
 
