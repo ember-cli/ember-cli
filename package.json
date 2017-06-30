@@ -64,7 +64,6 @@
     "dag-map": "^2.0.2",
     "diff": "^3.2.0",
     "ember-cli-broccoli-sane-watcher": "^2.0.4",
-    "ember-cli-get-component-path-option": "^1.0.0",
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-legacy-blueprints": "^0.1.2",
     "ember-cli-lodash-subset": "^1.0.11",
@@ -73,7 +72,6 @@
     "ember-cli-string-utils": "^1.0.0",
     "ember-try": "^0.2.14",
     "ensure-posix-path": "^1.0.2",
-    "escape-string-regexp": "^1.0.3",
     "execa": "^0.7.0",
     "exists-sync": "0.0.4",
     "exit": "^0.1.2",
@@ -124,8 +122,6 @@
     "yam": "0.0.22"
   },
   "devDependencies": {
-    "broccoli-filter": "^1.2.2",
-    "broccoli-plugin": "^1.2.0",
     "broccoli-test-helper": "^1.0.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^7.0.0",
@@ -139,7 +135,6 @@
     "istanbul": "^0.4.2",
     "mocha": "^3.0.0",
     "mocha-eslint": "^3.0.1",
-    "multiline": "^1.0.2",
     "nock": "^9.0.6",
     "supertest": "^3.0.0",
     "testdouble": "^3.0.0",
