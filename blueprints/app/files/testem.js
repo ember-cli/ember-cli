@@ -8,8 +8,8 @@ module.exports = {
   launch_in_dev: [
     'Chrome'
   ],
-  'browser_args': {
-    'Chrome': [
+  browser_args: {
+    Chrome: [
       '--disable-gpu',
       '--headless',
       '--remote-debugging-port=9222',
