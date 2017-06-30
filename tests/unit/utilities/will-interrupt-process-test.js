@@ -160,14 +160,41 @@ describe('will interrupt process', function() {
           isTTY: true,
           on: td.function(),
           setRawMode: td.function(),
+          removeListener: td.function(),
         },
       });
 
       let windowsCtrlCTrap = td.matchers.isA(Function);
 
       willInterruptProcess.addHandler(cb);
-      td.verify(process.stdin.setRawMode(true));
       td.verify(process.stdin.on('data', windowsCtrlCTrap));
+    });
+
+    it('adds and reverts rawMode on Windows', function() {
+      Object.defineProperty(process, 'platform', {
+        value: 'win',
+      });
+
+      Object.defineProperty(process, 'stdin', {
+        value: {
+          isRaw: false,
+          isTTY: true,
+          on: td.function(),
+          setRawMode: td.function(),
+          removeListener: td.function(),
+        },
+      });
+
+      willInterruptProcess.addHandler(cb);
+      td.verify(process.stdin.setRawMode(true));
+
+      willInterruptProcess.removeHandler(cb);
+      td.verify(process.stdin.setRawMode(false));
+
+      td.verify(process.stdin.setRawMode(), {
+        ignoreExtraArgs: true,
+        times: 2,
+      });
     });
 
     it('does not enable raw capture on non-Windows', function() {
@@ -180,6 +207,7 @@ describe('will interrupt process', function() {
           isTTY: true,
           on: td.function(),
           setRawMode: td.function(),
+          removeListener: td.function(),
         },
       });
 
@@ -196,5 +224,4 @@ describe('will interrupt process', function() {
       });
     });
   });
-
 });
