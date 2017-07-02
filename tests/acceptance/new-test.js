@@ -363,4 +363,76 @@ describe('Acceptance: ember new', function() {
     expect(file('app/templates/application.hbs'))
       .to.contain("Welcome to Ember");
   }));
+
+  describe('verify fictures', function() {
+    it('app + npm', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+      ]);
+
+      [
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/app/npm', filePath)));
+      });
+    }));
+
+    it('app + yarn', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--yarn',
+      ]);
+
+      [
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/app/yarn', filePath)));
+      });
+    }));
+
+    it('addon + npm', co.wrap(function *() {
+      yield ember([
+        'addon',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+      ]);
+
+      [
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/addon/npm', filePath)));
+      });
+    }));
+
+    it('addon + yarn', co.wrap(function *() {
+      yield ember([
+        'addon',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--yarn',
+      ]);
+
+      [
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/addon/yarn', filePath)));
+      });
+    }));
+  });
 });
