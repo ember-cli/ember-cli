@@ -41,6 +41,7 @@ install:
   - yarn install --no-lockfile
 <% } else { %>
   - npm config set spin false
+  - npm install -g npm@4
   - npm --version
 <% } %>
 script:
