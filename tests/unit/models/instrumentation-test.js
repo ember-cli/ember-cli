@@ -8,21 +8,19 @@ const fs = require('fs');
 const path = require('path');
 const fse = require('fs-extra');
 const MockUI = require('console-ui/mock');
-const chalk = require('chalk');
 const RSVP = require('rsvp');
-const EOL = require('os').EOL;
 
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
-let expect = chai.expect;
-let any = td.matchers.anything;
-let contains = td.matchers.contains;
+const expect = chai.expect;
+const any = td.matchers.anything;
+const contains = td.matchers.contains;
 
-let remove = RSVP.denodeify(fse.remove);
-let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
+const remove = RSVP.denodeify(fse.remove);
+const root = process.cwd();
+const tmproot = path.join(root, 'tmp');
 
 let instrumentation;
 
@@ -351,12 +349,10 @@ describe('models/instrumentation.js', function() {
     let instrumentation;
     let heimdall;
     let addon;
-    let ui;
 
     beforeEach(function() {
       project = new MockProject();
       instrumentation = project._instrumentation;
-      ui = instrumentation.ui;
       heimdall = instrumentation._heimdall = new Heimdall();
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
@@ -383,9 +379,7 @@ describe('models/instrumentation.js', function() {
       heimdall.start('a ruckus');
 
       expect(() => instrumentation.stopAndReport('init'))
-        .to.not.throw();
-
-      expect(ui.output).to.eql(`${chalk.red('Error reporting instrumentation \'init\'.')}${EOL}`);
+       .to.not.throw();
 
       instrumentation.start('init');
       heimdall.start('trouble');
