@@ -33,7 +33,7 @@ before_install:
   - phantomjs --version
 
 install:
-  - yarn install --no-lockfile
+  - yarn install --no-lockfile --non-interactive
 <% } else { %>
 before_install:
   - npm config set spin false
