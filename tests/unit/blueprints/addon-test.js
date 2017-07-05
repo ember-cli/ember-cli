@@ -74,7 +74,7 @@ describe('blueprint - addon', function() {
   },\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
-    "ember-disable-prototype-extensions": "^1.1.0"\n\
+    "ember-disable-prototype-extensions": "^1.1.2"\n\
   },\n\
   "ember-addon": {\n\
     "configPath": "tests/dummy/config"\n\
@@ -125,12 +125,17 @@ describe('blueprint - addon', function() {
       it('overwrites any version of `ember-disable-prototype-extensions`', function() {
         let output = blueprint.updatePackageJson(JSON.stringify({
           devDependencies: {
-            'ember-disable-prototype-extensions': '0.0.1',
+            'ember-disable-prototype-extensions': '1.1.2',
           },
         }));
 
-        let json = JSON.parse(output);
-        expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.0');
+        let captor = td.matchers.captor();
+
+        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
+        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
+
+        let json = JSON.parse(captor.value);
+        expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.2');
       });
 
       it('overwrites `scripts.test`', function() {

@@ -21,7 +21,7 @@ before_install:<% if (yarn) { %>
   - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
-  - yarn install
+  - yarn install --non-interactive
 
 script:
   - yarn test<% } else { %>
