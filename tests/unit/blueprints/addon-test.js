@@ -129,12 +129,7 @@ describe('blueprint - addon', function() {
           },
         }));
 
-        let captor = td.matchers.captor();
-
-        td.verify(readJsonSync(path.normalize('test-app-blueprint-path/files/package.json')));
-        td.verify(writeFileSync(path.normalize('test-blueprint-path/files/package.json'), captor.capture()));
-
-        let json = JSON.parse(captor.value);
+        let json = JSON.parse(output);
         expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.2');
       });
 
