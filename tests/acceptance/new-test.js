@@ -365,16 +365,18 @@ describe('Acceptance: ember new', function() {
   }));
 
   describe('verify fictures', function() {
-    it('app + npm', co.wrap(function *() {
+    it('app + npm + !welcome', co.wrap(function *() {
       yield ember([
         'new',
         'foo',
         '--skip-npm',
         '--skip-bower',
         '--skip-git',
+        '--no-welcome',
       ]);
 
       [
+        'app/templates/application.hbs',
         '.travis.yml',
       ].forEach(filePath => {
         expect(file(filePath))
@@ -382,7 +384,7 @@ describe('Acceptance: ember new', function() {
       });
     }));
 
-    it('app + yarn', co.wrap(function *() {
+    it('app + yarn + welcome', co.wrap(function *() {
       yield ember([
         'new',
         'foo',
@@ -393,6 +395,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       [
+        'app/templates/application.hbs',
         '.travis.yml',
       ].forEach(filePath => {
         expect(file(filePath))
@@ -400,7 +403,7 @@ describe('Acceptance: ember new', function() {
       });
     }));
 
-    it('addon + npm', co.wrap(function *() {
+    it('addon + npm + !welcome', co.wrap(function *() {
       yield ember([
         'addon',
         'foo',
@@ -410,6 +413,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       [
+        'tests/dummy/app/templates/application.hbs',
         '.travis.yml',
       ].forEach(filePath => {
         expect(file(filePath))
@@ -417,7 +421,7 @@ describe('Acceptance: ember new', function() {
       });
     }));
 
-    it('addon + yarn', co.wrap(function *() {
+    it('addon + yarn + welcome', co.wrap(function *() {
       yield ember([
         'addon',
         'foo',
@@ -425,9 +429,11 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
         '--skip-git',
         '--yarn',
+        '--welcome',
       ]);
 
       [
+        'tests/dummy/app/templates/application.hbs',
         '.travis.yml',
       ].forEach(filePath => {
         expect(file(filePath))
