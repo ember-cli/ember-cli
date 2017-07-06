@@ -378,6 +378,7 @@ describe('Acceptance: ember new', function() {
       [
         'app/templates/application.hbs',
         '.travis.yml',
+        'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
           .to.equal(file(path.join(__dirname, '../fixtures/app/npm', filePath)));
@@ -397,6 +398,7 @@ describe('Acceptance: ember new', function() {
       [
         'app/templates/application.hbs',
         '.travis.yml',
+        'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
           .to.equal(file(path.join(__dirname, '../fixtures/app/yarn', filePath)));
@@ -415,6 +417,7 @@ describe('Acceptance: ember new', function() {
       [
         'tests/dummy/app/templates/application.hbs',
         '.travis.yml',
+        'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
           .to.equal(file(path.join(__dirname, '../fixtures/addon/npm', filePath)));
@@ -435,6 +438,7 @@ describe('Acceptance: ember new', function() {
       [
         'tests/dummy/app/templates/application.hbs',
         '.travis.yml',
+        'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
           .to.equal(file(path.join(__dirname, '../fixtures/addon/yarn', filePath)));
