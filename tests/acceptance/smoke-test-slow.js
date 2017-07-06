@@ -293,7 +293,7 @@ describe('Acceptance: smoke-test', function() {
     });
 
     let dirPath = path.join(appRoot, 'tmp');
-    let dir = fs.readdirSync(dirPath);
+    let dir = fs.readdirSync(dirPath).filter(file => file !== '.metadata_never_index');
 
     expect(result.code, 'should be zero exit code').to.equal(0);
     expect(dir.length, '/tmp should be empty').to.equal(0);
@@ -310,7 +310,7 @@ describe('Acceptance: smoke-test', function() {
     })).to.be.rejected;
 
     let dirPath = path.join(appRoot, 'tmp');
-    let dir = fs.readdirSync(dirPath);
+    let dir = fs.readdirSync(dirPath).filter(file => file !== '.metadata_never_index');
 
     expect(result.code, 'should be error exit code').to.not.equal(0);
     expect(dir.length, '/tmp should be empty').to.equal(0);
