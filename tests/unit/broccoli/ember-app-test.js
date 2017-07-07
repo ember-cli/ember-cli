@@ -1064,23 +1064,6 @@ describe('EmberApp', function() {
       expect(project.ui.output).to.not.contain('EmberApp.concatFiles() is deprecated');
     });
 
-    describe('podTemplates', function() {
-      it('works', function() {
-        let app = new EmberApp({
-          project,
-        });
-
-        let wasCalledCount = 0;
-        app.podTemplates = function() {
-          wasCalledCount++;
-        };
-
-        expect(wasCalledCount).to.eql(0);
-        app._templatesTree();
-        expect(wasCalledCount).to.eql(1);
-      });
-    });
-
     describe('concat order', function() {
       let count = 0;
       let args = [];
