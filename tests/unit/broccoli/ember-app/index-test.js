@@ -151,5 +151,22 @@ describe('EmberApp.index()', function() {
         'index.html': 'src',
       });
     }));
+
+    it('works without an `app` directory', co.wrap(function *() {
+      input.write({
+        'src': {
+          'ui': {
+            'index.html': 'src',
+          },
+        },
+        'config': {},
+      });
+
+      let app = createApp();
+      let output = yield buildOutput(app.index());
+      expect(output.read()).to.deep.equal({
+        'index.html': 'src',
+      });
+    }));
   }
 });
