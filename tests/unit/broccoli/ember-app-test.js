@@ -632,10 +632,12 @@ describe('EmberApp', function() {
       });
 
       it('calls each addon postprocessTree hook', function() {
+        app.index = td.function();
         app._processedTemplatesTree = td.function();
 
         td.when(app._processedTemplatesTree(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
+        td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
 
         expect(app.toTree()).to.equal('blap');
 
