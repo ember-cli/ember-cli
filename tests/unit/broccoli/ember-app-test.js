@@ -632,10 +632,12 @@ describe('EmberApp', function() {
       });
 
       it('calls each addon postprocessTree hook', function() {
+        app.index = td.function();
         app._processedTemplatesTree = td.function();
 
         td.when(app._processedTemplatesTree(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
+        td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
 
         expect(app.toTree()).to.equal('blap');
 
@@ -1060,23 +1062,6 @@ describe('EmberApp', function() {
       });
 
       expect(project.ui.output).to.not.contain('EmberApp.concatFiles() is deprecated');
-    });
-
-    describe('podTemplates', function() {
-      it('works', function() {
-        let app = new EmberApp({
-          project,
-        });
-
-        let wasCalledCount = 0;
-        app.podTemplates = function() {
-          wasCalledCount++;
-        };
-
-        expect(wasCalledCount).to.eql(0);
-        app._templatesTree();
-        expect(wasCalledCount).to.eql(1);
-      });
     });
 
     describe('concat order', function() {
