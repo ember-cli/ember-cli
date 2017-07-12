@@ -379,7 +379,7 @@ describe('models/instrumentation.js', function() {
       heimdall.start('a ruckus');
 
       expect(() => instrumentation.stopAndReport('init'))
-       .to.not.throw();
+        .to.not.throw();
 
       instrumentation.start('init');
       heimdall.start('trouble');

@@ -77,7 +77,7 @@ describe('Unit: CLI', function() {
     commands = { };
     isWithinProject = true;
     project = {
-      isEmberCLIProject() {  // similate being inside or outside of a project
+      isEmberCLIProject() { // similate being inside or outside of a project
         return isWithinProject;
       },
       hasDependencies() {
@@ -112,7 +112,7 @@ describe('Unit: CLI', function() {
     });
   });
 
-/*
+  /*
   it('logError', function() {
     var cli = new CLI({
       ui: ui,
@@ -123,7 +123,7 @@ describe('Unit: CLI', function() {
     var expected = {exitCode: 1, ui: ui, error: error};
     expect(cli.logError(error)).to.eql(expected, 'expected error object');
   });
-*/
+  */
 
   it('callHelp', function() {
     let cli = new CLI({
@@ -140,7 +140,7 @@ describe('Unit: CLI', function() {
         cliArgs: [],
         settings: {},
         project: {
-          isEmberCLIProject() {  // similate being inside or outside of a project
+          isEmberCLIProject() { // similate being inside or outside of a project
             return isWithinProject;
           },
           hasDependencies() {
