@@ -134,7 +134,7 @@
     "github": "^9.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^3.0.0",
-    "mocha-eslint": "^3.0.1",
+    "mocha-eslint": "^4.0.0",
     "multiline": "^1.0.2",
     "nock": "^9.0.6",
     "supertest": "^3.0.0",

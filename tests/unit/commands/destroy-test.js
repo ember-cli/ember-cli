@@ -46,18 +46,18 @@ describe('destroy command', function() {
   it('complains if no entity name is given', function() {
     return expect(command.validateAndRun(['controller'])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
-          'The `ember destroy` command requires an ' +
-          'entity name to be specified. ' +
-          'For more details, use `ember help`.');
+        'The `ember destroy` command requires an ' +
+        'entity name to be specified. ' +
+        'For more details, use `ember help`.');
     });
   });
 
   it('complains if no blueprint name is given', function() {
     return expect(command.validateAndRun([])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
-          'The `ember destroy` command requires a ' +
-          'blueprint name to be specified. ' +
-          'For more details, use `ember help`.');
+        'The `ember destroy` command requires a ' +
+        'blueprint name to be specified. ' +
+        'For more details, use `ember help`.');
     });
   });
 
