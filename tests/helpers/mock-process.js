@@ -10,9 +10,13 @@ module.exports = class FakeProcess extends EventEmitter {
     options = options || {};
 
     const stdin = Object.assign(new EventEmitter(), {
-      isRaw: false,
+      isRaw: process.stdin.isRaw,
       setRawMode: td.function(),
     }, options.stdin || {});
+
+    td.when(stdin.setRawMode(td.matchers.anything())).thenDo(function(flag) {
+      this.isRaw = flag;
+    });
 
     const topLevelProps = Object.assign({
       platform: 'MockOS',

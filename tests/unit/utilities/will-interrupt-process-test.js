@@ -204,21 +204,18 @@ describe('will interrupt process', function() {
       const process = new MockProcess({
         platform: 'win',
         stdin: {
+          isRaw: false,
           isTTY: true,
         },
       });
 
       willInterruptProcess.capture(process);
+
       willInterruptProcess.addHandler(cb);
-      td.verify(process.stdin.setRawMode(true));
+      expect(process.stdin.isRaw).to.equal(true);
 
       willInterruptProcess.removeHandler(cb);
-      td.verify(process.stdin.setRawMode(false));
-
-      td.verify(process.stdin.setRawMode(), {
-        ignoreExtraArgs: true,
-        times: 2,
-      });
+      expect(process.stdin.isRaw).to.equal(false);
     });
 
     it('does not enable raw capture when not a Windows', function() {
