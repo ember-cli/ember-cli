@@ -6,6 +6,7 @@ const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
 const Command = require('../../../lib/models/command');
 const Promise = require('rsvp').Promise;
+const SilentError = require('silent-error');
 
 let ui;
 let analytics;
@@ -65,10 +66,16 @@ function stubRun(name) {
 }
 
 describe('Unit: CLI', function() {
+  let teardownHandler;
   beforeEach(function() {
+    teardownHandler = td.function();
+    let teardown = td.function();
+    let addHandler = td.function();
+    td.when(addHandler(td.matchers.isA(Function))).thenReturn(teardownHandler);
+
     willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
+      addHandler,
+      teardown,
     });
 
     CLI = require('../../../lib/cli/cli');
@@ -228,6 +235,29 @@ describe('Unit: CLI', function() {
     });
   });
 
+  describe('command crash', function() {
+    const error = new SilentError('OMG');
+    it('correctly cleansup', function() {
+      let CustomCommand = Command.extend({
+        name: 'custom',
+
+        run() {
+          throw error;
+        },
+      });
+
+      project.eachAddonCommand = function(callback) {
+        callback('custom-addon', {
+          custom: CustomCommand,
+        });
+      };
+
+      return expect(ember(['custom'])).to.be.rejectedWith(error).then(() => {
+        td.verify(teardownHandler());
+      });
+    });
+  });
+
   describe('command interruption handler', function() {
     let onCommandInterrupt;
     beforeEach(function() {
@@ -255,14 +285,17 @@ describe('Unit: CLI', function() {
         });
       };
 
-      return ember(['custom']);
+      return ember(['custom']).finally(function() {
+        td.verify(teardownHandler());
+      });
     });
 
     it('cleans up handler after command finished', function() {
       stubValidateAndRun('serve');
 
       return ember(['serve']).finally(function() {
-        td.verify(willInterruptProcess.removeHandler(onCommandInterrupt));
+        td.verify(teardownHandler());
+        td.verify(willInterruptProcess.teardown());
       });
     });
   });
@@ -711,8 +744,8 @@ describe('Unit: CLI', function() {
           return expect(verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
-            expect(error.name).to.equal('SilentError');
             expect(error.message).to.equal('The specified command fake-command is invalid. For available options, see `ember help`.');
+            expect(error.name).to.equal('SilentError');
           });
         });
 

@@ -36,9 +36,11 @@ describe('models/builder.js', function() {
   }
 
   before(function() {
+    let addHandler = td.function();
+    let teardownHandler = td.function();
+    td.when(addHandler(td.matchers.isA(Function))).thenReturn(teardownHandler);
     td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
+      addHandler,
     });
 
     Builder = require('../../../lib/models/builder');
