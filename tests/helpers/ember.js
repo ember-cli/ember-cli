@@ -3,6 +3,7 @@
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('./mock-analytics');
 const cli = require('../../lib/cli');
+const MockProcess = require('./mock-process');
 const path = require('path');
 
 /*
@@ -65,6 +66,7 @@ module.exports = function ember(args, options) {
   }
 
   cliInstance = cli({
+    process: new MockProcess(),
     inputStream,
     outputStream,
     errorLog,
