@@ -200,10 +200,8 @@ describe('test command', function() {
       });
     });
 
-    it('throws an error if using a build path', function() {
-      return expect(command.validateAndRun(['--server', '--path=tests'])).to.be.rejected.then(error => {
-        expect(error.message).to.equal('Specifying a build is not allowed with the `--server` option.');
-      });
+    it('DOES NOT throw an error if using a build path', function() {
+      return expect(command.validateAndRun(['--server', '--path=tests']));
     });
   });
 
