@@ -363,4 +363,82 @@ describe('Acceptance: ember new', function() {
     expect(file('app/templates/application.hbs'))
       .to.contain("Welcome to Ember");
   }));
+
+  describe('verify fictures', function() {
+    it('app + npm + !welcome', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--no-welcome',
+      ]);
+
+      [
+        'app/templates/application.hbs',
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/app/npm', filePath)));
+      });
+    }));
+
+    it('app + yarn + welcome', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--yarn',
+      ]);
+
+      [
+        'app/templates/application.hbs',
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/app/yarn', filePath)));
+      });
+    }));
+
+    it('addon + npm + !welcome', co.wrap(function *() {
+      yield ember([
+        'addon',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+      ]);
+
+      [
+        'tests/dummy/app/templates/application.hbs',
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/addon/npm', filePath)));
+      });
+    }));
+
+    it('addon + yarn + welcome', co.wrap(function *() {
+      yield ember([
+        'addon',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--yarn',
+        '--welcome',
+      ]);
+
+      [
+        'tests/dummy/app/templates/application.hbs',
+        '.travis.yml',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures/addon/yarn', filePath)));
+      });
+    }));
+  });
 });

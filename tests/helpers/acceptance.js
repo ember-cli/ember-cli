@@ -60,8 +60,8 @@ function createTestTargets(projectName, options) {
     .then(() => {
       if (options.createESLintConfig) {
         let eslintConfig = `module.exports = {
-          root: true, 
-          parserOptions: { 
+          root: true,
+          parserOptions: {
             sourceType: 'module'
           },
         };`;

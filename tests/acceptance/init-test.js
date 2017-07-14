@@ -14,7 +14,6 @@ const lodash = require('ember-cli-lodash-subset');
 let intersect = lodash.intersection;
 let remove = lodash.remove;
 let forEach = lodash.forEach;
-let any = lodash.some;
 const EOL = require('os').EOL;
 
 const chai = require('../chai');
@@ -93,7 +92,7 @@ describe('Acceptance: ember init', function() {
   }
   function removeIgnored(array) {
     remove(array, function(fn) {
-      return any(Blueprint.ignoredFiles, function(ignoredFile) {
+      return Blueprint.ignoredFiles.some(function(ignoredFile) {
         return minimatch(fn, ignoredFile, {
           matchBase: true,
         });

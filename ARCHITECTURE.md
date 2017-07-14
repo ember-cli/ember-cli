@@ -13,7 +13,7 @@ cli is a small function that gets everything going.
 
 Usage:
 ``` JavaScript
-var cli = require('./cli');
+let cli = require('./cli');
 
 cli({
   cliArgs: argv, // Required
@@ -56,7 +56,7 @@ command `develop-ember-cli`):
 ``` JavaScript
 // e.g. commands/develop-ember-cli.js
 
-var Command = require('../models/command');
+let Command = require('../models/command');
 
 module.exports = Command.extend({
   name: 'develop-ember-cli',    // Optional, default is the filename
@@ -163,7 +163,7 @@ The file format of a task looks like this:
 ``` JavaScript
 // tasks/npm-install.js
 
-var Task = require('../task');
+let Task = require('../task');
 
 module.exports = Task.extend({
   run(options) {
@@ -181,7 +181,6 @@ module.exports = Task.extend({
 ```
 
 ## Style guide
-- Everything Promise based ( use: lib/ext/promise)
 - Everything async (except require)
 - Short files
 - Tests, tests, tests
@@ -202,7 +201,7 @@ module.exports = Task.extend({
     - Okay: `url`, `id`, `rootURL` (property) or `URL`, `URLParser` (class)
     - Wrong: `Url`,`rootUrl`
     - We stick with how it's done in ember -> `rootURL`
-- No comma separated var statements (`var cool = 123, supercool = 456;`)
+- No comma separated assignment statements (`let cool = 123, supercool = 456;`)
 - Line break at the end of every file
 - Make constructors take an options object to avoid order-dependence
 
@@ -210,11 +209,6 @@ This list only contains style decisions not already covered by ESLint (e.g.
 mandatory semicolons and other rules are omitted).
 
 ### Indentation
-#### Aligned require statements
-``` JavaScript
-var RSVP    = require('rsvp');
-var Promise = RSVP.Promise;
-```
 
 #### Multi-line return statement
 ``` JavaScript
@@ -269,7 +263,7 @@ when that task is invoked, not for `ember help` `ember version` or even
 `ember server`. This introduces a 200ms-300ms startup penalty.
 
 ```js
-var npm = require('npm');
+let npm = require('npm');
 
 module.exports = Task.extend({
   run() {

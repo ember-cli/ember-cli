@@ -3,7 +3,6 @@
 const expect = require('../../chai').expect;
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
-const assign = require('ember-cli-lodash-subset').assign;
 const Yam = require('yam');
 const EOL = require('os').EOL;
 const td = require('testdouble');
@@ -102,7 +101,7 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should get command options from the config file and command line', function() {
-    expect(new ServeCommand(assign(options, {
+    expect(new ServeCommand(Object.assign(options, {
       settings: config.getAll(),
     })).parseArgs(['--port', '789'])).to.deep.equal({
       options: {
@@ -122,7 +121,7 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should return args too.', function() {
-    expect(new ServeCommand(assign(options, {
+    expect(new ServeCommand(Object.assign(options, {
       settings: config.getAll(),
     })).parseArgs(['foo', '--port', '80'])).to.deep.equal({
       args: ['foo'],
@@ -138,7 +137,7 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should warn if an option is invalid.', function() {
-    new ServeCommand(assign(options, {
+    new ServeCommand(Object.assign(options, {
       settings: config.getAll(),
     })).parseArgs(['foo', '--envirmont', 'production']);
     expect(ui.output).to.match(/The option '--envirmont' is not registered with the serve command. Run `ember serve --help` for a list of supported options./);
@@ -174,7 +173,7 @@ describe('models/command.js', function() {
     });
 
     it('should print a message if outside a project and command is not valid there.', function() {
-      return new InsideProjectCommand(assign(options, {
+      return new InsideProjectCommand(Object.assign(options, {
         project: {
           hasDependencies() { return true; },
           isEmberCLIProject() { return false; },
@@ -185,7 +184,7 @@ describe('models/command.js', function() {
     });
 
     it('selects watcher if an option', function() {
-      return new InsideProjectCommand(assign(options, {
+      return new InsideProjectCommand(Object.assign(options, {
         availableOptions: [{ type: 'string', name: 'watcher' }],
         project: {
           hasDependencies() { return true; },
@@ -197,7 +196,7 @@ describe('models/command.js', function() {
     });
 
     it('selects NO watcher if NOT an option', function() {
-      return new InsideProjectCommand(assign(options, {
+      return new InsideProjectCommand(Object.assign(options, {
         availableOptions: [{ type: 'string', name: 'foo' }],
         project: {
           hasDependencies() { return true; },
@@ -713,7 +712,7 @@ describe('models/command.js', function() {
       });
 
       it('iterates options', function() {
-        assign(command, {
+        Object.assign(command, {
           test1: 'a test',
           test2: 'another test',
         });

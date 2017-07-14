@@ -44,7 +44,7 @@ module.exports = {
     let blueprintName = options.originBlueprintName;
     let modulePathSegments = [addonName, inflector.pluralize(options.originBlueprintName), fileName];
 
-    if (blueprintName.match(/-addon/)) {
+    if (/-addon/.test(blueprintName)) {
       blueprintName = blueprintName.substr(0, blueprintName.indexOf('-addon'));
       modulePathSegments = [addonName, inflector.pluralize(blueprintName), fileName];
     }

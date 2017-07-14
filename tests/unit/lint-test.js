@@ -6,11 +6,10 @@ let paths = glob('tests/*');
 
 paths = paths.concat([
   'lib',
-  'bin',
   'blueprints',
 ]);
 
 require('mocha-eslint')(paths, {
-  timeout: 5000,
+  timeout: 10000,
   slow: 1000,
 });
