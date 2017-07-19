@@ -127,6 +127,14 @@ describe('EmberApp', function() {
       expect(app.options.trees.vendor.__broccoliGetInfo__()).to.have.property('watched', true);
     });
 
+    it('creates an instance of assembler', function() {
+      let app = new EmberApp({
+        project,
+      });
+
+      expect(app.assembler).to.not.equal(undefined);
+    });
+
     describe('Addons included hook', function() {
       let includedWasCalled;
       let setupPreprocessorRegistryWasCalled;
