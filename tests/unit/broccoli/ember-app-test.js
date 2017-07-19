@@ -594,7 +594,7 @@ describe('EmberApp', function() {
           }
         };
 
-        app._processedTemplatesTree();
+        app._mergeTemplates(app.assembler.getAddonTemplatesTrees(), app.assembler.getAppTemplatesTree());
 
         let captor = td.matchers.captor();
         td.verify(app.addonPostprocessTree('template', captor.capture()));
@@ -641,9 +641,9 @@ describe('EmberApp', function() {
 
       it('calls each addon postprocessTree hook', function() {
         app.index = td.function();
-        app._processedTemplatesTree = td.function();
+        app._mergeTemplates = td.function();
 
-        td.when(app._processedTemplatesTree(), { ignoreExtraArgs: true }).thenReturn('x');
+        td.when(app._mergeTemplates(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
         td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
 
