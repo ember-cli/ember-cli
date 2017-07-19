@@ -17,15 +17,17 @@ describe('Unit: Assembler', function() {
         tests: true,
         project,
         registry: {},
-        tests: [],
+        trees: {
+          templates: { },
+        },
       });
 
       expect(assembler.name).to.equal('better-errors');
       expect(assembler.env).to.equal('development');
       expect(assembler.tests).to.equal(true);
       expect(assembler.project).to.deep.equal(project);
-      expect(assembler.trees).to.be.defined;
-      expect(assembler.registry).to.be.defined;
+      expect(assembler.trees).to.deep.equal({ templates: {} });
+      expect(assembler.registry).to.deep.equal({});
     });
   });
 
@@ -38,6 +40,9 @@ describe('Unit: Assembler', function() {
       env: 'development',
       tests: true,
       project,
+      trees: {
+        templates: { },
+      },
     });
 
     it('configuration tree is cached upon calling `getConfigTree`', function() {
