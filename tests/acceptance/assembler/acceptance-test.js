@@ -5,10 +5,68 @@ const expect = require('../../chai').expect;
 const broccoli = require('broccoli-builder');
 const fixturify = require('fixturify');
 const Assembler = require('../../../lib/assembler');
+const mergeTrees = require('../../../lib/broccoli/merge-trees');
 const Fixturify = require('broccoli-fixturify');
 const MockProject = require('../../helpers/mock-project');
 
 describe('Acceptance: Assembler', function() {
+  describe('addons templates trees', function() {
+    const project = new MockProject();
+    project.root = path.join(process.cwd(), 'tests/fixtures/assembler/app-tree');
+    project.addons = [{
+      treeFor() {
+        return new Fixturify({
+          components: {
+            'x-tree.hbs': '<h1>x-tree</h1>',
+          },
+        });
+      },
+    }, {
+      treeFor() {
+        return new Fixturify({
+          'tree.hbs': '<h1>tree</h1>',
+        });
+      },
+    }];
+
+    let assembler = new Assembler({
+      name: 'better-errors',
+      env: 'development',
+      tests: true,
+      project,
+      trees: {
+        templates: new Fixturify({
+          'application.hbs': '{{outlet}}',
+          'index.hbs': '<h1>Index</h1>',
+        }),
+      },
+      registry: {
+        extensionsForType() {
+          return ['hbs'];
+        },
+      },
+    });
+
+    let trees = assembler.getAddonTemplatesTrees();
+
+    it('builds a tree out of addon template trees', function() {
+      expect(trees.length).to.equal(2);
+
+      let b = new broccoli.Builder(mergeTrees(trees));
+
+      return b.build().then(options => {
+        let configurationTree = fixturify.readSync(options.directory);
+
+        expect(configurationTree).to.deep.equal({
+          components: {
+            'x-tree.hbs': '<h1>x-tree</h1>',
+          },
+          "tree.hbs": "<h1>tree</h1>",
+        });
+      });
+    });
+  });
+
   describe('application templates tree', function() {
     const project = new MockProject();
     project.root = path.join(process.cwd(), 'tests/fixtures/assembler/app-tree');
