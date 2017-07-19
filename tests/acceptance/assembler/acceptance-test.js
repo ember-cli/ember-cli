@@ -20,8 +20,11 @@ describe('Acceptance: Assembler', function() {
       project,
       trees: {
         templates: new Fixturify({
-          'application.hbs': '',
-          'index.hbs': '',
+          'application.hbs': '{{outlet}}',
+          'index.hbs': '<h1>Index</h1>',
+          components: {
+            'x-tree.hbs': '<h1>x-tree</h1>',
+          },
         }),
       },
       registry: {
@@ -33,15 +36,18 @@ describe('Acceptance: Assembler', function() {
 
     let b = new broccoli.Builder(assembler.getAppTemplatesTree());
 
-    it('works', function() {
+    it('builds a tree with templates nested under application name\'d folder', function() {
       return b.build().then(options => {
         let configurationTree = fixturify.readSync(options.directory);
 
         expect(configurationTree).to.deep.equal({
           'better-errors': {
             templates: {
-              'application.hbs': '',
-              'index.hbs': '',
+              'application.hbs': '{{outlet}}',
+              'index.hbs': '<h1>Index</h1>',
+              components: {
+                'x-tree.hbs': '<h1>x-tree</h1>',
+              },
             },
           },
         });
