@@ -45,6 +45,22 @@ describe('Unit: Assembler', function() {
       },
     });
 
+    it('addon trees is cached upon calling `getAddonTrees`', function() {
+      expect(assembler._cachedAddonTrees).to.be.null;
+
+      assembler.getAppTree();
+
+      expect(assembler._cachedAddonTrees).to.be.defined;
+    });
+
+    it('external tree is cached upon calling `getExternalTree`', function() {
+      expect(assembler._cachedExternalTree).to.be.null;
+
+      assembler.getAppTree();
+
+      expect(assembler._cachedExternalTree).to.be.defined;
+    });
+
     it('application tree is cached upon calling `getAppTree`', function() {
       expect(assembler._cachedAppTree).to.be.null;
 
