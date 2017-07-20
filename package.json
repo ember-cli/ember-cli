@@ -122,6 +122,7 @@
     "yam": "0.0.22"
   },
   "devDependencies": {
+    "broccoli-debug": "^0.6.2",
     "broccoli-fixturify": "^0.3.0",
     "broccoli-test-helper": "^1.0.0",
     "chai": "^3.4.1",
