@@ -45,6 +45,14 @@ describe('Unit: Assembler', function() {
       },
     });
 
+    it('application tree is cached upon calling `getAppTree`', function() {
+      expect(assembler._cachedAppTree).to.be.null;
+
+      assembler.getAppTree();
+
+      expect(assembler._cachedAppTree).to.be.defined;
+    });
+
     it('configuration tree is cached upon calling `getConfigTree`', function() {
       expect(assembler._cachedConfigTree).to.be.null;
 

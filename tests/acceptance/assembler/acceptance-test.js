@@ -10,6 +10,48 @@ const Fixturify = require('broccoli-fixturify');
 const MockProject = require('../../helpers/mock-project');
 
 describe('Acceptance: Assembler', function() {
+  describe('application tree', function() {
+    const project = new MockProject();
+    project.root = path.join(process.cwd(), 'tests/fixtures/assembler/app-tree');
+
+    let assembler = new Assembler({
+      name: 'better-errors',
+      env: 'development',
+      tests: true,
+      project,
+      trees: {
+        app: new Fixturify({
+          'app.js': '',
+          'router.js': '',
+          templates: {
+            'application.hbs': '',
+          },
+          styles: {
+            'app.css': '',
+          },
+        }),
+      },
+      registry: {
+        extensionsForType() {
+          return ['js'];
+        },
+      },
+    });
+
+    let b = new broccoli.Builder(assembler.getAppTree());
+
+    it('works', function() {
+      return b.build().then(options => {
+        let configurationTree = fixturify.readSync(options.directory);
+
+        expect(configurationTree).to.deep.equal({
+          'app.js': '',
+          'router.js': '',
+        });
+      });
+    });
+  });
+
   describe('addons templates trees', function() {
     const project = new MockProject();
     project.root = path.join(process.cwd(), 'tests/fixtures/assembler/app-tree');
