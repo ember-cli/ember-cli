@@ -1,0 +1,3 @@
+window.Ember = {
+  foo: 'bar';
+};
