@@ -1,5 +1,32 @@
 # ember-cli Changelog
 
+## 2.14.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.14.0...v2.14.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.14.0...v2.14.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7186](https://github.com/ember-cli/ember-cli/pull/7186) [release] node 8 [@stefanpenner](https://github.com/stefanpenner)
+- [#7193](https://github.com/ember-cli/ember-cli/pull/7193) cherry pick "install npm 4 in addon travis using npm" [@kellyselden](https://github.com/kellyselden)
+- [#7194](https://github.com/ember-cli/ember-cli/pull/7194) stay in sync with editorconfig and other blueprints regarding newlines [@kellyselden](https://github.com/kellyselden)
+- [#7204](https://github.com/ember-cli/ember-cli/pull/7204) [bugfix release] explain node 4 in addons [@kellyselden](https://github.com/kellyselden)
+- [#7205](https://github.com/ember-cli/ember-cli/pull/7205) [bugfix release] 2 12 lts testing [@kellyselden](https://github.com/kellyselden)
+- [#7206](https://github.com/ember-cli/ember-cli/pull/7206) [bugfix release] remove MODEL_FACTORY_INJECTIONS [@kellyselden](https://github.com/kellyselden)
+- [#7208](https://github.com/ember-cli/ember-cli/pull/7208) bugfix(legacy-addons): Fixes typo in babel transpilation options [@pzuraq](https://github.com/pzuraq)
+- [#7210](https://github.com/ember-cli/ember-cli/pull/7210) [bugfix release] Ember try remove test [@kellyselden](https://github.com/kellyselden)
+- [#7246](https://github.com/ember-cli/ember-cli/pull/7246) [BUGFIX release] cherry-pick "Bumps `broccoli-builder` version to include stack traces fix" [@twokul](https://github.com/twokul)
+
+
 ## 2.14.0
 
 The following changes are required if you are upgrading from the previous
