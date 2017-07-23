@@ -1,0 +1,191 @@
+'use strict';
+
+const path = require('path');
+const expect = require('../../chai').expect;
+const broccoli = require('broccoli-builder');
+const fixturify = require('fixturify');
+const Assembler = require('../../../lib/assembler');
+const mergeTrees = require('../../../lib/broccoli/merge-trees');
+const Fixturify = require('broccoli-fixturify');
+const MockProject = require('../../helpers/mock-project');
+
+describe('Acceptance: Assembler', function() {
+  describe('application tree', function() {
+    const project = new MockProject();
+    project.root = path.join(process.cwd(), 'tests/fixtures/assembler/app-tree');
+
+    let assembler = new Assembler({
+      name: 'better-errors',
+      env: 'development',
+      tests: true,
+      project,
+      trees: {
+        app: new Fixturify({
+          'app.js': '',
+          'router.js': '',
+          templates: {
+            'application.hbs': '',
+          },
+          styles: {
+            'app.css': '',
+          },
+        }),
+      },
+      registry: {
+        extensionsForType() {
+          return ['js'];
+        },
+      },
+    });
+
+    let b = new broccoli.Builder(assembler.getAppTree());
+
+    it('works', function() {
+      return b.build().then(options => {
+        let configurationTree = fixturify.readSync(options.directory);
+
+        expect(configurationTree).to.deep.equal({
+          'app.js': '',
+          'router.js': '',
+        });
+      });
+    });
+  });
+
+  describe('addons templates trees', function() {
+    const project = new MockProject();
+    project.root = path.join(process.cwd(), 'tests/fixtures/assembler/app-tree');
+    project.addons = [{
+      treeFor() {
+        return new Fixturify({
+          components: {
+            'x-tree.hbs': '<h1>x-tree</h1>',
+          },
+        });
+      },
+    }, {
+      treeFor() {
+        return new Fixturify({
+          'tree.hbs': '<h1>tree</h1>',
+        });
+      },
+    }];
+
+    let assembler = new Assembler({
+      name: 'better-errors',
+      env: 'development',
+      tests: true,
+      project,
+      trees: {
+        templates: new Fixturify({
+          'application.hbs': '{{outlet}}',
+          'index.hbs': '<h1>Index</h1>',
+        }),
+      },
+      registry: {
+        extensionsForType() {
+          return ['hbs'];
+        },
+      },
+    });
+
+    let trees = assembler.getAddonTemplatesTrees();
+
+    it('builds a tree out of addon template trees', function() {
+      expect(trees.length).to.equal(2);
+
+      let b = new broccoli.Builder(mergeTrees(trees));
+
+      return b.build().then(options => {
+        let configurationTree = fixturify.readSync(options.directory);
+
+        expect(configurationTree).to.deep.equal({
+          components: {
+            'x-tree.hbs': '<h1>x-tree</h1>',
+          },
+          "tree.hbs": "<h1>tree</h1>",
+        });
+      });
+    });
+  });
+
+  describe('application templates tree', function() {
+    const project = new MockProject();
+    project.root = path.join(process.cwd(), 'tests/fixtures/assembler/app-tree');
+
+    let assembler = new Assembler({
+      name: 'better-errors',
+      env: 'development',
+      tests: true,
+      project,
+      trees: {
+        templates: new Fixturify({
+          'application.hbs': '{{outlet}}',
+          'index.hbs': '<h1>Index</h1>',
+          components: {
+            'x-tree.hbs': '<h1>x-tree</h1>',
+          },
+        }),
+      },
+      registry: {
+        extensionsForType() {
+          return ['hbs'];
+        },
+      },
+    });
+
+    let b = new broccoli.Builder(assembler.getAppTemplatesTree());
+
+    it('builds a tree with templates nested under application name\'d folder', function() {
+      return b.build().then(options => {
+        let configurationTree = fixturify.readSync(options.directory);
+
+        expect(configurationTree).to.deep.equal({
+          'better-errors': {
+            templates: {
+              'application.hbs': '{{outlet}}',
+              'index.hbs': '<h1>Index</h1>',
+              components: {
+                'x-tree.hbs': '<h1>x-tree</h1>',
+              },
+            },
+          },
+        });
+      });
+    });
+  });
+
+  describe('configuration tree', function() {
+    const project = new MockProject();
+    project.root = path.join(process.cwd(), 'tests/fixtures/assembler/config-tree');
+
+    let assembler = new Assembler({
+      name: 'better-errors',
+      env: 'development',
+      tests: true,
+      project,
+    });
+    let b = new broccoli.Builder(assembler.getConfigTree());
+
+    after(function() {
+      b.cleanup();
+    });
+
+    it('builds a tree with two configurations: development and test', function() {
+      return b.build().then(options => {
+        let configurationTree = fixturify.readSync(options.directory);
+
+        expect(configurationTree).to.deep.equal({
+          'better-errors': {
+            config: {
+              environments: {
+                'development.json': '{"baseURL":"/","locationType":"auto"}',
+                'test.json': '{"baseURL":"/","locationType":"auto"}',
+              },
+            },
+          },
+        });
+      });
+    });
+  });
+});

@@ -43,7 +43,7 @@ describe('EmberApp.import()', function() {
       sourcemaps: { enabled: false },
     }, options);
 
-    app._processedTemplatesTree = () => '';
+    app._mergeTemplates = () => {};
 
     return app;
   }
