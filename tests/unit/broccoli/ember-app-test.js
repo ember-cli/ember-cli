@@ -790,26 +790,9 @@ describe('EmberApp', function() {
       });
 
       it('calls lintTree on the addon', function() {
-        app._mergeTrees = td.function();
-
-        td.when(addon.lintTree('blah', 'blam')).thenReturn('blazorz');
-
         app.addonLintTree('blah', 'blam');
 
-        td.verify(app._mergeTrees(['blazorz'], {
-          overwrite: true,
-          annotation: 'TreeMerger (lint blah)',
-        }));
-      });
-
-      it('filters out tree if lintTree returns falsey', function() {
-        app._mergeTrees = td.function();
-
-        td.when(addon.lintTree(), { ignoreExtraArgs: true }).thenReturn(false);
-
-        app.addonLintTree();
-
-        td.verify(app._mergeTrees([]), { ignoreExtraArgs: true });
+        td.verify(addon.lintTree('blah', 'blam'));
       });
     });
   });
