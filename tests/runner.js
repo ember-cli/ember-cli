@@ -21,7 +21,6 @@ let reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
 let mocha = new Mocha({
   timeout: 5000,
   reporter,
-  retries: 2,
 });
 let testFiles = glob.sync(`${root}/**/*-test.js`);
 let lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
