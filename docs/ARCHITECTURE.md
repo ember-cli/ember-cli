@@ -1,6 +1,6 @@
 ## Architecture
 
-![embercli architecture](./assets/architecture/Ember-CLI architecture.png)
+![embercli architecture](../assets/architecture/Ember-CLI%20architecture.png)
 
 ## Overview
 - **cli** parses args and calls the respective **command**
