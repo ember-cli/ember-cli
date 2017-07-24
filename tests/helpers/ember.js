@@ -93,8 +93,10 @@ module.exports = function ember(args, options) {
     };
 
     if (statusCode) {
+      console.log('helper/ember:errorResult', result);
       throw result;
     } else {
+      console.log('helper/ember:success', result);
       return result;
     }
   }
