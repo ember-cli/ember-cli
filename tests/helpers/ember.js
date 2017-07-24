@@ -101,5 +101,8 @@ module.exports = function ember(args, options) {
     }
   }
 
-  return cliInstance.then(returnTestState);
+  return cliInstance.then(returnTestState, function(e) {
+    console.log('helper/ember:unhandeledException', e);
+    throw e;
+  });
 };
