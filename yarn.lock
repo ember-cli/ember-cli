@@ -208,7 +208,7 @@ async-disk-cache@^1.2.1:
     istextorbinary "2.1.0"
     mkdirp "^0.5.0"
     rimraf "^2.5.3"
-    rsvp "^3.0.18"
+    rsvp "3.3.3"
     username-sync "1.0.1"
 
 async-promise-queue@^1.0.3:
@@ -776,7 +776,7 @@ capture-exit@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/capture-exit/-/capture-exit-1.2.0.tgz#1c5fcc489fd0ab00d4f1ac7ae1072e3173fbab6f"
   dependencies:
-    rsvp "^3.3.3"
+    rsvp "3.3.3"
 
 cardinal@^1.0.0:
   version "1.0.0"
@@ -1279,7 +1279,7 @@ ember-cli-blueprint-test-helpers@^0.17.1:
     findup "^0.1.5"
     fs-extra "^2.1.0"
     lodash.merge "^4.4.0"
-    rsvp "^3.0.17"
+    rsvp "3.3.3"
     tmp-sync "^1.0.0"
 
 ember-cli-broccoli-sane-watcher@^2.0.4:
@@ -1312,7 +1312,7 @@ ember-cli-internal-test-helpers@^0.9.0, ember-cli-internal-test-helpers@^0.9.1:
     exists-sync "0.0.3"
     fs-extra "^0.30.0"
     lodash "^4.0.0"
-    rsvp "^3.0.17"
+    rsvp "3.3.3"
     symlink-or-copy "^1.0.1"
     through "^2.3.8"
     walk-sync "^0.3.1"
@@ -1340,7 +1340,7 @@ ember-cli-legacy-blueprints@^0.1.2:
     exists-sync "0.0.3"
     fs-extra "^0.24.0"
     inflection "^1.7.1"
-    rsvp "^3.0.17"
+    rsvp "3.3.3"
     silent-error "^1.0.0"
 
 ember-cli-lodash-subset@^1.0.7:
@@ -3470,7 +3470,7 @@ promise-map-series@^0.2.1:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/promise-map-series/-/promise-map-series-0.2.3.tgz#c2d377afc93253f6bd03dbb77755eb88ab20a847"
   dependencies:
-    rsvp "^3.0.14"
+    rsvp "3.3.3"
 
 propagate@0.4.0:
   version "0.4.0"

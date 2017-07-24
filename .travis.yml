@@ -58,6 +58,11 @@ before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
 
+before_script:
+  # Once we no longer support Node.js 0.12 we can drop this entire section.
+  # prevent the npm loading indicator
+  - npm ls rsvp
+
 script:
   # For now we will use `npm` to kick off the test suite.
   # Can switch to `yarn` once we no longer support Node.js 0.12:
