@@ -8,8 +8,8 @@ describe('getPackageBaseName', function() {
     expect(getPackageBaseName('my-addon')).to.equal('my-addon');
   });
 
-  it('should return the package name without its scope', function() {
-    expect(getPackageBaseName('@scope/my-addon')).to.equal('my-addon');
+  it('should return the full name when scoped', function() {
+    expect(getPackageBaseName('@scope/my-addon')).to.equal('@scope/my-addon');
   });
 
   it('should strip away version numbers', function() {

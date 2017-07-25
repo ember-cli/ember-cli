@@ -41,6 +41,11 @@ describe('install command', function() {
             name: 'ember-cli-qunit',
           },
         },
+        {
+          pkg: {
+            name: '@ember-cli/ember-cli-qunit',
+          },
+        },
       ];
     };
 
@@ -249,7 +254,7 @@ describe('install command', function() {
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
         let generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
-        expect(generateRunArgs).to.deep.equal(['ember-cli-qunit']);
+        expect(generateRunArgs).to.deep.equal(['@ember-cli/ember-cli-qunit']);
       });
     });
 
