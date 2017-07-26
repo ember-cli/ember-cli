@@ -43,7 +43,7 @@ describe('Acceptance: ember install', function() {
     });
   }
 
-  it.only('installs addons via npm and runs generators', co.wrap(function() {
+  it.only('installs addons via npm and runs generators', function() {
     return installAddon(['ember-cli-fastclick', 'ember-cli-photoswipe'])
       .then(result => {
 
@@ -57,5 +57,5 @@ describe('Acceptance: ember install', function() {
         expect(result.outputStream.join())
           .not.to.include('The `ember generate` command requires an entity name to be specified. For more details, use `ember help`.');
       });
-  }));
+  });
 });
