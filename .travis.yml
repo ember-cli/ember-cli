@@ -60,7 +60,6 @@ before_script:
   # Once we no longer support Node.js 0.12 we can drop this entire section.
   # prevent the npm loading indicator
   - npm ls rsvp
-  - echo DEBUG
 
 script:
   # For now we will use `npm` to kick off the test suite.
