@@ -20,7 +20,7 @@ module.exports = function run(/* command, args, options */) {
   options = defaults(options, {
     // If true, pass through stdout/stderr.
     // If false, only pass through stdout/stderr if the current test fails.
-    verbose: false,
+    verbose: true,
 
     onOutput(string) {
       options.log(string);
