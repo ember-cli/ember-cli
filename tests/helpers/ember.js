@@ -93,11 +93,16 @@ module.exports = function ember(args, options) {
     };
 
     if (statusCode) {
+      console.log('helper/ember:errorResult', result);
       throw result;
     } else {
+      console.log('helper/ember:success', result);
       return result;
     }
   }
 
-  return cliInstance.then(returnTestState);
+  return cliInstance.then(returnTestState, function(e) {
+    console.log('helper/ember:unhandeledException', e);
+    throw e;
+  });
 };
