@@ -508,33 +508,6 @@ describe('EmberApp', function() {
           app.addonTreesFor('blah');
         }).not.to.throw(/addon must implement the `treeFor`/);
       });
-
-      describe('addonTreesFor is called properly', function() {
-        beforeEach(function() {
-          app = new EmberApp({
-            project,
-          });
-
-          app.addonTreesFor = td.function();
-          td.when(app.addonTreesFor(), { ignoreExtraArgs: true }).thenReturn(['batman']);
-        });
-
-        it('_processedVendorTree calls addonTreesFor', function() {
-          app._processedVendorTree();
-
-          let args = td.explain(app.addonTreesFor).calls.map(function(call) { return call.args[0]; });
-
-          expect(args).to.deep.equal(['vendor']);
-        });
-
-        it('_processedAppTree calls addonTreesFor', function() {
-          app._processedAppTree();
-
-          let args = td.explain(app.addonTreesFor).calls.map(function(call) { return call.args[0]; });
-
-          expect(args).to.deep.equal(['app']);
-        });
-      });
     });
 
     describe('default vendor/vendor.css exists', function() {
@@ -586,7 +559,12 @@ describe('EmberApp', function() {
           }
         };
 
-        app._processedTemplatesTree();
+        // since we just want to verify that `addonPostprocessTree` was called
+        // with 'template' arg, it is fine to pass an empty array & object as
+        // arguments
+        let addonTrees = [];
+        let templatesTree = {};
+        app._processedTemplatesTree(addonTrees, templatesTree);
 
         let captor = td.matchers.captor();
         td.verify(app.addonPostprocessTree('template', captor.capture()));
