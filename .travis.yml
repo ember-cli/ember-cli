@@ -27,6 +27,7 @@ cache:
 
 env:
   - TEST_COMMAND=test-all
+  - DEBUG=*
 
 matrix:
   fast_finish: true
