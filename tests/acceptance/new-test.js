@@ -364,7 +364,7 @@ describe('Acceptance: ember new', function() {
       .to.contain("Welcome to Ember");
   }));
 
-  describe('verify fictures', function() {
+  describe('verify fixtures', function() {
     it('app + npm + !welcome', co.wrap(function *() {
       yield ember([
         'new',
