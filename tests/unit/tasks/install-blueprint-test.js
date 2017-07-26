@@ -38,7 +38,7 @@ describe('InstallBlueprintTask', function() {
       td.when(task._lookupBlueprint('foo:bar')).thenReject(error);
 
       return expect(task._resolveBlueprint('foo:bar'))
-      .to.be.rejectedWith(error);
+        .to.be.rejectedWith(error);
     });
 
     it('tries to resolve "foobar" as npm package as a fallback', function() {
@@ -49,7 +49,7 @@ describe('InstallBlueprintTask', function() {
       td.when(task._tryNpmBlueprint('foobar')).thenResolve(foobarBlueprint);
 
       return expect(task._resolveBlueprint('foobar'))
-      .to.eventually.equal(foobarBlueprint);
+        .to.eventually.equal(foobarBlueprint);
     });
 
     it('rejects if npm module resolution failed', function() {
@@ -60,7 +60,7 @@ describe('InstallBlueprintTask', function() {
       td.when(task._tryNpmBlueprint('foobar')).thenReject(npmError);
 
       return expect(task._resolveBlueprint('foobar'))
-      .to.be.rejectedWith(npmError);
+        .to.be.rejectedWith(npmError);
     });
 
     it('resolves "https://github.com/ember-cli/app-blueprint-test.git" blueprint by cloning, ' +

@@ -92,7 +92,7 @@ describe('insertIntoFile()', function() {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
         expect(contents).to.equal([line1, line2, toInsert, line3].join(EOL),
-                     'inserted contents should be inserted after the `after` value');
+          'inserted contents should be inserted after the `after` value');
         expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
         expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
       });
@@ -112,7 +112,7 @@ describe('insertIntoFile()', function() {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
         expect(contents).to.equal([line1, line2, toInsert, line2, line3].join(EOL),
-                     'inserted contents should be inserted after the `after` value');
+          'inserted contents should be inserted after the `after` value');
         expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
         expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
       });
@@ -132,7 +132,7 @@ describe('insertIntoFile()', function() {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
         expect(contents).to.equal([line1, toInsert, line2, line3].join(EOL),
-                     'inserted contents should be inserted before the `before` value');
+          'inserted contents should be inserted before the `before` value');
         expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
         expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
       });
@@ -152,7 +152,7 @@ describe('insertIntoFile()', function() {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
         expect(contents).to.equal([line1, toInsert, line2, line2, line3].join(EOL),
-                     'inserted contents should be inserted after the `after` value');
+          'inserted contents should be inserted after the `after` value');
         expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
         expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
       });

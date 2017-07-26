@@ -67,7 +67,7 @@ describe('WatchDetector', function() {
         expect(option.watchmanInfo).to.have.property('enabled', true);
         expect(ui.output).not.to.match(/Could not start watchman/);
         expect(ui.output).not.to.match(/fell back to: "node"/);
-        expect(ui.output).not.to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
+        expect(ui.output).not.to.match(/Visit https:\/\/ember-cli.com\/user-guide\/#watchman/);
       });
 
       describe('watchman does not work', function() {
@@ -87,7 +87,7 @@ describe('WatchDetector', function() {
           expect(option.watchmanInfo).to.have.property('canNestRoots');
           expect(ui.output).to.match(/Could not start watchman/);
           expect(ui.output).to.match(/fell back to: "node"/);
-          expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
+          expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/#watchman/);
         });
 
         it('false back to polling if node does not work', function() {
@@ -102,7 +102,7 @@ describe('WatchDetector', function() {
           expect(option.watchmanInfo).to.have.property('canNestRoots');
           expect(ui.output).to.match(/Could not start watchman/);
           expect(ui.output).to.match(/fell back to: "polling"/);
-          expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
+          expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/#watchman/);
         });
       });
     });
@@ -179,7 +179,7 @@ describe('WatchDetector', function() {
         let result = subject.checkWatchman();
         expect(result).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Could not start watchman/);
-        expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/\#watchman/);
+        expect(ui.output).to.match(/Visit https:\/\/ember-cli.com\/user-guide\/#watchman/);
       });
     });
     it('prefers watchman if everything appears to be good', function() {
@@ -191,7 +191,7 @@ describe('WatchDetector', function() {
       expect(preference).to.have.property('watcher', 'watchman');
       expect(ui.output).to.not.match(/Could not start watchman/);
       expect(ui.output).to.not.match(/falling back to NodeWatcher/);
-      expect(ui.output).to.not.match(/ember-cli\.com\/user-guide\/\#watchman/);
+      expect(ui.output).to.not.match(/ember-cli\.com\/user-guide\/#watchman/);
       expect(ui.output).to.not.match(/Looks like you have a different program called watchman/);
       expect(ui.output).to.not.match(/Invalid watchman found/);
     });
@@ -207,7 +207,7 @@ describe('WatchDetector', function() {
         let preference = subject.checkWatchman();
         expect(preference).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Could not start watchman/);
-        expect(ui.output).to.match(/ember-cli\.com\/user-guide\/\#watchman/);
+        expect(ui.output).to.match(/ember-cli\.com\/user-guide\/#watchman/);
       });
 
       iff('the `watchman version` doesn\'t parse', function() {
@@ -218,7 +218,7 @@ describe('WatchDetector', function() {
         let preference = subject.checkWatchman();
         expect(preference).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Looks like you have a different program called watchman/);
-        expect(ui.output).to.match(/ember-cli\.com\/user-guide\/\#watchman/);
+        expect(ui.output).to.match(/ember-cli\.com\/user-guide\/#watchman/);
       });
 
 
@@ -231,7 +231,7 @@ describe('WatchDetector', function() {
         expect(preference).to.have.property('watcher', 'node');
         expect(ui.output).to.match(/Invalid watchman found/);
         expect(ui.output).to.match(/version: \[2\.9\.9\] did not satisfy/);
-        expect(ui.output).to.match(/ember-cli\.com\/user-guide\/\#watchman/);
+        expect(ui.output).to.match(/ember-cli\.com\/user-guide\/#watchman/);
       });
     });
   });

@@ -576,11 +576,11 @@ describe('express-server', function() {
         startServer()
           .then(function() {
             request(subject.app)
-            .get('/test-file.txt')
-            .end(function(err, response) {
-              expect(response.text.trim()).to.equal('some contents');
-              done();
-            });
+              .get('/test-file.txt')
+              .end(function(err, response) {
+                expect(response.text.trim()).to.equal('some contents');
+                done();
+              });
           });
       });
 
