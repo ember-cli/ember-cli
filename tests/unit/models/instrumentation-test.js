@@ -762,7 +762,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.output).to.eql('tmp/someplace');
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
-        expect(summary).to.have.deep.property('platform.name', process.platform);
+        expect(summary).to.have.nested.property('platform.name', process.platform);
       });
 
       it('computes rebuild summaries', function() {
@@ -822,7 +822,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.output).to.eql('tmp/someplace');
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
-        expect(summary).to.have.deep.property('platform.name', process.platform);
+        expect(summary).to.have.nested.property('platform.name', process.platform);
       });
     });
 
@@ -833,7 +833,7 @@ describe('models/instrumentation.js', function() {
         expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
-        expect(summary).to.have.deep.property('platform.name', process.platform);
+        expect(summary).to.have.nested.property('platform.name', process.platform);
       });
     });
 
@@ -846,7 +846,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.name).to.equal('build');
         expect(summary.args).to.eql(['--like', '--whatever']);
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
-        expect(summary).to.have.deep.property('platform.name', process.platform);
+        expect(summary).to.have.nested.property('platform.name', process.platform);
       });
     });
 
@@ -857,7 +857,7 @@ describe('models/instrumentation.js', function() {
         expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
-        expect(summary).to.have.deep.property('platform.name', process.platform);
+        expect(summary).to.have.nested.property('platform.name', process.platform);
       });
     });
   });

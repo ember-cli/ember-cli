@@ -97,7 +97,7 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should parse the command options.', function() {
-    expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.deep.property('options.port', 80);
+    expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.nested.property('options.port', 80);
   });
 
   it('parseArgs() should get command options from the config file and command line', function() {
@@ -117,7 +117,7 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should set default option values.', function() {
-    expect(new ServeCommand(options).parseArgs([])).to.have.deep.property('options.port', 4200);
+    expect(new ServeCommand(options).parseArgs([])).to.have.nested.property('options.port', 4200);
   });
 
   it('parseArgs() should return args too.', function() {
@@ -144,11 +144,11 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should parse shorthand options.', function() {
-    expect(new ServeCommand(options).parseArgs(['-e', 'tacotown'])).to.have.deep.property('options.environment', 'tacotown');
+    expect(new ServeCommand(options).parseArgs(['-e', 'tacotown'])).to.have.nested.property('options.environment', 'tacotown');
   });
 
   it('parseArgs() should parse shorthand dasherized options.', function() {
-    expect(new ServeCommand(options).parseArgs(['-lr', 'false'])).to.have.deep.property('options.liveReload', false);
+    expect(new ServeCommand(options).parseArgs(['-lr', 'false'])).to.have.nested.property('options.liveReload', false);
   });
 
   it('parseArgs() should parse string options.', function() {
@@ -161,7 +161,7 @@ describe('models/command.js', function() {
       run(options) { return options; },
     });
     const command = new CustomAliasCommand(options).parseArgs(['1', '--options', '--split 2 --random']);
-    expect(command).to.have.deep.property('options.options', '--split 2 --random');
+    expect(command).to.have.nested.property('options.options', '--split 2 --random');
   });
 
   describe('#validateAndRun', function() {
