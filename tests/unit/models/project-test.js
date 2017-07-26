@@ -397,7 +397,7 @@ describe('models/project.js', function() {
 
       const invalidAddonName = 'ember-invalid-addon';
       const expectedPath = path.join(projectPath, '/lib/', invalidAddonName);
-      const expectedError = `SilentError: An error occurred in the constructor for ${invalidAddonName} at ${expectedPath}`;
+      const expectedError = `An error occurred in the constructor for ${invalidAddonName} at ${expectedPath}`;
 
       expect(function() {
         project.initializeAddons();
