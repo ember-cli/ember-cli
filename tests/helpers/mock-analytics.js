@@ -1,23 +1,23 @@
 'use strict';
 
-module.exports = MockAnalytics;
-function MockAnalytics() {
-  this.tracks = [];
-  this.trackTimings = [];
-  this.trackErrors = [];
+class MockAnalytics {
+  constructor() {
+    this.tracks = [];
+    this.trackTimings = [];
+    this.trackErrors = [];
+  }
+
+  track(arg) {
+    this.tracks.push(arg);
+  }
+
+  trackTiming(arg) {
+    this.trackTimings.push(arg);
+  }
+
+  trackError(arg) {
+    this.trackErrors.push(arg);
+  }
 }
 
-MockAnalytics.prototype = Object.create({});
-MockAnalytics.prototype.track = function(arg) {
-  this.tracks.push(arg);
-};
-
-MockAnalytics.prototype.trackTiming = function(arg) {
-  this.trackTimings.push(arg);
-};
-
-MockAnalytics.prototype.trackError = function(arg) {
-  this.trackErrors.push(arg);
-};
-
-MockAnalytics.prototype.constructor = MockAnalytics;
+module.exports = MockAnalytics;
