@@ -23,7 +23,7 @@ cache:
     - $HOME/.cache # includes bower's cache
 
 env:
-  - TEST_COMMAND=test-all;DEBUG=mocha:*
+  - TEST_COMMAND=test-all DEBUG=mocha:*
 
 matrix:
   fast_finish: true
