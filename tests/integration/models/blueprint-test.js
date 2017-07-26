@@ -267,6 +267,25 @@ describe('Blueprint', function() {
       return remove(tmproot);
     });
 
+    it('returns true if supportsAddon finds the __root__ token in the files folder', function() {
+      let blueprint = new Blueprint(basicBlueprint);
+
+      expect(!!blueprint.supportsAddon(options)).to.equal(true);
+    });
+
+    it('sets the options when supportsAddon is called', function() {
+      let blueprint = new Blueprint(basicBlueprint);
+      const origFilesPath = blueprint.filesPath;
+
+      blueprint.filesPath = function(supportsAddonOptions) {
+        expect(supportsAddonOptions).to.deep.equal(options);
+
+        return origFilesPath.apply(this, arguments);
+      };
+
+      blueprint.supportsAddon(options);
+    });
+
     it('installs basic files', function() {
       expect(!!blueprint).to.equal(true);
 
