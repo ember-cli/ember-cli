@@ -14,7 +14,7 @@ let expect = chai.expect;
 let file = chai.file;
 
 describe('Acceptance: ember install', function() {
-  this.timeout(60000);
+  this.timeout(120000);
 
   beforeEach(co.wrap(function *() {
     let tmpdir = yield mkTmpDirIn(tmproot);
