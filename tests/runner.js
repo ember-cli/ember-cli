@@ -1,5 +1,8 @@
 'use strict';
 
+const captureExit = require('capture-exit');
+captureExit.captureExit();
+
 const glob = require('glob');
 const Mocha = require('mocha');
 const RSVP = require('rsvp');
