@@ -31,8 +31,9 @@ describe('Unit - FileInfo', function() {
         action: 'write',
         outputPath: testOutputPath,
         displayPath: '/pretty-output-path',
-        inputPath: path.resolve(__dirname,
-                                '../../fixtures/blueprints/with-templating/files/foo.txt'),
+        inputPath: path.resolve(
+          __dirname,
+          '../../fixtures/blueprints/with-templating/files/foo.txt'),
         templateVariables: {},
         ui,
       };

@@ -303,7 +303,7 @@ describe('Acceptance: smoke-test', function() {
     let result = yield expect(runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--test-port=25522', {
       onOutput(string, child) {
         // wait for the first passed test and then exit
-        if (string.match(/^ok\ /)) {
+        if (string.match(/^ok /)) {
           killCliProcess(child);
         }
       },

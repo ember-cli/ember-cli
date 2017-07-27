@@ -62,8 +62,8 @@ describe('install:addon command', function() {
   it('will show a deprecation warning', function() {
     return command.validateAndRun(['ember-cli-photoswipe']).then(function() {
       expect(command.ui.output).to.include(
-          'This command has been deprecated. Please use `ember install ' +
-          '<addonName>` instead.');
+        'This command has been deprecated. Please use `ember install ' +
+        '<addonName>` instead.');
 
       expect(npmInstance.ui, 'ui was set').to.be.ok;
       expect(npmInstance.project, 'project was set').to.be.ok;
