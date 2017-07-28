@@ -533,6 +533,7 @@ describe('models/command.js', function() {
         default: true,
         aliases: [
           { 'mild': false },
+          undefined,
         ],
         key: 'spicy',
         required: false,
