@@ -123,6 +123,7 @@ describe('models/asset-size-printer', function() {
         expect(output.files[1].name).to.include('nested-asset.js');
         expect(output.files[1].size).to.equal(32);
         expect(output.files[1].gzipSize).to.equal(52);
+        expect(output.files[0]).to.not.have.property('showGzipped');
       });
   });
 
