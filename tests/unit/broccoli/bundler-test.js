@@ -17,11 +17,15 @@ describe('Bundler', function() {
         name: 'the-best-app-ever',
         sourcemaps: { enabled: true },
         appOutputPath: 'the-best-app-ever.js',
+        vendorFilePath: 'assets/vendor.js',
+        isBabelAvailable: false,
       });
 
       expect(bundler.name).to.equal('the-best-app-ever');
       expect(bundler.sourcemaps).to.deep.equal({ enabled: true });
       expect(bundler.appOutputPath).to.equal('the-best-app-ever.js');
+      expect(bundler.vendorFilePath).to.equal('assets/vendor.js');
+      expect(bundler.isBabelAvailable).to.equal(false);
     });
   });
 
@@ -57,6 +61,15 @@ describe('Bundler', function() {
           },
         },
         'vendor': {
+          'loader': {
+            'loader.js': '',
+          },
+          'ember': {
+            'jquery': {
+              'jquery.js': '',
+            },
+            'ember.debug.js': '',
+          },
           'ember-cli': {
             'app-boot.js': 'app-boot.js',
             'app-config.js': 'app-config.js',
@@ -69,6 +82,12 @@ describe('Bundler', function() {
             'vendor-prefix.js': 'vendor-prefix.js',
             'vendor-suffix.js': 'vendor-suffix.js',
           },
+          'ember-cli-shims': {
+            'app-shims.js': '',
+          },
+          'ember-resolver': {
+            'legacy-shims.js': '',
+          },
         },
       });
     }));
@@ -77,7 +96,7 @@ describe('Bundler', function() {
       input.dispose();
     });
 
-    it('given a tree with `addon` and `vendor` produces a final tree with one javascript file and sourcemap associated with it', co.wrap(function *() {
+    it('given a tree with `addon` and `vendor` produces a final tree with application and vendor javascript and sourcemaps associated with them', co.wrap(function *() {
       let bundler = new Bundler({
         name: 'the-best-app-ever',
         sourcemaps: { enabled: true },
@@ -85,15 +104,67 @@ describe('Bundler', function() {
         appTreeAnnotation: 'concat yo',
       });
 
+      let scriptOutputFiles = {
+        '/assets/vendor.js': [
+          'vendor/ember-cli/vendor-prefix.js',
+          'vendor/loader/loader.js',
+          'vendor/ember/jquery/jquery.js',
+          'vendor/ember/ember.debug.js',
+          'vendor/ember-cli-shims/app-shims.js',
+          'vendor/ember-resolver/legacy-shims.js',
+        ],
+      };
+
       let output = yield buildOutput(bundler.bundleJs(input.path(), {
-        annotation: 'concatinatin\' silly trees',
+        scriptOutputFiles,
       }));
 
       let files = walkSync(output.path(), { directories: false });
       expect(files).to.deep.equal([
+        'assets/vendor.js',
+        'assets/vendor.map',
         'the-best-app-ever.js',
         'the-best-app-ever.map',
       ]);
     }));
+
+    it('vendor files are correctly ordered within concatenated vendor tree', function() {
+      let bundler = new Bundler({
+        name: 'the-best-app-ever',
+        sourcemaps: { enabled: true },
+        appOutputPath: 'the-best-app-ever.js',
+        appTreeAnnotation: 'concat yo',
+        vendorFilePath: '/assets/vendor.js',
+      });
+
+      let vendorFileList = [
+        'vendor/ember-cli/vendor-prefix.js',
+        'files/d.js',
+        'files/a.js',
+        'bower_components/jquery/dist/jquery.js',
+        'bower_components/ember/ember.js',
+        'bower_components/ember-cli-shims/app-shims.js',
+        'files/b.js',
+        'files/c.js',
+      ];
+      let scriptOutputFiles = {
+        '/assets/vendor.js': vendorFileList,
+      };
+
+      let vendorFiles = bundler.getVendorFiles(input.path(), scriptOutputFiles);
+      let vendorTree = vendorFiles[0];
+
+      expect(vendorTree.headerFiles).to.deep.equal(vendorFileList);
+      expect(vendorTree.inputFiles).to.deep.equal([
+        'addon-tree-output/**/*.js',
+      ]);
+      expect(vendorTree.footerFiles).to.deep.equal([
+        'vendor/ember-cli/vendor-suffix.js',
+      ]);
+      expect(vendorTree.outputFile).to.equal('/assets/vendor.js');
+      expect(vendorTree.separator).to.equal('\n;');
+      expect(vendorTree.allowNone).to.equal(true);
+      expect(vendorTree._annotation).to.equal('Concat: Vendor /assets/vendor.js');
+    });
   });
 });
