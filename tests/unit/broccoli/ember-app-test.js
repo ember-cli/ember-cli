@@ -1050,6 +1050,21 @@ describe('EmberApp', function() {
     describe('concat order', function() {
       let count = 0;
       let args = [];
+      let concatAppJsTree = {
+        annotation: "Concat: App",
+        footerFiles: [
+          "vendor/ember-cli/app-suffix.js",
+          "vendor/ember-cli/app-config.js",
+          "vendor/ember-cli/app-boot.js",
+        ],
+        headerFiles: [
+          "vendor/ember-cli/app-prefix.js",
+        ],
+        inputFiles: [
+          "test-project/**/*.js",
+        ],
+        outputFile: "/assets/test-project.js",
+      };
 
       beforeEach(function() {
         count = 0;
@@ -1060,6 +1075,12 @@ describe('EmberApp', function() {
         app._concatFiles = function(tree, options) {
           count++;
           args.push(options);
+          return tree;
+        };
+
+        app.bundler.bundleJs = function(tree) {
+          count++;
+          args.push(concatAppJsTree);
           return tree;
         };
 
@@ -1133,21 +1154,7 @@ describe('EmberApp', function() {
 
         expect(count).to.eql(2);
         // should be unrelated files
-        expect(args[0]).to.deep.eql({
-          annotation: "Concat: App",
-          footerFiles: [
-            "vendor/ember-cli/app-suffix.js",
-            "vendor/ember-cli/app-config.js",
-            "vendor/ember-cli/app-boot.js",
-          ],
-          headerFiles: [
-            "vendor/ember-cli/app-prefix.js",
-          ],
-          inputFiles: [
-            "test-project/**/*.js",
-          ],
-          outputFile: "/assets/test-project.js",
-        });
+        expect(args[0]).to.deep.eql(concatAppJsTree);
 
         // should be: a,b,c,d in output
         expect(args[1]).to.deep.eql({
