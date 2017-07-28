@@ -297,6 +297,30 @@ describe('Acceptance: brocfile-smoke-test', function() {
     })();
   }));
 
+  it('can turn CommonJS loader into named AMD', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/app-import-common-js');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    let outputJS = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'output.js'), {
+      encoding: 'utf8',
+    });
+
+    (function() {
+      let defineCount = 0;
+      // eslint-disable-next-line no-unused-vars
+      function define(name, deps, factory) {
+        expect(name).to.equal('hello-world');
+        expect(deps).to.deep.equal([]);
+        expect(factory()()).to.equal('Hello World');
+        defineCount++;
+      }
+      /* eslint-disable no-eval */
+      eval(outputJS);
+      /* eslint-enable no-eval */
+      expect(defineCount).to.eql(1);
+    })();
+  }));
+
   // skipped because of potentially broken assertion that should be fixed correctly at a later point
   it.skip('specifying partial `outputPaths` hash deep merges options correctly', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/custom-output-paths');
