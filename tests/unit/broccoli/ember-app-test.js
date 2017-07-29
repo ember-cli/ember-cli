@@ -1050,21 +1050,6 @@ describe('EmberApp', function() {
     describe('concat order', function() {
       let count = 0;
       let args = [];
-      let concatAppJsTree = {
-        annotation: "Concat: App",
-        footerFiles: [
-          "vendor/ember-cli/app-suffix.js",
-          "vendor/ember-cli/app-config.js",
-          "vendor/ember-cli/app-boot.js",
-        ],
-        headerFiles: [
-          "vendor/ember-cli/app-prefix.js",
-        ],
-        inputFiles: [
-          "test-project/**/*.js",
-        ],
-        outputFile: "/assets/test-project.js",
-      };
 
       beforeEach(function() {
         count = 0;
@@ -1075,12 +1060,6 @@ describe('EmberApp', function() {
         app._concatFiles = function(tree, options) {
           count++;
           args.push(options);
-          return tree;
-        };
-
-        app.bundler.bundleJs = function(tree) {
-          count++;
-          args.push(concatAppJsTree);
           return tree;
         };
 
@@ -1138,42 +1117,6 @@ describe('EmberApp', function() {
           ],
           inputFiles: ['addon-tree-output/**/*.css'],
           outputFile: '/assets/vendor.css',
-        });
-      });
-
-      it('correctly orders concats from app.javascript()', function() {
-        app.import('files/b.js');
-        app.import('files/c.js');
-        app.import('files/a.js');
-        app.import('files/a.js', { prepend: true }); // Should end up second.
-        app.import('files/d.js');
-        app.import('files/d.js', { prepend: true }); // Should end up first.
-        app.import('files/d.js');
-
-        app.javascript(); // run
-
-        expect(count).to.eql(2);
-        // should be unrelated files
-        expect(args[0]).to.deep.eql(concatAppJsTree);
-
-        // should be: a,b,c,d in output
-        expect(args[1]).to.deep.eql({
-          annotation: "Concat: Vendor /assets/vendor.js",
-          allowNone: true,
-          headerFiles: [
-            "vendor/ember-cli/vendor-prefix.js",
-            "files/d.js",
-            "files/a.js",
-            "bower_components/jquery/dist/jquery.js",
-            "bower_components/ember/ember.js",
-            "bower_components/ember-cli-shims/app-shims.js",
-            "files/b.js",
-            "files/c.js",
-          ],
-          inputFiles: ['addon-tree-output/**/*.js'],
-          footerFiles: ['vendor/ember-cli/vendor-suffix.js'],
-          outputFile: "/assets/vendor.js",
-          separator: '\n;',
         });
       });
 
