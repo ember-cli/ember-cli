@@ -279,7 +279,8 @@ describe('models/project.js', function() {
         'tests-server-middleware',
         'history-support-middleware',
         'broccoli-watcher', 'broccoli-serve-files',
-        'proxy-server-middleware', 'ember-cli-legacy-blueprints', 'ember-try',
+        'proxy-server-middleware', 'amd-transform',
+        'ember-cli-legacy-blueprints', 'ember-try',
         'ember-random-addon', 'ember-non-root-addon',
         'ember-generated-with-export-addon',
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
@@ -291,10 +292,10 @@ describe('models/project.js', function() {
     it('returns instances of the addons', function() {
       let addons = project.addons;
 
-      expect(addons[9].name).to.equal('Ember Non Root Addon');
-      expect(addons[15].name).to.equal('Ember Super Button');
-      expect(addons[15].addons[0].name).to.equal('Ember Yagni');
-      expect(addons[15].addons[1].name).to.equal('Ember Ng');
+      expect(addons[10].name).to.equal('Ember Non Root Addon');
+      expect(addons[16].name).to.equal('Ember Super Button');
+      expect(addons[16].addons[0].name).to.equal('Ember Yagni');
+      expect(addons[16].addons[1].name).to.equal('Ember Ng');
     });
 
     it('addons get passed the project instance', function() {
@@ -306,7 +307,7 @@ describe('models/project.js', function() {
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       let addons = project.addons;
 
-      expect(addons[11].name).to.equal('Ember Random Addon');
+      expect(addons[12].name).to.equal('Ember Random Addon');
     });
 
     it('returns the default blueprints path', function() {
@@ -369,8 +370,8 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       let addons = project.addons;
 
-      expect(addons[8] instanceof Addon).to.equal(true);
-      expect(addons[8].name).to.equal('Ember CLI Generated with export');
+      expect(addons[9] instanceof Addon).to.equal(true);
+      expect(addons[9].name).to.equal('Ember CLI Generated with export');
     });
 
     it('adds the project itself if it is an addon', function() {
