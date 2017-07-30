@@ -1381,7 +1381,7 @@ describe('Blueprint', function() {
     });
 
     it('loads only blueprints with an index.js', function() {
-      expect(Blueprint.load(path.join(fixtureBlueprints, '.notablueprint'))).to.be.empty;
+      expect(Blueprint.load(path.join(fixtureBlueprints, '.notablueprint'))).to.not.exist;
     });
   });
 

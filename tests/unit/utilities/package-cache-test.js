@@ -76,10 +76,10 @@ describe('PackageCache', function() {
     expect(manifest.name).to.equal('ember-cli');
 
     manifest = testPackageCache._readManifest('nonexistent', 'yarn');
-    expect(manifest).to.equal.null;
+    expect(manifest).to.be.null;
 
     testPackageCache._readManifest('boom', 'yarn');
-    expect(manifest).to.equal.null;
+    expect(manifest).to.be.null;
   });
 
   it('_writeManifest', function() {

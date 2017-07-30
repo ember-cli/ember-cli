@@ -34,7 +34,7 @@ describe('Installation Checker', function() {
       };
       installationChecker = new InstallationChecker({ project });
 
-      expect(checkInstallations).to.throw(/^SilentError: InstallationChecker: Unable to parse: .*bower.json/);
+      expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*bower.json/);
     });
 
   });
@@ -58,7 +58,7 @@ describe('Installation Checker', function() {
       };
       installationChecker = new InstallationChecker({ project });
 
-      expect(checkInstallations).to.throw(/^SilentError: InstallationChecker: Unable to parse: .*package.json/);
+      expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*package.json/);
     });
 
   });
@@ -73,7 +73,7 @@ describe('Installation Checker', function() {
       };
       installationChecker = new InstallationChecker({ project });
 
-      expect(checkInstallations).to.throw(/^SilentError: InstallationChecker: Unable to parse: .*package.json/);
+      expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*package.json/);
     });
 
     it('ignores directories without bower.js and package.json files', function() {
