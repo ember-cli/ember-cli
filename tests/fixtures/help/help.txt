@@ -24,6 +24,7 @@ ember asset-sizes \u001b[36m<options...>\u001b[39m
   Shows the sizes of your asset files.
   \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
     \u001b[90maliases: -o <value>\u001b[39m
+  \u001b[36m--json\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
 
 ember build \u001b[36m<options...>\u001b[39m
   Builds your app and places it into the output path (dist/ by default).

@@ -88,6 +88,12 @@ module.exports = {
           required: false,
           aliases: ['o'],
           type: 'Path'
+        },
+        {
+          default: false,
+          key: 'json',
+          name: 'json',
+          required: false
         }
       ]
     },
