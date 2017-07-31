@@ -203,6 +203,7 @@ describe('models/builder.js', function() {
         name: 'TestAddon',
         preBuild() {
           hooksCalled.push('preBuild');
+          expect(this).to.equal(addon);
 
           return Promise.resolve();
         },
