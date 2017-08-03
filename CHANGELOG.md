@@ -1,5 +1,39 @@
 # ember-cli Changelog
 
+## 2.15.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.15.0-beta.1...v2.15.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.15.0-beta.1...v2.15.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7210](https://github.com/ember-cli/ember-cli/pull/7210) Ember try remove test [@kellyselden](https://github.com/kellyselden)
+- [#7186](https://github.com/ember-cli/ember-cli/pull/7186) node 8 [@stefanpenner](https://github.com/stefanpenner)
+- [#7136](https://github.com/ember-cli/ember-cli/pull/7136) ember test work with both —server and —path [@stefanpenner](https://github.com/stefanpenner)
+- [#7224](https://github.com/ember-cli/ember-cli/pull/7224) context issue fix [@bekzod](https://github.com/bekzod)
+- [#7206](https://github.com/ember-cli/ember-cli/pull/7206) release] remove MODEL_FACTORY_INJECTIONS [@kellyselden](https://github.com/kellyselden)
+- [#7205](https://github.com/ember-cli/ember-cli/pull/7205) release] 2 12 lts testing [@kellyselden](https://github.com/kellyselden)
+- [#7193](https://github.com/ember-cli/ember-cli/pull/7193) cherry pick "install npm 4 in addon travis using npm" [@kellyselden](https://github.com/kellyselden)
+- [#7194](https://github.com/ember-cli/ember-cli/pull/7194) stay in sync with editorconfig and other blueprints regarding newlines [@kellyselden](https://github.com/kellyselden)
+- [#7204](https://github.com/ember-cli/ember-cli/pull/7204) release] explain node 4 in addons [@kellyselden](https://github.com/kellyselden)
+- [#7208](https://github.com/ember-cli/ember-cli/pull/7208) Fixes typo in babel transpilation options [@pzuraq/bugfix](https://github.com/pzuraq/bugfix)
+- [#7231](https://github.com/ember-cli/ember-cli/pull/7231) Don't merge `emberCLITree` twice [@twokul](https://github.com/twokul)
+- [#7246](https://github.com/ember-cli/ember-cli/pull/7246) cherry-pick "Bumps `broccoli-builder` version to include stack traces fix [@twokul](https://github.com/twokul)
+- [#7270](https://github.com/ember-cli/ember-cli/pull/7270) Cache Project model config. [@ember-cli](https://github.com/ember-cli)
+- [#7273](https://github.com/ember-cli/ember-cli/pull/7273) Asset sizes [@simplabs](https://github.com/simplabs)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.15.0-beta.1
 
 The following changes are required if you are upgrading from the previous
