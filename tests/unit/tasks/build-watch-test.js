@@ -36,8 +36,7 @@ describe('build-watch task', function() {
       project,
       setupBroccoliBuilder,
       onProcessInterrupt: {
-        addHandler() {},
-        removeHandler() {},
+        addHandler() { return function() { }; },
       },
     });
 

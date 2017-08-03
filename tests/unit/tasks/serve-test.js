@@ -36,8 +36,7 @@ describe('serve task', function() {
       project,
       setupBroccoliBuilder,
       onProcessInterrupt: {
-        addHandler() {},
-        removeHandler() {},
+        addHandler() { return function() { }; },
       },
     });
 

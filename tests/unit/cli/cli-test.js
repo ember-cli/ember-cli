@@ -6,13 +6,18 @@ const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
 const Command = require('../../../lib/models/command');
 const Promise = require('rsvp').Promise;
+const SilentError = require('silent-error');
+const willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+const captureExit = require('capture-exit');
+const MockProcess = require('../../helpers/mock-process');
 
 let ui;
 let analytics;
 let commands = {};
 let isWithinProject;
 let project;
-let willInterruptProcess;
+let _process;
+let origExit;
 
 let CLI;
 
@@ -43,6 +48,14 @@ function ember(args) {
   });
 }
 
+function registerCommand(Command) {
+  project.eachAddonCommand = function(callback) {
+    callback(Command.name, {
+      Command,
+    });
+  };
+}
+
 function stubCallHelp() {
   return td.replace(CLI.prototype, 'callHelp', td.function());
 }
@@ -66,11 +79,21 @@ function stubRun(name) {
 
 describe('Unit: CLI', function() {
   beforeEach(function() {
-    willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
+
+    _process = new MockProcess({
+      exit() {
+        // force `process-exit` to handle exit
+        process.exit();
+      },
     });
 
+    // capture-exit doesn't support `process` injection
+    // instead it always uses global `process`
+    origExit = process.exit;
+    // if we leave original exit then test run will be stopped once we send SIGINT
+    process.exit = function() {};
+
+    willInterruptProcess.capture(_process);
     CLI = require('../../../lib/cli/cli');
     ui = new MockUI();
     analytics = new MockAnalytics();
@@ -94,6 +117,9 @@ describe('Unit: CLI', function() {
 
     delete process.env.EMBER_ENV;
     commands = ui = undefined;
+    willInterruptProcess.release();
+    captureExit._reset();
+    process.exit = origExit;
   });
 
   this.timeout(10000);
@@ -228,43 +254,78 @@ describe('Unit: CLI', function() {
     });
   });
 
-  describe('command interruption handler', function() {
-    let onCommandInterrupt;
+  describe('command interruption', function() {
+    let interruptionHandeled;
     beforeEach(function() {
-      onCommandInterrupt = td.matchers.isA(Function);
+      interruptionHandeled = false;
+    });
+
+    const FakeCommand = Command.extend({
+      name: 'fake',
+
+      beforeRun() {
+        return Promise.resolve();
+      },
+
+      run() {
+        return new Promise(resolve => {
+          setTimeout(() => resolve(), 50);
+        });
+      },
+
+      onInterrupt() {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            interruptionHandeled = true;
+            resolve();
+          }, 100); // ensure we cleanup longer than command run executed
+        });
+      },
     });
 
     it('sets up handler before command run', function() {
-      const CustomCommand = Command.extend({
-        name: 'custom',
-
+      registerCommand(FakeCommand.extend({
         beforeRun() {
-          td.verify(willInterruptProcess.addHandler(onCommandInterrupt));
-
-          return Promise.resolve();
+          _process.emit('SIGINT');
         },
+      }));
 
+      return ember(['fake']).finally(function() {
+        expect(interruptionHandeled).to.equal(true);
+      });
+    });
+
+    it('cleans up handler right after command is finished', function() {
+      registerCommand(FakeCommand.extend({
+        onInterrupt() {
+          interruptionHandeled = true;
+        },
+      }));
+
+      return ember(['fake']).finally(function() {
+        _process.emit('SIGINT');
+
+        // ensure interruption handler has enough time to be triggered
+        return new Promise(resolve => setTimeout(resolve, 50));
+      }).then(() => {
+        expect(interruptionHandeled).to.equal(false);
+      });
+    });
+
+    it(`rejected with a proper error on crash`, function() {
+      const error = new SilentError('OMG');
+
+      registerCommand(FakeCommand.extend({
         run() {
-          return Promise.resolve();
+          throw error;
         },
-      });
+      }));
 
-      project.eachAddonCommand = function(callback) {
-        callback('custom-addon', {
-          CustomCommand,
-        });
-      };
-
-      return ember(['custom']);
-    });
-
-    it('cleans up handler after command finished', function() {
-      stubValidateAndRun('serve');
-
-      return ember(['serve']).finally(function() {
-        td.verify(willInterruptProcess.removeHandler(onCommandInterrupt));
+      return expect(ember(['fake'])).to.be.rejectedWith(error).then(() => {
+        expect(interruptionHandeled).to.equal(false);
       });
     });
+
   });
 
   describe('help', function() {
@@ -711,8 +772,8 @@ describe('Unit: CLI', function() {
           return expect(verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2'])).to.be.rejected.then(error => {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
-            expect(error.name).to.equal('SilentError');
             expect(error.message).to.equal('The specified command fake-command is invalid. For available options, see `ember help`.');
+            expect(error.name).to.equal('SilentError');
           });
         });
 
