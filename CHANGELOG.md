@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+## 2.14.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.14.1...v2.14.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.14.1...v2.14.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7273](https://github.com/ember-cli/ember-cli/pull/7273) Fix --json option for asset sizes command [@simplabs](https://github.com/simplabs)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.14.1
 
 The following changes are required if you are upgrading from the previous
