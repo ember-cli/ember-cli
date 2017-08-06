@@ -249,11 +249,12 @@ describe('Unit: CLI', function() {
         },
       });
 
-      project.eachAddonCommand = function(callback) {
-        callback('custom-addon', {
-          CustomCommand,
-        });
-      };
+    it(`tears down interruption handler after command is executed`, function() {
+      registerCommand(FakeCommand.extend({
+        run() {
+          setTimeout(() => _process.emit('SIGINT'), 10);
+        },
+      }));
 
       return ember(['custom']);
     });
