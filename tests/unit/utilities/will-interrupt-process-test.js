@@ -92,10 +92,11 @@ describe('will interrupt process', function() {
 
     it('removes exit handler', function() {
       willInterruptProcess.capture(new MockProcess());
-      willInterruptProcess.addHandler(cb);
+
+      let teardown = willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
-      willInterruptProcess.removeHandler(cb);
+      teardown();
 
       expect(captureExit.listenerCount()).to.equal(1);
     });
@@ -144,9 +145,9 @@ describe('will interrupt process', function() {
     it('cleans up interruption signal listener', function() {
       // will-interrupt-process doesn't have any public API to get actual handlers count
       // so here we make a side test to ensure that we don't add the same callback twice
-      willInterruptProcess.addHandler(cb);
+      let teardown = willInterruptProcess.addHandler(cb);
 
-      willInterruptProcess.removeHandler(cb);
+      teardown(cb);
 
       expect(process.getSignalListenerCounts()).to.eql({
         SIGINT: 0,
@@ -156,10 +157,10 @@ describe('will interrupt process', function() {
     });
 
     it(`doesn't clean up interruption signal listeners if there are remaining handlers`, function() {
-      willInterruptProcess.addHandler(cb);
+      let teardown = willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(() => cb());
 
-      willInterruptProcess.removeHandler(cb);
+      teardown(cb);
 
       expect(process.getSignalListenerCounts()).to.eql({
         SIGINT: 1,
@@ -211,10 +212,10 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.capture(process);
 
-      willInterruptProcess.addHandler(cb);
+      const removeHandler = willInterruptProcess.addHandler(cb);
       expect(process.stdin.isRaw).to.equal(true);
 
-      willInterruptProcess.removeHandler(cb);
+      removeHandler();
       expect(process.stdin.isRaw).to.equal(false);
     });
 

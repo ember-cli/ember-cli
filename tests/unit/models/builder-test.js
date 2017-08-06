@@ -11,6 +11,8 @@ const td = require('testdouble');
 const chai = require('../../chai');
 let expect = chai.expect;
 let file = chai.file;
+const willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+const MockProcess = require('../../helpers/mock-process');
 
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -36,27 +38,36 @@ describe('models/builder.js', function() {
   }
 
   before(function() {
-    td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
-    });
-
     Builder = require('../../../lib/models/builder');
   });
 
+  beforeEach(function() {
+    willInterruptProcess.capture(new MockProcess());
+  }),
+
   afterEach(function() {
+    willInterruptProcess.release();
     if (builder) {
       return builder.cleanup();
     }
   });
 
   describe('copyToOutputPath', function() {
+    let command;
+
+    let parentPath = `..${path.sep}..${path.sep}`;
+
+    before(function() {
+      command = new BuildCommand(commandOptions());
+    });
+
     beforeEach(function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
         builder = new Builder({
           setupBroccoliBuilder,
           project: new MockProject(),
+          onProcessInterrupt: willInterruptProcess,
         });
       });
     });
@@ -70,19 +81,6 @@ describe('models/builder.js', function() {
 
       builder.copyToOutputPath('tests/fixtures/blueprints/basic_2');
       expect(file(path.join(builder.outputPath, 'files', 'foo.txt'))).to.exist;
-    });
-
-    let command;
-
-    let parentPath = `..${path.sep}..${path.sep}`;
-
-    before(function() {
-      command = new BuildCommand(commandOptions());
-
-      builder = new Builder({
-        setupBroccoliBuilder,
-        project: new MockProject(),
-      });
     });
 
     it('when outputPath is root directory ie., `--output-path=/` or `--output-path=C:`', function() {
@@ -129,6 +127,7 @@ describe('models/builder.js', function() {
         setupBroccoliBuilder,
         project: new MockProject(),
         processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+        onProcessInterrupt: willInterruptProcess,
       });
 
       instrumentationStart = td.replace(builder.project._instrumentation, 'start');
@@ -183,6 +182,7 @@ describe('models/builder.js', function() {
         setupBroccoliBuilder,
         project: new MockProject(),
         processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+        onProcessInterrupt: willInterruptProcess,
       });
     });
 
@@ -240,6 +240,7 @@ describe('models/builder.js', function() {
         },
         processBuildResult(buildResults) { return Promise.resolve(buildResults); },
         project,
+        onProcessInterrupt: willInterruptProcess,
       });
 
       buildResults = 'build results';
