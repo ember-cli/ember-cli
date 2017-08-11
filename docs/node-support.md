@@ -12,6 +12,7 @@
 | 5.x              | 1.13.9 - 2.6.3               |
 | 6.x              | 2.9.0 - Current              |
 | 7.x              | 2.10.0 - Current             |
+| 8.x              | 2.13.3 - Current             |
 
 # Design
 
