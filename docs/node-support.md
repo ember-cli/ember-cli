@@ -2,6 +2,18 @@
 
 * original proposal/discussion: https://github.com/ember-cli/rfcs/pull/47
 
+## Supported Versions
+
+| Node LTS Version | Supported Ember CLI Versions |
+|------------------|------------------------------|
+| 0.10.x           | 0.0.0 - 2.8.x                |
+| 0.12.x           | 0.0.0 - 2.11.x               |
+| 4.x              | 1.13.9 - Current             |
+| 5.x              | 1.13.9 - 2.6.3               |
+| 6.x              | 2.9.0 - Current              |
+| 7.x              | 2.10.0 - Current             |
+| 8.x              | 2.13.3 - Current             |
+
 # Design
 
 Commits to the `HEAD` of the master branch will provide support for any Active
