@@ -306,7 +306,7 @@ describe('models/instrumentation.js', function() {
     });
 
     it('throws if name is unexpected', function() {
-      expect(function() {
+      expect(() => {
         instrumentation.start('a party!');
       }).to.throw('No such instrumentation "a party!"');
     });

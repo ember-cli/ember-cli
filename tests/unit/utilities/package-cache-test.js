@@ -53,7 +53,7 @@ describe('PackageCache', function() {
     testPackageCache._conf.delete('foo');
     expect(testPackageCache.dirs['foo']).to.be.undefined;
 
-    expect(function() { testPackageCache.dirs = { foo: 'asdf' }; }).to.throw(Error);
+    expect(() => { testPackageCache.dirs = { foo: 'asdf' }; }).to.throw(Error);
   });
 
   it('_cleanDirs', function() {
@@ -109,7 +109,7 @@ describe('PackageCache', function() {
     let lockFileLocation = path.join(yarn, 'yarn.lock');
 
     // Make sure it doesn't throw if it doesn't exist.
-    expect(function() { testPackageCache._writeManifest('yarn', 'yarn', manifest); }).to.not.throw(Error);
+    expect(() => { testPackageCache._writeManifest('yarn', 'yarn', manifest); }).to.not.throw(Error);
 
     // Add a "lockfile".
     fs.writeFileSync(lockFileLocation, 'Hello, world!');

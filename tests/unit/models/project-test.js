@@ -400,7 +400,7 @@ describe('models/project.js', function() {
       const expectedPath = path.join(projectPath, '/lib/', invalidAddonName);
       const expectedError = `An error occurred in the constructor for ${invalidAddonName} at ${expectedPath}`;
 
-      expect(function() {
+      expect(() => {
         project.initializeAddons();
       }).to.throw(expectedError);
     });

@@ -166,7 +166,7 @@ describe('cli/lookup-command.js', function() {
 
     expect(command.name).to.equal('something-else');
 
-    expect(function() {
+    expect(() => {
       command.validateAndRun([]);
     }).to.throw(/command.*something-else.*is invalid/);
   });

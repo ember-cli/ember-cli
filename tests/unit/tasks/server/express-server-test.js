@@ -81,7 +81,7 @@ describe('express-server', function() {
         require() { return {}; },
       };
 
-      expect(function() {
+      expect(() => {
         subject.processAppMiddlewares();
       }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
     });
@@ -163,7 +163,7 @@ describe('express-server', function() {
           request(subject.app)
             .get('/foo')
             .set('accept', 'application/json, */*')
-            .expect(function(res) {
+            .expect(res => {
               expect(res.text).to.equal(expected);
             })
             .end(function(err) {
@@ -197,7 +197,7 @@ describe('express-server', function() {
           request(subject.app)
             .get('/foo')
             .set('accept', 'application/json, */*')
-            .expect(function(res) {
+            .expect(res => {
               expect(res.text).to.equal(expected);
             })
             .end(function(err) {
