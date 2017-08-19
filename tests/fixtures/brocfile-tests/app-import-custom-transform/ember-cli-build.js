@@ -14,5 +14,14 @@ module.exports = function (defaults) {
     outputFile: '/assets/output.js'
   });
 
+  app.import('vendor/custom-transform-example.js', {
+    using: [
+      {
+        transformation: 'dubiousShim'
+      }
+    ],
+    outputFile: '/assets/output-no-transform.js'
+  });
+
   return app.toTree();
 };

@@ -314,6 +314,23 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(outputJS).to.be.equal('if (typeof FastBoot === \'undefined\') { window.hello = "hello world"; }//# sourceMappingURL=output.map\n');
   }));
 
+  it('ignores transformation if transformation is not found', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/app-import-custom-transform');
+
+    let packageJsonPath = path.join(appRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.devDependencies['ember-transform-addon'] = 'latest';
+    fs.writeJsonSync(packageJsonPath, packageJson);
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    let outputJS = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'output-no-transform.js'), {
+      encoding: 'utf8',
+    });
+
+    expect(outputJS).to.be.equal('window.noTransform = true;//# sourceMappingURL=output-no-transform.map\n');
+  }));
+
   // skipped because of potentially broken assertion that should be fixed correctly at a later point
   it.skip('specifying partial `outputPaths` hash deep merges options correctly', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/custom-output-paths');
