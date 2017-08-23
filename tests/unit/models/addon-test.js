@@ -27,7 +27,7 @@ describe('models/addon.js', function() {
 
   describe('root property', function() {
     it('is required', function() {
-      expect(function() {
+      expect(() => {
         let TheAddon = Addon.extend({ root: undefined });
         new TheAddon();
       }).to.throw(/root/);
@@ -45,7 +45,7 @@ describe('models/addon.js', function() {
         },
       });
       let addon = new TheAddon();
-      expect(function() {
+      expect(() => {
         addon.treeGenerator('foo');
       }).to.not.throw();
       expect(warning).to.match(/Addon: `such name` is missing addon.project/);
@@ -344,7 +344,7 @@ describe('models/addon.js', function() {
     it('must define a `name` property', function() {
       let Foo = Addon.extend({ root: 'foo' });
 
-      expect(function() {
+      expect(() => {
         new Foo(project);
       }).to.throw(/An addon must define a `name` property./);
     });
@@ -602,7 +602,7 @@ describe('models/addon.js', function() {
         },
       };
 
-      expect(function() {
+      expect(() => {
         Addon.lookup(addon);
       }).to.throw(/The `dummy-addon` addon could not be found at `foo\/bar-baz\/blah\/doesnt-exist`\./);
     });
@@ -626,7 +626,7 @@ describe('models/addon.js', function() {
     it('should throw a useful error if a template compiler is not present -- non-pods', function() {
       addon.root = path.join(fixturePath, 'with-addon-templates');
 
-      expect(function() {
+      expect(() => {
         addon.compileTemplates();
       }).to.throw(
         `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
@@ -637,7 +637,7 @@ describe('models/addon.js', function() {
     it('should throw a useful error if a template compiler is not present -- pods', function() {
       addon.root = path.join(fixturePath, 'with-addon-pod-templates');
 
-      expect(function() {
+      expect(() => {
         addon.compileTemplates();
       }).to.throw(
         `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
@@ -649,7 +649,7 @@ describe('models/addon.js', function() {
     it('should not throw an error if addon/templates is present but empty', function() {
       addon.root = path.join(fixturePath, 'with-empty-addon-templates');
 
-      expect(function() {
+      expect(() => {
         addon.compileTemplates();
       }).not.to.throw();
     });

@@ -171,7 +171,7 @@ describe('EmberApp', function() {
 
     describe('loader.js missing', function() {
       it('does not error when loader.js is present in registry.availablePlugins', function() {
-        expect(function() {
+        expect(() => {
           new EmberApp({
             project,
           });
@@ -179,7 +179,7 @@ describe('EmberApp', function() {
       });
 
       it('throws an error when loader.js is not present in registry.availablePlugins', function() {
-        expect(function() {
+        expect(() => {
           new EmberApp({
             project,
             registry: {
@@ -191,7 +191,7 @@ describe('EmberApp', function() {
       });
 
       it('does not throw an error if _ignoreMissingLoader is set', function() {
-        expect(function() {
+        expect(() => {
           new EmberApp({
             project,
             registry: {
@@ -455,7 +455,7 @@ describe('EmberApp', function() {
           this.addons = [addon];
         };
 
-        expect(function() {
+        expect(() => {
           new EmberApp({
             project,
           });
@@ -504,7 +504,7 @@ describe('EmberApp', function() {
           project,
         });
 
-        expect(function() {
+        expect(() => {
           app.addonTreesFor('blah');
         }).not.to.throw(/addon must implement the `treeFor`/);
       });
@@ -884,6 +884,25 @@ describe('EmberApp', function() {
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib.js');
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.contain('vendor/path/to/lib2.js');
     });
+
+    it('option.using throws exception given invalid inputs', function() {
+      // `using` is looped over if given, we should ensure this throws an exception with proper error message
+      expect(() => {
+        app.import('vendor/path/to/lib1.js', { using: 1 });
+      }).to.throw(/You must pass an array of transformations for `using` option/);
+
+      expect(() => {
+        app.import('vendor/path/to/lib2.js', { using: 'foop' });
+      }).to.throw(/You must pass an array of transformations for `using` option/);
+
+      expect(() => {
+        app.import('vendor/path/to/lib3.js', { using: [1] });
+      }).to.throw(/list must have a `transformation` name/);
+
+      expect(() => {
+        app.import('vendor/path/to/lib3.js', { using: [{ foo: 'bar' }] });
+      }).to.throw(/list must have a `transformation` name/);
+    });
   });
 
   describe('vendorFiles', function() {
@@ -1010,7 +1029,7 @@ describe('EmberApp', function() {
       project,
     });
 
-    expect(function() {
+    expect(() => {
       app.import('vendor/b/c/foo.js', { type: 'javascript' });
     }).to.throw(/You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/);
   });

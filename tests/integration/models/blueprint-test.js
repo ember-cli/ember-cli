@@ -208,7 +208,7 @@ describe('Blueprint', function() {
     });
 
     it('throws an error if no blueprint is found', function() {
-      expect(function() {
+      expect(() => {
         Blueprint.lookup('foo');
       }).to.throw('Unknown blueprint: foo');
     });
@@ -288,7 +288,7 @@ describe('Blueprint', function() {
 
           expect(actualFiles).to.deep.equal(basicBlueprintFiles);
 
-          expect(function() {
+          expect(() => {
             fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function(err, content) {
               if (err) {
                 throw 'error';
@@ -474,24 +474,24 @@ describe('Blueprint', function() {
 
     it('throws error when there is a trailing forward slash in entityName', function() {
       options.entity = { name: 'foo/' };
-      expect(function() {
+      expect(() => {
         blueprint.install(options);
       }).to.throw(/You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
 
       options.entity = { name: 'foo\\' };
-      expect(function() {
+      expect(() => {
         blueprint.install(options);
       }).to.throw(/You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
 
       options.entity = { name: 'foo' };
-      expect(function() {
+      expect(() => {
         blueprint.install(options);
       }).not.to.throw();
     });
 
     it('throws error when an entityName is not provided', function() {
       options.entity = { };
-      expect(function() {
+      expect(() => {
         blueprint.install(options);
       }).to.throw(SilentError, /The `ember generate <entity-name>` command requires an entity name to be specified./);
     });

@@ -62,7 +62,7 @@ describe('destroy command', function() {
   });
 
   it('does not throw errors when beforeRun is invoked without the blueprint name', function() {
-    expect(function() {
+    expect(() => {
       command.beforeRun([]);
     }).to.not.throw();
   });
@@ -70,7 +70,7 @@ describe('destroy command', function() {
   it('rethrows errors from beforeRun', function() {
     project.blueprintLookupPaths = undefined;
 
-    expect(function() {
+    expect(() => {
       command.beforeRun(['controller', 'foo']);
     }).to.throw(/(is not a function)|(has no method)/);
   });
