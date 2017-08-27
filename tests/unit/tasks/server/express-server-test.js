@@ -210,6 +210,83 @@ describe('express-server', function() {
         });
     });
 
+    describe('compression', function() {
+      let longText = '<html><head></head><body>';
+      for (let i = 0; i < 10000; ++i) {
+        longText += 'x';
+      }
+      longText += '</body></html>';
+      it('uses compression by default for long texts', function(done) {
+        project.require = function() {
+          let app = express();
+          app.use('/foo', function(req, res) {
+            res.send(longText);
+          });
+          return app;
+        };
+
+        subject.start({
+          proxy: 'http://localhost:3001/',
+          host: undefined,
+          port: '1337',
+          rootURL: '/',
+        })
+          .then(function() {
+            request(subject.app)
+              .get('/foo')
+              .expect(function(res) {
+                expect(res.text).to.equal(longText);
+                expect(res.header['content-encoding']).to.equal('gzip');
+
+              })
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                expect(proxy.called).to.equal(false);
+                done();
+              });
+          });
+      });
+
+      it('does not use compression even for long texts when the x-no-compression header is sent in the response', function(done) {
+
+        project.require = function() {
+          let app = express();
+          app.use('/foo', function(req, res) {
+            res.set('x-no-compression', 'true'),
+            res.send(longText);
+          });
+          return app;
+        };
+
+        subject.start({
+          proxy: 'http://localhost:3001/',
+          host: undefined,
+          port: '1337',
+          rootURL: '/',
+        })
+          .then(function() {
+            request(subject.app)
+              .get('/foo')
+              .set('accept', 'application/json, */*')
+              .expect(function(res) {
+                expect(res.text).to.equal(longText);
+                expect(res.header['content-encoding']).to.not.exist;
+                expect(parseInt(res.header['content-length'], 10)).to.equal(longText.length);
+              })
+              .end(function(err) {
+                if (err) {
+                  return done(err);
+                }
+                expect(proxy.called).to.equal(false);
+                done();
+              });
+          });
+      });
+    }),
+
+
     describe('with proxy', function() {
       beforeEach(function() {
         return subject.start({
