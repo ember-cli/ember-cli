@@ -201,7 +201,7 @@ describe('test command', function() {
     });
 
     it('DOES NOT throw an error if using a build path', function() {
-      return expect(command.validateAndRun(['--server', '--path=tests']));
+      expect(command.validateAndRun(['--server', '--path=tests'])).to.be.ok;
     });
   });
 

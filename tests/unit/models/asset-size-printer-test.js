@@ -169,6 +169,6 @@ describe('models/asset-size-printer', function() {
       outputPath,
     });
 
-    return expect(sizePrinter.print()).not.to.throw;
+    expect(sizePrinter.print()).not.to.throw;
   });
 });

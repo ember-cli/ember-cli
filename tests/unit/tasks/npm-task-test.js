@@ -212,13 +212,13 @@ describe('NpmTask', function() {
     it('converts "npm install --no-optional" to "yarn install --ignore-optional"', function() {
       let args = task.toYarnArgs('install', { optional: false });
 
-      return expect(args).to.deep.equal(['install', '--ignore-optional', '--non-interactive']);
+      expect(args).to.deep.equal(['install', '--ignore-optional', '--non-interactive']);
     });
 
     it('converts "npm install --save foobar" to "yarn add foobar"', function() {
       let args = task.toYarnArgs('install', { save: true, packages: ['foobar'] });
 
-      return expect(args).to.deep.equal(['add', 'foobar', '--non-interactive']);
+      expect(args).to.deep.equal(['add', 'foobar', '--non-interactive']);
     });
 
     it('converts "npm install --save-dev --save-exact foo" to "yarn add --dev --exact foo"', function() {
@@ -228,17 +228,17 @@ describe('NpmTask', function() {
         packages: ['foo'],
       });
 
-      return expect(args).to.deep.equal(['add', '--dev', '--exact', 'foo', '--non-interactive']);
+      expect(args).to.deep.equal(['add', '--dev', '--exact', 'foo', '--non-interactive']);
     });
 
     it('converts "npm uninstall bar" to "yarn remove bar"', function() {
       let args = task.toYarnArgs('uninstall', { packages: ['bar'] });
 
-      return expect(args).to.deep.equal(['remove', 'bar', '--non-interactive']);
+      expect(args).to.deep.equal(['remove', 'bar', '--non-interactive']);
     });
 
     it('throws when "yarn install" is called with packages', function() {
-      return expect(() => task.toYarnArgs('install', { packages: ['foo'] })).to.throw(Error, /install foo/);
+      expect(() => task.toYarnArgs('install', { packages: ['foo'] })).to.throw(Error, /install foo/);
     });
   });
 });
