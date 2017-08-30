@@ -101,6 +101,7 @@ describe('Bundler', function() {
         name: 'the-best-app-ever',
         sourcemaps: { enabled: true },
         appOutputPath: 'the-best-app-ever.js',
+        vendorFilePath: 'assets/vendor.js',
         appTreeAnnotation: 'concat yo',
       });
 
@@ -151,20 +152,16 @@ describe('Bundler', function() {
         '/assets/vendor.js': vendorFileList,
       };
 
-      let vendorFiles = bundler.getVendorFiles(input.path(), scriptOutputFiles);
-      let vendorTree = vendorFiles[0];
+      let vendorFiles = bundler.getVendorFiles(scriptOutputFiles);
 
-      expect(vendorTree.headerFiles).to.deep.equal(vendorFileList);
-      expect(vendorTree.inputFiles).to.deep.equal([
+      expect(vendorFiles.headerFiles).to.deep.equal(vendorFileList);
+      expect(vendorFiles.inputFiles).to.deep.equal([
         'addon-tree-output/**/*.js',
       ]);
-      expect(vendorTree.footerFiles).to.deep.equal([
+      expect(vendorFiles.footerFiles).to.deep.equal([
         'vendor/ember-cli/vendor-suffix.js',
       ]);
-      expect(vendorTree.outputFile).to.equal('/assets/vendor.js');
-      expect(vendorTree.separator).to.equal('\n;');
-      expect(vendorTree.allowNone).to.equal(true);
-      expect(vendorTree._annotation).to.equal('Concat: Vendor /assets/vendor.js');
+      expect(vendorFiles.annotation).to.equal('Vendor JS');
     });
   });
 });
