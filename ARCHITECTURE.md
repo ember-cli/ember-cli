@@ -1,6 +1,6 @@
 ## Architecture
 
-![embercli architecture](./assets/architecture/Ember-CLI architecture.png)
+![embercli architecture](./assets/architecture/Ember-CLI%20architecture.png)
 
 ## Overview
 - **cli** parses args and calls the respective **command**
@@ -24,7 +24,7 @@ cli({
 ```
 
 ## UI
-In ember-cli we pass an `UI` instance around. Instead of calling
+In ember-cli we pass a `UI` instance around. Instead of calling
 `console.log` or writing things directly to `process.stdout` we access
 those through this wrapper. This makes our code testing friendly
 because it lets us simulate user input and it lets us verify if the output
@@ -255,7 +255,7 @@ Also a `message` property should be set: Either in the constructor or as a prope
 When requiring modules, we should be aware of their effect on startup
 time. If they introduce a noticeable penalty, and are not needed except
 for some task/command we should require them lazily. Obviously a few
-small modules wont make a difference, but eagerly requiring npm + bower
+small modules won't make a difference, but eagerly requiring npm + bower
 and all of lodash will add a second to startup time.
 
 The following example eagerly requires npm, but only truly requires it
