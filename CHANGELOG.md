@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+## 2.15.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.14.2...v2.15.0)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.14.2...v2.15.0)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7286](https://github.com/ember-cli/ember-cli/pull/7286) Update `amd-name-resolver` version to enable parallel babel transpile [@mikrostew](https://github.com/mikrostew)
+- [#7309](https://github.com/ember-cli/ember-cli/pull/7309) model/project: Freeze app config before caching it [@Turbo87](https://github.com/Turbo87)
+- [#7310](https://github.com/ember-cli/ember-cli/pull/7310) models/project: Hide app config caching behind CONFIG_CACHING feature flag [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.15.0-beta.2
 
 The following changes are required if you are upgrading from the previous
