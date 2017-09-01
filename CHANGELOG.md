@@ -1,5 +1,58 @@
 # ember-cli Changelog
 
+## 2.16.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.15.0...v2.16.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.15.0...v2.16.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7178](https://github.com/ember-cli/ember-cli/pull/7178) readme npm/yarn updates with tests [@kellyselden](https://github.com/kellyselden)
+- [#6908](https://github.com/ember-cli/ember-cli/pull/6908) Several fixes for the module unification feature flag [@mixonic](https://github.com/mixonic)
+- [#7137](https://github.com/ember-cli/ember-cli/pull/7137) add in-app testing page reference [@kellyselden](https://github.com/kellyselden)
+- [#7086](https://github.com/ember-cli/ember-cli/pull/7086) Mock process [@ro0gr](https://github.com/ro0gr)
+- [#7108](https://github.com/ember-cli/ember-cli/pull/7108) remove unnecessary `.push` [@bekzod](https://github.com/bekzod)
+- [#7033](https://github.com/ember-cli/ember-cli/pull/7033) Ensure addon blueprint calls `this.filesPath` [@status200](https://github.com/status200)
+- [#7109](https://github.com/ember-cli/ember-cli/pull/7109) Fix `ember install` for scoped packages [@ef4](https://github.com/ef4)
+- [#6963](https://github.com/ember-cli/ember-cli/pull/6963) Preserve header key case when serving with proxy [@jpadilla](https://github.com/jpadilla)
+- [#7119](https://github.com/ember-cli/ember-cli/pull/7119) added `app` directory for linting [@bekzod](https://github.com/bekzod)
+- [#7074](https://github.com/ember-cli/ember-cli/pull/7074) Fix eslint warning on generated config/environment.js [@morhook](https://github.com/morhook)
+- [#7065](https://github.com/ember-cli/ember-cli/pull/7065) Set the basePort for livereload from 49153 -> 7020 [@eriktrom](https://github.com/eriktrom)
+- [#7239](https://github.com/ember-cli/ember-cli/pull/7239) Remove private `_mergeTrees` function [@twokul](https://github.com/twokul)
+- [#7221](https://github.com/ember-cli/ember-cli/pull/7221) Bumps `broccoli-builder` version to include stack traces fix [@twokul](https://github.com/twokul)
+- [#7233](https://github.com/ember-cli/ember-cli/pull/7233) Convert blueprints to use modules and bump ember-cli-babel [@rwwagner90](https://github.com/rwwagner90)
+- [#7235](https://github.com/ember-cli/ember-cli/pull/7235) bump `ember-cli-lodash-subset` [@bekzod](https://github.com/bekzod)
+- [#7227](https://github.com/ember-cli/ember-cli/pull/7227) Don't merge `emberCLITree` twice [@twokul](https://github.com/twokul)
+- [#7294](https://github.com/ember-cli/ember-cli/pull/7294) Fix --test-port description [@akashdsouza](https://github.com/akashdsouza)
+- [#7259](https://github.com/ember-cli/ember-cli/pull/7259) Convert MarkdownColor to class syntax [@locks](https://github.com/locks)
+- [#7244](https://github.com/ember-cli/ember-cli/pull/7244) Using shorthands for functions [@twokul](https://github.com/twokul)
+- [#7248](https://github.com/ember-cli/ember-cli/pull/7248) Bump `amd-name-resolver` version to enable parallel babel transpile [@mikrostew](https://github.com/mikrostew)
+- [#7245](https://github.com/ember-cli/ember-cli/pull/7245) Add API to allow addons to define and use custom transform with app.import [@kratiahuja](https://github.com/kratiahuja)
+- [#7266](https://github.com/ember-cli/ember-cli/pull/7266) Fix JSON format of asset sizes report [@simplabs](https://github.com/simplabs)
+- [#7264](https://github.com/ember-cli/ember-cli/pull/7264) Introduces Bundler [@twokul](https://github.com/twokul)
+- [#7262](https://github.com/ember-cli/ember-cli/pull/7262) Convert to classes [@twokul](https://github.com/twokul)
+- [#7261](https://github.com/ember-cli/ember-cli/pull/7261) double test timeout for install-test-slow [@ro0gr](https://github.com/ro0gr)
+- [#7275](https://github.com/ember-cli/ember-cli/pull/7275) Allow server middleware to answer non-get (POST/PATCH...) requests [@cibernox](https://github.com/cibernox)
+- [#7269](https://github.com/ember-cli/ember-cli/pull/7269) Extract vendor generation into bundler [@twokul](https://github.com/twokul)
+- [#7292](https://github.com/ember-cli/ember-cli/pull/7292) Add Documentation Link and Supported Versions [@CrshOverride](https://github.com/CrshOverride)
+- [#7296](https://github.com/ember-cli/ember-cli/pull/7296) Drop un-needed Ember import [@mixonic](https://github.com/mixonic)
+- [#7300](https://github.com/ember-cli/ember-cli/pull/7300) Refactor Custom Transformation logic [@sangm](https://github.com/sangm)
+- [#7303](https://github.com/ember-cli/ember-cli/pull/7303) Introduces a way to debug application/add-on trees [@twokul](https://github.com/twokul)
+- [#7314](https://github.com/ember-cli/ember-cli/pull/7314) Removes babel module transform [@twokul](https://github.com/twokul)
+- [#7315](https://github.com/ember-cli/ember-cli/pull/7315) fix image uri [@xg-wang](https://github.com/xg-wang)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.15.0
 
 The following changes are required if you are upgrading from the previous
