@@ -2,7 +2,7 @@
 ember-cli
 ==============================================================================
 
-[![Latest NPM release][npm-badge]][npm-badge-url]
+[![Latest npm release][npm-badge]][npm-badge-url]
 [![TravisCI Build Status][travis-badge]][travis-badge-url]
 [![AppVeyor Build Status][appveyor-badge]][appveyor-badge-url]
 [![Test Coverage][coveralls-badge]][coveralls-badge-url]
@@ -61,7 +61,7 @@ ember new my-new-app
 ```
 
 This will create a new folder `my-new-app`, initialize a Git project in it,
-add the basic Ember.js project structure and install any necessary NPM and
+add the basic Ember.js project structure and install any necessary npm and
 Bower dependencies.
 
 
@@ -125,7 +125,7 @@ to see a list of available blueprints in your project and their options.
 ember install some-other-addon
 ```
 
-This will search NPM for a package named `some-other-addon`, install it and
+This will search npm for a package named `some-other-addon`, install it and
 run any additional install steps defined in the addon.
 
 

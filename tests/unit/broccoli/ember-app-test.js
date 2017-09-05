@@ -204,13 +204,13 @@ describe('EmberApp', function() {
       });
     });
 
-    describe('ember-resolver NPM vs Bower', function() {
+    describe('ember-resolver npm vs Bower', function() {
       it('does not load ember-resolver.js as bower dep when ember-resolver is present in registry.availablePlugins', function() {
         let app = new EmberApp({ project });
         expect(app.vendorFiles['ember-resolver']).to.equal(undefined);
       });
 
-      it('keeps ember-resolver.js in vendorFiles when NPM ember-resolver is not installed, but is present in bower.json', function() {
+      it('keeps ember-resolver.js in vendorFiles when npm ember-resolver is not installed, but is present in bower.json', function() {
         project.bowerDependencies = function() { return { 'ember': {}, 'ember-resolver': {} }; };
         let app = new EmberApp({
           project,
@@ -222,7 +222,7 @@ describe('EmberApp', function() {
         expect(app.vendorFiles['ember-resolver.js'][0]).to.equal('bower_components/ember-resolver/dist/modules/ember-resolver.js');
       });
 
-      it('removes ember-resolver.js from vendorFiles when not in bower.json and NPM ember-resolver not installed', function() {
+      it('removes ember-resolver.js from vendorFiles when not in bower.json and npm ember-resolver not installed', function() {
         project.bowerDependencies = function() { return { 'ember': {} }; };
         let app = new EmberApp({
           project,
