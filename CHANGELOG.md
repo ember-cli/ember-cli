@@ -744,7 +744,7 @@ version:
 - [#6674](https://github.com/ember-cli/ember-cli/pull/6674) Update core-object to the latest version 🚀 [@ember-cli](https://github.com/ember-cli)
 - [#6685](https://github.com/ember-cli/ember-cli/pull/6685) Revert "remove travis sudo check" [@ember-cli](https://github.com/ember-cli)
 - [#6683](https://github.com/ember-cli/ember-cli/pull/6683) ensure `Task.prototype.run` returns promises [@ember-cli](https://github.com/ember-cli)
-- [#6680](https://github.com/ember-cli/ember-cli/pull/6680) Use global NPM with version check [@Turbo87](https://github.com/Turbo87)
+- [#6680](https://github.com/ember-cli/ember-cli/pull/6680) Use global npm with version check [@Turbo87](https://github.com/Turbo87)
 - [#6681](https://github.com/ember-cli/ember-cli/pull/6681) Run "ember-cli-eslint" blueprint on "ember init" [@Turbo87](https://github.com/Turbo87)
 - [#6678](https://github.com/ember-cli/ember-cli/pull/6678) Avoid error upon registering a heimdall monitor twice. [@rwjblue](https://github.com/rwjblue)
 - [#6682](https://github.com/ember-cli/ember-cli/pull/6682) Update the minimum version of ember-try [@kategengler](https://github.com/kategengler)
@@ -829,7 +829,7 @@ version:
 - [#6644](https://github.com/ember-cli/ember-cli/pull/6644) Use  ES6 classes for internal classes [@Turbo87](https://github.com/Turbo87)
 - [#6654](https://github.com/ember-cli/ember-cli/pull/6654) blueprints/app: Update "ember-cli-qunit" dependency [@Turbo87](https://github.com/Turbo87)
 - [#6688](https://github.com/ember-cli/ember-cli/pull/6688) Replace custom Promise class with RSVP [@Turbo87](https://github.com/Turbo87)
-- [#6680](https://github.com/ember-cli/ember-cli/pull/6680) Use global NPM with version check [@Turbo87](https://github.com/Turbo87)
+- [#6680](https://github.com/ember-cli/ember-cli/pull/6680) Use global npm with version check [@Turbo87](https://github.com/Turbo87)
 
 Thank you to all who took the time to contribute!
 
@@ -879,7 +879,7 @@ version:
 #### Community Contributions
 
 - [#6531](https://github.com/ember-cli/ember-cli/pull/6531) Update to latest capture-exit, revert work around. [@ember-cli](https://github.com/rwjblue)
-- [#6525](https://github.com/ember-cli/ember-cli/pull/6525) utilities/npm: Run NPM commands via "execa" [@Turbo87](https://github.com/Turbo87)
+- [#6525](https://github.com/ember-cli/ember-cli/pull/6525) utilities/npm: Run npm commands via "execa" [@Turbo87](https://github.com/Turbo87)
 - [#6533](https://github.com/ember-cli/ember-cli/pull/6533) blueprints/addon: Fix path to "ember" executable in ".travis.yml" [@Turbo87](https://github.com/Turbo87)
 - [#6536](https://github.com/ember-cli/ember-cli/pull/6536) fix phantom use on travis [@kellyselden](https://github.com/kellyselden)
 - [#6537](https://github.com/ember-cli/ember-cli/pull/6537) Prevent deprecation from `ember-cli-babel` config options. [@rwjblue](https://github.com/rwjblue)
@@ -1450,7 +1450,7 @@ version:
 - [#5879](https://github.com/ember-cli/ember-cli/pull/5879) Blueprint READMEs: s/server/serve/ to match `ember help` [@chrisjshull](https://github.com/chrisjshull)
 - [#5789](https://github.com/ember-cli/ember-cli/pull/5789) Remove "home grown version checker" [@Turbo87](https://github.com/Turbo87)
 - [#5737](https://github.com/ember-cli/ember-cli/pull/5737) Update core-obect (#5547, rebased) [@nathanhammond](https://github.com/nathanhammond)
-- [#5709](https://github.com/ember-cli/ember-cli/pull/5709) Move test-loader to NPM [@trentmwillis](https://github.com/trentmwillis)
+- [#5709](https://github.com/ember-cli/ember-cli/pull/5709) Move test-loader to npm [@trentmwillis](https://github.com/trentmwillis)
 - [#5792](https://github.com/ember-cli/ember-cli/pull/5792) Add "rootURL" setting to deprecate "baseURL" [@Turbo87](https://github.com/Turbo87)
 - [#5801](https://github.com/ember-cli/ember-cli/pull/5801) Remove "ember help <something> --json" output [@Turbo87](https://github.com/Turbo87)
 - [#5819](https://github.com/ember-cli/ember-cli/pull/5819) Fix for disabling hinting for developing an addon [@jeffjewiss](https://github.com/jeffjewiss)
@@ -2054,7 +2054,7 @@ version:
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
   + Update `ember-cli-qunit` in `package.json` to `^1.2.1`.
   + Update `ember` in `bower.json` to `2.3.0`.
-  + Remove `qunit` from `bower.json` (it is now included as an NPM dependency by ember-cli-qunit).
+  + Remove `qunit` from `bower.json` (it is now included as an npm dependency by ember-cli-qunit).
 - Addon Developers
   + [`ember addon` diff](https://github.com/kellyselden/ember-addon-output/compare/v2.2.0-beta.6...v2.3.0-beta.1)
   + No changes required
@@ -3003,7 +3003,7 @@ version:
     * `this.walkSync`         -> `require('walk-sync');`
     * `this.transpileModules` -> `require('broccoli-es6modules');`
 
-  Rather then relying on them from ember-cli, add-ons should require them via NPM.
+  Rather then relying on them from ember-cli, add-ons should require them via npm.
 
   + We now are using broccoli v0.15.3, which is a backwards compatible upgrade,
     but it does expose the new `rebuild` api, that will soon superseed the `read`
@@ -3528,7 +3528,7 @@ The following changes are required if you are upgrading from the previous versio
 
 #### Community Contributions
 
-- [#2885](https://github.com/ember-cli/ember-cli/pull/2885) [ENHANCEMENT] NPM should use save-exact flags [@chadhietala](https://github.com/chadhietala)
+- [#2885](https://github.com/ember-cli/ember-cli/pull/2885) [ENHANCEMENT] npm should use save-exact flags [@chadhietala](https://github.com/chadhietala)
 - [#2840](https://github.com/ember-cli/ember-cli/pull/2840) [INTERNAL ]using 'expect' vs. assert. [@Mawaheb](https://github.com/Mawaheb)
 - [#2669](https://github.com/ember-cli/ember-cli/pull/2669) [ENHANCEMENT] add .npmignore to addon blueprint [@pogopaule](https://github.com/pogopaule)
 - [#2909](https://github.com/ember-cli/ember-cli/pull/2909) [INTERNAL] Use lib/ext/promise instead of RSVP directly [@zeppelin](https://github.com/zeppelin)
@@ -3586,7 +3586,7 @@ Thank you to all who took the time to contribute!
   you give it to the underlying task to do it.
 
 - [#2805](https://github.com/ember-cli/ember-cli/pull/2805) Added the
-  `install:addon` command, which installs an addon with NPM and then
+  `install:addon` command, which installs an addon with npm and then
   runs the included generator of the same name  if it provides one.
 
   If the blueprint for the installed addon requires arguments, then
@@ -3709,7 +3709,7 @@ Thank you to all who took the time to contribute!
   precedence.
 
 - [#2805](https://github.com/ember-cli/ember-cli/pull/2805) Added the
-  `install:addon` command, which installs an addon with NPM and then
+  `install:addon` command, which installs an addon with npm and then
   runs the included generator of the same name if it provides one,
   additionally if you addon generator's name is different to the addon
   name, you can pass the option `defaultBlueprint` in your
@@ -3740,7 +3740,7 @@ Thank you to all who took the time to contribute!
   * `{{content-for 'test-body-footer'}}`
 * [BUGFIX] Create separate server blueprint to stop http-{mock,proxy} removing files [#2610](https://github.com/stefanpenner/ember-cli/pull/2610)
 * [BUGFIX] Fixes `--proxy` so it proxies correctly to API's under subdomains [#2615](https://github.com/stefanpenner/ember-cli/pull/2615)
-* [BUGFIX] Ensure `watchman` does not conflict with NPM's `watchman` package. [#2645](https://github.com/stefanpenner/ember-cli/pull/2645)
+* [BUGFIX] Ensure `watchman` does not conflict with npm's `watchman` package. [#2645](https://github.com/stefanpenner/ember-cli/pull/2645)
 * [BUGFIX] Ensure that the generated meta tag is now self closing. [#2661](https://github.com/stefanpenner/ember-cli/pull/2661)
 
 #### Addons
@@ -3845,7 +3845,7 @@ Thank you to all who took the time to contribute!
 * [ENHANCEMENT] Add {{content-for 'test-head'}} to `tests/index.html`. [#2236](https://github.com/stefanpenner/ember-cli/pull/2236)
 * [ENHANCEMENT] Add {{content-for 'test-body'}} to `tests/index.html`. [#2236](https://github.com/stefanpenner/ember-cli/pull/2236)
 * [ENHANCEMENT] Allow adding multiple bower packages at once via `Blueprint.prototype.addBowerPackagesToProject`. [#2222](https://github.com/stefanpenner/ember-cli/pull/2222)
-* [ENHANCEMENT] Allow adding multiple NPM packages at once via `Blueprint.prototype.addPackagesToProject`. [#2245](https://github.com/stefanpenner/ember-cli/pull/2245)
+* [ENHANCEMENT] Allow adding multiple npm packages at once via `Blueprint.prototype.addPackagesToProject`. [#2245](https://github.com/stefanpenner/ember-cli/pull/2245)
 * [ENHANCEMENT] Ensure generated addons are in strict mode. [#2295](https://github.com/stefanpenner/ember-cli/pull/2295)
 * [BUGFIX] Ensure that addon's with `addon/styles/app.css` are able to compile properly (copying contents of `addon/styles/app.css` into `vendor.css`). [#2301](https://github.com/stefanpenner/ember-cli/pull/2301)
 * [ENHANCEMENT] Provide the `httpServer` instance to `serverMiddleware` (and `./server/index.js`). [#2302](https://github.com/stefanpenner/ember-cli/issues/2302)
@@ -4168,7 +4168,7 @@ in the output path. [#1930](https://github.com/stefanpenner/ember-cli/pull/1930)
 * [ENHANCEMENT] Using broccoli-sass > 0.2.0 now allows you to use .sass files. [#1367](https://github.com/stefanpenner/ember-cli/pull/1367)
 * [ENHANCEMENT] EmberAddon constructor to build an EmberApp object with defaults for addon projects. [#1343](https://github.com/stefanpenner/ember-cli/pull/1343)
 * [ENHANCEMENT] Allow addons to be vendored outside of node modules [#1370](https://github.com/stefanpenner/ember-cli/pull/1370)
-* [ENHANCEMENT] Make "ember version" show NPM and Node version (versions of all loaded modules with "--verbose" switch). [#1307](https://github.com/stefanpenner/ember-cli/pull/1307)
+* [ENHANCEMENT] Make "ember version" show npm and Node version (versions of all loaded modules with "--verbose" switch). [#1307](https://github.com/stefanpenner/ember-cli/pull/1307)
 * [BUGFIX] Duplicate-checking for generating routes now accounts for `"`-syntax. [#1371](https://github.com/stefanpenner/ember-cli/pull/1371)
 * [BREAKING BUGFIX] Standard variables passed in to Blueprints now handle slashes better. Breaking if you relied on the old behavior. [#1278](https://github.com/stefanpenner/ember-cli/pull/1278)
 * [BUGFIX] Generating a route named 'basic' no longer adds it to router.js. [#1390](https://github.com/stefanpenner/ember-cli/pull/1390)
@@ -4361,7 +4361,7 @@ in the output path. [#1930](https://github.com/stefanpenner/ember-cli/pull/1930)
 * [BREAKING BUGFIX] No longer rely on `broccoli-bower` to automatically import vendored files. Use `app.import` to import dependencies and specify modules to whitelist. [#562](https://github.com/stefanpenner/ember-cli/pull/562)
 * [ENHANCEMENT] Removed `proxy-url` and `proxy-host` parameters and introduced `proxy` param with full proxy url. ([#567](https://github.com/stefanpenner/ember-cli/pull/567))
 * [BREAKING ENHANCEMENT] Update to jQuery 1.11.1. ** updates `bower.json`
-* [ENHANCEMENT] When using non-NPM installed package (aka "running on master") the branch name and SHA are now printed along with the prior version number. [#634](https://github.com/stefanpenner/ember-cli/pull/634)
+* [ENHANCEMENT] When using non-npm installed package (aka "running on master") the branch name and SHA are now printed along with the prior version number. [#634](https://github.com/stefanpenner/ember-cli/pull/634)
 
 ### 0.0.25
 

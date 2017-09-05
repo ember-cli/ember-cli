@@ -469,7 +469,7 @@ module.exports = {
           name: 'yarn',
           key: 'yarn',
           required: false,
-          description: 'Use --yarn to enforce yarn usage, or --no-yarn to enforce NPM'
+          description: 'Use --yarn to enforce yarn usage, or --no-yarn to enforce npm'
         }
       ],
       anonymousOptions: ['<addon-name>']
