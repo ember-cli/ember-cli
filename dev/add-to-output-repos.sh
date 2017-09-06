@@ -10,6 +10,7 @@ stable_branch=stable
 beta_branch=master
 
 branch=$stable_branch
+fork=false
 if [ "$1" = "beta" ]; then
   if [ "$2" = "fork" ]; then
     fork=true
@@ -31,7 +32,7 @@ for i in ${commands[@]}; do
     local_folder=my-app
   fi
 
-  git clone git@github.com:ember-cli/$repo_folder.git --branch $branch
+  git clone https://github.com/ember-cli/$repo_folder.git --branch $branch
   pushd $repo_folder
   git rm -rf .
   ember $command $local_folder -sb -sn -sg
@@ -41,8 +42,7 @@ for i in ${commands[@]}; do
   # start a new beta branch off the just released stable
   if $fork; then
     git branch -d $beta_branch
-    git branch $beta_branch
-    git checkout $beta_branch
+    git checkout -b $beta_branch
   fi
 
   git add --all
