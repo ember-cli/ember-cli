@@ -16,7 +16,7 @@ version:
 
 #### Community Contributions
 
-- [#7316](https://github.com/ember-cli/ember-cli/pull/7316) Bump blueprint to Ember Data 2.15.0 [@locks](https://github.com/ember-cli)
+- [#7316](https://github.com/ember-cli/ember-cli/pull/7316) Bump blueprint to Ember Data 2.15.0 [@locks](https://github.com/locks)
 - [#7320](https://github.com/ember-cli/ember-cli/pull/7320) move "private" key in package.json [@kellyselden](https://github.com/kellyselden)
 
 Thank you to all who took the time to contribute!
