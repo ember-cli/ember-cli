@@ -53,6 +53,28 @@ version:
 Thank you to all who took the time to contribute!
 
 
+## 2.15.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.15.0...v2.15.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.15.0...v2.15.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7316](https://github.com/ember-cli/ember-cli/pull/7316) Bump blueprint to Ember Data 2.15.0 [@locks](https://github.com/ember-cli)
+- [#7320](https://github.com/ember-cli/ember-cli/pull/7320) move "private" key in package.json [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.15.0
 
 The following changes are required if you are upgrading from the previous
