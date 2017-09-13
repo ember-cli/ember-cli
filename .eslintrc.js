@@ -11,6 +11,15 @@ module.exports = {
   },
   globals: {
   },
+  overrides: [{
+    "files": [
+      'lib/cli/main.js',
+      'lib/utilities/require-as-hash.js'
+    ],
+    parserOptions: {
+      sourceType: 'module'
+    }
+  }],
   rules: {
     /*** Possible Errors ***/
 
