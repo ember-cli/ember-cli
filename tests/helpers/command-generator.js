@@ -18,12 +18,10 @@ const execa = require('../../lib/utilities/execa');
  * @param {Path} program The path to the command.
  * @return {Function} A command helper.
  */
-module.exports = CommandGenerator;
-function CommandGenerator(program) {
-  this.program = program;
-}
-
-CommandGenerator.prototype = {
+module.exports = class CommandGenerator {
+  constructor(program) {
+    this.program = program;
+  }
 
   /**
    * The `invoke` method is responsible for building the final executable command.
@@ -42,9 +40,9 @@ CommandGenerator.prototype = {
     }
 
     return this._invoke(args, options);
-  },
+  }
 
   _invoke(args, options) {
     return execa.sync(this.program, args, options);
-  },
+  }
 };
