@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+## 2.16.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.0-beta.1...v2.16.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.0-beta.1...v2.16.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7316](https://github.com/ember-cli/ember-cli/pull/7316) Bump blueprint to Ember Data 2.15.0 [@locks](https://github.com/locks)
+- [#7320](https://github.com/ember-cli/ember-cli/pull/7320) move "private" key in package.json [@kellyselden](https://github.com/kellyselden)
+- [#7333](https://github.com/ember-cli/ember-cli/pull/7333) models/project: Use deep cloning instead of freezing the config [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.16.0-beta.1
 
 The following changes are required if you are upgrading from the previous
