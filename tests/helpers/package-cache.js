@@ -228,25 +228,28 @@ function translate(type, lookup) { return lookups[lookup][type]; }
  * @constructor
  * @param {String} rootPath Root of the directory for `PackageCache`.
  */
-function PackageCache(rootPath) {
-  this.rootPath = rootPath || originalWorkingDirectory;
+module.exports = class PackageCache {
+  constructor(rootPath) {
+    this.rootPath = rootPath || originalWorkingDirectory;
 
-  this._conf = new Configstore('package-cache');
+    this._conf = new Configstore('package-cache');
 
-  // The default invocation will write something we don't use.
-  // Remove it:
-  fs.unlinkSync(this._conf.path);
+    // The default invocation will write something we don't use.
+    // Remove it:
+    fs.unlinkSync(this._conf.path);
 
-  // Set it to where we want it to be.
-  this._conf.path = path.join(this.rootPath, 'tmp', 'package-cache.json');
+    // Set it to where we want it to be.
+    this._conf.path = path.join(this.rootPath, 'tmp', 'package-cache.json');
 
-  // Initialize.
-  this._conf.all = this._conf.all;
+    // Initialize.
+    this._conf.all = this._conf.all;
 
-  this._cleanDirs();
-}
+    this._cleanDirs();
+  }
 
-PackageCache.prototype = {
+  get dirs() {
+    return this._conf.all;
+  }
 
   /**
    * The `__setupForTesting` modifies things in module scope.
@@ -256,7 +259,7 @@ PackageCache.prototype = {
   __setupForTesting(stubs) {
     originals = commands;
     commands = stubs.commands;
-  },
+  }
 
   /**
    * The `__resetForTesting` puts things back in module scope.
@@ -265,7 +268,7 @@ PackageCache.prototype = {
    */
   __resetForTesting() {
     commands = originals;
-  },
+  }
 
   /**
    * The `_cleanDirs` method deals with sync issues between the
@@ -285,7 +288,7 @@ PackageCache.prototype = {
         this._conf.delete(label);
       }
     }
-  },
+  }
 
   /**
    * The `_readManifest` method reads the on-disk manifest for the current
@@ -313,7 +316,7 @@ PackageCache.prototype = {
       }
     }
     return result;
-  },
+  }
 
   /**
    * The `_writeManifest` method generates the on-disk folder for the package cache
@@ -346,7 +349,7 @@ PackageCache.prototype = {
         }
       }
     }
-  },
+  }
 
   /**
    * The `_removeLinks` method removes from the dependencies of the manifest the
@@ -417,7 +420,7 @@ PackageCache.prototype = {
     let manifest = JSON.stringify(jsonManifest);
 
     this._writeManifest(label, type, manifest);
-  },
+  }
 
   /**
    * The `_restoreLinks` method restores the dependencies from the internal
@@ -464,7 +467,7 @@ PackageCache.prototype = {
     // Serialize back to disk.
     let manifest = JSON.stringify(jsonManifest);
     this._writeManifest(label, type, manifest);
-  },
+  }
 
   /**
    * The `_checkManifest` method compares the desired manifest to that which
@@ -502,7 +505,7 @@ PackageCache.prototype = {
     }
 
     return true;
-  },
+  }
 
   /**
    * The `_install` method installs the contents of the manifest into the
@@ -519,7 +522,7 @@ PackageCache.prototype = {
 
     // If we just did a clean install we can treat it as up-to-date.
     upgraded[label] = true;
-  },
+  }
 
   /**
    * The `_upgrade` method guarantees that the contents of the manifest are
@@ -546,7 +549,7 @@ PackageCache.prototype = {
     this._restoreLinks(label, type);
 
     upgraded[label] = true;
-  },
+  }
 
   // PUBLIC API BELOW
 
@@ -589,7 +592,7 @@ PackageCache.prototype = {
     }
 
     return this.dirs[label];
-  },
+  }
 
   /**
    * The `update` method aliases the `create` method.
@@ -603,7 +606,7 @@ PackageCache.prototype = {
    */
   update(/*label, type, manifest, links*/) {
     return this.create.apply(this, arguments);
-  },
+  }
 
   /**
    * The `get` method returns the directory for the cache.
@@ -614,7 +617,7 @@ PackageCache.prototype = {
    */
   get(label) {
     return this.dirs[label];
-  },
+  }
 
   /**
    * The `destroy` method removes all evidence of the package cache.
@@ -629,7 +632,7 @@ PackageCache.prototype = {
     process.chdir(originalWorkingDirectory);
 
     this._conf.delete(label);
-  },
+  }
 
   /**
    * The `clone` method duplicates a cache. Some package managers can
@@ -649,15 +652,5 @@ PackageCache.prototype = {
     fs.copySync(this.get(fromLabel), outputDir);
 
     return this.dirs[toLabel];
-  },
-
+  }
 };
-
-// Wrap the Configstore in a pretty interface.
-Object.defineProperty(PackageCache.prototype, 'dirs', {
-  get() {
-    return this._conf.all;
-  },
-});
-
-module.exports = PackageCache;
