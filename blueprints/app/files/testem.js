@@ -9,9 +9,9 @@ module.exports = {
     'Chrome'
   ],
   browser_args: {
-    'Chrome': {
-      "mode": "ci",
-      "args": [
+    Chrome: {
+      mode: 'ci',
+      args: [
         '--disable-gpu',
         '--headless',
         '--remote-debugging-port=9222',
