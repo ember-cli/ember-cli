@@ -483,12 +483,6 @@ braces@^1.8.2:
     preserve "^0.2.0"
     repeat-element "^1.1.2"
 
-broccoli-assembler@twokul/broccoli-assembler:
-  version "0.0.1"
-  resolved "https://codeload.github.com/twokul/broccoli-assembler/tar.gz/41247d6dfd3c214b929f2af76e5df901be31db58"
-  dependencies:
-    broccoli-merge-trees "^2.0.0"
-
 broccoli-babel-transpiler@^6.0.0:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/broccoli-babel-transpiler/-/broccoli-babel-transpiler-6.1.1.tgz#938f470e1ddb47047a77ef5e38f34c21de0e85a8"
@@ -3717,9 +3711,13 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
 
-rsvp@^3.0.14, rsvp@^3.0.16, rsvp@^3.0.17, rsvp@^3.0.18, rsvp@^3.0.21, rsvp@^3.2.1, rsvp@^3.3.3, rsvp@^3.5.0, rsvp@^3.6.0:
+rsvp@^3.0.14, rsvp@^3.0.16, rsvp@^3.0.17, rsvp@^3.0.18, rsvp@^3.0.21, rsvp@^3.2.1, rsvp@^3.3.3, rsvp@^3.5.0:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
+
+rsvp@^4.0.2:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.6.1.tgz#fcc3bda359da00fd06fb1f2c517f2051541b05b5"
 
 rsvp@~3.2.1:
   version "3.2.1"
