@@ -16,6 +16,11 @@ cache:
   directories:
     - $HOME/.npm
 <% } %>
+env:
+  global:
+    # See https://git.io/vdao3 for details.
+    - JOBS=1
+
 before_install:<% if (yarn) { %>
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
