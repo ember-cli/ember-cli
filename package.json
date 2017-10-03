@@ -128,7 +128,7 @@
     "chai-as-promised": "^7.0.0",
     "chai-files": "^1.2.0",
     "co": "^4.6.0",
-    "ember-cli-blueprint-test-helpers": "^0.17.1",
+    "ember-cli-blueprint-test-helpers": "^0.18.0",
     "ember-cli-internal-test-helpers": "^0.9.0",
     "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-mocha": "^4.8.0",
