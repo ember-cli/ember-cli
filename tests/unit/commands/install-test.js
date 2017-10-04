@@ -106,6 +106,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
       });
     });
@@ -125,6 +126,35 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
+        }), { times: 1 });
+      });
+    });
+
+    it('runs the npm install task with given name useYarn true with the --yarn option', function() {
+      return command.validateAndRun(['ember-data', '--yarn']).then(function() {
+        let npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save': false,
+          'save-dev': true,
+          'save-exact': false,
+          useYarn: true,
+        }), { times: 1 });
+      });
+    });
+
+    it('runs the npm install task with given name useYarn false with the --no-yarn option', function() {
+      return command.validateAndRun(['ember-data', '--no-yarn']).then(function() {
+        let npmRun = tasks.NpmInstall.prototype.run;
+
+        td.verify(npmRun({
+          packages: ['ember-data'],
+          'save': false,
+          'save-dev': true,
+          'save-exact': false,
+          useYarn: false,
         }), { times: 1 });
       });
     });
@@ -138,6 +168,7 @@ describe('install command', function() {
           'save': true,
           'save-dev': false,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
       });
     });
@@ -157,6 +188,7 @@ describe('install command', function() {
           'save': true,
           'save-dev': false,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
       });
     });
@@ -200,6 +232,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -217,6 +250,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -233,6 +267,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -250,6 +285,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
