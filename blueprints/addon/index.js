@@ -11,6 +11,7 @@ const sortPackageJson = require('sort-package-json');
 let date = new Date();
 
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
+const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 const FileInfo = require('../../lib/models/file-info');
 
 const replacers = {
@@ -67,7 +68,7 @@ module.exports = {
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
-    return JSON.stringify(sortPackageJson(contents), null, 2);
+    return stringifyAndNormalize(sortPackageJson(contents));
   },
 
   buildFileInfo(intoDir, templateVariables, file) {
