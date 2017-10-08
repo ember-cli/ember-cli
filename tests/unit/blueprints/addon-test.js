@@ -79,7 +79,7 @@ describe('blueprint - addon', function() {
   "ember-addon": {\n\
     "configPath": "tests/dummy/config"\n\
   }\n\
-}');
+}\n');
       });
 
       it('removes the `private` property', function() {
