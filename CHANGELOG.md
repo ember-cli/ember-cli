@@ -29,6 +29,27 @@ version:
 - [#7363](https://github.com/ember-cli/ember-cli/pull/7363) Update to ember-cli-qunit@4.1.0-beta.1. [@rwjblue](https://github.com/rwjblue)
 - [#7367](https://github.com/ember-cli/ember-cli/pull/7367) Bump ember-source to 2.17.0-beta.1. [@rwjblue](https://github.com/rwjblue)
 
+
+Thank you to all who took the time to contribute!
+
+## 2.16.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.0...v2.16.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.0...v2.16.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7369](https://github.com/ember-cli/ember-cli/pull/7369) Fix issue with linting within an addon without an `app/` directory. [@rwjblue](https://github.com/rwjblue)
+
 Thank you to all who took the time to contribute!
 
 ## 2.16.0
@@ -40,7 +61,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.15.1...v2.16.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.15.1...v2.16.0)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.15.1...v2.16.0)
   + No changes required
 - Core Contributors
   + No changes required
