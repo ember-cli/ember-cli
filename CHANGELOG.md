@@ -1,5 +1,36 @@
 # ember-cli Changelog
 
+## 2.17.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.0...v2.17.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.0...v2.17.0-beta.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7344](https://github.com/ember-cli/ember-cli/pull/7344) Update mocha to the latest version 🚀 [@ember-cli/greenkeeper](https://github.com/ember-cli/greenkeeper)
+- [#7322](https://github.com/ember-cli/ember-cli/pull/7322) [INTERNAL] Update NPM to npm [@kimroen](https://github.com/kimroen)
+- [#7232](https://github.com/ember-cli/ember-cli/pull/7232) ENHANCEMENT - don't compress responses with the x-no-compression response header [@akatov](https://github.com/akatov)
+- [#7272](https://github.com/ember-cli/ember-cli/pull/7272) Fixes `undefined` values in merged aliases [@twokul](https://github.com/twokul)
+- [#7317](https://github.com/ember-cli/ember-cli/pull/7317) [INTERNAL] Introduce `broccoli-assembler` [@twokul](https://github.com/twokul)
+- [#7338](https://github.com/ember-cli/ember-cli/pull/7338) [INTERNAL] Port test helpers to class syntax [@twokul](https://github.com/twokul)
+- [#7340](https://github.com/ember-cli/ember-cli/pull/7340) bump `rsvp` [@bekzod](https://github.com/bekzod)
+- [#7342](https://github.com/ember-cli/ember-cli/pull/7342) Updating testem.js for the app blueprint [@scalvert](https://github.com/scalvert)
+- [#7345](https://github.com/ember-cli/ember-cli/pull/7345) correct `rsvp` version in yarn.lock [@bekzod](https://github.com/bekzod)
+- [#7360](https://github.com/ember-cli/ember-cli/pull/7360) "server" -> "serve" in package.json blueprint [@kellyselden](https://github.com/kellyselden)
+- [#7363](https://github.com/ember-cli/ember-cli/pull/7363) Update to ember-cli-qunit@4.1.0-beta.1. [@rwjblue](https://github.com/rwjblue)
+- [#7367](https://github.com/ember-cli/ember-cli/pull/7367) Bump ember-source to 2.17.0-beta.1. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## 2.16.0
 
 The following changes are required if you are upgrading from the previous
