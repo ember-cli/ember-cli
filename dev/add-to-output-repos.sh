@@ -10,6 +10,7 @@ stable_branch=stable
 beta_branch=master
 
 branch=$stable_branch
+fork=false
 if [ "$1" = "beta" ]; then
   if [ "$2" = "fork" ]; then
     fork=true
@@ -41,8 +42,7 @@ for i in ${commands[@]}; do
   # start a new beta branch off the just released stable
   if $fork; then
     git branch -d $beta_branch
-    git branch $beta_branch
-    git checkout $beta_branch
+    git checkout -b $beta_branch
   fi
 
   git add --all
