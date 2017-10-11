@@ -297,6 +297,36 @@ describe('Acceptance: brocfile-smoke-test', function() {
     })();
   }));
 
+  it('can do amd transform from addon', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/app-import-custom-transform');
+
+    let packageJsonPath = path.join(appRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.devDependencies['ember-transform-addon'] = 'latest';
+    fs.writeJsonSync(packageJsonPath, packageJson);
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    let addonOutputJs = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'addon-output.js'), {
+      encoding: 'utf8',
+    });
+
+    (function() {
+      let defineCount = 0;
+      // eslint-disable-next-line no-unused-vars
+      function define(name, deps, factory) {
+        expect(name).to.equal('addon-vendor');
+        expect(deps).to.deep.equal([]);
+        expect(factory()()).to.equal('Hello World');
+        defineCount++;
+      }
+      /* eslint-disable no-eval */
+      eval(addonOutputJs);
+      /* eslint-enable no-eval */
+      expect(defineCount).to.eql(1);
+    })();
+  }));
+
   it('can use transformation to turn library into custom transformation', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/app-import-custom-transform');
 
