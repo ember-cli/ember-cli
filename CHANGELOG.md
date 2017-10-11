@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+## 2.16.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.1...v2.16.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.1...v2.16.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7372](https://github.com/ember-cli/ember-cli/pull/7372) [BUGFIX] Fix travis.yml in addon blueprint [@simonihmig](https://github.com/simonihmig)
+- [#7377](https://github.com/ember-cli/ember-cli/pull/7377) [BUGFIX] Invoke transform registeration before included hook is called. [@kratiahuja](https://github.com/kratiahuja)
+
+Thank you to all who took the time to contribute!
+
 ## 2.16.1
 
 The following changes are required if you are upgrading from the previous
