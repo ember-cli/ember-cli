@@ -27,7 +27,7 @@ describe('insertIntoFile()', function() {
       .then(function(result) {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.contain(toInsert);
+        expect(contents).to.contain(toInsert + EOL);
         expect(result.originalContents).to.equal('', 'returned object should contain original contents');
         expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
         expect(contents).to.equal(result.contents, 'returned object should contain contents');
@@ -44,7 +44,7 @@ describe('insertIntoFile()', function() {
       .then(function(result) {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal(originalContent + toInsert, 'inserted contents should be appended to original');
+        expect(contents).to.equal(originalContent + toInsert + EOL, 'inserted contents should be appended to original');
         expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
         expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
       });
@@ -73,7 +73,7 @@ describe('insertIntoFile()', function() {
       .then(function(result) {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal(toInsert + toInsert, 'contents should be unchanged');
+        expect(contents).to.equal(toInsert + toInsert + EOL, 'contents should be unchanged');
         expect(result.inserted).to.equal(true, 'inserted should indicate that the file was not modified');
       });
   });
