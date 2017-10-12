@@ -190,4 +190,13 @@ describe('insertIntoFile()', function() {
         expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
       });
   });
+
+  it('will return the file path', function() {
+    let toInsert = 'blahzorz blammo';
+
+    return insertIntoFile(filePath, toInsert)
+      .then(function(result) {
+        expect(result.path).to.equal(filePath, 'path should always match');
+      });
+  });
 });
