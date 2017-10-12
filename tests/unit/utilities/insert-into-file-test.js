@@ -34,6 +34,18 @@ describe('insertIntoFile()', function() {
       });
   });
 
+  it('will not create the file if not already existing and creation disabled', function() {
+    let toInsert = 'blahzorz blammo';
+
+    return insertIntoFile(filePath, toInsert, { create: false })
+      .then(function(result) {
+        expect(fs.existsSync(filePath)).to.equal(false, 'file should not exist');
+        expect(result.originalContents).to.equal('', 'returned object should contain original contents');
+        expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
+        expect(result.contents).to.equal('', 'returned object should contain original contents');
+      });
+  });
+
   it('will insert into the file if it already exists', function() {
     let toInsert = 'blahzorz blammo';
     let originalContent = 'some original content\n';
