@@ -1,6 +1,5 @@
 'use strict';
 
-let td = require('testdouble');
 let EventEmitter = require('events');
 
 module.exports = class FakeProcess extends EventEmitter {
@@ -8,6 +7,8 @@ module.exports = class FakeProcess extends EventEmitter {
     super();
 
     options = options || {};
+
+    let td = options.testdouble || require('testdouble');
 
     const stdin = Object.assign(new EventEmitter(), {
       isRaw: process.stdin.isRaw,
