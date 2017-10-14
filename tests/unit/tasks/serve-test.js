@@ -3,6 +3,8 @@
 const RSVP = require('rsvp');
 const ServeTask = require('../../../lib/tasks/serve');
 const Builder = require('../../../lib/models/builder');
+const willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+const MockProcess = require('../../helpers/mock-process');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
 
@@ -10,6 +12,14 @@ const Promise = RSVP.Promise;
 
 describe('serve task', function() {
   let task, ui;
+
+  beforeEach(function() {
+    willInterruptProcess.capture(new MockProcess());
+  });
+
+  afterEach(function() {
+    willInterruptProcess.release();
+  });
 
   function setupBroccoliBuilder() {
     this.builder = {
@@ -35,10 +45,7 @@ describe('serve task', function() {
       ui,
       project,
       setupBroccoliBuilder,
-      onProcessInterrupt: {
-        addHandler() {},
-        removeHandler() {},
-      },
+      onProcessInterrupt: willInterruptProcess,
     });
 
     let _watcher = {};
