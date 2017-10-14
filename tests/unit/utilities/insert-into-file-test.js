@@ -87,7 +87,7 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { after: line2 + EOL })
+    return insertIntoFile(filePath, toInsert + EOL, { after: line2 + EOL })
       .then(function(result) {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
@@ -107,7 +107,7 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { after: line2 + EOL })
+    return insertIntoFile(filePath, toInsert + EOL, { after: line2 + EOL })
       .then(function(result) {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
@@ -127,7 +127,7 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { before: line2 + EOL })
+    return insertIntoFile(filePath, toInsert + EOL, { before: line2 + EOL })
       .then(function(result) {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
@@ -147,7 +147,7 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { before: line2 + EOL })
+    return insertIntoFile(filePath, toInsert + EOL, { before: line2 + EOL })
       .then(function(result) {
         let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
