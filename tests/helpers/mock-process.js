@@ -1,29 +1,23 @@
 'use strict';
 
-let td = require('testdouble');
 let EventEmitter = require('events');
 
-module.exports = class FakeProcess extends EventEmitter {
+module.exports = class MockProcess extends EventEmitter {
   constructor(options) {
     super();
 
     options = options || {};
 
+    this.platform = 'MockOS';
+
     const stdin = Object.assign(new EventEmitter(), {
       isRaw: process.stdin.isRaw,
-      setRawMode: td.function(),
+      setRawMode: flag => {
+        stdin.isRaw = flag;
+      },
     }, options.stdin || {});
 
-    td.when(stdin.setRawMode(td.matchers.anything())).thenDo(function(flag) {
-      this.isRaw = flag;
-    });
-
-    const topLevelProps = Object.assign({
-      platform: 'MockOS',
-      exit: td.function(),
-    }, options);
-
-    Object.assign(this, topLevelProps, { stdin });
+    Object.assign(this, options, { stdin });
   }
 
   getSignalListenerCounts() {
@@ -32,5 +26,10 @@ module.exports = class FakeProcess extends EventEmitter {
       SIGTERM: this.listenerCount('SIGTERM'),
       message: this.listenerCount('message'),
     };
+  }
+
+  exit() {
+    // we are unable to reliable unit test `process.exit()`
+    throw new Error("MockProcess.exit() was called");
   }
 };

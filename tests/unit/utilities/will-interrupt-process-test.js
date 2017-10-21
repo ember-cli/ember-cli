@@ -186,6 +186,7 @@ describe('will interrupt process', function() {
   describe('Windows CTRL + C Capture', function() {
     it('exits on CTRL+C when TTY', function() {
       let process = new MockProcess({
+        exit: td.function(),
         platform: 'win',
         stdin: {
           isTTY: true,
@@ -220,8 +221,11 @@ describe('will interrupt process', function() {
 
     it('does not enable raw capture when not a Windows', function() {
       const process = new MockProcess({
+        exit: td.function(),
+
         stdin: {
           isTTY: true,
+          setRawMode: td.function(),
         },
       });
 
@@ -239,7 +243,11 @@ describe('will interrupt process', function() {
 
     it('does not enable raw capture when not a TTY', function() {
       const process = new MockProcess({
+        exit: td.function(),
         platform: 'win',
+        stdin: {
+          setRawMode: td.function(),
+        },
       });
 
       willInterruptProcess.capture(process);
