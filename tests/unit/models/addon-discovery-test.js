@@ -7,7 +7,6 @@ const AddonDiscovery = require('../../../lib/models/addon-discovery');
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
-const chalk = require('chalk');
 
 describe('models/addon-discovery.js', function() {
   let project, projectPath, ui;
@@ -186,7 +185,6 @@ describe('models/addon-discovery.js', function() {
 
     it('can find a package without a main entry point [DEPRECATED]', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -197,7 +195,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
+      discovery.discoverFromDependencies(root, mockPkg, true);
 
       let expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
@@ -206,15 +204,10 @@ describe('models/addon-discovery.js', function() {
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
-
-      let output = ui.output.trim();
-      let expectedWarning = chalk.yellow(`The package \`invalid-package\` is not a properly formatted package, we have used a fallback lookup to resolve it at \`${path.join(root, 'node_modules', 'invalid-package')}\`. This is generally caused by an addon not having a \`main\` entry point (or \`index.js\`).`);
-      expect(output).to.equal(expectedWarning);
     });
 
     it('does not error when dependencies are not found', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -225,12 +218,11 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
+      discovery.discoverFromDependencies(root, mockPkg, true);
 
       let expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
         path.join(root, 'node_modules', 'blah-blah'),
-        path.join(root, 'node_modules', 'blah-zorz'),
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
@@ -238,7 +230,6 @@ describe('models/addon-discovery.js', function() {
 
     it('calls discoverAtPath for each entry in dependencies', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -248,7 +239,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg);
+      discovery.discoverFromDependencies(root, mockPkg);
 
       let expectedPaths = [
         path.join(root, '..', 'node_modules', 'dev-foo-bar'),
@@ -261,7 +252,6 @@ describe('models/addon-discovery.js', function() {
 
     it('excludes devDeps if `excludeDevDeps` is true', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -271,7 +261,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
+      discovery.discoverFromDependencies(root, mockPkg, true);
 
       let expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
