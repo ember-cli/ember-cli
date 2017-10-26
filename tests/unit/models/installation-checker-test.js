@@ -44,7 +44,6 @@ describe('Installation Checker', function() {
     it('works when installation directory exist', function() {
       let project = {
         root: fixturePath('installation-checker/valid-npm-installation'),
-        nodeModulesPath: fixturePath('installation-checker/valid-npm-installation/node_modules'),
       };
       installationChecker = new InstallationChecker({ project });
 
@@ -54,7 +53,6 @@ describe('Installation Checker', function() {
     it('fails when installation directory doesn\'t exist', function() {
       let project = {
         root: fixturePath('installation-checker/invalid-npm-installation'),
-        nodeModulesPath: fixturePath('installation-checker/invalid-npm-installation/node_modules'),
       };
       installationChecker = new InstallationChecker({ project });
 
@@ -69,7 +67,6 @@ describe('Installation Checker', function() {
       let project = {
         root: fixturePath('installation-checker/invalid-bower-and-npm'),
         bowerDirectory: fixturePath('installation-checker/invalid-bower-and-npm/bower_components'),
-        nodeModulesPath: fixturePath('installation-checker/invalid-bower-and-npm/node_modules'),
       };
       installationChecker = new InstallationChecker({ project });
 
@@ -80,7 +77,6 @@ describe('Installation Checker', function() {
       let project = {
         root: fixturePath('installation-checker/empty'),
         bowerDirectory: fixturePath('installation-checker/empty/bower_components'),
-        nodeModulesPath: fixturePath('installation-checker/empty/node_modules'),
       };
       installationChecker = new InstallationChecker({ project });
 
