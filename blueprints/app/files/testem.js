@@ -18,5 +18,14 @@ module.exports = {
         '--window-size=1440,900'
       ]
     },
+    Chrome: {
+      mode: 'dev',
+      args: [
+       '--disable-gpu',
+       '--headless',
+       '--remote-debugging-port=9222',
+       '--window-size=1440,900'
+      ]
+    },
   }
 };
