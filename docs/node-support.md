@@ -11,8 +11,9 @@
 | 4.x              | 1.13.9 - Current             |
 | 5.x              | 1.13.9 - 2.6.3               |
 | 6.x              | 2.9.0 - Current              |
-| 7.x              | 2.10.0 - Current             |
+| 7.x              | 2.10.0 - 2.16.x              |
 | 8.x              | 2.13.3 - Current             |
+| 9.x              | 2.16.2 - Current             |
 
 # Design
 
@@ -49,6 +50,10 @@ policy in order to become an LTS.
   `master`.
 * v7: Stable release, never LTS. Begin support upon release 2016-10-01. All
   support expires on 2017-07-01.
+* v8: Released as stable on 2017-05-30, converted to LTS Active Support 2017-10-31.
+  Active support ends on 2019-12-31 at which point we drop support for new commits
+  to `master`.
+* v9: Stable release, never LTS. Begin support upon release 2017-11-01.
 
 # Release Process and Support Policy
 
