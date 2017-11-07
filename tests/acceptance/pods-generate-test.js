@@ -104,6 +104,13 @@ describe('Acceptance: ember generate pod', function() {
       .to.contain("moduleFor('controller:foo'");
   }));
 
+  it('will show a deprecation warning when both .ember-cli usePods settings and --pod flag are used together', co.wrap(function *() {
+    let result = yield generateWithUsePods(['controller', 'foo', '--pod']);
+
+    expect(result.outputStream.join()).to.include('Using both .ember-cli usePods settings and --pod flag ' +
+      'together has been deprecated.');
+  }));
+
   it('.ember-cli usePods setting generates in classic structure with --classic flag', co.wrap(function *() {
     yield generateWithUsePods(['controller', 'foo', '--classic']);
 
