@@ -19,8 +19,7 @@
   "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
   "main": "lib/cli/index.js",
   "bin": {
-    "ember": "./bin/ember",
-    "🐹": "./bin/ember"
+    "ember": "./bin/ember"
   },
   "repository": {
     "type": "git",
