@@ -26,8 +26,9 @@ If the experiment is not ready to progress to beta, we remove the experiment and
 feature is disabled.
 
 ## Supported
-Once an experiment has through the different betas, and we can confidently say
-this experiment will be supported, we also need to clean up the experiment.
+Once an experiment has gone through the different stages of beta, and we can
+confidently say a specific feature from an experiment will be supported, we
+delete the exerpiemnt from the codebase.
 
 When the next set of beta is determined to be released, Ember CLI team reviews
 all the experiments and either let them roll into betas or consider them
