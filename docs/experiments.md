@@ -30,10 +30,10 @@ if (experiments.MODULE_UNIFICATION) {
 ## Unsupported
 The Ember CLI core team will evaluate each experiment before betas get released.
 If the experiment is not ready, the entry for the experiment is deleted from
-lib/experiments/index.js.
+`lib/experiments/index.js`.
 
 ## Supported
 Once an experiment has gone through the different stages of beta, and we can
 confidently say a specific feature from an experiment will be supported, we
-delete the entry in lib/experiments/index.js and remove the experiment guards
+delete the entry in `lib/experiments/index.js` and remove the experiment guards
 (e.g. if (experiments.FOO_BAR) {) from the codebase.
