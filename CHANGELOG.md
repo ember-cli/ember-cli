@@ -1,5 +1,32 @@
 # ember-cli Changelog
 
+## 2.17.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7353](https://github.com/ember-cli/ember-cli/pull/7353) remove ember-cli-shim warning [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#7369](https://github.com/ember-cli/ember-cli/pull/7369) Fix issue with linting within an addon without an `app/` directory. [@rwjblue](https://github.com/rwjblue)
+- [#7372](https://github.com/ember-cli/ember-cli/pull/7372) Fix travis.yml in addon blueprint [@simonihmig](https://github.com/simonihmig)
+- [#7377](https://github.com/ember-cli/ember-cli/pull/7377) Invoke transform registeration before included hook is called. [@kratiahuja](https://github.com/kratiahuja)
+- [#7378](https://github.com/ember-cli/ember-cli/pull/7378) Ensure test-support and addon-test-support are linted. [@rwjblue](https://github.com/rwjblue)
+- [#7381](https://github.com/ember-cli/ember-cli/pull/7381) Changes default Chrome remote debugging port. [@Oreoz](https://github.com/Oreoz)
+- [#7409](https://github.com/ember-cli/ember-cli/pull/7409) cherry pick #7382 into beta [@kellyselden](https://github.com/kellyselden)
+- [#7416](https://github.com/ember-cli/ember-cli/pull/7416) Add support for Node 9. [@rwjblue](https://github.com/rwjblue)
+- [#7417](https://github.com/ember-cli/ember-cli/pull/7417) Issue warning for Node 7. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## 2.17.0-beta.1
 
 The following changes are required if you are upgrading from the previous
