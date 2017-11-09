@@ -415,6 +415,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       [
+        'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
         '.travis.yml',
         'README.md',
@@ -436,6 +437,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       [
+        'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
         '.travis.yml',
         'README.md',
