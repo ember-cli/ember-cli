@@ -1,6 +1,7 @@
 /* eslint-env node */
 module.exports = {
-  scenarios: [
+  <% if (yarn) { %>useYarn: true,
+  <% } %>scenarios: [
     {
       name: 'ember-lts-2.8',
       bower: {
