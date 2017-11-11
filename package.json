@@ -101,7 +101,7 @@
     "morgan": "^1.8.1",
     "node-modules-path": "^1.0.0",
     "nopt": "^3.0.6",
-    "npm-package-arg": "^5.0.0",
+    "npm-package-arg": "^6.0.0",
     "portfinder": "^1.0.7",
     "promise-map-series": "^0.2.1",
     "quick-temp": "^0.1.8",
