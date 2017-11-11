@@ -951,6 +951,30 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(['foo-bar']);
     });
 
+    it('skips uninstall if no matching package exists', function() {
+      let packages;
+
+      NpmUninstallTask = Task.extend({
+        run(options) {
+          packages = options.packages;
+        },
+      });
+
+      project.dependencies = function() {
+        return {
+          'foo-baz': '1.0.0',
+          'bar-zoo': '2.0.0',
+        };
+      };
+
+      blueprint.removePackagesFromProject([
+        { name: 'foo-bar' },
+        { name: 'bar-foo' },
+      ]);
+
+      expect(packages).to.deep.equal(undefined);
+    });
+
     it('calls the task with package names', function() {
       let packages;
 
@@ -1034,6 +1058,13 @@ describe('Blueprint', function() {
         },
       });
 
+      project.dependencies = function() {
+        return {
+          'foo-bar': '1.0.0',
+          'bar-foo': '2.0.0',
+        };
+      };
+
       blueprint.removePackagesFromProject([
         { name: 'foo-bar' },
         { name: 'bar-foo' },
@@ -1050,6 +1081,13 @@ describe('Blueprint', function() {
           verbose = options.verbose;
         },
       });
+
+      project.dependencies = function() {
+        return {
+          'foo-bar': '1.0.0',
+          'bar-foo': '2.0.0',
+        };
+      };
 
       blueprint.removePackagesFromProject([
         { name: 'foo-bar' },
