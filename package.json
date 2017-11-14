@@ -65,7 +65,7 @@
     "diff": "^3.2.0",
     "ember-cli-broccoli-sane-watcher": "^2.0.4",
     "ember-cli-is-package-missing": "^1.0.0",
-    "ember-cli-legacy-blueprints": "^0.1.2",
+    "ember-cli-legacy-blueprints": "^0.2.0",
     "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^3.1.0",
