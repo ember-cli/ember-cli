@@ -49,44 +49,9 @@ describe('Acceptance: ember destroy', function() {
     ]);
   }
 
-  function initAddon() {
-    return ember([
-      'addon',
-      'my-addon',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
-  }
-
-  function initInRepoAddon() {
-    return initApp().then(function() {
-      return ember([
-        'generate',
-        'in-repo-addon',
-        'my-addon',
-      ]);
-    });
-  }
-
   function generate(args) {
     let generateArgs = ['generate'].concat(args);
     return ember(generateArgs);
-  }
-
-  function generateInAddon(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initAddon().then(function() {
-      return ember(generateArgs);
-    });
-  }
-
-  function generateInRepoAddon(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initInRepoAddon().then(function() {
-      return ember(generateArgs);
-    });
   }
 
   function destroy(args) {
@@ -115,81 +80,6 @@ describe('Acceptance: ember destroy', function() {
     let result = yield destroy(args);
     expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
     assertFilesNotExist(files);
-  });
-
-  const assertDestroyAfterGenerateInAddon = co.wrap(function *(args, files) {
-    yield generateInAddon(args);
-    assertFilesExist(files);
-
-    let result = yield destroy(args);
-    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-    assertFilesNotExist(files);
-  });
-
-  const assertDestroyAfterGenerateInRepoAddon = co.wrap(function *(args, files) {
-    yield generateInRepoAddon(args);
-    assertFilesExist(files);
-
-    let result = yield destroy(args);
-    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-    assertFilesNotExist(files);
-  });
-
-  const assertDestroyAfterGenerateInAddonDummy = co.wrap(function *(args, files) {
-    args = args.concat('--dummy');
-
-    yield generateInAddon(args);
-    assertFilesExist(files);
-
-    let result = yield destroy(args);
-    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-    assertFilesNotExist(files);
-  });
-
-  it('in-addon component x-foo', function() {
-    let commandArgs = ['component', 'x-foo'];
-    let files = [
-      'addon/components/x-foo.js',
-      'addon/templates/components/x-foo.hbs',
-      'app/components/x-foo.js',
-      'tests/integration/components/x-foo-test.js',
-    ];
-
-    return assertDestroyAfterGenerateInAddon(commandArgs, files);
-  });
-
-  it('in-repo-addon component x-foo', function() {
-    let commandArgs = ['component', 'x-foo', '--in-repo-addon=my-addon'];
-    let files = [
-      'lib/my-addon/addon/components/x-foo.js',
-      'lib/my-addon/addon/templates/components/x-foo.hbs',
-      'lib/my-addon/app/components/x-foo.js',
-      'tests/integration/components/x-foo-test.js',
-    ];
-
-    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
-  });
-
-  it('in-repo-addon component nested/x-foo', function() {
-    let commandArgs = ['component', 'nested/x-foo', '--in-repo-addon=my-addon'];
-    let files = [
-      'lib/my-addon/addon/components/nested/x-foo.js',
-      'lib/my-addon/addon/templates/components/nested/x-foo.hbs',
-      'lib/my-addon/app/components/nested/x-foo.js',
-      'tests/integration/components/nested/x-foo-test.js',
-    ];
-
-    return assertDestroyAfterGenerateInRepoAddon(commandArgs, files);
-  });
-
-  it('in-addon-dummy component x-foo', function() {
-    let commandArgs = ['component', 'x-foo'];
-    let files = [
-      'tests/dummy/app/templates/components/x-foo.hbs',
-      'tests/dummy/app/components/x-foo.js',
-    ];
-
-    return assertDestroyAfterGenerateInAddonDummy(commandArgs, files);
   });
 
   it('blueprint foo', function() {
@@ -267,5 +157,4 @@ describe('Acceptance: ember destroy', function() {
 
     expect(file('server/index.js')).to.exist;
   }));
-
 });

@@ -88,19 +88,6 @@ describe('Acceptance: ember destroy pod', function() {
     assertFilesNotExist(files);
   });
 
-  const assertDestroyAfterGenerateWithUsePods = co.wrap(function *(args, files) {
-    yield initApp();
-
-    replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,\n"usePods" : true\n');
-
-    yield generate(args);
-    assertFilesExist(files);
-
-    let result = yield destroy(args);
-    expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
-    assertFilesNotExist(files);
-  });
-
   const destroyAfterGenerate = co.wrap(function *(args) {
     yield initApp();
 
@@ -108,37 +95,6 @@ describe('Acceptance: ember destroy pod', function() {
 
     yield generate(args);
     return yield destroy(args);
-  });
-
-  it('.ember-cli usePods setting destroys in pod structure without --pod flag', function() {
-    let commandArgs = ['controller', 'foo'];
-    let files = [
-      'app/foo/controller.js',
-      'tests/unit/foo/controller-test.js',
-    ];
-
-    return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
-  });
-
-  it('.ember-cli usePods setting destroys in classic structure with --classic flag', function() {
-    let commandArgs = ['controller', 'foo', '--classic'];
-    let files = [
-      'app/controllers/foo.js',
-      'tests/unit/controllers/foo-test.js',
-    ];
-
-    return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
-  });
-
-  it('.ember-cli usePods setting correctly destroys component', function() {
-    let commandArgs = ['component', 'x-foo'];
-    let files = [
-      'app/components/x-foo/component.js',
-      'app/components/x-foo/template.hbs',
-      'tests/integration/components/x-foo/component-test.js',
-    ];
-
-    return assertDestroyAfterGenerateWithUsePods(commandArgs, files);
   });
 
   it('blueprint foo --pod', function() {
@@ -185,28 +141,6 @@ describe('Acceptance: ember destroy pod', function() {
     assertFilesExist(files);
 
     yield destroy(commandArgs);
-    assertFilesNotExist(files);
-  }));
-
-  it('correctly identifies the root of the project', co.wrap(function *() {
-    let commandArgs = ['controller', 'foo', '--pod'];
-    let files = ['app/foo/controller.js'];
-
-    yield initApp();
-
-    yield outputFile(
-      'blueprints/controller/files/app/__path__/__name__.js',
-      "import Ember from 'ember';\n\n" +
-      "export default Ember.Controller.extend({ custom: true });\n"
-    );
-
-    yield generate(commandArgs);
-    assertFilesExist(files);
-
-    process.chdir(path.join(tmpdir, 'app'));
-    yield destroy(commandArgs);
-
-    process.chdir(tmpdir);
     assertFilesNotExist(files);
   }));
 

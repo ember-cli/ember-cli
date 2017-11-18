@@ -56,48 +56,6 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     });
   }
 
-  function generateInRepoAddon(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initInRepoAddon().then(function() {
-      return ember(generateArgs);
-    });
-  }
-
-  it('in-repo-addon component x-foo', function() {
-    return generateInRepoAddon(['component', 'x-foo', '--in-repo-addon=my-addon']).then(function() {
-      expect(file('lib/my-addon/addon/components/x-foo.js'))
-        .to.contain("import Ember from 'ember';")
-        .to.contain("import layout from '../templates/components/x-foo';")
-        .to.contain("export default Ember.Component.extend({")
-        .to.contain("layout")
-        .to.contain("});");
-
-      expect(file('lib/my-addon/addon/templates/components/x-foo.hbs'))
-        .to.contain("{{yield}}");
-
-      expect(file('lib/my-addon/app/components/x-foo.js'))
-        .to.contain("export { default } from 'my-addon/components/x-foo';");
-
-      expect(file('tests/integration/components/x-foo-test.js'))
-        .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
-        .to.contain("import hbs from 'htmlbars-inline-precompile';")
-        .to.contain("moduleForComponent('x-foo'")
-        .to.contain("integration: true")
-        .to.contain("{{x-foo}}")
-        .to.contain("{{#x-foo}}");
-    });
-  });
-
-  it('in-repo-addon acceptance-test foo', function() {
-    return generateInRepoAddon(['acceptance-test', 'foo', '--in-repo-addon=my-addon']).then(function() {
-      let expected = path.join(__dirname, '../fixtures/generate/acceptance-test-expected.js');
-
-      expect(file('tests/acceptance/foo-test.js')).to.equal(file(expected));
-      expect(file('app/acceptance-tests/foo.js')).to.not.exist;
-    });
-  });
-
   it('in-repo-addon adds path to lib', function() {
     return initInRepoAddon().then(function() {
       expect(file('package.json')).to.contain('lib/my-addon');
