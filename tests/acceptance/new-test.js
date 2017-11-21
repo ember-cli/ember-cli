@@ -17,6 +17,7 @@ let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;
 const forEach = require('ember-cli-lodash-subset').forEach;
+const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
 
@@ -445,6 +446,25 @@ describe('Acceptance: ember new', function() {
         expect(file(filePath))
           .to.equal(file(path.join(__dirname, '../fixtures/addon/yarn', filePath)));
       });
+    }));
+  });
+
+  describe('verify dependencies', function() {
+    it('are locked down for pre-1.0 versions', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--yarn',
+        '--welcome',
+      ]);
+
+      let pkg = fs.readJsonSync('package.json');
+
+      assertVersionLock(pkg.dependencies);
+      assertVersionLock(pkg.devDependencies);
     }));
   });
 });
