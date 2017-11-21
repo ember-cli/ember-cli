@@ -62,6 +62,9 @@ module.exports = {
     // add `ember-disable-prototype-extensions` to addons by default
     contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.2';
 
+    // add `eslint-plugin-node` to addons by default
+    contents.devDependencies['eslint-plugin-node'] = '^5.2.1';
+
     // use `ember-try` as test script in addons by default
     contents.scripts.test = 'ember try:each';
 
@@ -124,6 +127,7 @@ module.exports = {
       year: date.getFullYear(),
       yarn: options.yarn,
       welcome: options.welcome,
+      blueprint: 'addon',
     };
   },
 
