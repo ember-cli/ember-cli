@@ -214,6 +214,65 @@ describe('models/command.js', function() {
     });
   });
 
+  it('should be able to set availableOptions within init', function() {
+    let AvailableOptionsInitCommand = Command.extend({
+      name: 'available-options-init-command',
+      init() {
+        this._super(...arguments);
+
+        this.availableOptions = [{
+          name: 'spicy',
+          type: String,
+          default: true,
+        }];
+      },
+      run(options) { return options; },
+    });
+
+    return new AvailableOptionsInitCommand(Object.assign(options, {
+      project: {
+        hasDependencies() { return true; },
+        isEmberCLIProject() { return false; },
+      },
+    })).validateAndRun([]).then(function(commandOptions) {
+      expect(commandOptions).to.deep.equal({ spicy: true });
+    });
+  });
+
+  it('should be able to set availableOptions within beforeRun', function() {
+    let AvailableOptionsInitCommand = Command.extend({
+      name: 'available-options-init-command',
+
+      availableOptions: [{
+        name: 'spicy',
+        type: Boolean,
+        default: true,
+      }],
+
+      beforeRun() {
+        return new Promise(resolve => {
+          resolve(this.availableOptions.push({
+            name: 'foobar',
+            type: String,
+            default: 'bazbaz',
+          }));
+        });
+      },
+      run(options) { return options; },
+    });
+
+    const command = new AvailableOptionsInitCommand(Object.assign(options, {
+      project: {
+        hasDependencies() { return true; },
+        isEmberCLIProject() { return false; },
+      },
+    }));
+
+    return command.beforeRun().then(() => command.validateAndRun([]).then(commandOptions => {
+      expect(commandOptions).to.deep.equal({ spicy: true, foobar: 'bazbaz' });
+    }));
+  });
+
   it('availableOptions with aliases should work.', function() {
     expect(new OptionsAliasCommand(options).parseArgs(['-soft-shell'])).to.deep.equal({
       options: {
@@ -455,11 +514,17 @@ describe('models/command.js', function() {
     };
     let dupe = { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': false }] };
     let noAlias = { name: 'reload', type: Boolean, default: false };
-    expect(new OptionsAliasCommand(options).validateOption(option)).to.be.ok;
+    const aliasCommand = new OptionsAliasCommand(options);
+    aliasCommand.registerOptions();
+    expect(aliasCommand.validateOption(option)).to.be.ok;
 
-    expect(new ServeCommand(options).validateOption(noAlias)).to.be.false;
+    const serveCommand = new ServeCommand(options);
+    serveCommand.registerOptions();
+    expect(serveCommand.validateOption(noAlias)).to.be.false;
 
-    expect(new OptionsAliasCommand(options).validateOption(dupe)).to.be.false;
+    const optionsAliasCommand = new OptionsAliasCommand(options);
+    optionsAliasCommand.registerOptions();
+    expect(optionsAliasCommand.validateOption(dupe)).to.be.false;
   });
 
   it('validateOption() should throw an error when option is missing name or type', function() {
