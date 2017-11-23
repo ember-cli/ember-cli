@@ -218,7 +218,7 @@ describe('models/command.js', function() {
     let AvailableOptionsInitCommand = Command.extend({
       name: 'available-options-init-command',
       init() {
-        this._super(...arguments);
+        this._super.apply(this, arguments);
 
         this.availableOptions = [{
           name: 'spicy',
