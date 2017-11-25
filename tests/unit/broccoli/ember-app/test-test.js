@@ -38,12 +38,16 @@ describe('EmberApp#test', function() {
     let cli = new MockCLI();
     let project = new Project(input.path(), pkg, cli.ui, cli);
 
-    return new EmberApp({
+    let app = new EmberApp({
       project,
       name: pkg.name,
       _ignoreMissingLoader: true,
       sourcemaps: { enabled: false },
     }, options);
+
+    app._compileAddonTemplates = tree => tree;
+
+    return app;
   }
 
   it('emits dist/assets/tests.js by default', co.wrap(function *() {

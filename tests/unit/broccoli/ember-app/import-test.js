@@ -119,6 +119,7 @@ describe('EmberApp.import()', function() {
     }, options);
 
     app._processedTemplatesTree = () => '';
+    app._compileAddonTemplates = tree => tree;
 
     return app;
   }
