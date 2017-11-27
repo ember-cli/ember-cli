@@ -140,12 +140,12 @@ describe('Acceptance: ember help', function() {
     });
 
     it('works', function() {
-      command.validateAndRun([]).then(() => {
-        let json = convertToJson(options.ui.output);
-        const expected = require('../fixtures/help/help.js');
+      command.run(options, []);
 
-        expect(json).to.deep.equal(expected);
-      });
+      let json = convertToJson(options.ui.output);
+      const expected = require('../fixtures/help/help.js');
+
+      expect(json).to.deep.equal(expected);
     });
 
     it('prints commands from addons', function() {
@@ -153,12 +153,11 @@ describe('Acceptance: ember help', function() {
         cb('dummy-addon', { Foo: FooCommand });
       };
 
-      command.validateAndRun([]).then(() => {
-        let json = convertToJson(options.ui.output);
-        const expected = require('../fixtures/help/with-addon-commands.js');
+      command.run(options, []);
 
-        expect(json).to.deep.equal(expected);
-      });
+      let json = convertToJson(options.ui.output);
+      const expected = require('../fixtures/help/with-addon-commands.js');
+      expect(json).to.deep.equal(expected);
     });
 
     it('prints blueprints from addons', function() {
@@ -166,12 +165,11 @@ describe('Acceptance: ember help', function() {
         return [path.join(__dirname, '..', 'fixtures', 'blueprints')];
       };
 
-      command.validateAndRun([]).then(() => {
-        let json = convertToJson(options.ui.output);
-        const expected = require('../fixtures/help/with-addon-blueprints.js');
+      command.run(options, []);
+      let json = convertToJson(options.ui.output);
+      const expected = require('../fixtures/help/with-addon-blueprints.js');
 
-        expect(json).to.deep.equal(expected);
-      });
+      expect(json).to.deep.equal(expected);
     });
   });
 });
