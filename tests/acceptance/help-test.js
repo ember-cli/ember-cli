@@ -48,7 +48,7 @@ describe('Acceptance: ember help', function() {
   });
 
   it('works', function() {
-    command.validateAndRun([]);
+    command.run(options, []);
 
     let output = options.ui.output;
 
@@ -157,6 +157,7 @@ describe('Acceptance: ember help', function() {
 
       let json = convertToJson(options.ui.output);
       const expected = require('../fixtures/help/with-addon-commands.js');
+
       expect(json).to.deep.equal(expected);
     });
 
@@ -166,6 +167,7 @@ describe('Acceptance: ember help', function() {
       };
 
       command.run(options, []);
+
       let json = convertToJson(options.ui.output);
       const expected = require('../fixtures/help/with-addon-blueprints.js');
 
