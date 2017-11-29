@@ -1,6 +1,8 @@
 <%= addonName %>
 ==============================================================================
 
+[![Ember Version](https://img.shields.io/badge/ember-2.18%2B-brightgreen.svg)](https://www.emberjs.com/)
+
 [Short description of the addon.]
 
 
