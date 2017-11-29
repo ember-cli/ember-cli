@@ -1,5 +1,42 @@
 # ember-cli Changelog
 
+## 2.18.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0...v2.18.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.18.0-beta.1)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7395](https://github.com/ember-cli/ember-cli/pull/7395) Make "testdouble" dependency optional in MockProcess class [@ro0gr](https://github.com/ro0gr)
+- [#7382](https://github.com/ember-cli/ember-cli/pull/7382) add option to not create file [@kellyselden](https://github.com/kellyselden)
+- [#7385](https://github.com/ember-cli/ember-cli/pull/7385) remove node 7 testing [@kellyselden](https://github.com/kellyselden)
+- [#6955](https://github.com/ember-cli/ember-cli/pull/6955) Discover dependencies of npm-linked addons [@ef4](https://github.com/ef4)
+- [#7164](https://github.com/ember-cli/ember-cli/pull/7164) Fix generate command when both usePods option and --pod argument is used [@emrekutlu](https://github.com/emrekutlu)
+- [#7428](https://github.com/ember-cli/ember-cli/pull/7428) Fix bad recursion in ember-cli-shims detection [@cibernox](https://github.com/cibernox)
+- [#7419](https://github.com/ember-cli/ember-cli/pull/7419) Delete crossdomain.xml [@sandstrom](https://github.com/sandstrom)
+- [#7424](https://github.com/ember-cli/ember-cli/pull/7424) Adding documentation for experiments [@sangm](https://github.com/sangm)
+- [#7414](https://github.com/ember-cli/ember-cli/pull/7414) Fixes Project#hasDependencies to only check for dependencies instead … [@MiguelMadero/mmadero](https://github.com/MiguelMadero/mmadero)
+- [#7406](https://github.com/ember-cli/ember-cli/pull/7406) Remove livereload url from output [@topaxi](https://github.com/topaxi)
+- [#7401](https://github.com/ember-cli/ember-cli/pull/7401) Resolve node modules correctly [@ef4](https://github.com/ef4)
+- [#7443](https://github.com/ember-cli/ember-cli/pull/7443) Use `overrides` for a single `.eslintrc.js`. [@rwjblue](https://github.com/rwjblue)
+- [#7435](https://github.com/ember-cli/ember-cli/pull/7435) add ember-try ignores to npmignore [@kellyselden](https://github.com/kellyselden)
+- [#7432](https://github.com/ember-cli/ember-cli/pull/7432) Avoid publishing massive temp folder leaked by ember-try [@ef4](https://github.com/ef4)
+- [#7438](https://github.com/ember-cli/ember-cli/pull/7438) skip uninstall if no matching package is installed [@makepanic](https://github.com/makepanic)
+- [#7455](https://github.com/ember-cli/ember-cli/pull/7455) Add eslint-plugin-ember to default linting config. [@rwjblue](https://github.com/rwjblue)
+- [#7456](https://github.com/ember-cli/ember-cli/pull/7456) Use fs-extra's `ensureDir` to avoid race condition in `mk-tmp-dir-in`. [@rwjblue](https://github.com/rwjblue)
+- [#7457](https://github.com/ember-cli/ember-cli/pull/7457) Avoid directly requiring `blueprints/app/files/package.json`. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.17.0
 
 The following changes are required if you are upgrading from the previous
