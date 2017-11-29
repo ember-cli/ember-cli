@@ -1,5 +1,44 @@
 # ember-cli Changelog
 
+## 2.17.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.2...v2.17.0)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.2...v2.17.0)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7232](https://github.com/ember-cli/ember-cli/pull/7232) don't compress responses with the x-no-compression response header [@akatov](https://github.com/akatov)
+- [#7272](https://github.com/ember-cli/ember-cli/pull/7272) Fixes `undefined` values in merged aliases [@twokul](https://github.com/twokul)
+- [#7342](https://github.com/ember-cli/ember-cli/pull/7342) Updating testem.js for the app blueprint [@scalvert](https://github.com/scalvert)
+- [#7360](https://github.com/ember-cli/ember-cli/pull/7360) "server" -> "serve" in package.json blueprint [@kellyselden](https://github.com/kellyselden)
+- [#7353](https://github.com/ember-cli/ember-cli/pull/7353) remove ember-cli-shim warning [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [#7369](https://github.com/ember-cli/ember-cli/pull/7369) Fix issue with linting within an addon without an `app/` directory. [@rwjblue](https://github.com/rwjblue)
+- [#7372](https://github.com/ember-cli/ember-cli/pull/7372) Fix travis.yml in addon blueprint [@simonihmig](https://github.com/simonihmig)
+- [#7377](https://github.com/ember-cli/ember-cli/pull/7377) Invoke transform registeration before included hook is called. [@kratiahuja](https://github.com/kratiahuja)
+- [#7378](https://github.com/ember-cli/ember-cli/pull/7378) Ensure test-support and addon-test-support are linted. [@rwjblue](https://github.com/rwjblue)
+- [#7381](https://github.com/ember-cli/ember-cli/pull/7381) Changes default Chrome remote debugging port. [@Oreoz](https://github.com/Oreoz)
+- [#7409](https://github.com/ember-cli/ember-cli/pull/7409) cherry pick #7382 into beta [@kellyselden](https://github.com/kellyselden)
+- [#7416](https://github.com/ember-cli/ember-cli/pull/7416) Add support for Node 9. [@rwjblue](https://github.com/rwjblue)
+- [#7417](https://github.com/ember-cli/ember-cli/pull/7417) Issue warning for Node 7. [@rwjblue](https://github.com/rwjblue)
+- [#7427](https://github.com/ember-cli/ember-cli/pull/7427) Remove emoji alias [@tristanpemble](https://github.com/tristanpemble)
+- [#7430](https://github.com/ember-cli/ember-cli/pull/7430) ember-try: Add `useYarn` flag if necessary [@Turbo87](https://github.com/Turbo87)
+- [#7436](https://github.com/ember-cli/ember-cli/pull/7436) retire 2.8, introduce 2.16 [@kellyselden](https://github.com/kellyselden)
+- [#7437](https://github.com/ember-cli/ember-cli/pull/7437) Update to ember-cli-qunit@4.1.1. [@rwjblue](https://github.com/rwjblue)
+- [#7439](https://github.com/ember-cli/ember-cli/pull/7439) Cherry pick #7432 and #7435 to release [@kellyselden](https://github.com/kellyselden)
+- [#7449](https://github.com/ember-cli/ember-cli/pull/7449) Update `ember-cli-shims` to v1.2.0 [@Turbo87](https://github.com/Turbo87)
+- [#7460](https://github.com/ember-cli/ember-cli/pull/7460) remove trailing comma from testem.js [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.17.0-beta.2
 
 The following changes are required if you are upgrading from the previous
@@ -26,6 +65,7 @@ version:
 - [#7417](https://github.com/ember-cli/ember-cli/pull/7417) Issue warning for Node 7. [@rwjblue](https://github.com/rwjblue)
 
 Thank you to all who took the time to contribute!
+
 
 ## 2.17.0-beta.1
 
