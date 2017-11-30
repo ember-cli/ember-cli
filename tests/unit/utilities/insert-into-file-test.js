@@ -202,39 +202,57 @@ describe('insertIntoFile()', function() {
       });
   });
 
-  it('options.after supports regex', function() {
-    let toInsert = 'blahzorz blammo';
-    let line1 = 'line1 is here';
-    let line2 = 'line2 here';
-    let line3 = 'line3';
-    let originalContent = [line1, line2, line3].join(EOL);
+  describe('regex', function() {
+    it('options.after supports regex', function() {
+      let toInsert = 'blahzorz blammo';
+      let line1 = 'line1 is here';
+      let line2 = 'line2 here';
+      let line3 = 'line3';
+      let originalContent = [line1, line2, line3].join(EOL);
 
-    fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { after: /line2 here(\r?\n)/ })
-      .then(function() {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+      return insertIntoFile(filePath, toInsert, { after: /line2 here(\r?\n)/ })
+        .then(function() {
+          let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal([line1, line2, toInsert, line3].join(EOL),
-          'inserted contents should be inserted after the `after` value');
-      });
-  });
+          expect(contents).to.equal([line1, line2, toInsert, line3].join(EOL),
+            'inserted contents should be inserted after the `after` value');
+        });
+    });
 
-  it('options.before supports regex', function() {
-    let toInsert = 'blahzorz blammo';
-    let line1 = 'line1 is here';
-    let line2 = 'line2 here';
-    let line3 = 'line3';
-    let originalContent = [line1, line2, line3].join(EOL);
+    it('options.before supports regex', function() {
+      let toInsert = 'blahzorz blammo';
+      let line1 = 'line1 is here';
+      let line2 = 'line2 here';
+      let line3 = 'line3';
+      let originalContent = [line1, line2, line3].join(EOL);
 
-    fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+      fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { before: /line2 here(\r?\n)/ })
-      .then(function() {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+      return insertIntoFile(filePath, toInsert, { before: /line2 here(\r?\n)/ })
+        .then(function() {
+          let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal([line1, toInsert, line2, line3].join(EOL),
-          'inserted contents should be inserted before the `before` value');
-      });
+          expect(contents).to.equal([line1, toInsert, line2, line3].join(EOL),
+            'inserted contents should be inserted before the `before` value');
+        });
+    });
+
+    it('options.after doesn\'t treat strings as regex', function() {
+      let toInsert = 'blahzorz blammo';
+
+      fs.writeFileSync(filePath, '', { encoding: 'utf8' });
+
+      expect(() => insertIntoFile(filePath, toInsert, { after: '"predef": [\n' })).to.not.throw();
+    });
+
+    it('options.before doesn\'t treat strings as regex', function() {
+      let toInsert = 'blahzorz blammo';
+
+      fs.writeFileSync(filePath, '', { encoding: 'utf8' });
+
+      expect(() => insertIntoFile(filePath, toInsert, { before: '"predef": [\n' })).to.not.throw();
+    });
   });
 });
