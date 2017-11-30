@@ -69,6 +69,7 @@ describe('assembler strategies', function() {
         ],
         inputFiles: [],
         outputFile: '/assets/vendor.js',
+        separator: '\n;',
         sourceMapConfig: {
           'enabled': true,
         },
