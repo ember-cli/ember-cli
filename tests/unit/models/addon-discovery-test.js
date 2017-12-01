@@ -7,7 +7,7 @@ const AddonDiscovery = require('../../../lib/models/addon-discovery');
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
-const chalk = require('chalk');
+const fs = require('fs');
 
 describe('models/addon-discovery.js', function() {
   let project, projectPath, ui;
@@ -186,7 +186,6 @@ describe('models/addon-discovery.js', function() {
 
     it('can find a package without a main entry point [DEPRECATED]', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -197,7 +196,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
+      discovery.discoverFromDependencies(root, mockPkg, true);
 
       let expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
@@ -206,15 +205,10 @@ describe('models/addon-discovery.js', function() {
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
-
-      let output = ui.output.trim();
-      let expectedWarning = chalk.yellow(`The package \`invalid-package\` is not a properly formatted package, we have used a fallback lookup to resolve it at \`${path.join(root, 'node_modules', 'invalid-package')}\`. This is generally caused by an addon not having a \`main\` entry point (or \`index.js\`).`);
-      expect(output).to.equal(expectedWarning);
     });
 
     it('does not error when dependencies are not found', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -225,12 +219,11 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
+      discovery.discoverFromDependencies(root, mockPkg, true);
 
       let expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
         path.join(root, 'node_modules', 'blah-blah'),
-        path.join(root, 'node_modules', 'blah-zorz'),
       ];
 
       expect(actualPaths).to.deep.equal(expectedPaths);
@@ -238,7 +231,6 @@ describe('models/addon-discovery.js', function() {
 
     it('calls discoverAtPath for each entry in dependencies', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -248,7 +240,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg);
+      discovery.discoverFromDependencies(root, mockPkg);
 
       let expectedPaths = [
         path.join(root, '..', 'node_modules', 'dev-foo-bar'),
@@ -261,7 +253,6 @@ describe('models/addon-discovery.js', function() {
 
     it('excludes devDeps if `excludeDevDeps` is true', function() {
       let root = path.join(fixturePath, 'shared-package', 'base');
-      let addonNodeModulesPath = path.join(root, 'node_modules');
       let actualPaths = [];
       let discovery = new AddonDiscovery(ui);
 
@@ -271,7 +262,7 @@ describe('models/addon-discovery.js', function() {
         return providedPath;
       };
 
-      discovery.discoverFromDependencies(root, addonNodeModulesPath, mockPkg, true);
+      discovery.discoverFromDependencies(root, mockPkg, true);
 
       let expectedPaths = [
         path.join(root, 'node_modules', 'foo-bar'),
@@ -468,6 +459,32 @@ describe('models/addon-discovery.js', function() {
 
       expect(result.name).to.equal('ember-random-addon');
       expect(result.path).to.equal(addonPath);
+      expect(result.pkg).to.deep.equal(addonPkg);
+    });
+
+    it('discovered path resolves symlinks', function() {
+      let addonPath = path.join(fixturePath, 'simple/node_modules/symlinked-addon');
+      let targetPath = path.join(fixturePath, 'simple/node_modules/ember-random-addon');
+
+      try {
+        // remove any prior symlink that's floating around here
+        fs.unlinkSync(addonPath);
+      } catch (err) {
+        // allowed to fail because symlink may not have existed
+      }
+
+      // Make our symlink. We do it here instead of committing the
+      // symlink to our repo because checking out repos with symlinks
+      // does the wrong thing in Windows non-administrator shells.
+      fs.symlinkSync(targetPath, addonPath);
+
+      const addonPkg = require(path.join(addonPath, 'package.json'));
+      let discovery = new AddonDiscovery(ui);
+
+      let result = discovery.discoverAtPath(addonPath);
+
+      expect(result.name).to.equal('ember-random-addon');
+      expect(result.path).to.equal(addonPath.replace('symlinked-addon', 'ember-random-addon'));
       expect(result.pkg).to.deep.equal(addonPkg);
     });
 

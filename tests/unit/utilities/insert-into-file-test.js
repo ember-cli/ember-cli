@@ -255,4 +255,13 @@ describe('insertIntoFile()', function() {
       expect(() => insertIntoFile(filePath, toInsert, { before: '"predef": [\n' })).to.not.throw();
     });
   });
+
+  it('will return the file path', function() {
+    let toInsert = 'blahzorz blammo';
+
+    return insertIntoFile(filePath, toInsert)
+      .then(function(result) {
+        expect(result.path).to.equal(filePath, 'path should always match');
+      });
+  });
 });

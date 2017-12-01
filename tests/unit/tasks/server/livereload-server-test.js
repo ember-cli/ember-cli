@@ -52,16 +52,6 @@ describe('livereload-server', function() {
       });
     });
 
-    it('correctly indicates which port livereload is present on', function() {
-      return subject.start({
-        liveReloadPort: 1337,
-        liveReloadHost: 'localhost',
-        liveReload: true,
-      }).then(function() {
-        expect(ui.output).to.equal(`Livereload server on http://localhost:1337${EOL}`);
-      });
-    });
-
     it('informs of error during startup', function(done) {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
@@ -84,13 +74,14 @@ describe('livereload-server', function() {
         liveReloadPort: 1337,
         liveReload: true,
       }).then(function() {
-        expect(ui.output).to.equal(`Livereload server on http://127.0.0.1:1337${EOL}`);
+        expect(subject._liveReloadServer.options.port).to.equal(1337);
+        expect(subject._liveReloadServer.options.host).to.equal('127.0.0.1');
       });
     });
   });
 
   describe('start with https', function() {
-    it('correctly indicates which port livereload is present on and running in https mode', function() {
+    it('correctly runs in https mode', function() {
       return subject.start({
         liveReloadPort: 1337,
         liveReloadHost: 'localhost',
@@ -99,7 +90,9 @@ describe('livereload-server', function() {
         sslKey: 'tests/fixtures/ssl/server.key',
         sslCert: 'tests/fixtures/ssl/server.crt',
       }).then(function() {
-        expect(ui.output).to.equal(`Livereload server on https://localhost:1337${EOL}`);
+        expect(subject._liveReloadServer.options.key).to.be.an.instanceof(Buffer);
+        expect(subject._liveReloadServer.options.cert).to.be.an.instanceof(Buffer);
+        expect(subject._liveReloadServer.options.ssl).to.equal(true);
       });
     });
 

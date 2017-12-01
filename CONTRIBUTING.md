@@ -193,6 +193,11 @@ break anything.
 
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
 
+#### Experiments
+A new feature may require putting the changes behind an experiment. More
+information can be found at
+[Experiments](https://github.com/ember-cli/ember-cli/blob/updating-docs-with-experiments/docs/experiments.md).
+
 # Code Climate
 
 We can always use help improving our [Code Climate](https://codeclimate.com/github/ember-cli/ember-cli) score.
