@@ -1,0 +1,6 @@
+{
+  "name": "<%= name %>",
+  "dependencies": {
+    "ember": "components/ember#canary"
+  }
+}

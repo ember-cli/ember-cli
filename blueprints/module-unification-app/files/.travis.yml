@@ -1,0 +1,28 @@
+---
+language: node_js
+node_js:
+  - "6"
+
+sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+<% if (yarn) { %>
+cache:
+  yarn: true
+<% } else { %>
+cache:
+  directories:
+    - $HOME/.npm
+<% } %>
+before_install:<% if (yarn) { %>
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+install:
+  - yarn install --non-interactive
+
+script:
+  - yarn test<% } else { %>
+  - npm config set spin false<% } %>

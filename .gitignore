@@ -7,3 +7,4 @@ npm-debug.log
 .deps-tmp
 /coverage
 *.pem
+.DS_Store

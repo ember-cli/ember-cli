@@ -337,6 +337,13 @@ module.exports = {
               overridden: false
             },
             {
+              name: 'module-unification-app',
+              description: 'Generates an Ember application with a module unification layout.',
+              availableOptions: [],
+              anonymousOptions: ['name'],
+              overridden: false
+            },
+            {
               name: 'server',
               description: 'Generates a server directory for mocks and proxies.',
               availableOptions: [],
