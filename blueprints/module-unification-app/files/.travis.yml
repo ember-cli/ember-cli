@@ -1,0 +1,39 @@
+---
+language: node_js
+node_js:
+  - "6"
+
+sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+<% if (yarn) { %>
+cache:
+  yarn: true
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+install:
+  - yarn install --non-interactive
+
+before_script:
+  - npm install -g bower
+  - bower install
+
+script:
+  - yarn test
+<% } else { %>
+cache:
+  directories:
+    - $HOME/.npm
+
+before_install:
+  - npm config set spin false
+
+before_script:
+  - npm install -g bower
+  - bower install
+<% } %>
