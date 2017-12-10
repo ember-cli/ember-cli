@@ -6,3 +6,4 @@
 /.*
 !.travis.yml
 !appveyor.yml
+.esm-cache
