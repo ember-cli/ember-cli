@@ -1,5 +1,29 @@
 # ember-cli Changelog
 
+## 2.17.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0...v2.17.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.17.1)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7475](https://github.com/ember-cli/ember-cli/pull/7475) don't treat strings as regex in insertIntoFile [@kellyselden](https://github.com/kellyselden)
+- [#7477](https://github.com/ember-cli/ember-cli/pull/7477) Restore `separator: '\n;'` to vendor JS concat [@lennyburdette](https://github.com/lennyburdette)
+- [#7478](https://github.com/ember-cli/ember-cli/pull/7478) Remove obsolete CONFIG_CACHING feature flag [@Turbo87](https://github.com/Turbo87)
+- [#7481](https://github.com/ember-cli/ember-cli/pull/7481) NpmInstallTask: `useYarn` from constructor args [@lennyburdette](https://github.com/lennyburdette)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.17.0
 
 The following changes are required if you are upgrading from the previous
