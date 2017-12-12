@@ -13,6 +13,24 @@ module.exports = {
 
   filesToRemove: [],
 
+  ignoredFilePaths: [
+    '^app/controllers.*',
+    '^app/models.*',
+    '^app/helpers.*',
+    '^app/app.js',
+    '^app/resolver.js',
+    '^app/templates/components.*',
+    '^app/routes.*',
+  ],
+
+  fileMap: {
+    '^app/index.html': 'src/ui/index.html',
+    '^app/router.js': 'src/router.js',
+    '^app/components/.gitkeep': 'src/ui/components/.gitkeep',
+    '^app/templates/application.hbs': 'src/ui/routes/application/template.hbs',
+    '^app/styles/app.css': 'src/ui/styles/app.css',
+  },
+
   locals(options) {
     let entity = options.entity;
     let rawName = entity.name;
@@ -35,7 +53,12 @@ module.exports = {
     let muAppFilesPath = this.filesPath(this.options);
     let muFiles = walkSync(muAppFilesPath);
 
-    return uniq(appFiles.concat(muFiles));
+    return uniq(appFiles.concat(muFiles))
+      .filter(file =>
+        !this.ignoredFilePaths.find(
+          ignoredFilePattern => (new RegExp(ignoredFilePattern)).test(file)
+        )
+      );
   },
 
   buildFileInfo(intoDir, templateVariables, file) {
@@ -56,14 +79,6 @@ module.exports = {
   mapFile() {
     let result = this._super.mapFile.apply(this, arguments);
     return this.fileMapper(result);
-  },
-
-  fileMap: {
-    '^app/index.html': 'src/ui/index.html',
-    '^app/router.js': 'src/router.js',
-    '^app/components/.gitkeep': 'src/ui/components/.gitkeep',
-    '^app/templates/application.hbs': 'src/ui/routes/application/template.hbs',
-    '^app/styles/app.css': 'src/ui/styles/app.css',
   },
 
   fileMapper(path) {
