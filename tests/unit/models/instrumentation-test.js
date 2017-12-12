@@ -44,7 +44,6 @@ describe('models/instrumentation.js', function() {
     });
 
     afterEach(function() {
-      fs.statSync = originalStatSync;
       td.reset();
     });
 
