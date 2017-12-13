@@ -1,7 +1,5 @@
 # Node Support
 
-* original proposal/discussion: https://github.com/ember-cli/rfcs/pull/47
-
 ## Supported Versions
 
 | Node LTS Version | Supported Ember CLI Versions |
@@ -15,7 +13,7 @@
 | 8.x              | 2.13.3 - Current             |
 | 9.x              | 2.16.2 - Current             |
 
-# Design
+## Design
 
 Commits to the `HEAD` of the master branch will provide support for any Active
 Node.js LTS and the current stable Node.js version(s).
@@ -24,12 +22,7 @@ with versions which we support. This means that our schedule for support is
 tied to the [LTS release schedule for
 Node.js](https://github.com/nodejs/LTS#lts_schedule).
 
-## Legacy Support
-
-* v0.10: LTS Maintenance Mode ends on 2016-10-01. We drop all support on that date.
-* v0.12: LTS Maintenance Mode ends on 2017-04-01. We drop all support on that date.
-
-## Ongoing support per this RFC:
+## Current support:
 
 * v4.2: Released as stable version then converted to LTS.
   * Supported by ember-cli/ember-cli#master until: 2018-04-01
@@ -44,7 +37,7 @@ Node.js](https://github.com/nodejs/LTS#lts_schedule).
 * v9: Released as stable (not an LTS)
   * Supported by ember-cli/ember-cli#master until: 2018-07-01.
 
-# Release Process and Support Policy
+## Release Process and Support Policy
 
 Ember and Ember CLI have committed to supporting the [Node.js LTS schedule](https://github.com/nodejs/LTS#lts-schedule)
 for the `HEAD` of our `master` branch(es). This means that we will will drop support
