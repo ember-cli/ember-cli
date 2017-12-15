@@ -118,7 +118,7 @@
     "validate-npm-package-name": "^3.0.0",
     "walk-sync": "^0.3.0",
     "watch-detector": "^0.1.0",
-    "yam": "0.0.22"
+    "yam": "^0.0.23"
   },
   "devDependencies": {
     "broccoli-test-helper": "^1.0.0",
