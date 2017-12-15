@@ -1,5 +1,29 @@
 # ember-cli Changelog
 
+## 2.18.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.0-beta.1...v2.18.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.0-beta.1...v2.18.0-beta.2)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7474](https://github.com/ember-cli/ember-cli/pull/7474) Give plugins and extends their own lines [@rwwagner90](https://github.com/rwwagner90)
+- [#7475](https://github.com/ember-cli/ember-cli/pull/7475) don't treat strings as regex in insertIntoFile [@kellyselden](https://github.com/kellyselden)
+- [#7477](https://github.com/ember-cli/ember-cli/pull/7477) Restore `separator: '\n;'` to vendor JS concat [@kellyselden/lenny](https://github.com/kellyselden/lenny)
+- [#7478](https://github.com/ember-cli/ember-cli/pull/7478) Remove obsolete CONFIG_CACHING feature flag [@Turbo87](https://github.com/Turbo87)
+- [#7481](https://github.com/ember-cli/ember-cli/pull/7481) NpmInstallTask: `useYarn` from constructor args [@lennyburdette](https://github.com/lennyburdette)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.18.0-beta.1
 
 The following changes are required if you are upgrading from the previous
