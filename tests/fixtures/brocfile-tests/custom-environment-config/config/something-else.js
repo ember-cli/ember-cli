@@ -4,6 +4,8 @@ module.exports = function() {
     fileUsed: 'config/something-else.js',
     baseURL: '/',
     locationType: 'auto',
-    APP: { }
+    APP: {
+      autoboot: false
+    }
   };
 };
