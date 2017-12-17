@@ -3,6 +3,9 @@ module.exports = function() {
     modulePrefix: 'some-cool-app',
     EmberENV: {
       asdflkmawejf: ';jlnu3yr23'
+    },
+    APP: {
+      autoboot: false
     }
   };
 };
