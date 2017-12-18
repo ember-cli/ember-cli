@@ -30,6 +30,7 @@ describe('Acceptance: ember new', function() {
   }));
 
   afterEach(function() {
+    process.env.MODULE_UNIFICATION = undefined;
     return tmp.teardown(tmpDir);
   });
 
@@ -63,6 +64,18 @@ describe('Acceptance: ember new', function() {
     ]);
 
     confirmBlueprinted();
+  }));
+
+  it('MODULE_UNIFICATION=true ember new foo works', co.wrap(function *() {
+    process.env.MODULE_UNIFICATION = 'true';
+    yield ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+    ]);
+
+    confirmBlueprintedForDir('blueprints/module-unification-app');
   }));
 
   it('ember new with empty app name fails with a warning', co.wrap(function *() {
