@@ -34,4 +34,5 @@ before_script:
   - bower install
 
 script:
+  - <% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>
   - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test

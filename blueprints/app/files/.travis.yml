@@ -21,13 +21,14 @@ env:
     # See https://git.io/vdao3 for details.
     - JOBS=1
 
-before_install:<% if (yarn) { %>
+before_install:<% if (!yarn) { %>
+  - npm config set spin false<% } else { %>
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
-  - yarn install --non-interactive
+  - yarn install --non-interactive<% } %>
 
 script:
-  - yarn test<% } else { %>
-  - npm config set spin false<% } %>
+  - <% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>
+  - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test
