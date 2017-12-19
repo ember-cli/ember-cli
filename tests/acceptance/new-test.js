@@ -379,6 +379,16 @@ describe('Acceptance: ember new', function() {
   }));
 
   describe('verify fixtures', function() {
+    function checkPackageJson(fixtureName) {
+      let currentVersion = require('../../package').version;
+      let fixturePath = path.join(__dirname, '../fixtures', fixtureName, 'package.json');
+      let fixtureContents = fs.readFileSync(fixturePath, { encoding: 'utf-8' })
+        .replace("<%= emberCLIVersion %>", currentVersion);
+
+      expect(file('package.json'))
+        .to.equal(fixtureContents);
+    }
+
     it('app + npm + !welcome', co.wrap(function *() {
       yield ember([
         'new',
@@ -389,14 +399,17 @@ describe('Acceptance: ember new', function() {
         '--no-welcome',
       ]);
 
+      let fixturePath = 'app/npm';
       [
         'app/templates/application.hbs',
         '.travis.yml',
         'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
-          .to.equal(file(path.join(__dirname, '../fixtures/app/npm', filePath)));
+          .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
+
+      checkPackageJson(fixturePath);
     }));
 
     it('app + yarn + welcome', co.wrap(function *() {
@@ -409,14 +422,17 @@ describe('Acceptance: ember new', function() {
         '--yarn',
       ]);
 
+      let fixturePath = 'app/yarn';
       [
         'app/templates/application.hbs',
         '.travis.yml',
         'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
-          .to.equal(file(path.join(__dirname, '../fixtures/app/yarn', filePath)));
+          .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
+
+      checkPackageJson(fixturePath);
     }));
 
     it('addon + npm + !welcome', co.wrap(function *() {
@@ -428,6 +444,7 @@ describe('Acceptance: ember new', function() {
         '--skip-git',
       ]);
 
+      let fixturePath = 'addon/npm';
       [
         'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
@@ -435,8 +452,10 @@ describe('Acceptance: ember new', function() {
         'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
-          .to.equal(file(path.join(__dirname, '../fixtures/addon/npm', filePath)));
+          .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
+
+      checkPackageJson(fixturePath);
     }));
 
     it('addon + yarn + welcome', co.wrap(function *() {
@@ -450,6 +469,7 @@ describe('Acceptance: ember new', function() {
         '--welcome',
       ]);
 
+      let fixturePath = 'addon/yarn';
       [
         'config/ember-try.js',
         'tests/dummy/app/templates/application.hbs',
@@ -457,8 +477,10 @@ describe('Acceptance: ember new', function() {
         'README.md',
       ].forEach(filePath => {
         expect(file(filePath))
-          .to.equal(file(path.join(__dirname, '../fixtures/addon/yarn', filePath)));
+          .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
+
+      checkPackageJson(fixturePath);
     }));
   });
 
