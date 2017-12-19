@@ -33,6 +33,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember test`
 * `ember test --server`
 
+### Linting
+
+* `npm run lint:js`
+* `npm run lint:js -- --fix`
+
 ### Building
 
 * `ember build` (development)

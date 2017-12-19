@@ -26,6 +26,11 @@ Contributing
 * `cd <%= addonName %>`
 * `<% if (yarn) { %>yarn<% } else { %>npm<% } %> install`
 
+### Linting
+
+* `<% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>`
+* `<% if (yarn) { %>yarn lint:js --fix<% } else { %>npm run lint:js -- --fix<% } %>`
+
 ### Running tests
 
 * `ember test` – Runs the test suite on the current Ember version
@@ -38,7 +43,6 @@ Contributing
 * Visit the dummy application at [http://localhost:4200](http://localhost:4200).
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
-
 
 License
 ------------------------------------------------------------------------------
