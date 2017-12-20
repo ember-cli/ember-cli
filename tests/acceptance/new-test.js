@@ -389,6 +389,56 @@ describe('Acceptance: ember new', function() {
         .to.equal(fixtureContents);
     }
 
+    it('module-unification-app + npm + !welcome', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--blueprint',
+        'module-unification-app',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--no-welcome',
+      ]);
+
+      let fixturePath = 'module-unification-app/npm';
+      [
+        'src/ui/routes/application/template.hbs',
+        '.travis.yml',
+        'README.md',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+      });
+
+      checkPackageJson(fixturePath);
+    }));
+
+    it('module-unification-app + yarn + welcome', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--blueprint',
+        'module-unification-app',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--yarn',
+      ]);
+
+      let fixturePath = 'module-unification-app/yarn';
+      [
+        'src/ui/routes/application/template.hbs',
+        '.travis.yml',
+        'README.md',
+      ].forEach(filePath => {
+        expect(file(filePath))
+          .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
+      });
+
+      checkPackageJson(fixturePath);
+    }));
+
     it('app + npm + !welcome', co.wrap(function *() {
       yield ember([
         'new',
