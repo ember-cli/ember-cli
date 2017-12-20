@@ -34,6 +34,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember test`
 * `ember test --server`
 
+### Linting
+
+* `<% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>`
+* `<% if (yarn) { %>yarn lint:js --fix<% } else { %>npm run lint:js -- --fix<% } %>`
+
 ### Building
 
 * `ember build` (development)

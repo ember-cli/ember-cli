@@ -9,7 +9,7 @@ You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/)<% if (yarn) { %>
-* [Yarn](https://yarnpkg.com/)<% } else { %> (with NPM)<% } %>
+* [Yarn](https://yarnpkg.com/)<% } else { %> (with npm)<% } %>
 * [Ember CLI](https://ember-cli.com/)
 * [Google Chrome](https://google.com/chrome/)
 
@@ -23,6 +23,7 @@ You will need the following things properly installed on your computer.
 
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
+* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
 
 ### Code Generators
 
@@ -32,6 +33,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 * `ember test`
 * `ember test --server`
+
+### Linting
+
+* `<% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>`
+* `<% if (yarn) { %>yarn lint:js --fix<% } else { %>npm run lint:js -- --fix<% } %>`
 
 ### Building
 

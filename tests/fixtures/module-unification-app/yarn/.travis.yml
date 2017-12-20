@@ -24,6 +24,10 @@ before_install:
 install:
   - yarn install --non-interactive
 
+before_script:
+  - yarn global add bower
+  - bower install
+
 script:
   - yarn lint:js
   - yarn test
