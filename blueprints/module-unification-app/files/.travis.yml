@@ -11,29 +11,27 @@ addons:
 <% if (yarn) { %>
 cache:
   yarn: true
-
-before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH=$HOME/.yarn/bin:$PATH
-
-install:
-  - yarn install --non-interactive
-
-before_script:
-  - npm install -g bower
-  - bower install
-
-script:
-  - yarn test
 <% } else { %>
 cache:
   directories:
     - $HOME/.npm
+<% } %>
+env:
+  global:
+    # See https://git.io/vdao3 for details.
+    - JOBS=1
 
-before_install:
-  - npm config set spin false
+before_install:<% if (!yarn) { %>
+  - npm config set spin false<% } else { %>
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+install:
+  - yarn install --non-interactive<% } %>
 
 before_script:
-  - npm install -g bower
+  - <% if (yarn) { %>yarn global add bower<% } else { %>npm install -g bower<% } %>
   - bower install
-<% } %>
+
+script:
+  - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test
