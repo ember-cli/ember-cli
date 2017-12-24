@@ -83,15 +83,6 @@ describe('Acceptance: ember generate pod', function() {
     });
   }
 
-  function generateWithUsePodsDeprecated(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initApp().then(function() {
-      replaceFile('config/environment.js', "(var|let|const) ENV = {", "$1 ENV = {\nusePodsByDefault: true, \n");
-      return ember(generateArgs);
-    });
-  }
-
   it('.ember-cli usePods setting generates in pod structure without --pod flag', co.wrap(function *() {
     yield generateWithUsePods(['controller', 'foo']);
 
@@ -404,13 +395,6 @@ describe('Acceptance: ember generate pod', function() {
     expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be" +
       " removed from future versions of ember-cli. Please move existing pods from" +
       " 'app/pods/' to 'app/'.");
-  }));
-
-  it('usePodsByDefault deprecation warning', co.wrap(function *() {
-    let result = yield generateWithUsePodsDeprecated(['controller', 'foo', '--pod']);
-
-    expect(result.outputStream.join()).to.include('`usePodsByDefault` is no longer supported in' +
-      ' \'config/environment.js\', use `usePods` in \'.ember-cli\' instead.');
   }));
 
   it('route foo --dry-run --pod does not change router.js', co.wrap(function *() {
