@@ -101,15 +101,6 @@ describe('Acceptance: ember destroy pod', function() {
     assertFilesNotExist(files);
   });
 
-  const destroyAfterGenerateWithPodsByDefault = co.wrap(function *(args) {
-    yield initApp();
-
-    replaceFile('config/environment.js', "(var|let|const) ENV = {", "$1 ENV = {\nusePodsByDefault: true, \n");
-
-    yield generate(args);
-    return yield destroy(args);
-  });
-
   const destroyAfterGenerate = co.wrap(function *(args) {
     yield initApp();
 
@@ -227,12 +218,4 @@ describe('Acceptance: ember destroy pod', function() {
       " removed from future versions of ember-cli. Please move existing pods from" +
       " 'app/pods/' to 'app/'.");
   }));
-
-  it('usePodsByDefault deprecation warning', co.wrap(function *() {
-    let result = yield destroyAfterGenerateWithPodsByDefault(['controller', 'foo', '--pod']);
-
-    expect(result.outputStream.join()).to.include('`usePodsByDefault` is no longer supported in' +
-      ' \'config/environment.js\', use `usePods` in \'.ember-cli\' instead.');
-  }));
-
 });
