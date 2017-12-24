@@ -1147,15 +1147,6 @@ describe('Blueprint', function() {
 
       blueprint.addBowerPackageToProject('foo-bar-local', 'https://twitter.github.io/bootstrap/assets/bootstrap');
     });
-
-    it('correctly handles a single versioned package descriptor as argument (1) (DEPRECATED)', function() {
-      blueprint.ui = ui;
-      blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{ name: 'foo-bar', target: '1.11.1', source: 'foo-bar' }]);
-      };
-
-      blueprint.addBowerPackageToProject('foo-bar#1.11.1');
-    });
   });
 
   describe('addBowerPackagesToProject', function() {
