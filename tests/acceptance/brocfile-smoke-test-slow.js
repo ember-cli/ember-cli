@@ -244,18 +244,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
     });
   }));
 
-  it('supports deprecated legacyFilesToAppend and vendorStaticFiles', co.wrap(function *() {
-    yield copyFixtureFiles('brocfile-tests/app-import-with-legacy-files');
-    let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-    expect(result.output.join('\n')).to.include('Usage of EmberApp.legacyFilesToAppend is deprecated. Please use EmberApp.import instead for the following files: \'vendor/legacy-file.js\', \'vendor/second-legacy-file.js\'');
-    expect(result.output.join('\n')).to.include('Usage of EmberApp.vendorStaticStyles is deprecated. Please use EmberApp.import instead for the following files: \'vendor/legacy-file.css\'');
-
-    expect(file('dist/assets/vendor.js')).to.contain('legacy-file.js');
-    expect(file('dist/assets/vendor.js')).to.contain('second-legacy-file.js');
-    expect(file('dist/assets/vendor.css')).to.contain('legacy-file.css');
-  }));
-
   it('specifying outputFile results in an explicitly generated assets', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/app-import-output-file');
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
