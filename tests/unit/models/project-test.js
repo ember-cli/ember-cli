@@ -599,31 +599,6 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('nodeModulesPath', function() {
-    beforeEach(function() {
-      projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
-    });
-
-    afterEach(function() {
-      delete process.env.EMBER_NODE_PATH;
-    });
-
-    it('should equal env.EMBER_NODE_PATH when it is set', function() {
-      let nodePath = '/my/path/node_modules';
-      process.env.EMBER_NODE_PATH = nodePath;
-
-      makeProject();
-
-      expect(project.nodeModulesPath).to.equal(path.resolve(nodePath));
-    });
-
-    it('should equal project.root joined with "node_modules" when EMBER_NODE_PATH is not set', function() {
-      makeProject();
-
-      expect(project.nodeModulesPath).to.equal(path.join(projectPath, 'node_modules'));
-    });
-  });
-
   describe('.nullProject', function() {
     it('is a singleton', function() {
       expect(Project.nullProject()).to.equal(Project.nullProject());
