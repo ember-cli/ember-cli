@@ -75,30 +75,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(appFileContents).to.include('//app/styles-manager.js');
   }));
 
-  it('should fall back to the Brocfile', co.wrap(function *() {
-    yield copyFixtureFiles('brocfile-tests/no-ember-cli-build');
-
-    fs.removeSync('./ember-cli-build.js');
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-    expect(file('Brocfile.js')).to.exist;
-    expect(file('ember-cli-build.js')).to.not.exist;
-  }));
-
-  it('should use the Brocfile if both a Brocfile and ember-cli-build exist', co.wrap(function *() {
-    yield copyFixtureFiles('brocfile-tests/both-build-files');
-    let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-    let vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
-      encoding: 'utf8',
-    });
-
-    let expected = 'var usingBrocfile = true;';
-
-    expect(vendorContents).to.contain(expected, 'includes file imported from Brocfile');
-    expect(result.output.join('\n')).to.include('Brocfile.js has been deprecated');
-  }));
-
   it('should throw if no build file is found', co.wrap(function *() {
     fs.removeSync('./ember-cli-build.js');
     try {
