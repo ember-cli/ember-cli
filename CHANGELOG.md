@@ -9,7 +9,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0...v2.17.1)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.17.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.17.1)
   + No changes required
 - Core Contributors
   + No changes required
@@ -33,7 +33,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.2...v2.17.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.2...v2.17.0)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.2...v2.17.0)
 - Core Contributors
   + No changes required
 
@@ -72,7 +72,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
 - Core Contributors
   + No changes required
 
@@ -100,7 +100,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.0...v2.17.0-beta.1)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.0...v2.17.0-beta.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.0...v2.17.0-beta.1)
   + No changes required
 - Core Contributors
   + No changes required
