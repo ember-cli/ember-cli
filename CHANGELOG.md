@@ -9,7 +9,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.0-beta.1...v2.18.0-beta.2)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.0-beta.1...v2.18.0-beta.2)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.0-beta.1...v2.18.0-beta.2)
 - Core Contributors
   + No changes required
 
@@ -33,7 +33,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0...v2.18.0-beta.1)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.18.0-beta.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.18.0-beta.1)
 - Core Contributors
   + No changes required
 
@@ -61,6 +61,30 @@ version:
 Thank you to all who took the time to contribute!
 
 
+## 2.17.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.1...v2.17.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.1...v2.17.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7489](https://github.com/ember-cli/ember-cli/pull/7489) Fix regression with scoped package name mismatches [@rwwagner90](https://github.com/rwwagner90)
+- [#7507](https://github.com/ember-cli/ember-cli/pull/7507) Ensure testing honors config/environment settings. [@rwjblue](https://github.com/rwjblue)
+- [#7513](https://github.com/ember-cli/ember-cli/pull/7513) fix alpha ordering in npmignore [@kellyselden](https://github.com/kellyselden)
+- [#7516](https://github.com/ember-cli/ember-cli/pull/7516) Fix `ember new --yarn` not using yarn [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ## 2.17.1
 
 The following changes are required if you are upgrading from the previous
@@ -70,7 +94,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0...v2.17.1)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.17.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.17.1)
   + No changes required
 - Core Contributors
   + No changes required
@@ -94,7 +118,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.2...v2.17.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.2...v2.17.0)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.2...v2.17.0)
 - Core Contributors
   + No changes required
 
@@ -133,7 +157,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0-beta.1...v2.17.0-beta.2)
 - Core Contributors
   + No changes required
 
@@ -161,7 +185,7 @@ version:
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.16.0...v2.17.0-beta.1)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.0...v2.17.0-beta.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.16.0...v2.17.0-beta.1)
   + No changes required
 - Core Contributors
   + No changes required
