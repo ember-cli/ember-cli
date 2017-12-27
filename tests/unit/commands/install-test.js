@@ -106,6 +106,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
       });
     });
@@ -125,6 +126,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
       });
     });
@@ -138,6 +140,7 @@ describe('install command', function() {
           'save': true,
           'save-dev': false,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
       });
     });
@@ -157,6 +160,7 @@ describe('install command', function() {
           'save': true,
           'save-dev': false,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
       });
     });
@@ -200,6 +204,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -217,6 +222,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -233,6 +239,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
@@ -250,6 +257,7 @@ describe('install command', function() {
           'save': false,
           'save-dev': true,
           'save-exact': false,
+          useYarn: undefined,
         }), { times: 1 });
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
