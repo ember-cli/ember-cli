@@ -27,6 +27,7 @@ module.exports = {
       emberCLIVersion: require('../../package').version,
       yarn: options.yarn,
       welcome: options.welcome,
+      blueprint: 'app',
     };
   },
 };

@@ -70,11 +70,13 @@ describe('blueprint - addon', function() {
     "ember-addon"\n\
   ],\n\
   "scripts": {\n\
+    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",\n\
     "test": "ember try:each"\n\
   },\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
-    "ember-disable-prototype-extensions": "^1.1.2"\n\
+    "ember-disable-prototype-extensions": "^1.1.2",\n\
+    "eslint-plugin-node": "^5.2.1"\n\
   },\n\
   "ember-addon": {\n\
     "configPath": "tests/dummy/config"\n\
@@ -169,6 +171,7 @@ describe('blueprint - addon', function() {
 
         let json = JSON.parse(output);
         delete json.devDependencies['ember-disable-prototype-extensions'];
+        delete json.devDependencies['eslint-plugin-node'];
         expect(json.dependencies).to.deep.equal({ a: "1", b: "1" });
         expect(json.devDependencies).to.deep.equal({ a: "1", b: "1" });
       });
