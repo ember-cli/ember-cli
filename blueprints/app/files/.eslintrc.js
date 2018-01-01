@@ -19,13 +19,17 @@ module.exports = {
   overrides: [
     // node files
     {
-      files: [
-        'index.js',
+      files: [<% if (blueprint !== 'app') { %>
+        'index.js',<% } %>
         'testem.js',
         'ember-cli-build.js',
-        'config/**/*.js',
-        'tests/dummy/config/**/*.js'
-      ],
+        'config/**/*.js'<% if (blueprint !== 'app') { %>,
+        'tests/dummy/config/**/*.js'<% } %>
+      ],<% if (blueprint !== 'app') { %>
+      excludedFiles: [
+        'app/**',
+        'addon/**'
+      ],<% } %>
       parserOptions: {
         sourceType: 'script',
         ecmaVersion: 2015

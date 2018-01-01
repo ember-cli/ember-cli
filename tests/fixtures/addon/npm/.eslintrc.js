@@ -26,6 +26,10 @@ module.exports = {
         'config/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
+      excludedFiles: [
+        'app/**',
+        'addon/**'
+      ],
       parserOptions: {
         sourceType: 'script',
         ecmaVersion: 2015
