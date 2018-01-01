@@ -1,44 +1,28 @@
 # ember-cli Changelog
 
-## 2.18.0-beta.2
-
 The following changes are required if you are upgrading from the previous
 version:
 
 - Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.0-beta.1...v2.18.0-beta.2)
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.2...v2.18.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.0-beta.1...v2.18.0-beta.2)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.2...v2.18.0)
 - Core Contributors
   + No changes required
 
 #### Community Contributions
 
+- [#7489](https://github.com/ember-cli/ember-cli/pull/7489) Fix regression with scoped package name mismatches [@rwwagner90](https://github.com/rwwagner90)
+- [#7507](https://github.com/ember-cli/ember-cli/pull/7507) Ensure testing honors config/environment settings. [@rwjblue](https://github.com/rwjblue)
+- [#7513](https://github.com/ember-cli/ember-cli/pull/7513) fix alpha ordering in npmignore [@kellyselden](https://github.com/kellyselden)
+- [#7516](https://github.com/ember-cli/ember-cli/pull/7516) Fix `ember new --yarn` not using yarn [@Turbo87](https://github.com/Turbo87)
+- [#7529](https://github.com/ember-cli/ember-cli/pull/7529) Backport & fixup linting changes. [@rwjblue](https://github.com/rwjblue)
 - [#7474](https://github.com/ember-cli/ember-cli/pull/7474) Give plugins and extends their own lines [@rwwagner90](https://github.com/rwwagner90)
 - [#7475](https://github.com/ember-cli/ember-cli/pull/7475) don't treat strings as regex in insertIntoFile [@kellyselden](https://github.com/kellyselden)
 - [#7477](https://github.com/ember-cli/ember-cli/pull/7477) Restore `separator: '\n;'` to vendor JS concat [@kellyselden/lenny](https://github.com/kellyselden/lenny)
 - [#7478](https://github.com/ember-cli/ember-cli/pull/7478) Remove obsolete CONFIG_CACHING feature flag [@Turbo87](https://github.com/Turbo87)
 - [#7481](https://github.com/ember-cli/ember-cli/pull/7481) NpmInstallTask: `useYarn` from constructor args [@lennyburdette](https://github.com/lennyburdette)
-
-Thank you to all who took the time to contribute!
-
-
-## 2.18.0-beta.1
-
-The following changes are required if you are upgrading from the previous
-version:
-
-- Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.17.0...v2.18.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
-- Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.17.0...v2.18.0-beta.1)
-- Core Contributors
-  + No changes required
-
-#### Community Contributions
-
 - [#7395](https://github.com/ember-cli/ember-cli/pull/7395) Make "testdouble" dependency optional in MockProcess class [@ro0gr](https://github.com/ro0gr)
 - [#7382](https://github.com/ember-cli/ember-cli/pull/7382) add option to not create file [@kellyselden](https://github.com/kellyselden)
 - [#7385](https://github.com/ember-cli/ember-cli/pull/7385) remove node 7 testing [@kellyselden](https://github.com/kellyselden)
