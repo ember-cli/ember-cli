@@ -1,5 +1,7 @@
 # ember-cli Changelog
 
+## v2.18.0
+
 The following changes are required if you are upgrading from the previous
 version:
 
