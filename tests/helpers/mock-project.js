@@ -63,6 +63,10 @@ class MockProject extends Project {
   isEmberCLIAddon() {
     return false;
   }
+
+  isModuleUnification() {
+    return false;
+  }
 }
 
 module.exports = MockProject;
