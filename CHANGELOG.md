@@ -1,5 +1,34 @@
 # ember-cli Changelog
 
+## v3.0.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.0...v3.0.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.0...v3.0.0-beta.1)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7522](https://github.com/ember-cli/ember-cli/pull/7522) utilities: Remove deprecated `deprecateUI()` function [@Turbo87](https://github.com/Turbo87)
+- [#7502](https://github.com/ember-cli/ember-cli/pull/7502) Cleanup and correct node-support.md. [@ember-cli](https://github.com/ember-cli)
+- [#7487](https://github.com/ember-cli/ember-cli/pull/7487) [BUGFIX] give `ember new` error messages consistent color [@GavinJoyce/gj](https://github.com/GavinJoyce/gj)
+- [#7479](https://github.com/ember-cli/ember-cli/pull/7479) Improve default addon README [@Turbo87](https://github.com/Turbo87)
+- [#7512](https://github.com/ember-cli/ember-cli/pull/7512) fix alpha ordering in npmignore [@ember-cli](https://github.com/ember-cli)
+- [#7520](https://github.com/ember-cli/ember-cli/pull/7520) Remove deprecated commands [@Turbo87](https://github.com/Turbo87)
+- [#7523](https://github.com/ember-cli/ember-cli/pull/7523) Remove deprecated code from `EmberApp` class [@Turbo87](https://github.com/Turbo87)
+- [#7524](https://github.com/ember-cli/ember-cli/pull/7524) Remove deprecated `Blueprint` code [@Turbo87](https://github.com/Turbo87)
+- [#7525](https://github.com/ember-cli/ember-cli/pull/7525) Remove deprecated `Project` and `Addon` code [@Turbo87](https://github.com/Turbo87)
+- [#7527](https://github.com/ember-cli/ember-cli/pull/7527) EmberApp: Remove deprecated `contentFor()` hooks [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ## v2.18.0
 
 The following changes are required if you are upgrading from the previous
