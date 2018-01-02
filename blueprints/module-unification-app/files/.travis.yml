@@ -29,10 +29,6 @@ before_install:<% if (!yarn) { %>
 install:
   - yarn install --non-interactive<% } %>
 
-before_script:
-  - <% if (yarn) { %>yarn global add bower<% } else { %>npm install -g bower<% } %>
-  - bower install
-
 script:
   - <% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>
   - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test
