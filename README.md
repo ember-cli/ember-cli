@@ -22,6 +22,7 @@ ember-cli
 
 The Ember.js command line utility.
 
+(testing CI)
 
 Features
 ------------------------------------------------------------------------------
