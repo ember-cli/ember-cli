@@ -526,6 +526,25 @@ describe('models/project.js', function() {
     });
   });
 
+  describe('isModuleUnification', function() {
+    beforeEach(function() {
+      projectPath = `${process.cwd()}/tmp/test-app`;
+
+      makeProject();
+    });
+
+    it('returns false when `./src` does not exist', function() {
+      expect(project.isModuleUnification()).to.equal(false);
+    });
+
+    it('returns true when `./src` exists', function() {
+      let srcPath = path.join(projectPath, 'src');
+      fs.ensureDirSync(srcPath);
+
+      expect(project.isModuleUnification()).to.equal(true);
+    });
+  });
+
   describe('findAddonByName', function() {
     beforeEach(function() {
       projectPath = `${process.cwd()}/tmp/test-app`;
