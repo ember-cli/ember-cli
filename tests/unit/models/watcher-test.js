@@ -225,7 +225,7 @@ describe('Watcher', function() {
       let outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile'));
-      expect(outs[1]).to.equal(chalk.red('buildFailed'));
+      expect(outs[2]).to.equal(chalk.red('buildFailed'));
     });
 
     it('emits with error.file with error.line without err.col', function() {
@@ -239,8 +239,8 @@ describe('Watcher', function() {
 
       let outs = ui.errors.split(EOL);
 
-      expect(outs[0]).to.equal(chalk.red('File: someFile (24)'));
-      expect(outs[1]).to.equal(chalk.red('buildFailed'));
+      expect(outs[0]).to.equal(chalk.red('File: someFile:24'));
+      expect(outs[2]).to.equal(chalk.red('buildFailed'));
     });
 
     it('emits with error.file without error.line with err.col', function() {
@@ -255,7 +255,7 @@ describe('Watcher', function() {
       let outs = ui.errors.split(EOL);
 
       expect(outs[0]).to.equal(chalk.red('File: someFile'));
-      expect(outs[1]).to.equal(chalk.red('buildFailed'));
+      expect(outs[2]).to.equal(chalk.red('buildFailed'));
     });
 
     it('emits with error.file with error.line with err.col', function() {
@@ -270,8 +270,8 @@ describe('Watcher', function() {
 
       let outs = ui.errors.split(EOL);
 
-      expect(outs[0]).to.equal(chalk.red('File: someFile (24:80)'));
-      expect(outs[1]).to.equal(chalk.red('buildFailed'));
+      expect(outs[0]).to.equal(chalk.red('File: someFile:24:80'));
+      expect(outs[2]).to.equal(chalk.red('buildFailed'));
     });
   });
 
