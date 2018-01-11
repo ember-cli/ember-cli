@@ -1,24 +1,17 @@
 import Ember from 'ember';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { setupApplicationTest } from 'ember-qunit';
+import { visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-module('pods based templates', {
-  beforeEach() {
-    this.application = startApp();
-  },
-  afterEach() {
-    destroyApp(this.application);
-  }
-});
+module('pods based templates', function(hooks) {
+  setupApplicationTest(hooks);
 
+  test('the application boots properly with pods based templates with a podModulePrefix set', async function(assert) {
+    assert.expect(1);
 
-test('the application boots properly with pods based templates with a podModulePrefix set', function(assert) {
-  assert.expect(1);
+    await visit('/');
 
-  visit('/');
-
-  andThen(function() {
-    assert.equal(Ember.$('#title').text(), 'ZOMG, PODS WORKS!!');
+    let actual = this.element.querySelector('#title').textContent
+    assert.equal(actual, 'ZOMG, PODS WORKS!!');
   });
 });

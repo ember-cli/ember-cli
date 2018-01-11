@@ -1,23 +1,20 @@
-import moduleForAcceptance from '../helpers/module-for-acceptance';
-import QUnit from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import QUnit, { module, test } from 'qunit';
 
-let application, firstArgument;
+let firstArgument;
 
-moduleForAcceptance('Module', {
-  beforeEach(assert) {
-    application = this.application;
+module('Module', function(hooks) {
+  setupApplicationTest(hooks);
+
+  hooks.beforeEach(function(assert) {
     firstArgument = assert;
-  },
+  });
 
-  afterEach() {
-    console.log('afterEach called');
-  }
-});
-
-QUnit.test('it works', function(assert) {
-  assert.ok(application, 'beforeEach binds to the setup context');
-  assert.ok(
-    Object.getPrototypeOf(firstArgument) === QUnit.assert,
-    'first argument is QUnit assert'
-  );
+  test('it works', function(assert) {
+    assert.ok(this.owner, 'setupApplicationTest binds to the context');
+    assert.ok(
+      Object.getPrototypeOf(firstArgument) === QUnit.assert,
+      'first argument is QUnit assert'
+    );
+  });
 });
