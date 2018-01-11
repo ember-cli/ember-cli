@@ -28,7 +28,8 @@ module.exports = {
       ],<% if (blueprint !== 'app') { %>
       excludedFiles: [
         'app/**',
-        'addon/**'
+        'addon/**',
+        'tests/dummy/app/**'
       ],<% } %>
       parserOptions: {
         sourceType: 'script',
