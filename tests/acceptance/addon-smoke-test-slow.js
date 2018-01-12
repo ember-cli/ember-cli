@@ -29,7 +29,6 @@ describe('Acceptance: addon-smoke-test', function() {
   before(function() {
     return createTestTargets(addonName, {
       command: 'addon',
-      createESLintConfig: true,
     });
   });
 
