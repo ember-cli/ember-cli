@@ -66,7 +66,10 @@ module.exports = {
     contents.devDependencies['eslint-plugin-node'] = '^5.2.1';
 
     // add ember-try
-    contents.devDependencies['ember-try'] = '^0.2.22';
+    contents.devDependencies['ember-try'] = '^0.2.23';
+
+    // add ember-source-channel-url
+    contents.devDependencies['ember-source-channel-url'] = '^1.0.1';
 
     // use `ember-try` as test script in addons by default
     contents.scripts.test = 'ember try:each';
