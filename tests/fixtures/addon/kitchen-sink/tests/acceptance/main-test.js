@@ -1,32 +1,23 @@
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { setupApplicationTest } from 'ember-qunit';
+import { visit } from '@ember/test-helpers';
 import truthyHelper from 'kitchen-sink/test-support/helper';
 import { module, test } from 'qunit';
 
-module('Acceptance', {
-  beforeEach() {
-    this.application = startApp();
-  },
-  afterEach() {
-    destroyApp(this.application);
-  }
-});
+module('Acceptance', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('renders properly', function(assert) {
-  visit('/');
+  test('renders properly', async function(assert) {
+    await visit('/');
 
-  andThen(function() {
-    var element = find('.basic-thing');
-    assert.equal(element.first().text().trim(), 'WOOT!!');
+    var element = this.element.querySelector('.basic-thing');
+    assert.equal(element.textContent.trim(), 'WOOT!!');
     assert.ok(truthyHelper(), 'addon-test-support helper');
   });
-});
 
-test('renders imported component', function(assert) {
-  visit('/');
+  test('renders imported component', async function(assert) {
+    await visit('/');
 
-  andThen(function() {
-    var element = find('.second-thing');
-    assert.equal(element.first().text().trim(), 'SECOND!!');
+    var element = this.element.querySelector('.second-thing');
+    assert.equal(element.textContent.trim(), 'SECOND!!');
   });
 });

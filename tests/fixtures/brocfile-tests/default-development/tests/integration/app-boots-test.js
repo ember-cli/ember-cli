@@ -1,23 +1,15 @@
 import Ember from 'ember';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { setupApplicationTest } from 'ember-qunit';
+import { visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 
-module('default-development - Integration', {
-  beforeEach() {
-    this.application = startApp();
-  },
-  afterEach() {
-    destroyApp(this.application);
-  }
-});
+module('default-development - Integration', function(hook) {
+  setupApplicationTest(hooks);
 
-test('the application boots properly', function(assert) {
-  assert.expect(1);
+  test('renders properly', async function(assert) {
+    await visit('/');
 
-  visit('/');
-
-  andThen(function() {
-    assert.ok(Ember.$('.ember-view').length > 0);
+    var elements = this.element.querySelectorAll('.ember-view');
+    assert.ok(elements.length > 0);
   });
 });

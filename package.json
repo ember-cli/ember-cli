@@ -70,7 +70,6 @@
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^3.1.0",
     "ember-cli-string-utils": "^1.0.0",
-    "ember-try": "^0.2.15",
     "ensure-posix-path": "^1.0.2",
     "execa": "^0.8.0",
     "exists-sync": "0.0.4",

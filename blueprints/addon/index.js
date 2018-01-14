@@ -65,6 +65,9 @@ module.exports = {
     // add `eslint-plugin-node` to addons by default
     contents.devDependencies['eslint-plugin-node'] = '^5.2.1';
 
+    // add ember-try
+    contents.devDependencies['ember-try'] = '^0.2.22';
+
     // use `ember-try` as test script in addons by default
     contents.scripts.test = 'ember try:each';
 

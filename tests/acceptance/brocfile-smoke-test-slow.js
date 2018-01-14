@@ -26,7 +26,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   this.timeout(500000);
 
   before(function() {
-    return createTestTargets(appName, { createESLintConfig: true });
+    return createTestTargets(appName);
   });
 
   after(teardownTestTargets);
