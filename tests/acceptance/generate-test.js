@@ -65,66 +65,6 @@ describe('Acceptance: ember generate', function() {
     });
   }
 
-  it('component x-foo', co.wrap(function *() {
-    yield generate(['component', 'x-foo']);
-
-    expect(file('app/components/x-foo.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("export default Ember.Component.extend({")
-      .to.contain("});");
-
-    expect(file('app/templates/components/x-foo.hbs'))
-      .to.contain("{{yield}}");
-
-    expect(file('tests/integration/components/x-foo-test.js'))
-      .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
-      .to.contain("import hbs from 'htmlbars-inline-precompile';")
-      .to.contain("moduleForComponent('x-foo'")
-      .to.contain("integration: true")
-      .to.contain("{{x-foo}}")
-      .to.contain("{{#x-foo}}");
-  }));
-
-  it('component foo/x-foo', co.wrap(function *() {
-    yield generate(['component', 'foo/x-foo']);
-
-    expect(file('app/components/foo/x-foo.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("export default Ember.Component.extend({")
-      .to.contain("});");
-
-    expect(file('app/templates/components/foo/x-foo.hbs'))
-      .to.contain("{{yield}}");
-
-    expect(file('tests/integration/components/foo/x-foo-test.js'))
-      .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
-      .to.contain("import hbs from 'htmlbars-inline-precompile';")
-      .to.contain("moduleForComponent('foo/x-foo'")
-      .to.contain("integration: true")
-      .to.contain("{{foo/x-foo}}")
-      .to.contain("{{#foo/x-foo}}");
-  }));
-
-  it('component x-foo ignores --path option', co.wrap(function *() {
-    yield generate(['component', 'x-foo', '--path', 'foo']);
-
-    expect(file('app/components/x-foo.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("export default Ember.Component.extend({")
-      .to.contain("});");
-
-    expect(file('app/templates/components/x-foo.hbs'))
-      .to.contain("{{yield}}");
-
-    expect(file('tests/integration/components/x-foo-test.js'))
-      .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
-      .to.contain("import hbs from 'htmlbars-inline-precompile';")
-      .to.contain("moduleForComponent('x-foo'")
-      .to.contain("integration: true")
-      .to.contain("{{x-foo}}")
-      .to.contain("{{#x-foo}}");
-  }));
-
   it('blueprint foo', co.wrap(function *() {
     yield generate(['blueprint', 'foo']);
 
@@ -377,19 +317,9 @@ describe('Acceptance: ember generate', function() {
     expect(file('app/controllers/foo.js')).to.contain('custom: true');
   }));
 
-  it('route foo --dry-run does not change router.js', co.wrap(function *() {
-    yield generate(['route', 'foo', '--dry-run']);
-    expect(file('app/router.js')).to.not.contain("route('foo')");
-  }));
-
   it('server', co.wrap(function *() {
     yield generate(['server']);
     expect(file('server/index.js')).to.exist;
-  }));
-
-  it('availableOptions work with aliases.', co.wrap(function *() {
-    yield generate(['route', 'foo', '-d']);
-    expect(file('app/router.js')).to.not.contain("route('foo')");
   }));
 
   it('lib', co.wrap(function *() {

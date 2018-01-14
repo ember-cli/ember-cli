@@ -74,38 +74,6 @@ describe('Acceptance: ember generate in-addon', function() {
     }
   }));
 
-  it('in-addon addon-import component-addon works', co.wrap(function *() {
-    yield generateInAddon(['component-addon', 'foo-bar', '--pod']);
-
-    expect(file('app/components/foo-bar/component.js'))
-      .to.contain("export { default } from 'my-addon/components/foo-bar/component';");
-  }));
-
-  it('in-addon component x-foo', co.wrap(function *() {
-    yield generateInAddon(['component', 'x-foo']);
-
-    expect(file('addon/components/x-foo.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("import layout from '../templates/components/x-foo';")
-      .to.contain("export default Ember.Component.extend({")
-      .to.contain("layout")
-      .to.contain("});");
-
-    expect(file('addon/templates/components/x-foo.hbs'))
-      .to.contain("{{yield}}");
-
-    expect(file('app/components/x-foo.js'))
-      .to.contain("export { default } from 'my-addon/components/x-foo';");
-
-    expect(file('tests/integration/components/x-foo-test.js'))
-      .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
-      .to.contain("import hbs from 'htmlbars-inline-precompile';")
-      .to.contain("moduleForComponent('x-foo'")
-      .to.contain("integration: true")
-      .to.contain("{{x-foo}}")
-      .to.contain("{{#x-foo}}");
-  }));
-
   it('in-addon blueprint foo', co.wrap(function *() {
     yield generateInAddon(['blueprint', 'foo']);
 
