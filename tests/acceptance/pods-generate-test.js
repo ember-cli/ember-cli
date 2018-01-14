@@ -74,64 +74,6 @@ describe('Acceptance: ember generate pod', function() {
     });
   }
 
-  function generateWithUsePods(args) {
-    let generateArgs = ['generate'].concat(args);
-
-    return initApp().then(function() {
-      replaceFile('.ember-cli', '"disableAnalytics": false', '"disableAnalytics": false,\n"usePods" : true\n');
-      return ember(generateArgs);
-    });
-  }
-
-  it('.ember-cli usePods setting generates in pod structure without --pod flag', co.wrap(function *() {
-    yield generateWithUsePods(['controller', 'foo']);
-
-    expect(file('app/foo/controller.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("export default Ember.Controller.extend({\n});");
-
-    expect(file('tests/unit/foo/controller-test.js'))
-      .to.contain("import { moduleFor, test } from 'ember-qunit';")
-      .to.contain("moduleFor('controller:foo'");
-  }));
-
-  it('will show a deprecation warning when both .ember-cli usePods settings and --pod flag are used together', co.wrap(function *() {
-    let result = yield generateWithUsePods(['controller', 'foo', '--pod']);
-
-    expect(result.outputStream.join()).to.include('Using both .ember-cli usePods settings and --pod flag ' +
-      'together has been deprecated.');
-  }));
-
-  it('.ember-cli usePods setting generates in classic structure with --classic flag', co.wrap(function *() {
-    yield generateWithUsePods(['controller', 'foo', '--classic']);
-
-    expect(file('app/controllers/foo.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("export default Ember.Controller.extend({\n});");
-
-    expect(file('tests/unit/controllers/foo-test.js'))
-      .to.contain("import { moduleFor, test } from 'ember-qunit';")
-      .to.contain("moduleFor('controller:foo'");
-  }));
-
-  it('.ember-cli usePods setting generates correct component structure', co.wrap(function *() {
-    yield generateWithUsePods(['component', 'x-foo']);
-
-    expect(file('app/components/x-foo/component.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("export default Ember.Component.extend({")
-      .to.contain("});");
-
-    expect(file('app/components/x-foo/template.hbs'))
-      .to.contain("{{yield}}");
-
-    expect(file('tests/integration/components/x-foo/component-test.js'))
-      .to.contain("import { moduleForComponent, test } from 'ember-qunit';")
-      .to.contain("import hbs from 'htmlbars-inline-precompile';")
-      .to.contain("moduleForComponent('x-foo'")
-      .to.contain("integration: true");
-  }));
-
   it('blueprint foo --pod', co.wrap(function *() {
     yield generate(['blueprint', 'foo', '--pod']);
 
@@ -395,15 +337,5 @@ describe('Acceptance: ember generate pod', function() {
     expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be" +
       " removed from future versions of ember-cli. Please move existing pods from" +
       " 'app/pods/' to 'app/'.");
-  }));
-
-  it('route foo --dry-run --pod does not change router.js', co.wrap(function *() {
-    yield generate(['route', 'foo', '--dry-run', '--pod']);
-    expect(file('app/router.js')).to.not.contain("route('foo')");
-  }));
-
-  it('availableOptions work with aliases.', co.wrap(function *() {
-    yield generate(['route', 'foo', '-d', '-p']);
-    expect(file('app/router.js')).to.not.contain("route('foo')");
   }));
 });

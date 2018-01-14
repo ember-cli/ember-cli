@@ -60,21 +60,6 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     });
   }
 
-  it('dummy component x-foo', co.wrap(function *() {
-    yield generateInAddon(['component', 'x-foo', '--dummy']);
-
-    expect(file('tests/dummy/app/components/x-foo.js'))
-      .to.contain("import Ember from 'ember';")
-      .to.contain("export default Ember.Component.extend({")
-      .to.contain("});");
-
-    expect(file('tests/dummy/app/templates/components/x-foo.hbs'))
-      .to.contain("{{yield}}");
-
-    expect(file('app/components/x-foo.js')).to.not.exist;
-    expect(file('tests/unit/components/x-foo-test.js')).to.not.exist;
-  }));
-
   it('dummy blueprint foo', co.wrap(function *() {
     yield generateInAddon(['blueprint', 'foo', '--dummy']);
 
