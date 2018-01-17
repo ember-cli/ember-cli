@@ -1,5 +1,32 @@
 # ember-cli Changelog
 
+## v3.0.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.0.0-beta.1...v3.0.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.0.0-beta.1...v3.0.0-beta.2)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7447](https://github.com/ember-cli/ember-cli/pull/7447) Remove ember-cli-legacy-blueprints. [@rwjblue](https://github.com/rwjblue)
+- [#7528](https://github.com/ember-cli/ember-cli/pull/7528) EmberApp: Overwrite `app/config/environment` in `tests.js` [@Turbo87](https://github.com/Turbo87)
+- [#7536](https://github.com/ember-cli/ember-cli/pull/7536) Avoid bower usage in config/ember-try.js. [@rwjblue](https://github.com/rwjblue)
+- [#7546](https://github.com/ember-cli/ember-cli/pull/7546) Remove unused testing helper files. [@rwjblue](https://github.com/rwjblue)
+- [#7548](https://github.com/ember-cli/ember-cli/pull/7548) Make async/await work nicely by default. [@rwjblue](https://github.com/rwjblue)
+- [#7549](https://github.com/ember-cli/ember-cli/pull/7549) Use `sudo: required` to work around issue in CI. [@rwjblue](https://github.com/rwjblue)
+- [#7553](https://github.com/ember-cli/ember-cli/pull/7553) Remove embertest from ESLint configuration. [@rwjblue](https://github.com/rwjblue)
+- [#7554](https://github.com/ember-cli/ember-cli/pull/7554) Make ember-try a direct addon dependency. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.0.0-beta.1
 
 The following changes are required if you are upgrading from the previous
