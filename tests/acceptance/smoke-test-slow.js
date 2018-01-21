@@ -152,7 +152,7 @@ describe('Acceptance: smoke-test', function() {
     output = output.join(EOL);
 
     expect(output).to.match(/fail\s+0/, 'no failures');
-    expect(output).to.match(/pass\s+8/, '8 passing');
+    expect(output).to.match(/pass\s+9/, '9 passing');
   }));
 
   it('ember new foo, build development, and verify generated files', co.wrap(function *() {
