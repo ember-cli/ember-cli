@@ -56,6 +56,26 @@ version:
 Thank you to all who took the time to contribute!
 
 
+## v2.18.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.0...v2.18.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.0...v2.18.1)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7566](https://github.com/ember-cli/ember-cli/pull/7566) testem: Use `--no-sandbox` on TravisCI [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ## v2.18.0
 
 The following changes are required if you are upgrading from the previous
