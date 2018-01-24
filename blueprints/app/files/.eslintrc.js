@@ -23,7 +23,8 @@ module.exports = {
         'index.js',<% } %>
         'testem.js',
         'ember-cli-build.js',
-        'config/**/*.js'<% if (blueprint !== 'app') { %>,
+        'config/**/*.js'<% if (blueprint === 'app') { %>,
+        'lib/*/index.js'<% } %><% if (blueprint !== 'app') { %>,
         'tests/dummy/config/**/*.js'<% } %>
       ],<% if (blueprint !== 'app') { %>
       excludedFiles: [
