@@ -114,7 +114,7 @@
     "symlink-or-copy": "^1.1.8",
     "temp": "0.8.3",
     "testem": "^1.18.0",
-    "tiny-lr": "^1.0.3",
+    "tiny-lr": "^1.1.0",
     "tree-sync": "^1.2.1",
     "uuid": "^3.0.0",
     "validate-npm-package-name": "^3.0.0",
