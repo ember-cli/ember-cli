@@ -45,7 +45,7 @@ describe('Acceptance: ember new', function() {
       files: [],
     }, options || {});
 
-    const fixture = loadFixture(fixturePath);
+    const fixture = loadProjectFixture(path.join(__dirname, `../fixtures/${fixturePath}`));
     const allOutput = fixturify.readSync('.');
 
     let output = {},
@@ -64,49 +64,14 @@ describe('Acceptance: ember new', function() {
     expect(output).to.deep.equal(expected);
   }
 
-  function loadFixture(fixturePath) {
-    const _fixturePath = path.isAbsolute(fixturePath)
-      ? fixturePath
-      : path.join(__dirname, `../fixtures/${fixturePath}`);
+  function loadProjectFixture(fixturePath) {
+    let fixture = fixturify.readSync(fixturePath);
 
-    let fixture = fixturify.readSync(_fixturePath);
-
-    if (typeof fixture['package.json'] !== 'undefined') {
-      let currentVersion = require('../../package').version;
-      fixture['package.json'] = fixture['package.json'].replace("<%= emberCLIVersion %>", currentVersion);
-    }
+    let currentVersion = require('../../package').version;
+    fixture['package.json'] = fixture['package.json'].replace("<%= emberCLIVersion %>", currentVersion);
 
     return fixture;
   }
-
-  it('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
-    yield ember([
-      'new',
-      'foo',
-      '--skip-npm',
-      '--skip-bower',
-      '--no-welcome',
-    ]);
-
-    expectGeneratedDirName('foo');
-
-    expectBlueprinted('app/npm');
-  }));
-
-  it('MODULE_UNIFICATION=true ember new foo works', co.wrap(function *() {
-    process.env.MODULE_UNIFICATION = 'true';
-    yield ember([
-      'new',
-      'foo',
-      '--skip-npm',
-      '--skip-bower',
-      '--no-welcome',
-    ]);
-
-    expectGeneratedDirName('foo');
-
-    expectBlueprinted('module-unification-app/npm');
-  }));
 
   it('ember new with empty app name fails with a warning', co.wrap(function *() {
     let err = yield expect(ember([
@@ -201,8 +166,9 @@ describe('Acceptance: ember new', function() {
   }));
 
   it('ember new with blueprint uses the specified blueprint directory with a relative path', co.wrap(function *() {
-    fs.mkdirsSync('my_blueprint/files');
-    fs.writeFileSync('my_blueprint/files/.gitignore');
+    fixturify.writeSync('./my_blueprint/files', {
+      '.ember-cli': '',
+    });
 
     yield ember([
       'new',
@@ -214,12 +180,14 @@ describe('Acceptance: ember new', function() {
     ]);
 
     expectGeneratedDirName('foo');
-    expectBlueprinted(path.join(process.cwd(), '..', 'my_blueprint/files'));
+
+    expect(file('.ember-cli')).to.exist;
   }));
 
   it('ember new with blueprint uses the specified blueprint directory with an absolute path', co.wrap(function *() {
-    fs.mkdirsSync('my_blueprint/files');
-    fs.writeFileSync('my_blueprint/files/.gitignore');
+    fixturify.writeSync('./my_blueprint/files', {
+      '.ember-cli': '',
+    });
 
     yield ember([
       'new',
@@ -231,7 +199,8 @@ describe('Acceptance: ember new', function() {
     ]);
 
     expectGeneratedDirName('foo');
-    expectBlueprinted(path.join(process.cwd(), '..', 'my_blueprint/files'));
+
+    expect(file('.ember-cli')).to.exist;
   }));
 
   it('ember new with git blueprint checks out the blueprint and uses it', co.wrap(function *() {
@@ -414,6 +383,36 @@ describe('Acceptance: ember new', function() {
   }));
 
   describe('verify fixtures', function() {
+
+    it('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--no-welcome',
+      ]);
+
+      expectGeneratedDirName('foo');
+
+      expectBlueprinted('app/npm');
+    }));
+
+    it('MODULE_UNIFICATION=true ember new foo works', co.wrap(function *() {
+      process.env.MODULE_UNIFICATION = 'true';
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--no-welcome',
+      ]);
+
+      expectGeneratedDirName('foo');
+
+      expectBlueprinted('module-unification-app/npm');
+    }));
+
     it('module-unification-app + npm + !welcome', co.wrap(function *() {
       yield ember([
         'new',
