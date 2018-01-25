@@ -1,3 +1,0 @@
-window.Ember = {
-  foo: 'bar';
-};
