@@ -5,8 +5,6 @@ const fs = require('fs-extra');
 const ember = require('../helpers/ember');
 const path = require('path');
 const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
-const set = require('lodash.set');
-const get = require('lodash.get');
 const chalk = require('chalk');
 const fixturify = require('fixturify');
 
@@ -17,6 +15,19 @@ let dir = chai.dir;
 const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
+
+const isPlainObj = o => Boolean(
+  o && o.constructor && o.constructor.prototype && o.constructor.prototype.hasOwnProperty("isPrototypeOf")
+);
+
+// borrowed from https://gist.github.com/penguinboy/762197#gistcomment-2224566
+const flattenFixture = (obj, keys = []) =>
+  Object.keys(obj).reduce((acc, key) => (
+    Object.assign(acc, isPlainObj(obj[key])
+      ? flattenFixture(obj[key], keys.concat(key))
+      : { [keys.concat(key).join("/")]: obj[key] }
+    )
+  ), {});
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
@@ -36,32 +47,23 @@ describe('Acceptance: ember new', function() {
     expect(directory).to.equal(dirName);
   }
 
-  function fsToDots(filename) {
-    return filename.replace('/', '.');
-  }
-
   function expectBlueprinted(fixturePath, options) {
     options = Object.assign({
       files: [],
     }, options || {});
 
-    const fixture = loadProjectFixture(path.join(__dirname, `../fixtures/${fixturePath}`));
-    const allOutput = fixturify.readSync('.');
-
-    let output = {},
-        expected = {};
+    let fixture = flattenFixture(loadProjectFixture(path.join(__dirname, `../fixtures/${fixturePath}`)));
+    let output = flattenFixture(fixturify.readSync('.'));
 
     if (options.files && options.files.length) {
-      options.files.map(fsToDots).forEach(filename => {
-        set(output, filename, get(allOutput, filename));
-        set(expected, filename, get(fixture, filename));
-      });
+      output = options.files.map(filepath => output[filepath]);
+      fixture = options.files.map(filepath => fixture[filepath]);
     } else {
-      output = JSON.parse(JSON.stringify(allOutput));
-      expected = JSON.parse(JSON.stringify(fixture));
+      output = JSON.parse(JSON.stringify(output));
+      fixture = JSON.parse(JSON.stringify(fixture));
     }
 
-    expect(output).to.deep.equal(expected);
+    expect(output).to.deep.equal(fixture);
   }
 
   function loadProjectFixture(fixturePath) {
