@@ -16,18 +16,15 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
 
-const isPlainObj = o => Boolean(
-  o && o.constructor && o.constructor.prototype && o.constructor.prototype.hasOwnProperty("isPrototypeOf")
-);
-
-// borrowed from https://gist.github.com/penguinboy/762197#gistcomment-2224566
+// borrowed from https://gist.github.com/ivan-kleshnin/301a7e96be6c8725567f6832a49042df
+const isPlainObj = o => Object.prototype.toString.call(o) === "[object Object]";
 const flattenFixture = (obj, keys = []) =>
-  Object.keys(obj).reduce((acc, key) => (
+  Object.keys(obj).reduce((acc, key) =>
     Object.assign(acc, isPlainObj(obj[key])
       ? flattenFixture(obj[key], keys.concat(key))
       : { [keys.concat(key).join("/")]: obj[key] }
-    )
-  ), {});
+    ),
+  {});
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
