@@ -17,10 +17,11 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 let tmpDir = './tmp/new-test';
 
 // borrowed from https://gist.github.com/ivan-kleshnin/301a7e96be6c8725567f6832a49042df
-const isPlainObj = o => Object.prototype.toString.call(o) === "[object Object]";
+const isPlainObject = o => Object.prototype.toString.call(o) === "[object Object]";
+
 const flattenFixture = (obj, keys = []) =>
   Object.keys(obj).reduce((acc, key) =>
-    Object.assign(acc, isPlainObj(obj[key])
+    Object.assign(acc, isPlainObject(obj[key])
       ? flattenFixture(obj[key], keys.concat(key))
       : { [keys.concat(key).join("/")]: obj[key] }
     ),
@@ -44,7 +45,7 @@ describe('Acceptance: ember new', function() {
     expect(directory).to.equal(dirName);
   }
 
-  function expectBlueprinted(fixturePath, options) {
+  function expectProject(fixturePath, options) {
     options = Object.assign({
       files: [],
     }, options || {});
@@ -58,6 +59,11 @@ describe('Acceptance: ember new', function() {
     } else {
       output = JSON.parse(JSON.stringify(output));
       fixture = JSON.parse(JSON.stringify(fixture));
+    }
+
+    if (isPlainObject(options.overrisdes)) {
+      Object.assign(output, options.overrisdes);
+      Object.assign(fixturify, options.overrisdes);
     }
 
     expect(output).to.deep.equal(fixture);
@@ -161,7 +167,7 @@ describe('Acceptance: ember new', function() {
     expect(error.message).to.equal(`You cannot use the ${chalk.green('new')} command inside an ember-cli project.`);
 
     expectGeneratedDirName('foo');
-    expectBlueprinted('app/npm');
+    expectProject('app/npm');
   }));
 
   it('ember new with blueprint uses the specified blueprint directory with a relative path', co.wrap(function *() {
@@ -394,7 +400,7 @@ describe('Acceptance: ember new', function() {
 
       expectGeneratedDirName('foo');
 
-      expectBlueprinted('app/npm');
+      expectProject('app/npm');
     }));
 
     it('MODULE_UNIFICATION=true ember new foo works', co.wrap(function *() {
@@ -409,27 +415,27 @@ describe('Acceptance: ember new', function() {
 
       expectGeneratedDirName('foo');
 
-      expectBlueprinted('module-unification-app/npm');
+      expectProject('module-unification-app/npm');
     }));
 
-    it('module-unification-app + npm + !welcome', co.wrap(function *() {
+    it('module-unification-app + !welcome', co.wrap(function *() {
       yield ember([
         'new',
         'foo',
-        '--blueprint',
-        'module-unification-app',
         '--skip-npm',
         '--skip-bower',
         '--skip-git',
         '--no-welcome',
       ]);
 
-      expectBlueprinted('module-unification-app/npm', {
-        files: [
-          'src/ui/routes/application/template.hbs',
-          '.travis.yml',
-          'README.md',
-        ],
+      expectProject('module-unification-app/npm', {
+        overrides: {
+          'app/templates/application.hbs':
+`<h2 id="title">Welcome to Ember</h2>
+
+{{outlet}}
+`,
+        },
       });
     }));
 
@@ -445,7 +451,7 @@ describe('Acceptance: ember new', function() {
         '--yarn',
       ]);
 
-      expectBlueprinted('module-unification-app/yarn', {
+      expectProject('module-unification-app/yarn', {
         files: [
           'src/ui/routes/application/template.hbs',
           '.travis.yml',
@@ -464,7 +470,7 @@ describe('Acceptance: ember new', function() {
         '--no-welcome',
       ]);
 
-      expectBlueprinted('app/npm', {
+      expectProject('app/npm', {
         files: [
           'app/templates/application.hbs',
           '.travis.yml',
@@ -483,7 +489,7 @@ describe('Acceptance: ember new', function() {
         '--yarn',
       ]);
 
-      expectBlueprinted('app/yarn', {
+      expectProject('app/yarn', {
         files: [
           'app/templates/application.hbs',
           '.travis.yml',
@@ -501,7 +507,7 @@ describe('Acceptance: ember new', function() {
         '--skip-git',
       ]);
 
-      expectBlueprinted('addon/npm', {
+      expectProject('addon/npm', {
         files: [
           'config/ember-try.js',
           'tests/dummy/app/templates/application.hbs',
@@ -524,7 +530,7 @@ describe('Acceptance: ember new', function() {
         '--welcome',
       ]);
 
-      expectBlueprinted('addon/yarn', {
+      expectProject('addon/yarn', {
         files: [
           'config/ember-try.js',
           'tests/dummy/app/templates/application.hbs',
