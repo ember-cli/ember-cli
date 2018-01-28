@@ -17,17 +17,6 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
 
-// borrowed from https://gist.github.com/ivan-kleshnin/301a7e96be6c8725567f6832a49042df
-const isPlainObject = o => Object.prototype.toString.call(o) === "[object Object]";
-
-const flattenFixturify = (obj, keys = []) =>
-  Object.keys(obj).reduce((acc, key) =>
-    Object.assign(acc, isPlainObject(obj[key])
-      ? flattenFixturify(obj[key], keys.concat(key))
-      : { [keys.concat(key).join("/")]: obj[key] }
-    ),
-  {});
-
 const NO_WELCOME_TEMPLATE = `<h2 id="title">Welcome to Ember</h2>
 
 {{outlet}}
@@ -360,7 +349,7 @@ describe('Acceptance: ember new', function() {
       expectGeneratedDirName('foo');
 
       expectProject('app/npm', {
-        ignoredFiles: ['app/**'],
+        files: ['!app/**'],
         patches: loadProjectFixture('module-unification-app/npm'),
       });
     }));
@@ -378,7 +367,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       expectProject('app/npm', {
-        ignoredFiles: ['app/**'],
+        files: ['!app/**'],
         patches: loadProjectFixture('module-unification-app/npm', {
           patches: {
             'src/ui/routes/application/template.hbs': NO_WELCOME_TEMPLATE,
@@ -401,7 +390,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       expectProject('app/npm', {
-        ignoredFiles: ['app/**'],
+        files: ['!app/**'],
         patches: loadProjectFixture('app/yarn', {
           patches: loadProjectFixture('module-unification-app/npm'),
         }),
@@ -506,6 +495,17 @@ describe('Acceptance: ember new', function() {
   });
 });
 
+// borrowed from https://gist.github.com/ivan-kleshnin/301a7e96be6c8725567f6832a49042df
+const isPlainObject = o => Object.prototype.toString.call(o) === "[object Object]";
+
+const flattenFixturify = (obj, keys = []) =>
+  Object.keys(obj).reduce((acc, key) =>
+    Object.assign(acc, isPlainObject(obj[key])
+      ? flattenFixturify(obj[key], keys.concat(key))
+      : { [keys.concat(key).join("/")]: obj[key] }
+    ),
+  {});
+
 function expectProject(fixtureName, options) {
   const fixture = loadProjectFixture(fixtureName, options);
   const output = loadFiles('.', options);
@@ -531,16 +531,16 @@ function loadFiles(path, options) {
 
   let files = flattenFixturify(fixturify.readSync(path));
 
-  if (options.ignoredFiles) {
-    Object.keys(files).forEach(fn => {
-      const isIgnored = options.ignoredFiles.some(ignoredFile => minimatch(fn, ignoredFile, { matchBase: true, dot: true }));
-      if (isIgnored) {
-        delete files[fn];
-      }
-    });
-  } else if (options.files) {
+  if (options.files) {
+    const rules = `{${options.files.join(',')}}`;
+
     Object.keys(files).forEach(filename => {
-      if (options.files.indexOf(filename) === -1) {
+      const isWhitelisted = minimatch(filename, rules, {
+        matchBase: true,
+        dot: true,
+      });
+
+      if (!isWhitelisted) {
         delete files[filename];
       }
     });
