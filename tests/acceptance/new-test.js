@@ -394,12 +394,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       expectProject('module-unification-app/npm', {
-        patches: loadProjectFixture('module-unification-app/yarn', {
-          files: [
-            '.travis.yml',
-            'README.md',
-          ],
-        }),
+        patches: loadProjectFixture('module-unification-app/yarn'),
       });
     }));
 
@@ -432,12 +427,7 @@ describe('Acceptance: ember new', function() {
       ]);
 
       expectProject('app/npm', {
-        patches: loadProjectFixture('app/yarn', {
-          files: [
-            '.travis.yml',
-            'README.md',
-          ],
-        }),
+        patches: loadProjectFixture('app/yarn'),
       });
     }));
 
