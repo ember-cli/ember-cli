@@ -7,6 +7,7 @@ const path = require('path');
 const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 const chalk = require('chalk');
 const fixturify = require('fixturify');
+const minimatch = require('minimatch');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -358,7 +359,10 @@ describe('Acceptance: ember new', function() {
 
       expectGeneratedDirName('foo');
 
-      expectProject('module-unification-app/npm');
+      expectProject('app/npm', {
+        ignoredFiles: ['app/**'],
+        patches: loadProjectFixture('module-unification-app/npm'),
+      });
     }));
 
     it('module-unification-app + !welcome', co.wrap(function *() {
@@ -373,11 +377,14 @@ describe('Acceptance: ember new', function() {
         '--no-welcome',
       ]);
 
-      expectProject('module-unification-app/npm', {
-        patches: {
-          'src/ui/routes/application/template.hbs': NO_WELCOME_TEMPLATE,
-          'package.json': noWelcomeDependency,
-        },
+      expectProject('app/npm', {
+        ignoredFiles: ['app/**'],
+        patches: loadProjectFixture('module-unification-app/npm', {
+          patches: {
+            'src/ui/routes/application/template.hbs': NO_WELCOME_TEMPLATE,
+            'package.json': noWelcomeDependency,
+          },
+        }),
       });
     }));
 
@@ -393,8 +400,11 @@ describe('Acceptance: ember new', function() {
         '--yarn',
       ]);
 
-      expectProject('module-unification-app/npm', {
-        patches: loadProjectFixture('module-unification-app/yarn'),
+      expectProject('app/npm', {
+        ignoredFiles: ['app/**'],
+        patches: loadProjectFixture('app/yarn', {
+          patches: loadProjectFixture('module-unification-app/npm'),
+        }),
       });
     }));
 
@@ -521,7 +531,14 @@ function loadFiles(path, options) {
 
   let files = flattenFixturify(fixturify.readSync(path));
 
-  if (options.files) {
+  if (options.ignoredFiles) {
+    Object.keys(files).forEach(fn => {
+      const isIgnored = options.ignoredFiles.some(ignoredFile => minimatch(fn, ignoredFile, { matchBase: true, dot: true }));
+      if (isIgnored) {
+        delete files[fn];
+      }
+    });
+  } else if (options.files) {
     Object.keys(files).forEach(filename => {
       if (options.files.indexOf(filename) === -1) {
         delete files[filename];
