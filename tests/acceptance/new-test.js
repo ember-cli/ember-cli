@@ -8,6 +8,7 @@ const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 const chalk = require('chalk');
 const fixturify = require('fixturify');
 const minimatch = require('minimatch');
+const detectIndent = require('detect-indent');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -19,14 +20,15 @@ let tmpDir = './tmp/new-test';
 
 const NO_WELCOME_TEMPLATE = `<h2 id="title">Welcome to Ember</h2>
 
-{{outlet}}
-`;
+{{outlet}}`;
 
-function noWelcomeDependency(content) {
-  const manifest = JSON.parse(content);
+function noWelcomeDependency(sourceManifest) {
+  const indentation = detectIndent(sourceManifest);
+
+  const manifest = JSON.parse(sourceManifest);
   delete manifest.devDependencies['ember-welcome-page'];
 
-  return JSON.stringify(manifest);
+  return `${JSON.stringify(manifest, null, indentation.indent)}\n`;
 }
 
 describe('Acceptance: ember new', function() {
@@ -508,34 +510,38 @@ const flattenFixturify = (obj, keys = []) =>
 
 function expectProject(fixtureName, options) {
   const fixture = loadProjectFixture(fixtureName, options);
-  const output = loadFiles('.', options);
+  const output = loadFiles('.');
 
   expect(output).to.deep.equal(fixture);
 }
 
 function loadProjectFixture(fixtureName, options) {
+  options = options || {};
+
   const fixturePath = path.join(__dirname, `../fixtures/${fixtureName}`);
 
-  let fixture = loadFiles(fixturePath, options);
+  let fixture = loadFiles(fixturePath, options.files);
 
   if (fixture['package.json']) {
     let currentVersion = require('../../package').version;
     fixture['package.json'] = fixture['package.json'].replace("<%= emberCLIVersion %>", currentVersion);
   }
 
+  if (isPlainObject(options.patches)) {
+    fixture = applyPatches(fixture, options.patches);
+  }
+
   return fixture;
 }
 
-function loadFiles(path, options) {
-  options = options || {};
-
+function loadFiles(path, wildcards) {
   let files = flattenFixturify(fixturify.readSync(path));
 
-  if (options.files) {
-    const rules = `{${options.files.join(',')}}`;
+  if (wildcards && typeof wildcards.length !== 'undefined') {
+    const rulesString = wildcards.length === 1 ? wildcards[0] : `{${wildcards.join(',')}}`;
 
     Object.keys(files).forEach(filename => {
-      const isWhitelisted = minimatch(filename, rules, {
+      const isWhitelisted = minimatch(filename, rulesString, {
         matchBase: true,
         dot: true,
       });
@@ -544,10 +550,6 @@ function loadFiles(path, options) {
         delete files[filename];
       }
     });
-  }
-
-  if (isPlainObject(options.patches)) {
-    files = applyPatches(files, options.patches);
   }
 
   return files;
