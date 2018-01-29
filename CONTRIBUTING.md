@@ -196,7 +196,7 @@ NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/m
 #### Experiments
 A new feature may require putting the changes behind an experiment. More
 information can be found at
-[Experiments](https://github.com/ember-cli/ember-cli/blob/updating-docs-with-experiments/docs/experiments.md).
+[Experiments](https://github.com/ember-cli/ember-cli/blob/master/docs/experiments.md).
 
 # Code Climate
 
