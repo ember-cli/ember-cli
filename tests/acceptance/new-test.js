@@ -535,7 +535,20 @@ function expectProject(projectName, fixture) {
 
   expectGeneratedDirName(projectName);
 
-  expect(fixture).to.deep.equal(output);
+  let missingFiles = [];
+
+  const fixtureFilenames = Object.keys(fixture);
+  fixtureFilenames.forEach(filename => {
+    if (typeof output[filename] !== 'undefined') {
+      expect(output[filename]).to.equal(fixture[filename]);
+    } else {
+      missingFiles.push(filename);
+    }
+  });
+  let extraFiles = Object.keys(output).filter(filename => fixtureFilenames.indexOf(filename) === -1);
+
+  expect(missingFiles, `some files are missing: ${JSON.stringify(missingFiles)}`).to.empty;
+  expect(extraFiles, `extra files generated: ${JSON.stringify(extraFiles)}`).to.empty;
 }
 
 function expectGeneratedDirName(dirName) {
