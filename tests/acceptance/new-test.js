@@ -9,6 +9,7 @@ const chalk = require('chalk');
 const fixturify = require('fixturify');
 const minimatch = require('minimatch');
 const detectIndent = require('detect-indent');
+const processTemplate = require('../../lib/utilities/process-template');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -43,11 +44,6 @@ describe('Acceptance: ember new', function() {
     process.env.MODULE_UNIFICATION = undefined;
     return tmp.teardown(tmpDir);
   });
-
-  function expectGeneratedDirName(dirName) {
-    let directory = path.basename(process.cwd());
-    expect(directory).to.equal(dirName);
-  }
 
   it('ember new with empty app name fails with a warning', co.wrap(function *() {
     let err = yield expect(ember([
@@ -325,6 +321,25 @@ describe('Acceptance: ember new', function() {
   }));
 
   describe('verify fixtures', function() {
+    const muApp = options =>
+      projectFixture('app/npm', {
+        files: ['!app/**'],
+        patches: projectFixture('module-unification-app/npm', options),
+      });
+
+    const yarnApp = options =>
+      projectFixture(
+        projectFixture('app/npm', {
+          patches: projectFixture('app/yarn'),
+        }),
+        options
+      );
+
+    const yarnModuleUnificationApp = options =>
+      yarnApp({
+        files: ['!app/**'],
+        patches: projectFixture('module-unification-app/npm', options),
+      });
 
     it('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
       yield ember([
@@ -334,9 +349,7 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
       ]);
 
-      expectGeneratedDirName('foo');
-
-      expectProject('app/npm');
+      expectProject('foo', 'app/npm');
     }));
 
     it('MODULE_UNIFICATION=true ember new foo works', co.wrap(function *() {
@@ -348,12 +361,7 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
       ]);
 
-      expectGeneratedDirName('foo');
-
-      expectProject('app/npm', {
-        files: ['!app/**'],
-        patches: loadProjectFixture('module-unification-app/npm'),
-      });
+      expectProject('foo', muApp());
     }));
 
     it('module-unification-app + !welcome', co.wrap(function *() {
@@ -368,15 +376,12 @@ describe('Acceptance: ember new', function() {
         '--no-welcome',
       ]);
 
-      expectProject('app/npm', {
-        files: ['!app/**'],
-        patches: loadProjectFixture('module-unification-app/npm', {
-          patches: {
-            'src/ui/routes/application/template.hbs': NO_WELCOME_TEMPLATE,
-            'package.json': noWelcomeDependency,
-          },
-        }),
-      });
+      expectProject('foo', muApp({
+        patches: {
+          'src/ui/routes/application/template.hbs': NO_WELCOME_TEMPLATE,
+          'package.json': noWelcomeDependency,
+        },
+      }));
     }));
 
     it('module-unification-app + yarn', co.wrap(function *() {
@@ -391,15 +396,17 @@ describe('Acceptance: ember new', function() {
         '--yarn',
       ]);
 
-      expectProject('app/npm', {
-        files: ['!app/**'],
-        patches: loadProjectFixture('app/yarn', {
-          patches: loadProjectFixture('module-unification-app/npm'),
-        }),
-      });
+      expectProject('foo', yarnModuleUnificationApp());
     }));
 
     it('app + !welcome', co.wrap(function *() {
+      const noWelcomeApp = projectFixture('app/npm', {
+        patches: {
+          'app/templates/application.hbs': NO_WELCOME_TEMPLATE,
+          'package.json': noWelcomeDependency,
+        },
+      });
+
       yield ember([
         'new',
         'foo',
@@ -409,12 +416,7 @@ describe('Acceptance: ember new', function() {
         '--no-welcome',
       ]);
 
-      expectProject('app/npm', {
-        patches: {
-          'app/templates/application.hbs': NO_WELCOME_TEMPLATE,
-          'package.json': noWelcomeDependency,
-        },
-      });
+      expectProject('foo', noWelcomeApp);
     }));
 
     it('app + yarn', co.wrap(function *() {
@@ -427,12 +429,10 @@ describe('Acceptance: ember new', function() {
         '--yarn',
       ]);
 
-      expectProject('app/npm', {
-        patches: loadProjectFixture('app/yarn'),
-      });
+      expectProject('foo', yarnApp());
     }));
 
-    it('addon + npm + !welcome', co.wrap(function *() {
+    it('addon', co.wrap(function *() {
       yield ember([
         'addon',
         'foo',
@@ -441,19 +441,32 @@ describe('Acceptance: ember new', function() {
         '--skip-git',
       ]);
 
-      expectProject('addon/npm', {
-        files: [
-          'config/ember-try.js',
-          'tests/dummy/app/templates/application.hbs',
-          '.travis.yml',
-          'README.md',
-          '.eslintrc.js',
-          'package.json',
-        ],
-      });
+      expectProject('foo', 'addon/npm');
     }));
 
-    it('addon + yarn + welcome', co.wrap(function *() {
+    it('addon + welcome', co.wrap(function *() {
+      yield ember([
+        'addon',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--welcome',
+      ]);
+
+      expectProject('foo', projectFixture('addon/npm', {
+        patches: {
+          // 'tests/dummy/app/templates/application.hbs': NO_WELCOME_TEMPLATE,
+          // 'package.json': noWelcomeDependency,
+        },
+      }));
+    }));
+
+    it('addon + yarn', co.wrap(function *() {
+      const yarnAddon = projectFixture('addon/npm', {
+        patches: projectFixture('addon/yarn'),
+      });
+
       yield ember([
         'addon',
         'foo',
@@ -461,19 +474,9 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
         '--skip-git',
         '--yarn',
-        '--welcome',
       ]);
 
-      expectProject('addon/yarn', {
-        files: [
-          'config/ember-try.js',
-          'tests/dummy/app/templates/application.hbs',
-          '.travis.yml',
-          'README.md',
-          '.eslintrc.js',
-          'package.json',
-        ],
-      });
+      expectProject('foo', yarnAddon);
     }));
   });
 
@@ -508,51 +511,73 @@ const flattenFixturify = (obj, keys = []) =>
     ),
   {});
 
-function expectProject(fixtureName, options) {
-  const fixture = loadProjectFixture(fixtureName, options);
+function expectProject(projectName, fixture) {
   const output = loadFiles('.');
+  fixture = projectFixture(fixture);
 
-  expect(output).to.deep.equal(fixture);
+  expectGeneratedDirName(projectName);
+
+  expect(fixture).to.deep.equal(output);
 }
 
-function loadProjectFixture(fixtureName, options) {
+function expectGeneratedDirName(dirName) {
+  let directory = path.basename(process.cwd());
+  expect(directory).to.equal(dirName);
+}
+
+function projectFixture(fixture, options) {
+  const emberCLIVersion = require('../../package').version;
+  const year = (new Date()).getFullYear();
+
   options = options || {};
 
-  const fixturePath = path.join(__dirname, `../fixtures/${fixtureName}`);
+  options.variables = Object.assign({
+    year,
+    emberCLIVersion,
+  }, options.variables || {});
 
-  let fixture = loadFiles(fixturePath, options.files);
+  if (typeof fixture === 'string') {
+    const fixturePath = path.join(__dirname, `../fixtures/${fixture}`);
 
-  if (fixture['package.json']) {
-    let currentVersion = require('../../package').version;
-    fixture['package.json'] = fixture['package.json'].replace("<%= emberCLIVersion %>", currentVersion);
+    fixture = loadFiles(fixturePath);
+  }
+
+  if (options.files && typeof options.files.length !== 'undefined') {
+    const matcher = options.files.length === 1
+      ? options.files[0]
+      : `{${options.files.join(',')}}`;
+
+    Object.keys(fixture).forEach(filename => {
+      const isWhitelisted = minimatch(filename, matcher, {
+        matchBase: true,
+        dot: true,
+      });
+
+      if (!isWhitelisted) {
+        delete fixture[filename];
+      }
+    });
   }
 
   if (isPlainObject(options.patches)) {
     fixture = applyPatches(fixture, options.patches);
   }
 
+  fixture = applyVariables(fixture, options.variables);
+
   return fixture;
 }
 
-function loadFiles(path, wildcards) {
-  let files = flattenFixturify(fixturify.readSync(path));
+function loadFiles(path) {
+  return flattenFixturify(fixturify.readSync(path));
+}
 
-  if (wildcards && typeof wildcards.length !== 'undefined') {
-    const rulesString = wildcards.length === 1 ? wildcards[0] : `{${wildcards.join(',')}}`;
-
-    Object.keys(files).forEach(filename => {
-      const isWhitelisted = minimatch(filename, rulesString, {
-        matchBase: true,
-        dot: true,
-      });
-
-      if (!isWhitelisted) {
-        delete files[filename];
-      }
-    });
+function applyVariables(fixture, variables) {
+  for (let fName in fixture) {
+    fixture[fName] = processTemplate(fixture[fName], variables);
   }
 
-  return files;
+  return fixture;
 }
 
 function applyPatches(fixture, patches) {
