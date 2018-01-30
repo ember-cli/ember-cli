@@ -10,6 +10,7 @@ const fixturify = require('fixturify');
 const minimatch = require('minimatch');
 const detectIndent = require('detect-indent');
 const processTemplate = require('../../lib/utilities/process-template');
+const sortPackageJson = require('sort-package-json');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -29,23 +30,24 @@ const WELCOME_TEMPLATE = `{{!-- The following component displays Ember's default
 
 {{outlet}}`;
 
-function patchJSON(source, patch) {
+function patchPackageJSON(source, patch) {
   const indentation = detectIndent(source);
   const json = JSON.parse(source);
 
   patch(json);
 
-  return `${JSON.stringify(json, null, indentation.indent)}\n`;
+
+  return `${JSON.stringify(sortPackageJson(json), null, indentation.indent)}\n`;
 }
 
 function hasWelcomeDependency(sourceManifest) {
-  return patchJSON(sourceManifest, manifest => {
+  return patchPackageJSON(sourceManifest, manifest => {
     manifest.devDependencies['ember-welcome-page'] = '^3.0.0';
   });
 }
 
 function noWelcomeDependency(sourceManifest) {
-  return patchJSON(sourceManifest, manifest =>
+  return patchPackageJSON(sourceManifest, manifest =>
     delete manifest.devDependencies['ember-welcome-page']
   );
 }
@@ -481,10 +483,6 @@ describe('Acceptance: ember new', function() {
     }));
 
     it('addon + yarn', co.wrap(function *() {
-      const yarnAddon = projectFixture('addon/npm', {
-        patches: projectFixture('addon/yarn'),
-      });
-
       yield ember([
         'addon',
         'foo',
@@ -494,7 +492,9 @@ describe('Acceptance: ember new', function() {
         '--yarn',
       ]);
 
-      expectProject('foo', yarnAddon);
+      expectProject('foo', projectFixture('addon/npm', {
+        patches: projectFixture('addon/yarn'),
+      }));
     }));
   });
 
