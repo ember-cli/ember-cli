@@ -23,13 +23,31 @@ const NO_WELCOME_TEMPLATE = `<h2 id="title">Welcome to Ember</h2>
 
 {{outlet}}`;
 
+const WELCOME_TEMPLATE = `{{!-- The following component displays Ember's default welcome message. --}}
+{{welcome-page}}
+{{!-- Feel free to remove this! --}}
+
+{{outlet}}`;
+
+function patchJSON(source, patch) {
+  const indentation = detectIndent(source);
+  const json = JSON.parse(source);
+
+  patch(json);
+
+  return `${JSON.stringify(json, null, indentation.indent)}\n`;
+}
+
+function hasWelcomeDependency(sourceManifest) {
+  return patchJSON(sourceManifest, manifest => {
+    manifest.devDependencies['ember-welcome-page'] = '^3.0.0';
+  });
+}
+
 function noWelcomeDependency(sourceManifest) {
-  const indentation = detectIndent(sourceManifest);
-
-  const manifest = JSON.parse(sourceManifest);
-  delete manifest.devDependencies['ember-welcome-page'];
-
-  return `${JSON.stringify(manifest, null, indentation.indent)}\n`;
+  return patchJSON(sourceManifest, manifest =>
+    delete manifest.devDependencies['ember-welcome-page']
+  );
 }
 
 describe('Acceptance: ember new', function() {
@@ -456,8 +474,8 @@ describe('Acceptance: ember new', function() {
 
       expectProject('foo', projectFixture('addon/npm', {
         patches: {
-          // 'tests/dummy/app/templates/application.hbs': NO_WELCOME_TEMPLATE,
-          // 'package.json': noWelcomeDependency,
+          'tests/dummy/app/templates/application.hbs': WELCOME_TEMPLATE,
+          'package.json': hasWelcomeDependency,
         },
       }));
     }));
