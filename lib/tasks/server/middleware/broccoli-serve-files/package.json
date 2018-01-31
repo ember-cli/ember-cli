@@ -6,5 +6,9 @@
   "ember-addon": {
     "after": "broccoli-watcher",
     "before": "proxy-server-middleware"
+  },
+  "dependencies": {
+    "heimdalljs-logger": "*",
+    "broccoli-middleware": "*"
   }
 }

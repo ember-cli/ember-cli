@@ -5,5 +5,8 @@
   ],
   "ember-addon": {
     "before": "broccoli-watcher"
+  },
+  "dependencies": {
+    "clean-base-url": "*"
   }
 }
