@@ -9,6 +9,7 @@ const path = require('path');
 const fse = require('fs-extra');
 const MockUI = require('console-ui/mock');
 const RSVP = require('rsvp');
+const Yam = require('yam');
 
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
@@ -39,6 +40,7 @@ describe('models/instrumentation.js', function() {
     beforeEach(function() {
       expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
       expect(!!process.env.EMBER_CLI_INSTRUMENTATION).to.eql(false);
+      expect(fs.statSync).to.equal(originalStatSync);
     });
 
     afterEach(function() {
@@ -72,6 +74,35 @@ describe('models/instrumentation.js', function() {
     it('if instrumentation is enabled, monitor', function() {
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
       let monitor = Instrumentation._enableFSMonitorIfInstrumentationEnabled();
+      try {
+        expect(fs.statSync).to.not.equal(originalStatSync);
+      } finally {
+        if (monitor) {
+          monitor.stop();
+        }
+      }
+    });
+
+    it('if enableInstrumentation is NOT enabled in .ember-cli, do not monitor', function() {
+      let mockedYam = new Yam('ember-cli', {
+        primary: `${process.cwd()}/tests/fixtures/instrumentation-disabled-config`,
+      });
+      let monitor = Instrumentation._enableFSMonitorIfInstrumentationEnabled(mockedYam);
+      try {
+        expect(fs.statSync).to.equal(originalStatSync);
+        expect(monitor).to.eql(undefined);
+      } finally {
+        if (monitor) {
+          monitor.stop();
+        }
+      }
+    });
+
+    it('if enableInstrumentation is enabled in .ember-cli, monitor', function() {
+      let mockedYam = new Yam('ember-cli', {
+        primary: `${process.cwd()}/tests/fixtures/instrumentation-enabled-config`,
+      });
+      let monitor = Instrumentation._enableFSMonitorIfInstrumentationEnabled(mockedYam);
       try {
         expect(fs.statSync, 'fs.statSync').to.not.equal(originalStatSync, '[original] fs.statSync');
       } finally {
