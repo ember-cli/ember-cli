@@ -113,17 +113,17 @@ describe('will interrupt process', function() {
   });
 
   describe('process interruption signal listeners', function() {
-    let process;
+    let _process;
 
     beforeEach(function() {
-      process = new MockProcess();
-      willInterruptProcess.capture(process);
+      _process = new MockProcess();
+      willInterruptProcess.capture(_process);
     });
 
     it('sets up interruption signal listeners when the first handler added', function() {
       willInterruptProcess.addHandler(cb);
 
-      expect(process.getSignalListenerCounts()).to.eql({
+      expect(_process.getSignalListenerCounts()).to.eql({
         SIGINT: 1,
         SIGTERM: 1,
         message: 1,
@@ -134,7 +134,7 @@ describe('will interrupt process', function() {
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(function() {});
 
-      expect(process.getSignalListenerCounts()).to.eql({
+      expect(_process.getSignalListenerCounts()).to.eql({
         SIGINT: 1,
         SIGTERM: 1,
         message: 1,
@@ -148,7 +148,7 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.removeHandler(cb);
 
-      expect(process.getSignalListenerCounts()).to.eql({
+      expect(_process.getSignalListenerCounts()).to.eql({
         SIGINT: 0,
         SIGTERM: 0,
         message: 0,
@@ -161,7 +161,7 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.removeHandler(cb);
 
-      expect(process.getSignalListenerCounts()).to.eql({
+      expect(_process.getSignalListenerCounts()).to.eql({
         SIGINT: 1,
         SIGTERM: 1,
         message: 1,
@@ -175,7 +175,7 @@ describe('will interrupt process', function() {
 
       willInterruptProcess.release();
 
-      expect(process.getSignalListenerCounts()).to.eql({
+      expect(_process.getSignalListenerCounts()).to.eql({
         SIGINT: 0,
         SIGTERM: 0,
         message: 0,
@@ -185,7 +185,7 @@ describe('will interrupt process', function() {
 
   describe('Windows CTRL + C Capture', function() {
     it('exits on CTRL+C when TTY', function() {
-      let process = new MockProcess({
+      let _process = new MockProcess({
         exit: td.function(),
         platform: 'win',
         stdin: {
@@ -193,16 +193,16 @@ describe('will interrupt process', function() {
         },
       });
 
-      willInterruptProcess.capture(process);
+      willInterruptProcess.capture(_process);
       willInterruptProcess.addHandler(cb);
 
-      process.stdin.emit('data', [0x03]);
+      _process.stdin.emit('data', [0x03]);
 
-      td.verify(process.exit());
+      td.verify(_process.exit());
     });
 
     it('adds and reverts rawMode on Windows', function() {
-      const process = new MockProcess({
+      const _process = new MockProcess({
         platform: 'win',
         stdin: {
           isRaw: false,
@@ -210,17 +210,17 @@ describe('will interrupt process', function() {
         },
       });
 
-      willInterruptProcess.capture(process);
+      willInterruptProcess.capture(_process);
 
       willInterruptProcess.addHandler(cb);
-      expect(process.stdin.isRaw).to.equal(true);
+      expect(_process.stdin.isRaw).to.equal(true);
 
       willInterruptProcess.removeHandler(cb);
-      expect(process.stdin.isRaw).to.equal(false);
+      expect(_process.stdin.isRaw).to.equal(false);
     });
 
     it('does not enable raw capture when not a Windows', function() {
-      const process = new MockProcess({
+      const _process = new MockProcess({
         exit: td.function(),
 
         stdin: {
@@ -229,20 +229,20 @@ describe('will interrupt process', function() {
         },
       });
 
-      willInterruptProcess.capture(process);
+      willInterruptProcess.capture(_process);
       willInterruptProcess.addHandler(cb);
 
-      td.verify(process.stdin.setRawMode(true), {
+      td.verify(_process.stdin.setRawMode(true), {
         times: 0,
       });
 
-      process.stdin.emit('data', [0x03]);
+      _process.stdin.emit('data', [0x03]);
 
-      td.verify(process.exit(), { times: 0 });
+      td.verify(_process.exit(), { times: 0 });
     });
 
     it('does not enable raw capture when not a TTY', function() {
-      const process = new MockProcess({
+      const _process = new MockProcess({
         exit: td.function(),
         platform: 'win',
         stdin: {
@@ -250,16 +250,16 @@ describe('will interrupt process', function() {
         },
       });
 
-      willInterruptProcess.capture(process);
+      willInterruptProcess.capture(_process);
       willInterruptProcess.addHandler(cb);
 
-      td.verify(process.stdin.setRawMode(true), {
+      td.verify(_process.stdin.setRawMode(true), {
         times: 0,
       });
 
-      process.stdin.emit('data', [0x03]);
+      _process.stdin.emit('data', [0x03]);
 
-      td.verify(process.exit(), { times: 0 });
+      td.verify(_process.exit(), { times: 0 });
     });
   });
 });
