@@ -356,7 +356,7 @@ describe('Acceptance: ember new', function() {
   }));
 
   describe('verify fixtures', function() {
-    it.only('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
+    it('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
       yield ember([
         'new',
         'foo',
@@ -510,26 +510,23 @@ describe('Acceptance: ember new', function() {
 });
 
 function expectProject(projectName, fixture) {
-  const output = loadDir('.');
-  fixture = projectFixture(fixture);
-
   expectGeneratedDirName(projectName);
 
-  let missingFiles = [];
+  const output = loadDir('.');
 
-  const fixtureFilenames = Object.keys(fixture);
-  fixtureFilenames.forEach(filename => {
-    if (typeof output[filename] !== 'undefined') {
+  fixture = projectFixture(fixture);
+
+  let missingFiles = Object.keys(fixture).filter(filename => typeof output[filename] === 'undefined');
+  expect(missingFiles, `some files are missing: ${JSON.stringify(missingFiles)}`).to.empty;
+
+  let extraFiles = Object.keys(output).filter(filename => typeof fixture[filename] === 'undefined');
+  expect(extraFiles, `extra files generated: ${JSON.stringify(extraFiles)}`).to.empty;
+
+  Object.keys(fixture).forEach(filename => {
+    if (missingFiles.indexOf(output[filename]) === -1) {
       expect(output[filename]).to.equal(fixture[filename]);
-    } else {
-      missingFiles.push(filename);
     }
   });
-
-  let extraFiles = Object.keys(output).filter(filename => fixtureFilenames.indexOf(filename) === -1);
-
-  expect(missingFiles, `some files are missing: ${JSON.stringify(missingFiles)}`).to.empty;
-  expect(extraFiles, `extra files generated: ${JSON.stringify(extraFiles)}`).to.empty;
 }
 
 function expectGeneratedDirName(dirName) {
