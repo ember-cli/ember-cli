@@ -10,6 +10,7 @@ const expect = require('../../chai').expect;
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
 
+let options = { blueprint: 'foobar' };
 let root = path.join(__dirname, '../../..');
 let tmproot = path.join(root, 'tmp');
 const remove = RSVP.denodeify(fs.remove);
@@ -37,16 +38,15 @@ describe('InstallBlueprintTask', function() {
       let foobarBlueprint = { name: 'foobar blueprint' };
       td.when(task._lookupBlueprint('foobar')).thenResolve(foobarBlueprint);
 
-      return expect(task._resolveBlueprint('foobar'))
+      return expect(task._resolveBlueprint(options))
         .to.eventually.equal(foobarBlueprint);
     });
-
 
     it('rejects invalid npm package name "foo:bar"', function() {
       let error = new Error('foobar not found');
       td.when(task._lookupBlueprint('foo:bar')).thenReject(error);
 
-      return expect(task._resolveBlueprint('foo:bar'))
+      return expect(task._resolveBlueprint({ blueprint: 'foo:bar' }))
         .to.be.rejectedWith(error);
     });
 
@@ -55,9 +55,10 @@ describe('InstallBlueprintTask', function() {
       td.when(task._lookupBlueprint('foobar')).thenReject(error);
 
       let foobarBlueprint = { name: 'foobar npm blueprint' };
-      td.when(task._tryNpmBlueprint('foobar')).thenResolve(foobarBlueprint);
+      let options = { blueprint: 'foobar' };
+      td.when(task._tryNpmBlueprint('foobar', options)).thenResolve(foobarBlueprint);
 
-      return expect(task._resolveBlueprint('foobar'))
+      return expect(task._resolveBlueprint(options))
         .to.eventually.equal(foobarBlueprint);
     });
 
@@ -66,9 +67,9 @@ describe('InstallBlueprintTask', function() {
       td.when(task._lookupBlueprint('foobar')).thenReject(error);
 
       let npmError = new Error('npm failure');
-      td.when(task._tryNpmBlueprint('foobar')).thenReject(npmError);
+      td.when(task._tryNpmBlueprint('foobar', options)).thenReject(npmError);
 
-      return expect(task._resolveBlueprint('foobar'))
+      return expect(task._resolveBlueprint(options))
         .to.be.rejectedWith(npmError);
     });
 
@@ -80,7 +81,7 @@ describe('InstallBlueprintTask', function() {
       td.when(task._npmInstall(task._tempPath)).thenResolve();
       td.when(task._loadBlueprintFromPath(task._tempPath)).thenResolve(gitBlueprint);
 
-      return expect(task._resolveBlueprint(url))
+      return expect(task._resolveBlueprint({ blueprint: url }))
         .to.eventually.equal(gitBlueprint);
     });
 
@@ -89,7 +90,7 @@ describe('InstallBlueprintTask', function() {
       let error = new Error('temp folder creation failed');
       td.when(task._createTempFolder()).thenReject(error);
 
-      return expect(task._resolveBlueprint(url))
+      return expect(task._resolveBlueprint({ blueprint: url }))
         .to.be.rejectedWith(error);
     });
 
@@ -98,7 +99,7 @@ describe('InstallBlueprintTask', function() {
       let error = new Error('git clone failed');
       td.when(task._gitClone(url, task._tempPath)).thenReject(error);
 
-      return expect(task._resolveBlueprint(url))
+      return expect(task._resolveBlueprint({ blueprint: url }))
         .to.be.rejectedWith(error);
     });
 
@@ -106,9 +107,9 @@ describe('InstallBlueprintTask', function() {
       let url = 'https://github.com/ember-cli/app-blueprint-test.git';
       let error = new Error('npm install failed');
       td.when(task._gitClone(url, task._tempPath)).thenResolve();
-      td.when(task._npmInstall(task._tempPath)).thenReject(error);
+      td.when(task._npmInstall(task._tempPath, { blueprint: url })).thenReject(error);
 
-      return expect(task._resolveBlueprint(url))
+      return expect(task._resolveBlueprint({ blueprint: url }))
         .to.be.rejectedWith(error);
     });
 
@@ -119,7 +120,7 @@ describe('InstallBlueprintTask', function() {
       td.when(task._npmInstall(task._tempPath)).thenResolve();
       td.when(task._loadBlueprintFromPath(task._tempPath)).thenReject(error);
 
-      return expect(task._resolveBlueprint(url))
+      return expect(task._resolveBlueprint({ blueprint: url }))
         .to.be.rejectedWith(error);
     });
   });
@@ -171,12 +172,12 @@ describe('InstallBlueprintTask', function() {
 
     it('resolves with blueprint after successful "npm install"', function() {
       let modulePath = '/path/to/foobar';
-      td.when(task._npmInstallModule('foobar', task._tempPath)).thenResolve(modulePath);
+      td.when(task._npmInstallModule('foobar', task._tempPath, options)).thenResolve(modulePath);
 
       let foobarBlueprint = { name: 'foobar blueprint' };
       td.when(task._loadBlueprintFromPath(modulePath)).thenResolve(foobarBlueprint);
 
-      return expect(task._tryNpmBlueprint('foobar'))
+      return expect(task._tryNpmBlueprint('foobar', options))
         .to.eventually.equal(foobarBlueprint);
     });
 
@@ -191,40 +192,62 @@ describe('InstallBlueprintTask', function() {
           npm ERR! 404 Note that you can also install from a
           npm ERR! 404 tarball, folder, http url, or git url.`;
 
-      td.when(task._npmInstallModule('foobar', task._tempPath)).thenReject(error);
+      td.when(task._npmInstallModule('foobar', task._tempPath, options)).thenReject(error);
 
-      return expect(task._tryNpmBlueprint('foobar'))
+      return expect(task._tryNpmBlueprint('foobar', options))
         .to.be.rejectedWith(SilentError, `The package 'foobar' was not found in the npm registry.`);
     });
 
     it('rejects if "npm install" fails', function() {
       let error = new Error('npm install failed');
-      td.when(task._npmInstallModule('foobar', task._tempPath)).thenReject(error);
+      td.when(task._npmInstallModule('foobar', task._tempPath, options)).thenReject(error);
 
-      return expect(task._tryNpmBlueprint('foobar'))
+      return expect(task._tryNpmBlueprint('foobar', options))
         .to.be.rejectedWith(error);
     });
 
     it('rejects if npm module validation fails', function() {
       let modulePath = '/path/to/foobar';
-      td.when(task._npmInstallModule('foobar', task._tempPath)).thenResolve(modulePath);
+      td.when(task._npmInstallModule('foobar', task._tempPath, options)).thenResolve(modulePath);
 
       let error = new Error('module validation failed');
       td.when(task._validateNpmModule(modulePath, 'foobar')).thenThrow(error);
 
-      return expect(task._tryNpmBlueprint('foobar'))
+      return expect(task._tryNpmBlueprint('foobar', options))
         .to.be.rejectedWith(error);
     });
 
     it('rejects if loading blueprint fails', function() {
       let modulePath = '/path/to/foobar';
-      td.when(task._npmInstallModule('foobar', task._tempPath)).thenResolve(modulePath);
+      td.when(task._npmInstallModule('foobar', task._tempPath, options)).thenResolve(modulePath);
 
       let error = new Error('loading blueprint failed');
       td.when(task._loadBlueprintFromPath(modulePath)).thenReject(error);
 
-      return expect(task._tryNpmBlueprint('foobar'))
+      return expect(task._tryNpmBlueprint('foobar', options))
         .to.be.rejectedWith(error);
+    });
+  });
+
+  describe('install methods will respect --yarn', function() {
+    it('execa gets called with the correct arguments', function() {
+      let execaArgs = [];
+      task._copyNpmrc = td.function();
+
+      task.execa = (...args) => {
+        execaArgs.push(args);
+        return RSVP.Promise.resolve();
+      };
+
+      task._npmInstall('/tmp/foobar', { yarn: true });
+      task._npmInstall('/tmp/foobar', {});
+      task._npmInstallModule('/tmp/foobar', 'foobar', { yarn: true });
+      task._npmInstallModule('/tmp/foobar', 'foobar', {});
+
+      expect(execaArgs[0]).to.deep.equal(['yarn', ['install'], { cwd: '/tmp/foobar' }]);
+      expect(execaArgs[1]).to.deep.equal(['npm', ['install'], { cwd: '/tmp/foobar' }]);
+      expect(execaArgs[2]).to.deep.equal(['yarn', ['add', '/tmp/foobar'], { cwd: 'foobar' }]);
+      expect(execaArgs[3]).to.deep.equal(['npm', ['install', '/tmp/foobar'], { cwd: 'foobar' }]);
     });
   });
 });
