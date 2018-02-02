@@ -1,9 +1,18 @@
 'use strict';
 
-const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
+const RSVP = require('rsvp');
+const path = require('path');
+const fs = require('fs-extra');
 const td = require('testdouble');
 const SilentError = require('silent-error');
+
 const expect = require('../../chai').expect;
+const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
+
+let root = path.join(__dirname, '../../..');
+let tmproot = path.join(root, 'tmp');
+const remove = RSVP.denodeify(fs.remove);
 
 describe('InstallBlueprintTask', function() {
   let task;
@@ -124,6 +133,40 @@ describe('InstallBlueprintTask', function() {
 
       task._tempPath = '/tmp/foobar';
       td.when(task._createTempFolder()).thenResolve(task._tempPath);
+
+      return mkTmpDirIn(tmproot).then(function(tmpdir) {
+        task.project = { root: tmpdir };
+        process.chdir(tmpdir);
+      });
+    });
+
+    afterEach(function() {
+      process.chdir(root);
+      return remove(tmproot);
+    });
+
+    it('if .npmrc exists in the project root it copys it to tmp location', function() {
+      let dir = 'foo';
+
+      fs.writeFileSync(path.join(task.project.root, '.npmrc'), 'foo');
+
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+
+      task._copyNpmrc(dir);
+      expect(fs.existsSync(path.join(task.project.root, dir, '.npmrc'))).to.be.true;
+    });
+
+    it('if .npmrc does not exists in the project root it is not copied', function() {
+      let dir = 'foo';
+
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+
+      task._copyNpmrc(dir);
+      expect(fs.existsSync(path.join(task.project.root, dir, '.npmrc'))).to.be.false;
     });
 
     it('resolves with blueprint after successful "npm install"', function() {
