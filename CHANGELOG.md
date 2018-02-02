@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+## v2.18.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.1...v2.18.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.1...v2.18.2)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7569](https://github.com/ember-cli/ember-cli/pull/7569) mark "lib" folder as node style in eslint for apps [@kellyselden](https://github.com/kellyselden)
+- [#7589](https://github.com/ember-cli/ember-cli/pull/7589) upgrade testem [@stefanpenner](https://github.com/stefanpenner)
+- [#7594](https://github.com/ember-cli/ember-cli/pull/7594) Install optional dependencies when creating a new project [@tomdale](https://github.com/tomdale)
+
+Thank you to all who took the time to contribute!
+
+
 ## v2.18.1
 
 The following changes are required if you are upgrading from the previous
