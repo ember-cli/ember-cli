@@ -10,7 +10,7 @@ const expect = require('../../chai').expect;
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
 
-let root = process.cwd();
+let root = path.join(__dirname, '../../..');
 let tmproot = path.join(root, 'tmp');
 const remove = RSVP.denodeify(fs.remove);
 
