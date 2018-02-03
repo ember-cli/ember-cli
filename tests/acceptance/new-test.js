@@ -517,14 +517,14 @@ function expectProject(projectName, fixture) {
   fixture = projectFixture(fixture);
 
   let missingFiles = Object.keys(fixture).filter(filename => typeof output[filename] === 'undefined');
-  expect(missingFiles, `some files are missing: ${JSON.stringify(missingFiles)}`).to.empty;
+  expect(missingFiles, `missing files detected`).to.empty;
 
   let extraFiles = Object.keys(output).filter(filename => typeof fixture[filename] === 'undefined');
-  expect(extraFiles, `extra files generated: ${JSON.stringify(extraFiles)}`).to.empty;
+  expect(extraFiles, `extra files detected`).to.empty;
 
   Object.keys(fixture).forEach(filename => {
     if (missingFiles.indexOf(output[filename]) === -1) {
-      expect(output[filename]).to.equal(fixture[filename]);
+      expect(output[filename], `invalid content in the "${filename}" detected`).to.equal(fixture[filename]);
     }
   });
 }
