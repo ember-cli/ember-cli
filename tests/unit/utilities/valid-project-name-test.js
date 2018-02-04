@@ -4,18 +4,15 @@ const validProjectName = require('../../../lib/utilities/valid-project-name');
 const expect = require('chai').expect;
 
 describe('validate project name', function() {
-  it('invalidates nonconformant project name', function() {
-    let nonConformantName = 'app';
-    let validated = validProjectName(nonConformantName);
-
-    expect(validated).to.not.be.ok;
+  ['app', '.', 'ember', 'so-cool.', 'vendor', 'test', '1234test'].forEach(name => {
+    it(`'${name}' is an invalid name`, function() {
+      expect(validProjectName(name)).to.not.be.ok;
+    });
   });
 
-
-  it('validates conformant project name', function() {
-    let conformantName = 'my-app';
-    let validated = validProjectName(conformantName);
-
-    expect(validated).to.be.ok;
+  ['my-app', 'foobar', 'testbaz'].forEach(name => {
+    it(`'${name}' is a valid name`, function() {
+      expect(validProjectName(name)).to.be.ok;
+    });
   });
 });
