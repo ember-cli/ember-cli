@@ -1,7 +1,9 @@
 /assets
 /dev
 /docs
-/tests/!(helpers)
+/tests/*
+/tests/*/
+!/tests/helpers/
 /tmp
 /.*
 !.travis.yml

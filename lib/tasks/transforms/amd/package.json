@@ -3,5 +3,8 @@
   "keywords": [
     "ember-addon"
   ],
-  "ember-addon": {}
+  "ember-addon": {},
+  "dependencies": {
+    "broccoli-stew": "*"
+  }
 }

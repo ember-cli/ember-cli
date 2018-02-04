@@ -54,6 +54,8 @@ function runMocha() {
   console.time('Mocha Tests Running Time');
   mocha.run(failures => {
     console.timeEnd('Mocha Tests Running Time');
+
+    // eslint-disable-next-line no-process-exit
     process.exit(failures);
   });
 }
@@ -63,5 +65,7 @@ RSVP.resolve()
   .catch(error => {
     console.error(error);
     console.error(error.stack);
+
+    // eslint-disable-next-line no-process-exit
     process.exit(1);
   });

@@ -3,5 +3,10 @@
   "keywords": [
     "ember-addon"
   ],
-  "ember-addon": {}
+  "ember-addon": {},
+  "dependencies": {
+    "clean-base-url": "*",
+    "heimdalljs-logger": "*",
+    "broccoli-middleware": "*"
+  }
 }

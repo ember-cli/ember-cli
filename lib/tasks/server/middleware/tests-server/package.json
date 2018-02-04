@@ -5,5 +5,10 @@
   ],
   "ember-addon": {
     "before": "history-support-middleware"
+  },
+  "dependencies": {
+    "clean-base-url": "*",
+    "exists-sync": "*",
+    "heimdalljs-logger": "*"
   }
 }

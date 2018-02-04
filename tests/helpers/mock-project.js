@@ -3,6 +3,8 @@
 const Project = require('../../lib/models/project');
 const Instrumentation = require('../../lib/models/instrumentation');
 const MockUI = require('console-ui/mock');
+
+// eslint-disable-next-line node/no-unpublished-require
 const td = require('testdouble');
 
 class MockProject extends Project {
