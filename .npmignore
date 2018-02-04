@@ -4,5 +4,6 @@
 /tests/!(helpers)
 /tmp
 /.*
+*.log
 !.travis.yml
 !appveyor.yml
