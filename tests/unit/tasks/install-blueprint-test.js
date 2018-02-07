@@ -234,8 +234,8 @@ describe('InstallBlueprintTask', function() {
       let execaArgs = [];
       task._copyNpmrc = td.function();
 
-      task.execa = (...args) => {
-        execaArgs.push(args);
+      task.execa = (command, args, path) => {
+        execaArgs.push([command, args, path]);
         return RSVP.Promise.resolve();
       };
 
