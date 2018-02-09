@@ -71,7 +71,7 @@ describe('blueprint - addon', function() {
   ],\n\
   "scripts": {\n\
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",\n\
-    "test": "ember try:each"\n\
+    "test:all": "ember try:each"\n\
   },\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
@@ -137,15 +137,13 @@ describe('blueprint - addon', function() {
         expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.2');
       });
 
-      it('overwrites `scripts.test`', function() {
+      it('adds `scripts.test:all`', function() {
         let output = blueprint.updatePackageJson(JSON.stringify({
-          scripts: {
-            test: 'test-string',
-          },
+          scripts: {},
         }));
 
         let json = JSON.parse(output);
-        expect(json.scripts.test).to.equal('ember try:each');
+        expect(json.scripts['test:all']).to.equal('ember try:each');
       });
 
       it('overwrites `ember-addon.configPath`', function() {
