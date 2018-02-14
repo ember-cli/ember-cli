@@ -1,20 +1,25 @@
 # ember-cli Changelog
 
-## v3.0.0-beta.2
+## v3.0.0
 
 The following changes are required if you are upgrading from the previous
 version:
 
 - Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.0.0-beta.1...v3.0.0-beta.2)
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.2...v3.0.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.0.0-beta.1...v3.0.0-beta.2)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.2...v3.0.0)
 - Core Contributors
   + No changes required
 
 #### Community Contributions
 
+- [#7566](https://github.com/ember-cli/ember-cli/pull/7566) testem: Use `--no-sandbox` on TravisCI [@Turbo87](https://github.com/Turbo87)
+- [#7569](https://github.com/ember-cli/ember-cli/pull/7569) mark "lib" folder as node style in eslint for apps [@kellyselden](https://github.com/kellyselden)
+- [#7589](https://github.com/ember-cli/ember-cli/pull/7589) [BACKPORT release] upgrade testem [@ember-cli](https://github.com/ember-cli)
+- [#7594](https://github.com/ember-cli/ember-cli/pull/7594) Install optional dependencies when creating a new project [@ember-cli](https://github.com/ember-cli)
+- [#7610](https://github.com/ember-cli/ember-cli/pull/7610) Change isMainVendorFile check [@twokul](https://github.com/twokul/twokul)
 - [#7447](https://github.com/ember-cli/ember-cli/pull/7447) Remove ember-cli-legacy-blueprints. [@rwjblue](https://github.com/rwjblue)
 - [#7528](https://github.com/ember-cli/ember-cli/pull/7528) EmberApp: Overwrite `app/config/environment` in `tests.js` [@Turbo87](https://github.com/Turbo87)
 - [#7536](https://github.com/ember-cli/ember-cli/pull/7536) Avoid bower usage in config/ember-try.js. [@rwjblue](https://github.com/rwjblue)
@@ -23,25 +28,6 @@ version:
 - [#7549](https://github.com/ember-cli/ember-cli/pull/7549) Use `sudo: required` to work around issue in CI. [@rwjblue](https://github.com/rwjblue)
 - [#7553](https://github.com/ember-cli/ember-cli/pull/7553) Remove embertest from ESLint configuration. [@rwjblue](https://github.com/rwjblue)
 - [#7554](https://github.com/ember-cli/ember-cli/pull/7554) Make ember-try a direct addon dependency. [@rwjblue](https://github.com/rwjblue)
-
-Thank you to all who took the time to contribute!
-
-
-## v3.0.0-beta.1
-
-The following changes are required if you are upgrading from the previous
-version:
-
-- Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v2.18.0...v3.0.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
-- Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v2.18.0...v3.0.0-beta.1)
-- Core Contributors
-  + No changes required
-
-#### Community Contributions
-
 - [#7522](https://github.com/ember-cli/ember-cli/pull/7522) utilities: Remove deprecated `deprecateUI()` function [@Turbo87](https://github.com/Turbo87)
 - [#7502](https://github.com/ember-cli/ember-cli/pull/7502) Cleanup and correct node-support.md. [@ember-cli](https://github.com/ember-cli)
 - [#7487](https://github.com/ember-cli/ember-cli/pull/7487) [BUGFIX] give `ember new` error messages consistent color [@GavinJoyce/gj](https://github.com/GavinJoyce/gj)
