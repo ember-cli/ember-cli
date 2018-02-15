@@ -53,4 +53,9 @@ script:
   - <% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".
-  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup
+  # The exit code is saved in an environment variable to work-around a technical limitation:
+  # https://github.com/travis-ci/travis-ci/issues/3771#issuecomment-96660451
+  - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO --skip-cleanup; export EMBER_TRY_EXIT_CODE=$?
+  # Since /tmp may get cleaned up before `after_failure` runs
+  # the error logs are displayed here if the previous command returned a non-zero exit code
+  - if [ $EMBER_TRY_EXIT_CODE -ne 0 ]; then ls /tmp/error.*.log && cat /tmp/error.*.log; fi
