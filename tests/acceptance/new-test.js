@@ -241,7 +241,7 @@ describe('Acceptance: ember new', function() {
     expect(file('.gitignore')).to.contain('customValue');
   }));
 
-  it('ember new uses yarn when blueprint has yarn.lock', co.wrap(function *() {
+  it.skip('ember new uses yarn when blueprint has yarn.lock', co.wrap(function *() {
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
     fs.writeFileSync('my_blueprint/files/package.json', '{ "name": "foo", "dependencies": { "fs-extra": "*" }}');
