@@ -13,7 +13,7 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 
-describe('Acceptance: ember install', function() {
+describe.skip('Acceptance: ember install', function() {
   this.timeout(120000);
 
   beforeEach(co.wrap(function *() {
