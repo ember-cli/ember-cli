@@ -44,7 +44,7 @@ for i in ${commands[@]}; do
 
   # start a new beta branch off the just released stable
   if $fork; then
-    git branch -d $beta_branch
+    git branch -d $beta_branch || true
     git checkout -b $beta_branch
   fi
 
