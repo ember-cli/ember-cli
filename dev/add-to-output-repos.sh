@@ -52,7 +52,7 @@ for i in ${commands[@]}; do
   git commit -m $EMBERVERSION
   git tag "v"$EMBERVERSION
   if $fork; then
-    git push -f
+    git push -f origin $beta_branch
   else
     git push
   fi
