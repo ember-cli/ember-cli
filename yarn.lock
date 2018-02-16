@@ -5714,9 +5714,9 @@ yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
-yam@^0.0.23:
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/yam/-/yam-0.0.23.tgz#5cf92e13ee59761ab98f5e4834f19802ca0b4470"
+yam@^0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/yam/-/yam-0.0.24.tgz#11e9630444735f66a561d29221407de6d037cd95"
   dependencies:
     fs-extra "^4.0.2"
     lodash.merge "^4.6.0"
