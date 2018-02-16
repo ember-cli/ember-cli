@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -e
+set -x
 
 # so you can run this script from any folder and it will find the tmp dir
 cd "`git rev-parse --show-toplevel`"
@@ -43,7 +44,7 @@ for i in ${commands[@]}; do
 
   # start a new beta branch off the just released stable
   if $fork; then
-    git branch -d $beta_branch
+    git branch -d $beta_branch || true
     git checkout -b $beta_branch
   fi
 
@@ -51,7 +52,7 @@ for i in ${commands[@]}; do
   git commit -m $EMBERVERSION
   git tag "v"$EMBERVERSION
   if $fork; then
-    git push -f
+    git push -f origin $beta_branch
   else
     git push
   fi

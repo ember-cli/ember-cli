@@ -138,7 +138,7 @@ git merge vX.Y.0-beta.N
 * bump `package.json` version
 * don't commit these changes until later
 * run `./dev/prepare-release`
-* the `du` command should give you ballbark 200K as of `2.13.3`
+* the `du` command should give you ballbark 230K as of `3.0.0`
 
 ### Test
 
