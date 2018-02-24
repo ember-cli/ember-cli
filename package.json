@@ -51,6 +51,7 @@
     "broccoli-funnel-reducer": "^1.0.0",
     "broccoli-merge-trees": "^2.0.0",
     "broccoli-middleware": "^1.0.0",
+    "broccoli-module-unification-reexporter": "^1.0.0",
     "broccoli-source": "^1.1.0",
     "broccoli-stew": "^1.2.0",
     "calculate-cache-key-for-tree": "^1.0.0",
