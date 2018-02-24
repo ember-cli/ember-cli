@@ -20,9 +20,7 @@ module.exports = {
     // node files
     {
       files: [
-        'index.js',
-        'testem.js',
-        'ember-cli-build.js',
+        '*.js',
         'config/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
