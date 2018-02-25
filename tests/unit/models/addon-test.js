@@ -631,29 +631,6 @@ describe('models/addon.js', function() {
       addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
     });
 
-    it('should throw a useful error if a template compiler is not present -- non-pods', function() {
-      addon.root = path.join(fixturePath, 'with-addon-templates');
-
-      expect(() => {
-        addon.compileTemplates();
-      }).to.throw(
-        `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
-        `Please make sure your template precompiler (commonly \`ember-cli-htmlbars\`) is listed in \`dependencies\` ` +
-        `(NOT \`devDependencies\`) in \`${addon.name}\`'s \`package.json\`.`);
-    });
-
-    it('should throw a useful error if a template compiler is not present -- pods', function() {
-      addon.root = path.join(fixturePath, 'with-addon-pod-templates');
-
-      expect(() => {
-        addon.compileTemplates();
-      }).to.throw(
-        `Addon templates were detected, but there are no template compilers registered for \`${addon.name}\`. ` +
-        `Please make sure your template precompiler (commonly \`ember-cli-htmlbars\`) is listed in \`dependencies\` ` +
-        `(NOT \`devDependencies\`) in \`${addon.name}\`'s \`package.json\`.`
-      );
-    });
-
     it('should not throw an error if addon/templates is present but empty', function() {
       addon.root = path.join(fixturePath, 'with-empty-addon-templates');
 

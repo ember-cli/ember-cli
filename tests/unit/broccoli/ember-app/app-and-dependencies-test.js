@@ -14,7 +14,7 @@ const walkSync = require('walk-sync');
 const experiments = require("../../../../lib/experiments/index.js");
 
 describe('EmberApp#appAndDependencies', function() {
-  let input;
+  let input, output;
 
   beforeEach(co.wrap(function *() {
     process.env.EMBER_ENV = 'development';
@@ -30,12 +30,12 @@ describe('EmberApp#appAndDependencies', function() {
             keywords: ['ember-addon'],
           }),
           'index.js': `
-             module.exports = {
-               name: 'fake-template-preprocessor',
-               setupPreprocessorRegistry(type, registry) {
-                 registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } }  )
-               }
-             }
+            module.exports = {
+              name: 'fake-template-preprocessor',
+              setupPreprocessorRegistry(type, registry) {
+                registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
+              }
+            };
           `,
         },
       },
@@ -45,15 +45,22 @@ describe('EmberApp#appAndDependencies', function() {
     });
   }));
 
-  afterEach(function() {
+  afterEach(co.wrap(function *() {
     delete process.env.EMBER_ENV;
-    return input.dispose();
-  });
+    yield input.dispose();
+    yield output.dispose();
+  }));
 
   function createApp(options) {
     options = options || {};
 
-    let pkg = { name: 'ember-app-test', dependencies: { 'fake-template-preprocessor': '*' } };
+    let pkg = {
+      name: 'ember-app-test',
+      dependencies: {
+        'fake-template-preprocessor': '*',
+        'my-addon': '*',
+      },
+    };
 
     let cli = new MockCLI();
     let project = new Project(input.path(), pkg, cli.ui, cli);
@@ -87,7 +94,7 @@ describe('EmberApp#appAndDependencies', function() {
     });
 
     let app = createApp();
-    let output = yield buildOutput(app.appAndDependencies());
+    output = yield buildOutput(app.appAndDependencies());
     let actualFiles = getFiles(output.path());
 
     expect(actualFiles).to.deep.equal([
@@ -116,7 +123,7 @@ describe('EmberApp#appAndDependencies', function() {
       });
 
       let app = createApp();
-      let output = yield buildOutput(app.appAndDependencies());
+      output = yield buildOutput(app.appAndDependencies());
       let actualFiles = getFiles(output.path());
 
       expect(actualFiles).to.deep.equal([
@@ -149,7 +156,7 @@ describe('EmberApp#appAndDependencies', function() {
       });
 
       let app = createApp();
-      let output = yield buildOutput(app.appAndDependencies());
+      output = yield buildOutput(app.appAndDependencies());
       let actualFiles = getFiles(output.path());
 
       expect(actualFiles).to.deep.equal([
@@ -162,4 +169,99 @@ describe('EmberApp#appAndDependencies', function() {
       ]);
     }));
   }
+
+  it('moduleNormalizerDisabled', co.wrap(function *() {
+    input.write({
+      'node_modules': {
+        'my-addon': {
+          'addon': {
+            'index.js': `define('amd', function() {});`,
+          },
+          'package.json': JSON.stringify({
+            name: 'my-addon',
+            main: 'index.js',
+            keywords: ['ember-addon'],
+          }),
+          'index.js': `
+            module.exports = {
+              name: 'my-addon',
+              setupPreprocessorRegistry(type, registry) {
+                registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
+                registry.add('js', { ext: 'js', toTree(tree) { return tree; } });
+              },
+            }
+          `,
+        },
+      },
+    });
+
+    let app = createApp({
+      moduleNormalizerDisabled: true,
+    });
+
+    let addon = app.project.findAddonByName('my-addon');
+
+    addon.treeForAddon = tree => {
+      const Funnel = require('broccoli-funnel');
+      return new Funnel(tree, {
+        destDir: 'modules/my-addon',
+      });
+    };
+
+    output = yield buildOutput(app.appAndDependencies());
+    let actualFiles = getFiles(output.path());
+
+    expect(actualFiles).to.contain(
+      'addon-tree-output/modules/my-addon/index.js'
+    );
+  }));
+
+  it('amdFunnelDisabled', co.wrap(function *() {
+    input.write({
+      'node_modules': {
+        'my-addon': {
+          'addon': {
+            'index.js': `define('amd', function() {});`,
+          },
+          'package.json': JSON.stringify({
+            name: 'my-addon',
+            main: 'index.js',
+            keywords: ['ember-addon'],
+          }),
+          'index.js': `
+            module.exports = {
+              name: 'my-addon',
+              setupPreprocessorRegistry(type, registry) {
+                registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
+                registry.add('js', { ext: 'js', toTree(tree) { return tree; } });
+              },
+            }
+          `,
+        },
+      },
+    });
+
+    let app = createApp({
+      amdFunnelDisabled: true,
+    });
+
+    let tree;
+
+    app.registry.add('js', {
+      ext: 'js',
+      toTree(_tree) {
+        tree = _tree;
+        return _tree;
+      },
+    });
+
+    app.addonTree();
+
+    output = yield buildOutput(tree);
+    let actualFiles = getFiles(output.path());
+
+    expect(actualFiles).to.deep.equal([
+      'my-addon/index.js',
+    ]);
+  }));
 });

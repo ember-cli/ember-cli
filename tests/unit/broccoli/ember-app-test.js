@@ -12,6 +12,24 @@ const MockCLI = require('../../helpers/mock-cli');
 
 let EmberApp = require('../../../lib/broccoli/ember-app');
 
+function mockTemplateRegistry(app) {
+  let oldLoad = app.registry.load;
+  app.registry.load = function(type) {
+    if (type === 'template') {
+      return [
+        {
+          toTree() {
+            return {
+              description: 'template',
+            };
+          },
+        },
+      ];
+    }
+    return oldLoad.apply(app.registry, arguments);
+  };
+}
+
 describe('EmberApp', function() {
   let project, projectPath, app, addon;
 
@@ -542,6 +560,8 @@ describe('EmberApp', function() {
         app = new EmberApp({
           project,
         });
+
+        mockTemplateRegistry(app);
       });
 
       it('has default vendor.css', function() {
@@ -561,6 +581,8 @@ describe('EmberApp', function() {
 
         app.addonPostprocessTree = td.function();
         td.when(app.addonPostprocessTree(), { ignoreExtraArgs: true }).thenReturn(['batman']);
+
+        mockTemplateRegistry(app);
       });
 
       it('from .styles()', function() {
@@ -570,22 +592,6 @@ describe('EmberApp', function() {
       });
 
       it('template type is called', function() {
-        let oldLoad = app.registry.load;
-        app.registry.load = function(type) {
-          if (type === 'template') {
-            return [
-              {
-                toTree() {
-                  return {
-                    description: 'template',
-                  };
-                },
-              }];
-          } else {
-            return oldLoad.call(app.registry, type);
-          }
-        };
-
         app._processedTemplatesTree();
 
         let captor = td.matchers.captor();
@@ -632,6 +638,8 @@ describe('EmberApp', function() {
       });
 
       it('calls each addon postprocessTree hook', function() {
+        mockTemplateRegistry(app);
+
         app.index = td.function();
         app._processedTemplatesTree = td.function();
 
@@ -1069,6 +1077,8 @@ describe('EmberApp', function() {
         app.appAndDependencies = function() {
           return 'app-and-dependencies-tree';
         };
+
+        mockTemplateRegistry(app);
       });
 
       it('prevents duplicate inclusion, maintains order: CSS', function() {
