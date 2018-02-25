@@ -35,8 +35,6 @@ describe('Acceptance: addon-smoke-test', function () {
 
   beforeEach(function () {
     addonRoot = linkDependencies(addonName);
-
-    process.env.JOBS = '1';
   });
 
   afterEach(function () {
@@ -46,8 +44,6 @@ describe('Acceptance: addon-smoke-test', function () {
 
     cleanupRun(addonName);
     expect(dir(addonRoot)).to.not.exist;
-
-    delete process.env.JOBS;
   });
 
   it('generates package.json with proper metadata', function () {
