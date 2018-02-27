@@ -112,6 +112,10 @@ describe('EmberApp.import()', function() {
     let cli = new MockCLI();
     let project = new Project(path, pkg, cli.ui, cli);
 
+    EmberApp.env = function() {
+      return options.env || 'development';
+    };
+
     let app = new EmberApp({
       project,
       _ignoreMissingLoader: true,
@@ -166,9 +170,10 @@ describe('EmberApp.import()', function() {
   }));
 
   it('handles imports with different environments (production)', co.wrap(function *() {
-    let app = createApp();
+    let app = createApp({
+      env: 'production',
+    });
 
-    app.env = 'production';
     app.import({
       development: 'bower_components/moment/moment.js',
       production: 'bower_components/moment/moment.min.js',
@@ -213,9 +218,10 @@ describe('EmberApp.import()', function() {
   }));
 
   it('handles imports from node with different environments (production)', co.wrap(function *() {
-    let app = createApp();
+    let app = createApp({
+      env: 'production',
+    });
 
-    app.env = 'production';
     app.import({
       development: 'node_modules/moment/moment.js',
       production: 'node_modules/moment/moment.min.js',
