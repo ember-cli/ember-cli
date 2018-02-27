@@ -537,14 +537,6 @@ describe('EmberApp', function() {
           td.when(app.addonTreesFor(), { ignoreExtraArgs: true }).thenReturn(['batman']);
         });
 
-        it('_processedVendorTree calls addonTreesFor', function() {
-          app._processedVendorTree();
-
-          let args = td.explain(app.addonTreesFor).calls.map(function(call) { return call.args[0]; });
-
-          expect(args).to.deep.equal(['vendor']);
-        });
-
         it('_processedAppTree calls addonTreesFor', function() {
           app._processedAppTree();
 
