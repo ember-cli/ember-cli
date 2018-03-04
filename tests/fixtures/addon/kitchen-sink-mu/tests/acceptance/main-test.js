@@ -6,6 +6,7 @@ import { module, test } from 'qunit';
 module('Acceptance', function(hooks) {
   setupApplicationTest(hooks);
 
+  /*
   test('renders properly', async function(assert) {
     await visit('/');
 
@@ -13,6 +14,7 @@ module('Acceptance', function(hooks) {
     assert.equal(element.textContent.trim(), 'WOOT!!');
     // assert.ok(truthyHelper(), 'addon-test-support helper');
   });
+  */
 
   test('renders imported component', async function(assert) {
     await visit('/');
