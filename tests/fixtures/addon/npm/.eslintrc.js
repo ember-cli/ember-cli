@@ -29,7 +29,8 @@ module.exports = {
       excludedFiles: [
         'app/**',
         'addon/**',
-        'tests/dummy/app/**'
+        'tests/dummy/app/**',
+        'addon-test-support/**'
       ],
       parserOptions: {
         sourceType: 'script',
