@@ -34,6 +34,14 @@ module.exports = {
         browser: false,
         node: true
       }
+    },
+
+    // vendor files
+    {
+      files: ['vendor/**/*.js'],
+      env: {
+        amd: true
+      }
     }
   ]
 };
