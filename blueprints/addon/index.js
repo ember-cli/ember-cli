@@ -23,6 +23,7 @@ const replacers = {
 const description = 'The default blueprint for ember-cli addons.';
 module.exports = {
   description,
+  appBlueprintName: 'app',
 
   filesToRemove: [
     'tests/dummy/app/styles/.gitkeep',
@@ -138,7 +139,7 @@ module.exports = {
   },
 
   files() {
-    let appFiles = this.lookupBlueprint('app').files();
+    let appFiles = this.lookupBlueprint(this.appBlueprintName).files();
     let addonFilesPath = this.filesPath(this.options);
     let addonFiles = walkSync(addonFilesPath);
 
@@ -184,7 +185,7 @@ module.exports = {
 
   srcPath(file) {
     let path = `${this.path}/files/${file}`;
-    let superPath = `${this.lookupBlueprint('app').path}/files/${file}`;
+    let superPath = `${this.lookupBlueprint(this.appBlueprintName).path}/files/${file}`;
     return fs.existsSync(path) ? path : superPath;
   },
 };
