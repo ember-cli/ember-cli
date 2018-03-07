@@ -54,7 +54,6 @@ describe('Acceptance: ember help', function() {
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help.txt');
     let expected = loadTextFixture(fixturePath);
-
     expect(output).to.equal(expected);
   });
 

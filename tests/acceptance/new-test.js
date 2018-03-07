@@ -322,6 +322,22 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
   }));
 
+  it('MODULE_UNIFICATION=true ember addon foo works', co.wrap(function *() {
+    process.env.MODULE_UNIFICATION = 'true';
+    yield ember([
+      'addon',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+    ]);
+
+    let expectedFiles = walkSync(path.join(__dirname, '../fixtures', 'module-unification-addon'))
+      .sort()
+      .filter(e => e !== '.DS_Store');
+    let actualFiles = walkSync('.').sort().filter(e => e !== '.DS_Store');
+    expect(actualFiles).to.deep.equal(expectedFiles);
+  }));
+
   it('ember addon with --directory uses given directory name and has correct package name', co.wrap(function *() {
     let workdir = process.cwd();
 

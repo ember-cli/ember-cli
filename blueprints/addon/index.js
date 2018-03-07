@@ -37,7 +37,7 @@ module.exports = {
     let contents = JSON.parse(content);
 
     contents.name = this.locals(this.options).addonName;
-    contents.description = description;
+    contents.description = this.description;
     delete contents.private;
     contents.scripts = contents.scripts || {};
     contents.keywords = contents.keywords || [];
@@ -139,7 +139,6 @@ module.exports = {
 
   files() {
     let appFiles = this.lookupBlueprint('app').files();
-
     let addonFilesPath = this.filesPath(this.options);
     let addonFiles = walkSync(addonFilesPath);
 
