@@ -679,6 +679,24 @@ describe('express-server', function() {
           });
       });
 
+      it('serves a static wasm file up from build output with correct Content-Type header', function(done) {
+        startServer()
+          .then(function() {
+            request(subject.app)
+              .get('/vendor/foo.wasm')
+              .expect(200)
+              .end(function(err, response) {
+                if (err) {
+                  return done(err);
+                }
+
+                expect(response.headers['content-type']).to.equal('application/wasm');
+
+                done();
+              });
+          });
+      });
+
       it('serves static asset up from build output without a period in name (with rootURL)', function(done) {
         startServer('/foo')
           .then(function() {
