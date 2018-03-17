@@ -1,5 +1,26 @@
 # ember-cli Changelog
 
+## v3.0.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7626](https://github.com/ember-cli/ember-cli/pull/7626) Fix 'const' declarations in non-strict mode are not supported [@Turbo87](https://github.com/Turbo87)
+- [#7627](https://github.com/ember-cli/ember-cli/pull/7627) Fixing test fixtures from 3.0.0 release [@Turbo87](https://github.com/Turbo87)
+- [#7670](https://github.com/ember-cli/ember-cli/pull/7670) Support serving wasm with application/wasm [@rwjblue](https://github.com/rwjblue)
+- [#7683](https://github.com/ember-cli/ember-cli/pull/7683) Revert "EmberApp: Remove deprecated `contentFor()` hooks" [@stefanpenner](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
 ## v3.0.0
 
 The following changes are required if you are upgrading from the previous
