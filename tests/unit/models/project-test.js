@@ -49,9 +49,9 @@ describe('models/project.js', function() {
 
   describe('Project.prototype.config', function() {
     let called;
+    projectPath = 'tmp/test-app';
 
     beforeEach(function() {
-      projectPath = 'tmp/test-app';
       called = false;
       return tmp.setup(projectPath)
         .then(function() {
@@ -59,7 +59,16 @@ describe('models/project.js', function() {
             baseURL: '/foo/bar',
           });
 
+          touch(`${projectPath}/config/a.js`, {
+            baseURL: '/a',
+          });
+
+          touch(`${projectPath}/config/b.js`, {
+            baseURL: '/b',
+          });
+
           makeProject();
+
           let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
           td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
           project.require = function() {
@@ -77,6 +86,41 @@ describe('models/project.js', function() {
     it('config() finds and requires config/environment', function() {
       project.config('development');
       expect(called).to.equal(true);
+    });
+
+    describe('memoizes', function() {
+      it('memoizes', function() {
+        project.config('development');
+        expect(called).to.equal(true);
+        called = false;
+        project.config('development');
+        expect(called).to.equal(false);
+      });
+
+      it('considers configPath when memoizing', function() {
+        project.configPath = function() { return `${projectPath}/config/a`; };
+        project.config('development');
+
+        expect(called).to.equal(true);
+        called = false;
+
+        project.configPath = function() { return `${projectPath}/config/a`; };
+        project.config('development');
+
+        expect(called).to.equal(false);
+        called = false;
+
+        project.configPath = function() { return `${projectPath}/config/b`; };
+        project.config('development');
+
+        expect(called).to.equal(true);
+        called = false;
+
+        project.config('development');
+
+        expect(called).to.equal(false);
+        called = false;
+      });
     });
 
     it('configPath() returns tests/dummy/config/environment', function() {
