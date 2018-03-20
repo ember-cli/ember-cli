@@ -1,5 +1,24 @@
 # ember-cli Changelog
 
+## v3.0.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7691](https://github.com/ember-cli/ember-cli/pull/7691) Add support for .npmrc for blueprints [@thoov](https://github.com/thoov)
+- [#7694](https://github.com/ember-cli/ember-cli/pull/7694) [BACKPORT release] Ensure config() memoizing is considers if the [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
 ## v3.0.1
 
 The following changes are required if you are upgrading from the previous
