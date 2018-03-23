@@ -45,6 +45,46 @@ describe('test server', function() {
     watcher.emit('change');
   });
 
+  it('transforms and sets defaultOptions in testem and invokes testem properly', function(done) {
+    let ui = new MockUI();
+    let watcher = new MockWatcher();
+
+    subject = new TestServerTask({
+      project: new MockProject(),
+      ui,
+      addonMiddlewares() {
+        return ['middleware1', 'middleware2'];
+      },
+      testem: {
+        setDefaultOptions(options) {
+          this.defaultOptions = options;
+        },
+        startDev(options, finalizer) {
+          this.config.setDefaultOptions(options);
+          finalizer(0);
+        },
+        config: {
+          setDefaultOptions(options) {
+            this.defaultOptions = options;
+          },
+        },
+      },
+    });
+
+    subject.run({
+      host: 'greatwebsite.com',
+      port: 123324,
+      reporter: 'xunit',
+      outputPath: 'blerpy-derpy',
+      watcher,
+      testPage: 'http://my/test/page',
+    }).then(function(value) {
+      expect(value, 'expected exist status of 0').to.eql(0);
+    });
+    watcher.emit('change');
+    done();
+  });
+
   describe('completion', function() {
     let ui, watcher, subject, runOptions;
 
