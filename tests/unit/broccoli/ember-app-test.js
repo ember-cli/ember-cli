@@ -627,6 +627,36 @@ describe('EmberApp', function() {
         td.verify(addon.lintTree('blah', 'blam'));
       });
     });
+
+    describe('importTransforms', function() {
+      beforeEach(function() {
+        addon = {
+          importTransforms() {
+            return {
+              testTransform: {
+                transform() {
+                },
+
+                processOptions() {
+                },
+              },
+            };
+          },
+        };
+
+        project.initializeAddons = function() {
+          this.addons = [addon];
+        };
+
+        app = new EmberApp({
+          project,
+        });
+      });
+
+      it('makes transforms passed in the addon available in consuming app', function() {
+        expect(app._customTransformsMap).to.include.keys('testTransform');
+      });
+    });
   });
 
   describe('import', function() {
