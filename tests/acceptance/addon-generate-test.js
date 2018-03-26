@@ -3,8 +3,10 @@
 const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
-const fs = require('fs-extra');
 const path = require('path');
+const fs = require('fs-extra');
+let outputFile = RSVP.denodeify(fs.outputFile);
+let ensureDir = RSVP.denodeify(fs.ensureDir);
 let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -72,6 +74,35 @@ describe('Acceptance: ember generate in-addon', function() {
       expect(error.name).to.equal('SilentError');
       expect(error.message).to.equal('You cannot call the addon-import blueprint directly.');
     }
+  }));
+
+  it('runs the `addon-import` bluprint from a classic addon', co.wrap(function *() {
+    yield initAddon('my-addon');
+
+    yield outputFile(
+      'blueprints/service/files/__root__/__path__/__name__.js',
+      "import Service from '@ember/service';\n" +
+      'export default Service.extend({ });\n'
+    );
+
+    yield ember(['generate', 'service', 'session']);
+
+    expect(file('app/services/session.js')).to.exist;
+  }));
+
+  it('does not run the `addon-import` bluprint from a module unification addon', co.wrap(function *() {
+    yield initAddon('my-addon');
+    yield ensureDir('src');
+
+    yield outputFile(
+      'blueprints/service/files/__root__/__path__/__name__.js',
+      "import Service from '@ember/service';\n" +
+      'export default Service.extend({ });\n'
+    );
+
+    yield ember(['generate', 'service', 'session']);
+
+    expect(file('app/services/session.js')).to.not.exist;
   }));
 
   it('in-addon blueprint foo', co.wrap(function *() {
