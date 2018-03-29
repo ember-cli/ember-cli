@@ -86,7 +86,7 @@ describe('models/addon.js', function() {
 
     });
 
-    describe('.jshintAddonTree', function() {
+    describe('.lintAddonTree', function() {
       let addon;
 
       beforeEach(function() {
@@ -112,7 +112,7 @@ describe('models/addon.js', function() {
         let root = path.join(fixturePath, 'with-styles');
         addon.root = root;
 
-        addon.jshintAddonTree();
+        addon.lintAddonTree();
         expect(addonPath).to.eql(ensurePosixPath(path.join(root, 'addon')));
       });
 
@@ -124,7 +124,7 @@ describe('models/addon.js', function() {
         let root = path.join(fixturePath, 'with-styles');
         addon.root = root;
 
-        addon.jshintAddonTree();
+        addon.lintAddonTree();
       });
 
     });

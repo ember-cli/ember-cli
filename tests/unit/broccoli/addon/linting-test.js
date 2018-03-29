@@ -49,7 +49,7 @@ describe('Addon', function() {
       },
     });
 
-    addon.jshintAddonTree();
+    addon.lintAddonTree();
     expect(lintTrees.length).to.equal(1);
 
     output = yield buildOutput(lintTrees[0]);
@@ -68,7 +68,7 @@ describe('Addon', function() {
       },
     });
 
-    addon.jshintAddonTree();
+    addon.lintAddonTree();
     expect(lintTrees.length).to.equal(2);
 
     output = yield buildOutput(lintTrees[0]);
@@ -99,7 +99,7 @@ describe('Addon', function() {
       },
     });
 
-    addon.jshintAddonTree();
+    addon.lintAddonTree();
     expect(lintTrees.length).to.equal(2);
 
     output = yield buildOutput(lintTrees[0]);
@@ -131,7 +131,7 @@ describe('Addon', function() {
       },
     });
 
-    addon.jshintAddonTree();
+    addon.lintAddonTree();
     expect(lintTrees.length).to.equal(2);
 
     output = yield buildOutput(lintTrees[0]);
@@ -162,7 +162,7 @@ describe('Addon', function() {
       },
     });
 
-    addon.jshintAddonTree();
+    addon.lintAddonTree();
     expect(lintTrees.length).to.equal(1);
 
     output = yield buildOutput(lintTrees[0]);
@@ -181,7 +181,7 @@ describe('Addon', function() {
       },
     });
 
-    addon.jshintAddonTree();
+    addon.lintAddonTree();
     expect(lintTrees.length).to.equal(1);
 
     output = yield buildOutput(lintTrees[0]);
@@ -216,7 +216,7 @@ describe('Addon', function() {
     };
     input.write(addonRootContents);
 
-    output = yield buildOutput(addon.jshintAddonTree());
+    output = yield buildOutput(addon.lintAddonTree());
     expect(output.read()).to.deep.equal({
       first: {
         tests: addonRootContents,
@@ -224,4 +224,3 @@ describe('Addon', function() {
     });
   }));
 });
-
