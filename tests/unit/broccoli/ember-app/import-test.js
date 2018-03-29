@@ -57,7 +57,7 @@ const APPLICATION_BLUEPRINT = {
   'package.json': JSON.stringify({
     name: 'app-import',
     devDependencies: {
-      'broccoli-asset-rev': '^2.4.5',
+      'broccoli-asset-rev': '^2.7.0',
       'ember-ajax': '^3.0.0',
       'ember-cli': '~2.14.0-beta.1',
       'ember-cli-app-version': '^3.0.0',
