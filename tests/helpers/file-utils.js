@@ -1,17 +1,16 @@
 'use strict';
 
 const fs = require('fs-extra');
-const existsSync = require('exists-sync');
 
 function touch(path, obj) {
-  if (!existsSync(path)) {
+  if (!fs.existsSync(path)) {
     fs.createFileSync(path);
     fs.writeJsonSync(path, obj || {});
   }
 }
 
 function replaceFile(path, findString, replaceString) {
-  if (existsSync(path)) {
+  if (fs.existsSync(path)) {
     let newFile;
     let file = fs.readFileSync(path, 'utf-8');
     let find = new RegExp(findString);
