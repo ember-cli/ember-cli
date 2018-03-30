@@ -84,7 +84,7 @@
     "fs-extra": "^5.0.0",
     "fs-tree-diff": "^0.5.2",
     "get-caller-file": "^1.0.0",
-    "git-repo-info": "^1.4.1",
+    "git-repo-info": "^2.0.0",
     "glob": "^7.1.2",
     "heimdalljs": "^0.2.3",
     "heimdalljs-fs-monitor": "^0.2.0",
