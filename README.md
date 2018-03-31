@@ -1,5 +1,5 @@
 
-ember-cli
+ember-cli.
 ==============================================================================
 
 [![Latest npm release][npm-badge]][npm-badge-url]
