@@ -168,6 +168,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
   }));
 
   it('addon trees are not jshinted', co.wrap(function *() {
+    let assertions = 0;
     yield copyFixtureFiles('brocfile-tests/jshint-addon');
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -176,8 +177,14 @@ describe('Acceptance: brocfile-smoke-test', function() {
       paths: ['./lib/ember-random-thing'],
     };
     fs.writeJsonSync(packageJsonPath, packageJson);
-
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--filter=jshint');
+    try {
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--filter=jshint');
+    } catch (e) {
+      let outputMatch = e.output.join(' ').match(/(No tests matched the filter "jshint")/g).length;
+      chai.expect(outputMatch).to.equal(3);
+      assertions++;
+    }
+    chai.expect(assertions).to.equal(1);
   }));
 
   it('specifying custom output paths works properly', co.wrap(function *() {
