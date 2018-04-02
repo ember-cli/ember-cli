@@ -75,7 +75,6 @@
     "ember-cli-string-utils": "^1.0.0",
     "ensure-posix-path": "^1.0.2",
     "execa": "^0.10.0",
-    "exists-sync": "0.0.4",
     "exit": "^0.1.2",
     "express": "^4.12.3",
     "filesize": "^3.1.3",
