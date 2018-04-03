@@ -15,7 +15,7 @@
 var EOL       = require('os').EOL;
 var multiline = require('multiline');
 var RSVP      = require('rsvp');
-var GitHubApi = require('github');
+var GitHubApi = require('@octokit/rest');
 
 var github         = new GitHubApi({version: '3.0.0'});
 var compareCommits = RSVP.denodeify(github.repos.compareCommits);
