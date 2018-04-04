@@ -28,8 +28,9 @@ module.exports = {
         'tests/dummy/config/**/*.js'<% } %>
       ],<% if (blueprint !== 'app') { %>
       excludedFiles: [
-        'app/**',
         'addon/**',
+        'addon-test-support/**',
+        'app/**',
         'tests/dummy/app/**'
       ],<% } %>
       parserOptions: {
