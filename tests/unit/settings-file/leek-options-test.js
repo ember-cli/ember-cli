@@ -11,7 +11,7 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('.ember-cli leek options', function() {
-  let passedOptions, leekConfigFolder;
+  let settings, passedOptions, leekConfigFolder;
 
   before(co.wrap(function *() {
     leekConfigFolder = yield createTempDir();
@@ -33,12 +33,16 @@ describe('.ember-cli leek options', function() {
 
     yield buildOutput(primaryPath);
 
-    let mockedYam = new Yam('ember-cli', {
+    settings = new Yam('ember-cli', {
       primary: primaryPath,
     });
 
     let mockedLeek = function(options) {
       passedOptions = options;
+    };
+
+    let mockedYam = function() {
+      return settings;
     };
 
     cliEntry({
