@@ -31,7 +31,6 @@ env:
     - EMBER_TRY_SCENARIO=ember-release
     - EMBER_TRY_SCENARIO=ember-beta
     - EMBER_TRY_SCENARIO=ember-canary
-    - EMBER_TRY_SCENARIO=ember-default
 
 matrix:
   fast_finish: true
