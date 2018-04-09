@@ -33,7 +33,12 @@ describe('EmberApp#appAndDependencies', function() {
             module.exports = {
               name: 'fake-template-preprocessor',
               setupPreprocessorRegistry(type, registry) {
-                registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
+                registry.add('template', {
+                  isDefaultForType: true,
+                  name: 'fake-template-preprocessor',
+                  ext: 'hbs',
+                  toTree(tree) { return tree; }
+                });
               }
             };
           `,
@@ -48,7 +53,10 @@ describe('EmberApp#appAndDependencies', function() {
   afterEach(co.wrap(function *() {
     delete process.env.EMBER_ENV;
     yield input.dispose();
-    yield output.dispose();
+
+    if (output) {
+      yield output.dispose();
+    }
   }));
 
   function createApp(options) {
@@ -263,5 +271,80 @@ describe('EmberApp#appAndDependencies', function() {
     expect(actualFiles).to.deep.equal([
       'my-addon/index.js',
     ]);
+  }));
+
+  it('uses preprocessor that is marked by default', co.wrap(function *() {
+    let app = createApp();
+
+    app.registry.add('js', {
+      ext: 'js',
+      name: 'addon1',
+      isDefaultForType: true,
+      toTree(tree) {
+        return tree;
+      },
+    });
+
+    app.registry.add('js', {
+      ext: 'js',
+      name: 'addon2',
+      toTree(tree) {
+        expect(true).to.equal(false);
+        return tree;
+      },
+    });
+
+    yield buildOutput(app.addonTree());
+  }));
+
+  it('uses all registered preprocessors if none is marked by default', co.wrap(function *() {
+    let count = 0;
+    let app = createApp();
+
+    app.registry.add('js', {
+      ext: 'js',
+      name: 'addon1',
+      toTree(tree) {
+        count++;
+        return tree;
+      },
+    });
+
+    app.registry.add('js', {
+      ext: 'js',
+      name: 'addon2',
+      toTree(tree) {
+        count++;
+        return tree;
+      },
+    });
+
+    yield buildOutput(app.addonTree());
+
+    expect(count).to.equal(2);
+  }));
+
+  it('throws an exception if more than one preprocessor is marked as default', co.wrap(function *() {
+    let exceptionMessage;
+    let app = createApp();
+
+    app.registry.add('template', {
+      ext: 'hbs',
+      name: 'faulty-addon',
+      isDefaultForType: true,
+      toTree(tree) {
+        return tree;
+      },
+    });
+
+    yield co(function *() {
+      output = yield buildOutput(app.addonTree());
+    }).catch(e => {
+      exceptionMessage = e.message;
+    }).then(() => {
+      expect(exceptionMessage).to.equal(
+        `There are multiple preprocessor plugins marked as default for 'template': fake-template-preprocessor, faulty-addon`
+      );
+    });
   }));
 });
