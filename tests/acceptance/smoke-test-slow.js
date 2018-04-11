@@ -155,6 +155,34 @@ describe('Acceptance: smoke-test', function() {
     expect(output).to.match(/pass\s+9/, '9 passing');
   }));
 
+  it('ember test wasm', co.wrap(function *() {
+    let originalWrite = process.stdout.write;
+    let output = [];
+
+    yield copyFixtureFiles('smoke-tests/serve-wasm');
+
+    // TODO: Change to using ember() helper once it properly saves build artifacts
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    // TODO: Figure out how to get this to write into the MockUI
+    process.stdout.write = (function() {
+      return function() {
+        output.push(arguments[0]);
+      };
+    }(originalWrite));
+
+    let result = yield ember(['test', '--path=dist']).finally(() => {
+      process.stdout.write = originalWrite;
+    });
+
+    expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
+
+    output = output.join(EOL);
+
+    expect(output).to.match(/fail\s+0/, 'no failures');
+    expect(output).to.match(/pass\s+7/, '7 passing');
+  }));
+
   it('ember new foo, build development, and verify generated files', co.wrap(function *() {
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
