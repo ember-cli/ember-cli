@@ -10,7 +10,6 @@ version:
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
   + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.0.0...v3.1.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Core Contributors
   + No changes required
 
@@ -37,6 +36,28 @@ version:
 
 Thank you to all who took the time to contribute!
 
+
+## v3.0.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7719](https://github.com/ember-cli/ember-cli/pull/7719) reorder ember-cli-build.js in blueprint [@kellyselden](https://github.com/kellyselden)
+- [#7720](https://github.com/ember-cli/ember-cli/pull/7720) assert no filters matched [@kellyselden](https://github.com/kellyselden)
+- [#7721](https://github.com/ember-cli/ember-cli/pull/7721) update eslint-plugin-node for addons [@ember-cli](https://github.com/ember-cli)
+- [#7728](https://github.com/ember-cli/ember-cli/pull/7728) Passing defaultOptions to testem to prevent the cwd and config_dir set in testem.js from being overridden by ember-cli [@arthirm](https://github.com/arthirm)
+- [#7736](https://github.com/ember-cli/ember-cli/pull/7736) add addon-test-support/index.js to eslint glob bug mitigation [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
 
 ## v3.0.2
 
