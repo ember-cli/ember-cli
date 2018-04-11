@@ -19,19 +19,19 @@ module.exports = {
   overrides: [
     // node files
     {
-      files: [<% if (blueprint !== 'app') { %>
+      files: [
+        'ember-cli-build.js',<% if (blueprint !== 'app') { %>
         'index.js',<% } %>
         'testem.js',
-        'ember-cli-build.js',
         'config/**/*.js'<% if (blueprint === 'app') { %>,
         'lib/*/index.js'<% } %><% if (blueprint !== 'app') { %>,
         'tests/dummy/config/**/*.js'<% } %>
       ],<% if (blueprint !== 'app') { %>
       excludedFiles: [
-        'app/**',
         'addon/**',
-        'tests/dummy/app/**',
-        'addon-test-support/**'
+        'addon-test-support/**',
+        'app/**',
+        'tests/dummy/app/**'
       ],<% } %>
       parserOptions: {
         sourceType: 'script',
