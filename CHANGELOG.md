@@ -1,38 +1,34 @@
 # ember-cli Changelog
 
-## v3.1.0-beta.1
+## v3.1.0
 
 The following changes are required if you are upgrading from the previous
 version:
 
 - Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.0.0...v3.1.0-beta.1)
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.0.3...v3.1.0)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.0.0...v3.1.0-beta.1)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.0.3...v3.1.0)
 - Core Contributors
   + No changes required
 
 #### Community Contributions
 
-- [#7491](https://github.com/ember-cli/ember-cli/pull/7491) Allow instrumentation to be turned on using .ember-cli [@patocallaghan](https://github.com/patocallaghan)
-- [#7492](https://github.com/ember-cli/ember-cli/pull/7492) Use yarn instead of npm when part of a yarn workspace root [@thetimothyp](https://github.com/thetimothyp)
-- [#7519](https://github.com/ember-cli/ember-cli/pull/7519) Change isMainVendorFile check in ember-app.js [@GCheung55](https://github.com/GCheung55)
-- [#7461](https://github.com/ember-cli/ember-cli/pull/7461) Change when availableOptions are normalized [@thoov](https://github.com/thoov)
-- [#7586](https://github.com/ember-cli/ember-cli/pull/7586) add feature flag to project.isModuleUnification [@GavinJoyce](https://github.com/GavinJoyce)
-- [#7541](https://github.com/ember-cli/ember-cli/pull/7541) Add `project.isModuleUnification()` [@GavinJoyce](https://github.com/GavinJoyce)
-- [#7537](https://github.com/ember-cli/ember-cli/pull/7537) Dummy app files follow Ember rules [@mixonic](https://github.com/mixonic)
-- [#7542](https://github.com/ember-cli/ember-cli/pull/7542) trivial error-message fix for bad watcher type [@dcombslinkedin](https://github.com/dcombslinkedin)
-- [#7592](https://github.com/ember-cli/ember-cli/pull/7592) Allow .npmrc to be respected during blueprint install [@thoov](https://github.com/thoov)
-- [#7563](https://github.com/ember-cli/ember-cli/pull/7563) Fix 'const' declarations in non-strict mode are not supported [@rwwagner90](https://github.com/rwwagner90)
-- [#7600](https://github.com/ember-cli/ember-cli/pull/7600) Remove "style file" silent error [@twokul](https://github.com/twokul)
-- [#7571](https://github.com/ember-cli/ember-cli/pull/7571) Replace file fixtures with `broccoli-helpers` [@twokul](https://github.com/twokul)
-- [#7598](https://github.com/ember-cli/ember-cli/pull/7598) Ignore all *.log files [@ember-cli/twokul](https://github.com/ember-cli/twokul)
-- [#7573](https://github.com/ember-cli/ember-cli/pull/7573) Install optional dependencies when creating a new project [@t-sauer](https://github.com/t-sauer)
-- [#7576](https://github.com/ember-cli/ember-cli/pull/7576) upgrade testem [@ember-cli](https://github.com/ember-cli)
-- [#7614](https://github.com/ember-cli/ember-cli/pull/7614) combine 'addon-tree-output' and 'addon-test-support' logic [@kellyselden](https://github.com/kellyselden)
-- [#7585](https://github.com/ember-cli/ember-cli/pull/7585) lint js for node@4 compatibility [@ro0gr](https://github.com/ro0gr)
-- [#7601](https://github.com/ember-cli/ember-cli/pull/7601) blueprints/addon: Replace `test` with `test:all` [@Turbo87](https://github.com/Turbo87)
+- [#7670](https://github.com/ember-cli/ember-cli/pull/7670) Support serving wasm with application/wasm [@rwjblue](https://github.com/rwjblue)
+- [#7683](https://github.com/ember-cli/ember-cli/pull/7683) Revert "EmberApp: Remove deprecated `contentFor()` hooks" [@ember-cli](https://github.com/ember-c
+li)
+- [#7691](https://github.com/ember-cli/ember-cli/pull/7691) Add support for .npmrc for blueprints [@thoov](https://github.com/thoov)
+- [#7694](https://github.com/ember-cli/ember-cli/pull/7694) [BACKPORT release] Ensure config() memoizing is considers if the [@ember-cli](https://github.com/
+ember-cli)
+- [#7719](https://github.com/ember-cli/ember-cli/pull/7719) reorder ember-cli-build.js in blueprint [@kellyselden](https://github.com/kellyselden)
+- [#7720](https://github.com/ember-cli/ember-cli/pull/7720) assert no filters matched [@kellyselden](https://github.com/kellyselden)
+- [#7721](https://github.com/ember-cli/ember-cli/pull/7721) update eslint-plugin-node for addons [@ember-cli](https://github.com/ember-cli)
+- [#7728](https://github.com/ember-cli/ember-cli/pull/7728) Passing defaultOptions to testem to prevent the cwd and config_dir set in testem.js from being ov
+erridden by ember-cli [@arthirm](https://github.com/arthirm)
+- [#7732](https://github.com/ember-cli/ember-cli/pull/7732) Merge pull request #7728 from arthirm/testem-bug-fix [@arthirm](https://github.com/arthirm)
+- [#7736](https://github.com/ember-cli/ember-cli/pull/7736) add addon-test-support/index.js to eslint glob bug mitigation [@kellyselden](https://github.com/k
+ellyselden)
 
 Thank you to all who took the time to contribute!
 
