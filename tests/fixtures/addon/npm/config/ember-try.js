@@ -6,7 +6,7 @@ module.exports = function() {
   return Promise.all([
     getChannelURL('release'),
     getChannelURL('beta'),
-    getChannelURL('canary'),
+    getChannelURL('canary')
   ]).then((urls) => {
     return {
       scenarios: [
