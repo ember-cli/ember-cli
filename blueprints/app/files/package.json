@@ -40,7 +40,7 @@
     "ember-welcome-page": "^3.0.0<% } %>",
     "eslint-plugin-ember": "^5.0.0",
     "loader.js": "^4.2.3",
-    "qunit-dom": "^0.5.0"
+    "qunit-dom": "^0.6.2"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
