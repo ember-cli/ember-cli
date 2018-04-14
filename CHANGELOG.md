@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+## v3.1.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.1.1...v3.1.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.1.1...v3.1.2)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7749](https://github.com/ember-cli/ember-cli/pull/7749) remove trailing comma [@kellyselden](https://github.com/kellyselden)
+- [#7752](https://github.com/ember-cli/ember-cli/pull/7752) Fix test fixtures [@Turbo87](https://github.com/Turbo87)
+- [#7759](https://github.com/ember-cli/ember-cli/pull/7759) Ensure css is minified correctly [@twokul](https://github.com/twokul)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.1.1
 
 The following changes are required if you are upgrading from the previous
