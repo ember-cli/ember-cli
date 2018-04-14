@@ -361,6 +361,22 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
+  it('ember new foo, build production and verify css files are minified', co.wrap(function *() {
+    yield copyFixtureFiles('with-unminified-styles');
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
+
+    let dirPath = path.join(appRoot, 'dist', 'assets');
+    let dir = fs.readdirSync(dirPath);
+    let cssNameRE = new RegExp(`${appName}-([a-f0-9]+)\\.css`, 'i');
+    dir.forEach(function(filepath) {
+      if (cssNameRE.test(filepath)) {
+        let contents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', filepath), { encoding: 'utf8' });
+        expect(contents).to.match(/^\S+$/, 'css file is minified');
+      }
+    });
+  }));
+
   it('ember new foo, build production and verify single "use strict";', co.wrap(function *() {
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
 
