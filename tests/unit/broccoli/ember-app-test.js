@@ -416,7 +416,7 @@ describe('EmberApp', function() {
       });
 
       it('template type is called', function() {
-        app._processedTemplatesTree();
+        app._processTemplatesTree();
 
         let captor = td.matchers.captor();
         td.verify(app.addonPostprocessTree('template', captor.capture()));
@@ -465,9 +465,9 @@ describe('EmberApp', function() {
         mockTemplateRegistry(app);
 
         app.index = td.function();
-        app._processedTemplatesTree = td.function();
+        app._processTemplatesTree = td.function();
 
-        td.when(app._processedTemplatesTree(), { ignoreExtraArgs: true }).thenReturn('x');
+        td.when(app._processTemplatesTree(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
         td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
 
