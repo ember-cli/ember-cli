@@ -105,6 +105,45 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('app/services/session.js')).to.not.exist;
   }));
 
+  it('runs a custom "*-addon" bluprint from a classic addon', co.wrap(function *() {
+    yield initAddon('my-addon');
+
+    yield outputFile(
+      'blueprints/service/files/__root__/__path__/__name__.js',
+      "import Service from '@ember/service';\n" +
+      'export default Service.extend({ });\n'
+    );
+
+    yield outputFile(
+      'blueprints/service-addon/files/app/services/session.js',
+      "export { default } from 'somewhere';\n"
+    );
+
+    yield ember(['generate', 'service', 'session']);
+
+    expect(file('app/services/session.js')).to.exist;
+  }));
+
+  it('skips a custom "*-addon" bluprint from a module unficiation addon', co.wrap(function *() {
+    yield initAddon('my-addon');
+    yield ensureDir('src');
+
+    yield outputFile(
+      'blueprints/service/files/__root__/__path__/__name__.js',
+      "import Service from '@ember/service';\n" +
+      'export default Service.extend({ });\n'
+    );
+
+    yield outputFile(
+      'blueprints/service-addon/files/app/services/session.js',
+      "export { default } from 'somewhere';\n"
+    );
+
+    yield ember(['generate', 'service', 'session']);
+
+    expect(file('app/services/session.js')).to.not.exist;
+  }));
+
   it('in-addon blueprint foo', co.wrap(function *() {
     yield generateInAddon(['blueprint', 'foo']);
 
