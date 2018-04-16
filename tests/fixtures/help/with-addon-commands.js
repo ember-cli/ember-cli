@@ -61,7 +61,6 @@ module.exports = {
         },
         {
           name: 'yarn',
-          default: false,
           key: 'yarn',
           required: false
         },
