@@ -15,17 +15,26 @@ describe('test task test', function() {
       },
 
       invokeTestem(options) {
-        let testemOptions = this.testemOptions(options);
-
+        // cwd and config_dir are not passed to testem progOptions
+        let testemOptions = this.transformOptions(options);
         expect(testemOptions.host).to.equal('greatwebsite.com');
         expect(testemOptions.port).to.equal(123324);
-        expect(testemOptions.cwd).to.equal('blerpy-derpy');
+        expect(testemOptions.cwd).to.be.undefined;
         expect(testemOptions.reporter).to.equal('xunit');
         expect(testemOptions.middleware).to.deep.equal(['middleware1', 'middleware2']);
         expect(testemOptions.test_page).to.equal('http://my/test/page');
-        expect(testemOptions.debug).to.equal('testem.log');
-        expect(testemOptions.config_dir).to.be.an('string');
-        expect(testemOptions.file).to.equal('custom-testem-config.json');
+        expect(testemOptions.config_dir).to.be.undefined;
+
+        // cwd and config_dir are present as part of default options.
+        let defaultOptions = this.defaultOptions(options);
+        expect(defaultOptions.host).to.equal('greatwebsite.com');
+        expect(defaultOptions.port).to.equal(123324);
+        expect(defaultOptions.cwd).to.equal('blerpy-derpy');
+        expect(defaultOptions.reporter).to.equal('xunit');
+        expect(defaultOptions.middleware).to.deep.equal(['middleware1', 'middleware2']);
+        expect(defaultOptions.test_page).to.equal('http://my/test/page');
+        expect(defaultOptions.config_dir).to.be.an('string');
+
       },
     });
 

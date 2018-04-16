@@ -25,13 +25,16 @@ describe('test server', function() {
           this.defaultOptions = options;
         },
         startDev(options, finalizer) {
-          this.config.setDefaultOptions(options);
+          expect(options.host).to.equal('greatwebsite.com');
+          expect(options.port).to.equal(123324);
+          expect(options.reporter).to.equal('xunit');
+          expect(options.middleware).to.deep.equal(['middleware1', 'middleware2']);
+          expect(options.test_page).to.equal('http://my/test/page');
+          expect(options.cwd).to.be.undefined;
+          expect(options.config_dir).to.be.undefined;
+          expect(this.defaultOptions.cwd).to.equal('blerpy-derpy');
+          expect(this.defaultOptions.config_dir).to.be.an('string');
           finalizer(0);
-        },
-        config: {
-          setDefaultOptions(options) {
-            this.defaultOptions = options;
-          },
         },
       },
     });
