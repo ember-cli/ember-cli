@@ -73,7 +73,7 @@ const APPLICATION_BLUEPRINT = {
       'ember-cli-uglify': '^2.0.0',
       'ember-data': '~2.13.0',
       'ember-export-application-global': '^2.0.0',
-      'ember-load-initializers': '^1.0.0',
+      'ember-load-initializers': '^1.1.0',
       'ember-resolver': '^4.0.0',
       'ember-source': '~2.14.0-beta.1',
       'ember-welcome-page': '^3.0.0',
