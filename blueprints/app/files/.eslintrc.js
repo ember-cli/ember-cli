@@ -23,6 +23,7 @@ module.exports = {
         'ember-cli-build.js',<% if (blueprint !== 'app') { %>
         'index.js',<% } %>
         'testem.js',
+        'blueprints/*/index.js',
         'config/**/*.js'<% if (blueprint === 'app') { %>,
         'lib/*/index.js'<% } %><% if (blueprint !== 'app') { %>,
         'tests/dummy/config/**/*.js'<% } %>
