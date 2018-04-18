@@ -928,7 +928,7 @@ describe('EmberApp', function() {
             'files/d.css',
             'files/e.css',
           ],
-          inputFiles: ['addon-tree-output/**/*.css'],
+          inputFiles: ['addon-modules/**/*.css'],
           outputFile: '/assets/vendor.css',
         });
       });
@@ -952,7 +952,7 @@ describe('EmberApp', function() {
             'files/c.css',
             'files/d.css',
           ],
-          inputFiles: ['addon-tree-output/**/*.css'],
+          inputFiles: ['addon-modules/**/*.css'],
           outputFile: '/assets/vendor.css',
         });
       });

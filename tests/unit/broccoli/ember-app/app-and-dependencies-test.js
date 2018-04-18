@@ -220,7 +220,7 @@ describe('EmberApp#appAndDependencies', function() {
     let actualFiles = getFiles(output.path());
 
     expect(actualFiles).to.contain(
-      'addon-tree-output/modules/my-addon/index.js'
+      'addon-modules/modules/my-addon/index.js'
     );
   }));
 
