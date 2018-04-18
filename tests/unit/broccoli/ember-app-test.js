@@ -389,7 +389,7 @@ describe('EmberApp', function() {
       });
 
       it('has default vendor.css', function() {
-        let styles = app.styles()._inputNodes.map(String);
+        let styles = app._processStyles(app.styles())._inputNodes.map(String);
 
         expect(styles.length).to.eql(2);
         expect(styles[0]).to.match(/Funnel/);
@@ -409,8 +409,8 @@ describe('EmberApp', function() {
         mockTemplateRegistry(app);
       });
 
-      it('from .styles()', function() {
-        let stylesOutput = app.styles();
+      it('from ._processStyles()', function() {
+        let stylesOutput = app._processStyles(app.styles());
 
         expect(stylesOutput).to.eql(['batman']);
       });
@@ -914,7 +914,7 @@ describe('EmberApp', function() {
         app.import('files/c.css', { prepend: true }); // should be omitted.
         app.import('files/e.css');
 
-        app.styles(); // run
+        app._processStyles(app.styles()); // run
 
         expect(count).to.eql(1);
 
@@ -933,13 +933,13 @@ describe('EmberApp', function() {
         });
       });
 
-      it('correctly orders concats from app.styles()', function() {
+      it('correctly orders concats from app._processStyles()', function() {
         app.import('files/b.css');
         app.import('files/c.css');
         app.import('files/a.css', { prepend: true });
         app.import('files/d.css');
 
-        app.styles(); // run
+        app._processStyles(app.styles()); // run
 
         expect(count).to.eql(1);
 
