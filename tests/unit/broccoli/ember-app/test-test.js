@@ -58,7 +58,7 @@ describe('EmberApp#test', function() {
     });
 
     let app = createApp();
-    let output = yield buildOutput(app.test());
+    let output = yield buildOutput(app._processTests(app.getTests()));
 
     let files = walkSync(output.path(), { directories: false });
     expect(files).to.deep.equal([
@@ -92,7 +92,7 @@ describe('EmberApp#test', function() {
       },
     });
 
-    let output = yield buildOutput(app.test());
+    let output = yield buildOutput(app._processTests(app.getTests()));
 
     // confirm this contains the original value
     // unmodified by the `lintTree` added above
