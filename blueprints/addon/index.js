@@ -76,7 +76,7 @@ module.exports = {
     contents.scripts['test:all'] = 'ember try:each';
 
     // add addon specific directories to lint:js script
-    contents.scripts['lint:js'] = 'eslint ./*.js addon addon-test-support app config lib server test-support tests';
+    contents.scripts['lint:js'] = 'eslint ./*.js addon addon-test-support app blueprints config lib server test-support tests';
 
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';

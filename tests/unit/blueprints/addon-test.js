@@ -70,7 +70,7 @@ describe('blueprint - addon', function() {
     "ember-addon"\n\
   ],\n\
   "scripts": {\n\
-    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",\n\
+    "lint:js": "eslint ./*.js addon addon-test-support app blueprints config lib server test-support tests",\n\
     "test:all": "ember try:each"\n\
   },\n\
   "dependencies": {},\n\
