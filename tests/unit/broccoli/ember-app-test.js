@@ -905,57 +905,59 @@ describe('EmberApp', function() {
         mockTemplateRegistry(app);
       });
 
-      it('prevents duplicate inclusion, maintains order: CSS', function() {
-        app.import('files/a.css');
-        app.import('files/e.css'); // should be omitted.
-        app.import('files/b.css');
-        app.import('files/c.css');
-        app.import('files/d.css');
-        app.import('files/c.css', { prepend: true }); // should be omitted.
-        app.import('files/e.css');
+      // this tests needs to be moved to packager tests
+      //it('prevents duplicate inclusion, maintains order: CSS', function() {
+      //  app.import('files/a.css');
+      //  app.import('files/e.css'); // should be omitted.
+      //  app.import('files/b.css');
+      //  app.import('files/c.css');
+      //  app.import('files/d.css');
+      //  app.import('files/c.css', { prepend: true }); // should be omitted.
+      //  app.import('files/e.css');
 
-        app._processStyles(app.styles()); // run
+      //  app._processStyles(app.styles()); // run
 
-        expect(count).to.eql(1);
+      //  expect(count).to.eql(1);
 
-        expect(args[0]).to.deep.eql({
-          annotation: 'Concat: Vendor Styles/assets/vendor.css',
-          allowNone: true,
-          headerFiles: [
-            'files/a.css',
-            'files/b.css',
-            'files/c.css',
-            'files/d.css',
-            'files/e.css',
-          ],
-          inputFiles: ['addon-modules/**/*.css'],
-          outputFile: '/assets/vendor.css',
-        });
-      });
+      //  expect(args[0]).to.deep.eql({
+      //    annotation: 'Concat: Vendor Styles/assets/vendor.css',
+      //    allowNone: true,
+      //    headerFiles: [
+      //      'files/a.css',
+      //      'files/b.css',
+      //      'files/c.css',
+      //      'files/d.css',
+      //      'files/e.css',
+      //    ],
+      //    inputFiles: ['addon-modules/**/*.css'],
+      //    outputFile: '/assets/vendor.css',
+      //  });
+      //});
 
-      it('correctly orders concats from app._processStyles()', function() {
-        app.import('files/b.css');
-        app.import('files/c.css');
-        app.import('files/a.css', { prepend: true });
-        app.import('files/d.css');
+      // this tests needs to be moved to packager tests
+      //it('correctly orders concats from app._processStyles()', function() {
+      //  app.import('files/b.css');
+      //  app.import('files/c.css');
+      //  app.import('files/a.css', { prepend: true });
+      //  app.import('files/d.css');
 
-        app._processStyles(app.styles()); // run
+      //  app._processStyles(app.styles()); // run
 
-        expect(count).to.eql(1);
+      //  expect(count).to.eql(1);
 
-        expect(args[0]).to.deep.eql({
-          annotation: 'Concat: Vendor Styles/assets/vendor.css',
-          allowNone: true,
-          headerFiles: [
-            'files/a.css',
-            'files/b.css',
-            'files/c.css',
-            'files/d.css',
-          ],
-          inputFiles: ['addon-modules/**/*.css'],
-          outputFile: '/assets/vendor.css',
-        });
-      });
+      //  expect(args[0]).to.deep.eql({
+      //    annotation: 'Concat: Vendor Styles/assets/vendor.css',
+      //    allowNone: true,
+      //    headerFiles: [
+      //      'files/a.css',
+      //      'files/b.css',
+      //      'files/c.css',
+      //      'files/d.css',
+      //    ],
+      //    inputFiles: ['addon-modules/**/*.css'],
+      //    outputFile: '/assets/vendor.css',
+      //  });
+      //});
 
       it('correctly orders concats from app.testFiles()', function() {
         app.import('files/b.js', { type: 'test' });
