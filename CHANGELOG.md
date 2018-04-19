@@ -1,5 +1,67 @@
 # ember-cli Changelog
 
+## v3.2.0-beta.1
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.1.2...v3.2.0-beta.1)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.1.2...v3.2.0-beta.1)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7490](https://github.com/ember-cli/ember-cli/pull/7490) Module Unification Addons [@rwjblue](https://github.com/rwjblue)
+- [#7605](https://github.com/ember-cli/ember-cli/pull/7605) blueprints/app: Add `qunit-dom` dependency by default [@Turbo87](https://github.com/Turbo87)
+- [#7501](https://github.com/ember-cli/ember-cli/pull/7501) add delayed transpilation [@kellyselden](https://github.com/kellyselden)
+- [#7634](https://github.com/ember-cli/ember-cli/pull/7634) Addon._treeFor optimization [@kellyselden](https://github.com/kellyselden)
+- [#7635](https://github.com/ember-cli/ember-cli/pull/7635) Packaged Bower [@twokul](https://github.com/twokul)
+- [#7637](https://github.com/ember-cli/ember-cli/pull/7637) More comprehensive detect if ember-cli is being run within CI or not. [@ember-cli](https://github.com/ember-cli)
+- [#7641](https://github.com/ember-cli/ember-cli/pull/7641) update console-ui [@kellyselden](https://github.com/kellyselden)
+- [#7665](https://github.com/ember-cli/ember-cli/pull/7665) Package config [@twokul](https://github.com/twokul)
+- [#7661](https://github.com/ember-cli/ember-cli/pull/7661) Double linting test timeout [@ro0gr](https://github.com/ro0gr)
+- [#7659](https://github.com/ember-cli/ember-cli/pull/7659) Exclude addon-test-support from eslint node files [@kolybasov](https://github.com/kolybasov)
+- [#7660](https://github.com/ember-cli/ember-cli/pull/7660) improve logic for if addon is module-unification [@iezer](https://github.com/iezer)
+- [#7658](https://github.com/ember-cli/ember-cli/pull/7658) Module Unification Addon blueprint [@cibernox](https://github.com/cibernox)
+- [#7654](https://github.com/ember-cli/ember-cli/pull/7654) Package Vendor [@twokul](https://github.com/twokul)
+- [#7650](https://github.com/ember-cli/ember-cli/pull/7650) compile all addons at once optimization [@kellyselden](https://github.com/kellyselden)
+- [#7655](https://github.com/ember-cli/ember-cli/pull/7655) Package tests [@twokul](https://github.com/twokul)
+- [#7649](https://github.com/ember-cli/ember-cli/pull/7649) only use the standard compilers to compile addon code [@kellyselden](https://github.com/kellyselden)
+- [#7731](https://github.com/ember-cli/ember-cli/pull/7731) restore `addon-import` logic [@GavinJoyce](https://github.com/GavinJoyce)
+- [#7671](https://github.com/ember-cli/ember-cli/pull/7671) Include _super call in example of Addon.included [@jacobq](https://github.com/jacobq)
+- [#7667](https://github.com/ember-cli/ember-cli/pull/7667) MU addons must generate a MU dummy app [@cibernox](https://github.com/cibernox)
+- [#7662](https://github.com/ember-cli/ember-cli/pull/7662) Remove redundant checks [@twokul](https://github.com/twokul)
+- [#7664](https://github.com/ember-cli/ember-cli/pull/7664) Support serving wasm with application/wasm [@ember-cli](https://github.com/ember-cli)
+- [#7668](https://github.com/ember-cli/ember-cli/pull/7668) Only watch test/dummy/app on addons if it exist [@cibernox](https://github.com/cibernox)
+- [#7739](https://github.com/ember-cli/ember-cli/pull/7739) remove config caching [@GavinJoyce](https://github.com/GavinJoyce)
+- [#7708](https://github.com/ember-cli/ember-cli/pull/7708) Update default broccoli-asset-rev [@ef4](https://github.com/ef4)
+- [#7676](https://github.com/ember-cli/ember-cli/pull/7676) Deprecate ember-cli-babel 5.x [@raytiley](https://github.com/raytiley)
+- [#7679](https://github.com/ember-cli/ember-cli/pull/7679) Update init to be src/ friendly [@mixonic](https://github.com/mixonic)
+- [#7674](https://github.com/ember-cli/ember-cli/pull/7674) Package Public [@twokul](https://github.com/twokul)
+- [#7678](https://github.com/ember-cli/ember-cli/pull/7678) Use a recent release of Ember canary for MU [@ember-cli](https://github.com/ember-cli)
+- [#7742](https://github.com/ember-cli/ember-cli/pull/7742) Package Javascript [@twokul](https://github.com/twokul)
+- [#7702](https://github.com/ember-cli/ember-cli/pull/7702) Don't run `addon-import` blueprint if `project.isModuleUnification()` [@GavinJoyce](https://github.com/GavinJoyce)
+- [#7685](https://github.com/ember-cli/ember-cli/pull/7685) fix the shims messaging [@kellyselden](https://github.com/kellyselden)
+- [#7711](https://github.com/ember-cli/ember-cli/pull/7711) remove exists-sync, use fs.existsSync [@stefanpenner](https://github.com/stefanpenner)
+- [#7762](https://github.com/ember-cli/ember-cli/pull/7762) Remove default value for `ember addon --yarn` [@lennyburdette](https://github.com/lennyburdette)
+- [#7724](https://github.com/ember-cli/ember-cli/pull/7724) github package was renamed @octokit/rest [@kellyselden](https://github.com/kellyselden)
+- [#7758](https://github.com/ember-cli/ember-cli/pull/7758) Allowing cwd to be passed to testem without being overridden by ember-cli [@arthirm](https://github.com/arthirm)
+- [#7737](https://github.com/ember-cli/ember-cli/pull/7737) Fix issues identified with "delayed transpilation" system. [@rwjblue](https://github.com/rwjblue)
+- [#7735](https://github.com/ember-cli/ember-cli/pull/7735) Disable MU by default [@stefanpenner](https://github.com/stefanpenner)
+- [#7753](https://github.com/ember-cli/ember-cli/pull/7753) Update `qunit-dom` dependency [@Turbo87](https://github.com/Turbo87)
+- [#7764](https://github.com/ember-cli/ember-cli/pull/7764) Skip running custom "*-addon" blueprint if module unification [@GavinJoyce](https://github.com/GavinJoyce)
+- [#7767](https://github.com/ember-cli/ember-cli/pull/7767) Upgrade ember-load-initializers [@GavinJoyce](https://github.com/GavinJoyce)
+- [#7768](https://github.com/ember-cli/ember-cli/pull/7768) Don't try to use default addon-import if app is MU [@GavinJoyce](https://github.com/GavinJoyce)
+- [#7769](https://github.com/ember-cli/ember-cli/pull/7769) add blueprints to linting coverage [@kellyselden](https://github.com/kellyselden)
+- [#7771](https://github.com/ember-cli/ember-cli/pull/7771) forgot .eslintignore in MU [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.1.2
 
 The following changes are required if you are upgrading from the previous
@@ -183,7 +245,7 @@ version:
 - [#7554](https://github.com/ember-cli/ember-cli/pull/7554) Make ember-try a direct addon dependency. [@rwjblue](https://github.com/rwjblue)
 - [#7522](https://github.com/ember-cli/ember-cli/pull/7522) utilities: Remove deprecated `deprecateUI()` function [@Turbo87](https://github.com/Turbo87)
 - [#7502](https://github.com/ember-cli/ember-cli/pull/7502) Cleanup and correct node-support.md. [@ember-cli](https://github.com/ember-cli)
-- [#7487](https://github.com/ember-cli/ember-cli/pull/7487) [BUGFIX] give `ember new` error messages consistent color [@GavinJoyce/gj](https://github.com/GavinJoyce/gj)
+- [#7487](https://github.com/ember-cli/ember-cli/pull/7487) [BUGFIX] give `ember new` error messages consistent color [@GavinJoyce](https://github.com/GavinJoyce)
 - [#7479](https://github.com/ember-cli/ember-cli/pull/7479) Improve default addon README [@Turbo87](https://github.com/Turbo87)
 - [#7512](https://github.com/ember-cli/ember-cli/pull/7512) fix alpha ordering in npmignore [@ember-cli](https://github.com/ember-cli)
 - [#7520](https://github.com/ember-cli/ember-cli/pull/7520) Remove deprecated commands [@Turbo87](https://github.com/Turbo87)
