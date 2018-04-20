@@ -80,7 +80,7 @@ const APPLICATION_BLUEPRINT = {
       'loader.js': '^4.2.3',
     },
     engines: {
-      node: '>= 4',
+      node: '>= 6',
     },
     private: true,
   }),

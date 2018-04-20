@@ -13,7 +13,7 @@ if [[ $TRAVIS_BRANCH != "release" ]]; then
 fi
 
 if [[ $TRAVIS_NODE_VERSION != "6" ]]; then
-  echo "not publishing because we only publish on the Node 4.x build."
+  echo "not publishing because we only publish on the Node 6.x build."
   exit 0
 fi
 

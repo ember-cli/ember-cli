@@ -18,9 +18,6 @@ env:
     # See https://git.io/vdao3 for details.
     - JOBS=1
 
-before_install:
-  - npm config set spin false
-
 script:
   - npm run lint:js
   - npm test
