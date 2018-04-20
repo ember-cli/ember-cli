@@ -44,6 +44,12 @@ matrix:
   - node_js: "6"
     env: DISABLE_EMBER_CLI_FEATURES=true; TEST_COMMAND=test-all
 
+before_install:
+  # travis currently includes yarn v0.17.8 (20170705)
+  # this isn't new enough for our use of --non-interactive
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
 script:
   - yarn run $TEST_COMMAND
 
