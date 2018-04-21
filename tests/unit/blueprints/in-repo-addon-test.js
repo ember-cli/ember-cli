@@ -11,49 +11,98 @@ const td = require('testdouble');
 
 const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
 const file = require('ember-cli-blueprint-test-helpers/chai').file;
+const experiments = require('../../../lib/experiments');
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   setupTestHooks(this, {
     cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
-  it('in-repo-addon fooBar', function() {
-    let args = ['in-repo-addon', 'fooBar'];
+  describe('classic app', function() {
+    it('in-repo-addon fooBar', function() {
+      let args = ['in-repo-addon', 'fooBar'];
 
-    return emberNew()
-      .then(function() {
-        expect(fs.readJsonSync('package.json')['ember-addon']).to.be.undefined;
-      })
-      .then(function() {
-        return emberGenerate(args);
-      })
-      .then(function() {
-        expect(file('lib/foo-bar/package.json')).to.exist;
-        expect(file('lib/foo-bar/index.js')).to.exist;
+      return emberNew()
+        .then(function() {
+          expect(fs.readJsonSync('package.json')['ember-addon']).to.be.undefined;
+        })
+        .then(function() {
+          return emberGenerate(args);
+        })
+        .then(function() {
+          expect(file('lib/foo-bar/package.json')).to.exist;
+          expect(file('lib/foo-bar/index.js')).to.exist;
 
-        expect(fs.readJsonSync('lib/foo-bar/package.json')).to.deep.equal({
-          "name": "foo-bar",
-          "keywords": [
-            "ember-addon",
-          ],
+          expect(fs.readJsonSync('lib/foo-bar/package.json')).to.deep.equal({
+            "name": "foo-bar",
+            "keywords": [
+              "ember-addon",
+            ],
+          });
+
+          expect(fs.readJsonSync('package.json')['ember-addon']).to.deep.equal({
+            "paths": [
+              "lib/foo-bar",
+            ],
+          });
+        })
+        .then(function() {
+          return emberDestroy(args);
+        })
+        .then(function() {
+          expect(file('lib/foo-bar/package.json')).to.not.exist;
+          expect(file('lib/foo-bar/index.js')).to.not.exist;
+
+          expect(fs.readJsonSync('package.json')['ember-addon']['paths']).to.be.undefined;
         });
-
-        expect(fs.readJsonSync('package.json')['ember-addon']).to.deep.equal({
-          "paths": [
-            "lib/foo-bar",
-          ],
-        });
-      })
-      .then(function() {
-        return emberDestroy(args);
-      })
-      .then(function() {
-        expect(file('lib/foo-bar/package.json')).to.not.exist;
-        expect(file('lib/foo-bar/index.js')).to.not.exist;
-
-        expect(fs.readJsonSync('package.json')['ember-addon']['paths']).to.be.undefined;
-      });
+    });
   });
+
+  if (experiments.MODULE_UNIFICATION) {
+    describe('module unification app', function() {
+      it('in-repo-addon fooBar', function() {
+        let args = ['in-repo-addon', 'fooBar'];
+
+        return emberNew()
+          .then(function() {
+            fs.ensureDirSync('src');
+          })
+          .then(function() {
+            expect(fs.readJsonSync('package.json')['ember-addon']).to.be.undefined;
+          })
+          .then(function() {
+            return emberGenerate(args);
+          })
+          .then(function() {
+            expect(file('packages/foo-bar/package.json')).to.exist;
+            expect(file('packages/foo-bar/index.js')).to.exist;
+
+            expect(fs.readJsonSync('packages/foo-bar/package.json')).to.deep.equal({
+              "name": "foo-bar",
+              "keywords": [
+                "ember-addon",
+              ],
+            });
+
+            expect(fs.readJsonSync('package.json')['ember-addon']).to.deep.equal({
+              "paths": [
+                "packages/foo-bar",
+              ],
+            });
+          })
+          .then(function() {
+            return emberDestroy(args);
+          })
+          .then(function() {
+            expect(file('packages/foo-bar/package.json')).to.not.exist;
+            expect(file('packages/foo-bar/index.js')).to.not.exist;
+
+            expect(fs.readJsonSync('package.json')['ember-addon']['paths']).to.be.undefined;
+          });
+      });
+    });
+  }
+
 });
 
 describe('Unit: in-repo-addon blueprint', function() {
