@@ -22,7 +22,7 @@ describe('Default Packager: Javascript', function() {
     ],
   };
   let MODULES = {
-    'addon-tree-output': {
+    'addon-modules': {
       'ember-ajax': {
         'request.js': '',
       },

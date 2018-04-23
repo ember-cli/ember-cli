@@ -62,9 +62,10 @@ describe('Default Packager: Config', function() {
       name,
       project,
       env,
+      areTestsEnabled: false,
     });
 
-    output = yield buildOutput(defaultPackager.packageConfig(false));
+    output = yield buildOutput(defaultPackager.packageConfig());
 
     let outputFiles = output.read();
 
@@ -84,9 +85,10 @@ describe('Default Packager: Config', function() {
       name,
       project,
       env,
+      areTestsEnabled: true,
     });
 
-    output = yield buildOutput(defaultPackager.packageConfig(true));
+    output = yield buildOutput(defaultPackager.packageConfig());
 
     let outputFiles = output.read();
 
