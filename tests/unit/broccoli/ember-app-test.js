@@ -2,10 +2,15 @@
 
 'use strict';
 
+const co = require('co');
 const path = require('path');
 const Project = require('../../../lib/models/project');
 const expect = require('chai').expect;
 const td = require('testdouble');
+const broccoliTestHelper = require('broccoli-test-helper');
+
+const buildOutput = broccoliTestHelper.buildOutput;
+const createTempDir = broccoliTestHelper.createTempDir;
 
 const MockCLI = require('../../helpers/mock-cli');
 
@@ -27,8 +32,8 @@ function mockTemplateRegistry(app) {
     }
     return oldLoad.apply(app.registry, arguments);
   };
-}
 
+}
 describe('EmberApp', function() {
   let project, projectPath, app, addon;
 
@@ -50,6 +55,53 @@ describe('EmberApp', function() {
   beforeEach(function() {
     projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
     project = setupProject(projectPath);
+  });
+
+  describe('getTemplates()', function() {
+    it('returns application and add-ons template files', co.wrap(function *() {
+      let input = yield createTempDir();
+      let addonFooTemplates = yield createTempDir();
+      let addonBarTemplates = yield createTempDir();
+
+      input.write({
+        'application.hbs': '',
+        'error.hbs': '',
+        'loading.hbs': '',
+      });
+      addonFooTemplates.write({
+        'foo.hbs': 'foo',
+      });
+      addonBarTemplates.write({
+        'bar.hbs': 'bar',
+      });
+
+      let app = new EmberApp({
+        project,
+      });
+      app.trees.templates = input.path();
+      app.addonTreesFor = function() {
+        return [
+          addonFooTemplates.path(),
+          addonBarTemplates.path(),
+        ];
+      };
+
+      let output = yield buildOutput(app.getTemplates());
+      let outputFiles = output.read();
+
+      expect(outputFiles['test-project'].templates).to.deep.equal({
+        'application.hbs': '',
+        'error.hbs': '',
+        'loading.hbs': '',
+        'foo.hbs': 'foo',
+        'bar.hbs': 'bar',
+      });
+
+      yield input.dispose();
+      yield addonFooTemplates.dispose();
+      yield addonBarTemplates.dispose();
+      yield output.dispose();
+    }));
   });
 
   describe('constructor', function() {
@@ -414,15 +466,6 @@ describe('EmberApp', function() {
 
         expect(stylesOutput).to.eql(['batman']);
       });
-
-      it('template type is called', function() {
-        app._processedTemplatesTree();
-
-        let captor = td.matchers.captor();
-        td.verify(app.addonPostprocessTree('template', captor.capture()));
-
-        expect(captor.value.description).to.equal('template', 'should be called with consolidated tree');
-      });
     });
 
     describe('toTree', function() {
@@ -465,9 +508,9 @@ describe('EmberApp', function() {
         mockTemplateRegistry(app);
 
         app.index = td.function();
-        app._processedTemplatesTree = td.function();
+        app._defaultPackager.processTemplates = td.function();
 
-        td.when(app._processedTemplatesTree(), { ignoreExtraArgs: true }).thenReturn('x');
+        td.when(app._defaultPackager.processTemplates(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
         td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
 
