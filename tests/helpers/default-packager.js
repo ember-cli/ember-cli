@@ -231,6 +231,33 @@ function getDependencyFor(key, value) {
   };
 }
 
+/*
+ * Generates the object that represents an application's registry where all
+ * file processors are stored.
+ *
+ * It takes two arguments: a type of files you want to register custom processor
+ * for and a function that takes a Broccoli tree and must return a Broccoli tree
+ * as well.
+ *
+ * @param {String} registryType i.e. 'template', 'js', 'css', 'src', 'all'
+ * @param {Function} fn Transormation that is applied to the input tree
+*/
+function setupRegistryFor(registryType, fn) {
+  return {
+    load(type) {
+      if (type === registryType) {
+        return [{
+          toTree(tree) {
+            return fn(tree);
+          },
+        }];
+      }
+
+      return [];
+    },
+  };
+}
+
 function setupProject(rootPath) {
   const path = require('path');
   const Project = require('../../lib/models/project');
@@ -244,6 +271,7 @@ function setupProject(rootPath) {
 
 module.exports = {
   setupProject,
+  setupRegistryFor,
   validateDefaultPackagedDist,
   getDefaultUnpackagedDist,
   getDependencyFor,
