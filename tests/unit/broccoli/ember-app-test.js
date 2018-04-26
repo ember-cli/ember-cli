@@ -528,8 +528,6 @@ describe('EmberApp', function() {
         const packageContents = require(path.join(projectPath, 'package.json'));
         let cli = new MockCLI();
         project = new Project(projectPath, packageContents, cli.ui, cli);
-        let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-        td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
       });
 
       afterEach(function() {

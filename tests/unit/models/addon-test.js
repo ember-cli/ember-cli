@@ -207,8 +207,6 @@ describe('models/addon.js', function() {
       let ui = new MockUI();
       let cli = new MockCLI({ ui });
       project = new Project(projectPath, packageContents, ui, cli);
-      let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
       project.initializeAddons();
     });
 
@@ -623,8 +621,6 @@ describe('models/addon.js', function() {
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
-      let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
 
       project.initializeAddons();
 
@@ -647,8 +643,6 @@ describe('models/addon.js', function() {
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
-      let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
 
       project.initializeAddons();
 
@@ -764,8 +758,8 @@ describe('models/addon.js', function() {
     });
   });
 
-  describe('addonDiscovery', function() {
-    let discovery, addon, ui;
+  describe('packageInfoCache', function() {
+    let packageInfoCache, addon, ui;
 
     beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
@@ -781,11 +775,11 @@ describe('models/addon.js', function() {
       });
 
       addon = new AddonTemp(project, project);
-      discovery = addon.addonDiscovery;
+      packageInfoCache = addon.packageInfoCache;
     });
 
-    it('is provided with the addon\'s `ui` object', function() {
-      expect(discovery.ui).to.equal(ui);
+    it('is provided with the parent\'s `packageInfoCache` object', function() {
+      expect(packageInfoCache).to.equal(project.packageInfoCache);
     });
   });
 

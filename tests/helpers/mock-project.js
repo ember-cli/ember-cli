@@ -5,7 +5,6 @@ const Instrumentation = require('../../lib/models/instrumentation');
 const MockUI = require('console-ui/mock');
 
 // eslint-disable-next-line node/no-unpublished-require
-const td = require('testdouble');
 
 class MockProject extends Project {
   constructor() {
@@ -24,9 +23,6 @@ class MockProject extends Project {
     };
 
     super(root, pkg, ui, cli);
-
-    let discoverFromCli = td.replace(this.addonDiscovery, 'discoverFromCli');
-    td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
   }
 
   require(file) {
