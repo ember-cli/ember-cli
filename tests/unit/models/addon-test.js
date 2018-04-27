@@ -424,7 +424,7 @@ describe('models/addon.js', function() {
         expect(addon.findOwnAddonByName('my-cool-addon')).to.eql(ownAddon);
       });
 
-      it('it does not the given addon', function() {
+      it('it does not have the given addon', function() {
         let addon = new ThisAddon();
         let ownAddon = { name: 'my-cool-addon' };
         addon.addons = [ownAddon];
