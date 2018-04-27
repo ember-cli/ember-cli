@@ -140,7 +140,7 @@ describe('models/command.js', function() {
     new ServeCommand(Object.assign(options, {
       settings: config.getAll(),
     })).parseArgs(['foo', '--envirmont', 'production']);
-    expect(ui.output).to.match(/The option '--envirmont' is not registered with the serve command. Run `ember serve --help` for a list of supported options./);
+    expect(ui.output).to.match(/The option '--envirmont' is not registered with the 'serve' command. Run `ember serve --help` for a list of supported options./);
   });
 
   it('parseArgs() should parse shorthand options.', function() {

@@ -77,7 +77,7 @@ describe('Acceptance: ember generate in-addon', function() {
     }
   }));
 
-  it('runs the `addon-import` bluprint from a classic addon', co.wrap(function *() {
+  it('runs the `addon-import` blueprint from a classic addon', co.wrap(function *() {
     yield initAddon('my-addon');
 
     yield outputFile(
@@ -92,7 +92,7 @@ describe('Acceptance: ember generate in-addon', function() {
   }));
 
   if (experiments.MODULE_UNIFICATION) {
-    it('does not run the `addon-import` bluprint from a module unification addon', co.wrap(function *() {
+    it('does not run the `addon-import` blueprint from a module unification addon', co.wrap(function *() {
       yield initAddon('my-addon');
       yield ensureDir('src');
 
@@ -108,7 +108,7 @@ describe('Acceptance: ember generate in-addon', function() {
     }));
   }
 
-  it('runs a custom "*-addon" bluprint from a classic addon', co.wrap(function *() {
+  it('runs a custom "*-addon" blueprint from a classic addon', co.wrap(function *() {
     yield initAddon('my-addon');
 
     yield outputFile(
@@ -128,7 +128,7 @@ describe('Acceptance: ember generate in-addon', function() {
   }));
 
   if (experiments.MODULE_UNIFICATION) {
-    it('skips a custom "*-addon" bluprint from a module unficiation addon', co.wrap(function *() {
+    it('skips a custom "*-addon" blueprint from a module unification addon', co.wrap(function *() {
       yield initAddon('my-addon');
       yield ensureDir('src');
 
