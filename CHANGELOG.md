@@ -6,6 +6,28 @@ The following changes are required if you are upgrading from the previous
 version:
 
 - Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.1.2...v3.1.3)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.1.2...v3.1.3)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7769](https://github.com/ember-cli/ember-cli/pull/7769) add blueprints to linting coverage [@kellyselden](https://github.com/kellyselden)
+- [#7771](https://github.com/ember-cli/ember-cli/pull/7771) forgot .eslintignore in MU [@kellyselden](https://github.com/kellyselden)
+- [#7792](https://github.com/ember-cli/ember-cli/pull/7792) Add node 10 to test matrix [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
+
+
+## v3.1.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
   + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.1.1...v3.1.2)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
