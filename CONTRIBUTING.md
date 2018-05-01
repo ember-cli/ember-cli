@@ -194,6 +194,7 @@ break anything.
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
 
 #### Experiments
+
 A new feature may require putting the changes behind an experiment. More
 information can be found at
 [Experiments](https://github.com/ember-cli/ember-cli/blob/master/docs/experiments.md).
