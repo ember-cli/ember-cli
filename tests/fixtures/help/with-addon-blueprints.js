@@ -671,6 +671,13 @@ module.exports = {
           default: 'ssl/server.crt',
           key: 'sslCert',
           required: false
+        },
+        {
+          default: true,
+          description: 'Set to false to disable compression',
+          key: 'compression',
+          name: 'compression',
+          required: false
         }
       ],
       anonymousOptions: []
