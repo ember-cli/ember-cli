@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+## v3.2.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.2.0-beta.1...v3.2.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.2.0-beta.1...v3.2.0-beta.2)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7792](https://github.com/ember-cli/ember-cli/pull/7792) Add node 10 to test matrix [@stefanpenner](https://github.com/stefanpenner)
+- [#7801](https://github.com/ember-cli/ember-cli/pull/7801) Update node support policy docs. [@rwjblue](https://github.com/rwjblue)
+- [#7804](https://github.com/ember-cli/ember-cli/pull/7804) removing extra `app` folder check and error message [@stonecircle](https://github.com/stonecircle)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.2.0-beta.1
 
 The following changes are required if you are upgrading from the previous
