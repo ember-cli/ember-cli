@@ -421,8 +421,8 @@ describe('EmberApp', function() {
           td.when(app.addonTreesFor(), { ignoreExtraArgs: true }).thenReturn(['batman']);
         });
 
-        it('_processedAppTree calls addonTreesFor', function() {
-          app._processedAppTree();
+        it('getAppJavascript calls addonTreesFor', function() {
+          app.getAppJavascript();
 
           let args = td.explain(app.addonTreesFor).calls.map(function(call) { return call.args[0]; });
 

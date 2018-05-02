@@ -258,6 +258,38 @@ function setupRegistryFor(registryType, fn) {
   };
 }
 
+/*
+ * Generates the object that represents an application's registry where all
+ * file processors are stored.
+ *
+ * It takes one argument: an object with the mapping from file type to a
+ * "process" function. For example:
+ *
+ * ```
+ * {
+ *   js: tree => tree
+ * }
+ * ```
+ *
+ * @param {Object} registryMap
+ * @return {Object}
+*/
+function setupRegistry(registryMap) {
+  return {
+    load(type) {
+      if (registryMap[type]) {
+        return [{
+          toTree(tree) {
+            return registryMap[type](tree);
+          },
+        }];
+      }
+
+      return [];
+    },
+  };
+}
+
 function setupProject(rootPath) {
   const path = require('path');
   const Project = require('../../lib/models/project');
@@ -271,6 +303,7 @@ function setupProject(rootPath) {
 
 module.exports = {
   setupProject,
+  setupRegistry,
   setupRegistryFor,
   validateDefaultPackagedDist,
   getDefaultUnpackagedDist,
