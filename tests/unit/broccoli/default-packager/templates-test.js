@@ -32,11 +32,15 @@ describe('Default Packager: Templates', function() {
   }));
 
   after(co.wrap(function *() {
-    yield input.dispose();
+    if (input) {
+      yield input.dispose();
+    }
   }));
 
   afterEach(co.wrap(function *() {
-    yield output.dispose();
+    if (output) {
+      yield output.dispose();
+    }
   }));
 
   it('caches processed templates tree', co.wrap(function *() {
@@ -82,12 +86,14 @@ describe('Default Packager: Templates', function() {
 
     let outputFiles = output.read();
 
-    expect(Object.keys(outputFiles['the-best-app-ever'].templates)).to.deep.equal([
-      'application.js',
-      'error.js',
-      'index.js',
-      'loading.js',
-    ]);
+    expect(outputFiles['the-best-app-ever']).to.deep.equal({
+      templates: {
+        'application.js': '',
+        'error.js': '',
+        'index.js': '',
+        'loading.js': '',
+      },
+    });
   }));
 
   it('runs pre/post-process add-on hooks', co.wrap(function *() {

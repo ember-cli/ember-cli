@@ -88,96 +88,6 @@ describe('EmberApp#appAndDependencies', function() {
     });
   }
 
-  it('results in a tree containing final loose modules', co.wrap(function *() {
-    input.write({
-      'app': {
-        'index.html': 'foobar',
-        'routes': {
-          'application.js': 'export default class { }',
-        },
-        'templates': {
-          'application.hbs': 'hi hi',
-        },
-      },
-    });
-
-    let app = createApp();
-    output = yield buildOutput(app.appAndDependencies());
-    let actualFiles = getFiles(output.path());
-
-    expect(actualFiles).to.deep.equal([
-      'ember-app-test/config/environments/development.json',
-      'ember-app-test/config/environments/test.json',
-      'ember-app-test/index.html',
-      'ember-app-test/routes/application.js',
-      'ember-app-test/templates/application.hbs',
-    ]);
-  }));
-
-  if (experiments.MODULE_UNIFICATION) {
-    it('works properly without an app directory', co.wrap(function *() {
-      input.write({
-        'src': {
-          'ui': {
-            'index.html': 'foobar',
-            'routes': {
-              'application': {
-                'route.js': 'export default class { }',
-                'template.hbs': 'hi hi',
-              },
-            },
-          },
-        },
-      });
-
-      let app = createApp();
-      output = yield buildOutput(app.appAndDependencies());
-      let actualFiles = getFiles(output.path());
-
-      expect(actualFiles).to.deep.equal([
-        'ember-app-test/config/environments/development.json',
-        'ember-app-test/config/environments/test.json',
-        'ember-app-test/src/ui/index.html',
-        'ember-app-test/src/ui/routes/application/route.js',
-        'ember-app-test/src/ui/routes/application/template.hbs',
-      ]);
-    }));
-
-    it('merges src with with app', co.wrap(function *() {
-      input.write({
-        'app': {
-          'routes': {
-            'index.js': 'export default class {}',
-          },
-        },
-        'src': {
-          'ui': {
-            'index.html': 'foobar',
-            'routes': {
-              'application': {
-                'route.js': 'export default class { }',
-                'template.hbs': 'hi hi',
-              },
-            },
-          },
-        },
-      });
-
-      let app = createApp();
-      output = yield buildOutput(app.appAndDependencies());
-      let actualFiles = getFiles(output.path());
-
-      expect(actualFiles).to.deep.equal([
-        'ember-app-test/config/environments/development.json',
-        'ember-app-test/config/environments/test.json',
-        'ember-app-test/routes/index.js',
-        'ember-app-test/src/ui/index.html',
-        'ember-app-test/src/ui/routes/application/route.js',
-        'ember-app-test/src/ui/routes/application/template.hbs',
-      ]);
-    }));
-  }
-
   it('moduleNormalizerDisabled', co.wrap(function *() {
     input.write({
       'node_modules': {
@@ -216,7 +126,7 @@ describe('EmberApp#appAndDependencies', function() {
       });
     };
 
-    output = yield buildOutput(app.appAndDependencies());
+    output = yield buildOutput(app.getExternalTree());
     let actualFiles = getFiles(output.path());
 
     expect(actualFiles).to.contain(

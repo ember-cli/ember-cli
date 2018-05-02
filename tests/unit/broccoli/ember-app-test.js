@@ -57,17 +57,12 @@ describe('EmberApp', function() {
     project = setupProject(projectPath);
   });
 
-  describe('getTemplates()', function() {
-    it('returns application and add-ons template files', co.wrap(function *() {
+  describe('getAddonTemplates()', function() {
+    it('returns add-ons template files', co.wrap(function *() {
       let input = yield createTempDir();
       let addonFooTemplates = yield createTempDir();
       let addonBarTemplates = yield createTempDir();
 
-      input.write({
-        'application.hbs': '',
-        'error.hbs': '',
-        'loading.hbs': '',
-      });
       addonFooTemplates.write({
         'foo.hbs': 'foo',
       });
@@ -86,13 +81,10 @@ describe('EmberApp', function() {
         ];
       };
 
-      let output = yield buildOutput(app.getTemplates());
+      let output = yield buildOutput(app.getAddonTemplates());
       let outputFiles = output.read();
 
       expect(outputFiles['test-project'].templates).to.deep.equal({
-        'application.hbs': '',
-        'error.hbs': '',
-        'loading.hbs': '',
         'foo.hbs': 'foo',
         'bar.hbs': 'bar',
       });
