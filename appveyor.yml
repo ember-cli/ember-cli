@@ -4,7 +4,6 @@
 environment:
   MOCHA_REPORTER: "mocha-appveyor-reporter"
   matrix:
-    - nodejs_version: "4"
     - nodejs_version: "6"
     - nodejs_version: "8"
     - nodejs_version: "9"
