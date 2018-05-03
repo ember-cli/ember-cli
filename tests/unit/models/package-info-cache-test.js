@@ -9,7 +9,7 @@ const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
 
 describe('models/package-info-cache.js', function() {
-  let project, projectPath, packageJsonPath, packageContents, projectPackageInfo, ui, cli, pic;
+  let project, projectPath, packageJsonPath, packageContents, projectPackageInfo, resolvedFile, ui, cli, pic;
   this.timeout(20000);
 
   beforeEach(function() {
@@ -243,6 +243,99 @@ describe('models/package-info-cache.js', function() {
       let packageNames = Object.keys(project.addonPackages);
       expect(packageNames.length).to.equal(9);
       expect(packageNames.indexOf('ember-cli-blueprint-test-helpers')).to.be.above(-1);
+    });
+  });
+
+  describe('tests for projectPackageInfo.addonMainPath', function() {
+    let origPackageContents;
+
+    beforeEach(function() {
+      projectPath = path.resolve(addonFixturePath, 'external-dependency');
+      packageJsonPath = path.join(projectPath, 'package.json');
+      // Because we allow the tests to modify packageContents, and the original
+      // 'require' of package contents will always return the same structure
+      // once it has been required, we must deep-copy that structure before letting
+      // the tests modify it, so they modify only the copy.
+      if (!origPackageContents) {
+        origPackageContents = require(packageJsonPath);
+        origPackageContents['ember-addon'] = Object.create(null);
+      }
+
+      packageContents = JSON.parse(JSON.stringify(origPackageContents));
+    });
+
+    it('adds .js if not present', function() {
+      packageContents['ember-addon']['main'] = 'index';
+
+      project = new Project(projectPath, packageContents, ui, cli);
+      projectPackageInfo = project.packageInfoCache.getEntry(projectPath);
+
+      resolvedFile = path.basename(projectPackageInfo.addonMainPath);
+      expect(resolvedFile).to.equal('index.js');
+    });
+
+    it('doesn\'t add .js if it is .js', function() {
+      packageContents['ember-addon']['main'] = 'index.js';
+
+      project = new Project(projectPath, packageContents, ui, cli);
+      projectPackageInfo = project.packageInfoCache.getEntry(projectPath);
+
+      resolvedFile = path.basename(projectPackageInfo.addonMainPath);
+      expect(resolvedFile).to.equal('index.js');
+    });
+
+    it('doesn\'t add .js if it has another extension', function() {
+      packageContents['ember-addon']['main'] = 'index.coffee';
+
+      project = new Project(projectPath, packageContents, ui, cli);
+      projectPackageInfo = project.packageInfoCache.getEntry(projectPath);
+
+      resolvedFile = path.basename(projectPackageInfo.addonMainPath);
+      expect(resolvedFile).to.equal('index.coffee');
+    });
+
+    it('allows lookup of existing non-`index.js` `main` entry points', function() {
+      delete packageContents['ember-addon'];
+      packageContents['main'] = 'some/other/path.js';
+
+      project = new Project(projectPath, packageContents, ui, cli);
+      projectPackageInfo = project.packageInfoCache.getEntry(projectPath);
+
+      resolvedFile = projectPackageInfo.addonMainPath;
+      expect(resolvedFile).to.equal(path.join(projectPath, 'some/other/path.js'));
+    });
+
+    it('fails invalid other `main` entry points', function() {
+      delete packageContents['ember-addon'];
+      packageContents['main'] = 'some/other/non-existent-file.js';
+
+      project = new Project(projectPath, packageContents, ui, cli);
+      projectPackageInfo = project.packageInfoCache.getEntry(projectPath);
+
+      expect(projectPackageInfo.hasErrors()).to.be.true;
+      expect(projectPackageInfo.errors.getErrors().length).to.equal(1);
+      let error = projectPackageInfo.errors.getErrors()[0];
+      expect(error.type).to.equal('emberAddonMainMissing');
+    });
+
+    it('falls back to `index.js` if `main` and `ember-addon` are not found', function() {
+      delete packageContents['ember-addon'];
+
+      project = new Project(projectPath, packageContents, ui, cli);
+      projectPackageInfo = project.packageInfoCache.getEntry(projectPath);
+
+      resolvedFile = projectPackageInfo.addonMainPath;
+      expect(resolvedFile).to.equal(path.join(projectPath, 'index.js'));
+    });
+
+    it('falls back to `index.js` if `main` and `ember-addon.main` are not found', function() {
+      delete packageContents['ember-addon'].main;
+
+      project = new Project(projectPath, packageContents, ui, cli);
+      projectPackageInfo = project.packageInfoCache.getEntry(projectPath);
+
+      resolvedFile = projectPackageInfo.addonMainPath;
+      expect(resolvedFile).to.equal(path.join(projectPath, 'index.js'));
     });
   });
 
