@@ -70,8 +70,6 @@ describe('models/project.js', function() {
 
           makeProject();
 
-          let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-          td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
           project.require = function() {
             called = true;
             return function() {};
@@ -238,8 +236,7 @@ describe('models/project.js', function() {
           );
 
           makeProject();
-          let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-          td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
+
           project.require = function() {
             return { browsers: ["last 2 versions", "safari >= 7"] };
           };
@@ -257,8 +254,6 @@ describe('models/project.js', function() {
       beforeEach(function() {
         return tmp.setup(projectPath).then(function() {
           makeProject();
-          let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-          td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
         });
       });
 
@@ -281,8 +276,7 @@ describe('models/project.js', function() {
       packageContents = require(path.join(projectPath, 'package.json'));
 
       makeProject();
-      let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
+
       project.initializeAddons();
     });
 
@@ -416,19 +410,12 @@ describe('models/project.js', function() {
     });
 
     it('adds the project itself if it is an addon', function() {
-      let added = false;
       project.addonPackages = {};
       project.isEmberCLIAddon = function() { return true; };
 
-      project.addonDiscovery.discoverAtPath = function(path) {
-        if (path === project.root) {
-          added = true;
-        }
-      };
-
       project.discoverAddons();
 
-      expect(added).to.be.ok;
+      expect(project.addonPackages[project.name()]).to.exist;
     });
 
     it('should catch addon constructor errors', function() {
@@ -454,8 +441,6 @@ describe('models/project.js', function() {
 
       makeProject();
 
-      let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
       project.initializeAddons();
 
       td.replace(Project.prototype, 'initializeAddons', td.function());
@@ -488,8 +473,7 @@ describe('models/project.js', function() {
       packageContents = require(path.join(projectPath, 'package.json'));
 
       makeProject();
-      let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
+
       project.initializeAddons();
 
       newProjectPath = path.resolve(__dirname, '../../fixtures/addon/env-addons');
@@ -545,8 +529,6 @@ describe('models/project.js', function() {
       projectPath = `${process.cwd()}/tmp/test-app`;
 
       makeProject();
-      let discoverFromCli = td.replace(project.addonDiscovery, 'discoverFromCli');
-      td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
       project.initializeAddons();
     });
 
