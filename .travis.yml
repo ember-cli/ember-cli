@@ -6,9 +6,6 @@ addons:
 
 language: node_js
 node_js:
-  - "6"
-  - "8"
-  - "9"
   - "10"
 
 branches:
@@ -25,32 +22,52 @@ cache:
     - $HOME/.npm
     - $HOME/.cache # includes bower's cache
 
-env:
-  - TEST_COMMAND=test-all
+stages:
+  - basic test
+  - additional tests
+  - name: deploy
+    if: type IN (push) AND branch = release
 
-matrix:
-  fast_finish: true
+jobs:
+  fail_fast: true
 
-  # We run our additional tests against the most-recent LTS.
-  # Rather than make the support unclear at the top, we'll manually exclude
-  # the default build and swap in the different commands.
-  exclude:
-  - node_js: "6"
-    env: TEST_COMMAND=test-all
-
-  # This is the reworking of the tests we run against the most-recent LTS.
   include:
-  - node_js: "6"
-    env: TEST_COMMAND=test-all:cover
-  - node_js: "6"
-    env: DISABLE_EMBER_CLI_FEATURES=true; TEST_COMMAND=test-all
+
+    - stage: basic test
+      env: NAME=test # used only to make Travis UI show description
+      script:
+        - yarn test
+
+    - stage: additional tests
+      env: NAME=NODE_6
+      node_js: 6
+
+    - env: NAME=NODE_8
+      node_js: 8
+
+    - env: NAME=NODE_9
+      node_js: 9
+
+    - env: NAME=NODE_10
+      node_js: 10
+      script:
+        - yarn test-all:cover
+      after_success:
+        - .travis/codecoverage.sh
+
+    - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
+    - env: EMBER_CLI_MODULE_UNIFICATION=true
+    - env: EMBER_CLI_DELAYED_TRANSPILATION=true
+
+    - stage: deploy
+      script: ./.travis/deploy.sh
 
 before_install:
-  # Once we no longer support Node.js 0.12 we can drop this entire section.
   # prevent the npm loading indicator
   - npm config --global set spin false
   # if npm version is less than 3.0.0, upgrade to 3
   - if [[ $(npm -v | cut -d '.' -f 1) -lt 3 ]]; then npm i -g npm@^3; fi
+  # if npm version is newer than 4, downgrade to 4
   - if [[ $(npm -v | cut -d '.' -f 1) -gt 4 ]]; then npm i -g npm@^4; fi
 
   # travis currently includes yarn v0.17.8 (20170705)
@@ -59,11 +76,4 @@ before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
 
 script:
-  # For now we will use `npm` to kick off the test suite.
-  # Can switch to `yarn` once we no longer support Node.js 0.12:
-  # - yarn run $TEST_COMMAND
-  - npm run-script $TEST_COMMAND
-
-after_success:
-  - if [[ $TEST_COMMAND == 'test-all:cover' ]]; then .travis/codecoverage.sh; fi
-  - .travis/deploy.sh
+  - yarn test-all
