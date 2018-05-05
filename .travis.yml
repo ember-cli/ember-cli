@@ -51,7 +51,7 @@ jobs:
     - env: NAME=NODE_10
       node_js: 10
       script:
-        - yarn test-all:cover
+        - yarn test:cover
       after_success:
         - .travis/codecoverage.sh
 
@@ -76,4 +76,4 @@ before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
 
 script:
-  - yarn test-all
+  - yarn test:all
