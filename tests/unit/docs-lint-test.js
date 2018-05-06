@@ -1,7 +1,7 @@
 'use strict';
 
 const Y = require('yuidocjs');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 
 describe('YUIDoc', function() {
   let options = Y.Project.init({
@@ -16,7 +16,7 @@ describe('YUIDoc', function() {
     json.warnings.forEach(function(warning) {
       let tmp = warning.line.split(':');
       let file = tmp[0].trim();
-      let line = tmp[1];
+      let [, line] = tmp;
 
       if (!warnings[file]) {
         warnings[file] = [];

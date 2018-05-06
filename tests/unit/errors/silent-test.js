@@ -1,7 +1,7 @@
 'use strict';
 
 const SilentError = require('silent-error');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('SilentError', function() {
   it('return silent-error and print a deprecation', function() {

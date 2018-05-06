@@ -4,12 +4,12 @@ const fs = require('fs-extra');
 const Task = require('../../../lib/models/task');
 const MockProject = require('../../helpers/mock-project');
 const MockUI = require('console-ui/mock');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const path = require('path');
 const glob = require('glob');
 const walkSync = require('walk-sync');
 const RSVP = require('rsvp');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const SilentError = require('silent-error');
@@ -17,7 +17,7 @@ const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const Blueprint = require('../../../lib/models/blueprint');
 
-const Promise = RSVP.Promise;
+const { Promise } = RSVP;
 const remove = RSVP.denodeify(fs.remove);
 
 let localsCalled;
@@ -755,6 +755,7 @@ describe('Blueprint', function() {
 
       NpmInstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -772,6 +773,7 @@ describe('Blueprint', function() {
 
       NpmInstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -843,6 +845,7 @@ describe('Blueprint', function() {
 
       NpmInstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           verbose = options.verbose;
         },
       });
@@ -932,6 +935,7 @@ describe('Blueprint', function() {
 
       NpmUninstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -956,6 +960,7 @@ describe('Blueprint', function() {
 
       NpmUninstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -980,6 +985,7 @@ describe('Blueprint', function() {
 
       NpmUninstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -1078,6 +1084,7 @@ describe('Blueprint', function() {
 
       NpmUninstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           verbose = options.verbose;
         },
       });
@@ -1180,6 +1187,7 @@ describe('Blueprint', function() {
 
       BowerInstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -1197,6 +1205,7 @@ describe('Blueprint', function() {
 
       BowerInstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -1214,6 +1223,7 @@ describe('Blueprint', function() {
 
       BowerInstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           packages = options.packages;
         },
       });
@@ -1239,6 +1249,7 @@ describe('Blueprint', function() {
 
       BowerInstallTask = Task.extend({
         run(options) {
+          // eslint-disable-next-line prefer-destructuring
           verbose = options.verbose;
         },
       });

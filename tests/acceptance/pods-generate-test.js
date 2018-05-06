@@ -3,7 +3,7 @@
 const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
-const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
+const { replaceFile } = require('ember-cli-internal-test-helpers/lib/helpers/file-utils');
 const fs = require('fs-extra');
 let outputFile = RSVP.denodeify(fs.outputFile);
 const path = require('path');
@@ -15,9 +15,7 @@ const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { file, expect } = require('../chai');
 
 describe('Acceptance: ember generate pod', function() {
   this.timeout(60000);

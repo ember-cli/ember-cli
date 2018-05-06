@@ -1,15 +1,13 @@
 'use strict';
 
 const co = require('co');
-const broccoliTestHelper = require('broccoli-test-helper');
-const expect = require('chai').expect;
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
+const { expect } = require('chai');
 
 const EmberApp = require('../../../../lib/broccoli/ember-app');
 const MockCLI = require('../../../helpers/mock-cli');
 const Project = require('../../../../lib/models/project');
 
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
 const walkSync = require('walk-sync');
 const experiments = require("../../../../lib/experiments/index.js");
 

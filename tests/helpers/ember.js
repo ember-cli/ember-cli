@@ -47,7 +47,7 @@ module.exports = function ember(args, options) {
   let inputStream = [];
   let outputStream = [];
   let errorLog = [];
-  let commandName = args[0];
+  let [commandName] = args;
 
   if (commandName === 'test') {
     /*

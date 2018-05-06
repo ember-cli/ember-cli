@@ -1,9 +1,9 @@
 'use strict';
 
 const AddonInstallTask = require('../../../lib/tasks/addon-install');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const CoreObject = require('core-object');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 
 describe('addon install task', function() {
   let ui;

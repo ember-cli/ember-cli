@@ -1,11 +1,11 @@
 'use strict';
 
-const expect = require('../../chai').expect;
+const { expect } = require('../../chai');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
 const Command = require('../../../lib/models/command');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 
 let ui;
 let analytics;

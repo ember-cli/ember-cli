@@ -1,15 +1,16 @@
 'use strict';
 
 const co = require('co');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const Funnel = require('broccoli-funnel');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
-const broccoliTestHelper = require('broccoli-test-helper');
-const defaultPackagerHelpers = require('../../../helpers/default-packager');
-
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
-const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
+const {
+  buildOutput,
+  createTempDir,
+} = require('broccoli-test-helper');
+const {
+  setupRegistryFor,
+} = require('../../../helpers/default-packager');
 
 describe('Default Packager: Additional Assets', function() {
   let input, output;

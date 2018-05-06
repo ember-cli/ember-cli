@@ -15,9 +15,7 @@ const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/di
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 const experiments = require('../../lib/experiments');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { file, expect } = require('../chai');
 
 describe('Acceptance: ember generate in-addon', function() {
   this.timeout(20000);
@@ -60,7 +58,7 @@ describe('Acceptance: ember generate in-addon', function() {
     let generateArgs = ['generate'].concat(args);
 
     if (arguments.length > 1) {
-      name = arguments[1];
+      [, name] = arguments;
     }
 
     return initAddon(name).then(function() {

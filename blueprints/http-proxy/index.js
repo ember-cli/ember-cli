@@ -11,7 +11,7 @@ module.exports = {
   ],
 
   locals(options) {
-    let proxyUrl = options.args[2];
+    let [, , proxyUrl] = options.args;
     return {
       path: `/${options.entity.name.replace(/^\//, '')}`,
       proxyUrl,

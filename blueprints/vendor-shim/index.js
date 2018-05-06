@@ -6,7 +6,7 @@ module.exports = {
   description: 'Generates an ES6 module shim for global libraries.',
 
   locals(options) {
-    let entity = options.entity;
+    let { entity } = options;
     let rawName = entity.name;
     let name = stringUtil.dasherize(rawName);
 

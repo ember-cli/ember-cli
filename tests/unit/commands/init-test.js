@@ -3,11 +3,11 @@
 const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
-const expect = require('../../chai').expect;
-const map = require('ember-cli-lodash-subset').map;
+const { expect } = require('../../chai');
+const { map } = require('ember-cli-lodash-subset');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 const Blueprint = require('../../../lib/models/blueprint');
 const Project = require('../../../lib/models/project');
 const Task = require('../../../lib/models/task');

@@ -2,9 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const chai = require('../../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { file, expect } = require('../../chai');
 const walkSync = require('walk-sync');
 const BuildTask = require('../../../lib/tasks/build');
 const RSVP = require('rsvp');
@@ -33,6 +31,7 @@ describe('build task test', function() {
       })
       .then(function() {
         project = new MockProject();
+        // eslint-disable-next-line prefer-destructuring
         ui = project.ui;
       });
   });

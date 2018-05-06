@@ -7,15 +7,14 @@ const fs = require('fs-extra');
 const experiments = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-const acceptance = require('../helpers/acceptance');
-let createTestTargets = acceptance.createTestTargets;
-let teardownTestTargets = acceptance.teardownTestTargets;
-let linkDependencies = acceptance.linkDependencies;
-let cleanupRun = acceptance.cleanupRun;
+const {
+  cleanupRun,
+  linkDependencies,
+  createTestTargets,
+  teardownTestTargets,
+} = require('../helpers/acceptance');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let dir = chai.dir;
+const { dir, expect } = require('../chai');
 
 let addonName = 'some-cool-addon';
 let addonRoot;

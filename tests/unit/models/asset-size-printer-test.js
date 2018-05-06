@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUi = require('console-ui/mock');
 const AssetSizePrinter = require('../../../lib/models/asset-size-printer');
 const RSVP = require('rsvp');
@@ -10,7 +10,7 @@ let root = process.cwd();
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmpRoot = path.join(root, 'tmp');
 
-const Promise = RSVP.Promise;
+const { Promise } = RSVP;
 const remove = RSVP.denodeify(fs.remove);
 
 describe('models/asset-size-printer', function() {

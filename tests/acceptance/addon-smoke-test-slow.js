@@ -1,24 +1,23 @@
 'use strict';
 
 const co = require('co');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 const path = require('path');
 const fs = require('fs-extra');
-const spawn = require('child_process').spawn;
+const { spawn } = require('child_process');
 const chalk = require('chalk');
 
 const runCommand = require('../helpers/run-command');
 const ember = require('../helpers/ember');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-const acceptance = require('../helpers/acceptance');
-let createTestTargets = acceptance.createTestTargets;
-let teardownTestTargets = acceptance.teardownTestTargets;
-let linkDependencies = acceptance.linkDependencies;
-let cleanupRun = acceptance.cleanupRun;
+const {
+  cleanupRun,
+  linkDependencies,
+  createTestTargets,
+  teardownTestTargets,
+} = require('../helpers/acceptance');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let dir = chai.dir;
+const { dir, expect } = require('../chai');
 
 let addonName = 'some-cool-addon';
 let addonRoot;

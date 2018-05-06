@@ -258,6 +258,7 @@ module.exports = class PackageCache {
    */
   __setupForTesting(stubs) {
     originals = commands;
+    // eslint-disable-next-line prefer-destructuring
     commands = stubs.commands;
   }
 
@@ -369,7 +370,7 @@ module.exports = class PackageCache {
     if (!cachedManifest) { return; }
 
     let jsonManifest = JSON.parse(cachedManifest);
-    let links = jsonManifest._packageCache.links;
+    let { links } = jsonManifest._packageCache;
 
     // Blindly remove existing links whether or not they appear in the manifest.
     let link, linkPath;
@@ -438,7 +439,7 @@ module.exports = class PackageCache {
     if (!cachedManifest) { return; }
 
     let jsonManifest = JSON.parse(cachedManifest);
-    let links = jsonManifest._packageCache.links;
+    let { links } = jsonManifest._packageCache;
 
     // Blindly restore links.
     let link, linkPath;

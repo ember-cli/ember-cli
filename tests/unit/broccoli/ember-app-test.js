@@ -5,12 +5,9 @@
 const co = require('co');
 const path = require('path');
 const Project = require('../../../lib/models/project');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const td = require('testdouble');
-const broccoliTestHelper = require('broccoli-test-helper');
-
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
 
 const MockCLI = require('../../helpers/mock-cli');
 const experiments = require('../../../lib/experiments');
@@ -578,7 +575,7 @@ describe('EmberApp', function() {
         expect(addonsAppIncluded).to.eql(app);
         expect(addonsApp).to.eql(app);
 
-        let addon = project.addons[0];
+        let [addon] = project.addons;
         expect(addon.app).to.deep.equal(app);
       });
     });
@@ -731,7 +728,7 @@ describe('EmberApp', function() {
       });
 
       it('addonTreesFor calls treesFor on the addon', function() {
-        let sampleAddon = project.addons[0];
+        let [sampleAddon] = project.addons;
         let actualTreeName;
 
         sampleAddon.treeFor = function(name) {

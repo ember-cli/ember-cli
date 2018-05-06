@@ -1,14 +1,14 @@
 'use strict';
 
-const expect = require('../../chai').expect;
-const EOL = require('os').EOL;
+const { expect } = require('../../chai');
+const { EOL } = require('os');
 const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
 const RSVP = require('rsvp');
 const td = require('testdouble');
 const PortFinder = require('portfinder');
 
-const Promise = RSVP.Promise;
+const { Promise } = RSVP;
 const getPort = RSVP.denodeify(PortFinder.getPort);
 
 const ServeCommand = require('../../../lib/commands/serve');

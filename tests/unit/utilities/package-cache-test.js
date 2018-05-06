@@ -8,10 +8,7 @@ const PackageCache = require('../../../tests/helpers/package-cache');
 const symlinkOrCopySync = require('symlink-or-copy').sync;
 
 const td = require('testdouble');
-const chai = require('../../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
+const { dir, file, expect } = require('../../chai');
 
 describe('PackageCache', function() {
   let testPackageCache;
@@ -105,7 +102,7 @@ describe('PackageCache', function() {
 
     // Confirm that it removes a yarn.lock file if present and type is yarn.
     testPackageCache._writeManifest('yarn', 'yarn', manifest);
-    let yarn = testPackageCache.dirs['yarn'];
+    let { yarn } = testPackageCache.dirs;
     let lockFileLocation = path.join(yarn, 'yarn.lock');
 
     // Make sure it doesn't throw if it doesn't exist.

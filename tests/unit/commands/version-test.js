@@ -1,7 +1,7 @@
 'use strict';
 
-const expect = require('chai').expect;
-const EOL = require('os').EOL;
+const { expect } = require('chai');
+const { EOL } = require('os');
 const commandOptions = require('../../factories/command-options');
 const VersionCommand = require('../../../lib/commands/version');
 

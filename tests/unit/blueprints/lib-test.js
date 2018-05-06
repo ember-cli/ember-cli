@@ -1,14 +1,14 @@
 'use strict';
 
 const path = require('path');
-const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
-let setupTestHooks = blueprintHelpers.setupTestHooks;
-let emberNew = blueprintHelpers.emberNew;
-let emberGenerateDestroy = blueprintHelpers.emberGenerateDestroy;
-let modifyPackages = blueprintHelpers.modifyPackages;
+const {
+  emberNew,
+  modifyPackages,
+  setupTestHooks,
+  emberGenerateDestroy,
+} = require('ember-cli-blueprint-test-helpers/helpers');
 
-const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
-const dir = require('chai-files').dir;
+const { dir, expect } = require('ember-cli-blueprint-test-helpers/chai');
 
 describe('Acceptance: ember generate and destroy lib', function() {
   setupTestHooks(this, {

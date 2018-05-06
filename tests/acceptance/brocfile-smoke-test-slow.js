@@ -7,17 +7,15 @@ const fs = require('fs-extra');
 let remove = RSVP.denodeify(fs.remove);
 
 const runCommand = require('../helpers/run-command');
-const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-let createTestTargets = acceptance.createTestTargets;
-let teardownTestTargets = acceptance.teardownTestTargets;
-let linkDependencies = acceptance.linkDependencies;
-let cleanupRun = acceptance.cleanupRun;
+const {
+  cleanupRun,
+  linkDependencies,
+  createTestTargets,
+  teardownTestTargets,
+} = require('../helpers/acceptance');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
+const { dir, file, expect } = require('../chai');
 
 let appName = 'some-cool-app';
 let appRoot;
@@ -181,10 +179,10 @@ describe('Acceptance: brocfile-smoke-test', function() {
       yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test', '--filter=jshint');
     } catch (e) {
       let outputMatch = e.output.join(' ').match(/(No tests matched the filter "jshint")/g).length;
-      chai.expect(outputMatch).to.equal(3);
+      expect(outputMatch).to.equal(3);
       assertions++;
     }
-    chai.expect(assertions).to.equal(1);
+    expect(assertions).to.equal(1);
   }));
 
   it('specifying custom output paths works properly', co.wrap(function *() {

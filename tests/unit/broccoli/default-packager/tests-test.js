@@ -3,15 +3,12 @@
 const co = require('co');
 const stew = require('broccoli-stew');
 const Funnel = require('broccoli-funnel');
-const expect = require('chai').expect;
 const experiments = require('../../../../lib/experiments');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
-const broccoliTestHelper = require('broccoli-test-helper');
-const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
-const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
+const { expect } = require('chai');
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
+const { setupRegistryFor } = require('../../../helpers/default-packager');
 
 describe('Default Packager: Tests', function() {
   let input, output;

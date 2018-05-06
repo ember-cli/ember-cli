@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const lookupCommand = require('../../../lib/cli/lookup-command');
 const Command = require('../../../lib/models/command');
 const Project = require('../../../lib/models/project');

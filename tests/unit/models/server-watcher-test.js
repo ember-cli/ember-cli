@@ -1,7 +1,7 @@
 'use strict';
 
-const expect = require('chai').expect;
-const EOL = require('os').EOL;
+const { expect } = require('chai');
+const { EOL } = require('os');
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const MockServerWatcher = require('../../helpers/mock-watcher');

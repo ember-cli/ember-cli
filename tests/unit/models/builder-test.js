@@ -8,16 +8,14 @@ const RSVP = require('rsvp');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
-const chai = require('../../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { file, expect } = require('../../chai');
 
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
 let Builder;
 
-const Promise = RSVP.Promise;
+const { Promise } = RSVP;
 const remove = RSVP.denodeify(fs.remove);
 
 describe('models/builder.js', function() {
@@ -87,7 +85,7 @@ describe('models/builder.js', function() {
 
     it('when outputPath is root directory ie., `--output-path=/` or `--output-path=C:`', function() {
       let outputPathArg = '--output-path=.';
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let { outputPath } = command.parseArgs([outputPathArg]).options;
       outputPath = outputPath.split(path.sep)[0] + path.sep;
       builder.outputPath = outputPath;
 
@@ -96,7 +94,7 @@ describe('models/builder.js', function() {
 
     it('when outputPath is project root ie., `--output-path=.`', function() {
       let outputPathArg = '--output-path=.';
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let { outputPath } = command.parseArgs([outputPathArg]).options;
       builder.outputPath = outputPath;
 
       expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
@@ -104,7 +102,7 @@ describe('models/builder.js', function() {
 
     it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function() {
       let outputPathArg = `--output-path=${parentPath}`;
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let { outputPath } = command.parseArgs([outputPathArg]).options;
       builder.outputPath = outputPath;
 
       expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
@@ -112,7 +110,7 @@ describe('models/builder.js', function() {
 
     it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function() {
       let outputPathArg = '--output-path=.';
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+      let { outputPath } = command.parseArgs([outputPathArg]).options;
       outputPath = outputPath.substr(0, outputPath.length - 1);
       builder.outputPath = outputPath;
 
@@ -160,7 +158,7 @@ describe('models/builder.js', function() {
       process._heimdall = {};
 
       return builder.build().then(function() {
-        let output = builder.project.ui.output;
+        let { output } = builder.project.ui;
 
         expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
       });
@@ -170,7 +168,7 @@ describe('models/builder.js', function() {
       expect(process._heimdall).to.equal(undefined);
 
       return builder.build().then(function() {
-        let output = builder.project.ui.output;
+        let { output } = builder.project.ui;
 
         expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
       });

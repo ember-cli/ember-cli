@@ -2,19 +2,16 @@
 
 const co = require('co');
 const path = require('path');
-const broccoliTestHelper = require('broccoli-test-helper');
-const expect = require('chai').expect;
-const defaultPackagerHelpers = require('../../../helpers/default-packager');
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
+const { expect } = require('chai');
+const {
+  setupProject,
+  getDependencyFor,
+  getDefaultUnpackagedDist,
+  validateDefaultPackagedDist,
+} = require('../../../helpers/default-packager');
 
 const EmberApp = require('../../../../lib/broccoli/ember-app');
-
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
-
-const getDefaultUnpackagedDist = defaultPackagerHelpers.getDefaultUnpackagedDist;
-const getDependencyFor = defaultPackagerHelpers.getDependencyFor;
-const setupProject = defaultPackagerHelpers.setupProject;
-const validateDefaultPackagedDist = defaultPackagerHelpers.validateDefaultPackagedDist;
 
 describe('EmberApp: Bower Dependencies', function() {
   let applicationDirectory, output;

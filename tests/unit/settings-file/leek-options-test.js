@@ -1,14 +1,11 @@
 'use strict';
 
 const co = require('co');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const Yam = require('yam');
 const cliEntry = require('../../../lib/cli');
-const broccoliTestHelper = require('broccoli-test-helper');
-
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
 
 describe('.ember-cli leek options', function() {
   let passedOptions, leekConfigFolder;

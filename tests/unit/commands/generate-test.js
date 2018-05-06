@@ -1,11 +1,11 @@
 'use strict';
 
-const expect = require('../../chai').expect;
-const EOL = require('os').EOL;
+const { expect } = require('../../chai');
+const { EOL } = require('os');
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const MockProject = require('../../helpers/mock-project');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 const Task = require('../../../lib/models/task');
 const Blueprint = require('../../../lib/models/blueprint');
 const GenerateCommand = require('../../../lib/commands/generate');
@@ -132,7 +132,7 @@ describe('generate command', function() {
 
       command.printDetailedHelp({});
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`${EOL}\
   Available blueprints:${EOL}\
@@ -214,7 +214,7 @@ ${EOL}`);
         rawArgs: ['my-blueprint'],
       });
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`\
 my-blueprint${EOL}\
@@ -278,7 +278,7 @@ ${EOL}`);
         rawArgs: ['missing-blueprint'],
       });
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`\
 \u001b[33mThe 'missing-blueprint' blueprint does not exist in this project.\u001b[39m${EOL}\
@@ -332,7 +332,7 @@ ${EOL}`);
 
       command.printDetailedHelp({});
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`${EOL}\
   Available blueprints:${EOL}\
@@ -362,7 +362,7 @@ ${EOL}`);
         verbose: true,
       });
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`${EOL}\
   Available blueprints:${EOL}\

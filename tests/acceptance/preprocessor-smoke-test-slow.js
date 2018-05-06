@@ -5,17 +5,15 @@ const path = require('path');
 const fs = require('fs-extra');
 
 const runCommand = require('../helpers/run-command');
-const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
-let createTestTargets = acceptance.createTestTargets;
-let teardownTestTargets = acceptance.teardownTestTargets;
-let linkDependencies = acceptance.linkDependencies;
-let cleanupRun = acceptance.cleanupRun;
+const {
+  cleanupRun,
+  linkDependencies,
+  createTestTargets,
+  teardownTestTargets,
+} = require('../helpers/acceptance');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
+const { dir, file, expect } = require('../chai');
 
 let appName = 'some-cool-app';
 let appRoot;

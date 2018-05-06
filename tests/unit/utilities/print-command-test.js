@@ -2,8 +2,8 @@
 
 const printCommand = require('../../../lib/utilities/print-command');
 const processHelpString = require('../../helpers/process-help-string');
-const expect = require('chai').expect;
-const EOL = require('os').EOL;
+const { expect } = require('chai');
+const { EOL } = require('os');
 
 describe('printCommand', function() {
   it('handles all possible options', function() {

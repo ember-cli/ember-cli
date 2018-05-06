@@ -1,12 +1,9 @@
 'use strict';
 
 const co = require('co');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
-const broccoliTestHelper = require('broccoli-test-helper');
-
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
 
 describe('Default Packager: Public', function() {
   let input, output;

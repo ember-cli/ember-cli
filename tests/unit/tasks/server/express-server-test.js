@@ -1,8 +1,8 @@
 'use strict';
 
-const expect = require('../../../chai').expect;
+const { expect } = require('../../../chai');
 const ExpressServer = require('../../../../lib/tasks/server/express-server');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 const MockUI = require('console-ui/mock');
 const MockProject = require('../../../helpers/mock-project');
 const MockWatcher = require('../../../helpers/mock-watcher');
@@ -11,7 +11,7 @@ const ProxyServer = require('../../../helpers/proxy-server');
 const chalk = require('chalk');
 const request = require('supertest');
 const net = require('net');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 const nock = require('nock');
 const express = require('express');
 const co = require('co');

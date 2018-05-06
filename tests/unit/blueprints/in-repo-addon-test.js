@@ -2,15 +2,15 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const blueprintHelpers = require('ember-cli-blueprint-test-helpers/helpers');
-let setupTestHooks = blueprintHelpers.setupTestHooks;
-let emberNew = blueprintHelpers.emberNew;
-let emberGenerate = blueprintHelpers.emberGenerate;
-let emberDestroy = blueprintHelpers.emberDestroy;
+const {
+  emberNew,
+  emberDestroy,
+  emberGenerate,
+  setupTestHooks,
+} = require('ember-cli-blueprint-test-helpers/helpers');
 const td = require('testdouble');
 
-const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
-const file = require('ember-cli-blueprint-test-helpers/chai').file;
+const { file, expect } = require('ember-cli-blueprint-test-helpers/chai');
 const experiments = require('../../../lib/experiments');
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {

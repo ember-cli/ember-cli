@@ -5,7 +5,7 @@ const path = require('path');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
 const RSVP = require('rsvp');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 let remove = RSVP.denodeify(fs.remove);
 const findWhere = require('ember-cli-lodash-subset').find;
 const MockUI = require('console-ui/mock');
@@ -706,6 +706,7 @@ describe('models/addon.js', function() {
       });
 
       addon = new AddonTemp(project, project);
+      // eslint-disable-next-line prefer-destructuring
       packageInfoCache = addon.packageInfoCache;
     });
 

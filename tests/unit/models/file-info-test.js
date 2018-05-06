@@ -1,16 +1,16 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const FileInfo = require('../../../lib/models/file-info');
 const path = require('path');
 const fs = require('fs-extra');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 const RSVP = require('rsvp');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 
-const Promise = RSVP.Promise;
+const { Promise } = RSVP;
 const writeFile = RSVP.denodeify(fs.writeFile);
 
 let root = process.cwd();

@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const td = require('testdouble');
 const SilentError = require('silent-error');
 
-const expect = require('../../chai').expect;
+const { expect } = require('../../chai');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
 

@@ -2,9 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const chai = require('chai');
-let expect = chai.expect;
-const EOL = require('os').EOL;
+const { expect } = require('../chai');
+const { EOL } = require('os');
 const processHelpString = require('../helpers/process-help-string');
 const convertToJson = require('../helpers/convert-help-output-to-json');
 const commandOptions = require('../factories/command-options');
@@ -50,7 +49,7 @@ describe('Acceptance: ember help', function() {
   it('works', function() {
     command.run(options, []);
 
-    let output = options.ui.output;
+    let { output } = options.ui;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help.txt');
     let expected = loadTextFixture(fixturePath);
@@ -64,7 +63,7 @@ describe('Acceptance: ember help', function() {
 
     command.run(options, []);
 
-    let output = options.ui.output;
+    let { output } = options.ui;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'help-with-addon.txt');
     let expected = loadTextFixture(fixturePath);
@@ -79,7 +78,7 @@ describe('Acceptance: ember help', function() {
 
     command.run(options, ['foo']);
 
-    let output = options.ui.output;
+    let { output } = options.ui;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'foo.txt');
     let expected = loadTextFixture(fixturePath);
@@ -90,7 +89,7 @@ describe('Acceptance: ember help', function() {
   it('prints all blueprints', function() {
     command.run(options, ['generate']);
 
-    let output = options.ui.output;
+    let { output } = options.ui;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate.txt');
     let expected = loadTextFixture(fixturePath);
@@ -101,7 +100,7 @@ describe('Acceptance: ember help', function() {
   it('prints helpful message for unknown command', function() {
     command.run(options, ['asdf']);
 
-    let output = options.ui.output;
+    let { output } = options.ui;
 
     expect(output).to.contain("No help entry for 'asdf'");
     expect(output).to.not.contain('undefined');
@@ -110,7 +109,7 @@ describe('Acceptance: ember help', function() {
   it('prints a single blueprints', function() {
     command.run(options, ['generate', 'blueprint']);
 
-    let output = options.ui.output;
+    let { output } = options.ui;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-blueprint.txt');
     let expected = loadTextFixture(fixturePath);
@@ -125,7 +124,7 @@ describe('Acceptance: ember help', function() {
 
     command.run(options, ['generate']);
 
-    let output = options.ui.output;
+    let { output } = options.ui;
 
     let fixturePath = path.join(__dirname, '..', 'fixtures', 'help', 'generate-with-addon.txt');
     let expected = loadTextFixture(fixturePath);

@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs-extra');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const MockUI = require('console-ui/mock');
 const GitInitTask = require('../../../lib/tasks/git-init');
 const MockProject = require('../../helpers/mock-project');

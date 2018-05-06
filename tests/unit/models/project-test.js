@@ -5,9 +5,9 @@ const fs = require('fs-extra');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
 const tmp = require('../../helpers/tmp');
-const touch = require('../../helpers/file-utils').touch;
-const expect = require('chai').expect;
-const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
+const { touch } = require('../../helpers/file-utils');
+const { expect } = require('chai');
+const { emberCLIVersion } = require('../../../lib/utilities/version-utils');
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
 const experiments = require('../../../lib/experiments');
@@ -328,7 +328,7 @@ describe('models/project.js', function() {
     });
 
     it('returns instances of the addons', function() {
-      let addons = project.addons;
+      let { addons } = project;
 
       expect(addons[8].name).to.equal('Ember Non Root Addon');
       expect(addons[14].name).to.equal('Ember Super Button');
@@ -337,13 +337,13 @@ describe('models/project.js', function() {
     });
 
     it('addons get passed the project instance', function() {
-      let addons = project.addons;
+      let { addons } = project;
 
       expect(addons[1].project).to.equal(project);
     });
 
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
-      let addons = project.addons;
+      let { addons } = project;
 
       expect(addons[10].name).to.equal('Ember Random Addon');
     });
@@ -403,7 +403,7 @@ describe('models/project.js', function() {
     });
 
     it('returns an instance of an addon with an object export', function() {
-      let addons = project.addons;
+      let { addons } = project;
 
       expect(addons[7] instanceof Addon).to.equal(true);
       expect(addons[7].name).to.equal('Ember CLI Generated with export');

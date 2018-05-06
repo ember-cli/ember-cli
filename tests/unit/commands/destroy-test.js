@@ -1,11 +1,11 @@
 'use strict';
 
-const expect = require('chai').expect;
-const EOL = require('os').EOL;
+const { expect } = require('chai');
+const { EOL } = require('os');
 const MockProject = require('../../helpers/mock-project');
 const processHelpString = require('../../helpers/process-help-string');
 const commandOptions = require('../../factories/command-options');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 const Task = require('../../../lib/models/task');
 const DestroyCommand = require('../../../lib/commands/destroy');
 
@@ -79,7 +79,7 @@ describe('destroy command', function() {
     it('prints extra info', function() {
       command.printDetailedHelp();
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`${EOL}\
   Run \`ember help generate\` to view a list of available blueprints.${EOL}`);

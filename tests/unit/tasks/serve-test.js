@@ -4,9 +4,9 @@ const RSVP = require('rsvp');
 const ServeTask = require('../../../lib/tasks/serve');
 const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
-const Promise = RSVP.Promise;
+const { Promise } = RSVP;
 
 describe('serve task', function() {
   let task, ui;
@@ -30,6 +30,7 @@ describe('serve task', function() {
   function runServeTask() {
     let project = new MockProject();
 
+    // eslint-disable-next-line prefer-destructuring
     ui = project.ui;
     let _builder = new Builder({
       ui,

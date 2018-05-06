@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const PackageInfoCache = require('../../../lib/models/package-info-cache');
 const Project = require('../../../lib/models/project');
 let addonFixturePath = path.resolve(__dirname, '../../fixtures/addon');
@@ -58,13 +58,13 @@ describe('models/package-info-cache.js', function() {
 
     it('shows projectPackageInfo error is "3 dependencies missing"', function() {
       let errorArray = projectPackageInfo.errors.getErrors();
-      let error = errorArray[0];
+      let [error] = errorArray;
       expect(error.type).to.equal('dependenciesMissing');
       expect(error.data.length).to.equal(3);
     });
 
     it('shows projectPackageInfo has 1 dependencyPackage', function() {
-      let dependencyPackages = projectPackageInfo.dependencyPackages;
+      let { dependencyPackages } = projectPackageInfo;
 
       expect(dependencyPackages).to.exist;
       expect(Object.keys(dependencyPackages).length).to.equal(1);
@@ -72,22 +72,22 @@ describe('models/package-info-cache.js', function() {
     });
 
     it('shows projectPackageInfo has 8 devDependencyPackages', function() {
-      let devDependencyPackages = projectPackageInfo.devDependencyPackages;
+      let { devDependencyPackages } = projectPackageInfo;
       expect(devDependencyPackages).to.exist;
       expect(Object.keys(devDependencyPackages).length).to.equal(8);
     });
 
     it('shows projectPackageInfo.devDependencyPackages + missing dependencies = project.devDependencies', function() {
-      let devDependencyPackages = projectPackageInfo.devDependencyPackages;
+      let { devDependencyPackages } = projectPackageInfo;
       expect(devDependencyPackages).to.exist;
       let devDependencyPackageNames = Object.keys(devDependencyPackages);
 
-      let devDependencies = projectPackageInfo.pkg.devDependencies;
+      let { devDependencies } = projectPackageInfo.pkg;
       expect(devDependencies).to.exist;
       let devDependencyNames = Object.keys(devDependencies).sort();
 
       let errorArray = projectPackageInfo.errors.getErrors();
-      let error = errorArray[0];
+      let [error] = errorArray;
       expect(error.type).to.equal('dependenciesMissing');
 
       let missingDependencies = error.data;
@@ -98,7 +98,7 @@ describe('models/package-info-cache.js', function() {
     });
 
     it('shows projectPackageInfo has 1 in-repo addon named "ember-super-button"', function() {
-      let inRepoAddons = projectPackageInfo.inRepoAddons;
+      let { inRepoAddons } = projectPackageInfo;
       expect(inRepoAddons).to.exist;
       expect(inRepoAddons.length).to.equal(1);
       expect(inRepoAddons[0].realPath.indexOf(`simple${path.sep}lib${path.sep}ember-super-button`)).to.be.above(0);
@@ -106,13 +106,13 @@ describe('models/package-info-cache.js', function() {
     });
 
     it('shows projectPackageInfo has 7 internal addon packages', function() {
-      let internalAddons = projectPackageInfo.internalAddons;
+      let { internalAddons } = projectPackageInfo;
       expect(internalAddons).to.exist;
       expect(internalAddons.length).to.equal(7);
     });
 
     it('shows projectPackageInfo has 9 node-module entries', function() {
-      let nodeModules = projectPackageInfo.nodeModules;
+      let { nodeModules } = projectPackageInfo;
       expect(nodeModules).to.exist;
       expect(nodeModules.entries).to.exist;
       expect(Object.keys(nodeModules.entries).length).to.equal(9);
@@ -149,7 +149,7 @@ describe('models/package-info-cache.js', function() {
     });
 
     it('has 3 errors', function() {
-      let errors = projectPackageInfo.errors;
+      let { errors } = projectPackageInfo;
       expect(errors).to.exist;
       expect(errors.hasErrors()).to.be.true;
       expect(errors.getErrors().length).to.equal(3);
@@ -314,7 +314,7 @@ describe('models/package-info-cache.js', function() {
 
       expect(projectPackageInfo.hasErrors()).to.be.true;
       expect(projectPackageInfo.errors.getErrors().length).to.equal(1);
-      let error = projectPackageInfo.errors.getErrors()[0];
+      let [error] = projectPackageInfo.errors.getErrors();
       expect(error.type).to.equal('emberAddonMainMissing');
     });
 

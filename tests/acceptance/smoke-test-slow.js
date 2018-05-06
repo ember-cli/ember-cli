@@ -5,22 +5,20 @@ const path = require('path');
 const fs = require('fs-extra');
 const crypto = require('crypto');
 const walkSync = require('walk-sync');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 
 const runCommand = require('../helpers/run-command');
-const acceptance = require('../helpers/acceptance');
+const {
+  cleanupRun,
+  linkDependencies,
+  createTestTargets,
+  teardownTestTargets,
+} = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
 const killCliProcess = require('../helpers/kill-cli-process');
 const ember = require('../helpers/ember');
-let createTestTargets = acceptance.createTestTargets;
-let teardownTestTargets = acceptance.teardownTestTargets;
-let linkDependencies = acceptance.linkDependencies;
-let cleanupRun = acceptance.cleanupRun;
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
+const { dir, file, expect } = require('../chai');
 
 let appName = 'some-cool-app';
 let appRoot;

@@ -2,7 +2,7 @@
 
 const Heimdall = require('heimdalljs/heimdall');
 const heimdallGraph = require('heimdalljs-graph');
-const chai = require('../../chai');
+const { expect } = require('../../chai');
 const td = require('testdouble');
 const fs = require('fs');
 const path = require('path');
@@ -15,9 +15,10 @@ const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
-const expect = chai.expect;
-const any = td.matchers.anything;
-const contains = td.matchers.contains;
+const {
+  anything,
+  contains,
+} = td.matchers;
 
 const remove = RSVP.denodeify(fse.remove);
 const root = process.cwd();
@@ -431,8 +432,8 @@ describe('models/instrumentation.js', function() {
       let mockInitTree = 'init tree';
       let mockBuildTree = 'build tree';
 
-      td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
-      td.when(buildSummary(any(), 'a', 'b')).thenReturn(mockBuildSummary);
+      td.when(initSummary(anything(), 'a', 'b')).thenReturn(mockInitSummary);
+      td.when(buildSummary(anything(), 'a', 'b')).thenReturn(mockBuildSummary);
       td.when(treeFor('init')).thenReturn(mockInitTree);
       td.when(treeFor('build')).thenReturn(mockBuildTree);
 
@@ -489,8 +490,8 @@ describe('models/instrumentation.js', function() {
           },
         };
 
-        td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
-        td.when(buildSummary(any(), 'a', 'b')).thenReturn(mockBuildSummary);
+        td.when(initSummary(anything(), 'a', 'b')).thenReturn(mockInitSummary);
+        td.when(buildSummary(anything(), 'a', 'b')).thenReturn(mockBuildSummary);
         td.when(treeFor('init')).thenReturn(mockInitTree);
         td.when(treeFor('build')).thenReturn(mockBuildTree);
 
@@ -572,8 +573,8 @@ describe('models/instrumentation.js', function() {
         mockBuildSummary = 'build summary';
         mockBuildTree = 'build tree';
 
-        td.when(initSummary(any(), 'a', 'b')).thenReturn(mockInitSummary);
-        td.when(buildSummary(any(), 'a', 'b')).thenReturn(mockBuildSummary);
+        td.when(initSummary(anything(), 'a', 'b')).thenReturn(mockInitSummary);
+        td.when(buildSummary(anything(), 'a', 'b')).thenReturn(mockBuildSummary);
         td.when(treeFor('init')).thenReturn(mockInitTree);
         td.when(treeFor('build')).thenReturn(mockBuildTree);
       });
@@ -701,6 +702,7 @@ describe('models/instrumentation.js', function() {
         expect(nodeStats.time.self).to.be.within(0, 2000000); //2ms in nanoseconds
       });
 
+      // eslint-disable-next-line prefer-destructuring
       let c1Stats = stats[3];
       expect(c1Stats.mystats).to.eql({
         x: 3,
@@ -719,7 +721,7 @@ describe('models/instrumentation.js', function() {
         name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1',
       ]);
 
-      let c2 = Array.from(tree.dfsIterator()).filter(x => x.label.name === 'c2')[0];
+      let [c2] = Array.from(tree.dfsIterator()).filter(x => x.label.name === 'c2');
 
       let ancestorNames = Array.from(c2.ancestorsIterator()).map(x => x.label.name);
       expect(ancestorNames).to.eql([

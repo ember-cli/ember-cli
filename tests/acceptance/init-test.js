@@ -10,15 +10,10 @@ const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 let root = process.cwd();
 const util = require('util');
 const minimatch = require('minimatch');
-const lodash = require('ember-cli-lodash-subset');
-let intersect = lodash.intersection;
-let remove = lodash.remove;
-let forEach = lodash.forEach;
-const EOL = require('os').EOL;
+const { intersection, remove, forEach } = require('ember-cli-lodash-subset');
+const { EOL } = require('os');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let dir = chai.dir;
+const { dir, expect } = require('../chai');
 
 let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
@@ -62,7 +57,7 @@ describe('Acceptance: ember init', function() {
   function confirmGlobBlueprinted(pattern) {
     let blueprintPath = path.join(root, 'blueprints', 'app', 'files');
     let actual = pickSync('.', pattern);
-    let expected = intersect(actual, pickSync(blueprintPath, pattern));
+    let expected = intersection(actual, pickSync(blueprintPath, pattern));
 
     removeIgnored(expected);
     removeIgnored(actual);

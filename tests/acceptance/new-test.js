@@ -9,14 +9,11 @@ const path = require('path');
 const tmp = require('ember-cli-internal-test-helpers/lib/helpers/tmp');
 let root = process.cwd();
 const util = require('util');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 const chalk = require('chalk');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
-let dir = chai.dir;
-const forEach = require('ember-cli-lodash-subset').forEach;
+const { dir, file, expect } = require('../chai');
+const { forEach } = require('ember-cli-lodash-subset');
 const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';

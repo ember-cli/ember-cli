@@ -1,11 +1,11 @@
 'use strict';
 
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const LiveReloadServer = require('../../../../lib/tasks/server/livereload-server');
 const MockUI = require('console-ui/mock');
 const MockExpressServer = require('../../../helpers/mock-express-server');
 const net = require('net');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 const path = require('path');
 const MockWatcher = require('../../../helpers/mock-watcher');
 const FSTree = require('fs-tree-diff');

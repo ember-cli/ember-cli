@@ -1,13 +1,10 @@
 'use strict';
 
 const co = require('co');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const path = require('path');
 const loadConfig = require('../../../lib/utilities/load-config');
-const broccoliTestHelper = require('broccoli-test-helper');
-
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
 
 describe('load-config', function() {
   let fixtureDirectoryPath, fixtureDirectory;

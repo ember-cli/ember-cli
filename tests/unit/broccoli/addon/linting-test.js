@@ -1,15 +1,12 @@
 'use strict';
 
 const co = require('co');
-const broccoliTestHelper = require('broccoli-test-helper');
-const expect = require('chai').expect;
+const { buildOutput, createTempDir } = require('broccoli-test-helper');
+const { expect } = require('chai');
 
 const MockCLI = require('../../../helpers/mock-cli');
 const Project = require('../../../../lib/models/project');
 const Addon = require('../../../../lib/models/addon');
-
-const buildOutput = broccoliTestHelper.buildOutput;
-const createTempDir = broccoliTestHelper.createTempDir;
 
 describe('Addon', function() {
   let input, output, addon, lintTrees;

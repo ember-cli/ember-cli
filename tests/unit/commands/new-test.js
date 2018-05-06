@@ -1,10 +1,10 @@
 'use strict';
 
-const expect = require('../../chai').expect;
-const map = require('ember-cli-lodash-subset').map;
+const { expect } = require('../../chai');
+const { map } = require('ember-cli-lodash-subset');
 const commandOptions = require('../../factories/command-options');
 const NewCommand = require('../../../lib/commands/new');
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 const Blueprint = require('../../../lib/models/blueprint');
 const Command = require('../../../lib/models/command');
 const Task = require('../../../lib/models/task');

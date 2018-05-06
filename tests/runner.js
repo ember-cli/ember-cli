@@ -15,7 +15,7 @@ if (process.env.EOLNEWLINE) {
 fs.removeSync('.deps-tmp');
 
 let root = 'tests/{unit,integration,acceptance}';
-let optionOrFile = process.argv[2];
+let [, , optionOrFile] = process.argv;
 // default to `tap` reporter in CI otherwise default to `spec`
 let reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
 let mocha = new Mocha({

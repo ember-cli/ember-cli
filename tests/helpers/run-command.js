@@ -1,15 +1,15 @@
 'use strict';
 
-const Promise = require('rsvp').Promise;
+const { Promise } = require('rsvp');
 const chalk = require('chalk');
-const spawn = require('child_process').spawn;
-const defaults = require('ember-cli-lodash-subset').defaults;
+const { spawn } = require('child_process');
+const { defaults } = require('ember-cli-lodash-subset');
 const killCliProcess = require('./kill-cli-process');
 const logOnFailure = require('./log-on-failure');
 let debug = require('heimdalljs-logger')('run-command');
 
 module.exports = function run(/* command, args, options */) {
-  let command = arguments[0];
+  let [command] = arguments;
   let args = Array.prototype.slice.call(arguments, 1);
   let options = {};
 

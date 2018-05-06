@@ -3,6 +3,9 @@
   "keywords": [
     "ember-addon"
   ],
+  "engines": {
+    "node": "6.* || >= 8.*"
+  },
   "ember-addon": {
     "after": "broccoli-watcher",
     "before": "proxy-server-middleware"

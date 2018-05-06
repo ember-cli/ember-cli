@@ -15,7 +15,7 @@ module.exports = {
   ],
 
   locals(options) {
-    let entity = options.entity;
+    let { entity } = options;
     let rawName = entity.name;
     let name = stringUtil.dasherize(rawName);
     let namespace = stringUtil.classify(rawName);

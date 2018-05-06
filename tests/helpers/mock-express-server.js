@@ -1,7 +1,7 @@
 'use strict';
 
 const RSVP = require('rsvp');
-const EventEmitter = require('events').EventEmitter;
+const { EventEmitter } = require('events');
 const path = require('path');
 
 class MockExpressServer extends EventEmitter {

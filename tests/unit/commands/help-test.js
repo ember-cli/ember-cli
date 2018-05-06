@@ -1,7 +1,7 @@
 'use strict';
 
-const expect = require('chai').expect;
-const EOL = require('os').EOL;
+const { expect } = require('chai');
+const { EOL } = require('os');
 const processHelpString = require('../../helpers/process-help-string');
 const convertToJson = require('../../helpers/convert-help-output-to-json');
 const commandOptions = require('../../factories/command-options');
@@ -214,7 +214,7 @@ describe('help command', function() {
 
       command.run(options, ['missing-command']);
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`\
 Requested ember-cli commands:${EOL}\
@@ -276,7 +276,7 @@ ${EOL}\
 
       command.run(options, []);
 
-      let output = options.ui.output;
+      let { output } = options.ui;
 
       let testString = processHelpString(`${EOL}\
 Available commands from my-addon:${EOL}`);

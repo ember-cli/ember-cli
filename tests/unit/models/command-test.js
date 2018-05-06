@@ -1,13 +1,13 @@
 'use strict';
 
-const expect = require('../../chai').expect;
+const { expect } = require('../../chai');
 const commandOptions = require('../../factories/command-options');
 const processHelpString = require('../../helpers/process-help-string');
 const Yam = require('yam');
-const EOL = require('os').EOL;
+const { EOL } = require('os');
 const td = require('testdouble');
 const RSVP = require('rsvp');
-const Promise = RSVP.Promise;
+const { Promise } = RSVP;
 
 let Task = require('../../../lib/models/task');
 let Command = require('../../../lib/models/command');
@@ -89,6 +89,7 @@ describe('models/command.js', function() {
 
   beforeEach(function() {
     options = commandOptions();
+    // eslint-disable-next-line prefer-destructuring
     ui = options.ui;
   });
 

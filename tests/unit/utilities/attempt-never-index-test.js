@@ -4,9 +4,7 @@ const attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
 const quickTemp = require('quick-temp');
 let isDarwin = (/darwin/i).test(require('os').type());
 
-const chai = require('../../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { file, expect } = require('../../chai');
 
 describe('attempt-never-index', function() {
   let context = {};

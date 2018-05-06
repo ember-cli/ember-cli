@@ -12,9 +12,7 @@ const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
 
-const chai = require('../chai');
-let expect = chai.expect;
-let file = chai.file;
+const { file, expect } = require('../chai');
 
 describe('Acceptance: ember generate in-addon-dummy', function() {
   this.timeout(20000);
