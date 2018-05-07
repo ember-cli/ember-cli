@@ -244,6 +244,14 @@ function getDependencyFor(key, value) {
 */
 function setupRegistryFor(registryType, fn) {
   return {
+    extensionsForType(type) {
+      if (type === registryType) {
+        return ['hbs'];
+      }
+
+      return [];
+    },
+
     load(type) {
       if (type === registryType) {
         return [{

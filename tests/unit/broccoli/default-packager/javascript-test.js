@@ -45,11 +45,15 @@ describe('Default Packager: Javascript', function() {
       'router.js': 'router.js',
       'app.js': 'app.js',
       'components': {
-        'x-foo.js': 'x-foo.js',
+        'x-foo.js': 'export default class {}',
+      },
+      'routes': {
+        'application.js': 'export default class {}',
       },
       'config': {
         'environment.js': 'environment.js',
       },
+      'templates': {},
     },
     'vendor': {
       'loader': {
@@ -81,6 +85,25 @@ describe('Default Packager: Javascript', function() {
       },
     },
   };
+  let project = {
+    configPath() {
+      return `${input.path()}/the-best-app-ever/config/environment`;
+    },
+
+    config() {
+      return { a: 1 };
+    },
+
+    registry: setupRegistryFor('template', function(tree) {
+      return new Funnel(tree, {
+        getDestinationPath(relativePath) {
+          return relativePath.replace(/hbs$/g, 'js');
+        },
+      });
+    }),
+
+    addons: [],
+  };
 
   before(co.wrap(function *() {
     input = yield createTempDir();
@@ -98,11 +121,26 @@ describe('Default Packager: Javascript', function() {
 
   it('caches packaged javascript tree', co.wrap(function *() {
     let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+      env: 'development',
+
       distPaths: {
         appJsFile: '/assets/the-best-app-ever.js',
         vendorJsFile: '/assets/vendor.js',
       },
+
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
+          },
+        });
+      }),
+
+      customTransformsMap: new Map(),
+
       scriptOutputFiles,
+      project,
     });
 
     expect(defaultPackager._cachedJavascript).to.equal(null);
@@ -115,11 +153,26 @@ describe('Default Packager: Javascript', function() {
 
   it('packages javascript files with sourcemaps on', co.wrap(function *() {
     let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+      env: 'development',
+
       distPaths: {
         appJsFile: '/assets/the-best-app-ever.js',
         vendorJsFile: '/assets/vendor.js',
       },
+
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
+          },
+        });
+      }),
+
+      customTransformsMap: new Map(),
+
       scriptOutputFiles,
+      project,
     });
 
     output = yield buildOutput(defaultPackager.packageJavascript(input.path()));
@@ -136,14 +189,30 @@ describe('Default Packager: Javascript', function() {
 
   it('packages javascript files with sourcemaps off', co.wrap(function *() {
     let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+      env: 'development',
+
       distPaths: {
         appJsFile: '/assets/the-best-app-ever.js',
         vendorJsFile: '/assets/vendor.js',
       },
-      scriptOutputFiles,
+
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
+          },
+        });
+      }),
+
       sourcemaps: {
         enabled: false,
       },
+
+      customTransformsMap: new Map(),
+
+      scriptOutputFiles,
+      project,
     });
 
     output = yield buildOutput(defaultPackager.packageJavascript(input.path()));
@@ -180,7 +249,10 @@ describe('Default Packager: Javascript', function() {
     expect(outputFiles['the-best-app-ever']).to.deep.equal({
       'app.jsx': 'app.js',
       components: {
-        'x-foo.jsx': 'x-foo.js',
+        'x-foo.jsx': 'export default class {}',
+      },
+      routes: {
+        'application.jsx': 'export default class {}',
       },
       config: {
         'environment.jsx': 'environment.js',
@@ -239,22 +311,22 @@ describe('Default Packager: Javascript', function() {
           'main.js': '',
           'resolver.js': '',
           'router.js': '',
-        },
-        ui: {
-          components: {
-            'login-form': {
-              'component.js': '',
-              'template.hbs': '',
+          ui: {
+            components: {
+              'login-form': {
+                'component.js': '',
+                'template.hbs': '',
+              },
             },
-          },
-          'index.html': '',
-          routes: {
-            application: {
-              'template.hbs': '',
+            'index.html': '',
+            routes: {
+              application: {
+                'template.hbs': '',
+              },
             },
-          },
-          styles: {
-            'app.css': '',
+            styles: {
+              'app.css': '',
+            },
           },
         },
       };
@@ -275,6 +347,8 @@ describe('Default Packager: Javascript', function() {
             },
           }),
         }),
+
+        isModuleUnificationEnabled: true,
 
         // avoid using `testdouble.js` here on purpose; it does not have a "proxy"
         // option, where a function call would be registered and the original
@@ -317,26 +391,29 @@ describe('Default Packager: Javascript', function() {
         let outputFiles = output.read();
 
         expect(outputFiles['the-best-app-ever']).to.deep.equal({
+          assets: {
+            'app.css': '',
+          },
           src: {
             'main.js': '',
             'resolver.js': '',
             'router.js': '',
-          },
-          ui: {
-            components: {
-              'login-form': {
-                'component.js': '',
-                'template.js': '',
+            ui: {
+              components: {
+                'login-form': {
+                  'component.js': '',
+                  'template.js': '',
+                },
               },
-            },
-            'index.html': '',
-            routes: {
-              application: {
-                'template.js': '',
+              'index.html': '',
+              routes: {
+                application: {
+                  'template.js': '',
+                },
               },
-            },
-            styles: {
-              'app.css': '',
+              styles: {
+                'app.css': '',
+              },
             },
           },
         });
