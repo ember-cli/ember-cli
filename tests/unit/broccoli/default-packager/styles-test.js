@@ -38,7 +38,8 @@ describe('Default Packager: Styles', function() {
         'environment.js': 'environment.js',
       },
       styles: {
-        'app.css': 'html { height: 100%; }',
+        'app.css': '@import "extra.css";\nhtml { height: 100%; }',
+        'extra.css': 'body{ position: relative; }',
       },
       'templates': {},
     },
@@ -93,7 +94,7 @@ describe('Default Packager: Styles', function() {
 
       minifyCSS: {
         enabled: true,
-        options: {},
+        options: { processImport: false },
       },
 
       styleOutputFiles,
@@ -143,6 +144,7 @@ describe('Default Packager: Styles', function() {
     let outputFiles = output.read();
 
     expect(Object.keys(outputFiles.assets)).to.deep.equal([
+      'extra.css',
       'the-best-app-ever.css',
       'vendor.css',
     ]);
@@ -151,7 +153,7 @@ describe('Default Packager: Styles', function() {
     ).to.equal('body { height: 100%; }');
     expect(
       outputFiles.assets['the-best-app-ever.css'].trim()
-    ).to.equal('html { height: 100%; }');
+    ).to.equal('@import "extra.css";\nhtml { height: 100%; }');
   }));
 
   it('minifies css files when minification is enabled', co.wrap(function *() {
@@ -188,6 +190,7 @@ describe('Default Packager: Styles', function() {
     let outputFiles = output.read();
 
     expect(Object.keys(outputFiles.assets)).to.deep.equal([
+      'extra.css',
       'the-best-app-ever.css',
       'vendor.css',
     ]);
@@ -196,7 +199,7 @@ describe('Default Packager: Styles', function() {
     ).to.match(/^\S+$/, 'css file is minified');
     expect(
       outputFiles.assets['the-best-app-ever.css'].trim()
-    ).to.match(/^\S+$/, 'css file is minified');
+    ).to.match(/^@import \S+$/, 'css file is minified');
   }));
 
   it('processes css according to the registry', co.wrap(function *() {
@@ -244,6 +247,47 @@ describe('Default Packager: Styles', function() {
       'the-best-app-ever.zss',
       'vendor.css',
     ]);
+  }));
+
+  it('inlines css imports', co.wrap(function *() {
+    let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+      env: 'development',
+
+      distPaths: {
+        appCssFile: { app: '/assets/the-best-app-ever.css' },
+        vendorCssFile: '/assets/vendor.css',
+      },
+
+      registry: {
+        load: () => [],
+      },
+
+      minifyCSS: {
+        enabled: true,
+        options: {
+          processImport: true,
+          relativeTo: 'assets',
+        },
+      },
+
+      styleOutputFiles,
+
+      project: { addons: [] },
+    });
+
+    expect(defaultPackager._cachedProcessedStyles).to.equal(null);
+
+    output = yield buildOutput(defaultPackager.packageStyles(input.path()));
+
+    let outputFiles = output.read();
+
+    expect(outputFiles.assets['the-best-app-ever.css'].trim()).to.not.include(
+      '@import'
+    );
+    expect(outputFiles.assets['the-best-app-ever.css'].trim()).to.equal(
+      'body{position:relative}html{height:100%}'
+    );
   }));
 
   it('runs pre/post-process add-on hooks', co.wrap(function *() {
