@@ -96,6 +96,130 @@ describe('EmberApp', function() {
     }));
   });
 
+  describe('getTests()', function() {
+    it('returns all test files `hinting` is enabled', co.wrap(function *() {
+      let input = yield createTempDir();
+      let addonLint = yield createTempDir();
+      let addonFooTestSupport = yield createTempDir();
+      let addonBarTestSupport = yield createTempDir();
+
+      input.write({
+        acceptance: {
+          'login-test.js': '',
+          'logout-test.js': '',
+        },
+      });
+      addonFooTestSupport.write({
+        'foo-helper.js': 'foo',
+      });
+      addonBarTestSupport.write({
+        'bar-helper.js': 'bar',
+      });
+      addonLint.write({
+        'login-test.lint.js': '',
+        'logout-test.lint.js': '',
+      });
+
+      let app = new EmberApp({
+        project,
+      });
+      app.trees.tests = input.path();
+      app.addonLintTree = (type, tree) => {
+        if (type === 'tests') {
+          return addonLint.path();
+        }
+
+        return tree;
+      };
+      app.addonTreesFor = function(type) {
+        if (type === 'test-support') {
+          return [
+            addonFooTestSupport.path(),
+            addonBarTestSupport.path(),
+          ];
+        }
+
+        return [];
+      };
+
+      let output = yield buildOutput(app.getTests());
+      let outputFiles = output.read();
+
+      expect(outputFiles.tests).to.deep.equal({
+        'addon-test-support': {},
+        lint: {
+          'login-test.lint.js': '',
+          'logout-test.lint.js': '',
+        },
+        acceptance: {
+          'login-test.js': '',
+          'logout-test.js': '',
+        },
+        'foo-helper.js': 'foo',
+        'bar-helper.js': 'bar',
+      });
+
+      yield input.dispose();
+      yield addonFooTestSupport.dispose();
+      yield addonBarTestSupport.dispose();
+      yield addonLint.dispose();
+      yield output.dispose();
+    }));
+
+    it('returns test files w/o lint tests if `hinting` is disabled', co.wrap(function *() {
+      let input = yield createTempDir();
+      let addonFooTestSupport = yield createTempDir();
+      let addonBarTestSupport = yield createTempDir();
+
+      input.write({
+        acceptance: {
+          'login-test.js': '',
+          'logout-test.js': '',
+        },
+      });
+      addonFooTestSupport.write({
+        'foo-helper.js': 'foo',
+      });
+      addonBarTestSupport.write({
+        'bar-helper.js': 'bar',
+      });
+
+      let app = new EmberApp({
+        project,
+        hinting: false,
+      });
+      app.trees.tests = input.path();
+      app.addonTreesFor = function(type) {
+        if (type === 'test-support') {
+          return [
+            addonFooTestSupport.path(),
+            addonBarTestSupport.path(),
+          ];
+        }
+
+        return [];
+      };
+
+      let output = yield buildOutput(app.getTests());
+      let outputFiles = output.read();
+
+      expect(outputFiles.tests).to.deep.equal({
+        'addon-test-support': {},
+        acceptance: {
+          'login-test.js': '',
+          'logout-test.js': '',
+        },
+        'foo-helper.js': 'foo',
+        'bar-helper.js': 'bar',
+      });
+
+      yield input.dispose();
+      yield addonFooTestSupport.dispose();
+      yield addonBarTestSupport.dispose();
+      yield output.dispose();
+    }));
+  });
+
   describe('constructor', function() {
     it('should override project.configPath if configPath option is specified', function() {
       project.configPath = function() { return 'original value'; };
@@ -879,25 +1003,7 @@ describe('EmberApp', function() {
     });
 
     describe('concat order', function() {
-      let count = 0;
-      let args = [];
-
       beforeEach(function() {
-        count = 0;
-        args = [];
-
-        // we are "spying and mocking here" so to ensure we are testing our own
-        // "wiring" not the implementation of our dependencies e.g. broccoli-concat
-        app._concatFiles = function(tree, options) {
-          count++;
-          args.push(options);
-          return tree;
-        };
-
-        app.appAndDependencies = function() {
-          return 'app-and-dependencies-tree';
-        };
-
         mockTemplateRegistry(app);
       });
 
@@ -930,39 +1036,19 @@ describe('EmberApp', function() {
         app.import('files/d.css', { type: 'test' });
         app.import('files/d.css', { type: 'test' });
 
-        app.testFiles('some-tree'); // run
+        expect(app.legacyTestFilesToAppend).to.deep.equal([
+          'files/d.js',
+          'files/a.js',
+          'files/b.js',
+          'files/c.js',
+        ]);
 
-        expect(count).to.eql(2);
-
-        expect(args[0]).to.deep.eql({
-          allowNone: true,
-          annotation: 'Concat: Test Support JS',
-          footerFiles: [
-            'vendor/ember-cli/test-support-suffix.js',
-          ],
-          headerFiles: [
-            'vendor/ember-cli/test-support-prefix.js',
-            'files/d.js',
-            'files/a.js',
-            'files/b.js',
-            'files/c.js',
-          ],
-          inputFiles: [
-            'addon-test-support/**/*.js',
-          ],
-          outputFile: '/assets/test-support.js',
-        });
-
-        expect(args[1]).to.deep.eql({
-          annotation: 'Concat: Test Support CSS',
-          headerFiles: [
-            'files/a.css',
-            'files/b.css',
-            'files/c.css',
-            'files/d.css',
-          ],
-          outputFile: '/assets/test-support.css',
-        });
+        expect(app.vendorTestStaticStyles).to.deep.equal([
+          'files/a.css',
+          'files/b.css',
+          'files/c.css',
+          'files/d.css',
+        ]);
       });
     });
   });
