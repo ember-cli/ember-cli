@@ -56,6 +56,7 @@ jobs:
         - .travis/codecoverage.sh
 
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
+    - env: EMBER_CLI_PACKAGER=true
     - env: EMBER_CLI_MODULE_UNIFICATION=true
     - env: EMBER_CLI_DELAYED_TRANSPILATION=true
 

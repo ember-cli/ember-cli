@@ -13,6 +13,8 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 const MockCLI = require('../../helpers/mock-cli');
+const experiments = require('../../../lib/experiments');
+const mergeTrees = require('../../../lib/broccoli/merge-trees');
 
 let EmberApp = require('../../../lib/broccoli/ember-app');
 
@@ -22,11 +24,7 @@ function mockTemplateRegistry(app) {
     if (type === 'template') {
       return [
         {
-          toTree() {
-            return {
-              description: 'template',
-            };
-          },
+          toTree: tree => tree,
         },
       ];
     }
@@ -56,6 +54,144 @@ describe('EmberApp', function() {
     projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
     project = setupProject(projectPath);
   });
+
+  if (experiments.PACKAGER) {
+    describe('packager hook', function() {
+      let js, input, output;
+
+      before(co.wrap(function *() {
+        js = yield createTempDir();
+        js.write({
+          fake: {
+            javascript: '// javascript.js',
+          },
+        });
+      }));
+
+      beforeEach(co.wrap(function *() {
+        input = yield createTempDir();
+      }));
+
+      afterEach(co.wrap(function *() {
+        yield input.dispose();
+        yield output.dispose();
+      }));
+
+      after(co.wrap(function *() {
+        yield js.dispose();
+      }));
+
+      it('overrides the output of the build', co.wrap(function *() {
+        input.write({
+          fake: {
+            dist: {
+              'foo.js': '// foo.js',
+            },
+          },
+        });
+
+        let app = new EmberApp({
+          project,
+        });
+        mockTemplateRegistry(app);
+        app.package = () => input.path();
+
+        output = yield buildOutput(app.toTree());
+
+        let outputFiles = output.read();
+
+        expect(outputFiles).to.deep.equal({
+          fake: {
+            dist: {
+              'foo.js': '// foo.js',
+            },
+          },
+        });
+      }));
+
+      it('receives a full tree as an argument', co.wrap(function *() {
+        input.write({
+          fake: {
+            dist: {
+              'foo.js': '// foo.js',
+            },
+          },
+        });
+
+        let app = new EmberApp({
+          project,
+        });
+        mockTemplateRegistry(app);
+
+        app.getAppJavascript = () => js.path();
+        app.package = function(tree) {
+          return mergeTrees([
+            tree,
+            input.path(),
+          ]);
+        };
+
+        output = yield buildOutput(app.toTree());
+
+        let outputFiles = output.read();
+
+        expect(outputFiles).to.deep.equal({
+          'addon-tree-output': {},
+          fake: {
+            dist: {
+              'foo.js': '// foo.js',
+            },
+            javascript: '// javascript.js',
+          },
+          'test-project': {
+            templates: {},
+          },
+          tests: {
+            '.gitkeep': '',
+            'addon-test-support': {},
+            lint: {},
+          },
+          vendor: {
+            '.gitkeep': '',
+          },
+        });
+      }));
+
+      it('prints a warning if `package` is not a function and falls back to default packaging', co.wrap(function *() {
+        let app = new EmberApp({
+          project,
+        });
+
+        app.package = { };
+
+        app.project.ui.writeWarnLine = td.function();
+
+        app.getAppJavascript = td.function();
+        app.getAddonTemplates = td.function();
+        app.getAddonStyles = td.function();
+        app.getTests = td.function();
+        app.getExternalTree = td.function();
+        app.getSrc = td.function();
+        app._defaultPackager = {
+          packagePublic: td.function(),
+          packageJavascript: td.function(),
+          packageStyles: td.function(),
+          processIndex: td.function(),
+          importAdditionalAssets: td.function(),
+          packageTests: td.function(),
+        };
+
+        output = yield buildOutput(app.toTree());
+
+        td.verify(app.getAppJavascript());
+        td.verify(app.getAddonStyles());
+        td.verify(app.getTests());
+        td.verify(app.getExternalTree());
+        td.verify(app.getSrc());
+        td.verify(app.project.ui.writeWarnLine('`package` hook must be a function, falling back to default packaging.'));
+      }));
+    });
+  }
 
   describe('getAddonTemplates()', function() {
     it('returns add-ons template files', co.wrap(function *() {
