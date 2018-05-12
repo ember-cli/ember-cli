@@ -1,34 +1,109 @@
 'use strict';
 
-const p = require('ember-cli-preprocess-registry/preprocessors');
 const co = require('co');
+const stew = require('broccoli-stew');
+const Funnel = require('broccoli-funnel');
 const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
+const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
+const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
 describe('Default Packager: Tests', function() {
   let input, output;
   let name = 'the-best-app-ever';
-
-  let project = {
-    dependencies() {
-      return {
-        'ember-cli-htmlbars': '^2.0.1',
-      };
-    },
-    addons: [],
-  };
+  let env = 'development';
 
   let TESTS = {
-    acceptance: {},
-    helpers: {},
-    'index.html': 'index',
-    integration: {},
-    'test-helper.js': 'test-helper',
-    unit: {},
+    'addon-tree-output': {},
+    'bower_components': {},
+    'the-best-app-ever': {
+      'router.js': 'router.js',
+      'app.js': 'app.js',
+      'components': {
+        'x-foo.js': 'export default class {}',
+      },
+      'routes': {
+        'application.js': 'export default class {}',
+      },
+      'config': {
+        'environment.js': 'environment.js',
+      },
+      'templates': {},
+    },
+    vendor: {
+      custom: {
+        'a.js': 'a.js',
+        'a.css': 'a.css',
+        'b.js': 'b.js',
+        'b.css': 'b.css',
+      },
+      'ember-cli': {
+        'app-boot.js': 'app-boot.js',
+        'app-config.js': 'app-config.js',
+        'app-prefix.js': 'app-prefix.js',
+        'app-suffix.js': 'app-suffix.js',
+        'test-support-prefix.js': 'test-support-prefix.js',
+        'test-support-suffix.js': 'test-support-suffix.js',
+        'tests-prefix.js': 'tests-prefix.js',
+        'tests-suffix.js': 'tests-suffix.js',
+        'vendor-prefix.js': 'vendor-prefix.js',
+        'vendor-suffix.js': 'vendor-suffix.js',
+      },
+    },
+    tests: {
+      'addon-test-support': {},
+      acceptance: {
+        'login-test.js': ' // login-test.js',
+        'logout-test.js': '',
+      },
+      lint: {
+        'login-test.lint.js': ' // login-test.lint.js',
+        'logout-test.lint.js': '',
+      },
+      helpers: {
+        'resolver.js': '',
+        'start-app.js': '',
+      },
+      'index.html': 'index',
+      integration: {
+        components: {
+          'login-form-test.js': '',
+          'user-menu-test.js': '',
+        },
+      },
+      'test-helper.js': '// test-helper.js',
+      unit: {
+        services: {
+          'session-test.js': '',
+        },
+      },
+    },
+  };
+
+  let project = {
+    configPath() {
+      return `${input.path()}/the-best-app-ever/config/environment`;
+    },
+
+    config() {
+      return {
+        a: 1,
+        modulePrefix: 'the-best-app-ever',
+      };
+    },
+
+    addons: [{
+      // this lintTree implementation will return the same
+      // files as the input tree, but the contents will be
+      // different
+      lintTree(type, tree) {
+        return stew.map(tree, string => string.toUpperCase());
+      },
+    }],
   };
 
   before(co.wrap(function *() {
@@ -49,7 +124,26 @@ describe('Default Packager: Tests', function() {
     let defaultPackager = new DefaultPackager({
       project,
       name,
-      registry: p.defaultRegistry(project),
+      env,
+      areTestsEnabled: true,
+
+      distPaths: {
+        testJsFile: '/assets/tests.js',
+        testSupportJsFile: {
+          testSupport: '/assets/test-support.js',
+          testLoader: '/assets/test-loader.js',
+        },
+        testSupportCssFile: '/assets/test-support.css',
+      },
+
+      vendorTestStaticStyles: [],
+      legacyTestFilesToAppend: [],
+
+      fingerprint: {
+        exclude: [],
+      },
+
+      registry: setupRegistryFor('js', tree => tree),
     });
 
     expect(defaultPackager._cachedTests).to.equal(null);
@@ -60,21 +154,303 @@ describe('Default Packager: Tests', function() {
     expect(defaultPackager._cachedTests._annotation).to.equal('Packaged Tests');
   }));
 
-  it('packages tests files', co.wrap(function *() {
+  it('packages test files', co.wrap(function *() {
     let defaultPackager = new DefaultPackager({
       project,
       name,
-      registry: p.defaultRegistry(project),
+      env,
+      areTestsEnabled: true,
+
+      distPaths: {
+        testJsFile: '/assets/tests.js',
+        testSupportJsFile: {
+          testSupport: '/assets/test-support.js',
+          testLoader: '/assets/test-loader.js',
+        },
+        testSupportCssFile: '/assets/test-support.css',
+      },
+
+      vendorTestStaticStyles: [],
+      legacyTestFilesToAppend: [],
+
+      fingerprint: {
+        exclude: [],
+      },
+
+      registry: setupRegistryFor('js', tree => tree),
     });
 
     output = yield buildOutput(defaultPackager.packageTests(input.path()));
 
     let outputFiles = output.read();
 
+    expect(Object.keys(outputFiles.tests)).to.deep.equal([
+      'index.html',
+    ]);
+
+    expect(Object.keys(outputFiles.assets)).to.deep.equal([
+      'test-support.js',
+      'test-support.map',
+      'tests.js',
+      'tests.map',
+    ]);
+
+    expect(Object.keys(outputFiles)).to.deep.equal([
+      'assets',
+      'testem.js',
+      'tests',
+    ]);
+
+    expect(outputFiles.assets['tests.js']).to.include('login-test.js');
+    expect(outputFiles.assets['tests.js']).to.include('login-test.lint.js');
+    expect(outputFiles.assets['tests.js']).to.include('test-helper');
+    expect(outputFiles.assets['tests.js']).to.include(`define('the-best-app-ever/config/environment'`);
+    expect(outputFiles.assets['tests.js']).to.include(`require('the-best-app-ever/tests/test-helper');`);
+    expect(outputFiles.assets['tests.js']).to.include('EmberENV.TESTS_FILE_LOADED = true;');
+  }));
+
+  it('processes tests files according to the registry', co.wrap(function *() {
+    let defaultPackager = new DefaultPackager({
+      project,
+      name,
+      env,
+      areTestsEnabled: true,
+
+      distPaths: {
+        testJsFile: '/assets/tests.js',
+        testSupportJsFile: {
+          testSupport: '/assets/test-support.js',
+          testLoader: '/assets/test-loader.js',
+        },
+        testSupportCssFile: '/assets/test-support.css',
+      },
+
+      vendorTestStaticStyles: [],
+      legacyTestFilesToAppend: [],
+
+      fingerprint: {
+        exclude: [],
+      },
+
+      registry: setupRegistryFor('js', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/js/g, 'js-test');
+          },
+        });
+      }),
+    });
+
+    output = yield buildOutput(defaultPackager.processTests(input.path()));
+
+    let outputFiles = output.read();
+
     expect(outputFiles).to.deep.equal({
       [name]: {
-        tests: TESTS,
+        tests: {
+          acceptance: {
+            'login-test.js-test': ' // login-test.js',
+            'logout-test.js-test': '',
+          },
+          lint: {
+            'login-test.lint.js-test': ' // login-test.lint.js',
+            'logout-test.lint.js-test': '',
+          },
+          helpers: {
+            'resolver.js-test': '',
+            'start-app.js-test': '',
+          },
+          'index.html': 'index',
+          integration: {
+            components: {
+              'login-form-test.js-test': '',
+              'user-menu-test.js-test': '',
+            },
+          },
+          'test-helper.js-test': '// test-helper.js',
+          unit: {
+            services: {
+              'session-test.js-test': '',
+            },
+          },
+        },
       },
     });
+  }));
+
+  it('emits dist/assets/tests.js by default', co.wrap(function *() {
+    let emptyInput = yield createTempDir();
+    let emptyTestFolder = {
+      'addon-tree-output': {},
+      'bower_components': {},
+      'the-best-app-ever': {
+        'router.js': 'router.js',
+        'app.js': 'app.js',
+        'components': {
+          'x-foo.js': 'export default class {}',
+        },
+        'routes': {
+          'application.js': 'export default class {}',
+        },
+        'config': {
+          'environment.js': 'environment.js',
+        },
+        'templates': {},
+      },
+      vendor: {
+        'ember-cli': {
+          'app-boot.js': 'app-boot.js',
+          'app-config.js': 'app-config.js',
+          'app-prefix.js': 'app-prefix.js',
+          'app-suffix.js': 'app-suffix.js',
+          'test-support-prefix.js': 'test-support-prefix.js',
+          'test-support-suffix.js': 'test-support-suffix.js',
+          'tests-prefix.js': 'tests-prefix.js',
+          'tests-suffix.js': 'tests-suffix.js',
+          'vendor-prefix.js': 'vendor-prefix.js',
+          'vendor-suffix.js': 'vendor-suffix.js',
+        },
+      },
+      tests: {
+        'test-helper.js': '// test-helper.js',
+      },
+    };
+
+    emptyInput.write(emptyTestFolder);
+
+    let project = {
+      configPath() {
+        return `${emptyInput.path()}/the-best-app-ever/config/environment`;
+      },
+
+      config() {
+        return { a: 1 };
+      },
+
+      addons: [],
+    };
+
+    let defaultPackager = new DefaultPackager({
+      project,
+      name,
+      env,
+      areTestsEnabled: true,
+
+      distPaths: {
+        testJsFile: '/assets/tests.js',
+        testSupportJsFile: {
+          testSupport: '/assets/test-support.js',
+          testLoader: '/assets/test-loader.js',
+        },
+        testSupportCssFile: '/assets/test-support.css',
+      },
+
+      vendorTestStaticStyles: [],
+      legacyTestFilesToAppend: [],
+
+      fingerprint: {
+        exclude: [],
+      },
+
+      registry: setupRegistryFor('js', tree => tree),
+    });
+
+    output = yield buildOutput(defaultPackager.packageTests(input.path()));
+
+    let outputFiles = output.read();
+
+    expect(Object.keys(outputFiles.tests)).to.deep.equal([
+      'index.html',
+    ]);
+
+    expect(Object.keys(outputFiles.assets)).to.deep.equal([
+      'test-support.js',
+      'test-support.map',
+      'tests.js',
+      'tests.map',
+    ]);
+
+    expect(Object.keys(outputFiles)).to.deep.equal([
+      'assets',
+      'testem.js',
+      'tests',
+    ]);
+
+    emptyInput.dispose();
+  }));
+
+  it('lintTree results do not "win" over app tests', co.wrap(function *() {
+    let defaultPackager = new DefaultPackager({
+      project,
+      name,
+      env,
+      areTestsEnabled: true,
+
+      distPaths: {
+        testJsFile: '/assets/tests.js',
+        testSupportJsFile: {
+          testSupport: '/assets/test-support.js',
+          testLoader: '/assets/test-loader.js',
+        },
+        testSupportCssFile: '/assets/test-support.css',
+      },
+
+      vendorTestStaticStyles: [],
+      legacyTestFilesToAppend: [],
+
+      fingerprint: {
+        exclude: [],
+      },
+
+      registry: setupRegistryFor('js', tree => tree),
+    });
+
+    output = yield buildOutput(defaultPackager.packageTests(input.path()));
+
+    let outputFiles = output.read();
+
+    // confirm this contains the original value
+    // unmodified by the `lintTree` added above
+    expect(outputFiles.assets['tests.js']).to.include('// login-test.js');
+  }));
+
+  it('maintains the concatenation order', co.wrap(function *() {
+    let defaultPackager = new DefaultPackager({
+      project,
+      name,
+      env,
+      areTestsEnabled: true,
+
+      distPaths: {
+        testJsFile: '/assets/tests.js',
+        testSupportJsFile: {
+          testSupport: '/assets/test-support.js',
+          testLoader: '/assets/test-loader.js',
+        },
+        testSupportCssFile: '/assets/test-support.css',
+      },
+
+      vendorTestStaticStyles: [
+        'vendor/custom/a.css',
+        'vendor/custom/b.css',
+      ],
+      legacyTestFilesToAppend: [
+        'vendor/custom/a.js',
+        'vendor/custom/b.js',
+      ],
+
+      fingerprint: {
+        exclude: [],
+      },
+
+      registry: setupRegistryFor('js', tree => tree),
+    });
+
+    output = yield buildOutput(defaultPackager.packageTests(input.path()));
+
+    let outputFiles = output.read();
+
+    expect(outputFiles.assets['test-support.js']).to.include('a.js\nb.js');
+    expect(outputFiles.assets['test-support.css']).to.include('a.css\nb.css');
   }));
 });
