@@ -146,59 +146,6 @@ describe('models/addon.js', function() {
     });
   });
 
-  describe('resolvePath', function() {
-    beforeEach(function() {
-      addon = {
-        pkg: {
-          'ember-addon': {
-            'main': '',
-          },
-        },
-        path: '',
-      };
-    });
-
-    it('adds .js if not present', function() {
-      addon.pkg['ember-addon']['main'] = 'index';
-      let resolvedFile = path.basename(Addon.resolvePath(addon));
-      expect(resolvedFile).to.equal('index.js');
-    });
-
-    it('doesn\'t add .js if it is .js', function() {
-      addon.pkg['ember-addon']['main'] = 'index.js';
-      let resolvedFile = path.basename(Addon.resolvePath(addon));
-      expect(resolvedFile).to.equal('index.js');
-    });
-
-    it('doesn\'t add .js if it has another extension', function() {
-      addon.pkg['ember-addon']['main'] = 'index.coffee';
-      let resolvedFile = path.basename(Addon.resolvePath(addon));
-      expect(resolvedFile).to.equal('index.coffee');
-    });
-
-    it('allows lookup of non-`index.js` `main` entry points', function() {
-      delete addon.pkg['ember-addon'];
-      addon.pkg['main'] = 'some/other/path.js';
-
-      let resolvedFile = Addon.resolvePath(addon);
-      expect(resolvedFile).to.equal(path.join(process.cwd(), 'some/other/path.js'));
-    });
-
-    it('falls back to `index.js` if `main` and `ember-addon` are not found', function() {
-      delete addon.pkg['ember-addon'];
-
-      let resolvedFile = Addon.resolvePath(addon);
-      expect(resolvedFile).to.equal(path.join(process.cwd(), 'index.js'));
-    });
-
-    it('falls back to `index.js` if `main` and `ember-addon.main` are not found', function() {
-      delete addon.pkg['ember-addon'].main;
-
-      let resolvedFile = Addon.resolvePath(addon);
-      expect(resolvedFile).to.equal(path.join(process.cwd(), 'index.js'));
-    });
-  });
-
   describe('initialized addon', function() {
     this.timeout(40000);
     before(function() {
@@ -595,22 +542,6 @@ describe('models/addon.js', function() {
 
         expect(appConfig.addon).to.equal('with-config');
       });
-    });
-  });
-
-  describe('Addon.lookup', function() {
-    it('should throw an error if an addon could not be found', function() {
-      let addon = {
-        path: 'foo/bar-baz/blah/doesnt-exist',
-        pkg: {
-          name: 'dummy-addon',
-          'ember-addon': { },
-        },
-      };
-
-      expect(() => {
-        Addon.lookup(addon);
-      }).to.throw(/The `dummy-addon` addon could not be found at `foo\/bar-baz\/blah\/doesnt-exist`\./);
     });
   });
 
