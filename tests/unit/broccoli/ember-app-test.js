@@ -151,6 +151,7 @@ describe('EmberApp', function() {
             'addon-test-support': {},
             lint: {},
           },
+          public: {},
           vendor: {
             '.gitkeep': '',
           },
@@ -192,6 +193,53 @@ describe('EmberApp', function() {
       }));
     });
   }
+
+  describe('getPublic()', function() {
+    it('returns public files for app and add-ons', co.wrap(function *() {
+      let input = yield createTempDir();
+      let addonFooPublic = yield createTempDir();
+      let addonBarPublic = yield createTempDir();
+
+      input.write({
+        'crossdomain.xml': '',
+        'robots.txt': '',
+      });
+      addonFooPublic.write({
+        'foo': 'foo',
+      });
+      addonBarPublic.write({
+        'bar': 'bar',
+      });
+
+      let app = new EmberApp({
+        project,
+      });
+      app.trees.public = input.path();
+      app.addonTreesFor = function() {
+        return [
+          addonFooPublic.path(),
+          addonBarPublic.path(),
+        ];
+      };
+
+      let output = yield buildOutput(app.getPublic());
+      let outputFiles = output.read();
+
+      expect(outputFiles).to.deep.equal({
+        public: {
+          'crossdomain.xml': '',
+          'robots.txt': '',
+          'foo': 'foo',
+          'bar': 'bar',
+        },
+      });
+
+      yield input.dispose();
+      yield addonFooPublic.dispose();
+      yield addonBarPublic.dispose();
+      yield output.dispose();
+    }));
+  });
 
   describe('getAddonTemplates()', function() {
     it('returns add-ons template files', co.wrap(function *() {
