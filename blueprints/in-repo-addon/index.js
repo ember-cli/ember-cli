@@ -10,13 +10,14 @@ module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',
 
   beforeInstall(options) {
-    let libBlueprint = Blueprint.lookup('lib', {
+    let blueprintName = this.fileMapTokens().__root__();
+    let libOrPackagesBlueprint = Blueprint.lookup(blueprintName, {
       ui: this.ui,
       analytics: this.analytics,
       project: this.project,
     });
 
-    return libBlueprint.install(options);
+    return libOrPackagesBlueprint.install(options);
   },
 
   afterInstall(options) {
@@ -27,11 +28,21 @@ module.exports = {
     this._generatePackageJson(options, false);
   },
 
+  fileMapTokens() {
+    let isModuleUnification = this.project.isModuleUnification && this.project.isModuleUnification();
+
+    return {
+      __root__() {
+        return isModuleUnification ? 'packages' : 'lib';
+      },
+    };
+  },
+
   _generatePackageJson(options, isInstall) {
     let packagePath = path.join(this.project.root, 'package.json');
     let contents = this._readJsonSync(packagePath);
     let name = stringUtil.dasherize(options.entity.name);
-    let newPath = ['lib', name].join('/');
+    let newPath = [this.fileMapTokens().__root__(), name].join('/');
     let paths;
 
     contents['ember-addon'] = contents['ember-addon'] || {};
