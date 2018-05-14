@@ -194,6 +194,54 @@ describe('EmberApp', function() {
     });
   }
 
+  describe('getAddonStyles()', function() {
+    it('returns add-ons styles files', co.wrap(function *() {
+      let addonFooStyles = yield createTempDir();
+      let addonBarStyles = yield createTempDir();
+
+      addonFooStyles.write({
+        app: {
+          styles: {
+            'foo.css': 'foo',
+          },
+        },
+      });
+      addonBarStyles.write({
+        app: {
+          styles: {
+            'bar.css': 'bar',
+          },
+        },
+      });
+
+      let app = new EmberApp({
+        project,
+      });
+      app.addonTreesFor = function() {
+        return [
+          addonFooStyles.path(),
+          addonBarStyles.path(),
+        ];
+      };
+
+      let output = yield buildOutput(app.getAddonStyles());
+      let outputFiles = output.read();
+
+      expect(outputFiles['test-project']).to.deep.equal({
+        app: {
+          styles: {
+            'foo.css': 'foo',
+            'bar.css': 'bar',
+          },
+        },
+      });
+
+      yield addonFooStyles.dispose();
+      yield addonBarStyles.dispose();
+      yield output.dispose();
+    }));
+  });
+
   describe('getPublic()', function() {
     it('returns public files for app and add-ons', co.wrap(function *() {
       let input = yield createTempDir();
@@ -211,9 +259,6 @@ describe('EmberApp', function() {
         'bar': 'bar',
       });
 
-      let app = new EmberApp({
-        project,
-      });
       app.trees.public = input.path();
       app.addonTreesFor = function() {
         return [
