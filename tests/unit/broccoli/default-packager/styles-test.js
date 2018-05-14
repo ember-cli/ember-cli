@@ -25,7 +25,7 @@ describe('Default Packager: Styles', function() {
     ],
   };
   let MODULES = {
-    'addon-tree-output': { },
+    'node_modules': { },
     'the-best-app-ever': {
       'router.js': 'router.js',
       'app.js': 'app.js',

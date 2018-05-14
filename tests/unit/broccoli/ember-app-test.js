@@ -138,7 +138,7 @@ describe('EmberApp', function() {
         let outputFiles = output.read();
 
         expect(outputFiles).to.deep.equal({
-          'addon-tree-output': {},
+          'node_modules': {},
           fake: {
             dist: {
               'foo.js': '// foo.js',
@@ -229,6 +229,84 @@ describe('EmberApp', function() {
       }));
     });
   }
+
+  describe('getExternalTree()', function() {
+    it.only('returns bower components, node modules and vendor files', co.wrap(function *() {
+      let bower = yield createTempDir();
+      let vendor = yield createTempDir();
+      let addonFooVendor = yield createTempDir();
+      let addonBarVendor = yield createTempDir();
+
+      addonFooVendor.write({
+        'node_modules': {
+          'ember-moment': {
+            helpers: {
+              'moment.js': '// helpers-moment.js',
+            },
+            services: {
+              'moment.js': '// services-moment.js',
+            },
+          },
+        },
+      });
+      addonBarVendor.write({
+        vendor: {
+          'pretender-shim.js': '// pretender-shim.js',
+        },
+      });
+
+      vendor.write({
+        vendor: {},
+      });
+      bower.write({
+        vendor: {
+          faker: {
+            'faker.js': '// faker.js',
+          },
+          'ember-fetch.js': '// ember-fetch.js',
+          chai: {
+            'chai.js': '// chai.js',
+          },
+        },
+      });
+      let app = new EmberApp({
+        project,
+      });
+      app._bowerEnabled = true;
+      app.trees.vendor = vendor.path();
+      app.trees.bower = bower.path();
+      app.addonTree = function() {
+        return [
+          addonFooVendor.path(),
+        ];
+      };
+      app.addonSrcTree = function() {
+        return [];
+      };
+      app.addonTreesFor = function(type) {
+        if (type === 'vendor') {
+          return [
+            addonBarVendor.path(),
+          ];
+        }
+        return [];
+      };
+
+      let output = yield buildOutput(app.getExternalTree());
+      let outputFiles = output.read();
+
+      expect(Object.keys(outputFiles)).to.deep.equal([
+        'bower_components',
+        'node_modules',
+        'vendor',
+      ]);
+
+      yield bower.dispose();
+      yield vendor.dispose();
+      yield addonFooVendor.dispose();
+      yield addonBarVendor.dispose();
+    }));
+  });
 
   describe('getAddonStyles()', function() {
     it('returns add-ons styles files', co.wrap(function *() {

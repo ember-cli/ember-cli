@@ -12,7 +12,7 @@ describe('Default Packager: External', function() {
   let input, output;
 
   let EXTERNAL = {
-    'addon-tree-output': {},
+    'node_modules': {},
     'bower_components': {},
     vendor: {
       'auth0-js.js': '',

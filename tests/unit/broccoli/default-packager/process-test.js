@@ -26,7 +26,7 @@ describe('Default Packager: Process Javascript', function() {
     ],
   };
   let MODULES = {
-    'addon-tree-output': {},
+    'node_modules': {},
     'the-best-app-ever': {
       'router.js': 'router.js',
       'app.js': 'app.js',
@@ -124,7 +124,7 @@ describe('Default Packager: Process Javascript', function() {
       let input = yield createTempDir();
 
       input.write({
-        'addon-tree-output': {},
+        'node_modules': {},
         'the-best-app-ever': {
           'router.js': 'router.js',
           'app.js': 'app.js',
@@ -194,7 +194,7 @@ describe('Default Packager: Process Javascript', function() {
       let outputFiles = output.read();
 
       expect(Object.keys(outputFiles)).to.deep.equal([
-        'addon-tree-output',
+        'node_modules',
         'src',
         'the-best-app-ever',
         'vendor',

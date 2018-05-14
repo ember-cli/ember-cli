@@ -19,12 +19,12 @@ For a brand new ember application (`ember new your-app-name`), `DEBUG/` folder i
 ```sh
 DEBUG/
 └── bundler:application-and-dependencies
-    ├── addon-tree-output
+    ├── node_modules
     ├── tree-shake-test
     └── vendor
 ```
 
-`addon-tree-output` is the folder that contains all trees from Ember CLI add-ons;
+`node_modules` is the folder that contains all trees from Ember CLI add-ons;
 `your-app-name` is an application tree and `vendor` contains imported external assets.
 
 Ember CLI uses [`broccoli-debug`](https://github.com/broccolijs/broccoli-debug/) to generate debug output mentioned above.

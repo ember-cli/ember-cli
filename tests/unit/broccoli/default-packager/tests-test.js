@@ -19,7 +19,7 @@ describe('Default Packager: Tests', function() {
   let env = 'development';
 
   let TESTS = {
-    'addon-tree-output': {},
+    'node_modules': {},
     'bower_components': {},
     'the-best-app-ever': {
       'router.js': 'router.js',
@@ -270,7 +270,7 @@ describe('Default Packager: Tests', function() {
   it('emits dist/assets/tests.js by default', co.wrap(function *() {
     let emptyInput = yield createTempDir();
     let emptyTestFolder = {
-      'addon-tree-output': {},
+      'node_modules': {},
       'bower_components': {},
       'the-best-app-ever': {
         'router.js': 'router.js',

@@ -15,7 +15,7 @@ describe('Default Packager: Additional Assets', function() {
   let input, output;
 
   let MODULES = {
-    'addon-tree-output': { },
+    'node_modules': { },
     'the-best-app-ever': {
       'router.js': 'router.js',
       'app.js': 'app.js',

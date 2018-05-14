@@ -39,7 +39,7 @@ describe('Default Packager: Index', function() {
       {{content-for "body-footer"}}
     `;
     input.write({
-      'addon-tree-output': { },
+      'node_modules': { },
       'the-best-app-ever': {
         'router.js': 'router.js',
         'app.js': 'app.js',
@@ -152,7 +152,7 @@ describe('Default Packager: Index', function() {
           {{content-for "body-footer"}}
         `;
         input.write({
-          'addon-tree-output': { },
+          'node_modules': { },
           'the-best-app-ever': {
             'router.js': 'router.js',
             'app.js': 'app.js',
@@ -206,7 +206,7 @@ describe('Default Packager: Index', function() {
       it('works if only `src/ui/index.html` exists', co.wrap(function *() {
         input.dispose();
         input.write({
-          'addon-tree-output': { },
+          'node_modules': { },
           src: {
             ui: {
               'index.html': 'src',

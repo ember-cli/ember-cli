@@ -7,12 +7,10 @@
 
 const assert = require('assert');
 
-const DEFAULT_ADDON_MODULES = {
-  'ember-cli-foobar': '^1.0.0',
-};
 const DEFAULT_BOWER_COMPONENTS = {};
 
 const DEFAULT_NODE_MODULES = {
+  'ember-cli-foobar': '^1.0.0',
   'broccoli-asset-rev': {
     'index.js': 'module.exports = function() { return { name: "broccoli-asset-rev" }; };',
     'package.json': JSON.stringify({
@@ -162,16 +160,14 @@ const DEFAULT_SOURCE = {
 function getDefaultUnpackagedDist(name, options) {
   options = options || {};
 
-  const addonModules = Object.assign({}, DEFAULT_ADDON_MODULES, options.addonModules);
+  const addonModules = Object.assign({}, DEFAULT_NODE_MODULES, options.addonModules);
   const bowerComponents = options.bowerComponents || DEFAULT_BOWER_COMPONENTS;
-  const nodeModules = options.nodeModules || DEFAULT_NODE_MODULES;
   const application = Object.assign({}, DEFAULT_SOURCE, options.source);
   const vendor = Object.assign({}, DEFAULT_VENDOR, options.vendor);
 
   return {
-    'addon-modules': addonModules,
+    'node_modules': addonModules,
     'bower_components': bowerComponents,
-    'node_modules': nodeModules,
     [name]: application,
     vendor,
   };
@@ -319,5 +315,4 @@ module.exports = {
   DEFAULT_SOURCE,
   DEFAULT_VENDOR,
   DEFAULT_NODE_MODULES,
-  DEFAULT_ADDON_MODULES,
 };
