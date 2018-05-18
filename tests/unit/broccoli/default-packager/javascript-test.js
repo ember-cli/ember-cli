@@ -297,39 +297,60 @@ describe('Default Packager: Javascript', function() {
     expect(addonPostprocessTreeHookCalled).to.equal(true);
   }));
 
-  if (experiments.MODULE_UNIFICATION) {
-    // there is a little code duplication here (mainly the ceremony around
-    // setting up the folder structure and disposing of it after the tests are
-    // executed; once we enable MU flag by defaul, we should clean this up a tad
-    describe('with module unification layout', function() {
-      let input, output;
-      let addonPreprocessTreeHookCalled = false;
-      let addonPostprocessTreeHookCalled = false;
+});
 
-      let MU_LAYOUT = {
-        src: {
-          'main.js': '',
-          'resolver.js': '',
-          'router.js': '',
-          ui: {
-            components: {
-              'login-form': {
-                'component.js': '',
-                'template.hbs': '',
-              },
-            },
-            'index.html': '',
-            routes: {
-              application: {
-                'template.hbs': '',
-              },
-            },
-            styles: {
-              'app.css': '',
+if (experiments.MODULE_UNIFICATION) {
+  // there is a little code duplication here (mainly the ceremony around
+  // setting up the folder structure and disposing of it after the tests are
+  // executed; once we enable MU flag by defaul, we should clean this up a tad
+  describe('with module unification layout', function() {
+    let inputMU, outputMU;
+    let addonPreprocessTreeHookCalled = false;
+    let addonPostprocessTreeHookCalled = false;
+
+    let MU_LAYOUT = {
+      'addon-tree-output': {},
+      public: {},
+      tests: {},
+      vendor: {},
+      src: {
+        'main.js': '',
+        'resolver.js': '',
+        'router.js': '',
+        ui: {
+          components: {
+            'login-form': {
+              'component.js': '',
+              'template.hbs': '',
             },
           },
+          'index.html': '',
+          routes: {
+            application: {
+              'template.hbs': '',
+            },
+          },
+          styles: {
+            'app.css': 'html { height: 100%; }',
+          },
         },
-      };
+      },
+    };
+    before(co.wrap(function *() {
+      inputMU = yield createTempDir();
+
+      inputMU.write(MU_LAYOUT);
+    }));
+
+    after(co.wrap(function *() {
+      yield inputMU.dispose();
+    }));
+
+    afterEach(co.wrap(function *() {
+      yield outputMU.dispose();
+    }));
+
+    it('processes javascript according to the registry', co.wrap(function *() {
       let defaultPackager = new DefaultPackager({
         name: 'the-best-app-ever',
 
@@ -369,64 +390,85 @@ describe('Default Packager: Javascript', function() {
         },
       });
 
-      before(co.wrap(function *() {
-        input = yield createTempDir();
+      expect(defaultPackager._cachedProcessedSrc).to.equal(null);
 
-        input.write(MU_LAYOUT);
-      }));
+      outputMU = yield buildOutput(defaultPackager.processSrc(inputMU.path()));
 
-      after(co.wrap(function *() {
-        yield input.dispose();
-      }));
+      let outputFiles = outputMU.read();
 
-      afterEach(co.wrap(function *() {
-        yield output.dispose();
-      }));
-
-      it('processes javascript according to the registry', co.wrap(function *() {
-        expect(defaultPackager._cachedProcessedSrc).to.equal(null);
-
-        output = yield buildOutput(defaultPackager.processSrc(input.path()));
-
-        let outputFiles = output.read();
-
-        expect(outputFiles['the-best-app-ever']).to.deep.equal({
-          assets: {
-            'app.css': '',
-          },
-          src: {
-            'main.js': '',
-            'resolver.js': '',
-            'router.js': '',
-            ui: {
-              components: {
-                'login-form': {
-                  'component.js': '',
-                  'template.js': '',
-                },
-              },
-              'index.html': '',
-              routes: {
-                application: {
-                  'template.js': '',
-                },
-              },
-              styles: {
-                'app.css': '',
+      expect(outputFiles['the-best-app-ever']).to.deep.equal({
+        assets: {
+          'app.css': 'html { height: 100%; }',
+        },
+        src: {
+          'main.js': '',
+          'resolver.js': '',
+          'router.js': '',
+          ui: {
+            components: {
+              'login-form': {
+                'component.js': '',
+                'template.js': '',
               },
             },
+            'index.html': '',
+            routes: {
+              application: {
+                'template.js': '',
+              },
+            },
+            styles: {
+              'app.css': 'html { height: 100%; }',
+            },
           },
-        });
-      }));
+        },
+      });
+    }));
 
-      it('runs pre/post-process add-on hooks', co.wrap(function *() {
-        expect(defaultPackager._cachedProcessedSrc).to.equal(null);
+    it('runs pre/post-process add-on hooks', co.wrap(function *() {
+      let defaultPackager = new DefaultPackager({
+        name: 'the-best-app-ever',
 
-        output = yield buildOutput(defaultPackager.processSrc(input.path()));
+        distPaths: {
+          appJsFile: '/assets/the-best-app-ever.js',
+          appCssFile: '/assets/the-best-app-ever.css',
+          vendorJsFile: '/assets/vendor.js',
+        },
 
-        expect(addonPreprocessTreeHookCalled).to.equal(true);
-        expect(addonPostprocessTreeHookCalled).to.equal(true);
-      }));
-    });
-  }
-});
+        registry: setupRegistry({
+          js: tree => tree,
+          template: tree => new Funnel(tree, {
+            getDestinationPath(relativePath) {
+              return relativePath.replace(/hbs$/g, 'js');
+            },
+          }),
+        }),
+
+        isModuleUnificationEnabled: true,
+
+        // avoid using `testdouble.js` here on purpose; it does not have a "proxy"
+        // option, where a function call would be registered and the original
+        // would be returned
+        project: {
+          addons: [{
+            preprocessTree(type, tree) {
+              addonPreprocessTreeHookCalled = true;
+
+              return tree;
+            },
+            postprocessTree(type, tree) {
+              addonPostprocessTreeHookCalled = true;
+
+              return tree;
+            },
+          }],
+        },
+      });
+
+      outputMU = yield buildOutput(defaultPackager.processSrc(inputMU.path()));
+
+      expect(addonPreprocessTreeHookCalled).to.equal(true);
+      expect(addonPostprocessTreeHookCalled).to.equal(true);
+    }));
+  });
+}

@@ -3,6 +3,7 @@
 const co = require('co');
 const expect = require('chai').expect;
 const Funnel = require('broccoli-funnel');
+const experiments = require('../../../../lib/experiments');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
@@ -387,4 +388,114 @@ describe('Default Packager: Styles', function() {
 
     expect(outputFiles.assets['vendor.css']).to.equal('first\nsecond\nthird');
   }));
+
+  if (experiments.MODULE_UNIFICATION) {
+    describe('with module unification layout', function() {
+      let importFilesMap = {
+        '/assets/vendor.css': [
+          'vendor/font-awesome/css/font-awesome.css',
+        ],
+      };
+      let input, output, processedSrc;
+
+      let MU_LAYOUT = {
+        'vendor': {
+          'font-awesome': {
+            css: {
+              'font-awesome.css': 'body { height: 100%; }',
+            },
+          },
+        },
+        src: {
+          'main.js': '',
+          'resolver.js': '',
+          'router.js': '',
+          ui: {
+            components: {
+              'login-form': {
+                'component.js': '',
+                'template.hbs': '',
+              },
+            },
+            'index.html': '',
+            routes: {
+              application: {
+                'template.hbs': '',
+              },
+            },
+            styles: {
+              'app.css': 'html { height: 100%; }',
+            },
+          },
+        },
+      };
+      let processedSrcFolder = {
+        'the-best-app-ever': {
+          src: MU_LAYOUT,
+          assets: {
+            'the-best-app-ever.css': 'html { height: 100%; }',
+          },
+        },
+      };
+
+      let defaultPackager = new DefaultPackager({
+        name: 'the-best-app-ever',
+
+        distPaths: {
+          appCssFile: { app: '/assets/the-best-app-ever.css' },
+          vendorCssFile: '/assets/vendor.css',
+        },
+
+        registry: {
+          load: () => [],
+        },
+
+        minifyCSS: {
+          enabled: true,
+          options: {
+            processImport: false,
+            relativeTo: 'assets',
+          },
+        },
+
+        styleOutputFiles: importFilesMap,
+
+        isModuleUnificationEnabled: true,
+
+        project: { addons: [] },
+      });
+
+      before(co.wrap(function *() {
+        input = yield createTempDir();
+        processedSrc = yield createTempDir();
+
+        input.write(MU_LAYOUT);
+        processedSrc.write(processedSrcFolder);
+      }));
+
+      after(co.wrap(function *() {
+        yield input.dispose();
+        yield processedSrc.dispose();
+      }));
+
+      afterEach(co.wrap(function *() {
+        yield output.dispose();
+      }));
+
+      it('processes styles according to the registry', co.wrap(function *() {
+        defaultPackager._cachedProcessedSrc = processedSrc.path();
+
+        output = yield buildOutput(defaultPackager.packageStyles(input.path()));
+
+        let outputFiles = output.read();
+
+        expect(outputFiles).to.deep.equal({
+          assets: {
+            'the-best-app-ever.css': 'html{height:100%}',
+            'vendor.css': 'body{height:100%}',
+          },
+        });
+      }));
+    });
+  }
 });

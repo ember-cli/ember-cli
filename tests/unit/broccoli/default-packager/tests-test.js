@@ -4,6 +4,7 @@ const co = require('co');
 const stew = require('broccoli-stew');
 const Funnel = require('broccoli-funnel');
 const expect = require('chai').expect;
+const experiments = require('../../../../lib/experiments');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
@@ -453,4 +454,148 @@ describe('Default Packager: Tests', function() {
     expect(outputFiles.assets['test-support.js']).to.include('a.js\nb.js');
     expect(outputFiles.assets['test-support.css']).to.include('a.css\nb.css');
   }));
+
+  if (experiments.MODULE_UNIFICATION) {
+    describe('with module unification layout', function() {
+      let input, output;
+
+      let MU_LAYOUT = {
+        vendor: {
+          'ember-cli': {
+            'app-boot.js': 'app-boot.js',
+            'app-config.js': 'app-config.js',
+            'app-prefix.js': 'app-prefix.js',
+            'app-suffix.js': 'app-suffix.js',
+            'test-support-prefix.js': 'test-support-prefix.js',
+            'test-support-suffix.js': 'test-support-suffix.js',
+            'tests-prefix.js': 'tests-prefix.js',
+            'tests-suffix.js': 'tests-suffix.js',
+            'vendor-prefix.js': 'vendor-prefix.js',
+            'vendor-suffix.js': 'vendor-suffix.js',
+          },
+        },
+        tests: {
+          'addon-test-support': {},
+          acceptance: {
+            'login-test.js': ' // login-test.js',
+            'logout-test.js': '',
+          },
+          lint: {
+            'login-test.lint.js': ' // login-test.lint.js',
+            'logout-test.lint.js': '',
+          },
+          helpers: {
+            'resolver.js': '',
+            'start-app.js': '',
+          },
+          'index.html': 'index',
+          integration: {
+            components: {
+              'login-form-test.js': '',
+              'user-menu-test.js': '',
+            },
+          },
+          'test-helper.js': '// test-helper.js',
+          unit: {
+            services: {
+              'session-test.js': '',
+            },
+          },
+        },
+        src: {
+          'main.js': '',
+          'resolver.js': '',
+          'router.js': '',
+          ui: {
+            components: {
+              'login-form': {
+                'component.js': '',
+                'template.hbs': '',
+              },
+            },
+            'index.html': '',
+            routes: {
+              application: {
+                'template.hbs': '',
+              },
+            },
+            styles: {
+              'app.css': 'html { height: 100%; }',
+            },
+          },
+        },
+      };
+
+      before(co.wrap(function *() {
+        input = yield createTempDir();
+
+        input.write(MU_LAYOUT);
+      }));
+
+      after(co.wrap(function *() {
+        yield input.dispose();
+      }));
+
+      afterEach(co.wrap(function *() {
+        yield output.dispose();
+      }));
+
+      it('packages test files', co.wrap(function *() {
+        let defaultPackager = new DefaultPackager({
+          project,
+          name,
+          env,
+          areTestsEnabled: true,
+
+          distPaths: {
+            testJsFile: '/assets/tests.js',
+            testSupportJsFile: {
+              testSupport: '/assets/test-support.js',
+              testLoader: '/assets/test-loader.js',
+            },
+            testSupportCssFile: '/assets/test-support.css',
+          },
+
+          isModuleUnification: true,
+
+          vendorTestStaticStyles: [],
+          legacyTestFilesToAppend: [],
+
+          fingerprint: {
+            exclude: [],
+          },
+
+          registry: setupRegistryFor('js', tree => tree),
+        });
+
+        output = yield buildOutput(defaultPackager.packageTests(input.path()));
+
+        let outputFiles = output.read();
+
+        expect(Object.keys(outputFiles.tests)).to.deep.equal([
+          'index.html',
+        ]);
+
+        expect(Object.keys(outputFiles.assets)).to.deep.equal([
+          'test-support.js',
+          'test-support.map',
+          'tests.js',
+          'tests.map',
+        ]);
+
+        expect(Object.keys(outputFiles)).to.deep.equal([
+          'assets',
+          'testem.js',
+          'tests',
+        ]);
+
+        expect(outputFiles.assets['tests.js']).to.include('login-test.js');
+        expect(outputFiles.assets['tests.js']).to.include('login-test.lint.js');
+        expect(outputFiles.assets['tests.js']).to.include('test-helper');
+        expect(outputFiles.assets['tests.js']).to.include(`define('the-best-app-ever/config/environment'`);
+        expect(outputFiles.assets['tests.js']).to.include(`require('the-best-app-ever/tests/test-helper');`);
+        expect(outputFiles.assets['tests.js']).to.include('EmberENV.TESTS_FILE_LOADED = true;');
+      }));
+    });
+  }
 });
