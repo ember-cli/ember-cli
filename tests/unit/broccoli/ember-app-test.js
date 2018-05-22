@@ -1088,9 +1088,9 @@ describe('EmberApp', function() {
 
   describe('vendorFiles', function() {
     let defaultVendorFiles = [
-      'jquery.js',
       'ember.js',
       'app-shims.js',
+      'jquery.js',
     ];
 
     describe('handlebars.js', function() {
