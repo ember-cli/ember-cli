@@ -1088,9 +1088,9 @@ describe('EmberApp', function() {
 
   describe('vendorFiles', function() {
     let defaultVendorFiles = [
+      'jquery.js',
       'ember.js',
       'app-shims.js',
-      'jquery.js',
     ];
 
     describe('handlebars.js', function() {
@@ -1152,6 +1152,35 @@ describe('EmberApp', function() {
         },
       });
       expect(Object.keys(app.vendorFiles)).to.deep.equal(defaultVendorFiles);
+    });
+
+    it('does not include jquery if the app has `@ember/jquery` installed', function() {
+      project.initializeAddons = function() {
+        this.addons = [{ name: '@ember/jquery' }];
+      };
+      app = new EmberApp({ project });
+      let filesWithoutJQuery = defaultVendorFiles.filter(e => e !== 'jquery.js');
+      expect(Object.keys(app.vendorFiles)).to.deep.equal(filesWithoutJQuery);
+    });
+
+    it('does not include jquery if the app has `@ember/optional-features` with the `jquery-integration` FF turned off', function() {
+      project.initializeAddons = function() {
+        this.addons = [
+          {
+            name: 'ember-source',
+            paths: { jquery: 'foo', testing: null },
+          },
+          {
+            name: '@ember/optional-features',
+            isFeatureEnabled() {
+              return false;
+            },
+          },
+        ];
+      };
+      app = new EmberApp({ project, vendorFiles: { 'ember-testing.js': null } });
+      let filesWithoutJQuery = defaultVendorFiles.filter(e => e !== 'jquery.js');
+      expect(Object.keys(app.vendorFiles)).to.deep.equal(filesWithoutJQuery);
     });
 
     it('removes dependency in vendorFiles', function() {
