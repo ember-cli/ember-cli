@@ -54,7 +54,7 @@ const DEFAULT_NODE_MODULES = {
       `,
     'package.json': JSON.stringify({
       name: 'ember-source',
-      version: '~3.0.0-beta.1',
+      version: '3.0.0-beta.1',
       keywords: ['ember-addon'],
       paths: {
         debug: 'vendor/ember/ember.debug.js',
