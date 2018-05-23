@@ -4,13 +4,6 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
-    /* 
-      Leave jQuery out of this addon's own test suite & dummy app by default, 
-      so that the addon can be used in apps without jQuery. If you really need 
-      jQuery, it's safe to remove this line.
-    */
-    vendorFiles: { 'jquery.js': null, 'app-shims.js': null }
-    
     // Add options here
   });
 
