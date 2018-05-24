@@ -69,8 +69,8 @@ module.exports = function() {
           name: 'ember-default-with-jquery',
           env: {
             EMBER_OPTIONAL_FEATURES: JSON.stringify({
-              'jquery-integration': true,
-            }),
+              'jquery-integration': true
+            })
           },
           npm: {
             devDependencies: {
