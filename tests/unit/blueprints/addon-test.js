@@ -77,7 +77,7 @@ describe('blueprint - addon', function() {
   "devDependencies": {\n\
     "ember-disable-prototype-extensions": "^1.1.2",\n\
     "ember-source-channel-url": "^1.0.1",\n\
-    "ember-try": "^0.2.23",\n\
+    "ember-try": "^1.0.0-beta.3",\n\
     "eslint-plugin-node": "^6.0.1"\n\
   },\n\
   "ember-addon": {\n\

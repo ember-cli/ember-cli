@@ -56,6 +56,9 @@ module.exports = {
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
 
+    // addons should test _without_ jquery by default
+    delete contents.devDependencies['@ember/jquery'];
+
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
     }
@@ -67,7 +70,7 @@ module.exports = {
     contents.devDependencies['eslint-plugin-node'] = '^6.0.1';
 
     // add ember-try
-    contents.devDependencies['ember-try'] = '^0.2.23';
+    contents.devDependencies['ember-try'] = '^1.0.0-beta.3';
 
     // add ember-source-channel-url
     contents.devDependencies['ember-source-channel-url'] = '^1.0.1';

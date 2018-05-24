@@ -23,6 +23,7 @@
     "ember-cli-babel": "^6.6.0"
   },
   "devDependencies": {
+    "@ember/optional-features": "^0.6.1",
     "broccoli-asset-rev": "^2.7.0",
     "ember-ajax": "^3.0.0",
     "ember-cli": "~<%= emberCLIVersion %>",
@@ -41,7 +42,7 @@
     "ember-resolver": "^4.0.0",
     "ember-source": "~3.2.0-beta.2",
     "ember-source-channel-url": "^1.0.1",
-    "ember-try": "^0.2.23",
+    "ember-try": "^1.0.0-beta.3",
     "ember-welcome-page": "^3.0.0",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^6.0.1",

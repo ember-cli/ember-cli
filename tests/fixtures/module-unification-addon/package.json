@@ -23,6 +23,7 @@
     "ember-cli-babel": "^6.6.0"
   },
   "devDependencies": {
+    "@ember/optional-features": "^0.6.1",
     "broccoli-asset-rev": "^2.7.0",
     "ember-ajax": "^3.0.0",
     "ember-cli": "github:ember-cli/ember-cli",
