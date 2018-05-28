@@ -173,6 +173,7 @@ describe('EmberApp', function() {
         app.getTests = td.function();
         app.getExternalTree = td.function();
         app.getSrc = td.function();
+        app._legacyAddonCompile = td.function();
         app._defaultPackager = {
           packagePublic: td.function(),
           packageJavascript: td.function(),
