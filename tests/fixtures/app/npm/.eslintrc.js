@@ -34,6 +34,20 @@ module.exports = {
         browser: false,
         node: true
       }
+    },
+
+    // test files
+    {
+      files: ['tests/**/*.js'],
+      rules: {
+        'no-restricted-globals': [
+          'error',
+          {
+            name: 'find',
+            message: 'You forgot to import `find`, and we are preventing accidental usage of `window.find`.'
+          },
+        ]
+      }
     }
   ]
 };

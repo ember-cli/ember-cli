@@ -45,6 +45,21 @@ module.exports = {
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
         // add your custom rules and overrides for node files here
       })
+    },
+
+    // test files
+    {
+      files: ['tests/**/*.js'],
+      excludedFiles: ['tests/dummy/**'],
+      rules: {
+        'no-restricted-globals': [
+          'error',
+          {
+            name: 'find',
+            message: 'You forgot to import `find`, and we are preventing accidental usage of `window.find`.'
+          },
+        ]
+      }
     }
   ]
 };
