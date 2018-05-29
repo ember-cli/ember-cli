@@ -1,10 +1,10 @@
-/node_modules
+/common-tmp/
+/coverage/
+/docs/build/
+/node_modules/
+/tmp/
+/.deps-tmp/
 *.log
-/tmp
-/common-tmp
 *.tgz
-/docs/build
-.deps-tmp
-/coverage
 *.pem
 .DS_Store
