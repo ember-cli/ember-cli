@@ -119,7 +119,14 @@ describe('Watcher', function() {
           ssl: true,
           sslCert: 'tests/fixtures/ssl/server.crt',
           sslKey: 'tests/fixtures/ssl/server.key',
-          rootURL: '/',
+          environment: 'development',
+          project: {
+            config() {
+              return {
+                rootURL: '/',
+              };
+            },
+          },
         },
       });
 
@@ -141,7 +148,14 @@ describe('Watcher', function() {
         options: {
           host: undefined,
           port: '1337',
-          baseURL: '/foo',
+          environment: 'development',
+          project: {
+            config() {
+              return {
+                baseURL: '/foo',
+              };
+            },
+          },
         },
       });
 
@@ -164,7 +178,14 @@ describe('Watcher', function() {
         options: {
           host: undefined,
           port: '1337',
-          rootURL: '/foo',
+          environment: 'development',
+          project: {
+            config() {
+              return {
+                rootURL: '/foo',
+              };
+            },
+          },
         },
       });
 
@@ -189,6 +210,14 @@ describe('Watcher', function() {
           host: undefined,
           port: '1337',
           rootURL: '',
+          environment: 'development',
+          project: {
+            config() {
+              return {
+                rootURL: '',
+              };
+            },
+          },
         },
       });
 
