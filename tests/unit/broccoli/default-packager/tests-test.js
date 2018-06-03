@@ -208,6 +208,8 @@ describe('Default Packager: Tests', function() {
     expect(outputFiles.assets['tests.js']).to.include(`define('the-best-app-ever/config/environment'`);
     expect(outputFiles.assets['tests.js']).to.include(`require('the-best-app-ever/tests/test-helper');`);
     expect(outputFiles.assets['tests.js']).to.include('EmberENV.TESTS_FILE_LOADED = true;');
+
+    expect(defaultPackager.options.fingerprint.exclude).to.include('testem');
   }));
 
   it('processes tests files according to the registry', co.wrap(function *() {
