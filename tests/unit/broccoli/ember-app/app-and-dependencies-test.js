@@ -175,6 +175,7 @@ describe('EmberApp#appAndDependencies', function() {
       });
 
       app.addonTree();
+      app._legacyAddonCompile('addon', 'addon-tree-output');
 
       output = yield buildOutput(tree);
       let actualFiles = getFiles(output.path());
@@ -230,7 +231,9 @@ describe('EmberApp#appAndDependencies', function() {
         },
       });
 
-      yield buildOutput(app.addonTree());
+      app.addonTree();
+
+      yield buildOutput(app._legacyAddonCompile('addon', 'addon-tree-output'));
 
       expect(count).to.equal(2);
     }));
@@ -249,7 +252,9 @@ describe('EmberApp#appAndDependencies', function() {
       });
 
       yield co(function *() {
-        output = yield buildOutput(app.addonTree());
+        app.addonTree();
+
+        output = yield buildOutput(app._legacyAddonCompile('addon', 'addon-tree-output'));
       }).catch(e => {
         exceptionMessage = e.message;
       }).then(() => {
