@@ -671,6 +671,19 @@ describe('EmberApp', function() {
         expect(app.options.babel.sourceMaps).to.equal('inline');
       });
     });
+
+    describe('options.fingerprint.exclude', function() {
+      it('excludeds testem in fingerprint exclude', function() {
+        let app = new EmberApp({
+          project,
+          fingerprint: {
+            exclude: [],
+          },
+        });
+
+        expect(app.options.fingerprint.exclude).to.include('testem');
+      });
+    });
   });
 
   describe('addons', function() {

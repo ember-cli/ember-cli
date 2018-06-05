@@ -140,10 +140,6 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      fingerprint: {
-        exclude: [],
-      },
-
       registry: setupRegistryFor('js', tree => tree),
     });
 
@@ -173,10 +169,6 @@ describe('Default Packager: Tests', function() {
 
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
-
-      fingerprint: {
-        exclude: [],
-      },
 
       registry: setupRegistryFor('js', tree => tree),
     });
@@ -228,10 +220,6 @@ describe('Default Packager: Tests', function() {
 
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
-
-      fingerprint: {
-        exclude: [],
-      },
 
       registry: setupRegistryFor('js', function(tree) {
         return new Funnel(tree, {
@@ -349,10 +337,6 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      fingerprint: {
-        exclude: [],
-      },
-
       registry: setupRegistryFor('js', tree => tree),
     });
 
@@ -399,10 +383,6 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      fingerprint: {
-        exclude: [],
-      },
-
       registry: setupRegistryFor('js', tree => tree),
     });
 
@@ -439,10 +419,6 @@ describe('Default Packager: Tests', function() {
         'vendor/custom/a.js',
         'vendor/custom/b.js',
       ],
-
-      fingerprint: {
-        exclude: [],
-      },
 
       registry: setupRegistryFor('js', tree => tree),
     });
@@ -560,10 +536,6 @@ describe('Default Packager: Tests', function() {
 
           vendorTestStaticStyles: [],
           legacyTestFilesToAppend: [],
-
-          fingerprint: {
-            exclude: [],
-          },
 
           registry: setupRegistryFor('js', tree => tree),
         });
