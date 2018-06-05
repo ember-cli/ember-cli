@@ -199,21 +199,6 @@ describe('serve command', function() {
     });
   });
 
-  it('uses baseURL of correct environment', function() {
-    options.project.config = function(env) {
-      return { baseURL: env };
-    };
-
-    return command.validateAndRun([
-      '--port', '0',
-      '--environment', 'test',
-    ]).then(function() {
-      let captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
-      expect(captor.value.baseURL).to.equal('test', 'Uses the correct environment.');
-    });
-  });
-
   it('host alias does not conflict with help alias', function() {
     return command.validateAndRun([
       '--port', '0',
