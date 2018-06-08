@@ -8,6 +8,7 @@ const Promise = require('rsvp').Promise;
 const Blueprint = require('../../../lib/models/blueprint');
 const Command = require('../../../lib/models/command');
 const Task = require('../../../lib/models/task');
+const experiments = require('../../../lib/experiments');
 const td = require('testdouble');
 
 describe('new command', function() {
@@ -76,11 +77,13 @@ describe('new command', function() {
     });
   });
 
-  it('shows a suggestion messages when the application name is a period', function() {
-    return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
-      expect(error.message).to.equal('Trying to generate an application structure in this directory? Use `ember init` instead.');
+  if (!experiments.MODULE_UNIFICATION) {
+    it('shows a suggestion messages when the application name is a period', function() {
+      return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
+        expect(error.message).to.equal('Trying to generate an application structure in this directory? Use `ember init` instead.');
+      });
     });
-  });
+  }
 
   it('registers blueprint options in beforeRun', function() {
     td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({

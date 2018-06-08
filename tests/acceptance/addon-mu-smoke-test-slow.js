@@ -21,7 +21,7 @@ let addonName = 'some-cool-addon';
 let addonRoot;
 
 if (experiments.MODULE_UNIFICATION) {
-  describe('Acceptance: addon-mu-smoke-test', function() {
+  describe.skip('Acceptance: addon-mu-smoke-test', function() {
     this.timeout(450000);
 
     before(function() {
