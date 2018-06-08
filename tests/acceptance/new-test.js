@@ -30,7 +30,6 @@ describe('Acceptance: ember new', function() {
   }));
 
   afterEach(function() {
-    process.env.MODULE_UNIFICATION = undefined;
     return tmp.teardown(tmpDir);
   });
 
@@ -66,8 +65,7 @@ describe('Acceptance: ember new', function() {
     confirmBlueprinted();
   }));
 
-  it('MODULE_UNIFICATION=true ember new foo works', co.wrap(function *() {
-    process.env.MODULE_UNIFICATION = 'true';
+  it('EMBER_CLI_MODULE_UNIFICATION: ember new foo works', co.wrap(function *() {
     yield ember([
       'new',
       'foo',
@@ -322,8 +320,7 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
   }));
 
-  it('MODULE_UNIFICATION=true ember addon foo works', co.wrap(function *() {
-    process.env.MODULE_UNIFICATION = 'true';
+  it('EMBER_CLI_MODULE_UNIFICATION: ember addon foo works', co.wrap(function *() {
     yield ember([
       'addon',
       'foo',
