@@ -185,7 +185,7 @@ describe('EmberApp', function() {
 
         output = yield buildOutput(app.toTree());
 
-        td.verify(app.getAppJavascript());
+        td.verify(app.getAppJavascript(false));
         td.verify(app.getAddonStyles());
         td.verify(app.getTests());
         td.verify(app.getExternalTree());
