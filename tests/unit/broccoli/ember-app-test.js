@@ -30,8 +30,8 @@ function mockTemplateRegistry(app) {
     }
     return oldLoad.apply(app.registry, arguments);
   };
-
 }
+
 describe('EmberApp', function() {
   let project, projectPath, app, addon;
 
