@@ -8,11 +8,17 @@ module.exports = {
     'Chrome'
   ],
   browser_args: {
-    Chrome: [
-      '--disable-gpu',
-      '--headless',
-      '--remote-debugging-port=9222',
-      '--window-size=1440,900'
-    ]
+    Chrome: {
+      mode: 'ci',
+      args: [
+        // --no-sandbox is needed when running Chrome inside a container
+        process.env.TRAVIS ? '--no-sandbox' : null,
+
+        '--disable-gpu',
+        '--headless',
+        '--remote-debugging-port=0',
+        '--window-size=1440,900'
+      ].filter(Boolean)
+    }
   }
 };
