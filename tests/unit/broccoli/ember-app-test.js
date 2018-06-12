@@ -74,7 +74,9 @@ describe('EmberApp', function() {
 
       afterEach(co.wrap(function *() {
         yield input.dispose();
-        yield output.dispose();
+        if (output) {
+          yield output.dispose();
+        }
       }));
 
       after(co.wrap(function *() {
@@ -185,12 +187,45 @@ describe('EmberApp', function() {
 
         output = yield buildOutput(app.toTree());
 
-        td.verify(app.getAppJavascript());
+        td.verify(app.getAppJavascript(false));
         td.verify(app.getAddonStyles());
         td.verify(app.getTests());
         td.verify(app.getExternalTree());
         td.verify(app.getSrc());
         td.verify(app.project.ui.writeWarnLine('`package` hook must be a function, falling back to default packaging.'));
+      }));
+
+      it('receives transpiled ES current app tree', co.wrap(function *() {
+        let app = new EmberApp({
+          project,
+        });
+        mockTemplateRegistry(app);
+
+        app.package = tree => tree;
+        input.write({
+          fake: {
+            dist: {
+              'foo.js': '// foo.js',
+            },
+          },
+        });
+        app.registry.add('js', {
+          name: 'fake-js-preprocessor',
+          ext: 'js',
+          toTree() {
+            return input.path();
+          },
+        });
+
+        output = yield buildOutput(app.toTree());
+
+        let outputFiles = output.read();
+
+        expect(outputFiles.fake).to.deep.equal({
+          dist: {
+            'foo.js': '// foo.js',
+          },
+        });
       }));
     });
   }
