@@ -6,8 +6,6 @@ addons:
 
 language: node_js
 node_js:
-  - "6"
-  - "8"
   - "10"
 
 branches:
@@ -46,9 +44,6 @@ jobs:
 
     - env: NAME=NODE_8
       node_js: 8
-
-    - env: NAME=NODE_9
-      node_js: 9
 
     - env: NAME=NODE_10
       node_js: 10
