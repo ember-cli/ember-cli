@@ -530,6 +530,7 @@ describe('express-server', function() {
     describe('without proxy', function() {
       function startServer(rootURL) {
         return subject.start({
+          environment: 'development',
           host: undefined,
           port: '1337',
           rootURL: rootURL || '/',
@@ -732,6 +733,10 @@ describe('express-server', function() {
       });
 
       it('serves static asset up from build output without a period in name (with rootURL)', function(done) {
+        project._config = {
+          rootURL: '/foo',
+        };
+
         startServer('/foo')
           .then(function() {
             request(subject.app)
@@ -894,18 +899,22 @@ describe('express-server', function() {
 
       it('calls processAppMiddlewares upon start', function() {
         let realOptions = {
+          baseURL: '/',
+          rootURL: undefined,
           host: undefined,
           port: '1337',
         };
 
         return subject.start(realOptions).then(function() {
-          expect(passedOptions === realOptions).to.equal(true);
+          expect(passedOptions).to.deep.equal(realOptions);
           expect(calls).to.equal(1);
         });
       });
 
       it('calls processAppMiddlewares upon restart', function() {
         let realOptions = {
+          baseURL: '/',
+          rootURL: undefined,
           host: undefined,
           port: '1337',
         };
@@ -921,7 +930,7 @@ describe('express-server', function() {
           .then(function() {
             expect(subject.app).to.be.ok;
             expect(originalApp).to.not.equal(subject.app);
-            expect(passedOptions === realOptions).to.equal(true);
+            expect(passedOptions).to.deep.equal(realOptions);
             expect(calls).to.equal(2);
           });
       });
