@@ -16,6 +16,10 @@ const nock = require('nock');
 const express = require('express');
 const co = require('co');
 
+function checkMiddlewareOptions(options) {
+  expect(options).to.satisfy(option => option.baseURL || option.rootURL);
+}
+
 describe('express-server', function() {
   let subject, ui, project, proxy, nockProxy;
   nock.enableNetConnect();
@@ -751,7 +755,8 @@ describe('express-server', function() {
       beforeEach(function() {
         calls = 0;
 
-        subject.processAddonMiddlewares = function() {
+        subject.processAddonMiddlewares = function(options) {
+          checkMiddlewareOptions(options);
           calls++;
         };
       });
@@ -775,11 +780,13 @@ describe('express-server', function() {
 
         project.initializeAddons = function() { };
         project.addons = [{
-          serverMiddleware() {
+          serverMiddleware({ options }) {
+            checkMiddlewareOptions(options);
             firstCalls++;
           },
         }, {
-          serverMiddleware() {
+          serverMiddleware({ options }) {
+            checkMiddlewareOptions(options);
             secondCalls++;
           },
         }, {
