@@ -16,6 +16,10 @@ const nock = require('nock');
 const express = require('express');
 const co = require('co');
 
+function checkMiddlewareOptions(options) {
+  expect(options).to.satisfy(option => option.baseURL || option.rootURL);
+}
+
 describe('express-server', function() {
   let subject, ui, project, proxy, nockProxy;
   nock.enableNetConnect();
@@ -526,6 +530,7 @@ describe('express-server', function() {
     describe('without proxy', function() {
       function startServer(rootURL) {
         return subject.start({
+          environment: 'development',
           host: undefined,
           port: '1337',
           rootURL: rootURL || '/',
@@ -728,6 +733,10 @@ describe('express-server', function() {
       });
 
       it('serves static asset up from build output without a period in name (with rootURL)', function(done) {
+        project._config = {
+          rootURL: '/foo',
+        };
+
         startServer('/foo')
           .then(function() {
             request(subject.app)
@@ -751,7 +760,8 @@ describe('express-server', function() {
       beforeEach(function() {
         calls = 0;
 
-        subject.processAddonMiddlewares = function() {
+        subject.processAddonMiddlewares = function(options) {
+          checkMiddlewareOptions(options);
           calls++;
         };
       });
@@ -775,11 +785,13 @@ describe('express-server', function() {
 
         project.initializeAddons = function() { };
         project.addons = [{
-          serverMiddleware() {
+          serverMiddleware({ options }) {
+            checkMiddlewareOptions(options);
             firstCalls++;
           },
         }, {
-          serverMiddleware() {
+          serverMiddleware({ options }) {
+            checkMiddlewareOptions(options);
             secondCalls++;
           },
         }, {
@@ -887,18 +899,22 @@ describe('express-server', function() {
 
       it('calls processAppMiddlewares upon start', function() {
         let realOptions = {
+          baseURL: '/',
+          rootURL: undefined,
           host: undefined,
           port: '1337',
         };
 
         return subject.start(realOptions).then(function() {
-          expect(passedOptions === realOptions).to.equal(true);
+          expect(passedOptions).to.deep.equal(realOptions);
           expect(calls).to.equal(1);
         });
       });
 
       it('calls processAppMiddlewares upon restart', function() {
         let realOptions = {
+          baseURL: '/',
+          rootURL: undefined,
           host: undefined,
           port: '1337',
         };
@@ -914,7 +930,7 @@ describe('express-server', function() {
           .then(function() {
             expect(subject.app).to.be.ok;
             expect(originalApp).to.not.equal(subject.app);
-            expect(passedOptions === realOptions).to.equal(true);
+            expect(passedOptions).to.deep.equal(realOptions);
             expect(calls).to.equal(2);
           });
       });
