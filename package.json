@@ -29,7 +29,7 @@
   "scripts": {
     "docs": "yuidoc",
     "lint": "node tests/runner lint",
-    "test": "node tests/runner",
+    "test": "node $NODE_DEBUG_OPTIONS tests/runner",
     "test:all": "node tests/runner all",
     "test:cover": "istanbul cover tests/runner.js all",
     "test:slow": "node tests/runner slow",
