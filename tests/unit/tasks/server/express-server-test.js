@@ -785,12 +785,14 @@ describe('express-server', function() {
 
         project.initializeAddons = function() { };
         project.addons = [{
-          serverMiddleware({ options }) {
+          serverMiddleware(config) {
+            const options = config.options;
             checkMiddlewareOptions(options);
             firstCalls++;
           },
         }, {
-          serverMiddleware({ options }) {
+          serverMiddleware(config) {
+            const options = config.options;
             checkMiddlewareOptions(options);
             secondCalls++;
           },
