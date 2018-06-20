@@ -112,11 +112,6 @@ Up next we should check for old and deprecate plugins
   `broccoli-funnel` at `v1.0.1` should be used
 * ..
 
-Up next we should look for not-yet-fixed plugins
-
-* `npm ls ember-component-css` (this plugin needs to be updated to not monkey
-  patch ember-cli, as its monkey patching restores issues)
-
 ##### Q
 
 npm v3 made my build slow
