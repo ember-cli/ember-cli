@@ -20,6 +20,8 @@ const forEach = require('ember-cli-lodash-subset').forEach;
 const assertVersionLock = require('../helpers/assert-version-lock');
 const experiments = require('../../lib/experiments');
 
+const Command = require('../../tests/helpers/command-generator');
+
 let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function() {
@@ -285,6 +287,14 @@ describe('Acceptance: ember new', function() {
   }));
 
   it('ember new uses yarn when blueprint has yarn.lock', co.wrap(function *() {
+    try {
+      let yarn = new Command('yarn');
+      yarn.invoke();
+    } catch (err) {
+      console.log('No yarn present, skipping test');
+      return;
+    }
+
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
     fs.writeFileSync('my_blueprint/files/package.json', '{ "name": "foo", "dependencies": { "fs-extra": "*" }}');
