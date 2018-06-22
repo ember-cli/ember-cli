@@ -69,6 +69,7 @@ describe('build-watch task', function() {
 
       return runPromise.then(() => {
         expect(ui.output).to.include('cleaning up...');
+        expect(ui.output).to.include('Environment: test');
       });
     });
   });

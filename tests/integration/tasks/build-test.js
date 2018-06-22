@@ -96,4 +96,22 @@ describe('build task test', function() {
         expect(Array.isArray(output.nodes)).to.equal(true);
       });
   });
+
+  it('it displays environment', function() {
+    let outputPath = 'dist';
+    let task = new BuildTask({
+      analytics: new MockAnalytics(),
+      project,
+      ui,
+    });
+
+    let runOptions = {
+      outputPath,
+      environment: 'development',
+    };
+
+    return task.run(runOptions).then(() => {
+      expect(ui.output).to.include('Environment: development');
+    });
+  });
 });
