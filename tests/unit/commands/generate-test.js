@@ -87,6 +87,16 @@ describe('generate command', function() {
       });
   });
 
+  it('runs GenerateFromBlueprint with expected options containing a .js extension', function() {
+    return command.validateAndRun(['controller', 'foo.js'])
+      .then(function(options) {
+        expect(options.pod).to.be.false;
+        expect(options.dryRun).to.be.false;
+        expect(options.verbose).to.be.false;
+        expect(options.args).to.deep.equal(['controller', 'foo']);
+      });
+  });
+
   it('does not throw errors when beforeRun is invoked without the blueprint name', function() {
     expect(() => {
       command.beforeRun([]);
