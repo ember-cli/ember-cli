@@ -320,6 +320,49 @@ describe('EmberApp', function() {
       yield addonBarPublic.dispose();
       yield output.dispose();
     }));
+
+    it('does not fail if app or add-ons have the same `public` folder structure', co.wrap(function *() {
+      let input = yield createTempDir();
+      let addonFooPublic = yield createTempDir();
+      let addonBarPublic = yield createTempDir();
+
+      input.write({
+        'crossdomain.xml': '',
+        'robots.txt': '',
+      });
+      addonFooPublic.write({
+        'bar': 'bar',
+        'foo': 'foo',
+      });
+      addonBarPublic.write({
+        'bar': 'bar',
+      });
+
+      app.trees.public = input.path();
+      app.addonTreesFor = function() {
+        return [
+          addonFooPublic.path(),
+          addonBarPublic.path(),
+        ];
+      };
+
+      let output = yield buildOutput(app.getPublic());
+      let outputFiles = output.read();
+
+      expect(outputFiles).to.deep.equal({
+        public: {
+          'crossdomain.xml': '',
+          'robots.txt': '',
+          'foo': 'foo',
+          'bar': 'bar',
+        },
+      });
+
+      yield input.dispose();
+      yield addonFooPublic.dispose();
+      yield addonBarPublic.dispose();
+      yield output.dispose();
+    }));
   });
 
   describe('getAddonTemplates()', function() {
