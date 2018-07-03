@@ -1,5 +1,32 @@
 # ember-cli Changelog
 
+## v3.2.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.1.4...v3.2.0)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.1.4...v3.2.0)
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7560](https://github.com/ember-cli/ember-cli/pull/7560) Migrate to new format for mode specific arguments in testem config. [@rwjblue](https://github.com/rwjblue)
+- [#7621](https://github.com/ember-cli/ember-cli/pull/7621) Take newer symlink-or-copy [@ef4](https://github.com/ef4)
+- [#7698](https://github.com/ember-cli/ember-cli/pull/7698) Update `ember-cli-qunit` dependency [@CodingItWrong](https://github.com/CodingItWrong)
+- [#7809](https://github.com/ember-cli/ember-cli/pull/7809) Do not attempt to compress server sent events. [@rwjblue](https://github.com/rwjblue)
+- [#7811](https://github.com/ember-cli/ember-cli/pull/7811) replace TRAVIS with CI [@kellyselden](https://github.com/kellyselden)
+- [#7833](https://github.com/ember-cli/ember-cli/pull/7833) blueprints/addon: Add `yarn.lock` file to `.npmignore` [@Turbo87](https://github.com/Turbo87)
+- [#7836](https://github.com/ember-cli/ember-cli/pull/7836) tests: Increase timeout for linting tests [@Turbo87](https://github.com/Turbo87)
+- [#7857](https://github.com/ember-cli/ember-cli/pull/7857) Filter out blacklisted addons before calling included hook [@dnachev](https://github.com/dnachev)
+- [#7880](https://github.com/ember-cli/ember-cli/pull/7880) testem: Improve Chrome command line flags [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
+
 ## v3.2.0-beta.2
 
 The following changes are required if you are upgrading from the previous
