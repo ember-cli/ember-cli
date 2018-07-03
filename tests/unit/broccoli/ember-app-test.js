@@ -146,6 +146,7 @@ describe('EmberApp', function() {
             javascript: '// javascript.js',
           },
           'test-project': {
+            styles: {},
             templates: {},
           },
           tests: {
@@ -264,16 +265,30 @@ describe('EmberApp', function() {
       let outputFiles = output.read();
 
       expect(outputFiles['test-project']).to.deep.equal({
-        app: {
-          styles: {
-            'foo.css': 'foo',
-            'bar.css': 'bar',
-          },
+        styles: {
+          'foo.css': 'foo',
+          'bar.css': 'bar',
         },
       });
 
       yield addonFooStyles.dispose();
       yield addonBarStyles.dispose();
+      yield output.dispose();
+    }));
+
+    it('does not fail if add-ons do not export styles', co.wrap(function *() {
+      let app = new EmberApp({
+        project,
+      });
+      app.addonTreesFor = () => [];
+
+      let output = yield buildOutput(app.getAddonStyles());
+      let outputFiles = output.read();
+
+      expect(outputFiles['test-project']).to.deep.equal({
+        styles: { },
+      });
+
       yield output.dispose();
     }));
   });
