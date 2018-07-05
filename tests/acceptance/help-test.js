@@ -1,16 +1,17 @@
-'use strict';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+import chai from 'chai';
 
-const fs = require('fs');
-const path = require('path');
-const chai = require('chai');
-let expect = chai.expect;
-const EOL = require('os').EOL;
-const processHelpString = require('../helpers/process-help-string');
-const convertToJson = require('../helpers/convert-help-output-to-json');
-const commandOptions = require('../factories/command-options');
-const HelpCommand = require('../../lib/commands/help');
-const requireAsHash = require('../../lib/utilities/require-as-hash');
-const Command = require('../../lib/models/command');
+let { expect } = chai;
+let { EOL } = os;
+
+import processHelpString from '../helpers/process-help-string';
+import convertToJson from '../helpers/convert-help-output-to-json';
+import commandOptions from '../factories/command-options';
+import HelpCommand from '../../lib/commands/help';
+import requireAsHash from '../../lib/utilities/require-as-hash';
+import Command from '../../lib/models/command';
 
 let FooCommand = Command.extend({
   name: 'foo',

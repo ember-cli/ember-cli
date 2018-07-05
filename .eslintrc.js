@@ -12,6 +12,21 @@ module.exports = {
   },
   globals: {
   },
+  overrides: [{
+    files: [
+      'lib/cli/main.js',
+      'lib/utilities/require-as-hash.js',
+      'tests/acceptance/help-test.js',
+      'tests/unit/models/builder-test.js',
+      'tests/unit/cli/cli-test.js',
+    ],
+    rules: {
+      'node/no-unsupported-features': 'off',
+    },
+    parserOptions: {
+      sourceType: 'module',
+    },
+  }],
   rules: {
     /*** Possible Errors ***/
 

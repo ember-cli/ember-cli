@@ -1,18 +1,21 @@
-'use strict';
+import chai from '../../chai';
+import MockUI from 'console-ui/mock';
+import MockAnalytics from '../../helpers/mock-analytics';
+import td from 'testdouble';
+import Command from '../../../lib/models/command';
+import RSVP from 'rsvp';
+import willInterruptProcess from '../../../lib/utilities/will-interrupt-process';
 
-const expect = require('../../chai').expect;
-const MockUI = require('console-ui/mock');
-const MockAnalytics = require('../../helpers/mock-analytics');
-const td = require('testdouble');
-const Command = require('../../../lib/models/command');
-const Promise = require('rsvp').Promise;
+let { expect } = chai;
+let { Promise } = RSVP;
 
 let ui;
 let analytics;
 let commands = {};
 let isWithinProject;
 let project;
-let willInterruptProcess;
+
+let addHandler, removeHandler;
 
 let CLI;
 
@@ -66,10 +69,13 @@ function stubRun(name) {
 
 describe('Unit: CLI', function() {
   beforeEach(function() {
-    willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
-    });
+    addHandler = td.replace(willInterruptProcess, 'addHandler', td.function());
+    removeHandler = td.replace(willInterruptProcess, 'removeHandler', td.function());
+
+    // willInterruptProcessReplaced = td.replace(willInterruptProcess, {
+    //   addHandler: td.function(),
+    //   removeHandler: td.function(),
+    // });
 
     CLI = require('../../../lib/cli/cli');
     ui = new MockUI();
@@ -239,7 +245,7 @@ describe('Unit: CLI', function() {
         name: 'custom',
 
         beforeRun() {
-          td.verify(willInterruptProcess.addHandler(onCommandInterrupt));
+          td.verify(addHandler(onCommandInterrupt));
 
           return Promise.resolve();
         },
@@ -262,7 +268,7 @@ describe('Unit: CLI', function() {
       stubValidateAndRun('serve');
 
       return ember(['serve']).finally(function() {
-        td.verify(willInterruptProcess.removeHandler(onCommandInterrupt));
+        td.verify(removeHandler(onCommandInterrupt));
       });
     });
   });

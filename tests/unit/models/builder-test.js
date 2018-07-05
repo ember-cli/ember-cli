@@ -1,19 +1,15 @@
-'use strict';
+import fs from 'fs-extra';
+import path from 'path';
+import BuildCommand from '../../../lib/commands/build';
+import commandOptions from '../../factories/command-options';
+import RSVP from 'rsvp';
+import MockProject from '../../helpers/mock-project';
+import mkTmpDirIn from '../../../lib/utilities/mk-tmp-dir-in';
+import td from 'testdouble';
+import chai from '../../chai';
+import willInterruptProcess from '../../../lib/utilities/will-interrupt-process';
 
-const fs = require('fs-extra');
-const path = require('path');
-const BuildCommand = require('../../../lib/commands/build');
-const commandOptions = require('../../factories/command-options');
-const RSVP = require('rsvp');
-const rimraf = require('rimraf');
-const fixturify = require('fixturify');
-const MockProject = require('../../helpers/mock-project');
-const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-const experiments = require('../../../lib/experiments/index');
-const td = require('testdouble');
-const chai = require('../../chai');
-let expect = chai.expect;
-let file = chai.file;
+let { expect, file } = chai;
 
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -62,12 +58,14 @@ describe('models/builder.js', function() {
   }
 
   before(function() {
-    td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
-    });
+    td.replace(willInterruptProcess, 'addHandler', td.function());
+    td.replace(willInterruptProcess, 'removeHandler', td.function());
 
     Builder = require('../../../lib/models/builder');
+  });
+
+  after(function() {
+    td.reset();
   });
 
   afterEach(function() {

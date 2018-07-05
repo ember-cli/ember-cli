@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/ember-cli/ember-cli/issues"
   },
+  "esm": {
+    "cjs": true
+  },
   "license": "MIT",
   "author": "Stefan Penner, Robert Jackson and ember-cli contributors",
   "main": "lib/cli/index.js",
@@ -29,11 +32,11 @@
   "scripts": {
     "docs": "yuidoc",
     "lint": "node tests/runner lint",
-    "test": "node tests/runner",
-    "test:all": "node tests/runner all",
+    "test": "node -r esm tests/runner",
+    "test:all": "node -r esm tests/runner all",
     "test:cover": "istanbul cover tests/runner.js all",
-    "test:slow": "node tests/runner slow",
-    "test:debug": "node debug tests/runner"
+    "test:slow": "node -r esm tests/runner slow",
+    "test:debug": "node -r esm debug tests/runner"
   },
   "dependencies": {
     "amd-name-resolver": "^1.2.0",
@@ -74,6 +77,7 @@
     "ember-cli-preprocess-registry": "^3.1.0",
     "ember-cli-string-utils": "^1.0.0",
     "ensure-posix-path": "^1.0.2",
+    "esm": "^3.0.62",
     "execa": "^0.10.0",
     "exit": "^0.1.2",
     "express": "^4.12.3",
