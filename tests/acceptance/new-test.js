@@ -67,6 +67,8 @@ describe('Acceptance: ember new', function() {
         '--skip-bower',
       ]);
 
+      // the fixture files are now out of sync because
+      // this only tests file count and names, not contents
       let expectedFiles = walkSync(path.join(__dirname, '../fixtures', 'module-unification-addon'))
         .sort()
         .filter(e => e !== '.DS_Store');
