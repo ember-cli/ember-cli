@@ -895,9 +895,9 @@ broccoli@^1.1.0:
     tmp "0.0.31"
     underscore.string "^3.2.2"
 
-broccoli@^2.0.0-beta.2:
-  version "2.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.0.0-beta.2.tgz#5d42d0f70fdae70b7f4e1db533745dd7cf550cc6"
+broccoli@^2.0.0-beta.3:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.0.0-beta.3.tgz#89fcd9fd5550c7a031b448b635a437d44323e416"
   dependencies:
     broccoli-node-info "1.1.0"
     broccoli-slow-trees "^3.0.1"
