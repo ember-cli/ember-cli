@@ -111,11 +111,11 @@ describe('models/package-info-cache.js', function() {
       expect(internalAddons.length).to.equal(7);
     });
 
-    it('shows projectPackageInfo has 9 node-module entries', function() {
+    it('shows projectPackageInfo has 10 node-module entries', function() {
       let nodeModules = projectPackageInfo.nodeModules;
       expect(nodeModules).to.exist;
       expect(nodeModules.entries).to.exist;
-      expect(Object.keys(nodeModules.entries).length).to.equal(9);
+      expect(Object.keys(nodeModules.entries).length).to.equal(10);
     });
 
   });
