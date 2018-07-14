@@ -123,7 +123,7 @@
     "validate-npm-package-name": "^3.0.0",
     "walk-sync": "^0.3.0",
     "watch-detector": "^0.1.0",
-    "yam": "^0.0.24"
+    "yam": "^1.0.0"
   },
   "devDependencies": {
     "@octokit/rest": "^15.2.6",
