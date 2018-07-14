@@ -83,6 +83,32 @@ describe('EmberApp', function() {
         yield js.dispose();
       }));
 
+      it('sets `_isPackageHookSupplied` to `false` if `package` hook is not a function', function() {
+        let app = new EmberApp({
+          project,
+          package: false,
+        });
+
+        expect(app._isPackageHookSupplied).to.equal(false);
+      });
+
+      it('sets `_isPackageHookSupplied` to `false` if `package` hook is not supplied', function() {
+        let app = new EmberApp({
+          project,
+        });
+
+        expect(app._isPackageHookSupplied).to.equal(false);
+      });
+
+      it('sets `_isPackageHookSupplied` to `true` if `package` hook is supplied', function() {
+        let app = new EmberApp({
+          project,
+          package: () => input.path(),
+        });
+
+        expect(app._isPackageHookSupplied).to.equal(true);
+      });
+
       it('overrides the output of the build', co.wrap(function *() {
         input.write({
           fake: {
@@ -94,9 +120,9 @@ describe('EmberApp', function() {
 
         let app = new EmberApp({
           project,
+          package: () => input.path(),
         });
         mockTemplateRegistry(app);
-        app.package = () => input.path();
 
         output = yield buildOutput(app.toTree());
 
@@ -122,16 +148,11 @@ describe('EmberApp', function() {
 
         let app = new EmberApp({
           project,
+          package: tree => mergeTrees([tree, input.path()]),
         });
         mockTemplateRegistry(app);
 
         app.getAppJavascript = () => js.path();
-        app.package = function(tree) {
-          return mergeTrees([
-            tree,
-            input.path(),
-          ]);
-        };
 
         output = yield buildOutput(app.toTree());
 
@@ -164,9 +185,8 @@ describe('EmberApp', function() {
       it('prints a warning if `package` is not a function and falls back to default packaging', co.wrap(function *() {
         let app = new EmberApp({
           project,
+          package: {},
         });
-
-        app.package = { };
 
         app.project.ui.writeWarnLine = td.function();
 
@@ -199,10 +219,10 @@ describe('EmberApp', function() {
       it('receives transpiled ES current app tree', co.wrap(function *() {
         let app = new EmberApp({
           project,
+          package: tree => tree,
         });
         mockTemplateRegistry(app);
 
-        app.package = tree => tree;
         input.write({
           fake: {
             dist: {
@@ -902,9 +922,11 @@ describe('EmberApp', function() {
 
       it('calls postProcessTree if defined', function() {
         app.toArray = td.function();
+        app._legacyPackage = td.function();
 
+        td.when(app._legacyPackage(), { ignoreExtraArgs: true }).thenReturn('bar');
         td.when(app.toArray(), { ignoreExtraArgs: true }).thenReturn([]);
-        td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('derp');
+        td.when(addon.postprocessTree('all', 'bar')).thenReturn('derp');
 
         expect(app.toTree()).to.equal('derp');
       });
@@ -912,9 +934,11 @@ describe('EmberApp', function() {
       it('calls addonPostprocessTree', function() {
         app.toArray = td.function();
         app.addonPostprocessTree = td.function();
+        app._legacyPackage = td.function();
 
+        td.when(app._legacyPackage(), { ignoreExtraArgs: true }).thenReturn('bar');
         td.when(app.toArray(), { ignoreExtraArgs: true }).thenReturn([]);
-        td.when(app.addonPostprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
+        td.when(app.addonPostprocessTree('all', 'bar')).thenReturn('blap');
 
         expect(app.toTree()).to.equal('blap');
       });
