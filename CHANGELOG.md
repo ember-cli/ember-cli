@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v3.3.0
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.2.0...v3.3.0)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.2.0...v3.3.0)
+- Core Contributors
+  + No changes required
+
 ## v3.2.0
 
 The following changes are required if you are upgrading from the previous
