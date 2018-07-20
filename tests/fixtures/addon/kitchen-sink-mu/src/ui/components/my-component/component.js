@@ -1,6 +1,6 @@
-import Ember from 'ember';
 import template from './template';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout: template
 });
