@@ -148,14 +148,14 @@ describe('EmberApp#appAndDependencies', function() {
               keywords: ['ember-addon'],
             }),
             'index.js': `
-            module.exports = {
-              name: 'my-addon',
-              setupPreprocessorRegistry(type, registry) {
-                registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
-                registry.add('js', { ext: 'js', toTree(tree) { return tree; } });
-              },
-            }
-          `,
+              module.exports = {
+                name: 'my-addon',
+                setupPreprocessorRegistry(type, registry) {
+                  registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
+                  registry.add('js', { ext: 'js', toTree(tree) { return tree; } });
+                },
+              }
+            `,
           },
         },
       });
@@ -182,6 +182,55 @@ describe('EmberApp#appAndDependencies', function() {
 
       expect(actualFiles).to.deep.equal([
         'my-addon/index.js',
+      ]);
+    }));
+
+    it('AMD funnel handles mixed addons', co.wrap(function *() {
+      input.write({
+        'node_modules': {
+          'my-addon': {
+            'addon': {
+              'amd.js': `define('amd', function() {});`,
+              'es6.js': `export default 1`,
+            },
+            'package.json': JSON.stringify({
+              name: 'my-addon',
+              main: 'index.js',
+              keywords: ['ember-addon'],
+            }),
+            'index.js': `
+              module.exports = {
+                name: 'my-addon',
+                setupPreprocessorRegistry(type, registry) {
+                  registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
+                  registry.add('js', { ext: 'js', toTree(tree) { return tree; } });
+                },
+              }
+            `,
+          },
+        },
+      });
+
+      let app = createApp();
+
+      let tree;
+
+      app.registry.add('js', {
+        ext: 'js',
+        toTree(_tree) {
+          tree = _tree;
+          return _tree;
+        },
+      });
+
+      app.addonTree();
+      app._legacyAddonCompile('addon', 'addon-tree-output');
+
+      output = yield buildOutput(tree);
+      let actualFiles = getFiles(output.path());
+
+      expect(actualFiles).to.deep.equal([
+        'my-addon/es6.js',
       ]);
     }));
 
