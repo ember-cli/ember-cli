@@ -24,13 +24,20 @@ let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
+  let ORIGINAL_PROCESS_ENV_CI;
 
   beforeEach(co.wrap(function *() {
     yield tmp.setup(tmpDir);
     process.chdir(tmpDir);
+    ORIGINAL_PROCESS_ENV_CI = process.env.CI;
   }));
 
   afterEach(function() {
+    if (ORIGINAL_PROCESS_ENV_CI === undefined) {
+      delete process.env.CI;
+    } else {
+      process.env.CI = ORIGINAL_PROCESS_ENV_CI;
+    }
     return tmp.teardown(tmpDir);
   });
 
@@ -121,6 +128,20 @@ describe('Acceptance: ember new', function() {
     ]);
 
     confirmBlueprintedApp();
+  }));
+
+  it('ember new foo, blueprint targets match the default ember-cli targets', co.wrap(function *() {
+    yield ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+    ]);
+
+    process.env.CI = true;
+    const defaultTargets = require('../../lib/utilities/default-targets').browsers;
+    const blueprintTargets = require(path.resolve('config/targets.js')).browsers;
+    expect(blueprintTargets).to.have.same.deep.members(defaultTargets);
   }));
 
   it('ember new with empty app name fails with a warning', co.wrap(function *() {
