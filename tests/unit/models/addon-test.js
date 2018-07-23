@@ -330,10 +330,19 @@ describe('models/addon.js', function() {
 
       it('returns true when the addon name is prefixed in package.json and not in index.js', function() {
         process.env.EMBER_ADDON_ENV = 'development';
-
+        project.root = 'foo';
         project.name = () => ('@foo/my-addon');
         addon.name = 'my-addon';
         expect(addon.isDevelopingAddon(), 'addon is being developed').to.eql(true);
+      });
+
+      it('displays warning if addon name is different in package.json and index.js ', function() {
+        process.env.EMBER_ADDON_ENV = 'development';
+        project.root = 'foo';
+        project.name = () => ('foo-my-addon');
+        addon.name = 'my-addon';
+        addon.isDevelopingAddon();
+        expect(project.ui.output).to.match(/WARNING: Your names in package.json and index.js should match*/);
       });
 
       it('returns false when `EMBER_ADDON_ENV` is not set', function() {
