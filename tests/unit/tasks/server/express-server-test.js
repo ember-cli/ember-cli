@@ -1020,7 +1020,7 @@ describe('express-server', function() {
           subject.changedFiles = ['bar.js'];
           return subject.restartHttpServer();
         }).then(function() {
-          expect(ui.output).to.equal(EOL + chalk.green('Server restarted.') + EOL + EOL);
+          expect(ui.output).to.contains(EOL + chalk.green('Server restarted.') + EOL + EOL);
           expect(subject.httpServer, 'HTTP server exists').to.be.ok;
           expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
           expect(!!subject.app).to.equal(true, 'App exists');

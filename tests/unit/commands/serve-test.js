@@ -41,11 +41,11 @@ describe('serve command', function() {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.gte(4200, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.within(7020, 65535, 'has correct liveReload port');
+      expect(captor.value.liveReloadPort).to.be.equal(captor.value.port, 'has correct liveReload port');
     });
   });
 
-  it('setting --port without --live-reload-port', function() {
+  it('setting --port', function() {
     return getPort().then(function(port) {
       return command.validateAndRun([
         '--port', `${port}`,
@@ -53,21 +53,20 @@ describe('serve command', function() {
         let captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.port).to.equal(port, 'has correct port');
-        expect(captor.value.liveReloadPort).to.be.within(7020, 65535, 'has correct liveReload port');
+        expect(captor.value.liveReloadPort).to.be.equal(port, 'has correct liveReload port');
       });
     });
   });
 
   it('setting both --port and --live-reload-port', function() {
     return getPort().then(function(port) {
-      return command.validateAndRun([
+      return expect(command.validateAndRun([
         '--port', `${port}`,
         '--live-reload-port', '8005',
-      ]).then(function() {
+      ])).to.be.rejected.then(err => {
         let captor = td.matchers.captor();
-        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
-        expect(captor.value.port).to.equal(port, 'has correct port');
-        expect(captor.value.liveReloadPort).to.be.within(8005, 65535, 'has live reload port > port');
+        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 0 });
+        expect(err.message).to.contain('Now uses same port as ember app');
       });
     });
   });
@@ -109,18 +108,7 @@ describe('serve command', function() {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.within(7020, 65535, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.gt(captor.value.port, 'has a liveReload port greater than port');
-    });
-  });
-
-  it('has correct liveLoadPort', function() {
-    return command.validateAndRun([
-      '--port', '0',
-      '--live-reload-port', '4001',
-    ]).then(function() {
-      let captor = td.matchers.captor();
-      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
-      expect(captor.value.liveReloadPort).to.be.gte(4001, 'has correct liveReload port');
+      expect(captor.value.liveReloadPort).to.be.equal(captor.value.port, 'has correct port');
     });
   });
 

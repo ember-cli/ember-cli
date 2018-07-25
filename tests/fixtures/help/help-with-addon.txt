@@ -145,8 +145,10 @@ ember serve \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -lrh <value>\u001b[39m
   \u001b[36m--live-reload-base-url\u001b[39m \u001b[36m(String)\u001b[39m Defaults to baseURL
     \u001b[90maliases: -lrbu <value>\u001b[39m
-  \u001b[36m--live-reload-port\u001b[39m \u001b[36m(Number)\u001b[39m (Defaults to port number within [49152...65535])
+  \u001b[36m--live-reload-port\u001b[39m \u001b[36m(Number)\u001b[39m [Deprecated] Now uses same port as ember app
     \u001b[90maliases: -lrp <value>\u001b[39m
+  \u001b[36m--live-reload-prefix\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: _lr)\u001b[39m Default to _lr
+    \u001b[90maliases: --lrprefix <value>\u001b[39m
   \u001b[36m--environment\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: development)\u001b[39m Possible values are "development", "production", and "test".
     \u001b[90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m
   \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
