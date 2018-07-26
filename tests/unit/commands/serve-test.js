@@ -60,13 +60,14 @@ describe('serve command', function() {
 
   it('setting both --port and --live-reload-port', function() {
     return getPort().then(function(port) {
-      return expect(command.validateAndRun([
+      return command.validateAndRun([
         '--port', `${port}`,
         '--live-reload-port', '8005',
-      ])).to.be.rejected.then(err => {
+      ]).then(function() {
         let captor = td.matchers.captor();
-        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 0 });
-        expect(err.message).to.contain('Now uses same port as ember app');
+        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+        expect(captor.value.port).to.equal(port, 'has correct port');
+        expect(captor.value.liveReloadPort).to.be.within(8005, 65535, 'has live reload port > port');
       });
     });
   });
