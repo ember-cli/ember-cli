@@ -145,7 +145,7 @@ ember serve \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -lrh <value>\u001b[39m
   \u001b[36m--live-reload-base-url\u001b[39m \u001b[36m(String)\u001b[39m Defaults to baseURL
     \u001b[90maliases: -lrbu <value>\u001b[39m
-  \u001b[36m--live-reload-port\u001b[39m \u001b[36m(Number)\u001b[39m Defaluts to same port as ember app
+  \u001b[36m--live-reload-port\u001b[39m \u001b[36m(Number)\u001b[39m Defaults to same port as ember app
     \u001b[90maliases: -lrp <value>\u001b[39m
   \u001b[36m--live-reload-prefix\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: _lr)\u001b[39m Default to _lr
     \u001b[90maliases: --lrprefix <value>\u001b[39m

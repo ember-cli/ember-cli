@@ -636,7 +636,7 @@ module.exports = {
         },
         {
           name: 'live-reload-port',
-          description: 'Defaluts to same port as ember app',
+          description: 'Defaults to same port as ember app',
           aliases: ['lrp'],
           key: 'liveReloadPort',
           required: false
