@@ -45,7 +45,7 @@ describe('serve command', function() {
     });
   });
 
-  it('setting --port', function() {
+  it('setting --port without --live-reload-port', function() {
     return getPort().then(function(port) {
       return command.validateAndRun([
         '--port', `${port}`,
@@ -110,6 +110,17 @@ describe('serve command', function() {
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.within(7020, 65535, 'has correct port');
       expect(captor.value.liveReloadPort).to.be.equal(captor.value.port, 'has correct port');
+    });
+  });
+
+  it('has correct liveLoadPort', function() {
+    return command.validateAndRun([
+      '--port', '0',
+      '--live-reload-port', '4001',
+    ]).then(function() {
+      let captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.liveReloadPort).to.be.gte(4001, 'has correct liveReload port');
     });
   });
 
