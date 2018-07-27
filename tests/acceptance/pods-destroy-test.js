@@ -11,6 +11,7 @@ let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const experiments = require('../../lib/experiments');
 
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
@@ -97,59 +98,69 @@ describe('Acceptance: ember destroy pod', function() {
     return yield destroy(args);
   });
 
-  it('blueprint foo --pod', function() {
-    let commandArgs = ['blueprint', 'foo', '--pod'];
-    let files = ['blueprints/foo/index.js'];
+  if (experiments.MODULE_UNIFICATION) {
+    it('blueprint foo --pod for MU throws', co.wrap(function *() {
+      yield generate(['blueprint', 'foo', '--pod'])
+        .catch(error => {
+          expect(error)
+            .to.contain('Pods aren\'t supported within a module unification app');
+        });
+    }));
+  } else {
+    it('blueprint foo --pod', function() {
+      let commandArgs = ['blueprint', 'foo', '--pod'];
+      let files = ['blueprints/foo/index.js'];
 
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
+      return assertDestroyAfterGenerate(commandArgs, files);
+    });
 
-  it('blueprint foo/bar --pod', function() {
-    let commandArgs = ['blueprint', 'foo/bar', '--pod'];
-    let files = ['blueprints/foo/bar/index.js'];
+    it('blueprint foo/bar --pod', function() {
+      let commandArgs = ['blueprint', 'foo/bar', '--pod'];
+      let files = ['blueprints/foo/bar/index.js'];
 
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
+      return assertDestroyAfterGenerate(commandArgs, files);
+    });
 
-  it('http-mock foo --pod', function() {
-    let commandArgs = ['http-mock', 'foo', '--pod'];
-    let files = ['server/mocks/foo.js'];
+    it('http-mock foo --pod', function() {
+      let commandArgs = ['http-mock', 'foo', '--pod'];
+      let files = ['server/mocks/foo.js'];
 
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
+      return assertDestroyAfterGenerate(commandArgs, files);
+    });
 
-  it('http-proxy foo --pod', function() {
-    let commandArgs = ['http-proxy', 'foo', 'bar', '--pod'];
-    let files = ['server/proxies/foo.js'];
+    it('http-proxy foo --pod', function() {
+      let commandArgs = ['http-proxy', 'foo', 'bar', '--pod'];
+      let files = ['server/proxies/foo.js'];
 
-    return assertDestroyAfterGenerate(commandArgs, files);
-  });
+      return assertDestroyAfterGenerate(commandArgs, files);
+    });
 
-  it('deletes files generated using blueprints from the project directory', co.wrap(function *() {
-    let commandArgs = ['foo', 'bar', '--pod'];
-    let files = ['app/foos/bar.js'];
+    it('deletes files generated using blueprints from the project directory', co.wrap(function *() {
+      let commandArgs = ['foo', 'bar', '--pod'];
+      let files = ['app/foos/bar.js'];
 
-    yield initApp();
+      yield initApp();
 
-    yield outputFile(
-      'blueprints/foo/files/app/foos/__name__.js',
-      "import Ember from 'ember';\n\n" +
-      'export default Ember.Object.extend({ foo: true });\n'
-    );
+      yield outputFile(
+        'blueprints/foo/files/app/foos/__name__.js',
+        "import Ember from 'ember';\n\n" +
+        'export default Ember.Object.extend({ foo: true });\n'
+      );
 
-    yield generate(commandArgs);
-    assertFilesExist(files);
+      yield generate(commandArgs);
+      assertFilesExist(files);
 
-    yield destroy(commandArgs);
-    assertFilesNotExist(files);
-  }));
+      yield destroy(commandArgs);
+      assertFilesNotExist(files);
+    }));
 
-  // Skip until podModulePrefix is deprecated
-  it.skip('podModulePrefix deprecation warning', co.wrap(function *() {
-    let result = yield destroyAfterGenerate(['controller', 'foo', '--pod']);
+    // Skip until podModulePrefix is deprecated
+    it.skip('podModulePrefix deprecation warning', co.wrap(function *() {
+      let result = yield destroyAfterGenerate(['controller', 'foo', '--pod']);
 
-    expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be" +
-      " removed from future versions of ember-cli. Please move existing pods from" +
-      " 'app/pods/' to 'app/'.");
-  }));
+      expect(result.outputStream.join()).to.include("`podModulePrefix` is deprecated and will be" +
+        " removed from future versions of ember-cli. Please move existing pods from" +
+        " 'app/pods/' to 'app/'.");
+    }));
+  }
 });
