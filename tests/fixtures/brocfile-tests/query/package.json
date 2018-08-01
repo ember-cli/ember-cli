@@ -2,8 +2,8 @@
   "name": "query",
   "dependencies": {
     "ember-cli": "*",
-    "ember-cli-htmlbars": "^2.0.1",
-    "ember-resolver": "^2.0.2",
+    "ember-cli-htmlbars": "^3.0.0",
+    "ember-resolver": "^5.0.1",
     "loader.js": "latest"
   }
 }
