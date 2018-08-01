@@ -400,6 +400,102 @@ describe('EmberApp', function() {
     }));
   });
 
+  describe('trees', function() {
+    it('can mutate styles tree', co.wrap(function *() {
+      let additionalStylesTree = yield createTempDir();
+
+      additionalStylesTree.write({
+        bootstrap: {
+          'bootstrap.css': '// css goes here',
+        },
+      });
+
+      let styles = yield createTempDir();
+      styles.write({
+        'foo.css': 'foo',
+        'bar.css': 'bar',
+      });
+      let app = new EmberApp({
+        project,
+        trees: {
+          styles: styles.path(),
+        },
+      });
+      mockTemplateRegistry(app);
+
+      app.trees.styles = mergeTrees([
+        app.trees.styles,
+        additionalStylesTree.path(),
+      ]);
+
+      let output = yield buildOutput(
+        app.getStyles()
+      );
+      let outputFiles = output.read();
+
+      expect(outputFiles['test-project'].styles).to.deep.equal({
+        'foo.css': 'foo',
+        'bar.css': 'bar',
+        bootstrap: {
+          'bootstrap.css': '// css goes here',
+        },
+      });
+
+      yield output.dispose();
+      yield additionalStylesTree.dispose();
+    }));
+
+    if (experiments.MODULE_UNIFICATION) {
+      it.only('can mutate src tree', co.wrap(function *() {
+        let additionalStylesTree = yield createTempDir();
+
+        additionalStylesTree.write({
+          bootstrap: {
+            'bootstrap.css': '// css goes here',
+          },
+        });
+
+        let src = yield createTempDir();
+        src.write({
+          ui: {},
+          styles: {
+            'foo.css': 'foo',
+            'bar.css': 'bar',
+          },
+        });
+        let app = new EmberApp({
+          project,
+          trees: {
+            src: src.path(),
+          },
+        });
+        mockTemplateRegistry(app);
+
+        app.trees.src = mergeTrees([
+          app.trees.src,
+          additionalStylesTree.path(),
+        ]);
+
+        let output = yield buildOutput(
+          app.getSrc()
+        );
+        let outputFiles = output.read();
+        console.log(outputFiles)
+
+        expect(outputFiles.src.styles).to.deep.equal({
+          'foo.css': 'foo',
+          'bar.css': 'bar',
+          bootstrap: {
+            'bootstrap.css': '// css goes here',
+          },
+        });
+
+        yield output.dispose();
+        yield additionalStylesTree.dispose();
+      }));
+    }
+  });
+
   describe('getAddonTemplates()', function() {
     it('returns add-ons template files', co.wrap(function *() {
       let input = yield createTempDir();
@@ -947,11 +1043,13 @@ describe('EmberApp', function() {
         mockTemplateRegistry(app);
 
         app.index = td.function();
+        app.getStyles = td.function();
         app._defaultPackager.processTemplates = td.function();
 
         td.when(app._defaultPackager.processTemplates(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
         td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
+        td.when(app.getStyles(), { ignoreExtraArgs: true }).thenReturn(null);
 
         expect(app.toTree()).to.equal('blap');
 
