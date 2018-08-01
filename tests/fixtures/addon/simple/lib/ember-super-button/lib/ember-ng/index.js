@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  name: 'Ember Ng'
+  name: require('./package').name,
 };
