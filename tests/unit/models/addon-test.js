@@ -159,7 +159,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon', function() {
       beforeEach(function() {
-        addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+        addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
 
         // Clear the caches
         delete addon._moduleName;
@@ -273,7 +273,7 @@ describe('models/addon.js', function() {
 
     describe('addon with dependencies', function() {
       beforeEach(function() {
-        addon = findWhere(project.addons, { name: 'Ember Addon With Dependencies' });
+        addon = findWhere(project.addons, { name: 'ember-addon-with-dependencies' });
       });
 
       it('returns a listing of all dependencies in the addon\'s package.json', function() {
@@ -563,7 +563,7 @@ describe('models/addon.js', function() {
 
       project.initializeAddons();
 
-      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+      addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
     });
 
     it('should not throw an error if addon/templates is present but empty', function() {
@@ -585,7 +585,7 @@ describe('models/addon.js', function() {
 
       project.initializeAddons();
 
-      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+      addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
     });
 
     it('should not call _getAddonTemplatesTreeFiles when default treePath is used', function() {

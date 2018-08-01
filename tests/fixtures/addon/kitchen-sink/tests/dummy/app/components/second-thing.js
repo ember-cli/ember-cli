@@ -1,4 +1,4 @@
-import BasicThing from 'kitchen-sink/components/basic-thing';
+import BasicThing from 'some-cool-addon/components/basic-thing';
 
 export default BasicThing.extend({
   classNames: ['second-thing']
