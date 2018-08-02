@@ -62,8 +62,8 @@ describe('models/instatiate-addons.js', function() {
     project.initializeAddons();
 
     expect(project.addons.map(a => a.name)).to.deep.eql([
-      'foo',
       'bar',
+      'foo',
       'qux',
     ]);
   });
@@ -79,9 +79,9 @@ describe('models/instatiate-addons.js', function() {
     project.initializeAddons();
 
     expect(project.addons.map(a => a.name)).to.deep.eql([
+      'bar',
       'qux',
       'foo',
-      'bar',
     ]);
   });
 
