@@ -1,5 +1,37 @@
 # ember-cli Changelog
 
+## v3.4.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.0-beta.1...v3.4.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.0-beta.1...v3.4.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7902](https://github.com/ember-cli/ember-cli/pull/7902) add .eslintignore to .npmignore [@kellyselden](https://github.com/kellyselden)
+- [#7904](https://github.com/ember-cli/ember-cli/pull/7904) further unify all our `.*ignore` files [@kellyselden](https://github.com/kellyselden)
+- [#7905](https://github.com/ember-cli/ember-cli/pull/7905) Fix release branch tests [@kellyselden](https://github.com/kellyselden)
+- [#7917](https://github.com/ember-cli/ember-cli/pull/7917) Adding entries for the package-info-cache work to the contribution list [@dcombslinkedin](https://github.com/dcombslinkedin)
+- [#7940](https://github.com/ember-cli/ember-cli/pull/7940) Enable LiveReload and normal app server to share a single port. [@SparshithNR](https://github.com/SparshithNR)
+- [#7947](https://github.com/ember-cli/ember-cli/pull/7947) Adding support for in repo addons in non-conventional directories [@scalvert](https://github.com/scalvert)
+- [#7949](https://github.com/ember-cli/ember-cli/pull/7949) Upgrade blueprint dependency versions [@stefanpenner](https://github.com/stefanpenner)
+- [#7950](https://github.com/ember-cli/ember-cli/pull/7950) Better handle ambiguity between package.json and index.js name field. [@rwjblue](https://github.com/rwjblue)
+  - Changes the addon blueprint to ensure name property just references the package.json's name
+  - Introduce a hard error when locally developing an addon whose `package.json` name differs from `index.js` name.
+  - Updates `Project.prototype.findAddonByName` / `Addon.prototype.findAddonByName` to handle the changes to mentioned above. Specifically, `findAddonByName` will prefer exact matches to the `package.json` name over exact matches in `index.js` name.
+- [#7954](https://github.com/ember-cli/ember-cli/pull/7954) Add template linting. [@rwjblue](https://github.com/rwjblue)
+- [#7956](https://github.com/ember-cli/ember-cli/pull/7956) Embrace stages in CI. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.4.0-beta.1
 
 The following changes are required if you are upgrading from the previous
