@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'kitchen-sink',
+  name: require('./package').name,
 
   contentFor(type, config) {
     if (type === 'head') {

@@ -135,6 +135,7 @@
     "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-mocha": "^4.8.0",
     "eslint-plugin-node": "^6.0.1",
+    "fixturify-project": "^1.0.0",
     "istanbul": "^0.4.2",
     "mocha": "^5.0.0",
     "mocha-eslint": "^4.1.0",

@@ -1,3 +1,3 @@
 module.exports = {
-  name: 'sample-addon'
+  name: require('./package').name
 };

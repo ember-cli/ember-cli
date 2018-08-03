@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = {
-  name: '<%= dasherizedModuleName %>',
+  name: require('./package').name,
 
   isDevelopingAddon() {
     return true;

@@ -1,6 +1,6 @@
 /* eslint-env node */
 module.exports = {
-  name: 'developing-addon',
+  name: require('./package').name,
 
   isDevelopingAddon() {
     return true;

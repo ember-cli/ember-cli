@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'basic-thing',
+  name: require('./package').name,
 
   contentFor(type, config) {
     if (type === 'head') {

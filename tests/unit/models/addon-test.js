@@ -148,7 +148,7 @@ describe('models/addon.js', function() {
 
   describe('initialized addon', function() {
     this.timeout(40000);
-    before(function() {
+    beforeEach(function() {
       projectPath = path.resolve(fixturePath, 'simple');
       const packageContents = require(path.join(projectPath, 'package.json'));
       let ui = new MockUI();
@@ -159,7 +159,7 @@ describe('models/addon.js', function() {
 
     describe('generated addon', function() {
       beforeEach(function() {
-        addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+        addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
 
         // Clear the caches
         delete addon._moduleName;
@@ -273,7 +273,7 @@ describe('models/addon.js', function() {
 
     describe('addon with dependencies', function() {
       beforeEach(function() {
-        addon = findWhere(project.addons, { name: 'Ember Addon With Dependencies' });
+        addon = findWhere(project.addons, { name: 'ember-addon-with-dependencies' });
       });
 
       it('returns a listing of all dependencies in the addon\'s package.json', function() {
@@ -320,6 +320,8 @@ describe('models/addon.js', function() {
         } else {
           process.env.EMBER_ADDON_ENV = originalEnvValue;
         }
+
+        delete process.env.EMBER_CLI_IGNORE_ADDON_NAME_MISMATCH;
       });
 
       it('returns true when `EMBER_ADDON_ENV` is set to development', function() {
@@ -328,12 +330,29 @@ describe('models/addon.js', function() {
         expect(addon.isDevelopingAddon(), 'addon is being developed').to.eql(true);
       });
 
-      it('returns true when the addon name is prefixed in package.json and not in index.js', function() {
+      it('throws when the addon name is prefixed in package.json and not in index.js', function() {
         process.env.EMBER_ADDON_ENV = 'development';
-
+        project.root = 'foo';
         project.name = () => ('@foo/my-addon');
         addon.name = 'my-addon';
-        expect(addon.isDevelopingAddon(), 'addon is being developed').to.eql(true);
+        expect(() => addon.isDevelopingAddon()).to.throw(/Your names in package.json and index.js should match*/);
+      });
+
+      it('does not throw for a mismatched addon name when process.env.EMBER_CLI_IGNORE_ADDON_NAME_MISMATCH is set', function() {
+        process.env.EMBER_CLI_IGNORE_ADDON_NAME_MISMATCH = 'true';
+        process.env.EMBER_ADDON_ENV = 'development';
+        project.root = 'foo';
+        project.name = () => ('@foo/my-addon');
+        addon.name = 'my-addon';
+        expect(addon.isDevelopingAddon()).to.eql(true);
+      });
+
+      it('throws an error if addon name is different in package.json and index.js ', function() {
+        process.env.EMBER_ADDON_ENV = 'development';
+        project.root = 'foo';
+        project.name = () => ('foo-my-addon');
+        addon.name = 'my-addon';
+        expect(() => addon.isDevelopingAddon()).to.throw(/Your names in package.json and index.js should match*/);
       });
 
       it('returns false when `EMBER_ADDON_ENV` is not set', function() {
@@ -555,7 +574,7 @@ describe('models/addon.js', function() {
 
       project.initializeAddons();
 
-      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+      addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
     });
 
     it('should not throw an error if addon/templates is present but empty', function() {
@@ -577,7 +596,7 @@ describe('models/addon.js', function() {
 
       project.initializeAddons();
 
-      addon = findWhere(project.addons, { name: 'Ember CLI Generated with export' });
+      addon = findWhere(project.addons, { name: 'ember-generated-with-export-addon' });
     });
 
     it('should not call _getAddonTemplatesTreeFiles when default treePath is used', function() {
@@ -725,7 +744,7 @@ describe('models/addon.js', function() {
       project = new Project(projectPath, packageContents, cli.ui, cli);
 
       let BaseAddon = Addon.extend({
-        name: 'base-addon',
+        name: 'test-project',
         root: projectPath,
       });
 
