@@ -604,9 +604,17 @@ module.exports = {
         },
         {
           name: 'live-reload-port',
-          description: '(Defaults to port number within [49152...65535])',
+          description: 'Defaults to same port as ember app',
           aliases: ['lrp'],
           key: 'liveReloadPort',
+          required: false
+        },
+        {
+          name: 'live-reload-prefix',
+          default: '_lr',
+          description: 'Default to _lr',
+          aliases: ['lrprefix'],
+          key: 'liveReloadPrefix',
           required: false
         },
         {
