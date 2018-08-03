@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "description": "Small description for <%= name %> goes here",
+  "repository": "",
   "license": "MIT",
   "author": "",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
   "scripts": {
     "build": "ember build",
     "lint:js": "eslint .",
