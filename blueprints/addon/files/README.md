@@ -28,6 +28,7 @@ Contributing
 
 ### Linting
 
+* `<% if (yarn) { %>yarn lint:hbs<% } else { %>npm run lint:hbs<% } %>`
 * `<% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>`
 * `<% if (yarn) { %>yarn lint:js --fix<% } else { %>npm run lint:js -- --fix<% } %>`
 
