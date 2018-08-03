@@ -46,7 +46,7 @@ describe('livereload-server', function() {
 
   describe('start', function() {
     it('does not start the server if `liveReload` option is not true', function() {
-      return subject.setUpMiddleWare({
+      return subject.setupMiddleware({
         liveReload: false,
         liveReloadPort: 4200,
         liveReloadPrefix: '/',
@@ -58,7 +58,7 @@ describe('livereload-server', function() {
     it('informs of error during startup with custom port', function(done) {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
-      subject.setUpMiddleWare({
+      subject.setupMiddleware({
         liveReload: true,
         liveReloadPort: 1337,
         liveReloadPrefix: '/',
@@ -72,7 +72,7 @@ describe('livereload-server', function() {
         });
     });
     it('starts with custom host, custom port', function() {
-      return subject.setUpMiddleWare({
+      return subject.setupMiddleware({
         liveReloadHost: '127.0.0.1',
         liveReload: true,
         liveReloadPort: 1377,
@@ -86,7 +86,7 @@ describe('livereload-server', function() {
   });
   describe('start with https', function() {
     it('correctly runs in https mode', function() {
-      return subject.setUpMiddleWare({
+      return subject.setupMiddleware({
         liveReload: true,
         liveReloadPort: 4200,
         liveReloadPrefix: '/',
@@ -103,7 +103,7 @@ describe('livereload-server', function() {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
-      subject.setUpMiddleWare({
+      subject.setupMiddleware({
         liveReloadPort: 1337,
         liveReload: true,
         ssl: true,
@@ -119,7 +119,7 @@ describe('livereload-server', function() {
         });
     });
     it('correctly runs in https mode with custom port', function() {
-      return subject.setUpMiddleWare({
+      return subject.setupMiddleware({
         liveReload: true,
         liveReloadPort: 1337,
         liveReloadPrefix: '/',
@@ -140,7 +140,7 @@ describe('livereload-server', function() {
       subject.didRestart = function() {
         calls++;
       };
-      return subject.setUpMiddleWare({
+      return subject.setupMiddleware({
         liveReload: true,
         liveReloadPrefix: '/',
         port: 4200,
@@ -154,7 +154,7 @@ describe('livereload-server', function() {
       subject.didRestart = function() {
         calls++;
       };
-      return subject.setUpMiddleWare({
+      return subject.setupMiddleware({
         liveReload: true,
         liveReloadPrefix: '/',
         liveReloadPort: 1337,
@@ -192,7 +192,7 @@ describe('livereload-server', function() {
     };
 
     beforeEach(function() {
-      subject.setUpMiddleWare({
+      subject.setupMiddleware({
         liveReload: true,
         liveReloadPort: 4200,
         liveReloadPrefix: '/',
@@ -445,7 +445,7 @@ describe('livereload-server', function() {
     };
 
     beforeEach(function() {
-      subject.setUpMiddleWare({
+      subject.setupMiddleware({
         liveReload: true,
         liveReloadPort: 1337,
         liveReloadPrefix: '/',
