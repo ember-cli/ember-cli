@@ -41,7 +41,7 @@ describe('serve command', function() {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.gte(4200, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.within(7020, 65535, 'has correct liveReload port');
+      expect(captor.value.liveReloadPort).to.be.equal(captor.value.port, 'has correct liveReload port');
     });
   });
 
@@ -53,7 +53,7 @@ describe('serve command', function() {
         let captor = td.matchers.captor();
         td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
         expect(captor.value.port).to.equal(port, 'has correct port');
-        expect(captor.value.liveReloadPort).to.be.within(7020, 65535, 'has correct liveReload port');
+        expect(captor.value.liveReloadPort).to.be.equal(port, 'has correct liveReload port');
       });
     });
   });
@@ -109,7 +109,7 @@ describe('serve command', function() {
       let captor = td.matchers.captor();
       td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
       expect(captor.value.port).to.be.within(7020, 65535, 'has correct port');
-      expect(captor.value.liveReloadPort).to.be.gt(captor.value.port, 'has a liveReload port greater than port');
+      expect(captor.value.liveReloadPort).to.be.equal(captor.value.port, 'has correct port');
     });
   });
 
