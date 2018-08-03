@@ -284,7 +284,7 @@ describe('models/project.js', function() {
       let expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
-        'ember-resolver': '^2.0.2',
+        'ember-resolver': '^5.0.1',
         'ember-non-root-addon': 'latest',
         'ember-generated-with-export-addon': 'latest',
         'non-ember-thingy': 'latest',
@@ -324,28 +324,30 @@ describe('models/project.js', function() {
         'ember-before-blueprint-addon', 'ember-after-blueprint-addon',
         'ember-devDeps-addon', 'ember-addon-with-dependencies', 'ember-super-button',
       ];
-      expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
+      expect(Object.keys(project.addonPackages)).to.deep.eql(expected);
     });
 
     it('returns instances of the addons', function() {
       let addons = project.addons;
 
-      expect(addons[8].name).to.equal('Ember Non Root Addon');
-      expect(addons[14].name).to.equal('Ember Super Button');
-      expect(addons[14].addons[0].name).to.equal('Ember Yagni');
-      expect(addons[14].addons[1].name).to.equal('Ember Ng');
+      expect(addons.find(a => a.name === 'ember-non-root-addon')).to.be;
+
+      let superButton = addons.find(a => a.name === 'ember-super-button');
+      expect(!!superButton).to.be;
+      expect(superButton.addons.find(a => a.name === 'ember-yagni')).to.be;
+      expect(superButton.addons.find(a => a.name === 'ember-ng')).to.be;
     });
 
     it('addons get passed the project instance', function() {
       let addons = project.addons;
 
-      expect(addons[1].project).to.equal(project);
+      addons.forEach(addon => expect(addon.project).to.eql(project));
     });
 
     it('returns an instance of an addon that uses `ember-addon-main`', function() {
       let addons = project.addons;
 
-      expect(addons[10].name).to.equal('Ember Random Addon');
+      expect(!!addons.find(a => a.name === 'ember-random-addon')).to.be;
     });
 
     it('returns the default blueprints path', function() {
@@ -405,8 +407,8 @@ describe('models/project.js', function() {
     it('returns an instance of an addon with an object export', function() {
       let addons = project.addons;
 
-      expect(addons[7] instanceof Addon).to.equal(true);
-      expect(addons[7].name).to.equal('Ember CLI Generated with export');
+      let addon = addons.find(a => a.name === 'ember-generated-with-export-addon');
+      expect(addon instanceof Addon).to.equal(true);
     });
 
     it('adds the project itself if it is an addon', function() {

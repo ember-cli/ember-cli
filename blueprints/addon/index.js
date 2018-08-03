@@ -128,7 +128,6 @@ module.exports = {
       modulePrefix: name,
       namespace,
       addonName,
-      addonModulePrefix: addonName,
       addonNamespace,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),

@@ -1,6 +1,6 @@
 import { setupApplicationTest } from 'ember-qunit';
 import { visit } from '@ember/test-helpers';
-// import truthyHelper from 'kitchen-sink/test-support/helper';
+// import truthyHelper from 'some-cool-addon/test-support/helper';
 import { module, test } from 'qunit';
 
 module('Acceptance', function(hooks) {

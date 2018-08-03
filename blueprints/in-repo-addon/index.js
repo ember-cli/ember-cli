@@ -3,21 +3,44 @@
 const fs = require('fs-extra');
 const path = require('path');
 const stringUtil = require('ember-cli-string-utils');
-const Blueprint = require('../../lib/models/blueprint');
 const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 
 module.exports = {
   description: 'The blueprint for addon in repo ember-cli addons.',
 
   beforeInstall(options) {
-    let blueprintName = this.fileMapTokens().__root__();
-    let libOrPackagesBlueprint = Blueprint.lookup(blueprintName, {
-      ui: this.ui,
-      analytics: this.analytics,
-      project: this.project,
-    });
+    let { root } = this._processTokens(options.entity.name);
 
-    return libOrPackagesBlueprint.install(options);
+    fs.mkdirsSync(root);
+  },
+
+  _processTokens(name) {
+    let isModuleUnification = this.project.isModuleUnification && this.project.isModuleUnification();
+    let root = isModuleUnification ? 'packages' : 'lib';
+
+    if (name.match(/[./]/)) {
+      root = path.dirname(name);
+      name = path.basename(name);
+    }
+
+    name = stringUtil.dasherize(name);
+
+    return { root, name };
+  },
+
+  locals(options) {
+    let { name } = this._processTokens(options.entity.name);
+
+    return {
+      dasherizedModuleName: name,
+    };
+  },
+
+  fileMapTokens() {
+    return {
+      __root__: options => this._processTokens(options.dasherizedModuleName).root,
+      __name__: options => this._processTokens(options.dasherizedModuleName).name,
+    };
   },
 
   afterInstall(options) {
@@ -28,21 +51,11 @@ module.exports = {
     this._generatePackageJson(options, false);
   },
 
-  fileMapTokens() {
-    let isModuleUnification = this.project.isModuleUnification && this.project.isModuleUnification();
-
-    return {
-      __root__() {
-        return isModuleUnification ? 'packages' : 'lib';
-      },
-    };
-  },
-
   _generatePackageJson(options, isInstall) {
     let packagePath = path.join(this.project.root, 'package.json');
     let contents = this._readJsonSync(packagePath);
-    let name = stringUtil.dasherize(options.entity.name);
-    let newPath = [this.fileMapTokens().__root__(), name].join('/');
+    let { root, name } = this._processTokens(options.entity.name);
+    let newPath = [root, name].join('/');
     let paths;
 
     contents['ember-addon'] = contents['ember-addon'] || {};

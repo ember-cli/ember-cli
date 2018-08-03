@@ -4,6 +4,7 @@ const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
 const path = require('path');
+let outputFile = RSVP.denodeify(fs.outputFile);
 let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -56,10 +57,32 @@ describe('Acceptance: ember generate in-repo-addon', function() {
     });
   }
 
+  it('in-repo-addon blueprint foo inside alternate path', function() {
+    // build an app with an in-repo addon in a non-standard path
+    return initApp()
+      .then(() =>
+        ember([
+          'generate',
+          'in-repo-addon',
+          './non-lib/other-thing',
+        ])
+      )
+      // generate in project blueprint to allow easier testing of in-repo generation
+      .then(() => outputFile(
+        'blueprints/foo/files/__root__/foos/__name__.js',
+        '/* whoah, empty foo! */'
+      ))
+      // confirm that we can generate into the non-lib path
+      .then(() =>
+        ember(['generate', 'foo', 'bar', '--in-repo-addon=other-thing']).then(function() {
+          expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
+        })
+      );
+  });
+
   it('in-repo-addon adds path to lib', function() {
     return initInRepoAddon().then(function() {
       expect(file('package.json')).to.contain('lib/my-addon');
     });
   });
-
 });

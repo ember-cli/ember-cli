@@ -24,7 +24,7 @@
     "ember-cli": "github:ember-cli/ember-cli",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.6.0",
-    "ember-cli-dependency-checker": "^2.0.0",
+    "ember-cli-dependency-checker": "^3.0.0",
     "ember-cli-eslint": "^4.2.1",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
@@ -36,7 +36,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-resolver": "^4.0.0",
+    "ember-resolver": "^5.0.1",
     "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/canary/shas/5431f71df060e7b5c82c05c300f40e9151d135e8.tgz",
     "eslint-plugin-ember": "^5.0.0",
     "loader.js": "^4.2.3"
