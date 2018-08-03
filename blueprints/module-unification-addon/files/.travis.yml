@@ -41,6 +41,7 @@ before_install:
   - npm --version
 
 script:
+  - npm run lint:hbs
   - npm run lint:js
   # Usually, it's ok to finish the test scenario without reverting
   #  to the addon's original dependency state, skipping "cleanup".

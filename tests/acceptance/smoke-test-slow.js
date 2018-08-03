@@ -127,7 +127,7 @@ describe('Acceptance: smoke-test', function() {
     expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
     expect(output).to.match(/JSHint/, 'JSHint should be run on production assets');
     expect(output).to.match(/fail\s+0/, 'no failures');
-    expect(output).to.match(/pass\s+\d+/, 'man=y passing');
+    expect(output).to.match(/pass\s+\d+/, 'many passing');
   }));
 
   it('ember test --path with previous build', co.wrap(function *() {
@@ -155,7 +155,7 @@ describe('Acceptance: smoke-test', function() {
     output = output.join(EOL);
 
     expect(output).to.match(/fail\s+0/, 'no failures');
-    expect(output).to.match(/pass\s+9/, '9 passing');
+    expect(output).to.match(/pass\s+\d+/, 'many passing');
   }));
 
   it('ember test wasm', co.wrap(function *() {
@@ -183,7 +183,7 @@ describe('Acceptance: smoke-test', function() {
     output = output.join(EOL);
 
     expect(output).to.match(/fail\s+0/, 'no failures');
-    expect(output).to.match(/pass\s+7/, '7 passing');
+    expect(output).to.match(/pass\s+\d+/, 'many passing');
   }));
 
   it('ember new foo, build development, and verify generated files', co.wrap(function *() {
