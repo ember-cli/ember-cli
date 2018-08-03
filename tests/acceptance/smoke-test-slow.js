@@ -7,6 +7,8 @@ const crypto = require('crypto');
 const walkSync = require('walk-sync');
 const EOL = require('os').EOL;
 
+const promiseFinally = require('promise.prototype.finally');
+
 const experiments = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
@@ -146,7 +148,7 @@ describe('Acceptance: smoke-test', function() {
       };
     }(originalWrite));
 
-    let result = yield ember(['test', '--path=dist']).finally(() => {
+    let result = yield promiseFinally(ember(['test', '--path=dist']), () => {
       process.stdout.write = originalWrite;
     });
 
@@ -174,7 +176,7 @@ describe('Acceptance: smoke-test', function() {
       };
     }(originalWrite));
 
-    let result = yield ember(['test', '--path=dist']).finally(() => {
+    let result = yield promiseFinally(ember(['test', '--path=dist']), () => {
       process.stdout.write = originalWrite;
     });
 
@@ -224,13 +226,11 @@ describe('Acceptance: smoke-test', function() {
   it('ember build generates instrumentation files when viz is enabled', co.wrap(function *() {
     process.env.BROCCOLI_VIZ = '1';
 
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+    yield promiseFinally(runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
       env: {
         BROCCOLI_VIZ: '1',
       },
-    }).finally(() => {
-      delete process.env.BROCCOLI_VIZ;
-    });
+    }), () => delete process.env.BROCCOLI_VIZ);
 
     [
       'instrumentation.build.0.json',

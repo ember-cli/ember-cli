@@ -6,8 +6,6 @@ const processHelpString = require('../../helpers/process-help-string');
 const Yam = require('yam');
 const EOL = require('os').EOL;
 const td = require('testdouble');
-const RSVP = require('rsvp');
-const Promise = RSVP.Promise;
 
 let Task = require('../../../lib/models/task');
 let Command = require('../../../lib/models/command');

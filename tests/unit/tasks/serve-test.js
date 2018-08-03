@@ -6,8 +6,6 @@ const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
 
-const Promise = RSVP.Promise;
-
 describe('serve task', function() {
   let task, ui;
 

@@ -8,8 +8,8 @@ const RSVP = require('rsvp');
 const td = require('testdouble');
 const PortFinder = require('portfinder');
 
-const Promise = RSVP.Promise;
 const getPort = RSVP.denodeify(PortFinder.getPort);
+const promiseFinally = require('promise.prototype.finally');
 
 const ServeCommand = require('../../../lib/commands/serve');
 
@@ -81,11 +81,13 @@ describe('serve command', function() {
 
     let testServer = function(opts, test) {
       let server = require('http').createServer(function() {});
-      return new Promise(function(resolve) {
+      let promise = new Promise(function(resolve) {
         server.listen(opts.port, opts.host, function() {
           resolve(test(opts, server));
         });
-      }).finally(function() {
+      });
+
+      return promiseFinally(promise, function() {
         return new Promise(function(resolve) {
           server.close(function() { resolve(); });
         });

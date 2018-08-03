@@ -10,7 +10,6 @@ let root = process.cwd();
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmpRoot = path.join(root, 'tmp');
 
-const Promise = RSVP.Promise;
 const remove = RSVP.denodeify(fs.remove);
 
 describe('models/asset-size-printer', function() {

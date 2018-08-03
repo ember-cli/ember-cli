@@ -10,7 +10,6 @@ const RSVP = require('rsvp');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 
-const Promise = RSVP.Promise;
 const writeFile = RSVP.denodeify(fs.writeFile);
 
 let root = process.cwd();

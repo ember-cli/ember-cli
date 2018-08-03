@@ -5,7 +5,6 @@ const EOL = require('os').EOL;
 const MockProject = require('../../helpers/mock-project');
 const processHelpString = require('../../helpers/process-help-string');
 const commandOptions = require('../../factories/command-options');
-const Promise = require('rsvp').Promise;
 const Task = require('../../../lib/models/task');
 const DestroyCommand = require('../../../lib/commands/destroy');
 

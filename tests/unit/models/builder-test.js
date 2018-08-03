@@ -20,7 +20,6 @@ let tmproot = path.join(root, 'tmp');
 
 let Builder;
 
-const Promise = RSVP.Promise;
 const remove = RSVP.denodeify(fs.remove);
 
 describe('models/builder.js', function() {

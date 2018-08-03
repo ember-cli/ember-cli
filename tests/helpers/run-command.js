@@ -1,6 +1,5 @@
 'use strict';
 
-const Promise = require('rsvp').Promise;
 const chalk = require('chalk');
 const spawn = require('child_process').spawn;
 const defaults = require('ember-cli-lodash-subset').defaults;

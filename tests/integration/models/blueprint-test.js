@@ -17,7 +17,6 @@ const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const Blueprint = require('../../../lib/models/blueprint');
 
-const Promise = RSVP.Promise;
 const remove = RSVP.denodeify(fs.remove);
 
 let localsCalled;

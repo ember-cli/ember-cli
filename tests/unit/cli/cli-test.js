@@ -5,7 +5,7 @@ const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
 const Command = require('../../../lib/models/command');
-const Promise = require('rsvp').Promise;
+const promiseFinally = require('promise.prototype.finally');
 
 let ui;
 let analytics;
@@ -261,7 +261,7 @@ describe('Unit: CLI', function() {
     it('cleans up handler after command finished', function() {
       stubValidateAndRun('serve');
 
-      return ember(['serve']).finally(function() {
+      return promiseFinally(ember(['serve']), function() {
         td.verify(willInterruptProcess.removeHandler(onCommandInterrupt));
       });
     });

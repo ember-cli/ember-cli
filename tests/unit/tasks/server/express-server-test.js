@@ -2,7 +2,6 @@
 
 const expect = require('../../../chai').expect;
 const ExpressServer = require('../../../../lib/tasks/server/express-server');
-const Promise = require('rsvp').Promise;
 const MockUI = require('console-ui/mock');
 const MockProject = require('../../../helpers/mock-project');
 const MockWatcher = require('../../../helpers/mock-watcher');
@@ -15,6 +14,7 @@ const EOL = require('os').EOL;
 const nock = require('nock');
 const express = require('express');
 const co = require('co');
+const promiseFinally = require('promise.prototype.finally');
 
 function checkMiddlewareOptions(options) {
   expect(options).to.satisfy(option => option.baseURL || option.rootURL);
@@ -54,19 +54,16 @@ describe('express-server', function() {
     let preexistingServer = net.createServer();
     preexistingServer.listen(1337);
 
-    return subject.start({
+    let start = subject.start({
       host: undefined,
       port: '1337',
     })
-      .then(function() {
-        expect(false, 'should have rejected').to.be.ok;
-      })
-      .catch(function(reason) {
+      .then(() => expect(false, 'should have rejected').to.be.ok)
+      .catch(reason => {
         expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
-      })
-      .finally(function() {
-        preexistingServer.close();
       });
+
+    return promiseFinally(start, () => preexistingServer.close());
   });
 
   describe('displayHost', function() {
@@ -110,12 +107,12 @@ describe('express-server', function() {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
-      return expect(subject.start({
+      return promiseFinally(expect(subject.start({
         host: undefined,
         port: '1337',
       })).to.be.rejected.then(reason => {
         expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
-      }).finally(function() {
+      }), function() {
         preexistingServer.close();
       });
     });

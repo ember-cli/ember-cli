@@ -5,10 +5,10 @@ const CoreObject = require('core-object');
 const expect = require('../../chai').expect;
 const MockProject = require('../../helpers/mock-project');
 const commandOptions = require('../../factories/command-options');
-const Promise = require('rsvp').Promise;
 const Task = require('../../../lib/models/task');
 const TestCommand = require('../../../lib/commands/test');
 const td = require('testdouble');
+const promiseFinally = require('promise.prototype.finally');
 
 describe('test command', function() {
   this.timeout(30000);
@@ -179,23 +179,23 @@ describe('test command', function() {
     });
 
     it('builds a watcher with verbose set to false', function() {
-      return command.validateAndRun(['--server']).then(function() {
+      return promiseFinally(command.validateAndRun(['--server']).then(function() {
         let captor = td.matchers.captor();
 
         td.verify(tasks.TestServer.prototype.run(captor.capture()));
         expect(captor.value.watcher.verbose).to.be.false;
-      }).finally(function() {
+      }), function() {
         expect(buildCleanupWasCalled).to.be.true;
       });
     });
 
     it('builds a watcher with options.watcher set to value provided', function() {
-      return command.validateAndRun(['--server', '--watcher=polling']).then(function() {
+      return promiseFinally(command.validateAndRun(['--server', '--watcher=polling']).then(function() {
         let captor = td.matchers.captor();
 
         td.verify(tasks.TestServer.prototype.run(captor.capture()));
         expect(captor.value.watcher.options.watcher).to.equal('polling');
-      }).finally(function() {
+      }), function() {
         expect(buildCleanupWasCalled).to.be.true;
       });
     });

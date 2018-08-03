@@ -5,7 +5,6 @@ captureExit.captureExit();
 
 const glob = require('glob');
 const Mocha = require('mocha');
-const RSVP = require('rsvp');
 const fs = require('fs-extra');
 
 if (process.env.EOLNEWLINE) {
@@ -60,7 +59,7 @@ function runMocha() {
   });
 }
 
-RSVP.resolve()
+Promise.resolve()
   .then(() => runMocha())
   .catch(error => {
     console.error(error);

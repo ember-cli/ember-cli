@@ -1,7 +1,6 @@
 'use strict';
 
 const co = require('co');
-const Promise = require('rsvp').Promise;
 const path = require('path');
 const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
