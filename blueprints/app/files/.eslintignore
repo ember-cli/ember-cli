@@ -1,5 +1,5 @@
 # unconventional js
-/blueprints/*/files/
+/blueprints/*/*/
 /vendor/
 
 # compiled output
