@@ -13,7 +13,7 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
 const MockCLI = require('../../helpers/mock-cli');
-const experiments = require('../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../lib/experiments');
 const mergeTrees = require('../../../lib/broccoli/merge-trees');
 
 let EmberApp = require('../../../lib/broccoli/ember-app');
@@ -55,7 +55,7 @@ describe('EmberApp', function() {
     project = setupProject(projectPath);
   });
 
-  if (experiments.PACKAGER) {
+  if (isExperimentEnabled('PACKAGER')) {
     describe('packager hook', function() {
       let js, input, output;
 

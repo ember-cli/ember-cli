@@ -7,7 +7,7 @@ const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
 const chalk = require('chalk');
 
-const experiments = require('../../lib/experiments');
+const { isExperimentEnabled } = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const ember = require('../helpers/ember');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -24,7 +24,7 @@ let dir = chai.dir;
 let addonName = 'some-cool-addon';
 let addonRoot;
 
-if (!experiments.MODULE_UNIFICATION) {
+if (!isExperimentEnabled('MODULE_UNIFICATION')) {
   describe('Acceptance: addon-smoke-test', function() {
     this.timeout(450000);
 

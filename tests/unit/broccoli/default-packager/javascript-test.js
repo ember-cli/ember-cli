@@ -6,7 +6,7 @@ const Funnel = require('broccoli-funnel');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
-const experiments = require('../../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../../lib/experiments');
 
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
@@ -299,7 +299,7 @@ describe('Default Packager: Javascript', function() {
 
 });
 
-if (experiments.MODULE_UNIFICATION) {
+if (isExperimentEnabled('MODULE_UNIFICATION')) {
   // there is a little code duplication here (mainly the ceremony around
   // setting up the folder structure and disposing of it after the tests are
   // executed; once we enable MU flag by defaul, we should clean this up a tad

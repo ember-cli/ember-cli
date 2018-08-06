@@ -4,7 +4,7 @@ const co = require('co');
 const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
-const experiments = require('../../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../../lib/experiments');
 
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
@@ -138,7 +138,7 @@ describe('Default Packager: Index', function() {
     expect(indexContent).to.equal(META_TAG);
   }));
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     describe('with module unification', function() {
       let input, output;
 

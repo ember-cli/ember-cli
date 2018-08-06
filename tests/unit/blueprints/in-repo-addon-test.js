@@ -11,14 +11,14 @@ const td = require('testdouble');
 
 const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
 const file = require('ember-cli-blueprint-test-helpers/chai').file;
-const experiments = require('../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../lib/experiments');
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   setupTestHooks(this, {
     cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     describe('module unification app', function() {
       it('in-repo-addon fooBar', function() {
         let args = ['in-repo-addon', 'fooBar'];

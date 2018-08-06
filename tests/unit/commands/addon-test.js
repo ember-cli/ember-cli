@@ -5,7 +5,7 @@ const commandOptions = require('../../factories/command-options');
 const map = require('ember-cli-lodash-subset').map;
 const AddonCommand = require('../../../lib/commands/addon');
 const Blueprint = require('../../../lib/models/blueprint');
-const experiments = require('../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../lib/experiments');
 const td = require('testdouble');
 
 describe('addon command', function() {
@@ -72,7 +72,7 @@ describe('addon command', function() {
     });
   });
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('doesn\'t allow to create an addon when the name is a period', function() {
       return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
         expect(error.message).to.equal('Trying to generate an addon structure in this directory? Use `ember init` instead.');

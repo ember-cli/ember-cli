@@ -9,7 +9,7 @@ const rimraf = require('rimraf');
 const fixturify = require('fixturify');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-const experiments = require('../../../lib/experiments/index');
+const { isExperimentEnabled } = require('../../../lib/experiments');
 const td = require('testdouble');
 const chai = require('../../chai');
 let expect = chai.expect;
@@ -209,7 +209,7 @@ describe('models/builder.js', function() {
       });
     });
 
-    if (!experiments.SYSTEM_TEMP) {
+    if (!isExperimentEnabled('SYSTEM_TEMP')) {
       it('writes temp files to project root by default', function() {
         const project = new MockProject();
         project.root += '/tests/fixtures/build/simple';
@@ -225,7 +225,7 @@ describe('models/builder.js', function() {
       });
     }
 
-    if (experiments.SYSTEM_TEMP) {
+    if (isExperimentEnabled('SYSTEM_TEMP')) {
       it('writes temp files to Broccoli temp dir when EMBER_CLI_SYSTEM_TEMP=1', function() {
         const project = new MockProject();
         project.root += '/tests/fixtures/build/simple';
@@ -268,7 +268,7 @@ describe('models/builder.js', function() {
 
       return builder.build().then(function(result) {
         expect(Object.keys(result)).to.eql(['directory', 'graph']);
-        if (experiments.BROCCOLI_2) {
+        if (isExperimentEnabled('BROCCOLI_2')) {
           expect(result.graph.__heimdall__).to.not.be.undefined;
         } else {
           expect(result.graph.constructor.name).to.equal('Node');

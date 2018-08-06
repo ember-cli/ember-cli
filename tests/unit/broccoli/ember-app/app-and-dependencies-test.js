@@ -11,7 +11,7 @@ const Project = require('../../../../lib/models/project');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 const walkSync = require('walk-sync');
-const experiments = require("../../../../lib/experiments/index.js");
+const { isExperimentEnabled } = require('../../../../lib/experiments');
 
 describe('EmberApp#appAndDependencies', function() {
   let input, output;
@@ -134,7 +134,7 @@ describe('EmberApp#appAndDependencies', function() {
     );
   }));
 
-  if (experiments.DELAYED_TRANSPILATION) {
+  if (isExperimentEnabled('DELAYED_TRANSPILATION')) {
     it('amdFunnelDisabled', co.wrap(function *() {
       input.write({
         'node_modules': {

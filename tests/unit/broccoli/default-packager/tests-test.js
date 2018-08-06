@@ -4,7 +4,7 @@ const co = require('co');
 const stew = require('broccoli-stew');
 const Funnel = require('broccoli-funnel');
 const expect = require('chai').expect;
-const experiments = require('../../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../../lib/experiments');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
@@ -511,7 +511,7 @@ describe('Default Packager: Tests', function() {
     expect(outputFiles.assets['test-support.css']).to.include('a.css\nb.css');
   }));
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     describe('with module unification layout', function() {
       let input, output;
 

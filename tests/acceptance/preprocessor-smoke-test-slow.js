@@ -4,7 +4,7 @@ const co = require('co');
 const path = require('path');
 const fs = require('fs-extra');
 
-const experiments = require('../../lib/experiments');
+const { isExperimentEnabled } = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -21,7 +21,7 @@ let dir = chai.dir;
 let appName = 'some-cool-app';
 let appRoot;
 
-if (!experiments.MODULE_UNIFICATION) {
+if (!isExperimentEnabled('MODULE_UNIFICATION')) {
   describe('Acceptance: preprocessor-smoke-test', function() {
     this.timeout(360000);
 
