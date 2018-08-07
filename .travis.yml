@@ -26,7 +26,7 @@ stages:
   - basic test
   - additional tests
   - coverage tests
-    if: branch = release
+    # if: branch = master
   - name: deploy
     if: type IN (push) AND branch = release
 
