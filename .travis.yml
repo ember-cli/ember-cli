@@ -25,6 +25,8 @@ cache:
 stages:
   - basic test
   - additional tests
+  - coverage tests
+    if: branch = release
   - name: deploy
     if: type IN (push) AND branch = release
 
@@ -47,10 +49,6 @@ jobs:
 
     - env: NAME=NODE_10
       node_js: 10
-      script:
-        - yarn test:cover
-      after_success:
-        - .travis/codecoverage.sh
 
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true
@@ -60,6 +58,13 @@ jobs:
     - env:
       - EMBER_CLI_SYSTEM_TEMP=true
       - EMBER_CLI_BROCCOLI_2=true
+
+    - stage: coverage tests
+      env: NAME=coverage
+      script:
+        - yarn test:cover
+      after_success:
+        - .travis/codecoverage.sh
 
     - stage: deploy
       script: ./.travis/deploy.sh
