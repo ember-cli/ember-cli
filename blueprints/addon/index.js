@@ -64,16 +64,16 @@ module.exports = {
     }
 
     // add `ember-disable-prototype-extensions` to addons by default
-    contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.2';
+    contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.3';
 
     // add `eslint-plugin-node` to addons by default
-    contents.devDependencies['eslint-plugin-node'] = '^6.0.1';
+    contents.devDependencies['eslint-plugin-node'] = '^7.0.1';
 
     // add ember-try
     contents.devDependencies['ember-try'] = '^1.0.0-beta.3';
 
     // add ember-source-channel-url
-    contents.devDependencies['ember-source-channel-url'] = '^1.0.1';
+    contents.devDependencies['ember-source-channel-url'] = '^1.1.0';
 
     // add `ember-try` as `test:all` script in addons
     contents.scripts['test:all'] = 'ember try:each';

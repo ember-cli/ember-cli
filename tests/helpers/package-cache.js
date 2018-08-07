@@ -234,10 +234,6 @@ module.exports = class PackageCache {
 
     this._conf = new Configstore('package-cache');
 
-    // The default invocation will write something we don't use.
-    // Remove it:
-    fs.unlinkSync(this._conf.path);
-
     // Set it to where we want it to be.
     this._conf.path = path.join(this.rootPath, 'tmp', 'package-cache.json');
 
