@@ -1,5 +1,6 @@
 /common-tmp/
 /coverage/
+/.nyc_output/
 /docs/build/
 /node_modules/
 /tmp/
