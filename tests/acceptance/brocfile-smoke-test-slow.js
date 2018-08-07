@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs-extra');
 let remove = RSVP.denodeify(fs.remove);
 
-const experiments = require('../../lib/experiments');
+const { isExperimentEnabled } = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -53,7 +53,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('a custom environment config can be used in Brocfile.js', co.wrap(function *() {
       yield copyFixtureFiles('brocfile-tests/custom-environment-config');
       yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -87,7 +87,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
     }
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('using autoRun: true', co.wrap(function *() {
       yield copyFixtureFiles('brocfile-tests/auto-run-true');
       yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
@@ -162,7 +162,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(subjectFileContents).to.equal('ROOT FILE\n');
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('using pods based templates', co.wrap(function *() {
       yield copyFixtureFiles('brocfile-tests/pods-templates');
       yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
@@ -358,7 +358,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(file(path.join(basePath, '/assets/some-cool-app.css'))).to.not.exist;
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('multiple paths can be CSS preprocessed', co.wrap(function *() {
       yield copyFixtureFiles('brocfile-tests/multiple-sass-files');
 
@@ -382,7 +382,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(file(`dist/assets/${appName}.css`)).to.exist;
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     // for backwards compat.
     it('app.scss is output to <app name>.css by default', co.wrap(function *() {
       yield copyFixtureFiles('brocfile-tests/multiple-sass-files');

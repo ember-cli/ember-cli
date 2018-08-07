@@ -18,7 +18,7 @@ let file = chai.file;
 let dir = chai.dir;
 const forEach = require('ember-cli-lodash-subset').forEach;
 const assertVersionLock = require('../helpers/assert-version-lock');
-const experiments = require('../../lib/experiments');
+const { isExperimentEnabled } = require('../../lib/experiments');
 
 let tmpDir = './tmp/new-test';
 
@@ -52,13 +52,13 @@ describe('Acceptance: ember new', function() {
   }
 
   function confirmBlueprintedApp() {
-    if (experiments.MODULE_UNIFICATION) {
+    if (isExperimentEnabled('MODULE_UNIFICATION')) {
       return confirmBlueprintedForDir('blueprints/module-unification-app');
     }
     return confirmBlueprintedForDir('blueprints/app');
   }
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     it('EMBER_CLI_MODULE_UNIFICATION: ember addon foo works', co.wrap(function *() {
       yield ember([
         'addon',
@@ -453,7 +453,7 @@ describe('Acceptance: ember new', function() {
       checkPackageJson(fixturePath);
     }));
 
-    if (!experiments.MODULE_UNIFICATION) {
+    if (!isExperimentEnabled('MODULE_UNIFICATION')) {
       it('app + npm + !welcome', co.wrap(function *() {
         yield ember([
           'new',

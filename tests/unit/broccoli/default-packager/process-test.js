@@ -6,7 +6,7 @@ const Funnel = require('broccoli-funnel');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
 const defaultPackagerHelpers = require('../../../helpers/default-packager');
-const experiments = require('../../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../../lib/experiments');
 
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
@@ -119,7 +119,7 @@ describe('Default Packager: Process Javascript', function() {
     expect(defaultPackager._cachedProcessedAppAndDependencies._annotation).to.equal('Processed Application and Dependencies');
   }));
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     it('merges src with with app', co.wrap(function *() {
       let input = yield createTempDir();
 

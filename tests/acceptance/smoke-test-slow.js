@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const walkSync = require('walk-sync');
 const EOL = require('os').EOL;
 
-const experiments = require('../../lib/experiments');
+const { isExperimentEnabled } = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
@@ -48,7 +48,7 @@ describe('Acceptance: smoke-test', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('ember new foo, make sure addon template overwrites', co.wrap(function *() {
       yield ember(['generate', 'template', 'foo']);
       yield ember(['generate', 'in-repo-addon', 'my-addon']);
@@ -195,7 +195,7 @@ describe('Acceptance: smoke-test', function() {
     expect(paths).to.have.length.below(24, `expected fewer than 24 files in dist, found ${paths.length}`);
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('ember build exits with non-zero code when build fails', co.wrap(function *() {
       let appJsPath = path.join(appRoot, 'app', 'app.js');
       let ouputContainsBuildFailed = false;
@@ -249,7 +249,7 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('ember new foo, build --watch development, and verify rebuilt after change', co.wrap(function *() {
       let touched = false;
       let appJsPath = path.join(appRoot, 'app', 'app.js');
@@ -399,7 +399,7 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('ember can override and reuse the built-in blueprints', co.wrap(function *() {
       yield copyFixtureFiles('addon/with-blueprint-override');
 

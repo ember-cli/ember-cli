@@ -10,7 +10,7 @@ const expect = require('chai').expect;
 const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
-const experiments = require('../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../lib/experiments');
 
 describe('models/project.js', function() {
   let project, projectPath, packageContents;
@@ -551,7 +551,7 @@ describe('models/project.js', function() {
     });
   });
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     describe('isModuleUnification', function() {
       beforeEach(function() {
         projectPath = `${process.cwd()}/tmp/test-app`;

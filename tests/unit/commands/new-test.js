@@ -8,7 +8,7 @@ const Promise = require('rsvp').Promise;
 const Blueprint = require('../../../lib/models/blueprint');
 const Command = require('../../../lib/models/command');
 const Task = require('../../../lib/models/task');
-const experiments = require('../../../lib/experiments');
+const { isExperimentEnabled } = require('../../../lib/experiments');
 const td = require('testdouble');
 
 describe('new command', function() {
@@ -77,7 +77,7 @@ describe('new command', function() {
     });
   });
 
-  if (!experiments.MODULE_UNIFICATION) {
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('shows a suggestion messages when the application name is a period', function() {
       return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
         expect(error.message).to.equal('Trying to generate an application structure in this directory? Use `ember init` instead.');

@@ -4,7 +4,7 @@ const co = require('co');
 const path = require('path');
 const fs = require('fs-extra');
 
-const experiments = require('../../lib/experiments');
+const { isExperimentEnabled } = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
 const acceptance = require('../helpers/acceptance');
@@ -20,7 +20,7 @@ let dir = chai.dir;
 let addonName = 'some-cool-addon';
 let addonRoot;
 
-if (experiments.MODULE_UNIFICATION) {
+if (isExperimentEnabled('MODULE_UNIFICATION')) {
   describe.skip('Acceptance: addon-mu-smoke-test', function() {
     this.timeout(450000);
 

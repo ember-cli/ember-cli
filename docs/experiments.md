@@ -5,20 +5,19 @@
 They are defined in `lib/experiments/index.js`. For example:
 
 ```javascript
-let experiments = {
-  CONFIG_CACHING: isExperimentEnabled('CONFIG_CACHING'),
-};
-
+const availableExperiments = [
+  'CONFIG_CACHING',
+];
 ```
 
 When a new feature is added, all supporting code and tests **must** be guarded
 to ensure all tests pass when the feature is enabled _or_ disabled:
 
 ```javascript
-const experiments = require('../experiments');
+const { isExperimentEnabled } = require('../experiments');
 
 // ...snip...
-if (experiments.MODULE_UNIFICATION) {
+if (isExperimentEnabled('MODULE_UNIFICATION')) {
   ...
 } else {
   ...

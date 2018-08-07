@@ -13,7 +13,7 @@ let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
-const experiments = require('../../lib/experiments');
+const { isExperimentEnabled } = require('../../lib/experiments');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -91,7 +91,7 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('app/services/session.js')).to.exist;
   }));
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     it('does not run the `addon-import` blueprint from a module unification addon', co.wrap(function *() {
       yield initAddon('my-addon');
       yield ensureDir('src');
@@ -127,7 +127,7 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('app/services/session.js')).to.exist;
   }));
 
-  if (experiments.MODULE_UNIFICATION) {
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
     it('skips a custom "*-addon" blueprint from a module unification addon', co.wrap(function *() {
       yield initAddon('my-addon');
       yield ensureDir('src');
