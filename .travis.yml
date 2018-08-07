@@ -24,8 +24,8 @@ cache:
 
 stages:
   - basic test
-  - additional tests
   - coverage tests
+  - additional tests
     # if: branch = master
   - name: deploy
     if: type IN (push) AND branch = release
