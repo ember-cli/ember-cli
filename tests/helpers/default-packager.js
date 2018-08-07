@@ -208,7 +208,7 @@ function validateDefaultPackagedDist(name, obj) {
       'vendor.map',
     ];
 
-    assert.deepEqual(result, valid, `Expected [${valid}] but got [${result}]`);
+    assert.deepStrictEqual(result, valid, `Expected [${valid}] but got [${result}]`);
   } else {
     throw new Error('Validation Error: Packaged files must be nested under `assets` folder');
   }
