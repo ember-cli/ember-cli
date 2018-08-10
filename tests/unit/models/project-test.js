@@ -260,7 +260,7 @@ describe('models/project.js', function() {
       it('returns the default targets', function() {
         expect(project.targets).to.deep.equal({
           browsers: [
-            'ie 9',
+            'ie 11',
             'last 1 Chrome versions',
             'last 1 Firefox versions',
             'last 1 Safari versions',
