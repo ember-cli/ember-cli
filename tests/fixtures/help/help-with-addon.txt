@@ -133,6 +133,10 @@ ember serve \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -H <value>\u001b[39m
   \u001b[36m--proxy\u001b[39m \u001b[36m(String)\u001b[39m
     \u001b[90maliases: -pr <value>, -pxy <value>\u001b[39m
+  \u001b[36m--proxy-in-timeout\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 120000)\u001b[39m When using --proxy: timeout (in ms) for incoming requests
+    \u001b[90maliases: -pit <value>\u001b[39m
+  \u001b[36m--proxy-out-timeout\u001b[39m \u001b[36m(Number)\u001b[39m \u001b[36m(Default: 0)\u001b[39m When using --proxy: timeout (in ms) for outgoing requests
+    \u001b[90maliases: -pot <value>\u001b[39m
   \u001b[36m--secure-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Set to false to proxy self-signed SSL certificates
     \u001b[90maliases: -spr\u001b[39m
   \u001b[36m--transparent-proxy\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Set to false to omit x-forwarded-* headers when proxying

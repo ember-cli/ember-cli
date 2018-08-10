@@ -559,6 +559,22 @@ module.exports = {
           required: false
         },
         {
+          name: 'proxy-in-timeout',
+          default: 120000,
+          description: 'When using --proxy: timeout (in ms) for incoming requests',
+          aliases: ['pit'],
+          key: 'proxyInTimeout',
+          required: false
+        },
+        {
+          name: 'proxy-out-timeout',
+          default: 0,
+          description: 'When using --proxy: timeout (in ms) for outgoing requests',
+          aliases: ['pot'],
+          key: 'proxyOutTimeout',
+          required: false
+        },
+        {
           name: 'secure-proxy',
           default: true,
           description: 'Set to false to proxy self-signed SSL certificates',

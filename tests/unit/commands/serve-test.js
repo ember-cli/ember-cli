@@ -209,4 +209,46 @@ describe('serve command', function() {
       expect(captor.value.host).to.equal('localhost', 'has correct hostname');
     });
   });
+
+  it('has correct value for proxy-in-timeout', function() {
+    return command.validateAndRun([
+      '--port', '0',
+      '--proxy-in-timeout', '300000',
+    ]).then(function() {
+      let captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.proxyInTimeout).to.equal(300000, 'has correct incoming proxy timeout option');
+    });
+  });
+
+  it('has correct default value for proxy-in-timeout', function() {
+    return command.validateAndRun([
+      '--port', '0',
+    ]).then(function() {
+      let captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.proxyInTimeout).to.equal(120000, 'has correct incoming proxy timeout option when not set');
+    });
+  });
+
+  it('has correct value for proxy-out-timeout', function() {
+    return command.validateAndRun([
+      '--port', '0',
+      '--proxy-out-timeout', '30000',
+    ]).then(function() {
+      let captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.proxyOutTimeout).to.equal(30000, 'has correct outgoing proxy timeout option');
+    });
+  });
+
+  it('has correct default value for proxy-out-timeout', function() {
+    return command.validateAndRun([
+      '--port', '0',
+    ]).then(function() {
+      let captor = td.matchers.captor();
+      td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.proxyOutTimeout).to.equal(0, 'has correct outgoing proxy timeout option when not set');
+    });
+  });
 });
