@@ -686,6 +686,13 @@ module.exports = {
           default: 'ssl/server.crt',
           key: 'sslCert',
           required: false
+        },
+        {
+          name: 'path',
+          description: 'Reuse an existing build at given path.',
+          key: 'path',
+          required: false,
+          type: 'Path'
         }
       ],
       anonymousOptions: []
