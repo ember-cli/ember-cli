@@ -198,7 +198,6 @@ describe('Acceptance: smoke-test', function() {
   if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('ember build exits with non-zero code when build fails', co.wrap(function *() {
       let appJsPath = path.join(appRoot, 'app', 'app.js');
-      let ouputContainsBuildFailed = false;
 
       let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
       expect(result.code).to.equal(0, `expected exit code to be zero, but got ${result.code}`);
@@ -206,17 +205,8 @@ describe('Acceptance: smoke-test', function() {
       // add something broken to the project to make build fail
       fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
 
-      result = yield expect(runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-        onOutput(string) {
-          // discard output as there will be a lot of errors and a long stacktrace
-          // just mark that the output contains expected text
-          if (!ouputContainsBuildFailed && string.match(/Build failed/)) {
-            ouputContainsBuildFailed = true;
-          }
-        },
-      })).to.be.rejected;
+      result = yield expect(runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')).to.be.rejected;
 
-      expect(ouputContainsBuildFailed, 'command output must contain "Build failed" text').to.be.ok;
       expect(result.code).to.not.equal(0, `expected exit code to be non-zero, but got ${result.code}`);
     }));
   }
