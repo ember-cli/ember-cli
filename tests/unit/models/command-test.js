@@ -166,8 +166,8 @@ describe('models/command.js', function() {
 
   describe('#validateAndRun', function() {
 
-    it('should print a message if a required option is missing.', function() {
-      return new DevelopEmberCLICommand(options).validateAndRun([]).then(function() {
+    it('should reject and print a message if a required option is missing.', function() {
+      return new DevelopEmberCLICommand(options).validateAndRun([]).catch(function() {
         expect(ui.output).to.match(/requires the option.*package-name/);
       });
     });
