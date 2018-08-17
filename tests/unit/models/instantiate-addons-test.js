@@ -1,70 +1,51 @@
 'use strict';
 
-const FixturifyProject = require('fixturify-project');
-const Project = require('../../../lib/models/project');
+const FixturifyProject = require('../../helpers/fixturify-project');
 const expect = require('chai').expect;
-const MockCLI = require('../../helpers/mock-cli');
-const { createTempDir } = require('broccoli-test-helper');
-
-class EmberCLIFixturifyProject extends FixturifyProject {
-  addAddon(name, version, cb) {
-    let addon = this.addDependency(name, version);
-    addon.pkg.keywords.push('ember-addon');
-    addon.pkg['ember-addon'] = { };
-    addon.files['index.js'] = 'module.exports = { name: require("./package").name };';
-
-    if (cb) {
-      cb(addon);
-    }
-
-    return addon;
-  }
-}
-
-// used in these tests to ensure we are only
-// operating on the addons added here
-class ProjectWithoutInternalAddons extends Project {
-  supportedInternalAddonPaths() {
-    return [];
-  }
-}
 
 describe('models/instatiate-addons.js', function() {
-  let project, fixturifyProject, projectDir;
-
-  function bootProject() {
-    let cli = new MockCLI();
-    project = new ProjectWithoutInternalAddons(projectDir.path(fixturifyProject.name), fixturifyProject.pkg, cli.ui, cli);
-  }
+  let fixturifyProject;
 
   beforeEach(function() {
-    return createTempDir().then(tmpdir => {
-      projectDir = tmpdir;
-
-      fixturifyProject = new EmberCLIFixturifyProject('awesome-proj', '0.0.0');
-      fixturifyProject.addDevDependency('ember-cli', '*');
-    });
+    fixturifyProject = new FixturifyProject('awesome-proj', '0.0.0');
+    fixturifyProject.addDevDependency('ember-cli', '*');
   });
 
   afterEach(function() {
-    if (project) { project = null; }
-    return projectDir.dispose();
+    fixturifyProject.dispose();
   });
 
   it('ordering without before/after', function() {
+    // this tests ordering is very important to maintain, it tests some naunced
+    // details which must be maintained
     fixturifyProject.addAddon('foo', '1.0.0');
     fixturifyProject.addAddon('bar', '1.0.0');
     fixturifyProject.addAddon('qux', '1.0.0');
 
-    fixturifyProject.writeSync(projectDir.path());
-    bootProject();
+    // duplicates
+    fixturifyProject.addDevAddon('foo', '2.0.0');
+    fixturifyProject.addDevAddon('bar', '2.0.0');
+    fixturifyProject.addDevAddon('qux', '2.0.0');
+
+    // unique devDependencies
+    fixturifyProject.addDevAddon('a', '2.0.0');
+    fixturifyProject.addDevAddon('b', '2.0.0');
+    fixturifyProject.addDevAddon('c', '2.0.0');
+
+    fixturifyProject.writeSync();
+
+    let project = fixturifyProject.buildProjectModel();
 
     project.initializeAddons();
 
-    expect(project.addons.map(a => a.name)).to.deep.eql([
-      'bar',
-      'foo',
-      'qux',
+    expect(project.addons.map(a => ({ name: a.pkg.name, version: a.pkg.version }))).to.deep.eql([
+      { name: 'a', version: '2.0.0' },
+      { name: 'b', version: '2.0.0' },
+      { name: 'c', version: '2.0.0' },
+
+      { name: 'bar', version: '1.0.0' },
+      { name: 'foo', version: '1.0.0' },
+      { name: 'qux', version: '1.0.0' },
     ]);
   });
 
@@ -73,8 +54,9 @@ describe('models/instatiate-addons.js', function() {
     fixturifyProject.addAddon('bar', '1.0.0');
     fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].before = 'foo');
 
-    fixturifyProject.writeSync(projectDir.path());
-    bootProject();
+    fixturifyProject.writeSync();
+
+    let project = fixturifyProject.buildProjectModel();
 
     project.initializeAddons();
 
@@ -90,8 +72,9 @@ describe('models/instatiate-addons.js', function() {
     fixturifyProject.addAddon('bar', '1.0.0');
     fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].after = 'foo');
 
-    fixturifyProject.writeSync(projectDir.path());
-    bootProject();
+    fixturifyProject.writeSync();
+
+    let project = fixturifyProject.buildProjectModel();
 
     project.initializeAddons();
 
@@ -107,8 +90,9 @@ describe('models/instatiate-addons.js', function() {
     foo.files['index.js'] = 'module.exports = { name: "foo" };';
     fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].before = 'foo');
 
-    fixturifyProject.writeSync(projectDir.path());
-    bootProject();
+    fixturifyProject.writeSync();
+
+    let project = fixturifyProject.buildProjectModel();
 
     project.initializeAddons();
 
@@ -122,8 +106,9 @@ describe('models/instatiate-addons.js', function() {
     fixturifyProject.addAddon('foo', '1.0.0', a => a.pkg['ember-addon'].after = 'qux');
     fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].after = 'foo');
 
-    fixturifyProject.writeSync(projectDir.path());
-    bootProject();
+    fixturifyProject.writeSync();
+
+    let project = fixturifyProject.buildProjectModel();
 
     expect(() => project.initializeAddons()).to.throw(/cycle detected/);
   });

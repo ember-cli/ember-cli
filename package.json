@@ -1,6 +1,6 @@
 {
   "name": "ember-cli",
-  "version": "3.4.0-beta.2",
+  "version": "3.4.0-beta.3",
   "description": "Command line tool for developing ambitious ember.js apps",
   "keywords": [
     "app",
@@ -81,6 +81,7 @@
     "find-up": "^3.0.0",
     "find-yarn-workspace-root": "^1.1.0",
     "fixturify": "^0.3.4",
+    "fixturify-project": "^1.5.3",
     "fs-extra": "^7.0.0",
     "fs-tree-diff": "^0.5.7",
     "get-caller-file": "^1.0.0",
@@ -137,7 +138,7 @@
     "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-mocha": "^5.1.0",
     "eslint-plugin-node": "^7.0.1",
-    "fixturify-project": "^1.1.0",
+    "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mocha-eslint": "^4.1.0",
     "multiline": "^1.0.2",

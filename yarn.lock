@@ -2400,11 +2400,12 @@ fireworm@^0.7.0:
     lodash.flatten "^3.0.2"
     minimatch "^3.0.2"
 
-fixturify-project@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/fixturify-project/-/fixturify-project-1.1.0.tgz#333720a5f34a638bdafed07975979a47a3a79cdc"
+fixturify-project@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/fixturify-project/-/fixturify-project-1.5.3.tgz#2ba4ffec59c1d79ae6638f818c0847eb974d179b"
   dependencies:
     fixturify "^0.3.4"
+    tmp "^0.0.33"
 
 fixturify@^0.3.2, fixturify@^0.3.4:
   version "0.3.4"
