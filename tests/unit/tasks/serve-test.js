@@ -27,7 +27,7 @@ describe('serve task', function() {
     };
   }
 
-  function runServeTask() {
+  function runServeTask(path) {
     let project = new MockProject();
 
     ui = project.ui;
@@ -59,9 +59,23 @@ describe('serve task', function() {
       _watcher,
       _expressServer,
       _liveReloadServer,
+      path,
     };
     return task.run(options);
   }
+
+  describe('run with path', function() {
+    it(`Throws error if path doesn't exist`, function() {
+      expect(runServeTask.bind(this, 'xyz')).to.throw('The path xyz does not exist. Please specify a valid build directory to serve.');
+    });
+
+    it(`Serves ember app from given path`, function() {
+      runServeTask('assets');
+      return RSVP.resolve().then(() => {
+        expect(ui.output).to.be.contains('– Serving on');
+      });
+    });
+  });
 
   describe('onInterrupt', function() {
     it('fulfills the run promise and cleans up the builder', function() {

@@ -3,10 +3,12 @@
 const path = require('path');
 const expect = require('chai').expect;
 const PackageInfoCache = require('../../../lib/models/package-info-cache');
+const PackageInfo = require('../../../lib/models/package-info-cache/package-info');
 const Project = require('../../../lib/models/project');
-let addonFixturePath = path.resolve(__dirname, '../../fixtures/addon');
+const addonFixturePath = path.resolve(__dirname, '../../fixtures/addon');
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
+const FixturifyProject = require('../../helpers/fixturify-project');
 
 describe('models/package-info-cache.js', function() {
   let project, projectPath, packageJsonPath, packageContents, projectPackageInfo, resolvedFile, ui, cli, pic;
@@ -17,13 +19,71 @@ describe('models/package-info-cache.js', function() {
     cli = new MockCLI({ ui });
   });
 
+  describe('lexicographically', function() {
+    it('works', function() {
+      expect([
+        { name: 'c'     },
+        { foo: 2        },
+        { name: 'z/b/z' },
+        { name: 'z/b/d' },
+        { foo: 1        },
+        { name: 'z/a/d' },
+        { name: 'z/a/c' },
+        { name: 'b'     },
+        { name: 'z/a/d' },
+        { name: 'a'     },
+        { foo: 3        },
+      ].sort(PackageInfo.lexicographically)).to.eql([
+        { name: 'a'      },
+        { name: 'b'      },
+        { name: 'c'      },
+        { name: 'z/a/c'  },
+        { name: 'z/a/d'  },
+        { name: 'z/a/d'  },
+        { name: 'z/b/d'  },
+        { name: 'z/b/z'  },
+        { foo: 2         },
+        { foo: 1         },
+        { foo: 3         },
+      ]);
+    });
+  });
+
+  describe('pushUnique', function() {
+    it('works (and does last write win)', function() {
+      let a = { name: 'a' };
+      let b = { name: 'b' };
+      let c = { name: 'c' };
+
+      let result = [];
+      [
+        a,
+        a,
+        a,
+        b,
+        a,
+        c,
+        a,
+        c,
+      ].forEach(entry => PackageInfo.pushUnique(result, entry));
+
+      expect(result).to.eql([
+        b,
+        a,
+        c,
+      ]);
+    });
+  });
+
   describe('packageInfo contents tests on valid project', function() {
+    let projectPath, packageJsonPath, packageContents, projectPackageInfo;
+
     beforeEach(function() {
       projectPath = path.resolve(addonFixturePath, 'simple');
       packageJsonPath = path.join(projectPath, 'package.json');
       packageContents = require(packageJsonPath);
-      project = new Project(projectPath, packageContents, ui, cli);
-      pic = project.packageInfoCache;
+      let project = new Project(projectPath, packageContents, ui, cli);
+      let pic = project.packageInfoCache;
 
       projectPackageInfo = pic.getEntry(projectPath);
     });
@@ -56,7 +116,8 @@ describe('models/package-info-cache.js', function() {
       expect(errorArray.length).to.equal(1);
     });
 
-    it('shows projectPackageInfo error is "3 dependencies missing"', function() {
+    // TODO: the input to this test is poluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
+    it.skip('shows projectPackageInfo error is "3 dependencies missing"', function() {
       let errorArray = projectPackageInfo.errors.getErrors();
       let error = errorArray[0];
       expect(error.type).to.equal('dependenciesMissing');
@@ -71,7 +132,8 @@ describe('models/package-info-cache.js', function() {
       expect(dependencyPackages['something-else']).to.exist;
     });
 
-    it('shows projectPackageInfo has 8 devDependencyPackages', function() {
+    // TODO: the input to this test is poluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
+    it.skip('shows projectPackageInfo has 8 devDependencyPackages', function() {
       let devDependencyPackages = projectPackageInfo.devDependencyPackages;
       expect(devDependencyPackages).to.exist;
       expect(Object.keys(devDependencyPackages).length).to.equal(8);
@@ -111,13 +173,93 @@ describe('models/package-info-cache.js', function() {
       expect(internalAddons.length).to.equal(7);
     });
 
-    it('shows projectPackageInfo has 9 node-module entries', function() {
+    // TODO: the input to this test is poluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
+    it.skip('shows projectPackageInfo has 9 node-module entries', function() {
       let nodeModules = projectPackageInfo.nodeModules;
       expect(nodeModules).to.exist;
       expect(nodeModules.entries).to.exist;
       expect(Object.keys(nodeModules.entries).length).to.equal(9);
     });
 
+  });
+  describe('packageInfo', function() {
+    describe('valid project', function() {
+      let project, fixturifyProject;
+      before(function() {
+        // create a new ember-app
+        fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', project => {
+          project.addAddon('ember-resolver', '^5.0.1');
+          project.addAddon('ember-random-addon', 'latest');
+          project.addAddon('loader.js', 'latest');
+          project.addAddon('something-else', 'latest');
+
+          project.addInRepoAddon('ember-super-button', 'latest');
+          project.addDevDependency('ember-cli', 'latest');
+          project.addDevDependency('non-ember-thingy', 'latest');
+        });
+
+        fixturifyProject.writeSync();
+
+        project = fixturifyProject.buildProjectModel(Project);
+        project.discoverAddons();
+        pic = project.packageInfoCache;
+        projectPackageInfo = pic.getEntry(`${fixturifyProject.root}/simple-ember-app`);
+      });
+
+      after(function() {
+        fixturifyProject.dispose();
+      });
+
+      it('validates projectPackageInfo', function() {
+        expect(projectPackageInfo).to.exist;
+        expect(projectPackageInfo.pkg).to.exist;
+        expect(projectPackageInfo.valid).to.be.true;
+      });
+
+      it('shows projectPackageInfo has 0 errors', function() {
+        expect(projectPackageInfo.hasErrors()).to.be.false;
+        expect(projectPackageInfo.errors.getErrors()).to.have.property('length', 0);
+      });
+
+      it('shows projectPackageInfo has 1 dependencyPackage', function() {
+        let dependencyPackages = projectPackageInfo.dependencyPackages;
+
+        expect(dependencyPackages).to.exist;
+        expect(Object.keys(dependencyPackages).length).to.equal(4);
+        expect(dependencyPackages['something-else']).to.exist;
+      });
+
+      it('shows projectPackageInfo has 82devDependencyPackages', function() {
+        let devDependencyPackages = projectPackageInfo.devDependencyPackages;
+
+        expect(devDependencyPackages).to.exist;
+        expect(Object.keys(devDependencyPackages).length).to.equal(2);
+      });
+
+      it('shows projectPackageInfo has 1 in-repo addon named "ember-super-button"', function() {
+        let inRepoAddons = projectPackageInfo.inRepoAddons;
+
+        expect(inRepoAddons).to.exist;
+        expect(inRepoAddons.length).to.equal(1);
+        expect(inRepoAddons[0].realPath).to.contain('simple-ember-app/lib/ember-super-button');
+        expect(inRepoAddons[0].pkg.name).to.equal('ember-super-button');
+      });
+
+      it('shows projectPackageInfo has 7 internal addon packages', function() {
+        let internalAddons = projectPackageInfo.internalAddons;
+
+        expect(internalAddons).to.exist;
+        expect(internalAddons.length).to.equal(7);
+      });
+
+      it('shows projectPackageInfo has 7 node-module entries', function() {
+        let nodeModules = projectPackageInfo.nodeModules;
+
+        expect(nodeModules).to.exist;
+        expect(nodeModules.entries).to.exist;
+        expect(Object.keys(nodeModules.entries).length).to.equal(6);
+      });
+    });
   });
 
   describe('packageInfo contents tests on missing project', function() {
@@ -191,7 +333,6 @@ describe('models/package-info-cache.js', function() {
       expect(pkgJsonMissingErr).to.exist;
       expect(pkgJsonMissingErr.data).to.equal(packageJsonPath);
     });
-
   });
 
   describe('packageInfo contents tests on external-dependency project', function() {
@@ -226,23 +367,62 @@ describe('models/package-info-cache.js', function() {
     });
   });
 
-  describe('discoverProjectAddons tests on external-dependency project', function() {
-    beforeEach(function() {
-      projectPath = path.resolve(addonFixturePath, 'external-dependency');
-      packageJsonPath = path.join(projectPath, 'package.json');
-      packageContents = require(packageJsonPath);
-      project = new Project(projectPath, packageContents, ui, cli);
-      project.discoverAddons();
+  describe('discoverProjectAddons', function() {
+    let fixturifyProject;
 
-      pic = project.packageInfoCache;
-      projectPackageInfo = pic.getEntry(projectPath);
+    afterEach(function() {
+      if (fixturifyProject) {
+        fixturifyProject.dispose();
+      }
     });
 
-    it('shows dependency packages exist and are in project.addonPackages', function() {
-      expect(project.addonPackages).to.exist;
-      let packageNames = Object.keys(project.addonPackages);
-      expect(packageNames.length).to.equal(9);
-      expect(packageNames.indexOf('ember-cli-blueprint-test-helpers')).to.be.above(-1);
+    describe('within an addon', function() {
+      beforeEach(function() {
+        fixturifyProject = new FixturifyProject('external-dependency', '0.0.0', project => {
+          project.addDevDependency('ember-cli-string-utils', 'latest');
+          project.addDevDependency('@octokit/rest', 'latest');
+          project.addAddon('ember-cli-blueprint-test-helpers', 'latest');
+          project.addAddon('c', 'latest');
+          project.addAddon('a', 'latest');
+          project.addAddon('b', 'latest');
+
+          project.addDevAddon('y', 'latest');
+          project.addDevAddon('z', 'latest');
+          project.addDevAddon('x', 'latest');
+
+          project.addInRepoAddon('t', 'latest');
+          project.addInRepoAddon('s', 'latest');
+
+          project.pkg.keywords.push('ember-addon');
+          project.pkg.keywords.push('ember-addon');
+        });
+      });
+
+      it('lock down dependency orderings', function() {
+        let project = fixturifyProject.buildProjectModel();
+
+        project.discoverAddons();
+
+        expect(Object.keys(project.addonPackages)).to.deep.equal([
+          // itself
+          'external-dependency',
+
+          // dev dependencies
+          'x',
+          'y',
+          'z',
+
+          // dependencies
+          'a',
+          'b',
+          'c',
+          'ember-cli-blueprint-test-helpers',
+
+          // in repo addons
+          's',
+          't',
+        ]);
+      });
     });
   });
 
@@ -382,5 +562,4 @@ describe('models/package-info-cache.js', function() {
       expect(PackageInfoCache.getRealDirectoryPath(packageJsonPath)).not.to.exist;
     });
   });
-
 });
