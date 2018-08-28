@@ -1476,6 +1476,7 @@ describe('Blueprint', function() {
         dasherizedModuleName: 'mock-project',
         hasPathToken: undefined,
         inAddon: false,
+        in: undefined,
         inDummy: false,
         inRepoAddon: undefined,
         locals: {},
@@ -1552,6 +1553,16 @@ describe('Blueprint', function() {
 
       expectation.inRepoAddon = true;
       expectation.inAddon = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include an in flag of true if options.in is true', function() {
+      options.in = true;
+
+      expectation.in = true;
 
       result = blueprint._generateFileMapVariables(moduleName, locals, options);
 
