@@ -124,6 +124,11 @@ git merge vX.Y.0-beta.N
 
 * Update Ember and Ember Data versions.
   * `blueprints/app/files/package.json`
+  * for a stable release, you will also need to update:
+    * `tests/fixtures/addon/npm/package.json`
+    * `tests/fixtures/addon/yarn/package.json`
+    * `tests/fixtures/app/npm/package.json`
+    * `tests/fixtures/app/yarn/package.json`
 * generate changelog
   * if on master branch
     * run `./dev/changelog`
