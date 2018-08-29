@@ -203,7 +203,7 @@ describe('models/package-info-cache.js', function() {
         project = fixturifyProject.buildProjectModel(Project);
         project.discoverAddons();
         pic = project.packageInfoCache;
-        projectPackageInfo = pic.getEntry(`${fixturifyProject.root}/simple-ember-app`);
+        projectPackageInfo = pic.getEntry(path.join(fixturifyProject.root, 'simple-ember-app'));
       });
 
       after(function() {
@@ -241,7 +241,7 @@ describe('models/package-info-cache.js', function() {
 
         expect(inRepoAddons).to.exist;
         expect(inRepoAddons.length).to.equal(1);
-        expect(inRepoAddons[0].realPath).to.contain('simple-ember-app/lib/ember-super-button');
+        expect(inRepoAddons[0].realPath).to.contain(path.join('simple-ember-app', 'lib', 'ember-super-button'));
         expect(inRepoAddons[0].pkg.name).to.equal('ember-super-button');
       });
 
