@@ -241,6 +241,12 @@ module.exports = {
           aliases: ['in-repo', 'ir'],
           key: 'inRepoAddon',
           required: false
+        },
+        {
+          name: 'in',
+          default: null,
+          key: 'in',
+          required: false
         }
       ],
       anonymousOptions: ['<blueprint>'],
