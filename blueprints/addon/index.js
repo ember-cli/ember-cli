@@ -70,7 +70,7 @@ module.exports = {
     contents.devDependencies['eslint-plugin-node'] = '^7.0.1';
 
     // add ember-try
-    contents.devDependencies['ember-try'] = '^1.0.0-beta.3';
+    contents.devDependencies['ember-try'] = '^1.0.0';
 
     // add ember-source-channel-url
     contents.devDependencies['ember-source-channel-url'] = '^1.1.0';
