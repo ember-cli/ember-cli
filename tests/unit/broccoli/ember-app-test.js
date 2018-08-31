@@ -256,6 +256,7 @@ describe('EmberApp', function() {
       let app = new EmberApp({
         project,
       });
+
       app.addonTreesFor = () => [];
 
       let output = yield buildOutput(app.getAddonStyles());
