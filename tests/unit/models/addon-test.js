@@ -735,17 +735,33 @@ describe('models/addon.js', function() {
 
   describe('treeForStyles', function() {
     let builder, addon;
+    const { isExperimentEnabled } = require('../../../lib/experiments');
 
     beforeEach(function() {
-      projectPath = path.resolve(fixturePath, 'with-app-styles');
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        projectPath = path.resolve(fixturePath, 'with-mu-styles');
+      } else {
+        projectPath = path.resolve(fixturePath, 'with-app-styles');
+      }
       const packageContents = require(path.join(projectPath, 'package.json'));
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
+      project.isModuleUnification = function() {
+        if (isExperimentEnabled('MODULE_UNIFICATION')) {
+          return true;
+        }
+      };
 
       let BaseAddon = Addon.extend({
         name: 'test-project',
         root: projectPath,
+        isModuleUnification() {
+          const { isExperimentEnabled } = require('../../../lib/experiments');
+          if (isExperimentEnabled('MODULE_UNIFICATION')) {
+            return true;
+          }
+        },
       });
 
       addon = new BaseAddon(project, project);
@@ -757,7 +773,7 @@ describe('models/addon.js', function() {
       }
     });
 
-    it('should move files in the root of the addons app/styles tree into the app/styles path', function() {
+    it('should move files in the root of the addons app/styles tree', function() {
       builder = new broccoli.Builder(addon.treeFor('styles'));
 
       return builder.build()
@@ -765,9 +781,7 @@ describe('models/addon.js', function() {
           let outputPath = results.directory;
 
           let expected = [
-            'app/',
-            'app/styles/',
-            'app/styles/foo-bar.css',
+            'foo-bar.css',
           ];
 
           expect(walkSync(outputPath)).to.eql(expected);
