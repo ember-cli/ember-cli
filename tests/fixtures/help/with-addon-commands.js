@@ -194,7 +194,7 @@ module.exports = {
         {
           name: 'in',
           default: null,
-          description: 'Runs a generator against an in repo addon. A path is expected, relative to the root of the project.',
+          description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
           key: 'in',
           required: false
         }
@@ -252,7 +252,7 @@ module.exports = {
         {
           name: 'in',
           default: null,
-          description: 'Runs a generator against an in repo addon. A path is expected, relative to the root of the project.',
+          description: 'Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.',
           key: 'in',
           required: false
         }
