@@ -269,6 +269,40 @@ describe('EmberApp', function() {
       yield output.dispose();
     }));
 
+    it('flattens `app/styles` folder from add-ons', co.wrap(function *() {
+      let addonFooStyles = yield createTempDir();
+
+      // `ember-cli-tailwind`
+      addonFooStyles.write({
+        app: {
+          styles: {
+            'foo.css': 'foo',
+          },
+        },
+      });
+
+      let app = new EmberApp({
+        project,
+      });
+      app.addonTreesFor = function() {
+        return [
+          addonFooStyles.path(),
+        ];
+      };
+
+      let output = yield buildOutput(app.getAddonStyles());
+      let outputFiles = output.read();
+
+      expect(outputFiles['test-project']).to.deep.equal({
+        styles: {
+          'foo.css': 'foo',
+        },
+      });
+
+      yield addonFooStyles.dispose();
+      yield output.dispose();
+    }));
+
     it('returns add-ons styles files', co.wrap(function *() {
       let addonFooStyles = yield createTempDir();
       let addonBarStyles = yield createTempDir();
@@ -303,11 +337,7 @@ describe('EmberApp', function() {
 
       expect(outputFiles['test-project']).to.deep.equal({
         styles: {
-          app: {
-            styles: {
-              'foo.css': 'foo',
-            },
-          },
+          'foo.css': 'foo',
           baztrap: {
             'baztrap.css': '// baztrap.css',
           },
