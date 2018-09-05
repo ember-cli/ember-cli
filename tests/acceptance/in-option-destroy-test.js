@@ -4,7 +4,6 @@ const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
-let outputFile = RSVP.denodeify(fs.outputFile);
 const path = require('path');
 let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
