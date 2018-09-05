@@ -4,13 +4,14 @@ const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
 const path = require('path');
-let outputFile = RSVP.denodeify(fs.outputFile);
 let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
+const initApp = require('../helpers/init-app');
+const generateUtils = require('../helpers/generate-utils');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -38,30 +39,26 @@ describe('Acceptance: ember generate with --in option', function() {
     return remove(tmproot);
   });
 
-  function initApp() {
-    return ember([
-      'init',
-      '--name=my-app',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
-  }
+  it('generate blueprint foo using lib', function() {
+    // build an app with an in-repo addon in a non-standard path
+    return initApp()
+      .then(() => generateUtils.inRepoAddon('lib/other-thing'))
+      // generate in project blueprint to allow easier testing of in-repo generation
+      .then(() => generateUtils.tempBlueprint())
+      // confirm that we can generate into the non-lib path
+      .then(() =>
+        ember(['generate', 'foo', 'bar', '--in=lib/other-thing']).then(function() {
+          expect(file('lib/other-thing/addon/foos/bar.js')).to.exist;
+        })
+      );
+  });
 
   it('generate blueprint foo using custom path using current directory', function() {
     // build an app with an in-repo addon in a non-standard path
     return initApp()
-      .then(() =>
-        ember([
-          'generate',
-          'in-repo-addon',
-          './non-lib/other-thing',
-        ])
-      )
+      .then(() => generateUtils.inRepoAddon('./non-lib/other-thing'))
       // generate in project blueprint to allow easier testing of in-repo generation
-      .then(() => outputFile(
-        'blueprints/foo/files/__root__/foos/__name__.js',
-        '/* whoah, empty foo! */'
-      ))
+      .then(() => generateUtils.tempBlueprint())
       // confirm that we can generate into the non-lib path
       .then(() =>
         ember(['generate', 'foo', 'bar', '--in=non-lib/other-thing']).then(function() {
@@ -73,18 +70,9 @@ describe('Acceptance: ember generate with --in option', function() {
   it('generate blueprint foo using custom path', function() {
     // build an app with an in-repo addon in a non-standard path
     return initApp()
-      .then(() =>
-        ember([
-          'generate',
-          'in-repo-addon',
-          './non-lib/other-thing',
-        ])
-      )
+      .then(() => generateUtils.inRepoAddon('./non-lib/other-thing'))
       // generate in project blueprint to allow easier testing of in-repo generation
-      .then(() => outputFile(
-        'blueprints/foo/files/__root__/foos/__name__.js',
-        '/* whoah, empty foo! */'
-      ))
+      .then(() => generateUtils.tempBlueprint())
       // confirm that we can generate into the non-lib path
       .then(() =>
         ember(['generate', 'foo', 'bar', '--in=./non-lib/other-thing']).then(function() {
@@ -96,18 +84,9 @@ describe('Acceptance: ember generate with --in option', function() {
   it('generate blueprint foo using custom nested path', function() {
     // build an app with an in-repo addon in a non-standard path
     return initApp()
-      .then(() =>
-        ember([
-          'generate',
-          'in-repo-addon',
-          './non-lib/nested/other-thing',
-        ])
-      )
+      .then(() => generateUtils.inRepoAddon('./non-lib/nested/other-thing'))
       // generate in project blueprint to allow easier testing of in-repo generation
-      .then(() => outputFile(
-        'blueprints/foo/files/__root__/foos/__name__.js',
-        '/* whoah, empty foo! */'
-      ))
+      .then(() => generateUtils.tempBlueprint())
       // confirm that we can generate into the non-lib path
       .then(() =>
         ember(['generate', 'foo', 'bar', '--in=./non-lib/nested/other-thing']).then(function() {
