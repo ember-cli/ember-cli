@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 'use strict';
 
 /*
@@ -12,72 +13,64 @@
  * dev/changelog <branch-name (Default: master)>
  */
 
-var EOL       = require('os').EOL;
-var multiline = require('multiline');
-var RSVP      = require('rsvp');
-var GitHubApi = require('@octokit/rest');
+let EOL = require('os').EOL;
+let multiline = require('multiline');
+let RSVP = require('rsvp');
+let GitHubApi = require('@octokit/rest');
 
-var github         = new GitHubApi({version: '3.0.0'});
-var compareCommits = RSVP.denodeify(github.repos.compareCommits);
-var currentVersion = 'v' + require('../package').version;
-var branch         = process.argv[2] || 'master';
+let github = new GitHubApi({ version: '3.0.0' });
+let compareCommits = RSVP.denodeify(github.repos.compareCommits);
+let currentVersion = `v${require('../package').version}`;
+let branch = process.argv[2] || 'master';
 
 compareCommits({
   owner: 'ember-cli',
   repo: 'ember-cli',
   base: currentVersion,
-  head: branch
-}).then(function(res) {
-  return res.data.commits.map(function(commitInfo) {
-    return commitInfo.commit.message
-
-  }).filter(function(message) {
-    return message.indexOf('Merge pull request #') > -1 || message.indexOf('Auto merge of #') > -1;
-
-  }).map(function(message) {
+  head: branch,
+}).then(res => res.data.commits
+  .map(commitInfo => commitInfo.commit.message)
+  .filter(message => message.indexOf('Merge pull request #') > -1 || message.indexOf('Auto merge of #') > -1)
+  .map(message => {
     if (message.indexOf('Auto merge of #') > -1) {
-      var numAndAuthor = message.match(/#(\d+) - (.*):/).slice(1,3);
-      var title        = message.split('\n\n')[1];
+      let numAndAuthor = message.match(/#(\d+) - (.*):/).slice(1, 3);
+      let title = message.split('\n\n')[1];
 
       return {
-        number:  +numAndAuthor[0],
-        author:  numAndAuthor[1],
-        title:   title
+        number: +numAndAuthor[0],
+        author: numAndAuthor[1],
+        title,
       };
     } else if (message.indexOf('Merge pull request #') > -1) {
-      var numAndAuthor = message.match(/#(\d+) from (.*)\//).slice(1,3);
-      var title        = message.split('\n\n')[1];
+      let numAndAuthor = message.match(/#(\d+) from (.*)\//).slice(1, 3);
+      let title = message.split('\n\n')[1];
 
       return {
-        number:  +numAndAuthor[0],
-        author:  numAndAuthor[1],
-        title:   title
+        number: +numAndAuthor[0],
+        author: numAndAuthor[1],
+        title,
       };
     }
 
-  }).sort(function(a, b) {
-    return a.number > b.number;
-  }).map(function(pr) {
-    var link   = '[#' + pr.number + ']' +
-                 '(https://github.com/ember-cli/ember-cli/pull/' + pr.number + ')';
-    var title  = pr.title;
-    var author = '[@' + pr.author + ']' +
-                 '(https://github.com/' + pr.author +')';
+  }).sort((a, b) => a.number > b.number).map(pr => {
+    let link = `[#${pr.number}]` +
+                 `(https://github.com/ember-cli/ember-cli/pull/${pr.number})`;
+    let title = pr.title;
+    let author = `[@${pr.author}]` +
+                 `(https://github.com/${pr.author})`;
 
-    return '- ' + link + ' ' + title + ' ' + author;
+    return `- ${link} ${title} ${author}`;
 
-  }).join('\n');
-
-}).then(function(contributions) {
-  var changelog = generateChangelog(contributions);
+  }).join('\n')).then(contributions => {
+  let changelog = generateChangelog(contributions);
 
   console.log(changelog);
-}).catch(function(err) {
+}).catch(err => {
   console.error(err);
-})
+});
 
 function generateChangelog(contributions) {
-  var header = multiline(function() {/*
+  let header = multiline(() => { /*
 The following changes are required if you are upgrading from the previous
 version:
 
@@ -89,9 +82,9 @@ version:
   + No changes required
 
 #### Community Contributions
-  */});
+  */ });
 
-  var footer = 'Thank you to all who took the time to contribute!';
+  let footer = 'Thank you to all who took the time to contribute!';
 
- return header + EOL + EOL + contributions + EOL + EOL + footer;
+  return header + EOL + EOL + contributions + EOL + EOL + footer;
 }
