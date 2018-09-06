@@ -250,5 +250,5 @@ Grab a link to your tweet and post in:
 ## Troubleshooting
 
 * if a few mins after release you notice an issue, you can unpublish
-  * `npm unpublish ember-cli@<version>`
+  * `npm unpublish ember-cli@<version>` (`npm unpublish` is write-only, that is you can unpublish but cannot push `ember-cli` with the same version, you have to bump `version` in `package.json`)
 * if it is completely broken, feel free to unpublish a few hours later or the next morning, even if you don't have time to immediately rerelease
