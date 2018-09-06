@@ -188,7 +188,7 @@ flags are:
 + `DEBUG=broccoli-caching-writer:* ember s`
 + `DEBUG=broccoli-funnel:* ember s`
 + `DEBUG=broccoli-funnel:Funnel*Addon* ember s`
-+ `DEBUG=broccoli-merge-trees:ember s`
++ `DEBUG=broccoli-merge-trees ember s`
 + `DEBUG=broccoli-merge-trees:TreeMerger* ember s`
 + `DEBUG=broccoli-merge-trees:Addon* ember s`
 + `DEBUG=broccoli-merge-trees:styles ember s`
