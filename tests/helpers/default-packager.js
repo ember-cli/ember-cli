@@ -255,8 +255,8 @@ function setupRegistryFor(registryType, fn) {
     load(type) {
       if (type === registryType) {
         return [{
-          toTree() {
-            return fn.apply(this, arguments);
+          toTree(tree) {
+            return fn(tree);
           },
         }];
       }

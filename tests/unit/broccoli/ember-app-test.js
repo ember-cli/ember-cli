@@ -823,6 +823,43 @@ describe('EmberApp', function() {
       });
     });
 
+    describe('default vendor/vendor.css exists', function() {
+      beforeEach(function() {
+        app = new EmberApp({
+          project,
+        });
+
+        mockTemplateRegistry(app);
+      });
+
+      it('has default vendor.css', function() {
+        let styles = app.styles()._inputNodes.map(String);
+
+        expect(styles.length).to.eql(2);
+        expect(styles[0]).to.match(/Funnel/);
+        expect(styles[1]).to.match(/assets\/vendor.css/);
+      });
+    });
+
+    describe('postprocessTree is called properly', function() {
+      beforeEach(function() {
+        app = new EmberApp({
+          project,
+        });
+
+        app.addonPostprocessTree = td.function();
+        td.when(app.addonPostprocessTree(), { ignoreExtraArgs: true }).thenReturn(['batman']);
+
+        mockTemplateRegistry(app);
+      });
+
+      it('from .styles()', function() {
+        let stylesOutput = app.styles();
+
+        expect(stylesOutput).to.eql(['batman']);
+      });
+    });
+
     describe('toTree', function() {
       beforeEach(function() {
         addon = {
@@ -1308,8 +1345,50 @@ describe('EmberApp', function() {
     });
 
     describe('concat order', function() {
+      let count;
+      let args;
+
       beforeEach(function() {
         mockTemplateRegistry(app);
+        count = 0;
+        args = [];
+
+        // we are "spying and mocking here" so to ensure we are testing our own
+        // "wiring" not the implementation of our dependencies e.g. broccoli-concat
+        app._concatFiles = function(tree, options) {
+          count++;
+          args.push(options);
+          return tree;
+        };
+
+      });
+
+      it('prevents duplicate inclusion, maintains order: CSS', function() {
+        app.import('files/a.css');
+        app.import('files/e.css'); // should be omitted.
+        app.import('files/b.css');
+        app.import('files/c.css');
+        app.import('files/d.css');
+        app.import('files/c.css', { prepend: true }); // should be omitted.
+        app.import('files/e.css');
+
+        app.styles(); // run
+
+        expect(count).to.eql(1);
+
+        expect(args[0]).to.deep.eql({
+          annotation: 'Concat: Vendor Styles/assets/vendor.css',
+          allowNone: true,
+          headerFiles: [
+            'files/a.css',
+            'files/b.css',
+            'files/c.css',
+            'files/d.css',
+            'files/e.css',
+          ],
+          inputFiles: ['addon-tree-output/**/*.css'],
+          outputFile: '/assets/vendor.css',
+        });
       });
 
       it('correctly orders concats from app.styles()', function() {
@@ -1318,12 +1397,22 @@ describe('EmberApp', function() {
         app.import('files/a.css', { prepend: true });
         app.import('files/d.css');
 
-        expect(app._styleOutputFiles['/assets/vendor.css']).to.deep.equal([
-          'files/a.css',
-          'files/b.css',
-          'files/c.css',
-          'files/d.css',
-        ]);
+        app.styles(); // run
+
+        expect(count).to.eql(1);
+
+        expect(args[0]).to.deep.eql({
+          annotation: 'Concat: Vendor Styles/assets/vendor.css',
+          allowNone: true,
+          headerFiles: [
+            'files/a.css',
+            'files/b.css',
+            'files/c.css',
+            'files/d.css',
+          ],
+          inputFiles: ['addon-tree-output/**/*.css'],
+          outputFile: '/assets/vendor.css',
+        });
       });
 
       it('correctly orders concats from app.testFiles()', function() {
