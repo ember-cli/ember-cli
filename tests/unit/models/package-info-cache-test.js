@@ -100,10 +100,6 @@ describe('models/package-info-cache.js', function() {
       expect(projectPackageInfo.valid).to.be.true;
     });
 
-    it('is a project, so it may have addons', function() {
-      expect(projectPackageInfo.mayHaveAddons).to.eql(true);
-    });
-
     it('shows projectPackageInfo has cliInfo at ember-cli root dir', function() {
       expect(projectPackageInfo.cliInfo).to.exist;
 
@@ -213,15 +209,6 @@ describe('models/package-info-cache.js', function() {
 
       after(function() {
         fixturifyProject.dispose();
-      });
-
-      it('has dependencies who have their mayHaveAddons correctly set', function() {
-        expect(projectPackageInfo.devDependencyPackages['non-ember-thingy']).to.have.property('mayHaveAddons', false);
-        expect(projectPackageInfo.devDependencyPackages['ember-cli']).to.have.property('mayHaveAddons', false);
-        expect(projectPackageInfo.dependencyPackages['loader.js']).to.have.property('mayHaveAddons', true);
-        expect(projectPackageInfo.dependencyPackages['ember-resolver']).to.have.property('mayHaveAddons', true);
-        expect(projectPackageInfo.dependencyPackages['ember-random-addon']).to.have.property('mayHaveAddons', true);
-        expect(projectPackageInfo.dependencyPackages['something-else']).to.have.property('mayHaveAddons', true);
       });
 
       it('validates projectPackageInfo', function() {
