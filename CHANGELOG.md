@@ -1,23 +1,39 @@
 # ember-cli Changelog
 
-## v3.4.0
+## v3.4.1
 
 The following changes are required if you are upgrading from the previous
 version:
 
 - Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.3.0...v3.4.0)
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.3.0...v3.4.1)
   + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
 - Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.3.0...v3.4.0)
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.3.0...v3.4.1)
 - Core Contributors
   + No changes required
 
 #### Community Contributions
 
+- [#7791](https://github.com/ember-cli/ember-cli/pull/7791) Add Node 10 to support matrix [@stefanpenner](https://github.com/stefanpenner)
+- [#7803](https://github.com/ember-cli/ember-cli/pull/7803) Migrate to using Travis stages [@rwjblue](https://github.com/rwjblue)
+- [#7808](https://github.com/ember-cli/ember-cli/pull/7808) Drop Node 4 support [@Turbo87](https://github.com/Turbo87)
+- [#7947](https://github.com/ember-cli/ember-cli/pull/7947) Add support for in repo addons in non-conventional directories [@scalvert](https://github.com/scalvert)
+- [#7954](https://github.com/ember-cli/ember-cli/pull/7954) Add template linting [@rwjblue](https://github.com/rwjblue)
+- [#7956](https://github.com/ember-cli/ember-cli/pull/7956) Embrace stages in CI [@rwjblue](https://github.com/rwjblue)
+- [#7977](https://github.com/ember-cli/ember-cli/pull/7977) Use existing build from specified path [@SparshithNR](https://github.com/SparshithNR)
 - [#7997](https://github.com/ember-cli/ember-cli/pull/7997) Update `ember-data` and `ember-source` to 3.4.0 [@btecu](https://github.com/btecu)
+- [#8019](https://github.com/ember-cli/ember-cli/pull/8019) Revert "[PERF] Speed up package info cache" [@rwjblue](https://github.com/rwjblue)
+- [#8013](https://github.com/ember-cli/ember-cli/pull/8013) Fix SASS compilation issues [@twokul](https://github.com/twokul)
 
 Thank you to all who took the time to contribute!
+
+## v3.4.0
+
+This version was unpublished from NPM because the published tar file contained a
+bug. NPM is write-only (that is you can unpublish a package but you cannot
+re-publish it with the same version) and that leaves us with only one option:
+publish a new version. We effectively fast-forwarding to `3.4.1`.
 
 ## v3.4.0-beta.3
 
