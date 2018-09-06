@@ -227,8 +227,21 @@ Announce release!
   * enter the new version number as the tag prefixed with `v` e.g. (`v0.1.12`)
   * Make sure to include the links for diffs between the versions.
   * for release title choose a great name, no pressure
-  * in the description paste the upgrade instructions from the previous release,
-    followed by the new CHANGELOG. entry
+  * in the description paste the following upgrade instructions, filling in the version number for NEW_VERSION_NUMBER:
+
+```
+Setup
+
+`npm install -g ember-cli@NEW_VERSION_NUMBER` -- Install new global ember-cli
+
+Project Update
+
+1. `rm -rf node_modules dist tmp` -- Delete temporary development folders.
+2. npm install -g ember-cli-update -- Install Ember CLI update tool globally.
+3. `ember-cli-update --to NEW_VERSION_NUMBER` -- This will update your app or addon to Ember CLI NEW_VERSION_NUMBER. You will probably encounter merge conflicts, in which the default behavior is to let you resolve conflicts on your own. You can supply the --resolve-conflicts option to run your system's git merge tool if any conflicts are found.
+```
+
+  * After that block in the description, paste the new CHANGELOG entry
   * attach the `ember-cli-<version>.tgz` from above
   * Check Pre-release for beta releases.
   * Publish the release.
