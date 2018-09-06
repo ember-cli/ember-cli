@@ -11,7 +11,7 @@ the release gotchas and will hopefully result in a successful release.
 ### Communication
 
 - Ensure that homu isn't presently processing any PRs.
-- Post a note in [#dev-ember-cli](https://embercommunity.slack.com/archives/dev-ember-cli) letting us know you're doing a release.
+- Post a note in [#dev-ember-cli](https://discordapp.com/channels/480462759797063690/480501885837770763) letting us know you're doing a release.
 
 > I'm starting an Ember CLI release. Please hold off merging PRs, "homu r+"-ing, and pushing new code!
 
@@ -239,12 +239,12 @@ Announce release!
 https://github.com/ember-cli/ember-cli/releases/tag/vX.Y.Z
 \#emberjs
 
-### Slack
+### Discord
 
 Grab a link to your tweet and post in:
-* [#-announcements](https://embercommunity.slack.com/archives/-announcements)
-* [#dev-ember-cli](https://embercommunity.slack.com/archives/dev-ember-cli)
-* [#-ember-cli](https://embercommunity.slack.com/archives/-ember-cli)
+* [#news-and-announcements](https://discordapp.com/channels/480462759797063690/480499624663056390)
+* [#dev-ember-cli](https://discordapp.com/channels/480462759797063690/480501885837770763)
+* [#ember-cli](https://discordapp.com/channels/480462759797063690/486548111221719040)
 
 
 ## Troubleshooting
