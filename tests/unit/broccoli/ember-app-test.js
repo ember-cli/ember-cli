@@ -146,7 +146,6 @@ describe('EmberApp', function() {
             javascript: '// javascript.js',
           },
           'test-project': {
-            styles: {},
             templates: {},
           },
           tests: {
@@ -232,28 +231,10 @@ describe('EmberApp', function() {
   }
 
   describe('getAddonStyles()', function() {
-    it('can handle empty styles folders', co.wrap(function *() {
-      let app = new EmberApp({
-        project,
-      });
-
-      app.addonTreesFor = () => [];
-
-      let output = yield buildOutput(app.getAddonStyles());
-      let outputFiles = output.read();
-
-      expect(outputFiles['test-project']).to.deep.equal({
-        styles: { },
-      });
-
-      yield output.dispose();
-    }));
-
     it('returns add-ons styles files', co.wrap(function *() {
       let addonFooStyles = yield createTempDir();
       let addonBarStyles = yield createTempDir();
 
-      // `ember-basic-dropdown`
       addonFooStyles.write({
         app: {
           styles: {
@@ -261,10 +242,11 @@ describe('EmberApp', function() {
           },
         },
       });
-      // `ember-bootstrap`
       addonBarStyles.write({
-        baztrap: {
-          'baztrap.css': '// baztrap.css',
+        app: {
+          styles: {
+            'bar.css': 'bar',
+          },
         },
       });
 
@@ -282,14 +264,10 @@ describe('EmberApp', function() {
       let outputFiles = output.read();
 
       expect(outputFiles['test-project']).to.deep.equal({
-        styles: {
-          app: {
-            styles: {
-              'foo.css': 'foo',
-            },
-          },
-          baztrap: {
-            'baztrap.css': '// baztrap.css',
+        app: {
+          styles: {
+            'foo.css': 'foo',
+            'bar.css': 'bar',
           },
         },
       });
