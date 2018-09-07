@@ -26,6 +26,12 @@ describe('Default Packager: Styles', function() {
   };
   let MODULES = {
     'addon-tree-output': { },
+    app: {
+      styles: {
+        'app.css': '@import "extra.css";\nhtml { height: 100%; }',
+        'extra.css': 'body{ position: relative; }',
+      },
+    },
     'the-best-app-ever': {
       'router.js': 'router.js',
       'app.js': 'app.js',
@@ -37,10 +43,6 @@ describe('Default Packager: Styles', function() {
       },
       'config': {
         'environment.js': 'environment.js',
-      },
-      styles: {
-        'app.css': '@import "extra.css";\nhtml { height: 100%; }',
-        'extra.css': 'body{ position: relative; }',
       },
       'templates': {},
     },
