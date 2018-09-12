@@ -1,5 +1,27 @@
 # ember-cli Changelog
 
+## v3.4.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.1...v3.4.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.1...v3.4.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#8024](https://github.com/ember-cli/ember-cli/pull/8024) [BUGFIX] Remove 2.12 scenario from travis.yml [@cibernox](https://github.com/cibernox)
+- [#8033](https://github.com/ember-cli/ember-cli/pull/8033) Restore `styles` behaviour [@twokul](https://github.com/twokul)
+- [#8038](https://github.com/ember-cli/ember-cli/pull/8038) Ensure livereload proxy is scoped to only live reload prefix. [@ember-cli](https://github.com/ember-cli)
+
+Thank you to all who took the time to contribute!
+
 ## v3.4.1
 
 The following changes are required if you are upgrading from the previous
