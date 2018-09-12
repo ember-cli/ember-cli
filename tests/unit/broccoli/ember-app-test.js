@@ -137,7 +137,11 @@ describe('EmberApp', function() {
         });
       }));
 
-      it('receives a full tree as an argument', co.wrap(function *() {
+      it.only('receives a full tree as an argument', co.wrap(function *() {
+        let appStyles = yield createTempDir();
+        appStyles.write({
+          'app.css': '// css styles',
+        });
         input.write({
           fake: {
             dist: {
@@ -149,6 +153,9 @@ describe('EmberApp', function() {
         let app = new EmberApp({
           project,
           package: tree => mergeTrees([tree, input.path()]),
+          trees: {
+            styles: appStyles.path(),
+          },
         });
         mockTemplateRegistry(app);
 
@@ -166,8 +173,12 @@ describe('EmberApp', function() {
             },
             javascript: '// javascript.js',
           },
+          app: {
+            styles: {
+              'app.css': '// css styles',
+            },
+          },
           'test-project': {
-            styles: {},
             templates: {},
           },
           tests: {
@@ -192,7 +203,7 @@ describe('EmberApp', function() {
 
         app.getAppJavascript = td.function();
         app.getAddonTemplates = td.function();
-        app.getAddonStyles = td.function();
+        app.getStyles = td.function();
         app.getTests = td.function();
         app.getExternalTree = td.function();
         app.getSrc = td.function();
@@ -209,7 +220,7 @@ describe('EmberApp', function() {
         output = yield buildOutput(app.toTree());
 
         td.verify(app.getAppJavascript(false));
-        td.verify(app.getAddonStyles());
+        td.verify(app.getStyles());
         td.verify(app.getTests());
         td.verify(app.getExternalTree());
         td.verify(app.getSrc());
@@ -251,55 +262,33 @@ describe('EmberApp', function() {
     });
   }
 
-  describe('getAddonStyles()', function() {
+  describe('getStyles()', function() {
     it('can handle empty styles folders', co.wrap(function *() {
+      let appStyles = yield createTempDir();
+      appStyles.write({
+        'app.css': '// css styles',
+      });
+
       let app = new EmberApp({
         project,
+        trees: {
+          styles: appStyles.path(),
+        },
       });
 
       app.addonTreesFor = () => [];
 
-      let output = yield buildOutput(app.getAddonStyles());
+      let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      expect(outputFiles['test-project']).to.deep.equal({
-        styles: { },
-      });
-
-      yield output.dispose();
-    }));
-
-    it('flattens `app/styles` folder from add-ons', co.wrap(function *() {
-      let addonFooStyles = yield createTempDir();
-
-      // `ember-cli-tailwind`
-      addonFooStyles.write({
+      expect(outputFiles).to.deep.equal({
         app: {
           styles: {
-            'foo.css': 'foo',
+            'app.css': '// css styles',
           },
         },
       });
 
-      let app = new EmberApp({
-        project,
-      });
-      app.addonTreesFor = function() {
-        return [
-          addonFooStyles.path(),
-        ];
-      };
-
-      let output = yield buildOutput(app.getAddonStyles());
-      let outputFiles = output.read();
-
-      expect(outputFiles['test-project']).to.deep.equal({
-        styles: {
-          'foo.css': 'foo',
-        },
-      });
-
-      yield addonFooStyles.dispose();
       yield output.dispose();
     }));
 
@@ -332,15 +321,17 @@ describe('EmberApp', function() {
         ];
       };
 
-      let output = yield buildOutput(app.getAddonStyles());
+      let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      expect(outputFiles['test-project']).to.deep.equal({
-        styles: {
-          'foo.css': 'foo',
-          baztrap: {
-            'baztrap.css': '// baztrap.css',
+      expect(outputFiles).to.deep.equal({
+        app: {
+          styles: {
+            'foo.css': 'foo',
           },
+        },
+        baztrap: {
+          'baztrap.css': '// baztrap.css',
         },
       });
 
@@ -355,12 +346,10 @@ describe('EmberApp', function() {
       });
       app.addonTreesFor = () => [];
 
-      let output = yield buildOutput(app.getAddonStyles());
+      let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      expect(outputFiles['test-project']).to.deep.equal({
-        styles: { },
-      });
+      expect(outputFiles).to.deep.equal({});
 
       yield output.dispose();
     }));
