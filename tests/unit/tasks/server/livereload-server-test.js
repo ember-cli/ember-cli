@@ -589,9 +589,11 @@ describe('livereload-server', function() {
 
     describe('specific files', function() {
       let reloadedFiles;
+      let changedOptions;
 
       let stubbedChanged = function(options) {
         reloadedFiles = options.body.files;
+        changedOptions = options;
       };
 
       beforeEach(function() {
@@ -655,13 +657,6 @@ describe('livereload-server', function() {
       });
 
       it('triggers livereload with "LiveReload files" if no results.directory was provided', function() {
-        let changedOptions;
-        subject.liveReloadServer = {
-          changed(options) {
-            changedOptions = options;
-          },
-        };
-
         subject.didChange({});
 
         expect(changedOptions).to.deep.equal({
