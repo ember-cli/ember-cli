@@ -137,7 +137,7 @@ describe('EmberApp', function() {
         });
       }));
 
-      it.only('receives a full tree as an argument', co.wrap(function *() {
+      it('receives a full tree as an argument', co.wrap(function *() {
         let appStyles = yield createTempDir();
         appStyles.write({
           'app.css': '// css styles',
