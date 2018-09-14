@@ -945,6 +945,29 @@ describe('EmberApp', function() {
       });
     });
 
+    describe('toArray', function() {
+      it('excludes `tests` tree from resulting array if the tree is not present', function() {
+        app = new EmberApp({
+          project,
+          trees: {
+            tests: null,
+          },
+        });
+
+        app._defaultPackager.packageJavascript = td.function();
+        app._defaultPackager.packageStyles = td.function();
+        app._legacyAddonCompile = td.function();
+
+        td.when(app._legacyAddonCompile(), { ignoreExtraArgs: true }).thenReturn('batman');
+        td.when(app._defaultPackager.packageJavascript(), { ignoreExtraArgs: true }).thenReturn('batman');
+        td.when(app._defaultPackager.packageStyles(), { ignoreExtraArgs: true }).thenReturn('batman');
+
+        let treeList = app.toArray();
+
+        expect(treeList.length).to.equal(5);
+      });
+    });
+
     describe('toTree', function() {
       beforeEach(function() {
         addon = {
@@ -959,6 +982,8 @@ describe('EmberApp', function() {
 
         app = new EmberApp({
           project,
+          tests: true,
+          trees: { tests: {} },
         });
       });
 
@@ -989,11 +1014,15 @@ describe('EmberApp', function() {
         mockTemplateRegistry(app);
 
         app.index = td.function();
+        app.getTests = td.function();
+        app._legacyAddonCompile = td.function();
         app._defaultPackager.processTemplates = td.function();
 
         td.when(app._defaultPackager.processTemplates(), { ignoreExtraArgs: true }).thenReturn('x');
         td.when(addon.postprocessTree(), { ignoreExtraArgs: true }).thenReturn('blap');
         td.when(app.index(), { ignoreExtraArgs: true }).thenReturn(null);
+        td.when(app.getTests(), { ignoreExtraArgs: true }).thenReturn(null);
+        td.when(app._legacyAddonCompile(), { ignoreExtraArgs: true }).thenReturn(null);
 
         expect(app.toTree()).to.equal('blap');
 

@@ -10,6 +10,7 @@ const path = require('path');
 const MockWatcher = require('../../../helpers/mock-watcher');
 const express = require('express');
 const FSTree = require('fs-tree-diff');
+const http = require('http');
 
 describe('livereload-server', function() {
   let subject;
@@ -81,6 +82,19 @@ describe('livereload-server', function() {
       }).then(function() {
         expect(subject.liveReloadServer.options.port).to.equal(1377);
         expect(subject.liveReloadServer.options.host).to.equal('127.0.0.1');
+      });
+    });
+    it('Livereload responds to livereload requests and returns livereload file', function(done) {
+      let server = app.listen(4200);
+      subject.setupMiddleware({
+        liveReload: true,
+        liveReloadPrefix: '_lr',
+        port: 4200,
+      }).then(function() {
+        http.get('http://localhost:4200/_lr/livereload.js', function(response) {
+          expect(response.statusCode).to.equal(200);
+          server.close(done);
+        });
       });
     });
   });
