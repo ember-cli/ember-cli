@@ -962,9 +962,7 @@ describe('EmberApp', function() {
         td.when(app._defaultPackager.packageJavascript(), { ignoreExtraArgs: true }).thenReturn('batman');
         td.when(app._defaultPackager.packageStyles(), { ignoreExtraArgs: true }).thenReturn('batman');
 
-        let treeList = app.toArray();
-
-        expect(treeList.length).to.equal(5);
+        app.toArray(); // doesn't throw an error
       });
     });
 
