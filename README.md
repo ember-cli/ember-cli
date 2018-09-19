@@ -17,7 +17,7 @@ ember-cli
 [appveyor-badge-url]: https://ci.appveyor.com/project/embercli/ember-cli/branch/master
 [coveralls-badge]: https://img.shields.io/coveralls/ember-cli/ember-cli/master.svg
 [coveralls-badge-url]: https://coveralls.io/github/ember-cli/ember-cli
-[codeclimate-badge]: https://img.shields.io/codeclimate/github/ember-cli/ember-cli.svg
+[codeclimate-badge]: https://codeclimate.com/github/ember-cli/ember-cli/badges/gpa.svg
 [codeclimate-badge-url]: https://codeclimate.com/github/ember-cli/ember-cli
 
 The Ember.js command line utility.
