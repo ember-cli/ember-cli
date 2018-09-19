@@ -19,7 +19,7 @@ describe('.ember-cli environment options', function() {
     sampleApp = yield createTempDir();
     sampleApp.write({
       '.ember-cli': JSON.stringify({
-        environment: {
+        environmentVariables: {
           'MY_ENV_VARIABLE': 'Yayy',
           'SHOULDNT_BE_THERE': 'Strange',
         },
