@@ -15,6 +15,7 @@ ember generate \u001b[33m<blueprint>\u001b[39m \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -dum, -id\u001b[39m
   \u001b[36m--in-repo-addon\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m
     \u001b[90maliases: --in-repo <value>, -ir <value>\u001b[39m
+  \u001b[36m--in\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: null)\u001b[39m Runs a blueprint against an in repo addon. A path is expected, relative to the root of the project.
 
 
   Available blueprints:

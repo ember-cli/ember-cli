@@ -15,6 +15,7 @@ const EOL = require('os').EOL;
 const nock = require('nock');
 const express = require('express');
 const co = require('co');
+const WebSocket = require('websocket').w3cwebsocket;
 
 function checkMiddlewareOptions(options) {
   expect(options).to.satisfy(option => option.baseURL || option.rootURL);
@@ -41,12 +42,13 @@ describe('express-server', function() {
   });
 
   afterEach(function() {
-    try {
-      subject.httpServer.close();
-    } catch (err) { /* ignore */ }
-    try {
-      proxy.httpServer.close();
-    } catch (err) { /* ignore */ }
+    return subject.stopHttpServer()
+      .catch(() => {})
+      .then(() => {
+        try {
+          proxy.httpServer.close();
+        } catch (err) { /* ignore */ }
+      });
   });
 
 
@@ -328,6 +330,7 @@ describe('express-server', function() {
           host: undefined,
           port: '1337',
           rootURL: '/',
+          liveReload: true,
         });
       });
 
@@ -386,6 +389,32 @@ describe('express-server', function() {
 
       it('proxies DELETE', function(done) {
         apiTest(subject.app, 'delete', '/api/delete', done);
+      });
+
+      it('proxies websockets', function(done) {
+        let number = Math.round(Math.random() * 0xFFFFFF);
+        let client = new WebSocket('ws://localhost:1337/foo');
+
+        client.onerror = error => {
+          done(error); // fail the test
+        };
+
+        client.onopen = () => {
+          client.send(number.toString());
+
+          setTimeout(() => {
+            client.close();
+
+            setTimeout(() => {
+              expect(proxy.websocketEvents).to.deep.eql([
+                'connect',
+                `message: ${number}`,
+                'close',
+              ]);
+              done();
+            }, 10);
+          }, 10);
+        };
       });
 
       // test for #1263
