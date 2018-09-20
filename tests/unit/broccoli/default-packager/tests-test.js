@@ -143,6 +143,8 @@ describe('Default Packager: Tests', function() {
         testSupportCssFile: '/assets/test-support.css',
       },
 
+      customTransformsMap: new Map(),
+
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
@@ -171,6 +173,8 @@ describe('Default Packager: Tests', function() {
         },
         testSupportCssFile: '/assets/test-support.css',
       },
+
+      customTransformsMap: new Map(),
 
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
@@ -222,6 +226,8 @@ describe('Default Packager: Tests', function() {
         },
         testSupportCssFile: '/assets/test-support.css',
       },
+
+      customTransformsMap: new Map(),
 
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
@@ -292,6 +298,8 @@ describe('Default Packager: Tests', function() {
         },
         testSupportCssFile: '/assets/test-support.css',
       },
+
+      customTransformsMap: new Map(),
 
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
@@ -414,6 +422,8 @@ describe('Default Packager: Tests', function() {
         testSupportCssFile: '/assets/test-support.css',
       },
 
+      customTransformsMap: new Map(),
+
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
@@ -460,6 +470,8 @@ describe('Default Packager: Tests', function() {
         testSupportCssFile: '/assets/test-support.css',
       },
 
+      customTransformsMap: new Map(),
+
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
@@ -490,6 +502,8 @@ describe('Default Packager: Tests', function() {
         },
         testSupportCssFile: '/assets/test-support.css',
       },
+
+      customTransformsMap: new Map(),
 
       vendorTestStaticStyles: [
         'vendor/custom/a.css',
@@ -611,6 +625,8 @@ describe('Default Packager: Tests', function() {
             },
             testSupportCssFile: '/assets/test-support.css',
           },
+
+          customTransformsMap: new Map(),
 
           isModuleUnification: true,
 

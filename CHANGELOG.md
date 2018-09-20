@@ -1,5 +1,29 @@
 # ember-cli Changelog
 
+## v3.4.3
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.2...v3.4.3)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember new` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.2...v3.4.3)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#8044](https://github.com/ember-cli/ember-cli/pull/8044) Fix livereload issues when SSL is enabled. [@SparshithNR](https://github.com/SparshithNR)
+- [#8046](https://github.com/ember-cli/ember-cli/pull/8046) Do not to fail to build if `tests` folder is not present [@twokul](https://github.com/twokul)
+- [#8047](https://github.com/ember-cli/ember-cli/pull/8047) Fix `app.import` transforms for tests [@twokul](https://github.com/twokul)
+- [#8048](https://github.com/ember-cli/ember-cli/pull/8048) Make sure app content always "wins" over addon content. [@twokul](https://github.com/twokul)
+- [#8057](https://github.com/ember-cli/ember-cli/pull/8057) Ensure livereload support does not break proxied websockets. [@rwjblue](https://github.com/rwjblue)
+- [#8058](https://github.com/ember-cli/ember-cli/pull/8058) Tweak invalid / missing package log output to be more actionable [@dcombslinkedin](https://github.com/dcombslinkedin)
+
+Thank you to all who took the time to contribute!
 
 ## v3.4.2
 

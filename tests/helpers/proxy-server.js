@@ -1,6 +1,7 @@
 'use strict';
 
 const http = require('http');
+const WebSocketServer = require('websocket').server;
 
 class ProxyServer {
   constructor() {
@@ -13,6 +14,29 @@ class ProxyServer {
       res.end('okay');
     });
     this.httpServer.listen(3001);
+
+    let wsServer = new WebSocketServer({
+      httpServer: this.httpServer,
+      autoAcceptConnections: true,
+    });
+
+    let websocketEvents = this.websocketEvents = [];
+    wsServer.on('connect', connection => {
+      websocketEvents.push('connect');
+
+      connection.on('message', message => {
+        websocketEvents.push(`message: ${message.utf8Data}`);
+        connection.sendUTF(message.utf8Data);
+      });
+
+      connection.on('error', error => {
+        websocketEvents.push(`error: ${error}`);
+      });
+
+      connection.on('close', () => {
+        websocketEvents.push(`close`);
+      });
+    });
   }
 }
 
