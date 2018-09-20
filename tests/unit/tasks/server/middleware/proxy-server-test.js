@@ -6,10 +6,12 @@ const expect = require('chai').expect;
 
 describe('proxy-server', function() {
   let project, proxyServer;
-  before(function() {
+
+  beforeEach(function() {
     project = new MockProject();
     proxyServer = new ProxyServerAddon(project);
   });
+
   it(`bypass livereload request`, function() {
     expect(proxyServer.handleProxiedRequest({
       url: '/livereload',
