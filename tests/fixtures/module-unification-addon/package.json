@@ -42,7 +42,7 @@
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-resolver": "^5.0.1",
-    "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/canary/shas/bc505f596c69d585d3f5b65dc50df6d802460bdb.tgz",
+    "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/canary/shas/caa2c70d40dbfeffb0e6c9ac15ff6d72c8e24bae.tgz",
     "ember-source-channel-url": "^1.0.1",
     "ember-try": "^0.2.23",
     "eslint-plugin-ember": "^5.0.0",
