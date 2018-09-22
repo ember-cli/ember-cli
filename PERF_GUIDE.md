@@ -227,8 +227,8 @@ install it run `brew install graphviz` or download it directly from
 [here](http://www.graphviz.org/Download.php).
 
 You will also need to install
-[broccoli-viz](https://github.com/stefanpenner/broccoli-viz) version `3.0.3` or
-higher.  `npm install -g broccoli-viz@^3.0.3`.
+[broccoli-viz](https://github.com/stefanpenner/broccoli-viz) version `4.0.0` or
+higher.  `npm install -g broccoli-viz@^4.0.0`.
 
 To generate visualization:
 
