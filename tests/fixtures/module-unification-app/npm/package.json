@@ -42,7 +42,7 @@
     "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/canary/shas/caa2c70d40dbfeffb0e6c9ac15ff6d72c8e24bae.tgz",
     "eslint-plugin-ember": "^5.2.0",
     "loader.js": "^4.7.0",
-    "qunit-dom": "^0.7.1"
+    "qunit-dom": "^0.8.0"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
