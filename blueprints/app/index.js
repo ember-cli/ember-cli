@@ -1,6 +1,8 @@
 'use strict';
 
 const stringUtil = require('ember-cli-string-utils');
+const Blueprint = require('../../lib/models/blueprint');
+const adjustPackageJson = require('./adjust-pkg');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
@@ -29,5 +31,15 @@ module.exports = {
       welcome: options.welcome,
       blueprint: 'app',
     };
+  },
+
+  buildFileInfo(intoDir, templateVariables, file) {
+    let fileInfo = Blueprint.prototype.buildFileInfo.apply(this, arguments);
+
+    if (file === 'package.json') {
+      fileInfo.replacer = adjustPackageJson.bind(this);
+    }
+
+    return fileInfo;
   },
 };
