@@ -11,12 +11,13 @@ const sortPackageJson = require('sort-package-json');
 let date = new Date();
 
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
+const adjustPackageJson = require('../app/adjust-pkg');
 const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 const FileInfo = require('../../lib/models/file-info');
 
 const replacers = {
   'package.json'(content) {
-    return this.updatePackageJson(content);
+    return this.updatePackageJson(adjustPackageJson.call(this, content));
   },
 };
 
@@ -37,7 +38,6 @@ module.exports = {
   updatePackageJson(content) {
     let contents = JSON.parse(content);
 
-    contents.name = this.locals(this.options).addonName;
     contents.description = this.description;
     delete contents.private;
     contents.scripts = contents.scripts || {};
