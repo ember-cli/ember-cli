@@ -1698,16 +1698,16 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
-ember-cli-blueprint-test-helpers@^0.18.3:
-  version "0.18.3"
-  resolved "https://registry.yarnpkg.com/ember-cli-blueprint-test-helpers/-/ember-cli-blueprint-test-helpers-0.18.3.tgz#945c606d855f0263f5e8c03522e4040a74f259cc"
+ember-cli-blueprint-test-helpers@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-blueprint-test-helpers/-/ember-cli-blueprint-test-helpers-0.19.0.tgz#500a1396ca99dc0e215e81440a3d0265a2b9bd0a"
   dependencies:
     chai "^4.1.0"
     chai-as-promised "^7.0.0"
     chai-files "^1.0.0"
     debug "^3.0.0"
     ember-cli-internal-test-helpers "^0.9.1"
-    fs-extra "^4.0.0"
+    fs-extra "^5.0.0"
     testdouble "^3.2.6"
     tmp-sync "^1.0.0"
 
@@ -2534,7 +2534,7 @@ fs-extra@^0.30.0:
     path-is-absolute "^1.0.0"
     rimraf "^2.2.8"
 
-fs-extra@^4.0.0, fs-extra@^4.0.2, fs-extra@^4.0.3:
+fs-extra@^4.0.2, fs-extra@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-4.0.3.tgz#0d852122e5bc5beb453fb028e9c0c9bf36340c94"
   dependencies:
