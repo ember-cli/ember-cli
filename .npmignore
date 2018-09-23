@@ -8,3 +8,4 @@
 /.*
 *.log
 !/.travis.yml
+/yarn.lock
