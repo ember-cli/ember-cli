@@ -12,11 +12,6 @@ if [[ $TRAVIS_BRANCH != "release" ]]; then
   exit 0
 fi
 
-if [[ $TRAVIS_NODE_VERSION != "6" ]]; then
-  echo "not publishing because we only publish on the Node 4.x build."
-  exit 0
-fi
-
 eval "$(ssh-agent -s)"
 
 openssl aes-256-cbc -K $encrypted_c177ff031535_key -iv $encrypted_c177ff031535_iv -in .travis/deploy_key.pem.enc -out .travis/deploy_key.pem -d
