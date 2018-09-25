@@ -238,7 +238,8 @@ Project Update
 
 1. `rm -rf node_modules dist tmp` -- Delete temporary development folders.
 2. npm install -g ember-cli-update -- Install Ember CLI update tool globally.
-3. `ember-cli-update --to NEW_VERSION_NUMBER` -- This will update your app or addon to Ember CLI NEW_VERSION_NUMBER. You will probably encounter merge conflicts, in which the default behavior is to let you resolve conflicts on your own. You can supply the --resolve-conflicts option to run your system's git merge tool if any conflicts are found.
+3. Run `ember-cli-update` - This will update your app or addon to the latest ember-cli release. You will probably encounter merge conflicts that you should resolve in your normal git workflow.
+4. Run `ember-cli-update --run-codemods` - This will let you pick codemods to run against your project, to ensure you are using the latest patterns and platform features.
 ```
 
   * After that block in the description, paste the new CHANGELOG entry
