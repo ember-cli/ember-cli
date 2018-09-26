@@ -109,7 +109,7 @@
     "quick-temp": "^0.1.8",
     "resolve": "^1.8.1",
     "rsvp": "^4.8.3",
-    "sane": "^3.0.0",
+    "sane": "^4.0.0",
     "semver": "^5.5.0",
     "silent-error": "^1.1.0",
     "sort-package-json": "^1.15.0",
