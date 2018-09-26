@@ -229,6 +229,38 @@ describe('Watcher', function() {
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/`);
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
+
+    it('with customURL', function() {
+      let subject = new Watcher({
+        ui,
+        analytics,
+        builder,
+        watcher,
+        serving: true,
+        options: {
+          host: undefined,
+          port: '1337',
+          rootURL: '',
+          environment: 'development',
+          project: {
+            config() {
+              return {
+                rootURL: '',
+              };
+            },
+          },
+        },
+      });
+      subject.serveURL = function() {
+        return `http://customurl.com/`;
+      };
+      subject.didChange({
+        totalTime: 12344000000,
+      });
+
+      let output = ui.output.trim().split(EOL);
+      expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://customurl.com/`);
+    });
   });
 
   describe('watcher:error', function() {
