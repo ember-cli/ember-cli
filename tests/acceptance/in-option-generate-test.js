@@ -94,4 +94,19 @@ describe('Acceptance: ember generate with --in option', function() {
         })
       );
   });
+
+  it('generate blueprint foo using sibling path', function() {
+    // build an app with an in-repo addon in a non-standard path
+    return initApp()
+      .then(() => fs.mkdirp('../sibling'))
+      .then(() => generateUtils.inRepoAddon('../sibling'))
+      // generate in project blueprint to allow easier testing of in-repo generation
+      .then(() => generateUtils.tempBlueprint())
+      // confirm that we can generate into the non-lib path
+      .then(() =>
+        ember(['generate', 'foo', 'bar', '--in=../sibling']).then(function() {
+          expect(file('../sibling/addon/foos/bar.js')).to.exist;
+        })
+      );
+  });
 });
