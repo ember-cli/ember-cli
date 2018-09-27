@@ -39,6 +39,15 @@ describe('Acceptance: ember generate with --in option', function() {
     return remove(tmproot);
   });
 
+  function removeAddonPath() {
+    let packageJsonPath = path.join(process.cwd(), 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+
+    delete packageJson['ember-addon'].paths;
+
+    return fs.writeJsonSync(packageJsonPath, packageJson);
+  }
+
   it('generate blueprint foo using lib', function() {
     // build an app with an in-repo addon in a non-standard path
     return initApp()
@@ -95,11 +104,13 @@ describe('Acceptance: ember generate with --in option', function() {
       );
   });
 
-  it('generate blueprint foo using sibling path', function() {
+  it.only('generate blueprint foo using sibling path', function() {
     // build an app with an in-repo addon in a non-standard path
     return initApp()
       .then(() => fs.mkdirp('../sibling'))
       .then(() => generateUtils.inRepoAddon('../sibling'))
+      // we want to ensure the project has no awareness of the in-repo addon via `ember-addon.paths`, so we remove it
+      .then(removeAddonPath)
       // generate in project blueprint to allow easier testing of in-repo generation
       .then(() => generateUtils.tempBlueprint())
       // confirm that we can generate into the non-lib path
