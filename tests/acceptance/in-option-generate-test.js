@@ -104,7 +104,7 @@ describe('Acceptance: ember generate with --in option', function() {
       );
   });
 
-  it.only('generate blueprint foo using sibling path', function() {
+  it('generate blueprint foo using sibling path', function() {
     // build an app with an in-repo addon in a non-standard path
     return initApp()
       .then(() => fs.mkdirp('../sibling'))
