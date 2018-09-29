@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@ember/jquery": "^0.5.2",
-    "@ember/optional-features": "^0.6.3",
+    "@ember/optional-features": "^0.7.0",
     "broccoli-asset-rev": "^2.7.0",
     "ember-ajax": "^4.0.1",
     "ember-cli": "github:ember-cli/ember-cli",

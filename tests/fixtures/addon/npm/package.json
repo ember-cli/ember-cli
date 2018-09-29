@@ -24,7 +24,7 @@
     "ember-cli-babel": "^7.1.2"
   },
   "devDependencies": {
-    "@ember/optional-features": "^0.6.3",
+    "@ember/optional-features": "^0.7.0",
     "broccoli-asset-rev": "^2.7.0",
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-dependency-checker": "^3.1.0",
