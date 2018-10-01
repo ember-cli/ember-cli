@@ -25,10 +25,28 @@ describe('experiments', function() {
 
     beforeEach(function() {
       originalProcessEnv = Object.assign({}, process.env);
+
+      // reset all experiment flags for these tests, they will be restored in
+      // afterEach
+      delete process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS;
+      delete process.env.EMBER_CLI_MODULE_UNIFICATION;
+      delete process.env.EMBER_CLI_PACKAGER;
+      delete process.env.EMBER_CLI_DELAYED_TRANSPILATION;
+      delete process.env.EMBER_CLI_BROCCOLI_2;
+      delete process.env.EMBER_CLI_SYSTEM_TEMP;
     });
 
     afterEach(function() {
       resetProcessEnv(originalProcessEnv);
+    });
+
+    it('should return true for all experiments when `EMBER_CLI_ENABLE_ALL_EXPERIMENTS` is set', function() {
+      process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS = true;
+
+      expect(isExperimentEnabled('BROCCOLI_2')).to.be.true;
+      expect(isExperimentEnabled('PACKAGER')).to.be.true;
+      expect(isExperimentEnabled('SYSTEM_TEMP')).to.be.true;
+      expect(isExperimentEnabled('DELAYED_TRANSPILATION')).to.be.true;
     });
 
     it('should have BROCCOLI_2 enabled by default', function() {
