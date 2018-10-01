@@ -3,6 +3,22 @@
 const expect = require('chai').expect;
 const { isExperimentEnabled } = require('../../lib/experiments');
 
+function resetProcessEnv(originalProcessEnv) {
+  for (let key in process.env) {
+    if (key in originalProcessEnv) {
+      process.env[key] = originalProcessEnv[key];
+    } else {
+      delete process.env[key];
+    }
+  }
+
+  for (let key in originalProcessEnv) {
+    if (!(key in process.env)) {
+      process.env[key] = originalProcessEnv[key];
+    }
+  }
+}
+
 describe('experiments', function() {
   describe('isExperimentEnabled', function() {
     let originalProcessEnv;
@@ -12,7 +28,7 @@ describe('experiments', function() {
     });
 
     afterEach(function() {
-      process.env = originalProcessEnv;
+      resetProcessEnv(originalProcessEnv);
     });
 
     it('should have BROCCOLI_2 enabled by default', function() {
