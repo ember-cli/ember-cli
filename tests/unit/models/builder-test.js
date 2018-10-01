@@ -27,7 +27,7 @@ describe('models/builder.js', function() {
   let addon, builder, buildResults, tmpdir;
 
   function setupBroccoliBuilder() {
-    if (this.broccoli2) {
+    if (isExperimentEnabled('BROCCOLI_2')) {
       this.builder = {
         outputPath: 'build results',
         outputNodeWrapper: {
