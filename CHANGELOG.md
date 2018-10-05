@@ -1,5 +1,30 @@
 # ember-cli Changelog
 
+## v3.5.0-beta.2
+
+The following changes are required if you are upgrading from the previous
+version:
+
+- Users
+  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.0...v3.5.0-beta.2)
+  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
+- Addon Developers
+  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.0...v3.5.0-beta.2)
+  + No changes required
+- Core Contributors
+  + No changes required
+
+#### Community Contributions
+
+- [#7365](https://github.com/ember-cli/ember-cli/pull/7365) Migrate from ember-cli-qunit to ember-qunit. [@rwjblue](https://github.com/rwjblue)
+- [#8062](https://github.com/ember-cli/ember-cli/pull/8062) Add `yarn.lock` to `.npmignore` [@Turbo87](https://github.com/Turbo87)
+- [#8064](https://github.com/ember-cli/ember-cli/pull/8064) Update `qunit-dom` to v0.8.0 [@Turbo87](https://github.com/Turbo87)
+- [#8067](https://github.com/ember-cli/ember-cli/pull/8067) Less restrictive blueprints - change how addons are identified [@scalvert](https://github.com/scalvert)
+- [#8068](https://github.com/ember-cli/ember-cli/pull/8068) Enable BROCCOLI_2 and SYSTEM_TEMP experiments by default. [@rwjblue](https://github.com/rwjblue)
+- [#8069](https://github.com/ember-cli/ember-cli/pull/8069) Adding back feature to customization of serveURL [@SparshithNR](https://github.com/SparshithNR)
+- [#8071](https://github.com/ember-cli/ember-cli/pull/8071) Update sane to the latest version 🚀 [@ember-cli/greenkeeper](https://github.com/ember-cli/greenkeeper)
+
+Thank you to all who took the time to contribute!
 
 ## v3.5.0-beta.1
 
