@@ -534,7 +534,7 @@ describe('models/builder.js', function() {
         });
 
         expect(builder.broccoliBuilderFallback).to.be.true;
-        
+
         expect(project.ui.output).to.include('WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:');
         expect(project.ui.output).to.include('Object: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md');
       });
