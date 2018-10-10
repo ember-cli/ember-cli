@@ -13,7 +13,7 @@ the release gotchas and will hopefully result in a successful release.
 - Ensure that homu isn't presently processing any PRs.
 - Post a note in [#dev-ember-cli](https://discordapp.com/channels/480462759797063690/480501885837770763) letting us know you're doing a release.
 
-> I'm starting an Ember CLI release. Please hold off merging PRs, "homu r+"-ing, and pushing new code!
+> I'm starting an Ember CLI release. Please hold off merging PRs and pushing new code!
 
 ### Environment
 
@@ -23,7 +23,6 @@ Make sure that you're running the most recent stable `node` and bundled `npm`.
 node --version
 npm --version
 ```
-
 
 ## Branching
 
@@ -56,7 +55,6 @@ git checkout -B beta --track origin/beta
 # Merge the new stable release into the "beta" branch
 git merge vX.Y.0
 ```
-
 
 ### Stable bugfix release
 
@@ -116,7 +114,6 @@ git checkout -B master --track origin/master
 # Merge the new beta release into the "master" branch
 git merge vX.Y.0-beta.N
 ```
-
 
 ## Release
 
