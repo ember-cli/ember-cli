@@ -20,24 +20,22 @@ const forEach = require('ember-cli-lodash-subset').forEach;
 const assertVersionLock = require('../helpers/assert-version-lock');
 const { isExperimentEnabled } = require('../../lib/experiments');
 
+let ci = require('ci-info');
+
 let tmpDir = './tmp/new-test';
 
 describe('Acceptance: ember new', function() {
   this.timeout(10000);
-  let ORIGINAL_PROCESS_ENV_CI;
+  let originalIsCI;
 
   beforeEach(co.wrap(function *() {
     yield tmp.setup(tmpDir);
     process.chdir(tmpDir);
-    ORIGINAL_PROCESS_ENV_CI = process.env.CI;
+    originalIsCI = ci.isCI;
   }));
 
   afterEach(function() {
-    if (ORIGINAL_PROCESS_ENV_CI === undefined) {
-      delete process.env.CI;
-    } else {
-      process.env.CI = ORIGINAL_PROCESS_ENV_CI;
-    }
+    ci.isCI = originalIsCI;
     return tmp.teardown(tmpDir);
   });
 
@@ -138,7 +136,7 @@ describe('Acceptance: ember new', function() {
       '--skip-bower',
     ]);
 
-    process.env.CI = true;
+    ci.isCI = true;
     const defaultTargets = require('../../lib/utilities/default-targets').browsers;
     const blueprintTargets = require(path.resolve('config/targets.js')).browsers;
     expect(blueprintTargets).to.have.same.deep.members(defaultTargets);

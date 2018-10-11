@@ -1,3 +1,7 @@
+'use strict';
+
+const { isCI } = require('ci-info');
+
 module.exports = {
   test_page: 'tests/index.html?hidepassed',
   disable_watching: true,
@@ -12,7 +16,7 @@ module.exports = {
       mode: 'ci',
       args: [
         // --no-sandbox is needed when running Chrome inside a container
-        process.env.TRAVIS ? '--no-sandbox' : null,
+        isCI ? '--no-sandbox' : null,
 
         '--disable-gpu',
         '--headless',
