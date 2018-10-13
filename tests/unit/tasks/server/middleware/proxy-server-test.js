@@ -13,9 +13,13 @@ describe('proxy-server', function() {
   });
 
   it(`bypass livereload request`, function() {
-    expect(proxyServer.handleProxiedRequest({
-      url: '/livereload',
-    })).to.undefined;
+    let options = {
+      liveReloadPrefix: 'test/',
+    };
+    let req = {
+      url: 'test/livereload',
+    };
+    expect(proxyServer.handleProxiedRequest({ req, options })).to.undefined;
   });
 });
 
