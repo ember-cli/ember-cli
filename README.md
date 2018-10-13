@@ -2,6 +2,8 @@
 ember-cli
 ==============================================================================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ember-cli/ember-cli.svg)](https://greenkeeper.io/)
+
 [![Latest npm release][npm-badge]][npm-badge-url]
 [![TravisCI Build Status][travis-badge]][travis-badge-url]
 [![AppVeyor Build Status][appveyor-badge]][appveyor-badge-url]

@@ -1,0 +1,19 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "blueprints/app/files/package.json",
+        "blueprints/in-repo-addon/files/__root__/__name__/package.json",
+        "blueprints/module-unification-app/files/package.json",
+        "lib/tasks/server/middleware/broccoli-serve-files/package.json",
+        "lib/tasks/server/middleware/broccoli-watcher/package.json",
+        "lib/tasks/server/middleware/history-support/package.json",
+        "lib/tasks/server/middleware/proxy-server/package.json",
+        "lib/tasks/server/middleware/testem-url-rewriter/package.json",
+        "lib/tasks/server/middleware/tests-server/package.json",
+        "lib/tasks/transforms/amd/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
