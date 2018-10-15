@@ -87,6 +87,16 @@ describe('Acceptance: smoke-test', function() {
     expect(output).to.include('***CUSTOM_TESTEM_JS**');
   }));
 
+  it('eslint passes after running ember new', co.wrap(function *() {
+    let result = yield runCommand(path.join('.', 'node_modules', '.bin', 'eslint'), appRoot);
+
+    let exitCode = result.code;
+    let output = result.output.join(EOL);
+
+    expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
+    expect(output).to.match(/^$/, 'ESLint has no output');
+  }));
+
   // there is a bug in here when running the entire suite on Travis
   // when run in isolation, it passes
   // here is the error:
