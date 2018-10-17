@@ -12,6 +12,19 @@ module.exports = {
     let rawName = entity.name;
     let name = stringUtil.dasherize(rawName);
     let namespace = stringUtil.classify(rawName);
+    let files = this.files();
+    let filesToRemove = [
+      'src/ui/components/welcome-page/template.hbs',
+      'src/ui/components/welcome-page/component.js',
+    ];
+
+    if (!options.welcome) {
+      filesToRemove.forEach(fileName => {
+        let idx = files.indexOf(fileName);
+
+        files.splice(idx, 1);
+      });
+    }
 
     return {
       name,

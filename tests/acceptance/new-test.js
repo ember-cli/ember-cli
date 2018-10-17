@@ -82,9 +82,8 @@ describe('Acceptance: ember new', function() {
       let actualFiles = walkSync('.').sort().filter(e => e !== '.DS_Store');
       expect(actualFiles).to.deep.equal(expectedFiles);
     }));
-  } else {
-    // TODO: this should pass in both MU and classic
-    it('ember new adds ember-welcome-page by default', co.wrap(function *() {
+
+    it('EMBER_CLI_MODULE_UNIFICATION: ember new adds welcome-page component by default', co.wrap(function *() {
       yield ember([
         'new',
         'foo',
@@ -93,15 +92,14 @@ describe('Acceptance: ember new', function() {
         '--skip-git',
       ]);
 
-      expect(file('package.json'))
-        .to.match(/"ember-welcome-page"/);
+      expect(file('src/ui/components/welcome-page/component.js')).to.exist;
+      expect(file('src/ui/components/welcome-page/template.hbs')).to.exist;
 
-      expect(file('app/templates/application.hbs'))
+      expect(file('src/ui/routes/application/template.hbs'))
         .to.contain("{{welcome-page}}");
     }));
 
-    // TODO: this should pass in both MU and classic
-    it('ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
+    it('EMBER_CLI_MODULE_UNIFICATION: ember new --no-welcome skips creation of welcome-page component', co.wrap(function *() {
       yield ember([
         'new',
         'foo',
@@ -111,11 +109,44 @@ describe('Acceptance: ember new', function() {
         '--no-welcome',
       ]);
 
-      expect(file('package.json'))
-        .not.to.match(/"ember-welcome-page"/);
+      expect(file('src/ui/components/welcome-page/component.js')).to.not.exist;
+      expect(file('src/ui/components/welcome-page/template.hbs')).to.not.exist;
+
+      expect(file('src/ui/routes/application/template.hbs'))
+        .to.not.contain("{{welcome-page}}");
+    }));
+  } else {
+    it('ember new adds welcome-page component by default', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+      ]);
+
+      expect(file('app/components/welcome-page.js')).to.exist;
+      expect(file('app/templates/components/welcome-page.hbs')).to.exist;
 
       expect(file('app/templates/application.hbs'))
-        .to.contain("Welcome to Ember");
+        .to.contain("{{welcome-page}}");
+    }));
+
+    it('ember new --no-welcome skips creation of welcome-page component', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--no-welcome',
+      ]);
+
+      expect(file('app/components/welcome-page.js')).to.not.exist;
+      expect(file('app/templates/components/welcome-page.hbs')).to.not.exist;
+
+      expect(file('app/templates/application.hbs'))
+        .to.not.contain("{{welcome-page}}.");
     }));
   }
 
