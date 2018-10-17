@@ -7,10 +7,10 @@ const MockUI = require('console-ui/mock');
 // eslint-disable-next-line node/no-unpublished-require
 
 class MockProject extends Project {
-  constructor() {
-    let root = process.cwd();
-    let pkg = {};
-    let ui = new MockUI();
+  constructor(options = {}) {
+    let root = options.root || process.cwd();
+    let pkg = options.pkg || {};
+    let ui = options.ui || new MockUI();
     let instr = new Instrumentation({
       ui,
       initInstrumentation: {
@@ -18,7 +18,7 @@ class MockProject extends Project {
         node: null,
       },
     });
-    let cli = {
+    let cli = options.cli || {
       instrumentation: instr,
     };
 

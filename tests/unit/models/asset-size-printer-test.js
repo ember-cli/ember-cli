@@ -13,6 +13,11 @@ let tmpRoot = path.join(root, 'tmp');
 const Promise = RSVP.Promise;
 const remove = RSVP.denodeify(fs.remove);
 
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
+
+chai.use(chaiAsPromised);
+
 describe('models/asset-size-printer', function() {
   let storedTmpDir, assetDir, assetChildDir;
 
@@ -138,7 +143,6 @@ describe('models/asset-size-printer', function() {
       .then(function(assetObject) {
         assetObjectKeys = Object.keys(assetObject[0]);
 
-        expect(assetObject.length).to.eql(6);
         expect(assetObjectKeys).to.deep.equal(['name', 'size', 'gzipSize', 'showGzipped']);
         expect(assetObject[0].name).to.include('nested-asset.css');
         expect(assetObject[1].name).to.include('nested-asset.js');
@@ -156,19 +160,7 @@ describe('models/asset-size-printer', function() {
       outputPath,
     });
 
-    return sizePrinter.print()
-      .catch(function(error) {
-        expect(error.message).to.include(`No asset files found in the path provided: ${outputPath}`);
-      });
-  });
-
-  it('does not throw an error when no files are found', function() {
-    let outputPath = path.join('path', 'that', 'does', 'not', 'exist');
-    let sizePrinter = new AssetSizePrinter({
-      ui: new MockUi(),
-      outputPath,
-    });
-
-    expect(sizePrinter.print()).not.to.throw;
+    return expect(sizePrinter.print())
+      .to.be.rejectedWith(Error, `No asset files found in the path provided: ${outputPath}`);
   });
 });

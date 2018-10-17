@@ -1,4 +1,4 @@
-process.env._TESTEM_CONFIG_JS_RAN = true;
+console.log('***CUSTOM_TESTEM_JS**');
 
 module.exports = {
   "framework": "qunit",
