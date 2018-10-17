@@ -11,6 +11,7 @@ let root = process.cwd();
 const util = require('util');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
+const which = require('which');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -308,6 +309,13 @@ describe('Acceptance: ember new', function() {
   }));
 
   it('ember new uses yarn when blueprint has yarn.lock', co.wrap(function *() {
+    try {
+      which.sync('yarn');
+    } catch (error) {
+      console.log(error);
+      this.skip();
+    }
+
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
     fs.writeFileSync('my_blueprint/files/package.json', '{ "name": "foo", "dependencies": { "fs-extra": "*" }}');
