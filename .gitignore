@@ -6,6 +6,7 @@
 /tmp/
 /.deps-tmp/
 *.log
+
 *.tgz
 *.pem
 .DS_Store
