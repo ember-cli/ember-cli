@@ -59,6 +59,9 @@ module.exports = {
     // addons should test _without_ jquery by default
     delete contents.devDependencies['@ember/jquery'];
 
+    // ember-ajax depends on jquery, make it opt-in
+    delete contents.devDependencies['ember-ajax'];
+
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');
     }
