@@ -11,7 +11,7 @@ let root = process.cwd();
 const util = require('util');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
-const which = require('which');
+const hasGlobalYarn = require('../helpers/has-global-yarn');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -309,10 +309,7 @@ describe('Acceptance: ember new', function() {
   }));
 
   it('ember new uses yarn when blueprint has yarn.lock', co.wrap(function *() {
-    try {
-      which.sync('yarn');
-    } catch (error) {
-      console.log(error);
+    if (!hasGlobalYarn()) {
       this.skip();
     }
 
