@@ -2,15 +2,15 @@
 
 const path = require('path');
 const expect = require('chai').expect;
-const PackageInfoCache = require('../../../lib/models/package-info-cache');
-const PackageInfo = require('../../../lib/models/package-info-cache/package-info');
-const Project = require('../../../lib/models/project');
-const addonFixturePath = path.resolve(__dirname, '../../fixtures/addon');
+const PackageInfoCache = require('../../../../lib/models/package-info-cache');
+const PackageInfo = require('../../../../lib/models/package-info-cache/package-info');
+const Project = require('../../../../lib/models/project');
+const addonFixturePath = path.resolve(__dirname, '../../../fixtures/addon');
 const MockUI = require('console-ui/mock');
-const MockCLI = require('../../helpers/mock-cli');
-const FixturifyProject = require('../../helpers/fixturify-project');
+const MockCLI = require('../../../helpers/mock-cli');
+const FixturifyProject = require('../../../helpers/fixturify-project');
 
-describe('models/package-info-cache.js', function() {
+describe('models/package-info-cache/package-info-cache-test.js', function() {
   let project, projectPath, packageJsonPath, packageContents, projectPackageInfo, resolvedFile, ui, cli, pic;
   this.timeout(20000);
 
@@ -98,6 +98,10 @@ describe('models/package-info-cache.js', function() {
 
     it('shows projectPackageInfo is considered valid', function() {
       expect(projectPackageInfo.valid).to.be.true;
+    });
+
+    it('is a project, so it may have addons', function() {
+      expect(projectPackageInfo.mayHaveAddons).to.eql(true);
     });
 
     it('shows projectPackageInfo has cliInfo at ember-cli root dir', function() {
@@ -209,6 +213,15 @@ describe('models/package-info-cache.js', function() {
 
       after(function() {
         fixturifyProject.dispose();
+      });
+
+      it('has dependencies who have their mayHaveAddons correctly set', function() {
+        expect(projectPackageInfo.devDependencyPackages['non-ember-thingy']).to.have.property('mayHaveAddons', false);
+        expect(projectPackageInfo.devDependencyPackages['ember-cli']).to.have.property('mayHaveAddons', false);
+        expect(projectPackageInfo.dependencyPackages['loader.js']).to.have.property('mayHaveAddons', true);
+        expect(projectPackageInfo.dependencyPackages['ember-resolver']).to.have.property('mayHaveAddons', true);
+        expect(projectPackageInfo.dependencyPackages['ember-random-addon']).to.have.property('mayHaveAddons', true);
+        expect(projectPackageInfo.dependencyPackages['something-else']).to.have.property('mayHaveAddons', true);
       });
 
       it('validates projectPackageInfo', function() {
