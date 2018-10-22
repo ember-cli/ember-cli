@@ -2,8 +2,4 @@
 
 const which = require('which');
 
-function hasGlobalYarn() {
-  return which.sync('yarn', { nothrow: true });
-}
-
-module.exports = hasGlobalYarn;
+module.exports = which.sync('yarn', { nothrow: true });

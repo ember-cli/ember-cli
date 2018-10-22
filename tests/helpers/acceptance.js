@@ -84,7 +84,7 @@ function linkDependencies(projectName) {
   let nodeManifest = fs.readFileSync(path.join(runFixture, 'package.json'));
 
   let packageCache = new PackageCache(root);
-  let packager = hasGlobalYarn() ? 'yarn' : 'npm';
+  let packager = hasGlobalYarn ? 'yarn' : 'npm';
 
   packageCache.create('node', packager, nodeManifest, [{ name: 'ember-cli', path: root }]);
 

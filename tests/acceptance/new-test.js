@@ -309,7 +309,7 @@ describe('Acceptance: ember new', function() {
   }));
 
   it('ember new uses yarn when blueprint has yarn.lock', co.wrap(function *() {
-    if (!hasGlobalYarn()) {
+    if (!hasGlobalYarn) {
       this.skip();
     }
 
