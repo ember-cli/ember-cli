@@ -406,4 +406,21 @@ describe('Acceptance: brocfile-smoke-test', function() {
         .to.equal('body { background: green; }\n');
     }));
   }
+
+  it('additional trees can be passed to the app', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/additional-trees');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', { verbose: true });
+
+    let files = [
+      '/assets/custom-output-file.js',
+      '/assets/custom-output-file.css',
+      '/assets/vendor.css',
+      '/assets/vendor.js',
+    ];
+
+    let basePath = path.join(appRoot, 'dist');
+    files.forEach(function(f) {
+      expect(file(path.join(basePath, f))).to.exist;
+    });
+  }));
 });
