@@ -48,6 +48,17 @@ module.exports = {
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
         // add your custom rules and overrides for node files here
       })<% } %>
-    }
+    }<% if (blueprint !== 'app') { %>,
+
+    // dummy node files
+    {
+      files: [
+        'ember-cli-build.js',
+        'tests/dummy/config/**/*.js'
+      ],
+      rules: {
+        'node/no-unpublished-require': 'off'
+      }
+    }<% } %>
   ]
 };
