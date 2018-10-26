@@ -4,21 +4,19 @@
 [Short description of the addon.]
 
 Installation
-------------------------------------------------------------------------------
+------------
 
-```
+```sh
 ember install <%= addonName %>
 ```
 
-
 Usage
-------------------------------------------------------------------------------
+-----
 
 [Longer description of how to use the addon in apps.]
 
-
 Contributing
-------------------------------------------------------------------------------
+------------
 
 ### Installation
 
@@ -46,6 +44,6 @@ Contributing
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
 License
-------------------------------------------------------------------------------
+-------
 
 This project is licensed under the [MIT License](LICENSE.md).
