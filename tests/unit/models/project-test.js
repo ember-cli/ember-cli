@@ -557,24 +557,105 @@ describe('models/project.js', function() {
 
   if (isExperimentEnabled('MODULE_UNIFICATION')) {
     describe('isModuleUnification', function() {
+      describe('is app/addon', function() {
+        beforeEach(function() {
+          projectPath = `${process.cwd()}/tmp/test-app`;
+
+          makeProject();
+        });
+
+        it('returns false when `./src` does not exist', function() {
+          expect(project.isModuleUnification()).to.equal(false);
+        });
+
+        it('returns true when `./src` exists', function() {
+          let srcPath = path.join(projectPath, 'src');
+          fs.ensureDirSync(srcPath);
+
+          expect(project.isModuleUnification()).to.equal(true);
+        });
+      });
+
+      describe('is dummy app', function() {
+        let dummyPath;
+
+        beforeEach(function() {
+          dummyPath = `${process.cwd()}/tmp/test-app/tests/dummy`;
+        });
+
+        describe('is a module unification dummy app', function() {
+          beforeEach(function() {
+            projectPath = `${dummyPath}/mu-app`;
+
+            makeProject();
+            let srcPath = path.join(projectPath, 'src');
+            fs.ensureDirSync(srcPath);
+          });
+
+          it('is a Module Unification app', function() {
+            expect(project.isModuleUnification()).to.equal(true);
+          });
+        });
+
+        describe('is a classic dummy app', function() {
+          beforeEach(function() {
+            projectPath = `${dummyPath}/classic-app`;
+
+            makeProject();
+          });
+
+          it('is not a Module Unification app', function() {
+            expect(project.isModuleUnification()).to.equal(false);
+          });
+        });
+      });
+    });
+  }
+
+  describe('isDummyApp', function() {
+    let appPath, dummyPath;
+
+    beforeEach(function() {
+      appPath = `${process.cwd()}/tmp/test-app`;
+      dummyPath = `${appPath}/tests/dummy`;
+    });
+
+    describe('a real app', function() {
       beforeEach(function() {
-        projectPath = `${process.cwd()}/tmp/test-app`;
+        projectPath = `${appPath}`;
 
         makeProject();
       });
 
-      it('returns false when `./src` does not exist', function() {
-        expect(project.isModuleUnification()).to.equal(false);
-      });
-
-      it('returns true when `./src` exists', function() {
-        let srcPath = path.join(projectPath, 'src');
-        fs.ensureDirSync(srcPath);
-
-        expect(project.isModuleUnification()).to.equal(true);
+      it('is not a dummy app', function() {
+        expect(project.isDummyApp()).to.equal(true);
       });
     });
-  }
+
+    describe('a dummy app', function() {
+      beforeEach(function() {
+        projectPath = `${dummyPath}`;
+
+        makeProject();
+      });
+
+      it('is a dummy app', function() {
+        expect(project.isDummyApp()).to.equal(true);
+      });
+    });
+
+    describe('a nested dummy app', function() {
+      beforeEach(function() {
+        projectPath = `${dummyPath}/dummy-app-scenario-one`;
+
+        makeProject();
+      });
+
+      it('is a dummy app', function() {
+        expect(project.isDummyApp()).to.equal(true);
+      });
+    });
+  });
 
   describe('findAddonByName', function() {
     beforeEach(function() {
