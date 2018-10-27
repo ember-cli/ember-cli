@@ -628,7 +628,7 @@ describe('models/project.js', function() {
       });
 
       it('is not a dummy app', function() {
-        expect(project.isDummyApp()).to.equal(true);
+        expect(project.isDummyApp()).to.equal(false);
       });
     });
 
