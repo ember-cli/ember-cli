@@ -10,11 +10,14 @@ node_js:
 
 branches:
   only:
+    - auto
     - master
     - beta
     - release
-    - auto
-    - /^greenkeeper.*$/
+    # release branches
+    - /^(?:release|lts)-\d+-\d+$/
+    # npm version tags
+    - /^v\d+\.\d+\.\d+/
 
 cache:
   yarn: true
