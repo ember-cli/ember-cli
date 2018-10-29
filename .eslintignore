@@ -11,3 +11,4 @@
 /lib/broccoli/vendor-*.js
 
 !.*
+/node_modules/
