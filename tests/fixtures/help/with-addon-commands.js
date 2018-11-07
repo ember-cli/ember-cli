@@ -779,6 +779,24 @@ module.exports = {
           required: false
         },
         {
+          name: 'ssl',
+          default: false,
+          key: 'ssl',
+          required: false
+        },
+        {
+          name: 'ssl-key',
+          default: 'ssl/server.key',
+          key: 'sslKey',
+          required: false
+        },
+        {
+          name: 'ssl-cert',
+          default: 'ssl/server.crt',
+          key: 'sslCert',
+          required: false
+        },
+        {
           name: 'testem-debug',
           description: 'File to write a debug log from testem',
           key: 'testemDebug',
