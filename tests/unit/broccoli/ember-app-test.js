@@ -8,6 +8,7 @@ const Project = require('../../../lib/models/project');
 const expect = require('chai').expect;
 const td = require('testdouble');
 const broccoliTestHelper = require('broccoli-test-helper');
+const { WatchedDir, UnwatchedDir } = require('broccoli-source');
 
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
@@ -1455,6 +1456,31 @@ describe('EmberApp', function() {
     expect(() => {
       app.import('vendor/b/c/foo.js', { type: 'javascript' });
     }).to.throw(/You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/);
+  });
+
+  describe('_initOptions', function() {
+    it('sets the tests directory as watched when tests are enabled', function() {
+      let app = new EmberApp({
+        project,
+      });
+
+      app._initOptions({
+        tests: true,
+      });
+
+      expect(app.options.trees.tests).to.be.an.instanceOf(WatchedDir);
+    });
+    it('sets the tests directory as unwatched when tests are disabled', function() {
+      let app = new EmberApp({
+        project,
+      });
+
+      app._initOptions({
+        tests: false,
+      });
+
+      expect(app.options.trees.tests).to.be.an.instanceOf(UnwatchedDir);
+    });
   });
 
   describe('_resolveLocal', function() {
