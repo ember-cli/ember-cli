@@ -8,17 +8,7 @@ module.exports = {
   normalizeEntityName(name) { return name; },
 
   beforeInstall() {
-    // make sure to create `packages` directory even if .jshintrc is not created
+    // make sure to create `packages` directory
     fs.mkdirsSync('packages');
-  },
-
-  files() {
-    return [this.hasJSHint() ? 'packages/.jshintrc' : 'packages/.eslintrc.js'];
-  },
-
-  hasJSHint() {
-    if (this.project) {
-      return 'ember-cli-jshint' in this.project.dependencies();
-    }
   },
 };
