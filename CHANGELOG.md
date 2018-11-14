@@ -1,5 +1,22 @@
 # ember-cli Changelog
 
+## v3.5.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.5.0...v3.5.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.5.0...v3.5.1)
+
+#### Community Contributions
+
+- [#8127](https://github.com/ember-cli/ember-cli/pull/8127) Fix eslint errors in new app [@Gaurav0](https://github.com/Gaurav0)
+- [#8130](https://github.com/ember-cli/ember-cli/pull/8130) Use regex to parse /livereload urls [@rwjblue](https://github.com/rwjblue)
+- [#8141](https://github.com/ember-cli/ember-cli/pull/8141) Use `debug` for `package-info-cache` messages [@stefanpenner](https://github.com/stefanpenner)
+- [#8150](https://github.com/ember-cli/ember-cli/pull/8150) Fix `toTree()` with custom paths [@wagenet](https://github.com/wagenet)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.5.0
 
 The following changes are required if you are upgrading from the previous
