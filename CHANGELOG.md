@@ -1,5 +1,41 @@
 # ember-cli Changelog
 
+## v3.6.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.5.1...v3.6.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.5.1...v3.6.0-beta.1)
+
+#### Community Contributions
+
+- [#7974](https://github.com/ember-cli/ember-cli/pull/7974) Prevent double builds in CI for branches pushed by owner. [@rwjblue](https://github.com/rwjblue)
+- [#8027](https://github.com/ember-cli/ember-cli/pull/8027) Add upgrade instructions to RELEASE.md [@CodingItWrong](https://github.com/CodingItWrong)
+- [#8032](https://github.com/ember-cli/ember-cli/pull/8032) Update minimum broccoli-viz version [@gandalfar](https://github.com/gandalfar)
+- [#8096](https://github.com/ember-cli/ember-cli/pull/8096) Use regex to parse /livereload urls [@SparshithNR](https://github.com/SparshithNR)
+- [#8107](https://github.com/ember-cli/ember-cli/pull/8107) Fix ESLint errors in master branch [@Gaurav0](https://github.com/Gaurav0)
+- [#8143](https://github.com/ember-cli/ember-cli/pull/8143) adding fix to use NULL nodeModuleList to optimize when dealing with non-addons [@dcombslinkedin](https://github.com/dcombslinkedin)
+
+Thank you to all who took the time to contribute!
+
+
+## v3.5.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.5.0...v3.5.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.5.0...v3.5.1)
+
+#### Community Contributions
+
+- [#8127](https://github.com/ember-cli/ember-cli/pull/8127) Fix eslint errors in new app [@Gaurav0](https://github.com/Gaurav0)
+- [#8130](https://github.com/ember-cli/ember-cli/pull/8130) Use regex to parse /livereload urls [@rwjblue](https://github.com/rwjblue)
+- [#8141](https://github.com/ember-cli/ember-cli/pull/8141) Use `debug` for `package-info-cache` messages [@stefanpenner](https://github.com/stefanpenner)
+- [#8150](https://github.com/ember-cli/ember-cli/pull/8150) Fix `toTree()` with custom paths [@wagenet](https://github.com/wagenet)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.5.0
 
 The following changes are required if you are upgrading from the previous
