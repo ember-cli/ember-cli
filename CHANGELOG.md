@@ -1,5 +1,24 @@
 # ember-cli Changelog
 
+## v3.6.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.5.1...v3.6.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.5.1...v3.6.0-beta.1)
+
+#### Community Contributions
+
+- [#7974](https://github.com/ember-cli/ember-cli/pull/7974) Prevent double builds in CI for branches pushed by owner. [@rwjblue](https://github.com/rwjblue)
+- [#8027](https://github.com/ember-cli/ember-cli/pull/8027) Add upgrade instructions to RELEASE.md [@CodingItWrong](https://github.com/CodingItWrong)
+- [#8032](https://github.com/ember-cli/ember-cli/pull/8032) Update minimum broccoli-viz version [@gandalfar](https://github.com/gandalfar)
+- [#8096](https://github.com/ember-cli/ember-cli/pull/8096) Use regex to parse /livereload urls [@SparshithNR](https://github.com/SparshithNR)
+- [#8107](https://github.com/ember-cli/ember-cli/pull/8107) Fix ESLint errors in master branch [@Gaurav0](https://github.com/Gaurav0)
+- [#8143](https://github.com/ember-cli/ember-cli/pull/8143) adding fix to use NULL nodeModuleList to optimize when dealing with non-addons [@dcombslinkedin](https://github.com/dcombslinkedin)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.5.1
 
 #### Blueprint Changes
