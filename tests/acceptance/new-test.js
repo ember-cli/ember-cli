@@ -83,8 +83,40 @@ describe('Acceptance: ember new', function() {
       let actualFiles = walkSync('.').sort().filter(e => e !== '.DS_Store');
       expect(actualFiles).to.deep.equal(expectedFiles);
     }));
+
+    it('EMBER_CLI_MODULE_UNIFICATION: ember new adds ember-welcome-page by default', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+      ]);
+
+      expect(file('package.json'))
+        .to.match(/"ember-welcome-page"/);
+
+      expect(file('src/ui/routes/application/template.hbs'))
+        .to.contain("{{welcome-page}}");
+    }));
+
+    it('EMBER_CLI_MODULE_UNIFICATION: ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--no-welcome',
+      ]);
+
+      expect(file('package.json'))
+        .not.to.match(/"ember-welcome-page"/);
+
+      expect(file('src/ui/routes/application/template.hbs'))
+        .to.contain("Welcome to Ember");
+    }));
   } else {
-    // TODO: this should pass in both MU and classic
     it('ember new adds ember-welcome-page by default', co.wrap(function *() {
       yield ember([
         'new',
@@ -101,7 +133,6 @@ describe('Acceptance: ember new', function() {
         .to.contain("{{welcome-page}}");
     }));
 
-    // TODO: this should pass in both MU and classic
     it('ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
       yield ember([
         'new',
