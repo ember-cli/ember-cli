@@ -126,6 +126,22 @@ describe('Acceptance: ember new', function() {
       .to.contain("Welcome to Ember");
   }));
 
+  it('ember new module-unification-app', co.wrap(function *() {
+    yield ember([
+      'new',
+      'foo',
+      '--blueprint',
+      'module-unification-app',
+      '--skip-npm',
+      '--skip-bower',
+    ]);
+    confirmBlueprintedForDir('blueprints/module-unification-app');
+
+    expect(dir('tests/unit')).to.not.exist;
+    expect(dir('tests/integration')).to.not.exist;
+    expect(dir('tests/acceptance')).to.exist;
+  }));
+
   it('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
     yield ember([
       'new',
