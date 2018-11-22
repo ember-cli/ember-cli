@@ -412,6 +412,11 @@ describe('Acceptance: ember new', function() {
   }));
 
   describe('verify fixtures', function() {
+    function checkEslintConfig(fixturePath) {
+      expect(file('.eslintrc.js'))
+        .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
+    }
+
     function checkPackageJson(fixtureName) {
       let currentVersion = require('../../package').version;
       let fixturePath = path.join(__dirname, '../fixtures', fixtureName, 'package.json');
@@ -439,13 +444,15 @@ describe('Acceptance: ember new', function() {
         'src/ui/routes/application/template.hbs',
         '.travis.yml',
         'README.md',
-        '.eslintrc.js',
       ].forEach(filePath => {
         expect(file(filePath))
           .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
       checkPackageJson(fixturePath);
+
+      // option independent, but piggy-backing on an existing generate for speed
+      checkEslintConfig('module-unification-app');
     }));
 
     it('module-unification-app + yarn + welcome', co.wrap(function *() {
@@ -465,7 +472,6 @@ describe('Acceptance: ember new', function() {
         'src/ui/routes/application/template.hbs',
         '.travis.yml',
         'README.md',
-        '.eslintrc.js',
       ].forEach(filePath => {
         expect(file(filePath))
           .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
@@ -490,13 +496,15 @@ describe('Acceptance: ember new', function() {
           'app/templates/application.hbs',
           '.travis.yml',
           'README.md',
-          '.eslintrc.js',
         ].forEach(filePath => {
           expect(file(filePath))
             .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
         });
 
         checkPackageJson(fixturePath);
+
+        // option independent, but piggy-backing on an existing generate for speed
+        checkEslintConfig('app');
       }));
 
       it('app + yarn + welcome', co.wrap(function *() {
@@ -514,7 +522,6 @@ describe('Acceptance: ember new', function() {
           'app/templates/application.hbs',
           '.travis.yml',
           'README.md',
-          '.eslintrc.js',
         ].forEach(filePath => {
           expect(file(filePath))
             .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
@@ -538,13 +545,15 @@ describe('Acceptance: ember new', function() {
           'tests/dummy/app/templates/application.hbs',
           '.travis.yml',
           'README.md',
-          '.eslintrc.js',
         ].forEach(filePath => {
           expect(file(filePath))
             .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
         });
 
         checkPackageJson(fixturePath);
+
+        // option independent, but piggy-backing on an existing generate for speed
+        checkEslintConfig('addon');
       }));
 
       it('addon + yarn + welcome', co.wrap(function *() {
@@ -564,7 +573,6 @@ describe('Acceptance: ember new', function() {
           'tests/dummy/app/templates/application.hbs',
           '.travis.yml',
           'README.md',
-          '.eslintrc.js',
         ].forEach(filePath => {
           expect(file(filePath))
             .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
