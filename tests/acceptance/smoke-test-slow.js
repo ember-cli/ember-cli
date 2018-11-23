@@ -302,7 +302,7 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  it('ember new foo, server, SIGINT clears tmp/', co.wrap(function *() {
+  it.skip('ember new foo, server, SIGINT clears tmp/', co.wrap(function *() {
     let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323', '--live-reload=false', {
       onOutput(string, child) {
         if (string.match(/Build successful/)) {
