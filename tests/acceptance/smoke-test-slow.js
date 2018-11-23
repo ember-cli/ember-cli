@@ -235,7 +235,7 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  (experiments.MODULE_UNIFICATION ? it.skip : it)('ember new foo, build --watch development, and verify rebuilt after change', co.wrap(function *() {
+  it.skip('ember new foo, build --watch development, and verify rebuilt after change', co.wrap(function *() {
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
     let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
@@ -262,7 +262,7 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  (experiments.MODULE_UNIFICATION ? it.skip : it)('ember new foo, build --watch development, and verify rebuilt after multiple changes', co.wrap(function *() {
+  it.skip('ember new foo, build --watch development, and verify rebuilt after multiple changes', co.wrap(function *() {
     let buildCount = 0;
     let touched = false;
     let appJsPath = path.join(appRoot, 'app', 'app.js');
