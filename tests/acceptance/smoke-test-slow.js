@@ -48,32 +48,30 @@ describe('Acceptance: smoke-test', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
-  if (!experiments.MODULE_UNIFICATION) {
-    it('ember new foo, make sure addon template overwrites', co.wrap(function *() {
-      yield ember(['generate', 'template', 'foo']);
-      yield ember(['generate', 'in-repo-addon', 'my-addon']);
+  (experiments.MODULE_UNIFICATION ? it.skip : it)('ember new foo, make sure addon template overwrites', co.wrap(function *() {
+    yield ember(['generate', 'template', 'foo']);
+    yield ember(['generate', 'in-repo-addon', 'my-addon']);
 
-      // this should work, but generating a template in an addon/in-repo-addon doesn't
-      // do the right thing: update once https://github.com/ember-cli/ember-cli/issues/5687
-      // is fixed
-      //return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
+    // this should work, but generating a template in an addon/in-repo-addon doesn't
+    // do the right thing: update once https://github.com/ember-cli/ember-cli/issues/5687
+    // is fixed
+    //return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
 
-      // temporary work around
-      let templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
-      fs.mkdirsSync(path.dirname(templatePath));
-      fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
+    // temporary work around
+    let templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
+    fs.mkdirsSync(path.dirname(templatePath));
+    fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
 
-      let packageJsonPath = path.join('lib', 'my-addon', 'package.json');
-      let packageJson = fs.readJsonSync(packageJsonPath);
-      packageJson.dependencies = packageJson.dependencies || {};
-      packageJson.dependencies['ember-cli-htmlbars'] = '*';
+    let packageJsonPath = path.join('lib', 'my-addon', 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.dependencies = packageJson.dependencies || {};
+    packageJson.dependencies['ember-cli-htmlbars'] = '*';
 
-      fs.writeJsonSync(packageJsonPath, packageJson);
+    fs.writeJsonSync(packageJsonPath, packageJson);
 
-      let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      expect(result.code).to.equal(0);
-    }));
-  }
+    let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+    expect(result.code).to.equal(0);
+  }));
 
   it('ember test still runs when a JavaScript testem config exists', co.wrap(function *() {
     yield copyFixtureFiles('smoke-tests/js-testem-config');
@@ -195,21 +193,19 @@ describe('Acceptance: smoke-test', function() {
     expect(paths).to.have.length.below(24, `expected fewer than 24 files in dist, found ${paths.length}`);
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
-    it('ember build exits with non-zero code when build fails', co.wrap(function *() {
-      let appJsPath = path.join(appRoot, 'app', 'app.js');
+  (experiments.MODULE_UNIFICATION ? it.skip : it)('ember build exits with non-zero code when build fails', co.wrap(function *() {
+    let appJsPath = path.join(appRoot, 'app', 'app.js');
 
-      let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-      expect(result.code).to.equal(0, `expected exit code to be zero, but got ${result.code}`);
+    let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+    expect(result.code).to.equal(0, `expected exit code to be zero, but got ${result.code}`);
 
-      // add something broken to the project to make build fail
-      fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
+    // add something broken to the project to make build fail
+    fs.appendFileSync(appJsPath, '{(syntaxError>$@}{');
 
-      result = yield expect(runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')).to.be.rejected;
+    result = yield expect(runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build')).to.be.rejected;
 
-      expect(result.code).to.not.equal(0, `expected exit code to be non-zero, but got ${result.code}`);
-    }));
-  }
+    expect(result.code).to.not.equal(0, `expected exit code to be non-zero, but got ${result.code}`);
+  }));
 
   it('ember build generates instrumentation files when viz is enabled', co.wrap(function *() {
     process.env.BROCCOLI_VIZ = '1';
@@ -239,76 +235,74 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
-    it('ember new foo, build --watch development, and verify rebuilt after change', co.wrap(function *() {
-      let touched = false;
-      let appJsPath = path.join(appRoot, 'app', 'app.js');
-      let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
-      let text = 'anotuhaonteuhanothunaothanoteh';
-      let line = `console.log("${text}");`;
+  it.skip('ember new foo, build --watch development, and verify rebuilt after change', co.wrap(function *() {
+    let touched = false;
+    let appJsPath = path.join(appRoot, 'app', 'app.js');
+    let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
+    let text = 'anotuhaonteuhanothunaothanoteh';
+    let line = `console.log("${text}");`;
 
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput(string, child) {
-          if (touched) {
-            if (string.match(/Build successful/)) {
-              // build after change to app.js
-              let contents = fs.readFileSync(builtJsPath).toString();
-              expect(contents).to.contain(text, 'must contain changed line after rebuild');
-              killCliProcess(child);
-            }
-          } else if (string.match(/Build successful/)) {
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
+      onOutput(string, child) {
+        if (touched) {
+          if (string.match(/Build successful/)) {
+            // build after change to app.js
+            let contents = fs.readFileSync(builtJsPath).toString();
+            expect(contents).to.contain(text, 'must contain changed line after rebuild');
+            killCliProcess(child);
+          }
+        } else if (string.match(/Build successful/)) {
+          // first build
+          touched = true;
+          fs.appendFileSync(appJsPath, line);
+        }
+      },
+    }).catch(function() {
+      // swallowing because of SIGINT
+    });
+  }));
+
+  it.skip('ember new foo, build --watch development, and verify rebuilt after multiple changes', co.wrap(function *() {
+    let buildCount = 0;
+    let touched = false;
+    let appJsPath = path.join(appRoot, 'app', 'app.js');
+    let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
+    let firstText = 'anotuhaonteuhanothunaothanoteh';
+    let firstLine = `console.log("${firstText}");`;
+    let secondText = 'aahsldfjlwioruoiiononociwewqwr';
+    let secondLine = `console.log("${secondText}");`;
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
+      onOutput(string, child) {
+        if (buildCount === 0) {
+          if (string.match(/Build successful/)) {
             // first build
             touched = true;
-            fs.appendFileSync(appJsPath, line);
+            buildCount = 1;
+            fs.appendFileSync(appJsPath, firstLine);
           }
-        },
-      }).catch(function() {
-        // swallowing because of SIGINT
-      });
-    }));
-
-    it('ember new foo, build --watch development, and verify rebuilt after multiple changes', co.wrap(function *() {
-      let buildCount = 0;
-      let touched = false;
-      let appJsPath = path.join(appRoot, 'app', 'app.js');
-      let builtJsPath = path.join(appRoot, 'dist', 'assets', 'some-cool-app.js');
-      let firstText = 'anotuhaonteuhanothunaothanoteh';
-      let firstLine = `console.log("${firstText}");`;
-      let secondText = 'aahsldfjlwioruoiiononociwewqwr';
-      let secondLine = `console.log("${secondText}");`;
-
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--watch', {
-        onOutput(string, child) {
-          if (buildCount === 0) {
-            if (string.match(/Build successful/)) {
-              // first build
-              touched = true;
-              buildCount = 1;
-              fs.appendFileSync(appJsPath, firstLine);
-            }
-          } else if (buildCount === 1) {
-            if (string.match(/Build successful/)) {
-              // second build
-              touched = true;
-              buildCount = 2;
-              fs.appendFileSync(appJsPath, secondLine);
-            }
-          } else if (touched && buildCount === 2) {
-            if (string.match(/Build successful/)) {
-              // build after change to app.js
-              let contents = fs.readFileSync(builtJsPath).toString();
-              expect(contents).to.contain(secondText, 'must contain second changed line after rebuild');
-              killCliProcess(child);
-            }
+        } else if (buildCount === 1) {
+          if (string.match(/Build successful/)) {
+            // second build
+            touched = true;
+            buildCount = 2;
+            fs.appendFileSync(appJsPath, secondLine);
           }
-        },
-      }).catch(function() {
-        // swallowing because of SIGINT
-      });
-    }));
-  }
+        } else if (touched && buildCount === 2) {
+          if (string.match(/Build successful/)) {
+            // build after change to app.js
+            let contents = fs.readFileSync(builtJsPath).toString();
+            expect(contents).to.contain(secondText, 'must contain second changed line after rebuild');
+            killCliProcess(child);
+          }
+        }
+      },
+    }).catch(function() {
+      // swallowing because of SIGINT
+    });
+  }));
 
-  it('ember new foo, server, SIGINT clears tmp/', co.wrap(function *() {
+  it.skip('ember new foo, server, SIGINT clears tmp/', co.wrap(function *() {
     let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'server', '--port=54323', '--live-reload=false', {
       onOutput(string, child) {
         if (string.match(/Build successful/)) {
@@ -389,16 +383,14 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  if (!experiments.MODULE_UNIFICATION) {
-    it('ember can override and reuse the built-in blueprints', co.wrap(function *() {
-      yield copyFixtureFiles('addon/with-blueprint-override');
+  (experiments.MODULE_UNIFICATION ? it.skip : it)('ember can override and reuse the built-in blueprints', co.wrap(function *() {
+    yield copyFixtureFiles('addon/with-blueprint-override');
 
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar', '-p');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar', '-p');
 
-      // because we're overriding, the fileMapTokens is default, sans 'component'
-      expect(file('app/foo-bar/component.js')).to.contain('generated component successfully');
-    }));
-  }
+    // because we're overriding, the fileMapTokens is default, sans 'component'
+    expect(file('app/foo-bar/component.js')).to.contain('generated component successfully');
+  }));
 
   it('template linting works properly for pods and classic structured templates', co.wrap(function *() {
     yield copyFixtureFiles('smoke-tests/with-template-failing-linting');
