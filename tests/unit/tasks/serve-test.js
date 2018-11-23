@@ -70,7 +70,7 @@ describe('serve task', function() {
     });
 
     it(`Serves ember app from given path`, function() {
-      runServeTask('assets');
+      runServeTask('docs');
       return RSVP.resolve().then(() => {
         expect(ui.output).to.be.contains('– Serving on');
       });
