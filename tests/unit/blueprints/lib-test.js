@@ -21,6 +21,7 @@ describe('Acceptance: ember generate and destroy lib', function() {
     return emberNew()
       .then(() => emberGenerateDestroy(args, file => {
         expect(dir('lib')).to.exist;
+        expect(file('lib/.eslintrc.js')).to.not.exist;
         expect(file('lib/.jshintrc')).to.not.exist;
       }));
   });
@@ -34,7 +35,7 @@ describe('Acceptance: ember generate and destroy lib', function() {
       ]))
       .then(() => emberGenerateDestroy(args, file => {
         expect(dir('lib')).to.exist;
-        expect(file('lib/.jshintrc')).to.exist;
+        expect(file('lib/.jshintrc')).to.not.exist;
       }));
   });
 });

@@ -21,6 +21,7 @@ describe('Acceptance: ember generate and destroy packages', function() {
     return emberNew()
       .then(() => emberGenerateDestroy(args, file => {
         expect(dir('packages')).to.exist;
+        expect(file('lib/.eslintrc.js')).to.not.exist;
         expect(file('packages/.jshintrc')).to.not.exist;
       }));
   });
@@ -34,7 +35,7 @@ describe('Acceptance: ember generate and destroy packages', function() {
       ]))
       .then(() => emberGenerateDestroy(args, file => {
         expect(dir('packages')).to.exist;
-        expect(file('packages/.jshintrc')).to.exist;
+        expect(file('packages/.jshintrc')).to.not.exist;
       }));
   });
 });
