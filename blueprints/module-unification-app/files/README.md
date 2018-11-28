@@ -31,8 +31,8 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Running Tests
 
-* `ember test`
-* `ember test --server`
+* `<% if (yarn) { %>yarn test<% } else { %>npm test<% } %>`
+* `<% if (yarn) { %>yarn test --server<% } else { %>npm test -- --server<% } %>`
 
 ### Linting
 
