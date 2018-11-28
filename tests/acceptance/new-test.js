@@ -83,73 +83,48 @@ describe('Acceptance: ember new', function() {
       let actualFiles = walkSync('.').sort().filter(e => e !== '.DS_Store');
       expect(actualFiles).to.deep.equal(expectedFiles);
     }));
-
-    it('EMBER_CLI_MODULE_UNIFICATION: ember new adds ember-welcome-page by default', co.wrap(function *() {
-      yield ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-bower',
-        '--skip-git',
-      ]);
-
-      expect(file('package.json'))
-        .to.match(/"ember-welcome-page"/);
-
-      expect(file('src/ui/routes/application/template.hbs'))
-        .to.contain("{{welcome-page}}");
-    }));
-
-    it('EMBER_CLI_MODULE_UNIFICATION: ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
-      yield ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-bower',
-        '--skip-git',
-        '--no-welcome',
-      ]);
-
-      expect(file('package.json'))
-        .not.to.match(/"ember-welcome-page"/);
-
-      expect(file('src/ui/routes/application/template.hbs'))
-        .to.contain("Welcome to Ember");
-    }));
-  } else {
-    it('ember new adds ember-welcome-page by default', co.wrap(function *() {
-      yield ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-bower',
-        '--skip-git',
-      ]);
-
-      expect(file('package.json'))
-        .to.match(/"ember-welcome-page"/);
-
-      expect(file('app/templates/application.hbs'))
-        .to.contain("{{welcome-page}}");
-    }));
-
-    it('ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
-      yield ember([
-        'new',
-        'foo',
-        '--skip-npm',
-        '--skip-bower',
-        '--skip-git',
-        '--no-welcome',
-      ]);
-
-      expect(file('package.json'))
-        .not.to.match(/"ember-welcome-page"/);
-
-      expect(file('app/templates/application.hbs'))
-        .to.contain("Welcome to Ember");
-    }));
   }
+
+  it('ember new adds ember-welcome-page by default', co.wrap(function *() {
+    yield ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+    ]);
+
+    expect(file('package.json'))
+      .to.match(/"ember-welcome-page"/);
+
+    const filePath = isExperimentEnabled("MODULE_UNIFICATION")
+      ? "src/ui/routes/application/template.hbs"
+      : "app/templates/application.hbs";
+
+    expect(file(filePath))
+      .to.contain("{{welcome-page}}");
+  }));
+
+  it('ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
+    yield ember([
+      'new',
+      'foo',
+      '--skip-npm',
+      '--skip-bower',
+      '--skip-git',
+      '--no-welcome',
+    ]);
+
+    expect(file('package.json'))
+      .not.to.match(/"ember-welcome-page"/);
+
+    const filePath = isExperimentEnabled("MODULE_UNIFICATION")
+      ? "src/ui/routes/application/template.hbs"
+      : "app/templates/application.hbs";
+
+    expect(file(filePath))
+      .to.contain("Welcome to Ember");
+  }));
 
   it('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
     yield ember([
