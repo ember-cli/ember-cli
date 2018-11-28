@@ -1083,9 +1083,9 @@ broccoli@^1.1.0:
     underscore.string "^3.2.2"
 
 broccoli@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.0.0.tgz#7b95d6173865184697e4dab9f477591057b9410e"
-  integrity sha512-gCS1/nXaJpATboLpNeTPOgdqSSEauJ6bUS4+fNKNsf/m7CIxOS9MclT7DNn3VI9DARiGZxFi6hZmIEF1mD04eA==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.0.1.tgz#3611d643bf4b2666b565dc24cc5307fc80f62bf6"
+  integrity sha512-ipHuKVjO8jPJE3DKFHLXlj8DcsbGH8OQ1DlHaAWfuQya1qe6lgEi1+kyeKWCccaJlEtEq40EQ50Eiq2M0hxOfQ==
   dependencies:
     broccoli-node-info "1.1.0"
     broccoli-slow-trees "^3.0.1"
