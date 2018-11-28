@@ -29,5 +29,5 @@ DEBUG/
 
 Ember CLI uses [`broccoli-debug`](https://github.com/broccolijs/broccoli-debug/) to generate debug output mentioned above.
 
-More tips can be found in our [PERF_GUIDE](https://github.com/ember-cli/ember-cli/blob/master/PERF_GUIDE.md)
-under [DEBUG logging section](https://github.com/ember-cli/ember-cli/blob/master/PERF_GUIDE.md#debug-logging).
+More tips can be found in our [PERF_GUIDE](./perf-guide.md)
+under [DEBUG logging section](./perf-guide.md#debug-logging).

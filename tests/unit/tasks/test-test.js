@@ -15,6 +15,8 @@ describe('test task test', function() {
       },
 
       invokeTestem(options) {
+        expect(options.ssl).to.equal(false);
+
         // cwd and config_dir are not passed to testem progOptions
         let testemOptions = this.transformOptions(options);
         expect(testemOptions.host).to.equal('greatwebsite.com');
@@ -24,6 +26,8 @@ describe('test task test', function() {
         expect(testemOptions.middleware).to.deep.equal(['middleware1', 'middleware2']);
         expect(testemOptions.test_page).to.equal('http://my/test/page');
         expect(testemOptions.config_dir).to.be.undefined;
+        expect(testemOptions.key).to.be.undefined;
+        expect(testemOptions.cert).to.be.undefined;
 
         // cwd and config_dir are present as part of default options.
         let defaultOptions = this.defaultOptions(options);
@@ -34,7 +38,6 @@ describe('test task test', function() {
         expect(defaultOptions.middleware).to.deep.equal(['middleware1', 'middleware2']);
         expect(defaultOptions.test_page).to.equal('http://my/test/page');
         expect(defaultOptions.config_dir).to.be.an('string');
-
       },
     });
 
@@ -46,6 +49,36 @@ describe('test task test', function() {
       testemDebug: 'testem.log',
       testPage: 'http://my/test/page',
       configFile: 'custom-testem-config.json',
+      ssl: false,
+      sslKey: 'ssl/server.key',
+      sslCert: 'ssl/server.cert',
+    });
+  });
+
+  it('supports conditionally passing SSL configuration forward', function() {
+    subject = new TestTask({
+      project: new MockProject(),
+
+      invokeTestem(options) {
+        expect(options.ssl).to.equal(true);
+
+        let testemOptions = this.transformOptions(options);
+        expect(testemOptions.key).to.equal('ssl/server.key');
+        expect(testemOptions.cert).to.equal('ssl/server.cert');
+      },
+    });
+
+    subject.run({
+      host: 'greatwebsite.com',
+      port: 123324,
+      reporter: 'xunit',
+      outputPath: 'blerpy-derpy',
+      testemDebug: 'testem.log',
+      testPage: 'http://my/test/page',
+      configFile: 'custom-testem-config.json',
+      ssl: true,
+      sslKey: 'ssl/server.key',
+      sslCert: 'ssl/server.cert',
     });
   });
 });

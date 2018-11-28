@@ -11,6 +11,7 @@ let root = process.cwd();
 const util = require('util');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
+const hasGlobalYarn = require('../helpers/has-global-yarn');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -308,6 +309,10 @@ describe('Acceptance: ember new', function() {
   }));
 
   it('ember new uses yarn when blueprint has yarn.lock', co.wrap(function *() {
+    if (!hasGlobalYarn) {
+      this.skip();
+    }
+
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/index.js', 'module.exports = {};');
     fs.writeFileSync('my_blueprint/files/package.json', '{ "name": "foo", "dependencies": { "fs-extra": "*" }}');
@@ -545,6 +550,7 @@ describe('Acceptance: ember new', function() {
           'tests/dummy/app/templates/application.hbs',
           '.travis.yml',
           'README.md',
+          'CONTRIBUTING.md',
         ].forEach(filePath => {
           expect(file(filePath))
             .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
@@ -573,6 +579,7 @@ describe('Acceptance: ember new', function() {
           'tests/dummy/app/templates/application.hbs',
           '.travis.yml',
           'README.md',
+          'CONTRIBUTING.md',
         ].forEach(filePath => {
           expect(file(filePath))
             .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));

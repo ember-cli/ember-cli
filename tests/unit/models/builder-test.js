@@ -64,10 +64,9 @@ describe('models/builder.js', function() {
   }
 
   before(function() {
-    td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
-    });
+    let willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+    td.replace(willInterruptProcess, 'addHandler', td.function());
+    td.replace(willInterruptProcess, 'removeHandler', td.function());
 
     Builder = require('../../../lib/models/builder');
   });

@@ -326,11 +326,17 @@ describe('Acceptance: smoke-test', function() {
       },
     });
 
-    let dirPath = path.join(appRoot, 'tmp');
-    let dir = fs.readdirSync(dirPath).filter(file => file !== '.metadata_never_index');
-
     expect(result.code, 'should be zero exit code').to.equal(0);
-    expect(dir.length, '/tmp should be empty').to.equal(0);
+
+    let dirPath = path.join(appRoot, 'tmp');
+
+    // before broccoli2, various addons used tmp/ in the project.
+    // With broccoli2 that should not exist, they should be using os.tmpdir().
+    // So we'll just check for "if tmp/ is there, are the contents correct?"
+    if (fs.existsSync(dirPath)) {
+      let dir = fs.readdirSync(dirPath).filter(file => file !== '.metadata_never_index');
+      expect(dir.length, `${dirPath} should be empty`).to.equal(0);
+    }
   }));
 
   it('ember new foo, test, SIGINT exits with error and clears tmp/', co.wrap(function *() {
@@ -343,11 +349,17 @@ describe('Acceptance: smoke-test', function() {
       },
     })).to.be.rejected;
 
-    let dirPath = path.join(appRoot, 'tmp');
-    let dir = fs.readdirSync(dirPath).filter(file => file !== '.metadata_never_index');
-
     expect(result.code, 'should be error exit code').to.not.equal(0);
-    expect(dir.length, '/tmp should be empty').to.equal(0);
+
+    let dirPath = path.join(appRoot, 'tmp');
+
+    // before broccoli2, various addons used tmp/ in the project.
+    // With broccoli2 that should not exist, they should be using os.tmpdir().
+    // So we'll just check for "if tmp/ is there, are the contents correct?"
+    if (fs.existsSync(dirPath)) {
+      let dir = fs.readdirSync(dirPath).filter(file => file !== '.metadata_never_index');
+      expect(dir.length, `${dirPath} should be empty`).to.equal(0);
+    }
   }));
 
   it('ember new foo, build production and verify css files are concatenated', co.wrap(function *() {

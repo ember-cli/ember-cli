@@ -21,12 +21,11 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.16.0"
+    "ember-cli-babel": "^7.1.2"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
     "broccoli-asset-rev": "^2.7.0",
-    "ember-ajax": "^3.1.0",
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-dependency-checker": "^3.0.0",
     "ember-cli-eslint": "^4.2.3",
