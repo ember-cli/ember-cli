@@ -30,8 +30,6 @@ cache:
 
 # Post-install test scripts.
 test_script:
-  # Output useful info for debugging.
-  - git rev-parse HEAD
   - cmd: yarn run test:all
 
 # Don't actually build.
