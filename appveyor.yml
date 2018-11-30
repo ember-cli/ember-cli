@@ -1,13 +1,17 @@
 # https://www.appveyor.com/docs/appveyor-yml/
 
+image: Visual Studio 2017
+
 # Test against these versions of Node.js.
 environment:
   MOCHA_REPORTER: "mocha-appveyor-reporter"
   matrix:
-    - fast_finish: true
     - nodejs_version: "6"
     - nodejs_version: "8"
     - nodejs_version: "10"
+
+matrix:
+  fast_finish: true
 
 branches:
   only:
@@ -28,9 +32,7 @@ cache:
 
 # Post-install test scripts.
 test_script:
-  # Output useful info for debugging.
-  - git rev-parse HEAD
-  - cmd: yarn run test:all
+  - cmd: yarn test:all
 
 # Don't actually build.
 build: off
