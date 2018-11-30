@@ -6234,18 +6234,18 @@ socket.io@^2.1.0:
     socket.io-client "2.1.1"
     socket.io-parser "~3.2.0"
 
-sort-object-keys@^1.1.1:
+sort-object-keys@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sort-object-keys/-/sort-object-keys-1.1.2.tgz#d3a6c48dc2ac97e6bc94367696e03f6d09d37952"
   integrity sha1-06bEjcKsl+a8lDZ2luA/bQnTeVI=
 
 sort-package-json@^1.15.0:
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.15.0.tgz#3c732cc8312eb4aa12f6eccab1bc3dea89b11dff"
-  integrity sha1-PHMsyDEutKoS9uzKsbw96omxHf8=
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.16.0.tgz#087f5ce05b6faca373312e7124918e0d68492d7b"
+  integrity sha512-QFJNxdpp7zZgSkmAIaMrteqqxGP4TkooKrGtslM2qYiML92PTYDOFOk+lG+TdvJzjheD502UFIys2qSvQljKaw==
   dependencies:
     detect-indent "^5.0.0"
-    sort-object-keys "^1.1.1"
+    sort-object-keys "^1.1.2"
 
 source-map-resolve@^0.5.0:
   version "0.5.2"
