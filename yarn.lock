@@ -5035,9 +5035,9 @@ node-int64@^0.4.0:
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
 node-modules-path@^1.0.0, node-modules-path@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/node-modules-path/-/node-modules-path-1.0.1.tgz#40096b08ce7ad0ea14680863af449c7c75a5d1c8"
-  integrity sha1-QAlrCM560OoUaAhjr0ScfHWl0cg=
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/node-modules-path/-/node-modules-path-1.0.2.tgz#e3acede9b7baf4bc336e3496b58e5b40d517056e"
+  integrity sha512-6Gbjq+d7uhkO7epaKi5DNgUJn7H0gEyA4Jg0Mo1uQOi3Rk50G83LtmhhFyw0LxnAFhtlspkiiw52ISP13qzcBg==
 
 node-notifier@^5.0.1:
   version "5.2.1"
