@@ -1,5 +1,7 @@
 # https://www.appveyor.com/docs/appveyor-yml/
 
+image: Visual Studio 2017
+
 # Test against these versions of Node.js.
 environment:
   MOCHA_REPORTER: "mocha-appveyor-reporter"
