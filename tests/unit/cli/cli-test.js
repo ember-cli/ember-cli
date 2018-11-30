@@ -66,10 +66,9 @@ function stubRun(name) {
 
 describe('Unit: CLI', function() {
   beforeEach(function() {
-    willInterruptProcess = td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
-    });
+    willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+    td.replace(willInterruptProcess, 'addHandler', td.function());
+    td.replace(willInterruptProcess, 'removeHandler', td.function());
 
     CLI = require('../../../lib/cli/cli');
     ui = new MockUI();

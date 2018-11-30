@@ -1,20 +1,20 @@
-sudo: false
-dist: trusty
-
-addons:
-  chrome: stable
-
 language: node_js
 node_js:
   - "10"
 
+addons:
+  chrome: stable
+
 branches:
   only:
+    - auto
     - master
     - beta
     - release
-    - auto
-    - /^greenkeeper.*$/
+    # release branches
+    - /^(?:release|lts)-\d+-\d+$/
+    # npm version tags
+    - /^v\d+\.\d+\.\d+/
 
 cache:
   yarn: true

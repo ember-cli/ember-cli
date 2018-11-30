@@ -214,7 +214,7 @@ DEBUG_DEPTH=5 DEBUG_LEVEL=debug DEBUG=broccoli-merge-trees: ember build
 `[... ConcatWithMaps#782 -> BroccoliMergeTrees#783]` means that the log entry
 occurred in broccoli merge-trees node with id 783, whose parent was a concat
 with maps node with id 782.  These ids are shown in the visualization graph.
-See [Visualization](#Visualization) for details.
+See [Visualization](#visualization) for details.
 
 ... more on what to look for ...
 

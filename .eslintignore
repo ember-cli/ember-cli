@@ -9,3 +9,6 @@
 /lib/broccoli/test-support-*.js
 /lib/broccoli/tests-*.js
 /lib/broccoli/vendor-*.js
+
+!.*
+/node_modules/

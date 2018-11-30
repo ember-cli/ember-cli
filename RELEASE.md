@@ -13,7 +13,7 @@ the release gotchas and will hopefully result in a successful release.
 - Ensure that homu isn't presently processing any PRs.
 - Post a note in [#dev-ember-cli](https://discordapp.com/channels/480462759797063690/480501885837770763) letting us know you're doing a release.
 
-> I'm starting an Ember CLI release. Please hold off merging PRs, "homu r+"-ing, and pushing new code!
+> I'm starting an Ember CLI release. Please hold off merging PRs and pushing new code!
 
 ### Environment
 
@@ -23,7 +23,6 @@ Make sure that you're running the most recent stable `node` and bundled `npm`.
 node --version
 npm --version
 ```
-
 
 ## Branching
 
@@ -56,7 +55,6 @@ git checkout -B beta --track origin/beta
 # Merge the new stable release into the "beta" branch
 git merge vX.Y.0
 ```
-
 
 ### Stable bugfix release
 
@@ -116,7 +114,6 @@ git checkout -B master --track origin/master
 # Merge the new beta release into the "master" branch
 git merge vX.Y.0-beta.N
 ```
-
 
 ## Release
 
@@ -227,24 +224,29 @@ Announce release!
   * enter the new version number as the tag prefixed with `v` e.g. (`v0.1.12`)
   * Make sure to include the links for diffs between the versions.
   * for release title choose a great name, no pressure
-  * in the description paste the following upgrade instructions, filling in the version number for NEW_VERSION_NUMBER:
+  * in the description paste the following upgrade instructions
 
 ```
-Setup
+## Setup
 
 `npm install -g ember-cli@NEW_VERSION_NUMBER` -- Install new global ember-cli
 
-Project Update
+## Project Update
 
 1. `rm -rf node_modules dist tmp` -- Delete temporary development folders.
-2. npm install -g ember-cli-update -- Install Ember CLI update tool globally.
-3. Run `ember-cli-update` - This will update your app or addon to the latest ember-cli release. You will probably encounter merge conflicts that you should resolve in your normal git workflow.
-4. Run `ember-cli-update --run-codemods` - This will let you pick codemods to run against your project, to ensure you are using the latest patterns and platform features.
+2. `npm install -g ember-cli-update` -- Install Ember CLI update tool globally.
+3. Run `ember-cli-update --to NEW_VERSION_NUMBER` -- This will update your app or addon to the latest ember-cli release. You will probably encounter merge conflicts that you should resolve in your normal git workflow.
+4. Run `ember-cli-update --run-codemods` -- This will let you pick codemods to run against your project, to ensure you are using the latest patterns and platform features.
+
+## Changelog
+
+INSERT_CHANGELOG_HERE
 ```
 
-  * After that block in the description, paste the new CHANGELOG entry
-  * attach the `ember-cli-<version>.tgz` from above
-  * Check Pre-release for beta releases.
+  * Fill in the version number for `NEW_VERSION_NUMBER`
+  * Replace `INSERT_CHANGELOG_HERE` with the new content from `CHANGELOG.md`
+  * Attach the `ember-cli-<version>.tgz` from above
+  * Check the "Pre-release" checkbox for beta releases.
   * Publish the release.
 
 ### Twitter

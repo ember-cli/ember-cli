@@ -702,18 +702,21 @@ module.exports = {
         {
           name: 'ssl',
           default: false,
+          description: 'Set to true to configure Ember CLI to serve using SSL.',
           key: 'ssl',
           required: false
         },
         {
           name: 'ssl-key',
           default: 'ssl/server.key',
+          description: 'Specify the private key to use for SSL.',
           key: 'sslKey',
           required: false
         },
         {
           name: 'ssl-cert',
           default: 'ssl/server.crt',
+          description: 'Specify the certificate to use for SSL.',
           key: 'sslCert',
           required: false
         },
@@ -808,6 +811,27 @@ module.exports = {
           default: false,
           description: 'Suppress any output except for the test report',
           key: 'silent',
+          required: false
+        },
+        {
+          name: 'ssl',
+          default: false,
+          description: 'Set to true to configure testem to run the test suite using SSL.',
+          key: 'ssl',
+          required: false
+        },
+        {
+          name: 'ssl-key',
+          default: 'ssl/server.key',
+          description: 'Specify the private key to use for SSL.',
+          key: 'sslKey',
+          required: false
+        },
+        {
+          name: 'ssl-cert',
+          default: 'ssl/server.crt',
+          description: 'Specify the certificate to use for SSL.',
+          key: 'sslCert',
           required: false
         },
         {

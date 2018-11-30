@@ -159,9 +159,9 @@ ember serve \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -e <value>, -dev (--environment=development), -prod (--environment=production)\u001b[39m
   \u001b[36m--output-path\u001b[39m \u001b[36m(Path)\u001b[39m \u001b[36m(Default: dist/)\u001b[39m
     \u001b[90maliases: -op <value>, -out <value>\u001b[39m
-  \u001b[36m--ssl\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
-  \u001b[36m--ssl-key\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.key)\u001b[39m
-  \u001b[36m--ssl-cert\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.crt)\u001b[39m
+  \u001b[36m--ssl\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Set to true to configure Ember CLI to serve using SSL.
+  \u001b[36m--ssl-key\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.key)\u001b[39m Specify the private key to use for SSL.
+  \u001b[36m--ssl-cert\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.crt)\u001b[39m Specify the certificate to use for SSL.
   \u001b[36m--path\u001b[39m \u001b[36m(Path)\u001b[39m Reuse an existing build at given path.
 
 ember test \u001b[36m<options...>\u001b[39m
@@ -187,6 +187,9 @@ ember test \u001b[36m<options...>\u001b[39m
   \u001b[36m--reporter\u001b[39m \u001b[36m(String)\u001b[39m Test reporter to use [tap|dot|xunit] (default: tap)
     \u001b[90maliases: -r <value>\u001b[39m
   \u001b[36m--silent\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Suppress any output except for the test report
+  \u001b[36m--ssl\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m Set to true to configure testem to run the test suite using SSL.
+  \u001b[36m--ssl-key\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.key)\u001b[39m Specify the private key to use for SSL.
+  \u001b[36m--ssl-cert\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: ssl/server.crt)\u001b[39m Specify the certificate to use for SSL.
   \u001b[36m--testem-debug\u001b[39m \u001b[36m(String)\u001b[39m File to write a debug log from testem
   \u001b[36m--test-page\u001b[39m \u001b[36m(String)\u001b[39m Test page to invoke
   \u001b[36m--path\u001b[39m \u001b[36m(Path)\u001b[39m Reuse an existing build at given path.

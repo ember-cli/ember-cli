@@ -28,6 +28,7 @@ describe('models/builder.js', function() {
 
   function setupBroccoliBuilder() {
     if (isExperimentEnabled('BROCCOLI_2')) {
+      this.broccoliBuilderFallback = false;
       this.builder = {
         outputPath: 'build results',
         outputNodeWrapper: {
@@ -45,6 +46,7 @@ describe('models/builder.js', function() {
         },
       };
     } else {
+      this.broccoliBuilderFallback = true;
       this.builder = {
         build() {
           return Promise.resolve({
@@ -62,10 +64,9 @@ describe('models/builder.js', function() {
   }
 
   before(function() {
-    td.replace('../../../lib/utilities/will-interrupt-process', {
-      addHandler: td.function(),
-      removeHandler: td.function(),
-    });
+    let willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
+    td.replace(willInterruptProcess, 'addHandler', td.function());
+    td.replace(willInterruptProcess, 'removeHandler', td.function());
 
     Builder = require('../../../lib/models/builder');
   });
@@ -80,9 +81,11 @@ describe('models/builder.js', function() {
     beforeEach(function() {
       return mkTmpDirIn(tmproot).then(function(dir) {
         tmpdir = dir;
+        let project = new MockProject();
         builder = new Builder({
+          project,
+          ui: project.ui,
           setupBroccoliBuilder,
-          project: new MockProject(),
         });
       });
     });
@@ -98,65 +101,70 @@ describe('models/builder.js', function() {
       expect(file(path.join(builder.outputPath, 'files', 'foo.txt'))).to.exist;
     });
 
-    let command;
+    describe('build command', function() {
+      let command;
+      let parentPath = `..${path.sep}..${path.sep}`;
 
-    let parentPath = `..${path.sep}..${path.sep}`;
+      beforeEach(function() {
+        command = new BuildCommand(commandOptions());
 
-    before(function() {
-      command = new BuildCommand(commandOptions());
-
-      builder = new Builder({
-        setupBroccoliBuilder,
-        project: new MockProject(),
+        let project = new MockProject();
+        builder = new Builder({
+          project,
+          ui: project.ui,
+          setupBroccoliBuilder,
+        });
       });
-    });
 
-    it('when outputPath is root directory ie., `--output-path=/` or `--output-path=C:`', function() {
-      let outputPathArg = '--output-path=.';
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
-      outputPath = outputPath.split(path.sep)[0] + path.sep;
-      builder.outputPath = outputPath;
+      it('when outputPath is root directory ie., `--output-path=/` or `--output-path=C:`', function() {
+        let outputPathArg = '--output-path=.';
+        let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+        outputPath = outputPath.split(path.sep)[0] + path.sep;
+        builder.outputPath = outputPath;
 
-      expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
-    });
+        expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
+      });
 
-    it('when outputPath is project root ie., `--output-path=.`', function() {
-      let outputPathArg = '--output-path=.';
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
-      builder.outputPath = outputPath;
+      it('when outputPath is project root ie., `--output-path=.`', function() {
+        let outputPathArg = '--output-path=.';
+        let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+        builder.outputPath = outputPath;
 
-      expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
-    });
+        expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
+      });
 
-    it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function() {
-      let outputPathArg = `--output-path=${parentPath}`;
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
-      builder.outputPath = outputPath;
+      it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function() {
+        let outputPathArg = `--output-path=${parentPath}`;
+        let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+        builder.outputPath = outputPath;
 
-      expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
-    });
+        expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
+      });
 
-    it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function() {
-      let outputPathArg = '--output-path=.';
-      let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
-      outputPath = outputPath.substr(0, outputPath.length - 1);
-      builder.outputPath = outputPath;
+      it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function() {
+        let outputPathArg = '--output-path=.';
+        let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
+        outputPath = outputPath.substr(0, outputPath.length - 1);
+        builder.outputPath = outputPath;
 
-      expect(builder.canDeleteOutputPath(outputPath)).to.equal(true);
+        expect(builder.canDeleteOutputPath(outputPath)).to.equal(true);
+      });
     });
   });
 
   describe('build', function() {
     let instrumentationStart;
     let instrumentationStop;
-    let cwd;
+    let cwd, project;
 
     beforeEach(function() {
       // Cache cwd to reset after test
       cwd = process.cwd();
+      project = new MockProject();
       builder = new Builder({
+        project,
+        ui: project.ui,
         setupBroccoliBuilder,
-        project: new MockProject(),
         processBuildResult(buildResults) { return Promise.resolve(buildResults); },
       });
 
@@ -216,6 +224,7 @@ describe('models/builder.js', function() {
 
         builder = new Builder({
           project,
+          ui: project.ui,
           processBuildResult(buildResults) { return Promise.resolve(buildResults); },
         });
 
@@ -232,6 +241,7 @@ describe('models/builder.js', function() {
         expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
         builder = new Builder({
           project,
+          ui: project.ui,
           processBuildResult(buildResults) { return Promise.resolve(buildResults); },
         });
 
@@ -249,6 +259,7 @@ describe('models/builder.js', function() {
       project.root += '/tests/fixtures/build/simple';
       const setup = () => new Builder({
         project,
+        ui: project.ui,
         processBuildResult(buildResults) { return Promise.resolve(buildResults); },
       });
 
@@ -263,6 +274,7 @@ describe('models/builder.js', function() {
 
       builder = new Builder({
         project,
+        ui: project.ui,
         processBuildResult(buildResults) { return Promise.resolve(buildResults); },
       });
 
@@ -280,9 +292,11 @@ describe('models/builder.js', function() {
 
   describe('cleanup', function() {
     beforeEach(function() {
+      let project = new MockProject();
       builder = new Builder({
+        project,
+        ui: project.ui,
         setupBroccoliBuilder,
-        project: new MockProject(),
         processBuildResult(buildResults) { return Promise.resolve(buildResults); },
       });
     });
@@ -498,4 +512,42 @@ describe('models/builder.js', function() {
       });
     });
   });
+
+  if (isExperimentEnabled('BROCCOLI_2')) {
+    describe('fallback from broccoli 2 to broccoli-builder', function() {
+      it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', function() {
+        let project = new MockProject();
+        const builder = new Builder({
+          project,
+          ui: project.ui,
+          readBuildFile() {
+            return {
+              read() {
+
+              },
+              rebuild() {
+
+              },
+            };
+          },
+        });
+
+        expect(builder.broccoliBuilderFallback).to.be.true;
+
+        expect(project.ui.output).to.include('WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:');
+        expect(project.ui.output).to.include('Object: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md');
+      });
+
+      it('errors for an invalid node', function() {
+        let project = new MockProject();
+        expect(() => new Builder({
+          project,
+          ui: project.ui,
+          readBuildFile() {
+            return {};
+          },
+        })).to.throw('[object Object] is not a Broccoli node\nused as output node');
+      });
+    });
+  }
 });

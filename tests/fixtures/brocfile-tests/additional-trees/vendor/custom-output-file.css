@@ -1,0 +1,3 @@
+body:after {
+  content: "hello from css custom output file"
+}
