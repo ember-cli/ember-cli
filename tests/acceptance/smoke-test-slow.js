@@ -86,7 +86,8 @@ describe('Acceptance: smoke-test', function() {
   }));
 
   it('eslint passes after running ember new', co.wrap(function *() {
-    let result = yield runCommand(path.join('.', 'node_modules', '.bin', 'eslint'), appRoot);
+    let eslint = (process.platform === 'win32') ? 'eslint.cmd' : 'eslint';
+    let result = yield runCommand(path.join('.', 'node_modules', '.bin', eslint), appRoot);
 
     let exitCode = result.code;
 
