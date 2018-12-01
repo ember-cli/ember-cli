@@ -3,6 +3,7 @@
 const co = require('co');
 const broccoliTestHelper = require('broccoli-test-helper');
 const expect = require('chai').expect;
+const ci = require('ci-info');
 
 const MockProject = require('../../helpers/mock-project');
 const Builder = require('../../../lib/models/builder');
@@ -31,7 +32,7 @@ describe('Builder - broccoli tests', function() {
     process.chdir(ROOT);
   }));
 
-  it('falls back to broccoli-builder@0.18 when legacy plugins exist in build', co.wrap(function *() {
+  (ci.APPVEYOR ? it.skip : it)('falls back to broccoli-builder@0.18 when legacy plugins exist in build', co.wrap(function *() {
     projectRoot.write({
       'ember-cli-build.js': `
         const fs = require('fs');
