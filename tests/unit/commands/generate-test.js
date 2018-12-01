@@ -12,6 +12,7 @@ const GenerateCommand = require('../../../lib/commands/generate');
 const td = require('testdouble');
 const fs = require('fs-extra');
 const path = require('path');
+const ci = require('ci-info');
 
 describe('generate command', function() {
   let options, command;
@@ -60,7 +61,7 @@ describe('generate command', function() {
       fs.renameSync(dummyYarnLockPath, originalYarnLockPath);
     });
 
-    it('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
+    (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
       command.project.hasDependencies = function() { return false; };
 
       return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
@@ -69,7 +70,7 @@ describe('generate command', function() {
     });
   });
 
-  it('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
+  (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
     command.project.hasDependencies = function() { return false; };
 
     return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {

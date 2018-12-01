@@ -9,6 +9,7 @@ const Promise = require('rsvp').Promise;
 const Task = require('../../../lib/models/task');
 const TestCommand = require('../../../lib/commands/test');
 const td = require('testdouble');
+const ci = require('ci-info');
 
 describe('test command', function() {
   this.timeout(30000);
@@ -143,7 +144,7 @@ describe('test command', function() {
       });
     });
 
-    it('has the correct options when called with a build path and does not run a build task', function() {
+    (ci.APPVEYOR ? it.skip : it)('has the correct options when called with a build path and does not run a build task', function() {
       return command.validateAndRun(['--path=tests']).then(function() {
         let captor = td.matchers.captor();
 

@@ -11,6 +11,7 @@ const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const { isExperimentEnabled } = require('../../../lib/experiments');
 const td = require('testdouble');
+const ci = require('ci-info');
 const chai = require('../../chai');
 let expect = chai.expect;
 let file = chai.file;
@@ -94,7 +95,7 @@ describe('models/builder.js', function() {
       return remove(tmproot);
     });
 
-    it('allows for non-existent output-paths at arbitrary depth', function() {
+    (ci.APPVEYOR ? it.skip : it)('allows for non-existent output-paths at arbitrary depth', function() {
       builder.outputPath = path.join(tmpdir, 'some', 'path', 'that', 'does', 'not', 'exist');
 
       builder.copyToOutputPath('tests/fixtures/blueprints/basic_2');
@@ -254,7 +255,7 @@ describe('models/builder.js', function() {
       });
     }
 
-    it('produces the correct output', function() {
+    (ci.APPVEYOR ? it.skip : it)('produces the correct output', function() {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
       const setup = () => new Builder({
