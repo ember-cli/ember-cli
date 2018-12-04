@@ -27,7 +27,8 @@ module.exports = {
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js'<% if (blueprint === 'app') { %>,
-        'lib/*/index.js'<% } %><% if (blueprint !== 'app') { %>,
+        'lib/*/index.js',
+        'server/**/*.js'<% } else { %>,
         'tests/dummy/config/**/*.js'<% } %>
       ],<% if (blueprint !== 'app') { %>
       excludedFiles: [
