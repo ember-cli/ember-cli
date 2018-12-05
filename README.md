@@ -115,7 +115,7 @@ ember generate route foo
 
 This will generate a `route` named `foo`. `route` is an example here and can
 be replaced by any other available blueprint. Blueprints are provided by
-ember-cli itself and any of you installed addons. Run `ember generate --help`
+ember-cli itself and any of your installed addons. Run `ember generate --help`
 to see a list of available blueprints in your project and their options.
 
 
