@@ -2837,20 +2837,20 @@ fs-sync@^1.0.4:
     mkdirp "^0.5.1"
     rimraf "^2.1.4"
 
-fs-tree-diff@^0.5.2, fs-tree-diff@^0.5.3, fs-tree-diff@^0.5.4, fs-tree-diff@^0.5.6, fs-tree-diff@^0.5.7:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-0.5.7.tgz#315e2b098d5fe7f622880ac965b1b051868ac871"
-  integrity sha512-dJwDX6NBH7IfdfFjZAdHCZ6fIKc8LwR7kzqUhYRFJuX4g9ctG/7cuqJuwegGQsyLEykp6Z4krq+yIFMQlt7d9Q==
+fs-tree-diff@^0.5.2, fs-tree-diff@^0.5.3, fs-tree-diff@^0.5.4, fs-tree-diff@^0.5.6, fs-tree-diff@^0.5.7, fs-tree-diff@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-0.5.9.tgz#a4ec6182c2f5bd80b9b83c8e23e4522e6f5fd946"
+  integrity sha512-872G8ax0kHh01m9n/2KDzgYwouKza0Ad9iFltBpNykvROvf2AGtoOzPJgGx125aolGPER3JuC7uZFrQ7bG1AZw==
   dependencies:
     heimdalljs-logger "^0.1.7"
     object-assign "^4.1.0"
     path-posix "^1.0.0"
     symlink-or-copy "^1.1.8"
 
-fs-tree-diff@^0.5.9:
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-0.5.9.tgz#a4ec6182c2f5bd80b9b83c8e23e4522e6f5fd946"
-  integrity sha512-872G8ax0kHh01m9n/2KDzgYwouKza0Ad9iFltBpNykvROvf2AGtoOzPJgGx125aolGPER3JuC7uZFrQ7bG1AZw==
+fs-tree-diff@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-1.0.0.tgz#1a05d4aaac0a393827f704fe088120e870ae04f7"
+  integrity sha512-jE04VWZOGwU2f2mWFHUIK00ynn3szyvsSuHxzQE0N9xx5HNXp2zxWSpOlDn4oL5Il1gJ0WIlevSqAa1Bi0Kl6g==
   dependencies:
     heimdalljs-logger "^0.1.7"
     object-assign "^4.1.0"

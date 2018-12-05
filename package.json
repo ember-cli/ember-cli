@@ -83,7 +83,7 @@
     "fixturify": "^0.3.4",
     "fixturify-project": "^1.5.3",
     "fs-extra": "^7.0.0",
-    "fs-tree-diff": "^0.5.7",
+    "fs-tree-diff": "^1.0.0",
     "get-caller-file": "^1.0.0",
     "git-repo-info": "^2.0.0",
     "glob": "^7.1.2",
