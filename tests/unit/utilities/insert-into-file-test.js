@@ -202,6 +202,26 @@ describe('insertIntoFile()', function() {
       });
   });
 
+  it('will not add an EOL if told not to', function() {
+    let toInsert = 'blahzorz blammo';
+    let line1 = 'line1 is here';
+    let line2 = 'line2 here';
+    let line3 = 'line3';
+    let originalContent = [line1, line2, line3].join(EOL);
+
+    fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
+
+    return insertIntoFile(filePath, toInsert + EOL, { after: line2 + EOL, appendEOL: false })
+      .then(function(result) {
+        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+
+        expect(contents).to.equal([line1, line2, toInsert, line3].join(EOL),
+          'inserted contents should not have a double EOL');
+        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+      });
+  });
+
   describe('regex', function() {
     it('options.after supports regex', function() {
       let toInsert = 'blahzorz blammo';
