@@ -330,12 +330,19 @@ describe('models/addon.js', function() {
         expect(addon.isDevelopingAddon(), 'addon is being developed').to.eql(true);
       });
 
-      it('throws when the addon name is prefixed in package.json and not in index.js', function() {
+      it('warns when the addon name is prefixed in package.json and not in index.js', function() {
         process.env.EMBER_ADDON_ENV = 'development';
         project.root = 'foo';
         project.name = () => ('@foo/my-addon');
         addon.name = 'my-addon';
-        expect(() => addon.isDevelopingAddon()).to.throw(/Your names in package.json and index.js should match*/);
+        let warn = addon._warn;
+
+        addon._warn = message => {
+          expect(message).to.match(/Your names in package.json and index.js should match*/);
+        };
+
+        addon.isDevelopingAddon();
+        addon._warn = warn;
       });
 
       it('does not throw for a mismatched addon name when process.env.EMBER_CLI_IGNORE_ADDON_NAME_MISMATCH is set', function() {
@@ -347,12 +354,19 @@ describe('models/addon.js', function() {
         expect(addon.isDevelopingAddon()).to.eql(true);
       });
 
-      it('throws an error if addon name is different in package.json and index.js ', function() {
+      it('warns if addon name is different in package.json and index.js ', function() {
         process.env.EMBER_ADDON_ENV = 'development';
         project.root = 'foo';
         project.name = () => ('foo-my-addon');
         addon.name = 'my-addon';
-        expect(() => addon.isDevelopingAddon()).to.throw(/Your names in package.json and index.js should match*/);
+        let warn = addon._warn;
+
+        addon._warn = message => {
+          expect(message).to.match(/Your names in package.json and index.js should match*/);
+        };
+
+        addon.isDevelopingAddon();
+        addon._warn = warn;
       });
 
       it('returns false when `EMBER_ADDON_ENV` is not set', function() {
