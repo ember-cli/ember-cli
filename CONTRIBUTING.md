@@ -17,7 +17,7 @@ Think you've found a bug or have a new feature to suggest? Let us know!
 
 ## Slow builds?
 
-Please be sure to review [The Perf Guide](https://github.com/ember-cli/ember-cli/blob/master/PERF_GUIDE.md) (and implement its recommendations) before posting an issue.
+Please be sure to review [The Perf Guide](https://github.com/ember-cli/ember-cli/blob/master/docs/perf-guide.md) (and implement its recommendations) before posting an issue.
 
 ## Reporting a Bug
 
