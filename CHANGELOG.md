@@ -72,59 +72,20 @@ version:
 Thank you to all who took the time to contribute!
 
 
-## v3.5.0-beta.2
+## v3.4.4
 
-The following changes are required if you are upgrading from the previous
-version:
+#### Blueprint Changes
 
-- Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.0...v3.5.0-beta.2)
-  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
-- Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.0...v3.5.0-beta.2)
-  + No changes required
-- Core Contributors
-  + No changes required
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.3...v3.4.4)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.3...v3.4.4)
 
 #### Community Contributions
 
-- [#7365](https://github.com/ember-cli/ember-cli/pull/7365) Migrate from ember-cli-qunit to ember-qunit. [@rwjblue](https://github.com/rwjblue)
-- [#8062](https://github.com/ember-cli/ember-cli/pull/8062) Add `yarn.lock` to `.npmignore` [@Turbo87](https://github.com/Turbo87)
-- [#8064](https://github.com/ember-cli/ember-cli/pull/8064) Update `qunit-dom` to v0.8.0 [@Turbo87](https://github.com/Turbo87)
-- [#8067](https://github.com/ember-cli/ember-cli/pull/8067) Less restrictive blueprints - change how addons are identified [@scalvert](https://github.com/scalvert)
-- [#8068](https://github.com/ember-cli/ember-cli/pull/8068) Enable BROCCOLI_2 and SYSTEM_TEMP experiments by default. [@rwjblue](https://github.com/rwjblue)
-- [#8069](https://github.com/ember-cli/ember-cli/pull/8069) Adding back feature to customization of serveURL [@SparshithNR](https://github.com/SparshithNR)
-- [#8071](https://github.com/ember-cli/ember-cli/pull/8071) Update sane to the latest version 🚀 [@ember-cli/greenkeeper](https://github.com/ember-cli/greenkeeper)
+- [#8277](https://github.com/ember-cli/ember-cli/pull/8277) DefaultPackager: Move `addon-test-support` out of the `tests` folder [@Turbo87](https://github.com/Turbo87)
+- [#8278](https://github.com/ember-cli/ember-cli/pull/8278) DefaultPackager: Fix addon preprocessing [@Turbo87](https://github.com/Turbo87)
 
 Thank you to all who took the time to contribute!
 
-## v3.5.0-beta.1
-
-The following changes are required if you are upgrading from the previous
-version:
-
-- Users
-  + [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.0...v3.5.0-beta.1)
-  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
-- Addon Developers
-  + [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.0...v3.5.0-beta.1)
-  + No changes required
-- Core Contributors
-  + No changes required
-
-#### Community Contributions
-
-- [#7798](https://github.com/ember-cli/ember-cli/pull/7798) Add Broccoli 2.0 support [@oligriffiths](https://github.com/oligriffiths)
-- [#7916](https://github.com/ember-cli/ember-cli/pull/7916) Support node-http-proxy timeout options [@jboler](https://github.com/jboler)
-- [#7937](https://github.com/ember-cli/ember-cli/pull/7937) Update fallback default browser targets from IE9 -> IE11. [@arthirm](https://github.com/arthirm)
-- [#7984](https://github.com/ember-cli/ember-cli/pull/7984) Reject when command args validation fails [@zonkyio](https://github.com/zonkyio)
-- [#7946](https://github.com/ember-cli/ember-cli/pull/7946) upgrade ember-cli-htmlbars to 3.x [@stefanpenner](https://github.com/stefanpenner)
-- [#7976](https://github.com/ember-cli/ember-cli/pull/7976) Upgrade ember-source to master in `new` blueprint [@dcyriller](https://github.com/dcyriller)
-- [#8025](https://github.com/ember-cli/ember-cli/pull/8025) Update MU blueprint to latest canary [@CodingItWrong](https://github.com/CodingItWrong)
-- [#8000](https://github.com/ember-cli/ember-cli/pull/8000) Adding `--in` option to `ember generate` and `ember destroy` to allow blueprint generation for in repo addons in custom paths. [@scalvert](https://github.com/scalvert)
-- [#8028](https://github.com/ember-cli/ember-cli/pull/8028) Add `public` to the list of disallowed application names [@twokul](https://github.com/twokul)
-
-Thank you to all who took the time to contribute!
 
 ## v3.4.3
 
