@@ -246,16 +246,18 @@ describe('Default Packager: Tests', function() {
     let outputFiles = output.read();
 
     expect(outputFiles).to.deep.equal({
+      'addon-test-support': {
+        '@ember': {
+          'test-helpers': {
+            'global.js': 'define("@ember/test-helpers/global", ["exports"], function(exports) { Object.defineProperty(exports, "__esModule", { value: true }); });',
+          },
+        },
+      },
       [name]: {
         tests: {
           acceptance: {
             'login-test.js-test': ' // login-test.js',
             'logout-test.js-test': '',
-          },
-          '@ember': {
-            'test-helpers': {
-              'global.js': 'define("@ember/test-helpers/global", ["exports"], function(exports) { Object.defineProperty(exports, "__esModule", { value: true }); });',
-            },
           },
           lint: {
             'login-test.lint.js-test': ' // login-test.lint.js',
@@ -318,16 +320,18 @@ describe('Default Packager: Tests', function() {
     let outputFiles = output.read();
 
     expect(outputFiles).to.deep.equal({
+      'addon-test-support': {
+        '@ember': {
+          'test-helpers': {
+            'global.js': 'define("@ember/test-helpers/global", ["exports"], function(exports) { Object.defineProperty(exports, "__esModule", { value: true }); });',
+          },
+        },
+      },
       [name]: {
         tests: {
           acceptance: {
             'login-test.js-test': ' // login-test.js',
             'logout-test.js-test': '',
-          },
-          '@ember': {
-            'test-helpers': {
-              'global.js': 'define("@ember/test-helpers/global", ["exports"], function(exports) { Object.defineProperty(exports, "__esModule", { value: true }); });',
-            },
           },
           lint: {
             'login-test.lint.js-test': ' // login-test.lint.js',
