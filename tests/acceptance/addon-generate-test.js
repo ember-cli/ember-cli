@@ -77,20 +77,6 @@ describe('Acceptance: ember generate in-addon', function() {
     }
   }));
 
-  it('runs the `addon-import` blueprint from a classic addon', co.wrap(function *() {
-    yield initAddon('my-addon');
-
-    yield outputFile(
-      'blueprints/service/files/__root__/__path__/__name__.js',
-      "import Service from '@ember/service';\n" +
-      'export default Service.extend({ });\n'
-    );
-
-    yield ember(['generate', 'service', 'session']);
-
-    expect(file('app/services/session.js')).to.exist;
-  }));
-
   if (isExperimentEnabled('MODULE_UNIFICATION')) {
     it('does not run the `addon-import` blueprint from a module unification addon', co.wrap(function *() {
       yield initAddon('my-addon');
@@ -106,26 +92,21 @@ describe('Acceptance: ember generate in-addon', function() {
 
       expect(file('app/services/session.js')).to.not.exist;
     }));
+  } else {
+    it('runs the `addon-import` blueprint from a classic addon', co.wrap(function *() {
+      yield initAddon('my-addon');
+
+      yield outputFile(
+        'blueprints/service/files/__root__/__path__/__name__.js',
+        "import Service from '@ember/service';\n" +
+        'export default Service.extend({ });\n'
+      );
+
+      yield ember(['generate', 'service', 'session']);
+
+      expect(file('app/services/session.js')).to.exist;
+    }));
   }
-
-  it('runs a custom "*-addon" blueprint from a classic addon', co.wrap(function *() {
-    yield initAddon('my-addon');
-
-    yield outputFile(
-      'blueprints/service/files/__root__/__path__/__name__.js',
-      "import Service from '@ember/service';\n" +
-      'export default Service.extend({ });\n'
-    );
-
-    yield outputFile(
-      'blueprints/service-addon/files/app/services/session.js',
-      "export { default } from 'somewhere';\n"
-    );
-
-    yield ember(['generate', 'service', 'session']);
-
-    expect(file('app/services/session.js')).to.exist;
-  }));
 
   if (isExperimentEnabled('MODULE_UNIFICATION')) {
     it('skips a custom "*-addon" blueprint from a module unification addon', co.wrap(function *() {
@@ -146,6 +127,25 @@ describe('Acceptance: ember generate in-addon', function() {
       yield ember(['generate', 'service', 'session']);
 
       expect(file('app/services/session.js')).to.not.exist;
+    }));
+  } else {
+    it('runs a custom "*-addon" blueprint from a classic addon', co.wrap(function *() {
+      yield initAddon('my-addon');
+
+      yield outputFile(
+        'blueprints/service/files/__root__/__path__/__name__.js',
+        "import Service from '@ember/service';\n" +
+        'export default Service.extend({ });\n'
+      );
+
+      yield outputFile(
+        'blueprints/service-addon/files/app/services/session.js',
+        "export { default } from 'somewhere';\n"
+      );
+
+      yield ember(['generate', 'service', 'session']);
+
+      expect(file('app/services/session.js')).to.exist;
     }));
   }
 
