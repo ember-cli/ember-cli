@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## v3.4.4
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.4.3...v3.4.4)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.4.3...v3.4.4)
+
+#### Community Contributions
+
+- [#8277](https://github.com/ember-cli/ember-cli/pull/8277) DefaultPackager: Move `addon-test-support` out of the `tests` folder [@Turbo87](https://github.com/Turbo87)
+- [#8278](https://github.com/ember-cli/ember-cli/pull/8278) DefaultPackager: Fix addon preprocessing [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.4.3
 
 The following changes are required if you are upgrading from the previous
