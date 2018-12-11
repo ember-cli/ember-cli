@@ -2,7 +2,7 @@
 
 git clean -fdx && \
 yarn install && \
-yarn pack && \
+npm pack && \
 npm uninstall -g ember-cli && \
 npm i -g ./ember-cli-*.tgz && \
 du -sh ./ember-cli-*.tgz
