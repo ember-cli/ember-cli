@@ -2864,9 +2864,9 @@ fs-tree-diff@^0.5.2, fs-tree-diff@^0.5.3, fs-tree-diff@^0.5.4, fs-tree-diff@^0.5
     symlink-or-copy "^1.1.8"
 
 fs-tree-diff@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-1.0.0.tgz#1a05d4aaac0a393827f704fe088120e870ae04f7"
-  integrity sha512-jE04VWZOGwU2f2mWFHUIK00ynn3szyvsSuHxzQE0N9xx5HNXp2zxWSpOlDn4oL5Il1gJ0WIlevSqAa1Bi0Kl6g==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-1.0.2.tgz#0e2931733a85b55feb3472c0b89a20b0c03ac0de"
+  integrity sha512-Zro2ACaPVDgVOx9+s5s5AfPlAD0kMJdbwGvTGF6KC1SjxjiGWxJvV4mUTDkFVSy3OUw2C/f1qpdjF81hGqSBAw==
   dependencies:
     heimdalljs-logger "^0.1.7"
     object-assign "^4.1.0"
