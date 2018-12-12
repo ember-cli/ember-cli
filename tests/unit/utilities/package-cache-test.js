@@ -645,7 +645,7 @@ describe('PackageCache', function() {
   });
 
   it('succeeds at a clean install', function() {
-    this.timeout(4000);
+    this.timeout(15000);
 
     // Intentionally turning off testing mode.
     testPackageCache.__resetForTesting();
