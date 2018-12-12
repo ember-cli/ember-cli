@@ -59,7 +59,7 @@
     "calculate-cache-key-for-tree": "^1.1.0",
     "capture-exit": "^1.2.0",
     "chalk": "^2.4.1",
-    "ci-info": "^1.1.3",
+    "ci-info": "^2.0.0",
     "clean-base-url": "^1.0.0",
     "compression": "^1.7.3",
     "configstore": "^4.0.0",
