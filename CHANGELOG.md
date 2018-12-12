@@ -1,20 +1,34 @@
 # ember-cli Changelog
 
-## v3.6.0-beta.1
+## v3.6.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.5.1...v3.6.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.5.1...v3.6.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.5.1...v3.6.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.5.1...v3.6.0)
 
 #### Community Contributions
 
-- [#7974](https://github.com/ember-cli/ember-cli/pull/7974) Prevent double builds in CI for branches pushed by owner. [@rwjblue](https://github.com/rwjblue)
-- [#8027](https://github.com/ember-cli/ember-cli/pull/8027) Add upgrade instructions to RELEASE.md [@CodingItWrong](https://github.com/CodingItWrong)
+- [#7958](https://github.com/ember-cli/ember-cli/pull/7958) Gather doc files in docs directory [@dcyriller](https://github.com/dcyriller)
 - [#8032](https://github.com/ember-cli/ember-cli/pull/8032) Update minimum broccoli-viz version [@gandalfar](https://github.com/gandalfar)
+- [#7974](https://github.com/ember-cli/ember-cli/pull/7974) Prevent double builds in CI for branches pushed by owner [@rwjblue](https://github.com/rwjblue)
 - [#8096](https://github.com/ember-cli/ember-cli/pull/8096) Use regex to parse /livereload urls [@SparshithNR](https://github.com/SparshithNR)
-- [#8107](https://github.com/ember-cli/ember-cli/pull/8107) Fix ESLint errors in master branch [@Gaurav0](https://github.com/Gaurav0)
+- [#8086](https://github.com/ember-cli/ember-cli/pull/8086) Prefer walk-sync for AssetPrinterSize (speeds things up) [@stefanpenner](https://github.com/stefanpenner)
+- [#8108](https://github.com/ember-cli/ember-cli/pull/8108) Put `package-info-cache` warnings under `DEBUG` control [@dcombslinkedin](https://github.com/dcombslinkedin)
+- [#8203](https://github.com/ember-cli/ember-cli/pull/8203) Move contribution info away from `README` to `CONTRIBUTING` [@kennethlarsen/feature](https://github.com/kennethlarsen/feature)
+- [#8147](https://github.com/ember-cli/ember-cli/pull/8147) Bump ember-cli-babel@7 in application blueprint [@SergeAstapov](https://github.com/SergeAstapov)
+- [#8142](https://github.com/ember-cli/ember-cli/pull/8142) Fix yarn test failures [@abhilashlr](https://github.com/abhilashlr)
+- [#8138](https://github.com/ember-cli/ember-cli/pull/8138) Remove ember-ajax from addon blueprint [@initram](https://github.com/initram)
 - [#8143](https://github.com/ember-cli/ember-cli/pull/8143) adding fix to use NULL nodeModuleList to optimize when dealing with non-addons [@dcombslinkedin](https://github.com/dcombslinkedin)
+- [#8179](https://github.com/ember-cli/ember-cli/pull/8179) Do not include `.jshintrc` and `.eslintrc` when generating `lib` or `packages` [@ppcano](https://github.com/ppcano)
+- [#8162](https://github.com/ember-cli/ember-cli/pull/8162) remove any /* eslint-env node */ [@kellyselden](https://github.com/kellyselden)
+- [#8174](https://github.com/ember-cli/ember-cli/pull/8174) Fix links in Addon API docs header [@dfreeman](https://github.com/dfreeman)
+- [#8171](https://github.com/ember-cli/ember-cli/pull/8171) Add `--ssl` options to `ember test` [@nathanhammond](https://github.com/nathanhammond)
+- [#8165](https://github.com/ember-cli/ember-cli/pull/8165) Remove unused "ember-default" scenario [@kellyselden](https://github.com/kellyselden)
+- [#8202](https://github.com/ember-cli/ember-cli/pull/8202) Specify explicit ember-cli version in project update instructions [@nickschot](https://github.com/nickschot)
+- [#8277](https://github.com/ember-cli/ember-cli/pull/8277) DefaultPackager: Move `addon-test-support` out of the `tests` folder [@Turbo87](https://github.com/Turbo87)
+- [#8278](https://github.com/ember-cli/ember-cli/pull/8278) DefaultPackager: Fix addon preprocessing [@Turbo87](https://github.com/Turbo87)
+- [#8287](https://github.com/ember-cli/ember-cli/pull/8287) blueprints/app: Update Ember and Ember Data to v3.6.0 [@Turbo87](https://github.com/Turbo87)
 
 Thank you to all who took the time to contribute!
 
