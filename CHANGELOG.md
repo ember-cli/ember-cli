@@ -1,5 +1,22 @@
 # ember-cli Changelog
 
+## v3.7.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.6.0...v3.7.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.6.0...v3.7.0-beta.1)
+
+#### Community Contributions
+
+- [#8262](https://github.com/ember-cli/ember-cli/pull/8262) spelling fix [@jfdnc](https://github.com/jfdnc)
+- [#8264](https://github.com/ember-cli/ember-cli/pull/8264) Remove redundant _requireBuildPackages and format comments [@xg-wang](https://github.com/xg-wang)
+- [#8275](https://github.com/ember-cli/ember-cli/pull/8275) Fix dead link in CONTRIBUTING.md [@hakilebara](https://github.com/hakilebara)
+- [#8279](https://github.com/ember-cli/ember-cli/pull/8279) CHANGELOG: Drop releases before v2.8.0 [@Turbo87](https://github.com/Turbo87)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.6.0
 
 #### Blueprint Changes
