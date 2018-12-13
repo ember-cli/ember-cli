@@ -2920,9 +2920,9 @@ get-caller-file@^1.0.1:
   integrity sha512-3t6rVToeoZfYSGd8YoLFR2DJkiQrIiUrGcjvFX2mDw3bn6k2OtwHN0TNCLbBO+w8qTvimhDkv+LSscbJY1vE6w==
 
 get-caller-file@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.0.tgz#1e119be08623cdb28fb6b2873e671a758aa2b6eb"
-  integrity sha512-cF41L/f/7nXpSwMMHMY0FIurpTPZq/eHwJdeh2+0kKYhL9eD7RqsgMujd3qdqvWdjGIHjwvd/iEMTNECl2EhzA==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-2.0.1.tgz#25835260d3a2b9665fcdbb08cb039a7bbf7011c0"
+  integrity sha512-SpOZHfz845AH0wJYVuZk2jWDqFmu7Xubsx+ldIpwzy5pDUpu7OJHK7QYNSA2NPlDSKQwM1GFaAkciOWjjW92Sg==
 
 get-func-name@^2.0.0:
   version "2.0.0"
