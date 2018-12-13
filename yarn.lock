@@ -5922,9 +5922,9 @@ sort-object-keys@^1.1.2:
   integrity sha1-06bEjcKsl+a8lDZ2luA/bQnTeVI=
 
 sort-package-json@^1.15.0:
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.16.0.tgz#087f5ce05b6faca373312e7124918e0d68492d7b"
-  integrity sha512-QFJNxdpp7zZgSkmAIaMrteqqxGP4TkooKrGtslM2qYiML92PTYDOFOk+lG+TdvJzjheD502UFIys2qSvQljKaw==
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.17.0.tgz#1dfe40b5632e28919a09e80f3da555090ec30cd7"
+  integrity sha512-pVEdEI3w5dlXVJ1N0W/SwSfdrUFWVeB/zcRruQVf999TlCAZ1fS+Aw+EPZpdoHjoALPx6jNNtU9batTrbeVlYg==
   dependencies:
     detect-indent "^5.0.0"
     sort-object-keys "^1.1.2"
