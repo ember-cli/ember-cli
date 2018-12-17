@@ -141,7 +141,7 @@
     "eslint-plugin-node": "^8.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "mocha-eslint": "^4.1.0",
+    "mocha-eslint": "^5.0.0",
     "multiline": "^1.0.2",
     "nock": "^10.0.2",
     "nyc": "^13.1.0",
