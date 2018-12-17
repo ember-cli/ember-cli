@@ -23,15 +23,12 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
       it('in-repo-addon fooBar', function() {
         let args = ['in-repo-addon', 'fooBar'];
 
-        return emberNew()
-          .then(function() {
-            fs.ensureDirSync('src');
-          })
+        return emberNew({ isModuleUnification: true })
           .then(function() {
             expect(fs.readJsonSync('package.json')['ember-addon']).to.be.undefined;
           })
           .then(function() {
-            return emberGenerate(args);
+            return emberGenerate(args, { isModuleUnification: true });
           })
           .then(function() {
             expect(file('packages/foo-bar/package.json')).to.exist;
@@ -51,7 +48,7 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
             });
           })
           .then(function() {
-            return emberDestroy(args);
+            return emberDestroy(args, { isModuleUnification: true });
           })
           .then(function() {
             expect(file('packages/foo-bar/package.json')).to.not.exist;
