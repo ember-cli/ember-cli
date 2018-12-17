@@ -8,6 +8,8 @@ const Mocha = require('mocha');
 const RSVP = require('rsvp');
 const fs = require('fs-extra');
 
+const { isCI } = require('ci-info');
+
 if (process.env.EOLNEWLINE) {
   require('os').EOL = '\n';
 }
@@ -17,7 +19,7 @@ fs.removeSync('.deps-tmp');
 let root = 'tests/{unit,integration,acceptance}';
 let optionOrFile = process.argv[2];
 // default to `tap` reporter in CI otherwise default to `spec`
-let reporter = process.env.MOCHA_REPORTER || (process.env.CI ? 'tap' : 'spec');
+let reporter = process.env.MOCHA_REPORTER || (isCI ? 'tap' : 'spec');
 let mocha = new Mocha({
   timeout: 5000,
   reporter,

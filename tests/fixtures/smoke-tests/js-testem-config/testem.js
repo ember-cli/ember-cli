@@ -1,4 +1,8 @@
+'use strict';
+
 console.log('***CUSTOM_TESTEM_JS**');
+
+const { isCI } = require('ci-info');
 
 module.exports = {
   "framework": "qunit",
@@ -13,7 +17,7 @@ module.exports = {
   "browser_args": {
     "Chrome": [
       // --no-sandbox is needed when running Chrome inside a container
-      process.env.TRAVIS ? '--no-sandbox' : null,
+      isCI ? '--no-sandbox' : null,
 
       "--disable-gpu",
       "--headless",
