@@ -17,6 +17,12 @@ Usage
 [Longer description of how to use the addon in apps.]
 
 
+Contributing
+------------------------------------------------------------------------------
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+
 License
 ------------------------------------------------------------------------------
 
