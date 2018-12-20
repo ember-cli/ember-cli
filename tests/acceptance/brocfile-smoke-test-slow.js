@@ -237,6 +237,36 @@ describe('Acceptance: brocfile-smoke-test', function() {
     });
   }));
 
+  it('specifying custom output paths works properly', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/custom-output-paths');
+
+    let themeCSSPath;
+    if (isExperimentEnabled('MODULE_UNIFICATION')) {
+      themeCSSPath = path.join(appRoot, 'src', 'ui', 'styles', 'theme.css');
+    } else {
+      themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
+    }
+    fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    let files = [
+      '/css/app.css',
+      '/css/theme/a.css',
+      '/js/app.js',
+      '/css/vendor.css',
+      '/js/vendor.js',
+      '/css/test-support.css',
+      '/js/test-support.js',
+      '/my-app.html',
+    ];
+
+    let basePath = path.join(appRoot, 'dist');
+    files.forEach(function(f) {
+      expect(file(path.join(basePath, f))).to.exist;
+    });
+  }));
+
   it('specifying outputFile results in an explicitly generated assets', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/app-import-output-file');
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
