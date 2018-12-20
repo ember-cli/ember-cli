@@ -51,7 +51,7 @@ describe('ember-app-utils', function() {
 
         expect(
           actual,
-          '`<meta>` tag was included by default'
+          '`<meta>` tag was included with multibyte characters'
         ).to.contain(expected);
       });
 
