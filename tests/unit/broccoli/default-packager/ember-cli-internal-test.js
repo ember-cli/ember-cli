@@ -163,7 +163,7 @@ describe('Default Packager: Ember CLI Internal', function() {
     let appConfigFileContent = emberCliFiles['app-config.js'].trim();
 
     expect(appConfigFileContent).to.contain(`var rawConfig = document.querySelector(`);
-    expect(appConfigFileContent).to.contain(`var config = JSON.parse(unescape(rawConfig));`);
+    expect(appConfigFileContent).to.contain(`var config = JSON.parse(decodeURIComponent(rawConfig));`);
   }));
 
   it('populates the contents of internal files correctly, including content from add-ons', co.wrap(function *() {
