@@ -18,7 +18,7 @@ describe('ember-app-utils', function() {
     };
 
     let defaultMatch = '{{content-for \'head\'}}';
-    let escapedConfig = escape(JSON.stringify(config));
+    let escapedConfig = encodeURIComponent(JSON.stringify(config));
     let defaultOptions = {
       storeConfigInMeta: true,
       autoRun: true,
@@ -40,6 +40,18 @@ describe('ember-app-utils', function() {
         expect(
           actual,
           '`<meta>` tag was included by default'
+        ).to.contain(expected);
+      });
+
+      it('handles multibyte characters in `<meta>` tag', function() {
+        let configWithMultibyteChars = { modulePrefix: 'cool-å' };
+        let actual = contentFor(configWithMultibyteChars, defaultMatch, 'head', defaultOptions);
+        let escapedConfig = encodeURIComponent(JSON.stringify(configWithMultibyteChars));
+        let expected = `<meta name="cool-å/config/environment" content="${escapedConfig}" />`;
+
+        expect(
+          actual,
+          '`<meta>` tag was included with multibyte characters'
         ).to.contain(expected);
       });
 

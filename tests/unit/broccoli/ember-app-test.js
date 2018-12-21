@@ -1,5 +1,3 @@
-/* global escape */
-
 'use strict';
 
 const co = require('co');
