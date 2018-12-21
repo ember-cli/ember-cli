@@ -72,13 +72,12 @@ describe('addon command', function() {
     });
   });
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('doesn\'t allow to create an addon when the name is a period', function() {
-      return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
-        expect(error.message).to.equal('Trying to generate an addon structure in this directory? Use `ember init` instead.');
-      });
+  it('doesn\'t allow to create an addon when the name is a period', function() {
+    let blueprintName = isExperimentEnabled('MODULE_UNIFICATION') ? 'module-unification-addon' : 'addon';
+    return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
+      expect(error.message).to.equal(`Trying to generate an ${blueprintName} structure in this directory? Use \`ember init\` instead.`);
     });
-  }
+  });
 
   it('registers blueprint options in beforeRun', function() {
     td.replace(Blueprint, 'lookup', td.function());

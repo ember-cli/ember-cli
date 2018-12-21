@@ -53,12 +53,12 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
   }));
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('a custom environment config can be used in Brocfile.js', co.wrap(function *() {
-      yield copyFixtureFiles('brocfile-tests/custom-environment-config');
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-    }));
+  it('a custom environment config can be used in Brocfile.js', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/custom-environment-config');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+  }));
 
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
     it('without app/templates', co.wrap(function *() {
       yield copyFixtureFiles('brocfile-tests/pods-templates');
       yield remove(path.join(process.cwd(), 'app/templates'));
@@ -87,18 +87,16 @@ describe('Acceptance: brocfile-smoke-test', function() {
     }
   }));
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('using autoRun: true', co.wrap(function *() {
-      yield copyFixtureFiles('brocfile-tests/auto-run-true');
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+  it('using autoRun: true', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/auto-run-true');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-      let appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
-        encoding: 'utf8',
-      });
-
-      expect(appFileContents).to.match(/\/app"\)\["default"\]\.create\(/);
-    }));
-  }
+    let appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', `${appName}.js`), {
+      encoding: 'utf8',
+    });
+    const regex = isExperimentEnabled('MODULE_UNIFICATION') ? /\/main"\)\["default"\]\.create\(/ : /\/app"\)\["default"\]\.create\(/;
+    expect(appFileContents).to.match(regex);
+  }));
 
   it('using autoRun: false', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/auto-run-false');
@@ -108,7 +106,8 @@ describe('Acceptance: brocfile-smoke-test', function() {
       encoding: 'utf8',
     });
 
-    expect(appFileContents).to.not.match(/\/app"\)\["default"\]\.create\(/);
+    const regex = isExperimentEnabled('MODULE_UNIFICATION') ? /\/main"\)\["default"\]\.create\(/ : /\/app"\)\["default"\]\.create\(/;
+    expect(appFileContents).to.not.match(regex);
   }));
 
   it('app.import works properly with test tree files', co.wrap(function *() {
@@ -193,46 +192,50 @@ describe('Acceptance: brocfile-smoke-test', function() {
       chai.expect(assertions).to.equal(1);
     }));
 
-    it('specifying custom output paths works properly', co.wrap(function *() {
-      yield copyFixtureFiles('brocfile-tests/custom-output-paths');
-
-      let themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
-      fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
-
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-      let files = [
-        '/css/app.css',
-        '/css/theme/a.css',
-        '/js/app.js',
-        '/css/vendor.css',
-        '/js/vendor.js',
-        '/css/test-support.css',
-        '/js/test-support.js',
-        '/my-app.html',
-      ];
-
-      let basePath = path.join(appRoot, 'dist');
-      files.forEach(function(f) {
-        expect(file(path.join(basePath, f))).to.exist;
-      });
-    }));
-
-    it('multiple css files in app/styles/ are output when a preprocessor is not used', co.wrap(function *() {
-      yield copyFixtureFiles('brocfile-tests/multiple-css-files');
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-      let files = [
-        '/assets/some-cool-app.css',
-        '/assets/other.css',
-      ];
-
-      let basePath = path.join(appRoot, 'dist');
-      files.forEach(function(f) {
-        expect(file(path.join(basePath, f))).to.exist;
-      });
-    }));
   }
+
+  (isExperimentEnabled('MODULE_UNIFICATION') ? it.skip : it)('specifying custom output paths works properly', co.wrap(function *() {
+    yield copyFixtureFiles('brocfile-tests/custom-output-paths');
+
+    let themeCSSPath = path.join(appRoot, 'app', 'styles', 'theme.css');
+    fs.writeFileSync(themeCSSPath, 'html, body { margin: 20%; }');
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    let files = [
+      '/css/app.css',
+      '/css/theme/a.css',
+      '/js/app.js',
+      '/css/vendor.css',
+      '/js/vendor.js',
+      '/css/test-support.css',
+      '/js/test-support.js',
+      '/my-app.html',
+    ];
+
+    let basePath = path.join(appRoot, 'dist');
+    files.forEach(function(f) {
+      expect(file(path.join(basePath, f))).to.exist;
+    });
+  }));
+
+  it('multiple css files in styles/ are output when a preprocessor is not used', co.wrap(function *() {
+
+    let fixtureFolder = isExperimentEnabled('MODULE_UNIFICATION') ? 'multiple-css-files-mu' : 'multiple-css-files';
+    yield copyFixtureFiles(`brocfile-tests/${fixtureFolder}`);
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    let files = [
+      '/assets/some-cool-app.css',
+      '/assets/other.css',
+    ];
+
+    let basePath = path.join(appRoot, 'dist');
+    files.forEach(function(f) {
+      expect(file(path.join(basePath, f))).to.exist;
+    });
+  }));
 
   it('specifying outputFile results in an explicitly generated assets', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/app-import-output-file');
@@ -358,54 +361,53 @@ describe('Acceptance: brocfile-smoke-test', function() {
     expect(file(path.join(basePath, '/assets/some-cool-app.css'))).to.not.exist;
   }));
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('multiple paths can be CSS preprocessed', co.wrap(function *() {
-      yield copyFixtureFiles('brocfile-tests/multiple-sass-files');
+  it('multiple paths can be CSS preprocessed', co.wrap(function *() {
+    let fixtureFolder = isExperimentEnabled('MODULE_UNIFICATION') ? 'multiple-sass-files-mu' : 'multiple-sass-files';
+    yield copyFixtureFiles(`brocfile-tests/${fixtureFolder}`);
 
-      let packageJsonPath = path.join(appRoot, 'package.json');
-      let packageJson = fs.readJsonSync(packageJsonPath);
-      packageJson.devDependencies['ember-cli-sass'] = 'latest';
-      fs.writeJsonSync(packageJsonPath, packageJson);
+    let packageJsonPath = path.join(appRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.devDependencies['ember-cli-sass'] = 'latest';
+    fs.writeJsonSync(packageJsonPath, packageJson);
 
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-      expect(file('dist/assets/main.css'))
-        .to.equal('body { background: black; }\n', 'main.css contains correct content');
+    expect(file('dist/assets/main.css'))
+      .to.equal('body { background: black; }\n', 'main.css contains correct content');
 
-      expect(file('dist/assets/theme/a.css'))
-        .to.equal('.theme { color: red; }\n', 'theme/a.css contains correct content');
-    }));
-  }
+    expect(file('dist/assets/theme/a.css'))
+      .to.equal('.theme { color: red; }\n', 'theme/a.css contains correct content');
+  }));
 
   it('app.css is output to <app name>.css by default', co.wrap(function *() {
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
     expect(file(`dist/assets/${appName}.css`)).to.exist;
   }));
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    // for backwards compat.
-    it('app.scss is output to <app name>.css by default', co.wrap(function *() {
-      yield copyFixtureFiles('brocfile-tests/multiple-sass-files');
+  // for backwards compat.
+  it('app.scss is output to <app name>.css by default', co.wrap(function *() {
 
-      let brocfilePath = path.join(appRoot, 'ember-cli-build.js');
-      let brocfile = fs.readFileSync(brocfilePath, 'utf8');
+    let fixtureFolder = isExperimentEnabled('MODULE_UNIFICATION') ? 'multiple-sass-files-mu' : 'multiple-sass-files';
+    yield copyFixtureFiles(`brocfile-tests/${fixtureFolder}`);
 
-      // remove custom preprocessCss paths, use app.scss instead
-      brocfile = brocfile.replace(/outputPaths.*/, '');
+    let brocfilePath = path.join(appRoot, 'ember-cli-build.js');
+    let brocfile = fs.readFileSync(brocfilePath, 'utf8');
 
-      fs.writeFileSync(brocfilePath, brocfile, 'utf8');
+    // remove custom preprocessCss paths, use app.scss instead
+    brocfile = brocfile.replace(/outputPaths.*/, '');
 
-      let packageJsonPath = path.join(appRoot, 'package.json');
-      let packageJson = fs.readJsonSync(packageJsonPath);
-      packageJson.devDependencies['ember-cli-sass'] = 'latest';
-      fs.writeJsonSync(packageJsonPath, packageJson);
+    fs.writeFileSync(brocfilePath, brocfile, 'utf8');
 
-      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+    let packageJsonPath = path.join(appRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.devDependencies['ember-cli-sass'] = 'latest';
+    fs.writeJsonSync(packageJsonPath, packageJson);
 
-      expect(file(`dist/assets/${appName}.css`))
-        .to.equal('body { background: green; }\n');
-    }));
-  }
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    expect(file(`dist/assets/${appName}.css`))
+      .to.equal('body { background: green; }\n');
+  }));
 
   it('additional trees can be passed to the app', co.wrap(function *() {
     yield copyFixtureFiles('brocfile-tests/additional-trees');

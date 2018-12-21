@@ -48,7 +48,7 @@ describe('Acceptance: smoke-test', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
-  (isExperimentEnabled('MODULE_UNIFICATION') ? it.skip : it)('ember new foo, make sure addon template overwrites', co.wrap(function *() {
+  it('ember new foo, make sure addon template overwrites', co.wrap(function *() {
     yield ember(['generate', 'template', 'foo']);
     yield ember(['generate', 'in-repo-addon', 'my-addon']);
 
@@ -58,11 +58,19 @@ describe('Acceptance: smoke-test', function() {
     //return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
 
     // temporary work around
-    let templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
+    let templatePath,
+        packageJsonPath;
+    if (isExperimentEnabled('MODULE_UNIFICATION')) {
+      templatePath = path.join('packages', 'my-addon', 'src', 'ui', 'routes', 'foo.hbs');
+      packageJsonPath = path.join('packages', 'my-addon', 'package.json');
+    } else {
+      templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
+      packageJsonPath = path.join('lib', 'my-addon', 'package.json');
+    }
+
     fs.mkdirsSync(path.dirname(templatePath));
     fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
 
-    let packageJsonPath = path.join('lib', 'my-addon', 'package.json');
     let packageJson = fs.readJsonSync(packageJsonPath);
     packageJson.dependencies = packageJson.dependencies || {};
     packageJson.dependencies['ember-cli-htmlbars'] = '*';
@@ -208,8 +216,9 @@ describe('Acceptance: smoke-test', function() {
     expect(paths).to.have.length.below(24, `expected fewer than 24 files in dist, found ${paths.length}`);
   }));
 
-  (isExperimentEnabled('MODULE_UNIFICATION') ? it.skip : it)('ember build exits with non-zero code when build fails', co.wrap(function *() {
-    let appJsPath = path.join(appRoot, 'app', 'app.js');
+  it('ember build exits with non-zero code when build fails', co.wrap(function *() {
+    let rootPath = isExperimentEnabled('MODULE_UNIFICATION') ? 'src' : 'app';
+    let appJsPath = path.join(appRoot, rootPath, 'app.js');
 
     let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
     expect(result.code).to.equal(0, `expected exit code to be zero, but got ${result.code}`);
@@ -410,13 +419,15 @@ describe('Acceptance: smoke-test', function() {
     });
   }));
 
-  (isExperimentEnabled('MODULE_UNIFICATION') ? it.skip : it)('ember can override and reuse the built-in blueprints', co.wrap(function *() {
+  it('ember can override and reuse the built-in blueprints', co.wrap(function *() {
     yield copyFixtureFiles('addon/with-blueprint-override');
 
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar', '-p');
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar');
+
+    let filePath = isExperimentEnabled('MODULE_UNIFICATION') ? 'src/ui/components/new-path/foo-bar/component.js' : 'app/components/new-path/foo-bar.js';
 
     // because we're overriding, the fileMapTokens is default, sans 'component'
-    expect(file('app/foo-bar/component.js')).to.contain('generated component successfully');
+    expect(file(filePath)).to.contain('generated component successfully');
   }));
 
   it('template linting works properly for pods and classic structured templates', co.wrap(function *() {

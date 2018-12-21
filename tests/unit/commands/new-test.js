@@ -77,13 +77,12 @@ describe('new command', function() {
     });
   });
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('shows a suggestion messages when the application name is a period', function() {
-      return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
-        expect(error.message).to.equal('Trying to generate an application structure in this directory? Use `ember init` instead.');
-      });
+  it('shows a suggestion messages when the application name is a period', function() {
+    let blueprintName = isExperimentEnabled('MODULE_UNIFICATION') ? 'module-unification-app' : 'application';
+    return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
+      expect(error.message).to.equal(`Trying to generate an ${blueprintName} structure in this directory? Use \`ember init\` instead.`);
     });
-  }
+  });
 
   it('registers blueprint options in beforeRun', function() {
     td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
