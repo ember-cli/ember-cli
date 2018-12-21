@@ -558,23 +558,7 @@ describe('Default Packager: Tests', function() {
             'login-test.lint.js': ' // login-test.lint.js',
             'logout-test.lint.js': '',
           },
-          helpers: {
-            'resolver.js': '',
-            'start-app.js': '',
-          },
           'index.html': 'index',
-          integration: {
-            components: {
-              'login-form-test.js': '',
-              'user-menu-test.js': '',
-            },
-          },
-          'test-helper.js': '// test-helper.js',
-          unit: {
-            services: {
-              'session-test.js': '',
-            },
-          },
         },
         src: {
           'main.js': '',
@@ -583,6 +567,7 @@ describe('Default Packager: Tests', function() {
           ui: {
             components: {
               'login-form': {
+                'component-test.js': ' // login-form-component-test',
                 'component.js': '',
                 'template.hbs': '',
               },
@@ -632,7 +617,7 @@ describe('Default Packager: Tests', function() {
 
           customTransformsMap: new Map(),
 
-          isModuleUnification: true,
+          isModuleUnificationEnabled: true,
 
           vendorTestStaticStyles: [],
           legacyTestFilesToAppend: [],
@@ -661,6 +646,7 @@ describe('Default Packager: Tests', function() {
           'tests',
         ]);
 
+        expect(outputFiles.assets['tests.js']).to.include('login-form-component-test');
         expect(outputFiles.assets['tests.js']).to.include('login-test.js');
         expect(outputFiles.assets['tests.js']).to.include('login-test.lint.js');
         expect(outputFiles.assets['tests.js']).to.include('test-helper');
