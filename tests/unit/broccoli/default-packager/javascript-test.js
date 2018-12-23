@@ -320,6 +320,7 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
         ui: {
           components: {
             'login-form': {
+              'component-test.js': ' // login-form-component-test',
               'component.js': '',
               'template.hbs': '',
             },
