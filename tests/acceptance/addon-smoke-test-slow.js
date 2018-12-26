@@ -99,6 +99,47 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(result.code).to.eql(0);
   }));
 
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
+
+    it('MU addon works with classic dummy app', co.wrap(function *() {
+
+      // remove auto-generated MU tests folder (including dummy MU app)
+      fs.removeSync(path.join(addonRoot, 'tests'));
+
+      yield copyFixtureFiles('addon/kitchen-sink-mu-with-classic-dummy-app');
+
+      let packageJsonPath = path.join(addonRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+
+      packageJson.dependencies = packageJson.dependencies || {};
+      // add HTMLBars for templates (generators do this automatically when components/templates are added)
+      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+      fs.writeJsonSync(packageJsonPath, packageJson);
+      let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
+
+      expect(result.code).to.eql(0);
+      let contents;
+
+      let indexPath = path.join(addonRoot, 'dist', 'index.html');
+      contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+      expect(contents).to.contain('"SOME AWESOME STUFF"');
+
+      let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
+      contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
+      expect(contents).to.contain('addon/styles/app.css is present');
+
+      let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
+      contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
+      expect(contents).to.contain('tests/dummy/public/robots.txt is present');
+
+      result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
+
+      expect(result.code).to.eql(0);
+    }));
+
+  }
+
   it('npm pack does not include unnecessary files', co.wrap(function *() {
     let handleError = function(error, commandName) {
       if (error.code === 'ENOENT') {
