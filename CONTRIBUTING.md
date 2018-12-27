@@ -4,6 +4,58 @@ There are many ways to contribute to the project, you can fix issues,
 improve documentation or work on any of the features on the
 [wish list](https://github.com/ember-cli/ember-cli/wiki/Wish-List).
 
+
+# Development
+
+Start by cloning the Git project to your local hard drive:
+
+```
+git clone https://github.com/ember-cli/ember-cli.git
+```
+
+## Link `ember` to your development version
+
+
+Running the following command will link the global `ember` utility to your
+local development version:
+
+```
+npm link
+```
+
+Note that the global `ember` CLI utility will automatically relay to any
+project-local ember-cli installation. If you want to use your development
+version there instead run the following command from your Ember.js
+project folder:
+
+```
+npm link ember-cli
+```
+
+Read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html)
+for more information.
+
+
+## Run the test suite
+
+```
+npm test
+```
+
+will run ESLint and the "fast" subset of the test suite. Run
+`npm run test-all` for the full test suite which will currently take quite a
+few minutes due to heavy IO and network usage.
+
+ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
+you want to run a specific subset of tests have a look at their
+[documentation](https://mochajs.org/#exclusive-tests).
+
+
+## Build the documentation
+
+Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place
+it in `docs/build/`. Please help by improving this documentation.
+
 # Questions
 
 This is the issue tracker for `ember-cli`. The community uses this site
@@ -207,7 +259,7 @@ We can always use help improving our [Code Climate](https://codeclimate.com/gith
 
 Have you got enough knowledge in a specific feature and want to help with docs?
 Ember-cli documentation lives at the repository
-[ember-cli.github.io](https://github.com/ember-cli/ember-cli.github.io).
+[ember-learn/cli-guides](https://github.com/ember-learn/cli-guides).
 
 Feel free to contribute and help us to keep an updated, clear and complete
 documentation.
