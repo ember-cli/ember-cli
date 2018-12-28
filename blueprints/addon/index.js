@@ -13,6 +13,7 @@ let date = new Date();
 const normalizeEntityName = require('ember-cli-normalize-entity-name');
 const stringifyAndNormalize = require('../../lib/utilities/stringify-and-normalize');
 const FileInfo = require('../../lib/models/file-info');
+const getURLFor = require('ember-source-channel-url');
 
 const replacers = {
   'package.json'(content) {
@@ -20,6 +21,8 @@ const replacers = {
   },
 };
 
+
+let emberCanaryVersion;
 const description = 'The default blueprint for ember-cli addons.';
 module.exports = {
   description,
@@ -106,6 +109,12 @@ module.exports = {
     return new FileInfo(options);
   },
 
+  beforeInstall() {
+    return getURLFor('canary').then(url => {
+      emberCanaryVersion = url;
+    });
+  },
+
   afterInstall() {
     let packagePath = path.join(this.path, 'files', 'package.json');
     let bowerPath = path.join(this.path, 'files', 'bower.json');
@@ -132,6 +141,7 @@ module.exports = {
       namespace,
       addonName,
       addonNamespace,
+      emberCanaryVersion,
       emberCLIVersion: require('../../package').version,
       year: date.getFullYear(),
       yarn: options.yarn,

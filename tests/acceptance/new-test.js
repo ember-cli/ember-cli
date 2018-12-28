@@ -20,6 +20,7 @@ let dir = chai.dir;
 const forEach = require('ember-cli-lodash-subset').forEach;
 const assertVersionLock = require('../helpers/assert-version-lock');
 const { isExperimentEnabled } = require('../../lib/experiments');
+const getURLFor = require('ember-source-channel-url');
 
 let tmpDir = './tmp/new-test';
 
@@ -420,6 +421,16 @@ describe('Acceptance: ember new', function() {
   }));
 
   describe('verify fixtures', function() {
+
+    let emberCanaryVersion;
+    if (isExperimentEnabled('MODULE_UNIFICATION')) {
+      before(function() {
+        return getURLFor('canary').then(function(url) {
+          emberCanaryVersion = url;
+        });
+      });
+    }
+
     function checkEslintConfig(fixturePath) {
       expect(file('.eslintrc.js'))
         .to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
@@ -430,7 +441,8 @@ describe('Acceptance: ember new', function() {
       let currentVersion = isExperimentEnabled('MODULE_UNIFICATION') ? 'github:ember-cli/ember-cli' : require('../../package').version;
       let fixturePath = path.join(__dirname, '../fixtures', fixtureName, 'package.json');
       let fixtureContents = fs.readFileSync(fixturePath, { encoding: 'utf-8' })
-        .replace("<%= emberCLIVersion %>", currentVersion);
+        .replace("<%= emberCLIVersion %>", currentVersion)
+        .replace("<%= emberCanaryVersion %>", emberCanaryVersion);
 
       expect(file('package.json'))
         .to.equal(fixtureContents);
