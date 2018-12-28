@@ -33,13 +33,13 @@ describe('ember-app-utils', function() {
       const results = [];
       let match;
 
-      while((match = contentForRegex.exec(content)) !== null) {
+      while ((match = contentForRegex.exec(content)) !== null) {
         results.push(match);
       }
 
       expect(results).to.deep.equal([
         ['{{content-for \'foo\'}}', 'foo'],
-        ['{{content-for \'bar\'}}', 'bar']
+        ['{{content-for \'bar\'}}', 'bar'],
       ]);
     });
 
