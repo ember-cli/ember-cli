@@ -7,6 +7,7 @@ const expect = require('chai').expect;
 const emberAppUtils = require('../../../lib/utilities/ember-app-utils');
 
 const contentFor = emberAppUtils.contentFor;
+const configReplacePatterns = emberAppUtils.configReplacePatterns;
 const normalizeUrl = emberAppUtils.normalizeUrl;
 const calculateBaseTag = emberAppUtils.calculateBaseTag;
 const convertObjectToString = emberAppUtils.convertObjectToString;
@@ -25,6 +26,22 @@ describe('ember-app-utils', function() {
       addons: [],
       isModuleUnification: false,
     };
+
+    it('`content-for` regex returns all matches presents in a same line', function() {
+      const contentForRegex = configReplacePatterns(defaultOptions)[2].match;
+      const content = '{{content-for \'foo\'}} {{content-for \'bar\'}}';
+      const results = [];
+      let match;
+
+      while ((match = contentForRegex.exec(content)) !== null) {
+        results.push(match);
+      }
+
+      expect(results).to.deep.equal([
+        ['{{content-for \'foo\'}}', 'foo'],
+        ['{{content-for \'bar\'}}', 'bar'],
+      ]);
+    });
 
     it('returns an empty string if invalid type is specified', function() {
       expect(contentFor(config, defaultMatch, 'foo', defaultOptions)).to.equal('');
