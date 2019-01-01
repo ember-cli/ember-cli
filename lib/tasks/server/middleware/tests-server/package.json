@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "clean-base-url": "*",
-    "exists-sync": "*",
     "heimdalljs-logger": "*"
   }
 }
