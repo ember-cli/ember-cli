@@ -12,7 +12,6 @@ process.title = 'ember';
 
 // require('time-require');
 var resolve = require('resolve');
-var exit = require('exit');
 
 resolve('ember-cli', {
   basedir: process.cwd()
@@ -36,6 +35,7 @@ resolve('ember-cli', {
     outputStream: process.stdout,
     errorStream: process.stderr
   }).then(function(result) {
+    var exit = require('exit');
     var exitCode = typeof result === 'object' ? result.exitCode : result;
     exit(exitCode);
   });
