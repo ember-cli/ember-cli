@@ -58,6 +58,10 @@ Documentation
 ------------------------------------------------------------------------------
 Please refer to the [CLI guides](https://cli.emberjs.com/release/) for help using Ember CLI.
 
+Contributing
+------------------------------------------------------------------------------
+Please see the [contributing guidelines](./contributing.md)
+
 
 Community
 ------------------------------------------------------------------------------
