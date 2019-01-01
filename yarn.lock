@@ -6230,9 +6230,9 @@ test-exclude@^5.0.0:
     require-main-filename "^1.0.1"
 
 testdouble@^3.2.6, testdouble@^3.8.1:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.9.1.tgz#3c50f466e8b69836b6e94b140ab15474fceb75f4"
-  integrity sha512-GxbrMO8Fa58l+F1QODRh9FpKpb016ZqWte50HUoK9QvUgZQt9dxhx7NtYvvQzzsef2oBGSJxSsIaA3qBC0Bl6A==
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.9.2.tgz#5a7b01e480e73a26c0d7537d14741ecff39002b2"
+  integrity sha512-MVEM18XhnQM2tLsIkZjhPB8WM8vpf5vhnmc7hKbl1WrQx1JemBiLgPlCj3xoHN8/cjth5RBLla2YszLfoKthRw==
   dependencies:
     es6-map "^0.1.5"
     lodash "^4.17.11"
