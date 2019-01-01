@@ -25,6 +25,35 @@ try {
 
 logger.info('Resolved "ember-cli" to %j', projectLocalCli);
 
+if (!projectLocalCli && !process.versions.pnp) {
+  // If we haven't found `ember-cli` locally it might be installed though
+  // yarn plug'n'play. Let's check if an `.pnp.js` file exists and if so,
+  // use it to find `ember-cli` in the yarn cache and setup yarn PnP support
+  // for the following `require()` calls.
+  var findUp = require('find-up');
+
+  logger.info('Checking for ".pnp.js" file from %j...', basedir);
+  var pnpFile = findUp.sync('.pnp.js', { cwd: basedir });
+  logger.info('-> pnpFile: %j', pnpFile);
+  if (pnpFile) {
+    logger.info('Loading Yarn PnP API...');
+    var pnp = require(pnpFile);
+
+    logger.info('Setting up Yarn PnP compatibility layer...');
+    pnp.setupCompatibilityLayer();
+
+    logger.info('Setting up Yarn PnP Node.js hooks...');
+    pnp.setup();
+
+    logger.info('Resolving "ember-cli" through Yarn PnP...');
+    try {
+      projectLocalCli = pnp.resolveToUnqualified('ember-cli', basedir, { considerBuiltins: false });
+    } catch(ignored) {}
+
+    logger.info('Resolved "ember-cli" to %j', projectLocalCli);
+  }
+}
+
 // Load `ember-cli` either from the project-local path, or if it could not
 // be resolved use the global version
 logger.info('Loading "ember-cli"...');
