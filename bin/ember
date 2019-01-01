@@ -23,7 +23,7 @@ resolve('ember-cli', {
 
   logger.info('Loading "ember-cli"...');
   var cli;
-  if (error) {
+  if (!projectLocalCli) {
     // If there is an error, resolve could not find the ember-cli
     // library from a package.json. Instead, include it from a relative
     // path to this script file (which is likely a globally installed
