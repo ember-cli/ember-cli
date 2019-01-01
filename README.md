@@ -60,7 +60,7 @@ Please refer to the [CLI guides](https://cli.emberjs.com/release/) for help usin
 
 Contributing
 ------------------------------------------------------------------------------
-Please see the [contributing guidelines](./contributing.md)
+Please see the [contributing guidelines](./CONTRIBUTING.md)
 
 
 Community
