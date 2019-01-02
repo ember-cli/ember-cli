@@ -9,6 +9,7 @@
 /node_modules/
 
 # misc
+/.pnp*
 /.sass-cache
 /connect.lock
 /coverage/
