@@ -25,7 +25,7 @@
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^7.1.2",
-    "ember-cli-dependency-checker": "^3.0.0",
+    "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-eslint": "^4.2.3",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-cli-htmlbars-inline-precompile": "^1.0.3",
