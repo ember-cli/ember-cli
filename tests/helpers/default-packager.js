@@ -122,7 +122,7 @@ const DEFAULT_SOURCE = {
       'ember-cli': '~3.0.0-beta.1',
       'ember-cli-app-version': '^3.0.0',
       'ember-cli-babel': '^6.6.0',
-      'ember-cli-dependency-checker': '^3.0.0',
+      'ember-cli-dependency-checker': '^3.1.0',
       'ember-cli-eslint': '^4.2.1',
       'ember-cli-htmlbars': '^3.0.0',
       'ember-cli-htmlbars-inline-precompile': '^1.0.0',
