@@ -138,6 +138,33 @@ describe('Acceptance: addon-smoke-test', function() {
       expect(result.code).to.eql(0);
     }));
 
+  } else {
+
+    it('Classic addon works with MU dummy app', co.wrap(function *() {
+
+      // remove auto-generated Classic tests folder (including classic dummy app)
+      fs.removeSync(path.join(addonRoot, 'tests'));
+
+      yield copyFixtureFiles('addon/kitchen-sink-with-mu-dummy-app');
+
+      let packageJsonPath = path.join(addonRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+
+      packageJson.dependencies = packageJson.dependencies || {};
+      // add HTMLBars for templates (generators do this automatically when components/templates are added)
+      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+      fs.writeJsonSync(packageJsonPath, packageJson);
+
+      // EMBER_CLI_MODULE_UNIFICATION=true ember test
+      process.env.EMBER_CLI_MODULE_UNIFICATION = true;
+      let result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
+      delete process.env.EMBER_CLI_MODULE_UNIFICATION;
+
+      expect(result.code).to.eql(0);
+
+    }));
+
   }
 
   it('npm pack does not include unnecessary files', co.wrap(function *() {
