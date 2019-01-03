@@ -17,6 +17,21 @@
 Thank you to all who took the time to contribute!
 
 
+## v3.6.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.6.0...v3.6.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.6.0...v3.6.1)
+
+#### Community Contributions
+
+- [#8288](https://github.com/ember-cli/ember-cli/pull/8288) Add `ember-default` scenario to `ember-try` config again [@bendemboski](https://github.com/bendemboski)
+- [#8296](https://github.com/ember-cli/ember-cli/pull/8296) Add ember-source@3.4 LTS ember-try scenario. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.6.0
 
 #### Blueprint Changes
