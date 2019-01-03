@@ -159,7 +159,7 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@octokit/endpoint@^3.0.0":
+"@octokit/endpoint@^3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@octokit/endpoint/-/endpoint-3.1.1.tgz#ede9afefaa4d6b7584169e12346425c6fbb45cc3"
   integrity sha512-KPkoTvKwCTetu/UqonLs1pfwFO5HAqTv/Ksp9y4NAg//ZgUCpvJsT4Hrst85uEzJvkB8+LxKyR4Bfv2X8O4cmQ==
@@ -169,22 +169,22 @@
     universal-user-agent "^2.0.1"
     url-template "^2.0.8"
 
-"@octokit/request@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@octokit/request/-/request-2.2.0.tgz#f4b2d1ad7c4c8a0b148193610c912046961f8be5"
-  integrity sha512-4P9EbwKZ4xfyupVMb3KVuHmM+aO2fye3nufjGKz/qDssvdJj9Rlx44O0FdFvUp4kIzToy3AHLTOulEIDAL+dpg==
+"@octokit/request@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@octokit/request/-/request-2.2.1.tgz#1b445e3052842b1f3ab94d68e2606840c85b4265"
+  integrity sha512-enwbVOl3vWWIUuEj0LJRq+mxWNyv95fa13GJitz7qGt/ycYCwtSoVssW3pCqvxS4GlJfHfO2OA+8czIcEF522A==
   dependencies:
-    "@octokit/endpoint" "^3.0.0"
+    "@octokit/endpoint" "^3.1.1"
     is-plain-object "^2.0.4"
     node-fetch "^2.3.0"
     universal-user-agent "^2.0.1"
 
 "@octokit/rest@^16.3.0":
-  version "16.3.0"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.3.0.tgz#98a24a3334312a87fff8a2a54c1dca4d0900d54d"
-  integrity sha512-u0HkROLB0nOSfJhkF5FKMg6I12m6cN5S3S73Lwtfgrs9u4LhgUCZN2hC2KDyIaT7nhvNe9Kx0PgxhhD6li6QsA==
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.3.2.tgz#8dd08f5b11ce9dfb785669326fb4d904bf91d143"
+  integrity sha512-g1Shr7Bp5K3+o1VdUvQn//8ZIAFFODBi9GFdx4eqV2qZQtWwy28jmCGuS+CphnCj8PlQbFmZtXvmUh5xIRGFcA==
   dependencies:
-    "@octokit/request" "2.2.0"
+    "@octokit/request" "2.2.1"
     before-after-hook "^1.2.0"
     btoa-lite "^1.0.0"
     lodash.get "^4.4.2"
