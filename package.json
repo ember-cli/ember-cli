@@ -95,7 +95,7 @@
     "inflection": "^1.12.0",
     "is-git-url": "^1.0.0",
     "isbinaryfile": "^3.0.3",
-    "js-yaml": "^3.12.0",
+    "js-yaml": "^3.12.1",
     "json-stable-stringify": "^1.0.1",
     "leek": "0.0.24",
     "lodash.template": "^4.4.0",
