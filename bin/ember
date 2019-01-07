@@ -10,33 +10,36 @@
 // Provide a title to the process in `ps`
 process.title = 'ember';
 
-// require('time-require');
 var resolve = require('resolve');
-var exit = require('exit');
+var logger = require('heimdalljs-logger')('ember-cli:bin');
 
-resolve('ember-cli', {
-  basedir: process.cwd()
-}, function(error, projectLocalCli) {
-  var cli;
-  if (error) {
-    // If there is an error, resolve could not find the ember-cli
-    // library from a package.json. Instead, include it from a relative
-    // path to this script file (which is likely a globally installed
-    // npm package). Most common cause for hitting this is `ember new`
-    cli = require('../lib/cli');
-  } else {
-    // No error implies a projectLocalCli, which will load whatever
-    // version of ember-cli you have installed in a local package.json
-    cli = require(projectLocalCli);
-  }
+var basedir = process.cwd();
+logger.info('Resolving "ember-cli" from %j...', basedir);
 
-  cli({
-    cliArgs: process.argv.slice(2),
-    inputStream: process.stdin,
-    outputStream: process.stdout,
-    errorStream: process.stderr
-  }).then(function(result) {
-    var exitCode = typeof result === 'object' ? result.exitCode : result;
-    exit(exitCode);
+var projectLocalCli;
+try {
+  projectLocalCli = resolve.sync('ember-cli', {
+    basedir: basedir
   });
+} catch(ignored) {}
+
+logger.info('Resolved "ember-cli" to %j', projectLocalCli);
+
+// Load `ember-cli` either from the project-local path, or if it could not
+// be resolved use the global version
+logger.info('Loading "ember-cli"...');
+var cli = require(projectLocalCli || '../lib/cli');
+
+logger.info('Starting "ember-cli"...');
+cli({
+  cliArgs: process.argv.slice(2),
+  inputStream: process.stdin,
+  outputStream: process.stdout,
+  errorStream: process.stderr
+}).then(function(result) {
+  var exit = require('exit');
+  var exitCode = typeof result === 'object' ? result.exitCode : result;
+
+  logger.info('Quitting "ember-cli" with exit code: %j', exitCode);
+  exit(exitCode);
 });
