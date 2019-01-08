@@ -30,8 +30,8 @@ describe('test server', function() {
           expect(options.reporter).to.equal('xunit');
           expect(options.middleware).to.deep.equal(['middleware1', 'middleware2']);
           expect(options.test_page).to.equal('http://my/test/page');
-          expect(options.cwd).to.be.undefined;
-          expect(options.config_dir).to.be.undefined;
+          expect(options.cwd).to.equal('cwd-from-testem');
+          expect(options.config_dir).to.be.an('string');
           expect(this.defaultOptions.cwd).to.equal('blerpy-derpy');
           expect(this.defaultOptions.config_dir).to.be.an('string');
           finalizer(0);
@@ -40,6 +40,7 @@ describe('test server', function() {
     });
 
     let runResult = subject.run({
+      cwd: 'cwd-from-testem',
       host: 'greatwebsite.com',
       port: 123324,
       reporter: 'xunit',
