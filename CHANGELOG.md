@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v3.7.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.7.0...v3.7.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.7.0...v3.7.1)
+
+#### Community Contributions
+
+- [#8357](https://github.com/ember-cli/ember-cli/pull/8357) blueprints/addon: Fix incorrect job formatting in `.travis.yml` config [@buschtoens](https://github.com/buschtoens)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.7.0
 
 #### Blueprint Changes
