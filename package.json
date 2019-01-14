@@ -79,7 +79,7 @@
     "execa": "^1.0.0",
     "exit": "^0.1.2",
     "express": "^4.16.3",
-    "filesize": "^3.6.1",
+    "filesize": "^4.0.0",
     "find-up": "^3.0.0",
     "find-yarn-workspace-root": "^1.1.0",
     "fs-extra": "^7.0.0",
