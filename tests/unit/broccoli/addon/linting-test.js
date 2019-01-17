@@ -11,7 +11,7 @@ const Addon = require('../../../../lib/models/addon');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Addon', function() {
+describe('Addon - linting', function() {
   let input, output, addon, lintTrees;
 
   beforeEach(co.wrap(function *() {
