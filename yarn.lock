@@ -515,10 +515,10 @@ babel-code-frame@^6.22.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-plugin-module-resolver@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-3.1.1.tgz#881cf67e3d4b8400d5eaaefc1be44d2dc1fe404f"
-  integrity sha512-1Q77Al4ydp6nYApJ7sQ2fmgz30WuQgJZegIYuyOdbdpxenB/bSezQ3hDPsumIXGlUS4vUIv+EwFjzzXZNWtARw==
+babel-plugin-module-resolver@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-3.1.2.tgz#5d4bd3572eb1d1d4c7ca37bd53de8ec82d251dcb"
+  integrity sha512-OiDI8VKCp8zcjhbp/QwqZ5MliRTHp+Fv8tO2IJYiCl1B18/4t8ZCVhm90/8JDe+Zu4Th/DUxeLCHws8kbkVUZQ==
   dependencies:
     find-babel-config "^1.1.0"
     glob "^7.1.2"
