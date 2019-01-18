@@ -116,5 +116,9 @@ module.exports = {
     'symbol-description': 2,
     'template-curly-spacing': 2,
     'yield-star-spacing': 2,
+
+    'node/no-missing-require': ['error', {
+      'allowModules': ['pnpapi'],
+    }],
   },
 };
