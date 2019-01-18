@@ -45,6 +45,9 @@ if (!projectLocalCli && !process.versions.pnp) {
     logger.info('Setting up Yarn PnP Node.js hooks...');
     pnp.setup();
 
+    logger.info('Adding ' + pnpFile + ' to NODE_OPTIONS...');
+    process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --require ' + pnpFile;
+
     logger.info('Resolving "ember-cli" through Yarn PnP...');
     try {
       projectLocalCli = pnp.resolveToUnqualified('ember-cli', basedir, { considerBuiltins: false });
