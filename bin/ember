@@ -45,6 +45,8 @@ if (!projectLocalCli && !process.versions.pnp) {
     logger.info('Setting up Yarn PnP Node.js hooks...');
     pnp.setup();
 
+    // We add `--require ${pnpFile}` to the NODE_OPTIONS environment variable
+    // here to ensure that any `child_process` calls will use Yarn PnP mode too
     logger.info('Adding ' + pnpFile + ' to NODE_OPTIONS...');
     process.env.NODE_OPTIONS = (process.env.NODE_OPTIONS || '') + ' --require ' + pnpFile;
 
