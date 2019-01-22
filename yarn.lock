@@ -179,16 +179,15 @@
     node-fetch "^2.3.0"
     universal-user-agent "^2.0.1"
 
-"@octokit/rest@^16.11.0":
-  version "16.11.0"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.11.0.tgz#66af848e8e6110bbfec4be3d9ecfac78a55f30a3"
-  integrity sha512-hC+BzeeuX+WST/zwNwED6NgdXeDH1XOnfRnab5tGnaQP8HScl0M9/L95si2/okzuuNiKBUR+OyS8Vm5CkVt9bg==
+"@octokit/rest@^16.13.1":
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.13.1.tgz#abc132110aa7584d4ebfff3c9fff9a7d6a0c3ae7"
+  integrity sha512-r7Dg0m27todnsiXdvZcZfQm7TCND7a5vC4/IwuLoIcg1mhwk26cWsUSOMzSXOUjxjjun5H2oKzM0vBVtohKypw==
   dependencies:
     "@octokit/request" "2.3.0"
     before-after-hook "^1.2.0"
     btoa-lite "^1.0.0"
     lodash.get "^4.4.2"
-    lodash.pick "^4.4.0"
     lodash.set "^4.3.2"
     lodash.uniq "^4.5.0"
     octokit-pagination-methods "^1.1.0"
@@ -4225,11 +4224,6 @@ lodash.omit@^4.1.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
   integrity sha1-brGa5aHuHdnfC5aeZs4Lf6MLXmA=
-
-lodash.pick@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
-  integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
 
 lodash.restparam@^3.0.0:
   version "3.6.1"
