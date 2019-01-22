@@ -109,7 +109,7 @@
     "portfinder": "^1.0.15",
     "promise-map-series": "^0.2.3",
     "quick-temp": "^0.1.8",
-    "resolve": "^1.8.1",
+    "resolve": "^1.10.0",
     "rsvp": "^4.8.3",
     "sane": "^4.0.0",
     "semver": "^5.5.0",
