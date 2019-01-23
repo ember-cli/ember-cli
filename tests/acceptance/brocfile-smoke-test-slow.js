@@ -425,4 +425,23 @@ describe('Acceptance: brocfile-smoke-test', function() {
       expect(file(path.join(basePath, f))).to.exist;
     });
   }));
+
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
+
+    it('can run a MU unit test with a relative import', co.wrap(function *() {
+      yield copyFixtureFiles('brocfile-tests/mu-unit-test-with-relative-import');
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+      let appFileContents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'tests.js'), {
+        encoding: 'utf8',
+      });
+
+      expect(appFileContents).to.include('Unit | Utility | string');
+
+      let result = yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
+      expect(result.code).to.eql(0);
+
+    }));
+
+  }
 });
