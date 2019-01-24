@@ -84,7 +84,7 @@ describe('Acceptance: ember new', function() {
       : "app/templates/application.hbs";
 
     expect(file(filePath))
-      .to.contain("{{welcome-page}}");
+      .to.contain("<WelcomePage />");
   }));
 
   it('ember new --no-welcome skips installation of ember-welcome-page', co.wrap(function *() {
