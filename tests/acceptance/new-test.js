@@ -124,6 +124,22 @@ describe('Acceptance: ember new', function() {
     expect(dir('tests/acceptance')).to.exist;
   }));
 
+  it('ember new octane-app', co.wrap(function *() {
+    this.timeout(60000);
+    yield ember([
+      'new',
+      'foo',
+      '--blueprint',
+      'octane-app',
+      '--skip-npm',
+      '--skip-bower',
+    ]);
+
+    expect(file("src/ui/routes/application/template.hbs"))
+      .to.contain("Welcome to Ember");
+
+  }));
+
   it('ember new foo, where foo does not yet exist, works', co.wrap(function *() {
     yield ember([
       'new',
