@@ -2528,9 +2528,9 @@ ember-cli-version-checker@^2.1.2:
     resolve "^1.3.3"
     semver "^5.3.0"
 
-ember-octane-blueprint@ppcano/ember-octane-blueprint#ea9175e4d0788b70ca778193cc7f8d54fd8d5ef0:
+ember-octane-blueprint@ember-cli/ember-octane-blueprint#8/head:
   version "0.1.1"
-  resolved "https://codeload.github.com/ppcano/ember-octane-blueprint/tar.gz/ea9175e4d0788b70ca778193cc7f8d54fd8d5ef0"
+  resolved "https://codeload.github.com/ember-cli/ember-octane-blueprint/tar.gz/ea9175e4d0788b70ca778193cc7f8d54fd8d5ef0"
   dependencies:
     ember-cli-babel "^7.1.2"
     ember-cli-string-utils "^1.1.0"

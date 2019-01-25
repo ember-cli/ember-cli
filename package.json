@@ -74,7 +74,7 @@
     "ember-cli-normalize-entity-name": "^1.0.0",
     "ember-cli-preprocess-registry": "^3.1.2",
     "ember-cli-string-utils": "^1.1.0",
-    "ember-octane-blueprint": "ppcano/ember-octane-blueprint#ea9175e4d0788b70ca778193cc7f8d54fd8d5ef0",
+    "ember-octane-blueprint": "ember-cli/ember-octane-blueprint#8/head",
     "ember-source-channel-url": "^1.1.0",
     "ensure-posix-path": "^1.0.2",
     "execa": "^1.0.0",
