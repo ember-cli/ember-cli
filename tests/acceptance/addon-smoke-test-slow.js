@@ -140,6 +140,36 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(outputFiles).to.not.contain(unnecessaryFiles);
     expect(outputFiles).to.not.contain(unnecessaryFolders);
   }));
+
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
+
+    it('can run a MU unit test with a relative import', co.wrap(function *() {
+      yield copyFixtureFiles('brocfile-tests/mu-unit-test-with-relative-import');
+
+      let packageJsonPath = path.join(addonRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+
+      packageJson.dependencies = packageJson.dependencies || {};
+      // add HTMLBars for templates (generators do this automatically when components/templates are added)
+      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+      fs.writeJsonSync(packageJsonPath, packageJson);
+
+      let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
+      expect(result.code).to.eql(0);
+
+      let appFileContents = fs.readFileSync(path.join(addonRoot, 'dist', 'assets', 'tests.js'), {
+        encoding: 'utf8',
+      });
+
+      expect(appFileContents).to.include('Unit | Utility | string');
+
+      result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
+      expect(result.code).to.eql(0);
+
+    }));
+
+  }
 });
 
 function npmPack() {
