@@ -57,17 +57,15 @@ module.exports = {
     contents.dependencies['ember-cli-htmlbars'] = contents.devDependencies['ember-cli-htmlbars'];
     delete contents.devDependencies['ember-cli-htmlbars'];
 
-    // 99% of addons don't need ember-data, make it opt-in instead
+    // 95% of addons don't need ember-data or ember-fetch, make them opt-in instead
     delete contents.devDependencies['ember-data'];
+    delete contents.devDependencies['ember-fetch'];
 
     // 100% of addons don't need ember-cli-app-version, make it opt-in instead
     delete contents.devDependencies['ember-cli-app-version'];
 
     // addons should test _without_ jquery by default
     delete contents.devDependencies['@ember/jquery'];
-
-    // ember-ajax depends on jquery, make it opt-in
-    delete contents.devDependencies['ember-ajax'];
 
     if (contents.keywords.indexOf('ember-addon') === -1) {
       contents.keywords.push('ember-addon');

@@ -57,7 +57,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
       if (isExperimentEnabled('MODULE_UNIFICATION')) {
         expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23"};';
       } else {
-        expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23","_JQUERY_INTEGRATION":true};';
+        expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23","_JQUERY_INTEGRATION":false};';
       }
       expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
     })
