@@ -372,7 +372,7 @@ describe('Acceptance: smoke-test', function() {
   }));
 
   it('ember new foo, build production and verify css files are concatenated', co.wrap(function *() {
-    yield copyFixtureFiles('with-styles');
+    yield copyFixtureFiles(isExperimentEnabled('MODULE_UNIFICATION') ? 'with-styles-mu' : 'with-styles');
 
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
 
@@ -389,7 +389,7 @@ describe('Acceptance: smoke-test', function() {
   }));
 
   it('ember new foo, build production and verify css files are minified', co.wrap(function *() {
-    yield copyFixtureFiles('with-unminified-styles');
+    yield copyFixtureFiles(isExperimentEnabled('MODULE_UNIFICATION') ? 'with-unminified-styles-mu' : 'with-unminified-styles');
 
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
 

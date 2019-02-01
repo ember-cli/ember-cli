@@ -17,6 +17,7 @@ const mergeTrees = require('../../../lib/broccoli/merge-trees');
 const BroccoliMergeTrees = require('broccoli-merge-trees');
 
 let EmberApp = require('../../../lib/broccoli/ember-app');
+const Addon = require('../../../lib/models/addon');
 
 function mockTemplateRegistry(app) {
   let oldLoad = app.registry.load;
@@ -289,6 +290,101 @@ describe('EmberApp', function() {
         },
       });
 
+      yield output.dispose();
+    }));
+
+    it('can handle empty addon styles folders', co.wrap(function *() {
+      let appOptions = { project };
+
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        appOptions.trees = { src: {} };
+      }
+
+      let app = new EmberApp(appOptions);
+
+      let AddonFoo = Addon.extend({
+        root: 'foo',
+        name: 'foo',
+      });
+      let addonFoo = new AddonFoo(app, project);
+      app.project.addons.push(addonFoo);
+
+      let output = yield buildOutput(app.getStyles());
+      let outputFiles = output.read();
+
+      let expectedOutput;
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        expectedOutput = {
+          src: {
+            ui: {
+              styles: {
+              },
+            },
+          },
+        };
+      } else {
+        expectedOutput = {};
+      }
+      expect(outputFiles).to.deep.equal(expectedOutput);
+
+      yield output.dispose();
+    }));
+
+    it('add `app/styles` folder from add-ons', co.wrap(function *() {
+      let addonFooStyles = yield createTempDir();
+
+      addonFooStyles.write({
+        app: {
+          styles: {
+            'foo.css': 'foo',
+          },
+        },
+      });
+
+      let appOptions = { project };
+
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        appOptions.trees = { src: {} };
+      }
+
+      let app = new EmberApp(appOptions);
+
+      let AddonFoo = Addon.extend({
+        root: 'foo',
+        name: 'foo',
+        treeForStyles() {
+          return addonFooStyles.path();
+        },
+      });
+      let addonFoo = new AddonFoo(app, project);
+      app.project.addons.push(addonFoo);
+
+      let output = yield buildOutput(app.getStyles());
+      let outputFiles = output.read();
+
+      let expectedOutput;
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        expectedOutput = {
+          src: {
+            ui: {
+              styles: {
+                'foo.css': 'foo',
+              },
+            },
+          },
+        };
+      } else {
+        expectedOutput = {
+          app: {
+            styles: {
+              'foo.css': 'foo',
+            },
+          },
+        };
+      }
+      expect(outputFiles).to.deep.equal(expectedOutput);
+
+      yield addonFooStyles.dispose();
       yield output.dispose();
     }));
 

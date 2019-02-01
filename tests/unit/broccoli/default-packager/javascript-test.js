@@ -398,9 +398,6 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
       let outputFiles = outputMU.read();
 
       expect(outputFiles['the-best-app-ever']).to.deep.equal({
-        assets: {
-          'app.css': 'html { height: 100%; }',
-        },
         src: {
           'main.js': '',
           'resolver.js': '',
