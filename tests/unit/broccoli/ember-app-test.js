@@ -468,6 +468,10 @@ describe('EmberApp', function() {
         'bar': 'bar',
       });
 
+      app = new EmberApp({
+        project,
+      });
+
       app.trees.public = input.path();
       app.addonTreesFor = function() {
         return [
@@ -509,6 +513,10 @@ describe('EmberApp', function() {
       });
       addonBarPublic.write({
         'bar': 'bar',
+      });
+
+      app = new EmberApp({
+        project,
       });
 
       app.trees.public = input.path();
@@ -1644,27 +1652,76 @@ describe('EmberApp', function() {
     });
   });
 
-  it('shows ember-cli-shims deprecation', function() {
-    let root = path.resolve(__dirname, '../../fixtures/app/npm');
-    let project = setupProject(root);
-    project.require = function() {
-      return {
-        version: '5.0.0',
-      };
-    };
-    project.initializeAddons = function() {
-      this.addons = [
-        {
-          name: 'ember-cli-babel',
-          pkg: { version: '5.0.0' },
-        },
-      ];
-    };
 
-    app = new EmberApp({
-      project,
+  describe('deprecations', function() {
+    it('shows ember-cli-shims deprecation', function() {
+      let root = path.resolve(__dirname, '../../fixtures/app/npm');
+      let project = setupProject(root);
+      project.require = function() {
+        return {
+          version: '5.0.0',
+        };
+      };
+      project.initializeAddons = function() {
+        this.addons = [
+          {
+            name: 'ember-cli-babel',
+            pkg: { version: '5.0.0' },
+          },
+        ];
+      };
+
+      app = new EmberApp({
+        project,
+      });
+
+      expect(project.ui.output).to.contain("You have not included `ember-cli-shims` in your project's `bower.json` or `package.json`.");
     });
 
-    expect(project.ui.output).to.contain("You have not included `ember-cli-shims` in your project's `bower.json` or `package.json`.");
+    describe('jQuery integration', function() {
+      it('shows deprecation', function() {
+        project.initializeAddons = function() {
+          this.addons = [
+            { name: 'ember-source', paths: {} },
+          ];
+        };
+        app = new EmberApp({ project });
+
+        expect(project.ui.output).to.contain(
+          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
+        );
+      });
+
+      it('does not show deprecation if the app has `@ember/jquery` installed', function() {
+        project.initializeAddons = function() {
+          this.addons = [
+            { name: 'ember-source', paths: {} },
+            { name: '@ember/jquery' },
+          ];
+        };
+        app = new EmberApp({ project });
+        expect(project.ui.output).to.not.contain(
+          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
+        );
+      });
+
+      it('does not show deprecation if the app has `@ember/optional-features` with the `jquery-integration` FF turned off', function() {
+        project.initializeAddons = function() {
+          this.addons = [
+            { name: 'ember-source', paths: {} },
+            {
+              name: '@ember/optional-features',
+              isFeatureEnabled() {
+                return false;
+              },
+            },
+          ];
+        };
+        app = new EmberApp({ project, vendorFiles: { 'ember-testing.js': null } });
+        expect(project.ui.output).to.not.contain(
+          'The integration of jQuery into Ember has been deprecated and will be removed with Ember 4.0'
+        );
+      });
+    });
   });
 });
