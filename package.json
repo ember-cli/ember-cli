@@ -143,7 +143,6 @@
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mocha-eslint": "^4.1.0",
-    "multiline": "^2.0.0",
     "nock": "^10.0.2",
     "nyc": "^13.2.0",
     "rimraf": "^2.6.2",
