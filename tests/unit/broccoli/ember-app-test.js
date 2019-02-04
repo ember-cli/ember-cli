@@ -19,6 +19,23 @@ const BroccoliMergeTrees = require('broccoli-merge-trees');
 let EmberApp = require('../../../lib/broccoli/ember-app');
 const Addon = require('../../../lib/models/addon');
 
+
+function createAddon({ name, app, project, root, isMu, styles }) {
+  const AddonFoo = Addon.extend({
+    root,
+    name,
+    isModuleUnification() {
+      return isMu;
+    },
+    treeForStyles(tree) {
+      tree = mergeTrees([tree, styles]);
+      return this._super.treeForStyles.call(this, tree);
+    },
+  });
+  return new AddonFoo(app, project);
+}
+
+
 function mockTemplateRegistry(app) {
   let oldLoad = app.registry.load;
   app.registry.load = function(type) {
@@ -166,7 +183,7 @@ describe('EmberApp', function() {
 
         let outputFiles = output.read();
 
-        expect(outputFiles).to.deep.equal({
+        const result = {
           'addon-tree-output': {},
           fake: {
             dist: {
@@ -191,7 +208,18 @@ describe('EmberApp', function() {
           vendor: {
             '.gitkeep': '',
           },
-        });
+        };
+        if (isExperimentEnabled('MODULE_UNIFICATION')) {
+          result.src = {
+            ui: {
+              styles: {
+                'app.css': '// css styles',
+              },
+            },
+          };
+          delete result.app;
+        }
+        expect(outputFiles).to.deep.equal(result);
       }));
 
       it('prints a warning if `package` is not a function and falls back to default packaging', co.wrap(function *() {
@@ -266,29 +294,33 @@ describe('EmberApp', function() {
   describe('getStyles()', function() {
     it('can handle empty styles folders', co.wrap(function *() {
       let appStyles = yield createTempDir();
-      appStyles.write({
-        'app.css': '// css styles',
-      });
 
       let app = new EmberApp({
         project,
         trees: {
+          src: isExperimentEnabled('MODULE_UNIFICATION') ? {} : undefined,
           styles: appStyles.path(),
         },
       });
 
-      app.addonTreesFor = () => [];
-
       let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      expect(outputFiles).to.deep.equal({
-        app: {
-          styles: {
-            'app.css': '// css styles',
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        expect(outputFiles).to.deep.equal({
+          src: {
+            ui: {
+              styles: {},
+            },
           },
-        },
-      });
+        });
+      } else {
+        expect(outputFiles).to.deep.equal({
+          app: {
+            styles: {},
+          },
+        });
+      }
 
       yield output.dispose();
     }));
@@ -302,12 +334,7 @@ describe('EmberApp', function() {
 
       let app = new EmberApp(appOptions);
 
-      let AddonFoo = Addon.extend({
-        root: 'foo',
-        name: 'foo',
-      });
-      let addonFoo = new AddonFoo(app, project);
-      app.project.addons.push(addonFoo);
+      app.project.addons.push(createAddon({ name: 'foo', app, project, root: 'foo' }));
 
       let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
@@ -323,14 +350,18 @@ describe('EmberApp', function() {
           },
         };
       } else {
-        expectedOutput = {};
+        expectedOutput = {
+          app: {
+            styles: {},
+          },
+        };
       }
       expect(outputFiles).to.deep.equal(expectedOutput);
 
       yield output.dispose();
     }));
 
-    it('add `app/styles` folder from add-ons', co.wrap(function *() {
+    it('adds `app/styles` folder from add-ons', co.wrap(function *() {
       let addonFooStyles = yield createTempDir();
 
       addonFooStyles.write({
@@ -341,30 +372,20 @@ describe('EmberApp', function() {
         },
       });
 
-      let appOptions = { project };
-
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        appOptions.trees = { src: {} };
-      }
-
-      let app = new EmberApp(appOptions);
-
-      let AddonFoo = Addon.extend({
-        root: 'foo',
-        name: 'foo',
-        treeForStyles() {
-          return addonFooStyles.path();
+      let app = new EmberApp({
+        project,
+        trees: {
+          src: isExperimentEnabled('MODULE_UNIFICATION') ? {} : undefined,
         },
       });
-      let addonFoo = new AddonFoo(app, project);
-      app.project.addons.push(addonFoo);
+      let addonFoo = createAddon({ name: 'foo', app, project, root: addonFooStyles.dir });
+      app.project.addons = [addonFoo];
 
       let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      let expectedOutput;
       if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        expectedOutput = {
+        expect(outputFiles).to.deep.equal({
           src: {
             ui: {
               styles: {
@@ -372,25 +393,25 @@ describe('EmberApp', function() {
               },
             },
           },
-        };
+        });
       } else {
-        expectedOutput = {
+        expect(outputFiles).to.deep.equal({
           app: {
             styles: {
               'foo.css': 'foo',
             },
           },
-        };
+        });
       }
-      expect(outputFiles).to.deep.equal(expectedOutput);
 
-      yield addonFooStyles.dispose();
       yield output.dispose();
     }));
 
     it('returns add-ons styles files', co.wrap(function *() {
       let addonFooStyles = yield createTempDir();
+      let addonFooCustomStyles = yield createTempDir();
       let addonBarStyles = yield createTempDir();
+      let addonMUStyles = yield createTempDir();
 
       // `ember-basic-dropdown`
       addonFooStyles.write({
@@ -400,6 +421,21 @@ describe('EmberApp', function() {
           },
         },
       });
+
+      addonFooCustomStyles.write({
+        'bar.css': 'bar',
+      });
+
+      addonMUStyles.write({
+        src: {
+          ui: {
+            styles: {
+              'foo.css': 'foo',
+            },
+          },
+        },
+      });
+
       // `ember-bootstrap`
       addonBarStyles.write({
         baztrap: {
@@ -409,43 +445,87 @@ describe('EmberApp', function() {
 
       let app = new EmberApp({
         project,
+        trees: {
+          src: isExperimentEnabled('MODULE_UNIFICATION') ? {} : undefined,
+        },
       });
-      app.addonTreesFor = function() {
-        return [
-          addonFooStyles.path(),
-          addonBarStyles.path(),
-        ];
+
+      const oldMuFn = project.isModuleUnification;
+      project.isModuleUnification = function() {
+        return isExperimentEnabled('MODULE_UNIFICATION');
       };
+
+      let addonFoo = createAddon({ name: 'foo', app, project, root: addonFooStyles.dir, styles: addonFooCustomStyles.path() });
+      let addonBar = createAddon({ name: 'bar', app, project, root: addonBarStyles.dir, styles: addonBarStyles.path() });
+      let addonMu = createAddon({ name: 'mu', app, project, root: addonMUStyles.dir, isMu: true });
+      app.project.addons = [addonFoo, addonBar, addonMu];
 
       let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      expect(outputFiles).to.deep.equal({
-        app: {
-          styles: {
-            'foo.css': 'foo',
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        expect(outputFiles).to.deep.equal({
+          src: {
+            ui: {
+              styles: {
+                'foo.css': 'foo',
+                'bar.css': 'bar',
+                "baztrap": {
+                  "baztrap.css": "// baztrap.css",
+                },
+              },
+            },
           },
-        },
-        baztrap: {
-          'baztrap.css': '// baztrap.css',
-        },
-      });
+        });
+      } else {
+        expect(outputFiles).to.deep.equal({
+          app: {
+            styles: {
+              'foo.css': 'foo',
+              'bar.css': 'bar',
+              "baztrap": {
+                "baztrap.css": "// baztrap.css",
+              },
+            },
+          },
+        });
+      }
 
       yield addonFooStyles.dispose();
       yield addonBarStyles.dispose();
       yield output.dispose();
+      project.isModuleUnification = oldMuFn;
     }));
 
     it('does not fail if add-ons do not export styles', co.wrap(function *() {
       let app = new EmberApp({
         project,
+        trees: {
+          src: isExperimentEnabled('MODULE_UNIFICATION') ? {} : undefined,
+        },
       });
-      app.addonTreesFor = () => [];
+      let addonFooStyles = yield createTempDir();
+      let addonFoo = createAddon({ name: 'foo', app, project, root: addonFooStyles.dir });
+      app.project.addons = [addonFoo];
 
       let output = yield buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      expect(outputFiles).to.deep.equal({});
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        expect(outputFiles).to.deep.equal({
+          src: {
+            ui: {
+              styles: {},
+            },
+          },
+        });
+      } else {
+        expect(outputFiles).to.deep.equal({
+          app: {
+            styles: {},
+          },
+        });
+      }
 
       yield output.dispose();
     }));
@@ -470,6 +550,9 @@ describe('EmberApp', function() {
 
       app = new EmberApp({
         project,
+        trees: {
+          src: isExperimentEnabled('MODULE_UNIFICATION') ? {} : undefined,
+        },
       });
 
       app.trees.public = input.path();
@@ -517,6 +600,9 @@ describe('EmberApp', function() {
 
       app = new EmberApp({
         project,
+        trees: {
+          src: isExperimentEnabled('MODULE_UNIFICATION') ? {} : undefined,
+        },
       });
 
       app.trees.public = input.path();
