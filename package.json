@@ -122,7 +122,7 @@
     "tree-sync": "^1.2.2",
     "uuid": "^3.3.2",
     "validate-npm-package-name": "^3.0.0",
-    "walk-sync": "^1.0.0",
+    "walk-sync": "^1.1.2",
     "watch-detector": "^0.1.0",
     "yam": "^1.0.0"
   },
