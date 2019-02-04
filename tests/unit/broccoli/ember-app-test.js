@@ -52,7 +52,6 @@ function mockTemplateRegistry(app) {
 
 describe('EmberApp', function() {
   let project, projectPath, app, addon;
-  this.timeout(435436);
 
   function setupProject(rootPath) {
     const packageContents = require(path.join(rootPath, 'package.json'));

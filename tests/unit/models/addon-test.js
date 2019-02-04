@@ -734,7 +734,6 @@ describe('models/addon.js', function() {
   });
 
   describe('treeForStyles', function() {
-    this.timeout(50000);
     let builder, addon;
     const { isExperimentEnabled } = require('../../../lib/experiments');
 
