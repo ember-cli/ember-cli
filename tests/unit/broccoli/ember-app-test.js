@@ -52,6 +52,7 @@ function mockTemplateRegistry(app) {
 
 describe('EmberApp', function() {
   let project, projectPath, app, addon;
+  this.timeout(435436);
 
   function setupProject(rootPath) {
     const packageContents = require(path.join(rootPath, 'package.json'));
@@ -430,7 +431,7 @@ describe('EmberApp', function() {
         src: {
           ui: {
             styles: {
-              'foo.css': 'foo',
+              'mu.css': 'mu',
             },
           },
         },
@@ -470,6 +471,7 @@ describe('EmberApp', function() {
               styles: {
                 'foo.css': 'foo',
                 'bar.css': 'bar',
+                'mu.css': 'mu',
                 "baztrap": {
                   "baztrap.css": "// baztrap.css",
                 },
@@ -483,6 +485,7 @@ describe('EmberApp', function() {
             styles: {
               'foo.css': 'foo',
               'bar.css': 'bar',
+              'mu.css': 'mu',
               "baztrap": {
                 "baztrap.css": "// baztrap.css",
               },

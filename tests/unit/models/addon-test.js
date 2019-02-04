@@ -734,6 +734,7 @@ describe('models/addon.js', function() {
   });
 
   describe('treeForStyles', function() {
+    this.timeout(50000);
     let builder, addon;
     const { isExperimentEnabled } = require('../../../lib/experiments');
 
@@ -773,6 +774,7 @@ describe('models/addon.js', function() {
     });
 
     it('should move files in the root of the addons app/styles tree into the app/styles path', function() {
+      this.timeout(50000);
       builder = new broccoli.Builder(addon.treeFor('styles'));
 
       return builder.build()
