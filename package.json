@@ -145,7 +145,7 @@
     "mocha-eslint": "^4.1.0",
     "multiline": "^2.0.0",
     "nock": "^10.0.2",
-    "nyc": "^13.1.0",
+    "nyc": "^13.2.0",
     "rimraf": "^2.6.2",
     "strip-ansi": "^5.0.0",
     "supertest": "^3.4.2",
