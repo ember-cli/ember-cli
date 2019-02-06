@@ -14,7 +14,6 @@
  */
 
 let EOL = require('os').EOL;
-let multiline = require('multiline');
 let RSVP = require('rsvp');
 let GitHubApi = require('@octokit/rest');
 
@@ -70,7 +69,7 @@ compareCommits({
 });
 
 function generateChangelog(contributions) {
-  let header = multiline(() => { /*
+  let header = `
 The following changes are required if you are upgrading from the previous
 version:
 
@@ -82,7 +81,7 @@ version:
   + No changes required
 
 #### Community Contributions
-  */ });
+`;
 
   let footer = 'Thank you to all who took the time to contribute!';
 
