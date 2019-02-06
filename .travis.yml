@@ -59,6 +59,11 @@ jobs:
     - env: EMBER_CLI_BROCCOLI_2=false
     - env: EMBER_CLI_SYSTEM_TEMP=false
 
+    - name: NODE_10_NPM
+      node_js: 10
+      npm: true
+      script: npm run test:all
+
     - stage: deploy
       script: ./.travis/deploy.sh
 
