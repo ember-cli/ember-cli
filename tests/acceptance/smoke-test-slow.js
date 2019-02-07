@@ -390,7 +390,6 @@ describe('Acceptance: smoke-test', function() {
 
   it('ember new foo, build production and verify css files are minified', co.wrap(function *() {
     yield copyFixtureFiles(isExperimentEnabled('MODULE_UNIFICATION') ? 'with-unminified-styles-mu' : 'with-unminified-styles');
-
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', '--environment=production');
 
     let dirPath = path.join(appRoot, 'dist', 'assets');
@@ -400,6 +399,29 @@ describe('Acceptance: smoke-test', function() {
       if (cssNameRE.test(filepath)) {
         let contents = fs.readFileSync(path.join(appRoot, 'dist', 'assets', filepath), { encoding: 'utf8' });
         expect(contents).to.match(/^\S+$/, 'css file is minified');
+      }
+    });
+  }));
+
+  it('ember build and verify style files are copied from addon', co.wrap(function *() {
+    yield copyFixtureFiles(isExperimentEnabled('MODULE_UNIFICATION') ? 'app/with-mu-styles-package' : 'app/with-styles-package');
+    cleanupRun(appName);
+    appRoot = linkDependencies(appName);
+
+    let dirPath = path.join(appRoot, 'node_modules');
+    let dir = fs.readdirSync(dirPath);
+    expect(dir).to.include('ember-cli-sass');
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    dirPath = path.join(appRoot, 'dist', 'assets');
+    dir = fs.readdirSync(dirPath);
+    let cssNameRE = new RegExp(`test-support.css`, 'i');
+    expect(dir.filter(f => cssNameRE.test(f)).length).to.gte(1);
+    dir.forEach(function(filepath) {
+      if (cssNameRE.test(filepath)) {
+        expect(file(`dist/assets/${filepath}`))
+          .to.contain('.test-styles-addon');
       }
     });
   }));

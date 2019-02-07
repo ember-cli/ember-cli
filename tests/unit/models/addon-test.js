@@ -735,13 +735,23 @@ describe('models/addon.js', function() {
 
   describe('treeForStyles', function() {
     let builder, addon;
+    const { isExperimentEnabled } = require('../../../lib/experiments');
 
     beforeEach(function() {
-      projectPath = path.resolve(fixturePath, 'with-app-styles');
+      if (isExperimentEnabled('MODULE_UNIFICATION')) {
+        projectPath = path.resolve(fixturePath, 'with-mu-styles');
+      } else {
+        projectPath = path.resolve(fixturePath, 'with-app-styles');
+      }
       const packageContents = require(path.join(projectPath, 'package.json'));
       let cli = new MockCLI();
 
       project = new Project(projectPath, packageContents, cli.ui, cli);
+      project.isModuleUnification = function() {
+        if (isExperimentEnabled('MODULE_UNIFICATION')) {
+          return true;
+        }
+      };
 
       let BaseAddon = Addon.extend({
         name: 'test-project',
@@ -767,6 +777,7 @@ describe('models/addon.js', function() {
           let expected = [
             'app/',
             'app/styles/',
+            'app/styles/bar.scss',
             'app/styles/foo-bar.css',
           ];
 

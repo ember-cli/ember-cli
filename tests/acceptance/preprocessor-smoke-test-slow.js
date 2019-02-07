@@ -58,6 +58,23 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
   }));
 
+  it('MU addons with standard preprocessors compile correctly', co.wrap(function *() {
+    yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-mu-addon-with-preprocessors`);
+
+    let packageJsonPath = path.join(appRoot, 'package.json');
+    let packageJson = fs.readJsonSync(packageJsonPath);
+    packageJson.dependencies = packageJson.dependencies || {};
+    packageJson.devDependencies['ember-cli-sass'] = 'latest';
+    packageJson.devDependencies['ember-cool-addon'] = 'latest';
+    packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+    fs.writeJsonSync(packageJsonPath, packageJson);
+
+    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+    expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
+    expect(file('dist/assets/some-cool-app.css')).to.contain('addon styles included');
+  }));
+
   it('addon registry entries are added in the proper order', co.wrap(function *() {
     yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-registry-ordering`);
 
@@ -87,7 +104,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
     expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
-    expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
+    expect(file('dist/assets/some-cool-app.css')).to.contain('addon styles included');
   }));
 
   /*
