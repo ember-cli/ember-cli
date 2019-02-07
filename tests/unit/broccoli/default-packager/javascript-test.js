@@ -363,11 +363,6 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
 
         registry: setupRegistry({
           js: tree => tree,
-          template: tree => new Funnel(tree, {
-            getDestinationPath(relativePath) {
-              return relativePath.replace(/hbs$/g, 'js');
-            },
-          }),
         }),
 
         isModuleUnificationEnabled: true,
@@ -378,13 +373,11 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
         project: {
           addons: [{
             preprocessTree(type, tree) {
-              addonPreprocessTreeHookCalled = true;
-
+              expect(type).to.equal('src');
               return tree;
             },
             postprocessTree(type, tree) {
-              addonPostprocessTreeHookCalled = true;
-
+              expect(type).to.equal('src');
               return tree;
             },
           }],
@@ -393,7 +386,7 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
 
       expect(defaultPackager._cachedProcessedSrc).to.equal(null);
 
-      outputMU = yield buildOutput(defaultPackager.processSrc(inputMU.path()));
+      outputMU = yield buildOutput(defaultPackager.processJavascriptSrc(inputMU.path()));
 
       let outputFiles = outputMU.read();
 
@@ -406,17 +399,7 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
             components: {
               'login-form': {
                 'component.js': '',
-                'template.js': '',
               },
-            },
-            'index.html': '',
-            routes: {
-              application: {
-                'template.js': '',
-              },
-            },
-            styles: {
-              'app.css': 'html { height: 100%; }',
             },
           },
         },
@@ -424,6 +407,10 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
     }));
 
     it('runs pre/post-process add-on hooks', co.wrap(function *() {
+
+      addonPreprocessTreeHookCalled = false;
+      addonPostprocessTreeHookCalled = false;
+
       let defaultPackager = new DefaultPackager({
         name: 'the-best-app-ever',
 
@@ -435,11 +422,6 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
 
         registry: setupRegistry({
           js: tree => tree,
-          template: tree => new Funnel(tree, {
-            getDestinationPath(relativePath) {
-              return relativePath.replace(/hbs$/g, 'js');
-            },
-          }),
         }),
 
         isModuleUnificationEnabled: true,
@@ -450,11 +432,13 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
         project: {
           addons: [{
             preprocessTree(type, tree) {
+              expect(type).to.equal('src');
               addonPreprocessTreeHookCalled = true;
 
               return tree;
             },
             postprocessTree(type, tree) {
+              expect(type).to.equal('src');
               addonPostprocessTreeHookCalled = true;
 
               return tree;
@@ -463,7 +447,7 @@ if (isExperimentEnabled('MODULE_UNIFICATION')) {
         },
       });
 
-      outputMU = yield buildOutput(defaultPackager.processSrc(inputMU.path()));
+      outputMU = yield buildOutput(defaultPackager.processJavascriptSrc(inputMU.path()));
 
       expect(addonPreprocessTreeHookCalled).to.equal(true);
       expect(addonPostprocessTreeHookCalled).to.equal(true);

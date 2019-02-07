@@ -117,11 +117,14 @@ describe('Default Packager: Templates', function() {
       project: {
         addons: [{
           preprocessTree(type, tree) {
+            expect(type).to.equal('template');
             addonPreprocessTreeHookCalled = true;
 
             return tree;
           },
           postprocessTree(type, tree) {
+
+            expect(type).to.equal('template');
             addonPostprocessTreeHookCalled = true;
 
             return tree;
