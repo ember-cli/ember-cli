@@ -170,6 +170,57 @@ describe('Acceptance: addon-smoke-test', function() {
     }));
 
   }
+
+
+
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
+
+    describe('with dummy option', function() {
+
+      before(function() {
+        process.env.EMBER_CLI_DUMMY = 'dummy2';
+      });
+      after(function() {
+        delete process.env.EMBER_CLI_DUMMY;
+      });
+
+      it('can run a different dummy app', co.wrap(function *() {
+
+        yield copyFixtureFiles('addon/kitchen-sink-with-dummy2');
+
+        let packageJsonPath = path.join(addonRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
+
+        packageJson.dependencies = packageJson.dependencies || {};
+        // add HTMLBars for templates (generators do this automatically when components/templates are added)
+        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+        fs.writeJsonSync(packageJsonPath, packageJson);
+
+        let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
+
+        expect(result.code).to.eql(0);
+        let contents;
+
+        let indexPath = path.join(addonRoot, 'dist', 'index.html');
+        contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+        expect(contents).to.contain('"SOME AWESOME STUFF"');
+
+        let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
+        contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
+        expect(contents).to.contain('tests/dummy2/public/robots.txt is present');
+
+        result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
+
+        expect(result.code).to.eql(0);
+      }));
+
+
+    });
+
+  }
+
+
 });
 
 function npmPack() {
