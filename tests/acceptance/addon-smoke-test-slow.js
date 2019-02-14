@@ -71,6 +71,8 @@ describe('Acceptance: addon-smoke-test', function() {
     let packageJsonPath = path.join(addonRoot, 'package.json');
     let packageJson = fs.readJsonSync(packageJsonPath);
 
+    expect(packageJson.devDependencies['ember-source']).to.not.be.empty;
+
     packageJson.dependencies = packageJson.dependencies || {};
     // add HTMLBars for templates (generators do this automatically when components/templates are added)
     packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
