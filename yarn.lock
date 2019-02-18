@@ -3002,10 +3002,10 @@ heimdalljs-fs-monitor@^0.2.2:
     heimdalljs "^0.2.3"
     heimdalljs-logger "^0.1.7"
 
-heimdalljs-graph@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/heimdalljs-graph/-/heimdalljs-graph-0.3.5.tgz#420fbbc8fc3aec5963ddbbf1a5fb47921c4a5927"
-  integrity sha512-szOy9WZUc7eUInEBQEsoa1G2d+oYHrn6ndZPf76eh8A9ID1zWUCEEsxP3F+CvQx9+EDrg1srdyLUmfVAr8EB4g==
+heimdalljs-graph@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/heimdalljs-graph/-/heimdalljs-graph-1.0.0.tgz#0059857952988e54f3a74bb23edaf669f8eaf6af"
+  integrity sha512-v2AsTERBss0ukm/Qv4BmXrkwsT5x6M1V5Om6E8NcDQ/ruGkERsfsuLi5T8jx8qWzKMGYlwzAd7c/idymxRaPzA==
 
 heimdalljs-logger@^0.1.10, heimdalljs-logger@^0.1.7, heimdalljs-logger@^0.1.9:
   version "0.1.10"

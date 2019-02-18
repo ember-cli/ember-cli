@@ -89,7 +89,7 @@
     "glob": "^7.1.3",
     "heimdalljs": "^0.2.6",
     "heimdalljs-fs-monitor": "^0.2.2",
-    "heimdalljs-graph": "^0.3.5",
+    "heimdalljs-graph": "^1.0.0",
     "heimdalljs-logger": "^0.1.10",
     "http-proxy": "^1.17.0",
     "inflection": "^1.12.0",
