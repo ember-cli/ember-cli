@@ -47,6 +47,9 @@ jobs:
 
     - env: NAME=NODE_10
       node_js: 10
+
+    - env: NAME=NODE_11
+      node_js: 11
       script:
         - yarn test:cover
       after_success:
