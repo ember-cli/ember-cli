@@ -72,7 +72,7 @@
     "ember-cli-is-package-missing": "^1.0.0",
     "ember-cli-lodash-subset": "^2.0.1",
     "ember-cli-normalize-entity-name": "^1.0.0",
-    "ember-cli-preprocess-registry": "^3.1.2",
+    "ember-cli-preprocess-registry": "^3.2.1",
     "ember-cli-string-utils": "^1.1.0",
     "ember-source-channel-url": "^1.1.0",
     "ensure-posix-path": "^1.0.2",
