@@ -138,7 +138,7 @@
     "eslint-plugin-mocha": "^5.3.0",
     "eslint-plugin-node": "^8.0.1",
     "fixturify": "^0.3.4",
-    "fixturify-project": "^1.5.3",
+    "fixturify-project": "^1.7.0",
     "mocha": "^6.0.2",
     "mocha-eslint": "^4.1.0",
     "nock": "^10.0.6",
