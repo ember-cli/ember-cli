@@ -74,7 +74,9 @@ describe('Default Packager: Styles', function() {
   }));
 
   afterEach(co.wrap(function *() {
-    yield output.dispose();
+    if (output) {
+      yield output.dispose();
+    }
   }));
 
   it('caches packaged styles tree', co.wrap(function *() {
