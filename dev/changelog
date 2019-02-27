@@ -14,15 +14,13 @@
  */
 
 let EOL = require('os').EOL;
-let RSVP = require('rsvp');
 let GitHubApi = require('@octokit/rest');
 
 let github = new GitHubApi({ version: '3.0.0' });
-let compareCommits = RSVP.denodeify(github.repos.compareCommits);
 let currentVersion = `v${require('../package').version}`;
 let branch = process.argv[2] || 'master';
 
-compareCommits({
+github.repos.compareCommits({
   owner: 'ember-cli',
   repo: 'ember-cli',
   base: currentVersion,

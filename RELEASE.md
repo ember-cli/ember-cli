@@ -139,7 +139,7 @@ git merge vX.Y.0-beta.N
 * bump `package.json` version
 * don't commit these changes until later
 * run `./dev/prepare-release`
-* the `du` command should give you ballbark 230K as of `3.0.0`
+* the `du` command should give you ballpark 190K as of `3.8.0`
 
 ### Test
 
