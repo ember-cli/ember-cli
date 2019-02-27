@@ -50,9 +50,9 @@ describe('Default Packager: Styles', function() {
       'hint.css': {
         'hint.css': '',
       },
-      '1.css': 'first',
-      '2.css': 'second',
-      '3.css': 'third',
+      '1.css': '.first {}',
+      '2.css': '.second {}',
+      '3.css': '.third { position: absolute; }',
     },
     'vendor': {
       'font-awesome': {
@@ -390,7 +390,7 @@ describe('Default Packager: Styles', function() {
 
     let outputFiles = output.read();
 
-    expect(outputFiles.assets['vendor.css']).to.equal('first\nsecond\nthird');
+    expect(outputFiles.assets['vendor.css']).to.equal('.third{position:absolute}');
   }));
 
   if (isExperimentEnabled('MODULE_UNIFICATION')) {
