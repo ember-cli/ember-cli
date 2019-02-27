@@ -1,29 +1,27 @@
 # ember-cli Changelog
 
-## v3.8.0-beta.1
+## v3.8.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.7.0...v3.8.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.7.0...v3.8.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.7.1...v3.8.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.7.1...v3.8.0)
 
 #### Community Contributions
 
-- [#8321](https://github.com/ember-cli/ember-cli/pull/8321) Cleanup repo README [@kennethlarsen](https://github.com/kennethlarsen)
 - [#8175](https://github.com/ember-cli/ember-cli/pull/8175) Do not watch `tests` directory when tests are disabled [@f1sherman](https://github.com/f1sherman)
 - [#8052](https://github.com/ember-cli/ember-cli/pull/8052) Use non-greedy pattern for `{{content-for}}` [@mpirio](https://github.com/mpirio)
 - [#8325](https://github.com/ember-cli/ember-cli/pull/8325) Add contributing guidelines section to Docs [@jamesgeorge007](https://github.com/jamesgeorge007)
+- [#8326](https://github.com/ember-cli/ember-cli/pull/8326) package.json: Move `fixturify` to `devDependencies` [@Turbo87](https://github.com/Turbo87)
+- [#8329](https://github.com/ember-cli/ember-cli/pull/8329) livereload-server: Fix logger output [@Turbo87](https://github.com/Turbo87)
 - [#8328](https://github.com/ember-cli/ember-cli/pull/8328) tasks/server: Remove obsolete `exists-sync` dependency declaration [@Turbo87](https://github.com/Turbo87)
-- [#8314](https://github.com/ember-cli/ember-cli/pull/8314) In MU apps, exclude test files from the app JS file [@ppcano](https://github.com/ppcano)
-- [#8313](https://github.com/ember-cli/ember-cli/pull/8313) bump ember-ajax to v4 [@maxwondercorn](https://github.com/maxwondercorn)
+- [#8313](https://github.com/ember-cli/ember-cli/pull/8313) Update ember-ajax to v4.x [@maxwondercorn](https://github.com/maxwondercorn)
 - [#8309](https://github.com/ember-cli/ember-cli/pull/8309) blueprints/addon: Add Contributing section [@knownasilya](https://github.com/knownasilya)
 - [#8327](https://github.com/ember-cli/ember-cli/pull/8327) Improve `ember-cli` entry file [@Turbo87](https://github.com/Turbo87)
 - [#8330](https://github.com/ember-cli/ember-cli/pull/8330) blueprints/app/gitignore: Ignore Yarn PnP files [@Turbo87](https://github.com/Turbo87)
 - [#8331](https://github.com/ember-cli/ember-cli/pull/8331) Update `ember-cli-dependency-checker` to v3.1.0 [@Turbo87](https://github.com/Turbo87)
-- [#8269](https://github.com/ember-cli/ember-cli/pull/8269) Add more MU tests [@ppcano](https://github.com/ppcano)
-- [#8231](https://github.com/ember-cli/ember-cli/pull/8231) Add tests for the MU new blueprint to validate the content [@ppcano](https://github.com/ppcano)
-- [#8323](https://github.com/ember-cli/ember-cli/pull/8323) Fetch dynamically the `ember-source` version for MU blueprints [@ppcano](https://github.com/ppcano)
-- [#8312](https://github.com/ember-cli/ember-cli/pull/8312) Enable `addon-smoke-test-slow` for MU addons [@ppcano](https://github.com/ppcano)
+- [#8323](https://github.com/ember-cli/ember-cli/pull/8323) Dynamically fetch the `ember-source` version for MU blueprints [@ppcano](https://github.com/ppcano)
+- [#8427](https://github.com/ember-cli/ember-cli/pull/8427) Fix install warnings for @babel/core [@jrjohnson](https://github.com/jrjohnson)
 
 Thank you to all who took the time to contribute!
 
