@@ -9,7 +9,6 @@ const rimraf = require('rimraf');
 const fixturify = require('fixturify');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-const { isExperimentEnabled } = require('../../../lib/experiments');
 const td = require('testdouble');
 const ci = require('ci-info');
 const chai = require('../../chai');
@@ -28,40 +27,23 @@ describe('models/builder.js', function() {
   let addon, builder, buildResults, tmpdir;
 
   function setupBroccoliBuilder() {
-    if (isExperimentEnabled('BROCCOLI_2')) {
-      this.broccoliBuilderFallback = false;
-      this.builder = {
-        outputPath: 'build results',
-        outputNodeWrapper: {
-          __heimdall__: {},
-        },
-        build() {
-          return Promise.resolve({
-            outputPath: 'build results',
-            outputNodeWrapper: {
-              __heimdall__: {},
-            },
-          });
-        },
-        cleanup() {
-        },
-      };
-    } else {
-      this.broccoliBuilderFallback = true;
-      this.builder = {
-        build() {
-          return Promise.resolve({
-            directory: 'build results',
-            graph: {
-              __heimdall__: {},
-            },
-          });
-        },
-        cleanup() {
-          return Promise.resolve('cleanup result');
-        },
-      };
-    }
+    this.broccoliBuilderFallback = false;
+    this.builder = {
+      outputPath: 'build results',
+      outputNodeWrapper: {
+        __heimdall__: {},
+      },
+      build() {
+        return Promise.resolve({
+          outputPath: 'build results',
+          outputNodeWrapper: {
+            __heimdall__: {},
+          },
+        });
+      },
+      cleanup() {
+      },
+    };
   }
 
   before(function() {
@@ -262,11 +244,7 @@ describe('models/builder.js', function() {
 
       return builder.build().then(function(result) {
         expect(Object.keys(result)).to.eql(['directory', 'graph']);
-        if (isExperimentEnabled('BROCCOLI_2')) {
-          expect(result.graph.__heimdall__).to.not.be.undefined;
-        } else {
-          expect(result.graph.constructor.name).to.equal('Node');
-        }
+        expect(result.graph.__heimdall__).to.not.be.undefined;
         expect(fs.existsSync(result.directory)).to.be.true;
       });
     });
@@ -495,41 +473,39 @@ describe('models/builder.js', function() {
     });
   });
 
-  if (isExperimentEnabled('BROCCOLI_2')) {
-    describe('fallback from broccoli 2 to broccoli-builder', function() {
-      it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', function() {
-        let project = new MockProject();
-        const builder = new Builder({
-          project,
-          ui: project.ui,
-          readBuildFile() {
-            return {
-              read() {
+  describe('fallback from broccoli 2 to broccoli-builder', function() {
+    it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', function() {
+      let project = new MockProject();
+      const builder = new Builder({
+        project,
+        ui: project.ui,
+        readBuildFile() {
+          return {
+            read() {
 
-              },
-              rebuild() {
+            },
+            rebuild() {
 
-              },
-            };
-          },
-        });
-
-        expect(builder.broccoliBuilderFallback).to.be.true;
-
-        expect(project.ui.output).to.include('WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:');
-        expect(project.ui.output).to.include('Object: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md');
+            },
+          };
+        },
       });
 
-      it('errors for an invalid node', function() {
-        let project = new MockProject();
-        expect(() => new Builder({
-          project,
-          ui: project.ui,
-          readBuildFile() {
-            return {};
-          },
-        })).to.throw('[object Object] is not a Broccoli node\nused as output node');
-      });
+      expect(builder.broccoliBuilderFallback).to.be.true;
+
+      expect(project.ui.output).to.include('WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:');
+      expect(project.ui.output).to.include('Object: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md');
     });
-  }
+
+    it('errors for an invalid node', function() {
+      let project = new MockProject();
+      expect(() => new Builder({
+        project,
+        ui: project.ui,
+        readBuildFile() {
+          return {};
+        },
+      })).to.throw('[object Object] is not a Broccoli node\nused as output node');
+    });
+  });
 });

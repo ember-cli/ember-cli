@@ -32,7 +32,6 @@ describe('experiments', function() {
       delete process.env.EMBER_CLI_MODULE_UNIFICATION;
       delete process.env.EMBER_CLI_PACKAGER;
       delete process.env.EMBER_CLI_DELAYED_TRANSPILATION;
-      delete process.env.EMBER_CLI_BROCCOLI_2;
     });
 
     afterEach(function() {
@@ -42,23 +41,8 @@ describe('experiments', function() {
     it('should return true for all experiments when `EMBER_CLI_ENABLE_ALL_EXPERIMENTS` is set', function() {
       process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS = true;
 
-      expect(isExperimentEnabled('BROCCOLI_2')).to.be.true;
       expect(isExperimentEnabled('PACKAGER')).to.be.true;
       expect(isExperimentEnabled('DELAYED_TRANSPILATION')).to.be.true;
-    });
-
-    it('should have BROCCOLI_2 enabled by default', function() {
-      expect(isExperimentEnabled('BROCCOLI_2')).to.be.true;
-    });
-
-    it('should have BROCCOLI_2 enabled when environment variable is set', function() {
-      process.env.EMBER_CLI_BROCCOLI_2 = 'true';
-      expect(isExperimentEnabled('BROCCOLI_2')).to.be.true;
-    });
-
-    it('should have BROCCOLI_2 disabled when environment variable is set to false', function() {
-      process.env.EMBER_CLI_BROCCOLI_2 = 'false';
-      expect(isExperimentEnabled('BROCCOLI_2')).to.be.false;
     });
 
     it('setting an already disabled feature to false does not enable it', function() {
