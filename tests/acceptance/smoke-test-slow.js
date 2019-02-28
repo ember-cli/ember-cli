@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const crypto = require('crypto');
 const walkSync = require('walk-sync');
+const semver = require('semver');
 const EOL = require('os').EOL;
 
 const { isExperimentEnabled } = require('../../lib/experiments');
@@ -22,6 +23,8 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;
+
+const isNode6 = semver.satisfies(process.version, '^6');
 
 let appName = 'some-cool-app';
 let appRoot;
@@ -179,7 +182,7 @@ describe('Acceptance: smoke-test', function() {
     expect(output).to.match(/pass\s+\d+/, 'many passing');
   }));
 
-  it('ember test wasm', co.wrap(function *() {
+  (isNode6 ? it.skip : it)('ember test wasm', co.wrap(function *() {
     let originalWrite = process.stdout.write;
     let output = [];
 
