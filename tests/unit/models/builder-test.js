@@ -218,42 +218,23 @@ describe('models/builder.js', function() {
       });
     });
 
-    if (!isExperimentEnabled('SYSTEM_TEMP')) {
-      it('writes temp files to project root by default', function() {
-        const project = new MockProject();
-        project.root += '/tests/fixtures/build/simple';
-
-        builder = new Builder({
-          project,
-          ui: project.ui,
-          processBuildResult(buildResults) { return Promise.resolve(buildResults); },
-        });
-
-        return builder.build().then(function() {
-          expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.true;
-        });
+    it('writes temp files to Broccoli temp dir', function() {
+      const project = new MockProject();
+      project.root += '/tests/fixtures/build/simple';
+      expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
+      builder = new Builder({
+        project,
+        ui: project.ui,
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
       });
-    }
 
-    if (isExperimentEnabled('SYSTEM_TEMP')) {
-      it('writes temp files to Broccoli temp dir when EMBER_CLI_SYSTEM_TEMP=1', function() {
-        const project = new MockProject();
-        project.root += '/tests/fixtures/build/simple';
+      expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
+      return builder.build().then(function(result) {
+        expect(fs.existsSync(result.directory)).to.be.true;
         expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-        builder = new Builder({
-          project,
-          ui: project.ui,
-          processBuildResult(buildResults) { return Promise.resolve(buildResults); },
-        });
-
-        expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-        return builder.build().then(function(result) {
-          expect(fs.existsSync(result.directory)).to.be.true;
-          expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-          rimraf.sync(result.directory);
-        });
+        rimraf.sync(result.directory);
       });
-    }
+    });
 
     (ci.APPVEYOR ? it.skip : it)('produces the correct output', function() {
       const project = new MockProject();

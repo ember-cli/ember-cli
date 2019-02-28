@@ -60,7 +60,6 @@ jobs:
     - env: EMBER_CLI_MODULE_UNIFICATION=true
     - env: EMBER_CLI_DELAYED_TRANSPILATION=true
     - env: EMBER_CLI_BROCCOLI_2=false
-    - env: EMBER_CLI_SYSTEM_TEMP=false
 
     - stage: deploy
       script: ./.travis/deploy.sh
