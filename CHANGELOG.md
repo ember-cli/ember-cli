@@ -29,6 +29,21 @@
 Thank you to all who took the time to contribute!
 
 
+## v3.8.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.0...v3.8.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.0...v3.8.1)
+
+#### Community Contributions
+
+- [#8261](https://github.com/ember-cli/ember-cli/pull/8261) add server/**/*.js to eslint node files for app [@kellyselden](https://github.com/kellyselden)
+- [#8467](https://github.com/ember-cli/ember-cli/pull/8467) Ensure npm version is available during ember new / ember install foo. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.8.0
 
 #### Blueprint Changes
