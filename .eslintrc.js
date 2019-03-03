@@ -1,9 +1,11 @@
+'use strict';
+
 module.exports = {
   root: true,
   parserOptions: {
     ecmaVersion: 6,
   },
-  plugins: ["node"],
+  plugins: ['node'],
   extends: ['eslint:recommended', 'plugin:node/recommended'],
   env: {
     browser: false,
@@ -66,7 +68,7 @@ module.exports = {
     'func-call-spacing': 2,
     'indent': [2, 2, {
       'SwitchCase': 1,
-      'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 }
+      'VariableDeclarator': { 'var': 2, 'let': 2, 'const': 3 },
     }],
     'key-spacing': 2,
     'keyword-spacing': 2,

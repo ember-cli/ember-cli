@@ -43,7 +43,7 @@ class MockProject extends Project {
   }
 
   has(key) {
-    return (/server/.test(key));
+    return ((/server/).test(key));
   }
 
   name() {

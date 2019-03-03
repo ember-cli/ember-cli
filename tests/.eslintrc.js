@@ -1,7 +1,9 @@
+'use strict';
+
 module.exports = {
   plugins: [
     'chai-expect',
-    'mocha'
+    'mocha',
   ],
   env: {
     mocha: true,
@@ -40,6 +42,6 @@ module.exports = {
     'mocha/no-top-level-hooks': 'error',
     'mocha/no-identical-title': 'error',
     'mocha/max-top-level-suites': 'off',
-    'mocha/no-nested-tests': 'error'
-  }
+    'mocha/no-nested-tests': 'error',
+  },
 };
