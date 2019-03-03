@@ -9,3 +9,4 @@
 *.tgz
 *.pem
 .DS_Store
+.eslintcache
