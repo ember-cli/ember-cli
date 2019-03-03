@@ -60,7 +60,10 @@ jobs:
     - env: EMBER_CLI_SYSTEM_TEMP=false
 
     - stage: deploy
-      script: ./.travis/deploy.sh
+      script: skip
+      deploy:
+        provider: script
+        script: ./.travis/deploy.sh
 
 before_install:
   # prevent the npm loading indicator
