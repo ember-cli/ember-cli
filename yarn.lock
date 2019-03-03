@@ -5376,6 +5376,14 @@ resolve-from@^4.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-4.0.0.tgz#4abcd852ad32dd7baabfe9b40e00a36db5f392e6"
   integrity sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==
 
+resolve-package-path@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-1.1.1.tgz#39db6201f7db8800207d8f82cc8005ee30c9200e"
+  integrity sha512-6vg7LnxKY3NhmlH/K/CfudgPDx7ah4RPgHjhMCcP3L1LPsoxOXeClUBFpF5c2FRlQScVQ4VL8GTbB5FjHQ3ISQ==
+  dependencies:
+    path-root "^0.1.1"
+    resolve "^1.10.0"
+
 resolve-path@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/resolve-path/-/resolve-path-1.4.0.tgz#c4bda9f5efb2fce65247873ab36bb4d834fe16f7"
