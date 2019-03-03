@@ -33,18 +33,18 @@ jobs:
   include:
 
     - stage: basic test
-      env: NAME=test # used only to make Travis UI show description
+      name: Basic Tests
       script:
         - yarn test
 
     - stage: additional tests
-      env: NAME=NODE_6
+      name: Node.js 6
       node_js: 6
 
-    - env: NAME=NODE_8
+    - name: Node.js 8
       node_js: 8
 
-    - env: NAME=NODE_10
+    - name: Node.js 10
       node_js: 10
       script:
         - yarn test:cover
@@ -59,6 +59,7 @@ jobs:
     - env: EMBER_CLI_SYSTEM_TEMP=false
 
     - stage: deploy
+      name: Publish API Docs
       script: skip
       deploy:
         provider: script
