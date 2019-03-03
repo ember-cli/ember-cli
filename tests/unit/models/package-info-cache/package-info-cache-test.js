@@ -2,7 +2,6 @@
 
 const path = require('path');
 const expect = require('chai').expect;
-const PackageInfoCache = require('../../../../lib/models/package-info-cache');
 const PackageInfo = require('../../../../lib/models/package-info-cache/package-info');
 const Project = require('../../../../lib/models/project');
 const addonFixturePath = path.resolve(__dirname, '../../../fixtures/addon');
@@ -530,50 +529,6 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
 
       resolvedFile = projectPackageInfo.addonMainPath;
       expect(resolvedFile).to.equal(path.join(projectPath, 'index.js'));
-    });
-  });
-
-  describe('getRealFilePath tests', function() {
-    let fakePackageJsonPath;
-
-    beforeEach(function() {
-      projectPath = path.resolve(addonFixturePath, 'external-dependency');
-      packageJsonPath = path.join(projectPath, 'package.json');
-      fakePackageJsonPath = path.join(projectPath, 'foozleberry.js');
-    });
-
-    it('getRealFilePath(real package.json file) exists', function() {
-      expect(PackageInfoCache.getRealFilePath(packageJsonPath)).to.exist;
-    });
-
-    it('getRealFilePath(fake file path) does not exist', function() {
-      expect(PackageInfoCache.getRealFilePath(fakePackageJsonPath)).not.to.exist;
-    });
-
-    it('getRealFilePath(dir path) does not exist', function() {
-      expect(PackageInfoCache.getRealFilePath(projectPath)).not.to.exist;
-    });
-  });
-
-  describe('getRealDirectoryPath tests', function() {
-    let fakePackageJsonPath;
-
-    beforeEach(function() {
-      projectPath = path.resolve(addonFixturePath, 'external-dependency');
-      packageJsonPath = path.join(projectPath, 'package.json');
-      fakePackageJsonPath = path.join(projectPath, 'foozleberry.js');
-    });
-
-    it('getRealDirectoryPath(real package directory) exists', function() {
-      expect(PackageInfoCache.getRealDirectoryPath(projectPath)).to.exist;
-    });
-
-    it('getRealDirectoryPath(fake path) does not exist', function() {
-      expect(PackageInfoCache.getRealDirectoryPath(fakePackageJsonPath)).not.to.exist;
-    });
-
-    it('getRealDirectoryPath(real file path) does not exist', function() {
-      expect(PackageInfoCache.getRealDirectoryPath(packageJsonPath)).not.to.exist;
     });
   });
 });
