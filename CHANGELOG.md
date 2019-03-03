@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v3.9.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0-beta.1...v3.9.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0-beta.1...v3.9.0-beta.2)
+
+#### Community Contributions
+
+- [#8467](https://github.com/ember-cli/ember-cli/pull/8467) Ensure npm version is available during ember new / ember install foo. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.9.0-beta.1
 
 #### Blueprint Changes
@@ -25,6 +39,21 @@
 - [#8433](https://github.com/ember-cli/ember-cli/pull/8433) MU blueprints: enable `EMBER_MODULE_UNIFICATION` feature flag [@ppcano](https://github.com/ppcano)
 - [#8414](https://github.com/ember-cli/ember-cli/pull/8414) `preprocessTemplates` is called only once in MU layout [@ppcano](https://github.com/ppcano)
 - [#8434](https://github.com/ember-cli/ember-cli/pull/8434) Fix comment on the `environment.js` blueprint files [@ppcano](https://github.com/ppcano)
+
+Thank you to all who took the time to contribute!
+
+
+## v3.8.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.0...v3.8.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.0...v3.8.1)
+
+#### Community Contributions
+
+- [#8261](https://github.com/ember-cli/ember-cli/pull/8261) add server/**/*.js to eslint node files for app [@kellyselden](https://github.com/kellyselden)
+- [#8467](https://github.com/ember-cli/ember-cli/pull/8467) Ensure npm version is available during ember new / ember install foo. [@rwjblue](https://github.com/rwjblue)
 
 Thank you to all who took the time to contribute!
 
