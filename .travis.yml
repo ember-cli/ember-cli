@@ -28,10 +28,7 @@ stages:
     if: type IN (push) AND branch = release
 
 jobs:
-  fail_fast: true
-
   include:
-
     - stage: basic test
       name: Basic Tests
       script:
