@@ -7,7 +7,6 @@ addons:
 
 branches:
   only:
-    - auto
     - master
     - beta
     - release
