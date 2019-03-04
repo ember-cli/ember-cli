@@ -112,7 +112,7 @@
     "resolve": "^1.10.0",
     "resolve-package-path": "^1.1.1",
     "rsvp": "^4.8.4",
-    "sane": "^4.0.2",
+    "sane": "^4.0.3",
     "semver": "^5.6.0",
     "silent-error": "^1.1.1",
     "sort-package-json": "^1.19.0",
