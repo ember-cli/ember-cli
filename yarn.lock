@@ -974,16 +974,17 @@ broccoli-test-helper@^2.0.0:
     tmp "^0.0.33"
     walk-sync "^0.3.3"
 
-broccoli@^2.0.0, broccoli@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.0.1.tgz#3611d643bf4b2666b565dc24cc5307fc80f62bf6"
-  integrity sha512-ipHuKVjO8jPJE3DKFHLXlj8DcsbGH8OQ1DlHaAWfuQya1qe6lgEi1+kyeKWCccaJlEtEq40EQ50Eiq2M0hxOfQ==
+broccoli@^2.0.0, broccoli@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.1.0.tgz#5c896691bd440bdb60afbb56c79d08abfe8aa620"
+  integrity sha512-huFxLd4oD96nnqFbakmxwV05okdw8d9Xto0dQ20nfgL5O3No4TlKltNvRIcnDAQVJe+VCMQleFRMdgzrRbGT3Q==
   dependencies:
     broccoli-node-info "1.1.0"
     broccoli-slow-trees "^3.0.1"
     broccoli-source "^1.1.0"
     commander "^2.15.1"
     connect "^3.6.6"
+    esm "^3.2.4"
     findup-sync "^2.0.0"
     handlebars "^4.0.11"
     heimdalljs "^0.2.5"
@@ -2056,6 +2057,11 @@ eslint@^5.15.0:
     strip-json-comments "^2.0.1"
     table "^5.2.3"
     text-table "^0.2.0"
+
+esm@^3.2.4:
+  version "3.2.11"
+  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.11.tgz#f6ac0c7fbb682324e80f48950130f5a5fe953f35"
+  integrity sha512-OhgzK4tmov6Ih2gQ28k8e5kV07sGgEKG+ys3PqbDd2FBXpsZkGpFotFbrm0+KmuD2ktaV4hdPYQTDMpq9FjeTA==
 
 espree@^5.0.1:
   version "5.0.1"
