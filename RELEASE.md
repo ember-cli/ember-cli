@@ -157,6 +157,8 @@ npm link ember-cli
 # install other deps
 npm install
 
+
+#Run the server using ember serve, inside the folder in which you have installed the ember , otherwise you may get an error saying (node_modules appears empty, you may need to run `yarn install`) .
 # test the server
 ember serve
 ```
