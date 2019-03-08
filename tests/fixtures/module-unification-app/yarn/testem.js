@@ -1,7 +1,7 @@
 module.exports = {
   test_page: 'tests/index.html?hidepassed',
   disable_watching: true,
-  before_tests: '<% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint:js',
+  before_tests: 'yarn lint:js',
   launch_in_ci: [
     'Chrome'
   ],
