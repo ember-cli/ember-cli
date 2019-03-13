@@ -237,18 +237,20 @@
     once "^1.4.0"
     universal-user-agent "^2.0.1"
 
-"@octokit/rest@^16.17.0":
-  version "16.17.0"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.17.0.tgz#3a8c0ff5290e25a48b11f6957aa90791c672c91e"
-  integrity sha512-1RB7e4ptR/M+1Ik3Qn84pbppbSadBaCtpgFqgqsXn6s4ZVE6hqW9SOm6UW5yd3KT7ObVfdYUkhMlgR937oKyDw==
+"@octokit/rest@^16.17.1":
+  version "16.17.1"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.17.1.tgz#19fcbc4835a9b72e598864e7a7da9222bf5611e5"
+  integrity sha512-cRosFoYEXraBsXe+FDHFW4b98RM0WuvSv9HUsbV69E+j8aRGAU/4FudEdpgBSIiXv8HvUOLlo6fAdJmmJHSVKw==
   dependencies:
     "@octokit/request" "2.4.1"
     before-after-hook "^1.4.0"
     btoa-lite "^1.0.0"
+    deprecation "^1.0.1"
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
     lodash.uniq "^4.5.0"
     octokit-pagination-methods "^1.1.0"
+    once "^1.4.0"
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
