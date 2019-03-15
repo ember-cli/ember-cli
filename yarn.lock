@@ -1010,10 +1010,10 @@ broccoli-test-helper@^2.0.0:
     tmp "^0.0.33"
     walk-sync "^0.3.3"
 
-broccoli@^2.0.0, broccoli@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.1.0.tgz#5c896691bd440bdb60afbb56c79d08abfe8aa620"
-  integrity sha512-huFxLd4oD96nnqFbakmxwV05okdw8d9Xto0dQ20nfgL5O3No4TlKltNvRIcnDAQVJe+VCMQleFRMdgzrRbGT3Q==
+broccoli@^2.0.0, broccoli@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.2.0.tgz#52f3cfdd4b2463030de211de8ebb36898734fe5b"
+  integrity sha512-g+3h+vpxTccfhIXkVqb+Ep43Cp0I9RjL27BY63/IpjOLlBI9RGcAjL5aYnCxB7ewfb4y0212xp4tFj+oDWAe+A==
   dependencies:
     broccoli-node-info "1.1.0"
     broccoli-slow-trees "^3.0.1"
@@ -1023,7 +1023,7 @@ broccoli@^2.0.0, broccoli@^2.1.0:
     esm "^3.2.4"
     findup-sync "^2.0.0"
     handlebars "^4.0.11"
-    heimdalljs "^0.2.5"
+    heimdalljs "^0.2.6"
     heimdalljs-logger "^0.1.9"
     mime-types "^2.1.19"
     promise.prototype.finally "^3.1.0"
