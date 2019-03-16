@@ -221,7 +221,7 @@ describe('livereload-server', function() {
       oldTrack = subject.analytics.track;
       subject.analytics.track = stubbedTrack;
 
-      subject.tree = new FSTree.fromEntries([]);
+      subject.tree = FSTree.fromEntries([]);
     });
 
     afterEach(function() {
@@ -474,7 +474,7 @@ describe('livereload-server', function() {
       oldTrack = subject.analytics.track;
       subject.analytics.track = stubbedTrack;
 
-      subject.tree = new FSTree.fromEntries([]);
+      subject.tree = FSTree.fromEntries([]);
     });
 
     afterEach(function() {
