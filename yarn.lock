@@ -237,10 +237,10 @@
     once "^1.4.0"
     universal-user-agent "^2.0.1"
 
-"@octokit/rest@^16.18.1":
-  version "16.18.1"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.18.1.tgz#e6cbf111a8afc3d5ad44c98edf264124f1568ea0"
-  integrity sha512-ozKUH4KCusmPQ6xHxF2q1IDVM5tPbmmAUP69yRLd98BH16mqOVwMkm6zLCUJPD03IVhG+YNHShJDc077CTkIWg==
+"@octokit/rest@^16.19.0":
+  version "16.19.0"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.19.0.tgz#238244eae904c15bc9aa863bb3819142d3369ccb"
+  integrity sha512-mUk/GU2LtV95OAM3FnvK7KFFNzUUzEGFldOhWliJnuhwBqxEag1gW85o//L6YphC9wLoTaZQOhCHmQcsCnt2ag==
   dependencies:
     "@octokit/request" "2.4.2"
     before-after-hook "^1.4.0"
