@@ -1860,10 +1860,10 @@ ember-cli-normalize-entity-name@^1.0.0:
   dependencies:
     silent-error "^1.0.0"
 
-ember-cli-preprocess-registry@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/ember-cli-preprocess-registry/-/ember-cli-preprocess-registry-3.2.2.tgz#5d076ebeee9e28ccfc13c87c715b4330bb8d324c"
-  integrity sha512-Yp6gjErRyKigwYblhTHL/QduXbg9RbeEe9bGEv98eGcJKkNFHCl/l8o3yhPlGACmq5yK0QFgekNYki80aArsrg==
+ember-cli-preprocess-registry@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-preprocess-registry/-/ember-cli-preprocess-registry-3.3.0.tgz#685837a314fbe57224bd54b189f4b9c23907a2de"
+  integrity sha512-60GYpw7VPeB7TvzTLZTuLTlHdOXvayxjAQ+IxM2T04Xkfyu75O2ItbWlftQW7NZVGkaCsXSRAmn22PG03VpLMA==
   dependencies:
     broccoli-clean-css "^1.1.0"
     broccoli-funnel "^2.0.1"
