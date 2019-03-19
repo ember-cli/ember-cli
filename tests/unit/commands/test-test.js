@@ -135,6 +135,15 @@ describe('test command', function() {
       });
     });
 
+    it('passes through output path option', function() {
+      return command.validateAndRun(['--output-path=some/path']).then(function() {
+        let captor = td.matchers.captor();
+
+        td.verify(tasks.Test.prototype.run(captor.capture()));
+        expect(captor.value.outputPath).to.equal(path.resolve('some/path'));
+      });
+    });
+
     it('passes through custom reporter option', function() {
       return command.validateAndRun(['--reporter=xunit']).then(function() {
         let captor = td.matchers.captor();
