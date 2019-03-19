@@ -63,7 +63,7 @@
     "chalk": "^2.4.2",
     "ci-info": "^2.0.0",
     "clean-base-url": "^1.0.0",
-    "compression": "^1.7.3",
+    "compression": "^1.7.4",
     "configstore": "^4.0.0",
     "console-ui": "^3.0.0",
     "core-object": "^3.1.5",
