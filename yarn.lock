@@ -982,10 +982,10 @@ broccoli-test-helper@^2.0.0:
     tmp "^0.0.33"
     walk-sync "^0.3.3"
 
-broccoli@^2.0.0, broccoli@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.2.0.tgz#52f3cfdd4b2463030de211de8ebb36898734fe5b"
-  integrity sha512-g+3h+vpxTccfhIXkVqb+Ep43Cp0I9RjL27BY63/IpjOLlBI9RGcAjL5aYnCxB7ewfb4y0212xp4tFj+oDWAe+A==
+broccoli@^2.0.0, broccoli@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.3.0.tgz#b3f71b2c3d02fc042988e208827a09c75dd7b350"
+  integrity sha512-TeYMYlCGFK8EGk4Wce1G1uU3i52+YxRqP3WPOVDojC1zUk+Gi40wHBzUT2fncQZDl26dmCQMNugtHKjvUpcGQg==
   dependencies:
     broccoli-node-info "1.1.0"
     broccoli-slow-trees "^3.0.1"
