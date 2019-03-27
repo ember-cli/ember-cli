@@ -2448,10 +2448,10 @@ fixturify@^0.3.2, fixturify@^0.3.4:
     fs-extra "^0.30.0"
     matcher-collection "^1.0.4"
 
-fixturify@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/fixturify/-/fixturify-1.0.1.tgz#41867ba476240eec7bfb84050bffae1e063adaa3"
-  integrity sha512-nWWpK20AIeLsgn9U9weoi2wPpZHf5CTLrMumBmRL36cwmfS2I4XWHgnVoykslAUYjNOjlSJrvAOAJ3JPGeNviQ==
+fixturify@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/fixturify/-/fixturify-1.2.0.tgz#abe8c52dd27dbbfdb874a02893781c93425663ea"
+  integrity sha512-b5CMQmBZKsGR6HGqdSrLOGYGHIqrR0CUrcGU/lDL0mYy+DtGm5cnb61Z0UiIUqMVZIoV0CbN+u9/Gwjj+ICg0A==
   dependencies:
     "@types/fs-extra" "^5.0.5"
     "@types/minimatch" "^3.0.3"
