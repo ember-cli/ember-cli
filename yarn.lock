@@ -5291,10 +5291,10 @@ resolve-from@^4.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-4.0.0.tgz#4abcd852ad32dd7baabfe9b40e00a36db5f392e6"
   integrity sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==
 
-resolve-package-path@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-1.2.4.tgz#814c5fcfb5f6e4151d95ec6e5653707c43706670"
-  integrity sha512-AOIfR/AauBM1w1Oq9swqGxUjL4PW7bMztN7UCQ4KWg9AR2t03bGb9faegZbE0meAOHlntAni/4kXkcsQ7dWLPQ==
+resolve-package-path@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-1.2.6.tgz#48f5d69a5b3a0ea68f7b9c7398459dd4125807c7"
+  integrity sha512-He6cGWU74tJ6wLYSKrbvWOfIXf2tUu5RcBWqX/2K9Ju00CncF5WRdCOJQisqCtaULcqIqpLvMtz8ZjfpwlBwqg==
   dependencies:
     path-root "^0.1.1"
     resolve "^1.10.0"
