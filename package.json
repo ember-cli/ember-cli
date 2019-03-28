@@ -58,7 +58,7 @@
     "broccoli-module-unification-reexporter": "^1.0.0",
     "broccoli-source": "^1.1.0",
     "broccoli-stew": "^2.1.0",
-    "calculate-cache-key-for-tree": "^1.1.0",
+    "calculate-cache-key-for-tree": "^1.2.0",
     "capture-exit": "^2.0.0",
     "chalk": "^2.4.2",
     "ci-info": "^2.0.0",
