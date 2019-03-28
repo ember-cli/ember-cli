@@ -1100,10 +1100,10 @@ caching-transform@^3.0.1:
     package-hash "^3.0.0"
     write-file-atomic "^2.3.0"
 
-calculate-cache-key-for-tree@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/calculate-cache-key-for-tree/-/calculate-cache-key-for-tree-1.1.0.tgz#0c3e42c9c134f3c9de5358c0f16793627ea976d6"
-  integrity sha1-DD5CycE088neU1jA8WeTYn6pdtY=
+calculate-cache-key-for-tree@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/calculate-cache-key-for-tree/-/calculate-cache-key-for-tree-1.2.0.tgz#2ab1e5e30052cf2afe6eacdda60bc3992143acdc"
+  integrity sha512-Wdb6PNUUP5T0mhw2Jr0SE6MFLgZDIvN4BV8kfbradHZdsKDM30lC91OLEsCtrk4S60b+CZvgdOsLeezI6L1GdQ==
   dependencies:
     json-stable-stringify "^1.0.1"
 
