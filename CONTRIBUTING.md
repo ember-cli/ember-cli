@@ -32,7 +32,7 @@ project folder:
 npm link ember-cli
 ```
 
-Read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html)
+Read the official [npm-link documentation](https://docs.npmjs.com/cli/link.html)
 for more information.
 
 
