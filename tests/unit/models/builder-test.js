@@ -268,6 +268,40 @@ describe('models/builder.js', function() {
         expect(fs.existsSync(result.directory)).to.be.true;
       });
     });
+
+    it('builds an esm ember-cli-build.js', function() {
+      const project = new MockProject();
+      project.root += '/tests/fixtures/build/esm';
+
+      builder = new Builder({
+        project,
+        ui: project.ui,
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+      });
+
+      return builder.build().then(function(result) {
+        expect(fs.existsSync(result.directory)).to.be.true;
+        expect(fs.existsSync(path.join(result.directory, 'hello.txt'))).to.be.true;
+        expect(fs.readFileSync(path.join(result.directory, 'hello.txt'), 'utf-8')).to.equal(`Hello esm\n`);
+      });
+    });
+
+    it('builds a typescript ember-cli-build.ts', function() {
+      const project = new MockProject();
+      project.root += '/tests/fixtures/build/typescript';
+
+      builder = new Builder({
+        project,
+        ui: project.ui,
+        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+      });
+
+      return builder.build().then(function(result) {
+        expect(fs.existsSync(result.directory)).to.be.true;
+        expect(fs.existsSync(path.join(result.directory, 'hello.txt'))).to.be.true;
+        expect(fs.readFileSync(path.join(result.directory, 'hello.txt'), 'utf-8')).to.equal(`Hello typescript\n`);
+      });
+    });
   });
 
   describe('cleanup', function() {
