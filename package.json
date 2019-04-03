@@ -128,7 +128,7 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
-    "@octokit/rest": "^16.21.0",
+    "@octokit/rest": "^16.23.2",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
