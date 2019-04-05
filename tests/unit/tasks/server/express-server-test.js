@@ -42,29 +42,34 @@ describe('express-server', function() {
   });
 
   afterEach(function() {
-    return subject.stopHttpServer()
+    return subject
+      .stopHttpServer()
       .catch(() => {})
       .then(() => {
         try {
           proxy.httpServer.close();
-        } catch (err) { /* ignore */ }
+        } catch (err) {
+          /* ignore */
+        }
       });
   });
-
 
   it('address in use', function() {
     let preexistingServer = net.createServer();
     preexistingServer.listen(1337);
 
-    return subject.start({
-      host: undefined,
-      port: '1337',
-    })
+    return subject
+      .start({
+        host: undefined,
+        port: '1337',
+      })
       .then(function() {
         expect(false, 'should have rejected').to.be.ok;
       })
       .catch(function(reason) {
-        expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
+        expect(reason.message).to.equal(
+          'Could not serve on http://localhost:1337. It is either in use or you do not have permission.'
+        );
       })
       .finally(function() {
         preexistingServer.close();
@@ -84,8 +89,12 @@ describe('express-server', function() {
   describe('processAppMiddlewares', function() {
     it('has a good error message if a file exists, but does not export a function', function() {
       subject.project = {
-        has() { return true; },
-        require() { return {}; },
+        has() {
+          return true;
+        },
+        require() {
+          return {};
+        },
       };
 
       expect(() => {
@@ -95,9 +104,13 @@ describe('express-server', function() {
 
     it('returns values returned by server/index', function() {
       subject.project = {
-        has() { return true; },
+        has() {
+          return true;
+        },
         require() {
-          return function() { return 'foo'; };
+          return function() {
+            return 'foo';
+          };
         },
       };
 
@@ -112,32 +125,40 @@ describe('express-server', function() {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
-      return expect(subject.start({
-        host: undefined,
-        port: '1337',
-      })).to.be.rejected.then(reason => {
-        expect(reason.message).to.equal('Could not serve on http://localhost:1337. It is either in use or you do not have permission.');
-      }).finally(function() {
-        preexistingServer.close();
-      });
+      return expect(
+        subject.start({
+          host: undefined,
+          port: '1337',
+        })
+      )
+        .to.be.rejected.then(reason => {
+          expect(reason.message).to.equal(
+            'Could not serve on http://localhost:1337. It is either in use or you do not have permission.'
+          );
+        })
+        .finally(function() {
+          preexistingServer.close();
+        });
     });
   });
 
   describe('behaviour', function() {
     it('starts with ssl if ssl option is passed', function() {
-      return subject.start({
-        host: 'localhost',
-        port: '1337',
-        ssl: true,
-        sslCert: 'tests/fixtures/ssl/server.crt',
-        sslKey: 'tests/fixtures/ssl/server.key',
-        rootURL: '/',
-      })
+      return subject
+        .start({
+          host: 'localhost',
+          port: '1337',
+          ssl: true,
+          sslCert: 'tests/fixtures/ssl/server.crt',
+          sslKey: 'tests/fixtures/ssl/server.key',
+          rootURL: '/',
+        })
         .then(function() {
           return new Promise(function(resolve, reject) {
             process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-            request('https://localhost:1337', { strictSSL: false }).
-              get('/').expect(200, function(err, value) {
+            request('https://localhost:1337', { strictSSL: false })
+              .get('/')
+              .expect(200, function(err, value) {
                 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
                 if (err) {
                   reject(err);
@@ -160,12 +181,13 @@ describe('express-server', function() {
         };
       };
 
-      subject.start({
-        proxy: 'http://localhost:3001/',
-        host: undefined,
-        port: '1337',
-        rootURL: '/',
-      })
+      subject
+        .start({
+          proxy: 'http://localhost:3001/',
+          host: undefined,
+          port: '1337',
+          rootURL: '/',
+        })
         .then(function() {
           request(subject.app)
             .get('/foo')
@@ -194,12 +216,13 @@ describe('express-server', function() {
         return app;
       };
 
-      subject.start({
-        proxy: 'http://localhost:3001/',
-        host: undefined,
-        port: '1337',
-        rootURL: '/',
-      })
+      subject
+        .start({
+          proxy: 'http://localhost:3001/',
+          host: undefined,
+          port: '1337',
+          rootURL: '/',
+        })
         .then(function() {
           request(subject.app)
             .get('/foo')
@@ -232,19 +255,19 @@ describe('express-server', function() {
           return app;
         };
 
-        subject.start({
-          proxy: 'http://localhost:3001/',
-          host: undefined,
-          port: '1337',
-          rootURL: '/',
-        })
+        subject
+          .start({
+            proxy: 'http://localhost:3001/',
+            host: undefined,
+            port: '1337',
+            rootURL: '/',
+          })
           .then(function() {
             request(subject.app)
               .get('/foo')
               .expect(function(res) {
                 expect(res.text).to.equal(longText);
                 expect(res.header['content-encoding']).to.equal('gzip');
-
               })
               .end(function(err) {
                 if (err) {
@@ -257,22 +280,21 @@ describe('express-server', function() {
       });
 
       it('does not use compression even for long texts when the x-no-compression header is sent in the response', function(done) {
-
         project.require = function() {
           let app = express();
           app.use('/foo', function(req, res) {
-            res.set('x-no-compression', 'true'),
-            res.send(longText);
+            res.set('x-no-compression', 'true'), res.send(longText);
           });
           return app;
         };
 
-        subject.start({
-          proxy: 'http://localhost:3001/',
-          host: undefined,
-          port: '1337',
-          rootURL: '/',
-        })
+        subject
+          .start({
+            proxy: 'http://localhost:3001/',
+            host: undefined,
+            port: '1337',
+            rootURL: '/',
+          })
           .then(function() {
             request(subject.app)
               .get('/foo')
@@ -292,35 +314,38 @@ describe('express-server', function() {
           });
       });
 
-      it('does not use compression for server sent events', co.wrap(function *() {
-        project.require = function() {
-          let app = express();
-          app.use('/foo', function(req, res) {
-            res.set('Content-Type', 'text/event-stream');
-            res.send(longText);
-          });
-          return app;
-        };
+      it(
+        'does not use compression for server sent events',
+        co.wrap(function*() {
+          project.require = function() {
+            let app = express();
+            app.use('/foo', function(req, res) {
+              res.set('Content-Type', 'text/event-stream');
+              res.send(longText);
+            });
+            return app;
+          };
 
-        yield subject.start({
-          proxy: 'http://localhost:3001/',
-          host: undefined,
-          port: '1337',
-          rootURL: '/',
-          compression: true,
-        });
-
-        yield request(subject.app)
-          .get('/foo')
-          .set('accept', 'application/json, */*')
-          .expect(function(res) {
-            expect(res.text).to.equal(longText);
-            expect(res.header['content-encoding']).to.not.exist;
-            expect(parseInt(res.header['content-length'], 10)).to.equal(longText.length);
+          yield subject.start({
+            proxy: 'http://localhost:3001/',
+            host: undefined,
+            port: '1337',
+            rootURL: '/',
+            compression: true,
           });
 
-        expect(proxy.called).to.equal(false);
-      }));
+          yield request(subject.app)
+            .get('/foo')
+            .set('accept', 'application/json, */*')
+            .expect(function(res) {
+              expect(res.text).to.equal(longText);
+              expect(res.header['content-encoding']).to.not.exist;
+              expect(parseInt(res.header['content-length'], 10)).to.equal(longText.length);
+            });
+
+          expect(proxy.called).to.equal(false);
+        })
+      );
     });
 
     describe('with proxy', function() {
@@ -343,7 +368,9 @@ describe('express-server', function() {
               return done(err);
             }
             expect(proxy.called).to.equal(false);
-            if (responseCallback) { responseCallback(response); }
+            if (responseCallback) {
+              responseCallback(response);
+            }
             done();
           });
       }
@@ -360,7 +387,8 @@ describe('express-server', function() {
 
       function apiTest(app, method, url, done) {
         let req = request(app);
-        return req[method].call(req, url)
+        return req[method]
+          .call(req, url)
           .set('content-length', 0)
           .set('accept', 'text/json')
           .end(function(err) {
@@ -392,7 +420,7 @@ describe('express-server', function() {
       });
 
       it('proxies websockets', function(done) {
-        let number = Math.round(Math.random() * 0xFFFFFF);
+        let number = Math.round(Math.random() * 0xffffff);
         let client = new WebSocket('ws://localhost:1337/foo');
 
         client.onerror = error => {
@@ -406,11 +434,7 @@ describe('express-server', function() {
             client.close();
 
             setTimeout(() => {
-              expect(proxy.websocketEvents).to.deep.eql([
-                'connect',
-                `message: ${number}`,
-                'close',
-              ]);
+              expect(proxy.websocketEvents).to.deep.eql(['connect', `message: ${number}`, 'close']);
               done();
             }, 10);
           }, 10);
@@ -450,7 +474,8 @@ describe('express-server', function() {
 
       function apiTest(app, method, url, done) {
         let req = request(app);
-        return req[method].call(req, url)
+        return req[method]
+          .call(req, url)
           .set('accept', 'text/json')
           .end(function(err) {
             if (err) {
@@ -466,9 +491,10 @@ describe('express-server', function() {
       it('proxies GET', function(done) {
         nock('http://api.lvh.me', {
           reqheaders: {
-            'host': 'api.lvh.me',
+            host: 'api.lvh.me',
           },
-        }).get('/api/get')
+        })
+          .get('/api/get')
           .reply(200, function() {
             nockProxy.called = true;
             nockProxy.method = 'GET';
@@ -483,9 +509,10 @@ describe('express-server', function() {
       it('proxies PUT', function(done) {
         nock('http://api.lvh.me', {
           reqheaders: {
-            'host': 'api.lvh.me',
+            host: 'api.lvh.me',
           },
-        }).put('/api/put')
+        })
+          .put('/api/put')
           .reply(204, function() {
             nockProxy.called = true;
             nockProxy.method = 'PUT';
@@ -500,9 +527,10 @@ describe('express-server', function() {
       it('proxies POST', function(done) {
         nock('http://api.lvh.me', {
           reqheaders: {
-            'host': 'api.lvh.me',
+            host: 'api.lvh.me',
           },
-        }).post('/api/post')
+        })
+          .post('/api/post')
           .reply(201, function() {
             nockProxy.called = true;
             nockProxy.method = 'POST';
@@ -517,9 +545,10 @@ describe('express-server', function() {
       it('proxies DELETE', function(done) {
         nock('http://api.lvh.me', {
           reqheaders: {
-            'host': 'api.lvh.me',
+            host: 'api.lvh.me',
           },
-        }).delete('/api/delete')
+        })
+          .delete('/api/delete')
           .reply(204, function() {
             nockProxy.called = true;
             nockProxy.method = 'DELETE';
@@ -567,20 +596,19 @@ describe('express-server', function() {
       }
 
       it('serves index.html when file not found with auto/history location', function(done) {
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/someurl.withperiod')
-              .set('accept', 'text/html')
-              .expect(200)
-              .expect('Content-Type', /html/)
-              .end(function(err) {
-                if (err) {
-                  return done(err);
-                }
-                done();
-              });
-          });
+        startServer().then(function() {
+          request(subject.app)
+            .get('/someurl.withperiod')
+            .set('accept', 'text/html')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
       });
 
       it('GET /tests serves tests/index.html for mime of */* (hash location)', function(done) {
@@ -589,89 +617,84 @@ describe('express-server', function() {
           locationType: 'hash',
         };
 
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/tests')
-              .set('accept', '*/*')
-              .expect(200)
-              .expect('Content-Type', /html/)
-              .end(function(err) {
-                if (err) {
-                  return done(err);
-                }
-                done();
-              });
-          });
+        startServer().then(function() {
+          request(subject.app)
+            .get('/tests')
+            .set('accept', '*/*')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
       });
 
       it('GET /tests serves tests/index.html for mime of */* (auto location)', function(done) {
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/tests')
-              .set('accept', '*/*')
-              .expect(200)
-              .expect('Content-Type', /html/)
-              .end(function(err) {
-                if (err) {
-                  return done(err);
-                }
-                done();
-              });
-          });
+        startServer().then(function() {
+          request(subject.app)
+            .get('/tests')
+            .set('accept', '*/*')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
       });
 
       it('GET /tests/whatever serves tests/index.html when file not found', function(done) {
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/tests/whatever')
-              .set('accept', 'text/html')
-              .expect(200)
-              .expect('Content-Type', /html/)
-              .end(function(err) {
-                if (err) {
-                  return done(err);
-                }
-                done();
-              });
-          });
+        startServer().then(function() {
+          request(subject.app)
+            .get('/tests/whatever')
+            .set('accept', 'text/html')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
       });
 
       it('GET /tests/an-existing-file.tla serves tests/an-existing-file.tla if it is found', function(done) {
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/tests/test-file.txt')
-              .set('accept', 'text/html')
-              .expect(200)
-              .expect(/some contents/)
-              .expect('Content-Type', /text/)
-              .end(function(err) {
-                if (err) {
-                  return done(err);
-                }
-                done();
-              });
-          });
+        startServer().then(function() {
+          request(subject.app)
+            .get('/tests/test-file.txt')
+            .set('accept', 'text/html')
+            .expect(200)
+            .expect(/some contents/)
+            .expect('Content-Type', /text/)
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
       });
 
       it('serves index.html when file not found (with rootURL) with auto/history location', function(done) {
-        startServer('/foo')
-          .then(function() {
-            request(subject.app)
-              .get('/foo/someurl')
-              .set('accept', 'text/html')
-              .expect(200)
-              .expect('Content-Type', /html/)
-              .end(function(err) {
-                if (err) {
-                  return done(err);
-                }
-                done();
-              });
-          });
+        startServer('/foo').then(function() {
+          request(subject.app)
+            .get('/foo/someurl')
+            .set('accept', 'text/html')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
       });
 
       it('serves index.html when file not found (with rootURL) with custom history location', function(done) {
@@ -681,20 +704,19 @@ describe('express-server', function() {
           historySupportMiddleware: true,
         };
 
-        startServer('/foo')
-          .then(function() {
-            request(subject.app)
-              .get('/foo/someurl')
-              .set('accept', 'text/html')
-              .expect(200)
-              .expect('Content-Type', /html/)
-              .end(function(err) {
-                if (err) {
-                  return done(err);
-                }
-                done();
-              });
-          });
+        startServer('/foo').then(function() {
+          request(subject.app)
+            .get('/foo/someurl')
+            .set('accept', 'text/html')
+            .expect(200)
+            .expect('Content-Type', /html/)
+            .end(function(err) {
+              if (err) {
+                return done(err);
+              }
+              done();
+            });
+        });
       });
 
       it('returns a 404 when file not found with hash location', function(done) {
@@ -703,62 +725,58 @@ describe('express-server', function() {
           locationType: 'hash',
         };
 
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/someurl.withperiod')
-              .set('accept', 'text/html')
-              .expect(404)
-              .end(done);
-          });
+        startServer().then(function() {
+          request(subject.app)
+            .get('/someurl.withperiod')
+            .set('accept', 'text/html')
+            .expect(404)
+            .end(done);
+        });
       });
 
       it('files that exist in broccoli directory are served up', function(done) {
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/test-file.txt')
-              .end(function(err, response) {
-                expect(response.text.trim()).to.equal('some contents');
-                done();
-              });
-          });
+        startServer().then(function() {
+          request(subject.app)
+            .get('/test-file.txt')
+            .end(function(err, response) {
+              expect(response.text.trim()).to.equal('some contents');
+              done();
+            });
+        });
       });
 
       it('serves static asset up from build output without a period in name', function(done) {
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/someurl-without-period')
-              .expect(200)
-              .end(function(err, response) {
-                if (err) {
-                  return done(err);
-                }
+        startServer().then(function() {
+          request(subject.app)
+            .get('/someurl-without-period')
+            .expect(200)
+            .end(function(err, response) {
+              if (err) {
+                return done(err);
+              }
 
-                expect(response.body.toString().trim()).to.equal('some other content');
+              expect(response.body.toString().trim()).to.equal('some other content');
 
-                done();
-              });
-          });
+              done();
+            });
+        });
       });
 
       it('serves a static wasm file up from build output with correct Content-Type header', function(done) {
-        startServer()
-          .then(function() {
-            request(subject.app)
-              .get('/vendor/foo.wasm')
-              .expect(200)
-              .end(function(err, response) {
-                if (err) {
-                  return done(err);
-                }
+        startServer().then(function() {
+          request(subject.app)
+            .get('/vendor/foo.wasm')
+            .expect(200)
+            .end(function(err, response) {
+              if (err) {
+                return done(err);
+              }
 
-                expect(response.headers['content-type']).to.equal('application/wasm');
+              expect(response.headers['content-type']).to.equal('application/wasm');
 
-                done();
-              });
-          });
+              done();
+            });
+        });
       });
 
       it('serves static asset up from build output without a period in name (with rootURL)', function(done) {
@@ -766,21 +784,20 @@ describe('express-server', function() {
           rootURL: '/foo',
         };
 
-        startServer('/foo')
-          .then(function() {
-            request(subject.app)
-              .get('/foo/someurl-without-period')
-              .expect(200)
-              .end(function(err, response) {
-                if (err) {
-                  return done(err);
-                }
+        startServer('/foo').then(function() {
+          request(subject.app)
+            .get('/foo/someurl-without-period')
+            .expect(200)
+            .end(function(err, response) {
+              if (err) {
+                return done(err);
+              }
 
-                expect(response.body.toString().trim()).to.equal('some other content');
+              expect(response.body.toString().trim()).to.equal('some other content');
 
-                done();
-              });
-          });
+              done();
+            });
+        });
       });
     });
 
@@ -796,12 +813,14 @@ describe('express-server', function() {
       });
 
       it('calls processAddonMiddlewares upon start', function() {
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          expect(calls).to.equal(1);
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            expect(calls).to.equal(1);
+          });
       });
     });
 
@@ -812,50 +831,59 @@ describe('express-server', function() {
         firstCalls = 0;
         secondCalls = 0;
 
-        project.initializeAddons = function() { };
-        project.addons = [{
-          serverMiddleware({ options }) {
-            checkMiddlewareOptions(options);
-            firstCalls++;
+        project.initializeAddons = function() {};
+        project.addons = [
+          {
+            serverMiddleware({ options }) {
+              checkMiddlewareOptions(options);
+              firstCalls++;
+            },
           },
-        }, {
-          serverMiddleware({ options }) {
-            checkMiddlewareOptions(options);
-            secondCalls++;
+          {
+            serverMiddleware({ options }) {
+              checkMiddlewareOptions(options);
+              secondCalls++;
+            },
           },
-        }, {
-          doesntGoBoom: null,
-        }];
+          {
+            doesntGoBoom: null,
+          },
+        ];
       });
 
       it('calls serverMiddleware on the addons on start', function() {
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          expect(firstCalls).to.equal(1);
-          expect(secondCalls).to.equal(1);
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            expect(firstCalls).to.equal(1);
+            expect(secondCalls).to.equal(1);
+          });
       });
 
       it('calls serverMiddleware on the addons on restart', function() {
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          subject.changedFiles = ['bar.js'];
-          return subject.restartHttpServer();
-        }).then(function() {
-          expect(firstCalls).to.equal(2);
-          expect(secondCalls).to.equal(2);
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            subject.changedFiles = ['bar.js'];
+            return subject.restartHttpServer();
+          })
+          .then(function() {
+            expect(firstCalls).to.equal(2);
+            expect(secondCalls).to.equal(2);
+          });
       });
     });
 
     describe('addon middleware is async', function() {
       let order = [];
       beforeEach(function() {
-        project.initializeAddons = function() { };
+        project.initializeAddons = function() {};
         project.addons = [
           {
             serverMiddleware() {
@@ -871,7 +899,8 @@ describe('express-server', function() {
                 }, 50);
               });
             },
-          }, {
+          },
+          {
             serverMiddleware() {
               order.push('third');
             },
@@ -880,32 +909,36 @@ describe('express-server', function() {
       });
 
       it('waits for async middleware to complete before the next middleware', function() {
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          expect(order[0]).to.equal('first');
-          expect(order[1]).to.equal('second');
-          expect(order[2]).to.equal('third');
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            expect(order[0]).to.equal('first');
+            expect(order[1]).to.equal('second');
+            expect(order[2]).to.equal('third');
+          });
       });
     });
 
     describe('addon middleware bubble errors', function() {
       beforeEach(function() {
-        project.initializeAddons = function() { };
-        project.addons = [{
-          serverMiddleware() {
-            return Promise.reject('addon middleware fail');
+        project.initializeAddons = function() {};
+        project.addons = [
+          {
+            serverMiddleware() {
+              return Promise.reject('addon middleware fail');
+            },
           },
-        },
         ];
       });
       it('up to server start', function() {
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        })
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
           .catch(function(reason) {
             expect(reason).to.equal('addon middleware fail');
           });
@@ -950,7 +983,8 @@ describe('express-server', function() {
 
         let originalApp;
 
-        return subject.start(realOptions)
+        return subject
+          .start(realOptions)
           .then(function() {
             originalApp = subject.app;
             subject.changedFiles = ['bar.js'];
@@ -989,13 +1023,15 @@ describe('express-server', function() {
           calls++;
         };
 
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          subject.serverWatcher.emit('change', 'foo.txt');
-          expect(calls).to.equal(1);
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            subject.serverWatcher.emit('change', 'foo.txt');
+            expect(calls).to.equal(1);
+          });
       });
 
       it('schedules a server restart', function() {
@@ -1004,14 +1040,16 @@ describe('express-server', function() {
           calls++;
         };
 
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          subject.serverWatcher.emit('change', 'foo.txt');
-          subject.serverWatcher.emit('change', 'bar.txt');
-          expect(calls).to.equal(2);
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            subject.serverWatcher.emit('change', 'foo.txt');
+            subject.serverWatcher.emit('change', 'bar.txt');
+            expect(calls).to.equal(2);
+          });
       });
     });
 
@@ -1039,47 +1077,53 @@ describe('express-server', function() {
       it('restarts the server', function() {
         let originalHttpServer;
         let originalApp;
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          ui.output = '';
-          originalHttpServer = subject.httpServer;
-          originalApp = subject.app;
-          subject.changedFiles = ['bar.js'];
-          return subject.restartHttpServer();
-        }).then(function() {
-          expect(ui.output).to.contains(EOL + chalk.green('Server restarted.') + EOL + EOL);
-          expect(subject.httpServer, 'HTTP server exists').to.be.ok;
-          expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
-          expect(!!subject.app).to.equal(true, 'App exists');
-          expect(subject.app).to.not.equal(originalApp, 'App has changed');
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            ui.output = '';
+            originalHttpServer = subject.httpServer;
+            originalApp = subject.app;
+            subject.changedFiles = ['bar.js'];
+            return subject.restartHttpServer();
+          })
+          .then(function() {
+            expect(ui.output).to.contains(EOL + chalk.green('Server restarted.') + EOL + EOL);
+            expect(subject.httpServer, 'HTTP server exists').to.be.ok;
+            expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
+            expect(!!subject.app).to.equal(true, 'App exists');
+            expect(subject.app).to.not.equal(originalApp, 'App has changed');
+          });
       });
 
       it('restarts the server again if one or more files change during a previous restart', function() {
         let originalHttpServer;
         let originalApp;
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          originalHttpServer = subject.httpServer;
-          originalApp = subject.app;
-          subject.serverRestartPromise = new Promise(function(resolve) {
-            setTimeout(function() {
-              subject.serverRestartPromise = null;
-              resolve();
-            }, 20);
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            originalHttpServer = subject.httpServer;
+            originalApp = subject.app;
+            subject.serverRestartPromise = new Promise(function(resolve) {
+              setTimeout(function() {
+                subject.serverRestartPromise = null;
+                resolve();
+              }, 20);
+            });
+            subject.changedFiles = ['bar.js'];
+            return subject.restartHttpServer();
+          })
+          .then(function() {
+            expect(!!subject.httpServer).to.equal(true, 'HTTP server exists');
+            expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
+            expect(!!subject.app).to.equal(true, 'App exists');
+            expect(subject.app).to.not.equal(originalApp, 'App has changed');
           });
-          subject.changedFiles = ['bar.js'];
-          return subject.restartHttpServer();
-        }).then(function() {
-          expect(!!subject.httpServer).to.equal(true, 'HTTP server exists');
-          expect(subject.httpServer).to.not.equal(originalHttpServer, 'HTTP server has changed');
-          expect(!!subject.app).to.equal(true, 'App exists');
-          expect(subject.app).to.not.equal(originalApp, 'App has changed');
-        });
       });
 
       it('emits the restart event', function() {
@@ -1087,15 +1131,18 @@ describe('express-server', function() {
         subject.on('restart', function() {
           calls++;
         });
-        return subject.start({
-          host: undefined,
-          port: '1337',
-        }).then(function() {
-          subject.changedFiles = ['bar.js'];
-          return subject.restartHttpServer();
-        }).then(function() {
-          expect(calls).to.equal(1);
-        });
+        return subject
+          .start({
+            host: undefined,
+            port: '1337',
+          })
+          .then(function() {
+            subject.changedFiles = ['bar.js'];
+            return subject.restartHttpServer();
+          })
+          .then(function() {
+            expect(calls).to.equal(1);
+          });
       });
     });
   });

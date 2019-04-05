@@ -11,9 +11,7 @@ describe('addon install task', function() {
 
   beforeEach(function() {
     ui = {
-      startProgress() {
-
-      },
+      startProgress() {},
     };
   });
 

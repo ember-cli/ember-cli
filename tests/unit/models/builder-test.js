@@ -42,8 +42,7 @@ describe('models/builder.js', function() {
           },
         });
       },
-      cleanup() {
-      },
+      cleanup() {},
     };
   }
 
@@ -149,7 +148,9 @@ describe('models/builder.js', function() {
         project,
         ui: project.ui,
         setupBroccoliBuilder,
-        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+        processBuildResult(buildResults) {
+          return Promise.resolve(buildResults);
+        },
       });
 
       instrumentationStart = td.replace(builder.project._instrumentation, 'start');
@@ -177,7 +178,10 @@ describe('models/builder.js', function() {
       let mockAnnotation = 'MockAnnotation';
 
       return builder.build(null, mockAnnotation).then(function() {
-        td.verify(instrumentationStop('build', { directory: 'build results', graph: { __heimdall__: {} } }, mockAnnotation), { times: 1 });
+        td.verify(
+          instrumentationStop('build', { directory: 'build results', graph: { __heimdall__: {} } }, mockAnnotation),
+          { times: 1 }
+        );
       });
     });
 
@@ -209,7 +213,9 @@ describe('models/builder.js', function() {
         builder = new Builder({
           project,
           ui: project.ui,
-          processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+          processBuildResult(buildResults) {
+            return Promise.resolve(buildResults);
+          },
         });
 
         return builder.build().then(function() {
@@ -226,7 +232,9 @@ describe('models/builder.js', function() {
         builder = new Builder({
           project,
           ui: project.ui,
-          processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+          processBuildResult(buildResults) {
+            return Promise.resolve(buildResults);
+          },
         });
 
         expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
@@ -241,15 +249,20 @@ describe('models/builder.js', function() {
     (ci.APPVEYOR ? it.skip : it)('produces the correct output', function() {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
-      const setup = () => new Builder({
-        project,
-        ui: project.ui,
-        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
-      });
+      const setup = () =>
+        new Builder({
+          project,
+          ui: project.ui,
+          processBuildResult(buildResults) {
+            return Promise.resolve(buildResults);
+          },
+        });
 
-      return setup().build().then(result => {
-        expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
-      });
+      return setup()
+        .build()
+        .then(result => {
+          expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
+        });
     });
 
     it('returns {directory, graph} as the result object', function() {
@@ -259,7 +272,9 @@ describe('models/builder.js', function() {
       builder = new Builder({
         project,
         ui: project.ui,
-        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+        processBuildResult(buildResults) {
+          return Promise.resolve(buildResults);
+        },
       });
 
       return builder.build().then(function(result) {
@@ -277,7 +292,9 @@ describe('models/builder.js', function() {
         project,
         ui: project.ui,
         setupBroccoliBuilder,
-        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+        processBuildResult(buildResults) {
+          return Promise.resolve(buildResults);
+        },
       });
     });
 
@@ -330,7 +347,9 @@ describe('models/builder.js', function() {
             return originalBuild.call(this);
           };
         },
-        processBuildResult(buildResults) { return Promise.resolve(buildResults); },
+        processBuildResult(buildResults) {
+          return Promise.resolve(buildResults);
+        },
         project,
       });
 
@@ -369,7 +388,6 @@ describe('models/builder.js', function() {
         td.verify(outputReady(buildResults), { times: 1 });
       });
     });
-
 
     describe('instrumentation hooks', function() {
       beforeEach(function() {
@@ -501,31 +519,34 @@ describe('models/builder.js', function() {
         ui: project.ui,
         readBuildFile() {
           return {
-            read() {
-
-            },
-            rebuild() {
-
-            },
+            read() {},
+            rebuild() {},
           };
         },
       });
 
       expect(builder.broccoliBuilderFallback).to.be.true;
 
-      expect(project.ui.output).to.include('WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:');
-      expect(project.ui.output).to.include('Object: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md');
+      expect(project.ui.output).to.include(
+        'WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:'
+      );
+      expect(project.ui.output).to.include(
+        'Object: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md'
+      );
     });
 
     it('errors for an invalid node', function() {
       let project = new MockProject();
-      expect(() => new Builder({
-        project,
-        ui: project.ui,
-        readBuildFile() {
-          return {};
-        },
-      })).to.throw('[object Object] is not a Broccoli node\nused as output node');
+      expect(
+        () =>
+          new Builder({
+            project,
+            ui: project.ui,
+            readBuildFile() {
+              return {};
+            },
+          })
+      ).to.throw('[object Object] is not a Broccoli node\nused as output node');
     });
   });
 });

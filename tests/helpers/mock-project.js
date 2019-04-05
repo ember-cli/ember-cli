@@ -29,21 +29,25 @@ class MockProject extends Project {
     if (file === './server') {
       return function() {
         return {
-          listen() { arguments[arguments.length - 1](); },
+          listen() {
+            arguments[arguments.length - 1]();
+          },
         };
       };
     }
   }
 
   config() {
-    return this._config || {
-      baseURL: '/',
-      locationType: 'auto',
-    };
+    return (
+      this._config || {
+        baseURL: '/',
+        locationType: 'auto',
+      }
+    );
   }
 
   has(key) {
-    return ((/server/).test(key));
+    return /server/.test(key);
   }
 
   name() {

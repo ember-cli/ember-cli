@@ -8,9 +8,7 @@ const UninstallNpmCommand = require('../../../lib/commands/uninstall-npm');
 describe('uninstall:npm command', function() {
   let command;
 
-  let msg =
-      'This command has been removed. Please use `npm uninstall ' +
-      '<packageName> --save-dev` instead.';
+  let msg = 'This command has been removed. Please use `npm uninstall ' + '<packageName> --save-dev` instead.';
 
   beforeEach(function() {
     let project = new MockProject();

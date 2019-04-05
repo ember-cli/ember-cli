@@ -15,7 +15,7 @@ class ProjectWithoutInternalAddons extends Project {
 
 function prepareAddon(addon) {
   addon.pkg.keywords.push('ember-addon');
-  addon.pkg['ember-addon'] = { };
+  addon.pkg['ember-addon'] = {};
   addon.files['index.js'] = 'module.exports = { name: require("./package").name };';
 }
 
@@ -59,7 +59,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   addInRepoAddon(name, version = '0.0.0', cb) {
     const inRepoAddon = new FixturifyProject(name, version, project => {
       project.pkg.keywords.push('ember-addon');
-      project.pkg['ember-addon'] = { };
+      project.pkg['ember-addon'] = {};
       project.files['index.js'] = 'module.exports = { name: require("./package").name };';
 
       if (typeof cb === 'function') {
@@ -68,7 +68,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     });
 
     // configure the current project to have an ember-addon configured at the appropriate path
-    let addon = this.pkg['ember-addon'] = this.pkg['ember-addon'] || { };
+    let addon = (this.pkg['ember-addon'] = this.pkg['ember-addon'] || {});
     addon.paths = addon.paths || [];
     const addonPath = `lib/${name}`;
 

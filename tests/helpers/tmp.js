@@ -9,10 +9,9 @@ let root = process.cwd();
 module.exports.setup = function(path) {
   process.chdir(root);
 
-  return remove(path)
-    .then(function() {
-      fs.mkdirsSync(path);
-    });
+  return remove(path).then(function() {
+    fs.mkdirsSync(path);
+  });
 };
 
 module.exports.teardown = function(path) {

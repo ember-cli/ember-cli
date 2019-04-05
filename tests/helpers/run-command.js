@@ -54,7 +54,7 @@ module.exports = function run(/* command, args, options */) {
       opts.env = defaults(options.env, process.env);
     }
 
-    debug.info("command: %s, args: %o", command, args);
+    debug.info('command: %s, args: %o', command, args);
     let child = spawn(command, args, opts);
     let result = {
       output: [],
@@ -70,17 +70,19 @@ module.exports = function run(/* command, args, options */) {
           childSpawnedReject(err);
         }
       });
-      onChildSpawnedPromise
-        .then(function() {
+      onChildSpawnedPromise.then(
+        function() {
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
           }
-        }, function(err) {
+        },
+        function(err) {
           result.testingError = err;
           if (options.killAfterChildSpawnedPromiseResolution) {
             killCliProcess(child);
           }
-        });
+        }
+      );
     }
 
     child.stdout.on('data', function(data) {

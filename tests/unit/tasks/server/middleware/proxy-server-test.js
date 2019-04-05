@@ -22,4 +22,3 @@ describe('proxy-server', function() {
     expect(proxyServer.handleProxiedRequest({ req, options })).to.undefined;
   });
 });
-

@@ -32,10 +32,12 @@ describe('Acceptance: ember destroy with --in option', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(co.wrap(function *() {
-    tmpdir = yield mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
-  }));
+  beforeEach(
+    co.wrap(function*() {
+      tmpdir = yield mkTmpDirIn(tmproot);
+      process.chdir(tmpdir);
+    })
+  );
 
   afterEach(function() {
     this.timeout(10000);
@@ -66,7 +68,7 @@ describe('Acceptance: ember destroy with --in option', function() {
     });
   }
 
-  const assertDestroyAfterGenerate = co.wrap(function *(args, addonPath, files) {
+  const assertDestroyAfterGenerate = co.wrap(function*(args, addonPath, files) {
     yield initApp();
     yield generateUtils.inRepoAddon(addonPath);
     yield generateUtils.tempBlueprint();

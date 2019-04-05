@@ -15,17 +15,17 @@ let commands = {
     name: 'serve',
     aliases: ['s'],
     works: 'everywhere',
-    availableOptions: [
-      { name: 'port', key: 'port', type: Number, default: 4200, required: true },
-    ],
+    availableOptions: [{ name: 'port', key: 'port', type: Number, default: 4200, required: true }],
     run() {},
   }),
 };
 
-function AddonServeCommand() { return this; }
+function AddonServeCommand() {
+  return this;
+}
 AddonServeCommand.prototype.includedCommands = function() {
   return {
-    'Serve': {
+    Serve: {
       name: 'serve',
       description: 'overrides the serve command',
     },
@@ -35,7 +35,9 @@ AddonServeCommand.prototype.includedCommands = function() {
 describe('cli/lookup-command.js', function() {
   let ui;
   let project = {
-    isEmberCLIProject() { return true; },
+    isEmberCLIProject() {
+      return true;
+    },
     initializeAddons() {
       this.addons = [new AddonCommand(), new OtherCommand(), new ClassCommand()];
     },
@@ -115,12 +117,13 @@ describe('cli/lookup-command.js', function() {
     });
 
     expect(command.name).to.equal('class-addon-command');
-
   });
 
   it('lookupCommand() should write out a warning when overriding a core command', function() {
     project = {
-      isEmberCLIProject() { return true; },
+      isEmberCLIProject() {
+        return true;
+      },
       initializeAddons() {
         this.addons = [new AddonServeCommand()];
       },
@@ -133,12 +136,16 @@ describe('cli/lookup-command.js', function() {
       ui,
     });
 
-    expect(ui.output).to.match(/WARNING: An ember-addon has attempted to override the core command "serve"\. The core command will be used.*/);
+    expect(ui.output).to.match(
+      /WARNING: An ember-addon has attempted to override the core command "serve"\. The core command will be used.*/
+    );
   });
 
   it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function() {
     project = {
-      isEmberCLIProject() { return true; },
+      isEmberCLIProject() {
+        return true;
+      },
       initializeAddons() {
         this.addons = [new OverrideCommand()];
       },
@@ -151,7 +158,9 @@ describe('cli/lookup-command.js', function() {
       ui,
     });
 
-    expect(ui.output).to.match(/WARNING: An ember-addon has attempted to override the core command "serve"\. The addon command will be used as the overridding was explicit.*/);
+    expect(ui.output).to.match(
+      /WARNING: An ember-addon has attempted to override the core command "serve"\. The addon command will be used as the overridding was explicit.*/
+    );
   });
 
   it('lookupCommand() should return UnknownCommand object when command name is not present.', function() {

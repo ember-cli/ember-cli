@@ -12,26 +12,30 @@ const createTempDir = broccoliTestHelper.createTempDir;
 describe('load-config', function() {
   let fixtureDirectoryPath, fixtureDirectory;
 
-  before(co.wrap(function *() {
-    fixtureDirectory = yield createTempDir();
-    fixtureDirectoryPath = fixtureDirectory.path();
+  before(
+    co.wrap(function*() {
+      fixtureDirectory = yield createTempDir();
+      fixtureDirectoryPath = fixtureDirectory.path();
 
-    fixtureDirectory.write({
-      '.something': 'hello: world\n',
-      '.travis.yaml': 'hello: world',
-      '.travis.yml': 'hello: world',
-      'package.json': '{ "hello": "world" }',
-      child: {
-        'test.json': '{ "hello": "world" }',
-      },
-    });
+      fixtureDirectory.write({
+        '.something': 'hello: world\n',
+        '.travis.yaml': 'hello: world',
+        '.travis.yml': 'hello: world',
+        'package.json': '{ "hello": "world" }',
+        child: {
+          'test.json': '{ "hello": "world" }',
+        },
+      });
 
-    yield buildOutput(fixtureDirectoryPath);
-  }));
+      yield buildOutput(fixtureDirectoryPath);
+    })
+  );
 
-  after(co.wrap(function *() {
-    yield fixtureDirectory.dispose();
-  }));
+  after(
+    co.wrap(function*() {
+      yield fixtureDirectory.dispose();
+    })
+  );
 
   it('loads and parses a yml file', function() {
     expect(loadConfig('.travis.yml', fixtureDirectoryPath).hello).to.equal('world');
