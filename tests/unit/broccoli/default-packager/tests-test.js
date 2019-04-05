@@ -158,7 +158,7 @@ describe('Default Packager: Tests', function() {
     expect(defaultPackager._cachedTests).to.not.equal(null);
   }));
 
-  it('packages test files', co.wrap(function *() {
+  it('packages test files (with sourcemaps)', co.wrap(function *() {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -195,6 +195,58 @@ describe('Default Packager: Tests', function() {
       'test-support.map',
       'tests.js',
       'tests.map',
+    ]);
+
+    expect(Object.keys(outputFiles)).to.deep.equal([
+      'assets',
+      'testem.js',
+      'tests',
+    ]);
+
+    expect(outputFiles.assets['tests.js']).to.include('login-test.js');
+    expect(outputFiles.assets['tests.js']).to.include('login-test.lint.js');
+    expect(outputFiles.assets['tests.js']).to.include('test-helper');
+    expect(outputFiles.assets['tests.js']).to.include(`define('the-best-app-ever/config/environment'`);
+    expect(outputFiles.assets['tests.js']).to.include(`require('the-best-app-ever/tests/test-helper');`);
+    expect(outputFiles.assets['tests.js']).to.include('EmberENV.TESTS_FILE_LOADED = true;');
+  }));
+
+  it('packages test files (without sourcemaps)', co.wrap(function *() {
+    let defaultPackager = new DefaultPackager({
+      project,
+      name,
+      env,
+      areTestsEnabled: true,
+      sourcemaps: { enabled: false },
+
+      distPaths: {
+        testJsFile: '/assets/tests.js',
+        testSupportJsFile: {
+          testSupport: '/assets/test-support.js',
+          testLoader: '/assets/test-loader.js',
+        },
+        testSupportCssFile: '/assets/test-support.css',
+      },
+
+      customTransformsMap: new Map(),
+
+      vendorTestStaticStyles: [],
+      legacyTestFilesToAppend: [],
+
+      registry: setupRegistryFor('js', tree => tree),
+    });
+
+    output = yield buildOutput(defaultPackager.packageTests(input.path()));
+
+    let outputFiles = output.read();
+
+    expect(Object.keys(outputFiles.tests)).to.deep.equal([
+      'index.html',
+    ]);
+
+    expect(Object.keys(outputFiles.assets)).to.deep.equal([
+      'test-support.js',
+      'tests.js',
     ]);
 
     expect(Object.keys(outputFiles)).to.deep.equal([
