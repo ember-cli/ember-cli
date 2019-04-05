@@ -21,7 +21,7 @@
     "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^0.7.0",
     "broccoli-asset-rev": "^3.0.0",
-    "ember-ajax": "^4.0.2",
+    "ember-ajax": "^5.0.0",
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^7.4.1",
