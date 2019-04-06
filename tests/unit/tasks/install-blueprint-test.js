@@ -33,28 +33,28 @@ describe('InstallBlueprintTask', function() {
       td.when(task._createTempFolder()).thenResolve(task._tempPath);
     });
 
-    it('resolves "foobar" by looking up the "foobar" blueprint locally', function() {
+    it('resolves "foobar" by looking up the "foobar" blueprint locally', async function() {
       let foobarBlueprint = { name: 'foobar blueprint' };
       td.when(task._lookupBlueprint('foobar')).thenResolve(foobarBlueprint);
 
-      return expect(task._resolveBlueprint('foobar')).to.eventually.equal(foobarBlueprint);
+      expect(await task._resolveBlueprint('foobar')).to.equal(foobarBlueprint);
     });
 
     it('rejects invalid npm package name "foo:bar"', function() {
       let error = new Error('foobar not found');
       td.when(task._lookupBlueprint('foo:bar')).thenReject(error);
 
-      return expect(task._resolveBlueprint('foo:bar')).to.be.rejectedWith(error);
+      expect(task._resolveBlueprint('foo:bar')).to.be.rejectedWith(error);
     });
 
-    it('tries to resolve "foobar" as npm package as a fallback', function() {
+    it('tries to resolve "foobar" as npm package as a fallback', async function() {
       let error = new Error('foobar not found');
       td.when(task._lookupBlueprint('foobar')).thenReject(error);
 
       let foobarBlueprint = { name: 'foobar npm blueprint' };
       td.when(task._tryNpmBlueprint('foobar')).thenResolve(foobarBlueprint);
 
-      return expect(task._resolveBlueprint('foobar')).to.eventually.equal(foobarBlueprint);
+      expect(await task._resolveBlueprint('foobar')).to.equal(foobarBlueprint);
     });
 
     it('rejects if npm module resolution failed', function() {
@@ -70,14 +70,14 @@ describe('InstallBlueprintTask', function() {
     it(
       'resolves "https://github.com/ember-cli/app-blueprint-test.git" blueprint by cloning, ' +
         'installing dependencies and loading the blueprint',
-      function() {
+      async function() {
         let url = 'https://github.com/ember-cli/app-blueprint-test.git';
         let gitBlueprint = { name: 'git blueprint' };
         td.when(task._gitClone(url, task._tempPath)).thenResolve();
         td.when(task._npmInstall(task._tempPath)).thenResolve();
         td.when(task._loadBlueprintFromPath(task._tempPath)).thenResolve(gitBlueprint);
 
-        return expect(task._resolveBlueprint(url)).to.eventually.equal(gitBlueprint);
+        expect(await task._resolveBlueprint(url)).to.equal(gitBlueprint);
       }
     );
 
@@ -162,14 +162,14 @@ describe('InstallBlueprintTask', function() {
       expect(fs.existsSync(path.join(task.project.root, dir, '.npmrc'))).to.be.false;
     });
 
-    it('resolves with blueprint after successful "npm install"', function() {
+    it('resolves with blueprint after successful "npm install"', async function() {
       let modulePath = '/path/to/foobar';
       td.when(task._npmInstallModule('foobar', task._tempPath)).thenResolve(modulePath);
 
       let foobarBlueprint = { name: 'foobar blueprint' };
       td.when(task._loadBlueprintFromPath(modulePath)).thenResolve(foobarBlueprint);
 
-      return expect(task._tryNpmBlueprint('foobar')).to.eventually.equal(foobarBlueprint);
+      expect(await task._tryNpmBlueprint('foobar')).to.equal(foobarBlueprint);
     });
 
     it('rejects with SilentError if npm module "foobar" could not be found', function() {
