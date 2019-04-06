@@ -18,7 +18,7 @@ describe('ember-app-utils', function() {
       modulePrefix: 'cool-foo',
     };
 
-    let defaultMatch = '{{content-for \'head\'}}';
+    let defaultMatch = "{{content-for 'head'}}";
     let escapedConfig = encodeURIComponent(JSON.stringify(config));
     let defaultOptions = {
       storeConfigInMeta: true,
@@ -29,7 +29,7 @@ describe('ember-app-utils', function() {
 
     it('`content-for` regex returns all matches presents in a same line', function() {
       const contentForRegex = configReplacePatterns(defaultOptions)[2].match;
-      const content = '{{content-for \'foo\'}} {{content-for \'bar\'}}';
+      const content = "{{content-for 'foo'}} {{content-for 'bar'}}";
       const results = [];
       let match;
 
@@ -37,10 +37,7 @@ describe('ember-app-utils', function() {
         results.push(match);
       }
 
-      expect(results).to.deep.equal([
-        ['{{content-for \'foo\'}}', 'foo'],
-        ['{{content-for \'bar\'}}', 'bar'],
-      ]);
+      expect(results).to.deep.equal([["{{content-for 'foo'}}", 'foo'], ["{{content-for 'bar'}}", 'bar']]);
     });
 
     it('returns an empty string if invalid type is specified', function() {
@@ -54,10 +51,7 @@ describe('ember-app-utils', function() {
         let actual = contentFor(config, defaultMatch, 'head', defaultOptions);
         let expected = `<meta name="cool-foo/config/environment" content="${escapedConfig}" />`;
 
-        expect(
-          actual,
-          '`<meta>` tag was included by default'
-        ).to.contain(expected);
+        expect(actual, '`<meta>` tag was included by default').to.contain(expected);
       });
 
       it('handles multibyte characters in `<meta>` tag', function() {
@@ -66,10 +60,7 @@ describe('ember-app-utils', function() {
         let escapedConfig = encodeURIComponent(JSON.stringify(configWithMultibyteChars));
         let expected = `<meta name="cool-å/config/environment" content="${escapedConfig}" />`;
 
-        expect(
-          actual,
-          '`<meta>` tag was included with multibyte characters'
-        ).to.contain(expected);
+        expect(actual, '`<meta>` tag was included with multibyte characters').to.contain(expected);
       });
 
       it('omits `<meta>` tag if `storeConfigInMeta` is false', function() {
@@ -78,10 +69,7 @@ describe('ember-app-utils', function() {
         let output = contentFor(config, defaultMatch, 'head', options);
         let expected = `<meta name="cool-foo/config/environment" content="${escapedConfig}" />`;
 
-        expect(
-          output,
-          '`<meta>` tag was not included'
-        ).not.to.contain(expected);
+        expect(output, '`<meta>` tag was not included').not.to.contain(expected);
       });
 
       it('returns `<base>` tag if `locationType` is "auto"', function() {
@@ -91,10 +79,7 @@ describe('ember-app-utils', function() {
         let expected = '<base href="/" />';
         let output = contentFor(config, defaultMatch, 'head', defaultOptions);
 
-        expect(
-          output,
-          '`<base>` tag was included'
-        ).to.contain(expected);
+        expect(output, '`<base>` tag was included').to.contain(expected);
       });
 
       // this is required by testem
@@ -105,10 +90,7 @@ describe('ember-app-utils', function() {
         let output = contentFor(config, defaultMatch, 'head', defaultOptions);
         let expected = '<base href="/" />';
 
-        expect(
-          output,
-          '`<base>` tag was included'
-        ).to.contain(expected);
+        expect(output, '`<base>` tag was included').to.contain(expected);
       });
 
       it('omits `<base>` tag if `locationType` is "hash"', function() {
@@ -118,20 +100,14 @@ describe('ember-app-utils', function() {
         let expected = '<base href="/foo/bar/" />';
         let output = contentFor(config, defaultMatch, 'head', defaultOptions);
 
-        expect(
-          output,
-          '`<base>` tag was not included'
-        ).to.not.contain(expected);
+        expect(output, '`<base>` tag was not included').to.not.contain(expected);
       });
 
       it('omits `<base>` tag if `baseURL` is `undefined`', function() {
         let expected = '<base href=';
         let output = contentFor(config, defaultMatch, 'head', defaultOptions);
 
-        expect(
-          output,
-          '`<base>` tag was not included'
-        ).to.not.contain(expected);
+        expect(output, '`<base>` tag was not included').to.not.contain(expected);
       });
     });
 
@@ -142,10 +118,7 @@ describe('ember-app-utils', function() {
 
         let output = contentFor(config, defaultMatch, 'config-module', defaultOptions);
 
-        expect(
-          output,
-          'includes `<meta>` tag snippet'
-        ).to.contain(expected);
+        expect(output, 'includes `<meta>` tag snippet').to.contain(expected);
       });
 
       it('returns "raw" config if `storeConfigInMeta` is false', function() {
@@ -153,10 +126,7 @@ describe('ember-app-utils', function() {
         let expected = JSON.stringify(config);
         let output = contentFor(config, defaultMatch, 'config-module', options);
 
-        expect(
-          output,
-          'includes "raw" config'
-        ).to.contain(expected);
+        expect(output, 'includes "raw" config').to.contain(expected);
       });
     });
 
@@ -164,30 +134,25 @@ describe('ember-app-utils', function() {
       it('returns application bootstrap snippet by default', function() {
         let output = contentFor(config, defaultMatch, 'app-boot', defaultOptions);
 
-        expect(
-          output,
-          'includes applicaton bootstrap snippet'
-        ).to.contain('require("cool-foo/app")["default"].create({});');
+        expect(output, 'includes applicaton bootstrap snippet').to.contain(
+          'require("cool-foo/app")["default"].create({});'
+        );
       });
 
       it('returns application bootstrap snippet with MU module name if `isModuleUnification` is true', function() {
         let options = Object.assign({}, defaultOptions, { isModuleUnification: true });
         let output = contentFor(config, defaultMatch, 'app-boot', options);
 
-        expect(
-          output,
-          'includes applicaton bootstrap snippet'
-        ).to.contain('require("cool-foo/src/main")["default"].create({});');
+        expect(output, 'includes applicaton bootstrap snippet').to.contain(
+          'require("cool-foo/src/main")["default"].create({});'
+        );
       });
 
       it('omits application bootstrap snippet if `autoRun` is false', function() {
         let options = Object.assign({}, defaultOptions, { autoRun: false });
         let output = contentFor(config, defaultMatch, 'app-boot', options);
 
-        expect(
-          output,
-          'includes applicaton bootstrap snippet'
-        ).to.equal('');
+        expect(output, 'includes applicaton bootstrap snippet').to.equal('');
       });
     });
 
@@ -195,32 +160,35 @@ describe('ember-app-utils', function() {
       it('returns `<script> tag with a failed test load assertion`', function() {
         let output = contentFor(config, defaultMatch, 'test-body-footer', defaultOptions);
 
-        expect(
-          output,
-          'includes `<script>` tag'
-        ).to.equal(`<script>Ember.assert('The tests file was not loaded. Make sure your tests index.html includes "assets/tests.js".', EmberENV.TESTS_FILE_LOADED);</script>`);
+        expect(output, 'includes `<script>` tag').to.equal(
+          `<script>Ember.assert('The tests file was not loaded. Make sure your tests index.html includes "assets/tests.js".', EmberENV.TESTS_FILE_LOADED);</script>`
+        );
       });
     });
 
     describe(`for addons`, function() {
       it('allows later addons to inspect previous content', function() {
         let calledContent;
-        let addons = [{
-          contentFor() {
-            return 'zero';
+        let addons = [
+          {
+            contentFor() {
+              return 'zero';
+            },
           },
-        }, {
-          contentFor() {
-            return 'one';
+          {
+            contentFor() {
+              return 'one';
+            },
           },
-        }, {
-          contentFor(type, config, content) {
-            calledContent = content.slice();
-            content.pop();
+          {
+            contentFor(type, config, content) {
+              calledContent = content.slice();
+              content.pop();
 
-            return 'two';
+              return 'two';
+            },
           },
-        }];
+        ];
 
         let options = Object.assign({}, defaultOptions, { addons });
         let output = contentFor(config, defaultMatch, 'foo', options);
@@ -230,15 +198,18 @@ describe('ember-app-utils', function() {
       });
 
       it('calls `contentFor` on addons', function() {
-        let addons = [{
-          contentFor() {
-            return 'blammo';
+        let addons = [
+          {
+            contentFor() {
+              return 'blammo';
+            },
           },
-        }, {
-          contentFor() {
-            return 'blahzorz';
+          {
+            contentFor() {
+              return 'blahzorz';
+            },
           },
-        }];
+        ];
 
         let options = Object.assign({}, defaultOptions, { addons });
         let output = contentFor(config, defaultMatch, 'foo', options);
@@ -251,18 +222,12 @@ describe('ember-app-utils', function() {
   describe(`calculateBaseTag`, function() {
     ['auto', 'history'].forEach(locationType => {
       it(`generates a base tag correctly for location: ${locationType}`, function() {
-        expect(
-          calculateBaseTag('/', locationType),
-          `base tag was generated correctly`
-        ).to.equal('<base href="/" />');
+        expect(calculateBaseTag('/', locationType), `base tag was generated correctly`).to.equal('<base href="/" />');
       });
     });
 
     it('returns an empty string if location is "hash"', function() {
-      expect(
-        calculateBaseTag('/', 'hash'),
-        `base tag was generated correctly`
-      ).to.equal('');
+      expect(calculateBaseTag('/', 'hash'), `base tag was generated correctly`).to.equal('');
     });
 
     [null, undefined, ''].forEach(url => {
@@ -274,55 +239,34 @@ describe('ember-app-utils', function() {
 
   describe(`convertObjectToString`, function() {
     it('transforms config object into a string', function() {
-      expect(
-        convertObjectToString({ foobar: 'baz' }),
-        `config was transformed correctly`
-      ).to.equal('{"foobar":"baz"}');
+      expect(convertObjectToString({ foobar: 'baz' }), `config was transformed correctly`).to.equal('{"foobar":"baz"}');
     });
 
     it('returns empty object string for "falsy" values', function() {
       let invalidValues = [null, undefined, 0];
 
       invalidValues.forEach(value => {
-        expect(
-          convertObjectToString(value),
-          `${value} was transformed correctly`
-        ).to.equal('{}');
+        expect(convertObjectToString(value), `${value} was transformed correctly`).to.equal('{}');
       });
     });
   });
 
   describe(`normalizeUrl`, function() {
     it('transforms input values to valid urls', function() {
-      expect(
-        normalizeUrl('local/people'),
-        '`local/people` was transformed correctly'
-      ).to.equal('/local/people/');
+      expect(normalizeUrl('local/people'), '`local/people` was transformed correctly').to.equal('/local/people/');
 
-      expect(
-        normalizeUrl('people'),
-        '`people` was transformed correctly'
-      ).to.equal('/people/');
+      expect(normalizeUrl('people'), '`people` was transformed correctly').to.equal('/people/');
 
-      expect(
-        normalizeUrl('/people'),
-        '`/people` was transformed correctly'
-      ).to.equal('/people/');
+      expect(normalizeUrl('/people'), '`/people` was transformed correctly').to.equal('/people/');
 
-      expect(
-        normalizeUrl('/'),
-        '`/` is transformed correctly'
-      ).to.equal('/');
+      expect(normalizeUrl('/'), '`/` is transformed correctly').to.equal('/');
     });
 
     it('returns an empty string for `null`, `undefined` and empty string', function() {
       let invalidUrls = [null, undefined, ''];
 
       invalidUrls.forEach(url => {
-        expect(
-          normalizeUrl(url),
-          `${url} was transformed correctly`
-        ).to.equal('');
+        expect(normalizeUrl(url), `${url} was transformed correctly`).to.equal('');
       });
     });
   });

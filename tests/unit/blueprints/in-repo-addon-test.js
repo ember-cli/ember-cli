@@ -35,16 +35,12 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
         expect(file(`${path}/foo-bar/index.js`)).to.exist;
 
         expect(fs.readJsonSync(`${path}/foo-bar/package.json`)).to.deep.equal({
-          "name": "foo-bar",
-          "keywords": [
-            "ember-addon",
-          ],
+          name: 'foo-bar',
+          keywords: ['ember-addon'],
         });
 
         expect(fs.readJsonSync('package.json')['ember-addon']).to.deep.equal({
-          "paths": [
-            `${path}/foo-bar`,
-          ],
+          paths: [`${path}/foo-bar`],
         });
       })
       .then(function() {
@@ -57,7 +53,6 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
         expect(fs.readJsonSync('package.json')['ember-addon']['paths']).to.be.undefined;
       });
   });
-
 });
 
 describe('Unit: in-repo-addon blueprint', function() {
@@ -96,14 +91,16 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
       "lib/test-entity-name"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 
   it('ignores if already exists', function() {
@@ -120,23 +117,22 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
       "lib/test-entity-name"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 
   it('removes from paths', function() {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
-        paths: [
-          'lib/test-entity-name',
-          'lib/test-entity-name-2',
-        ],
+        paths: ['lib/test-entity-name', 'lib/test-entity-name-2'],
       },
     });
 
@@ -147,14 +143,16 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
       "lib/test-entity-name-2"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 
   it('removes paths if last one', function() {
@@ -191,7 +189,8 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
@@ -199,6 +198,7 @@ describe('Unit: in-repo-addon blueprint', function() {
       "lib/test-entity-name-2"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 });

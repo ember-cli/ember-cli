@@ -21,9 +21,7 @@ let dir = chai.dir;
 let appName = 'some-cool-app';
 let appRoot;
 
-let fixturePrefix = isExperimentEnabled("MODULE_UNIFICATION")
-  ? 'mu-app'
-  : 'app';
+let fixturePrefix = isExperimentEnabled('MODULE_UNIFICATION') ? 'mu-app' : 'app';
 
 describe('Acceptance: preprocessor-smoke-test', function() {
   this.timeout(360000);
@@ -43,52 +41,61 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     expect(dir(appRoot)).to.not.exist;
   });
 
-  it('addons with standard preprocessors compile correctly', co.wrap(function *() {
-    yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-with-preprocessors`);
+  it(
+    'addons with standard preprocessors compile correctly',
+    co.wrap(function*() {
+      yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-with-preprocessors`);
 
-    let packageJsonPath = path.join(appRoot, 'package.json');
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.devDependencies['ember-cli-sass'] = 'latest';
-    packageJson.devDependencies['ember-cool-addon'] = 'latest';
-    fs.writeJsonSync(packageJsonPath, packageJson);
+      let packageJsonPath = path.join(appRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+      packageJson.devDependencies['ember-cli-sass'] = 'latest';
+      packageJson.devDependencies['ember-cool-addon'] = 'latest';
+      fs.writeJsonSync(packageJsonPath, packageJson);
 
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
-    expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
-  }));
+      expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
+      expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
+    })
+  );
 
-  it('addon registry entries are added in the proper order', co.wrap(function *() {
-    yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-registry-ordering`);
+  it(
+    'addon registry entries are added in the proper order',
+    co.wrap(function*() {
+      yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-registry-ordering`);
 
-    let packageJsonPath = path.join(appRoot, 'package.json');
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.devDependencies['first-dummy-preprocessor'] = 'latest';
-    packageJson.devDependencies['second-dummy-preprocessor'] = 'latest';
-    fs.writeJsonSync(packageJsonPath, packageJson);
+      let packageJsonPath = path.join(appRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+      packageJson.devDependencies['first-dummy-preprocessor'] = 'latest';
+      packageJson.devDependencies['second-dummy-preprocessor'] = 'latest';
+      fs.writeJsonSync(packageJsonPath, packageJson);
 
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.js'))
-      .to.contain('replacedByPreprocessor', 'token should have been replaced in app bundle')
-      .to.not.contain('__SECOND_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained')
-      .to.not.contain('__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained');
-  }));
+      expect(file('dist/assets/some-cool-app.js'))
+        .to.contain('replacedByPreprocessor', 'token should have been replaced in app bundle')
+        .to.not.contain('__SECOND_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained')
+        .to.not.contain('__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained');
+    })
+  );
 
-  it('addons without preprocessors compile correctly', co.wrap(function *() {
-    yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-without-preprocessors`);
+  it(
+    'addons without preprocessors compile correctly',
+    co.wrap(function*() {
+      yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-without-preprocessors`);
 
-    let packageJsonPath = path.join(appRoot, 'package.json');
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.devDependencies['ember-cli-sass'] = 'latest';
-    packageJson.devDependencies['ember-cool-addon'] = 'latest';
-    fs.writeJsonSync(packageJsonPath, packageJson);
+      let packageJsonPath = path.join(appRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+      packageJson.devDependencies['ember-cli-sass'] = 'latest';
+      packageJson.devDependencies['ember-cool-addon'] = 'latest';
+      fs.writeJsonSync(packageJsonPath, packageJson);
 
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
-    expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
-  }));
+      expect(file('dist/assets/some-cool-app.css')).to.contain('app styles included');
+      expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
+    })
+  );
 
   /*
     [ app ]  -> [ addon ] -> [ preprocessor addon ]
@@ -97,24 +104,27 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       |
       |-- preprocessor should not apply to this
   */
-  it('addons depending on preprocessor addon preprocesses addon but not app', co.wrap(function *() {
-    yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-with-preprocessors-2`);
+  it(
+    'addons depending on preprocessor addon preprocesses addon but not app',
+    co.wrap(function*() {
+      yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-with-preprocessors-2`);
 
-    let packageJsonPath = path.join(appRoot, 'package.json');
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.devDependencies['ember-cool-addon'] = 'latest';
-    fs.writeJsonSync(packageJsonPath, packageJson);
+      let packageJsonPath = path.join(appRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+      packageJson.devDependencies['ember-cool-addon'] = 'latest';
+      fs.writeJsonSync(packageJsonPath, packageJson);
 
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.js'))
-      .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
-      .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
+      expect(file('dist/assets/some-cool-app.js'))
+        .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
+        .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
 
-    expect(file('dist/assets/vendor.js'))
-      .to.contain('replacedByPreprocessor', 'token should have been replaced in vendor bundle')
-      .to.not.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should have been replaced in vendor bundle');
-  }));
+      expect(file('dist/assets/vendor.js'))
+        .to.contain('replacedByPreprocessor', 'token should have been replaced in vendor bundle')
+        .to.not.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should have been replaced in vendor bundle');
+    })
+  );
 
   /*
     [ app ]  -> [ addon ] ->  [ addon ] -> [ preprocessor addon ]
@@ -125,25 +135,34 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       |
       |-- preprocessor should not apply to this
   */
-  it('addon N levels deep depending on preprocessor preprocesses that parent addon only', co.wrap(function *() {
-    yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-with-preprocessors-3`);
+  it(
+    'addon N levels deep depending on preprocessor preprocesses that parent addon only',
+    co.wrap(function*() {
+      yield copyFixtureFiles(`preprocessor-tests/${fixturePrefix}-with-addon-with-preprocessors-3`);
 
-    let packageJsonPath = path.join(appRoot, 'package.json');
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.devDependencies['ember-shallow-addon'] = 'latest';
+      let packageJsonPath = path.join(appRoot, 'package.json');
+      let packageJson = fs.readJsonSync(packageJsonPath);
+      packageJson.devDependencies['ember-shallow-addon'] = 'latest';
 
-    fs.writeJsonSync(packageJsonPath, packageJson);
+      fs.writeJsonSync(packageJsonPath, packageJson);
 
-    yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    expect(file('dist/assets/some-cool-app.js'))
-      .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
-      .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
+      expect(file('dist/assets/some-cool-app.js'))
+        .to.contain('__PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in app bundle')
+        .to.not.contain('replacedByPreprocessor', 'token should not have been replaced in app bundle');
 
-    expect(file('dist/assets/vendor.js'))
-      .to.contain('deep: "replacedByPreprocessor"', 'token should have been replaced in deep component')
-      .to.contain('shallow: __PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not have been replaced in shallow component')
-      .to.not.contain('deep: __PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should have been replaced in deep component')
-      .to.not.contain('shallow: "replacedByPreprocessor"', 'token should not have been replaced in shallow component');
-  }));
+      expect(file('dist/assets/vendor.js'))
+        .to.contain('deep: "replacedByPreprocessor"', 'token should have been replaced in deep component')
+        .to.contain(
+          'shallow: __PREPROCESSOR_REPLACEMENT_TOKEN__',
+          'token should not have been replaced in shallow component'
+        )
+        .to.not.contain('deep: __PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should have been replaced in deep component')
+        .to.not.contain(
+          'shallow: "replacedByPreprocessor"',
+          'token should not have been replaced in shallow component'
+        );
+    })
+  );
 });

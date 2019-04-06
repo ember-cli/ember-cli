@@ -17,13 +17,9 @@ let FooCommand = Command.extend({
   description: 'Initializes the warp drive.',
   works: 'insideProject',
 
-  availableOptions: [
-    { name: 'dry-run', type: Boolean, default: false, aliases: ['d'] },
-  ],
+  availableOptions: [{ name: 'dry-run', type: Boolean, default: false, aliases: ['d'] }],
 
-  anonymousOptions: [
-    '<speed>',
-  ],
+  anonymousOptions: ['<speed>'],
 });
 
 describe('Acceptance: ember help', function() {

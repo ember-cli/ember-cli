@@ -39,45 +39,29 @@ describe('Acceptance: ember generate in-repo-addon', function() {
   });
 
   function initApp() {
-    return ember([
-      'init',
-      '--name=my-app',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
   }
 
   function initInRepoAddon() {
     return initApp().then(function() {
-      return ember([
-        'generate',
-        'in-repo-addon',
-        'my-addon',
-      ]);
+      return ember(['generate', 'in-repo-addon', 'my-addon']);
     });
   }
 
   it('in-repo-addon blueprint foo inside alternate path', function() {
     // build an app with an in-repo addon in a non-standard path
-    return initApp()
-      .then(() =>
-        ember([
-          'generate',
-          'in-repo-addon',
-          './non-lib/other-thing',
-        ])
-      )
-      // generate in project blueprint to allow easier testing of in-repo generation
-      .then(() => outputFile(
-        'blueprints/foo/files/__root__/foos/__name__.js',
-        '/* whoah, empty foo! */'
-      ))
-      // confirm that we can generate into the non-lib path
-      .then(() =>
-        ember(['generate', 'foo', 'bar', '--in-repo-addon=other-thing']).then(function() {
-          expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
-        })
-      );
+    return (
+      initApp()
+        .then(() => ember(['generate', 'in-repo-addon', './non-lib/other-thing']))
+        // generate in project blueprint to allow easier testing of in-repo generation
+        .then(() => outputFile('blueprints/foo/files/__root__/foos/__name__.js', '/* whoah, empty foo! */'))
+        // confirm that we can generate into the non-lib path
+        .then(() =>
+          ember(['generate', 'foo', 'bar', '--in-repo-addon=other-thing']).then(function() {
+            expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
+          })
+        )
+    );
   });
 
   it('in-repo-addon adds path to lib', function() {

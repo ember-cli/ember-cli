@@ -23,12 +23,13 @@ module.exports = {
       yarn: options.yarn,
       welcome: options.welcome,
     }));
-
   },
 
   fileMapTokens(options) {
     return {
-      __component__() { return options.locals.component; },
+      __component__() {
+        return options.locals.component;
+      },
     };
   },
 };

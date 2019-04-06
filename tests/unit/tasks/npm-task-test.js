@@ -37,10 +37,12 @@ describe('NpmTask', function() {
     it('rejects when an older version is found', function() {
       td.when(task.npm(['--version'])).thenResolve({ stdout: '2.9.9' });
 
-      return expect(task.checkNpmVersion()).to.be.rejectedWith(SilentError, /npm install -g npm/).then(() => {
-        expect(ui.output).to.be.empty;
-        expect(ui.errors).to.be.empty;
-      });
+      return expect(task.checkNpmVersion())
+        .to.be.rejectedWith(SilentError, /npm install -g npm/)
+        .then(() => {
+          expect(ui.output).to.be.empty;
+          expect(ui.errors).to.be.empty;
+        });
     });
 
     it('rejects when npm is not found', function() {
@@ -49,28 +51,34 @@ describe('NpmTask', function() {
 
       td.when(task.npm(['--version'])).thenReject(error);
 
-      return expect(task.checkNpmVersion()).to.be.rejectedWith(SilentError, /instructions at https:\/\/github.com\/npm\/npm/).then(() => {
-        expect(ui.output).to.be.empty;
-        expect(ui.errors).to.be.empty;
-      });
+      return expect(task.checkNpmVersion())
+        .to.be.rejectedWith(SilentError, /instructions at https:\/\/github.com\/npm\/npm/)
+        .then(() => {
+          expect(ui.output).to.be.empty;
+          expect(ui.errors).to.be.empty;
+        });
     });
 
     it('rejects when npm returns an unreadable version', function() {
       td.when(task.npm(['--version'])).thenResolve({ stdout: '5' });
 
-      return expect(task.checkNpmVersion()).to.be.rejectedWith(TypeError, /Invalid Version/).then(() => {
-        expect(ui.output).to.be.empty;
-        expect(ui.errors).to.be.empty;
-      });
+      return expect(task.checkNpmVersion())
+        .to.be.rejectedWith(TypeError, /Invalid Version/)
+        .then(() => {
+          expect(ui.output).to.be.empty;
+          expect(ui.errors).to.be.empty;
+        });
     });
 
     it('rejects when an unknown error is thrown', function() {
       td.when(task.npm(['--version'])).thenReject(new Error('foobar?'));
 
-      return expect(task.checkNpmVersion()).to.be.rejectedWith('foobar?').then(() => {
-        expect(ui.output).to.be.empty;
-        expect(ui.errors).to.be.empty;
-      });
+      return expect(task.checkNpmVersion())
+        .to.be.rejectedWith('foobar?')
+        .then(() => {
+          expect(ui.output).to.be.empty;
+          expect(ui.errors).to.be.empty;
+        });
     });
   });
 

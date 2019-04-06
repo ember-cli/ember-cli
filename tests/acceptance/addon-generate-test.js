@@ -30,10 +30,12 @@ describe('Acceptance: ember generate in-addon', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(co.wrap(function *() {
-    let tmpdir = yield mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
-  }));
+  beforeEach(
+    co.wrap(function*() {
+      let tmpdir = yield mkTmpDirIn(tmproot);
+      process.chdir(tmpdir);
+    })
+  );
 
   afterEach(function() {
     process.chdir(root);
@@ -41,12 +43,7 @@ describe('Acceptance: ember generate in-addon', function() {
   });
 
   function initAddon(name) {
-    return ember([
-      'addon',
-      name,
-      '--skip-npm',
-      '--skip-bower',
-    ]).then(addJSHint);
+    return ember(['addon', name, '--skip-npm', '--skip-bower']).then(addJSHint);
   }
 
   function addJSHint() {
@@ -68,275 +65,302 @@ describe('Acceptance: ember generate in-addon', function() {
     });
   }
 
-  it('in-addon addon-import cannot be called directly', co.wrap(function *() {
-    try {
-      yield generateInAddon(['addon-import', 'foo']);
-    } catch (error) {
-      expect(error.name).to.equal('SilentError');
-      expect(error.message).to.equal('You cannot call the addon-import blueprint directly.');
-    }
-  }));
+  it(
+    'in-addon addon-import cannot be called directly',
+    co.wrap(function*() {
+      try {
+        yield generateInAddon(['addon-import', 'foo']);
+      } catch (error) {
+        expect(error.name).to.equal('SilentError');
+        expect(error.message).to.equal('You cannot call the addon-import blueprint directly.');
+      }
+    })
+  );
 
   if (isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('does not run the `addon-import` blueprint from a module unification addon', co.wrap(function *() {
-      yield initAddon('my-addon');
-      yield ensureDir('src');
+    it(
+      'does not run the `addon-import` blueprint from a module unification addon',
+      co.wrap(function*() {
+        yield initAddon('my-addon');
+        yield ensureDir('src');
 
-      yield outputFile(
-        'blueprints/service/files/__root__/__path__/__name__.js',
-        "import Service from '@ember/service';\n" +
-        'export default Service.extend({ });\n'
-      );
+        yield outputFile(
+          'blueprints/service/files/__root__/__path__/__name__.js',
+          "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
+        );
 
-      yield ember(['generate', 'service', 'session']);
+        yield ember(['generate', 'service', 'session']);
 
-      expect(file('app/services/session.js')).to.not.exist;
-    }));
+        expect(file('app/services/session.js')).to.not.exist;
+      })
+    );
   } else {
-    it('runs the `addon-import` blueprint from a classic addon', co.wrap(function *() {
-      yield initAddon('my-addon');
+    it(
+      'runs the `addon-import` blueprint from a classic addon',
+      co.wrap(function*() {
+        yield initAddon('my-addon');
 
-      yield outputFile(
-        'blueprints/service/files/__root__/__path__/__name__.js',
-        "import Service from '@ember/service';\n" +
-        'export default Service.extend({ });\n'
-      );
+        yield outputFile(
+          'blueprints/service/files/__root__/__path__/__name__.js',
+          "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
+        );
 
-      yield ember(['generate', 'service', 'session']);
+        yield ember(['generate', 'service', 'session']);
 
-      expect(file('app/services/session.js')).to.exist;
-    }));
+        expect(file('app/services/session.js')).to.exist;
+      })
+    );
   }
 
   if (isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('skips a custom "*-addon" blueprint from a module unification addon', co.wrap(function *() {
-      yield initAddon('my-addon');
-      yield ensureDir('src');
+    it(
+      'skips a custom "*-addon" blueprint from a module unification addon',
+      co.wrap(function*() {
+        yield initAddon('my-addon');
+        yield ensureDir('src');
 
-      yield outputFile(
-        'blueprints/service/files/__root__/__path__/__name__.js',
-        "import Service from '@ember/service';\n" +
-        'export default Service.extend({ });\n'
-      );
+        yield outputFile(
+          'blueprints/service/files/__root__/__path__/__name__.js',
+          "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
+        );
 
-      yield outputFile(
-        'blueprints/service-addon/files/app/services/session.js',
-        "export { default } from 'somewhere';\n"
-      );
+        yield outputFile(
+          'blueprints/service-addon/files/app/services/session.js',
+          "export { default } from 'somewhere';\n"
+        );
 
-      yield ember(['generate', 'service', 'session']);
+        yield ember(['generate', 'service', 'session']);
 
-      expect(file('app/services/session.js')).to.not.exist;
-    }));
+        expect(file('app/services/session.js')).to.not.exist;
+      })
+    );
   } else {
-    it('runs a custom "*-addon" blueprint from a classic addon', co.wrap(function *() {
-      yield initAddon('my-addon');
+    it(
+      'runs a custom "*-addon" blueprint from a classic addon',
+      co.wrap(function*() {
+        yield initAddon('my-addon');
 
-      yield outputFile(
-        'blueprints/service/files/__root__/__path__/__name__.js',
-        "import Service from '@ember/service';\n" +
-        'export default Service.extend({ });\n'
-      );
+        yield outputFile(
+          'blueprints/service/files/__root__/__path__/__name__.js',
+          "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
+        );
 
-      yield outputFile(
-        'blueprints/service-addon/files/app/services/session.js',
-        "export { default } from 'somewhere';\n"
-      );
+        yield outputFile(
+          'blueprints/service-addon/files/app/services/session.js',
+          "export { default } from 'somewhere';\n"
+        );
 
-      yield ember(['generate', 'service', 'session']);
+        yield ember(['generate', 'service', 'session']);
 
-      expect(file('app/services/session.js')).to.exist;
-    }));
+        expect(file('app/services/session.js')).to.exist;
+      })
+    );
   }
 
-  it('in-addon blueprint foo', co.wrap(function *() {
-    yield generateInAddon(['blueprint', 'foo']);
+  it(
+    'in-addon blueprint foo',
+    co.wrap(function*() {
+      yield generateInAddon(['blueprint', 'foo']);
 
-    expect(file('blueprints/foo/index.js'))
-      .to.contain("module.exports = {\n" +
-                  "  description: ''\n" +
-                  "\n" +
-                  "  // locals(options) {\n" +
-                  "  //   // Return custom template variables here.\n" +
-                  "  //   return {\n" +
-                  "  //     foo: options.entity.options.foo\n" +
-                  "  //   };\n" +
-                  "  // }\n" +
-                  "\n" +
-                  "  // afterInstall(options) {\n" +
-                  "  //   // Perform extra work here.\n" +
-                  "  // }\n" +
-                  "};");
-  }));
+      expect(file('blueprints/foo/index.js')).to.contain(
+        'module.exports = {\n' +
+          "  description: ''\n" +
+          '\n' +
+          '  // locals(options) {\n' +
+          '  //   // Return custom template variables here.\n' +
+          '  //   return {\n' +
+          '  //     foo: options.entity.options.foo\n' +
+          '  //   };\n' +
+          '  // }\n' +
+          '\n' +
+          '  // afterInstall(options) {\n' +
+          '  //   // Perform extra work here.\n' +
+          '  // }\n' +
+          '};'
+      );
+    })
+  );
 
-  it('in-addon blueprint foo/bar', co.wrap(function *() {
-    yield generateInAddon(['blueprint', 'foo/bar']);
+  it(
+    'in-addon blueprint foo/bar',
+    co.wrap(function*() {
+      yield generateInAddon(['blueprint', 'foo/bar']);
 
-    expect(file('blueprints/foo/bar/index.js'))
-      .to.contain("module.exports = {\n" +
-                  "  description: ''\n" +
-                  "\n" +
-                  "  // locals(options) {\n" +
-                  "  //   // Return custom template variables here.\n" +
-                  "  //   return {\n" +
-                  "  //     foo: options.entity.options.foo\n" +
-                  "  //   };\n" +
-                  "  // }\n" +
-                  "\n" +
-                  "  // afterInstall(options) {\n" +
-                  "  //   // Perform extra work here.\n" +
-                  "  // }\n" +
-                  "};");
-  }));
+      expect(file('blueprints/foo/bar/index.js')).to.contain(
+        'module.exports = {\n' +
+          "  description: ''\n" +
+          '\n' +
+          '  // locals(options) {\n' +
+          '  //   // Return custom template variables here.\n' +
+          '  //   return {\n' +
+          '  //     foo: options.entity.options.foo\n' +
+          '  //   };\n' +
+          '  // }\n' +
+          '\n' +
+          '  // afterInstall(options) {\n' +
+          '  //   // Perform extra work here.\n' +
+          '  // }\n' +
+          '};'
+      );
+    })
+  );
 
-  it('in-addon http-mock foo', co.wrap(function *() {
-    yield generateInAddon(['http-mock', 'foo']);
+  it(
+    'in-addon http-mock foo',
+    co.wrap(function*() {
+      yield generateInAddon(['http-mock', 'foo']);
 
-    expect(file('server/index.js'))
-      .to.contain("mocks.forEach(route => route(app));");
+      expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
-    expect(file('server/mocks/foo.js'))
-      .to.contain("module.exports = function(app) {\n" +
-                  "  const express = require('express');\n" +
-                  "  let fooRouter = express.Router();\n" +
-                  "\n" +
-                  "  fooRouter.get('/', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo': []\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.post('/', function(req, res) {\n" +
-                  "    res.status(201).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.get('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.put('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooRouter.delete('/:id', function(req, res) {\n" +
-                  "    res.status(204).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  // The POST and PUT call will not contain a request body\n" +
-                  "  // because the body-parser is not included by default.\n" +
-                  "  // To use req.body, run:\n" +
-                  "\n" +
-                  "  //    npm install --save-dev body-parser\n" +
-                  "\n" +
-                  "  // After installing, you need to `use` the body-parser for\n" +
-                  "  // this mock uncommenting the following line:\n" +
-                  "  //\n" +
-                  "  //app.use('/api/foo', require('body-parser').json());\n" +
-                  "  app.use('/api/foo', fooRouter);\n" +
-                  "};");
+      expect(file('server/mocks/foo.js')).to.contain(
+        'module.exports = function(app) {\n' +
+          "  const express = require('express');\n" +
+          '  let fooRouter = express.Router();\n' +
+          '\n' +
+          "  fooRouter.get('/', function(req, res) {\n" +
+          '    res.send({\n' +
+          "      'foo': []\n" +
+          '    });\n' +
+          '  });\n' +
+          '\n' +
+          "  fooRouter.post('/', function(req, res) {\n" +
+          '    res.status(201).end();\n' +
+          '  });\n' +
+          '\n' +
+          "  fooRouter.get('/:id', function(req, res) {\n" +
+          '    res.send({\n' +
+          "      'foo': {\n" +
+          '        id: req.params.id\n' +
+          '      }\n' +
+          '    });\n' +
+          '  });\n' +
+          '\n' +
+          "  fooRouter.put('/:id', function(req, res) {\n" +
+          '    res.send({\n' +
+          "      'foo': {\n" +
+          '        id: req.params.id\n' +
+          '      }\n' +
+          '    });\n' +
+          '  });\n' +
+          '\n' +
+          "  fooRouter.delete('/:id', function(req, res) {\n" +
+          '    res.status(204).end();\n' +
+          '  });\n' +
+          '\n' +
+          '  // The POST and PUT call will not contain a request body\n' +
+          '  // because the body-parser is not included by default.\n' +
+          '  // To use req.body, run:\n' +
+          '\n' +
+          '  //    npm install --save-dev body-parser\n' +
+          '\n' +
+          '  // After installing, you need to `use` the body-parser for\n' +
+          '  // this mock uncommenting the following line:\n' +
+          '  //\n' +
+          "  //app.use('/api/foo', require('body-parser').json());\n" +
+          "  app.use('/api/foo', fooRouter);\n" +
+          '};'
+      );
 
-    expect(file('server/.jshintrc'))
-      .to.contain('{\n  "node": true\n}');
-  }));
+      expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
+    })
+  );
 
-  it('in-addon http-mock foo-bar', co.wrap(function *() {
-    yield generateInAddon(['http-mock', 'foo-bar']);
+  it(
+    'in-addon http-mock foo-bar',
+    co.wrap(function*() {
+      yield generateInAddon(['http-mock', 'foo-bar']);
 
-    expect(file('server/index.js'))
-      .to.contain("mocks.forEach(route => route(app));");
+      expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
 
-    expect(file('server/mocks/foo-bar.js'))
-      .to.contain("module.exports = function(app) {\n" +
-                  "  const express = require('express');\n" +
-                  "  let fooBarRouter = express.Router();\n" +
-                  "\n" +
-                  "  fooBarRouter.get('/', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo-bar': []\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.post('/', function(req, res) {\n" +
-                  "    res.status(201).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.get('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo-bar': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.put('/:id', function(req, res) {\n" +
-                  "    res.send({\n" +
-                  "      'foo-bar': {\n" +
-                  "        id: req.params.id\n" +
-                  "      }\n" +
-                  "    });\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  fooBarRouter.delete('/:id', function(req, res) {\n" +
-                  "    res.status(204).end();\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  // The POST and PUT call will not contain a request body\n" +
-                  "  // because the body-parser is not included by default.\n" +
-                  "  // To use req.body, run:\n" +
-                  "\n" +
-                  "  //    npm install --save-dev body-parser\n" +
-                  "\n" +
-                  "  // After installing, you need to `use` the body-parser for\n" +
-                  "  // this mock uncommenting the following line:\n" +
-                  "  //\n" +
-                  "  //app.use('/api/foo-bar', require('body-parser').json());\n" +
-                  "  app.use('/api/foo-bar', fooBarRouter);\n" +
-                  "};");
+      expect(file('server/mocks/foo-bar.js')).to.contain(
+        'module.exports = function(app) {\n' +
+          "  const express = require('express');\n" +
+          '  let fooBarRouter = express.Router();\n' +
+          '\n' +
+          "  fooBarRouter.get('/', function(req, res) {\n" +
+          '    res.send({\n' +
+          "      'foo-bar': []\n" +
+          '    });\n' +
+          '  });\n' +
+          '\n' +
+          "  fooBarRouter.post('/', function(req, res) {\n" +
+          '    res.status(201).end();\n' +
+          '  });\n' +
+          '\n' +
+          "  fooBarRouter.get('/:id', function(req, res) {\n" +
+          '    res.send({\n' +
+          "      'foo-bar': {\n" +
+          '        id: req.params.id\n' +
+          '      }\n' +
+          '    });\n' +
+          '  });\n' +
+          '\n' +
+          "  fooBarRouter.put('/:id', function(req, res) {\n" +
+          '    res.send({\n' +
+          "      'foo-bar': {\n" +
+          '        id: req.params.id\n' +
+          '      }\n' +
+          '    });\n' +
+          '  });\n' +
+          '\n' +
+          "  fooBarRouter.delete('/:id', function(req, res) {\n" +
+          '    res.status(204).end();\n' +
+          '  });\n' +
+          '\n' +
+          '  // The POST and PUT call will not contain a request body\n' +
+          '  // because the body-parser is not included by default.\n' +
+          '  // To use req.body, run:\n' +
+          '\n' +
+          '  //    npm install --save-dev body-parser\n' +
+          '\n' +
+          '  // After installing, you need to `use` the body-parser for\n' +
+          '  // this mock uncommenting the following line:\n' +
+          '  //\n' +
+          "  //app.use('/api/foo-bar', require('body-parser').json());\n" +
+          "  app.use('/api/foo-bar', fooBarRouter);\n" +
+          '};'
+      );
 
-    expect(file('server/.jshintrc'))
-      .to.contain('{\n  "node": true\n}');
-  }));
+      expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
+    })
+  );
 
-  it('in-addon http-proxy foo', co.wrap(function *() {
-    yield generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']);
+  it(
+    'in-addon http-proxy foo',
+    co.wrap(function*() {
+      yield generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']);
 
-    expect(file('server/index.js'))
-      .to.contain("proxies.forEach(route => route(app));");
+      expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
 
-    expect(file('server/proxies/foo.js'))
-      .to.contain("const proxyPath = '/foo';\n" +
-                  "\n" +
-                  "module.exports = function(app) {\n" +
-                  "  // For options, see:\n" +
-                  "  // https://github.com/nodejitsu/node-http-proxy\n" +
-                  "  let proxy = require('http-proxy').createProxyServer({});\n" +
-                  "\n" +
-                  "  proxy.on('error', function(err, req) {\n" +
-                  "    console.error(err, req.url);\n" +
-                  "  });\n" +
-                  "\n" +
-                  "  app.use(proxyPath, function(req, res, next){\n" +
-                  "    // include root path in proxied request\n" +
-                  "    req.url = proxyPath + '/' + req.url;\n" +
-                  "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
-                  "  });\n" +
-                  "};");
+      expect(file('server/proxies/foo.js')).to.contain(
+        "const proxyPath = '/foo';\n" +
+          '\n' +
+          'module.exports = function(app) {\n' +
+          '  // For options, see:\n' +
+          '  // https://github.com/nodejitsu/node-http-proxy\n' +
+          "  let proxy = require('http-proxy').createProxyServer({});\n" +
+          '\n' +
+          "  proxy.on('error', function(err, req) {\n" +
+          '    console.error(err, req.url);\n' +
+          '  });\n' +
+          '\n' +
+          '  app.use(proxyPath, function(req, res, next){\n' +
+          '    // include root path in proxied request\n' +
+          "    req.url = proxyPath + '/' + req.url;\n" +
+          "    proxy.web(req, res, { target: 'http://localhost:5000' });\n" +
+          '  });\n' +
+          '};'
+      );
 
-    expect(file('server/.jshintrc'))
-      .to.contain('{\n  "node": true\n}');
-  }));
+      expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
+    })
+  );
 
-  it('in-addon server', co.wrap(function *() {
-    yield generateInAddon(['server']);
-    expect(file('server/index.js')).to.exist;
-  }));
-
+  it(
+    'in-addon server',
+    co.wrap(function*() {
+      yield generateInAddon(['server']);
+      expect(file('server/index.js')).to.exist;
+    })
+  );
 });

@@ -3,7 +3,7 @@
 /*
  * A list of "helper" functions to automate tedious tasks of generating and
  * validating folder structures.
-*/
+ */
 
 const assert = require('assert');
 
@@ -68,11 +68,11 @@ const DEFAULT_NODE_MODULES = {
 };
 
 const DEFAULT_VENDOR = {
-  'loader': {
+  loader: {
     'loader.js': 'W',
   },
-  'ember': {
-    'jquery': {
+  ember: {
+    jquery: {
       'jquery.js': 'window.$ = function() {}',
     },
     'ember.js': 'window.Ember = {};',
@@ -116,7 +116,7 @@ const DEFAULT_SOURCE = {
   },
   'package.json': JSON.stringify({
     name: 'the-best-app-ever',
-    'devDependencies': {
+    devDependencies: {
       'broccoli-asset-rev': '^2.4.5',
       'ember-ajax': '^3.0.0',
       'ember-cli': '~3.0.0-beta.1',
@@ -158,7 +158,7 @@ const DEFAULT_SOURCE = {
  * @param {Object} options Customize output object
  *
  * @return {Object}
-*/
+ */
 function getDefaultUnpackagedDist(name, options) {
   options = options || {};
 
@@ -170,8 +170,8 @@ function getDefaultUnpackagedDist(name, options) {
 
   return {
     'addon-modules': addonModules,
-    'bower_components': bowerComponents,
-    'node_modules': nodeModules,
+    bower_components: bowerComponents,
+    node_modules: nodeModules,
     [name]: application,
     vendor,
   };
@@ -196,17 +196,12 @@ function getDefaultUnpackagedDist(name, options) {
  *
  * If the shape does not correspond to the expected value, it throws an
  * exception.
-*/
+ */
 function validateDefaultPackagedDist(name, obj) {
   if (obj !== undefined || obj.assets !== undefined) {
     let result = Object.keys(obj.assets).sort();
 
-    let valid = [
-      `${name}.js`,
-      `${name}.map`,
-      'vendor.js',
-      'vendor.map',
-    ];
+    let valid = [`${name}.js`, `${name}.map`, 'vendor.js', 'vendor.map'];
 
     assert.deepStrictEqual(result, valid, `Expected [${valid}] but got [${result}]`);
   } else {
@@ -224,7 +219,7 @@ function validateDefaultPackagedDist(name, obj) {
  *   'file2.js': 'content'
  * });
  * ```
-*/
+ */
 function getDependencyFor(key, value) {
   return {
     [key]: value,
@@ -241,7 +236,7 @@ function getDependencyFor(key, value) {
  *
  * @param {String} registryType i.e. 'template', 'js', 'css', 'src', 'all'
  * @param {Function} fn Transormation that is applied to the input tree
-*/
+ */
 function setupRegistryFor(registryType, fn) {
   return {
     extensionsForType(type) {
@@ -254,11 +249,13 @@ function setupRegistryFor(registryType, fn) {
 
     load(type) {
       if (type === registryType) {
-        return [{
-          toTree() {
-            return fn.apply(this, arguments);
+        return [
+          {
+            toTree() {
+              return fn.apply(this, arguments);
+            },
           },
-        }];
+        ];
       }
 
       return [];
@@ -281,16 +278,18 @@ function setupRegistryFor(registryType, fn) {
  *
  * @param {Object} registryMap
  * @return {Object}
-*/
+ */
 function setupRegistry(registryMap) {
   return {
     load(type) {
       if (registryMap[type]) {
-        return [{
-          toTree(tree) {
-            return registryMap[type](tree);
+        return [
+          {
+            toTree(tree) {
+              return registryMap[type](tree);
+            },
           },
-        }];
+        ];
       }
 
       return [];

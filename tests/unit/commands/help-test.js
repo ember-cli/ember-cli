@@ -225,7 +225,9 @@ ${EOL}\
     });
 
     it('respects skipHelp when listing', function() {
-      let Command1 = function() { this.skipHelp = true; };
+      let Command1 = function() {
+        this.skipHelp = true;
+      };
       let Command2 = function() {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
@@ -244,7 +246,9 @@ ${EOL}\
     });
 
     it('ignores skipHelp when single', function() {
-      let Command1 = function() { this.skipHelp = true; };
+      let Command1 = function() {
+        this.skipHelp = true;
+      };
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
 

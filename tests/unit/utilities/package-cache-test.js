@@ -53,7 +53,9 @@ describe('PackageCache', function() {
     testPackageCache._conf.delete('foo');
     expect(testPackageCache.dirs['foo']).to.be.undefined;
 
-    expect(() => { testPackageCache.dirs = { foo: 'asdf' }; }).to.throw(Error);
+    expect(() => {
+      testPackageCache.dirs = { foo: 'asdf' };
+    }).to.throw(Error);
   });
 
   it('_cleanDirs', function() {
@@ -84,10 +86,10 @@ describe('PackageCache', function() {
 
   it('_writeManifest', function() {
     let manifest = JSON.stringify({
-      "name": "foo",
-      "dependencies": {
-        "ember": "2.9.0",
-        "ember-cli-shims": "0.1.3",
+      name: 'foo',
+      dependencies: {
+        ember: '2.9.0',
+        'ember-cli-shims': '0.1.3',
       },
     });
 
@@ -109,7 +111,9 @@ describe('PackageCache', function() {
     let lockFileLocation = path.join(yarn, 'yarn.lock');
 
     // Make sure it doesn't throw if it doesn't exist.
-    expect(() => { testPackageCache._writeManifest('yarn', 'yarn', manifest); }).to.not.throw(Error);
+    expect(() => {
+      testPackageCache._writeManifest('yarn', 'yarn', manifest);
+    }).to.not.throw(Error);
 
     // Add a "lockfile".
     fs.writeFileSync(lockFileLocation, 'Hello, world!');
@@ -125,26 +129,26 @@ describe('PackageCache', function() {
 
   it('_checkManifest', function() {
     let manifest = JSON.stringify({
-      "name": "foo",
-      "dependencies": {
-        "ember": "2.9.0",
-        "ember-cli-shims": "0.1.3",
+      name: 'foo',
+      dependencies: {
+        ember: '2.9.0',
+        'ember-cli-shims': '0.1.3',
       },
     });
 
     let manifestShuffled = JSON.stringify({
-      "name": "foo",
-      "dependencies": {
-        "ember-cli-shims": "0.1.3",
-        "ember": "2.9.0",
+      name: 'foo',
+      dependencies: {
+        'ember-cli-shims': '0.1.3',
+        ember: '2.9.0',
       },
     });
 
     let manifestEmptyKey = JSON.stringify({
-      "name": "foo",
-      "dependencies": {
-        "ember": "2.9.0",
-        "ember-cli-shims": "0.1.3",
+      name: 'foo',
+      dependencies: {
+        ember: '2.9.0',
+        'ember-cli-shims': '0.1.3',
       },
       devDependencies: {},
     });
@@ -185,13 +189,7 @@ describe('PackageCache', function() {
 
     let manifest = {
       _packageCache: {
-        links: [
-          'one',
-          'two',
-          'three',
-          'alpha',
-          { name: 'beta', path: srcDir },
-        ],
+        links: ['one', 'two', 'three', 'alpha', { name: 'beta', path: srcDir }],
       },
       dependencies: {
         beta: '1.0.0',
@@ -280,13 +278,7 @@ describe('PackageCache', function() {
 
     let manifest = {
       _packageCache: {
-        links: [
-          'one',
-          'two',
-          'three',
-          'alpha',
-          { name: 'beta', path: srcDir },
-        ],
+        links: ['one', 'two', 'three', 'alpha', { name: 'beta', path: srcDir }],
         originals: {
           dependencies: {
             beta: '1.0.0',
@@ -375,11 +367,15 @@ describe('PackageCache', function() {
 
     it('Attempts to link when it is supposed to.', function() {
       // Add a link.
-      testPackageCache._writeManifest('label', 'npm', JSON.stringify({
-        _packageCache: {
-          links: ['ember-cli'],
-        },
-      }));
+      testPackageCache._writeManifest(
+        'label',
+        'npm',
+        JSON.stringify({
+          _packageCache: {
+            links: ['ember-cli'],
+          },
+        })
+      );
       testPackageCache._install('label', 'npm');
 
       td.verify(npm('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
@@ -387,7 +383,6 @@ describe('PackageCache', function() {
       td.verify(npm('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(npm(), { times: 3, ignoreExtraArgs: true });
     });
-
   });
 
   describe('_upgrade (npm)', function() {
@@ -416,11 +411,15 @@ describe('PackageCache', function() {
 
     it('Make sure npm unlinks, installs, re-links.', function() {
       // Add a link.
-      testPackageCache._writeManifest(label, 'npm', JSON.stringify({
-        _packageCache: {
-          links: ['ember-cli'],
-        },
-      }));
+      testPackageCache._writeManifest(
+        label,
+        'npm',
+        JSON.stringify({
+          _packageCache: {
+            links: ['ember-cli'],
+          },
+        })
+      );
       testPackageCache._upgrade(label, 'npm');
       td.verify(npm('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
@@ -441,11 +440,9 @@ describe('PackageCache', function() {
       td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
       td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     });
-
   });
 
   describe('_upgrade (yarn)', function() {
-
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
     let testCounter = 0;
@@ -469,11 +466,15 @@ describe('PackageCache', function() {
 
     it('Make sure it unlinks, upgrades, re-links.', function() {
       // Add a link.
-      testPackageCache._writeManifest(label, 'yarn', JSON.stringify({
-        _packageCache: {
-          links: ['ember-cli'],
-        },
-      }));
+      testPackageCache._writeManifest(
+        label,
+        'yarn',
+        JSON.stringify({
+          _packageCache: {
+            links: ['ember-cli'],
+          },
+        })
+      );
       testPackageCache._upgrade(label, 'yarn');
       td.verify(yarn('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
@@ -494,7 +495,6 @@ describe('PackageCache', function() {
       td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
       td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
     });
-
   });
 
   describe('_upgrade (bower)', function() {
@@ -521,11 +521,15 @@ describe('PackageCache', function() {
 
     it('Make sure it unlinks, updates, re-links.', function() {
       // Add a link.
-      testPackageCache._writeManifest(label, 'bower', JSON.stringify({
-        _packageCache: {
-          links: ['ember-cli'],
-        },
-      }));
+      testPackageCache._writeManifest(
+        label,
+        'bower',
+        JSON.stringify({
+          _packageCache: {
+            links: ['ember-cli'],
+          },
+        })
+      );
       testPackageCache._upgrade(label, 'bower');
       td.verify(bower('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
       td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
@@ -546,7 +550,6 @@ describe('PackageCache', function() {
       td.verify(bower('install', { cwd: 'hello' }), { times: 1 });
       td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
-
   });
 
   it('create', function() {
@@ -651,9 +654,9 @@ describe('PackageCache', function() {
     testPackageCache.__resetForTesting();
 
     let manifest = JSON.stringify({
-      "name": "foo",
-      "dependencies": {
-        "left-pad": "latest",
+      name: 'foo',
+      dependencies: {
+        'left-pad': 'latest',
       },
     });
 
@@ -669,5 +672,4 @@ describe('PackageCache', function() {
 
     testPackageCache.destroy('npm');
   });
-
 });

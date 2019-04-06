@@ -7,8 +7,12 @@ const MockProject = require('../helpers/mock-project');
 
 function createProject() {
   let project = new MockProject();
-  project.isEmberCLIProject = function() { return true; };
-  project.config = function() { return {}; };
+  project.isEmberCLIProject = function() {
+    return true;
+  };
+  project.config = function() {
+    return {};
+  };
   return project;
 }
 

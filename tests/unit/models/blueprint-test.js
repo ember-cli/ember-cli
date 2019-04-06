@@ -16,7 +16,9 @@ describe('Blueprint', function() {
 
   describe('.mapFile', function() {
     it('replaces all occurrences of __name__ with module name', function() {
-      let path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', { dasherizedModuleName: 'my-blueprint' });
+      let path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', {
+        dasherizedModuleName: 'my-blueprint',
+      });
       expect(path).to.equal('my-blueprint/my-blueprint-controller.js');
 
       path = Blueprint.prototype.mapFile('__name__/controller.js', { dasherizedModuleName: 'my-blueprint' });
@@ -87,10 +89,7 @@ describe('Blueprint', function() {
       });
 
       let list = Blueprint.list({
-        paths: [
-          'test0/blueprints',
-          'test1/blueprints',
-        ],
+        paths: ['test0/blueprints', 'test1/blueprints'],
       });
 
       expect(list[0]).to.deep.equal({
@@ -208,12 +207,15 @@ help in detail`);
       });
 
       it('iterates options', function() {
-        let availableOptions = [{
-          type: 'my-string-type',
-          showAnything: true,
-        }, {
-          type: function myFunctionType() {},
-        }];
+        let availableOptions = [
+          {
+            type: 'my-string-type',
+            showAnything: true,
+          },
+          {
+            type: function myFunctionType() {},
+          },
+        ];
 
         Object.assign(blueprint, {
           test1: 'a test',
@@ -257,7 +259,7 @@ help in detail`);
         td.verify(blueprint.printDetailedHelp(availableOptions));
       });
 
-      it('if printDetailedHelp returns falsy, don\'t attach property detailedHelp', function() {
+      it("if printDetailedHelp returns falsy, don't attach property detailedHelp", function() {
         td.replace(blueprint, 'printDetailedHelp', td.function());
 
         let json = blueprint.getJson(true);

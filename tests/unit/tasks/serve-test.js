@@ -43,7 +43,9 @@ describe('serve task', function() {
 
     let _watcher = {};
     let _expressServer = {
-      start() { return Promise.resolve(); },
+      start() {
+        return Promise.resolve();
+      },
     };
     let _liveReloadServer = _expressServer;
 
@@ -66,7 +68,9 @@ describe('serve task', function() {
 
   describe('run with path', function() {
     it(`Throws error if path doesn't exist`, function() {
-      expect(runServeTask.bind(this, 'xyz')).to.throw('The path xyz does not exist. Please specify a valid build directory to serve.');
+      expect(runServeTask.bind(this, 'xyz')).to.throw(
+        'The path xyz does not exist. Please specify a valid build directory to serve.'
+      );
     });
 
     it(`Serves ember app from given path`, function() {

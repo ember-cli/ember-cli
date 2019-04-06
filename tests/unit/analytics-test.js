@@ -21,7 +21,9 @@ describe('analytics', function() {
     });
 
     let project = new MockProject();
-    project.isEmberCLIProject = function() { return true; };
+    project.isEmberCLIProject = function() {
+      return true;
+    };
 
     command = new FakeCommand({
       ui: new MockUI(),

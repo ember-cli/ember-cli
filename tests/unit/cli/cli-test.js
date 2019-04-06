@@ -27,20 +27,22 @@ function ember(args) {
   let startInstr = td.replace(cli.instrumentation, 'start');
   let stopInstr = td.replace(cli.instrumentation, 'stopAndReport');
 
-  return cli.run({
-    tasks: {},
-    commands,
-    cliArgs: args || [],
-    settings: {},
-    project,
-  }).then(function(value) {
-    td.verify(stopInstr('init'), { times: 1 });
-    td.verify(startInstr('command'), { times: 1 });
-    td.verify(stopInstr('command', td.matchers.anything(), td.matchers.isA(Array)), { times: 1 });
-    td.verify(startInstr('shutdown'), { times: 1 });
+  return cli
+    .run({
+      tasks: {},
+      commands,
+      cliArgs: args || [],
+      settings: {},
+      project,
+    })
+    .then(function(value) {
+      td.verify(stopInstr('init'), { times: 1 });
+      td.verify(startInstr('command'), { times: 1 });
+      td.verify(stopInstr('command', td.matchers.anything(), td.matchers.isA(Array)), { times: 1 });
+      td.verify(startInstr('shutdown'), { times: 1 });
 
-    return value;
-  });
+      return value;
+    });
 }
 
 function stubCallHelp() {
@@ -73,10 +75,11 @@ describe('Unit: CLI', function() {
     CLI = require('../../../lib/cli/cli');
     ui = new MockUI();
     analytics = new MockAnalytics();
-    commands = { };
+    commands = {};
     isWithinProject = true;
     project = {
-      isEmberCLIProject() { // similate being inside or outside of a project
+      isEmberCLIProject() {
+        // similate being inside or outside of a project
         return isWithinProject;
       },
       hasDependencies() {
@@ -139,7 +142,8 @@ describe('Unit: CLI', function() {
         cliArgs: [],
         settings: {},
         project: {
-          isEmberCLIProject() { // similate being inside or outside of a project
+          isEmberCLIProject() {
+            // similate being inside or outside of a project
             return isWithinProject;
           },
           hasDependencies() {
@@ -174,18 +178,20 @@ describe('Unit: CLI', function() {
 
     td.when(stopInstr('init')).thenThrow(err);
 
-    return cli.run({
-      tasks: {},
-      commands,
-      cliArgs: [],
-      settings: {},
-      project,
-    }).then(function() {
-      td.verify(startInstr('command'), { times: 0 });
-      td.verify(stopInstr('command'), { times: 0 });
-      td.verify(startInstr('shutdown'), { times: 1 });
-      td.verify(logError(err));
-    });
+    return cli
+      .run({
+        tasks: {},
+        commands,
+        cliArgs: [],
+        settings: {},
+        project,
+      })
+      .then(function() {
+        td.verify(startInstr('command'), { times: 0 });
+        td.verify(stopInstr('command'), { times: 0 });
+        td.verify(startInstr('shutdown'), { times: 1 });
+        td.verify(logError(err));
+      });
   });
 
   describe('custom addon command', function() {
@@ -630,10 +636,12 @@ describe('Unit: CLI', function() {
   it('ember <invalid command>', function() {
     let help = stubValidateAndRun('help');
 
-    return (expect(ember(['unknownCommand'])).to.be.rejected).then(error => {
+    return expect(ember(['unknownCommand'])).to.be.rejected.then(error => {
       expect(help.called, 'help command was executed').to.not.be.ok;
       expect(error.name).to.equal('SilentError');
-      expect(error.message).to.equal('The specified command unknownCommand is invalid. For available options, see `ember help`.');
+      expect(error.message).to.equal(
+        'The specified command unknownCommand is invalid. For available options, see `ember help`.'
+      );
     });
   });
 
@@ -643,7 +651,6 @@ describe('Unit: CLI', function() {
       let build = stubValidateAndRun('build');
 
       return ember(['build'], defaults).then(function() {
-
         let options = build.calledWith[0][1].cliOptions;
 
         expect(options.output).to.equal(process.cwd());
@@ -702,17 +709,23 @@ describe('Unit: CLI', function() {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.be.ok;
             expect(error.name).to.equal('SilentError');
-            expect(error.message).to.equal('The specified command fake-command is invalid. For available options, see `ember help`.');
+            expect(error.message).to.equal(
+              'The specified command fake-command is invalid. For available options, see `ember help`.'
+            );
           });
         });
 
         it('ignores verbose options after --', function() {
-          return expect(verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2'])).to.be.rejected.then(error => {
-            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
-            expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
-            expect(error.name).to.equal('SilentError');
-            expect(error.message).to.equal('The specified command fake-command is invalid. For available options, see `ember help`.');
-          });
+          return expect(verboseCommand(['fake_option_1', '--fake-option', 'fake_option_2'])).to.be.rejected.then(
+            error => {
+              expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
+              expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
+              expect(error.name).to.equal('SilentError');
+              expect(error.message).to.equal(
+                'The specified command fake-command is invalid. For available options, see `ember help`.'
+              );
+            }
+          );
         });
 
         it('ignores verbose options after -', function() {
@@ -720,7 +733,9 @@ describe('Unit: CLI', function() {
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_1).to.be.ok;
             expect(process.env.EMBER_VERBOSE_FAKE_OPTION_2).to.not.be.ok;
             expect(error.name).to.equal('SilentError');
-            expect(error.message).to.equal('The specified command fake-command is invalid. For available options, see `ember help`.');
+            expect(error.message).to.equal(
+              'The specified command fake-command is invalid. For available options, see `ember help`.'
+            );
           });
         });
       });

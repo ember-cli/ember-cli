@@ -42,7 +42,7 @@ describe('BowerInstallTask', function() {
     });
 
     it('install "bower" if it can not be resolved', function() {
-      let error = new Error('Cannot find module \'bower\'');
+      let error = new Error("Cannot find module 'bower'");
 
       td.when(task.resolveBower()).thenReturn(Promise.reject(error), Promise.resolve('path/to/bower'));
       td.when(task.installBower()).thenResolve();
@@ -62,7 +62,7 @@ describe('BowerInstallTask', function() {
     });
 
     it('pass install errors on', function() {
-      let error = new Error('Cannot find module \'bower\'');
+      let error = new Error("Cannot find module 'bower'");
 
       td.when(task.resolveBower()).thenReturn(Promise.reject(error));
       td.when(task.installBower()).thenReject(new Error('foobar'));

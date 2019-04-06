@@ -52,7 +52,7 @@ describe('models/instatiate-addons.js', function() {
   it('ordering with before specified', function() {
     fixturifyProject.addAddon('foo', '1.0.0');
     fixturifyProject.addAddon('bar', '1.0.0');
-    fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].before = 'foo');
+    fixturifyProject.addAddon('qux', '1.0.0', a => (a.pkg['ember-addon'].before = 'foo'));
 
     fixturifyProject.writeSync();
 
@@ -60,17 +60,13 @@ describe('models/instatiate-addons.js', function() {
 
     project.initializeAddons();
 
-    expect(project.addons.map(a => a.name)).to.deep.eql([
-      'bar',
-      'qux',
-      'foo',
-    ]);
+    expect(project.addons.map(a => a.name)).to.deep.eql(['bar', 'qux', 'foo']);
   });
 
   it('ordering with after specified', function() {
     fixturifyProject.addAddon('foo', '1.0.0');
     fixturifyProject.addAddon('bar', '1.0.0');
-    fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].after = 'foo');
+    fixturifyProject.addAddon('qux', '1.0.0', a => (a.pkg['ember-addon'].after = 'foo'));
 
     fixturifyProject.writeSync();
 
@@ -78,17 +74,13 @@ describe('models/instatiate-addons.js', function() {
 
     project.initializeAddons();
 
-    expect(project.addons.map(a => a.name)).to.deep.eql([
-      'bar',
-      'foo',
-      'qux',
-    ]);
+    expect(project.addons.map(a => a.name)).to.deep.eql(['bar', 'foo', 'qux']);
   });
 
   it('ordering always matches package.json name (index.js name is ignored)', function() {
     let foo = fixturifyProject.addAddon('lol', '1.0.0');
     foo.files['index.js'] = 'module.exports = { name: "foo" };';
-    fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].before = 'foo');
+    fixturifyProject.addAddon('qux', '1.0.0', a => (a.pkg['ember-addon'].before = 'foo'));
 
     fixturifyProject.writeSync();
 
@@ -96,15 +88,12 @@ describe('models/instatiate-addons.js', function() {
 
     project.initializeAddons();
 
-    expect(project.addons.map(a => a.name)).to.deep.eql([
-      'foo',
-      'qux',
-    ]);
+    expect(project.addons.map(a => a.name)).to.deep.eql(['foo', 'qux']);
   });
 
   it('errors when there is a cycle detected', function() {
-    fixturifyProject.addAddon('foo', '1.0.0', a => a.pkg['ember-addon'].after = 'qux');
-    fixturifyProject.addAddon('qux', '1.0.0', a => a.pkg['ember-addon'].after = 'foo');
+    fixturifyProject.addAddon('foo', '1.0.0', a => (a.pkg['ember-addon'].after = 'qux'));
+    fixturifyProject.addAddon('qux', '1.0.0', a => (a.pkg['ember-addon'].after = 'foo'));
 
     fixturifyProject.writeSync();
 
