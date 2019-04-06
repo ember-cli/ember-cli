@@ -1,18 +1,18 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const path = require('path');
 const fs = require('fs-extra');
 const td = require('testdouble');
 const SilentError = require('silent-error');
 
 const expect = require('../../chai').expect;
+const promisify = require('util').promisify;
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
 
 let root = path.join(__dirname, '../../..');
 let tmproot = path.join(root, 'tmp');
-const remove = RSVP.denodeify(fs.remove);
+const remove = promisify(fs.remove);
 
 describe('InstallBlueprintTask', function() {
   let task;
