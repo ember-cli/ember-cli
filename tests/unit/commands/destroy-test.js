@@ -35,20 +35,20 @@ describe('destroy command', function() {
   });
 
   it('runs DestroyFromBlueprint with expected options', function() {
-    return command.validateAndRun(['controller', 'foo'])
-      .then(function(options) {
-        expect(options.dryRun).to.be.false;
-        expect(options.verbose).to.be.false;
-        expect(options.args).to.deep.equal(['controller', 'foo']);
-      });
+    return command.validateAndRun(['controller', 'foo']).then(function(options) {
+      expect(options.dryRun).to.be.false;
+      expect(options.verbose).to.be.false;
+      expect(options.args).to.deep.equal(['controller', 'foo']);
+    });
   });
 
   it('complains if no entity name is given', function() {
     return expect(command.validateAndRun(['controller'])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
         'The `ember destroy` command requires an ' +
-        'entity name to be specified. ' +
-        'For more details, use `ember help`.');
+          'entity name to be specified. ' +
+          'For more details, use `ember help`.'
+      );
     });
   });
 
@@ -56,8 +56,9 @@ describe('destroy command', function() {
     return expect(command.validateAndRun([])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
         'The `ember destroy` command requires a ' +
-        'blueprint name to be specified. ' +
-        'For more details, use `ember help`.');
+          'blueprint name to be specified. ' +
+          'For more details, use `ember help`.'
+      );
     });
   });
 

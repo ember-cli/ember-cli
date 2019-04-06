@@ -43,7 +43,7 @@ if (optionOrFile === 'all') {
 }
 
 function addFiles(mocha, files) {
-  files = (typeof files === 'string') ? glob.sync(root + files) : files;
+  files = typeof files === 'string' ? glob.sync(root + files) : files;
   files.forEach(mocha.addFile.bind(mocha));
 }
 

@@ -27,7 +27,7 @@ describe('Default Packager: Vendor', function() {
       'app-shims.js': 'app shims',
       'deprecations.js': 'deprecations',
     },
-    'ember': {
+    ember: {
       'ember.min.js': 'ember',
     },
     loader: {
@@ -43,40 +43,52 @@ describe('Default Packager: Vendor', function() {
     },
   };
 
-  before(co.wrap(function *() {
-    input = yield createTempDir();
+  before(
+    co.wrap(function*() {
+      input = yield createTempDir();
 
-    input.write(VENDOR_PACKAGES);
-  }));
+      input.write(VENDOR_PACKAGES);
+    })
+  );
 
-  after(co.wrap(function *() {
-    yield input.dispose();
-  }));
+  after(
+    co.wrap(function*() {
+      yield input.dispose();
+    })
+  );
 
-  afterEach(co.wrap(function *() {
-    yield output.dispose();
-  }));
+  afterEach(
+    co.wrap(function*() {
+      yield output.dispose();
+    })
+  );
 
-  it('caches packaged vendor tree', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager();
+  it(
+    'caches packaged vendor tree',
+    co.wrap(function*() {
+      let defaultPackager = new DefaultPackager();
 
-    expect(defaultPackager._cachedVendor).to.equal(null);
+      expect(defaultPackager._cachedVendor).to.equal(null);
 
-    output = yield buildOutput(defaultPackager.packageVendor(input.path()));
+      output = yield buildOutput(defaultPackager.packageVendor(input.path()));
 
-    expect(defaultPackager._cachedVendor).to.not.equal(null);
-    expect(defaultPackager._cachedVendor._annotation).to.equal('Packaged Vendor');
-  }));
+      expect(defaultPackager._cachedVendor).to.not.equal(null);
+      expect(defaultPackager._cachedVendor._annotation).to.equal('Packaged Vendor');
+    })
+  );
 
-  it('packages vendor files', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager();
+  it(
+    'packages vendor files',
+    co.wrap(function*() {
+      let defaultPackager = new DefaultPackager();
 
-    output = yield buildOutput(defaultPackager.packageVendor(input.path()));
+      output = yield buildOutput(defaultPackager.packageVendor(input.path()));
 
-    let outputFiles = output.read();
+      let outputFiles = output.read();
 
-    expect(outputFiles).to.deep.equal({
-      vendor: VENDOR_PACKAGES,
-    });
-  }));
+      expect(outputFiles).to.deep.equal({
+        vendor: VENDOR_PACKAGES,
+      });
+    })
+  );
 });

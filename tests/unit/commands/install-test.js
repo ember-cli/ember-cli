@@ -101,13 +101,16 @@ describe('install command', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['ember-data'],
-          'save': false,
-          'save-dev': true,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['ember-data'],
+            save: false,
+            'save-dev': true,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
       });
     });
 
@@ -121,13 +124,16 @@ describe('install command', function() {
       return command.validateAndRun(['ember-data']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['ember-data'],
-          'save': false,
-          'save-dev': true,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['ember-data'],
+            save: false,
+            'save-dev': true,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
       });
     });
 
@@ -135,13 +141,16 @@ describe('install command', function() {
       return command.validateAndRun(['ember-data', '--save']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['ember-data'],
-          'save': true,
-          'save-dev': false,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['ember-data'],
+            save: true,
+            'save-dev': false,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
       });
     });
 
@@ -155,13 +164,16 @@ describe('install command', function() {
       return command.validateAndRun(['ember-data', '--save']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['ember-data'],
-          'save': true,
-          'save-dev': false,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['ember-data'],
+            save: true,
+            'save-dev': false,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
       });
     });
 
@@ -171,9 +183,7 @@ describe('install command', function() {
         let captor = td.matchers.captor();
         td.verify(generateRun(captor.capture()));
         expect(captor.value.ignoreMissingMain).to.be.true;
-        expect(captor.value.args).to.deep.equal([
-          'ember-data',
-        ], 'expected generate blueprint called with correct args');
+        expect(captor.value.args).to.deep.equal(['ember-data'], 'expected generate blueprint called with correct args');
       });
     });
 
@@ -183,9 +193,10 @@ describe('install command', function() {
         let captor = td.matchers.captor();
         td.verify(generateRun(captor.capture()));
         expect(captor.value.ignoreMissingMain).to.be.true;
-        expect(captor.value.args).to.deep.equal([
-          'cordova-starter-kit',
-        ], 'expected generate blueprint called with correct args');
+        expect(captor.value.args).to.deep.equal(
+          ['cordova-starter-kit'],
+          'expected generate blueprint called with correct args'
+        );
         expect(error.message).to.equal(
           'Install failed. Could not find addon with name: com.ember.test',
           'expected error to have helpful message'
@@ -194,21 +205,24 @@ describe('install command', function() {
     });
 
     it('runs npmInstall once and installs three addons', function() {
-      return command.validateAndRun([
-        'ember-data', 'ember-cli-cordova', 'ember-cli-qunit',
-      ]).then(function() {
+      return command.validateAndRun(['ember-data', 'ember-cli-cordova', 'ember-cli-qunit']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
-          'save': false,
-          'save-dev': true,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['ember-data', 'ember-cli-cordova', 'ember-cli-qunit'],
+            save: false,
+            'save-dev': true,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        let generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
+        let generateRunArgs = td.explain(generateRun).calls.map(function(call) {
+          return call.args[0].args[0];
+        });
         expect(generateRunArgs).to.deep.equal(['ember-data', 'cordova-starter-kit', 'ember-cli-qunit']);
       });
     });
@@ -217,13 +231,16 @@ describe('install command', function() {
       return command.validateAndRun(['ember-cli/ember-cli-qunit']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['ember-cli/ember-cli-qunit'],
-          'save': false,
-          'save-dev': true,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['ember-cli/ember-cli-qunit'],
+            save: false,
+            'save-dev': true,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
         td.verify(generateRun(), { ignoreExtraArgs: true, times: 0 });
@@ -234,16 +251,21 @@ describe('install command', function() {
       return command.validateAndRun(['ember-cli-qunit@1.2.0']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['ember-cli-qunit@1.2.0'],
-          'save': false,
-          'save-dev': true,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['ember-cli-qunit@1.2.0'],
+            save: false,
+            'save-dev': true,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        let generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
+        let generateRunArgs = td.explain(generateRun).calls.map(function(call) {
+          return call.args[0].args[0];
+        });
         expect(generateRunArgs).to.deep.equal(['ember-cli-qunit']);
       });
     });
@@ -252,21 +274,26 @@ describe('install command', function() {
       return command.validateAndRun(['@ember-cli/ember-cli-qunit']).then(function() {
         let npmRun = tasks.NpmInstall.prototype.run;
 
-        td.verify(npmRun({
-          packages: ['@ember-cli/ember-cli-qunit'],
-          'save': false,
-          'save-dev': true,
-          'save-exact': false,
-          useYarn: undefined,
-        }), { times: 1 });
+        td.verify(
+          npmRun({
+            packages: ['@ember-cli/ember-cli-qunit'],
+            save: false,
+            'save-dev': true,
+            'save-exact': false,
+            useYarn: undefined,
+          }),
+          { times: 1 }
+        );
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        let generateRunArgs = td.explain(generateRun).calls.map(function(call) { return call.args[0].args[0]; });
+        let generateRunArgs = td.explain(generateRun).calls.map(function(call) {
+          return call.args[0].args[0];
+        });
         expect(generateRunArgs).to.deep.equal(['@ember-cli/ember-cli-qunit']);
       });
     });
 
-    it('gives helpful message if it can\'t find the addon', function() {
+    it("gives helpful message if it can't find the addon", function() {
       return expect(command.validateAndRun(['unknown-addon'])).to.be.rejected.then(error => {
         expect(error.message).to.equal(
           'Install failed. Could not find addon with name: unknown-addon',
@@ -281,8 +308,8 @@ describe('install command', function() {
       return expect(command.validateAndRun([])).to.be.rejected.then(error => {
         expect(error.message).to.equal(
           'The `install` command must take an argument with the name ' +
-          'of an ember-cli addon. For installing all npm and bower ' +
-          'dependencies you can run `npm install && bower install`.',
+            'of an ember-cli addon. For installing all npm and bower ' +
+            'dependencies you can run `npm install && bower install`.',
           'expect error to have a helpful message'
         );
       });

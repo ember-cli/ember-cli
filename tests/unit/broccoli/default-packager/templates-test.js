@@ -25,119 +25,135 @@ describe('Default Packager: Templates', function() {
     },
   };
 
-  before(co.wrap(function *() {
-    input = yield createTempDir();
+  before(
+    co.wrap(function*() {
+      input = yield createTempDir();
 
-    input.write(TEMPLATES);
-  }));
+      input.write(TEMPLATES);
+    })
+  );
 
-  after(co.wrap(function *() {
-    if (input) {
-      yield input.dispose();
-    }
-  }));
+  after(
+    co.wrap(function*() {
+      if (input) {
+        yield input.dispose();
+      }
+    })
+  );
 
-  afterEach(co.wrap(function *() {
-    if (output) {
-      yield output.dispose();
-    }
-  }));
+  afterEach(
+    co.wrap(function*() {
+      if (output) {
+        yield output.dispose();
+      }
+    })
+  );
 
-  it('caches processed templates tree', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager({
-      name: 'the-best-app-ever',
+  it(
+    'caches processed templates tree',
+    co.wrap(function*() {
+      let defaultPackager = new DefaultPackager({
+        name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('template', function(tree) {
-        return new Funnel(tree, {
-          getDestinationPath(relativePath) {
-            return relativePath.replace(/hbs$/g, 'js');
-          },
-        });
-      }),
+        registry: setupRegistryFor('template', function(tree) {
+          return new Funnel(tree, {
+            getDestinationPath(relativePath) {
+              return relativePath.replace(/hbs$/g, 'js');
+            },
+          });
+        }),
 
-      project: { addons: [] },
-    });
+        project: { addons: [] },
+      });
 
-    expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
+      expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
 
-    output = yield buildOutput(defaultPackager.processTemplates(input.path()));
+      output = yield buildOutput(defaultPackager.processTemplates(input.path()));
 
-    expect(defaultPackager._cachedProcessedTemplates).to.not.equal(null);
-  }));
+      expect(defaultPackager._cachedProcessedTemplates).to.not.equal(null);
+    })
+  );
 
-  it('processes templates according to the registry', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager({
-      name: 'the-best-app-ever',
+  it(
+    'processes templates according to the registry',
+    co.wrap(function*() {
+      let defaultPackager = new DefaultPackager({
+        name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('template', function(tree) {
-        return new Funnel(tree, {
-          getDestinationPath(relativePath) {
-            return relativePath.replace(/hbs$/g, 'js');
-          },
-        });
-      }),
+        registry: setupRegistryFor('template', function(tree) {
+          return new Funnel(tree, {
+            getDestinationPath(relativePath) {
+              return relativePath.replace(/hbs$/g, 'js');
+            },
+          });
+        }),
 
-      project: { addons: [] },
-    });
+        project: { addons: [] },
+      });
 
-    expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
+      expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
 
-    output = yield buildOutput(defaultPackager.processTemplates(input.path()));
+      output = yield buildOutput(defaultPackager.processTemplates(input.path()));
 
-    let outputFiles = output.read();
+      let outputFiles = output.read();
 
-    expect(outputFiles['the-best-app-ever']).to.deep.equal({
-      templates: {
-        'application.js': '',
-        'error.js': '',
-        'index.js': '',
-        'loading.js': '',
-      },
-    });
-  }));
+      expect(outputFiles['the-best-app-ever']).to.deep.equal({
+        templates: {
+          'application.js': '',
+          'error.js': '',
+          'index.js': '',
+          'loading.js': '',
+        },
+      });
+    })
+  );
 
-  it('runs pre/post-process add-on hooks', co.wrap(function *() {
-    let addonPreprocessTreeHookCalled = false;
-    let addonPostprocessTreeHookCalled = false;
+  it(
+    'runs pre/post-process add-on hooks',
+    co.wrap(function*() {
+      let addonPreprocessTreeHookCalled = false;
+      let addonPostprocessTreeHookCalled = false;
 
-    let defaultPackager = new DefaultPackager({
-      name: 'the-best-app-ever',
+      let defaultPackager = new DefaultPackager({
+        name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('template', function(tree) {
-        return new Funnel(tree, {
-          getDestinationPath(relativePath) {
-            return relativePath.replace(/hbs$/g, 'js');
-          },
-        });
-      }),
+        registry: setupRegistryFor('template', function(tree) {
+          return new Funnel(tree, {
+            getDestinationPath(relativePath) {
+              return relativePath.replace(/hbs$/g, 'js');
+            },
+          });
+        }),
 
-      // avoid using `testdouble.js` here on purpose; it does not have a "proxy"
-      // option, where a function call would be registered and the original
-      // would be returned
-      project: {
-        addons: [{
-          preprocessTree(type, tree) {
-            expect(type).to.equal('template');
-            addonPreprocessTreeHookCalled = true;
+        // avoid using `testdouble.js` here on purpose; it does not have a "proxy"
+        // option, where a function call would be registered and the original
+        // would be returned
+        project: {
+          addons: [
+            {
+              preprocessTree(type, tree) {
+                expect(type).to.equal('template');
+                addonPreprocessTreeHookCalled = true;
 
-            return tree;
-          },
-          postprocessTree(type, tree) {
+                return tree;
+              },
+              postprocessTree(type, tree) {
+                expect(type).to.equal('template');
+                addonPostprocessTreeHookCalled = true;
 
-            expect(type).to.equal('template');
-            addonPostprocessTreeHookCalled = true;
+                return tree;
+              },
+            },
+          ],
+        },
+      });
 
-            return tree;
-          },
-        }],
-      },
-    });
+      expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
 
-    expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
+      output = yield buildOutput(defaultPackager.processTemplates(input.path()));
 
-    output = yield buildOutput(defaultPackager.processTemplates(input.path()));
-
-    expect(addonPreprocessTreeHookCalled).to.equal(true);
-    expect(addonPostprocessTreeHookCalled).to.equal(true);
-  }));
+      expect(addonPreprocessTreeHookCalled).to.equal(true);
+      expect(addonPostprocessTreeHookCalled).to.equal(true);
+    })
+  );
 });

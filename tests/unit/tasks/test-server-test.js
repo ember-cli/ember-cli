@@ -39,16 +39,18 @@ describe('test server', function() {
       },
     });
 
-    let runResult = subject.run({
-      host: 'greatwebsite.com',
-      port: 123324,
-      reporter: 'xunit',
-      outputPath: 'blerpy-derpy',
-      watcher,
-      testPage: 'http://my/test/page',
-    }).then(function(value) {
-      expect(value, 'expected exist status of 0').to.eql(0);
-    });
+    let runResult = subject
+      .run({
+        host: 'greatwebsite.com',
+        port: 123324,
+        reporter: 'xunit',
+        outputPath: 'blerpy-derpy',
+        watcher,
+        testPage: 'http://my/test/page',
+      })
+      .then(function(value) {
+        expect(value, 'expected exist status of 0').to.eql(0);
+      });
     watcher.emit('change');
     return runResult;
   });

@@ -16,7 +16,6 @@ describe('Installation Checker', function() {
   }
 
   describe('bower', function() {
-
     it('works when installation directory exist', function() {
       let project = {
         root: fixturePath('installation-checker/valid-bower-installation'),
@@ -27,7 +26,7 @@ describe('Installation Checker', function() {
       expect(checkInstallations).to.not.throw(/No dependencies installed/);
     });
 
-    it('fails when installation directory doesn\'t exist', function() {
+    it("fails when installation directory doesn't exist", function() {
       let project = {
         root: fixturePath('installation-checker/invalid-bower-installation'),
         bowerDirectory: fixturePath('installation-checker/invalid-bower-installation/bower_components'),
@@ -36,11 +35,9 @@ describe('Installation Checker', function() {
 
       expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*bower.json/);
     });
-
   });
 
   describe('npm', function() {
-
     it('works when installation directory exist', function() {
       let project = {
         root: fixturePath('installation-checker/valid-npm-installation'),
@@ -50,7 +47,7 @@ describe('Installation Checker', function() {
       expect(checkInstallations).to.not.throw(/No dependencies installed/);
     });
 
-    it('fails when installation directory doesn\'t exist', function() {
+    it("fails when installation directory doesn't exist", function() {
       let project = {
         root: fixturePath('installation-checker/invalid-npm-installation'),
       };
@@ -58,11 +55,9 @@ describe('Installation Checker', function() {
 
       expect(checkInstallations).to.throw(/^InstallationChecker: Unable to parse: .*package.json/);
     });
-
   });
 
   describe('npm and bower', function() {
-
     it('fails reporting both dependencies', function() {
       let project = {
         root: fixturePath('installation-checker/invalid-bower-and-npm'),
@@ -82,6 +77,5 @@ describe('Installation Checker', function() {
 
       expect(checkInstallations).to.not.throw('/No dependencies installed/');
     });
-
   });
 });

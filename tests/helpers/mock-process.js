@@ -10,12 +10,16 @@ module.exports = class MockProcess extends EventEmitter {
 
     this.platform = 'MockOS';
 
-    const stdin = Object.assign(new EventEmitter(), {
-      isRaw: process.stdin.isRaw,
-      setRawMode: flag => {
-        stdin.isRaw = flag;
+    const stdin = Object.assign(
+      new EventEmitter(),
+      {
+        isRaw: process.stdin.isRaw,
+        setRawMode: flag => {
+          stdin.isRaw = flag;
+        },
       },
-    }, options.stdin || {});
+      options.stdin || {}
+    );
 
     Object.assign(this, options, { stdin });
   }
@@ -30,6 +34,6 @@ module.exports = class MockProcess extends EventEmitter {
 
   exit() {
     // we are unable to reliable unit test `process.exit()`
-    throw new Error("MockProcess.exit() was called");
+    throw new Error('MockProcess.exit() was called');
   }
 };

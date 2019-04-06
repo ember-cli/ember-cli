@@ -19,7 +19,9 @@ describe('TestServerAddon', function() {
       };
       app = {
         use(callback) {
-          return callback(mockRequest, null, function() { nextWasCalled = true; });
+          return callback(mockRequest, null, function() {
+            nextWasCalled = true;
+          });
         },
       };
     });

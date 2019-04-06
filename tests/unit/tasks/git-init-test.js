@@ -39,12 +39,14 @@ describe('git-init', function() {
 
   describe('skipGit: true', function() {
     it('does not initialize git', function() {
-      return task.run({
-        skipGit: true,
-      }).then(function() {
-        expect(task.ui.output).to.not.include('Successfully initialized git.');
-        td.verify(task._gitVersion(), { times: 0 });
-      });
+      return task
+        .run({
+          skipGit: true,
+        })
+        .then(function() {
+          expect(task.ui.output).to.not.include('Successfully initialized git.');
+          td.verify(task._gitVersion(), { times: 0 });
+        });
     });
   });
 
@@ -65,7 +67,6 @@ describe('git-init', function() {
     });
   });
 
-
   it('skips initializing git, if `git --version` fails', function() {
     td.when(task._gitVersion()).thenReject();
 
@@ -84,5 +85,4 @@ describe('git-init', function() {
     let env = task.buildGitEnvironment();
     expect(env.HOME).to.equal(process.env.HOME);
   });
-
 });

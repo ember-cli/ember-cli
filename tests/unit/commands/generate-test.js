@@ -62,7 +62,9 @@ describe('generate command', function() {
     });
 
     (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
-      command.project.hasDependencies = function() { return false; };
+      command.project.hasDependencies = function() {
+        return false;
+      };
 
       return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
         expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
@@ -71,7 +73,9 @@ describe('generate command', function() {
   });
 
   (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
-    command.project.hasDependencies = function() { return false; };
+    command.project.hasDependencies = function() {
+      return false;
+    };
 
     return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
       expect(reason.message).to.eql('node_modules appears empty, you may need to run `yarn install`');
@@ -79,13 +83,12 @@ describe('generate command', function() {
   });
 
   it('runs GenerateFromBlueprint with expected options', function() {
-    return command.validateAndRun(['controller', 'foo'])
-      .then(function(options) {
-        expect(options.pod).to.be.false;
-        expect(options.dryRun).to.be.false;
-        expect(options.verbose).to.be.false;
-        expect(options.args).to.deep.equal(['controller', 'foo']);
-      });
+    return command.validateAndRun(['controller', 'foo']).then(function(options) {
+      expect(options.pod).to.be.false;
+      expect(options.dryRun).to.be.false;
+      expect(options.verbose).to.be.false;
+      expect(options.args).to.deep.equal(['controller', 'foo']);
+    });
   });
 
   it('does not throw errors when beforeRun is invoked without the blueprint name', function() {
@@ -98,8 +101,9 @@ describe('generate command', function() {
     return expect(command.validateAndRun([])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
         'The `ember generate` command requires a ' +
-        'blueprint name to be specified. ' +
-        'For more details, use `ember help`.');
+          'blueprint name to be specified. ' +
+          'For more details, use `ember help`.'
+      );
     });
   });
 

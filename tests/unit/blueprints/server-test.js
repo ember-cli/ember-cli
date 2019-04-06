@@ -33,9 +33,7 @@ describe('Acceptance: ember generate and destroy server', function() {
     let args = ['server'];
 
     return emberNew()
-      .then(() => modifyPackages([
-        { name: 'ember-cli-jshint', dev: true },
-      ]))
+      .then(() => modifyPackages([{ name: 'ember-cli-jshint', dev: true }]))
       .then(() => emberGenerate(args))
       .then(() => {
         expect(file('server/.jshintrc')).to.exist;
