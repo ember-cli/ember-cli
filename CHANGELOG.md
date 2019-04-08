@@ -1,28 +1,13 @@
 # ember-cli Changelog
 
-## v3.9.0-beta.2
+## v3.9.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0-beta.1...v3.9.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0-beta.1...v3.9.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.2...v3.9.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.2...v3.9.0)
 
 #### Community Contributions
-
-- [#8467](https://github.com/ember-cli/ember-cli/pull/8467) Ensure npm version is available during ember new / ember install foo. [@rwjblue](https://github.com/rwjblue)
-
-Thank you to all who took the time to contribute!
-
-
-## v3.9.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.0...v3.9.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.0...v3.9.0-beta.1)
-
-#### Community Contributions
-
 
 - [#8444](https://github.com/ember-cli/ember-cli/pull/8444) Ensure Node 11 does not issue warning [@jeanduplessis](https://github.com/jeanduplessis)
 - [#8425](https://github.com/ember-cli/ember-cli/pull/8425) Update Broccoli website URL [@hakilebara](https://github.com/hakilebara)
