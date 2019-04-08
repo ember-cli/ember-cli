@@ -144,7 +144,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "fixturify": "^1.2.0",
     "fixturify-project": "^1.8.1",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.1",
     "nock": "^10.0.6",
     "nyc": "^13.3.0",
     "prettier": "1.16.4",
