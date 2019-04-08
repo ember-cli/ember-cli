@@ -6,13 +6,11 @@ const td = require('testdouble');
 const SilentError = require('silent-error');
 
 const expect = require('../../chai').expect;
-const promisify = require('util').promisify;
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const InstallBlueprintTask = require('../../../lib/tasks/install-blueprint');
 
 let root = path.join(__dirname, '../../..');
 let tmproot = path.join(root, 'tmp');
-const remove = promisify(fs.remove);
 
 describe('InstallBlueprintTask', function() {
   let task;
@@ -40,11 +38,11 @@ describe('InstallBlueprintTask', function() {
       expect(await task._resolveBlueprint('foobar')).to.equal(foobarBlueprint);
     });
 
-    it('rejects invalid npm package name "foo:bar"', function() {
+    it('rejects invalid npm package name "foo:bar"', async function() {
       let error = new Error('foobar not found');
       td.when(task._lookupBlueprint('foo:bar')).thenReject(error);
 
-      expect(task._resolveBlueprint('foo:bar')).to.be.rejectedWith(error);
+      await expect(task._resolveBlueprint('foo:bar')).to.be.rejectedWith(error);
     });
 
     it('tries to resolve "foobar" as npm package as a fallback', async function() {
@@ -57,14 +55,14 @@ describe('InstallBlueprintTask', function() {
       expect(await task._resolveBlueprint('foobar')).to.equal(foobarBlueprint);
     });
 
-    it('rejects if npm module resolution failed', function() {
+    it('rejects if npm module resolution failed', async function() {
       let error = new Error('foobar not found');
       td.when(task._lookupBlueprint('foobar')).thenReject(error);
 
       let npmError = new Error('npm failure');
       td.when(task._tryNpmBlueprint('foobar')).thenReject(npmError);
 
-      return expect(task._resolveBlueprint('foobar')).to.be.rejectedWith(npmError);
+      await expect(task._resolveBlueprint('foobar')).to.be.rejectedWith(npmError);
     });
 
     it(
@@ -81,12 +79,12 @@ describe('InstallBlueprintTask', function() {
       }
     );
 
-    it('rejects if temp folder creation fails', function() {
+    it('rejects if temp folder creation fails', async function() {
       let url = 'https://github.com/ember-cli/app-blueprint-test.git';
       let error = new Error('temp folder creation failed');
       td.when(task._createTempFolder()).thenReject(error);
 
-      return expect(task._resolveBlueprint(url)).to.be.rejectedWith(error);
+      await expect(task._resolveBlueprint(url)).to.be.rejectedWith(error);
     });
 
     it('rejects if "git clone" fails', function() {
@@ -97,28 +95,28 @@ describe('InstallBlueprintTask', function() {
       return expect(task._resolveBlueprint(url)).to.be.rejectedWith(error);
     });
 
-    it('rejects if "npm install" fails', function() {
+    it('rejects if "npm install" fails', async function() {
       let url = 'https://github.com/ember-cli/app-blueprint-test.git';
       let error = new Error('npm install failed');
       td.when(task._gitClone(url, task._tempPath)).thenResolve();
       td.when(task._npmInstall(task._tempPath)).thenReject(error);
 
-      return expect(task._resolveBlueprint(url)).to.be.rejectedWith(error);
+      await expect(task._resolveBlueprint(url)).to.be.rejectedWith(error);
     });
 
-    it('rejects if loading the blueprint fails', function() {
+    it('rejects if loading the blueprint fails', async function() {
       let url = 'https://github.com/ember-cli/app-blueprint-test.git';
       let error = new Error('loading blueprint failed');
       td.when(task._gitClone(url, task._tempPath)).thenResolve();
       td.when(task._npmInstall(task._tempPath)).thenResolve();
       td.when(task._loadBlueprintFromPath(task._tempPath)).thenReject(error);
 
-      return expect(task._resolveBlueprint(url)).to.be.rejectedWith(error);
+      await expect(task._resolveBlueprint(url)).to.be.rejectedWith(error);
     });
   });
 
   describe('_tryNpmBlueprint', function() {
-    beforeEach(function() {
+    beforeEach(async function() {
       task._createTempFolder = td.function();
       task._npmInstallModule = td.function();
       task._validateNpmModule = td.function();
@@ -127,15 +125,15 @@ describe('InstallBlueprintTask', function() {
       task._tempPath = '/tmp/foobar';
       td.when(task._createTempFolder()).thenResolve(task._tempPath);
 
-      return mkTmpDirIn(tmproot).then(function(tmpdir) {
-        task.project = { root: tmpdir };
-        process.chdir(tmpdir);
-      });
+      const tmpdir = await mkTmpDirIn(tmproot);
+
+      task.project = { root: tmpdir };
+      process.chdir(tmpdir);
     });
 
     afterEach(function() {
       process.chdir(root);
-      return remove(tmproot);
+      return fs.remove(tmproot);
     });
 
     it('if .npmrc exists in the project root it copys it to tmp location', function() {
@@ -172,7 +170,7 @@ describe('InstallBlueprintTask', function() {
       expect(await task._tryNpmBlueprint('foobar')).to.equal(foobarBlueprint);
     });
 
-    it('rejects with SilentError if npm module "foobar" could not be found', function() {
+    it('rejects with SilentError if npm module "foobar" could not be found', async function() {
       let error = new Error();
       error.stderr = `
           npm ERR! 404 Registry returned 404 for GET on https://registry.npmjs.org/ember-cli-app-blueprint-tes
@@ -185,37 +183,37 @@ describe('InstallBlueprintTask', function() {
 
       td.when(task._npmInstallModule('foobar', task._tempPath)).thenReject(error);
 
-      return expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(
+      await expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(
         SilentError,
         `The package 'foobar' was not found in the npm registry.`
       );
     });
 
-    it('rejects if "npm install" fails', function() {
+    it('rejects if "npm install" fails', async function() {
       let error = new Error('npm install failed');
       td.when(task._npmInstallModule('foobar', task._tempPath)).thenReject(error);
 
-      return expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(error);
+      await expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(error);
     });
 
-    it('rejects if npm module validation fails', function() {
+    it('rejects if npm module validation fails', async function() {
       let modulePath = '/path/to/foobar';
       td.when(task._npmInstallModule('foobar', task._tempPath)).thenResolve(modulePath);
 
       let error = new Error('module validation failed');
       td.when(task._validateNpmModule(modulePath, 'foobar')).thenThrow(error);
 
-      return expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(error);
+      await expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(error);
     });
 
-    it('rejects if loading blueprint fails', function() {
+    it('rejects if loading blueprint fails', async function() {
       let modulePath = '/path/to/foobar';
       td.when(task._npmInstallModule('foobar', task._tempPath)).thenResolve(modulePath);
 
       let error = new Error('loading blueprint failed');
       td.when(task._loadBlueprintFromPath(modulePath)).thenReject(error);
 
-      return expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(error);
+      await expect(task._tryNpmBlueprint('foobar')).to.be.rejectedWith(error);
     });
   });
 });
