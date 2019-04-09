@@ -106,6 +106,7 @@
     "morgan": "^1.9.1",
     "nopt": "^3.0.6",
     "npm-package-arg": "^6.1.0",
+    "p-defer": "^2.1.0",
     "portfinder": "^1.0.20",
     "promise-map-series": "^0.2.3",
     "quick-temp": "^0.1.8",
