@@ -114,6 +114,15 @@ describe('Acceptance: ember new', function() {
   );
 
   it(
+    'ember new npm blueprint with old version',
+    co.wrap(function*() {
+      yield ember(['new', 'foo', '--blueprint', '@glimmer/blueprint@0.6.4', '--skip-npm', '--skip-bower']);
+
+      expect(dir('src')).to.exist;
+    })
+  );
+
+  it(
     'ember new foo, where foo does not yet exist, works',
     co.wrap(function*() {
       yield ember(['new', 'foo', '--skip-npm', '--skip-bower']);
