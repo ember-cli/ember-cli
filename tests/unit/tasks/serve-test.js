@@ -67,7 +67,7 @@ describe('serve task', function() {
   describe('run with path', function() {
     it(`Throws error if path doesn't exist`, function() {
       expect(runServeTask.bind(this, 'xyz')).to.throw(
-        'The path xyz does not exist. Please specify a valid build directory to serve.',
+        'The path xyz does not exist. Please specify a valid build directory to serve.'
       );
     });
 
@@ -88,7 +88,6 @@ describe('serve task', function() {
 
       await servePromise;
       expect(ui.output).to.include('cleaning up...');
-
     });
   });
 });
