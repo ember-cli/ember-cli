@@ -1,6 +1,5 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const ServeTask = require('../../../lib/tasks/serve');
 const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
