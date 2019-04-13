@@ -38,7 +38,7 @@ describe('git-init', function() {
       await task.run({
         skipGit: true,
       });
-      expect(task.ui.output).to.not.include('Successfully initialized git.');
+      expect(task.ui.output).to.not.include('Git:.');
       td.verify(task._gitVersion(), { times: 0 });
     });
   });
@@ -55,7 +55,7 @@ describe('git-init', function() {
     td.verify(task._gitAdd());
     td.verify(task._gitCommit());
 
-    expect(task.ui.output).to.contain('Successfully initialized git.');
+    expect(task.ui.output).to.contain('Git: successfully initialized.');
     expect(task.ui.errors).to.equal('');
   });
 
