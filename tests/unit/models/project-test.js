@@ -87,6 +87,19 @@ describe('models/project.js', function() {
       expect(called).to.equal(true);
     });
 
+    it('config() with no args returns the config corresponding to the current EMBER_ENV', function() {
+      process.env.EMBER_ENV = 'testing';
+
+      project.config();
+      let configCacheKey;
+      for (const key of project.configCache.keys()) {
+        if (key.match('|')) {
+          configCacheKey = key;
+        }
+      }
+      expect(configCacheKey).to.match(/testing/i);
+    });
+
     describe('memoizes', function() {
       it('memoizes', function() {
         project.config('development');
