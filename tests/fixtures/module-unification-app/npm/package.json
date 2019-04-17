@@ -41,6 +41,7 @@
     "ember-resolver": "^5.0.1",
     "ember-source": "<%= emberCanaryVersion %>",
     "eslint-plugin-ember": "^6.2.0",
+    "eslint-plugin-node": "^8.0.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.4"
   },
