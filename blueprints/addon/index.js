@@ -70,7 +70,7 @@ module.exports = {
     contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.3';
 
     // add `eslint-plugin-node` to addons by default
-    contents.devDependencies['eslint-plugin-node'] = '^7.0.1';
+    contents.devDependencies['eslint-plugin-node'] = '^8.0.1';
 
     // add ember-try
     contents.devDependencies['ember-try'] = '^1.0.0';
