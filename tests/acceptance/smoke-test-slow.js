@@ -153,9 +153,7 @@ describe('Acceptance: smoke-test', function() {
     })
   );
 
-  // TODO: restore, test harness npm appears to incorrectly dedupe broccoli-filter, causing this test to fail.
-  // manually testing that case, it seems to work correctly, will restore soon.
-  it.skip(
+  it(
     'ember test --environment=production',
     co.wrap(function*() {
       yield copyFixtureFiles('smoke-tests/passing-test');
@@ -170,7 +168,7 @@ describe('Acceptance: smoke-test', function() {
       let output = result.output.join(EOL);
 
       expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
-      expect(output).to.match(/JSHint/, 'JSHint should be run on production assets');
+      expect(output).to.match(/ESLint/, 'ESLint should be run on production assets');
       expect(output).to.match(/fail\s+0/, 'no failures');
       expect(output).to.match(/pass\s+\d+/, 'many passing');
     })
