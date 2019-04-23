@@ -106,10 +106,11 @@ module.exports = {
 
   beforeInstall() {
     const version = require('../../package.json').version;
+    const prependEmoji = require('../../lib/utilities/prepend-emoji');
 
     this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
     this.ui.writeLine('');
-    this.ui.writeLine(`✨  Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`);
+    this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
   },
 
   afterInstall() {
