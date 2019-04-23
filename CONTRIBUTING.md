@@ -227,7 +227,7 @@ And in case we didn't emphasize it enough: **we love tests!**
 
 #### Testing
 
-Testing is done with mocha. You can invoke the tests by running `npm test` or `npm test:all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
+Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run test:all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
 with a test, write your test and add `.only` to it's `describe` or `it` block. E.g.
 
 ```javascript
