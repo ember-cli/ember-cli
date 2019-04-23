@@ -15,9 +15,7 @@ git clone https://github.com/ember-cli/ember-cli.git
 
 ## Link `ember` to your development version
 
-
-Running the following command will link the global `ember` utility to your
-local development version:
+If you want to use the `ember` or `ember-cli` development versions you are working on, run the following command to link the global `ember` utility to your local development version:
 
 ```
 npm link
