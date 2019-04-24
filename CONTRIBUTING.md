@@ -43,7 +43,7 @@ npm test
 ```
 
 will run ESLint and the "fast" subset of the test suite. Run
-`npm run test-all` for the full test suite which will currently take quite a
+`npm run test:all` for the full test suite which will currently take quite a
 few minutes due to heavy IO and network usage.
 
 ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
@@ -227,8 +227,7 @@ And in case we didn't emphasize it enough: **we love tests!**
 
 #### Testing
 
-Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run-script
-test-all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
+Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run test:all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
 with a test, write your test and add `.only` to it's `describe` or `it` block. E.g.
 
 ```javascript
