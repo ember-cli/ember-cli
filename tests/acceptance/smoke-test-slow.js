@@ -169,8 +169,12 @@ describe('Acceptance: smoke-test', function() {
       };
     })(originalWrite);
 
-    let result = await ember(['test', '--path=dist']);
-    process.stdout.write = originalWrite;
+    let result;
+    try {
+      result = await ember(['test', '--path=dist']);
+    } finally {
+      process.stdout.write = originalWrite;
+    }
 
     expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
 
@@ -196,8 +200,12 @@ describe('Acceptance: smoke-test', function() {
       };
     })(originalWrite);
 
-    let result = await ember(['test', '--path=dist']);
-    process.stdout.write = originalWrite;
+    let result;
+    try {
+      result = await ember(['test', '--path=dist']);
+    } finally {
+      process.stdout.write = originalWrite;
+    }
 
     expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
 
@@ -235,12 +243,15 @@ describe('Acceptance: smoke-test', function() {
   it('ember build generates instrumentation files when viz is enabled', async function() {
     process.env.BROCCOLI_VIZ = '1';
 
-    await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-      env: {
-        BROCCOLI_VIZ: '1',
-      },
-    });
-    delete process.env.BROCCOLI_VIZ;
+    try {
+      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+        env: {
+          BROCCOLI_VIZ: '1',
+        },
+      });
+    } finally {
+      delete process.env.BROCCOLI_VIZ;
+    }
 
     [
       'instrumentation.build.0.json',
