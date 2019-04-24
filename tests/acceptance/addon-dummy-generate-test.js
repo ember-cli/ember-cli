@@ -2,9 +2,7 @@
 
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
-const util = require('util');
 const path = require('path');
-let remove = util.promisify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
@@ -33,7 +31,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
 
   afterEach(function() {
     process.chdir(root);
-    return remove(tmproot);
+    return fs.remove(tmproot);
   });
 
   async function initAddon() {
@@ -51,7 +49,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     let generateArgs = ['generate'].concat(args);
 
     await initAddon();
-    return ember(generateArgs);
+    await ember(generateArgs);
   }
 
   it('dummy blueprint foo', async function() {
