@@ -285,7 +285,7 @@ describe('models/builder.js', function() {
     });
 
     if (isExperimentEnabled('ESM_TYPESCRIPT')) {
-      it('builds an esm ember-cli-build.js', function () {
+      it('builds an esm ember-cli-build.js', function() {
         const project = new MockProject();
         project.root += '/tests/fixtures/build/esm';
 
@@ -297,7 +297,7 @@ describe('models/builder.js', function() {
           },
         });
 
-        return builder.build().then(function (result) {
+        return builder.build().then(function(result) {
           expect(fs.existsSync(result.directory)).to.be.true;
           expect(fs.existsSync(path.join(result.directory, 'hello.txt'))).to.be.true;
           expect(fs.readFileSync(path.join(result.directory, 'hello.txt'), 'utf-8')).to.equal(`Hello esm\n`);
@@ -306,7 +306,7 @@ describe('models/builder.js', function() {
     }
 
     if (isExperimentEnabled('ESM_TYPESCRIPT')) {
-      it('builds a typescript ember-cli-build.ts', function () {
+      it('builds a typescript ember-cli-build.ts', function() {
         const project = new MockProject();
         project.root += '/tests/fixtures/build/typescript';
 
@@ -318,7 +318,7 @@ describe('models/builder.js', function() {
           },
         });
 
-        return builder.build().then(function (result) {
+        return builder.build().then(function(result) {
           expect(fs.existsSync(result.directory)).to.be.true;
           expect(fs.existsSync(path.join(result.directory, 'hello.txt'))).to.be.true;
           expect(fs.readFileSync(path.join(result.directory, 'hello.txt'), 'utf-8')).to.equal(`Hello typescript\n`);
