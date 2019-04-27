@@ -25,7 +25,9 @@ describe('models/project.js', function() {
   });
 
   afterEach(function() {
-    if (project) { project = null; }
+    if (project) {
+      project = null;
+    }
   });
 
   describe('constructor', function() {
@@ -35,16 +37,15 @@ describe('models/project.js', function() {
       expect(cli.instrumentation.project).to.equal(null);
 
       projectPath = 'tmp/test-app';
-      return tmp.setup(projectPath)
-        .then(function() {
-          touch(`${projectPath}/config/environment.js`, {
-            baseURL: '/foo/bar',
-          });
-
-          project = new Project(projectPath, { }, cli.ui, cli);
-          expect(cli.instrumentation.project).to.equal(project);
-          expect(project._instrumentation).to.equal(cli.instrumentation);
+      return tmp.setup(projectPath).then(function() {
+        touch(`${projectPath}/config/environment.js`, {
+          baseURL: '/foo/bar',
         });
+
+        project = new Project(projectPath, {}, cli.ui, cli);
+        expect(cli.instrumentation.project).to.equal(project);
+        expect(project._instrumentation).to.equal(cli.instrumentation);
+      });
     });
   });
 
@@ -54,27 +55,26 @@ describe('models/project.js', function() {
 
     beforeEach(function() {
       called = false;
-      return tmp.setup(projectPath)
-        .then(function() {
-          touch(`${projectPath}/config/environment.js`, {
-            baseURL: '/foo/bar',
-          });
-
-          touch(`${projectPath}/config/a.js`, {
-            baseURL: '/a',
-          });
-
-          touch(`${projectPath}/config/b.js`, {
-            baseURL: '/b',
-          });
-
-          makeProject();
-
-          project.require = function() {
-            called = true;
-            return function() {};
-          };
+      return tmp.setup(projectPath).then(function() {
+        touch(`${projectPath}/config/environment.js`, {
+          baseURL: '/foo/bar',
         });
+
+        touch(`${projectPath}/config/a.js`, {
+          baseURL: '/a',
+        });
+
+        touch(`${projectPath}/config/b.js`, {
+          baseURL: '/b',
+        });
+
+        makeProject();
+
+        project.require = function() {
+          called = true;
+          return function() {};
+        };
+      });
     });
 
     afterEach(function() {
@@ -87,6 +87,19 @@ describe('models/project.js', function() {
       expect(called).to.equal(true);
     });
 
+    it('config() with no args returns the config corresponding to the current EMBER_ENV', function() {
+      process.env.EMBER_ENV = 'testing';
+
+      project.config();
+      let configCacheKey;
+      for (const key of project.configCache.keys()) {
+        if (key.match('|')) {
+          configCacheKey = key;
+        }
+      }
+      expect(configCacheKey).to.match(/testing/i);
+    });
+
     describe('memoizes', function() {
       it('memoizes', function() {
         project.config('development');
@@ -97,19 +110,25 @@ describe('models/project.js', function() {
       });
 
       it('considers configPath when memoizing', function() {
-        project.configPath = function() { return `${projectPath}/config/a`; };
+        project.configPath = function() {
+          return `${projectPath}/config/a`;
+        };
         project.config('development');
 
         expect(called).to.equal(true);
         called = false;
 
-        project.configPath = function() { return `${projectPath}/config/a`; };
+        project.configPath = function() {
+          return `${projectPath}/config/a`;
+        };
         project.config('development');
 
         expect(called).to.equal(false);
         called = false;
 
-        project.configPath = function() { return `${projectPath}/config/b`; };
+        project.configPath = function() {
+          return `${projectPath}/config/b`;
+        };
         project.config('development');
 
         expect(called).to.equal(true);
@@ -125,7 +144,7 @@ describe('models/project.js', function() {
     it('configPath() returns tests/dummy/config/environment', function() {
       project.pkg = {
         'ember-addon': {
-          'configPath': 'tests/dummy/config',
+          configPath: 'tests/dummy/config',
         },
       };
 
@@ -169,8 +188,16 @@ describe('models/project.js', function() {
 
         projectConfig = { foo: 'bar', baz: 'qux' };
         project.addons = [
-          { config() { return addon1Config; } },
-          { config() { return addon2Config; } },
+          {
+            config() {
+              return addon1Config;
+            },
+          },
+          {
+            config() {
+              return addon2Config;
+            },
+          },
         ];
 
         project._addonsInitialized = true;
@@ -215,7 +242,6 @@ describe('models/project.js', function() {
   });
 
   describe('Project.prototype.targets', function() {
-
     beforeEach(function() {
       projectPath = 'tmp/test-app';
     });
@@ -229,16 +255,14 @@ describe('models/project.js', function() {
         return tmp.setup(projectPath).then(function() {
           let targetsPath = path.join(projectPath, 'config', 'targets.js');
           fs.createFileSync(targetsPath);
-          fs.writeFileSync(
-            targetsPath,
-            'module.exports = { browsers: ["last 2 versions", "safari >= 7"] };',
-            { encoding: 'utf8' }
-          );
+          fs.writeFileSync(targetsPath, 'module.exports = { browsers: ["last 2 versions", "safari >= 7"] };', {
+            encoding: 'utf8',
+          });
 
           makeProject();
 
           project.require = function() {
-            return { browsers: ["last 2 versions", "safari >= 7"] };
+            return { browsers: ['last 2 versions', 'safari >= 7'] };
           };
         });
       });
@@ -250,7 +274,7 @@ describe('models/project.js', function() {
       });
     });
 
-    describe('when there isn\'t a `/config/targets.js` file', function() {
+    describe("when there isn't a `/config/targets.js` file", function() {
       beforeEach(function() {
         return tmp.setup(projectPath).then(function() {
           makeProject();
@@ -259,12 +283,7 @@ describe('models/project.js', function() {
 
       it('returns the default targets', function() {
         expect(project.targets).to.deep.equal({
-          browsers: [
-            'ie 11',
-            'last 1 Chrome versions',
-            'last 1 Firefox versions',
-            'last 1 Safari versions',
-          ],
+          browsers: ['ie 11', 'last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'],
         });
       });
     });
@@ -280,7 +299,7 @@ describe('models/project.js', function() {
       project.initializeAddons();
     });
 
-    it('returns a listing of all dependencies in the project\'s package.json', function() {
+    it("returns a listing of all dependencies in the project's package.json", function() {
       let expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
@@ -299,14 +318,14 @@ describe('models/project.js', function() {
       expect(project.dependencies()).to.deep.equal(expected);
     });
 
-    it('returns a listing of all dependencies in the project\'s bower.json', function() {
+    it("returns a listing of all dependencies in the project's bower.json", function() {
       let expected = {
-        'jquery': '^1.11.1',
-        'ember': '1.7.0',
+        jquery: '^1.11.1',
+        ember: '1.7.0',
         'ember-data': '1.0.0-beta.10',
         'ember-cli-shims': 'ember-cli/ember-cli-shims#0.0.3',
         'ember-qunit': '0.1.8',
-        'qunit': '~1.15.0',
+        qunit: '~1.15.0',
       };
 
       expect(project.bowerDependencies()).to.deep.equal(expected);
@@ -383,7 +402,7 @@ describe('models/project.js', function() {
 
       // the first found addon blueprint should be the last one defined
       let expected = loadedBlueprintPaths.reverse();
-      /*var first = */project.addonBlueprintLookupPaths();
+      /*var first = */ project.addonBlueprintLookupPaths();
       let second = project.addonBlueprintLookupPaths();
 
       expect(second).to.deep.equal(expected);
@@ -417,7 +436,9 @@ describe('models/project.js', function() {
 
     it('adds the project itself if it is an addon', function() {
       project.addonPackages = {};
-      project.isEmberCLIAddon = function() { return true; };
+      project.isEmberCLIAddon = function() {
+        return true;
+      };
 
       project.discoverAddons();
 
@@ -584,15 +605,19 @@ describe('models/project.js', function() {
 
       td.replace(Project.prototype, 'initializeAddons', td.function());
 
-      project.addons = [{
-        name: 'foo',
-        pkg: { name: 'foo' },
-      }, {
-        pkg: { name: 'bar-pkg' },
-      }, {
-        name: 'foo-bar',
-        pkg: { name: 'foo-bar' },
-      }];
+      project.addons = [
+        {
+          name: 'foo',
+          pkg: { name: 'foo' },
+        },
+        {
+          pkg: { name: 'bar-pkg' },
+        },
+        {
+          name: 'foo-bar',
+          pkg: { name: 'foo-bar' },
+        },
+      ];
     });
 
     afterEach(function() {
@@ -661,7 +686,9 @@ describe('models/project.js', function() {
       makeProject();
 
       expect(project.generateTestFile()).to.equal('');
-      expect(project.ui.output).to.contain('Please install an Ember.js test framework addon or update your dependencies.');
+      expect(project.ui.output).to.contain(
+        'Please install an Ember.js test framework addon or update your dependencies.'
+      );
     });
   });
 });

@@ -166,7 +166,7 @@ module.exports = {
         {
           name: 'pod',
           default: false,
-          aliases: ['p'],
+          aliases: ['p', 'pods'],
           key: 'pod',
           required: false
         },
@@ -224,7 +224,7 @@ module.exports = {
         {
           name: 'pod',
           default: false,
-          aliases: ['p'],
+          aliases: ['p', 'pods'],
           key: 'pod',
           required: false
         },

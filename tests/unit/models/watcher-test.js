@@ -77,19 +77,23 @@ describe('Watcher', function() {
     });
 
     it('tracks events', function() {
-      expect(analytics.tracks).to.deep.equal([{
-        name: 'ember rebuild',
-        message: 'broccoli rebuild time: 12344ms',
-      }]);
+      expect(analytics.tracks).to.deep.equal([
+        {
+          name: 'ember rebuild',
+          message: 'broccoli rebuild time: 12344ms',
+        },
+      ]);
     });
 
     it('tracks timings', function() {
-      expect(analytics.trackTimings).to.deep.equal([{
-        category: 'rebuild',
-        variable: 'rebuild time',
-        label: 'broccoli rebuild time',
-        value: 12344,
-      }]);
+      expect(analytics.trackTimings).to.deep.equal([
+        {
+          category: 'rebuild',
+          variable: 'rebuild time',
+          label: 'broccoli rebuild time',
+          value: 12344,
+        },
+      ]);
     });
 
     it('logs that the build was successful', function() {
@@ -164,7 +168,9 @@ describe('Watcher', function() {
       });
 
       let output = ui.output.trim().split(EOL);
-      expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/foo/`);
+      expect(output[0]).to.equal(
+        `${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/foo/`
+      );
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
@@ -195,7 +201,9 @@ describe('Watcher', function() {
 
       let output = ui.output.trim().split(EOL);
 
-      expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/foo/`);
+      expect(output[0]).to.equal(
+        `${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/foo/`
+      );
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
@@ -270,16 +278,20 @@ describe('Watcher', function() {
         stack: new Error().stack,
       });
 
-      expect(analytics.trackErrors).to.deep.equal([{
-        description: undefined,
-      }]);
+      expect(analytics.trackErrors).to.deep.equal([
+        {
+          description: undefined,
+        },
+      ]);
     });
 
     it('emits without error.file', function() {
-      subject.didError(new BuildError({
-        file: 'someFile',
-        message: 'buildFailed',
-      }));
+      subject.didError(
+        new BuildError({
+          file: 'someFile',
+          message: 'buildFailed',
+        })
+      );
 
       expect(ui.output).to.equal('');
 
@@ -290,11 +302,13 @@ describe('Watcher', function() {
     });
 
     it('emits with error.file with error.line without err.col', function() {
-      subject.didError(new BuildError({
-        file: 'someFile',
-        line: 24,
-        message: 'buildFailed',
-      }));
+      subject.didError(
+        new BuildError({
+          file: 'someFile',
+          line: 24,
+          message: 'buildFailed',
+        })
+      );
 
       expect(ui.output).to.eql('');
 
@@ -305,11 +319,13 @@ describe('Watcher', function() {
     });
 
     it('emits with error.file without error.line with err.col', function() {
-      subject.didError(new BuildError({
-        file: 'someFile',
-        col: 80,
-        message: 'buildFailed',
-      }));
+      subject.didError(
+        new BuildError({
+          file: 'someFile',
+          col: 80,
+          message: 'buildFailed',
+        })
+      );
 
       expect(ui.output).to.eql('');
 
@@ -320,12 +336,14 @@ describe('Watcher', function() {
     });
 
     it('emits with error.file with error.line with err.col', function() {
-      subject.didError(new BuildError({
-        file: 'someFile',
-        line: 24,
-        col: 80,
-        message: 'buildFailed',
-      }));
+      subject.didError(
+        new BuildError({
+          file: 'someFile',
+          line: 24,
+          col: 80,
+          message: 'buildFailed',
+        })
+      );
 
       expect(ui.output).to.eql('');
 
@@ -353,10 +371,12 @@ describe('Watcher', function() {
     });
 
     it('keep tracking analytics', function() {
-      expect(analytics.tracks).to.deep.equal([{
-        name: 'ember rebuild',
-        message: 'broccoli rebuild time: 12344ms',
-      }]);
+      expect(analytics.tracks).to.deep.equal([
+        {
+          name: 'ember rebuild',
+          message: 'broccoli rebuild time: 12344ms',
+        },
+      ]);
     });
   });
 });

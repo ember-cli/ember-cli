@@ -167,7 +167,7 @@ module.exports = {
 
   fileMapper(path) {
     for (let pattern in this.fileMap) {
-      if ((new RegExp(pattern)).test(path)) {
+      if (new RegExp(pattern).test(path)) {
         return this.fileMap[pattern].replace(':path', path);
       }
     }

@@ -20,7 +20,7 @@ class ProxyServer {
       autoAcceptConnections: true,
     });
 
-    let websocketEvents = this.websocketEvents = [];
+    let websocketEvents = (this.websocketEvents = []);
     wsServer.on('connect', connection => {
       websocketEvents.push('connect');
 

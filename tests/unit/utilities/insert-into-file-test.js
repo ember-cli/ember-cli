@@ -23,27 +23,25 @@ describe('insertIntoFile()', function() {
   it('will create the file if not already existing', function() {
     let toInsert = 'blahzorz blammo';
 
-    return insertIntoFile(filePath, toInsert)
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.contain(toInsert);
-        expect(result.originalContents).to.equal('', 'returned object should contain original contents');
-        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
-        expect(contents).to.equal(result.contents, 'returned object should contain contents');
-      });
+      expect(contents).to.contain(toInsert);
+      expect(result.originalContents).to.equal('', 'returned object should contain original contents');
+      expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+      expect(contents).to.equal(result.contents, 'returned object should contain contents');
+    });
   });
 
   it('will not create the file if not already existing and creation disabled', function() {
     let toInsert = 'blahzorz blammo';
 
-    return insertIntoFile(filePath, toInsert, { create: false })
-      .then(function(result) {
-        expect(fs.existsSync(filePath)).to.equal(false, 'file should not exist');
-        expect(result.originalContents).to.equal('', 'returned object should contain original contents');
-        expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
-        expect(result.contents).to.equal('', 'returned object should contain original contents');
-      });
+    return insertIntoFile(filePath, toInsert, { create: false }).then(function(result) {
+      expect(fs.existsSync(filePath)).to.equal(false, 'file should not exist');
+      expect(result.originalContents).to.equal('', 'returned object should contain original contents');
+      expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
+      expect(result.contents).to.equal('', 'returned object should contain original contents');
+    });
   });
 
   it('will insert into the file if it already exists', function() {
@@ -52,14 +50,13 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert)
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal(originalContent + toInsert, 'inserted contents should be appended to original');
-        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
-        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
-      });
+      expect(contents).to.equal(originalContent + toInsert, 'inserted contents should be appended to original');
+      expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+      expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+    });
   });
 
   it('will not insert into the file if it already contains the content', function() {
@@ -67,13 +64,12 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, toInsert, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert)
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal(toInsert, 'contents should be unchanged');
-        expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
-      });
+      expect(contents).to.equal(toInsert, 'contents should be unchanged');
+      expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
+    });
   });
 
   it('will insert into the file if it already contains the content if force option is passed', function() {
@@ -81,13 +77,12 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, toInsert, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { force: true })
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert, { force: true }).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal(toInsert + toInsert, 'contents should be unchanged');
-        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was not modified');
-      });
+      expect(contents).to.equal(toInsert + toInsert, 'contents should be unchanged');
+      expect(result.inserted).to.equal(true, 'inserted should indicate that the file was not modified');
+    });
   });
 
   it('will insert into the file after a specified string if options.after is specified', function() {
@@ -99,15 +94,16 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { after: line2 + EOL })
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert, { after: line2 + EOL }).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal([line1, line2, toInsert, line3].join(EOL),
-          'inserted contents should be inserted after the `after` value');
-        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
-        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
-      });
+      expect(contents).to.equal(
+        [line1, line2, toInsert, line3].join(EOL),
+        'inserted contents should be inserted after the `after` value'
+      );
+      expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+      expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+    });
   });
 
   it('will insert into the file after the first instance of options.after only', function() {
@@ -119,15 +115,16 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { after: line2 + EOL })
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert, { after: line2 + EOL }).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal([line1, line2, toInsert, line2, line3].join(EOL),
-          'inserted contents should be inserted after the `after` value');
-        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
-        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
-      });
+      expect(contents).to.equal(
+        [line1, line2, toInsert, line2, line3].join(EOL),
+        'inserted contents should be inserted after the `after` value'
+      );
+      expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+      expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+    });
   });
 
   it('will insert into the file before a specified string if options.before is specified', function() {
@@ -139,15 +136,16 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { before: line2 + EOL })
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert, { before: line2 + EOL }).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal([line1, toInsert, line2, line3].join(EOL),
-          'inserted contents should be inserted before the `before` value');
-        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
-        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
-      });
+      expect(contents).to.equal(
+        [line1, toInsert, line2, line3].join(EOL),
+        'inserted contents should be inserted before the `before` value'
+      );
+      expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+      expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+    });
   });
 
   it('will insert into the file before the first instance of options.before only', function() {
@@ -159,15 +157,16 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { before: line2 + EOL })
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert, { before: line2 + EOL }).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal([line1, toInsert, line2, line2, line3].join(EOL),
-          'inserted contents should be inserted after the `after` value');
-        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
-        expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
-      });
+      expect(contents).to.equal(
+        [line1, toInsert, line2, line2, line3].join(EOL),
+        'inserted contents should be inserted after the `after` value'
+      );
+      expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+      expect(result.inserted).to.equal(true, 'inserted should indicate that the file was modified');
+    });
   });
 
   it('it will make no change if options.after is not found in the original', function() {
@@ -176,14 +175,13 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { after: `not found${EOL}` })
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert, { after: `not found${EOL}` }).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal(originalContent, 'original content is unchanged');
-        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
-        expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
-      });
+      expect(contents).to.equal(originalContent, 'original content is unchanged');
+      expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+      expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
+    });
   });
 
   it('it will make no change if options.before is not found in the original', function() {
@@ -192,14 +190,13 @@ describe('insertIntoFile()', function() {
 
     fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-    return insertIntoFile(filePath, toInsert, { before: `not found${EOL}` })
-      .then(function(result) {
-        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+    return insertIntoFile(filePath, toInsert, { before: `not found${EOL}` }).then(function(result) {
+      let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-        expect(contents).to.equal(originalContent, 'original content is unchanged');
-        expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
-        expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
-      });
+      expect(contents).to.equal(originalContent, 'original content is unchanged');
+      expect(result.originalContents).to.equal(originalContent, 'returned object should contain original contents');
+      expect(result.inserted).to.equal(false, 'inserted should indicate that the file was not modified');
+    });
   });
 
   describe('regex', function() {
@@ -212,13 +209,14 @@ describe('insertIntoFile()', function() {
 
       fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-      return insertIntoFile(filePath, toInsert, { after: /line2 here(\r?\n)/ })
-        .then(function() {
-          let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+      return insertIntoFile(filePath, toInsert, { after: /line2 here(\r?\n)/ }).then(function() {
+        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-          expect(contents).to.equal([line1, line2, toInsert, line3].join(EOL),
-            'inserted contents should be inserted after the `after` value');
-        });
+        expect(contents).to.equal(
+          [line1, line2, toInsert, line3].join(EOL),
+          'inserted contents should be inserted after the `after` value'
+        );
+      });
     });
 
     it('options.before supports regex', function() {
@@ -230,16 +228,17 @@ describe('insertIntoFile()', function() {
 
       fs.writeFileSync(filePath, originalContent, { encoding: 'utf8' });
 
-      return insertIntoFile(filePath, toInsert, { before: /line2 here(\r?\n)/ })
-        .then(function() {
-          let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
+      return insertIntoFile(filePath, toInsert, { before: /line2 here(\r?\n)/ }).then(function() {
+        let contents = fs.readFileSync(filePath, { encoding: 'utf8' });
 
-          expect(contents).to.equal([line1, toInsert, line2, line3].join(EOL),
-            'inserted contents should be inserted before the `before` value');
-        });
+        expect(contents).to.equal(
+          [line1, toInsert, line2, line3].join(EOL),
+          'inserted contents should be inserted before the `before` value'
+        );
+      });
     });
 
-    it('options.after doesn\'t treat strings as regex', function() {
+    it("options.after doesn't treat strings as regex", function() {
       let toInsert = 'blahzorz blammo';
 
       fs.writeFileSync(filePath, '', { encoding: 'utf8' });
@@ -247,7 +246,7 @@ describe('insertIntoFile()', function() {
       expect(() => insertIntoFile(filePath, toInsert, { after: '"predef": [\n' })).to.not.throw();
     });
 
-    it('options.before doesn\'t treat strings as regex', function() {
+    it("options.before doesn't treat strings as regex", function() {
       let toInsert = 'blahzorz blammo';
 
       fs.writeFileSync(filePath, '', { encoding: 'utf8' });
@@ -259,9 +258,8 @@ describe('insertIntoFile()', function() {
   it('will return the file path', function() {
     let toInsert = 'blahzorz blammo';
 
-    return insertIntoFile(filePath, toInsert)
-      .then(function(result) {
-        expect(result.path).to.equal(filePath, 'path should always match');
-      });
+    return insertIntoFile(filePath, toInsert).then(function(result) {
+      expect(result.path).to.equal(filePath, 'path should always match');
+    });
   });
 });

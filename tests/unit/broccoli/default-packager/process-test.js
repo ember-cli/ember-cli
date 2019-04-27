@@ -30,16 +30,16 @@ describe('Default Packager: Process Javascript', function() {
     'the-best-app-ever': {
       'router.js': 'router.js',
       'app.js': 'app.js',
-      'components': {
+      components: {
         'x-foo.js': 'export default class {}',
       },
-      'routes': {
+      routes: {
         'application.js': 'export default class {}',
       },
-      'config': {
+      config: {
         'environment.js': 'environment.js',
       },
-      'templates': {},
+      templates: {},
     },
     vendor: {},
   };
@@ -61,109 +61,43 @@ describe('Default Packager: Process Javascript', function() {
       });
     }),
 
-    addons: [{
-      treeForAddon(tree) {
-        const Funnel = require('broccoli-funnel');
-        return new Funnel(tree, {
-          destDir: 'modules/my-addon',
-        });
+    addons: [
+      {
+        treeForAddon(tree) {
+          const Funnel = require('broccoli-funnel');
+          return new Funnel(tree, {
+            destDir: 'modules/my-addon',
+          });
+        },
       },
-    }],
+    ],
   };
 
-  before(co.wrap(function *() {
-    input = yield createTempDir();
+  before(
+    co.wrap(function*() {
+      input = yield createTempDir();
 
-    input.write(MODULES);
-  }));
+      input.write(MODULES);
+    })
+  );
 
-  after(co.wrap(function *() {
-    yield input.dispose();
-  }));
+  after(
+    co.wrap(function*() {
+      yield input.dispose();
+    })
+  );
 
-  afterEach(co.wrap(function *() {
-    if (output) {
-      yield output.dispose();
-    }
-  }));
+  afterEach(
+    co.wrap(function*() {
+      if (output) {
+        yield output.dispose();
+      }
+    })
+  );
 
-  it('caches packaged application tree', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager({
-      name: 'the-best-app-ever',
-      env: 'development',
-
-      distPaths: {
-        appJsFile: '/assets/the-best-app-ever.js',
-        vendorJsFile: '/assets/vendor.js',
-      },
-
-      registry: setupRegistryFor('template', function(tree) {
-        return new Funnel(tree, {
-          getDestinationPath(relativePath) {
-            return relativePath.replace(/hbs$/g, 'js');
-          },
-        });
-      }),
-
-      customTransformsMap: new Map(),
-
-      scriptOutputFiles,
-      project,
-    });
-
-    expect(defaultPackager._cachedProcessedAppAndDependencies).to.equal(null);
-
-    output = yield buildOutput(defaultPackager.processAppAndDependencies(input.path()));
-
-    expect(defaultPackager._cachedProcessedAppAndDependencies).to.not.equal(null);
-    expect(defaultPackager._cachedProcessedAppAndDependencies._annotation).to.equal('Processed Application and Dependencies');
-  }));
-
-  if (isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('merges src with with app', co.wrap(function *() {
-      let input = yield createTempDir();
-
-      input.write({
-        'addon-tree-output': {},
-        'the-best-app-ever': {
-          'router.js': 'router.js',
-          'app.js': 'app.js',
-          'components': {
-            'x-foo.js': 'export default class {}',
-          },
-          'routes': {
-            'application.js': 'export default class {}',
-          },
-          'config': {
-            'environment.js': 'environment.js',
-          },
-          'templates': {},
-        },
-        vendor: {},
-        src: {
-          'main.js': '',
-          'resolver.js': '',
-          'router.js': '',
-          ui: {
-            components: {
-              'login-form': {
-                'component.js': '',
-                'template.hbs': '',
-              },
-            },
-            'index.html': '',
-            routes: {
-              application: {
-                'template.hbs': '',
-              },
-            },
-            styles: {
-              'app.css': '',
-            },
-          },
-        },
-      });
-
+  it(
+    'caches packaged application tree',
+    co.wrap(function*() {
       let defaultPackager = new DefaultPackager({
         name: 'the-best-app-ever',
         env: 'development',
@@ -172,8 +106,6 @@ describe('Default Packager: Process Javascript', function() {
           appJsFile: '/assets/the-best-app-ever.js',
           vendorJsFile: '/assets/vendor.js',
         },
-
-        isModuleUnificationEnabled: true,
 
         registry: setupRegistryFor('template', function(tree) {
           return new Funnel(tree, {
@@ -189,18 +121,97 @@ describe('Default Packager: Process Javascript', function() {
         project,
       });
 
+      expect(defaultPackager._cachedProcessedAppAndDependencies).to.equal(null);
+
       output = yield buildOutput(defaultPackager.processAppAndDependencies(input.path()));
 
-      let outputFiles = output.read();
+      expect(defaultPackager._cachedProcessedAppAndDependencies).to.not.equal(null);
+      expect(defaultPackager._cachedProcessedAppAndDependencies._annotation).to.equal(
+        'Processed Application and Dependencies'
+      );
+    })
+  );
 
-      expect(Object.keys(outputFiles)).to.deep.equal([
-        'addon-tree-output',
-        'src',
-        'the-best-app-ever',
-        'vendor',
-      ]);
+  if (isExperimentEnabled('MODULE_UNIFICATION')) {
+    it(
+      'merges src with with app',
+      co.wrap(function*() {
+        let input = yield createTempDir();
 
-      input.dispose();
-    }));
+        input.write({
+          'addon-tree-output': {},
+          'the-best-app-ever': {
+            'router.js': 'router.js',
+            'app.js': 'app.js',
+            components: {
+              'x-foo.js': 'export default class {}',
+            },
+            routes: {
+              'application.js': 'export default class {}',
+            },
+            config: {
+              'environment.js': 'environment.js',
+            },
+            templates: {},
+          },
+          vendor: {},
+          src: {
+            'main.js': '',
+            'resolver.js': '',
+            'router.js': '',
+            ui: {
+              components: {
+                'login-form': {
+                  'component.js': '',
+                  'template.hbs': '',
+                },
+              },
+              'index.html': '',
+              routes: {
+                application: {
+                  'template.hbs': '',
+                },
+              },
+              styles: {
+                'app.css': '',
+              },
+            },
+          },
+        });
+
+        let defaultPackager = new DefaultPackager({
+          name: 'the-best-app-ever',
+          env: 'development',
+
+          distPaths: {
+            appJsFile: '/assets/the-best-app-ever.js',
+            vendorJsFile: '/assets/vendor.js',
+          },
+
+          isModuleUnificationEnabled: true,
+
+          registry: setupRegistryFor('template', function(tree) {
+            return new Funnel(tree, {
+              getDestinationPath(relativePath) {
+                return relativePath.replace(/hbs$/g, 'js');
+              },
+            });
+          }),
+
+          customTransformsMap: new Map(),
+
+          scriptOutputFiles,
+          project,
+        });
+
+        output = yield buildOutput(defaultPackager.processAppAndDependencies(input.path()));
+
+        let outputFiles = output.read();
+
+        expect(Object.keys(outputFiles)).to.deep.equal(['addon-tree-output', 'src', 'the-best-app-ever', 'vendor']);
+
+        input.dispose();
+      })
+    );
   }
 });

@@ -30,10 +30,12 @@ describe('Acceptance: ember destroy', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(co.wrap(function *() {
-    tmpdir = yield mkTmpDirIn(tmproot);
-    process.chdir(tmpdir);
-  }));
+  beforeEach(
+    co.wrap(function*() {
+      tmpdir = yield mkTmpDirIn(tmproot);
+      process.chdir(tmpdir);
+    })
+  );
 
   afterEach(function() {
     process.chdir(root);
@@ -41,12 +43,7 @@ describe('Acceptance: ember destroy', function() {
   });
 
   function initApp() {
-    return ember([
-      'init',
-      '--name=my-app',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+    return ember(['init', '--name=my-app', '--skip-npm', '--skip-bower']);
   }
 
   function generate(args) {
@@ -71,7 +68,7 @@ describe('Acceptance: ember destroy', function() {
     });
   }
 
-  const assertDestroyAfterGenerate = co.wrap(function *(args, files) {
+  const assertDestroyAfterGenerate = co.wrap(function*(args, files) {
     yield initApp();
 
     yield generate(args);
@@ -110,51 +107,58 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('deletes files generated using blueprints from the project directory', co.wrap(function *() {
-    let commandArgs = ['foo', 'bar'];
-    let files = ['app/foos/bar.js'];
-    yield initApp();
+  it(
+    'deletes files generated using blueprints from the project directory',
+    co.wrap(function*() {
+      let commandArgs = ['foo', 'bar'];
+      let files = ['app/foos/bar.js'];
+      yield initApp();
 
-    yield outputFile(
-      'blueprints/foo/files/app/foos/__name__.js',
-      "import Ember from 'ember';\n\n" +
-      'export default Ember.Object.extend({ foo: true });\n'
-    );
+      yield outputFile(
+        'blueprints/foo/files/app/foos/__name__.js',
+        "import Ember from 'ember';\n\n" + 'export default Ember.Object.extend({ foo: true });\n'
+      );
 
-    yield generate(commandArgs);
-    assertFilesExist(files);
+      yield generate(commandArgs);
+      assertFilesExist(files);
 
-    yield destroy(commandArgs);
-    assertFilesNotExist(files);
-  }));
+      yield destroy(commandArgs);
+      assertFilesNotExist(files);
+    })
+  );
 
-  it('correctly identifies the root of the project', co.wrap(function *() {
-    let commandArgs = ['controller', 'foo'];
-    let files = ['app/controllers/foo.js'];
-    yield initApp();
+  it(
+    'correctly identifies the root of the project',
+    co.wrap(function*() {
+      let commandArgs = ['controller', 'foo'];
+      let files = ['app/controllers/foo.js'];
+      yield initApp();
 
-    yield outputFile(
-      'blueprints/controller/files/app/controllers/__name__.js',
-      "import Ember from 'ember';\n\n" +
-      "export default Ember.Controller.extend({ custom: true });\n"
-    );
+      yield outputFile(
+        'blueprints/controller/files/app/controllers/__name__.js',
+        "import Ember from 'ember';\n\n" + 'export default Ember.Controller.extend({ custom: true });\n'
+      );
 
-    yield generate(commandArgs);
-    assertFilesExist(files);
+      yield generate(commandArgs);
+      assertFilesExist(files);
 
-    process.chdir(path.join(tmpdir, 'app'));
-    yield destroy(commandArgs);
+      process.chdir(path.join(tmpdir, 'app'));
+      yield destroy(commandArgs);
 
-    process.chdir(tmpdir);
-    assertFilesNotExist(files);
-  }));
+      process.chdir(tmpdir);
+      assertFilesNotExist(files);
+    })
+  );
 
-  it('http-mock <name> does not remove server/', co.wrap(function *() {
-    yield initApp();
-    yield generate(['http-mock', 'foo']);
-    yield generate(['http-mock', 'bar']);
-    yield destroy(['http-mock', 'foo']);
+  it(
+    'http-mock <name> does not remove server/',
+    co.wrap(function*() {
+      yield initApp();
+      yield generate(['http-mock', 'foo']);
+      yield generate(['http-mock', 'bar']);
+      yield destroy(['http-mock', 'foo']);
 
-    expect(file('server/index.js')).to.exist;
-  }));
+      expect(file('server/index.js')).to.exist;
+    })
+  );
 });
