@@ -61,15 +61,13 @@ describe('models/builder.js', function() {
   });
 
   describe('copyToOutputPath', function() {
-    beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        let project = new MockProject();
-        builder = new Builder({
-          project,
-          ui: project.ui,
-          setupBroccoliBuilder,
-        });
+    beforeEach(async function() {
+      tmpdir = await mkTmpDirIn(tmproot);
+      let project = new MockProject();
+      builder = new Builder({
+        project,
+        ui: project.ui,
+        setupBroccoliBuilder,
       });
     });
 
@@ -167,46 +165,43 @@ describe('models/builder.js', function() {
       }
     });
 
-    it('calls instrumentation.start', function() {
+    it('calls instrumentation.start', async function() {
       let mockAnnotation = 'MockAnnotation';
-      return builder.build(null, mockAnnotation).then(function() {
-        td.verify(instrumentationStart('build'), { times: 1 });
-      });
+      await builder.build(null, mockAnnotation);
+      td.verify(instrumentationStart('build'), { times: 1 });
     });
 
-    it('calls instrumentation.stop(build, result, resultAnnotation)', function() {
+    it('calls instrumentation.stop(build, result, resultAnnotation)', async function() {
       let mockAnnotation = 'MockAnnotation';
 
-      return builder.build(null, mockAnnotation).then(function() {
-        td.verify(
-          instrumentationStop('build', { directory: 'build results', graph: { __heimdall__: {} } }, mockAnnotation),
-          { times: 1 }
-        );
-      });
+      await builder.build(null, mockAnnotation);
+
+      td.verify(
+        instrumentationStop('build', { directory: 'build results', graph: { __heimdall__: {} } }, mockAnnotation),
+        { times: 1 }
+      );
     });
 
-    it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', function() {
+    it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', async function() {
       process._heimdall = {};
 
-      return builder.build().then(function() {
-        let output = builder.project.ui.output;
+      await builder.build();
 
-        expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
-      });
+      let output = builder.project.ui.output;
+      expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
     });
 
-    it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', function() {
+    it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', async function() {
       expect(process._heimdall).to.equal(undefined);
 
-      return builder.build().then(function() {
-        let output = builder.project.ui.output;
+      await builder.build();
 
-        expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
-      });
+      let output = builder.project.ui.output;
+      expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
     });
 
     if (!isExperimentEnabled('SYSTEM_TEMP')) {
-      it('writes temp files to project root by default', function() {
+      it('writes temp files to project root by default', async function() {
         const project = new MockProject();
         project.root += '/tests/fixtures/build/simple';
 
@@ -218,14 +213,13 @@ describe('models/builder.js', function() {
           },
         });
 
-        return builder.build().then(function() {
-          expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.true;
-        });
+        await builder.build();
+        expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.true;
       });
     }
 
     if (isExperimentEnabled('SYSTEM_TEMP')) {
-      it('writes temp files to Broccoli temp dir when EMBER_CLI_SYSTEM_TEMP=1', function() {
+      it('writes temp files to Broccoli temp dir when EMBER_CLI_SYSTEM_TEMP=1', async function() {
         const project = new MockProject();
         project.root += '/tests/fixtures/build/simple';
         expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
@@ -238,15 +232,15 @@ describe('models/builder.js', function() {
         });
 
         expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-        return builder.build().then(function(result) {
-          expect(fs.existsSync(result.directory)).to.be.true;
-          expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-          rimraf.sync(result.directory);
-        });
+
+        let result = await builder.build();
+        expect(fs.existsSync(result.directory)).to.be.true;
+        expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
+        rimraf.sync(result.directory);
       });
     }
 
-    (ci.APPVEYOR ? it.skip : it)('produces the correct output', function() {
+    (ci.APPVEYOR ? it.skip : it)('produces the correct output', async function() {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
       const setup = () =>
@@ -258,14 +252,12 @@ describe('models/builder.js', function() {
           },
         });
 
-      return setup()
-        .build()
-        .then(result => {
-          expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
-        });
+      let result = await setup().build();
+
+      expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
     });
 
-    it('returns {directory, graph} as the result object', function() {
+    it('returns {directory, graph} as the result object', async function() {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
 
@@ -277,11 +269,11 @@ describe('models/builder.js', function() {
         },
       });
 
-      return builder.build().then(function(result) {
-        expect(Object.keys(result)).to.eql(['directory', 'graph']);
-        expect(result.graph.__heimdall__).to.not.be.undefined;
-        expect(fs.existsSync(result.directory)).to.be.true;
-      });
+      let result = await builder.build();
+
+      expect(Object.keys(result)).to.eql(['directory', 'graph']);
+      expect(result.graph.__heimdall__).to.not.be.undefined;
+      expect(fs.existsSync(result.directory)).to.be.true;
     });
   });
 
@@ -373,20 +365,18 @@ describe('models/builder.js', function() {
       return builder.build();
     });
 
-    it('allows addons to add promises postBuild', function() {
+    it('allows addons to add promises postBuild', async function() {
       let postBuild = td.replace(addon, 'postBuild', td.function());
 
-      return builder.build().then(function() {
-        td.verify(postBuild(buildResults), { times: 1 });
-      });
+      await builder.build();
+      td.verify(postBuild(buildResults), { times: 1 });
     });
 
-    it('allows addons to add promises outputReady', function() {
+    it('allows addons to add promises outputReady', async function() {
       let outputReady = td.replace(addon, 'outputReady', td.function());
 
-      return builder.build().then(function() {
-        td.verify(outputReady(buildResults), { times: 1 });
-      });
+      await builder.build();
+      td.verify(outputReady(buildResults), { times: 1 });
     });
 
     describe('instrumentation hooks', function() {
@@ -394,24 +384,22 @@ describe('models/builder.js', function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      it('invokes the instrumentation hook if it is preset', function() {
+      it('invokes the instrumentation hook if it is preset', async function() {
         addon.instrumentation = function() {
           hooksCalled.push('instrumentation');
         };
 
-        return builder.build(null, {}).then(function() {
-          expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
-        });
+        await builder.build(null, {});
+        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
       });
     });
 
-    it('hooks are called in the right order without visualization', function() {
-      return builder.build().then(function() {
-        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady']);
-      });
+    it('hooks are called in the right order without visualization', async function() {
+      await builder.build();
+      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady']);
     });
 
-    it('should call postBuild before processBuildResult', function() {
+    it('should call postBuild before processBuildResult', async function() {
       let called = [];
 
       addon.postBuild = function() {
@@ -422,12 +410,11 @@ describe('models/builder.js', function() {
         called.push('processBuildResult');
       };
 
-      return builder.build().then(function() {
-        expect(called).to.deep.equal(['postBuild', 'processBuildResult']);
-      });
+      await builder.build();
+      expect(called).to.deep.equal(['postBuild', 'processBuildResult']);
     });
 
-    it('should call outputReady after processBuildResult', function() {
+    it('should call outputReady after processBuildResult', async function() {
       let called = [];
 
       builder.processBuildResult = function() {
@@ -438,12 +425,11 @@ describe('models/builder.js', function() {
         called.push('outputReady');
       };
 
-      return builder.build().then(function() {
-        expect(called).to.deep.equal(['processBuildResult', 'outputReady']);
-      });
+      await builder.build();
+      expect(called).to.deep.equal(['processBuildResult', 'outputReady']);
     });
 
-    it('buildError receives the error object from the errored step', function() {
+    it('buildError receives the error object from the errored step', async function() {
       let thrownBuildError = new Error('buildError');
       let receivedBuildError;
 
@@ -457,57 +443,52 @@ describe('models/builder.js', function() {
         return Promise.reject(thrownBuildError);
       };
 
-      return expect(builder.build()).to.be.rejected.then(() => {
-        expect(receivedBuildError).to.equal(thrownBuildError);
-      });
+      await expect(builder.build()).to.be.rejected;
+      expect(receivedBuildError).to.equal(thrownBuildError);
     });
 
-    it('calls buildError and does not call build, postBuild or outputReady when preBuild fails', function() {
+    it('calls buildError and does not call build, postBuild or outputReady when preBuild fails', async function() {
       addon.preBuild = function() {
         hooksCalled.push('preBuild');
 
         return Promise.reject(new Error('preBuild Error'));
       };
 
-      return expect(builder.build()).to.be.rejected.then(() => {
-        expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
-      });
+      await expect(builder.build()).to.be.rejected;
+      expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
     });
 
-    it('calls buildError and does not call postBuild or outputReady when build fails', function() {
+    it('calls buildError and does not call postBuild or outputReady when build fails', async function() {
       builder.builder.build = function() {
         hooksCalled.push('build');
 
         return Promise.reject(new Error('build Error'));
       };
 
-      return expect(builder.build()).to.be.rejected.then(() => {
-        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
-      });
+      await expect(builder.build()).to.be.rejected;
+      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
     });
 
-    it('calls buildError when postBuild fails', function() {
+    it('calls buildError when postBuild fails', async function() {
       addon.postBuild = function() {
         hooksCalled.push('postBuild');
 
         return Promise.reject(new Error('preBuild Error'));
       };
 
-      return expect(builder.build()).to.be.rejected.then(() => {
-        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
-      });
+      await expect(builder.build()).to.be.rejected;
+      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
     });
 
-    it('calls buildError when outputReady fails', function() {
+    it('calls buildError when outputReady fails', async function() {
       addon.outputReady = function() {
         hooksCalled.push('outputReady');
 
         return Promise.reject(new Error('outputReady Error'));
       };
 
-      return expect(builder.build()).to.be.rejected.then(() => {
-        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildError']);
-      });
+      await expect(builder.build()).to.be.rejected;
+      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildError']);
     });
   });
 

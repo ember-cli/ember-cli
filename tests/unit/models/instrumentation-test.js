@@ -8,7 +8,6 @@ const fs = require('fs');
 const path = require('path');
 const fse = require('fs-extra');
 const MockUI = require('console-ui/mock');
-const RSVP = require('rsvp');
 const Yam = require('yam');
 
 const MockProject = require('../../helpers/mock-project');
@@ -19,19 +18,18 @@ const expect = chai.expect;
 const any = td.matchers.anything;
 const contains = td.matchers.contains;
 
-const remove = RSVP.denodeify(fse.remove);
 const root = process.cwd();
 const tmproot = path.join(root, 'tmp');
 
 let instrumentation;
 
 describe('models/instrumentation.js', function() {
-  afterEach(function() {
+  afterEach(async function() {
     delete process.env.BROCCOLI_VIZ;
     delete process.env.EMBER_CLI_INSTRUMENTATION;
 
     process.chdir(root);
-    return remove(tmproot);
+    await fse.remove(tmproot);
   });
 
   describe('._enableFSMonitorIfInstrumentationEnabled', function() {
@@ -527,62 +525,62 @@ describe('models/instrumentation.js', function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      it('writes instrumentation info if viz is enabled', function() {
+      it('writes instrumentation info if viz is enabled', async function() {
         process.env.BROCCOLI_VIZ = '1';
 
-        return mkTmpDirIn(tmproot).then(() => {
-          process.chdir(tmproot);
+        await mkTmpDirIn(tmproot);
 
-          instrumentation.start('init');
-          instrumentation.stopAndReport('init', 'a', 'b');
+        process.chdir(tmproot);
 
-          expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
-          expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
-            summary: { ok: 'init dokie' },
-            nodes: [{ i: 'can init json' }],
-          });
+        instrumentation.start('init');
+        instrumentation.stopAndReport('init', 'a', 'b');
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build', 'a', 'b');
+        expect(fs.existsSync('instrumentation.init.json')).to.equal(true);
+        expect(fse.readJsonSync('instrumentation.init.json')).to.eql({
+          summary: { ok: 'init dokie' },
+          nodes: [{ i: 'can init json' }],
+        });
 
-          expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
-          expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
-            summary: { ok: 'build dokie' },
-            nodes: [{ i: 'can build json' }],
-          });
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', 'a', 'b');
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build', 'a', 'b');
+        expect(fs.existsSync('instrumentation.build.0.json')).to.equal(true);
+        expect(fse.readJsonSync('instrumentation.build.0.json')).to.eql({
+          summary: { ok: 'build dokie' },
+          nodes: [{ i: 'can build json' }],
+        });
 
-          expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
-          expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
-            summary: { ok: 'build dokie' },
-            nodes: [{ i: 'can build json' }],
-          });
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build', 'a', 'b');
+
+        expect(fs.existsSync('instrumentation.build.1.json')).to.equal(true);
+        expect(fse.readJsonSync('instrumentation.build.1.json')).to.eql({
+          summary: { ok: 'build dokie' },
+          nodes: [{ i: 'can build json' }],
         });
       });
 
-      it('does not write instrumentation info if viz is disabled', function() {
+      it('does not write instrumentation info if viz is disabled', async function() {
         delete process.env.BROCCOLI_VIZ;
 
-        return mkTmpDirIn(tmproot).then(() => {
-          process.chdir(tmproot);
+        await mkTmpDirIn(tmproot);
 
-          instrumentation.start('init');
-          instrumentation.stopAndReport('init');
+        process.chdir(tmproot);
 
-          expect(fs.existsSync('instrumentation.init.json')).to.equal(false);
+        instrumentation.start('init');
+        instrumentation.stopAndReport('init');
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build');
+        expect(fs.existsSync('instrumentation.init.json')).to.equal(false);
 
-          expect(fs.existsSync('instrumentation.build.0.json')).to.equal(false);
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build');
 
-          instrumentation.start('build');
-          instrumentation.stopAndReport('build');
+        expect(fs.existsSync('instrumentation.build.0.json')).to.equal(false);
 
-          expect(fs.existsSync('instrumentation.build.1.json')).to.equal(false);
-        });
+        instrumentation.start('build');
+        instrumentation.stopAndReport('build');
+
+        expect(fs.existsSync('instrumentation.build.1.json')).to.equal(false);
       });
     });
 
