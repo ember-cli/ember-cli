@@ -1454,15 +1454,15 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
-console-ui@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.0.2.tgz#b8bf8cd3c10c4429ddf9e3c4fdfe33464d81e9e8"
-  integrity sha512-xAwPNKzcW6w1baGWacSXsSChNRm9CbqrqLrv7tcuU94g8VPPPaofx/84f7aUq1v5Sj7iAs9cEaq/bl2CNWbKIg==
+console-ui@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.0.4.tgz#1df0b003ea7b6adcda3d2f781f567b3b75ee7cbb"
+  integrity sha512-1obVCKinYE179hoPKnlHzJY5q1fQdiuiUXrYbTkZDTE+UXxGFMayxFzJjKN9GLfEkTo/rg6+Iqt+yGaOqc3GXQ==
   dependencies:
     chalk "^2.1.0"
     inquirer "^6"
     json-stable-stringify "^1.0.1"
-    ora "^3.2.0"
+    ora "^3.4.0"
     through2 "^3.0.1"
 
 consolidate@^0.15.1:
@@ -4765,7 +4765,7 @@ optionator@^0.8.2:
     type-check "~0.3.2"
     wordwrap "~1.0.0"
 
-ora@^3.2.0:
+ora@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/ora/-/ora-3.4.0.tgz#bf0752491059a3ef3ed4c85097531de9fdbcd318"
   integrity sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg==
