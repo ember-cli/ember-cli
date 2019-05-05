@@ -1,8 +1,8 @@
 'use strict';
 
-const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+import EmberApp from 'ember-cli/lib/broccoli/ember-app';
 
-module.exports = function(defaults) {
+export default function(defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
   });
