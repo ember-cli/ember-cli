@@ -2672,10 +2672,10 @@ fs-tree-diff@^1.0.2:
     path-posix "^1.0.0"
     symlink-or-copy "^1.1.8"
 
-fs-tree-diff@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-2.0.0.tgz#3c74e8219e4174690e85190b29ab4fd4a916744a"
-  integrity sha512-faaAi8T3bl6zy6dpLnHDZJG5I7wSvoRWcrD9zR8VIK6AecpdpF2jVAM6G9zElhYLAFZPBiFVbkMFxLsYIicYIQ==
+fs-tree-diff@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fs-tree-diff/-/fs-tree-diff-2.0.1.tgz#343e4745ab435ec39ebac5f9059ad919cd034afa"
+  integrity sha512-x+CfAZ/lJHQqwlD64pYM5QxWjzWhSjroaVsr8PW831zOApL55qPibed0c+xebaLWVr2BnHFoHdrwOv8pzt8R5A==
   dependencies:
     "@types/symlink-or-copy" "^1.2.0"
     heimdalljs-logger "^0.1.7"
