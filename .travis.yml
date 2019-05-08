@@ -51,6 +51,9 @@ jobs:
     - env: NAME=NODE_11
       node_js: 11
 
+    - name: Node.js 12
+      node_js: 12
+
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true
     - env: EMBER_CLI_MODULE_UNIFICATION=true
