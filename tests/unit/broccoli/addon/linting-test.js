@@ -116,9 +116,7 @@ describe('Addon - linting', function() {
 
       output = yield buildOutput(lintTrees[0]);
 
-      expect(output.read()).to.deep.equal({
-        addon: {},
-      });
+      expect(output.read()).to.deep.equal({});
 
       yield output.dispose();
 
