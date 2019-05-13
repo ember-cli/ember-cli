@@ -1,5 +1,21 @@
 # ember-cli Changelog
 
+## v3.11.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.10.0...v3.11.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.10.0...v3.11.0-beta.1)
+
+#### Community Contributions
+
+- [#8595](https://github.com/ember-cli/ember-cli/pull/8595) `Project#config` should use `EMBER_ENV` as default environment when none is passed in [@nlfurniss](https://github.com/nlfurniss)
+- [#8604](https://github.com/ember-cli/ember-cli/pull/8604) CONTRIBUTING: Clarify the way to start working on the repo. [@MonsieurDart](https://github.com/MonsieurDart)
+- [#8621](https://github.com/ember-cli/ember-cli/pull/8621) project.findAddonByName was intended to be public [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.10.0
 
 #### Blueprint Changes
