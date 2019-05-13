@@ -1,14 +1,15 @@
 # ember-cli Changelog
 
-## v3.10.0-beta.2
+## v3.10.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.10.0-beta.1...v3.10.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.10.0-beta.1...v3.10.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0...v3.10.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0...v3.10.0)
 
 #### Community Contributions
 
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
 - [#8563](https://github.com/ember-cli/ember-cli/pull/8563) Drop Node 6 support [@Turbo87](https://github.com/Turbo87)
 - [#8566](https://github.com/ember-cli/ember-cli/pull/8566) Modernize `build-watch.js` and `build-watch-test.js` [@xg-wang](https://github.com/xg-wang)
 - [#8569](https://github.com/ember-cli/ember-cli/pull/8569) Modernize `bower-install-test.js` [@RichardOtvos](https://github.com/RichardOtvos)
@@ -17,19 +18,6 @@
 - [#8205](https://github.com/ember-cli/ember-cli/pull/8205) Run eslint-plugin-node on apps [@kellyselden](https://github.com/kellyselden)
 - [#8606](https://github.com/ember-cli/ember-cli/pull/8606) Modernize `models/instrumentation-test.js` [@Semeia-io](https://github.com/Semeia-io)
 - [#8607](https://github.com/ember-cli/ember-cli/pull/8607) Modernize `models/addon-test.js` [@Semeia-io](https://github.com/Semeia-io)
-
-Thank you to all who took the time to contribute!
-
-
-## v3.10.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0...v3.10.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0...v3.10.0-beta.1)
-
-#### Community Contributions
-
 - [#8462](https://github.com/ember-cli/ember-cli/pull/8462) blueprints: Update `ember-cli-eslint` to v5.1.0 [@Turbo87](https://github.com/Turbo87)
 - [#8461](https://github.com/ember-cli/ember-cli/pull/8461) blueprints: Update `ember-welcome-page` to v4.0.0 [@Turbo87](https://github.com/Turbo87)
 - [#8460](https://github.com/ember-cli/ember-cli/pull/8460) blueprints: Update `ember-qunit` to v4.4.1 [@Turbo87](https://github.com/Turbo87)
