@@ -42,11 +42,11 @@
     "ember-source": "~3.10.0<% if (welcome) { %>",
     "ember-welcome-page": "^4.0.0<% } %>",
     "eslint-plugin-ember": "^6.2.0",
-    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-node": "^9.0.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.4"
   },
   "engines": {
-    "node": "6.* || 8.* || >= 10.*"
+    "node": "8.* || >= 10.*"
   }
 }
