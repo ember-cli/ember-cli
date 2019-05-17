@@ -3,7 +3,7 @@ language: node_js
 node_js:
   # we recommend testing addons with the same minimum supported node version as Ember CLI
   # so that your addon works for all apps
-  - "6"
+  - "8"
 
 sudo: false
 dist: trusty
@@ -59,17 +59,13 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
-
-before_install:<% if (yarn) { %>
+<% if (yarn) { %>
+before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
   - yarn install --no-lockfile --non-interactive
-<% } else { %>
-  - npm config set spin false
-  - npm install -g npm@4
-  - npm --version
 <% } %>
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
