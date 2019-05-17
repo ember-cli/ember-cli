@@ -3,7 +3,7 @@ language: node_js
 node_js:
   # we recommend testing addons with the same minimum supported node version as Ember CLI
   # so that your addon works for all apps
-  - "6"
+  - "8"
 
 sudo: false
 dist: trusty
@@ -33,11 +33,6 @@ matrix:
   fast_finish: true
   allow_failures:
     - env: EMBER_TRY_SCENARIO=ember-canary
-
-before_install:
-  - npm config set spin false
-  - npm install -g npm@4
-  - npm --version
 
 script:
   - npm run lint:hbs
