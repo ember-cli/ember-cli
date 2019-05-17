@@ -15,6 +15,17 @@
 
 Thank you to all who took the time to contribute!
 
+## v3.10.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.10.0...v3.10.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.10.0...v3.10.1)
+
+#### Community Contributions
+
+- [#8645](https://github.com/ember-cli/ember-cli/pull/8645) Update addon and application blueprints to account for Node 6 support being removed. [@kellyselden](https://github.com/kellyselden)
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
 
 ## v3.10.0
 
@@ -75,6 +86,18 @@ Thank you to all who took the time to contribute!
 
 Thank you to all who took the time to contribute!
 
+## v3.8.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.2...v3.8.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.2...v3.8.3)
+
+#### Community Contributions
+
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
 
 ## v3.8.2
 
