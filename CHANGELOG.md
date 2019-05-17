@@ -1,5 +1,18 @@
 # ember-cli Changelog
 
+## v3.8.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.2...v3.8.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.2...v3.8.3)
+
+#### Community Contributions
+
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.8.2
 
 #### Blueprint Changes
