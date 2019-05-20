@@ -134,7 +134,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didChange({
+      subject.didBuild({
         totalTime: 12344000000,
       });
 
@@ -163,7 +163,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didChange({
+      subject.didBuild({
         totalTime: 12344000000,
       });
 
@@ -195,7 +195,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didChange({
+      subject.didBuild({
         totalTime: 12344000000,
       });
 
@@ -229,7 +229,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didChange({
+      subject.didBuild({
         totalTime: 12344000000,
       });
 
@@ -262,7 +262,7 @@ describe('Watcher', function() {
       subject.serveURL = function() {
         return `http://customurl.com/`;
       };
-      subject.didChange({
+      subject.didBuild({
         totalTime: 12344000000,
       });
 
