@@ -1,14 +1,50 @@
 # ember-cli Changelog
 
-## v3.10.0-beta.1
+## v3.11.0-beta.1
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0...v3.10.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0...v3.10.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.10.0...v3.11.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.10.0...v3.11.0-beta.1)
 
 #### Community Contributions
 
+- [#8595](https://github.com/ember-cli/ember-cli/pull/8595) `Project#config` should use `EMBER_ENV` as default environment when none is passed in [@nlfurniss](https://github.com/nlfurniss)
+- [#8604](https://github.com/ember-cli/ember-cli/pull/8604) CONTRIBUTING: Clarify the way to start working on the repo. [@MonsieurDart](https://github.com/MonsieurDart)
+- [#8621](https://github.com/ember-cli/ember-cli/pull/8621) project.findAddonByName was intended to be public [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
+
+## v3.10.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.10.0...v3.10.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.10.0...v3.10.1)
+
+#### Community Contributions
+
+- [#8645](https://github.com/ember-cli/ember-cli/pull/8645) Update addon and application blueprints to account for Node 6 support being removed. [@kellyselden](https://github.com/kellyselden)
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+
+## v3.10.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0...v3.10.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0...v3.10.0)
+
+#### Community Contributions
+
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+- [#8563](https://github.com/ember-cli/ember-cli/pull/8563) Drop Node 6 support [@Turbo87](https://github.com/Turbo87)
+- [#8566](https://github.com/ember-cli/ember-cli/pull/8566) Modernize `build-watch.js` and `build-watch-test.js` [@xg-wang](https://github.com/xg-wang)
+- [#8569](https://github.com/ember-cli/ember-cli/pull/8569) Modernize `bower-install-test.js` [@RichardOtvos](https://github.com/RichardOtvos)
+- [#8565](https://github.com/ember-cli/ember-cli/pull/8565) Modernize `git-init.js` and `git-init-test.js` [@xg-wang](https://github.com/xg-wang)
+- [#8572](https://github.com/ember-cli/ember-cli/pull/8572) Use eslint-plugin-node v8 in blueprints [@kellyselden](https://github.com/kellyselden)
+- [#8205](https://github.com/ember-cli/ember-cli/pull/8205) Run eslint-plugin-node on apps [@kellyselden](https://github.com/kellyselden)
+- [#8606](https://github.com/ember-cli/ember-cli/pull/8606) Modernize `models/instrumentation-test.js` [@Semeia-io](https://github.com/Semeia-io)
+- [#8607](https://github.com/ember-cli/ember-cli/pull/8607) Modernize `models/addon-test.js` [@Semeia-io](https://github.com/Semeia-io)
 - [#8462](https://github.com/ember-cli/ember-cli/pull/8462) blueprints: Update `ember-cli-eslint` to v5.1.0 [@Turbo87](https://github.com/Turbo87)
 - [#8461](https://github.com/ember-cli/ember-cli/pull/8461) blueprints: Update `ember-welcome-page` to v4.0.0 [@Turbo87](https://github.com/Turbo87)
 - [#8460](https://github.com/ember-cli/ember-cli/pull/8460) blueprints: Update `ember-qunit` to v4.4.1 [@Turbo87](https://github.com/Turbo87)
@@ -50,6 +86,18 @@ Thank you to all who took the time to contribute!
 
 Thank you to all who took the time to contribute!
 
+## v3.8.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.2...v3.8.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.2...v3.8.3)
+
+#### Community Contributions
+
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
 
 ## v3.8.2
 

@@ -21,7 +21,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^7.4.1"
+    "ember-cli-babel": "^7.7.3"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
@@ -41,17 +41,17 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit": "^4.4.1",
     "ember-resolver": "^5.0.1",
-    "ember-source": "~3.10.0-beta.1",
+    "ember-source": "~3.10.0",
     "ember-source-channel-url": "^1.1.0",
     "ember-try": "^1.0.0",
     "ember-welcome-page": "^4.0.0",
     "eslint-plugin-ember": "^6.2.0",
-    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-node": "^9.0.1",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.8.4"
   },
   "engines": {
-    "node": "6.* || 8.* || >= 10.*"
+    "node": "8.* || >= 10.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

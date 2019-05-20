@@ -523,11 +523,9 @@ describe('models/addon.js', function() {
     describe('blueprintsPath', function() {
       let tmpdir;
 
-      beforeEach(function() {
-        return mkTmpDirIn(tmproot).then(function(dir) {
-          tmpdir = dir;
-          addon.root = tmpdir;
-        });
+      beforeEach(async function() {
+        tmpdir = await mkTmpDirIn(tmproot);
+        addon.root = tmpdir;
       });
 
       afterEach(function() {
@@ -744,16 +742,15 @@ describe('models/addon.js', function() {
       }
     });
 
-    it('should move files in the root of the addons app/styles tree into the app/styles path', function() {
+    it('should move files in the root of the addons app/styles tree into the app/styles path', async function() {
       builder = new broccoli.Builder(addon.treeFor('styles'));
 
-      return builder.build().then(function(results) {
-        let outputPath = results.directory;
+      let results = await builder.build();
+      let outputPath = results.directory;
 
-        let expected = ['app/', 'app/styles/', 'app/styles/foo-bar.css'];
+      let expected = ['app/', 'app/styles/', 'app/styles/foo-bar.css'];
 
-        expect(walkSync(outputPath)).to.eql(expected);
-      });
+      expect(walkSync(outputPath)).to.eql(expected);
     });
   });
 

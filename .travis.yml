@@ -10,6 +10,7 @@ branches:
     - master
     - beta
     - release
+    - next
     # release branches
     - /^(?:release|lts)-\d+-\d+$/
     # npm version tags
@@ -36,8 +37,6 @@ jobs:
         - yarn test
 
     - stage: additional tests
-      name: Node.js 6
-      node_js: 6
 
     - name: Node.js 8
       node_js: 8
@@ -51,6 +50,9 @@ jobs:
 
     - env: NAME=NODE_11
       node_js: 11
+
+    - name: Node.js 12
+      node_js: 12
 
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true
