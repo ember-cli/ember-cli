@@ -172,8 +172,6 @@ module.exports = {
 
     '^addon-config/environment.js': 'config/environment.js',
     '^addon-config/ember-try.js': 'config/ember-try.js',
-
-    '^npmignore': '.npmignore',
   },
 
   fileMapper(path) {
