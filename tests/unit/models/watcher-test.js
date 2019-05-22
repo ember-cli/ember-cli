@@ -5,10 +5,12 @@ const expect = require('chai').expect;
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const MockWatcher = require('../../helpers/mock-watcher');
+const MockBroccoliWatcher = require('../../helpers/mock-broccoli-watcher');
 const Watcher = require('../../../lib/models/watcher');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
 const BuildError = require('../../helpers/build-error');
+const { isExperimentEnabled } = require('../../../lib/experiments');
 
 describe('Watcher', function() {
   let ui;
@@ -17,10 +19,37 @@ describe('Watcher', function() {
   let analytics;
   let watcher;
 
+  let mockResult = {
+    totalTime: 12344000000,
+    graph: {
+      __heimdall__: {
+        visitPreOrder(cb) {
+          return cb({
+            stats: {
+              time: {
+                self: 12344000000,
+              }
+            }
+          });
+        },
+        visitPostOrder() {
+
+        }
+      },
+    }
+  };
+
+  let buildEvent = isExperimentEnabled('BROCCOLI_WATCHER') ? 'buildSuccess' : 'change';
+
   beforeEach(function() {
     ui = new MockUI();
     analytics = new MockAnalytics();
-    watcher = new MockWatcher();
+
+    if (isExperimentEnabled('BROCCOLI_WATCHER')) {
+      watcher = new MockBroccoliWatcher();
+    } else {
+      watcher = new MockWatcher();
+    }
 
     subject = new Watcher({
       ui,
@@ -69,11 +98,19 @@ describe('Watcher', function() {
     });
   });
 
-  describe('watcher:change', function() {
-    beforeEach(function() {
-      watcher.emit('change', {
-        totalTime: 12344000000,
+  if (isExperimentEnabled('BROCCOLI_WATCHER')) {
+    describe('watcher:change', function() {
+      it('expects change event to be printed', function() {
+        subject.didChange('add', 'file.js');
+
+        expect(ui.output.trim()).to.equal('file added file.js');
       });
+    });
+  }
+
+  describe(`watcher:${buildEvent}`, function() {
+    beforeEach(function() {
+      watcher.emit(buildEvent, mockResult);
     });
 
     it('tracks events', function() {
@@ -101,14 +138,9 @@ describe('Watcher', function() {
     });
   });
 
+
   describe('output', function() {
     this.timeout(40000);
-
-    beforeEach(function() {
-      ui = new MockUI();
-      analytics = new MockAnalytics();
-      watcher = new MockWatcher();
-    });
 
     it('with ssl', function() {
       let subject = new Watcher({
@@ -134,9 +166,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild({
-        totalTime: 12344000000,
-      });
+      subject.didBuild(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on https://localhost:1337/`);
@@ -163,9 +193,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild({
-        totalTime: 12344000000,
-      });
+      subject.didBuild(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(
@@ -195,9 +223,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild({
-        totalTime: 12344000000,
-      });
+      subject.didBuild(mockResult);
 
       let output = ui.output.trim().split(EOL);
 
@@ -229,9 +255,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild({
-        totalTime: 12344000000,
-      });
+      subject.didBuild(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/`);
@@ -262,9 +286,7 @@ describe('Watcher', function() {
       subject.serveURL = function() {
         return `http://customurl.com/`;
       };
-      subject.didBuild({
-        totalTime: 12344000000,
-      });
+      subject.didBuild(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://customurl.com/`);
@@ -361,9 +383,7 @@ describe('Watcher', function() {
         stack: new Error().stack,
       });
 
-      watcher.emit('change', {
-        totalTime: 12344000000,
-      });
+      watcher.emit(buildEvent, mockResult);
     });
 
     it('log that the build was green', function() {
