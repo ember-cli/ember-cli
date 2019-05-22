@@ -11,6 +11,7 @@ const EOL = require('os').EOL;
 const chalk = require('chalk');
 const BuildError = require('../../helpers/build-error');
 const { isExperimentEnabled } = require('../../../lib/experiments');
+const buildEvent = isExperimentEnabled('BROCCOLI_WATCHER') ? 'buildSuccess' : 'change';
 
 describe('Watcher', function() {
   let ui;
@@ -38,8 +39,6 @@ describe('Watcher', function() {
       },
     }
   };
-
-  let buildEvent = isExperimentEnabled('BROCCOLI_WATCHER') ? 'buildSuccess' : 'change';
 
   beforeEach(function() {
     ui = new MockUI();
