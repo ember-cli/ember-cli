@@ -3,12 +3,6 @@
 const getChannelURL = require('ember-source-channel-url');
 
 module.exports = async function() {
-  let urls = await Promise.all([
-    getChannelURL('release'),
-    getChannelURL('beta'),
-    getChannelURL('canary')
-  ]);
-
   return {
     <% if (yarn) { %>useYarn: true,
     <% } %>scenarios: [
@@ -32,7 +26,7 @@ module.exports = async function() {
         name: 'ember-release',
         npm: {
           devDependencies: {
-            'ember-source': urls[0]
+            'ember-source': await getChannelURL('release')
           }
         }
       },
@@ -40,7 +34,7 @@ module.exports = async function() {
         name: 'ember-beta',
         npm: {
           devDependencies: {
-            'ember-source': urls[1]
+            'ember-source': await getChannelURL('beta')
           }
         }
       },
@@ -48,7 +42,7 @@ module.exports = async function() {
         name: 'ember-canary',
         npm: {
           devDependencies: {
-            'ember-source': urls[2]
+            'ember-source': await getChannelURL('canary')
           }
         }
       },
