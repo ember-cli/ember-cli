@@ -30,8 +30,7 @@ module.exports = {
         'tests/dummy/config/**/*.js'
       ],
       parserOptions: {
-        sourceType: 'script',
-        ecmaVersion: 2015
+        sourceType: 'script'
       },
       env: {
         browser: false,
