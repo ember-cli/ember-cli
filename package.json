@@ -110,7 +110,7 @@
     "portfinder": "^1.0.20",
     "promise-map-series": "^0.2.3",
     "quick-temp": "^0.1.8",
-    "resolve": "^1.10.1",
+    "resolve": "^1.11.0",
     "resolve-package-path": "^1.2.7",
     "rsvp": "^4.8.4",
     "sane": "^4.1.0",
