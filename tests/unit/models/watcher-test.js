@@ -29,15 +29,13 @@ describe('Watcher', function() {
             stats: {
               time: {
                 self: 12344000000,
-              }
-            }
+              },
+            },
           });
         },
-        visitPostOrder() {
-
-        }
+        visitPostOrder() {},
       },
-    }
+    },
   };
 
   beforeEach(function() {
@@ -137,7 +135,6 @@ describe('Watcher', function() {
     });
   });
 
-
   describe('output', function() {
     this.timeout(40000);
 
@@ -165,7 +162,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild(mockResult);
+      subject.didChange(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on https://localhost:1337/`);
@@ -192,7 +189,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild(mockResult);
+      subject.didChange(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(
@@ -222,7 +219,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild(mockResult);
+      subject.didChange(mockResult);
 
       let output = ui.output.trim().split(EOL);
 
@@ -254,7 +251,7 @@ describe('Watcher', function() {
         },
       });
 
-      subject.didBuild(mockResult);
+      subject.didChange(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://localhost:1337/`);
@@ -285,7 +282,7 @@ describe('Watcher', function() {
       subject.serveURL = function() {
         return `http://customurl.com/`;
       };
-      subject.didBuild(mockResult);
+      subject.didChange(mockResult);
 
       let output = ui.output.trim().split(EOL);
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on http://customurl.com/`);

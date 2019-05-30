@@ -5,9 +5,8 @@ const EventEmitter = require('events').EventEmitter;
 const path = require('path');
 
 class MockBroccoliWatcher extends EventEmitter {
-  start() {
+  start() {}
 
-  }
   then() {
     let promise = RSVP.resolve({
       directory: path.resolve(__dirname, '../fixtures/express-server'),
