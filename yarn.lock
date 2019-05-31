@@ -522,7 +522,7 @@ async@^1.5.2:
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
-async@^2.4.1, async@^2.5.0:
+async@^2.4.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
   integrity sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==
@@ -901,6 +901,11 @@ broccoli-node-info@1.1.0, broccoli-node-info@^1.1.0:
   resolved "https://registry.yarnpkg.com/broccoli-node-info/-/broccoli-node-info-1.1.0.tgz#3aa2e31e07e5bdb516dd25214f7c45ba1c459412"
   integrity sha1-OqLjHgflvbUW3SUhT3xFuhxFlBI=
 
+broccoli-node-info@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/broccoli-node-info/-/broccoli-node-info-2.0.0.tgz#652a7940ede40630b84ad009c6236f4bc548b556"
+  integrity sha512-xfnzPYdf8Uu3mfhEPkh3CX1suGHNNW4k3f730llzr4Dl7UXvI5T8RUb7X04BSvJfvqYTekM/JTmYrjB01WAsCg==
+
 broccoli-persistent-filter@^1.1.6:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/broccoli-persistent-filter/-/broccoli-persistent-filter-1.4.6.tgz#80762d19000880a77da33c34373299c0f6a3e615"
@@ -1008,12 +1013,37 @@ broccoli-test-helper@^2.0.0:
     tmp "^0.0.33"
     walk-sync "^0.3.3"
 
-broccoli@^2.0.0, broccoli@^2.3.0:
+broccoli@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-2.3.0.tgz#b3f71b2c3d02fc042988e208827a09c75dd7b350"
   integrity sha512-TeYMYlCGFK8EGk4Wce1G1uU3i52+YxRqP3WPOVDojC1zUk+Gi40wHBzUT2fncQZDl26dmCQMNugtHKjvUpcGQg==
   dependencies:
     broccoli-node-info "1.1.0"
+    broccoli-slow-trees "^3.0.1"
+    broccoli-source "^1.1.0"
+    commander "^2.15.1"
+    connect "^3.6.6"
+    esm "^3.2.4"
+    findup-sync "^2.0.0"
+    handlebars "^4.0.11"
+    heimdalljs "^0.2.6"
+    heimdalljs-logger "^0.1.9"
+    mime-types "^2.1.19"
+    promise.prototype.finally "^3.1.0"
+    resolve-path "^1.4.0"
+    rimraf "^2.6.2"
+    sane "^4.0.0"
+    tmp "0.0.33"
+    tree-sync "^1.2.2"
+    underscore.string "^3.2.2"
+    watch-detector "^0.1.0"
+
+broccoli@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.0.0.tgz#9b239bad111cf7c1d33a620c03e19f7a2d94a816"
+  integrity sha512-RcKIjIdFfRiwFR/KBcI0f1O6xtf/jBtISSQtMXYRH4Qn1Au6biGBXTf8btCgPnQJ1ABT7uZQNOzOZPoh5WFrRw==
+  dependencies:
+    broccoli-node-info "^2.0.0"
     broccoli-slow-trees "^3.0.1"
     broccoli-source "^1.1.0"
     commander "^2.15.1"
@@ -2898,18 +2928,7 @@ growly@^1.3.0:
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
 
-handlebars@^4.0.11, handlebars@^4.0.4:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.0.tgz#0d6a6f34ff1f63cecec8423aa4169827bf787c3a"
-  integrity sha512-l2jRuU1NAWK6AW5qqcTATWQJvNPEwkM7NEKSiv/gqOsoSQbVoWyqVEY5GS+XPQ88zLNmqASRpzfdm8d79hJS+w==
-  dependencies:
-    async "^2.5.0"
-    optimist "^0.6.1"
-    source-map "^0.6.1"
-  optionalDependencies:
-    uglify-js "^3.1.4"
-
-handlebars@^4.1.2:
+handlebars@^4.0.11, handlebars@^4.0.4, handlebars@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.2.tgz#b6b37c1ced0306b221e094fc7aca3ec23b131b67"
   integrity sha512-nvfrjqvt9xQ8Z/w0ijewdD/vvWDTOweBUm96NTr66Wfvo1mJenBLwcYmPs3TIBP5ruzYGD7Hx/DaM9RmhroGPw==
