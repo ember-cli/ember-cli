@@ -12,6 +12,7 @@ const Yam = require('yam');
 
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
+const hwinfo = require('../../../lib/models/hardware-info');
 const Instrumentation = require('../../../lib/models/instrumentation');
 
 const expect = chai.expect;
@@ -802,6 +803,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
       });
 
       it('computes rebuild summaries', function() {
@@ -837,6 +839,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
       });
     });
 
@@ -848,6 +851,7 @@ describe('models/instrumentation.js', function() {
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
       });
     });
 
@@ -861,6 +865,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.args).to.eql(['--like', '--whatever']);
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
       });
     });
 
@@ -872,6 +877,7 @@ describe('models/instrumentation.js', function() {
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
       });
     });
   });
