@@ -114,7 +114,7 @@
     "resolve-package-path": "^1.2.7",
     "rsvp": "^4.8.4",
     "sane": "^4.1.0",
-    "semver": "^6.0.0",
+    "semver": "^6.1.1",
     "silent-error": "^1.1.1",
     "sort-package-json": "^1.22.1",
     "symlink-or-copy": "^1.2.0",
