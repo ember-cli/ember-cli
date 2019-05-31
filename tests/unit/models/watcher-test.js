@@ -95,16 +95,6 @@ describe('Watcher', function() {
     });
   });
 
-  if (isExperimentEnabled('BROCCOLI_WATCHER')) {
-    describe('watcher:change', function() {
-      it('expects change event to be printed', function() {
-        subject.didChange('add', 'file.js');
-
-        expect(ui.output.trim()).to.equal('file added file.js');
-      });
-    });
-  }
-
   describe(`watcher:${buildEvent}`, function() {
     beforeEach(function() {
       watcher.emit(buildEvent, mockResult);
