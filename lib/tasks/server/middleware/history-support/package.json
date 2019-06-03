@@ -7,6 +7,7 @@
     "before": "broccoli-watcher"
   },
   "dependencies": {
-    "clean-base-url": "*"
+    "clean-base-url": "*",
+    "promise.prototype.finally": "*"
   }
 }
