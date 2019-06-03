@@ -803,7 +803,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
-        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo), 'collectionTime']);
       });
 
       it('computes rebuild summaries', function() {
@@ -839,7 +839,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.buildSteps).to.eql(2); // 2 uncached broccli nodes
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
-        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo), 'collectionTime']);
       });
     });
 
@@ -851,7 +851,7 @@ describe('models/instrumentation.js', function() {
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
-        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo), 'collectionTime']);
       });
     });
 
@@ -865,7 +865,7 @@ describe('models/instrumentation.js', function() {
         expect(summary.args).to.eql(['--like', '--whatever']);
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
-        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo), 'collectionTime']);
       });
     });
 
@@ -877,7 +877,7 @@ describe('models/instrumentation.js', function() {
 
         expect(summary.totalTime).to.be.within(0, 2000000); //2ms (in nanoseconds)
         expect(summary).to.have.nested.property('platform.name', process.platform);
-        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo)]);
+        expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo), 'collectionTime']);
       });
     });
   });
