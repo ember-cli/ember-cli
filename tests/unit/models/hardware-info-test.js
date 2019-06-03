@@ -250,17 +250,25 @@ describe('models/hardware-info.js', function() {
 
     describe('on macOS', function() {
       it('returns false when not on battery', function() {
-        td.replace(execa, 'sync', stdout(`Now drawing from 'AC Power'
+        td.replace(
+          execa,
+          'sync',
+          stdout(`Now drawing from 'AC Power'
 -InternalBattery-0 (id=5636195)	100%; charged; 0:00 remaining present: true
-`));
+`)
+        );
 
         expect(hwinfo.isUsingBattery('darwin')).to.be.false;
       });
 
       it('returns true when on battery', function() {
-        td.replace(execa, 'sync', stdout(`Now drawing from 'Battery Power'
+        td.replace(
+          execa,
+          'sync',
+          stdout(`Now drawing from 'Battery Power'
 -InternalBattery-0 (id=5636195)	100%; discharging; (no estimate) present: true
-`));
+`)
+        );
 
         expect(hwinfo.isUsingBattery('darwin')).to.be.true;
       });
@@ -328,25 +336,33 @@ describe('models/hardware-info.js', function() {
 
     describe('on Windows', function() {
       it('returns false when not on battery', function() {
-        td.replace(execa, 'sync', stdout(`
+        td.replace(
+          execa,
+          'sync',
+          stdout(`
 
 PowerOnline=TRUE
 
 
 
-`));
+`)
+        );
 
         expect(hwinfo.isUsingBattery('win32')).to.be.false;
       });
 
       it('returns true when on battery', function() {
-        td.replace(execa, 'sync', stdout(`
+        td.replace(
+          execa,
+          'sync',
+          stdout(`
 
 PowerOnline=FALSE
 
 
 
-`));
+`)
+        );
 
         expect(hwinfo.isUsingBattery('win32')).to.be.true;
       });
@@ -368,10 +384,14 @@ PowerOnline=FALSE
     });
 
     it('returns the expected value on FreeBSD', function() {
-      td.replace(execa, 'sync', stdout(`Device           1K-blocks     Used    Avail Capacity
+      td.replace(
+        execa,
+        'sync',
+        stdout(`Device           1K-blocks     Used    Avail Capacity
 /dev/gpt/swapfs1   1048576      837  1047739     0%
 /dev/gpt/swapfs2   1048576      985  1047591     0%
-`));
+`)
+      );
 
       expect(hwinfo.memorySwapUsed('freebsd')).to.equal(1865728);
     });
@@ -386,10 +406,14 @@ PowerOnline=FALSE
     });
 
     it('returns the expected value on Linux', function() {
-      td.replace(execa, 'sync', stdout(`              total        used        free      shared  buff/cache   available
+      td.replace(
+        execa,
+        'sync',
+        stdout(`              total        used        free      shared  buff/cache   available
 Mem:    67275370496  2743869440 41266409472  3447558144 23265091584 60482338816
 Swap:   67448598528   121593856 67327004672
-`));
+`)
+      );
 
       expect(hwinfo.memorySwapUsed('linux')).to.equal(121593856);
     });
@@ -404,8 +428,12 @@ Swap:   67448598528   121593856 67327004672
     });
 
     it('returns the expected value on macOS', function() {
-      td.replace(execa, 'sync', stdout(`vm.swapusage: total = 6144.00M  used = 4987.75M  free = 1156.25M  (encrypted)
-`));
+      td.replace(
+        execa,
+        'sync',
+        stdout(`vm.swapusage: total = 6144.00M  used = 4987.75M  free = 1156.25M  (encrypted)
+`)
+      );
 
       expect(hwinfo.memorySwapUsed('darwin')).to.equal(5230034944);
     });
@@ -420,10 +448,14 @@ Swap:   67448598528   121593856 67327004672
     });
 
     it('returns the expected value on OpenBSD', function() {
-      td.replace(execa, 'sync', stdout(`Device          512-blocks     Used    Avail Capacity
+      td.replace(
+        execa,
+        'sync',
+        stdout(`Device          512-blocks     Used    Avail Capacity
 /dev/gpt/swapfs1   1048576      837  1047739     0%
 /dev/gpt/swapfs2   1048576      985  1047591     0%
-`));
+`)
+      );
 
       expect(hwinfo.memorySwapUsed('openbsd')).to.equal(932864);
     });
@@ -438,13 +470,17 @@ Swap:   67448598528   121593856 67327004672
     });
 
     it('returns the expected value on Windows', function() {
-      td.replace(execa, 'sync', stdout(`
+      td.replace(
+        execa,
+        'sync',
+        stdout(`
 
 CurrentUsage=325
 
 
 
-`));
+`)
+      );
 
       expect(hwinfo.memorySwapUsed('win32')).to.equal(340787200);
     });
@@ -466,14 +502,8 @@ CurrentUsage=325
   });
 
   describe('.processorSpeed', function() {
-    it('averages the processors\' speeds', function() {
-      td.replace(os, 'cpus', () => [
-        { speed: 1 },
-        { speed: 2 },
-        { speed: 3 },
-        { speed: 4 },
-        { speed: 5 },
-      ]);
+    it("averages the processors' speeds", function() {
+      td.replace(os, 'cpus', () => [{ speed: 1 }, { speed: 2 }, { speed: 3 }, { speed: 4 }, { speed: 5 }]);
 
       expect(hwinfo.processorSpeed()).to.equal(3);
     });
