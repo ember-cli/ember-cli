@@ -95,6 +95,16 @@ describe('Watcher', function() {
     });
   });
 
+  describe.only('watcher:change', function() {
+    beforeEach(function() {
+      watcher.emit('change', 'foo.txt');
+    });
+
+    it('logs that the file was changed', function() {
+      expect(ui.output).to.equal(`file changed foo.txt${EOL}`);
+    });
+  });
+
   describe(`watcher:${buildEvent}`, function() {
     beforeEach(function() {
       watcher.emit(buildEvent, mockResult);
