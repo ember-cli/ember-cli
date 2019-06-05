@@ -343,6 +343,7 @@ describe('models/builder.js', function() {
           return Promise.resolve(buildResults);
         },
         project,
+        ui: project.ui,
       });
 
       buildResults = {
