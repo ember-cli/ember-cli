@@ -13,6 +13,63 @@ const calculateBaseTag = emberAppUtils.calculateBaseTag;
 const convertObjectToString = emberAppUtils.convertObjectToString;
 
 describe('ember-app-utils', function() {
+  describe(`rootURL`, function() {
+    it('`rootURL` regex accepts space-padded padded variation', function() {
+      const regex = configReplacePatterns()[0].match;
+      const variations = ['{{rootURL}}', '{{ rootURL }}', 'foo'];
+      const results = [];
+
+      variations.forEach(variation => {
+        const match = variation.match(regex);
+
+        if (match !== null) {
+          results.push(match[0]);
+        }
+      });
+
+      variations.pop();
+      expect(results).to.deep.equal(variations);
+    });
+  });
+
+  describe(`EMBER_ENV`, function() {
+    it('`EMBER_ENV` regex accepts space-padded padded variation', function() {
+      const regex = configReplacePatterns()[1].match;
+      const variations = ['{{EMBER_ENV}}', '{{ EMBER_ENV }}', 'foo'];
+      const results = [];
+
+      variations.forEach(variation => {
+        const match = variation.match(regex);
+
+        if (match !== null) {
+          results.push(match[0]);
+        }
+      });
+
+      variations.pop();
+      expect(results).to.deep.equal(variations);
+    });
+  });
+
+  describe(`MODULE_PREFIX`, function() {
+    it('`MODULE_PREFIX` regex accepts space-padded padded variation', function() {
+      const regex = configReplacePatterns()[3].match;
+      const variations = ['{{MODULE_PREFIX}}', '{{ MODULE_PREFIX }}', 'foo'];
+      const results = [];
+
+      variations.forEach(variation => {
+        const match = variation.match(regex);
+
+        if (match !== null) {
+          results.push(match[0]);
+        }
+      });
+
+      variations.pop();
+      expect(results).to.deep.equal(variations);
+    });
+  });
+
   describe(`contentFor`, function() {
     let config = {
       modulePrefix: 'cool-foo',
