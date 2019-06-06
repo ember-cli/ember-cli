@@ -98,7 +98,7 @@ describe('Watcher', function() {
   if (isExperimentEnabled('BROCCOLI_WATCHER')) {
     describe('watcher:change', function() {
       beforeEach(function() {
-        watcher.emit('change', 'foo.txt');
+        watcher.emit('change', 'change', 'foo.txt');
       });
 
       it('logs that the file was changed', function() {
