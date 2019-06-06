@@ -95,6 +95,23 @@ describe('Watcher', function() {
     });
   });
 
+  if (isExperimentEnabled('BROCCOLI_WATCHER')) {
+    describe('underlining watcher properly logs change events', function() {
+      it('logs that the file was added', function() {
+        watcher.emit('change', 'add', 'foo.txt');
+        expect(ui.output).to.equal(`file added foo.txt${EOL}`);
+      });
+      it('logs that the file was changed', function() {
+        watcher.emit('change', 'change', 'foo.txt');
+        expect(ui.output).to.equal(`file changed foo.txt${EOL}`);
+      });
+      it('logs that the file was deleted', function() {
+        watcher.emit('change', 'delete', 'foo.txt');
+        expect(ui.output).to.equal(`file deleted foo.txt${EOL}`);
+      });
+    });
+  }
+
   describe(`watcher:${buildEvent}`, function() {
     beforeEach(function() {
       watcher.emit(buildEvent, mockResult);
