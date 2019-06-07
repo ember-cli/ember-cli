@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const walkSync = require('walk-sync');
+const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
 const uniq = require('ember-cli-lodash-subset').uniq;
 const SilentError = require('silent-error');
@@ -101,6 +102,15 @@ module.exports = {
     }
 
     return new FileInfo(options);
+  },
+
+  beforeInstall() {
+    const version = require('../../package.json').version;
+    const prependEmoji = require('../../lib/utilities/prepend-emoji');
+
+    this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
+    this.ui.writeLine('');
+    this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
   },
 
   afterInstall() {
