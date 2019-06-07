@@ -1918,10 +1918,10 @@ ember-cli-string-utils@^1.1.0:
   resolved "https://registry.yarnpkg.com/ember-cli-string-utils/-/ember-cli-string-utils-1.1.0.tgz#39b677fc2805f55173735376fcef278eaa4452a1"
   integrity sha1-ObZ3/CgF9VFzc1N2/O8njqpEUqE=
 
-ember-source-channel-url@^1.1.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ember-source-channel-url/-/ember-source-channel-url-1.2.0.tgz#77eb9d0889e5f5370e6c70fcb2696c63ff4a34a1"
-  integrity sha512-CLClcHzVf+8GoFk4176R16nwXoel70bd7DKVAY6D8M0m5fJJhbTrAPYpDA0lY8A60HZo9j/s8A8LWiGh1YmdZg==
+ember-source-channel-url@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ember-source-channel-url/-/ember-source-channel-url-2.0.1.tgz#18b88f8a00b7746e7a456b3551abb3aea18729cc"
+  integrity sha512-YlLUHW9gNvxEaohIj5exykoTZb4xj9ZRTcR4J3svv9S8rjAHJUnHmqC5Fd9onCs+NGxHo7KwR/fDwsfadbDu5Q==
   dependencies:
     got "^8.0.1"
 
