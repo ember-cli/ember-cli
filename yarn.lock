@@ -1511,10 +1511,10 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
-console-ui@^3.0.2:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.0.4.tgz#1df0b003ea7b6adcda3d2f781f567b3b75ee7cbb"
-  integrity sha512-1obVCKinYE179hoPKnlHzJY5q1fQdiuiUXrYbTkZDTE+UXxGFMayxFzJjKN9GLfEkTo/rg6+Iqt+yGaOqc3GXQ==
+console-ui@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.1.0.tgz#cf74b01150c1034de729165180d848194880a179"
+  integrity sha512-OqPjE8pNAe9xWp1o4igdH8YrXl359ovUaYzS2avCdgVSWc9tJq5SYIw7893ybhfhGwrI6aljdHALoE9+gNaHMA==
   dependencies:
     chalk "^2.1.0"
     inquirer "^6"
