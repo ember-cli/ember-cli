@@ -1031,16 +1031,17 @@ broccoli@^2.0.0:
     underscore.string "^3.2.2"
     watch-detector "^0.1.0"
 
-broccoli@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.0.1.tgz#cc195edec5dfcc5f72fdfa4dae0e66696827ccc3"
-  integrity sha512-aht56W0YyjgDFXyWtxYD3pUBbgiHkyV9oRBx96nQXd4UB2PKvshA1LdzfVcrHn/sI4Prdg5lDl5U2t/K2XAjYQ==
+broccoli@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.1.0.tgz#5b4488f79a98bfc414f73cf8fa8f95b255e75a3e"
+  integrity sha512-ZoUYNixG7jNxFUzMZRQvmralJnmMHZbNbBbp21Bf9RTGMOfnMLe5POWSPI3v8PLx3eoDVPfCdUI3WVFreUKz8A==
   dependencies:
     broccoli-node-info "^2.0.0"
     broccoli-slow-trees "^3.0.1"
     broccoli-source "^1.1.0"
     commander "^2.15.1"
     connect "^3.6.6"
+    console-ui "^3.0.4"
     esm "^3.2.4"
     findup-sync "^2.0.0"
     handlebars "^4.0.11"
@@ -1511,7 +1512,7 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
-console-ui@^3.1.0:
+console-ui@^3.0.4, console-ui@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.1.0.tgz#cf74b01150c1034de729165180d848194880a179"
   integrity sha512-OqPjE8pNAe9xWp1o4igdH8YrXl359ovUaYzS2avCdgVSWc9tJq5SYIw7893ybhfhGwrI6aljdHALoE9+gNaHMA==
