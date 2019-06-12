@@ -1013,16 +1013,17 @@ broccoli@^2.0.0:
     underscore.string "^3.2.2"
     watch-detector "^0.1.0"
 
-broccoli@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.0.1.tgz#cc195edec5dfcc5f72fdfa4dae0e66696827ccc3"
-  integrity sha512-aht56W0YyjgDFXyWtxYD3pUBbgiHkyV9oRBx96nQXd4UB2PKvshA1LdzfVcrHn/sI4Prdg5lDl5U2t/K2XAjYQ==
+broccoli@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.1.1.tgz#29fb06448b700d32869eed3906209acde49c3c5a"
+  integrity sha512-0HxNoZWskUDDXj/tshN1svR40Fxrxdi8xoTHgn18OqnST9zuP8qMuJhlwo0SVQ/7z85V0RPiBagln5cZuPSgUQ==
   dependencies:
     broccoli-node-info "^2.0.0"
     broccoli-slow-trees "^3.0.1"
     broccoli-source "^1.1.0"
     commander "^2.15.1"
     connect "^3.6.6"
+    console-ui "^3.0.4"
     esm "^3.2.4"
     findup-sync "^2.0.0"
     handlebars "^4.0.11"
@@ -1493,6 +1494,17 @@ console-ui@^3.0.2:
     inquirer "^6"
     json-stable-stringify "^1.0.1"
     ora "^3.2.0"
+    through2 "^3.0.1"
+
+console-ui@^3.0.4:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.1.0.tgz#cf74b01150c1034de729165180d848194880a179"
+  integrity sha512-OqPjE8pNAe9xWp1o4igdH8YrXl359ovUaYzS2avCdgVSWc9tJq5SYIw7893ybhfhGwrI6aljdHALoE9+gNaHMA==
+  dependencies:
+    chalk "^2.1.0"
+    inquirer "^6"
+    json-stable-stringify "^1.0.1"
+    ora "^3.4.0"
     through2 "^3.0.1"
 
 consolidate@^0.15.1:
@@ -4836,7 +4848,7 @@ optionator@^0.8.2:
     type-check "~0.3.2"
     wordwrap "~1.0.0"
 
-ora@^3.2.0:
+ora@^3.2.0, ora@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/ora/-/ora-3.4.0.tgz#bf0752491059a3ef3ed4c85097531de9fdbcd318"
   integrity sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg==
