@@ -360,7 +360,7 @@ describe('Blueprint', function () {
       expect(output.shift()).to.match(/identical.* \.gitignore/);
       expect(output.shift()).to.match(/skip.* foo.txt/);
       expect(output.shift()).to.match(/overwrite.* test.txt/);
-      expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
+      expect(output.shift()).to.match(/delete.* file-to-remove.txt/);
       expect(output.length).to.equal(0);
 
       expect(actualFiles).to.deep.equal(basicBlueprintFilesAfterBasic2);
@@ -631,14 +631,14 @@ describe('Blueprint', function () {
       let actualFiles = walkSync(tmpdir);
       let output = ui.output.trim().split(EOL);
 
-      expect(output.shift()).to.match(/^uninstalling/);
-      expect(output.shift()).to.match(/remove.* .ember-cli/);
-      expect(output.shift()).to.match(/remove.* .gitignore/);
-      expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
-      expect(output.shift()).to.match(/remove.* bar/);
-      expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
-      expect(output.shift()).to.match(/remove.* foo.txt/);
-      expect(output.shift()).to.match(/remove.* test.txt/);
+      expect(output.shift()).to.match(/^deleting/);
+      expect(output.shift()).to.match(/delete.* .ember-cli/);
+      expect(output.shift()).to.match(/delete.* .gitignore/);
+      expect(output.shift()).to.match(/delete.* app[/\\]basics[/\\]mock-project.txt/);
+      expect(output.shift()).to.match(/delete.* bar/);
+      expect(output.shift()).to.match(/delete.* file-to-remove.txt/);
+      expect(output.shift()).to.match(/delete.* foo.txt/);
+      expect(output.shift()).to.match(/delete.* test.txt/);
       expect(output.length).to.equal(0);
 
       expect(actualFiles.length).to.equal(0);
@@ -667,10 +667,10 @@ describe('Blueprint', function () {
 
       await blueprint.uninstall(options);
       let output = ui.output.trim().split(EOL);
-      expect(output.shift()).to.match(/^uninstalling/);
-      expect(output.shift()).to.match(/remove.* .ember-cli/);
-      expect(output.shift()).to.match(/remove.* .gitignore/);
-      expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
+      expect(output.shift()).to.match(/^deleting/);
+      expect(output.shift()).to.match(/delete.* .ember-cli/);
+      expect(output.shift()).to.match(/delete.* .gitignore/);
+      expect(output.shift()).to.not.match(/delete.* app[/\\]basics[/\\]does-not-exist.txt/);
     });
   });
 
