@@ -1031,10 +1031,10 @@ broccoli@^2.0.0:
     underscore.string "^3.2.2"
     watch-detector "^0.1.0"
 
-broccoli@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.1.0.tgz#5b4488f79a98bfc414f73cf8fa8f95b255e75a3e"
-  integrity sha512-ZoUYNixG7jNxFUzMZRQvmralJnmMHZbNbBbp21Bf9RTGMOfnMLe5POWSPI3v8PLx3eoDVPfCdUI3WVFreUKz8A==
+broccoli@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.1.1.tgz#29fb06448b700d32869eed3906209acde49c3c5a"
+  integrity sha512-0HxNoZWskUDDXj/tshN1svR40Fxrxdi8xoTHgn18OqnST9zuP8qMuJhlwo0SVQ/7z85V0RPiBagln5cZuPSgUQ==
   dependencies:
     broccoli-node-info "^2.0.0"
     broccoli-slow-trees "^3.0.1"
