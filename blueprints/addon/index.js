@@ -51,6 +51,12 @@ module.exports = {
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
     delete contents.devDependencies['ember-cli-babel'];
 
+    // Move ember-cli-htmlbars into the dependencies of the addon blueprint by default
+    // to prevent error:
+    // `Addon templates were detected but there are no template compilers registered for (addon-name)`
+    contents.dependencies['ember-cli-htmlbars'] = contents.devDependencies['ember-cli-htmlbars'];
+    delete contents.devDependencies['ember-cli-htmlbars'];
+
     // 99% of addons don't need ember-data, make it opt-in instead
     delete contents.devDependencies['ember-data'];
 

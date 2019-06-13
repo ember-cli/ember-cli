@@ -125,6 +125,22 @@ describe('blueprint - addon', function() {
         expect(json.devDependencies).to.not.have.property('ember-cli-babel');
       });
 
+      it('moves `ember-cli-htmlbars` from devDependencies to dependencies', function() {
+        let output = blueprint.updatePackageJson(
+          JSON.stringify({
+            devDependencies: {
+              'ember-cli-htmlbars': '1.0.0',
+            },
+          })
+        );
+
+        let json = JSON.parse(output);
+        expect(json.dependencies).to.deep.equal({
+          'ember-cli-htmlbars': '1.0.0',
+        });
+        expect(json.devDependencies).to.not.have.property('ember-cli-htmlbars');
+      });
+
       it('does not push multiple `ember-addon` keywords', function() {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
