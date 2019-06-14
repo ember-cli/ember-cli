@@ -21,7 +21,8 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^7.7.3"
+    "ember-cli-babel": "^7.7.3",
+    "ember-cli-htmlbars": "^3.0.1"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
@@ -29,7 +30,6 @@
     "ember-cli": "~<%= emberCLIVersion %>",
     "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-eslint": "^5.1.0",
-    "ember-cli-htmlbars": "^3.0.1",
     "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^1.8.2",
     "ember-cli-sri": "^2.1.1",
