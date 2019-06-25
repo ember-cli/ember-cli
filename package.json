@@ -140,7 +140,7 @@
     "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-internal-test-helpers": "^0.9.1",
     "eslint": "^5.16.0",
-    "eslint-config-prettier": "^5.0.0",
+    "eslint-config-prettier": "^5.1.0",
     "eslint-plugin-chai-expect": "^2.0.1",
     "eslint-plugin-mocha": "^5.3.0",
     "eslint-plugin-node": "^9.0.1",
