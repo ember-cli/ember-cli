@@ -209,4 +209,20 @@ describe('serve command', function() {
       expect(captor.value.proxyOutTimeout).to.equal(0, 'has correct outgoing proxy timeout option when not set');
     });
   });
+
+  it('throws a meaningful error when run outside the project', function() {
+    command.project.hasDependencies = function() {
+      return false;
+    };
+
+    command.project.isEmberCLIProject = function() {
+      return false;
+    };
+
+    command.isWithinProject = false;
+
+    return expect(command.validateAndRun(['--port', '0'])).to.be.rejected.then(error => {
+      expect(error.message).to.match(/You have to be inside an ember-cli project/);
+    });
+  });
 });
