@@ -8234,10 +8234,10 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-testdouble@^3.11.0, testdouble@^3.2.6:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.11.0.tgz#17d3c3afa21acd2e8144c86f8a0708d49a81a695"
-  integrity sha512-hmF04fDUiTHy8yVQx6mucpOeyH5qElb3UtMos4xWZtJR2MsS/nzLEN+5wQ4QiGS4TV1X32eMSzLgh53uKg9ufA==
+testdouble@^3.12.1, testdouble@^3.2.6:
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.12.1.tgz#2cbf69ac9695b38bd93ca4e0322a25d96a5a1ecd"
+  integrity sha512-xbu7xmk0TZe43zkj4GjOym5imTZBBCuga0IpXqQ93YSFo6/RoyqIzFr0M6CLA1PtWr97wYXcPOcCzui+aD9jpQ==
   dependencies:
     lodash "^4.17.11"
     quibble "^0.5.5"
