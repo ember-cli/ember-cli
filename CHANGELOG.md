@@ -1,16 +1,11 @@
 # ember-cli Changelog
 
-## v3.11.0-beta.2 and v3.11.0-beta.3
+## v3.11.0
 
-The following changes are required if you are upgrading from the previous
-version:
+#### Blueprint Changes
 
-- Users
-  + Upgrade your project's ember-cli version - [docs](https://ember-cli.com/user-guide/#upgrading)
-- Addon Developers
-  + No changes required
-- Core Contributors
-  + No changes required
+- [`ember new` diff](https://github.com/stefanpenner/ember-new-output/compare/v3.10.0...v3.11.0)
+- [`ember addon` diff](https://github.com/stefanpenner/ember-addon-output/compare/v3.10.0...v3.11.0)
 
 #### Community Contributions
 
@@ -22,21 +17,11 @@ version:
 - [#8675](https://github.com/stefanpenner/stefanpenner/pull/8675) [beta] Gather hardware information when creating instrumentation summaries. [@stefanpenner](https://github.com/stefanpenner)
 - [#8679](https://github.com/stefanpenner/stefanpenner/pull/8679) Adding change logging for backwards compatibility [@thoov](https://github.com/thoov)
 - [#8680](https://github.com/stefanpenner/stefanpenner/pull/8680) [Fixes #8677] ensure watcher parity [@stefanpenner](https://github.com/stefanpenner)
-
-Thank you to all who took the time to contribute!
-
-## v3.11.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/stefanpenner/ember-new-output/compare/v3.10.0...v3.11.0-beta.1)
-- [`ember addon` diff](https://github.com/stefanpenner/ember-addon-output/compare/v3.10.0...v3.11.0-beta.1)
-
-#### Community Contributions
-
 - [#8595](https://github.com/stefanpenner/stefanpenner/pull/8595) `Project#config` should use `EMBER_ENV` as default environment when none is passed in [@nlfurniss](https://github.com/nlfurniss)
 - [#8604](https://github.com/stefanpenner/ember-cli/pull/8604) CONTRIBUTING: Clarify the way to start working on the repo. [@MonsieurDart](https://github.com/MonsieurDart)
 - [#8621](https://github.com/ember-cli/ember-cli/pull/8621) project.findAddonByName was intended to be public [@stefanpenner](https://github.com/stefanpenner)
+- [#8697](https://github.com/ember-cli/ember-cli/pull/8697) Update to Broccoli 3.1. [@thoov](https://github.com/thoov)
+- [#8692](https://github.com/ember-cli/ember-cli/pull/8692) Allow `prettier` usage on `app/index.html` [@lougreenwood](https://github.com/lougreenwood)
 
 Thank you to all who took the time to contribute!
 
