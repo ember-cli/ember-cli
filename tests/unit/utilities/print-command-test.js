@@ -84,4 +84,25 @@ describe('printCommand', function() {
 
     expect(output).to.equal(testString);
   });
+
+  it('quotes empty strings', function() {
+    let output = printCommand.call({
+      availableOptions: [
+        {
+          name: 'type',
+          type: ['', 'foo', 'bar'], // setting to empty string is allowed
+          default: '',
+          aliases: [{ 'no-type': '' }],
+        },
+      ],
+      anonymousOptions: [],
+    });
+
+    let testString = processHelpString(`\
+ \u001b[36m<options...>\u001b[39m${EOL}\
+  \u001b[36m--type\u001b[39m \u001b[36m("", foo, bar)\u001b[39m \u001b[36m(Default: "")\u001b[39m${EOL}\
+    \u001b[90maliases: --no-type (--type="")\u001b[39m`);
+
+    expect(output).to.equal(testString);
+  });
 });
