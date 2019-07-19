@@ -1,3 +1,7 @@
+'use strict';
+
+const path = require('path');
+
 module.exports = {
   root: true,
   parserOptions: {
@@ -46,6 +50,28 @@ module.exports = {
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
         // add your custom rules and overrides for node files here
       })
+    },
+
+    {
+      files: ['vendor/**/*.js'],
+      parserOptions: {
+        ecmaVersion: 5,
+        sourceType: 'script'
+      },
+      env: {
+        amd: true
+      },
+      globals: {
+        Ember: 'readonly'
+      },
+      rules: Object.keys(Object.assign({},
+        // eslint-disable-next-line node/no-extraneous-require
+        require(path.resolve(path.dirname(require.resolve('eslint')), '../conf/eslint-recommended')).rules,
+        require('eslint-plugin-ember').configs.recommended.rules
+      )).reduce((rules, rule) => {
+        rules[rule] = 'off';
+        return rules;
+      }, {})
     }
   ]
 };
