@@ -4777,7 +4777,7 @@ lodash.values@~2.3.0:
   dependencies:
     lodash.keys "~2.3.0"
 
-lodash@^4.0.0, lodash@^4.16.1, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.2, lodash@^4.17.5:
+lodash@^4.0.0, lodash@^4.16.1, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.5:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -6088,13 +6088,13 @@ query-string@^5.0.1:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-quibble@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/quibble/-/quibble-0.5.5.tgz#669fb731520a923e0a98f8076b7eb55e409f73f9"
-  integrity sha512-cIePu3BtGlaTW1bjFgBcLT6QMxD8PtnZDCmPJUzO+RepIz8GuXsmZIEPGFjlPxzG9zfIj4nNLPxBDlUbvr9ESg==
+quibble@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/quibble/-/quibble-0.5.6.tgz#f692fcf22dc8da832b212cde9b11fe88296bd582"
+  integrity sha512-nAqsl6RxhWK36grfglqEXC0ihA3Q+DaCKeqJti/uz8CpiE92590hx3TRob+z89udYqj3PoUpQvjW77T1IR70mw==
   dependencies:
-    lodash "^4.17.2"
-    resolve "^1.7.1"
+    lodash "^4.17.14"
+    resolve "^1.11.1"
 
 quick-temp@^0.1.2, quick-temp@^0.1.3, quick-temp@^0.1.5, quick-temp@^0.1.8:
   version "0.1.8"
@@ -6389,7 +6389,7 @@ resolve-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
 
-resolve@^1.1.6, resolve@^1.1.7, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.0, resolve@^1.11.1, resolve@^1.3.2, resolve@^1.4.0, resolve@^1.7.1:
+resolve@^1.1.6, resolve@^1.1.7, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.0, resolve@^1.11.1, resolve@^1.3.2, resolve@^1.4.0:
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.11.1.tgz#ea10d8110376982fef578df8fc30b9ac30a07a3e"
   integrity sha512-vIpgF6wfuJOZI7KKKSP+HmiKggadPQAdsp5HiC1mvqnfp0gF1vdwgBWZIdrVft9pgqoMFQN+R7BSWZiBxx+BBw==
@@ -7110,13 +7110,13 @@ test-exclude@^5.2.3:
     read-pkg-up "^4.0.0"
     require-main-filename "^2.0.0"
 
-testdouble@^3.12.1, testdouble@^3.2.6:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.12.1.tgz#2cbf69ac9695b38bd93ca4e0322a25d96a5a1ecd"
-  integrity sha512-xbu7xmk0TZe43zkj4GjOym5imTZBBCuga0IpXqQ93YSFo6/RoyqIzFr0M6CLA1PtWr97wYXcPOcCzui+aD9jpQ==
+testdouble@^3.12.2, testdouble@^3.2.6:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-3.12.2.tgz#a70c11cc83f1396a91f120cf8d0a3037aeb83f37"
+  integrity sha512-+K1+JZZZUYFkeiIbNWDUVpyTrtYzNLHc8nRXADCvQ70913DA/xGgRkE+mWEbyZQTBRH5c5aVR4YjXvCY4hnT3w==
   dependencies:
-    lodash "^4.17.11"
-    quibble "^0.5.5"
+    lodash "^4.17.14"
+    quibble "^0.5.6"
     stringify-object-es5 "^2.5.0"
     theredoc "^1.0.0"
 
