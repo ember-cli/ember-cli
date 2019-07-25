@@ -1,12 +1,9 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const ServeTask = require('../../../lib/tasks/serve');
 const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
-
-const Promise = RSVP.Promise;
 
 describe('serve task', function() {
   let task, ui;
@@ -43,7 +40,9 @@ describe('serve task', function() {
 
     let _watcher = {};
     let _expressServer = {
-      start() { return Promise.resolve(); },
+      start() {
+        return Promise.resolve();
+      },
     };
     let _liveReloadServer = _expressServer;
 
@@ -66,26 +65,28 @@ describe('serve task', function() {
 
   describe('run with path', function() {
     it(`Throws error if path doesn't exist`, function() {
-      expect(runServeTask.bind(this, 'xyz')).to.throw('The path xyz does not exist. Please specify a valid build directory to serve.');
+      expect(runServeTask.bind(this, 'xyz')).to.throw(
+        'The path xyz does not exist. Please specify a valid build directory to serve.'
+      );
     });
 
-    it(`Serves ember app from given path`, function() {
+    it(`Serves ember app from given path`, async function() {
       runServeTask('docs');
-      return RSVP.resolve().then(() => {
-        expect(ui.output).to.be.contains('– Serving on');
-      });
+
+      await Promise.resolve();
+      expect(ui.output).to.be.contains('– Serving on');
     });
   });
 
   describe('onInterrupt', function() {
-    it('fulfills the run promise and cleans up the builder', function() {
+    it('fulfills the run promise and cleans up the builder', async function() {
       let servePromise = runServeTask();
 
-      RSVP.resolve().then(() => task.onInterrupt());
+      await Promise.resolve();
+      task.onInterrupt();
 
-      return servePromise.then(() => {
-        expect(ui.output).to.include('cleaning up...');
-      });
+      await servePromise;
+      expect(ui.output).to.include('cleaning up...');
     });
   });
 });

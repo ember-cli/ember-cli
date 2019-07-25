@@ -7,10 +7,10 @@ addons:
 
 branches:
   only:
-    - auto
     - master
     - beta
     - release
+    - next
     # release branches
     - /^(?:release|lts)-\d+-\d+$/
     # npm version tags
@@ -29,24 +29,18 @@ stages:
     if: type IN (push) AND branch = release
 
 jobs:
-  fail_fast: true
-
   include:
-
     - stage: basic test
-      env: NAME=test # used only to make Travis UI show description
+      name: Basic Tests
       script:
         - yarn lint
         - yarn test
 
     - stage: additional tests
-      env: NAME=NODE_6
-      node_js: 6
-
-    - env: NAME=NODE_8
+      name: Node.js 8
       node_js: 8
 
-    - env: NAME=NODE_10
+    - name: Node.js 10
       node_js: 10
       script:
         - yarn test:cover
@@ -56,14 +50,22 @@ jobs:
     - env: NAME=NODE_11
       node_js: 11
 
+    - name: Node.js 12
+      node_js: 12
+
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true
     - env: EMBER_CLI_MODULE_UNIFICATION=true
     - env: EMBER_CLI_DELAYED_TRANSPILATION=true
     - env: EMBER_CLI_SYSTEM_TEMP=false
+    - env: EMBER_CLI_BROCCOLI_WATCHER=true
 
     - stage: deploy
-      script: ./.travis/deploy.sh
+      name: Publish API Docs
+      script: skip
+      deploy:
+        provider: script
+        script: ./.travis/deploy.sh
 
 before_install:
   # prevent the npm loading indicator

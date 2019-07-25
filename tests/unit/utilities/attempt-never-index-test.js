@@ -2,7 +2,7 @@
 
 const attemptNeverIndex = require('../../../lib/utilities/attempt-never-index');
 const quickTemp = require('quick-temp');
-let isDarwin = (/darwin/i).test(require('os').type());
+let isDarwin = /darwin/i.test(require('os').type());
 
 const chai = require('../../chai');
 let expect = chai.expect;

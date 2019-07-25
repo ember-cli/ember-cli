@@ -15,27 +15,25 @@ describe('Acceptance: ember generate and destroy lib', function() {
     cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
-  it('lib foo', function() {
+  it('lib foo', async function() {
     let args = ['lib', 'foo'];
 
-    return emberNew()
-      .then(() => emberGenerateDestroy(args, file => {
-        expect(dir('lib')).to.exist;
-        expect(file('lib/.eslintrc.js')).to.not.exist;
-        expect(file('lib/.jshintrc')).to.not.exist;
-      }));
+    await emberNew();
+    await emberGenerateDestroy(args, file => {
+      expect(dir('lib')).to.exist;
+      expect(file('lib/.eslintrc.js')).to.not.exist;
+      expect(file('lib/.jshintrc')).to.not.exist;
+    });
   });
 
-  it('lib foo with ember-cli-jshint', function() {
+  it('lib foo with ember-cli-jshint', async function() {
     let args = ['lib', 'foo'];
 
-    return emberNew()
-      .then(() => modifyPackages([
-        { name: 'ember-cli-jshint', dev: true },
-      ]))
-      .then(() => emberGenerateDestroy(args, file => {
-        expect(dir('lib')).to.exist;
-        expect(file('lib/.jshintrc')).to.not.exist;
-      }));
+    await emberNew();
+    await modifyPackages([{ name: 'ember-cli-jshint', dev: true }]);
+    await emberGenerateDestroy(args, file => {
+      expect(dir('lib')).to.exist;
+      expect(file('lib/.jshintrc')).to.not.exist;
+    });
   });
 });

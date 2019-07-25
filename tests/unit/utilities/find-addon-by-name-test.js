@@ -13,30 +13,37 @@ describe('findAddonByName', function() {
     console.warn = message => consoleOutput.push(['warn', message]);
     console.trace = message => consoleOutput.push(['trace', message]);
 
-    addons = [{
-      name: 'foo',
-      root: 'node_modules/foo',
-      pkg: { name: 'foo' },
-    }, {
-      pkg: { name: 'bar-pkg' },
-      root: 'node_modules/bar-pkg',
-    }, {
-      name: 'foo-bar',
-      root: 'node_modules/foo-bar',
-      pkg: { name: 'foo-bar' },
-    }, {
-      name: '@scoped/foo-bar',
-      root: 'node_modules/@scoped/foo-bar',
-      pkg: { name: '@scoped/foo-bar' },
-    }, {
-      name: 'thing',
-      root: 'node_modules/@scoped/thing',
-      pkg: { name: '@scope/thing' },
-    }, {
-      name: '@scoped/other',
-      root: 'node_modules/@scoped/other',
-      pkg: { name: '@scoped/other' },
-    }];
+    addons = [
+      {
+        name: 'foo',
+        root: 'node_modules/foo',
+        pkg: { name: 'foo' },
+      },
+      {
+        pkg: { name: 'bar-pkg' },
+        root: 'node_modules/bar-pkg',
+      },
+      {
+        name: 'foo-bar',
+        root: 'node_modules/foo-bar',
+        pkg: { name: 'foo-bar' },
+      },
+      {
+        name: '@scoped/foo-bar',
+        root: 'node_modules/@scoped/foo-bar',
+        pkg: { name: '@scoped/foo-bar' },
+      },
+      {
+        name: 'thing',
+        root: 'node_modules/@scoped/thing',
+        pkg: { name: '@scope/thing' },
+      },
+      {
+        name: '@scoped/other',
+        root: 'node_modules/@scoped/other',
+        pkg: { name: '@scoped/other' },
+      },
+    ];
   });
 
   afterEach(function() {
@@ -62,7 +69,7 @@ describe('findAddonByName', function() {
     expect(consoleOutput).to.deep.equal([]);
   });
 
-  it('should return null if addon doesn\'t exist', function() {
+  it("should return null if addon doesn't exist", function() {
     let addon = findAddonByName(addons, 'not-an-addon');
     expect(addon).to.equal(null, 'not found addon should be null');
     expect(consoleOutput).to.deep.equal([]);
@@ -90,7 +97,10 @@ describe('findAddonByName', function() {
     let addon = findAddonByName(addons, 'other');
     expect(addon.pkg.name).to.equal('@scoped/other');
     expect(consoleOutput).to.deep.equal([
-      ['trace', 'Finding a scoped addon via its unscoped name is deprecated. You searched for `other` which we found as `@scoped/other` in \'node_modules/@scoped/other\''],
+      [
+        'trace',
+        "Finding a scoped addon via its unscoped name is deprecated. You searched for `other` which we found as `@scoped/other` in 'node_modules/@scoped/other'",
+      ],
     ]);
   });
 
@@ -105,7 +115,10 @@ describe('findAddonByName', function() {
     expect(addon.pkg.name).to.equal('@scoped/other');
 
     expect(consoleOutput).to.deep.equal([
-      ['trace', 'Finding a scoped addon via its unscoped name is deprecated. You searched for `other` which we found as `@scoped/other` in \'node_modules/@scoped/other\''],
+      [
+        'trace',
+        "Finding a scoped addon via its unscoped name is deprecated. You searched for `other` which we found as `@scoped/other` in 'node_modules/@scoped/other'",
+      ],
     ]);
   });
 
@@ -119,7 +132,10 @@ describe('findAddonByName', function() {
     let addon = findAddonByName(addons, 'thing');
     expect(addon.pkg.name).to.equal('@scope/thing');
     expect(consoleOutput).to.deep.equal([
-      ['warn', 'The addon at `node_modules/@scoped/thing` has different values in its addon index.js (\'thing\') and its package.json (\'@scope/thing\').'],
+      [
+        'warn',
+        "The addon at `node_modules/@scoped/thing` has different values in its addon index.js ('thing') and its package.json ('@scope/thing').",
+      ],
     ]);
   });
 
@@ -137,7 +153,10 @@ describe('findAddonByName', function() {
     expect(addon.pkg.name).to.equal('@scope/thing');
 
     expect(consoleOutput).to.deep.equal([
-      ['warn', 'The addon at `node_modules/@scoped/thing` has different values in its addon index.js (\'thing\') and its package.json (\'@scope/thing\').'],
+      [
+        'warn',
+        "The addon at `node_modules/@scoped/thing` has different values in its addon index.js ('thing') and its package.json ('@scope/thing').",
+      ],
     ]);
   });
 });

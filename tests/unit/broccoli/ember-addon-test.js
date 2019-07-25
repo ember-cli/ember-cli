@@ -31,27 +31,30 @@ describe('EmberAddon', function() {
   });
 
   it('should merge options with defaults to depth', function() {
-    emberAddon = new EmberAddon({
-      project,
-      foo: {
-        bar: ['baz'],
-      },
-      fooz: {
-        bam: {
-          boo: ['default'],
+    emberAddon = new EmberAddon(
+      {
+        project,
+        foo: {
+          bar: ['baz'],
+        },
+        fooz: {
+          bam: {
+            boo: ['default'],
+          },
         },
       },
-    }, {
-      foo: {
-        bar: ['bizz'],
-      },
-      fizz: 'fizz',
-      fooz: {
-        bam: {
-          boo: ['custom'],
+      {
+        foo: {
+          bar: ['bizz'],
         },
-      },
-    });
+        fizz: 'fizz',
+        fooz: {
+          bam: {
+            boo: ['custom'],
+          },
+        },
+      }
+    );
 
     expect(emberAddon.options.foo).to.deep.eql({
       bar: ['bizz'],

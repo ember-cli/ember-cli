@@ -11,7 +11,6 @@ module.exports = Object.assign({}, addonBlueprint, {
     '^addon-src/.gitkeep': 'src/.gitkeep',
   }),
 
-
   locals(options) {
     return getURLFor('canary').then(url => {
       let result = addonBlueprint.locals(options);

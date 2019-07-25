@@ -6,9 +6,7 @@ const isPackageMissing = require('ember-cli-is-package-missing');
 module.exports = {
   description: 'Generates a mock api endpoint in /api prefix.',
 
-  anonymousOptions: [
-    'endpoint-path',
-  ],
+  anonymousOptions: ['endpoint-path'],
 
   locals(options) {
     return {
@@ -28,9 +26,7 @@ module.exports = {
 
   afterInstall(options) {
     if (!options.dryRun && isPackageMissing(this, 'express')) {
-      return this.addPackagesToProject([
-        { name: 'express', target: '^4.8.5' },
-      ]);
+      return this.addPackagesToProject([{ name: 'express', target: '^4.8.5' }]);
     }
   },
 };

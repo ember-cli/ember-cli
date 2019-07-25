@@ -27,12 +27,14 @@ let tmpPath = './tmp/init-test';
 describe('Acceptance: ember init', function() {
   this.timeout(20000);
 
-  beforeEach(co.wrap(function *() {
-    Blueprint.ignoredFiles = defaultIgnoredFiles;
+  beforeEach(
+    co.wrap(function*() {
+      Blueprint.ignoredFiles = defaultIgnoredFiles;
 
-    yield tmp.setup(tmpPath);
-    process.chdir(tmpPath);
-  }));
+      yield tmp.setup(tmpPath);
+      process.chdir(tmpPath);
+    })
+  );
 
   afterEach(function() {
     return tmp.teardown(tmpPath);
@@ -55,8 +57,10 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected)
-      .to.deep.equal(actual, `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`);
+    expect(expected).to.deep.equal(
+      actual,
+      `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`
+    );
   }
 
   function confirmGlobBlueprinted(pattern) {
@@ -72,22 +76,26 @@ describe('Acceptance: ember init', function() {
 
     expected.sort();
 
-    expect(expected)
-      .to.deep.equal(actual, `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`);
+    expect(expected).to.deep.equal(
+      actual,
+      `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`
+    );
   }
 
   function pickSync(filePath, pattern) {
-    return glob.sync(path.join('**', pattern), {
-      cwd: filePath,
-      dot: true,
-      mark: true,
-      strict: true,
-    }).sort();
+    return glob
+      .sync(path.join('**', pattern), {
+        cwd: filePath,
+        dot: true,
+        mark: true,
+        strict: true,
+      })
+      .sort();
   }
 
   function removeTmp(array) {
     remove(array, function(entry) {
-      return (/^tmp[\\/]$/).test(entry);
+      return /^tmp[\\/]$/.test(entry);
     });
   }
   function removeIgnored(array) {
@@ -100,127 +108,92 @@ describe('Acceptance: ember init', function() {
     });
   }
 
-  it('ember init', co.wrap(function *() {
-    yield ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    'ember init',
+    co.wrap(function*() {
+      yield ember(['init', '--skip-npm', '--skip-bower']);
 
-    confirmBlueprinted();
-  }));
+      confirmBlueprinted();
+    })
+  );
 
-  it('init an already init\'d folder', co.wrap(function *() {
-    yield ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    "init an already init'd folder",
+    co.wrap(function*() {
+      yield ember(['init', '--skip-npm', '--skip-bower']);
 
-    yield ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+      yield ember(['init', '--skip-npm', '--skip-bower']);
 
-    confirmBlueprinted();
-  }));
+      confirmBlueprinted();
+    })
+  );
 
-  it('init a single file', co.wrap(function *() {
-    yield ember([
-      'init',
-      'app.js',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    'init a single file',
+    co.wrap(function*() {
+      yield ember(['init', 'app.js', '--skip-npm', '--skip-bower']);
 
-    confirmGlobBlueprinted('app.js');
-  }));
+      confirmGlobBlueprinted('app.js');
+    })
+  );
 
-  it('init a single file on already init\'d folder', co.wrap(function *() {
-    yield ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    "init a single file on already init'd folder",
+    co.wrap(function*() {
+      yield ember(['init', '--skip-npm', '--skip-bower']);
 
-    yield ember([
-      'init',
-      'app.js',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+      yield ember(['init', 'app.js', '--skip-npm', '--skip-bower']);
 
-    confirmBlueprinted();
-  }));
+      confirmBlueprinted();
+    })
+  );
 
-  it('init multiple files by glob pattern', co.wrap(function *() {
-    yield ember([
-      'init',
-      'app/**',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    'init multiple files by glob pattern',
+    co.wrap(function*() {
+      yield ember(['init', 'app/**', '--skip-npm', '--skip-bower']);
 
-    confirmGlobBlueprinted('app/**');
-  }));
+      confirmGlobBlueprinted('app/**');
+    })
+  );
 
-  it('init multiple files by glob pattern on already init\'d folder', co.wrap(function *() {
-    yield ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    "init multiple files by glob pattern on already init'd folder",
+    co.wrap(function*() {
+      yield ember(['init', '--skip-npm', '--skip-bower']);
 
-    yield ember([
-      'init',
-      'app/**',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+      yield ember(['init', 'app/**', '--skip-npm', '--skip-bower']);
 
-    confirmBlueprinted();
-  }));
+      confirmBlueprinted();
+    })
+  );
 
-  it('init multiple files by glob patterns', co.wrap(function *() {
-    yield ember([
-      'init',
-      'app/**',
-      '{package,bower}.json',
-      'resolver.js',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    'init multiple files by glob patterns',
+    co.wrap(function*() {
+      yield ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm', '--skip-bower']);
 
-    confirmGlobBlueprinted('{app/**,{package,bower}.json,resolver.js}');
-  }));
+      confirmGlobBlueprinted('{app/**,{package,bower}.json,resolver.js}');
+    })
+  );
 
-  it('init multiple files by glob patterns on already init\'d folder', co.wrap(function *() {
-    yield ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    "init multiple files by glob patterns on already init'd folder",
+    co.wrap(function*() {
+      yield ember(['init', '--skip-npm', '--skip-bower']);
 
-    yield ember([
-      'init',
-      'app/**',
-      '{package,bower}.json',
-      'resolver.js',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+      yield ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm', '--skip-bower']);
 
-    confirmBlueprinted();
-  }));
+      confirmBlueprinted();
+    })
+  );
 
-  it('should not create .git folder', co.wrap(function *() {
-    yield ember([
-      'init',
-      '--skip-npm',
-      '--skip-bower',
-    ]);
+  it(
+    'should not create .git folder',
+    co.wrap(function*() {
+      yield ember(['init', '--skip-npm', '--skip-bower']);
 
-    expect(dir('.git')).to.not.exist;
-  }));
+      expect(dir('.git')).to.not.exist;
+    })
+  );
 });

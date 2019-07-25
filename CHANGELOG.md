@@ -1,28 +1,82 @@
 # ember-cli Changelog
 
-## v3.9.0-beta.2
+## v3.11.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0-beta.1...v3.9.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0-beta.1...v3.9.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.10.0...v3.11.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.10.0...v3.11.0)
 
 #### Community Contributions
 
-- [#8467](https://github.com/ember-cli/ember-cli/pull/8467) Ensure npm version is available during ember new / ember install foo. [@rwjblue](https://github.com/rwjblue)
+- [#8659](https://github.com/ember-cli/ember-cli/pull/8659) ecmaVersion 2015 is out of date [@kellyselden](https://github.com/kellyselden)
+- [#8660](https://github.com/ember-cli/ember-cli/pull/8660) start testing ember-lts-3.8 in ember-try [@kellyselden](https://github.com/kellyselden)
+- [#8662](https://github.com/ember-cli/ember-cli/pull/8662) use async/await in ember-try config [@kellyselden](https://github.com/kellyselden)
+- [#8664](https://github.com/ember-cli/ember-cli/pull/8664) fix README ember min version [@kellyselden](https://github.com/kellyselden)
+- [#8674](https://github.com/ember-cli/ember-cli/pull/8674) ensure we use Promise.prototype.finally polyfil for node 8 compat [@stefanpenner](https://github.com/stefanpenner)
+- [#8675](https://github.com/stefanpenner/stefanpenner/pull/8675) [beta] Gather hardware information when creating instrumentation summaries. [@stefanpenner](https://github.com/stefanpenner)
+- [#8679](https://github.com/stefanpenner/stefanpenner/pull/8679) Adding change logging for backwards compatibility [@thoov](https://github.com/thoov)
+- [#8680](https://github.com/stefanpenner/stefanpenner/pull/8680) [Fixes #8677] ensure watcher parity [@stefanpenner](https://github.com/stefanpenner)
+- [#8595](https://github.com/stefanpenner/stefanpenner/pull/8595) `Project#config` should use `EMBER_ENV` as default environment when none is passed in [@nlfurniss](https://github.com/nlfurniss)
+- [#8604](https://github.com/stefanpenner/ember-cli/pull/8604) CONTRIBUTING: Clarify the way to start working on the repo. [@MonsieurDart](https://github.com/MonsieurDart)
+- [#8621](https://github.com/ember-cli/ember-cli/pull/8621) project.findAddonByName was intended to be public [@stefanpenner](https://github.com/stefanpenner)
+- [#8697](https://github.com/ember-cli/ember-cli/pull/8697) Update to Broccoli 3.1. [@thoov](https://github.com/thoov)
+- [#8692](https://github.com/ember-cli/ember-cli/pull/8692) Allow `prettier` usage on `app/index.html` [@lougreenwood](https://github.com/lougreenwood)
+
+Thank you to all who took the time to contribute!
+
+## v3.10.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.10.0...v3.10.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.10.0...v3.10.1)
+
+#### Community Contributions
+
+- [#8645](https://github.com/ember-cli/ember-cli/pull/8645) Update addon and application blueprints to account for Node 6 support being removed. [@kellyselden](https://github.com/kellyselden)
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+
+## v3.10.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.9.0...v3.10.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.9.0...v3.10.0)
+
+#### Community Contributions
+
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+- [#8563](https://github.com/ember-cli/ember-cli/pull/8563) Drop Node 6 support [@Turbo87](https://github.com/Turbo87)
+- [#8566](https://github.com/ember-cli/ember-cli/pull/8566) Modernize `build-watch.js` and `build-watch-test.js` [@xg-wang](https://github.com/xg-wang)
+- [#8569](https://github.com/ember-cli/ember-cli/pull/8569) Modernize `bower-install-test.js` [@RichardOtvos](https://github.com/RichardOtvos)
+- [#8565](https://github.com/ember-cli/ember-cli/pull/8565) Modernize `git-init.js` and `git-init-test.js` [@xg-wang](https://github.com/xg-wang)
+- [#8572](https://github.com/ember-cli/ember-cli/pull/8572) Use eslint-plugin-node v8 in blueprints [@kellyselden](https://github.com/kellyselden)
+- [#8205](https://github.com/ember-cli/ember-cli/pull/8205) Run eslint-plugin-node on apps [@kellyselden](https://github.com/kellyselden)
+- [#8606](https://github.com/ember-cli/ember-cli/pull/8606) Modernize `models/instrumentation-test.js` [@Semeia-io](https://github.com/Semeia-io)
+- [#8607](https://github.com/ember-cli/ember-cli/pull/8607) Modernize `models/addon-test.js` [@Semeia-io](https://github.com/Semeia-io)
+- [#8462](https://github.com/ember-cli/ember-cli/pull/8462) blueprints: Update `ember-cli-eslint` to v5.1.0 [@Turbo87](https://github.com/Turbo87)
+- [#8461](https://github.com/ember-cli/ember-cli/pull/8461) blueprints: Update `ember-welcome-page` to v4.0.0 [@Turbo87](https://github.com/Turbo87)
+- [#8460](https://github.com/ember-cli/ember-cli/pull/8460) blueprints: Update `ember-qunit` to v4.4.1 [@Turbo87](https://github.com/Turbo87)
+- [#8396](https://github.com/ember-cli/ember-cli/pull/8396) blueprints: Update dependencies [@mistahenry](https://github.com/mistahenry)
+- [#8470](https://github.com/ember-cli/ember-cli/pull/8470) Remove obsolete `BROCCOLI_2` experiment [@Turbo87](https://github.com/Turbo87)
+- [#8469](https://github.com/ember-cli/ember-cli/pull/8469) Move all package related path resolution to `resolve-package-path` [@stefanpenner](https://github.com/stefanpenner)
+- [#8515](https://github.com/ember-cli/ember-cli/pull/8515) Corrected tiny typo in JSDoc [@rbarbey](https://github.com/rbarbey)
+- [#8517](https://github.com/ember-cli/ember-cli/pull/8517) Add `--output-path` to test command [@step2yeung](https://github.com/step2yeung)
+- [#8528](https://github.com/ember-cli/ember-cli/pull/8528) Ensure packager respects source map config when concatting [@stefanpenner](https://github.com/stefanpenner)
+- [#8540](https://github.com/ember-cli/ember-cli/pull/8540) Fixed broken npm link documentation link [@yohanmishkin](https://github.com/yohanmishkin)
 
 Thank you to all who took the time to contribute!
 
 
-## v3.9.0-beta.1
+## v3.9.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.0...v3.9.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.0...v3.9.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.2...v3.9.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.2...v3.9.0)
 
 #### Community Contributions
-
 
 - [#8444](https://github.com/ember-cli/ember-cli/pull/8444) Ensure Node 11 does not issue warning [@jeanduplessis](https://github.com/jeanduplessis)
 - [#8425](https://github.com/ember-cli/ember-cli/pull/8425) Update Broccoli website URL [@hakilebara](https://github.com/hakilebara)
@@ -39,6 +93,34 @@ Thank you to all who took the time to contribute!
 - [#8433](https://github.com/ember-cli/ember-cli/pull/8433) MU blueprints: enable `EMBER_MODULE_UNIFICATION` feature flag [@ppcano](https://github.com/ppcano)
 - [#8414](https://github.com/ember-cli/ember-cli/pull/8414) `preprocessTemplates` is called only once in MU layout [@ppcano](https://github.com/ppcano)
 - [#8434](https://github.com/ember-cli/ember-cli/pull/8434) Fix comment on the `environment.js` blueprint files [@ppcano](https://github.com/ppcano)
+
+Thank you to all who took the time to contribute!
+
+## v3.8.3
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.2...v3.8.3)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.2...v3.8.3)
+
+#### Community Contributions
+
+- [#8631](https://github.com/ember-cli/ember-cli/pull/8631) Add CI testing for Node 12. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
+## v3.8.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.8.1...v3.8.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.8.1...v3.8.2)
+
+#### Community Contributions
+
+- [#8482](https://github.com/ember-cli/ember-cli/pull/8482) Update `ember-ajax` in blueprints and tests [@boris-petrov](https://github.com/boris-petrov)
+- [#8370](https://github.com/ember-cli/ember-cli/pull/8370) Use `moduleName()` for templates [@pzuraq](https://github.com/pzuraq)
+- [#8556](https://github.com/ember-cli/ember-cli/pull/8556) Ensure packager respects source map config when concatting [@stefanpenner](https://github.com/stefanpenner)
 
 Thank you to all who took the time to contribute!
 

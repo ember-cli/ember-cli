@@ -17,7 +17,11 @@ describe('.ember-cli', function() {
   before(function() {
     ui = new MockUI();
     analytics = new MockAnalytics();
-    project = { isEmberCLIProject() { return true; } };
+    project = {
+      isEmberCLIProject() {
+        return true;
+      },
+    };
 
     homeSettings = {
       proxy: 'http://iamstef.net/ember-cli',

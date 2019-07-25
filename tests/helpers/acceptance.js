@@ -22,8 +22,12 @@ let runCommandOptions = {
 };
 
 function handleResult(result) {
-  if (result.output) { console.log(result.output.join('\n')); }
-  if (result.errors) { console.log(result.errors.join('\n')); }
+  if (result.output) {
+    console.log(result.output.join('\n'));
+  }
+  if (result.errors) {
+    console.log(result.errors.join('\n'));
+  }
   throw result;
 }
 
@@ -54,8 +58,9 @@ function createTestTargets(projectName, options) {
   options = options || {};
   options.command = options.command || 'new';
 
-  return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', `--directory=${outputDir}`)
-    .catch(handleResult);
+  return applyCommand(options.command, projectName, '--skip-npm', '--skip-bower', `--directory=${outputDir}`).catch(
+    handleResult
+  );
 }
 
 /**

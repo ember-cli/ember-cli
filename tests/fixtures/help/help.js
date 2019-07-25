@@ -166,7 +166,7 @@ module.exports = {
         {
           name: 'pod',
           default: false,
-          aliases: ['p'],
+          aliases: ['p', 'pods'],
           key: 'pod',
           required: false
         },
@@ -224,7 +224,7 @@ module.exports = {
         {
           name: 'pod',
           default: false,
-          aliases: ['p'],
+          aliases: ['p', 'pods'],
           key: 'pod',
           required: false
         },
@@ -826,6 +826,13 @@ module.exports = {
           description: 'A query string to append to the test page URL.',
           key: 'query',
           required: false
+        },
+        {
+          name: 'output-path',
+          aliases: ['o'],
+          key: 'outputPath',
+          required: false,
+          type: 'Path'
         }
       ],
       anonymousOptions: []

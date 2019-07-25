@@ -21,7 +21,9 @@ describe('analytics', function() {
     });
 
     let project = new MockProject();
-    project.isEmberCLIProject = function() { return true; };
+    project.isEmberCLIProject = function() {
+      return true;
+    };
 
     command = new FakeCommand({
       ui: new MockUI(),
@@ -34,9 +36,8 @@ describe('analytics', function() {
     command = null;
   });
 
-  it('track gets invoked on command.validateAndRun()', function() {
-    return command.validateAndRun([]).then(function() {
-      expect(called, 'expected analytics.track to be called').to.be.true;
-    });
+  it('track gets invoked on command.validateAndRun()', async function() {
+    await command.validateAndRun([]);
+    expect(called, 'expected analytics.track to be called').to.be.true;
   });
 });

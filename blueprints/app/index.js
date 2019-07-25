@@ -1,6 +1,7 @@
 'use strict';
 
 const stringUtil = require('ember-cli-string-utils');
+const chalk = require('chalk');
 
 module.exports = {
   description: 'The default blueprint for ember-cli projects.',
@@ -29,5 +30,14 @@ module.exports = {
       welcome: options.welcome,
       blueprint: 'app',
     };
+  },
+
+  beforeInstall() {
+    const version = require('../../package.json').version;
+    const prependEmoji = require('../../lib/utilities/prepend-emoji');
+
+    this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
+    this.ui.writeLine('');
+    this.ui.writeLine(prependEmoji('✨', `Creating a new Ember app in ${chalk.yellow(process.cwd())}:`));
   },
 };

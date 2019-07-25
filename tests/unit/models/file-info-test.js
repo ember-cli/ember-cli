@@ -17,7 +17,6 @@ let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
 describe('Unit - FileInfo', function() {
-
   let validOptions, ui, testOutputPath;
 
   beforeEach(function() {
@@ -31,9 +30,7 @@ describe('Unit - FileInfo', function() {
         action: 'write',
         outputPath: testOutputPath,
         displayPath: '/pretty-output-path',
-        inputPath: path.resolve(
-          __dirname,
-          '../../fixtures/blueprints/with-templating/files/foo.txt'),
+        inputPath: path.resolve(__dirname, '../../fixtures/blueprints/with-templating/files/foo.txt'),
         templateVariables: {},
         ui,
       };
@@ -52,8 +49,10 @@ describe('Unit - FileInfo', function() {
   // eslint-disable-next-line no-template-curly-in-string
   it('does not interpolate {{ }} or ${ }', function() {
     let options = {};
-    Object.assign(options, validOptions, { inputPath: path.resolve(__dirname,
-      '../../fixtures/file-info/interpolate.txt'), templateVariables: { name: 'tacocat' } });
+    Object.assign(options, validOptions, {
+      inputPath: path.resolve(__dirname, '../../fixtures/file-info/interpolate.txt'),
+      templateVariables: { name: 'tacocat' },
+    });
     let fileInfo = new FileInfo(options);
     return fileInfo.render().then(function(output) {
       // eslint-disable-next-line no-template-curly-in-string
@@ -66,8 +65,7 @@ describe('Unit - FileInfo', function() {
     let fileInfo = new FileInfo(validOptions);
 
     return fileInfo.render().then(function(output) {
-      expect(output.trim()).to.equal('Howdy Billy',
-        'expects the template to have been run');
+      expect(output.trim()).to.equal('Howdy Billy', 'expects the template to have been run');
     });
   });
 
@@ -85,25 +83,29 @@ describe('Unit - FileInfo', function() {
     fileInfo = new FileInfo(validOptions);
 
     return fileInfo.render().then(function(output) {
-      expect(output.trim()).to.equal('HOWDY BILLY',
-        'expects the template to have been run');
+      expect(output.trim()).to.equal('HOWDY BILLY', 'expects the template to have been run');
     });
   });
 
   it('rejects if templating throws', function() {
-    let templateWithUndefinedVariable = path.resolve(__dirname,
-      '../../fixtures/blueprints/with-templating/files/with-undefined-variable.txt');
+    let templateWithUndefinedVariable = path.resolve(
+      __dirname,
+      '../../fixtures/blueprints/with-templating/files/with-undefined-variable.txt'
+    );
     let options = {};
     Object.assign(options, validOptions, { inputPath: templateWithUndefinedVariable });
     let fileInfo = new FileInfo(options);
 
-    return fileInfo.render().then(function() {
-      throw new Error('FileInfo.render should reject if templating throws');
-    }).catch(function(e) {
-      if (!e.toString().match(/ReferenceError/)) {
-        throw e;
-      }
-    });
+    return fileInfo
+      .render()
+      .then(function() {
+        throw new Error('FileInfo.render should reject if templating throws');
+      })
+      .catch(function(e) {
+        if (!e.toString().match(/ReferenceError/)) {
+          throw e;
+        }
+      });
   });
 
   it('does not explode when trying to template binary files', function() {
@@ -122,18 +124,20 @@ describe('Unit - FileInfo', function() {
     validOptions.templateVariables.friend = 'Billy';
     let fileInfo = new FileInfo(validOptions);
 
-    return writeFile(testOutputPath, `Something Old${EOL}`).then(function() {
-      return fileInfo.displayDiff();
-    }).then(function() {
-      let output = ui.output.trim().split(EOL);
-      expect(output.shift()).to.equal(`Index: ${testOutputPath}`);
-      expect(output.shift()).to.match(/=+/);
-      expect(output.shift()).to.match(/---/);
-      expect(output.shift()).to.match(/\+{3}/);
-      expect(output.shift()).to.match(/.*/);
-      expect(output.shift()).to.match(/-Something Old/);
-      expect(output.shift()).to.match(/\+Howdy Billy/);
-    });
+    return writeFile(testOutputPath, `Something Old${EOL}`)
+      .then(function() {
+        return fileInfo.displayDiff();
+      })
+      .then(function() {
+        let output = ui.output.trim().split(EOL);
+        expect(output.shift()).to.equal(`Index: ${testOutputPath}`);
+        expect(output.shift()).to.match(/=+/);
+        expect(output.shift()).to.match(/---/);
+        expect(output.shift()).to.match(/\+{3}/);
+        expect(output.shift()).to.match(/.*/);
+        expect(output.shift()).to.match(/-Something Old/);
+        expect(output.shift()).to.match(/\+Howdy Billy/);
+      });
   });
 
   it('renders a menu with an overwrite option', function() {
@@ -177,13 +181,13 @@ describe('Unit - FileInfo', function() {
     let fileInfo = new FileInfo(validOptions);
 
     return fileInfo.confirmOverwrite('test.png').then(function(/* action */) {
-      td.verify(ui.prompt(td.matchers.argThat(function(options) {
-        return (
-          options.choices.length === 2 &&
-          options.choices[0].key === 'y' &&
-          options.choices[1].key === 'n'
-        );
-      })));
+      td.verify(
+        ui.prompt(
+          td.matchers.argThat(function(options) {
+            return options.choices.length === 2 && options.choices[0].key === 'y' && options.choices[1].key === 'n';
+          })
+        )
+      );
     });
   });
 
@@ -200,5 +204,4 @@ describe('Unit - FileInfo', function() {
       expect(type).to.equal('identical');
     });
   });
-
 });

@@ -19,61 +19,65 @@ let ServeCommand = Command.extend({
   availableOptions: [
     { name: 'port', type: Number, default: 4200 },
     { name: 'host', type: String, default: '0.0.0.0' },
-    { name: 'proxy',  type: String },
-    { name: 'live-reload',  type: Boolean, default: true, aliases: ['lr'] },
+    { name: 'proxy', type: String },
+    { name: 'live-reload', type: Boolean, default: true, aliases: ['lr'] },
     { name: 'live-reload-port', type: Number, description: '(Defaults to port number + 31529)' },
     { name: 'environment', type: String, default: 'development' },
   ],
-  run(options) { return options; },
+  run(options) {
+    return options;
+  },
 });
 
 let DevelopEmberCLICommand = Command.extend({
   name: 'develop-ember-cli',
   works: 'everywhere',
-  availableOptions: [
-    { name: 'package-name', key: 'packageName', type: String, required: true },
-  ],
-  run(options) { return options; },
+  availableOptions: [{ name: 'package-name', key: 'packageName', type: String, required: true }],
+  run(options) {
+    return options;
+  },
 });
 
 let InsideProjectCommand = Command.extend({
   name: 'inside-project',
   works: 'insideProject',
-  run(options) { return options; },
+  run(options) {
+    return options;
+  },
 });
 
 let OutsideProjectCommand = Command.extend({
   name: 'outside-project',
   works: 'outsideProject',
-  run(options) { return options; },
+  run(options) {
+    return options;
+  },
 });
 
 let OptionsAliasCommand = Command.extend({
   name: 'options-alias',
-  availableOptions: [{
-    name: 'taco',
-    type: String,
-    default: 'traditional',
-    aliases: [
-      { 'hard-shell': 'hard-shell' },
-      { 'soft-shell': 'soft-shell' },
-    ],
-  }, {
-    name: 'spicy',
-    type: Boolean,
-    default: true,
-    aliases: [
-      { 'mild': false },
-    ],
-  }, {
-    name: 'display-message',
-    type: String,
-    aliases: [
-      'dm',
-      { 'hw': 'Hello world' },
-    ],
-  }],
-  run(options) { return options; },
+  availableOptions: [
+    {
+      name: 'taco',
+      type: String,
+      default: 'traditional',
+      aliases: [{ 'hard-shell': 'hard-shell' }, { 'soft-shell': 'soft-shell' }],
+    },
+    {
+      name: 'spicy',
+      type: Boolean,
+      default: true,
+      aliases: [{ mild: false }],
+    },
+    {
+      name: 'display-message',
+      type: String,
+      aliases: ['dm', { hw: 'Hello world' }],
+    },
+  ],
+  run(options) {
+    return options;
+  },
 });
 
 describe('models/command.js', function() {
@@ -101,30 +105,41 @@ describe('models/command.js', function() {
     expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.nested.property('options.port', 80);
   });
 
-  (ci.APPVEYOR ? it.skip : it)('parseArgs() should get command options from the config file and command line', function() {
-    expect(new ServeCommand(Object.assign(options, {
-      settings: config.getAll(),
-    })).parseArgs(['--port', '789'])).to.deep.equal({
-      options: {
-        port: 789,
-        environment: 'mock-development',
-        host: '0.1.0.1',
-        proxy: 'http://iamstef.net/ember-cli',
-        liveReload: false,
-        checkForUpdates: true,
-      },
-      args: [],
-    });
-  });
+  (ci.APPVEYOR ? it.skip : it)(
+    'parseArgs() should get command options from the config file and command line',
+    function() {
+      expect(
+        new ServeCommand(
+          Object.assign(options, {
+            settings: config.getAll(),
+          })
+        ).parseArgs(['--port', '789'])
+      ).to.deep.equal({
+        options: {
+          port: 789,
+          environment: 'mock-development',
+          host: '0.1.0.1',
+          proxy: 'http://iamstef.net/ember-cli',
+          liveReload: false,
+          checkForUpdates: true,
+        },
+        args: [],
+      });
+    }
+  );
 
   it('parseArgs() should set default option values.', function() {
     expect(new ServeCommand(options).parseArgs([])).to.have.nested.property('options.port', 4200);
   });
 
   (ci.APPVEYOR ? it.skip : it)('parseArgs() should return args too.', function() {
-    expect(new ServeCommand(Object.assign(options, {
-      settings: config.getAll(),
-    })).parseArgs(['foo', '--port', '80'])).to.deep.equal({
+    expect(
+      new ServeCommand(
+        Object.assign(options, {
+          settings: config.getAll(),
+        })
+      ).parseArgs(['foo', '--port', '80'])
+    ).to.deep.equal({
       args: ['foo'],
       options: {
         environment: 'mock-development',
@@ -138,14 +153,21 @@ describe('models/command.js', function() {
   });
 
   it('parseArgs() should warn if an option is invalid.', function() {
-    new ServeCommand(Object.assign(options, {
-      settings: config.getAll(),
-    })).parseArgs(['foo', '--envirmont', 'production']);
-    expect(ui.output).to.match(/The option '--envirmont' is not registered with the 'serve' command. Run `ember serve --help` for a list of supported options./);
+    new ServeCommand(
+      Object.assign(options, {
+        settings: config.getAll(),
+      })
+    ).parseArgs(['foo', '--envirmont', 'production']);
+    expect(ui.output).to.match(
+      /The option '--envirmont' is not registered with the 'serve' command. Run `ember serve --help` for a list of supported options./
+    );
   });
 
   it('parseArgs() should parse shorthand options.', function() {
-    expect(new ServeCommand(options).parseArgs(['-e', 'tacotown'])).to.have.nested.property('options.environment', 'tacotown');
+    expect(new ServeCommand(options).parseArgs(['-e', 'tacotown'])).to.have.nested.property(
+      'options.environment',
+      'tacotown'
+    );
   });
 
   it('parseArgs() should parse shorthand dasherized options.', function() {
@@ -155,18 +177,21 @@ describe('models/command.js', function() {
   it('parseArgs() should parse string options.', function() {
     let CustomAliasCommand = Command.extend({
       name: 'custom-alias',
-      availableOptions: [{
-        name: 'options',
-        type: String,
-      }],
-      run(options) { return options; },
+      availableOptions: [
+        {
+          name: 'options',
+          type: String,
+        },
+      ],
+      run(options) {
+        return options;
+      },
     });
     const command = new CustomAliasCommand(options).parseArgs(['1', '--options', '--split 2 --random']);
     expect(command).to.have.nested.property('options.options', '--split 2 --random');
   });
 
   describe('#validateAndRun', function() {
-
     it('should reject and print a message if a required option is missing.', function() {
       return new DevelopEmberCLICommand(options).validateAndRun([]).catch(function() {
         expect(ui.output).to.match(/requires the option.*package-name/);
@@ -174,38 +199,62 @@ describe('models/command.js', function() {
     });
 
     it('should print a message if outside a project and command is not valid there.', function() {
-      return new InsideProjectCommand(Object.assign(options, {
-        project: {
-          hasDependencies() { return true; },
-          isEmberCLIProject() { return false; },
-        },
-      })).validateAndRun([]).catch(function(reason) {
-        expect(reason.message).to.match(/You have to be inside an ember-cli project/);
-      });
+      return new InsideProjectCommand(
+        Object.assign(options, {
+          project: {
+            hasDependencies() {
+              return true;
+            },
+            isEmberCLIProject() {
+              return false;
+            },
+          },
+        })
+      )
+        .validateAndRun([])
+        .catch(function(reason) {
+          expect(reason.message).to.match(/You have to be inside an ember-cli project/);
+        });
     });
 
     it('selects watcher if an option', function() {
-      return new InsideProjectCommand(Object.assign(options, {
-        availableOptions: [{ type: 'string', name: 'watcher' }],
-        project: {
-          hasDependencies() { return true; },
-          isEmberCLIProject() { return true; },
-        },
-      })).validateAndRun([]).then(function(options) {
-        expect(options).to.have.property('watcher');
-      });
+      return new InsideProjectCommand(
+        Object.assign(options, {
+          availableOptions: [{ type: 'string', name: 'watcher' }],
+          project: {
+            hasDependencies() {
+              return true;
+            },
+            isEmberCLIProject() {
+              return true;
+            },
+          },
+        })
+      )
+        .validateAndRun([])
+        .then(function(options) {
+          expect(options).to.have.property('watcher');
+        });
     });
 
     it('selects NO watcher if NOT an option', function() {
-      return new InsideProjectCommand(Object.assign(options, {
-        availableOptions: [{ type: 'string', name: 'foo' }],
-        project: {
-          hasDependencies() { return true; },
-          isEmberCLIProject() { return true; },
-        },
-      })).validateAndRun([]).then(function(options) {
-        expect(options).to.not.have.property('watcher');
-      });
+      return new InsideProjectCommand(
+        Object.assign(options, {
+          availableOptions: [{ type: 'string', name: 'foo' }],
+          project: {
+            hasDependencies() {
+              return true;
+            },
+            isEmberCLIProject() {
+              return true;
+            },
+          },
+        })
+      )
+        .validateAndRun([])
+        .then(function(options) {
+          expect(options).to.not.have.property('watcher');
+        });
     });
 
     it('should print a message if inside a project and command is not valid there.', function() {
@@ -221,57 +270,83 @@ describe('models/command.js', function() {
       init() {
         this._super.apply(this, arguments);
 
-        this.availableOptions = [{
-          name: 'spicy',
-          type: String,
-          default: true,
-        }];
+        this.availableOptions = [
+          {
+            name: 'spicy',
+            type: String,
+            default: true,
+          },
+        ];
       },
-      run(options) { return options; },
+      run(options) {
+        return options;
+      },
     });
 
-    return new AvailableOptionsInitCommand(Object.assign(options, {
-      project: {
-        hasDependencies() { return true; },
-        isEmberCLIProject() { return false; },
-      },
-    })).validateAndRun([]).then(function(commandOptions) {
-      expect(commandOptions).to.deep.equal({ spicy: true });
-    });
+    return new AvailableOptionsInitCommand(
+      Object.assign(options, {
+        project: {
+          hasDependencies() {
+            return true;
+          },
+          isEmberCLIProject() {
+            return false;
+          },
+        },
+      })
+    )
+      .validateAndRun([])
+      .then(function(commandOptions) {
+        expect(commandOptions).to.deep.equal({ spicy: true });
+      });
   });
 
   it('should be able to set availableOptions within beforeRun', function() {
     let AvailableOptionsInitCommand = Command.extend({
       name: 'available-options-init-command',
 
-      availableOptions: [{
-        name: 'spicy',
-        type: Boolean,
-        default: true,
-      }],
+      availableOptions: [
+        {
+          name: 'spicy',
+          type: Boolean,
+          default: true,
+        },
+      ],
 
       beforeRun() {
         return new Promise(resolve => {
-          resolve(this.availableOptions.push({
-            name: 'foobar',
-            type: String,
-            default: 'bazbaz',
-          }));
+          resolve(
+            this.availableOptions.push({
+              name: 'foobar',
+              type: String,
+              default: 'bazbaz',
+            })
+          );
         });
       },
-      run(options) { return options; },
+      run(options) {
+        return options;
+      },
     });
 
-    const command = new AvailableOptionsInitCommand(Object.assign(options, {
-      project: {
-        hasDependencies() { return true; },
-        isEmberCLIProject() { return false; },
-      },
-    }));
+    const command = new AvailableOptionsInitCommand(
+      Object.assign(options, {
+        project: {
+          hasDependencies() {
+            return true;
+          },
+          isEmberCLIProject() {
+            return false;
+          },
+        },
+      })
+    );
 
-    return command.beforeRun().then(() => command.validateAndRun([]).then(commandOptions => {
-      expect(commandOptions).to.deep.equal({ spicy: true, foobar: 'bazbaz' });
-    }));
+    return command.beforeRun().then(() =>
+      command.validateAndRun([]).then(commandOptions => {
+        expect(commandOptions).to.deep.equal({ spicy: true, foobar: 'bazbaz' });
+      })
+    );
   });
 
   it('availableOptions with aliases should work.', function() {
@@ -316,16 +391,14 @@ describe('models/command.js', function() {
 
   it('registerOptions() should allow adding availableOptions.', function() {
     let optionsAlias = new OptionsAliasCommand(options);
-    let extendedAvailableOptions = [{
-      name: 'filling',
-      type: String,
-      default: 'adobada',
-      aliases: [
-        { 'carne-asada': 'carne-asada' },
-        { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' },
-      ],
-    }];
+    let extendedAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'adobada',
+        aliases: [{ 'carne-asada': 'carne-asada' }, { carnitas: 'carnitas' }, { fish: 'fish' }],
+      },
+    ];
 
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     // defaults
@@ -359,25 +432,22 @@ describe('models/command.js', function() {
 
   it('registerOptions() should allow overriding availableOptions.', function() {
     let optionsAlias = new OptionsAliasCommand(options);
-    let extendedAvailableOptions = [{
-      name: 'filling',
-      type: String,
-      default: 'adobada',
-      aliases: [
-        { 'carne-asada': 'carne-asada' },
-        { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' },
-      ],
-    }];
-    let duplicateExtendedAvailableOptions = [{
-      name: 'filling',
-      type: String,
-      default: 'carnitas',
-      aliases: [
-        { 'pollo-asado': 'pollo-asado' },
-        { 'carne-asada': 'carne-asada' },
-      ],
-    }];
+    let extendedAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'adobada',
+        aliases: [{ 'carne-asada': 'carne-asada' }, { carnitas: 'carnitas' }, { fish: 'fish' }],
+      },
+    ];
+    let duplicateExtendedAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'carnitas',
+        aliases: [{ 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' }],
+      },
+    ];
 
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     // default
@@ -421,42 +491,39 @@ describe('models/command.js', function() {
 
   it('registerOptions() should not allow aliases with the same name.', function() {
     let optionsAlias = new OptionsAliasCommand(options);
-    let extendedAvailableOptions = [{
-      name: 'filling',
-      type: String,
-      default: 'adobada',
-      aliases: [
-        { 'carne-asada': 'carne-asada' },
-        { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' },
-      ],
-    }, {
-      name: 'favorite',
-      type: String,
-      default: 'adobada',
-      aliases: [
-        { 'carne-asada': 'carne-asada' },
-        { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' },
-      ],
-    }];
+    let extendedAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'adobada',
+        aliases: [{ 'carne-asada': 'carne-asada' }, { carnitas: 'carnitas' }, { fish: 'fish' }],
+      },
+      {
+        name: 'favorite',
+        type: String,
+        default: 'adobada',
+        aliases: [{ 'carne-asada': 'carne-asada' }, { carnitas: 'carnitas' }, { fish: 'fish' }],
+      },
+    ];
     let register = optionsAlias.registerOptions.bind(optionsAlias);
 
     optionsAlias.availableOptions = extendedAvailableOptions;
-    expect(register).to.throw('The "carne-asada" alias is already in use by the "--filling" option and ' +
-      'cannot be used by the "--favorite" option. Please use a different alias.');
+    expect(register).to.throw(
+      'The "carne-asada" alias is already in use by the "--filling" option and ' +
+        'cannot be used by the "--favorite" option. Please use a different alias.'
+    );
   });
 
   it('registerOptions() should warn on options override attempts.', function() {
     let optionsAlias = new OptionsAliasCommand(options);
-    let extendedAvailableOptions = [{
-      name: 'spicy',
-      type: Boolean,
-      default: true,
-      aliases: [
-        { 'mild': true },
-      ],
-    }];
+    let extendedAvailableOptions = [
+      {
+        name: 'spicy',
+        type: Boolean,
+        default: true,
+        aliases: [{ mild: true }],
+      },
+    ];
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     expect(ui.output).to.match(/The ".*" alias cannot be overridden. Please use a different alias./);
   });
@@ -464,21 +531,35 @@ describe('models/command.js', function() {
   it('registerOptions() should handle invalid alias definitions.', function() {
     //check for different types, validate proper errors are thrown
     let optionsAlias = new OptionsAliasCommand(options);
-    let badArrayAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      'meat', [{ 'carne-asada': 'carne-asada' }], { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
-    ] }];
-    let badObjectAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      'meat', { 'carne-asada': ['steak', 'grilled'] }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
-    ] }];
+    let badArrayAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'adobada',
+        aliases: ['meat', [{ 'carne-asada': 'carne-asada' }], { carnitas: 'carnitas' }, { fish: 'fish' }],
+      },
+    ];
+    let badObjectAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'adobada',
+        aliases: ['meat', { 'carne-asada': ['steak', 'grilled'] }, { carnitas: 'carnitas' }, { fish: 'fish' }],
+      },
+    ];
     let register = optionsAlias.registerOptions.bind(optionsAlias);
 
     optionsAlias.availableOptions = badArrayAvailableOptions;
-    expect(register).to.throw('The "[object Object]" [type:array] alias is not an acceptable value. ' +
-      'It must be a string or single key object with a string value (for example, "value" or { "key" : "value" }).');
+    expect(register).to.throw(
+      'The "[object Object]" [type:array] alias is not an acceptable value. ' +
+        'It must be a string or single key object with a string value (for example, "value" or { "key" : "value" }).'
+    );
 
     optionsAlias.availableOptions = badObjectAvailableOptions;
-    expect(register).to.throw('The "[object Object]" [type:object] alias is not an acceptable value. ' +
-      'It must be a string or single key object with a string value (for example, "value" or { "key" : "value" }).');
+    expect(register).to.throw(
+      'The "[object Object]" [type:object] alias is not an acceptable value. ' +
+        'It must be a string or single key object with a string value (for example, "value" or { "key" : "value" }).'
+    );
   });
 
   it('parseAlias() should parse aliases and return an object', function() {
@@ -488,17 +569,13 @@ describe('models/command.js', function() {
       type: String,
       key: 'filling',
       default: 'adobada',
-      aliases: [
-        { 'carne-asada': 'carne-asada' },
-        { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' },
-      ],
+      aliases: [{ 'carne-asada': 'carne-asada' }, { carnitas: 'carnitas' }, { fish: 'fish' }],
     };
-    let alias = { 'carnitas': 'carnitas' };
+    let alias = { carnitas: 'carnitas' };
     expect(optionsAlias.parseAlias(option, alias)).to.deep.equal({
       key: 'carnitas',
       value: ['--filling', 'carnitas'],
-      original: { 'carnitas': 'carnitas' },
+      original: { carnitas: 'carnitas' },
     });
   });
 
@@ -507,13 +584,9 @@ describe('models/command.js', function() {
       name: 'filling',
       type: String,
       default: 'adobada',
-      aliases: [
-        { 'carne-asada': 'carne-asada' },
-        { 'carnitas': 'carnitas' },
-        { 'fish': 'fish' },
-      ],
+      aliases: [{ 'carne-asada': 'carne-asada' }, { carnitas: 'carnitas' }, { fish: 'fish' }],
     };
-    let dupe = { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': false }] };
+    let dupe = { name: 'spicy', type: Boolean, default: true, aliases: [{ mild: false }] };
     let noAlias = { name: 'reload', type: Boolean, default: false };
     const aliasCommand = new OptionsAliasCommand(options);
     aliasCommand.registerOptions();
@@ -533,10 +606,12 @@ describe('models/command.js', function() {
     let notype = { name: 'taco' };
     let noname = { type: Boolean };
 
-    expect(optionsAlias.validateOption.bind(optionsAlias, notype)).to.throw('The command "options-alias" has an ' +
-      'option without the required type and name fields.');
-    expect(optionsAlias.validateOption.bind(optionsAlias, noname)).to.throw('The command "options-alias" has an ' +
-      'option without the required type and name fields.');
+    expect(optionsAlias.validateOption.bind(optionsAlias, notype)).to.throw(
+      'The command "options-alias" has an ' + 'option without the required type and name fields.'
+    );
+    expect(optionsAlias.validateOption.bind(optionsAlias, noname)).to.throw(
+      'The command "options-alias" has an ' + 'option without the required type and name fields.'
+    );
   });
 
   it('validateOption() should throw an error when option name is camelCase or capitalized', function() {
@@ -550,24 +625,34 @@ describe('models/command.js', function() {
       type: Boolean,
     };
 
-    expect(optionsAlias.validateOption.bind(optionsAlias, capital)).to.throw('The "Taco" option\'s name of the "options-alias"' +
-      ' command contains a capital letter.');
-    expect(optionsAlias.validateOption.bind(optionsAlias, camel)).to.throw('The "tacoTown" option\'s name of the "options-alias"' +
-      ' command contains a capital letter.');
+    expect(optionsAlias.validateOption.bind(optionsAlias, capital)).to.throw(
+      'The "Taco" option\'s name of the "options-alias"' + ' command contains a capital letter.'
+    );
+    expect(optionsAlias.validateOption.bind(optionsAlias, camel)).to.throw(
+      'The "tacoTown" option\'s name of the "options-alias"' + ' command contains a capital letter.'
+    );
   });
 
   it('mergeDuplicateOption() should merge duplicate options together', function() {
     let optionsAlias = new OptionsAliasCommand(options);
-    let garbageAvailableOptions = [
-      { name: 'spicy', type: Boolean, default: true, aliases: [{ 'mild': true }] },
-    ];
+    let garbageAvailableOptions = [{ name: 'spicy', type: Boolean, default: true, aliases: [{ mild: true }] }];
     optionsAlias.registerOptions({ availableOptions: garbageAvailableOptions });
-    let extendedAvailableOptions = [{ name: 'filling', type: String, default: 'adobada', aliases: [
-      { 'carne-asada': 'carne-asada' }, { 'carnitas': 'carnitas' }, { 'fish': 'fish' },
-    ] }];
-    let duplicateExtendedAvailableOptions = [{ name: 'filling', type: String, default: 'carnitas', aliases: [
-      { 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' },
-    ] }];
+    let extendedAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'adobada',
+        aliases: [{ 'carne-asada': 'carne-asada' }, { carnitas: 'carnitas' }, { fish: 'fish' }],
+      },
+    ];
+    let duplicateExtendedAvailableOptions = [
+      {
+        name: 'filling',
+        type: String,
+        default: 'carnitas',
+        aliases: [{ 'pollo-asado': 'pollo-asado' }, { 'carne-asada': 'carne-asada' }],
+      },
+    ];
     optionsAlias.registerOptions({ availableOptions: extendedAvailableOptions });
     optionsAlias.availableOptions.push(duplicateExtendedAvailableOptions[0]);
 
@@ -576,20 +661,14 @@ describe('models/command.js', function() {
         name: 'taco',
         type: String,
         default: 'traditional',
-        aliases: [
-          { 'hard-shell': 'hard-shell' },
-          { 'soft-shell': 'soft-shell' },
-        ],
+        aliases: [{ 'hard-shell': 'hard-shell' }, { 'soft-shell': 'soft-shell' }],
         key: 'taco',
         required: false,
       },
       {
         name: 'display-message',
         type: String,
-        aliases: [
-          'dm',
-          { 'hw': 'Hello world' },
-        ],
+        aliases: ['dm', { hw: 'Hello world' }],
         key: 'displayMessage',
         required: false,
       },
@@ -597,9 +676,7 @@ describe('models/command.js', function() {
         name: 'spicy',
         type: Boolean,
         default: true,
-        aliases: [
-          { 'mild': false },
-        ],
+        aliases: [{ mild: false }],
         key: 'spicy',
         required: false,
       },
@@ -609,8 +686,8 @@ describe('models/command.js', function() {
         default: 'carnitas',
         aliases: [
           { 'carne-asada': 'carne-asada' },
-          { 'carnitas': 'carnitas' },
-          { 'fish': 'fish' },
+          { carnitas: 'carnitas' },
+          { fish: 'fish' },
           { 'pollo-asado': 'pollo-asado' },
         ],
         key: 'filling',
@@ -641,22 +718,28 @@ describe('models/command.js', function() {
     }
 
     class SyncTask extends Task {
-      run(options) { return options; }
+      run(options) {
+        return options;
+      }
     }
 
     class FailingTask extends Task {
-      run(/* options */) { throw new Error('I was born to fail'); }
+      run(/* options */) {
+        throw new Error('I was born to fail');
+      }
     }
 
     beforeEach(function() {
       // this should be changed to new Command(), but needs more mocking
-      command = new ServeCommand(Object.assign({}, options, {
-        tasks: {
-          Async: AsyncTask,
-          Sync: SyncTask,
-          Failing: FailingTask,
-        },
-      }));
+      command = new ServeCommand(
+        Object.assign({}, options, {
+          tasks: {
+            Async: AsyncTask,
+            Sync: SyncTask,
+            Failing: FailingTask,
+          },
+        })
+      );
     });
 
     it('always handles task as a promise', function() {

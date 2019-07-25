@@ -35,15 +35,18 @@ describe('clean-remove', function() {
     fileInfo.outputPath = path.join(tempDir, displayPath);
     fileInfo.displayPath = displayPath;
 
-    return outputFile(displayPath, '').then(function() {
-      return stat(displayPath).then(function(stats) {
-        expect(stats).to.be.ok;
+    return outputFile(displayPath, '')
+      .then(function() {
+        return stat(displayPath).then(function(stats) {
+          expect(stats).to.be.ok;
+        });
+      })
+      .then(function() {
+        return cleanRemove(fileInfo);
+      })
+      .then(function() {
+        return expect(stat('nested1')).to.be.rejected;
       });
-    }).then(function() {
-      return cleanRemove(fileInfo);
-    }).then(function() {
-      return expect(stat('nested1')).to.be.rejected;
-    });
   });
 
   it('preserves filled folders', function() {
@@ -52,20 +55,25 @@ describe('clean-remove', function() {
     fileInfo.outputPath = path.join(tempDir, removedDisplayPath);
     fileInfo.displayPath = removedDisplayPath;
 
-    return outputFile(removedDisplayPath, '').then(function() {
-      return outputFile(preservedDisplayPath, '');
-    }).then(function() {
-      return stat(preservedDisplayPath).then(function(stats) {
-        expect(stats).to.be.ok;
+    return outputFile(removedDisplayPath, '')
+      .then(function() {
+        return outputFile(preservedDisplayPath, '');
+      })
+      .then(function() {
+        return stat(preservedDisplayPath).then(function(stats) {
+          expect(stats).to.be.ok;
+        });
+      })
+      .then(function() {
+        return cleanRemove(fileInfo);
+      })
+      .then(function() {
+        return expect(stat(removedDisplayPath)).to.be.rejected;
+      })
+      .then(function() {
+        return stat(preservedDisplayPath).then(function(stats) {
+          expect(stats).to.be.ok;
+        });
       });
-    }).then(function() {
-      return cleanRemove(fileInfo);
-    }).then(function() {
-      return expect(stat(removedDisplayPath)).to.be.rejected;
-    }).then(function() {
-      return stat(preservedDisplayPath).then(function(stats) {
-        expect(stats).to.be.ok;
-      });
-    });
   });
 });

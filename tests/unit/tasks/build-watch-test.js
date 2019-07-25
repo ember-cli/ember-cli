@@ -1,12 +1,9 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const BuildWatchTask = require('../../../lib/tasks/build-watch');
 const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
-
-const Promise = RSVP.Promise;
 
 describe('build-watch task', function() {
   let task, ui;
@@ -62,16 +59,14 @@ describe('build-watch task', function() {
   }
 
   describe('onInterrupt', function() {
-    it('fulfills the run promise and cleans up the builder', function() {
+    it('fulfills the run promise and cleans up the builder', async function() {
       let runPromise = runBuildWatchTask();
 
-      RSVP.resolve().then(() => task.onInterrupt());
+      Promise.resolve().then(() => task.onInterrupt());
 
-      return runPromise.then(() => {
-        expect(ui.output).to.include('cleaning up...');
-        expect(ui.output).to.include('Environment: test');
-      });
+      await runPromise;
+      expect(ui.output).to.include('cleaning up...');
+      expect(ui.output).to.include('Environment: test');
     });
   });
 });
-

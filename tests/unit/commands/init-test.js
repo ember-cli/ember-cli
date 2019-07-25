@@ -51,7 +51,7 @@ describe('init command', function() {
     command = new InitCommand(options);
   }
 
-  it('doesn\'t allow to create an application named `test`', function() {
+  it("doesn't allow to create an application named `test`", function() {
     buildCommand({ name: 'test' });
 
     return expect(command.validateAndRun([])).to.be.rejected.then(error => {
@@ -59,11 +59,13 @@ describe('init command', function() {
     });
   });
 
-  it('doesn\'t allow to create an application without project name', function() {
+  it("doesn't allow to create an application without project name", function() {
     buildCommand({ name: undefined });
 
     return expect(command.validateAndRun([])).to.be.rejected.then(error => {
-      expect(error.message).to.equal('The `ember init` command requires a package.json in current folder with name attribute or a specified name via arguments. For more details, use `ember help`.');
+      expect(error.message).to.equal(
+        'The `ember init` command requires a package.json in current folder with name attribute or a specified name via arguments. For more details, use `ember help`.'
+      );
     });
   });
 
@@ -77,10 +79,9 @@ describe('init command', function() {
 
     buildCommand();
 
-    return command.validateAndRun([])
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return command.validateAndRun([]).catch(function(reason) {
+      expect(reason).to.equal('Called run');
+    });
   });
 
   it('Uses the provided app name over the closest found project', function() {
@@ -93,12 +94,10 @@ describe('init command', function() {
 
     buildCommand();
 
-    return command.validateAndRun(['--name=provided-name'])
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return command.validateAndRun(['--name=provided-name']).catch(function(reason) {
+      expect(reason).to.equal('Called run');
+    });
   });
-
 
   it('Uses process.cwd if no package is found when calling installBlueprint', function() {
     // change the working dir so `process.cwd` can't be an invalid path for base directories
@@ -117,7 +116,8 @@ describe('init command', function() {
 
     buildCommand({ name: path.basename(process.cwd()) });
 
-    return command.validateAndRun([])
+    return command
+      .validateAndRun([])
       .catch(function(reason) {
         expect(reason).to.equal('Called run');
       })
@@ -126,7 +126,7 @@ describe('init command', function() {
       });
   });
 
-  it('doesn\'t use --dry-run or any other command option as the name', function() {
+  it("doesn't use --dry-run or any other command option as the name", function() {
     tasks.InstallBlueprint = Task.extend({
       run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
@@ -136,13 +136,12 @@ describe('init command', function() {
 
     buildCommand();
 
-    return command.validateAndRun(['--dry-run'])
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return command.validateAndRun(['--dry-run']).catch(function(reason) {
+      expect(reason).to.equal('Called run');
+    });
   });
 
-  it('doesn\'t use . as the name', function() {
+  it("doesn't use . as the name", function() {
     tasks.InstallBlueprint = Task.extend({
       run(blueprintOpts) {
         expect(blueprintOpts.rawName).to.equal('some-random-name');
@@ -152,10 +151,9 @@ describe('init command', function() {
 
     buildCommand();
 
-    return command.validateAndRun(['.'])
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return command.validateAndRun(['.']).catch(function(reason) {
+      expect(reason).to.equal('Called run');
+    });
   });
 
   it('Uses the "app" blueprint by default', function() {
@@ -168,10 +166,9 @@ describe('init command', function() {
 
     buildCommand();
 
-    return command.validateAndRun(['--name=provided-name'])
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return command.validateAndRun(['--name=provided-name']).catch(function(reason) {
+      expect(reason).to.equal('Called run');
+    });
   });
 
   it('Uses arguments to select files to init', function() {
@@ -184,10 +181,9 @@ describe('init command', function() {
 
     buildCommand();
 
-    return command.validateAndRun(['package.json', '--name=provided-name'])
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return command.validateAndRun(['package.json', '--name=provided-name']).catch(function(reason) {
+      expect(reason).to.equal('Called run');
+    });
   });
 
   it('Uses the "addon" blueprint for addons', function() {
@@ -200,18 +196,15 @@ describe('init command', function() {
 
     buildCommand({ keywords: ['ember-addon'], name: 'some-random-name' });
 
-    return command.validateAndRun(['--name=provided-name'])
-      .catch(function(reason) {
-        expect(reason).to.equal('Called run');
-      });
+    return command.validateAndRun(['--name=provided-name']).catch(function(reason) {
+      expect(reason).to.equal('Called run');
+    });
   });
 
   it('Registers blueprint options in beforeRun', function() {
     td.replace(Blueprint, 'lookup', td.function());
     td.when(Blueprint.lookup('app'), { ignoreExtraArgs: true }).thenReturn({
-      availableOptions: [
-        { name: 'custom-blueprint-option', type: String },
-      ],
+      availableOptions: [{ name: 'custom-blueprint-option', type: String }],
     });
 
     buildCommand();

@@ -15,9 +15,7 @@ git clone https://github.com/ember-cli/ember-cli.git
 
 ## Link `ember` to your development version
 
-
-Running the following command will link the global `ember` utility to your
-local development version:
+If you want to use the `ember` or `ember-cli` development versions you are working on, run the following command to link the global `ember` utility to your local development version:
 
 ```
 npm link
@@ -32,7 +30,7 @@ project folder:
 npm link ember-cli
 ```
 
-Read the official [npm-link documentation](https://www.npmjs.org/doc/cli/npm-link.html)
+Read the official [npm-link documentation](https://docs.npmjs.com/cli/link.html)
 for more information.
 
 
@@ -43,7 +41,7 @@ npm test
 ```
 
 will run ESLint and the "fast" subset of the test suite. Run
-`npm run test-all` for the full test suite which will currently take quite a
+`npm run test:all` for the full test suite which will currently take quite a
 few minutes due to heavy IO and network usage.
 
 ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
@@ -227,8 +225,7 @@ And in case we didn't emphasize it enough: **we love tests!**
 
 #### Testing
 
-Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run-script
-test-all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
+Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run test:all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
 with a test, write your test and add `.only` to it's `describe` or `it` block. E.g.
 
 ```javascript

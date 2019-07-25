@@ -45,13 +45,11 @@ describe('asset-sizes command', function() {
   });
 
   it('has correct options', function() {
-    return new ShowCommand(options)
-      .validateAndRun(['--output-path', path.join('some', 'path')])
-      .then(function() {
-        let captor = td.matchers.captor();
-        td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
-        expect(captor.value.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
-      });
+    return new ShowCommand(options).validateAndRun(['--output-path', path.join('some', 'path')]).then(function() {
+      let captor = td.matchers.captor();
+      td.verify(tasks.ShowAssetSizes.prototype.run(captor.capture()), { times: 1 });
+      expect(captor.value.outputPath).to.equal(path.join(process.cwd(), 'some', 'path'), 'has correct asset path');
+    });
   });
 });
 

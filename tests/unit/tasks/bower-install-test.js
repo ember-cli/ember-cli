@@ -2,7 +2,6 @@
 
 const BowerInstallTask = require('../../../lib/tasks/bower-install');
 const MockUI = require('console-ui/mock');
-const Promise = require('rsvp').Promise;
 const expect = require('../../chai').expect;
 const td = require('testdouble');
 
@@ -21,53 +20,48 @@ describe('BowerInstallTask', function() {
       task.installBower = td.function();
     });
 
-    it('resolves if "bower" property is set', function() {
+    it('resolves if "bower" property is set', async function() {
       let mockValue = 'foobar';
       task.bower = mockValue;
 
       td.when(task.resolveBower()).thenReject(new Error());
 
-      return task.ensureBower().then(() => {
-        expect(task.bower).to.equal(mockValue);
-      });
+      await task.ensureBower();
+      expect(task.bower).to.equal(mockValue);
     });
 
-    it('imports "bower" if it can be resolved', function() {
+    it('imports "bower" if it can be resolved', async function() {
       td.when(task.resolveBower()).thenResolve('path/to/bower');
       td.when(task.importBower('path/to/bower')).thenReturn('ok');
 
-      return task.ensureBower().then(ok => {
-        expect(ok).to.equal('ok');
-      });
+      expect(await task.ensureBower()).to.equal('ok');
     });
 
-    it('install "bower" if it can not be resolved', function() {
-      let error = new Error('Cannot find module \'bower\'');
+    it('install "bower" if it can not be resolved', async function() {
+      let error = new Error("Cannot find module 'bower'");
 
       td.when(task.resolveBower()).thenReturn(Promise.reject(error), Promise.resolve('path/to/bower'));
       td.when(task.installBower()).thenResolve();
       td.when(task.importBower('path/to/bower')).thenReturn('ok');
 
-      return task.ensureBower().then(ok => {
-        expect(ok).to.equal('ok');
-      });
+      expect(await task.ensureBower()).to.equal('ok');
     });
 
-    it('pass other resolve errors on', function() {
+    it('pass other resolve errors on', async function() {
       let error = new Error('foobar');
 
       td.when(task.resolveBower()).thenReturn(Promise.reject(error));
 
-      return expect(task.ensureBower()).to.be.rejectedWith('foobar');
+      await expect(task.ensureBower()).to.be.rejectedWith('foobar');
     });
 
-    it('pass install errors on', function() {
-      let error = new Error('Cannot find module \'bower\'');
+    it('pass install errors on', async function() {
+      let error = new Error("Cannot find module 'bower'");
 
       td.when(task.resolveBower()).thenReturn(Promise.reject(error));
       td.when(task.installBower()).thenReject(new Error('foobar'));
 
-      return expect(task.ensureBower()).to.be.rejectedWith('foobar');
+      await expect(task.ensureBower()).to.be.rejectedWith('foobar');
     });
   });
 });

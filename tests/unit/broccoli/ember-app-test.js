@@ -60,29 +60,37 @@ describe('EmberApp', function() {
     describe('packager hook', function() {
       let js, input, output;
 
-      before(co.wrap(function *() {
-        js = yield createTempDir();
-        js.write({
-          fake: {
-            javascript: '// javascript.js',
-          },
-        });
-      }));
+      before(
+        co.wrap(function*() {
+          js = yield createTempDir();
+          js.write({
+            fake: {
+              javascript: '// javascript.js',
+            },
+          });
+        })
+      );
 
-      beforeEach(co.wrap(function *() {
-        input = yield createTempDir();
-      }));
+      beforeEach(
+        co.wrap(function*() {
+          input = yield createTempDir();
+        })
+      );
 
-      afterEach(co.wrap(function *() {
-        yield input.dispose();
-        if (output) {
-          yield output.dispose();
-        }
-      }));
+      afterEach(
+        co.wrap(function*() {
+          yield input.dispose();
+          if (output) {
+            yield output.dispose();
+          }
+        })
+      );
 
-      after(co.wrap(function *() {
-        yield js.dispose();
-      }));
+      after(
+        co.wrap(function*() {
+          yield js.dispose();
+        })
+      );
 
       it('sets `_isPackageHookSupplied` to `false` if `package` hook is not a function', function() {
         let app = new EmberApp({
@@ -110,608 +118,635 @@ describe('EmberApp', function() {
         expect(app._isPackageHookSupplied).to.equal(true);
       });
 
-      it('overrides the output of the build', co.wrap(function *() {
-        input.write({
-          fake: {
+      it(
+        'overrides the output of the build',
+        co.wrap(function*() {
+          input.write({
+            fake: {
+              dist: {
+                'foo.js': '// foo.js',
+              },
+            },
+          });
+
+          let app = new EmberApp({
+            project,
+            package: () => input.path(),
+          });
+          mockTemplateRegistry(app);
+
+          output = yield buildOutput(app.toTree());
+
+          let outputFiles = output.read();
+
+          expect(outputFiles).to.deep.equal({
+            fake: {
+              dist: {
+                'foo.js': '// foo.js',
+              },
+            },
+          });
+        })
+      );
+
+      it(
+        'receives a full tree as an argument',
+        co.wrap(function*() {
+          let appStyles = yield createTempDir();
+          appStyles.write({
+            'app.css': '// css styles',
+          });
+          input.write({
+            fake: {
+              dist: {
+                'foo.js': '// foo.js',
+              },
+            },
+          });
+
+          let app = new EmberApp({
+            project,
+            package: tree => mergeTrees([tree, input.path()]),
+            trees: {
+              styles: appStyles.path(),
+            },
+          });
+          mockTemplateRegistry(app);
+
+          app.getAppJavascript = () => js.path();
+
+          output = yield buildOutput(app.toTree());
+
+          let outputFiles = output.read();
+
+          expect(outputFiles).to.deep.equal({
+            'addon-tree-output': {},
+            fake: {
+              dist: {
+                'foo.js': '// foo.js',
+              },
+              javascript: '// javascript.js',
+            },
+            app: {
+              styles: {
+                'app.css': '// css styles',
+              },
+            },
+            'test-project': {
+              templates: {},
+            },
+            tests: {
+              '.gitkeep': '',
+              'addon-test-support': {},
+              lint: {},
+            },
+            public: {},
+            vendor: {
+              '.gitkeep': '',
+            },
+          });
+        })
+      );
+
+      it(
+        'prints a warning if `package` is not a function and falls back to default packaging',
+        co.wrap(function*() {
+          let app = new EmberApp({
+            project,
+            package: {},
+          });
+
+          app.project.ui.writeWarnLine = td.function();
+
+          app.getAppJavascript = td.function();
+          app.getAddonTemplates = td.function();
+          app.getStyles = td.function();
+          app.getTests = td.function();
+          app.getExternalTree = td.function();
+          app.getSrc = td.function();
+          app._legacyAddonCompile = td.function();
+          app._defaultPackager = {
+            packagePublic: td.function(),
+            packageJavascript: td.function(),
+            packageStyles: td.function(),
+            processIndex: td.function(),
+            importAdditionalAssets: td.function(),
+            packageTests: td.function(),
+          };
+
+          output = yield buildOutput(app.toTree());
+
+          td.verify(app.getAppJavascript(false));
+          td.verify(app.getStyles());
+          td.verify(app.getTests());
+          td.verify(app.getExternalTree());
+          td.verify(app.getSrc());
+          td.verify(
+            app.project.ui.writeWarnLine('`package` hook must be a function, falling back to default packaging.')
+          );
+        })
+      );
+
+      it(
+        'receives transpiled ES current app tree',
+        co.wrap(function*() {
+          let app = new EmberApp({
+            project,
+            package: tree => tree,
+          });
+          mockTemplateRegistry(app);
+
+          input.write({
+            fake: {
+              dist: {
+                'foo.js': '// foo.js',
+              },
+            },
+          });
+          app.registry.add('js', {
+            name: 'fake-js-preprocessor',
+            ext: 'js',
+            toTree() {
+              return input.path();
+            },
+          });
+
+          output = yield buildOutput(app.toTree());
+
+          let outputFiles = output.read();
+
+          expect(outputFiles.fake).to.deep.equal({
             dist: {
               'foo.js': '// foo.js',
             },
-          },
-        });
+          });
+        })
+      );
+    });
+  }
 
-        let app = new EmberApp({
-          project,
-          package: () => input.path(),
-        });
-        mockTemplateRegistry(app);
-
-        output = yield buildOutput(app.toTree());
-
-        let outputFiles = output.read();
-
-        expect(outputFiles).to.deep.equal({
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-          },
-        });
-      }));
-
-      it('receives a full tree as an argument', co.wrap(function *() {
+  describe('getStyles()', function() {
+    it(
+      'can handle empty styles folders',
+      co.wrap(function*() {
         let appStyles = yield createTempDir();
         appStyles.write({
           'app.css': '// css styles',
         });
-        input.write({
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-          },
-        });
 
         let app = new EmberApp({
           project,
-          package: tree => mergeTrees([tree, input.path()]),
           trees: {
             styles: appStyles.path(),
           },
         });
-        mockTemplateRegistry(app);
 
-        app.getAppJavascript = () => js.path();
+        app.addonTreesFor = () => [];
 
-        output = yield buildOutput(app.toTree());
-
+        let output = yield buildOutput(app.getStyles());
         let outputFiles = output.read();
 
         expect(outputFiles).to.deep.equal({
-          'addon-tree-output': {},
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-            javascript: '// javascript.js',
-          },
           app: {
             styles: {
               'app.css': '// css styles',
             },
           },
-          'test-project': {
-            templates: {},
-          },
-          tests: {
-            '.gitkeep': '',
-            'addon-test-support': {},
-            lint: {},
-          },
-          public: {},
-          vendor: {
-            '.gitkeep': '',
-          },
-        });
-      }));
-
-      it('prints a warning if `package` is not a function and falls back to default packaging', co.wrap(function *() {
-        let app = new EmberApp({
-          project,
-          package: {},
         });
 
-        app.project.ui.writeWarnLine = td.function();
+        yield output.dispose();
+      })
+    );
 
-        app.getAppJavascript = td.function();
-        app.getAddonTemplates = td.function();
-        app.getStyles = td.function();
-        app.getTests = td.function();
-        app.getExternalTree = td.function();
-        app.getSrc = td.function();
-        app._legacyAddonCompile = td.function();
-        app._defaultPackager = {
-          packagePublic: td.function(),
-          packageJavascript: td.function(),
-          packageStyles: td.function(),
-          processIndex: td.function(),
-          importAdditionalAssets: td.function(),
-          packageTests: td.function(),
-        };
+    it(
+      'can handle empty addon styles folders',
+      co.wrap(function*() {
+        let appOptions = { project };
 
-        output = yield buildOutput(app.toTree());
+        if (isExperimentEnabled('MODULE_UNIFICATION')) {
+          appOptions.trees = { src: {} };
+        }
 
-        td.verify(app.getAppJavascript(false));
-        td.verify(app.getStyles());
-        td.verify(app.getTests());
-        td.verify(app.getExternalTree());
-        td.verify(app.getSrc());
-        td.verify(app.project.ui.writeWarnLine('`package` hook must be a function, falling back to default packaging.'));
-      }));
+        let app = new EmberApp(appOptions);
 
-      it('receives transpiled ES current app tree', co.wrap(function *() {
-        let app = new EmberApp({
-          project,
-          package: tree => tree,
+        let AddonFoo = Addon.extend({
+          root: 'foo',
+          name: 'foo',
         });
-        mockTemplateRegistry(app);
+        let addonFoo = new AddonFoo(app, project);
+        app.project.addons.push(addonFoo);
 
-        input.write({
-          fake: {
-            dist: {
-              'foo.js': '// foo.js',
-            },
-          },
-        });
-        app.registry.add('js', {
-          name: 'fake-js-preprocessor',
-          ext: 'js',
-          toTree() {
-            return input.path();
-          },
-        });
-
-        output = yield buildOutput(app.toTree());
-
+        let output = yield buildOutput(app.getStyles());
         let outputFiles = output.read();
 
-        expect(outputFiles.fake).to.deep.equal({
-          dist: {
-            'foo.js': '// foo.js',
-          },
-        });
-      }));
-    });
-  }
-
-  describe('getStyles()', function() {
-    it('can handle empty styles folders', co.wrap(function *() {
-      let appStyles = yield createTempDir();
-      appStyles.write({
-        'app.css': '// css styles',
-      });
-
-      let app = new EmberApp({
-        project,
-        trees: {
-          styles: appStyles.path(),
-        },
-      });
-
-      app.addonTreesFor = () => [];
-
-      let output = yield buildOutput(app.getStyles());
-      let outputFiles = output.read();
-
-      expect(outputFiles).to.deep.equal({
-        app: {
-          styles: {
-            'app.css': '// css styles',
-          },
-        },
-      });
-
-      yield output.dispose();
-    }));
-
-    it('can handle empty addon styles folders', co.wrap(function *() {
-      let appOptions = { project };
-
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        appOptions.trees = { src: {} };
-      }
-
-      let app = new EmberApp(appOptions);
-
-      let AddonFoo = Addon.extend({
-        root: 'foo',
-        name: 'foo',
-      });
-      let addonFoo = new AddonFoo(app, project);
-      app.project.addons.push(addonFoo);
-
-      let output = yield buildOutput(app.getStyles());
-      let outputFiles = output.read();
-
-      let expectedOutput;
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        expectedOutput = {
-          src: {
-            ui: {
-              styles: {
+        let expectedOutput;
+        if (isExperimentEnabled('MODULE_UNIFICATION')) {
+          expectedOutput = {
+            src: {
+              ui: {
+                styles: {},
               },
             },
-          },
-        };
-      } else {
-        expectedOutput = {};
-      }
-      expect(outputFiles).to.deep.equal(expectedOutput);
+          };
+        } else {
+          expectedOutput = {};
+        }
+        expect(outputFiles).to.deep.equal(expectedOutput);
 
-      yield output.dispose();
-    }));
+        yield output.dispose();
+      })
+    );
 
-    it('add `app/styles` folder from add-ons', co.wrap(function *() {
-      let addonFooStyles = yield createTempDir();
+    it(
+      'add `app/styles` folder from add-ons',
+      co.wrap(function*() {
+        let addonFooStyles = yield createTempDir();
 
-      addonFooStyles.write({
-        app: {
-          styles: {
-            'foo.css': 'foo',
-          },
-        },
-      });
-
-      let appOptions = { project };
-
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        appOptions.trees = { src: {} };
-      }
-
-      let app = new EmberApp(appOptions);
-
-      let AddonFoo = Addon.extend({
-        root: 'foo',
-        name: 'foo',
-        treeForStyles() {
-          return addonFooStyles.path();
-        },
-      });
-      let addonFoo = new AddonFoo(app, project);
-      app.project.addons.push(addonFoo);
-
-      let output = yield buildOutput(app.getStyles());
-      let outputFiles = output.read();
-
-      let expectedOutput;
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        expectedOutput = {
-          src: {
-            ui: {
-              styles: {
-                'foo.css': 'foo',
-              },
-            },
-          },
-        };
-      } else {
-        expectedOutput = {
+        addonFooStyles.write({
           app: {
             styles: {
               'foo.css': 'foo',
             },
           },
+        });
+
+        let appOptions = { project };
+
+        if (isExperimentEnabled('MODULE_UNIFICATION')) {
+          appOptions.trees = { src: {} };
+        }
+
+        let app = new EmberApp(appOptions);
+
+        let AddonFoo = Addon.extend({
+          root: 'foo',
+          name: 'foo',
+          treeForStyles() {
+            return addonFooStyles.path();
+          },
+        });
+        let addonFoo = new AddonFoo(app, project);
+        app.project.addons.push(addonFoo);
+
+        let output = yield buildOutput(app.getStyles());
+        let outputFiles = output.read();
+
+        let expectedOutput;
+        if (isExperimentEnabled('MODULE_UNIFICATION')) {
+          expectedOutput = {
+            src: {
+              ui: {
+                styles: {
+                  'foo.css': 'foo',
+                },
+              },
+            },
+          };
+        } else {
+          expectedOutput = {
+            app: {
+              styles: {
+                'foo.css': 'foo',
+              },
+            },
+          };
+        }
+        expect(outputFiles).to.deep.equal(expectedOutput);
+
+        yield addonFooStyles.dispose();
+        yield output.dispose();
+      })
+    );
+
+    it(
+      'returns add-ons styles files',
+      co.wrap(function*() {
+        let addonFooStyles = yield createTempDir();
+        let addonBarStyles = yield createTempDir();
+
+        // `ember-basic-dropdown`
+        addonFooStyles.write({
+          app: {
+            styles: {
+              'foo.css': 'foo',
+            },
+          },
+        });
+        // `ember-bootstrap`
+        addonBarStyles.write({
+          baztrap: {
+            'baztrap.css': '// baztrap.css',
+          },
+        });
+
+        let app = new EmberApp({
+          project,
+        });
+        app.addonTreesFor = function() {
+          return [addonFooStyles.path(), addonBarStyles.path()];
         };
-      }
-      expect(outputFiles).to.deep.equal(expectedOutput);
 
-      yield addonFooStyles.dispose();
-      yield output.dispose();
-    }));
+        let output = yield buildOutput(app.getStyles());
+        let outputFiles = output.read();
 
-    it('returns add-ons styles files', co.wrap(function *() {
-      let addonFooStyles = yield createTempDir();
-      let addonBarStyles = yield createTempDir();
-
-      // `ember-basic-dropdown`
-      addonFooStyles.write({
-        app: {
-          styles: {
-            'foo.css': 'foo',
+        expect(outputFiles).to.deep.equal({
+          app: {
+            styles: {
+              'foo.css': 'foo',
+            },
           },
-        },
-      });
-      // `ember-bootstrap`
-      addonBarStyles.write({
-        baztrap: {
-          'baztrap.css': '// baztrap.css',
-        },
-      });
-
-      let app = new EmberApp({
-        project,
-      });
-      app.addonTreesFor = function() {
-        return [
-          addonFooStyles.path(),
-          addonBarStyles.path(),
-        ];
-      };
-
-      let output = yield buildOutput(app.getStyles());
-      let outputFiles = output.read();
-
-      expect(outputFiles).to.deep.equal({
-        app: {
-          styles: {
-            'foo.css': 'foo',
+          baztrap: {
+            'baztrap.css': '// baztrap.css',
           },
-        },
-        baztrap: {
-          'baztrap.css': '// baztrap.css',
-        },
-      });
+        });
 
-      yield addonFooStyles.dispose();
-      yield addonBarStyles.dispose();
-      yield output.dispose();
-    }));
+        yield addonFooStyles.dispose();
+        yield addonBarStyles.dispose();
+        yield output.dispose();
+      })
+    );
 
-    it('does not fail if add-ons do not export styles', co.wrap(function *() {
-      let app = new EmberApp({
-        project,
-      });
-      app.addonTreesFor = () => [];
+    it(
+      'does not fail if add-ons do not export styles',
+      co.wrap(function*() {
+        let app = new EmberApp({
+          project,
+        });
+        app.addonTreesFor = () => [];
 
-      let output = yield buildOutput(app.getStyles());
-      let outputFiles = output.read();
+        let output = yield buildOutput(app.getStyles());
+        let outputFiles = output.read();
 
-      expect(outputFiles).to.deep.equal({});
+        expect(outputFiles).to.deep.equal({});
 
-      yield output.dispose();
-    }));
+        yield output.dispose();
+      })
+    );
   });
 
   describe('getPublic()', function() {
-    it('returns public files for app and add-ons', co.wrap(function *() {
-      let input = yield createTempDir();
-      let addonFooPublic = yield createTempDir();
-      let addonBarPublic = yield createTempDir();
+    it(
+      'returns public files for app and add-ons',
+      co.wrap(function*() {
+        let input = yield createTempDir();
+        let addonFooPublic = yield createTempDir();
+        let addonBarPublic = yield createTempDir();
 
-      input.write({
-        'crossdomain.xml': '',
-        'robots.txt': '',
-      });
-      addonFooPublic.write({
-        'foo': 'foo',
-      });
-      addonBarPublic.write({
-        'bar': 'bar',
-      });
-
-      app = new EmberApp({
-        project,
-      });
-
-      app.trees.public = input.path();
-      app.addonTreesFor = function() {
-        return [
-          addonFooPublic.path(),
-          addonBarPublic.path(),
-        ];
-      };
-
-      let output = yield buildOutput(app.getPublic());
-      let outputFiles = output.read();
-
-      expect(outputFiles).to.deep.equal({
-        public: {
+        input.write({
           'crossdomain.xml': '',
           'robots.txt': '',
-          'foo': 'foo',
-          'bar': 'bar',
-        },
-      });
+        });
+        addonFooPublic.write({
+          foo: 'foo',
+        });
+        addonBarPublic.write({
+          bar: 'bar',
+        });
 
-      yield input.dispose();
-      yield addonFooPublic.dispose();
-      yield addonBarPublic.dispose();
-      yield output.dispose();
-    }));
+        app = new EmberApp({
+          project,
+        });
 
-    it('does not fail if app or add-ons have the same `public` folder structure', co.wrap(function *() {
-      let input = yield createTempDir();
-      let addonFooPublic = yield createTempDir();
-      let addonBarPublic = yield createTempDir();
+        app.trees.public = input.path();
+        app.addonTreesFor = function() {
+          return [addonFooPublic.path(), addonBarPublic.path()];
+        };
 
-      input.write({
-        'crossdomain.xml': '',
-        'robots.txt': '',
-      });
-      addonFooPublic.write({
-        'bar': 'bar',
-        'foo': 'foo',
-      });
-      addonBarPublic.write({
-        'bar': 'bar',
-      });
+        let output = yield buildOutput(app.getPublic());
+        let outputFiles = output.read();
 
-      app = new EmberApp({
-        project,
-      });
+        expect(outputFiles).to.deep.equal({
+          public: {
+            'crossdomain.xml': '',
+            'robots.txt': '',
+            foo: 'foo',
+            bar: 'bar',
+          },
+        });
 
-      app.trees.public = input.path();
-      app.addonTreesFor = function() {
-        return [
-          addonFooPublic.path(),
-          addonBarPublic.path(),
-        ];
-      };
+        yield input.dispose();
+        yield addonFooPublic.dispose();
+        yield addonBarPublic.dispose();
+        yield output.dispose();
+      })
+    );
 
-      let output = yield buildOutput(app.getPublic());
-      let outputFiles = output.read();
+    it(
+      'does not fail if app or add-ons have the same `public` folder structure',
+      co.wrap(function*() {
+        let input = yield createTempDir();
+        let addonFooPublic = yield createTempDir();
+        let addonBarPublic = yield createTempDir();
 
-      expect(outputFiles).to.deep.equal({
-        public: {
+        input.write({
           'crossdomain.xml': '',
           'robots.txt': '',
-          'foo': 'foo',
-          'bar': 'bar',
-        },
-      });
+        });
+        addonFooPublic.write({
+          bar: 'bar',
+          foo: 'foo',
+        });
+        addonBarPublic.write({
+          bar: 'bar',
+        });
 
-      yield input.dispose();
-      yield addonFooPublic.dispose();
-      yield addonBarPublic.dispose();
-      yield output.dispose();
-    }));
+        app = new EmberApp({
+          project,
+        });
+
+        app.trees.public = input.path();
+        app.addonTreesFor = function() {
+          return [addonFooPublic.path(), addonBarPublic.path()];
+        };
+
+        let output = yield buildOutput(app.getPublic());
+        let outputFiles = output.read();
+
+        expect(outputFiles).to.deep.equal({
+          public: {
+            'crossdomain.xml': '',
+            'robots.txt': '',
+            foo: 'foo',
+            bar: 'bar',
+          },
+        });
+
+        yield input.dispose();
+        yield addonFooPublic.dispose();
+        yield addonBarPublic.dispose();
+        yield output.dispose();
+      })
+    );
   });
 
   describe('getAddonTemplates()', function() {
-    it('returns add-ons template files', co.wrap(function *() {
-      let input = yield createTempDir();
-      let addonFooTemplates = yield createTempDir();
-      let addonBarTemplates = yield createTempDir();
+    it(
+      'returns add-ons template files',
+      co.wrap(function*() {
+        let input = yield createTempDir();
+        let addonFooTemplates = yield createTempDir();
+        let addonBarTemplates = yield createTempDir();
 
-      addonFooTemplates.write({
-        'foo.hbs': 'foo',
-      });
-      addonBarTemplates.write({
-        'bar.hbs': 'bar',
-      });
+        addonFooTemplates.write({
+          'foo.hbs': 'foo',
+        });
+        addonBarTemplates.write({
+          'bar.hbs': 'bar',
+        });
 
-      let app = new EmberApp({
-        project,
-      });
-      app.trees.templates = input.path();
-      app.addonTreesFor = function() {
-        return [
-          addonFooTemplates.path(),
-          addonBarTemplates.path(),
-        ];
-      };
+        let app = new EmberApp({
+          project,
+        });
+        app.trees.templates = input.path();
+        app.addonTreesFor = function() {
+          return [addonFooTemplates.path(), addonBarTemplates.path()];
+        };
 
-      let output = yield buildOutput(app.getAddonTemplates());
-      let outputFiles = output.read();
+        let output = yield buildOutput(app.getAddonTemplates());
+        let outputFiles = output.read();
 
-      expect(outputFiles['test-project'].templates).to.deep.equal({
-        'foo.hbs': 'foo',
-        'bar.hbs': 'bar',
-      });
+        expect(outputFiles['test-project'].templates).to.deep.equal({
+          'foo.hbs': 'foo',
+          'bar.hbs': 'bar',
+        });
 
-      yield input.dispose();
-      yield addonFooTemplates.dispose();
-      yield addonBarTemplates.dispose();
-      yield output.dispose();
-    }));
+        yield input.dispose();
+        yield addonFooTemplates.dispose();
+        yield addonBarTemplates.dispose();
+        yield output.dispose();
+      })
+    );
   });
 
   describe('getTests()', function() {
-    it('returns all test files `hinting` is enabled', co.wrap(function *() {
-      let input = yield createTempDir();
-      let addonLint = yield createTempDir();
-      let addonFooTestSupport = yield createTempDir();
-      let addonBarTestSupport = yield createTempDir();
+    it(
+      'returns all test files `hinting` is enabled',
+      co.wrap(function*() {
+        let input = yield createTempDir();
+        let addonLint = yield createTempDir();
+        let addonFooTestSupport = yield createTempDir();
+        let addonBarTestSupport = yield createTempDir();
 
-      input.write({
-        acceptance: {
-          'login-test.js': '',
-          'logout-test.js': '',
-        },
-      });
-      addonFooTestSupport.write({
-        'foo-helper.js': 'foo',
-      });
-      addonBarTestSupport.write({
-        'bar-helper.js': 'bar',
-      });
-      addonLint.write({
-        'login-test.lint.js': '',
-        'logout-test.lint.js': '',
-      });
-
-      let app = new EmberApp({
-        project,
-      });
-      app.trees.tests = input.path();
-      app.addonLintTree = (type, tree) => {
-        if (type === 'tests') {
-          return addonLint.path();
-        }
-
-        return tree;
-      };
-      app.addonTreesFor = function(type) {
-        if (type === 'test-support') {
-          return [
-            addonFooTestSupport.path(),
-            addonBarTestSupport.path(),
-          ];
-        }
-
-        return [];
-      };
-
-      let output = yield buildOutput(app.getTests());
-      let outputFiles = output.read();
-
-      expect(outputFiles.tests).to.deep.equal({
-        'addon-test-support': {},
-        lint: {
+        input.write({
+          acceptance: {
+            'login-test.js': '',
+            'logout-test.js': '',
+          },
+        });
+        addonFooTestSupport.write({
+          'foo-helper.js': 'foo',
+        });
+        addonBarTestSupport.write({
+          'bar-helper.js': 'bar',
+        });
+        addonLint.write({
           'login-test.lint.js': '',
           'logout-test.lint.js': '',
-        },
-        acceptance: {
-          'login-test.js': '',
-          'logout-test.js': '',
-        },
-        'foo-helper.js': 'foo',
-        'bar-helper.js': 'bar',
-      });
+        });
 
-      yield input.dispose();
-      yield addonFooTestSupport.dispose();
-      yield addonBarTestSupport.dispose();
-      yield addonLint.dispose();
-      yield output.dispose();
-    }));
+        let app = new EmberApp({
+          project,
+        });
+        app.trees.tests = input.path();
+        app.addonLintTree = (type, tree) => {
+          if (type === 'tests') {
+            return addonLint.path();
+          }
 
-    it('returns test files w/o lint tests if `hinting` is disabled', co.wrap(function *() {
-      let input = yield createTempDir();
-      let addonFooTestSupport = yield createTempDir();
-      let addonBarTestSupport = yield createTempDir();
+          return tree;
+        };
+        app.addonTreesFor = function(type) {
+          if (type === 'test-support') {
+            return [addonFooTestSupport.path(), addonBarTestSupport.path()];
+          }
 
-      input.write({
-        acceptance: {
-          'login-test.js': '',
-          'logout-test.js': '',
-        },
-      });
-      addonFooTestSupport.write({
-        'foo-helper.js': 'foo',
-      });
-      addonBarTestSupport.write({
-        'bar-helper.js': 'bar',
-      });
+          return [];
+        };
 
-      let app = new EmberApp({
-        project,
-        hinting: false,
-      });
-      app.trees.tests = input.path();
-      app.addonTreesFor = function(type) {
-        if (type === 'test-support') {
-          return [
-            addonFooTestSupport.path(),
-            addonBarTestSupport.path(),
-          ];
-        }
+        let output = yield buildOutput(app.getTests());
+        let outputFiles = output.read();
 
-        return [];
-      };
+        expect(outputFiles.tests).to.deep.equal({
+          'addon-test-support': {},
+          lint: {
+            'login-test.lint.js': '',
+            'logout-test.lint.js': '',
+          },
+          acceptance: {
+            'login-test.js': '',
+            'logout-test.js': '',
+          },
+          'foo-helper.js': 'foo',
+          'bar-helper.js': 'bar',
+        });
 
-      let output = yield buildOutput(app.getTests());
-      let outputFiles = output.read();
+        yield input.dispose();
+        yield addonFooTestSupport.dispose();
+        yield addonBarTestSupport.dispose();
+        yield addonLint.dispose();
+        yield output.dispose();
+      })
+    );
 
-      expect(outputFiles.tests).to.deep.equal({
-        'addon-test-support': {},
-        acceptance: {
-          'login-test.js': '',
-          'logout-test.js': '',
-        },
-        'foo-helper.js': 'foo',
-        'bar-helper.js': 'bar',
-      });
+    it(
+      'returns test files w/o lint tests if `hinting` is disabled',
+      co.wrap(function*() {
+        let input = yield createTempDir();
+        let addonFooTestSupport = yield createTempDir();
+        let addonBarTestSupport = yield createTempDir();
 
-      yield input.dispose();
-      yield addonFooTestSupport.dispose();
-      yield addonBarTestSupport.dispose();
-      yield output.dispose();
-    }));
+        input.write({
+          acceptance: {
+            'login-test.js': '',
+            'logout-test.js': '',
+          },
+        });
+        addonFooTestSupport.write({
+          'foo-helper.js': 'foo',
+        });
+        addonBarTestSupport.write({
+          'bar-helper.js': 'bar',
+        });
+
+        let app = new EmberApp({
+          project,
+          hinting: false,
+        });
+        app.trees.tests = input.path();
+        app.addonTreesFor = function(type) {
+          if (type === 'test-support') {
+            return [addonFooTestSupport.path(), addonBarTestSupport.path()];
+          }
+
+          return [];
+        };
+
+        let output = yield buildOutput(app.getTests());
+        let outputFiles = output.read();
+
+        expect(outputFiles.tests).to.deep.equal({
+          'addon-test-support': {},
+          acceptance: {
+            'login-test.js': '',
+            'logout-test.js': '',
+          },
+          'foo-helper.js': 'foo',
+          'bar-helper.js': 'bar',
+        });
+
+        yield input.dispose();
+        yield addonFooTestSupport.dispose();
+        yield addonBarTestSupport.dispose();
+        yield output.dispose();
+      })
+    );
   });
 
   describe('constructor', function() {
     it('should override project.configPath if configPath option is specified', function() {
-      project.configPath = function() { return 'original value'; };
+      project.configPath = function() {
+        return 'original value';
+      };
 
       let expected = 'custom config path';
 
@@ -733,27 +768,30 @@ describe('EmberApp', function() {
     });
 
     it('should merge options with defaults to depth', function() {
-      let app = new EmberApp({
-        project,
-        foo: {
-          bar: ['baz'],
-        },
-        fooz: {
-          bam: {
-            boo: ['default'],
+      let app = new EmberApp(
+        {
+          project,
+          foo: {
+            bar: ['baz'],
+          },
+          fooz: {
+            bam: {
+              boo: ['default'],
+            },
           },
         },
-      }, {
-        foo: {
-          bar: ['bizz'],
-        },
-        fizz: 'fizz',
-        fooz: {
-          bam: {
-            boo: ['custom'],
+        {
+          foo: {
+            bar: ['bizz'],
           },
-        },
-      });
+          fizz: 'fizz',
+          fooz: {
+            bam: {
+              boo: ['custom'],
+            },
+          },
+        }
+      );
 
       expect(app.options.foo).to.deep.eql({
         bar: ['bizz'],
@@ -767,23 +805,27 @@ describe('EmberApp', function() {
     });
 
     it('should do the right thing when merging default object options', function() {
-      let app = new EmberApp({
-        project,
-      }, {
-        minifyJS: {
-          enabled: true,
-          options: {
-            exclusions: ['hey', 'you'],
-          },
+      let app = new EmberApp(
+        {
+          project,
         },
-      });
+        {
+          minifyJS: {
+            enabled: true,
+            options: {
+              exclusions: ['hey', 'you'],
+            },
+          },
+        }
+      );
 
       expect(app.options.minifyJS).to.deep.equal({
         enabled: true,
         options: {
           exclusions: ['hey', 'you'],
           compress: {
-            'negate_iife': false,
+            // eslint-disable-next-line camelcase
+            negate_iife: false,
             sequences: 30,
           },
           output: {
@@ -824,7 +866,7 @@ describe('EmberApp', function() {
         setupPreprocessorRegistryWasCalled = includedWasCalled = 0;
         addonsApp = null;
         addonsAppIncluded = null;
-        project.initializeAddons = function() { };
+        project.initializeAddons = function() {};
         project.addons = [addon];
       });
 
@@ -857,8 +899,8 @@ describe('EmberApp', function() {
           new EmberApp({
             project,
             registry: {
-              add() { },
-              availablePlugins: { },
+              add() {},
+              availablePlugins: {},
             },
           });
         }).to.throw(/loader.js addon is missing/);
@@ -869,8 +911,8 @@ describe('EmberApp', function() {
           new EmberApp({
             project,
             registry: {
-              add() { },
-              availablePlugins: { },
+              add() {},
+              availablePlugins: {},
             },
             _ignoreMissingLoader: true,
           });
@@ -885,23 +927,29 @@ describe('EmberApp', function() {
       });
 
       it('keeps ember-resolver.js in vendorFiles when npm ember-resolver is not installed, but is present in bower.json', function() {
-        project.bowerDependencies = function() { return { 'ember': {}, 'ember-resolver': {} }; };
+        project.bowerDependencies = function() {
+          return { ember: {}, 'ember-resolver': {} };
+        };
         let app = new EmberApp({
           project,
           registry: {
-            add() { },
+            add() {},
             availablePlugins: { 'loader.js': {} },
           },
         });
-        expect(app.vendorFiles['ember-resolver.js'][0]).to.equal('bower_components/ember-resolver/dist/modules/ember-resolver.js');
+        expect(app.vendorFiles['ember-resolver.js'][0]).to.equal(
+          'bower_components/ember-resolver/dist/modules/ember-resolver.js'
+        );
       });
 
       it('removes ember-resolver.js from vendorFiles when not in bower.json and npm ember-resolver not installed', function() {
-        project.bowerDependencies = function() { return { 'ember': {} }; };
+        project.bowerDependencies = function() {
+          return { ember: {} };
+        };
         let app = new EmberApp({
           project,
           registry: {
-            add() { },
+            add() {},
             availablePlugins: { 'loader.js': {} },
           },
         });
@@ -952,8 +1000,11 @@ describe('EmberApp', function() {
         let passedApp;
 
         addon = {
-          included(app) { called = true; passedApp = app; },
-          treeFor() { },
+          included(app) {
+            called = true;
+            passedApp = app;
+          },
+          treeFor() {},
         };
 
         project.initializeAddons = function() {
@@ -986,8 +1037,8 @@ describe('EmberApp', function() {
     describe('addonTreesFor', function() {
       beforeEach(function() {
         addon = {
-          included() { },
-          treeFor() { },
+          included() {},
+          treeFor() {},
         };
 
         project.initializeAddons = function() {
@@ -1042,7 +1093,9 @@ describe('EmberApp', function() {
         it('getAppJavascript calls addonTreesFor', function() {
           app.getAppJavascript();
 
-          let args = td.explain(app.addonTreesFor).calls.map(function(call) { return call.args[0]; });
+          let args = td.explain(app.addonTreesFor).calls.map(function(call) {
+            return call.args[0];
+          });
 
           expect(args).to.deep.equal(['app']);
         });
@@ -1073,8 +1126,8 @@ describe('EmberApp', function() {
     describe('toTree', function() {
       beforeEach(function() {
         addon = {
-          included() { },
-          treeFor() { },
+          included() {},
+          treeFor() {},
           postprocessTree: td.function(),
         };
 
@@ -1098,8 +1151,9 @@ describe('EmberApp', function() {
         td.when(
           addon.postprocessTree(
             'all',
-            td.matchers.argThat(t => t.constructor === BroccoliMergeTrees &&
-                                      t._inputNodes.length === 1 && t._inputNodes[0] === 'bar')
+            td.matchers.argThat(
+              t => t.constructor === BroccoliMergeTrees && t._inputNodes.length === 1 && t._inputNodes[0] === 'bar'
+            )
           )
         ).thenReturn('derp');
 
@@ -1116,8 +1170,9 @@ describe('EmberApp', function() {
         td.when(
           app.addonPostprocessTree(
             'all',
-            td.matchers.argThat(t => t.constructor === BroccoliMergeTrees &&
-                                      t._inputNodes.length === 1 && t._inputNodes[0] === 'bar')
+            td.matchers.argThat(
+              t => t.constructor === BroccoliMergeTrees && t._inputNodes.length === 1 && t._inputNodes[0] === 'bar'
+            )
           )
         ).thenReturn('blap');
 
@@ -1140,7 +1195,9 @@ describe('EmberApp', function() {
 
         expect(app.toTree()).to.equal('blap');
 
-        let args = td.explain(addon.postprocessTree).calls.map(function(call) { return call.args[0]; });
+        let args = td.explain(addon.postprocessTree).calls.map(function(call) {
+          return call.args[0];
+        });
 
         expect(args).to.deep.equal(['js', 'css', 'test', 'all']);
       });
@@ -1351,7 +1408,7 @@ describe('EmberApp', function() {
     it('defaults to development if production is not set', function() {
       process.env.EMBER_ENV = 'production';
       app.import({
-        'development': 'vendor/jquery.js',
+        development: 'vendor/jquery.js',
       });
 
       let outputFile = app._scriptOutputFiles['/assets/vendor.js'];
@@ -1367,8 +1424,8 @@ describe('EmberApp', function() {
       });
 
       app.import({
-        'development': 'vendor/jquery.js',
-        'production': null,
+        development: 'vendor/jquery.js',
+        production: null,
       });
 
       expect(app._scriptOutputFiles['/assets/vendor.js']).to.not.contain('vendor/jquery.js');
@@ -1403,11 +1460,7 @@ describe('EmberApp', function() {
   });
 
   describe('vendorFiles', function() {
-    let defaultVendorFiles = [
-      'jquery.js',
-      'ember.js',
-      'app-shims.js',
-    ];
+    let defaultVendorFiles = ['jquery.js', 'ember.js', 'app-shims.js'];
 
     describe('handlebars.js', function() {
       it('does not app.import handlebars if not present in bower.json', function() {
@@ -1557,7 +1610,9 @@ describe('EmberApp', function() {
 
     expect(() => {
       app.import('vendor/b/c/foo.js', { type: 'javascript' });
-    }).to.throw(/You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/);
+    }).to.throw(
+      /You must pass either `vendor` or `test` for options.type in your call to `app.import` for file: foo.js/
+    );
   });
 
   describe('_initOptions', function() {
@@ -1635,23 +1690,12 @@ describe('EmberApp', function() {
         app.import('files/d.css', { type: 'test' });
         app.import('files/d.css', { type: 'test' });
 
-        expect(app.legacyTestFilesToAppend).to.deep.equal([
-          'files/d.js',
-          'files/a.js',
-          'files/b.js',
-          'files/c.js',
-        ]);
+        expect(app.legacyTestFilesToAppend).to.deep.equal(['files/d.js', 'files/a.js', 'files/b.js', 'files/c.js']);
 
-        expect(app.vendorTestStaticStyles).to.deep.equal([
-          'files/a.css',
-          'files/b.css',
-          'files/c.css',
-          'files/d.css',
-        ]);
+        expect(app.vendorTestStaticStyles).to.deep.equal(['files/a.css', 'files/b.css', 'files/c.css', 'files/d.css']);
       });
     });
   });
-
 
   describe('deprecations', function() {
     it('shows ember-cli-shims deprecation', function() {
@@ -1675,15 +1719,15 @@ describe('EmberApp', function() {
         project,
       });
 
-      expect(project.ui.output).to.contain("You have not included `ember-cli-shims` in your project's `bower.json` or `package.json`.");
+      expect(project.ui.output).to.contain(
+        "You have not included `ember-cli-shims` in your project's `bower.json` or `package.json`."
+      );
     });
 
     describe('jQuery integration', function() {
       it('shows deprecation', function() {
         project.initializeAddons = function() {
-          this.addons = [
-            { name: 'ember-source', paths: {} },
-          ];
+          this.addons = [{ name: 'ember-source', paths: {} }];
         };
         app = new EmberApp({ project });
 
@@ -1694,10 +1738,7 @@ describe('EmberApp', function() {
 
       it('does not show deprecation if the app has `@ember/jquery` installed', function() {
         project.initializeAddons = function() {
-          this.addons = [
-            { name: 'ember-source', paths: {} },
-            { name: '@ember/jquery' },
-          ];
+          this.addons = [{ name: 'ember-source', paths: {} }, { name: '@ember/jquery' }];
         };
         app = new EmberApp({ project });
         expect(project.ui.output).to.not.contain(

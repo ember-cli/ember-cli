@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const walkSync = require('walk-sync');
+const chalk = require('chalk');
 const stringUtil = require('ember-cli-string-utils');
 const uniq = require('ember-cli-lodash-subset').uniq;
 const SilentError = require('silent-error');
@@ -50,6 +51,12 @@ module.exports = {
     contents.dependencies['ember-cli-babel'] = contents.devDependencies['ember-cli-babel'];
     delete contents.devDependencies['ember-cli-babel'];
 
+    // Move ember-cli-htmlbars into the dependencies of the addon blueprint by default
+    // to prevent error:
+    // `Addon templates were detected but there are no template compilers registered for (addon-name)`
+    contents.dependencies['ember-cli-htmlbars'] = contents.devDependencies['ember-cli-htmlbars'];
+    delete contents.devDependencies['ember-cli-htmlbars'];
+
     // 99% of addons don't need ember-data, make it opt-in instead
     delete contents.devDependencies['ember-data'];
 
@@ -68,9 +75,6 @@ module.exports = {
 
     // add `ember-disable-prototype-extensions` to addons by default
     contents.devDependencies['ember-disable-prototype-extensions'] = '^1.1.3';
-
-    // add `eslint-plugin-node` to addons by default
-    contents.devDependencies['eslint-plugin-node'] = '^7.0.1';
 
     // add ember-try
     contents.devDependencies['ember-try'] = '^1.0.0';
@@ -104,6 +108,15 @@ module.exports = {
     }
 
     return new FileInfo(options);
+  },
+
+  beforeInstall() {
+    const version = require('../../package.json').version;
+    const prependEmoji = require('../../lib/utilities/prepend-emoji');
+
+    this.ui.writeLine(chalk.blue(`Ember CLI v${version}`));
+    this.ui.writeLine('');
+    this.ui.writeLine(prependEmoji('✨', `Creating a new Ember addon in ${chalk.yellow(process.cwd())}:`));
   },
 
   afterInstall() {
@@ -167,7 +180,7 @@ module.exports = {
 
   fileMapper(path) {
     for (let pattern in this.fileMap) {
-      if ((new RegExp(pattern)).test(path)) {
+      if (new RegExp(pattern).test(path)) {
         return this.fileMap[pattern].replace(':path', path);
       }
     }
