@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
 const chalk = require('chalk');
-const rimraf = require("rimraf");
+const rimraf = require('rimraf');
 
 const { isExperimentEnabled } = require('../../lib/experiments');
 const runCommand = require('../helpers/run-command');
@@ -155,13 +155,88 @@ describe('Acceptance: addon-smoke-test', function() {
         and `env.EMBER_CLI_MODULE_UNIFICATION` is disabled, but `env.EMBER_CLI_MODULE_UNIFICATION` must be enabled,
         in order for `ember-resolver` to work correctly.
        */
-      it('works with classic addon and MU dummy app', co.wrap(function *() {
-        let fixtureFile = 'kitchen-sink-classic-mu-dummy-app';
+      it(
+        'works with classic addon and MU dummy app', 
+        co.wrap(function *() {
+          let fixtureFile = 'kitchen-sink-classic-mu-dummy-app';
+          yield copyFixtureFiles(`addon/${fixtureFile}`);
+
+          // prevent MU detection
+          if (yield fs.exists('src')) {
+            rimraf.sync('src');
+          }
+
+          let packageJsonPath = path.join(addonRoot, 'package.json');
+          let packageJson = fs.readJsonSync(packageJsonPath);
+
+          expect(packageJson.devDependencies['ember-source']).to.not.be.empty;
+
+          packageJson.dependencies = packageJson.dependencies || {};
+          // add HTMLBars for templates (generators do this automatically when components/templates are added)
+          packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+          fs.writeJsonSync(packageJsonPath, packageJson);
+
+          let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
+
+          expect(result.code).to.eql(0);
+          let contents;
+
+          let indexPath = path.join(addonRoot, 'dist', 'index.html');
+          contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
+          expect(contents).to.contain('"SOME AWESOME STUFF"');
+
+          let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
+          contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
+          expect(contents).to.contain('addon/styles/app.css is present');
+          //
+          let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
+          contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
+          expect(contents).to.contain('tests/dummy/public/robots.txt is present');
+
+          result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
+
+          expect(result.code).to.eql(0);
+        })
+      );
+    }
+
+    it(
+      'can run a MU unit test with a relative import', 
+      co.wrap(function *() {
+        yield copyFixtureFiles('brocfile-tests/mu-unit-test-with-relative-import');
+
+        let packageJsonPath = path.join(addonRoot, 'package.json');
+        let packageJson = fs.readJsonSync(packageJsonPath);
+
+        packageJson.dependencies = packageJson.dependencies || {};
+        // add HTMLBars for templates (generators do this automatically when components/templates are added)
+        packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
+
+        fs.writeJsonSync(packageJsonPath, packageJson);
+
+        let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
+        expect(result.code).to.eql(0);
+
+        let appFileContents = fs.readFileSync(path.join(addonRoot, 'dist', 'assets', 'tests.js'), {
+          encoding: 'utf8',
+        });
+        expect(appFileContents).to.include('Unit | Utility | string');
+
+        result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
+        expect(result.code).to.eql(0);
+      })
+    );
+  } else {
+    it(
+      'works with MU addon and classic dummy app', 
+      co.wrap(function *() {
+        let fixtureFile = 'kitchen-sink-mu-classic-dummy-app';
         yield copyFixtureFiles(`addon/${fixtureFile}`);
 
-        // prevent MU detection
-        if (yield fs.exists('src')) {
-          rimraf.sync('src');
+        // remove MU specific things from base addon
+        if (yield fs.exists('tests/dummy/src')) {
+          rimraf.sync('tests/dummy/src');
         }
 
         let packageJsonPath = path.join(addonRoot, 'package.json');
@@ -195,74 +270,8 @@ describe('Acceptance: addon-smoke-test', function() {
         result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
 
         expect(result.code).to.eql(0);
-      }));
-    }
-
-    it('can run a MU unit test with a relative import', co.wrap(function *() {
-      yield copyFixtureFiles('brocfile-tests/mu-unit-test-with-relative-import');
-
-      let packageJsonPath = path.join(addonRoot, 'package.json');
-      let packageJson = fs.readJsonSync(packageJsonPath);
-
-      packageJson.dependencies = packageJson.dependencies || {};
-      // add HTMLBars for templates (generators do this automatically when components/templates are added)
-      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
-
-      fs.writeJsonSync(packageJsonPath, packageJson);
-
-      let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
-      expect(result.code).to.eql(0);
-
-      let appFileContents = fs.readFileSync(path.join(addonRoot, 'dist', 'assets', 'tests.js'), {
-        encoding: 'utf8',
-      });
-      expect(appFileContents).to.include('Unit | Utility | string');
-
-      result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
-      expect(result.code).to.eql(0);
-    }));
-  } else {
-    it('works with MU addon and classic dummy app', co.wrap(function *() {
-      let fixtureFile = 'kitchen-sink-mu-classic-dummy-app';
-      yield copyFixtureFiles(`addon/${fixtureFile}`);
-
-      // remove MU specific things from base addon
-      if (yield fs.exists('tests/dummy/src')) {
-        rimraf.sync('tests/dummy/src');
-      }
-
-      let packageJsonPath = path.join(addonRoot, 'package.json');
-      let packageJson = fs.readJsonSync(packageJsonPath);
-
-      expect(packageJson.devDependencies['ember-source']).to.not.be.empty;
-
-      packageJson.dependencies = packageJson.dependencies || {};
-      // add HTMLBars for templates (generators do this automatically when components/templates are added)
-      packageJson.dependencies['ember-cli-htmlbars'] = 'latest';
-
-      fs.writeJsonSync(packageJsonPath, packageJson);
-
-      let result = yield runCommand('node_modules/ember-cli/bin/ember', 'build');
-
-      expect(result.code).to.eql(0);
-      let contents;
-
-      let indexPath = path.join(addonRoot, 'dist', 'index.html');
-      contents = fs.readFileSync(indexPath, { encoding: 'utf8' });
-      expect(contents).to.contain('"SOME AWESOME STUFF"');
-
-      let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
-      contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
-      expect(contents).to.contain('addon/styles/app.css is present');
-      //
-      let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
-      contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
-      expect(contents).to.contain('tests/dummy/public/robots.txt is present');
-
-      result = yield runCommand('node_modules/ember-cli/bin/ember', 'test');
-
-      expect(result.code).to.eql(0);
-    }));
+      })
+    );
   }
 });
 
