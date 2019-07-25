@@ -156,8 +156,8 @@ describe('Acceptance: addon-smoke-test', function() {
         in order for `ember-resolver` to work correctly.
        */
       it(
-        'works with classic addon and MU dummy app', 
-        co.wrap(function *() {
+        'works with classic addon and MU dummy app',
+        co.wrap(function*() {
           let fixtureFile = 'kitchen-sink-classic-mu-dummy-app';
           yield copyFixtureFiles(`addon/${fixtureFile}`);
 
@@ -202,8 +202,8 @@ describe('Acceptance: addon-smoke-test', function() {
     }
 
     it(
-      'can run a MU unit test with a relative import', 
-      co.wrap(function *() {
+      'can run a MU unit test with a relative import',
+      co.wrap(function*() {
         yield copyFixtureFiles('brocfile-tests/mu-unit-test-with-relative-import');
 
         let packageJsonPath = path.join(addonRoot, 'package.json');
@@ -229,8 +229,8 @@ describe('Acceptance: addon-smoke-test', function() {
     );
   } else {
     it(
-      'works with MU addon and classic dummy app', 
-      co.wrap(function *() {
+      'works with MU addon and classic dummy app',
+      co.wrap(function*() {
         let fixtureFile = 'kitchen-sink-mu-classic-dummy-app';
         yield copyFixtureFiles(`addon/${fixtureFile}`);
 
