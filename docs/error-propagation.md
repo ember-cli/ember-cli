@@ -19,7 +19,7 @@ Here's what is going to happen:
   + `message`
   + `stack`
 
-Error contains information of where in the file error occured and what kind of error it was.
+Error contains information of where in the file error occurred and what kind of error it was.
 
 + `ember-cli-htmlbars` will catch the error from `ember-template-compiler`.
 

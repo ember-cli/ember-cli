@@ -191,7 +191,7 @@ describe('ember-app-utils', function() {
       it('returns application bootstrap snippet by default', function() {
         let output = contentFor(config, defaultMatch, 'app-boot', defaultOptions);
 
-        expect(output, 'includes applicaton bootstrap snippet').to.contain(
+        expect(output, 'includes application bootstrap snippet').to.contain(
           'require("cool-foo/app")["default"].create({});'
         );
       });
@@ -200,7 +200,7 @@ describe('ember-app-utils', function() {
         let options = Object.assign({}, defaultOptions, { isModuleUnification: true });
         let output = contentFor(config, defaultMatch, 'app-boot', options);
 
-        expect(output, 'includes applicaton bootstrap snippet').to.contain(
+        expect(output, 'includes application bootstrap snippet').to.contain(
           'require("cool-foo/src/main")["default"].create({});'
         );
       });
@@ -209,7 +209,7 @@ describe('ember-app-utils', function() {
         let options = Object.assign({}, defaultOptions, { autoRun: false });
         let output = contentFor(config, defaultMatch, 'app-boot', options);
 
-        expect(output, 'includes applicaton bootstrap snippet').to.equal('');
+        expect(output, 'includes application bootstrap snippet').to.equal('');
       });
     });
 
