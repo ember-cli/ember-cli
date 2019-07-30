@@ -28,7 +28,7 @@ An experiment can be summarized into three different states.
 
 ## Development
 
-During active developement of a feature, it can be enabled by setting the experiments
+During active development of a feature, it can be enabled by setting the experiments
 related environment variable (`'EMBER_CLI_' + EXPERIMENT_NAME`).
 
 For example, to enable the `CONFIG_CACHING` experiment mentioned in the example
