@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
+    "babel-eslint": "^10.0.2",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "github:ember-cli/ember-cli",
     "ember-cli-app-version": "^3.2.0",
