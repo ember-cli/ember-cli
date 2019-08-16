@@ -30,8 +30,8 @@ Thank you to all who took the time to contribute!
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/stefanpenner/ember-new-output/compare/v3.11.0...v3.12.0)
-- [`ember addon` diff](https://github.com/stefanpenner/ember-addon-output/compare/v3.11.0...v3.12.0)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.11.0...v3.12.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.11.0...v3.12.0)
 
 #### Community Contributions
 
