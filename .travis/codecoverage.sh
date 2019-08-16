@@ -6,5 +6,5 @@ set -e
 # Use `yarn` to install globals
 yarn global add coveralls codeclimate-test-reporter
 
-cat ./coverage/lcov.info | coveralls
-codeclimate-test-reporter < ./coverage/lcov.info
+./node_modules/.bin/nyc report --reporter text-lcov | coveralls
+./node_modules/.bin/nyc report --reporter text-lcov | codeclimate-test-reporter

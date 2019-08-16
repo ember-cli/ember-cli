@@ -16,29 +16,22 @@ describe('Acceptance: ember generate and destroy server', function() {
     cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
-  it('server', function() {
+  it('server', async function() {
     let args = ['server'];
 
-    return emberNew()
-      .then(() => emberGenerate(args))
-      .then(() => {
-        expect(file('server/index.js')).to.contain('module.exports = function(app) {');
-        expect(file('server/.jshintrc')).to.not.exist;
-
-        // TODO: assert that `morgan` and `glob` dependencies were installed
-      });
+    await emberNew();
+    await emberGenerate(args);
+    expect(file('server/index.js')).to.contain('module.exports = function(app) {');
+    expect(file('server/.jshintrc')).to.not.exist;
+    // TODO: assert that `morgan` and `glob` dependencies were installed
   });
 
-  it('server with ember-cli-jshint', function() {
+  it('server with ember-cli-jshint', async function() {
     let args = ['server'];
 
-    return emberNew()
-      .then(() => modifyPackages([
-        { name: 'ember-cli-jshint', dev: true },
-      ]))
-      .then(() => emberGenerate(args))
-      .then(() => {
-        expect(file('server/.jshintrc')).to.exist;
-      });
+    await emberNew();
+    await modifyPackages([{ name: 'ember-cli-jshint', dev: true }]);
+    await emberGenerate(args);
+    expect(file('server/.jshintrc')).to.exist;
   });
 });

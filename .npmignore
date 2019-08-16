@@ -1,11 +1,11 @@
-/assets
-/dev
-/docs
+/assets/
+/dev/
+/docs/
 /tests/*
 /tests/*/
 !/tests/helpers/
-/tmp
+/tmp/
 /.*
 *.log
-!.travis.yml
-!appveyor.yml
+!/.travis.yml
+/yarn.lock

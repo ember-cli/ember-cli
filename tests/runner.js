@@ -24,12 +24,10 @@ let mocha = new Mocha({
   retries: 2,
 });
 let testFiles = glob.sync(`${root}/**/*-test.js`);
-let lintPosition = testFiles.indexOf('tests/unit/lint-test.js');
-let lint = testFiles.splice(lintPosition, 1);
 let docsLintPosition = testFiles.indexOf('tests/unit/docs-lint-test.js');
 let docsLint = testFiles.splice(docsLintPosition, 1);
 
-testFiles = lint.concat(docsLint).concat(testFiles);
+testFiles = docsLint.concat(testFiles);
 
 if (optionOrFile === 'all') {
   addFiles(mocha, testFiles);
@@ -37,7 +35,6 @@ if (optionOrFile === 'all') {
 } else if (optionOrFile === 'slow') {
   addFiles(mocha, '/**/*-slow.js');
 } else if (optionOrFile === 'lint') {
-  addFiles(mocha, lint);
   addFiles(mocha, docsLint);
 } else if (process.argv.length > 2) {
   addFiles(mocha, process.argv.slice(2));
@@ -46,7 +43,7 @@ if (optionOrFile === 'all') {
 }
 
 function addFiles(mocha, files) {
-  files = (typeof files === 'string') ? glob.sync(root + files) : files;
+  files = typeof files === 'string' ? glob.sync(root + files) : files;
   files.forEach(mocha.addFile.bind(mocha));
 }
 

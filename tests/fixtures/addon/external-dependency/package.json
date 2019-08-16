@@ -1,0 +1,12 @@
+{
+  "name": "external-dependency",
+  "version": "0.0.1",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "ember-cli-string-utils": "latest",
+    "@octokit/rest": "latest",
+    "ember-cli-blueprint-test-helpers": "latest"
+  }
+}

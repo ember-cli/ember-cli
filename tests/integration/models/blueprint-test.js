@@ -87,8 +87,6 @@ let fixtureBlueprints = path.resolve(__dirname, '..', '..', 'fixtures', 'bluepri
 let basicBlueprint = path.join(fixtureBlueprints, 'basic');
 let basicNewBlueprint = path.join(fixtureBlueprints, 'basic_2');
 
-let defaultIgnoredFiles = Blueprint.ignoredFiles;
-
 let basicBlueprintFiles = [
   '.ember-cli',
   '.gitignore',
@@ -117,8 +115,6 @@ describe('Blueprint', function() {
   let InstrumentedBasicBlueprint = BasicBlueprintClass.extend(instrumented);
 
   beforeEach(function() {
-    Blueprint.ignoredFiles = defaultIgnoredFiles;
-
     resetCalled();
   });
 
@@ -270,33 +266,31 @@ describe('Blueprint', function() {
     it('installs basic files', function() {
       expect(!!blueprint).to.equal(true);
 
-      return blueprint
-        .install(options)
-        .then(function() {
-          let actualFiles = walkSync(tmpdir).sort();
-          let output = ui.output.trim().split(EOL);
+      return blueprint.install(options).then(function() {
+        let actualFiles = walkSync(tmpdir).sort();
+        let output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* .ember-cli/);
-          expect(output.shift()).to.match(/create.* .gitignore/);
-          expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
-          expect(output.shift()).to.match(/create.* bar/);
-          expect(output.shift()).to.match(/create.* file-to-remove.txt/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* .ember-cli/);
+        expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
+        expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.shift()).to.match(/create.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
 
-          expect(() => {
-            fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function(err, content) {
-              if (err) {
-                throw 'error';
-              }
-              expect(content).to.match(/I AM TESTY/);
-            });
-          }).not.to.throw();
-        });
+        expect(() => {
+          fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function(err, content) {
+            if (err) {
+              throw 'error';
+            }
+            expect(content).to.match(/I AM TESTY/);
+          });
+        }).not.to.throw();
+      });
     });
 
     it('re-installing identical files', function() {
@@ -339,7 +333,8 @@ describe('Blueprint', function() {
     it('re-installing conflicting files', function() {
       td.when(ui.prompt(td.matchers.anything())).thenReturn(
         Promise.resolve({ answer: 'skip' }),
-        Promise.resolve({ answer: 'overwrite' }));
+        Promise.resolve({ answer: 'overwrite' })
+      );
 
       return blueprint
         .install(options)
@@ -382,47 +377,47 @@ describe('Blueprint', function() {
 
     it('installs path globPattern file', function() {
       options.targetFiles = ['foo.txt'];
-      return blueprint
-        .install(options)
-        .then(function() {
-          let actualFiles = walkSync(tmpdir).sort();
-          let globFiles = glob.sync('**/foo.txt', {
+      return blueprint.install(options).then(function() {
+        let actualFiles = walkSync(tmpdir).sort();
+        let globFiles = glob
+          .sync('**/foo.txt', {
             cwd: tmpdir,
             dot: true,
             mark: true,
             strict: true,
-          }).sort();
-          let output = ui.output.trim().split(EOL);
+          })
+          .sort();
+        let output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles).to.deep.equal(globFiles);
-        });
+        expect(actualFiles).to.deep.equal(globFiles);
+      });
     });
 
     it('installs multiple globPattern files', function() {
       options.targetFiles = ['foo.txt', 'test.txt'];
-      return blueprint
-        .install(options)
-        .then(function() {
-          let actualFiles = walkSync(tmpdir).sort();
-          let globFiles = glob.sync(path.join('**', '*.txt'), {
+      return blueprint.install(options).then(function() {
+        let actualFiles = walkSync(tmpdir).sort();
+        let globFiles = glob
+          .sync(path.join('**', '*.txt'), {
             cwd: tmpdir,
             dot: true,
             mark: true,
             strict: true,
-          }).sort();
-          let output = ui.output.trim().split(EOL);
+          })
+          .sort();
+        let output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.shift()).to.match(/create.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles).to.deep.equal(globFiles);
-        });
+        expect(actualFiles).to.deep.equal(globFiles);
+      });
     });
 
     describe('called on an existing project', function() {
@@ -451,12 +446,13 @@ describe('Blueprint', function() {
 
             let blueprintNew = new Blueprint(basicNewBlueprint);
 
-            options.project.isEmberCLIProject = function() { return true; };
+            options.project.isEmberCLIProject = function() {
+              return true;
+            };
 
             return blueprintNew.install(options);
           })
           .then(function() {
-
             let actualFiles = walkSync(tmpdir).sort();
             // Prompts contain \n EOL
             // Split output on \n since it will have the same affect as spliting on OS specific EOL
@@ -472,16 +468,69 @@ describe('Blueprint', function() {
       });
     });
 
+    describe('called on a new project', function() {
+      beforeEach(function() {
+        Blueprint.ignoredUpdateFiles.push('foo.txt');
+      });
+
+      it('does not ignores files in ignoredUpdateFiles', function() {
+        td.when(ui.prompt(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve({ answer: 'skip' }));
+
+        return blueprint
+          .install(options)
+          .then(function() {
+            let output = ui.output.trim().split(EOL);
+            ui.output = '';
+
+            expect(output.shift()).to.match(/^installing/);
+            expect(output.shift()).to.match(/create.* .ember-cli/);
+            expect(output.shift()).to.match(/create.* .gitignore/);
+            expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
+            expect(output.shift()).to.match(/create.* bar/);
+            expect(output.shift()).to.match(/create.* file-to-remove.txt/);
+            expect(output.shift()).to.match(/create.* foo.txt/);
+            expect(output.shift()).to.match(/create.* test.txt/);
+            expect(output.length).to.equal(0);
+
+            let blueprintNew = new Blueprint(basicNewBlueprint);
+
+            options.project.isEmberCLIProject = function() {
+              return false;
+            };
+
+            return blueprintNew.install(options);
+          })
+          .then(function() {
+            let actualFiles = walkSync(tmpdir).sort();
+            // Prompts contain \n EOL
+            // Split output on \n since it will have the same affect as spliting on OS specific EOL
+            let output = ui.output.trim().split('\n');
+            expect(output.shift()).to.match(/^installing/);
+            expect(output.shift()).to.match(/identical.* \.ember-cli/);
+            expect(output.shift()).to.match(/identical.* \.gitignore/);
+            expect(output.shift()).to.match(/skip.* foo.txt/);
+            expect(output.shift()).to.match(/skip.* test.txt/);
+            expect(output.length).to.equal(0);
+
+            expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+          });
+      });
+    });
+
     it('throws error when there is a trailing forward slash in entityName', function() {
       options.entity = { name: 'foo/' };
       expect(() => {
         blueprint.install(options);
-      }).to.throw(/You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
+      }).to.throw(
+        /You specified "foo\/", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./
+      );
 
       options.entity = { name: 'foo\\' };
       expect(() => {
         blueprint.install(options);
-      }).to.throw(/You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./);
+      }).to.throw(
+        /You specified "foo\\", but you can't use a trailing slash as an entity name with generators. Please re-run the command with "foo"./
+      );
 
       options.entity = { name: 'foo' };
       expect(() => {
@@ -490,7 +539,7 @@ describe('Blueprint', function() {
     });
 
     it('throws error when an entityName is not provided', function() {
-      options.entity = { };
+      options.entity = {};
       expect(() => {
         blueprint.install(options);
       }).to.throw(SilentError, /The `ember generate <entity-name>` command requires an entity name to be specified./);
@@ -498,35 +547,37 @@ describe('Blueprint', function() {
 
     it('throws error when an action does not exist', function() {
       blueprint._actions = {};
-      return blueprint
-        .install(options)
-        .catch(function(err) {
-          expect(err.message).to.equal('Tried to call action "write" but it does not exist');
-        });
+      return blueprint.install(options).catch(function(err) {
+        expect(err.message).to.equal('Tried to call action "write" but it does not exist');
+      });
     });
 
     it('calls normalizeEntityName hook during install', function(done) {
-      blueprint.normalizeEntityName = function() { done(); };
+      blueprint.normalizeEntityName = function() {
+        done();
+      };
       options.entity = { name: 'foo' };
       blueprint.install(options);
     });
 
     it('normalizeEntityName hook can modify the entity name', function() {
-      blueprint.normalizeEntityName = function() { return 'foo'; };
+      blueprint.normalizeEntityName = function() {
+        return 'foo';
+      };
       options.entity = { name: 'bar' };
 
-      return blueprint
-        .install(options)
-        .then(function() {
-          let actualFiles = walkSync(tmpdir).sort();
+      return blueprint.install(options).then(function() {
+        let actualFiles = walkSync(tmpdir).sort();
 
-          expect(actualFiles).to.contain('app/basics/foo.txt');
-          expect(actualFiles).to.not.contain('app/basics/mock-project.txt');
-        });
+        expect(actualFiles).to.contain('app/basics/foo.txt');
+        expect(actualFiles).to.not.contain('app/basics/mock-project.txt');
+      });
     });
 
     it('calls normalizeEntityName before locals hook is called', function(done) {
-      blueprint.normalizeEntityName = function() { return 'foo'; };
+      blueprint.normalizeEntityName = function() {
+        return 'foo';
+      };
       blueprint.locals = function(options) {
         expect(options.entity.name).to.equal('foo');
         done();
@@ -538,21 +589,19 @@ describe('Blueprint', function() {
     it('calls appropriate hooks with correct arguments', function() {
       options.entity = { name: 'foo' };
 
-      return blueprint
-        .install(options)
-        .then(function() {
-          expect(localsCalled).to.be.true;
-          expect(normalizeEntityNameCalled).to.be.true;
-          expect(fileMapTokensCalled).to.be.true;
-          expect(filesPathCalled).to.be.true;
-          expect(beforeInstallCalled).to.be.true;
-          expect(afterInstallCalled).to.be.true;
-          expect(beforeUninstallCalled).to.be.false;
-          expect(afterUninstallCalled).to.be.false;
-        });
+      return blueprint.install(options).then(function() {
+        expect(localsCalled).to.be.true;
+        expect(normalizeEntityNameCalled).to.be.true;
+        expect(fileMapTokensCalled).to.be.true;
+        expect(filesPathCalled).to.be.true;
+        expect(beforeInstallCalled).to.be.true;
+        expect(afterInstallCalled).to.be.true;
+        expect(beforeUninstallCalled).to.be.false;
+        expect(afterUninstallCalled).to.be.false;
+      });
     });
 
-    it('doesn\'t throw when running uninstall without installing first', function() {
+    it("doesn't throw when running uninstall without installing first", function() {
       return blueprint.uninstall(options);
     });
   });
@@ -571,17 +620,19 @@ describe('Blueprint', function() {
     }
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new BasicBlueprintClass(basicBlueprint);
-        project = new MockProject();
-        options = {
-          project,
-          target: tmpdir,
-        };
-        refreshUI();
-        return blueprint.install(options);
-      }).then(refreshUI);
+      return mkTmpDirIn(tmproot)
+        .then(function(dir) {
+          tmpdir = dir;
+          blueprint = new BasicBlueprintClass(basicBlueprint);
+          project = new MockProject();
+          options = {
+            project,
+            target: tmpdir,
+          };
+          refreshUI();
+          return blueprint.install(options);
+        })
+        .then(refreshUI);
     });
 
     afterEach(function() {
@@ -591,31 +642,29 @@ describe('Blueprint', function() {
     it('uninstalls basic files', function() {
       expect(!!blueprint).to.equal(true);
 
-      return blueprint
-        .uninstall(options)
-        .then(function() {
-          let actualFiles = walkSync(tmpdir);
-          let output = ui.output.trim().split(EOL);
+      return blueprint.uninstall(options).then(function() {
+        let actualFiles = walkSync(tmpdir);
+        let output = ui.output.trim().split(EOL);
 
-          expect(output.shift()).to.match(/^uninstalling/);
-          expect(output.shift()).to.match(/remove.* .ember-cli/);
-          expect(output.shift()).to.match(/remove.* .gitignore/);
-          expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
-          expect(output.shift()).to.match(/remove.* bar/);
-          expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
-          expect(output.shift()).to.match(/remove.* foo.txt/);
-          expect(output.shift()).to.match(/remove.* test.txt/);
-          expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^uninstalling/);
+        expect(output.shift()).to.match(/remove.* .ember-cli/);
+        expect(output.shift()).to.match(/remove.* .gitignore/);
+        expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
+        expect(output.shift()).to.match(/remove.* bar/);
+        expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
+        expect(output.shift()).to.match(/remove.* foo.txt/);
+        expect(output.shift()).to.match(/remove.* test.txt/);
+        expect(output.length).to.equal(0);
 
-          expect(actualFiles.length).to.equal(0);
+        expect(actualFiles.length).to.equal(0);
 
-          fs.exists(path.join(tmpdir, 'test.txt'), function(exists) {
-            expect(exists).to.be.false;
-          });
+        fs.exists(path.join(tmpdir, 'test.txt'), function(exists) {
+          expect(exists).to.be.false;
         });
+      });
     });
 
-    it('uninstall doesn\'t remove non-empty folders', function() {
+    it("uninstall doesn't remove non-empty folders", function() {
       options.entity = { name: 'foo' };
 
       return blueprint
@@ -636,18 +685,16 @@ describe('Blueprint', function() {
         });
     });
 
-    it('uninstall doesn\'t log remove messages when file does not exist', function() {
+    it("uninstall doesn't log remove messages when file does not exist", function() {
       options.entity = { name: 'does-not-exist' };
 
-      return blueprint
-        .uninstall(options)
-        .then(function() {
-          let output = ui.output.trim().split(EOL);
-          expect(output.shift()).to.match(/^uninstalling/);
-          expect(output.shift()).to.match(/remove.* .ember-cli/);
-          expect(output.shift()).to.match(/remove.* .gitignore/);
-          expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
-        });
+      return blueprint.uninstall(options).then(function() {
+        let output = ui.output.trim().split(EOL);
+        expect(output.shift()).to.match(/^uninstalling/);
+        expect(output.shift()).to.match(/remove.* .ember-cli/);
+        expect(output.shift()).to.match(/remove.* .gitignore/);
+        expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
+      });
     });
   });
 
@@ -664,36 +711,36 @@ describe('Blueprint', function() {
     }
 
     beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
-        project = new MockProject();
-        options = {
-          project,
-          target: tmpdir,
-        };
-        refreshUI();
+      return mkTmpDirIn(tmproot)
+        .then(function(dir) {
+          tmpdir = dir;
+          blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
+          project = new MockProject();
+          options = {
+            project,
+            target: tmpdir,
+          };
+          refreshUI();
 
-        return blueprint.install(options).then(resetCalled);
-      }).then(refreshUI);
+          return blueprint.install(options).then(resetCalled);
+        })
+        .then(refreshUI);
     });
 
     it('calls appropriate hooks with correct arguments', function() {
       options.entity = { name: 'foo' };
 
-      return blueprint
-        .uninstall(options)
-        .then(function() {
-          expect(localsCalled).to.be.true;
-          expect(normalizeEntityNameCalled).to.be.true;
-          expect(fileMapTokensCalled).to.be.true;
-          expect(filesPathCalled).to.be.true;
-          expect(beforeUninstallCalled).to.be.true;
-          expect(afterUninstallCalled).to.be.true;
+      return blueprint.uninstall(options).then(function() {
+        expect(localsCalled).to.be.true;
+        expect(normalizeEntityNameCalled).to.be.true;
+        expect(fileMapTokensCalled).to.be.true;
+        expect(filesPathCalled).to.be.true;
+        expect(beforeUninstallCalled).to.be.true;
+        expect(afterUninstallCalled).to.be.true;
 
-          expect(beforeInstallCalled).to.be.false;
-          expect(afterInstallCalled).to.be.false;
-        });
+        expect(beforeInstallCalled).to.be.false;
+        expect(afterInstallCalled).to.be.false;
+      });
     });
   });
 
@@ -759,10 +806,7 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addPackagesToProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
     });
@@ -776,10 +820,7 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addPackagesToProject([
-        { name: 'foo-bar', target: '^123.1.12' },
-        { name: 'bar-foo', target: '0.0.7' },
-      ]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
 
       expect(packages).to.deep.equal(['foo-bar@^123.1.12', 'bar-foo@0.0.7']);
     });
@@ -787,9 +828,7 @@ describe('Blueprint', function() {
     it('writes information to the ui log for a single package', function() {
       blueprint.ui = ui;
 
-      blueprint.addPackagesToProject([
-        { name: 'foo-bar', target: '^123.1.12' },
-      ]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }]);
 
       let output = ui.output.trim();
 
@@ -799,10 +838,7 @@ describe('Blueprint', function() {
     it('writes information to the ui log for multiple packages', function() {
       blueprint.ui = ui;
 
-      blueprint.addPackagesToProject([
-        { name: 'foo-bar', target: '^123.1.12' },
-        { name: 'bar-foo', target: '0.0.7' },
-      ]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
 
       let output = ui.output.trim();
 
@@ -812,9 +848,7 @@ describe('Blueprint', function() {
     it('does not error if ui is not present', function() {
       delete blueprint.ui;
 
-      blueprint.addPackagesToProject([
-        { name: 'foo-bar', target: '^123.1.12' },
-      ]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }]);
 
       let output = ui.output.trim();
 
@@ -830,10 +864,7 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addPackagesToProject([
-        { name: 'foo-bar', target: '^123.1.12' },
-        { name: 'bar-foo', target: '0.0.7' },
-      ]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
 
       expect(!!saveDev).to.equal(true);
     });
@@ -847,10 +878,7 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addPackagesToProject([
-        { name: 'foo-bar', target: '^123.1.12' },
-        { name: 'bar-foo', target: '0.0.7' },
-      ]);
+      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
 
       expect(verbose).to.equal(false);
     });
@@ -891,7 +919,6 @@ describe('Blueprint', function() {
 
       expect(taskNameLookedUp).to.equal('npm-uninstall');
     });
-
   });
 
   describe('removePackagesFromProject', function() {
@@ -943,10 +970,7 @@ describe('Blueprint', function() {
         };
       };
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       expect(packages).to.deep.equal(['foo-bar']);
     });
@@ -967,10 +991,7 @@ describe('Blueprint', function() {
         };
       };
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       expect(packages).to.deep.equal(undefined);
     });
@@ -991,10 +1012,7 @@ describe('Blueprint', function() {
         };
       };
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
     });
@@ -1008,9 +1026,7 @@ describe('Blueprint', function() {
         };
       };
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }]);
 
       let output = ui.output.trim();
 
@@ -1027,10 +1043,7 @@ describe('Blueprint', function() {
         };
       };
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       let output = ui.output.trim();
 
@@ -1040,9 +1053,7 @@ describe('Blueprint', function() {
     it('does not error if ui is not present', function() {
       delete blueprint.ui;
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }]);
 
       let output = ui.output.trim();
 
@@ -1065,10 +1076,7 @@ describe('Blueprint', function() {
         };
       };
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       expect(!!saveDev).to.equal(true);
     });
@@ -1089,10 +1097,7 @@ describe('Blueprint', function() {
         };
       };
 
-      blueprint.removePackagesFromProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.removePackagesFromProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       expect(verbose).to.equal(false);
     });
@@ -1142,7 +1147,9 @@ describe('Blueprint', function() {
 
     it('correctly handles local package naming, with a non-versioned package', function() {
       blueprint.addBowerPackagesToProject = function(packages) {
-        expect(packages).to.deep.equal([{ name: 'foo-bar-local', target: '*', source: 'https://twitter.github.io/bootstrap/assets/bootstrap' }]);
+        expect(packages).to.deep.equal([
+          { name: 'foo-bar-local', target: '*', source: 'https://twitter.github.io/bootstrap/assets/bootstrap' },
+        ]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar-local', 'https://twitter.github.io/bootstrap/assets/bootstrap');
@@ -1184,10 +1191,7 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addBowerPackagesToProject([
-        { name: 'foo-bar' },
-        { name: 'bar-foo' },
-      ]);
+      blueprint.addBowerPackagesToProject([{ name: 'foo-bar' }, { name: 'bar-foo' }]);
 
       expect(packages).to.deep.equal(['foo-bar=foo-bar', 'bar-foo=bar-foo']);
     });
@@ -1219,8 +1223,8 @@ describe('Blueprint', function() {
       });
 
       blueprint.addBowerPackagesToProject([
-        { name: '',          source: 'jquery', target: '~2.0.0' },
-        { name: 'backbone',  source: 'backbone-amd', target: '~1.0.0' },
+        { name: '', source: 'jquery', target: '~2.0.0' },
+        { name: 'backbone', source: 'backbone-amd', target: '~1.0.0' },
         { name: 'bootstrap', source: 'https://twitter.github.io/bootstrap/assets/bootstrap', target: '*' },
       ]);
 
@@ -1356,10 +1360,12 @@ describe('Blueprint', function() {
       blueprint.ui = ui;
 
       blueprint.addAddonsToProject({
-        packages: [{
-          name: 'foo-bar',
-          target: '^123.1.12',
-        }],
+        packages: [
+          {
+            name: 'foo-bar',
+            target: '^123.1.12',
+          },
+        ],
       });
 
       let output = ui.output.trim();
@@ -1390,10 +1396,12 @@ describe('Blueprint', function() {
       delete blueprint.ui;
 
       blueprint.addAddonsToProject({
-        packages: [{
-          name: 'foo-bar',
-          target: '^123.1.12',
-        }],
+        packages: [
+          {
+            name: 'foo-bar',
+            target: '^123.1.12',
+          },
+        ],
       });
 
       let output = ui.output.trim();
@@ -1476,6 +1484,7 @@ describe('Blueprint', function() {
         dasherizedModuleName: 'mock-project',
         hasPathToken: undefined,
         inAddon: false,
+        in: undefined,
         inDummy: false,
         inRepoAddon: undefined,
         locals: {},
@@ -1518,7 +1527,7 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should include a podPath if the project\'s podModulePrefix is defined', function() {
+    it("should include a podPath if the project's podModulePrefix is defined", function() {
       blueprint.project.config = function() {
         return {
           podModulePrefix: 'foo/bar',
@@ -1552,6 +1561,16 @@ describe('Blueprint', function() {
 
       expectation.inRepoAddon = true;
       expectation.inAddon = true;
+
+      result = blueprint._generateFileMapVariables(moduleName, locals, options);
+
+      expect(result).to.eql(expectation);
+    });
+
+    it('should include an in flag of true if options.in is true', function() {
+      options.in = true;
+
+      expectation.in = true;
 
       result = blueprint._generateFileMapVariables(moduleName, locals, options);
 
@@ -1593,13 +1612,13 @@ describe('Blueprint', function() {
       };
 
       expectation = {
-        'camelizedModuleName': 'mockProject',
-        'classifiedModuleName': 'MockProject',
-        'classifiedPackageName': 'MockProject',
-        'dasherizedModuleName': 'mock-project',
-        'dasherizedPackageName': 'mock-project',
-        'decamelizedModuleName': 'mock-project',
-        'fileMap': {},
+        camelizedModuleName: 'mockProject',
+        classifiedModuleName: 'MockProject',
+        classifiedPackageName: 'MockProject',
+        dasherizedModuleName: 'mock-project',
+        dasherizedPackageName: 'mock-project',
+        decamelizedModuleName: 'mock-project',
+        fileMap: {},
       };
     });
 

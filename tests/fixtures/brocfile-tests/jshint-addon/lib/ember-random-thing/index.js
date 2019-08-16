@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-random-thing'
+  name: require('./package').name
 }

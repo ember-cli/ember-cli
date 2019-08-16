@@ -8,11 +8,13 @@ describe('lintAddonsByType', function() {
   let addons;
 
   beforeEach(function() {
-    addons = [{
-      name: 'foo',
-      pkg: { name: 'foo' },
-      lintTree: td.function(),
-    }];
+    addons = [
+      {
+        name: 'foo',
+        pkg: { name: 'foo' },
+        lintTree: td.function(),
+      },
+    ];
   });
 
   it('calls lintTree on the addon', function() {

@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  name: 'Ember Super Button',
+  name: require('./package').name,
 };

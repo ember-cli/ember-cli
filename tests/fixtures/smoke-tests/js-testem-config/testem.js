@@ -1,4 +1,4 @@
-process.env._TESTEM_CONFIG_JS_RAN = true;
+console.log('***CUSTOM_TESTEM_JS**');
 
 module.exports = {
   "framework": "qunit",
@@ -15,7 +15,6 @@ module.exports = {
       // --no-sandbox is needed when running Chrome inside a container
       process.env.TRAVIS ? '--no-sandbox' : null,
 
-      "--disable-gpu",
       "--headless",
       "--remote-debugging-port=0",
       "--window-size=1440,900"

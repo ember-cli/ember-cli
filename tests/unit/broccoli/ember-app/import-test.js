@@ -1,230 +1,172 @@
 'use strict';
 
 const co = require('co');
-const fs = require('fs-extra');
+const path = require('path');
 const broccoliTestHelper = require('broccoli-test-helper');
 const expect = require('chai').expect;
+const defaultPackagerHelpers = require('../../../helpers/default-packager');
 
 const EmberApp = require('../../../../lib/broccoli/ember-app');
-const MockCLI = require('../../../helpers/mock-cli');
-const Project = require('../../../../lib/models/project');
 
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-const APPLICATION_BLUEPRINT = {
-  app: {
-    'app.js': '',
-  },
-  'bower_components': {
-    ember: {
-      'ember.js': 'window.Ember = { foo: "bar"; };',
-    },
-    jquery: {
-      dist: {
-        'jquery.js': 'window.$ = function() { console.log("this is jQuery!"); };',
-      },
-    },
-    moment: {
-      'moment.js': 'window.moment = "what does time even mean?";',
-      'moment.min.js': 'window.moment="verysmallmoment"',
-    },
-  },
-  config: {
-    'environment.js': `
-      'use strict';
-      module.exports = function(environment) {
-        return {
-          modulePrefix: 'app-import',
-          environment,
-        };
-      };
-    `,
-  },
-  'node_modules': {
-    moment: {
-      'package.json': '{}',
-      'moment.js': 'window.moment = "what does time even mean?";',
-      'moment.min.js': 'window.moment="verysmallmoment"',
-    },
-    '@scoped': {
-      private: {
-        'package.json': '{}',
-        'index.js': 'window.secret = "sssshhhhh";',
-      },
-    },
-  },
-  'package.json': JSON.stringify({
-    name: 'app-import',
-    devDependencies: {
-      'broccoli-asset-rev': '^2.4.5',
-      'ember-ajax': '^3.0.0',
-      'ember-cli': '~2.14.0-beta.1',
-      'ember-cli-app-version': '^3.0.0',
-      'ember-cli-babel': '^6.0.0',
-      'ember-cli-dependency-checker': '^1.3.0',
-      'ember-cli-eslint': '^3.0.0',
-      'ember-cli-htmlbars': '^1.1.1',
-      'ember-cli-htmlbars-inline-precompile': '^0.4.0',
-      'ember-cli-inject-live-reload': '^1.4.1',
-      'ember-cli-qunit': '^4.1.1',
-      'ember-cli-shims': '^1.2.0',
-      'ember-cli-sri': '^2.1.0',
-      'ember-cli-uglify': '^2.0.0',
-      'ember-data': '~2.13.0',
-      'ember-export-application-global': '^2.0.0',
-      'ember-load-initializers': '^1.0.0',
-      'ember-resolver': '^4.0.0',
-      'ember-source': '~2.14.0-beta.1',
-      'ember-welcome-page': '^3.0.0',
-      'loader.js': '^4.2.3',
-    },
-    engines: {
-      node: '>= 4',
-    },
-    private: true,
-  }),
-};
+const getDefaultUnpackagedDist = defaultPackagerHelpers.getDefaultUnpackagedDist;
+const getDependencyFor = defaultPackagerHelpers.getDependencyFor;
+const setupProject = defaultPackagerHelpers.setupProject;
+const validateDefaultPackagedDist = defaultPackagerHelpers.validateDefaultPackagedDist;
 
-describe('EmberApp.import()', function() {
-  let input, cwd;
+describe('EmberApp: Bower Dependencies', function() {
+  let applicationDirectory, output;
 
-  before(co.wrap(function *() {
-    cwd = process.cwd();
+  let moment = getDependencyFor('moment', {
+    'package.json': '{}',
+    'moment.js': 'window.moment = "what does time even mean?";',
+    'moment.min.js': 'window.moment = "verysmallmoment"',
+  });
 
-    input = yield createTempDir();
-    input.write(APPLICATION_BLUEPRINT);
-  }));
+  beforeEach(
+    co.wrap(function*() {
+      applicationDirectory = yield createTempDir();
+    })
+  );
 
-  after(co.wrap(function *() {
-    process.chdir(cwd);
-    yield input.dispose();
-  }));
+  afterEach(
+    co.wrap(function*() {
+      yield applicationDirectory.dispose();
+      yield output.dispose();
+    })
+  );
 
-  function createApp(options) {
-    options = options || {};
+  /*
+   * Both Ember.js and jQuery are packaged by default (when distriburted
+   * through bower). `ember-source` takes precedent over bower though.
+   */
+  it(
+    'are not packaged unless explicitly imported',
+    co.wrap(function*() {
+      // Given
+      applicationDirectory.write(
+        getDefaultUnpackagedDist('the-best-app-ever', {
+          bowerComponents: Object.assign({}, moment),
+        })
+      );
 
-    let path = input.path();
-    process.chdir(path);
+      let applicationInstance = new EmberApp({
+        name: 'the-best-app-ever',
+        project: setupProject(path.join(applicationDirectory.path(), 'the-best-app-ever')),
+      });
 
-    let pkg = fs.readJsonSync(`${path}/package.json`);
+      // When
+      let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
-    let cli = new MockCLI();
-    let project = new Project(path, pkg, cli.ui, cli);
+      // Then
+      output = yield buildOutput(packagedApplicationJs);
+      let results = output.read();
 
-    let app = new EmberApp({
-      project,
-      _ignoreMissingLoader: true,
-      sourcemaps: { enabled: false },
-    }, options);
+      expect(() => {
+        validateDefaultPackagedDist('the-best-app-ever', results);
+      }).not.to.throw();
+      expect(results.assets['vendor.js']).to.contain('window.Ember = {');
+      expect(results.assets['vendor.js']).to.contain('window.$ = function() {');
+      expect(results.assets['vendor.js']).to.not.contain('window.moment');
+    })
+  );
 
-    app._processedTemplatesTree = () => '';
-    app._compileAddonTemplates = tree => tree;
+  it(
+    'are packaged when explicitly imported',
+    co.wrap(function*() {
+      // Given
+      applicationDirectory.write(
+        getDefaultUnpackagedDist('the-best-app-ever', {
+          bowerComponents: Object.assign({}, moment),
+        })
+      );
+      let applicationInstance = new EmberApp({
+        name: 'the-best-app-ever',
+        project: setupProject(path.join(applicationDirectory.path(), 'the-best-app-ever')),
+      });
+      applicationInstance.import('bower_components/moment/moment.js');
 
-    return app;
-  }
+      // When
+      let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
-  it('does not import bower dependencies if they are not explicitly imported', co.wrap(function *() {
-    let app = createApp();
+      // Then
+      output = yield buildOutput(packagedApplicationJs);
+      let results = output.read();
 
-    let output = yield buildOutput(app.javascript());
-    let outputTree = output.read();
-    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
-    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
-    expect(outputTree['assets']['vendor.js']).to.contain('window.Ember = {');
-    expect(outputTree['assets']['vendor.js']).to.contain('window.$ = function() {');
-    expect(outputTree['assets']['vendor.js']).to.not.contain('window.moment');
-  }));
+      expect(() => {
+        validateDefaultPackagedDist('the-best-app-ever', results);
+      }).not.to.throw();
+      expect(results.assets['vendor.js']).to.contain('window.Ember = {');
+      expect(results.assets['vendor.js']).to.contain('window.$ = function() {');
+      expect(results.assets['vendor.js']).to.contain('window.moment');
+    })
+  );
 
-  it('can import bower dependencies into vendor.js', co.wrap(function *() {
-    let app = createApp();
+  it(
+    'are packaged when explicitly imported for production',
+    co.wrap(function*() {
+      // Given
+      applicationDirectory.write(
+        getDefaultUnpackagedDist('the-best-app-ever', {
+          bowerComponents: Object.assign({}, moment),
+        })
+      );
 
-    app.import('bower_components/moment/moment.js');
+      let applicationInstance = new EmberApp({
+        name: 'the-best-app-ever',
+        project: setupProject(path.join(applicationDirectory.path(), 'the-best-app-ever')),
+      });
+      applicationInstance.env = 'production';
+      applicationInstance.import({
+        development: 'bower_components/moment/moment.js',
+        production: 'bower_components/moment/moment.min.js',
+      });
 
-    let output = yield buildOutput(app.javascript());
-    let outputTree = output.read();
-    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
-    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
-    expect(outputTree['assets']['vendor.js']).to.contain('window.Ember = {');
-    expect(outputTree['assets']['vendor.js']).to.contain('window.$ = function() {');
-    expect(outputTree['assets']['vendor.js']).to.contain('window.moment');
-  }));
+      // When
+      let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
-  it('handles imports with different environments (development)', co.wrap(function *() {
-    let app = createApp();
+      // Then
+      output = yield buildOutput(packagedApplicationJs);
+      let results = output.read();
 
-    app.import({
-      development: 'bower_components/moment/moment.js',
-      production: 'bower_components/moment/moment.min.js',
-    });
+      expect(() => {
+        validateDefaultPackagedDist('the-best-app-ever', results);
+      }).not.to.throw();
+      expect(results.assets['vendor.js']).to.contain('verysmallmoment');
+    })
+  );
 
-    let output = yield buildOutput(app.javascript());
-    let outputTree = output.read();
-    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
-    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
-    expect(outputTree['assets']['vendor.js']).to.contain('window.moment = "');
-  }));
+  it(
+    'are packaged when explicitly imported for development',
+    co.wrap(function*() {
+      // Given
+      applicationDirectory.write(
+        getDefaultUnpackagedDist('the-best-app-ever', {
+          bowerComponents: Object.assign({}, moment),
+        })
+      );
+      let applicationInstance = new EmberApp({
+        name: 'the-best-app-ever',
+        project: setupProject(path.join(applicationDirectory.path(), 'the-best-app-ever')),
+      });
+      applicationInstance.import({
+        development: 'bower_components/moment/moment.js',
+        production: 'bower_components/moment/moment.min.js',
+      });
 
-  it('handles imports with different environments (production)', co.wrap(function *() {
-    let app = createApp();
+      // When
+      let packagedApplicationJs = applicationInstance._defaultPackager.packageJavascript(applicationDirectory.path());
 
-    app.env = 'production';
-    app.import({
-      development: 'bower_components/moment/moment.js',
-      production: 'bower_components/moment/moment.min.js',
-    });
+      // Then
+      output = yield buildOutput(packagedApplicationJs);
+      let results = output.read();
 
-    let output = yield buildOutput(app.javascript());
-    let outputTree = output.read();
-    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
-    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
-    expect(outputTree['assets']['vendor.js']).to.contain('verysmallmoment');
-  }));
-
-  it('can import node dependencies into vendor.js', co.wrap(function *() {
-    let app = createApp();
-
-    app.import('node_modules/moment/moment.js');
-    app.import('node_modules/@scoped/private/index.js');
-
-    let output = yield buildOutput(app.javascript());
-    let outputTree = output.read();
-    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
-    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
-    expect(outputTree['assets']['vendor.js']).to.contain('window.Ember = {');
-    expect(outputTree['assets']['vendor.js']).to.contain('window.$ = function() {');
-    expect(outputTree['assets']['vendor.js']).to.contain('window.moment');
-    expect(outputTree['assets']['vendor.js']).to.contain('window.secret');
-  }));
-
-  it('handles imports from node with different environments (development)', co.wrap(function *() {
-    let app = createApp();
-
-    app.import({
-      development: 'node_modules/moment/moment.js',
-      production: 'node_modules/moment/moment.min.js',
-    });
-
-    let output = yield buildOutput(app.javascript());
-    let outputTree = output.read();
-    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
-    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
-    expect(outputTree['assets']['vendor.js']).to.contain('window.moment = "');
-  }));
-
-  it('handles imports from node with different environments (production)', co.wrap(function *() {
-    let app = createApp();
-
-    app.env = 'production';
-    app.import({
-      development: 'node_modules/moment/moment.js',
-      production: 'node_modules/moment/moment.min.js',
-    });
-
-    let output = yield buildOutput(app.javascript());
-    let outputTree = output.read();
-    expect(Object.keys(outputTree)).to.deep.equal(['assets']);
-    expect(Object.keys(outputTree['assets']).sort()).to.deep.equal(['app-import.js', 'vendor.js']);
-    expect(outputTree['assets']['vendor.js']).to.contain('verysmallmoment');
-  }));
+      expect(() => {
+        validateDefaultPackagedDist('the-best-app-ever', results);
+      }).not.to.throw();
+      expect(results.assets['vendor.js']).to.contain('window.moment');
+    })
+  );
 });

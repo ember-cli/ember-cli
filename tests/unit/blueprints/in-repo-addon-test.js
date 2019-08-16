@@ -11,6 +11,7 @@ const td = require('testdouble');
 
 const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
 const file = require('ember-cli-blueprint-test-helpers/chai').file;
+const { isExperimentEnabled } = require('../../../lib/experiments');
 
 describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   setupTestHooks(this, {
@@ -20,6 +21,8 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   it('in-repo-addon fooBar', function() {
     let args = ['in-repo-addon', 'fooBar'];
 
+    const path = isExperimentEnabled('MODULE_UNIFICATION') ? 'packages' : 'lib';
+
     return emberNew()
       .then(function() {
         expect(fs.readJsonSync('package.json')['ember-addon']).to.be.undefined;
@@ -28,28 +31,24 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
         return emberGenerate(args);
       })
       .then(function() {
-        expect(file('lib/foo-bar/package.json')).to.exist;
-        expect(file('lib/foo-bar/index.js')).to.exist;
+        expect(file(`${path}/foo-bar/package.json`)).to.exist;
+        expect(file(`${path}/foo-bar/index.js`)).to.exist;
 
-        expect(fs.readJsonSync('lib/foo-bar/package.json')).to.deep.equal({
-          "name": "foo-bar",
-          "keywords": [
-            "ember-addon",
-          ],
+        expect(fs.readJsonSync(`${path}/foo-bar/package.json`)).to.deep.equal({
+          name: 'foo-bar',
+          keywords: ['ember-addon'],
         });
 
         expect(fs.readJsonSync('package.json')['ember-addon']).to.deep.equal({
-          "paths": [
-            "lib/foo-bar",
-          ],
+          paths: [`${path}/foo-bar`],
         });
       })
       .then(function() {
         return emberDestroy(args);
       })
       .then(function() {
-        expect(file('lib/foo-bar/package.json')).to.not.exist;
-        expect(file('lib/foo-bar/index.js')).to.not.exist;
+        expect(file(`${path}/foo-bar/package.json`)).to.not.exist;
+        expect(file(`${path}/foo-bar/index.js`)).to.not.exist;
 
         expect(fs.readJsonSync('package.json')['ember-addon']['paths']).to.be.undefined;
       });
@@ -92,14 +91,16 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
       "lib/test-entity-name"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 
   it('ignores if already exists', function() {
@@ -116,23 +117,22 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
       "lib/test-entity-name"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 
   it('removes from paths', function() {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
-        paths: [
-          'lib/test-entity-name',
-          'lib/test-entity-name-2',
-        ],
+        paths: ['lib/test-entity-name', 'lib/test-entity-name-2'],
       },
     });
 
@@ -143,14 +143,16 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
       "lib/test-entity-name-2"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 
   it('removes paths if last one', function() {
@@ -187,7 +189,8 @@ describe('Unit: in-repo-addon blueprint', function() {
     td.verify(readJsonSync(path.normalize('test-project-root/package.json')));
     td.verify(writeFileSync(path.normalize('test-project-root/package.json'), captor.capture()));
 
-    expect(captor.value).to.equal('\
+    expect(captor.value).to.equal(
+      '\
 {\n\
   "ember-addon": {\n\
     "paths": [\n\
@@ -195,6 +198,7 @@ describe('Unit: in-repo-addon blueprint', function() {
       "lib/test-entity-name-2"\n\
     ]\n\
   }\n\
-}\n');
+}\n'
+    );
   });
 });

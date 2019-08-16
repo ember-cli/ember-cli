@@ -20,12 +20,7 @@ something. This is the "err on the side of caution" approach. It actually
 doesn't matter if something is or isn't automatically installed in any of the
 cases where we use this.
 */
-let DEPENDENCY_KEYS = [
-  'dependencies',
-  'devDependencies',
-  'peerDependencies',
-  'optionalDependencies',
-];
+let DEPENDENCY_KEYS = ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'];
 
 /**
  * The `bower` command helper.
@@ -96,7 +91,9 @@ let lookups = {
  * @param {String} type Either 'bower', 'npm', or 'yarn'.
  * @param {String} lookup Either 'manifest', 'path', or 'upgrade'.
  */
-function translate(type, lookup) { return lookups[lookup][type]; }
+function translate(type, lookup) {
+  return lookups[lookup][type];
+}
 
 /**
  * The PackageCache wraps all package management functions. It also
@@ -234,10 +231,6 @@ module.exports = class PackageCache {
 
     this._conf = new Configstore('package-cache');
 
-    // The default invocation will write something we don't use.
-    // Remove it:
-    fs.unlinkSync(this._conf.path);
-
     // Set it to where we want it to be.
     this._conf.path = path.join(this.rootPath, 'tmp', 'package-cache.json');
 
@@ -302,7 +295,9 @@ module.exports = class PackageCache {
   _readManifest(label, type) {
     let readManifestDir = this.dirs[label];
 
-    if (!readManifestDir) { return null; }
+    if (!readManifestDir) {
+      return null;
+    }
 
     let inputPath = path.join(readManifestDir, translate(type, 'manifest'));
 
@@ -366,7 +361,9 @@ module.exports = class PackageCache {
    */
   _removeLinks(label, type) {
     let cachedManifest = this._readManifest(label, type);
-    if (!cachedManifest) { return; }
+    if (!cachedManifest) {
+      return;
+    }
 
     let jsonManifest = JSON.parse(cachedManifest);
     let links = jsonManifest._packageCache.links;
@@ -387,7 +384,6 @@ module.exports = class PackageCache {
             throw error;
           }
         }
-
       }
     }
 
@@ -435,7 +431,9 @@ module.exports = class PackageCache {
    */
   _restoreLinks(label, type) {
     let cachedManifest = this._readManifest(label, type);
-    if (!cachedManifest) { return; }
+    if (!cachedManifest) {
+      return;
+    }
 
     let jsonManifest = JSON.parse(cachedManifest);
     let links = jsonManifest._packageCache.links;
@@ -482,7 +480,9 @@ module.exports = class PackageCache {
   _checkManifest(label, type, manifest) {
     let cachedManifest = this._readManifest(label, type);
 
-    if (cachedManifest === null) { return false; }
+    if (cachedManifest === null) {
+      return false;
+    }
 
     let parsedCached = JSON.parse(cachedManifest);
     let parsedNew = JSON.parse(manifest);
@@ -535,7 +535,9 @@ module.exports = class PackageCache {
    */
   _upgrade(label, type) {
     // Lock out upgrade calls after the first time upgrading the cache.
-    if (upgraded[label]) { return; }
+    if (upgraded[label]) {
+      return;
+    }
 
     // Only way to get repeatable behavior in npm: start over.
     // We turn an `_upgrade` task into an `_install` task.

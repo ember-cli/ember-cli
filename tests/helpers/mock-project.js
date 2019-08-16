@@ -5,13 +5,12 @@ const Instrumentation = require('../../lib/models/instrumentation');
 const MockUI = require('console-ui/mock');
 
 // eslint-disable-next-line node/no-unpublished-require
-const td = require('testdouble');
 
 class MockProject extends Project {
-  constructor() {
-    let root = process.cwd();
-    let pkg = {};
-    let ui = new MockUI();
+  constructor(options = {}) {
+    let root = options.root || process.cwd();
+    let pkg = options.pkg || {};
+    let ui = options.ui || new MockUI();
     let instr = new Instrumentation({
       ui,
       initInstrumentation: {
@@ -19,35 +18,36 @@ class MockProject extends Project {
         node: null,
       },
     });
-    let cli = {
+    let cli = options.cli || {
       instrumentation: instr,
     };
 
     super(root, pkg, ui, cli);
-
-    let discoverFromCli = td.replace(this.addonDiscovery, 'discoverFromCli');
-    td.when(discoverFromCli(), { ignoreExtraArgs: true }).thenReturn([]);
   }
 
   require(file) {
     if (file === './server') {
       return function() {
         return {
-          listen() { arguments[arguments.length - 1](); },
+          listen() {
+            arguments[arguments.length - 1]();
+          },
         };
       };
     }
   }
 
   config() {
-    return this._config || {
-      baseURL: '/',
-      locationType: 'auto',
-    };
+    return (
+      this._config || {
+        baseURL: '/',
+        locationType: 'auto',
+      }
+    );
   }
 
   has(key) {
-    return (/server/.test(key));
+    return /server/.test(key);
   }
 
   name() {

@@ -15,9 +15,7 @@ describe('merge-blueprint-options', function() {
     aliases: ['t'],
     works: 'everywhere',
 
-    availableOptions: [
-      { name: 'verbose',    type: Boolean, default: false, aliases: ['v'] },
-    ],
+    availableOptions: [{ name: 'verbose', type: Boolean, default: false, aliases: ['v'] }],
 
     beforeRun: mergeBlueprintOptions,
   });
@@ -32,14 +30,12 @@ describe('merge-blueprint-options', function() {
     });
   }
 
-  it('it works as a command\'s beforeRun()', function() {
+  it("it works as a command's beforeRun()", function() {
     let command, availableOptions;
 
     td.replace(Blueprint, 'lookup', td.function());
     td.when(Blueprint.lookup('test-blueprint'), { ignoreExtraArgs: true }).thenReturn({
-      availableOptions: [
-        { name: 'custom-blueprint-option', type: String },
-      ],
+      availableOptions: [{ name: 'custom-blueprint-option', type: String }],
     });
 
     command = buildCommand();

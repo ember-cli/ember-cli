@@ -11,10 +11,9 @@ describe('find-build-file', function() {
   let tmpFilename = 'ember-cli-build.js';
 
   beforeEach(function() {
-    return tmp.setup(tmpPath)
-      .then(function() {
-        process.chdir(tmpPath);
-      });
+    return tmp.setup(tmpPath).then(function() {
+      process.chdir(tmpPath);
+    });
   });
 
   afterEach(function() {
@@ -25,7 +24,7 @@ describe('find-build-file', function() {
   });
 
   it('does not throw an error when the file is valid syntax', function() {
-    fs.writeFileSync(tmpFilename, 'module.exports = function() {return {\'a\': \'A\', \'b\': \'B\'};}', { encoding: 'utf8' });
+    fs.writeFileSync(tmpFilename, "module.exports = function() {return {'a': 'A', 'b': 'B'};}", { encoding: 'utf8' });
 
     let result = findBuildFile(tmpFilename);
     expect(result).to.be.a('function');
@@ -33,7 +32,7 @@ describe('find-build-file', function() {
   });
 
   it('throws a SyntaxError if the file contains a syntax mistake', function() {
-    fs.writeFileSync(tmpFilename, 'module.exports = function() {return {\'a\': \'A\' \'b\': \'B\'};}', { encoding: 'utf8' });
+    fs.writeFileSync(tmpFilename, "module.exports = function() {return {'a': 'A' 'b': 'B'};}", { encoding: 'utf8' });
 
     expect(() => {
       findBuildFile(tmpFilename);

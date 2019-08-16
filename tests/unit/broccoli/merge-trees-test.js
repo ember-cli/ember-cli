@@ -1,5 +1,3 @@
-/* global escape */
-
 'use strict';
 
 const expect = require('chai').expect;

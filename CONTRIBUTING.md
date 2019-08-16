@@ -4,6 +4,56 @@ There are many ways to contribute to the project, you can fix issues,
 improve documentation or work on any of the features on the
 [wish list](https://github.com/ember-cli/ember-cli/wiki/Wish-List).
 
+
+# Development
+
+Start by cloning the Git project to your local hard drive:
+
+```
+git clone https://github.com/ember-cli/ember-cli.git
+```
+
+## Link `ember` to your development version
+
+If you want to use the `ember` or `ember-cli` development versions you are working on, run the following command to link the global `ember` utility to your local development version:
+
+```
+npm link
+```
+
+Note that the global `ember` CLI utility will automatically relay to any
+project-local ember-cli installation. If you want to use your development
+version there instead run the following command from your Ember.js
+project folder:
+
+```
+npm link ember-cli
+```
+
+Read the official [npm-link documentation](https://docs.npmjs.com/cli/link.html)
+for more information.
+
+
+## Run the test suite
+
+```
+npm test
+```
+
+will run ESLint and the "fast" subset of the test suite. Run
+`npm run test:all` for the full test suite which will currently take quite a
+few minutes due to heavy IO and network usage.
+
+ember-cli is using [Mocha](https://mochajs.org/) for its internal tests. If
+you want to run a specific subset of tests have a look at their
+[documentation](https://mochajs.org/#exclusive-tests).
+
+
+## Build the documentation
+
+Use `npm run docs` to build HTML and JSON documentation with YUIDoc and place
+it in `docs/build/`. Please help by improving this documentation.
+
 # Questions
 
 This is the issue tracker for `ember-cli`. The community uses this site
@@ -17,7 +67,7 @@ Think you've found a bug or have a new feature to suggest? Let us know!
 
 ## Slow builds?
 
-Please be sure to review [The Perf Guide](https://github.com/ember-cli/ember-cli/blob/master/PERF_GUIDE.md) (and implement its recommendations) before posting an issue.
+Please be sure to review [The Perf Guide](https://github.com/ember-cli/ember-cli/blob/master/docs/perf-guide.md) (and implement its recommendations) before posting an issue.
 
 ## Reporting a Bug
 
@@ -93,7 +143,7 @@ We love pull requests. Here's a quick guide:
    * google chrome
 
 3. Run the tests. We only take pull requests with passing tests, and it's great
-   to know that you have a clean slate: `npm install && npm run test-all`.
+   to know that you have a clean slate: `npm install && npm run test:all`.
 
 4. Add a test for your change. Only refactoring and documentation changes
    require no new tests. If you are adding functionality or fixing a bug, we
@@ -175,8 +225,7 @@ And in case we didn't emphasize it enough: **we love tests!**
 
 #### Testing
 
-Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run-script
-test-all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
+Testing is done with mocha. You can invoke the tests by running `npm test` or `npm run test:all`. Both scripts are running `node tests/runner` may be with additional params. To contribute
 with a test, write your test and add `.only` to it's `describe` or `it` block. E.g.
 
 ```javascript
@@ -194,6 +243,7 @@ break anything.
 NOTE: Partially copied from https://raw.githubusercontent.com/emberjs/ember.js/master/CONTRIBUTING.md
 
 #### Experiments
+
 A new feature may require putting the changes behind an experiment. More
 information can be found at
 [Experiments](https://github.com/ember-cli/ember-cli/blob/master/docs/experiments.md).
@@ -206,7 +256,7 @@ We can always use help improving our [Code Climate](https://codeclimate.com/gith
 
 Have you got enough knowledge in a specific feature and want to help with docs?
 Ember-cli documentation lives at the repository
-[ember-cli.github.io](https://github.com/ember-cli/ember-cli.github.io).
+[ember-learn/cli-guides](https://github.com/ember-learn/cli-guides).
 
 Feel free to contribute and help us to keep an updated, clear and complete
 documentation.

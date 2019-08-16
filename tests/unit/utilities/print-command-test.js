@@ -7,21 +7,25 @@ const EOL = require('os').EOL;
 
 describe('printCommand', function() {
   it('handles all possible options', function() {
-    let availableOptions = [{
-      name: 'test-option',
-      values: ['x', 'y'],
-      default: 'my-def-val',
-      required: true,
-      aliases: ['a', 'long-a', { b: 'c', unused: '' }, { 'long-b': 'c' }],
-      description: 'option desc',
-    }, {
-      name: 'test-type',
-      type: Boolean,
-      aliases: ['a'],
-    }, {
-      name: 'test-type-array',
-      type: ['a-type', Number],
-    }];
+    let availableOptions = [
+      {
+        name: 'test-option',
+        values: ['x', 'y'],
+        default: 'my-def-val',
+        required: true,
+        aliases: ['a', 'long-a', { b: 'c', unused: '' }, { 'long-b': 'c' }],
+        description: 'option desc',
+      },
+      {
+        name: 'test-type',
+        type: Boolean,
+        aliases: ['a'],
+      },
+      {
+        name: 'test-type-array',
+        type: ['a-type', Number],
+      },
+    ];
 
     let obj = {
       description: 'a paragraph',
@@ -77,6 +81,27 @@ describe('printCommand', function() {
     });
 
     let testString = processHelpString('');
+
+    expect(output).to.equal(testString);
+  });
+
+  it('quotes empty strings', function() {
+    let output = printCommand.call({
+      availableOptions: [
+        {
+          name: 'type',
+          type: ['', 'foo', 'bar'], // setting to empty string is allowed
+          default: '',
+          aliases: [{ 'no-type': '' }],
+        },
+      ],
+      anonymousOptions: [],
+    });
+
+    let testString = processHelpString(`\
+ \u001b[36m<options...>\u001b[39m${EOL}\
+  \u001b[36m--type\u001b[39m \u001b[36m("", foo, bar)\u001b[39m \u001b[36m(Default: "")\u001b[39m${EOL}\
+    \u001b[90maliases: --no-type (--type="")\u001b[39m`);
 
     expect(output).to.equal(testString);
   });

@@ -1,8 +1,7 @@
+'use strict';
+
 module.exports = {
-  plugins: [
-    'chai-expect',
-    'mocha'
-  ],
+  plugins: ['chai-expect', 'mocha'],
   env: {
     mocha: true,
   },
@@ -11,10 +10,12 @@ module.exports = {
     'no-unused-expressions': 0,
 
     // disabled for easier asserting of file contents
-    'quotes': 0,
+    quotes: 0,
 
     // disabled because describe(), it(), etc. should not use arrow functions
     'prefer-arrow-callback': 0,
+
+    camelcase: ['error', { allow: ['bower_components', 'node_modules'] }],
 
     /*** chai-expect ***/
 
@@ -40,6 +41,6 @@ module.exports = {
     'mocha/no-top-level-hooks': 'error',
     'mocha/no-identical-title': 'error',
     'mocha/max-top-level-suites': 'off',
-    'mocha/no-nested-tests': 'error'
-  }
+    'mocha/no-nested-tests': 'error',
+  },
 };

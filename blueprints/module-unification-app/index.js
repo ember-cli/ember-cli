@@ -1,6 +1,7 @@
 'use strict';
 
 const stringUtil = require('ember-cli-string-utils');
+const getURLFor = require('ember-source-channel-url');
 
 module.exports = {
   description: 'Generates an Ember application with a module unification layout.',
@@ -13,19 +14,22 @@ module.exports = {
     let name = stringUtil.dasherize(rawName);
     let namespace = stringUtil.classify(rawName);
 
-    return {
+    return getURLFor('canary').then(url => ({
       name,
       modulePrefix: name,
       namespace,
       emberCLIVersion: require('../../package').version,
+      emberCanaryVersion: url,
       yarn: options.yarn,
       welcome: options.welcome,
-    };
+    }));
   },
 
   fileMapTokens(options) {
     return {
-      __component__() { return options.locals.component; },
+      __component__() {
+        return options.locals.component;
+      },
     };
   },
 };

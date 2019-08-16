@@ -29,46 +29,59 @@ describe('Default Packager: Bower', function() {
     },
   };
 
-  before(co.wrap(function *() {
-    input = yield createTempDir();
+  before(
+    co.wrap(function*() {
+      input = yield createTempDir();
 
-    input.write(BOWER_PACKAGES);
-  }));
+      input.write(BOWER_PACKAGES);
+    })
+  );
 
-  after(co.wrap(function *() {
-    yield input.dispose();
-  }));
+  after(
+    co.wrap(function*() {
+      yield input.dispose();
+    })
+  );
 
-  it('caches packaged bower tree', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager();
+  it(
+    'caches packaged bower tree',
+    co.wrap(function*() {
+      let defaultPackager = new DefaultPackager();
 
-    expect(defaultPackager._cachedBower).to.equal(null);
+      expect(defaultPackager._cachedBower).to.equal(null);
 
-    yield buildOutput(defaultPackager.packageBower(input.path()));
+      yield buildOutput(defaultPackager.packageBower(input.path()));
 
-    expect(defaultPackager._cachedBower).to.not.equal(null);
-    expect(defaultPackager._cachedBower._annotation).to.equal('Packaged Bower');
-  }));
+      expect(defaultPackager._cachedBower).to.not.equal(null);
+      expect(defaultPackager._cachedBower._annotation).to.equal('Packaged Bower');
+    })
+  );
 
-  it('packages bower files with default folder', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager();
+  it(
+    'packages bower files with default folder',
+    co.wrap(function*() {
+      let defaultPackager = new DefaultPackager();
 
-    let packagedBower = yield buildOutput(defaultPackager.packageBower(input.path()));
-    let output = packagedBower.read();
+      let packagedBower = yield buildOutput(defaultPackager.packageBower(input.path()));
+      let output = packagedBower.read();
 
-    expect(output).to.deep.equal({
-      'bower_components': BOWER_PACKAGES,
-    });
-  }));
+      expect(output).to.deep.equal({
+        bower_components: BOWER_PACKAGES,
+      });
+    })
+  );
 
-  it('packages bower files with custom folder', co.wrap(function *() {
-    let defaultPackager = new DefaultPackager();
+  it(
+    'packages bower files with custom folder',
+    co.wrap(function*() {
+      let defaultPackager = new DefaultPackager();
 
-    let packagedBower = yield buildOutput(defaultPackager.packageBower(input.path(), 'foobar'));
-    let output = packagedBower.read();
+      let packagedBower = yield buildOutput(defaultPackager.packageBower(input.path(), 'foobar'));
+      let output = packagedBower.read();
 
-    expect(output).to.deep.equal({
-      foobar: BOWER_PACKAGES,
-    });
-  }));
+      expect(output).to.deep.equal({
+        foobar: BOWER_PACKAGES,
+      });
+    })
+  );
 });
