@@ -1,5 +1,17 @@
 # ember-cli Changelog
 
+## v3.12.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/stefanpenner/ember-new-output/compare/v3.11.0...v3.12.0)
+- [`ember addon` diff](https://github.com/stefanpenner/ember-addon-output/compare/v3.11.0...v3.12.0)
+
+#### Community Contributions
+
+- [#8753](https://github.com/ember-cli/ember-cli/pull/8753) Quote empty strings in printCommand [@chancancode](https://github.com/chancancode)
+- [#8774](https://github.com/ember-cli/ember-cli/pull/8774) Remove --disable-gpu flag when starting headless chrome [@stefanpenner](https://github.com/stefanpenner)
+
 ## v3.11.0
 
 #### Blueprint Changes
