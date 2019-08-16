@@ -93,7 +93,7 @@ ember init \u001b[33m<glob-pattern>\u001b[39m \u001b[36m<options...>\u001b[39m
     \u001b[90maliases: -sb\u001b[39m
   \u001b[36m--welcome\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: true)\u001b[39m Installs and uses {{ember-welcome-page}}. Use --no-welcome to skip it.
   \u001b[36m--yarn\u001b[39m \u001b[36m(Boolean)\u001b[39m
-  \u001b[36m--name\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: )\u001b[39m
+  \u001b[36m--name\u001b[39m \u001b[36m(String)\u001b[39m \u001b[36m(Default: "")\u001b[39m
     \u001b[90maliases: -n <value>\u001b[39m
 
 ember install \u001b[33m<addon-name>\u001b[39m \u001b[36m<options...>\u001b[39m
