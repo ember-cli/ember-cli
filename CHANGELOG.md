@@ -1,5 +1,31 @@
 # ember-cli Changelog
 
+
+## v3.13.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.12.0...v3.13.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.12.0...v3.13.0-beta.1)
+
+#### Community Contributions
+
+- [#8642](https://github.com/ember-cli/ember-cli/pull/8642) Use system temp for ember test [@ef4](https://github.com/ef4)
+- [#8650](https://github.com/ember-cli/ember-cli/pull/8650) [BUGFIX] reset resolve-package-path caches in PackageInfoCache._clear() [@jamescdavis](https://github.com/jamescdavis)
+- [#8633](https://github.com/ember-cli/ember-cli/pull/8633) Refactor template build pipeline to enable co-located templates. [@rwjblue](https://github.com/rwjblue)
+- [#8616](https://github.com/ember-cli/ember-cli/pull/8616) [ENHANCEMENT] Gather hardware information when creating instrumentation summaries [@benblank](https://github.com/benblank)
+- [#8676](https://github.com/ember-cli/ember-cli/pull/8676) Track the time taken to collect hardware metrics [@benblank](https://github.com/benblank)
+- [#8678](https://github.com/ember-cli/ember-cli/pull/8678) give ember-cli a progress indicator [@stefanpenner](https://github.com/stefanpenner)
+- [#8588](https://github.com/ember-cli/ember-cli/pull/8588) [dx] Detail app / addon creation messages [@dcyriller](https://github.com/dcyriller)
+- [#8687](https://github.com/ember-cli/ember-cli/pull/8687) Add .git directory to npmignore [@rwwagner90](https://github.com/rwwagner90)
+- [#8701](https://github.com/ember-cli/ember-cli/pull/8701) Close #8589 addon templates were detected, but no template compilers … [@haochuan](https://github.com/haochuan)
+- [#8747](https://github.com/ember-cli/ember-cli/pull/8747) Update Windows documentation link [@loganrosen](https://github.com/loganrosen)
+- [#8772](https://github.com/ember-cli/ember-cli/pull/8772) fix typos :) [@aspala](https://github.com/aspala)
+- [#8564](https://github.com/ember-cli/ember-cli/pull/8564) Adds babel-eslint as the default ESlint parser [@pzuraq/feat](https://github.com/pzuraq/feat)
+
+Thank you to all who took the time to contribute!
+
+
 ## v3.12.0
 
 #### Blueprint Changes
