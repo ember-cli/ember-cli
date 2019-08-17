@@ -1,5 +1,5 @@
 'use strict';
-const addonBlueprint = require('../addon');
+const addonBlueprint = require('../classic-addon');
 const getURLFor = require('ember-source-channel-url');
 
 module.exports = Object.assign({}, addonBlueprint, {
