@@ -130,7 +130,7 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
-    "@octokit/rest": "^16.28.6",
+    "@octokit/rest": "^16.28.7",
     "broccoli-plugin": "^2.1.0",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.2.0",
