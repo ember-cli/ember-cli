@@ -151,7 +151,7 @@
     "nock": "^10.0.6",
     "nyc": "^14.1.0",
     "prettier": "1.17.0",
-    "rimraf": "^2.6.3",
+    "rimraf": "^3.0.0",
     "strip-ansi": "^5.2.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.12.2",
