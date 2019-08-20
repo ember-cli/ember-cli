@@ -90,7 +90,7 @@
     "git-repo-info": "^2.1.0",
     "glob": "^7.1.4",
     "heimdalljs": "^0.2.6",
-    "heimdalljs-fs-monitor": "^0.2.2",
+    "heimdalljs-fs-monitor": "^0.2.3",
     "heimdalljs-graph": "^0.3.5",
     "heimdalljs-logger": "^0.1.10",
     "http-proxy": "^1.17.0",
