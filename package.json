@@ -56,7 +56,7 @@
     "broccoli-middleware": "^2.1.0",
     "broccoli-module-normalizer": "^1.3.0",
     "broccoli-module-unification-reexporter": "^1.0.0",
-    "broccoli-source": "^2.1.2",
+    "broccoli-source": "^3.0.0",
     "broccoli-slow-trees": "^3.0.1",
     "broccoli-stew": "^3.0.0",
     "calculate-cache-key-for-tree": "^2.0.0",
