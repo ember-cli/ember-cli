@@ -137,6 +137,7 @@ describe('InstallBlueprintTask', function() {
 
       const tmpdir = await mkTmpDirIn(tmproot);
 
+      // eslint-disable-next-line require-atomic-updates
       task.project = { root: tmpdir };
       process.chdir(tmpdir);
     });

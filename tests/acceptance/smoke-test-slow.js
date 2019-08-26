@@ -25,6 +25,8 @@ let dir = chai.dir;
 let appName = 'some-cool-app';
 let appRoot;
 
+let ORIGINAL_STDOUT_WRITE = process.stdout.write;
+
 describe('Acceptance: smoke-test', function() {
   this.timeout(500000);
   before(function() {
@@ -41,6 +43,7 @@ describe('Acceptance: smoke-test', function() {
     delete process.env._TESTEM_CONFIG_JS_RAN;
     cleanupRun(appName);
     expect(dir(appRoot)).to.not.exist;
+    process.stdout.write = ORIGINAL_STDOUT_WRITE;
   });
 
   it('ember new foo, clean from scratch', function() {
@@ -152,7 +155,6 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember test --path with previous build', async function() {
-    let originalWrite = process.stdout.write;
     let output = [];
 
     await copyFixtureFiles('smoke-tests/passing-test');
@@ -161,18 +163,11 @@ describe('Acceptance: smoke-test', function() {
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
     // TODO: Figure out how to get this to write into the MockUI
-    process.stdout.write = (function() {
-      return function() {
-        output.push(arguments[0]);
-      };
-    })(originalWrite);
+    process.stdout.write = function() {
+      output.push(arguments[0]);
+    };
 
-    let result;
-    try {
-      result = await ember(['test', '--path=dist']);
-    } finally {
-      process.stdout.write = originalWrite;
-    }
+    let result = await ember(['test', '--path=dist']);
 
     expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
 
@@ -183,7 +178,6 @@ describe('Acceptance: smoke-test', function() {
   });
 
   it('ember test wasm', async function() {
-    let originalWrite = process.stdout.write;
     let output = [];
 
     await copyFixtureFiles('smoke-tests/serve-wasm');
@@ -191,19 +185,11 @@ describe('Acceptance: smoke-test', function() {
     // TODO: Change to using ember() helper once it properly saves build artifacts
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
 
-    // TODO: Figure out how to get this to write into the MockUI
-    process.stdout.write = (function() {
-      return function() {
-        output.push(arguments[0]);
-      };
-    })(originalWrite);
+    process.stdout.write = function() {
+      output.push(arguments[0]);
+    };
 
-    let result;
-    try {
-      result = await ember(['test', '--path=dist']);
-    } finally {
-      process.stdout.write = originalWrite;
-    }
+    let result = await ember(['test', '--path=dist']);
 
     expect(result.exitCode).to.equal(0, 'exit code should be 0 for passing tests');
 

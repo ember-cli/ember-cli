@@ -80,23 +80,29 @@ describe('Addon - linting', function() {
       addon.jshintAddonTree();
       expect(lintTrees.length).to.equal(2);
 
-      output = yield buildOutput(lintTrees[0]);
+      let firstOutput = yield buildOutput(lintTrees[0]);
 
-      expect(output.read()).to.deep.equal({
-        addon: {
-          'derp.js': '// slerpy',
-        },
-      });
+      try {
+        expect(firstOutput.read()).to.deep.equal({
+          addon: {
+            'derp.js': '// slerpy',
+          },
+        });
+      } finally {
+        yield firstOutput.dispose();
+      }
 
-      yield output.dispose();
+      let secondOutput = yield buildOutput(lintTrees[1]);
 
-      output = yield buildOutput(lintTrees[1]);
-
-      expect(output.read()).to.deep.equal({
-        addon: {
-          templates: {},
-        },
-      });
+      try {
+        expect(secondOutput.read()).to.deep.equal({
+          addon: {
+            templates: {},
+          },
+        });
+      } finally {
+        yield secondOutput.dispose();
+      }
     })
   );
 
@@ -114,21 +120,27 @@ describe('Addon - linting', function() {
       addon.jshintAddonTree();
       expect(lintTrees.length).to.equal(2);
 
-      output = yield buildOutput(lintTrees[0]);
+      let firstOutput = yield buildOutput(lintTrees[0]);
 
-      expect(output.read()).to.deep.equal({});
+      try {
+        expect(firstOutput.read()).to.deep.equal({});
+      } finally {
+        yield firstOutput.dispose();
+      }
 
-      yield output.dispose();
+      let secondOutput = yield buildOutput(lintTrees[1]);
 
-      output = yield buildOutput(lintTrees[1]);
-
-      expect(output.read()).to.deep.equal({
-        addon: {
-          templates: {
-            'foo.hbs': '{{huzzzah}}',
+      try {
+        expect(output.read()).to.deep.equal({
+          addon: {
+            templates: {
+              'foo.hbs': '{{huzzzah}}',
+            },
           },
-        },
-      });
+        });
+      } finally {
+        yield secondOutput.dispose();
+      }
     })
   );
 
@@ -147,25 +159,31 @@ describe('Addon - linting', function() {
       addon.jshintAddonTree();
       expect(lintTrees.length).to.equal(2);
 
-      output = yield buildOutput(lintTrees[0]);
+      let firstOutput = yield buildOutput(lintTrees[0]);
 
-      expect(output.read()).to.deep.equal({
-        addon: {
-          'derp.js': '// slerpy',
-        },
-      });
-
-      yield output.dispose();
-
-      output = yield buildOutput(lintTrees[1]);
-
-      expect(output.read()).to.deep.equal({
-        addon: {
-          templates: {
-            'foo.hbs': '{{huzzzah}}',
+      try {
+        expect(firstOutput.read()).to.deep.equal({
+          addon: {
+            'derp.js': '// slerpy',
           },
-        },
-      });
+        });
+      } finally {
+        yield firstOutput.dispose();
+      }
+
+      let secondOutput = yield buildOutput(lintTrees[1]);
+
+      try {
+        expect(secondOutput.read()).to.deep.equal({
+          addon: {
+            templates: {
+              'foo.hbs': '{{huzzzah}}',
+            },
+          },
+        });
+      } finally {
+        yield secondOutput.dispose();
+      }
     })
   );
 
