@@ -67,7 +67,9 @@ describe('generate command', function() {
       };
 
       return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
-        expect(reason.message).to.eql('node_modules appears empty, you may need to run `npm install`');
+        expect(reason.message).to.eql(
+          'Required packages are missing, run `npm install` from this directory to install them.'
+        );
       });
     });
   });
@@ -78,7 +80,9 @@ describe('generate command', function() {
     };
 
     return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
-      expect(reason.message).to.eql('node_modules appears empty, you may need to run `yarn install`');
+      expect(reason.message).to.eql(
+        'Required packages are missing, run `yarn install` from this directory to install them.'
+      );
     });
   });
 
