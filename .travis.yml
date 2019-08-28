@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10"
+  - "12"
 
 addons:
   chrome: stable
@@ -42,16 +42,13 @@ jobs:
 
     - name: Node.js 10
       node_js: 10
+
+    - name: Node.js 12
+      node_js: 12
       script:
         - yarn test:cover
       after_success:
         - .travis/codecoverage.sh
-
-    - env: NAME=NODE_11
-      node_js: 11
-
-    - name: Node.js 12
-      node_js: 12
 
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true
