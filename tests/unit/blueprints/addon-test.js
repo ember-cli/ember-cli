@@ -81,8 +81,8 @@ describe('blueprint - addon', function() {
   "dependencies": {},\n\
   "devDependencies": {\n\
     "ember-disable-prototype-extensions": "^1.1.3",\n\
-    "ember-source-channel-url": "^1.1.0",\n\
-    "ember-try": "^1.0.0"\n\
+    "ember-source-channel-url": "^2.0.1",\n\
+    "ember-try": "^1.2.1"\n\
   },\n\
   "ember-addon": {\n\
     "configPath": "tests/dummy/config"\n\
