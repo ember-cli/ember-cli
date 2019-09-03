@@ -131,7 +131,7 @@
   },
   "devDependencies": {
     "@octokit/rest": "^16.28.8",
-    "broccoli-plugin": "^2.1.0",
+    "broccoli-plugin": "^3.0.0",
     "broccoli-test-helper": "^2.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
