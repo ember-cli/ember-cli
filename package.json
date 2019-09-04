@@ -148,7 +148,7 @@
     "fixturify": "^1.2.0",
     "fixturify-project": "^1.9.0",
     "mocha": "^6.2.0",
-    "nock": "^10.0.6",
+    "nock": "^11.3.2",
     "nyc": "^14.1.0",
     "prettier": "1.17.0",
     "rimraf": "^3.0.0",
