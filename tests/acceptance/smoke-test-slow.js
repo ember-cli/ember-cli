@@ -47,37 +47,33 @@ describe('Acceptance: smoke-test', function() {
     return runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 
-  it('ember new foo, make sure addon template overwrites', async function() {
-    await ember(['generate', 'template', 'foo']);
-    await ember(['generate', 'in-repo-addon', 'my-addon']);
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
+    it('ember new foo, make sure addon template overwrites', async function() {
+      await ember(['generate', 'template', 'foo']);
+      await ember(['generate', 'in-repo-addon', 'my-addon']);
 
-    // this should work, but generating a template in an addon/in-repo-addon doesn't
-    // do the right thing: update once https://github.com/ember-cli/ember-cli/issues/5687
-    // is fixed
-    //return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
+      // this should work, but generating a template in an addon/in-repo-addon doesn't
+      // do the right thing: update once https://github.com/ember-cli/ember-cli/issues/5687
+      // is fixed
+      //return ember(['generate', 'template', 'foo', '--in-repo-addon=my-addon']);
 
-    // temporary work around
-    let templatePath, packageJsonPath;
-    if (isExperimentEnabled('MODULE_UNIFICATION')) {
-      templatePath = path.join('packages', 'my-addon', 'src', 'ui', 'routes', 'foo.hbs');
-      packageJsonPath = path.join('packages', 'my-addon', 'package.json');
-    } else {
-      templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
-      packageJsonPath = path.join('lib', 'my-addon', 'package.json');
-    }
+      // temporary work around
+      let templatePath = path.join('lib', 'my-addon', 'app', 'templates', 'foo.hbs');
+      let packageJsonPath = path.join('lib', 'my-addon', 'package.json');
 
-    fs.mkdirsSync(path.dirname(templatePath));
-    fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
+      fs.mkdirsSync(path.dirname(templatePath));
+      fs.writeFileSync(templatePath, 'Hi, Mom!', { encoding: 'utf8' });
 
-    let packageJson = fs.readJsonSync(packageJsonPath);
-    packageJson.dependencies = packageJson.dependencies || {};
-    packageJson.dependencies['ember-cli-htmlbars'] = '*';
+      let packageJson = fs.readJsonSync(packageJsonPath);
+      packageJson.dependencies = packageJson.dependencies || {};
+      packageJson.dependencies['ember-cli-htmlbars'] = '*';
 
-    fs.writeJsonSync(packageJsonPath, packageJson);
+      fs.writeJsonSync(packageJsonPath, packageJson);
 
-    let result = await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-    expect(result.code).to.equal(0);
-  });
+      let result = await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+      expect(result.code).to.equal(0);
+    });
+  }
 
   it('ember test still runs when a JavaScript testem config exists', async function() {
     await copyFixtureFiles('smoke-tests/js-testem-config');
@@ -238,33 +234,35 @@ describe('Acceptance: smoke-test', function() {
     expect(result.code).to.not.equal(0, `expected exit code to be non-zero, but got ${result.code}`);
   });
 
-  it('ember build generates instrumentation files when viz is enabled', async function() {
-    process.env.BROCCOLI_VIZ = '1';
+  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
+    it('ember build generates instrumentation files when viz is enabled', async function() {
+      process.env.BROCCOLI_VIZ = '1';
 
-    try {
-      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
-        env: {
-          BROCCOLI_VIZ: '1',
-        },
+      try {
+        await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build', {
+          env: {
+            BROCCOLI_VIZ: '1',
+          },
+        });
+      } finally {
+        delete process.env.BROCCOLI_VIZ;
+      }
+
+      [
+        'instrumentation.build.0.json',
+        'instrumentation.command.json',
+        'instrumentation.init.json',
+        'instrumentation.shutdown.json',
+      ].forEach(instrumentationFile => {
+        expect(fs.existsSync(instrumentationFile)).to.equal(true);
+
+        let json = fs.readJsonSync(instrumentationFile);
+        expect(Object.keys(json)).to.eql(['summary', 'nodes']);
+
+        expect(Array.isArray(json.nodes)).to.equal(true);
       });
-    } finally {
-      delete process.env.BROCCOLI_VIZ;
-    }
-
-    [
-      'instrumentation.build.0.json',
-      'instrumentation.command.json',
-      'instrumentation.init.json',
-      'instrumentation.shutdown.json',
-    ].forEach(instrumentationFile => {
-      expect(fs.existsSync(instrumentationFile)).to.equal(true);
-
-      let json = fs.readJsonSync(instrumentationFile);
-      expect(Object.keys(json)).to.eql(['summary', 'nodes']);
-
-      expect(Array.isArray(json.nodes)).to.equal(true);
     });
-  });
+  }
 
   it.skip('ember new foo, build --watch development, and verify rebuilt after change', async function() {
     let touched = false;
@@ -445,9 +443,7 @@ describe('Acceptance: smoke-test', function() {
 
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'generate', 'component', 'foo-bar');
 
-    let filePath = isExperimentEnabled('MODULE_UNIFICATION')
-      ? 'src/ui/components/new-path/foo-bar/component.js'
-      : 'app/components/new-path/foo-bar.js';
+    let filePath = 'app/components/new-path/foo-bar.js';
 
     // because we're overriding, the fileMapTokens is default, sans 'component'
     expect(file(filePath)).to.contain('generated component successfully');
