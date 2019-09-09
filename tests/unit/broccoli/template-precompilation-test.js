@@ -19,15 +19,18 @@ describe('template preprocessors', function() {
   let input, output, addon;
 
   class FakeTemplateColocator extends BroccoliPlugin {
-    constructor(trees, options = { root: '' }) {
-      super(...arguments);
-      this.options = options;
-    }
-
     build() {
       let [inputPath] = this.inputPaths;
-      let root = fs.existsSync(path.join(inputPath, this.options.root)) ? this.options.root : '';
+      let entries = fs.readdirSync(inputPath);
+      if (entries.length > 1) {
+        throw new Error('all input files should be scoped to the addon or project name');
+      }
 
+      if (entries.length === 0) {
+        // nothing to do, no files in input tree
+        return;
+      }
+      let root = entries[0];
       let files = walkSync(path.join(inputPath, root), { directories: false });
 
       files.forEach(file => {
@@ -171,7 +174,7 @@ describe('template preprocessors', function() {
         name: 'fake-template-compiler',
         ext: 'hbs',
         toTree(tree) {
-          return new FakeTemplateColocator([tree], { root: 'fake-app-test/' });
+          return new FakeTemplateColocator([tree]);
         },
       });
 
