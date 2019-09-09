@@ -20,7 +20,6 @@ let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
 let fixturePath = path.resolve(__dirname, '../../fixtures/addon');
-const ensurePosixPath = require('ensure-posix-path');
 
 describe('models/addon.js', function() {
   let addon, project, projectPath;
@@ -100,20 +99,6 @@ describe('models/addon.js', function() {
         };
 
         addon.jshintTrees = function() {};
-      });
-
-      it('uses the fullPath', function() {
-        let addonPath;
-        addon.addonJsFiles = function(_path) {
-          addonPath = _path;
-          return _path;
-        };
-
-        let root = path.join(fixturePath, 'with-styles');
-        addon.root = root;
-
-        addon.jshintAddonTree();
-        expect(addonPath).to.eql(ensurePosixPath(path.join(root, 'addon')));
       });
 
       it('lints the files before preprocessing', function() {
