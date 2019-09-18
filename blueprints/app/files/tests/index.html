@@ -11,7 +11,7 @@
     {{content-for "test-head"}}
 
     <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link rel="stylesheet" href="{{rootURL}}assets/<%= name %>.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/{{appName}}.css">
     <link rel="stylesheet" href="{{rootURL}}assets/test-support.css">
 
     {{content-for "head-footer"}}
@@ -24,7 +24,7 @@
     <script src="/testem.js" integrity=""></script>
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/test-support.js"></script>
-    <script src="{{rootURL}}assets/<%= name %>.js"></script>
+    <script src="{{rootURL}}assets/{{appName}}>.js"></script>
     <script src="{{rootURL}}assets/tests.js"></script>
 
     {{content-for "body-footer"}}

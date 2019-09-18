@@ -32,6 +32,25 @@ describe('ember-app-utils', function () {
     });
   });
 
+  describe(`appName`, function () {
+    it('`appName` regex accepts space-padded padded variation', function () {
+      const regex = configReplacePatterns().find((entry) => `${entry.match}`.includes('appName')).match;
+      const variations = ['{{appName}}', '{{ appName }}', 'foo'];
+      const results = [];
+
+      variations.forEach((variation) => {
+        const match = variation.match(regex);
+
+        if (match !== null) {
+          results.push(match[0]);
+        }
+      });
+
+      variations.pop();
+      expect(results).to.deep.equal(variations);
+    });
+  });
+
   describe(`EMBER_ENV`, function () {
     it('`EMBER_ENV` regex accepts space-padded padded variation', function () {
       const regex = configReplacePatterns()[1].match;
