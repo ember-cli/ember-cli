@@ -852,10 +852,10 @@ broccoli-amd-funnel@^2.0.1:
     broccoli-plugin "^1.3.0"
     symlink-or-copy "^1.2.0"
 
-broccoli-babel-transpiler@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/broccoli-babel-transpiler/-/broccoli-babel-transpiler-7.2.0.tgz#5c0d694c4055106abb385e2d3d88936d35b7cb18"
-  integrity sha512-lkP9dNFfK810CRHHWsNl9rjyYqcXH3qg0kArnA6tV9Owx3nlZm3Eyr0cGo6sMUQCNLH+2oKrRjOdUGSc6Um6Cw==
+broccoli-babel-transpiler@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/broccoli-babel-transpiler/-/broccoli-babel-transpiler-7.3.0.tgz#a0ad3a37dbf74469664bbca403d652070c2c1317"
+  integrity sha512-tsXNvDf3gp6g8rGkz234AhbaIRUsCdd6CM3ikfkJVB0EpC8ZAczGsFKTjENLy1etx4s7FkruW/QjI7Wfdhx6Ng==
   dependencies:
     "@babel/core" "^7.3.3"
     "@babel/polyfill" "^7.0.0"
@@ -1020,15 +1020,20 @@ broccoli-module-unification-reexporter@^1.0.0:
     mkdirp "^0.5.1"
     walk-sync "^0.3.2"
 
+broccoli-node-api@^1.6.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/broccoli-node-api/-/broccoli-node-api-1.7.0.tgz#391aa6edecd2a42c63c111b4162956b2fa288cb6"
+  integrity sha512-QIqLSVJWJUVOhclmkmypJJH9u9s/aWH4+FH6Q6Ju5l+Io4dtwqdPUNmDfw40o6sxhbZHhqGujDJuHTML1wG8Yw==
+
 broccoli-node-info@1.1.0, broccoli-node-info@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/broccoli-node-info/-/broccoli-node-info-1.1.0.tgz#3aa2e31e07e5bdb516dd25214f7c45ba1c459412"
   integrity sha1-OqLjHgflvbUW3SUhT3xFuhxFlBI=
 
-broccoli-node-info@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/broccoli-node-info/-/broccoli-node-info-2.0.0.tgz#652a7940ede40630b84ad009c6236f4bc548b556"
-  integrity sha512-xfnzPYdf8Uu3mfhEPkh3CX1suGHNNW4k3f730llzr4Dl7UXvI5T8RUb7X04BSvJfvqYTekM/JTmYrjB01WAsCg==
+broccoli-node-info@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/broccoli-node-info/-/broccoli-node-info-2.1.0.tgz#ca84560e8570ff78565bea1699866ddbf58ad644"
+  integrity sha512-l6qDuboJThHfRVVWQVaTs++bFdrFTP0gJXgsWenczc1PavRVUmL1Eyb2swTAXXMpDOnr2zhNOBLx4w9AxkqbPQ==
 
 broccoli-persistent-filter@^1.1.6:
   version "1.4.6"
@@ -1089,6 +1094,17 @@ broccoli-plugin@^2.1.0:
     rimraf "^2.3.4"
     symlink-or-copy "^1.1.8"
 
+broccoli-plugin@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/broccoli-plugin/-/broccoli-plugin-3.0.0.tgz#516f2b550ffa2bb111bf54c1afb4bd0b2f02065b"
+  integrity sha512-aEtobBvzAlUIAaY5z+LwW2W3IJ9pruJtrT571CyfjoDFTGa8LZx0qjQG97Z7Guk5YzuxDoDNlM3hGsgBnnReTw==
+  dependencies:
+    broccoli-node-api "^1.6.0"
+    promise-map-series "^0.2.1"
+    quick-temp "^0.1.3"
+    rimraf "^2.3.4"
+    symlink-or-copy "^1.1.8"
+
 broccoli-slow-trees@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/broccoli-slow-trees/-/broccoli-slow-trees-3.0.1.tgz#9bf2a9e2f8eb3ed3a3f2abdde988da437ccdc9b4"
@@ -1101,10 +1117,12 @@ broccoli-source@^1.1.0:
   resolved "https://registry.yarnpkg.com/broccoli-source/-/broccoli-source-1.1.0.tgz#54f0e82c8b73f46580cbbc4f578f0b32fca8f809"
   integrity sha1-VPDoLItz9GWAy7xPV48LMvyo+Ak=
 
-broccoli-source@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/broccoli-source/-/broccoli-source-2.1.2.tgz#e9ae834f143b607e9ec114ade66731500c38b90b"
-  integrity sha512-1lLayO4wfS0c0Sj50VfHJXNWf94FYY0WUhxj0R77thbs6uWI7USiOWFqQV5dRmhAJnoKaGN4WyLGQbgjgiYFwQ==
+broccoli-source@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/broccoli-source/-/broccoli-source-3.0.0.tgz#c7c9ba24505941b72a0244568285bc859f69dfbd"
+  integrity sha512-G4Zc8HngZIdASyQOiz/9H/0Gjc2F02EFwhWF4wiueaI+/FBrM9Ixj6Prno/1aiLIYcN0JvRC3oytN9uOVonTww==
+  dependencies:
+    broccoli-node-api "^1.6.0"
 
 broccoli-stew@^3.0.0:
   version "3.0.0"
@@ -1163,13 +1181,13 @@ broccoli@^2.0.0:
     underscore.string "^3.2.2"
     watch-detector "^0.1.0"
 
-broccoli@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.1.2.tgz#31a8758aa087a26d62f1dab65c1d0af87cbced73"
-  integrity sha512-lSQB5sReBO1yPnWvQEqrAtLomK1BB1lsFQjc/whszK9j37v0tvvuCOeHX40x7iw3D2V4CyiBrYUUPY4pBjwdzA==
+broccoli@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/broccoli/-/broccoli-3.2.0.tgz#6b5a89b8d6d0c733d39aa23ac5b43d85f56fafab"
+  integrity sha512-n58yqAbV2Zbg+HXmBGBOUoDOgbCM0hMJtqvnPDF89Jwk3ZBVhD5/UKW0diY6l3DbB5+j92NCDQVd9HqO+WYFYA==
   dependencies:
     ansi-html "^0.0.7"
-    broccoli-node-info "^2.0.0"
+    broccoli-node-info "^2.1.0"
     broccoli-slow-trees "^3.0.1"
     broccoli-source "^1.1.0"
     commander "^2.15.1"
@@ -1180,6 +1198,7 @@ broccoli@^3.1.2:
     handlebars "^4.0.11"
     heimdalljs "^0.2.6"
     heimdalljs-logger "^0.1.9"
+    https "^1.0.0"
     mime-types "^2.1.19"
     promise.prototype.finally "^3.1.0"
     resolve-path "^1.4.0"
@@ -1736,18 +1755,7 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
-console-ui@^3.0.4:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.1.0.tgz#cf74b01150c1034de729165180d848194880a179"
-  integrity sha512-OqPjE8pNAe9xWp1o4igdH8YrXl359ovUaYzS2avCdgVSWc9tJq5SYIw7893ybhfhGwrI6aljdHALoE9+gNaHMA==
-  dependencies:
-    chalk "^2.1.0"
-    inquirer "^6"
-    json-stable-stringify "^1.0.1"
-    ora "^3.4.0"
-    through2 "^3.0.1"
-
-console-ui@^3.1.1:
+console-ui@^3.0.4, console-ui@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/console-ui/-/console-ui-3.1.1.tgz#681a0414e8b0a23ed679d0a2802e39d920801171"
   integrity sha512-22y+uk4AGq9quz6kofKQjkeCIAm86+MTxT/RZMFm8fMArP2lAkzxjUjNyrw7S6wXnnB+qRnC+/2ANMTke68RTQ==
@@ -3547,10 +3555,10 @@ heimdalljs-fs-monitor@^0.2.3:
     heimdalljs "^0.2.3"
     heimdalljs-logger "^0.1.7"
 
-heimdalljs-graph@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/heimdalljs-graph/-/heimdalljs-graph-0.3.5.tgz#420fbbc8fc3aec5963ddbbf1a5fb47921c4a5927"
-  integrity sha512-szOy9WZUc7eUInEBQEsoa1G2d+oYHrn6ndZPf76eh8A9ID1zWUCEEsxP3F+CvQx9+EDrg1srdyLUmfVAr8EB4g==
+heimdalljs-graph@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/heimdalljs-graph/-/heimdalljs-graph-1.0.0.tgz#0059857952988e54f3a74bb23edaf669f8eaf6af"
+  integrity sha512-v2AsTERBss0ukm/Qv4BmXrkwsT5x6M1V5Om6E8NcDQ/ruGkERsfsuLi5T8jx8qWzKMGYlwzAd7c/idymxRaPzA==
 
 heimdalljs-logger@^0.1.10, heimdalljs-logger@^0.1.7, heimdalljs-logger@^0.1.9:
   version "0.1.10"
@@ -3632,6 +3640,11 @@ http-signature@~0.10.0:
     asn1 "0.1.11"
     assert-plus "^0.1.5"
     ctype "0.5.3"
+
+https@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/https/-/https-1.0.0.tgz#3c37c7ae1a8eeb966904a2ad1e975a194b7ed3a4"
+  integrity sha1-PDfHrhqO65ZpBKKtHpdaGUt+06Q=
 
 iconv-lite@0.4.24, iconv-lite@^0.4.13, iconv-lite@^0.4.24, iconv-lite@^0.4.4:
   version "0.4.24"
@@ -5978,15 +5991,10 @@ printf@^0.5.1:
   resolved "https://registry.yarnpkg.com/printf/-/printf-0.5.1.tgz#e0466788260859ed153006dc6867f09ddf240cf3"
   integrity sha512-UaE/jO0hNsrvPGQEb4LyNzcrJv9Z00tsreBduOSxMtrebvoUhxiEJ4YCHX8YHf6akwfKsC2Gyv5zv47UXhMiLg==
 
-process-nextick-args@^2.0.0:
+process-nextick-args@^2.0.0, process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
-
-process-nextick-args@~2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
-  integrity sha512-MtEC1TqN0EU5nephaJ4rAtThHtC86dNN9qCuEhtshvpVBkAW5ZO7BASN9REnF9eoXGcRub+pFuKEpOHE+HbEMw==
 
 process-relative-require@^1.0.0:
   version "1.0.0"
@@ -7318,10 +7326,21 @@ tough-cookie@>=0.12.0:
     psl "^1.1.28"
     punycode "^2.1.1"
 
-tree-sync@^1.2.2, tree-sync@^1.4.0:
+tree-sync@^1.2.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/tree-sync/-/tree-sync-1.4.0.tgz#314598d13abaf752547d9335b8f95d9a137100d6"
   integrity sha512-YvYllqh3qrR5TAYZZTXdspnIhlKAYezPYw11ntmweoceu4VK+keN356phHRIIo1d+RDmLpHZrUlmxga2gc9kSQ==
+  dependencies:
+    debug "^2.2.0"
+    fs-tree-diff "^0.5.6"
+    mkdirp "^0.5.1"
+    quick-temp "^0.1.5"
+    walk-sync "^0.3.3"
+
+tree-sync@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tree-sync/-/tree-sync-2.0.0.tgz#e51456731d5ac93b92f9a1d58dd383f76f0f2f39"
+  integrity sha512-AzeJnbmJjGVfWMTJ0T152fv8NDTbQc9ERY4nEs7Lmxd94Xah2bUS56+CcoTh6FB8qn2KjBMjC0mLNc731aVBqw==
   dependencies:
     debug "^2.2.0"
     fs-tree-diff "^0.5.6"
