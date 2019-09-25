@@ -7,6 +7,7 @@
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.0...v3.14.0-beta.1)
 - [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.13.0...v3.14.0-beta.1)
 
+#### Changelog
 
 - [#8812](https://github.com/ember-cli/ember-cli/pull/8812) Clarify installation error message [@jrjohnson](https://github.com/jrjohnson)
 - [#8820](https://github.com/ember-cli/ember-cli/pull/8820) Issue deprecation when enabling MODULE_UNIFICATION flag. [@rwjblue](https://github.com/rwjblue)
@@ -22,6 +23,7 @@ Thank you to all who took the time to contribute!
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.12.0...v3.13.0)
 - [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.12.0...v3.13.0)
 
+#### Changelog
 
 - [#8797](https://github.com/ember-cli/ember-cli/pull/8797) Update heimdalljs-fs-monitor to 0.2.3. [@rwjblue](https://github.com/rwjblue)
 - [#8798](https://github.com/ember-cli/ember-cli/pull/8798) Update blueprint reference for ember-source to 3.13.0-beta.2. [@rwjblue](https://github.com/rwjblue)
