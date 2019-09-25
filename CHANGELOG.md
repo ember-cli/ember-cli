@@ -1,15 +1,20 @@
 # ember-cli Changelog
 
-
-## v3.13.0-beta.1
-
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.12.0...v3.13.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.12.0...v3.13.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.12.0...v3.13.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.12.0...v3.13.0)
 
-#### Community Contributions
 
+- [#8797](https://github.com/ember-cli/ember-cli/pull/8797) Update heimdalljs-fs-monitor to 0.2.3. [@rwjblue](https://github.com/rwjblue)
+- [#8798](https://github.com/ember-cli/ember-cli/pull/8798) Update blueprint reference for ember-source to 3.13.0-beta.2. [@rwjblue](https://github.com/rwjblue)
+- [#8814](https://github.com/ember-cli/ember-cli/pull/8814) Drop Node 11 from CI. [@rwjblue](https://github.com/rwjblue)
+- [#8816](https://github.com/ember-cli/ember-cli/pull/8816) Update app and addon blueprints to latest version of packages. [@rwjblue](https://github.com/rwjblue)
+- [#8834](https://github.com/ember-cli/ember-cli/pull/8834) Ensure addon tree is scoped to addon name before compiling templates. [@rwjblue](https://github.com/rwjblue)
+- [fd7268b59ddcddca849762a4923c14655da47188](https://github.com/ember-cli/ember-cli/commit/fd7268b59ddcddca849762a4923c14655da47188) Update watch-detector to 1.0.0. [@rwjblue](https://github.com/rwjblue)
+- [#8850](https://github.com/ember-cli/ember-cli/pull/8850) Update broccoli dependencies/devDependencies to latest. [@rwjblue](https://github.com/rwjblue)
+- [#8851](https://github.com/ember-cli/ember-cli/pull/8851) Update Ember ecosystem packages to latest version. [@rwjblue](https://github.com/rwjblue)
+- [#8853](https://github.com/ember-cli/ember-cli/pull/8853) Update ember-resolver to 5.3.0. [@rwjblue](https://github.com/rwjblue)
 - [#8642](https://github.com/ember-cli/ember-cli/pull/8642) Use system temp for ember test [@ef4](https://github.com/ef4)
 - [#8650](https://github.com/ember-cli/ember-cli/pull/8650) [BUGFIX] reset resolve-package-path caches in PackageInfoCache._clear() [@jamescdavis](https://github.com/jamescdavis)
 - [#8633](https://github.com/ember-cli/ember-cli/pull/8633) Refactor template build pipeline to enable co-located templates. [@rwjblue](https://github.com/rwjblue)
@@ -18,10 +23,10 @@
 - [#8678](https://github.com/ember-cli/ember-cli/pull/8678) give ember-cli a progress indicator [@stefanpenner](https://github.com/stefanpenner)
 - [#8588](https://github.com/ember-cli/ember-cli/pull/8588) [dx] Detail app / addon creation messages [@dcyriller](https://github.com/dcyriller)
 - [#8687](https://github.com/ember-cli/ember-cli/pull/8687) Add .git directory to npmignore [@rwwagner90](https://github.com/rwwagner90)
-- [#8701](https://github.com/ember-cli/ember-cli/pull/8701) Close #8589 addon templates were detected, but no template compilers … [@haochuan](https://github.com/haochuan)
+- [#8701](https://github.com/ember-cli/ember-cli/pull/8701) Add ember-cli-htmlbars to default addon dependencies [@haochuan](https://github.com/haochuan)
 - [#8747](https://github.com/ember-cli/ember-cli/pull/8747) Update Windows documentation link [@loganrosen](https://github.com/loganrosen)
 - [#8772](https://github.com/ember-cli/ember-cli/pull/8772) fix typos :) [@aspala](https://github.com/aspala)
-- [#8564](https://github.com/ember-cli/ember-cli/pull/8564) Adds babel-eslint as the default ESlint parser [@pzuraq/feat](https://github.com/pzuraq/feat)
+- [#8564](https://github.com/ember-cli/ember-cli/pull/8564) Adds babel-eslint as the default ESlint parser [@pzuraq](https://github.com/pzuraq)
 
 Thank you to all who took the time to contribute!
 
