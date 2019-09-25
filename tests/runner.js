@@ -47,6 +47,12 @@ function addFiles(mocha, files) {
   files.forEach(mocha.addFile.bind(mocha));
 }
 
+// ensure that the specified edition is unset after each test
+const { clearEdition } = require('@ember/edition-utils');
+mocha.suite.afterEach(function() {
+  clearEdition();
+});
+
 function runMocha() {
   console.time('Mocha Tests Running Time');
   mocha.run(failures => {
