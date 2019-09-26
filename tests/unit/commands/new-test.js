@@ -8,7 +8,6 @@ const Promise = require('rsvp').Promise;
 const Blueprint = require('../../../lib/models/blueprint');
 const Command = require('../../../lib/models/command');
 const Task = require('../../../lib/models/task');
-const { isExperimentEnabled } = require('../../../lib/experiments');
 const td = require('testdouble');
 
 describe('new command', function() {
@@ -78,10 +77,9 @@ describe('new command', function() {
   });
 
   it('shows a suggestion messages when the application name is a period', function() {
-    let blueprintName = isExperimentEnabled('MODULE_UNIFICATION') ? 'module-unification-app' : 'application';
     return expect(command.validateAndRun(['.'])).to.be.rejected.then(error => {
       expect(error.message).to.equal(
-        `Trying to generate an ${blueprintName} structure in this directory? Use \`ember init\` instead.`
+        `Trying to generate an application structure in this directory? Use \`ember init\` instead.`
       );
     });
   });

@@ -17,10 +17,6 @@
         \u001b[90mThe blueprint for addon in repo ember-cli addons.\u001b[39m
       lib \u001b[33m<name>\u001b[39m
         \u001b[90mGenerates a lib directory for in-repo addons.\u001b[39m
-      module-unification-addon \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates an Ember addon with a module unification layout.\u001b[39m
-      module-unification-app \u001b[33m<name>\u001b[39m
-        \u001b[90mGenerates an Ember application with a module unification layout.\u001b[39m
       packages \u001b[33m<name>\u001b[39m
         \u001b[90mGenerates a packages directory for module unification in-repo addons.\u001b[39m
       server \u001b[33m<name>\u001b[39m
