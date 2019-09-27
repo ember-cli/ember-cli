@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+
+## v3.14.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.14.0-beta.1...v3.14.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.14.0-beta.1...v3.14.0-beta.2)
+
+
+- [#8853](https://github.com/ember-cli/ember-cli/pull/8853) Update ember-resolver to 5.3.0. [@rwjblue](https://github.com/rwjblue)
+- [#8861](https://github.com/ember-cli/ember-cli/pull/8861) Octane related tweaks (add `@glimmer/component`, use ember-template-lint's `octane` preset) [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.14.0-beta.1
 
 #### Blueprint Changes
