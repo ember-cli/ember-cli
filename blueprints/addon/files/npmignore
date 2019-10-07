@@ -8,7 +8,7 @@
 # misc
 /.bowerrc
 /.editorconfig
-/.ember-cli
+/.ember-cli.js
 /.env*
 /.eslintignore
 /.eslintrc.js
