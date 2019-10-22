@@ -38,6 +38,6 @@ Node.js](https://github.com/nodejs/LTS#lts_schedule).
 ## Release Process and Support Policy
 
 Ember and Ember CLI have committed to supporting the [Node.js LTS schedule](https://github.com/nodejs/LTS#lts-schedule)
-for the `HEAD` of our `master` branch(es). This means that we will will drop support
+for the `HEAD` of our `master` branch(es). This means that we will drop support
 per the [Node.js Release Working Group](https://github.com/nodejs/Release)'s schedule without a major version
 bump/change of ember-cli itself.
