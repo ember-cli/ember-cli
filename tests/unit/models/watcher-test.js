@@ -4,14 +4,11 @@ const expect = require('chai').expect;
 
 const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
-const MockWatcher = require('../../helpers/mock-watcher');
 const MockBroccoliWatcher = require('../../helpers/mock-broccoli-watcher');
 const Watcher = require('../../../lib/models/watcher');
 const EOL = require('os').EOL;
 const chalk = require('chalk');
 const BuildError = require('../../helpers/build-error');
-const { isExperimentEnabled } = require('../../../lib/experiments');
-const buildEvent = isExperimentEnabled('BROCCOLI_WATCHER') ? 'buildSuccess' : 'change';
 
 describe('Watcher', function() {
   let ui;
@@ -42,11 +39,7 @@ describe('Watcher', function() {
     ui = new MockUI();
     analytics = new MockAnalytics();
 
-    if (isExperimentEnabled('BROCCOLI_WATCHER')) {
-      watcher = new MockBroccoliWatcher();
-    } else {
-      watcher = new MockWatcher();
-    }
+    watcher = new MockBroccoliWatcher();
 
     subject = new Watcher({
       ui,
@@ -95,26 +88,24 @@ describe('Watcher', function() {
     });
   });
 
-  if (isExperimentEnabled('BROCCOLI_WATCHER')) {
-    describe('underlining watcher properly logs change events', function() {
-      it('logs that the file was added', function() {
-        watcher.emit('change', 'add', 'foo.txt');
-        expect(ui.output).to.equal(`file added foo.txt${EOL}`);
-      });
-      it('logs that the file was changed', function() {
-        watcher.emit('change', 'change', 'foo.txt');
-        expect(ui.output).to.equal(`file changed foo.txt${EOL}`);
-      });
-      it('logs that the file was deleted', function() {
-        watcher.emit('change', 'delete', 'foo.txt');
-        expect(ui.output).to.equal(`file deleted foo.txt${EOL}`);
-      });
+  describe('underlining watcher properly logs change events', function() {
+    it('logs that the file was added', function() {
+      watcher.emit('change', 'add', 'foo.txt');
+      expect(ui.output).to.equal(`file added foo.txt${EOL}`);
     });
-  }
+    it('logs that the file was changed', function() {
+      watcher.emit('change', 'change', 'foo.txt');
+      expect(ui.output).to.equal(`file changed foo.txt${EOL}`);
+    });
+    it('logs that the file was deleted', function() {
+      watcher.emit('change', 'delete', 'foo.txt');
+      expect(ui.output).to.equal(`file deleted foo.txt${EOL}`);
+    });
+  });
 
-  describe(`watcher:${buildEvent}`, function() {
+  describe(`watcher:buildSuccess`, function() {
     beforeEach(function() {
-      watcher.emit(buildEvent, mockResult);
+      watcher.emit(`buildSuccess`, mockResult);
     });
 
     it('tracks events', function() {
@@ -386,7 +377,7 @@ describe('Watcher', function() {
         stack: new Error().stack,
       });
 
-      watcher.emit(buildEvent, mockResult);
+      watcher.emit(`buildSuccess`, mockResult);
     });
 
     it('log that the build was green', function() {
