@@ -18,6 +18,10 @@ env:
     # See https://git.io/vdao3 for details.
     - JOBS=1
 
+branches:
+  only:
+    - master
+
 script:
   - npm run lint:hbs
   - npm run lint:js
