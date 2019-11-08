@@ -130,7 +130,6 @@
     "yam": "^1.0.0"
   },
   "devDependencies": {
-    "@ember/edition-utils": "^1.1.1",
     "@octokit/rest": "^16.30.1",
     "broccoli-plugin": "^3.0.0",
     "broccoli-test-helper": "^2.0.0",

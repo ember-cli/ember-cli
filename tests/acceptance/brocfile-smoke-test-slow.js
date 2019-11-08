@@ -42,6 +42,23 @@ describe('Acceptance: brocfile-smoke-test', function() {
   });
 
   it(
+    'a custom EmberENV in config/environment.js is used for window.EmberENV',
+    co.wrap(function*() {
+      yield copyFixtureFiles('brocfile-tests/custom-ember-env');
+      yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+      let vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
+        encoding: 'utf8',
+      });
+
+      // Changes in ember-optional-features 0.7.0 cause all defined values in optional-features.json
+      // to end up in EmberENV. jquery-integration is explicitly defined for non MU apps
+      let expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23","_JQUERY_INTEGRATION":false};';
+      expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
+    })
+  );
+
+  it(
     'a custom environment config can be used in Brocfile.js',
     co.wrap(function*() {
       yield copyFixtureFiles('brocfile-tests/custom-environment-config');
@@ -56,23 +73,6 @@ describe('Acceptance: brocfile-smoke-test', function() {
         yield copyFixtureFiles('brocfile-tests/pods-templates');
         yield remove(path.join(process.cwd(), 'app/templates'));
         yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
-      })
-    );
-
-    it(
-      'a custom EmberENV in config/environment.js is used for window.EmberENV',
-      co.wrap(function*() {
-        yield copyFixtureFiles('brocfile-tests/custom-ember-env');
-        yield runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
-
-        let vendorContents = fs.readFileSync(path.join('dist', 'assets', 'vendor.js'), {
-          encoding: 'utf8',
-        });
-
-        // Changes in config/optional-features.json end up being set in EmberENV
-        let expected =
-          'window.EmberENV = {"asdflkmawejf":";jlnu3yr23","_APPLICATION_TEMPLATE_WRAPPER":false,"_DEFAULT_ASYNC_OBSERVERS":true,"_JQUERY_INTEGRATION":false,"_TEMPLATE_ONLY_GLIMMER_COMPONENTS":true};';
-        expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
       })
     );
   }
