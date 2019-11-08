@@ -18,9 +18,7 @@
     "test": "ember test"
   },
   "devDependencies": {
-    "@ember/edition-utils": "^1.1.1",
     "@ember/optional-features": "^1.0.0",
-    "@glimmer/component": "^0.14.0-alpha.13",
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^1.5.2",
