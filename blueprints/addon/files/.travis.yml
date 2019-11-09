@@ -38,17 +38,18 @@ jobs:
     # runs linting and tests with current locked deps
 
     - stage: "Tests"
-      name: "Tests"<% if (yarn) { %>
-      install:
-        - yarn install --non-interactive<% } %>
+      name: "Tests"
       script:
         - <% if (yarn) { %>yarn lint:hbs<% } else { %>npm run lint:hbs<% } %>
         - <% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>
-        - <% if (yarn) { %>yarn test<% } else { %>npm test<% } %><% if (yarn) { %>
+        - <% if (yarn) { %>yarn test<% } else { %>npm test<% } %>
 
     - name: "Floating Dependencies"
+      install:<% if (yarn) { %>
+        - yarn install --no-lockfile --non-interactive
       script:
-        - yarn test<% } %>
+        - yarn test<% } else { %>
+        - npm install --no-package-lock<% } %>
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
@@ -65,7 +66,7 @@ before_install:
   - export PATH=$HOME/.yarn/bin:$PATH
 
 install:
-  - yarn install --no-lockfile --non-interactive
+  - yarn install --non-interactive
 <% } %>
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
