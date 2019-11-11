@@ -41,6 +41,10 @@ jobs:
         - npm run lint:js
         - npm test
 
+    - name: "Floating Dependencies"
+      install:
+        - npm install --no-package-lock
+
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
     - stage: "Additional Tests"
