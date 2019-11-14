@@ -53,7 +53,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
       // Changes in ember-optional-features 0.7.0 cause all defined values in optional-features.json
       // to end up in EmberENV. jquery-integration is explicitly defined for non MU apps
-      let expected = 'window.EmberENV = {"asdflkmawejf":";jlnu3yr23","_JQUERY_INTEGRATION":false};';
+      let expected = '(window.EmberENV || {}, {"asdflkmawejf":";jlnu3yr23","_JQUERY_INTEGRATION":false});';
       expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
     })
   );
