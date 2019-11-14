@@ -86,6 +86,19 @@ module.exports = {
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';
 
+    contents.files = [
+      'addon/**/!(.gitkeep)',
+      'addon-test-support',
+      'app/**/!(.gitkeep)',
+      'blueprints',
+      'config/**/!(ember-try.js)',
+      'lib',
+      'public',
+      'test-support',
+      'vendor/**/!(.gitkeep)',
+      'index.js',
+    ];
+
     return stringifyAndNormalize(sortPackageJson(contents));
   },
 
@@ -172,8 +185,6 @@ module.exports = {
 
     '^addon-config/environment.js': 'config/environment.js',
     '^addon-config/ember-try.js': 'config/ember-try.js',
-
-    '^npmignore': '.npmignore',
   },
 
   fileMapper(path) {

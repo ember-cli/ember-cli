@@ -75,6 +75,18 @@ describe('blueprint - addon', function() {
   "keywords": [\n\
     "ember-addon"\n\
   ],\n\
+  "files": [\n\
+    "addon/**/!(.gitkeep)",\n\
+    "addon-test-support",\n\
+    "app/**/!(.gitkeep)",\n\
+    "blueprints",\n\
+    "config/**/!(ember-try.js)",\n\
+    "lib",\n\
+    "public",\n\
+    "test-support",\n\
+    "vendor/**/!(.gitkeep)",\n\
+    "index.js"\n\
+  ],\n\
   "scripts": {\n\
     "test:all": "ember try:each"\n\
   },\n\
