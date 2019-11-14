@@ -235,6 +235,24 @@ describe('Acceptance: ember new', function() {
   );
 
   it(
+    'ember new with git blueprint and ref checks out the blueprint with the correct ref and uses it',
+    co.wrap(function*() {
+      this.timeout(20000); // relies on GH network stuff
+
+      yield ember([
+        'new',
+        'foo',
+        '--skip-npm',
+        '--skip-bower',
+        '--skip-git',
+        '--blueprint=https://github.com/buschtoens/app-blueprint-test.git#named-ref',
+      ]);
+
+      expect(file('.named-ref')).to.exist;
+    })
+  );
+
+  it(
     'ember new passes blueprint options through to blueprint',
     co.wrap(function*() {
       fs.mkdirsSync('my_blueprint/files');
