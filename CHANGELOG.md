@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.1...v3.13.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.13.1...v3.13.2)
+
+
+- [#8875](https://github.com/ember-cli/ember-cli/pull/8875) Fix ember-cli-htmlbars-inline-precompile deprecation [@HeroicEric](https://github.com/HeroicEric)
+- [#8882](https://github.com/ember-cli/ember-cli/pull/8882) Simplify "Get started" message [@dcyriller](https://github.com/dcyriller)
+- [#8901](https://github.com/ember-cli/ember-cli/pull/8901) Merge `config/environment.js`'s `EmberENV` configuration with any pre-existing `EmberENV` [@chancancode](https://github.com/chancancode)
+
+Thank you to all who took the time to contribute!
 
 ## v3.13.1
 
