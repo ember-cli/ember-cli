@@ -8,7 +8,8 @@ const expect = require('chai').expect;
 const path = require('path');
 const glob = require('glob');
 const walkSync = require('walk-sync');
-const RSVP = require('rsvp');
+const util = require('util');
+
 const EOL = require('os').EOL;
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -17,8 +18,7 @@ const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
 const Blueprint = require('../../../lib/models/blueprint');
 
-const Promise = RSVP.Promise;
-const remove = RSVP.denodeify(fs.remove);
+const remove = util.promisify(fs.remove);
 
 let localsCalled;
 let normalizeEntityNameCalled;
@@ -243,32 +243,183 @@ describe('Blueprint', function() {
     let options;
     let tmpdir;
 
-    beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
-        ui = new MockUI();
-        td.replace(ui, 'prompt');
+    beforeEach(async function() {
+      const dir = await mkTmpDirIn(tmproot);
+      tmpdir = dir;
+      blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
+      ui = new MockUI();
+      td.replace(ui, 'prompt');
 
-        project = new MockProject();
-        options = {
-          ui,
-          project,
-          target: tmpdir,
-        };
-      });
+      project = new MockProject();
+      options = {
+        ui,
+        project,
+        target: tmpdir,
+      };
     });
 
     afterEach(function() {
       return remove(tmproot);
     });
 
-    it('installs basic files', function() {
+    it('installs basic files', async function() {
       expect(!!blueprint).to.equal(true);
 
-      return blueprint.install(options).then(function() {
-        let actualFiles = walkSync(tmpdir).sort();
+      await blueprint.install(options);
+
+      let actualFiles = walkSync(tmpdir).sort();
+      let output = ui.output.trim().split(EOL);
+
+      expect(output.shift()).to.match(/^installing/);
+      expect(output.shift()).to.match(/create.* .ember-cli/);
+      expect(output.shift()).to.match(/create.* .gitignore/);
+      expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
+      expect(output.shift()).to.match(/create.* bar/);
+      expect(output.shift()).to.match(/create.* file-to-remove.txt/);
+      expect(output.shift()).to.match(/create.* foo.txt/);
+      expect(output.shift()).to.match(/create.* test.txt/);
+      expect(output.length).to.equal(0);
+      expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+      expect(() => {
+        fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function(err, content) {
+          if (err) {
+            throw 'error';
+          }
+          expect(content).to.match(/I AM TESTY/);
+        });
+      }).not.to.throw();
+    });
+
+    it('re-installing identical files', async function() {
+      await blueprint.install(options);
+
+      let output = ui.output.trim().split(EOL);
+      ui.output = '';
+
+      expect(output.shift()).to.match(/^installing/);
+      expect(output.shift()).to.match(/create.* .ember-cli/);
+      expect(output.shift()).to.match(/create.* .gitignore/);
+      expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
+      expect(output.shift()).to.match(/create.* bar/);
+      expect(output.shift()).to.match(/create.* file-to-remove.txt/);
+      expect(output.shift()).to.match(/create.* foo.txt/);
+      expect(output.shift()).to.match(/create.* test.txt/);
+      expect(output.length).to.equal(0);
+
+      await blueprint.install(options);
+
+      let actualFiles = walkSync(tmpdir).sort();
+      output = ui.output.trim().split(EOL);
+
+      expect(output.shift()).to.match(/^installing/);
+      expect(output.shift()).to.match(/identical.* .ember-cli/);
+      expect(output.shift()).to.match(/identical.* .gitignore/);
+      expect(output.shift()).to.match(/identical.* app[/\\]basics[/\\]mock-project.txt/);
+      expect(output.shift()).to.match(/identical.* bar/);
+      expect(output.shift()).to.match(/identical.* file-to-remove.txt/);
+      expect(output.shift()).to.match(/identical.* foo.txt/);
+      expect(output.shift()).to.match(/identical.* test.txt/);
+      expect(output.length).to.equal(0);
+
+      expect(actualFiles).to.deep.equal(basicBlueprintFiles);
+    });
+
+    it('re-installing conflicting files', async function() {
+      td.when(ui.prompt(td.matchers.anything())).thenReturn(
+        Promise.resolve({ answer: 'skip' }),
+        Promise.resolve({ answer: 'overwrite' })
+      );
+
+      await blueprint.install(options);
+
+      let output = ui.output.trim().split(EOL);
+      ui.output = '';
+
+      expect(output.shift()).to.match(/^installing/);
+      expect(output.shift()).to.match(/create.* .ember-cli/);
+      expect(output.shift()).to.match(/create.* .gitignore/);
+      expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
+      expect(output.shift()).to.match(/create.* bar/);
+      expect(output.shift()).to.match(/create.* file-to-remove.txt/);
+      expect(output.shift()).to.match(/create.* foo.txt/);
+      expect(output.shift()).to.match(/create.* test.txt/);
+      expect(output.length).to.equal(0);
+
+      let blueprintNew = Blueprint.lookup(basicNewBlueprint);
+
+      await blueprintNew.install(options);
+
+      td.verify(ui.prompt(td.matchers.anything()), { times: 2 });
+
+      let actualFiles = walkSync(tmpdir).sort();
+      // Prompts contain \n EOL
+      // Split output on \n since it will have the same affect as spliting on OS specific EOL
+      output = ui.output.trim().split('\n');
+      expect(output.shift()).to.match(/^installing/);
+      expect(output.shift()).to.match(/identical.* \.ember-cli/);
+      expect(output.shift()).to.match(/identical.* \.gitignore/);
+      expect(output.shift()).to.match(/skip.* foo.txt/);
+      expect(output.shift()).to.match(/overwrite.* test.txt/);
+      expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
+      expect(output.length).to.equal(0);
+
+      expect(actualFiles).to.deep.equal(basicBlueprintFilesAfterBasic2);
+    });
+
+    it('installs path globPattern file', async function() {
+      options.targetFiles = ['foo.txt'];
+      await blueprint.install(options);
+      let actualFiles = walkSync(tmpdir).sort();
+      let globFiles = glob
+        .sync('**/foo.txt', {
+          cwd: tmpdir,
+          dot: true,
+          mark: true,
+          strict: true,
+        })
+        .sort();
+      let output = ui.output.trim().split(EOL);
+
+      expect(output.shift()).to.match(/^installing/);
+      expect(output.shift()).to.match(/create.* foo.txt/);
+      expect(output.length).to.equal(0);
+
+      expect(actualFiles).to.deep.equal(globFiles);
+    });
+
+    it('installs multiple globPattern files', async function() {
+      options.targetFiles = ['foo.txt', 'test.txt'];
+      await blueprint.install(options);
+      let actualFiles = walkSync(tmpdir).sort();
+      let globFiles = glob
+        .sync(path.join('**', '*.txt'), {
+          cwd: tmpdir,
+          dot: true,
+          mark: true,
+          strict: true,
+        })
+        .sort();
+      let output = ui.output.trim().split(EOL);
+
+      expect(output.shift()).to.match(/^installing/);
+      expect(output.shift()).to.match(/create.* foo.txt/);
+      expect(output.shift()).to.match(/create.* test.txt/);
+      expect(output.length).to.equal(0);
+
+      expect(actualFiles).to.deep.equal(globFiles);
+    });
+
+    describe('called on an existing project', function() {
+      beforeEach(function() {
+        Blueprint.ignoredUpdateFiles.push('foo.txt');
+      });
+
+      it('ignores files in ignoredUpdateFiles', async function() {
+        td.when(ui.prompt(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve({ answer: 'skip' }));
+        await blueprint.install(options);
+
         let output = ui.output.trim().split(EOL);
+        ui.output = '';
 
         expect(output.shift()).to.match(/^installing/);
         expect(output.shift()).to.match(/create.* .ember-cli/);
@@ -280,191 +431,25 @@ describe('Blueprint', function() {
         expect(output.shift()).to.match(/create.* test.txt/);
         expect(output.length).to.equal(0);
 
+        let blueprintNew = new Blueprint(basicNewBlueprint);
+
+        options.project.isEmberCLIProject = function() {
+          return true;
+        };
+
+        await blueprintNew.install(options);
+
+        let actualFiles = walkSync(tmpdir).sort();
+        // Prompts contain \n EOL
+        // Split output on \n since it will have the same affect as spliting on OS specific EOL
+        output = ui.output.trim().split('\n');
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/identical.* \.ember-cli/);
+        expect(output.shift()).to.match(/identical.* \.gitignore/);
+        expect(output.shift()).to.match(/skip.* test.txt/);
+        expect(output.length).to.equal(0);
+
         expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-
-        expect(() => {
-          fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function(err, content) {
-            if (err) {
-              throw 'error';
-            }
-            expect(content).to.match(/I AM TESTY/);
-          });
-        }).not.to.throw();
-      });
-    });
-
-    it('re-installing identical files', function() {
-      return blueprint
-        .install(options)
-        .then(function() {
-          let output = ui.output.trim().split(EOL);
-          ui.output = '';
-
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* .ember-cli/);
-          expect(output.shift()).to.match(/create.* .gitignore/);
-          expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
-          expect(output.shift()).to.match(/create.* bar/);
-          expect(output.shift()).to.match(/create.* file-to-remove.txt/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
-
-          return blueprint.install(options);
-        })
-        .then(function() {
-          let actualFiles = walkSync(tmpdir).sort();
-          let output = ui.output.trim().split(EOL);
-
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/identical.* .ember-cli/);
-          expect(output.shift()).to.match(/identical.* .gitignore/);
-          expect(output.shift()).to.match(/identical.* app[/\\]basics[/\\]mock-project.txt/);
-          expect(output.shift()).to.match(/identical.* bar/);
-          expect(output.shift()).to.match(/identical.* file-to-remove.txt/);
-          expect(output.shift()).to.match(/identical.* foo.txt/);
-          expect(output.shift()).to.match(/identical.* test.txt/);
-          expect(output.length).to.equal(0);
-
-          expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-        });
-    });
-
-    it('re-installing conflicting files', function() {
-      td.when(ui.prompt(td.matchers.anything())).thenReturn(
-        Promise.resolve({ answer: 'skip' }),
-        Promise.resolve({ answer: 'overwrite' })
-      );
-
-      return blueprint
-        .install(options)
-        .then(function() {
-          let output = ui.output.trim().split(EOL);
-          ui.output = '';
-
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/create.* .ember-cli/);
-          expect(output.shift()).to.match(/create.* .gitignore/);
-          expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
-          expect(output.shift()).to.match(/create.* bar/);
-          expect(output.shift()).to.match(/create.* file-to-remove.txt/);
-          expect(output.shift()).to.match(/create.* foo.txt/);
-          expect(output.shift()).to.match(/create.* test.txt/);
-          expect(output.length).to.equal(0);
-
-          let blueprintNew = Blueprint.lookup(basicNewBlueprint);
-
-          return blueprintNew.install(options);
-        })
-        .then(function() {
-          td.verify(ui.prompt(td.matchers.anything()), { times: 2 });
-
-          let actualFiles = walkSync(tmpdir).sort();
-          // Prompts contain \n EOL
-          // Split output on \n since it will have the same affect as spliting on OS specific EOL
-          let output = ui.output.trim().split('\n');
-          expect(output.shift()).to.match(/^installing/);
-          expect(output.shift()).to.match(/identical.* \.ember-cli/);
-          expect(output.shift()).to.match(/identical.* \.gitignore/);
-          expect(output.shift()).to.match(/skip.* foo.txt/);
-          expect(output.shift()).to.match(/overwrite.* test.txt/);
-          expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
-          expect(output.length).to.equal(0);
-
-          expect(actualFiles).to.deep.equal(basicBlueprintFilesAfterBasic2);
-        });
-    });
-
-    it('installs path globPattern file', function() {
-      options.targetFiles = ['foo.txt'];
-      return blueprint.install(options).then(function() {
-        let actualFiles = walkSync(tmpdir).sort();
-        let globFiles = glob
-          .sync('**/foo.txt', {
-            cwd: tmpdir,
-            dot: true,
-            mark: true,
-            strict: true,
-          })
-          .sort();
-        let output = ui.output.trim().split(EOL);
-
-        expect(output.shift()).to.match(/^installing/);
-        expect(output.shift()).to.match(/create.* foo.txt/);
-        expect(output.length).to.equal(0);
-
-        expect(actualFiles).to.deep.equal(globFiles);
-      });
-    });
-
-    it('installs multiple globPattern files', function() {
-      options.targetFiles = ['foo.txt', 'test.txt'];
-      return blueprint.install(options).then(function() {
-        let actualFiles = walkSync(tmpdir).sort();
-        let globFiles = glob
-          .sync(path.join('**', '*.txt'), {
-            cwd: tmpdir,
-            dot: true,
-            mark: true,
-            strict: true,
-          })
-          .sort();
-        let output = ui.output.trim().split(EOL);
-
-        expect(output.shift()).to.match(/^installing/);
-        expect(output.shift()).to.match(/create.* foo.txt/);
-        expect(output.shift()).to.match(/create.* test.txt/);
-        expect(output.length).to.equal(0);
-
-        expect(actualFiles).to.deep.equal(globFiles);
-      });
-    });
-
-    describe('called on an existing project', function() {
-      beforeEach(function() {
-        Blueprint.ignoredUpdateFiles.push('foo.txt');
-      });
-
-      it('ignores files in ignoredUpdateFiles', function() {
-        td.when(ui.prompt(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve({ answer: 'skip' }));
-
-        return blueprint
-          .install(options)
-          .then(function() {
-            let output = ui.output.trim().split(EOL);
-            ui.output = '';
-
-            expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/create.* .ember-cli/);
-            expect(output.shift()).to.match(/create.* .gitignore/);
-            expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
-            expect(output.shift()).to.match(/create.* bar/);
-            expect(output.shift()).to.match(/create.* file-to-remove.txt/);
-            expect(output.shift()).to.match(/create.* foo.txt/);
-            expect(output.shift()).to.match(/create.* test.txt/);
-            expect(output.length).to.equal(0);
-
-            let blueprintNew = new Blueprint(basicNewBlueprint);
-
-            options.project.isEmberCLIProject = function() {
-              return true;
-            };
-
-            return blueprintNew.install(options);
-          })
-          .then(function() {
-            let actualFiles = walkSync(tmpdir).sort();
-            // Prompts contain \n EOL
-            // Split output on \n since it will have the same affect as spliting on OS specific EOL
-            let output = ui.output.trim().split('\n');
-            expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/identical.* \.ember-cli/);
-            expect(output.shift()).to.match(/identical.* \.gitignore/);
-            expect(output.shift()).to.match(/skip.* test.txt/);
-            expect(output.length).to.equal(0);
-
-            expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-          });
       });
     });
 
@@ -473,47 +458,43 @@ describe('Blueprint', function() {
         Blueprint.ignoredUpdateFiles.push('foo.txt');
       });
 
-      it('does not ignores files in ignoredUpdateFiles', function() {
+      it('does not ignores files in ignoredUpdateFiles', async function() {
         td.when(ui.prompt(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve({ answer: 'skip' }));
+        await blueprint.install(options);
 
-        return blueprint
-          .install(options)
-          .then(function() {
-            let output = ui.output.trim().split(EOL);
-            ui.output = '';
+        let output = ui.output.trim().split(EOL);
+        ui.output = '';
 
-            expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/create.* .ember-cli/);
-            expect(output.shift()).to.match(/create.* .gitignore/);
-            expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
-            expect(output.shift()).to.match(/create.* bar/);
-            expect(output.shift()).to.match(/create.* file-to-remove.txt/);
-            expect(output.shift()).to.match(/create.* foo.txt/);
-            expect(output.shift()).to.match(/create.* test.txt/);
-            expect(output.length).to.equal(0);
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/create.* .ember-cli/);
+        expect(output.shift()).to.match(/create.* .gitignore/);
+        expect(output.shift()).to.match(/create.* app[/\\]basics[/\\]mock-project.txt/);
+        expect(output.shift()).to.match(/create.* bar/);
+        expect(output.shift()).to.match(/create.* file-to-remove.txt/);
+        expect(output.shift()).to.match(/create.* foo.txt/);
+        expect(output.shift()).to.match(/create.* test.txt/);
+        expect(output.length).to.equal(0);
 
-            let blueprintNew = new Blueprint(basicNewBlueprint);
+        let blueprintNew = new Blueprint(basicNewBlueprint);
 
-            options.project.isEmberCLIProject = function() {
-              return false;
-            };
+        options.project.isEmberCLIProject = function() {
+          return false;
+        };
 
-            return blueprintNew.install(options);
-          })
-          .then(function() {
-            let actualFiles = walkSync(tmpdir).sort();
-            // Prompts contain \n EOL
-            // Split output on \n since it will have the same affect as spliting on OS specific EOL
-            let output = ui.output.trim().split('\n');
-            expect(output.shift()).to.match(/^installing/);
-            expect(output.shift()).to.match(/identical.* \.ember-cli/);
-            expect(output.shift()).to.match(/identical.* \.gitignore/);
-            expect(output.shift()).to.match(/skip.* foo.txt/);
-            expect(output.shift()).to.match(/skip.* test.txt/);
-            expect(output.length).to.equal(0);
+        await blueprintNew.install(options);
 
-            expect(actualFiles).to.deep.equal(basicBlueprintFiles);
-          });
+        let actualFiles = walkSync(tmpdir).sort();
+        // Prompts contain \n EOL
+        // Split output on \n since it will have the same affect as spliting on OS specific EOL
+        output = ui.output.trim().split('\n');
+        expect(output.shift()).to.match(/^installing/);
+        expect(output.shift()).to.match(/identical.* \.ember-cli/);
+        expect(output.shift()).to.match(/identical.* \.gitignore/);
+        expect(output.shift()).to.match(/skip.* foo.txt/);
+        expect(output.shift()).to.match(/skip.* test.txt/);
+        expect(output.length).to.equal(0);
+
+        expect(actualFiles).to.deep.equal(basicBlueprintFiles);
       });
     });
 
@@ -560,18 +541,17 @@ describe('Blueprint', function() {
       blueprint.install(options);
     });
 
-    it('normalizeEntityName hook can modify the entity name', function() {
+    it('normalizeEntityName hook can modify the entity name', async function() {
       blueprint.normalizeEntityName = function() {
         return 'foo';
       };
       options.entity = { name: 'bar' };
 
-      return blueprint.install(options).then(function() {
-        let actualFiles = walkSync(tmpdir).sort();
+      await blueprint.install(options);
+      let actualFiles = walkSync(tmpdir).sort();
 
-        expect(actualFiles).to.contain('app/basics/foo.txt');
-        expect(actualFiles).to.not.contain('app/basics/mock-project.txt');
-      });
+      expect(actualFiles).to.contain('app/basics/foo.txt');
+      expect(actualFiles).to.not.contain('app/basics/mock-project.txt');
     });
 
     it('calls normalizeEntityName before locals hook is called', function(done) {
@@ -586,19 +566,18 @@ describe('Blueprint', function() {
       blueprint.install(options);
     });
 
-    it('calls appropriate hooks with correct arguments', function() {
+    it('calls appropriate hooks with correct arguments', async function() {
       options.entity = { name: 'foo' };
 
-      return blueprint.install(options).then(function() {
-        expect(localsCalled).to.be.true;
-        expect(normalizeEntityNameCalled).to.be.true;
-        expect(fileMapTokensCalled).to.be.true;
-        expect(filesPathCalled).to.be.true;
-        expect(beforeInstallCalled).to.be.true;
-        expect(afterInstallCalled).to.be.true;
-        expect(beforeUninstallCalled).to.be.false;
-        expect(afterUninstallCalled).to.be.false;
-      });
+      await blueprint.install(options);
+      expect(localsCalled).to.be.true;
+      expect(normalizeEntityNameCalled).to.be.true;
+      expect(fileMapTokensCalled).to.be.true;
+      expect(filesPathCalled).to.be.true;
+      expect(beforeInstallCalled).to.be.true;
+      expect(afterInstallCalled).to.be.true;
+      expect(beforeUninstallCalled).to.be.false;
+      expect(afterUninstallCalled).to.be.false;
     });
 
     it("doesn't throw when running uninstall without installing first", function() {
@@ -619,82 +598,75 @@ describe('Blueprint', function() {
       options.ui = ui;
     }
 
-    beforeEach(function() {
-      return mkTmpDirIn(tmproot)
-        .then(function(dir) {
-          tmpdir = dir;
-          blueprint = new BasicBlueprintClass(basicBlueprint);
-          project = new MockProject();
-          options = {
-            project,
-            target: tmpdir,
-          };
-          refreshUI();
-          return blueprint.install(options);
-        })
-        .then(refreshUI);
+    beforeEach(async function() {
+      let dir = await mkTmpDirIn(tmproot);
+
+      tmpdir = dir;
+      blueprint = new BasicBlueprintClass(basicBlueprint);
+      project = new MockProject();
+      options = {
+        project,
+        target: tmpdir,
+      };
+      refreshUI();
+
+      await blueprint.install(options);
+      refreshUI();
     });
 
     afterEach(function() {
       return remove(tmproot);
     });
 
-    it('uninstalls basic files', function() {
+    it('uninstalls basic files', async function() {
       expect(!!blueprint).to.equal(true);
 
-      return blueprint.uninstall(options).then(function() {
-        let actualFiles = walkSync(tmpdir);
-        let output = ui.output.trim().split(EOL);
+      await blueprint.uninstall(options);
+      let actualFiles = walkSync(tmpdir);
+      let output = ui.output.trim().split(EOL);
 
-        expect(output.shift()).to.match(/^uninstalling/);
-        expect(output.shift()).to.match(/remove.* .ember-cli/);
-        expect(output.shift()).to.match(/remove.* .gitignore/);
-        expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
-        expect(output.shift()).to.match(/remove.* bar/);
-        expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
-        expect(output.shift()).to.match(/remove.* foo.txt/);
-        expect(output.shift()).to.match(/remove.* test.txt/);
-        expect(output.length).to.equal(0);
+      expect(output.shift()).to.match(/^uninstalling/);
+      expect(output.shift()).to.match(/remove.* .ember-cli/);
+      expect(output.shift()).to.match(/remove.* .gitignore/);
+      expect(output.shift()).to.match(/remove.* app[/\\]basics[/\\]mock-project.txt/);
+      expect(output.shift()).to.match(/remove.* bar/);
+      expect(output.shift()).to.match(/remove.* file-to-remove.txt/);
+      expect(output.shift()).to.match(/remove.* foo.txt/);
+      expect(output.shift()).to.match(/remove.* test.txt/);
+      expect(output.length).to.equal(0);
 
-        expect(actualFiles.length).to.equal(0);
+      expect(actualFiles.length).to.equal(0);
 
-        fs.exists(path.join(tmpdir, 'test.txt'), function(exists) {
-          expect(exists).to.be.false;
-        });
+      fs.exists(path.join(tmpdir, 'test.txt'), function(exists) {
+        expect(exists).to.be.false;
       });
     });
 
-    it("uninstall doesn't remove non-empty folders", function() {
+    it("uninstall doesn't remove non-empty folders", async function() {
       options.entity = { name: 'foo' };
 
-      return blueprint
-        .install(options)
-        .then(function() {
-          let actualFiles = walkSync(tmpdir);
+      await blueprint.install(options);
+      let actualFiles = walkSync(tmpdir);
 
-          expect(actualFiles).to.contain('app/basics/foo.txt');
-          expect(actualFiles).to.contain('app/basics/mock-project.txt');
+      expect(actualFiles).to.contain('app/basics/foo.txt');
+      expect(actualFiles).to.contain('app/basics/mock-project.txt');
 
-          return blueprint.uninstall(options);
-        })
-        .then(function() {
-          let actualFiles = walkSync(tmpdir);
+      await blueprint.uninstall(options);
+      actualFiles = walkSync(tmpdir);
 
-          expect(actualFiles).to.not.contain('app/basics/foo.txt');
-          expect(actualFiles).to.contain('app/basics/mock-project.txt');
-        });
+      expect(actualFiles).to.not.contain('app/basics/foo.txt');
+      expect(actualFiles).to.contain('app/basics/mock-project.txt');
     });
 
-    it("uninstall doesn't log remove messages when file does not exist", function() {
+    it("uninstall doesn't log remove messages when file does not exist", async function() {
       options.entity = { name: 'does-not-exist' };
 
-      return blueprint.uninstall(options).then(function() {
-        let output = ui.output.trim().split(EOL);
-        expect(output.shift()).to.match(/^uninstalling/);
-        expect(output.shift()).to.match(/remove.* .ember-cli/);
-        expect(output.shift()).to.match(/remove.* .gitignore/);
-        expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
-      });
+      await blueprint.uninstall(options);
+      let output = ui.output.trim().split(EOL);
+      expect(output.shift()).to.match(/^uninstalling/);
+      expect(output.shift()).to.match(/remove.* .ember-cli/);
+      expect(output.shift()).to.match(/remove.* .gitignore/);
+      expect(output.shift()).to.not.match(/remove.* app[/\\]basics[/\\]does-not-exist.txt/);
     });
   });
 
@@ -710,37 +682,34 @@ describe('Blueprint', function() {
       options.ui = ui;
     }
 
-    beforeEach(function() {
-      return mkTmpDirIn(tmproot)
-        .then(function(dir) {
-          tmpdir = dir;
-          blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
-          project = new MockProject();
-          options = {
-            project,
-            target: tmpdir,
-          };
-          refreshUI();
-
-          return blueprint.install(options).then(resetCalled);
-        })
-        .then(refreshUI);
+    beforeEach(async function() {
+      let dir = await mkTmpDirIn(tmproot);
+      tmpdir = dir;
+      blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
+      project = new MockProject();
+      options = {
+        project,
+        target: tmpdir,
+      };
+      refreshUI();
+      await blueprint.install(options);
+      await resetCalled();
+      refreshUI();
     });
 
-    it('calls appropriate hooks with correct arguments', function() {
+    it('calls appropriate hooks with correct arguments', async function() {
       options.entity = { name: 'foo' };
 
-      return blueprint.uninstall(options).then(function() {
-        expect(localsCalled).to.be.true;
-        expect(normalizeEntityNameCalled).to.be.true;
-        expect(fileMapTokensCalled).to.be.true;
-        expect(filesPathCalled).to.be.true;
-        expect(beforeUninstallCalled).to.be.true;
-        expect(afterUninstallCalled).to.be.true;
+      await blueprint.uninstall(options);
+      expect(localsCalled).to.be.true;
+      expect(normalizeEntityNameCalled).to.be.true;
+      expect(fileMapTokensCalled).to.be.true;
+      expect(filesPathCalled).to.be.true;
+      expect(beforeUninstallCalled).to.be.true;
+      expect(afterUninstallCalled).to.be.true;
 
-        expect(beforeInstallCalled).to.be.false;
-        expect(afterInstallCalled).to.be.false;
-      });
+      expect(beforeInstallCalled).to.be.false;
+      expect(afterInstallCalled).to.be.false;
     });
   });
 
@@ -1427,18 +1396,17 @@ describe('Blueprint', function() {
     let tmpdir;
     let project;
 
-    beforeEach(function() {
-      return mkTmpDirIn(tmproot).then(function(dir) {
-        tmpdir = dir;
-        blueprint = new Blueprint(basicBlueprint);
-        project = new MockProject();
-        // normally provided by `install`, but mocked here for testing
-        project.root = tmpdir;
-        blueprint.project = project;
-        project.blueprintLookupPaths = function() {
-          return [fixtureBlueprints];
-        };
-      });
+    beforeEach(async function() {
+      let dir = await mkTmpDirIn(tmproot);
+      tmpdir = dir;
+      blueprint = new Blueprint(basicBlueprint);
+      project = new MockProject();
+      // normally provided by `install`, but mocked here for testing
+      project.root = tmpdir;
+      blueprint.project = project;
+      project.blueprintLookupPaths = function() {
+        return [fixtureBlueprints];
+      };
     });
 
     afterEach(function() {
@@ -1622,12 +1590,10 @@ describe('Blueprint', function() {
       };
     });
 
-    it('should return a default object if no custom options are passed', function() {
-      result = blueprint._locals(options);
+    it('should return a default object if no custom options are passed', async function() {
+      result = await blueprint._locals(options);
 
-      result.then(function(locals) {
-        expect(locals).to.eql(expectation);
-      });
+      expect(result).to.deep.include(expectation);
     });
 
     it('it should call the locals method with the correct arguments', function() {
@@ -1664,7 +1630,7 @@ describe('Blueprint', function() {
       blueprint._locals(options);
     });
 
-    it('should use the options.entity.name as its moduleName if its value is defined', function() {
+    it('should use the options.entity.name as its moduleName if its value is defined', async function() {
       options.entity = {
         name: 'foo',
       };
@@ -1674,39 +1640,33 @@ describe('Blueprint', function() {
       expectation.dasherizedModuleName = 'foo';
       expectation.decamelizedModuleName = 'foo';
 
-      result = blueprint._locals(options);
+      result = await blueprint._locals(options);
 
-      result.then(function(locals) {
-        expect(locals).to.eql(expectation);
-      });
+      expect(result).to.deep.include(expectation);
     });
 
-    it('should update its fileMap values to match the generateFileMap result', function() {
+    it('should update its fileMap values to match the generateFileMap result', async function() {
       blueprint.generateFileMap = function() {
         return { foo: 'bar' };
       };
 
       expectation.fileMap = { foo: 'bar' };
 
-      result = blueprint._locals(options);
+      result = await blueprint._locals(options);
 
-      result.then(function(locals) {
-        expect(locals).to.eql(expectation);
-      });
+      expect(result).to.deep.include(expectation);
     });
 
-    it('should return an object containing custom local values', function() {
+    it('should return an object containing custom local values', async function() {
       blueprint.locals = function() {
         return { foo: 'bar' };
       };
 
       expectation.foo = 'bar';
 
-      result = blueprint._locals(options);
+      result = await blueprint._locals(options);
 
-      result.then(function(locals) {
-        expect(locals).to.eql(expectation);
-      });
+      expect(result).to.deep.include(expectation);
     });
   });
 });

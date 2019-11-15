@@ -44,7 +44,7 @@ Follow these steps if you're releasing a new minor or major version (e.g. from `
 # Switch to "release" branch and reset it to "origin/beta"
 git checkout -B release --track origin/beta
 
-# Merge any unmerged changes from "origin/release" back in
+# Merge any unreleased changes from "origin/release" back in
 git merge origin/release
 
 # ... do the stable release ...
