@@ -1,5 +1,20 @@
 # ember-cli Changelog
 
+## v3.15.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.14.0...v3.15.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.14.0...v3.15.0-beta.1)
+
+
+- [#8827](https://github.com/ember-cli/ember-cli/pull/8827) Remove module-unification blueprints [@dcyriller](https://github.com/dcyriller)
+- [#8878](https://github.com/ember-cli/ember-cli/pull/8878) Adds flag to throw an error for invalid addon locations [@tmquinn](https://github.com/tmquinn)
+- [#8906](https://github.com/ember-cli/ember-cli/pull/8906) Enable broccoli memoization by default in Ember-CLI [@SparshithNR](https://github.com/SparshithNR)
+- [#8917](https://github.com/ember-cli/ember-cli/pull/8917) Update CI configuration for applications using `npm` to run a "floating dependencies" test. [@kellyselden](https://github.com/kellyselden)
+- [#8926](https://github.com/ember-cli/ember-cli/pull/8926) Add `application` to invalid names [@kennethlarsen](https://github.com/kennethlarsen)
+
+Thank you to all who took the time to contribute!
 
 ## v3.14.0
 
