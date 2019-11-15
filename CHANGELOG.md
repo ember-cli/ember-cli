@@ -1,5 +1,28 @@
 # ember-cli Changelog
 
+
+## v3.14.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.2...v3.14.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.13.2...v3.14.0)
+
+
+- [#8875](https://github.com/ember-cli/ember-cli/pull/8875) Fix ember-cli-htmlbars-inline-precompile deprecation [@HeroicEric](https://github.com/HeroicEric)
+- [#8882](https://github.com/ember-cli/ember-cli/pull/8882) Simplify "Get started" message for `ember new` [@dcyriller](https://github.com/dcyriller)
+- [#8899](https://github.com/ember-cli/ember-cli/pull/8899) Don't reload the config for instrumentation [@pzuraq](https://github.com/pzuraq)
+- [#8900](https://github.com/ember-cli/ember-cli/pull/8900) Include `legacyDecorators` eslint option by default [@pzuraq](https://github.com/pzuraq)
+- [#8901](https://github.com/ember-cli/ember-cli/pull/8901) Merge `config/environment.js`'s `EmberENV` configuration with any pre-existing `EmberENV` [@chancancode](https://github.com/chancancode)
+- [#8910](https://github.com/ember-cli/ember-cli/pull/8910) Update TravisCI config for `ember new` to restrict CI runs to `master` branch and pull requests [@kellyselden](https://github.com/kellyselden)
+- [#8915](https://github.com/ember-cli/ember-cli/pull/8915) Revert changes made to enable "octane" as the default for `ember new` [@rwjblue](https://github.com/rwjblue)
+- [#8916](https://github.com/ember-cli/ember-cli/pull/8916) Update ember-source and ember-data to 3.14.x [@rwjblue](https://github.com/rwjblue)
+- [#8853](https://github.com/ember-cli/ember-cli/pull/8853) Update ember-resolver to 5.3.0. [@rwjblue](https://github.com/rwjblue)
+- [#8812](https://github.com/ember-cli/ember-cli/pull/8812) Clarify installation error message [@jrjohnson](https://github.com/jrjohnson)
+- [#8820](https://github.com/ember-cli/ember-cli/pull/8820) Issue deprecation when enabling MODULE_UNIFICATION flag. [@rwjblue](https://github.com/rwjblue)
+
+## v3.13.2
+
 #### Blueprint Changes
 
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.1...v3.13.2)
@@ -11,33 +34,6 @@
 - [#8901](https://github.com/ember-cli/ember-cli/pull/8901) Merge `config/environment.js`'s `EmberENV` configuration with any pre-existing `EmberENV` [@chancancode](https://github.com/chancancode)
 
 Thank you to all who took the time to contribute!
-
-## v3.14.0-beta.2
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.14.0-beta.1...v3.14.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.14.0-beta.1...v3.14.0-beta.2)
-
-
-- [#8853](https://github.com/ember-cli/ember-cli/pull/8853) Update ember-resolver to 5.3.0. [@rwjblue](https://github.com/rwjblue)
-- [#8861](https://github.com/ember-cli/ember-cli/pull/8861) Octane related tweaks (add `@glimmer/component`, use ember-template-lint's `octane` preset) [@rwjblue](https://github.com/rwjblue)
-
-Thank you to all who took the time to contribute!
-
-## v3.14.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.0...v3.14.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.13.0...v3.14.0-beta.1)
-
-#### Changelog
-
-- [#8812](https://github.com/ember-cli/ember-cli/pull/8812) Clarify installation error message [@jrjohnson](https://github.com/jrjohnson)
-- [#8820](https://github.com/ember-cli/ember-cli/pull/8820) Issue deprecation when enabling MODULE_UNIFICATION flag. [@rwjblue](https://github.com/rwjblue)
-- [#8830](https://github.com/ember-cli/ember-cli/pull/8830) CI: Remove deprecated exp. from ALL_EXPERIMENTS [@dcyriller](https://github.com/dcyriller)
-- [#8856](https://github.com/ember-cli/ember-cli/pull/8856) Prepare for first Octane beta. [@rwjblue](https://github.com/rwjblue)
 
 ## v3.13.1
 
