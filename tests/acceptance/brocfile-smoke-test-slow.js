@@ -53,8 +53,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
         });
 
         // Changes in config/optional-features.json end up being set in EmberENV
-        let expected =
-          'window.EmberENV = {"asdflkmawejf":";jlnu3yr23","_APPLICATION_TEMPLATE_WRAPPER":false,"_DEFAULT_ASYNC_OBSERVERS":true,"_JQUERY_INTEGRATION":false,"_TEMPLATE_ONLY_GLIMMER_COMPONENTS":true};';
+        let expected = '(window.EmberENV || {}, {"asdflkmawejf":";jlnu3yr23","_JQUERY_INTEGRATION":false});';
         expect(vendorContents).to.contain(expected, 'EmberENV should be in assets/vendor.js');
       })
     );
