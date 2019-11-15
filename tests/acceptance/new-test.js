@@ -245,7 +245,7 @@ describe('Acceptance: ember new', function() {
         '--skip-npm',
         '--skip-bower',
         '--skip-git',
-        '--blueprint=https://github.com/buschtoens/app-blueprint-test.git#named-ref',
+        '--blueprint=https://github.com/ember-cli/app-blueprint-test.git#named-ref',
       ]);
 
       expect(file('.named-ref')).to.exist;
