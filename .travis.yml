@@ -50,6 +50,9 @@ jobs:
       after_success:
         - .travis/codecoverage.sh
 
+    - name: Node.js 13
+      node_js: 13
+
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true
     - env: EMBER_CLI_MODULE_UNIFICATION=true
