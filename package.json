@@ -162,7 +162,7 @@
     "yuidocjs": "0.10.2"
   },
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": "8.* || 10.* || >= 12"
   },
   "trackingCode": "UA-49225444-1",
   "greenkeeper": {
