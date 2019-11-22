@@ -128,6 +128,8 @@ describe('Acceptance: addon-smoke-test', function() {
         return handleError(error, 'tar');
       }
 
+      let necessaryFiles = ['package.json', 'index.js', 'LICENSE.md', 'README.md', 'config/environment.js'];
+
       let unnecessaryFiles = [
         '.gitkeep',
         '.travis.yml',
@@ -138,11 +140,22 @@ describe('Acceptance: addon-smoke-test', function() {
         '.bowerrc',
       ];
 
-      let unnecessaryFolders = ['tests/', 'bower_components/'];
+      let unnecessaryFolders = [/^tests\//, /^bower_components\//];
 
-      let outputFiles = output.split('\n');
-      expect(outputFiles).to.not.contain(unnecessaryFiles);
-      expect(outputFiles).to.not.contain(unnecessaryFolders);
+      let outputFiles = output
+        .split('\n')
+        .filter(Boolean)
+        .map(f => f.replace(/^package\//, ''));
+
+      expect(outputFiles, 'verify our assumptions about the output structure').to.include.members(necessaryFiles);
+
+      expect(outputFiles).to.not.have.members(unnecessaryFiles);
+
+      for (let unnecessaryFolder of unnecessaryFolders) {
+        for (let outputFile of outputFiles) {
+          expect(outputFile).to.not.match(unnecessaryFolder);
+        }
+      }
     })
   );
 
