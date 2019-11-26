@@ -46,10 +46,10 @@ jobs:
 
     - name: "Floating Dependencies"
       install:<% if (yarn) { %>
-        - yarn install --no-lockfile --non-interactive
-      script:
-        - yarn test<% } else { %>
+        - yarn install --no-lockfile --non-interactive<% } else { %>
         - npm install --no-package-lock<% } %>
+      script:
+        - <% if (yarn) { %>yarn test<% } else { %>npm test<% } %>
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
