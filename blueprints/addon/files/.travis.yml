@@ -36,7 +36,6 @@ jobs:
 
   include:
     # runs linting and tests with current locked deps
-
     - stage: "Tests"
       name: "Tests"
       script:
@@ -44,7 +43,8 @@ jobs:
         - <% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint:js
         - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test
 
-    - name: "Floating Dependencies"
+    - stage: "Additional Tests"
+      name: "Floating Dependencies"
       install:<% if (yarn) { %>
         - yarn install --no-lockfile --non-interactive<% } else { %>
         - npm install --no-package-lock<% } %>
@@ -53,8 +53,7 @@ jobs:
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
-    - stage: "Additional Tests"
-      env: EMBER_TRY_SCENARIO=ember-lts-3.4
+    - env: EMBER_TRY_SCENARIO=ember-lts-3.4
     - env: EMBER_TRY_SCENARIO=ember-lts-3.8
     - env: EMBER_TRY_SCENARIO=ember-release
     - env: EMBER_TRY_SCENARIO=ember-beta
