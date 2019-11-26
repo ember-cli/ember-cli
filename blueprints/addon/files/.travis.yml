@@ -40,16 +40,16 @@ jobs:
     - stage: "Tests"
       name: "Tests"
       script:
-        - <% if (yarn) { %>yarn lint:hbs<% } else { %>npm run lint:hbs<% } %>
-        - <% if (yarn) { %>yarn lint:js<% } else { %>npm run lint:js<% } %>
-        - <% if (yarn) { %>yarn test<% } else { %>npm test<% } %>
+        - <% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint:hbs
+        - <% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint:js
+        - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test
 
     - name: "Floating Dependencies"
       install:<% if (yarn) { %>
         - yarn install --no-lockfile --non-interactive<% } else { %>
         - npm install --no-package-lock<% } %>
       script:
-        - <% if (yarn) { %>yarn test<% } else { %>npm test<% } %>
+        - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
