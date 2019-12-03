@@ -897,10 +897,10 @@ broccoli-merge-trees@^3.0.1, broccoli-merge-trees@^3.0.2:
     broccoli-plugin "^1.3.0"
     merge-trees "^2.0.0"
 
-broccoli-middleware@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/broccoli-middleware/-/broccoli-middleware-2.1.0.tgz#cbb458cb6360bdd79aa75a54057f10fe918157e6"
-  integrity sha512-ymuDaxQBKG51hKfAeDf8G0Y70rRSPS5Pu77u5HO0YsYTSSAjdZuYT2ALIlWTm+MFXYRQJIlMsqDdDNBzsvy0BQ==
+broccoli-middleware@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/broccoli-middleware/-/broccoli-middleware-2.1.1.tgz#183635bbef4dc1241533ee001a162f013d776cb9"
+  integrity sha512-BK8aPhQpOLsHWiftrqXQr84XsvzUqeaN4PlCQOYg5yM0M+WKAHtX2WFXmicSQZOVgKDyh5aeoNTFkHjBAEBzwQ==
   dependencies:
     ansi-html "^0.0.7"
     handlebars "^4.0.4"
