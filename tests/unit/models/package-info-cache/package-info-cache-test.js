@@ -175,6 +175,47 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
   });
 
   describe('packageInfo', function() {
+    describe('project with invalid paths', function() {
+      let project, fixturifyProject;
+      beforeEach(function() {
+        // create a new ember-app
+        fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', project => {
+          project.addAddon('ember-resolver', '^5.0.1');
+          project.addAddon('ember-random-addon', 'latest');
+          project.addAddon('loader.js', 'latest');
+          project.addAddon('something-else', 'latest');
+          project.addInRepoAddon('ember-super-button', 'latest', function(project) {
+            project.pkg['ember-addon'].paths = ['lib/herp-not-here'];
+          });
+          project.addDevDependency('ember-cli', 'latest');
+          project.addDevDependency('non-ember-thingy', 'latest');
+          project.pkg['ember-addon'].paths.push('lib/no-such-path');
+        });
+
+        fixturifyProject.writeSync();
+
+        project = fixturifyProject.buildProjectModel(Project);
+      });
+
+      afterEach(function() {
+        fixturifyProject.dispose();
+      });
+
+      it('shows a warning with invalid ember-addon#path', function() {
+        project.discoverAddons();
+        expect(project.cli.ui.output).to.include(
+          "specifies an invalid, malformed or missing addon at relative path 'lib/no-such-path'"
+        );
+      });
+
+      it('throws an error with flag on', function() {
+        process.env.EMBER_CLI_ERROR_ON_INVALID_ADDON = 'true';
+        expect(() => project.discoverAddons()).to.throw(
+          /specifies an invalid, malformed or missing addon at relative path 'lib\/no-such-path'/
+        );
+        delete process.env.EMBER_CLI_ERROR_ON_INVALID_ADDON;
+      });
+    });
     describe('valid project', function() {
       let project, fixturifyProject;
       before(function() {
