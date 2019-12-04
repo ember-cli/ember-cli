@@ -199,6 +199,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
 
       afterEach(function() {
         fixturifyProject.dispose();
+        delete process.env.EMBER_CLI_ERROR_ON_INVALID_ADDON;
       });
 
       it('shows a warning with invalid ember-addon#path', function() {
@@ -213,7 +214,6 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         expect(() => project.discoverAddons()).to.throw(
           /specifies an invalid, malformed or missing addon at relative path 'lib\/no-such-path'/
         );
-        delete process.env.EMBER_CLI_ERROR_ON_INVALID_ADDON;
       });
     });
     describe('valid project', function() {
