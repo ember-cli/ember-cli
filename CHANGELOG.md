@@ -1,6 +1,5 @@
 # ember-cli Changelog
 
-
 ## v3.14.0
 
 #### Blueprint Changes
@@ -81,6 +80,19 @@ Thank you to all who took the time to contribute!
 
 Thank you to all who took the time to contribute!
 
+## v3.12.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.12.0...v3.12.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.12.0...v3.12.1)
+
+#### Community Contributions
+
+- [#8797](https://github.com/ember-cli/ember-cli/pull/8797) Update heimdalljs-fs-monitor to 0.2.3. [@rwjblue](https://github.com/rwjblue)
+- [#8959](https://github.com/ember-cli/ember-cli/pull/8959) Ensure `node_modules/*` directories without a `package.json` are not considered as part of the addon discovery process [@stefanpenner](https://github.com/stefanpenner)
+
+Thank you to all who took the time to contribute!
 
 ## v3.12.0
 
