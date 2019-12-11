@@ -222,7 +222,18 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         // create a new ember-app
         fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', project => {
           project.addAddon('ember-resolver', '^5.0.1');
-          project.addAddon('ember-random-addon', 'latest');
+          project.addAddon('ember-random-addon', 'latest', addon => {
+            addon.addAddon('other-nested-addon', 'latest', addon => {
+              addon.addAddon('ember-resolver', '*');
+              addon.toJSON = function() {
+                const json = Object.getPrototypeOf(this).toJSON.call(this);
+                // here we introduce an empty folder in our node_modules.
+                json[this.name].node_modules['ember-resolver'] = {};
+                return json;
+              };
+            });
+          });
+
           project.addAddon('loader.js', 'latest');
           project.addAddon('something-else', 'latest');
 
@@ -241,6 +252,14 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
 
       after(function() {
         fixturifyProject.dispose();
+      });
+
+      it('was able to find ember-resolver even if an empty directory was left', function() {
+        const emberResolver = project.findAddonByName('ember-resolver');
+        const nestedEmberResolver = project.findAddonByName('ember-random-addon').addons[0].addons[0];
+        expect(emberResolver.name).to.eql('ember-resolver');
+        expect(nestedEmberResolver.name).to.eql('ember-resolver');
+        expect(emberResolver.root).to.eql(nestedEmberResolver.root);
       });
 
       it('has dependencies who have their mayHaveAddons correctly set', function() {
