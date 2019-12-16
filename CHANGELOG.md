@@ -1,5 +1,31 @@
 # ember-cli Changelog
 
+## v3.15.0-beta.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.15.0-beta.1...v3.15.0-beta.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.15.0-beta.1...v3.15.0-beta.2)
+
+#### Changelog
+
+- [#8933](https://github.com/ember-cli/ember-cli/pull/8933) Remove `app/resolver.js` in favor of importing in `app/app.js` [@rwjblue](https://github.com/rwjblue)
+- [#8945](https://github.com/ember-cli/ember-cli/pull/8945) Fix issue with addon `.travis.yml` configuration when using `npm` [@kellyselden](https://github.com/kellyselden)
+- [#8946](https://github.com/ember-cli/ember-cli/pull/8946) Drop testing of ember-source@3.4 in the addon blueprints ember-try config [@kellyselden](https://github.com/kellyselden)
+- [#8946](https://github.com/ember-cli/ember-cli/pull/8946) Add testing of ember-source@3.12 in the addon blueprints ember-try config [@kellyselden](https://github.com/kellyselden)
+- [#8959](https://github.com/ember-cli/ember-cli/pull/8959) Fix issue with addon discovery when npm/yarn leave empty directories in resolvable locations [@stefanpenner](https://github.com/stefanpenner)
+- [#8949](https://github.com/ember-cli/ember-cli/pull/8949) Add GitHub Actions for CI [@Turbo87](https://github.com/Turbo87)
+- [#8961](https://github.com/ember-cli/ember-cli/pull/8961) Prepare for Octane release in 3.15 [@rwjblue](https://github.com/rwjblue)
+  * Adds `ember` property to `package.json` to implement [emberjs/rfcs#558](https://github.com/emberjs/rfcs/pull/558)
+  * Adds `@glimmer/component@1.0.0` as a development dependency for both apps and addons
+  * Updates `ember-try` to at least 1.4.0 in order to support `config/ember-try.js` scenarios with `ember` `package.json` property (mentioned in emberjs/rfcs#558)
+  * Enables Octane related optional features
+  * Updates ember-template-lint configuration to use `octane` preset
+  * Update to ember-source@3.15 stable
+  * Updates all packages in the application blueprint to their latest version
+
+Thank you to all who took the time to contribute!
+
 ## v3.15.0-beta.1
 
 #### Blueprint Changes
