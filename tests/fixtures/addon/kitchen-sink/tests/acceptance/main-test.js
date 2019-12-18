@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 module('Acceptance', function(hooks) {
   setupApplicationTest(hooks);
 
-  test('renders properly', async function(assert) {
+  test('renders properly', async function (assert) {
     await visit('/');
 
     var element = this.element.querySelector('.basic-thing');
@@ -14,7 +14,7 @@ module('Acceptance', function(hooks) {
     assert.ok(truthyHelper(), 'addon-test-support helper');
   });
 
-  test('renders imported component', async function(assert) {
+  test('renders imported component', async function (assert) {
     await visit('/');
 
     var element = this.element.querySelector('.second-thing');

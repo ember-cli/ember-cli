@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
@@ -30,12 +29,10 @@ describe('Acceptance: ember destroy', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(
-    co.wrap(function*() {
-      tmpdir = yield mkTmpDirIn(tmproot);
-      process.chdir(tmpdir);
-    })
-  );
+  beforeEach(async function() {
+    tmpdir = await mkTmpDirIn(tmproot);
+    process.chdir(tmpdir);
+  });
 
   afterEach(function() {
     process.chdir(root);
@@ -68,16 +65,16 @@ describe('Acceptance: ember destroy', function() {
     });
   }
 
-  const assertDestroyAfterGenerate = co.wrap(function*(args, files) {
-    yield initApp();
+  const assertDestroyAfterGenerate = async function(args, files) {
+    await initApp();
 
-    yield generate(args);
+    await generate(args);
     assertFilesExist(files);
 
-    let result = yield destroy(args);
+    let result = await destroy(args);
     expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
     assertFilesNotExist(files);
-  });
+  };
 
   it('blueprint foo', function() {
     let commandArgs = ['blueprint', 'foo'];
@@ -107,58 +104,49 @@ describe('Acceptance: ember destroy', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it(
-    'deletes files generated using blueprints from the project directory',
-    co.wrap(function*() {
-      let commandArgs = ['foo', 'bar'];
-      let files = ['app/foos/bar.js'];
-      yield initApp();
+  it('deletes files generated using blueprints from the project directory', async function() {
+    let commandArgs = ['foo', 'bar'];
+    let files = ['app/foos/bar.js'];
+    await initApp();
 
-      yield outputFile(
-        'blueprints/foo/files/app/foos/__name__.js',
-        "import Ember from 'ember';\n\n" + 'export default Ember.Object.extend({ foo: true });\n'
-      );
+    await outputFile(
+      'blueprints/foo/files/app/foos/__name__.js',
+      "import Ember from 'ember';\n\n" + 'export default Ember.Object.extend({ foo: true });\n'
+    );
 
-      yield generate(commandArgs);
-      assertFilesExist(files);
+    await generate(commandArgs);
+    assertFilesExist(files);
 
-      yield destroy(commandArgs);
-      assertFilesNotExist(files);
-    })
-  );
+    await destroy(commandArgs);
+    assertFilesNotExist(files);
+  });
 
-  it(
-    'correctly identifies the root of the project',
-    co.wrap(function*() {
-      let commandArgs = ['controller', 'foo'];
-      let files = ['app/controllers/foo.js'];
-      yield initApp();
+  it('correctly identifies the root of the project', async function() {
+    let commandArgs = ['controller', 'foo'];
+    let files = ['app/controllers/foo.js'];
+    await initApp();
 
-      yield outputFile(
-        'blueprints/controller/files/app/controllers/__name__.js',
-        "import Ember from 'ember';\n\n" + 'export default Ember.Controller.extend({ custom: true });\n'
-      );
+    await outputFile(
+      'blueprints/controller/files/app/controllers/__name__.js',
+      "import Ember from 'ember';\n\n" + 'export default Ember.Controller.extend({ custom: true });\n'
+    );
 
-      yield generate(commandArgs);
-      assertFilesExist(files);
+    await generate(commandArgs);
+    assertFilesExist(files);
 
-      process.chdir(path.join(tmpdir, 'app'));
-      yield destroy(commandArgs);
+    process.chdir(path.join(tmpdir, 'app'));
+    await destroy(commandArgs);
 
-      process.chdir(tmpdir);
-      assertFilesNotExist(files);
-    })
-  );
+    process.chdir(tmpdir);
+    assertFilesNotExist(files);
+  });
 
-  it(
-    'http-mock <name> does not remove server/',
-    co.wrap(function*() {
-      yield initApp();
-      yield generate(['http-mock', 'foo']);
-      yield generate(['http-mock', 'bar']);
-      yield destroy(['http-mock', 'foo']);
+  it('http-mock <name> does not remove server/', async function() {
+    await initApp();
+    await generate(['http-mock', 'foo']);
+    await generate(['http-mock', 'bar']);
+    await destroy(['http-mock', 'foo']);
 
-      expect(file('server/index.js')).to.exist;
-    })
-  );
+    expect(file('server/index.js')).to.exist;
+  });
 });

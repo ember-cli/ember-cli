@@ -14,7 +14,6 @@ const net = require('net');
 const EOL = require('os').EOL;
 const nock = require('nock');
 const express = require('express');
-const co = require('co');
 const WebSocket = require('websocket').w3cwebsocket;
 
 function checkMiddlewareOptions(options) {
@@ -314,38 +313,35 @@ describe('express-server', function() {
           });
       });
 
-      it(
-        'does not use compression for server sent events',
-        co.wrap(function*() {
-          project.require = function() {
-            let app = express();
-            app.use('/foo', function(req, res) {
-              res.set('Content-Type', 'text/event-stream');
-              res.send(longText);
-            });
-            return app;
-          };
+      it('does not use compression for server sent events', async function() {
+        project.require = function() {
+          let app = express();
+          app.use('/foo', function(req, res) {
+            res.set('Content-Type', 'text/event-stream');
+            res.send(longText);
+          });
+          return app;
+        };
 
-          yield subject.start({
-            proxy: 'http://localhost:3001/',
-            host: undefined,
-            port: '1337',
-            rootURL: '/',
-            compression: true,
+        await subject.start({
+          proxy: 'http://localhost:3001/',
+          host: undefined,
+          port: '1337',
+          rootURL: '/',
+          compression: true,
+        });
+
+        await request(subject.app)
+          .get('/foo')
+          .set('accept', 'application/json, */*')
+          .expect(function(res) {
+            expect(res.text).to.equal(longText);
+            expect(res.header['content-encoding']).to.not.exist;
+            expect(parseInt(res.header['content-length'], 10)).to.equal(longText.length);
           });
 
-          yield request(subject.app)
-            .get('/foo')
-            .set('accept', 'application/json, */*')
-            .expect(function(res) {
-              expect(res.text).to.equal(longText);
-              expect(res.header['content-encoding']).to.not.exist;
-              expect(parseInt(res.header['content-length'], 10)).to.equal(longText.length);
-            });
-
-          expect(proxy.called).to.equal(false);
-        })
-      );
+        expect(proxy.called).to.equal(false);
+      });
     });
 
     describe('with proxy', function() {

@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const expect = require('chai').expect;
 const Funnel = require('broccoli-funnel');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
@@ -25,135 +24,120 @@ describe('Default Packager: Templates', function() {
     },
   };
 
-  before(
-    co.wrap(function*() {
-      input = yield createTempDir();
+  before(async function() {
+    input = await createTempDir();
 
-      input.write(TEMPLATES);
-    })
-  );
+    input.write(TEMPLATES);
+  });
 
-  after(
-    co.wrap(function*() {
-      if (input) {
-        yield input.dispose();
-      }
-    })
-  );
+  after(async function() {
+    if (input) {
+      await input.dispose();
+    }
+  });
 
-  afterEach(
-    co.wrap(function*() {
-      if (output) {
-        yield output.dispose();
-      }
-    })
-  );
+  afterEach(async function() {
+    if (output) {
+      await output.dispose();
+    }
+  });
 
-  it(
-    'caches processed templates tree',
-    co.wrap(function*() {
-      let defaultPackager = new DefaultPackager({
-        name: 'the-best-app-ever',
+  it('caches processed templates tree', async function() {
+    let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
 
-        registry: setupRegistryFor('template', function(tree) {
-          return new Funnel(tree, {
-            getDestinationPath(relativePath) {
-              return relativePath.replace(/hbs$/g, 'js');
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
+          },
+        });
+      }),
+
+      project: { addons: [] },
+    });
+
+    expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
+
+    output = await buildOutput(defaultPackager.processTemplates(input.path()));
+
+    expect(defaultPackager._cachedProcessedTemplates).to.not.equal(null);
+  });
+
+  it('processes templates according to the registry', async function() {
+    let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
+          },
+        });
+      }),
+
+      project: { addons: [] },
+    });
+
+    expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
+
+    output = await buildOutput(defaultPackager.processTemplates(input.path()));
+
+    let outputFiles = output.read();
+
+    expect(outputFiles['the-best-app-ever']).to.deep.equal({
+      templates: {
+        'application.js': '',
+        'error.js': '',
+        'index.js': '',
+        'loading.js': '',
+      },
+    });
+  });
+
+  it('runs pre/post-process add-on hooks', async function() {
+    let addonPreprocessTreeHookCalled = false;
+    let addonPostprocessTreeHookCalled = false;
+
+    let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
+          },
+        });
+      }),
+
+      // avoid using `testdouble.js` here on purpose; it does not have a "proxy"
+      // option, where a function call would be registered and the original
+      // would be returned
+      project: {
+        addons: [
+          {
+            preprocessTree(type, tree) {
+              expect(type).to.equal('template');
+              addonPreprocessTreeHookCalled = true;
+
+              return tree;
             },
-          });
-        }),
+            postprocessTree(type, tree) {
+              expect(type).to.equal('template');
+              addonPostprocessTreeHookCalled = true;
 
-        project: { addons: [] },
-      });
-
-      expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
-
-      output = yield buildOutput(defaultPackager.processTemplates(input.path()));
-
-      expect(defaultPackager._cachedProcessedTemplates).to.not.equal(null);
-    })
-  );
-
-  it(
-    'processes templates according to the registry',
-    co.wrap(function*() {
-      let defaultPackager = new DefaultPackager({
-        name: 'the-best-app-ever',
-
-        registry: setupRegistryFor('template', function(tree) {
-          return new Funnel(tree, {
-            getDestinationPath(relativePath) {
-              return relativePath.replace(/hbs$/g, 'js');
+              return tree;
             },
-          });
-        }),
+          },
+        ],
+      },
+    });
 
-        project: { addons: [] },
-      });
+    expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
 
-      expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
+    output = await buildOutput(defaultPackager.processTemplates(input.path()));
 
-      output = yield buildOutput(defaultPackager.processTemplates(input.path()));
-
-      let outputFiles = output.read();
-
-      expect(outputFiles['the-best-app-ever']).to.deep.equal({
-        templates: {
-          'application.js': '',
-          'error.js': '',
-          'index.js': '',
-          'loading.js': '',
-        },
-      });
-    })
-  );
-
-  it(
-    'runs pre/post-process add-on hooks',
-    co.wrap(function*() {
-      let addonPreprocessTreeHookCalled = false;
-      let addonPostprocessTreeHookCalled = false;
-
-      let defaultPackager = new DefaultPackager({
-        name: 'the-best-app-ever',
-
-        registry: setupRegistryFor('template', function(tree) {
-          return new Funnel(tree, {
-            getDestinationPath(relativePath) {
-              return relativePath.replace(/hbs$/g, 'js');
-            },
-          });
-        }),
-
-        // avoid using `testdouble.js` here on purpose; it does not have a "proxy"
-        // option, where a function call would be registered and the original
-        // would be returned
-        project: {
-          addons: [
-            {
-              preprocessTree(type, tree) {
-                expect(type).to.equal('template');
-                addonPreprocessTreeHookCalled = true;
-
-                return tree;
-              },
-              postprocessTree(type, tree) {
-                expect(type).to.equal('template');
-                addonPostprocessTreeHookCalled = true;
-
-                return tree;
-              },
-            },
-          ],
-        },
-      });
-
-      expect(defaultPackager._cachedProcessedTemplates).to.equal(null);
-
-      output = yield buildOutput(defaultPackager.processTemplates(input.path()));
-
-      expect(addonPreprocessTreeHookCalled).to.equal(true);
-      expect(addonPostprocessTreeHookCalled).to.equal(true);
-    })
-  );
+    expect(addonPreprocessTreeHookCalled).to.equal(true);
+    expect(addonPostprocessTreeHookCalled).to.equal(true);
+  });
 });

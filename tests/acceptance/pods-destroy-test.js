@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
@@ -32,12 +31,10 @@ describe('Acceptance: ember destroy pod', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(
-    co.wrap(function*() {
-      tmpdir = yield mkTmpDirIn(tmproot);
-      process.chdir(tmpdir);
-    })
-  );
+  beforeEach(async function() {
+    tmpdir = await mkTmpDirIn(tmproot);
+    process.chdir(tmpdir);
+  });
 
   afterEach(function() {
     this.timeout(10000);
@@ -72,27 +69,27 @@ describe('Acceptance: ember destroy pod', function() {
     });
   }
 
-  const assertDestroyAfterGenerate = co.wrap(function*(args, files) {
-    yield initApp();
+  const assertDestroyAfterGenerate = async function(args, files) {
+    await initApp();
 
     replaceFile('config/environment.js', '(var|let|const) ENV = {', "$1 ENV = {\npodModulePrefix: 'app/pods', \n");
 
-    yield generate(args);
+    await generate(args);
     assertFilesExist(files);
 
-    let result = yield destroy(args);
+    let result = await destroy(args);
     expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
     assertFilesNotExist(files);
-  });
+  };
 
-  const destroyAfterGenerate = co.wrap(function*(args) {
-    yield initApp();
+  const destroyAfterGenerate = async function(args) {
+    await initApp();
 
     replaceFile('config/environment.js', '(var|let|const) ENV = {', "$1 ENV = {\npodModulePrefix: 'app/pods', \n");
 
-    yield generate(args);
-    return yield destroy(args);
-  });
+    await generate(args);
+    return await destroy(args);
+  };
 
   it('blueprint foo --pod', function() {
     let commandArgs = ['blueprint', 'foo', '--pod'];
@@ -122,38 +119,32 @@ describe('Acceptance: ember destroy pod', function() {
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it(
-    'deletes files generated using blueprints from the project directory',
-    co.wrap(function*() {
-      let commandArgs = ['foo', 'bar', '--pod'];
-      let files = ['app/foos/bar.js'];
+  it('deletes files generated using blueprints from the project directory', async function() {
+    let commandArgs = ['foo', 'bar', '--pod'];
+    let files = ['app/foos/bar.js'];
 
-      yield initApp();
+    await initApp();
 
-      yield outputFile(
-        'blueprints/foo/files/app/foos/__name__.js',
-        "import Ember from 'ember';\n\n" + 'export default Ember.Object.extend({ foo: true });\n'
-      );
+    await outputFile(
+      'blueprints/foo/files/app/foos/__name__.js',
+      "import Ember from 'ember';\n\n" + 'export default Ember.Object.extend({ foo: true });\n'
+    );
 
-      yield generate(commandArgs);
-      assertFilesExist(files);
+    await generate(commandArgs);
+    assertFilesExist(files);
 
-      yield destroy(commandArgs);
-      assertFilesNotExist(files);
-    })
-  );
+    await destroy(commandArgs);
+    assertFilesNotExist(files);
+  });
 
   // Skip until podModulePrefix is deprecated
-  it.skip(
-    'podModulePrefix deprecation warning',
-    co.wrap(function*() {
-      let result = yield destroyAfterGenerate(['controller', 'foo', '--pod']);
+  it.skip('podModulePrefix deprecation warning', async function() {
+    let result = await destroyAfterGenerate(['controller', 'foo', '--pod']);
 
-      expect(result.outputStream.join()).to.include(
-        '`podModulePrefix` is deprecated and will be' +
-          ' removed from future versions of ember-cli. Please move existing pods from' +
-          " 'app/pods/' to 'app/'."
-      );
-    })
-  );
+    expect(result.outputStream.join()).to.include(
+      '`podModulePrefix` is deprecated and will be' +
+        ' removed from future versions of ember-cli. Please move existing pods from' +
+        " 'app/pods/' to 'app/'."
+    );
+  });
 });
