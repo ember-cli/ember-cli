@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "ember-cli": "latest",
-    "ember-resolver": "^5.0.1",
+    "ember-resolver": "^7.0.0",
     "loader.js": "*"
   }
 }

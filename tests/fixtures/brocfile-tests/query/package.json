@@ -3,7 +3,7 @@
   "dependencies": {
     "ember-cli": "*",
     "ember-cli-htmlbars": "^3.0.0",
-    "ember-resolver": "^5.0.1",
+    "ember-resolver": "^7.0.0",
     "loader.js": "latest"
   }
 }
