@@ -94,7 +94,10 @@ describe('ember-app-utils', function() {
         results.push(match);
       }
 
-      expect(results).to.deep.equal([["{{content-for 'foo'}}", 'foo'], ["{{content-for 'bar'}}", 'bar']]);
+      expect(results).to.deep.equal([
+        ["{{content-for 'foo'}}", 'foo'],
+        ["{{content-for 'bar'}}", 'bar'],
+      ]);
     });
 
     it('returns an empty string if invalid type is specified', function() {
