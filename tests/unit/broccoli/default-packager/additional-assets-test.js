@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const expect = require('chai').expect;
 const Funnel = require('broccoli-funnel');
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
@@ -59,121 +58,109 @@ describe('Default Packager: Additional Assets', function() {
     addons: [],
   };
 
-  before(
-    co.wrap(function*() {
-      input = yield createTempDir();
+  before(async function() {
+    input = await createTempDir();
 
-      input.write(MODULES);
-    })
-  );
+    input.write(MODULES);
+  });
 
-  after(
-    co.wrap(function*() {
-      yield input.dispose();
-    })
-  );
+  after(async function() {
+    await input.dispose();
+  });
 
-  afterEach(
-    co.wrap(function*() {
-      yield output.dispose();
-    })
-  );
+  afterEach(async function() {
+    await output.dispose();
+  });
 
-  it(
-    'caches packaged javascript tree',
-    co.wrap(function*() {
-      let defaultPackager = new DefaultPackager({
-        name: 'the-best-app-ever',
-        env: 'development',
+  it('caches packaged javascript tree', async function() {
+    let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+      env: 'development',
 
-        distPaths: {
-          appJsFile: '/assets/the-best-app-ever.js',
-          vendorJsFile: '/assets/vendor.js',
+      distPaths: {
+        appJsFile: '/assets/the-best-app-ever.js',
+        vendorJsFile: '/assets/vendor.js',
+      },
+
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
+          },
+        });
+      }),
+
+      additionalAssetPaths: [
+        {
+          src: 'vendor/font-awesome/fonts',
+          file: 'FontAwesome.otf',
+          dest: 'fonts',
         },
-
-        registry: setupRegistryFor('template', function(tree) {
-          return new Funnel(tree, {
-            getDestinationPath(relativePath) {
-              return relativePath.replace(/hbs$/g, 'js');
-            },
-          });
-        }),
-
-        additionalAssetPaths: [
-          {
-            src: 'vendor/font-awesome/fonts',
-            file: 'FontAwesome.otf',
-            dest: 'fonts',
-          },
-          {
-            src: 'vendor/font-awesome/fonts',
-            file: 'FontAwesome.woff',
-            dest: 'fonts',
-          },
-        ],
-
-        project,
-      });
-
-      expect(defaultPackager._cachedProcessedAdditionalAssets).to.equal(null);
-
-      output = yield buildOutput(defaultPackager.importAdditionalAssets(input.path()));
-
-      expect(defaultPackager._cachedProcessedAdditionalAssets).to.not.equal(null);
-      expect(defaultPackager._cachedProcessedAdditionalAssets._annotation).to.equal(
-        'vendor/font-awesome/fonts/{FontAwesome.otf,FontAwesome.woff} => fonts/{FontAwesome.otf,FontAwesome.woff}'
-      );
-    })
-  );
-
-  it(
-    'imports additional assets properly',
-    co.wrap(function*() {
-      let defaultPackager = new DefaultPackager({
-        name: 'the-best-app-ever',
-        env: 'development',
-
-        distPaths: {
-          appJsFile: '/assets/the-best-app-ever.js',
-          vendorJsFile: '/assets/vendor.js',
+        {
+          src: 'vendor/font-awesome/fonts',
+          file: 'FontAwesome.woff',
+          dest: 'fonts',
         },
+      ],
 
-        registry: setupRegistryFor('template', function(tree) {
-          return new Funnel(tree, {
-            getDestinationPath(relativePath) {
-              return relativePath.replace(/hbs$/g, 'js');
-            },
-          });
-        }),
+      project,
+    });
 
-        additionalAssetPaths: [
-          {
-            src: 'vendor/font-awesome/fonts',
-            file: 'FontAwesome.otf',
-            dest: 'fonts',
+    expect(defaultPackager._cachedProcessedAdditionalAssets).to.equal(null);
+
+    output = await buildOutput(defaultPackager.importAdditionalAssets(input.path()));
+
+    expect(defaultPackager._cachedProcessedAdditionalAssets).to.not.equal(null);
+    expect(defaultPackager._cachedProcessedAdditionalAssets._annotation).to.equal(
+      'vendor/font-awesome/fonts/{FontAwesome.otf,FontAwesome.woff} => fonts/{FontAwesome.otf,FontAwesome.woff}'
+    );
+  });
+
+  it('imports additional assets properly', async function() {
+    let defaultPackager = new DefaultPackager({
+      name: 'the-best-app-ever',
+      env: 'development',
+
+      distPaths: {
+        appJsFile: '/assets/the-best-app-ever.js',
+        vendorJsFile: '/assets/vendor.js',
+      },
+
+      registry: setupRegistryFor('template', function(tree) {
+        return new Funnel(tree, {
+          getDestinationPath(relativePath) {
+            return relativePath.replace(/hbs$/g, 'js');
           },
-          {
-            src: 'vendor/font-awesome/fonts',
-            file: 'FontAwesome.woff',
-            dest: 'fonts',
-          },
-        ],
+        });
+      }),
 
-        project,
-      });
-
-      expect(defaultPackager._cachedProcessedAdditionalAssets).to.equal(null);
-
-      output = yield buildOutput(defaultPackager.importAdditionalAssets(input.path()));
-
-      let outputFiles = output.read();
-
-      expect(outputFiles).to.deep.equal({
-        fonts: {
-          'FontAwesome.otf': '',
-          'FontAwesome.woff': '',
+      additionalAssetPaths: [
+        {
+          src: 'vendor/font-awesome/fonts',
+          file: 'FontAwesome.otf',
+          dest: 'fonts',
         },
-      });
-    })
-  );
+        {
+          src: 'vendor/font-awesome/fonts',
+          file: 'FontAwesome.woff',
+          dest: 'fonts',
+        },
+      ],
+
+      project,
+    });
+
+    expect(defaultPackager._cachedProcessedAdditionalAssets).to.equal(null);
+
+    output = await buildOutput(defaultPackager.importAdditionalAssets(input.path()));
+
+    let outputFiles = output.read();
+
+    expect(outputFiles).to.deep.equal({
+      fonts: {
+        'FontAwesome.otf': '',
+        'FontAwesome.woff': '',
+      },
+    });
+  });
 });

@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const expect = require('chai').expect;
 const DefaultPackager = require('../../../../lib/broccoli/default-packager');
 const broccoliTestHelper = require('broccoli-test-helper');
@@ -22,49 +21,37 @@ describe('Default Packager: Public', function() {
     },
   };
 
-  before(
-    co.wrap(function*() {
-      input = yield createTempDir();
+  before(async function() {
+    input = await createTempDir();
 
-      input.write(PUBLIC);
-    })
-  );
+    input.write(PUBLIC);
+  });
 
-  after(
-    co.wrap(function*() {
-      yield input.dispose();
-    })
-  );
+  after(async function() {
+    await input.dispose();
+  });
 
-  afterEach(
-    co.wrap(function*() {
-      yield output.dispose();
-    })
-  );
+  afterEach(async function() {
+    await output.dispose();
+  });
 
-  it(
-    'caches packaged public tree',
-    co.wrap(function*() {
-      let defaultPackager = new DefaultPackager();
+  it('caches packaged public tree', async function() {
+    let defaultPackager = new DefaultPackager();
 
-      expect(defaultPackager._cachedPublic).to.equal(null);
+    expect(defaultPackager._cachedPublic).to.equal(null);
 
-      output = yield buildOutput(defaultPackager.packagePublic(input.path()));
+    output = await buildOutput(defaultPackager.packagePublic(input.path()));
 
-      expect(defaultPackager._cachedPublic).to.not.equal(null);
-    })
-  );
+    expect(defaultPackager._cachedPublic).to.not.equal(null);
+  });
 
-  it(
-    'packages public files',
-    co.wrap(function*() {
-      let defaultPackager = new DefaultPackager();
+  it('packages public files', async function() {
+    let defaultPackager = new DefaultPackager();
 
-      output = yield buildOutput(defaultPackager.packagePublic(input.path()));
+    output = await buildOutput(defaultPackager.packagePublic(input.path()));
 
-      let outputFiles = output.read();
+    let outputFiles = output.read();
 
-      expect(outputFiles).to.deep.equal(PUBLIC.public);
-    })
-  );
+    expect(outputFiles).to.deep.equal(PUBLIC.public);
+  });
 });

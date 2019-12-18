@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 module('default-development - Integration', function(hook) {
   setupApplicationTest(hooks);
 
-  test('renders properly', async function(assert) {
+  test('renders properly', async function (assert) {
     await visit('/');
 
     var elements = this.element.querySelectorAll('.ember-view');

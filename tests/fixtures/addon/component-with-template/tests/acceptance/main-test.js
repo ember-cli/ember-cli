@@ -6,14 +6,14 @@ import { module, test } from 'qunit';
 module('Acceptance', function(hooks) {
   setupApplicationTest(hooks);
 
-  test('renders properly', async function(assert) {
+  test('renders properly', async function (assert) {
     await visit('/');
 
     var element = this.element.querySelector('.basic-thing');
     assert.equal(element.textContent.trim(), 'WOOT!!');
   });
 
-  test('renders imported component', async function(assert) {
+  test('renders imported component', async function (assert) {
     await visit('/');
 
     var element = this.element.querySelector('.second-thing');

@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const broccoliTestHelper = require('broccoli-test-helper');
 const expect = require('chai').expect;
 const ci = require('ci-info');
@@ -14,30 +13,26 @@ const ROOT = process.cwd();
 describe('Builder - broccoli tests', function() {
   let projectRoot, builderOutputPath, output, project, builder;
 
-  beforeEach(
-    co.wrap(function*() {
-      projectRoot = yield createTempDir();
-      builderOutputPath = yield createTempDir();
+  beforeEach(async function() {
+    projectRoot = await createTempDir();
+    builderOutputPath = await createTempDir();
 
-      project = new MockProject({ root: projectRoot.path() });
-    })
-  );
+    project = new MockProject({ root: projectRoot.path() });
+  });
 
-  afterEach(
-    co.wrap(function*() {
-      yield projectRoot.dispose();
-      yield builderOutputPath.dispose();
-      yield output.dispose();
+  afterEach(async function() {
+    await projectRoot.dispose();
+    await builderOutputPath.dispose();
+    await output.dispose();
 
-      // this is needed because lib/utilities/find-build-file.js does a
-      // `process.chdir` when it looks for the `ember-cli-build.js`
-      process.chdir(ROOT);
-    })
-  );
+    // this is needed because lib/utilities/find-build-file.js does a
+    // `process.chdir` when it looks for the `ember-cli-build.js`
+    process.chdir(ROOT);
+  });
 
   (ci.APPVEYOR ? it.skip : it)(
     'falls back to broccoli-builder@0.18 when legacy plugins exist in build',
-    co.wrap(function*() {
+    async function() {
       projectRoot.write({
         'ember-cli-build.js': `
         const fs = require('fs');
@@ -91,7 +86,7 @@ describe('Builder - broccoli tests', function() {
       });
 
       output = fromBuilder(builder);
-      yield output.build();
+      await output.build();
 
       expect(output.read()).to.deep.equal({
         'hello.txt': '// hello!',
@@ -104,6 +99,6 @@ describe('Builder - broccoli tests', function() {
       expect(builder.ui.output).to.include(
         'LegacyPlugin: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md'
       );
-    })
+    }
   );
 });
