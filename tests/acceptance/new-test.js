@@ -177,7 +177,7 @@ describe('Acceptance: ember new', function() {
 
   it('ember new with blueprint uses the specified blueprint directory with a relative path', async function() {
     fs.mkdirsSync('my_blueprint/files');
-    fs.writeFileSync('my_blueprint/files/gitignore');
+    fs.writeFileSync('my_blueprint/files/gitignore', '');
 
     await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--blueprint=./my_blueprint']);
 
@@ -186,7 +186,7 @@ describe('Acceptance: ember new', function() {
 
   it('ember new with blueprint uses the specified blueprint directory with an absolute path', async function() {
     fs.mkdirsSync('my_blueprint/files');
-    fs.writeFileSync('my_blueprint/files/gitignore');
+    fs.writeFileSync('my_blueprint/files/gitignore', '');
 
     await ember([
       'new',
