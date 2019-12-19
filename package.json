@@ -149,7 +149,7 @@
     "mocha": "^6.2.1",
     "nock": "^11.7.0",
     "nyc": "^14.1.0",
-    "prettier": "1.17.0",
+    "prettier": "1.19.1",
     "rimraf": "^3.0.0",
     "strip-ansi": "^6.0.0",
     "supertest": "^4.0.2",

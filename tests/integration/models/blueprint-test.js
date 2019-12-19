@@ -789,7 +789,10 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
+      blueprint.addPackagesToProject([
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
+      ]);
 
       expect(packages).to.deep.equal(['foo-bar@^123.1.12', 'bar-foo@0.0.7']);
     });
@@ -807,7 +810,10 @@ describe('Blueprint', function() {
     it('writes information to the ui log for multiple packages', function() {
       blueprint.ui = ui;
 
-      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
+      blueprint.addPackagesToProject([
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
+      ]);
 
       let output = ui.output.trim();
 
@@ -833,7 +839,10 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
+      blueprint.addPackagesToProject([
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
+      ]);
 
       expect(!!saveDev).to.equal(true);
     });
@@ -847,7 +856,10 @@ describe('Blueprint', function() {
         },
       });
 
-      blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }, { name: 'bar-foo', target: '0.0.7' }]);
+      blueprint.addPackagesToProject([
+        { name: 'foo-bar', target: '^123.1.12' },
+        { name: 'bar-foo', target: '0.0.7' },
+      ]);
 
       expect(verbose).to.equal(false);
     });
