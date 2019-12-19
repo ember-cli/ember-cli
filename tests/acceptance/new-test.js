@@ -40,8 +40,8 @@ describe('Acceptance: ember new', function() {
     return tmp.teardown(tmpDir);
   });
 
-  function confirmBlueprintedForDir(dir) {
-    let blueprintPath = path.join(root, dir, 'files');
+  function confirmBlueprintedForDir(blueprintDir, expectedAppDir = 'foo') {
+    let blueprintPath = path.join(root, blueprintDir, 'files');
     let expected = walkSync(blueprintPath);
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
@@ -52,7 +52,7 @@ describe('Acceptance: ember new', function() {
 
     expected.sort();
 
-    expect(directory).to.equal('foo');
+    expect(directory).to.equal(expectedAppDir);
     expect(expected).to.deep.equal(
       actual,
       `${EOL} expected: ${util.inspect(expected)}${EOL} but got: ${util.inspect(actual)}`
@@ -65,6 +65,32 @@ describe('Acceptance: ember new', function() {
     expect(file('package.json')).to.match(/"ember-welcome-page"/);
 
     expect(file('app/templates/application.hbs')).to.contain('<WelcomePage />');
+  });
+
+  it('ember new @foo/bar, when parent directory does not contain `foo`', async function() {
+    await ember(['new', '@foo/bar', '--skip-npm', '--skip-bower']);
+
+    confirmBlueprintedForDir('blueprints/app', 'foo-bar');
+  });
+
+  it('ember new @foo/bar, when direct parent directory contains `foo`', async function() {
+    let scopedDirectoryPath = path.join(process.cwd(), 'foo');
+    fs.mkdirsSync(scopedDirectoryPath);
+    process.chdir(scopedDirectoryPath);
+
+    await ember(['new', '@foo/bar', '--skip-npm', '--skip-bower']);
+
+    confirmBlueprintedForDir('blueprints/app', 'bar');
+  });
+
+  it('ember new @foo/bar, when parent directory heirarchy contains `foo`', async function() {
+    let scopedDirectoryPath = path.join(process.cwd(), 'foo', 'packages');
+    fs.mkdirsSync(scopedDirectoryPath);
+    process.chdir(scopedDirectoryPath);
+
+    await ember(['new', '@foo/bar', '--skip-npm', '--skip-bower']);
+
+    confirmBlueprintedForDir('blueprints/app', 'bar');
   });
 
   it('ember new --no-welcome skips installation of ember-welcome-page', async function() {
@@ -320,6 +346,32 @@ describe('Acceptance: ember new', function() {
 
     let pkgJson = fs.readJsonSync('package.json');
     expect(pkgJson.name).to.equal('foo', 'uses addon name for package name');
+  });
+
+  it('ember addon @foo/bar when parent directory does not contain `foo`', async function() {
+    await ember(['addon', '@foo/bar', '--skip-npm', '--skip-bower', '--skip-git']);
+
+    let directoryName = path.basename(process.cwd());
+
+    expect(directoryName).to.equal('foo-bar');
+
+    let pkgJson = fs.readJsonSync('package.json');
+    expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
+  });
+
+  it('ember addon @foo/bar when parent directory contains `foo`', async function() {
+    let scopedDirectoryPath = path.join(process.cwd(), 'foo');
+    fs.mkdirsSync(scopedDirectoryPath);
+    process.chdir(scopedDirectoryPath);
+
+    await ember(['addon', '@foo/bar', '--skip-npm', '--skip-bower', '--skip-git']);
+
+    let directoryName = path.basename(process.cwd());
+
+    expect(directoryName).to.equal('bar');
+
+    let pkgJson = fs.readJsonSync('package.json');
+    expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
   });
 
   describe('verify fixtures', function() {
