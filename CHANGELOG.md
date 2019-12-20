@@ -1,20 +1,23 @@
 # ember-cli Changelog
 
-## v3.15.0-beta.2
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.15.0-beta.1...v3.15.0-beta.2)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.15.0-beta.1...v3.15.0-beta.2)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.14.0...v3.15.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.14.0...v3.15.0)
 
 #### Changelog
 
+- [#8963](https://github.com/ember-cli/ember-cli/pull/8963) Remove `app/templates/components` [@chancancode](https://github.com/chancancode)
+- [#8964](https://github.com/ember-cli/ember-cli/pull/8964) Add support for `ember new @scope-here/name-here`. [@rwjblue](https://github.com/rwjblue)
+- [#8965](https://github.com/ember-cli/ember-cli/pull/8965) Update ember-resolver to v7.0.0. [@rwjblue](https://github.com/rwjblue)
+- [#8971](https://github.com/ember-cli/ember-cli/pull/8971) Add an ember-try scenario for Ember "classic" (pre-octane). [@rwjblue](https://github.com/rwjblue)
+- [#8972](https://github.com/ember-cli/ember-cli/pull/8972) Update ember-data to 3.15.0. [@rwjblue](https://github.com/rwjblue)
 - [#8933](https://github.com/ember-cli/ember-cli/pull/8933) Remove `app/resolver.js` in favor of importing in `app/app.js` [@rwjblue](https://github.com/rwjblue)
 - [#8945](https://github.com/ember-cli/ember-cli/pull/8945) Fix issue with addon `.travis.yml` configuration when using `npm` [@kellyselden](https://github.com/kellyselden)
 - [#8946](https://github.com/ember-cli/ember-cli/pull/8946) Drop testing of ember-source@3.4 in the addon blueprints ember-try config [@kellyselden](https://github.com/kellyselden)
 - [#8946](https://github.com/ember-cli/ember-cli/pull/8946) Add testing of ember-source@3.12 in the addon blueprints ember-try config [@kellyselden](https://github.com/kellyselden)
 - [#8959](https://github.com/ember-cli/ember-cli/pull/8959) Fix issue with addon discovery when npm/yarn leave empty directories in resolvable locations [@stefanpenner](https://github.com/stefanpenner)
-- [#8949](https://github.com/ember-cli/ember-cli/pull/8949) Add GitHub Actions for CI [@Turbo87](https://github.com/Turbo87)
 - [#8961](https://github.com/ember-cli/ember-cli/pull/8961) Prepare for Octane release in 3.15 [@rwjblue](https://github.com/rwjblue)
   * Adds `ember` property to `package.json` to implement [emberjs/rfcs#558](https://github.com/emberjs/rfcs/pull/558)
   * Adds `@glimmer/component@1.0.0` as a development dependency for both apps and addons
@@ -23,17 +26,6 @@
   * Updates ember-template-lint configuration to use `octane` preset
   * Update to ember-source@3.15 stable
   * Updates all packages in the application blueprint to their latest version
-
-Thank you to all who took the time to contribute!
-
-## v3.15.0-beta.1
-
-#### Blueprint Changes
-
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.14.0...v3.15.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.14.0...v3.15.0-beta.1)
-
-
 - [#8827](https://github.com/ember-cli/ember-cli/pull/8827) Remove module-unification blueprints [@dcyriller](https://github.com/dcyriller)
 - [#8878](https://github.com/ember-cli/ember-cli/pull/8878) Adds flag to throw an error for invalid addon locations [@tmquinn](https://github.com/tmquinn)
 - [#8906](https://github.com/ember-cli/ember-cli/pull/8906) Enable broccoli memoization by default in Ember-CLI [@SparshithNR](https://github.com/SparshithNR)
