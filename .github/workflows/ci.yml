@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn install
+      - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn lint
 
   basic-tests:
@@ -60,7 +60,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn install
+      - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test
 
   tests:
@@ -90,8 +90,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn install
-        continue-on-error: ${{ matrix['continue-on-error'] == true }}
+      - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all
         continue-on-error: ${{ matrix['continue-on-error'] == true }}
 
@@ -128,7 +127,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn install
+      - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all
         env:
           ${{ matrix.feature-flag }}: true
