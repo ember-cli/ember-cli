@@ -28,6 +28,8 @@ Thank you to all who took the time to contribute!
 
 Thank you to all who took the time to contribute!
 
+## v3.15.0
+
 #### Blueprint Changes
 
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.14.0...v3.15.0)
@@ -68,6 +70,7 @@ Thank you to all who took the time to contribute!
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.2...v3.14.0)
 - [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.13.2...v3.14.0)
 
+#### Changelog
 
 - [#8875](https://github.com/ember-cli/ember-cli/pull/8875) Fix ember-cli-htmlbars-inline-precompile deprecation [@HeroicEric](https://github.com/HeroicEric)
 - [#8882](https://github.com/ember-cli/ember-cli/pull/8882) Simplify "Get started" message for `ember new` [@dcyriller](https://github.com/dcyriller)
@@ -88,6 +91,7 @@ Thank you to all who took the time to contribute!
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.1...v3.13.2)
 - [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.13.1...v3.13.2)
 
+#### Changelog
 
 - [#8875](https://github.com/ember-cli/ember-cli/pull/8875) Fix ember-cli-htmlbars-inline-precompile deprecation [@HeroicEric](https://github.com/HeroicEric)
 - [#8882](https://github.com/ember-cli/ember-cli/pull/8882) Simplify "Get started" message [@dcyriller](https://github.com/dcyriller)
@@ -102,6 +106,7 @@ Thank you to all who took the time to contribute!
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.13.0...v3.13.1)
 - [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.13.0...v3.13.1)
 
+#### Changelog
 
 - [#8857](https://github.com/ember-cli/ember-cli/pull/8857) Tweaks to release scripts. [@rwjblue](https://github.com/rwjblue)
 - [#8862](https://github.com/ember-cli/ember-cli/pull/8862) Adjust message for when a new app is created [@dcyriller](https://github.com/dcyriller)
