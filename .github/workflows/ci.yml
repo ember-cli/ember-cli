@@ -95,7 +95,7 @@ jobs:
         continue-on-error: ${{ matrix['continue-on-error'] == true }}
 
   feature-flags:
-    name: "Feature Flag: ${{ matrix.feature-flag }}"
+    name: "Feature: ${{ matrix.feature-flag }}"
     runs-on: ubuntu-latest
 
     needs: [linting, basic-tests]
