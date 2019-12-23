@@ -155,7 +155,7 @@
     "supertest": "^4.0.2",
     "testdouble": "^3.12.4",
     "tmp": "^0.1.0",
-    "websocket": "^1.0.30",
+    "websocket": "^1.0.31",
     "which": "2.0.2",
     "yuidoc-ember-cli-theme": "^1.0.4",
     "yuidocjs": "0.10.2"
