@@ -1847,6 +1847,11 @@ detect-indent@^6.0.0:
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-6.0.0.tgz#0abd0f549f69fc6659a254fe96786186b6f528fd"
   integrity sha512-oSyFlqaTHCItVRGK5RmrmjB+CmaMOW7IaNA/kdxqhoa6d17j/5ce9O9eWXmV/KEdRwqpQA+Vqe8a8Bsybu4YnA==
 
+detect-newline@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
+  integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
+
 diff@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
@@ -5781,12 +5786,13 @@ sort-object-keys@^1.1.2:
   resolved "https://registry.yarnpkg.com/sort-object-keys/-/sort-object-keys-1.1.2.tgz#d3a6c48dc2ac97e6bc94367696e03f6d09d37952"
   integrity sha1-06bEjcKsl+a8lDZ2luA/bQnTeVI=
 
-sort-package-json@^1.23.1:
-  version "1.23.1"
-  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.23.1.tgz#7882349ad885ee6d82ff57af4184f9d6e9159e1d"
-  integrity sha512-dg6XChDHL+V1gPBLW4fDWsip5T94wpDVlowm8gxXsxQMxX2271zw8JM1RRbJSIrN80/UlwlRdBVkk2SuiuZ2cw==
+sort-package-json@^1.31.0:
+  version "1.31.0"
+  resolved "https://registry.yarnpkg.com/sort-package-json/-/sort-package-json-1.31.0.tgz#778c652b1ee88c15337b258d3ae7e47576e4fb88"
+  integrity sha512-zBdnTpMCJNZszbPcAbGIAgfRQ0A0dF/ZOsQdUHICZ6XLuIQK1Mcwp8zfkF3ySg2lT2oKxU4dVhh/9tZxGLBU0A==
   dependencies:
     detect-indent "^6.0.0"
+    detect-newline "3.1.0"
     glob "^7.1.6"
     sort-object-keys "^1.1.2"
 
