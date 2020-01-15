@@ -49,6 +49,9 @@ jobs:
     strategy:
       matrix:
         node-version: [8.x, 10.x, 12.x]
+        include:
+          - node-version: 8.x
+            continue-on-error: true
 
     steps:
       - uses: actions/checkout@v1
@@ -68,7 +71,9 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - run: yarn install
+        continue-on-error: ${{ matrix['continue-on-error'] == true }}
       - run: yarn test:all
+        continue-on-error: ${{ matrix['continue-on-error'] == true }}
 
   feature-flags:
     name: "Feature Flag: ${{ matrix.feature-flag }}"
