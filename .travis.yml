@@ -29,6 +29,9 @@ stages:
     if: type IN (push) AND branch = release
 
 jobs:
+  allow_failures:
+    - node_js: 8
+
   include:
     - stage: basic test
       name: Basic Tests
