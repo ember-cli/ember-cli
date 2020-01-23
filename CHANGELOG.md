@@ -1,6 +1,19 @@
 # ember-cli Changelog
 
 
+## v3.15.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.15.0...v3.15.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.15.0...v3.15.1)
+
+#### Changelog
+
+- [#8977](https://github.com/ember-cli/ember-cli/pull/8977) Fix invalid syntax with ember-classic ember-try scenario. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 #### Blueprint Changes
 
 - [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.14.0...v3.15.0)

@@ -263,6 +263,30 @@ describe('Acceptance: brocfile-smoke-test', function() {
       })();
     });
 
+    it('can use transformation to turn named UMD into named AMD', async function() {
+      await copyFixtureFiles('brocfile-tests/app-import-named-umd');
+      await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'build');
+
+      let outputJS = fs.readFileSync(path.join(appRoot, 'dist', 'assets', 'output.js'), {
+        encoding: 'utf8',
+      });
+
+      (function() {
+        let defineCount = 0;
+        // eslint-disable-next-line no-unused-vars
+        function define(name, deps, factory) {
+          expect(name).to.equal('hello-world');
+          expect(deps).to.deep.equal([]);
+          expect(factory()()).to.equal('Hello World');
+          defineCount++;
+        }
+        /* eslint-disable no-eval */
+        eval(outputJS);
+        /* eslint-enable no-eval */
+        expect(defineCount).to.eql(1);
+      })();
+    });
+
     it('can do amd transform from addon', async function() {
       await copyFixtureFiles('brocfile-tests/app-import-custom-transform');
 

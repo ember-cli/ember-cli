@@ -68,7 +68,9 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - run: yarn install
+        continue-on-error: ${{ matrix['continue-on-error'] == true }}
       - run: yarn test:all
+        continue-on-error: ${{ matrix['continue-on-error'] == true }}
 
   feature-flags:
     name: "Feature Flag: ${{ matrix.feature-flag }}"
