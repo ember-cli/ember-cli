@@ -1,5 +1,19 @@
 # ember-cli Changelog
 
+## v3.15.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.15.1...v3.15.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.15.1...v3.15.2)
+
+#### Changelog
+
+- [#8924](https://github.com/ember-cli/ember-cli/pull/8924) Fix named UMD imports [@kellyselden](https://github.com/kellyselden)
+- [#9015](https://github.com/ember-cli/ember-cli/pull/9015) Allow failure of Node 8 CI jobs. [@rwjblue](https://github.com/rwjblue)
+- [#9014](https://github.com/ember-cli/ember-cli/pull/9014) Avoid errors when `ui` is not present and a warning will be emitted. [@tmquinn](https://github.com/tmquinn)
+
+Thank you to all who took the time to contribute!
 
 ## v3.15.1
 
