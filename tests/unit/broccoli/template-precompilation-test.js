@@ -7,6 +7,8 @@ const expect = require('chai').expect;
 const BroccoliPlugin = require('broccoli-plugin');
 const walkSync = require('walk-sync');
 
+const { isExperimentEnabled } = require('../../../lib/experiments');
+
 const MockCLI = require('../../helpers/mock-cli');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
@@ -56,6 +58,12 @@ describe('template preprocessors', function() {
   }
 
   describe('Addon', function() {
+    if (isExperimentEnabled('DELAYED_TRANSPILATION')) {
+      // these tests fundamentally require running template transpilation
+      // against the addon's own `addon/` tree
+      return;
+    }
+
     beforeEach(async function() {
       input = await createTempDir();
       let MockAddon = Addon.extend({
