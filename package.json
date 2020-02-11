@@ -108,7 +108,7 @@
     "npm-package-arg": "^6.1.1",
     "p-defer": "^3.0.0",
     "portfinder": "^1.0.25",
-    "promise-map-series": "^0.2.3",
+    "promise-map-series": "^0.3.0",
     "promise.prototype.finally": "^3.1.2",
     "quick-temp": "^0.1.8",
     "resolve": "^1.12.0",
