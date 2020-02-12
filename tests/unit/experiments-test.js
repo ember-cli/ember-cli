@@ -35,7 +35,6 @@ describe('experiments', function() {
       delete process.env.EMBER_CLI_MODULE_UNIFICATION;
       delete process.env.EMBER_CLI_PACKAGER;
       delete process.env.EMBER_CLI_DELAYED_TRANSPILATION;
-      delete process.env.EMBER_CLI_SYSTEM_TEMP;
 
       warnings = [];
       console.warn = warning => warnings.push(warning);
@@ -51,15 +50,7 @@ describe('experiments', function() {
       process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS = true;
 
       expect(isExperimentEnabled('PACKAGER')).to.be.true;
-      expect(isExperimentEnabled('SYSTEM_TEMP')).to.be.true;
       expect(isExperimentEnabled('DELAYED_TRANSPILATION')).to.be.true;
-
-      expect(warnings).to.deep.equal([]);
-    });
-
-    it('should have SYSTEM_TEMP disabled when environment flag is present', function() {
-      process.env.EMBER_CLI_SYSTEM_TEMP = 'false';
-      expect(isExperimentEnabled('SYSTEM_TEMP')).to.be.false;
 
       expect(warnings).to.deep.equal([]);
     });

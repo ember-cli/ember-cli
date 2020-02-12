@@ -85,7 +85,6 @@ jobs:
           - EMBER_CLI_PACKAGER
           - EMBER_CLI_MODULE_UNIFICATION
           - EMBER_CLI_DELAYED_TRANSPILATION
-          - EMBER_CLI_SYSTEM_TEMP
           - EMBER_CLI_BROCCOLI_WATCHER
 
     steps:
