@@ -9,7 +9,6 @@ const rimraf = require('rimraf');
 const fixturify = require('fixturify');
 const MockProject = require('../../helpers/mock-project');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
-const { isExperimentEnabled } = require('../../../lib/experiments');
 const td = require('testdouble');
 const ci = require('ci-info');
 const chai = require('../../chai');
@@ -200,45 +199,25 @@ describe('models/builder.js', function() {
       expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
     });
 
-    if (!isExperimentEnabled('SYSTEM_TEMP')) {
-      it('writes temp files to project root by default', async function() {
-        const project = new MockProject();
-        project.root += '/tests/fixtures/build/simple';
-
-        builder = new Builder({
-          project,
-          ui: project.ui,
-          processBuildResult(buildResults) {
-            return Promise.resolve(buildResults);
-          },
-        });
-
-        await builder.build();
-        expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.true;
+    it('writes temp files to Broccoli temp dir', async function() {
+      const project = new MockProject();
+      project.root += '/tests/fixtures/build/simple';
+      expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
+      builder = new Builder({
+        project,
+        ui: project.ui,
+        processBuildResult(buildResults) {
+          return Promise.resolve(buildResults);
+        },
       });
-    }
 
-    if (isExperimentEnabled('SYSTEM_TEMP')) {
-      it('writes temp files to Broccoli temp dir when EMBER_CLI_SYSTEM_TEMP=1', async function() {
-        const project = new MockProject();
-        project.root += '/tests/fixtures/build/simple';
-        expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-        builder = new Builder({
-          project,
-          ui: project.ui,
-          processBuildResult(buildResults) {
-            return Promise.resolve(buildResults);
-          },
-        });
+      expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
 
-        expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-
-        let result = await builder.build();
-        expect(fs.existsSync(result.directory)).to.be.true;
-        expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
-        rimraf.sync(result.directory);
-      });
-    }
+      let result = await builder.build();
+      expect(fs.existsSync(result.directory)).to.be.true;
+      expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
+      rimraf.sync(result.directory);
+    });
 
     (ci.APPVEYOR ? it.skip : it)('produces the correct output', async function() {
       const project = new MockProject();
