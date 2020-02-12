@@ -123,7 +123,7 @@
     "testem": "^3.0.1",
     "tiny-lr": "^1.1.1",
     "tree-sync": "^2.0.0",
-    "uuid": "^3.3.3",
+    "uuid": "^3.4.0",
     "walk-sync": "^2.0.2",
     "watch-detector": "^1.0.0",
     "yam": "^1.0.0"
