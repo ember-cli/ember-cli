@@ -73,14 +73,14 @@ describe('MarkdownColor', function() {
   it('parses markdown files', function() {
     // console.log(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md')))
     expect(mc.renderFile(path.join(__dirname, '../../../tests/fixtures/markdown/foo.md'))).to.equal(
-      '\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them\u001b[39m\u001b[0m\n\n'
+      '\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[39m\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them\u001b[39m\u001b[0m\n\n'
     );
   });
 
   it('allows tokens inside other token bounds', function() {
     // console.log(mc.render('<cyan>tacos are <yellow>delicious</yellow> and I enjoy eating them</cyan>'))
     expect(mc.render('<cyan>tacos are <yellow>delicious</yellow> and I enjoy eating them</cyan>')).to.equal(
-      '\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[36m and I enjoy eating' + ' them\u001b[39m\u001b[0m\n\n'
+      '\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[39m\u001b[36m and I enjoy eating them\u001b[39m\u001b[0m\n\n'
     );
   });
 });
