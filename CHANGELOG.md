@@ -1,5 +1,31 @@
 # ember-cli Changelog
 
+
+## v3.16.0
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.15.2...v3.16.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.15.2...v3.16.0)
+
+#### Changelog
+
+- [#8905](https://github.com/ember-cli/ember-cli/pull/8905) Use production environment for `npm run build` / `yarn build` by default [@pichfl](https://github.com/pichfl)
+- [#8930](https://github.com/ember-cli/ember-cli/pull/8930) / [#8929](https://github.com/ember-cli/ember-cli/pull/8929) Drop Node 11 support [@SergeAstapov](https://github.com/SergeAstapov)
+- [#8932](https://github.com/ember-cli/ember-cli/pull/8932) Add Node.js 13 to test matrix [@SergeAstapov](https://github.com/SergeAstapov)
+- [#8941](https://github.com/ember-cli/ember-cli/pull/8941) feat(blueprint): resolve remote blueprints via package manager [@buschtoens](https://github.com/buschtoens)
+- [#8944](https://github.com/ember-cli/ember-cli/pull/8944) Travis.yml: Remove deprecated `sudo: false` option [@tniezurawski](https://github.com/tniezurawski)
+- [#8943](https://github.com/ember-cli/ember-cli/pull/8943) Travis.yml: use fast_finish instead of undocumented fail_fast [@tniezurawski](https://github.com/tniezurawski)
+- [#8962](https://github.com/ember-cli/ember-cli/pull/8962) Drop Ember 3.8 and add Ember 3.16 scenarios in default `config/ember-try.js`. [@kellyselden](https://github.com/kellyselden)
+- [#8986](https://github.com/ember-cli/ember-cli/pull/8986) Increase testem browser timeout. [@rwjblue](https://github.com/rwjblue)
+- [#9012](https://github.com/ember-cli/ember-cli/pull/9012) Drop support for Node v8 [@jrjohnson](https://github.com/jrjohnson)
+- [#9013](https://github.com/ember-cli/ember-cli/pull/9013) Remove useless line break in `.editorconfig` file [@dcyriller](https://github.com/dcyriller)
+- [#9023](https://github.com/ember-cli/ember-cli/pull/9023) Update to use Ember + Ember Data 3.16. [@rwjblue](https://github.com/rwjblue)
+- [#9026](https://github.com/ember-cli/ember-cli/pull/9026) Add @glimmer/tracking to default blueprint. [@rwjblue](https://github.com/rwjblue)
+- [#9028](https://github.com/ember-cli/ember-cli/pull/9028) Update minimum versions of app / addon blueprint dependencies. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.15.2
 
 #### Blueprint Changes
