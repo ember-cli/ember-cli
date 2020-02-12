@@ -14,7 +14,6 @@
  * dev/changelog <remote branch-name (Default: master)> <next version>
  */
 
-const { EOL } = require('os');
 const GitHubApi = require('@octokit/rest');
 const semver = require('semver');
 
@@ -37,16 +36,20 @@ if (nextVersion[0] !== 'v') {
 }
 
 function generateChangelog(contributions) {
-  let header = `
+  return `
+## ${nextVersion}
+
 #### Blueprint Changes
 
 - [\`ember new\` diff](https://github.com/ember-cli/ember-new-output/compare/${currentVersion}...${nextVersion})
 - [\`ember addon\` diff](https://github.com/ember-cli/ember-addon-output/compare/${currentVersion}...${nextVersion})
+
+#### Changelog
+
+${contributions}
+
+Thank you to all who took the time to contribute!
 `;
-
-  let footer = 'Thank you to all who took the time to contribute!';
-
-  return header + EOL + EOL + contributions + EOL + EOL + footer;
 }
 
 // only filters when dependabot itself merges a PR
