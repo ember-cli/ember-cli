@@ -55,7 +55,6 @@ jobs:
 
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true
-    - env: EMBER_CLI_MODULE_UNIFICATION=true
 
     - stage: deploy
       name: Publish API Docs

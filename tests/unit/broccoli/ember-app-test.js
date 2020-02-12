@@ -206,7 +206,6 @@ describe('EmberApp', function() {
         app.getStyles = td.function();
         app.getTests = td.function();
         app.getExternalTree = td.function();
-        app.getSrc = td.function();
         app._legacyAddonCompile = td.function();
         app._defaultPackager = {
           packagePublic: td.function(),
@@ -223,7 +222,6 @@ describe('EmberApp', function() {
         td.verify(app.getStyles());
         td.verify(app.getTests());
         td.verify(app.getExternalTree());
-        td.verify(app.getSrc());
         td.verify(
           app.project.ui.writeWarnLine('`package` hook must be a function, falling back to default packaging.')
         );
@@ -297,10 +295,6 @@ describe('EmberApp', function() {
     it('can handle empty addon styles folders', async function() {
       let appOptions = { project };
 
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        appOptions.trees = { src: {} };
-      }
-
       let app = new EmberApp(appOptions);
 
       let AddonFoo = Addon.extend({
@@ -313,18 +307,7 @@ describe('EmberApp', function() {
       let output = await buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      let expectedOutput;
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        expectedOutput = {
-          src: {
-            ui: {
-              styles: {},
-            },
-          },
-        };
-      } else {
-        expectedOutput = {};
-      }
+      let expectedOutput = {};
       expect(outputFiles).to.deep.equal(expectedOutput);
 
       await output.dispose();
@@ -343,10 +326,6 @@ describe('EmberApp', function() {
 
       let appOptions = { project };
 
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        appOptions.trees = { src: {} };
-      }
-
       let app = new EmberApp(appOptions);
 
       let AddonFoo = Addon.extend({
@@ -362,26 +341,13 @@ describe('EmberApp', function() {
       let output = await buildOutput(app.getStyles());
       let outputFiles = output.read();
 
-      let expectedOutput;
-      if (isExperimentEnabled('MODULE_UNIFICATION')) {
-        expectedOutput = {
-          src: {
-            ui: {
-              styles: {
-                'foo.css': 'foo',
-              },
-            },
+      let expectedOutput = {
+        app: {
+          styles: {
+            'foo.css': 'foo',
           },
-        };
-      } else {
-        expectedOutput = {
-          app: {
-            styles: {
-              'foo.css': 'foo',
-            },
-          },
-        };
-      }
+        },
+      };
       expect(outputFiles).to.deep.equal(expectedOutput);
 
       await addonFooStyles.dispose();

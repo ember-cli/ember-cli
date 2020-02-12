@@ -11,7 +11,6 @@ let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
 const BlueprintNpmTask = require('ember-cli-internal-test-helpers/lib/helpers/disable-npm-on-blueprint');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
-const { isExperimentEnabled } = require('../../lib/experiments');
 
 const chai = require('../chai');
 let expect = chai.expect;
@@ -70,40 +69,36 @@ describe('Acceptance: ember generate in-addon', function() {
     }
   });
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('runs the `addon-import` blueprint from a classic addon', async function() {
-      await initAddon('my-addon');
+  it('runs the `addon-import` blueprint from a classic addon', async function() {
+    await initAddon('my-addon');
 
-      await outputFile(
-        'blueprints/service/files/__root__/__path__/__name__.js',
-        "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
-      );
+    await outputFile(
+      'blueprints/service/files/__root__/__path__/__name__.js',
+      "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
+    );
 
-      await ember(['generate', 'service', 'session']);
+    await ember(['generate', 'service', 'session']);
 
-      expect(file('app/services/session.js')).to.exist;
-    });
-  }
+    expect(file('app/services/session.js')).to.exist;
+  });
 
-  if (!isExperimentEnabled('MODULE_UNIFICATION')) {
-    it('runs a custom "*-addon" blueprint from a classic addon', async function() {
-      await initAddon('my-addon');
+  it('runs a custom "*-addon" blueprint from a classic addon', async function() {
+    await initAddon('my-addon');
 
-      await outputFile(
-        'blueprints/service/files/__root__/__path__/__name__.js',
-        "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
-      );
+    await outputFile(
+      'blueprints/service/files/__root__/__path__/__name__.js',
+      "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
+    );
 
-      await outputFile(
-        'blueprints/service-addon/files/app/services/session.js',
-        "export { default } from 'somewhere';\n"
-      );
+    await outputFile(
+      'blueprints/service-addon/files/app/services/session.js',
+      "export { default } from 'somewhere';\n"
+    );
 
-      await ember(['generate', 'service', 'session']);
+    await ember(['generate', 'service', 'session']);
 
-      expect(file('app/services/session.js')).to.exist;
-    });
-  }
+    expect(file('app/services/session.js')).to.exist;
+  });
 
   it('in-addon blueprint foo', async function() {
     await generateInAddon(['blueprint', 'foo']);

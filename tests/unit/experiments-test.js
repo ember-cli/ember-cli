@@ -1,6 +1,5 @@
 'use strict';
 
-const chalk = require('chalk');
 const expect = require('chai').expect;
 const { isExperimentEnabled, _deprecatedExperimentsDeprecationsIssued } = require('../../lib/experiments');
 
@@ -32,7 +31,6 @@ describe('experiments', function() {
       // reset all experiment flags for these tests, they will be restored in
       // afterEach
       delete process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS;
-      delete process.env.EMBER_CLI_MODULE_UNIFICATION;
       delete process.env.EMBER_CLI_PACKAGER;
 
       warnings = [];
@@ -56,35 +54,6 @@ describe('experiments', function() {
     it('setting an already disabled feature to false does not enable it', function() {
       process.env.EMBER_CLI_PACKAGER = 'false';
       expect(isExperimentEnabled('PACKAGER')).to.be.false;
-
-      expect(warnings).to.deep.equal([]);
-    });
-
-    it('should have MODULE_UNIFICATION disabled by default', function() {
-      expect(isExperimentEnabled('MODULE_UNIFICATION')).to.be.false;
-
-      expect(warnings).to.deep.equal([]);
-    });
-
-    it('should have MODULE_UNIFICATION enabled when environment variable is set', function() {
-      process.env.EMBER_CLI_MODULE_UNIFICATION = 'true';
-      expect(isExperimentEnabled('MODULE_UNIFICATION')).to.be.true;
-
-      expect(warnings).to.deep.equal([
-        chalk.yellow(`The MODULE_UNIFICATION experiment in ember-cli has been deprecated and will be removed.`),
-      ]);
-    });
-
-    it('only emits deprecation warnings once', function() {
-      process.env.EMBER_CLI_MODULE_UNIFICATION = 'true';
-      expect(isExperimentEnabled('MODULE_UNIFICATION')).to.be.true;
-
-      expect(warnings).to.deep.equal([
-        chalk.yellow(`The MODULE_UNIFICATION experiment in ember-cli has been deprecated and will be removed.`),
-      ]);
-
-      warnings = [];
-      expect(isExperimentEnabled('MODULE_UNIFICATION')).to.be.true;
 
       expect(warnings).to.deep.equal([]);
     });

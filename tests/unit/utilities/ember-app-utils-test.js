@@ -81,7 +81,6 @@ describe('ember-app-utils', function() {
       storeConfigInMeta: true,
       autoRun: true,
       addons: [],
-      isModuleUnification: false,
     };
 
     it('`content-for` regex returns all matches presents in a same line', function() {
@@ -196,15 +195,6 @@ describe('ember-app-utils', function() {
 
         expect(output, 'includes application bootstrap snippet').to.contain(
           'require("cool-foo/app")["default"].create({});'
-        );
-      });
-
-      it('returns application bootstrap snippet with MU module name if `isModuleUnification` is true', function() {
-        let options = Object.assign({}, defaultOptions, { isModuleUnification: true });
-        let output = contentFor(config, defaultMatch, 'app-boot', options);
-
-        expect(output, 'includes application bootstrap snippet').to.contain(
-          'require("cool-foo/src/main")["default"].create({});'
         );
       });
 

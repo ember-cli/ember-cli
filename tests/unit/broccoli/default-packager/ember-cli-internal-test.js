@@ -51,7 +51,6 @@ describe('Default Packager: Ember CLI Internal', function() {
       autoRun: false,
       areTestsEnabled: true,
       storeConfigInMeta: false,
-      isModuleUnificationEnabled: false,
     });
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
@@ -70,7 +69,6 @@ describe('Default Packager: Ember CLI Internal', function() {
       autoRun: false,
       areTestsEnabled: true,
       storeConfigInMeta: false,
-      isModuleUnificationEnabled: false,
     });
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
@@ -103,7 +101,6 @@ describe('Default Packager: Ember CLI Internal', function() {
       autoRun: false,
       areTestsEnabled: false,
       storeConfigInMeta: false,
-      isModuleUnificationEnabled: false,
     });
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
@@ -155,7 +152,6 @@ describe('Default Packager: Ember CLI Internal', function() {
       autoRun: false,
       areTestsEnabled: true,
       storeConfigInMeta: true,
-      isModuleUnificationEnabled: false,
     });
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
@@ -206,7 +202,6 @@ describe('Default Packager: Ember CLI Internal', function() {
       autoRun: false,
       areTestsEnabled: true,
       storeConfigInMeta: false,
-      isModuleUnificationEnabled: false,
     });
 
     expect(defaultPackager._cachedEmberCliInternalTree).to.equal(null);
