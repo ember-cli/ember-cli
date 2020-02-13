@@ -9,3 +9,4 @@
 *.log
 !/.travis.yml
 /yarn.lock
+!docs/build/data.json
