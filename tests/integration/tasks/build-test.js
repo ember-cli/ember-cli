@@ -7,14 +7,12 @@ let expect = chai.expect;
 let file = chai.file;
 const walkSync = require('walk-sync');
 const BuildTask = require('../../../lib/tasks/build');
-const RSVP = require('rsvp');
 const MockProject = require('../../helpers/mock-project');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const MockProcess = require('../../helpers/mock-process');
 const copyFixtureFiles = require('../../helpers/copy-fixture-files');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
-let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
@@ -42,7 +40,7 @@ describe('build task test', function() {
     process.chdir(root);
     delete process.env.BROCCOLI_VIZ;
 
-    return remove(tmproot);
+    return fs.remove(tmproot);
   });
 
   it('can build', function() {

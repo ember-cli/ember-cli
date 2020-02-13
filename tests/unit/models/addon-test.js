@@ -4,9 +4,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const Project = require('../../../lib/models/project');
 const Addon = require('../../../lib/models/addon');
-const RSVP = require('rsvp');
 const expect = require('chai').expect;
-let remove = RSVP.denodeify(fs.remove);
 const findWhere = require('ember-cli-lodash-subset').find;
 const MockUI = require('console-ui/mock');
 const MockCLI = require('../../helpers/mock-cli');
@@ -514,7 +512,7 @@ describe('models/addon.js', function() {
       });
 
       afterEach(function() {
-        return remove(tmproot);
+        return fs.remove(tmproot);
       });
 
       it('returns undefined if the `blueprint` folder does not exist', function() {

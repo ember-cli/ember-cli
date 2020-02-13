@@ -1,11 +1,8 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
-let outputFile = RSVP.denodeify(fs.outputFile);
 const path = require('path');
-let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
@@ -36,7 +33,7 @@ describe('Acceptance: ember destroy', function() {
 
   afterEach(function() {
     process.chdir(root);
-    return remove(tmproot);
+    return fs.remove(tmproot);
   });
 
   function initApp() {
@@ -109,7 +106,7 @@ describe('Acceptance: ember destroy', function() {
     let files = ['app/foos/bar.js'];
     await initApp();
 
-    await outputFile(
+    await fs.outputFile(
       'blueprints/foo/files/app/foos/__name__.js',
       "import Ember from 'ember';\n\n" + 'export default Ember.Object.extend({ foo: true });\n'
     );
@@ -126,7 +123,7 @@ describe('Acceptance: ember destroy', function() {
     let files = ['app/controllers/foo.js'];
     await initApp();
 
-    await outputFile(
+    await fs.outputFile(
       'blueprints/controller/files/app/controllers/__name__.js',
       "import Ember from 'ember';\n\n" + 'export default Ember.Controller.extend({ custom: true });\n'
     );

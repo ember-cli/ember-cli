@@ -1,12 +1,9 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
 const fs = require('fs-extra');
-let outputFile = RSVP.denodeify(fs.outputFile);
 const path = require('path');
-let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
@@ -38,7 +35,7 @@ describe('Acceptance: ember generate pod', function() {
 
   afterEach(function() {
     process.chdir(root);
-    return remove(tmproot);
+    return fs.remove(tmproot);
   });
 
   function initApp() {
@@ -254,7 +251,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('uses blueprints from the project directory', async function() {
     await initApp();
-    await outputFile(
+    await fs.outputFile(
       'blueprints/foo/files/app/foos/__name__.js',
       "import Ember from 'ember';\n" + 'export default Ember.Object.extend({ foo: true });\n'
     );
@@ -266,7 +263,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('allows custom blueprints to override built-ins', async function() {
     await initApp();
-    await outputFile(
+    await fs.outputFile(
       'blueprints/controller/files/app/__path__/__name__.js',
       "import Ember from 'ember';\n\n" + 'export default Ember.Controller.extend({ custom: true });\n'
     );
@@ -278,12 +275,12 @@ describe('Acceptance: ember generate pod', function() {
 
   it('passes custom cli arguments to blueprint options', async function() {
     await initApp();
-    await outputFile(
+    await fs.outputFile(
       'blueprints/customblue/files/app/__name__.js',
       'Q: Can I has custom command? A: <%= hasCustomCommand %>'
     );
 
-    await outputFile(
+    await fs.outputFile(
       'blueprints/customblue/index.js',
       'module.exports = {\n' +
         '  fileMapTokens(options) {\n' +
@@ -308,7 +305,7 @@ describe('Acceptance: ember generate pod', function() {
 
   it('correctly identifies the root of the project', async function() {
     await initApp();
-    await outputFile(
+    await fs.outputFile(
       'blueprints/controller/files/app/__path__/__name__.js',
       "import Ember from 'ember';\n\n" + 'export default Ember.Controller.extend({ custom: true });\n'
     );
