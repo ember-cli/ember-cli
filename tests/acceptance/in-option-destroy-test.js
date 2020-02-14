@@ -1,10 +1,8 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
 const path = require('path');
-let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');
@@ -40,7 +38,7 @@ describe('Acceptance: ember destroy with --in option', function() {
     this.timeout(10000);
 
     process.chdir(root);
-    return remove(tmproot);
+    return fs.remove(tmproot);
   });
 
   function generate(args) {

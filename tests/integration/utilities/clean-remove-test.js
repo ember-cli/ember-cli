@@ -4,11 +4,7 @@ const expect = require('../../chai').expect;
 const cleanRemove = require('../../../lib/utilities/clean-remove');
 const temp = require('temp');
 const path = require('path');
-const RSVP = require('rsvp');
 const fs = require('fs-extra');
-
-let outputFile = RSVP.denodeify(fs.outputFile);
-let stat = RSVP.denodeify(fs.stat);
 
 describe('clean-remove', function() {
   let tempDir;
@@ -35,9 +31,10 @@ describe('clean-remove', function() {
     fileInfo.outputPath = path.join(tempDir, displayPath);
     fileInfo.displayPath = displayPath;
 
-    return outputFile(displayPath, '')
+    return fs
+      .outputFile(displayPath, '')
       .then(function() {
-        return stat(displayPath).then(function(stats) {
+        return fs.stat(displayPath).then(function(stats) {
           expect(stats).to.be.ok;
         });
       })
@@ -45,7 +42,7 @@ describe('clean-remove', function() {
         return cleanRemove(fileInfo);
       })
       .then(function() {
-        return expect(stat('nested1')).to.be.rejected;
+        return expect(fs.stat('nested1')).to.be.rejected;
       });
   });
 
@@ -55,12 +52,13 @@ describe('clean-remove', function() {
     fileInfo.outputPath = path.join(tempDir, removedDisplayPath);
     fileInfo.displayPath = removedDisplayPath;
 
-    return outputFile(removedDisplayPath, '')
+    return fs
+      .outputFile(removedDisplayPath, '')
       .then(function() {
-        return outputFile(preservedDisplayPath, '');
+        return fs.outputFile(preservedDisplayPath, '');
       })
       .then(function() {
-        return stat(preservedDisplayPath).then(function(stats) {
+        return fs.stat(preservedDisplayPath).then(function(stats) {
           expect(stats).to.be.ok;
         });
       })
@@ -68,10 +66,10 @@ describe('clean-remove', function() {
         return cleanRemove(fileInfo);
       })
       .then(function() {
-        return expect(stat(removedDisplayPath)).to.be.rejected;
+        return expect(fs.stat(removedDisplayPath)).to.be.rejected;
       })
       .then(function() {
-        return stat(preservedDisplayPath).then(function(stats) {
+        return fs.stat(preservedDisplayPath).then(function(stats) {
           expect(stats).to.be.ok;
         });
       });

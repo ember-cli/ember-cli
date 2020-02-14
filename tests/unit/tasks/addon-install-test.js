@@ -3,7 +3,6 @@
 const AddonInstallTask = require('../../../lib/tasks/addon-install');
 const expect = require('chai').expect;
 const CoreObject = require('core-object');
-const Promise = require('rsvp').Promise;
 
 describe('addon install task', function() {
   let ui;

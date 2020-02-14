@@ -1,12 +1,12 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
+const util = require('util');
 const replaceFile = require('ember-cli-internal-test-helpers/lib/helpers/file-utils').replaceFile;
-let outputFile = RSVP.denodeify(fs.outputFile);
+let outputFile = util.promisify(fs.outputFile);
 const path = require('path');
-let remove = RSVP.denodeify(fs.remove);
+let remove = util.promisify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const mkTmpDirIn = require('../../lib/utilities/mk-tmp-dir-in');

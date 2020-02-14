@@ -1,11 +1,8 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const path = require('path');
 const fs = require('fs-extra');
-let outputFile = RSVP.denodeify(fs.outputFile);
-let remove = RSVP.denodeify(fs.remove);
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 const Blueprint = require('../../lib/models/blueprint');
@@ -34,7 +31,7 @@ describe('Acceptance: ember generate in-addon', function() {
 
   afterEach(function() {
     process.chdir(root);
-    return remove(tmproot);
+    return fs.remove(tmproot);
   });
 
   function initAddon(name) {
@@ -72,7 +69,7 @@ describe('Acceptance: ember generate in-addon', function() {
   it('runs the `addon-import` blueprint from a classic addon', async function() {
     await initAddon('my-addon');
 
-    await outputFile(
+    await fs.outputFile(
       'blueprints/service/files/__root__/__path__/__name__.js',
       "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
     );
@@ -85,12 +82,12 @@ describe('Acceptance: ember generate in-addon', function() {
   it('runs a custom "*-addon" blueprint from a classic addon', async function() {
     await initAddon('my-addon');
 
-    await outputFile(
+    await fs.outputFile(
       'blueprints/service/files/__root__/__path__/__name__.js',
       "import Service from '@ember/service';\n" + 'export default Service.extend({ });\n'
     );
 
-    await outputFile(
+    await fs.outputFile(
       'blueprints/service-addon/files/app/services/session.js',
       "export { default } from 'somewhere';\n"
     );

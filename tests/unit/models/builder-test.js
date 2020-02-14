@@ -4,7 +4,6 @@ const fs = require('fs-extra');
 const path = require('path');
 const BuildCommand = require('../../../lib/commands/build');
 const commandOptions = require('../../factories/command-options');
-const RSVP = require('rsvp');
 const rimraf = require('rimraf');
 const fixturify = require('fixturify');
 const MockProject = require('../../helpers/mock-project');
@@ -19,9 +18,6 @@ let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
 let Builder;
-
-const Promise = RSVP.Promise;
-const remove = RSVP.denodeify(fs.remove);
 
 describe('models/builder.js', function() {
   let addon, builder, buildResults, tmpdir;
@@ -71,7 +67,7 @@ describe('models/builder.js', function() {
     });
 
     afterEach(function() {
-      return remove(tmproot);
+      return fs.remove(tmproot);
     });
 
     (ci.APPVEYOR ? it.skip : it)('allows for non-existent output-paths at arbitrary depth', function() {

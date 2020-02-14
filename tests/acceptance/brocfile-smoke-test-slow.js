@@ -1,9 +1,7 @@
 'use strict';
 
-const RSVP = require('rsvp');
 const path = require('path');
 const fs = require('fs-extra');
-let remove = RSVP.denodeify(fs.remove);
 
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
@@ -60,7 +58,7 @@ describe('Acceptance: brocfile-smoke-test', function() {
 
   it('without app/templates', async function() {
     await copyFixtureFiles('brocfile-tests/pods-templates');
-    await remove(path.join(process.cwd(), 'app/templates'));
+    await fs.remove(path.join(process.cwd(), 'app/templates'));
     await runCommand(path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'), 'test');
   });
 

@@ -6,12 +6,8 @@ const FileInfo = require('../../../lib/models/file-info');
 const path = require('path');
 const fs = require('fs-extra');
 const EOL = require('os').EOL;
-const RSVP = require('rsvp');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
-
-const Promise = RSVP.Promise;
-const writeFile = RSVP.denodeify(fs.writeFile);
 
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
@@ -124,7 +120,8 @@ describe('Unit - FileInfo', function() {
     validOptions.templateVariables.friend = 'Billy';
     let fileInfo = new FileInfo(validOptions);
 
-    return writeFile(testOutputPath, `Something Old${EOL}`)
+    return fs
+      .writeFile(testOutputPath, `Something Old${EOL}`)
       .then(function() {
         return fileInfo.displayDiff();
       })

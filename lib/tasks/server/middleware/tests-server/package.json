@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "clean-base-url": "*",
-    "heimdalljs-logger": "*",
-    "promise.prototype.finally": "*"
+    "heimdalljs-logger": "*"
   }
 }
