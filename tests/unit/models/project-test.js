@@ -10,7 +10,6 @@ const expect = require('chai').expect;
 const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLIVersion;
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
-const { isExperimentEnabled } = require('../../../lib/experiments');
 
 describe('models/project.js', function() {
   let project, projectPath, packageContents;
@@ -575,27 +574,6 @@ describe('models/project.js', function() {
       expect(project.isEmberCLIAddon()).to.equal(false);
     });
   });
-
-  if (isExperimentEnabled('MODULE_UNIFICATION')) {
-    describe('isModuleUnification', function() {
-      beforeEach(function() {
-        projectPath = `${process.cwd()}/tmp/test-app`;
-
-        makeProject();
-      });
-
-      it('returns false when `./src` does not exist', function() {
-        expect(project.isModuleUnification()).to.equal(false);
-      });
-
-      it('returns true when `./src` exists', function() {
-        let srcPath = path.join(projectPath, 'src');
-        fs.ensureDirSync(srcPath);
-
-        expect(project.isModuleUnification()).to.equal(true);
-      });
-    });
-  }
 
   describe('findAddonByName', function() {
     beforeEach(function() {

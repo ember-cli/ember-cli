@@ -105,8 +105,6 @@ jobs:
         feature-flag:
           - EMBER_CLI_ENABLE_ALL_EXPERIMENTS
           - EMBER_CLI_PACKAGER
-          - EMBER_CLI_MODULE_UNIFICATION
-          - EMBER_CLI_BROCCOLI_WATCHER
 
     steps:
       - uses: actions/checkout@v1

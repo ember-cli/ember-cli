@@ -234,7 +234,7 @@ function getDependencyFor(key, value) {
  * for and a function that takes a Broccoli tree and must return a Broccoli tree
  * as well.
  *
- * @param {String} registryType i.e. 'template', 'js', 'css', 'src', 'all'
+ * @param {String} registryType i.e. 'template', 'js', 'css', 'all'
  * @param {Function} fn Transormation that is applied to the input tree
  */
 function setupRegistryFor(registryType, fn) {

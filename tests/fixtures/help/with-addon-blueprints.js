@@ -350,13 +350,6 @@ module.exports = {
               overridden: false
             },
             {
-              name: 'packages',
-              description: 'Generates a packages directory for module unification in-repo addons.',
-              availableOptions: [],
-              anonymousOptions: ['name'],
-              overridden: false
-            },
-            {
               name: 'server',
               description: 'Generates a server directory for mocks and proxies.',
               availableOptions: [],

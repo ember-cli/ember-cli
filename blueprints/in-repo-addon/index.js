@@ -15,8 +15,7 @@ module.exports = {
   },
 
   _processTokens(name) {
-    let isModuleUnification = this.project.isModuleUnification && this.project.isModuleUnification();
-    let root = isModuleUnification ? 'packages' : 'lib';
+    let root = 'lib';
 
     if (name.match(/[./]/)) {
       root = path.dirname(name);
