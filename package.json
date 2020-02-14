@@ -29,6 +29,7 @@
   "scripts": {
     "docs": "yuidoc",
     "lint": "eslint . --cache",
+    "prepack": "yarn docs",
     "test": "node tests/runner",
     "test:all": "node tests/runner all",
     "test:cover": "nyc node tests/runner all",
