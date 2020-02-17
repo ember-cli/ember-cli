@@ -103,7 +103,7 @@
     "minimatch": "^3.0.4",
     "morgan": "^1.9.1",
     "nopt": "^3.0.6",
-    "npm-package-arg": "^6.1.1",
+    "npm-package-arg": "^8.0.0",
     "p-defer": "^3.0.0",
     "portfinder": "^1.0.25",
     "promise-map-series": "^0.3.0",
