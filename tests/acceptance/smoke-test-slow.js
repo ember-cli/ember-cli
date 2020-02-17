@@ -139,7 +139,6 @@ describe('Acceptance: smoke-test', function() {
     let output = result.output.join(EOL);
 
     expect(exitCode).to.equal(0, 'exit code should be 0 for passing tests');
-    expect(output).to.match(/ESLint/, 'ESLint should be run on production assets');
     expect(output).to.match(/fail\s+0/, 'no failures');
     expect(output).to.match(/pass\s+\d+/, 'many passing');
   });
