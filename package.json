@@ -142,7 +142,7 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "fixturify": "^1.2.0",
-    "fixturify-project": "^1.9.1",
+    "fixturify-project": "^1.10.0",
     "mocha": "^6.2.1",
     "nock": "^11.7.0",
     "nyc": "^14.1.0",
