@@ -32,6 +32,4 @@ install:
   - yarn install --non-interactive
 <% } %>
 script:
-  - <% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint:hbs
-  - <% if (yarn) { %>yarn<% } else { %>npm run<% } %> lint:js
   - <% if (yarn) { %>yarn<% } else { %>npm<% } %> test

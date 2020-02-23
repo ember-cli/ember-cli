@@ -76,7 +76,7 @@ describe('blueprint - addon', function() {
     "ember-addon"\n\
   ],\n\
   "scripts": {\n\
-    "test:all": "ember try:each"\n\
+    "test:ember-compatibility": "ember try:each"\n\
   },\n\
   "dependencies": {},\n\
   "devDependencies": {\n\
@@ -172,7 +172,7 @@ describe('blueprint - addon', function() {
         );
 
         let json = JSON.parse(output);
-        expect(json.scripts['test:all']).to.equal('ember try:each');
+        expect(json.scripts['test:ember-compatibility']).to.equal('ember try:each');
       });
 
       it('overwrites `ember-addon.configPath`', function() {
