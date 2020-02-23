@@ -40,7 +40,7 @@
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^7.0.0",
     "ember-source": "~3.17.0-beta.1",
-    "ember-template-lint": "^1.13.2<% if (welcome) { %>",
+    "ember-template-lint": "^2.0.0<% if (welcome) { %>",
     "ember-welcome-page": "^4.0.0<% } %>",
     "eslint": "^6.8.0",
     "eslint-plugin-ember": "^7.7.2",
