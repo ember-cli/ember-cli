@@ -80,8 +80,8 @@ module.exports = {
     // add ember-source-channel-url
     contents.devDependencies['ember-source-channel-url'] = '^2.0.1';
 
-    // add `ember-try` as `test:all` script in addons
-    contents.scripts['test:all'] = 'ember try:each';
+    // add `ember-compatibility` script in addons
+    contents.scripts['test:ember-compatibility'] = 'ember try:each';
 
     contents['ember-addon'] = contents['ember-addon'] || {};
     contents['ember-addon'].configPath = 'tests/dummy/config';

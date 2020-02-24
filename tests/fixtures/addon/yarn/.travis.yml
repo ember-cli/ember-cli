@@ -34,16 +34,15 @@ jobs:
     - stage: "Tests"
       name: "Tests"
       script:
-        - yarn lint:hbs
-        - yarn lint:js
-        - yarn test
+        - yarn lint
+        - yarn test:ember
 
     - stage: "Additional Tests"
       name: "Floating Dependencies"
       install:
         - yarn install --no-lockfile --non-interactive
       script:
-        - yarn test
+        - yarn test:ember
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
