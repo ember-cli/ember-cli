@@ -395,7 +395,7 @@ describe('Acceptance: ember new', function() {
       let namespace = 'app';
       let fixturePath = `${namespace}/npm`;
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach(filePath => {
+      ['app/templates/application.hbs', '.ember-cli', '.travis.yml', 'README.md'].forEach(filePath => {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
@@ -410,7 +410,7 @@ describe('Acceptance: ember new', function() {
 
       let fixturePath = 'app/yarn';
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach(filePath => {
+      ['app/templates/application.hbs', '.ember-cli', '.travis.yml', 'README.md'].forEach(filePath => {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
