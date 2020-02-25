@@ -1,5 +1,24 @@
 # ember-cli Changelog
 
+## v3.17.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.16.0...v3.17.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.16.0...v3.17.0-beta.1)
+
+#### Changelog
+
+- [#9037](https://github.com/ember-cli/ember-cli/pull/9037) Update Ember and Ember Data to 3.17 betas. [@rwjblue](https://github.com/rwjblue)
+- [#9039](https://github.com/ember-cli/ember-cli/pull/9039) Remove long enabled EMBER_CLI_SYSTEM_TEMP experiment. [@rwjblue](https://github.com/rwjblue)
+- [#9038](https://github.com/ember-cli/ember-cli/pull/9038) Remove EMBER_CLI_DELAYED_TRANSPILATION experiment. [@rwjblue](https://github.com/rwjblue)
+- [#9040](https://github.com/ember-cli/ember-cli/pull/9040) Remove MODULE_UNIFICATION experiment. [@rwjblue](https://github.com/rwjblue)
+- [#9009](https://github.com/ember-cli/ember-cli/pull/9009) Use `eslint` and `ember-template-lint` directly (no longer lint during builds/rebuilds by default) [@dcyriller](https://github.com/dcyriller)
+- [#9041](https://github.com/ember-cli/ember-cli/pull/9041) Remove usage of RSVP. [@rwjblue](https://github.com/rwjblue)
+- [#9042](https://github.com/ember-cli/ember-cli/pull/9042) Include API documentation `yuidoc` JSON output when publishing [@sivakumar-kailasam](https://github.com/sivakumar-kailasam)
+- [#9045](https://github.com/ember-cli/ember-cli/pull/9045) Add final newline in CONTRIBUTING.md [@kellyselden](https://github.com/kellyselden)
+
+Thank you to all who took the time to contribute!
 
 ## v3.16.0
 
