@@ -60,24 +60,22 @@ describe('livereload-server', function() {
           expect(!!subject.liveReloadServer).to.equal(false);
         });
     });
-    it('informs of error during startup with custom port', function(done) {
+    it('informs of error during startup with custom port', async function() {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
-      subject
-        .setupMiddleware({
+
+      try {
+        await subject.setupMiddleware({
           liveReload: true,
           liveReloadPort: 1337,
           liveReloadPrefix: '/',
           port: 4200,
-        })
-        .catch(function(reason) {
-          expect(reason).to.equal(
-            `Livereload failed on http://localhost:1337.  It is either in use or you do not have permission.`
-          );
-        })
-        .finally(function() {
-          preexistingServer.close(done);
         });
+      } catch (e) {
+        expect(e.message).to.include(`Livereload failed on 'http://localhost:1337', It may be in use.`);
+      } finally {
+        await new Promise(resolve => preexistingServer.close(resolve));
+      }
     });
     it('starts with custom host, custom port', function() {
       return subject
@@ -126,28 +124,29 @@ describe('livereload-server', function() {
           expect(subject.liveReloadServer.options.cert).to.be.an.instanceof(Buffer);
         });
     });
-    it('informs of error during startup', function(done) {
+
+    it('informs of error during startup', async function() {
       let preexistingServer = net.createServer();
       preexistingServer.listen(1337);
 
-      subject
-        .setupMiddleware({
+      try {
+        await subject.setupMiddleware({
           liveReloadPort: 1337,
           liveReload: true,
           ssl: true,
           sslKey: 'tests/fixtures/ssl/server.key',
           sslCert: 'tests/fixtures/ssl/server.crt',
           port: 4200,
-        })
-        .catch(function(reason) {
-          expect(reason).to.equal(
-            `Livereload failed on https://localhost:1337.  It is either in use or you do not have permission.`
-          );
-        })
-        .finally(function() {
-          preexistingServer.close(done);
         });
+
+        expect.fail('expected rejection');
+      } catch (e) {
+        expect(e.message).to.include(`Livereload failed on 'https://localhost:1337', It may be in use.`);
+      } finally {
+        await new Promise(resolve => preexistingServer.close(resolve));
+      }
     });
+
     it('correctly runs in https mode with custom port', function() {
       return subject
         .setupMiddleware({
