@@ -49,8 +49,8 @@ Usage
 After installation the `ember` CLI tool will be available to you. It is the
 entrypoint for all the functionality mentioned above.
 
-You can call `ember <command> --help` to find out more about all of the
-following commands or visit <https://cli.emberjs.com/release/> to read
+You can call `ember <command> --help` to find out more about [all of the
+following commands](https://cli.emberjs.com/release/basic-use/cli-commands/) or visit <https://cli.emberjs.com/release/> to read
 the in-depth documentation.
 
 
