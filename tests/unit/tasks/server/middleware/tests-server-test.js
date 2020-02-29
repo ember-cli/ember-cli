@@ -29,7 +29,9 @@ describe('TestServerAddon', function() {
       addon.serverMiddleware({
         app,
         options: {
-          watcher: Promise.resolve(),
+          watcher: Promise.resolve({
+            directory: 'some-output-directory',
+          }),
         },
         finally() {
           try {

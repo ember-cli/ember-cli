@@ -30,11 +30,11 @@
     "docs": "yuidoc",
     "lint": "eslint . --cache",
     "prepack": "yarn docs",
-    "test": "node tests/runner",
-    "test:all": "node tests/runner all",
+    "test": "node --unhandled-rejections=strict tests/runner",
+    "test:all": "node --unhandled-rejections=strict tests/runner all",
     "test:cover": "nyc node tests/runner all",
-    "test:slow": "node tests/runner slow",
-    "test:debug": "node debug tests/runner"
+    "test:slow": "node --unhandled-rejections=strict tests/runner slow",
+    "test:debug": "node --unhandled-rejections=strict debug tests/runner"
   },
   "dependencies": {
     "@babel/core": "^7.8.4",

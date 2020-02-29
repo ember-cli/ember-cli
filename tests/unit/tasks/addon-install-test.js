@@ -3,14 +3,16 @@
 const AddonInstallTask = require('../../../lib/tasks/addon-install');
 const expect = require('chai').expect;
 const CoreObject = require('core-object');
+const MockUi = require('console-ui/mock');
 
 describe('addon install task', function() {
   let ui;
   let project;
 
   beforeEach(function() {
-    ui = {
-      startProgress() {},
+    ui = new MockUi();
+    project = {
+      reloadAddons() {},
     };
   });
 

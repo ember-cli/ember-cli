@@ -12,7 +12,7 @@ const util = require('util');
 
 const EOL = require('os').EOL;
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
+let tempRoot = path.join(root, 'tmp');
 const SilentError = require('silent-error');
 const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 const td = require('testdouble');
@@ -244,7 +244,7 @@ describe('Blueprint', function() {
     let tmpdir;
 
     beforeEach(async function() {
-      const dir = await mkTmpDirIn(tmproot);
+      const dir = await mkTmpDirIn(tempRoot);
       tmpdir = dir;
       blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
       ui = new MockUI();
@@ -258,8 +258,8 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('installs basic files', async function() {
@@ -599,7 +599,7 @@ describe('Blueprint', function() {
     }
 
     beforeEach(async function() {
-      let dir = await mkTmpDirIn(tmproot);
+      let dir = await mkTmpDirIn(tempRoot);
 
       tmpdir = dir;
       blueprint = new BasicBlueprintClass(basicBlueprint);
@@ -614,8 +614,8 @@ describe('Blueprint', function() {
       refreshUI();
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('uninstalls basic files', async function() {
@@ -637,9 +637,7 @@ describe('Blueprint', function() {
 
       expect(actualFiles.length).to.equal(0);
 
-      fs.exists(path.join(tmpdir, 'test.txt'), function(exists) {
-        expect(exists).to.be.false;
-      });
+      expect(fs.existsSync(path.join(tmpdir, 'test.txt'))).to.be.false;
     });
 
     it("uninstall doesn't remove non-empty folders", async function() {
@@ -683,7 +681,7 @@ describe('Blueprint', function() {
     }
 
     beforeEach(async function() {
-      let dir = await mkTmpDirIn(tmproot);
+      let dir = await mkTmpDirIn(tempRoot);
       tmpdir = dir;
       blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
       project = new MockProject();
@@ -693,7 +691,7 @@ describe('Blueprint', function() {
       };
       refreshUI();
       await blueprint.install(options);
-      await resetCalled();
+      resetCalled();
       refreshUI();
     });
 
@@ -752,8 +750,8 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('looks up the `npm-install` task', function() {
@@ -882,8 +880,8 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('looks up the `npm-uninstall` task', function() {
@@ -922,7 +920,7 @@ describe('Blueprint', function() {
     });
 
     afterEach(function() {
-      return remove(tmproot);
+      return remove(tempRoot);
     });
 
     it('looks up the `npm-uninstall` task', function() {
@@ -1098,8 +1096,8 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('passes a packages array for addBowerPackagesToProject', function() {
@@ -1150,8 +1148,8 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('looks up the `bower-install` task', function() {
@@ -1244,8 +1242,8 @@ describe('Blueprint', function() {
       blueprint = new Blueprint(basicBlueprint);
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('passes a packages array for addAddonsToProject', function() {
@@ -1280,8 +1278,8 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('looks up the `addon-install` task', function() {
@@ -1409,7 +1407,7 @@ describe('Blueprint', function() {
     let project;
 
     beforeEach(async function() {
-      let dir = await mkTmpDirIn(tmproot);
+      let dir = await mkTmpDirIn(tempRoot);
       tmpdir = dir;
       blueprint = new Blueprint(basicBlueprint);
       project = new MockProject();
@@ -1421,8 +1419,8 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(function() {
-      return remove(tmproot);
+    afterEach(async function() {
+      await remove(tempRoot);
     });
 
     it('can lookup other Blueprints from the project blueprintLookupPaths', function() {

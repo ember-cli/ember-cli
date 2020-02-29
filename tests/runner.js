@@ -1,5 +1,4 @@
 'use strict';
-
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 
