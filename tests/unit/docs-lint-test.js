@@ -8,15 +8,14 @@
  * To address YUIDocs behavior, we run YUIDoc isolated in it's own process;
  */
 
-const ENV_VAR = '' + Math.random();
-if (!process.env[ENV_VAR]) {
+if (!process.env['IS_CHILD']) {
   const execa = require('execa');
 
   describe('YUIDoc', function() {
     it('parses without warnings', async function() {
       await execa('node', [`--unhandled-rejections=strict`, __filename], {
         env: {
-          [ENV_VAR]: true,
+          IS_CHILD: true,
         },
       });
     });
