@@ -33,6 +33,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
   });
 
   afterEach(function() {
+    runCommand.killAll();
     cleanupRun(appName);
     expect(dir(appRoot)).to.not.exist;
   });

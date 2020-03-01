@@ -33,6 +33,7 @@ describe('Acceptance: nested-addons-smoke-test', function() {
   });
 
   afterEach(function() {
+    runCommand.killAll();
     cleanupRun(appName);
     expect(dir(appRoot)).to.not.exist;
   });

@@ -8,6 +8,7 @@ const logOnFailure = require('./log-on-failure');
 let debug = require('heimdalljs-logger')('run-command');
 const captureExit = require('capture-exit');
 
+let RUNS = [];
 module.exports = function run(/* command, args, options */) {
   let command = arguments[0];
   let args = Array.prototype.slice.call(arguments, 1);
@@ -40,7 +41,8 @@ module.exports = function run(/* command, args, options */) {
     },
   });
 
-  return new Promise(function(resolve, reject) {
+  let child;
+  const promise = new Promise(function(resolve, reject) {
     options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
     let opts = {};
@@ -55,7 +57,8 @@ module.exports = function run(/* command, args, options */) {
     }
 
     debug.info('runCommand: %s, args: %o', command, args);
-    let child = spawn(command, args, opts);
+    child = spawn(command, args, opts);
+    RUNS.push(child);
     // ensure we tear down the child process on exit;
     captureExit.onExit(() => killCliProcess(child));
 
@@ -64,29 +67,6 @@ module.exports = function run(/* command, args, options */) {
       errors: [],
       code: null,
     };
-
-    if (options.onChildSpawned) {
-      let onChildSpawnedPromise = new Promise(function(childSpawnedResolve, childSpawnedReject) {
-        try {
-          options.onChildSpawned(child).then(childSpawnedResolve, childSpawnedReject);
-        } catch (err) {
-          childSpawnedReject(err);
-        }
-      });
-      onChildSpawnedPromise.then(
-        function() {
-          if (options.killAfterChildSpawnedPromiseResolution) {
-            killCliProcess(child);
-          }
-        },
-        function(err) {
-          result.testingError = err;
-          if (options.killAfterChildSpawnedPromiseResolution) {
-            killCliProcess(child);
-          }
-        }
-      );
-    }
 
     child.stdout.on('data', function(data) {
       let string = data.toString();
@@ -115,4 +95,22 @@ module.exports = function run(/* command, args, options */) {
       }
     });
   });
+
+  promise.kill = function() {
+    killCliProcess(child);
+  };
+
+  return promise;
+};
+
+module.exports.killAll = function() {
+  RUNS.forEach(run => {
+    try {
+      killCliProcess(run);
+    } catch (e) {
+      console.error(e);
+      // during teardown, issues can arise, but teardown must complete it's operation
+    }
+  });
+  RUNS.length = 0;
 };

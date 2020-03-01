@@ -39,6 +39,7 @@ describe('Acceptance: addon-smoke-test', function() {
   });
 
   afterEach(function() {
+    runCommand.killAll();
     // Cleans up a folder set up on the other side of a symlink.
     fs.removeSync(path.join(addonRoot, 'node_modules', 'developing-addon'));
 
