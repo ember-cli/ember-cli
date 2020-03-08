@@ -21,13 +21,13 @@ describe('Builder - broccoli tests', function() {
   });
 
   afterEach(async function() {
-    await projectRoot.dispose();
-    await builderOutputPath.dispose();
-    await output.dispose();
-
     // this is needed because lib/utilities/find-build-file.js does a
     // `process.chdir` when it looks for the `ember-cli-build.js`
     process.chdir(ROOT);
+
+    await projectRoot.dispose();
+    await builderOutputPath.dispose();
+    await output.dispose();
   });
 
   (ci.APPVEYOR ? it.skip : it)(
