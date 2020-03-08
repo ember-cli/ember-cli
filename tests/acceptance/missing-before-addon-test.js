@@ -5,11 +5,11 @@ const ember = require('../helpers/ember');
 let root = process.cwd();
 
 describe('Acceptance: missing a before/after addon', function() {
-  before(function() {
+  beforeEach(function() {
     process.chdir(path.join(root, 'tests', 'fixtures', 'missing-before-addon'));
   });
 
-  after(function() {
+  afterEach(function() {
     process.chdir(root);
   });
 
