@@ -64,6 +64,16 @@ describe('serve command', function () {
     });
   });
 
+  it('passing port as string', function () {
+    return getPort().then(function (port) {
+      return command.run({ port: `${port}` }).then(function () {
+        let captor = td.matchers.captor();
+        td.verify(tasks.Serve.prototype.run(captor.capture()), { times: 1 });
+        expect(captor.value.port).to.equal(port, 'has correct port');
+      });
+    });
+  });
+
   if (process.platform !== 'win32') {
     // This test fails on appveyor for an unknown reason. See last few comments
     // on PR https://github.com/ember-cli/ember-cli/pull/5391
