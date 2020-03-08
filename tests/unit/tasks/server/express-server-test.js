@@ -19,6 +19,10 @@ function checkMiddlewareOptions(options) {
   expect(options).to.satisfy(option => option.baseURL || option.rootURL);
 }
 
+function sleep(timeout) {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 describe('express-server', function() {
   let subject, ui, project, proxy, nockProxy;
   nock.enableNetConnect();
@@ -1049,22 +1053,32 @@ describe('express-server', function() {
     });
 
     describe('scheduleServerRestart', function() {
-      it('schedules exactly one call of restartHttpServer', function(done) {
+      it('schedules exactly one call of restartHttpServer', async function() {
         let calls = 0;
+
         subject.restartHttpServer = function() {
           calls++;
         };
 
         subject.scheduleServerRestart();
+        // scheduleServerRestart is debounced and only ran after 100ms,
+        // restartHttpServer shouldn't be called yet
         expect(calls).to.equal(0);
-        setTimeout(function() {
-          expect(calls).to.equal(0);
-          subject.scheduleServerRestart();
-        }, 50);
-        setTimeout(function() {
-          expect(calls).to.equal(1);
-          done();
-        }, 175);
+
+        await sleep(50);
+
+        // after a 50ms wait, we still haven't called restartHttpServer since
+        // we are still within our 100ms debounce time.
+        expect(calls).to.equal(0);
+        subject.scheduleServerRestart();
+
+        await sleep(175);
+
+        // finally, after 175ms we have finally called restartHttpServer, but
+        // importantly only called it once (all of the other
+        // `subject.scheduleServerRestart()` calls were within the debounce
+        // window)
+        expect(calls).to.equal(1);
       });
     });
 
