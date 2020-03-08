@@ -526,19 +526,25 @@ describe('Blueprint', function() {
       }).to.throw(SilentError, /The `ember generate <entity-name>` command requires an entity name to be specified./);
     });
 
-    it('throws error when an action does not exist', function() {
+    it('throws error when an action does not exist', async function() {
       blueprint._actions = {};
-      return blueprint.install(options).catch(function(err) {
-        expect(err.message).to.equal('Tried to call action "write" but it does not exist');
-      });
+      try {
+        await blueprint.install(options);
+        expect.fail('expected rejection');
+      } catch (e) {
+        expect(e.message).to.equal('Tried to call action "write" but it does not exist');
+      }
     });
 
-    it('calls normalizeEntityName hook during install', function(done) {
-      blueprint.normalizeEntityName = function() {
-        done();
-      };
+    it('calls normalizeEntityName hook during install', async function() {
+      const wait = new Promise(resolve => {
+        blueprint.normalizeEntityName = function() {
+          resolve();
+        };
+      });
       options.entity = { name: 'foo' };
-      blueprint.install(options);
+      await blueprint.install(options);
+      await wait;
     });
 
     it('normalizeEntityName hook can modify the entity name', async function() {

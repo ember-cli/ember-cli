@@ -6,11 +6,11 @@ const crypto = require('crypto');
 const walkSync = require('walk-sync');
 const EOL = require('os').EOL;
 
-const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
 const killCliProcess = require('../helpers/kill-cli-process');
 const ember = require('../helpers/ember');
+const runCommand = require('../helpers/run-command');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
@@ -38,6 +38,7 @@ describe('Acceptance: smoke-test', function() {
 
   afterEach(function() {
     delete process.env._TESTEM_CONFIG_JS_RAN;
+    runCommand.killAll();
     cleanupRun(appName);
     expect(dir(appRoot)).to.not.exist;
   });
@@ -326,6 +327,45 @@ describe('Acceptance: smoke-test', function() {
     } catch (error) {
       // swallowing because of SIGINT
     }
+  });
+
+  it('build failures should be logged correctly', async function() {
+    fs.writeFileSync(
+      `${process.cwd()}/ember-cli-build.js`,
+      `
+const Plugin = require('broccoli-plugin');
+
+module.exports = function() {
+  return new class extends Plugin {
+    constructor() {
+      super([]);
+    }
+    build() {
+      throw new Error('I AM A BUILD FAILURE');
+    }
+  }
+}
+      `
+    );
+
+    await runCommand(
+      path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
+      'server',
+      '--port=0',
+      '--live-reload=false',
+      {
+        onOutput(string, child) {
+          if (string.includes('I AM A BUILD FAILURE')) {
+            killCliProcess(child);
+          }
+        },
+        onError(string, child) {
+          if (string.includes('I AM A BUILD FAILURE')) {
+            killCliProcess(child);
+          }
+        },
+      }
+    );
   });
 
   it.skip('ember new foo, server, SIGINT clears tmp/', async function() {

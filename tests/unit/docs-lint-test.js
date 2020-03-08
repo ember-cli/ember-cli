@@ -7,14 +7,15 @@
  *
  * To address YUIDocs behavior, we run YUIDoc isolated in it's own process;
  */
-if (!process.env['IS_CHILD_THREAD']) {
+
+if (!process.env['IS_CHILD']) {
   const execa = require('execa');
 
   describe('YUIDoc', function() {
     it('parses without warnings', async function() {
       await execa('node', [`--unhandled-rejections=strict`, __filename], {
         env: {
-          IS_CHILD_THREAD: true,
+          IS_CHILD: true,
         },
       });
     });
