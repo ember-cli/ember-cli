@@ -9,15 +9,18 @@ const Task = require('../../../lib/models/task');
 const Blueprint = require('../../../lib/models/blueprint');
 const GenerateCommand = require('../../../lib/commands/generate');
 const td = require('testdouble');
-const fs = require('fs-extra');
-const path = require('path');
 const ci = require('ci-info');
+const ROOT = process.cwd();
+const { createTempDir } = require('broccoli-test-helper');
 
 describe('generate command', function() {
-  let options, command;
+  let input, options, command;
 
-  beforeEach(function() {
-    let project = new MockProject();
+  beforeEach(async function() {
+    input = await createTempDir();
+    process.chdir(input.path());
+
+    let project = new MockProject({ root: input.path() });
 
     project.isEmberCLIProject = function() {
       return true;
@@ -43,37 +46,31 @@ describe('generate command', function() {
     command = new GenerateCommand(options);
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     td.reset();
+
+    process.chdir(ROOT);
+    await input.dispose();
   });
 
-  describe('without yarn.lock file', function() {
-    let originalYarnLockPath, dummyYarnLockPath;
+  (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
+    command.project.hasDependencies = function() {
+      return false;
+    };
 
-    beforeEach(function() {
-      originalYarnLockPath = path.join(command.project.root, 'yarn.lock');
-      dummyYarnLockPath = path.join(command.project.root, 'foo.bar');
-      fs.renameSync(originalYarnLockPath, dummyYarnLockPath);
-    });
-
-    afterEach(function() {
-      fs.renameSync(dummyYarnLockPath, originalYarnLockPath);
-    });
-
-    (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
-      command.project.hasDependencies = function() {
-        return false;
-      };
-
-      return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
-        expect(reason.message).to.eql(
-          'Required packages are missing, run `npm install` from this directory to install them.'
-        );
-      });
+    return expect(command.validateAndRun(['controller', 'foo'])).to.be.rejected.then(reason => {
+      expect(reason.message).to.eql(
+        'Required packages are missing, run `npm install` from this directory to install them.'
+      );
     });
   });
 
   (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
+    // force usage of `yarn` by adding yarn.lock file
+    input.write({
+      'yarn.lock': '',
+    });
+
     command.project.hasDependencies = function() {
       return false;
     };
