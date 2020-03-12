@@ -75,8 +75,8 @@ jobs:
     strategy:
       matrix:
         feature-flag:
-          - EMBER_CLI_ENABLE_ALL_EXPERIMENTS
-          - EMBER_CLI_PACKAGER
+          - ENABLE_ALL_EXPERIMENTS
+          - PACKAGER
 
     steps:
       - uses: actions/checkout@v1
@@ -87,4 +87,4 @@ jobs:
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all
         env:
-          ${{ matrix.feature-flag }}: true
+          "EMBER_CLI_${{ matrix.feature-flag }}": true
