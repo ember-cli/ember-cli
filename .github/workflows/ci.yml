@@ -29,12 +29,12 @@ jobs:
       - run: yarn lint
 
   basic-tests:
-    name: Basic Tests
-    runs-on: ${{ matrix.os }}
+    name: "Basic Tests - ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}-latest"
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu, macOS, windows]
 
     steps:
       - uses: actions/checkout@v1
@@ -46,14 +46,15 @@ jobs:
       - run: yarn test
 
   tests:
-    name: Node.js ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
+    name: "Node ${{ matrix.node-version }} - ${{ matrix.os }} "
+    runs-on: "${{ matrix.os }}-latest"
 
     needs: [linting, basic-tests]
 
     strategy:
       matrix:
         node-version: [10.x, 12.x, 13.x]
+        os: [ubuntu, macOS, windows]
 
     steps:
       - uses: actions/checkout@v1
