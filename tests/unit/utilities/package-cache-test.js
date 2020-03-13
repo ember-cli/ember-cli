@@ -385,63 +385,6 @@ describe('PackageCache', function() {
     });
   });
 
-  describe('_upgrade (npm)', function() {
-    // We're only going to test the invocation pattern boundary.
-    // Don't want to wait for the install to execute.
-    let testCounter = 0;
-    let label;
-
-    beforeEach(function() {
-      label = `npm-upgrade-test-${testCounter++}`;
-      testPackageCache._conf.set(label, 'hello');
-    });
-
-    afterEach(function() {
-      td.reset();
-      testPackageCache.destroy(label);
-    });
-
-    it('Trigger upgrade.', function() {
-      // npm is dumb. Upgrades are inconsistent and therefore invalid.
-      // Make sure npm does an install.
-      testPackageCache._upgrade(label, 'npm');
-      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
-      td.verify(npm(), { times: 1, ignoreExtraArgs: true });
-    });
-
-    it('Make sure npm unlinks, installs, re-links.', function() {
-      // Add a link.
-      testPackageCache._writeManifest(
-        label,
-        'npm',
-        JSON.stringify({
-          _packageCache: {
-            links: ['ember-cli'],
-          },
-        })
-      );
-      testPackageCache._upgrade(label, 'npm');
-      td.verify(npm('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
-      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
-      td.verify(npm('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
-      td.verify(npm(), { times: 3, ignoreExtraArgs: true });
-    });
-
-    it('Make sure multiple invocations lock out.', function() {
-      testPackageCache._upgrade(label, 'npm');
-      testPackageCache._upgrade(label, 'npm');
-      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
-      td.verify(npm(), { times: 1, ignoreExtraArgs: true });
-    });
-
-    it('locks out _upgrade after _install', function() {
-      testPackageCache._install(label, 'npm');
-      testPackageCache._upgrade(label, 'npm');
-      td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
-      td.verify(npm(), { times: 1, ignoreExtraArgs: true });
-    });
-  });
-
   describe('_upgrade (yarn)', function() {
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
@@ -458,42 +401,85 @@ describe('PackageCache', function() {
       testPackageCache.destroy(label);
     });
 
-    it('Trigger upgrade.', function() {
-      testPackageCache._upgrade(label, 'yarn');
-      td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
-      td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
+    describe('without yarn.lock', function() {
+      beforeEach(function() {
+        testPackageCache._canUpgrade = () => false;
+      });
+
+      it('Trigger upgrade.', function() {
+        testPackageCache._upgrade(label, 'yarn');
+        td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
+      });
+
+      it('Make sure it unlinks, upgrades, re-links.', function() {
+        // Add a link.
+        testPackageCache._writeManifest(
+          label,
+          'yarn',
+          JSON.stringify({
+            _packageCache: {
+              links: ['ember-cli'],
+            },
+          })
+        );
+        testPackageCache._upgrade(label, 'yarn');
+        td.verify(yarn('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
+      });
+
+      it('Make sure multiple invocations lock out.', function() {
+        testPackageCache._upgrade(label, 'yarn');
+        testPackageCache._upgrade(label, 'yarn');
+        td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
+      });
     });
 
-    it('Make sure it unlinks, upgrades, re-links.', function() {
-      // Add a link.
-      testPackageCache._writeManifest(
-        label,
-        'yarn',
-        JSON.stringify({
-          _packageCache: {
-            links: ['ember-cli'],
-          },
-        })
-      );
-      testPackageCache._upgrade(label, 'yarn');
-      td.verify(yarn('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
-      td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
-      td.verify(yarn('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
-      td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
-    });
+    describe('with yarn.lock', function() {
+      beforeEach(function() {
+        testPackageCache._canUpgrade = () => true;
+      });
 
-    it('Make sure multiple invocations lock out.', function() {
-      testPackageCache._upgrade(label, 'yarn');
-      testPackageCache._upgrade(label, 'yarn');
-      td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
-      td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
-    });
+      it('Trigger upgrade.', function() {
+        testPackageCache._upgrade(label, 'yarn');
+        td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
+      });
 
-    it('locks out _upgrade after _install', function() {
-      testPackageCache._install(label, 'yarn');
-      testPackageCache._upgrade(label, 'yarn');
-      td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
-      td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
+      it('Make sure it unlinks, upgrades, re-links.', function() {
+        // Add a link.
+        testPackageCache._writeManifest(
+          label,
+          'yarn',
+          JSON.stringify({
+            _packageCache: {
+              links: ['ember-cli'],
+            },
+          })
+        );
+        testPackageCache._upgrade(label, 'yarn');
+        td.verify(yarn('unlink', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn('link', 'ember-cli', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
+      });
+
+      it('Make sure multiple invocations lock out.', function() {
+        testPackageCache._upgrade(label, 'yarn');
+        testPackageCache._upgrade(label, 'yarn');
+        td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
+      });
+
+      it('locks out _upgrade after _install', function() {
+        testPackageCache._install(label, 'yarn');
+        testPackageCache._upgrade(label, 'yarn');
+        td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
+        td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
+      });
     });
   });
 
