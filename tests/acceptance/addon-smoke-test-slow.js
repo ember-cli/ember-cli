@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const spawn = require('child_process').spawn;
+const execa = require('execa');
 const chalk = require('chalk');
 
 const runCommand = require('../helpers/run-command');
@@ -115,7 +116,8 @@ describe('Acceptance: addon-smoke-test', function() {
 
     let output;
     try {
-      output = await tar();
+      let result = await tar();
+      output = result.stdout;
     } catch (error) {
       return handleError(error, 'tar');
     }
@@ -159,16 +161,12 @@ function npmPack() {
   });
 }
 
-function tar() {
-  return new Promise((resolve, reject) => {
-    let output;
-    let fileName = `${addonName}-0.0.0.tgz`;
-    if (fs.existsSync(fileName) === false) {
-      throw new Error(`unknown file: '${path.resolve(fileName)}'`);
-    }
-    let tar = spawn('tar', ['-tf', fileName]);
-    tar.on('error', reject);
-    tar.stdout.on('data', data => (output = data.toString()));
-    tar.on('close', () => resolve(output));
-  });
+async function tar() {
+  let fileName = `${addonName}-0.0.0.tgz`;
+
+  if (fs.existsSync(fileName) === false) {
+    throw new Error(`unknown file: '${path.resolve(fileName)}'`);
+  }
+
+  return execa('tar', ['-tf', fileName]);
 }
