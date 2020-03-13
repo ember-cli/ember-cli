@@ -194,6 +194,47 @@ describe('Unit: CLI', function() {
       });
   });
 
+  it('"run" method must throw error if no evironment provided', function() {
+    stubValidateAndRun('help');
+
+    let cli = new CLI({
+      ui,
+      analytics,
+      testing: true,
+    });
+
+    let wasResolved = false;
+    cli
+      .run()
+      .then(() => {
+        wasResolved = true;
+      })
+      .catch(err => {
+        expect(err.toString()).to.be.equal('Error: Unable to execute "run" command without environment argument');
+      })
+      .finally(() => {
+        expect(wasResolved).to.be.false;
+      });
+  });
+
+  it('errors correctly if "run" method not called before "maybeMakeCommand" execution', function() {
+    stubValidateAndRun('help');
+
+    let cli = new CLI({
+      ui,
+      analytics,
+      testing: true,
+    });
+
+    try {
+      cli.maybeMakeCommand('foo', ['bar']);
+    } catch (err) {
+      expect(err.toString()).to.be.equal(
+        'Error: Unable to make command without environment, you have to execute "run" method first.'
+      );
+    }
+  });
+
   describe('custom addon command', function() {
     it('beforeRun can return a promise', function() {
       let CustomCommand = Command.extend({

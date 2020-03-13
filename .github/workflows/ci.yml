@@ -48,10 +48,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
-        include:
-          - node-version: 8.x
-            continue-on-error: true
+        node-version: [10.x, 12.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -88,7 +85,7 @@ jobs:
           - EMBER_CLI_PACKAGER
           - EMBER_CLI_MODULE_UNIFICATION
           - EMBER_CLI_DELAYED_TRANSPILATION
-          - EMBER_CLI_SYSTEM_TEMP=
+          - EMBER_CLI_SYSTEM_TEMP
           - EMBER_CLI_BROCCOLI_WATCHER
 
     steps:

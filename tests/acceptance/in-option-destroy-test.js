@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const RSVP = require('rsvp');
 const ember = require('../helpers/ember');
 const fs = require('fs-extra');
@@ -32,12 +31,10 @@ describe('Acceptance: ember destroy with --in option', function() {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(
-    co.wrap(function*() {
-      tmpdir = yield mkTmpDirIn(tmproot);
-      process.chdir(tmpdir);
-    })
-  );
+  beforeEach(async function() {
+    tmpdir = await mkTmpDirIn(tmproot);
+    process.chdir(tmpdir);
+  });
 
   afterEach(function() {
     this.timeout(10000);
@@ -68,18 +65,18 @@ describe('Acceptance: ember destroy with --in option', function() {
     });
   }
 
-  const assertDestroyAfterGenerate = co.wrap(function*(args, addonPath, files) {
-    yield initApp();
-    yield generateUtils.inRepoAddon(addonPath);
-    yield generateUtils.tempBlueprint();
-    yield generate(args);
+  const assertDestroyAfterGenerate = async function(args, addonPath, files) {
+    await initApp();
+    await generateUtils.inRepoAddon(addonPath);
+    await generateUtils.tempBlueprint();
+    await generate(args);
 
     assertFilesExist(files);
 
-    let result = yield destroy(args);
+    let result = await destroy(args);
     expect(result, 'destroy command did not exit with errorCode').to.be.an('object');
     assertFilesNotExist(files);
-  });
+  };
 
   it('blueprint foo --in lib/other-thing', function() {
     let addonPath = './lib/other-thing';

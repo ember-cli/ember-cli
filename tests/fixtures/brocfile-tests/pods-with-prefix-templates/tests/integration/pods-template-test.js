@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 module('pods based templates', function(hooks) {
   setupApplicationTest(hooks);
 
-  test('the application boots properly with pods based templates with a podModulePrefix set', async function(assert) {
+  test('the application boots properly with pods based templates with a podModulePrefix set', async function (assert) {
     assert.expect(1);
 
     await visit('/');

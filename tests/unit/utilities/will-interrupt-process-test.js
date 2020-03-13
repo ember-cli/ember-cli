@@ -28,7 +28,8 @@ describe('will interrupt process', function() {
         willInterruptProcess.capture(mockProcess);
         expect(true).to.equal(false);
       } catch (e) {
-        expect(e.message).to.equal('process already captured');
+        expect(e.message).to.include('process already captured');
+        expect(e.message).to.include('will-interrupt-process-test.js');
       }
     });
 

@@ -40,10 +40,7 @@ jobs:
         - yarn test
 
     - stage: additional tests
-      name: Node.js 8
-      node_js: 8
-
-    - name: Node.js 10
+      name: Node.js 10
       node_js: 10
 
     - name: Node.js 12
@@ -52,6 +49,9 @@ jobs:
         - yarn test:cover
       after_success:
         - .travis/codecoverage.sh
+
+    - name: Node.js 13
+      node_js: 13
 
     - env: EMBER_CLI_ENABLE_ALL_EXPERIMENTS=true
     - env: EMBER_CLI_PACKAGER=true

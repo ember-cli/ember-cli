@@ -1,6 +1,5 @@
 'use strict';
 
-const co = require('co');
 const broccoliTestHelper = require('broccoli-test-helper');
 const expect = require('chai').expect;
 
@@ -16,21 +15,20 @@ const { isExperimentEnabled } = require('../../../../lib/experiments');
 describe('EmberApp#appAndDependencies', function() {
   let input, output;
 
-  beforeEach(
-    co.wrap(function*() {
-      process.env.EMBER_ENV = 'development';
+  beforeEach(async function() {
+    process.env.EMBER_ENV = 'development';
 
-      input = yield createTempDir();
+    input = await createTempDir();
 
-      input.write({
-        node_modules: {
-          'fake-template-preprocessor': {
-            'package.json': JSON.stringify({
-              name: 'fake-template-preprocessor',
-              main: 'index.js',
-              keywords: ['ember-addon'],
-            }),
-            'index.js': `
+    input.write({
+      node_modules: {
+        'fake-template-preprocessor': {
+          'package.json': JSON.stringify({
+            name: 'fake-template-preprocessor',
+            main: 'index.js',
+            keywords: ['ember-addon'],
+          }),
+          'index.js': `
             module.exports = {
               name: 'fake-template-preprocessor',
               setupPreprocessorRegistry(type, registry) {
@@ -43,25 +41,22 @@ describe('EmberApp#appAndDependencies', function() {
               }
             };
           `,
-          },
         },
-        config: {
-          'environment.js': `module.exports = function() { return { modulePrefix: 'test-app' }; };`,
-        },
-      });
-    })
-  );
+      },
+      config: {
+        'environment.js': `module.exports = function() { return { modulePrefix: 'test-app' }; };`,
+      },
+    });
+  });
 
-  afterEach(
-    co.wrap(function*() {
-      delete process.env.EMBER_ENV;
-      yield input.dispose();
+  afterEach(async function() {
+    delete process.env.EMBER_ENV;
+    await input.dispose();
 
-      if (output) {
-        yield output.dispose();
-      }
-    })
-  );
+    if (output) {
+      await output.dispose();
+    }
+  });
 
   function createApp(options) {
     options = options || {};
@@ -95,9 +90,52 @@ describe('EmberApp#appAndDependencies', function() {
     });
   }
 
-  it(
-    'moduleNormalizerDisabled',
-    co.wrap(function*() {
+  it('moduleNormalizerDisabled', async function() {
+    input.write({
+      node_modules: {
+        'my-addon': {
+          addon: {
+            'index.js': `define('amd', function() {});`,
+          },
+          'package.json': JSON.stringify({
+            name: 'my-addon',
+            main: 'index.js',
+            keywords: ['ember-addon'],
+          }),
+          'index.js': `
+            module.exports = {
+              name: 'my-addon',
+              setupPreprocessorRegistry(type, registry) {
+                registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
+                registry.add('js', { ext: 'js', toTree(tree) { return tree; } });
+              },
+            }
+          `,
+        },
+      },
+    });
+
+    let app = createApp({
+      moduleNormalizerDisabled: true,
+    });
+
+    let addon = app.project.findAddonByName('my-addon');
+
+    addon.treeForAddon = tree => {
+      const Funnel = require('broccoli-funnel');
+      return new Funnel(tree, {
+        destDir: 'modules/my-addon',
+      });
+    };
+
+    output = await buildOutput(app.getExternalTree());
+    let actualFiles = getFiles(output.path());
+
+    expect(actualFiles).to.contain('addon-tree-output/modules/my-addon/index.js');
+  });
+
+  if (isExperimentEnabled('DELAYED_TRANSPILATION')) {
+    it('amdFunnelDisabled', async function() {
       input.write({
         node_modules: {
           'my-addon': {
@@ -123,165 +161,107 @@ describe('EmberApp#appAndDependencies', function() {
       });
 
       let app = createApp({
-        moduleNormalizerDisabled: true,
+        amdFunnelDisabled: true,
       });
 
-      let addon = app.project.findAddonByName('my-addon');
+      let tree;
 
-      addon.treeForAddon = tree => {
-        const Funnel = require('broccoli-funnel');
-        return new Funnel(tree, {
-          destDir: 'modules/my-addon',
-        });
-      };
+      app.registry.add('js', {
+        ext: 'js',
+        toTree(_tree) {
+          tree = _tree;
+          return _tree;
+        },
+      });
 
-      output = yield buildOutput(app.getExternalTree());
+      app.addonTree();
+      app._legacyAddonCompile('addon', 'addon-tree-output');
+
+      output = await buildOutput(tree);
       let actualFiles = getFiles(output.path());
 
-      expect(actualFiles).to.contain('addon-tree-output/modules/my-addon/index.js');
-    })
-  );
+      expect(actualFiles).to.deep.equal(['my-addon/index.js']);
+    });
 
-  if (isExperimentEnabled('DELAYED_TRANSPILATION')) {
-    it(
-      'amdFunnelDisabled',
-      co.wrap(function*() {
-        input.write({
-          node_modules: {
-            'my-addon': {
-              addon: {
-                'index.js': `define('amd', function() {});`,
-              },
-              'package.json': JSON.stringify({
-                name: 'my-addon',
-                main: 'index.js',
-                keywords: ['ember-addon'],
-              }),
-              'index.js': `
-            module.exports = {
-              name: 'my-addon',
-              setupPreprocessorRegistry(type, registry) {
-                registry.add('template', { ext: 'hbs', toTree(tree) { return tree; } });
-                registry.add('js', { ext: 'js', toTree(tree) { return tree; } });
-              },
-            }
-          `,
-            },
-          },
-        });
+    it('uses preprocessor that is marked by default', async function() {
+      let app = createApp();
 
-        let app = createApp({
-          amdFunnelDisabled: true,
-        });
+      app.registry.add('js', {
+        ext: 'js',
+        name: 'addon1',
+        isDefaultForType: true,
+        toTree(tree) {
+          return tree;
+        },
+      });
 
-        let tree;
+      app.registry.add('js', {
+        ext: 'js',
+        name: 'addon2',
+        toTree(tree) {
+          expect(true).to.equal(false);
+          return tree;
+        },
+      });
 
-        app.registry.add('js', {
-          ext: 'js',
-          toTree(_tree) {
-            tree = _tree;
-            return _tree;
-          },
-        });
+      await buildOutput(app.addonTree());
+    });
 
-        app.addonTree();
-        app._legacyAddonCompile('addon', 'addon-tree-output');
+    it('uses all registered preprocessors if none is marked by default', async function() {
+      let count = 0;
+      let app = createApp();
 
-        output = yield buildOutput(tree);
-        let actualFiles = getFiles(output.path());
+      app.registry.add('js', {
+        ext: 'js',
+        name: 'addon1',
+        toTree(tree) {
+          count++;
+          return tree;
+        },
+      });
 
-        expect(actualFiles).to.deep.equal(['my-addon/index.js']);
-      })
-    );
+      app.registry.add('js', {
+        ext: 'js',
+        name: 'addon2',
+        toTree(tree) {
+          count++;
+          return tree;
+        },
+      });
 
-    it(
-      'uses preprocessor that is marked by default',
-      co.wrap(function*() {
-        let app = createApp();
+      app.addonTree();
 
-        app.registry.add('js', {
-          ext: 'js',
-          name: 'addon1',
-          isDefaultForType: true,
-          toTree(tree) {
-            return tree;
-          },
-        });
+      await buildOutput(app._legacyAddonCompile('addon', 'addon-tree-output'));
 
-        app.registry.add('js', {
-          ext: 'js',
-          name: 'addon2',
-          toTree(tree) {
-            expect(true).to.equal(false);
-            return tree;
-          },
-        });
+      expect(count).to.equal(2);
+    });
 
-        yield buildOutput(app.addonTree());
-      })
-    );
+    it('throws an exception if more than one preprocessor is marked as default', async function() {
+      let exceptionMessage;
+      let app = createApp();
 
-    it(
-      'uses all registered preprocessors if none is marked by default',
-      co.wrap(function*() {
-        let count = 0;
-        let app = createApp();
+      app.registry.add('template', {
+        ext: 'hbs',
+        name: 'faulty-addon',
+        isDefaultForType: true,
+        toTree(tree) {
+          return tree;
+        },
+      });
 
-        app.registry.add('js', {
-          ext: 'js',
-          name: 'addon1',
-          toTree(tree) {
-            count++;
-            return tree;
-          },
-        });
-
-        app.registry.add('js', {
-          ext: 'js',
-          name: 'addon2',
-          toTree(tree) {
-            count++;
-            return tree;
-          },
-        });
-
+      await (async function() {
         app.addonTree();
 
-        yield buildOutput(app._legacyAddonCompile('addon', 'addon-tree-output'));
-
-        expect(count).to.equal(2);
-      })
-    );
-
-    it(
-      'throws an exception if more than one preprocessor is marked as default',
-      co.wrap(function*() {
-        let exceptionMessage;
-        let app = createApp();
-
-        app.registry.add('template', {
-          ext: 'hbs',
-          name: 'faulty-addon',
-          isDefaultForType: true,
-          toTree(tree) {
-            return tree;
-          },
-        });
-
-        yield co(function*() {
-          app.addonTree();
-
-          output = yield buildOutput(app._legacyAddonCompile('addon', 'addon-tree-output'));
+        output = await buildOutput(app._legacyAddonCompile('addon', 'addon-tree-output'));
+      })()
+        .catch(e => {
+          exceptionMessage = e.message;
         })
-          .catch(e => {
-            exceptionMessage = e.message;
-          })
-          .then(() => {
-            expect(exceptionMessage).to.equal(
-              `There are multiple preprocessor plugins marked as default for 'template': fake-template-preprocessor, faulty-addon`
-            );
-          });
-      })
-    );
+        .then(() => {
+          expect(exceptionMessage).to.equal(
+            `There are multiple preprocessor plugins marked as default for 'template': fake-template-preprocessor, faulty-addon`
+          );
+        });
+    });
   }
 });
