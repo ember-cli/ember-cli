@@ -52,6 +52,7 @@ jobs:
     needs: [linting, basic-tests]
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [10.x, 12.x, 13.x]
         os: [ubuntu, macOS, windows]
@@ -73,6 +74,7 @@ jobs:
     needs: [linting, basic-tests]
 
     strategy:
+      fail-fast: false
       matrix:
         feature-flag:
           - ENABLE_ALL_EXPERIMENTS
