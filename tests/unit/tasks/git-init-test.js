@@ -63,7 +63,6 @@ describe('git-init', function() {
     td.when(task._gitVersion()).thenReject();
 
     await task.run();
-    td.verify(task._gitVersion(), { times: 1 });
     td.verify(task._gitInit(), { times: 0 });
     td.verify(task._gitAdd(), { times: 0 });
     td.verify(task._gitCommit(td.matchers.anything()), { times: 0 });

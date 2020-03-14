@@ -7,6 +7,7 @@ const defaults = require('ember-cli-lodash-subset').defaults;
 const killCliProcess = require('./kill-cli-process');
 const logOnFailure = require('./log-on-failure');
 let debug = require('heimdalljs-logger')('run-command');
+const captureExit = require('capture-exit');
 
 module.exports = function run(/* command, args, options */) {
   let command = arguments[0];
@@ -44,9 +45,9 @@ module.exports = function run(/* command, args, options */) {
     options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
     let opts = {};
+    args = [`--unhandled-rejections=strict`, `${command}`].concat(args);
+    command = 'node';
     if (process.platform === 'win32') {
-      args = [`"${command}"`].concat(args);
-      command = 'node';
       opts.windowsVerbatimArguments = true;
       opts.stdio = [null, null, null, 'ipc'];
     }
@@ -54,8 +55,11 @@ module.exports = function run(/* command, args, options */) {
       opts.env = defaults(options.env, process.env);
     }
 
-    debug.info('command: %s, args: %o', command, args);
+    debug.info('runCommand: %s, args: %o', command, args);
     let child = spawn(command, args, opts);
+    // ensure we tear down the child process on exit;
+    captureExit.onExit(() => killCliProcess(child));
+
     let result = {
       output: [],
       errors: [],

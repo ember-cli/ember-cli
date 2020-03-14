@@ -301,6 +301,35 @@ describe('Watcher', function() {
       ]);
     });
 
+    it('watcher error', function() {
+      watcher.emit('error', {
+        message: 'foo',
+        stack: new Error().stack,
+      });
+
+      expect(ui.output).to.equal('');
+
+      let outs = ui.errors.split(EOL);
+
+      expect(outs[0]).to.equal(chalk.red('foo'));
+    });
+
+    it('watcher buildFailure', function() {
+      watcher.emit('buildFailure', {
+        isBuilderError: true,
+        message: 'I am a build error',
+        file: 'the-file.txt',
+        stack: new Error().stack,
+      });
+
+      expect(ui.output).to.equal('');
+
+      let outs = ui.errors.split(EOL);
+
+      expect(outs[0]).to.equal(chalk.red('File: the-file.txt'));
+      expect(outs[2]).to.equal(chalk.red('I am a build error'));
+    });
+
     it('emits without error.file', function() {
       subject.didError(
         new BuildError({
