@@ -539,9 +539,9 @@ module.exports = class PackageCache {
       return;
     }
 
-    // Only way to get repeatable behavior in npm: start over.
-    // We turn an `_upgrade` task into an `_install` task.
-    if (type === 'npm') {
+    if (!this._canUpgrade(label, type)) {
+      // Only way to get repeatable behavior in npm: start over.
+      // We turn an `_upgrade` task into an `_install` task.
       fs.removeSync(path.join(this.dirs[label], translate(type, 'path')));
       return this._install(label, type);
     }
@@ -551,6 +551,10 @@ module.exports = class PackageCache {
     this._restoreLinks(label, type);
 
     upgraded[label] = true;
+  }
+
+  _canUpgrade(label, type) {
+    return type === 'bower' || (type === 'yarn' && fs.existsSync(path.join(this.dirs[label], 'yarn.lock')));
   }
 
   // PUBLIC API BELOW

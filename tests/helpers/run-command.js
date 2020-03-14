@@ -6,7 +6,12 @@ const defaults = require('ember-cli-lodash-subset').defaults;
 const killCliProcess = require('./kill-cli-process');
 const logOnFailure = require('./log-on-failure');
 let debug = require('heimdalljs-logger')('run-command');
-const captureExit = require('capture-exit');
+const { captureExit, onExit } = require('capture-exit');
+
+// when running the full test suite, `process.exit` has already been captured
+// however, when running specific files (e.g. `mocha some/path/to/file.js`)
+// exit may not be captured before `runCommand` attempts to call `onExit`
+captureExit();
 
 let RUNS = [];
 module.exports = function run(/* command, args, options */) {
@@ -60,7 +65,7 @@ module.exports = function run(/* command, args, options */) {
     child = spawn(command, args, opts);
     RUNS.push(child);
     // ensure we tear down the child process on exit;
-    captureExit.onExit(() => killCliProcess(child));
+    onExit(() => killCliProcess(child));
 
     let result = {
       output: [],
