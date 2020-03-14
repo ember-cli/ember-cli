@@ -29,8 +29,6 @@ Node.js](https://github.com/nodejs/LTS#lts_schedule).
 
 ## Current support:
 
-* v8: Released as stable version then converted to LTS.
-  * Supported by ember-cli/ember-cli#master until: 2019-12-31.
 * v10: Released as stable version then converted to LTS.
   * Supported by ember-cli/ember-cli#master until: 2021-04-30.
 * v12: Released as stable version then converted to LTS.

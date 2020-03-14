@@ -4,6 +4,23 @@ const expect = require('chai').expect;
 const PlatformChecker = require('../../../lib/utilities/platform-checker');
 
 describe('platform-checker', function() {
+  describe('known versions', function() {
+    function check(version, { isTested, isDeprecated, isValid }) {
+      it(`${version}`, function() {
+        let checker = new PlatformChecker(version);
+        expect(checker.isDeprecated).to.equal(isDeprecated);
+        expect(checker.isValid).to.equal(isValid);
+        expect(checker.isTested).to.equal(isTested);
+      });
+    }
+
+    check('v8.0.0', { isTested: false, isDeprecated: true, isValid: false });
+    check('v10.0.0', { isTested: true, isDeprecated: false, isValid: true });
+    check('v12.0.0', { isTested: true, isDeprecated: false, isValid: true });
+    check('v13.0.0', { isTested: true, isDeprecated: false, isValid: true });
+    check('v14.0.0', { isTested: false, isDeprecated: false, isValid: true });
+  });
+
   it('checkIsDeprecated', function() {
     expect(new PlatformChecker('v0.10.1').checkIsDeprecated('4 || 6')).to.be.equal(
       true,
