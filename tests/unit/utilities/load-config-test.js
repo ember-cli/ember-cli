@@ -55,6 +55,6 @@ describe('publishes the appropriate config files', function() {
   let npmignore = loadConfig('.npmignore', EmberCLIDir);
 
   it('has the config files', function() {
-    expect(npmignore).to.include('!/.travis.yml');
+    expect(npmignore).to.include('!/.github/workflows/ci.yml');
   });
 });
