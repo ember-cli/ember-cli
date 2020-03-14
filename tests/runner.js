@@ -1,5 +1,7 @@
 'use strict';
-
+// process.on('unhandledRejection', e => {
+//   throw e;
+// });
 const captureExit = require('capture-exit');
 captureExit.captureExit();
 

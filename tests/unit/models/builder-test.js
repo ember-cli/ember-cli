@@ -15,7 +15,7 @@ let expect = chai.expect;
 let file = chai.file;
 
 let root = process.cwd();
-let tmproot = path.join(root, 'tmp');
+let tmpRoot = path.join(root, 'tmp');
 
 let Builder;
 
@@ -57,7 +57,7 @@ describe('models/builder.js', function() {
 
   describe('copyToOutputPath', function() {
     beforeEach(async function() {
-      tmpdir = await mkTmpDirIn(tmproot);
+      tmpdir = await mkTmpDirIn(tmpRoot);
       let project = new MockProject();
       builder = new Builder({
         project,
@@ -67,7 +67,7 @@ describe('models/builder.js', function() {
     });
 
     afterEach(function() {
-      return fs.remove(tmproot);
+      return fs.remove(tmpRoot);
     });
 
     (ci.APPVEYOR ? it.skip : it)('allows for non-existent output-paths at arbitrary depth', function() {
