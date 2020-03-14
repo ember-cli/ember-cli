@@ -8,7 +8,6 @@ const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
 const TestCommand = require('../../../lib/commands/test');
 const td = require('testdouble');
-const ci = require('ci-info');
 
 describe('test command', function() {
   this.timeout(30000);
@@ -154,24 +153,21 @@ describe('test command', function() {
       });
     });
 
-    (ci.APPVEYOR ? it.skip : it)(
-      'has the correct options when called with a build path and does not run a build task',
-      function() {
-        return command.validateAndRun(['--path=tests']).then(function() {
-          let captor = td.matchers.captor();
+    it('has the correct options when called with a build path and does not run a build task', function() {
+      return command.validateAndRun(['--path=tests']).then(function() {
+        let captor = td.matchers.captor();
 
-          td.verify(tasks.Build.prototype.run(td.matchers.anything()), { times: 0 });
-          td.verify(tasks.Test.prototype.run(captor.capture()));
+        td.verify(tasks.Build.prototype.run(td.matchers.anything()), { times: 0 });
+        td.verify(tasks.Test.prototype.run(captor.capture()));
 
-          expect(captor.value.outputPath).to.equal(path.resolve('tests'), 'has outputPath');
-          expect(captor.value.configFile).to.equal(
-            undefined,
-            'does not include configFile when not specified in options'
-          );
-          expect(captor.value.port).to.equal(7357, 'has port');
-        });
-      }
-    );
+        expect(captor.value.outputPath).to.equal(path.resolve('tests'), 'has outputPath');
+        expect(captor.value.configFile).to.equal(
+          undefined,
+          'does not include configFile when not specified in options'
+        );
+        expect(captor.value.port).to.equal(7357, 'has port');
+      });
+    });
 
     it('throws an error if the build path does not exist', function() {
       return expect(command.validateAndRun(['--path=bad/path/to/build'])).to.be.rejected.then(error => {

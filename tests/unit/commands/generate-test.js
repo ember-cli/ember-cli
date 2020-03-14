@@ -9,7 +9,6 @@ const Task = require('../../../lib/models/task');
 const Blueprint = require('../../../lib/models/blueprint');
 const GenerateCommand = require('../../../lib/commands/generate');
 const td = require('testdouble');
-const ci = require('ci-info');
 const ROOT = process.cwd();
 const { createTempDir } = require('broccoli-test-helper');
 
@@ -53,7 +52,7 @@ describe('generate command', function() {
     await input.dispose();
   });
 
-  (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
+  it('runs GenerateFromBlueprint but with null nodeModulesPath with npm', function() {
     command.project.hasDependencies = function() {
       return false;
     };
@@ -65,7 +64,7 @@ describe('generate command', function() {
     });
   });
 
-  (ci.APPVEYOR ? it.skip : it)('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
+  it('runs GenerateFromBlueprint but with null nodeModulesPath with yarn', function() {
     // force usage of `yarn` by adding yarn.lock file
     input.write({
       'yarn.lock': '',
