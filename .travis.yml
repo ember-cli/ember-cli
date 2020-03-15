@@ -45,10 +45,6 @@ jobs:
 
     - name: Node.js 12
       node_js: 12
-      script:
-        - yarn test:cover
-      after_success:
-        - .travis/codecoverage.sh
 
     - name: Node.js 13
       node_js: 13
