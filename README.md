@@ -3,7 +3,6 @@ ember-cli
 ==============================================================================
 
 [![Latest npm release][npm-badge]][npm-badge-url]
-[![TravisCI Build Status][travis-badge]][travis-badge-url]
 [![GitHub Actions CI][github-actions-badge]][github-actions-ci-url]
 [![Test Coverage][coveralls-badge]][coveralls-badge-url]
 [![Code Climate][codeclimate-badge]][codeclimate-badge-url]
@@ -11,8 +10,6 @@ ember-cli
 [logo]: https://avatars0.githubusercontent.com/u/10262982?v=3&s=150
 [npm-badge]: https://img.shields.io/npm/v/ember-cli.svg
 [npm-badge-url]: https://www.npmjs.com/package/ember-cli
-[travis-badge]: https://img.shields.io/travis/ember-cli/ember-cli/master.svg?label=TravisCI
-[travis-badge-url]: https://travis-ci.org/ember-cli/ember-cli
 [coveralls-badge]: https://img.shields.io/coveralls/ember-cli/ember-cli/master.svg
 [coveralls-badge-url]: https://coveralls.io/github/ember-cli/ember-cli
 [codeclimate-badge]: https://codeclimate.com/github/ember-cli/ember-cli/badges/gpa.svg
