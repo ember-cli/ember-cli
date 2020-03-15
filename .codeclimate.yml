@@ -1,7 +1,13 @@
+version: "2"         # required to adjust maintainability checks
 languages:
    JavaScript: true
 
+checks:
+  file-lines:
+    enabled: false
+
+
 exclude_paths:
- - "tests/acceptance/*"
- - "tests/fixtures/*"
- - "tests/unit/*"
+ - "**/tests"
+ - "**/tmp"
+ - "**/node_modules/"
