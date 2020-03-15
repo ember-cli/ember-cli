@@ -2,7 +2,6 @@
 
 const broccoliTestHelper = require('broccoli-test-helper');
 const expect = require('chai').expect;
-const ci = require('ci-info');
 
 const MockProject = require('../../helpers/mock-project');
 const Builder = require('../../../lib/models/builder');
@@ -30,11 +29,9 @@ describe('Builder - broccoli tests', function() {
     await output.dispose();
   });
 
-  (ci.APPVEYOR ? it.skip : it)(
-    'falls back to broccoli-builder@0.18 when legacy plugins exist in build',
-    async function() {
-      projectRoot.write({
-        'ember-cli-build.js': `
+  it('falls back to broccoli-builder@0.18 when legacy plugins exist in build', async function() {
+    projectRoot.write({
+      'ember-cli-build.js': `
         const fs = require('fs');
         const os = require('os');
         const crypto = require('crypto');
@@ -70,35 +67,34 @@ describe('Builder - broccoli tests', function() {
           return new LegacyPlugin(__dirname + '/app');
         }
       `,
-        app: {
-          'hello.txt': '// hello!',
-        },
-      });
-
-      builder = new Builder({
-        project,
-        ui: project.ui,
-        onProcessInterrupt: {
-          addHandler() {},
-          removeHandler() {},
-        },
-        outputPath: builderOutputPath.path(),
-      });
-
-      output = fromBuilder(builder);
-      await output.build();
-
-      expect(output.read()).to.deep.equal({
+      app: {
         'hello.txt': '// hello!',
-      });
+      },
+    });
 
-      expect(builder.broccoliBuilderFallback).to.be.true;
-      expect(builder.ui.output).to.include(
-        'WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:'
-      );
-      expect(builder.ui.output).to.include(
-        'LegacyPlugin: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md'
-      );
-    }
-  );
+    builder = new Builder({
+      project,
+      ui: project.ui,
+      onProcessInterrupt: {
+        addHandler() {},
+        removeHandler() {},
+      },
+      outputPath: builderOutputPath.path(),
+    });
+
+    output = fromBuilder(builder);
+    await output.build();
+
+    expect(output.read()).to.deep.equal({
+      'hello.txt': '// hello!',
+    });
+
+    expect(builder.broccoliBuilderFallback).to.be.true;
+    expect(builder.ui.output).to.include(
+      'WARNING: Invalid Broccoli2 node detected, falling back to broccoli-builder. Broccoli error:'
+    );
+    expect(builder.ui.output).to.include(
+      'LegacyPlugin: The .read/.rebuild API is no longer supported as of Broccoli 1.0. Plugins must now derive from broccoli-plugin. https://github.com/broccolijs/broccoli/blob/master/docs/broccoli-1-0-plugin-api.md'
+    );
+  });
 });

@@ -4,7 +4,6 @@ ember-cli
 
 [![Latest npm release][npm-badge]][npm-badge-url]
 [![TravisCI Build Status][travis-badge]][travis-badge-url]
-[![AppVeyor Build Status][appveyor-badge]][appveyor-badge-url]
 [![Test Coverage][coveralls-badge]][coveralls-badge-url]
 [![Code Climate][codeclimate-badge]][codeclimate-badge-url]
 
@@ -13,8 +12,6 @@ ember-cli
 [npm-badge-url]: https://www.npmjs.com/package/ember-cli
 [travis-badge]: https://img.shields.io/travis/ember-cli/ember-cli/master.svg?label=TravisCI
 [travis-badge-url]: https://travis-ci.org/ember-cli/ember-cli
-[appveyor-badge]: https://img.shields.io/appveyor/ci/embercli/ember-cli/master.svg?label=AppVeyor
-[appveyor-badge-url]: https://ci.appveyor.com/project/embercli/ember-cli/branch/master
 [coveralls-badge]: https://img.shields.io/coveralls/ember-cli/ember-cli/master.svg
 [coveralls-badge-url]: https://coveralls.io/github/ember-cli/ember-cli
 [codeclimate-badge]: https://codeclimate.com/github/ember-cli/ember-cli/badges/gpa.svg

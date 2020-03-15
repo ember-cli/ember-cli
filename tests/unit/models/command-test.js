@@ -6,7 +6,6 @@ const processHelpString = require('../../helpers/process-help-string');
 const Yam = require('yam');
 const EOL = require('os').EOL;
 const td = require('testdouble');
-const ci = require('ci-info');
 
 let Task = require('../../../lib/models/task');
 let Command = require('../../../lib/models/command');
@@ -103,34 +102,31 @@ describe('models/command.js', function() {
     expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.nested.property('options.port', 80);
   });
 
-  (ci.APPVEYOR ? it.skip : it)(
-    'parseArgs() should get command options from the config file and command line',
-    function() {
-      expect(
-        new ServeCommand(
-          Object.assign(options, {
-            settings: config.getAll(),
-          })
-        ).parseArgs(['--port', '789'])
-      ).to.deep.equal({
-        options: {
-          port: 789,
-          environment: 'mock-development',
-          host: '0.1.0.1',
-          proxy: 'http://iamstef.net/ember-cli',
-          liveReload: false,
-          checkForUpdates: true,
-        },
-        args: [],
-      });
-    }
-  );
+  it('parseArgs() should get command options from the config file and command line', function() {
+    expect(
+      new ServeCommand(
+        Object.assign(options, {
+          settings: config.getAll(),
+        })
+      ).parseArgs(['--port', '789'])
+    ).to.deep.equal({
+      options: {
+        port: 789,
+        environment: 'mock-development',
+        host: '0.1.0.1',
+        proxy: 'http://iamstef.net/ember-cli',
+        liveReload: false,
+        checkForUpdates: true,
+      },
+      args: [],
+    });
+  });
 
   it('parseArgs() should set default option values.', function() {
     expect(new ServeCommand(options).parseArgs([])).to.have.nested.property('options.port', 4200);
   });
 
-  (ci.APPVEYOR ? it.skip : it)('parseArgs() should return args too.', function() {
+  it('parseArgs() should return args too.', function() {
     expect(
       new ServeCommand(
         Object.assign(options, {
