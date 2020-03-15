@@ -1,0 +1,32 @@
+name: Code Coverage
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Test && Report to Code Climate
+        uses: paambaati/codeclimate-action@v2.5.4
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: yarn test:cover
+          coverageLocations: "coverage/lcov.info:lcov"
+          prefix: ${{ github.workspace }}
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

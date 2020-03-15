@@ -65,7 +65,6 @@ jobs:
 
       - run: yarn install --frozen-lockfile --non-interactive
       - run: yarn test:all
-        continue-on-error: ${{ matrix['continue-on-error'] == true }}
 
   feature-flags:
     name: "Feature: ${{ matrix.feature-flag }}"
