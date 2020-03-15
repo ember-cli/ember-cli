@@ -6,7 +6,7 @@ module.exports = {
     ecmaVersion: 2018,
   },
   plugins: ['node', 'prettier'],
-  extends: ['eslint:recommended', 'plugin:node/recommended', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:node/recommended', 'plugin:prettier/recommended'],
   env: {
     browser: false,
     node: true,
@@ -16,57 +16,55 @@ module.exports = {
   rules: {
     /*** Possible Errors ***/
 
-    'no-console': 0,
-    'no-template-curly-in-string': 2,
-    'no-unsafe-negation': 2,
+    'no-console': 'off',
+    'no-template-curly-in-string': 'error',
+    'no-unsafe-negation': 'error',
 
     /*** Best Practices ***/
 
-    curly: 2,
-    eqeqeq: 2,
-    'guard-for-in': 0,
-    'no-caller': 2,
-    'no-eq-null': 2,
-    'no-eval': 2,
-    'no-new': 0,
+    curly: 'error',
+    eqeqeq: 'error',
+    'guard-for-in': 'off',
+    'no-caller': 'error',
+    'no-eq-null': 'error',
+    'no-eval': 'error',
+    'no-new': 'off',
     'no-unused-expressions': [
-      2,
+      'error',
       {
         allowShortCircuit: true,
         allowTernary: true,
       },
     ],
-    'wrap-iife': 0,
-    yoda: 2,
+    'wrap-iife': 'off',
+    yoda: 'error',
 
     /*** Strict Mode ***/
 
-    strict: [2, 'global'],
+    strict: ['error', 'global'],
 
     /*** Variables ***/
 
-    'no-undef': 2,
-    'no-unused-vars': 2,
-    'no-use-before-define': [2, 'nofunc'],
+    'no-undef': 'error',
+    'no-unused-vars': 'error',
+    'no-use-before-define': ['error', 'nofunc'],
 
     /*** Stylistic Issues ***/
 
-    camelcase: 2,
-    'new-cap': [2, { properties: false }],
-    'no-array-constructor': 2,
-    'no-bitwise': 2,
-    'no-lonely-if': 2,
-    'no-plusplus': 0,
-    'no-unneeded-ternary': 2,
+    camelcase: 'error',
+    'new-cap': ['error', { properties: false }],
+    'no-array-constructor': 'error',
+    'no-bitwise': 'error',
+    'no-lonely-if': 'error',
+    'no-plusplus': 'off',
+    'no-unneeded-ternary': 'error',
 
     /*** ECMAScript 6 ***/
 
-    'no-useless-computed-key': 2,
-    'no-var': 2,
-    'object-shorthand': 2,
-    'prefer-template': 2,
-    'symbol-description': 2,
-
-    'prettier/prettier': 'error',
+    'no-useless-computed-key': 'error',
+    'no-var': 'error',
+    'object-shorthand': 'error',
+    'prefer-template': 'error',
+    'symbol-description': 'error',
   },
 };

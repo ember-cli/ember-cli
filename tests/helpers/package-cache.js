@@ -229,13 +229,14 @@ module.exports = class PackageCache {
   constructor(rootPath) {
     this.rootPath = rootPath || originalWorkingDirectory;
 
-    this._conf = new Configstore('package-cache');
-
-    // Set it to where we want it to be.
-    this._conf.path = path.join(this.rootPath, 'tmp', 'package-cache.json');
-
-    // Initialize.
-    this._conf.all = this._conf.all;
+    let configPath = path.join(this.rootPath, 'tmp', 'package-cache.json');
+    this._conf = new Configstore(
+      'package-cache',
+      {},
+      {
+        configPath,
+      }
+    );
 
     this._cleanDirs();
   }
