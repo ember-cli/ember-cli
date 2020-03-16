@@ -141,8 +141,8 @@ describe('models/builder.js', function() {
         project,
         ui: project.ui,
         setupBroccoliBuilder,
-        processBuildResult(buildResults) {
-          return Promise.resolve(buildResults);
+        copyToOutputPath() {
+          return [];
         },
       });
 
@@ -202,8 +202,8 @@ describe('models/builder.js', function() {
       builder = new Builder({
         project,
         ui: project.ui,
-        processBuildResult(buildResults) {
-          return Promise.resolve(buildResults);
+        copyToOutputPath() {
+          return [];
         },
       });
 
@@ -222,8 +222,8 @@ describe('models/builder.js', function() {
         new Builder({
           project,
           ui: project.ui,
-          processBuildResult(buildResults) {
-            return Promise.resolve(buildResults);
+          copyToOutputPath() {
+            return [];
           },
         });
 
@@ -239,8 +239,8 @@ describe('models/builder.js', function() {
       builder = new Builder({
         project,
         ui: project.ui,
-        processBuildResult(buildResults) {
-          return Promise.resolve(buildResults);
+        copyToOutputPath() {
+          return [];
         },
       });
 
@@ -259,17 +259,20 @@ describe('models/builder.js', function() {
         project,
         ui: project.ui,
         setupBroccoliBuilder,
-        processBuildResult(buildResults) {
-          return Promise.resolve(buildResults);
-        },
       });
     });
 
-    it('is idempotent', function() {
-      let firstCleanupPromise = builder.cleanup();
-      expect(builder.cleanup()).to.equal(firstCleanupPromise);
+    it('is idempotent', async function() {
+      let cleanupCount = 0;
+      builder.builder.cleanup = function() {
+        cleanupCount++;
+      };
 
-      return firstCleanupPromise;
+      let cleanupPromises = [builder.cleanup(), builder.cleanup(), builder.cleanup(), builder.cleanup()];
+
+      await Promise.all(cleanupPromises);
+
+      expect(cleanupCount).to.equal(1);
     });
   });
 
@@ -314,8 +317,8 @@ describe('models/builder.js', function() {
             return originalBuild.call(this);
           };
         },
-        processBuildResult(buildResults) {
-          return Promise.resolve(buildResults);
+        copyToOutputPath() {
+          return [];
         },
         project,
         ui: project.ui,
@@ -352,7 +355,9 @@ describe('models/builder.js', function() {
       let outputReady = td.replace(addon, 'outputReady', td.function());
 
       await builder.build();
-      td.verify(outputReady(buildResults), { times: 1 });
+
+      let expected = Object.assign({ outputChanges: [] }, buildResults);
+      td.verify(outputReady(expected), { times: 1 });
     });
 
     describe('instrumentation hooks', function() {
@@ -375,26 +380,26 @@ describe('models/builder.js', function() {
       expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady']);
     });
 
-    it('should call postBuild before processBuildResult', async function() {
+    it('should call postBuild before copying to dist', async function() {
       let called = [];
 
       addon.postBuild = function() {
         called.push('postBuild');
       };
 
-      builder.processBuildResult = function() {
-        called.push('processBuildResult');
+      builder.copyToOutputPath = function() {
+        called.push('copyToOutputPath');
       };
 
       await builder.build();
-      expect(called).to.deep.equal(['postBuild', 'processBuildResult']);
+      expect(called).to.deep.equal(['postBuild', 'copyToOutputPath']);
     });
 
-    it('should call outputReady after processBuildResult', async function() {
+    it('should call outputReady after copying to output path', async function() {
       let called = [];
 
-      builder.processBuildResult = function() {
-        called.push('processBuildResult');
+      builder.copyToOutputPath = function() {
+        called.push('copyToOutputPath');
       };
 
       addon.outputReady = function() {
@@ -402,7 +407,7 @@ describe('models/builder.js', function() {
       };
 
       await builder.build();
-      expect(called).to.deep.equal(['processBuildResult', 'outputReady']);
+      expect(called).to.deep.equal(['copyToOutputPath', 'outputReady']);
     });
 
     it('buildError receives the error object from the errored step', async function() {
