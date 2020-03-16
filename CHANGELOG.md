@@ -1,5 +1,25 @@
 # ember-cli Changelog
 
+
+## v3.18.0-beta.1
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.17.0...v3.18.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.17.0...v3.18.0-beta.1)
+
+#### Changelog
+
+- [#9063](https://github.com/ember-cli/ember-cli/pull/9063) Fix typo in `Blueprint` documentation. [@bartocc](https://github.com/bartocc)
+- [#9068](https://github.com/ember-cli/ember-cli/pull/9068) Adds link to CLI commands doc from README [@entendu](https://github.com/entendu)
+- [#9070](https://github.com/ember-cli/ember-cli/pull/9070) Fix a number of causes of unhandled rejections (and ensure tests fail when unhandled rejection occurs). [@stefanpenner](https://github.com/stefanpenner)
+- [#9072](https://github.com/ember-cli/ember-cli/pull/9072) Ensure errors during build are properly reported to the console. [@stefanpenner](https://github.com/stefanpenner)
+- [#9092](https://github.com/ember-cli/ember-cli/pull/9092) Update ember-source and ember-data to 3.18 betas. [@rwjblue](https://github.com/rwjblue)
+- [#9093](https://github.com/ember-cli/ember-cli/pull/9093) Migrate supported Node version detection to use GitHub Actions config. [@rwjblue](https://github.com/rwjblue)
+- [#9097](https://github.com/ember-cli/ember-cli/pull/9097) Update production dependencies to latest. [@rwjblue](https://github.com/rwjblue)
+
+Thank you to all who took the time to contribute!
+
 ## v3.17.0
 
 #### Blueprint Changes
