@@ -14,7 +14,7 @@
  * dev/changelog <remote branch-name (Default: master)> <next version>
  */
 
-const GitHubApi = require('@octokit/rest');
+const { Octokit } = require('@octokit/rest');
 const semver = require('semver');
 
 let currentVersion = `v${require('../package').version}`;
@@ -116,7 +116,7 @@ async function processPages(res) {
 }
 
 async function main() {
-  let github = new GitHubApi({ version: '3.0.0' });
+  let github = new Octokit({ version: '3.0.0' });
 
   github.repos
     .compareCommits({

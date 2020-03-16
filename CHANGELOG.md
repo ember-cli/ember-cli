@@ -1,14 +1,19 @@
 # ember-cli Changelog
 
-## v3.17.0-beta.1
+## v3.17.0
 
 #### Blueprint Changes
 
-- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.16.0...v3.17.0-beta.1)
-- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.16.0...v3.17.0-beta.1)
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.16.1...v3.17.0)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.16.1...v3.17.0)
 
 #### Changelog
 
+- [#9045](https://github.com/ember-cli/ember-cli/pull/9045) Add final newline in CONTRIBUTING.md [@kellyselden](https://github.com/kellyselden)
+- [c30ed27181257ab4319b3a06134e13067ac1e76e](https://github.com/ember-cli/ember-cli/commit/c30ed27181257ab4319b3a06134e13067ac1e76e) Handle a number of unhandled rejections scenarios [@stefanpenner](https://github.com/stefanpenner)
+- [c377300bb21485faf0137ce69b54a10b3a458828](https://github.com/ember-cli/ember-cli/commit/c377300bb21485faf0137ce69b54a10b3a458828) Publish yuidoc json as a part of npm package [@sivakumar-kailasam](https://github.com/sivakumar-kailasam)
+- [0a8d7a18b5f27147f2cec5574625e53784841601](https://github.com/ember-cli/ember-cli/commit/0a8d7a18b5f27147f2cec5574625e53784841601) Consistently 'use strict'; for our node js files [@kellyselden](https://github.com/kellyselden)
+- [64e635c48c76f177769ca73eb9a228149ffbd863](https://github.com/ember-cli/ember-cli/commit/64e635c48c76f177769ca73eb9a228149ffbd863) Ensure buildFailures are reported correctly [@stefanpenner](https://github.com/stefanpenner)
 - [#9037](https://github.com/ember-cli/ember-cli/pull/9037) Update Ember and Ember Data to 3.17 betas. [@rwjblue](https://github.com/rwjblue)
 - [#9039](https://github.com/ember-cli/ember-cli/pull/9039) Remove long enabled EMBER_CLI_SYSTEM_TEMP experiment. [@rwjblue](https://github.com/rwjblue)
 - [#9038](https://github.com/ember-cli/ember-cli/pull/9038) Remove EMBER_CLI_DELAYED_TRANSPILATION experiment. [@rwjblue](https://github.com/rwjblue)
