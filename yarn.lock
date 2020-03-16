@@ -5612,10 +5612,10 @@ promise-map-series@^0.3.0:
   resolved "https://registry.yarnpkg.com/promise-map-series/-/promise-map-series-0.3.0.tgz#41873ca3652bb7a042b387d538552da9b576f8a1"
   integrity sha512-3npG2NGhTc8BWBolLLf8l/92OxMGaRLbqvIh9wjCHhDXNvk4zsxaTaCpiCunW09qWPrN2zeNSNwRLVBrQQtutA==
 
-promise.hash.helper@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/promise.hash.helper/-/promise.hash.helper-1.0.6.tgz#569157909aa5bd83d9f9e411b862a9977699bb04"
-  integrity sha512-N/W24eii82uGe331bwoqZJk3W4iu3psPFKYMdQfGvoVmixCyBGZ0LRbRltxpRSDMnViM23/49t+LJNAGcXP28w==
+promise.hash.helper@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/promise.hash.helper/-/promise.hash.helper-1.0.7.tgz#2f39d8495df40dcdfbc1d5be9e9e56efeae7f180"
+  integrity sha512-0qhWYyCV9TYDMSooYw1fShIb7R6hsWYja7JLqbeb1MvHqDTvP/uy/R1RsyVqDi6GCiHOI4G5p2Hpr3IA+/l/+Q==
 
 promise.prototype.finally@^3.1.0:
   version "3.1.2"
