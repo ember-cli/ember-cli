@@ -5,6 +5,7 @@ const MockUI = require('console-ui/mock');
 const MockAnalytics = require('../../helpers/mock-analytics');
 const td = require('testdouble');
 const Command = require('../../../lib/models/command');
+const CLI = require('../../../lib/cli/cli');
 
 let ui;
 let analytics;
@@ -12,8 +13,6 @@ let commands = {};
 let isWithinProject;
 let project;
 let willInterruptProcess;
-
-let CLI;
 
 // helper to similate running the CLI
 function ember(args) {
@@ -71,7 +70,6 @@ describe('Unit: CLI', function() {
     td.replace(willInterruptProcess, 'addHandler', td.function());
     td.replace(willInterruptProcess, 'removeHandler', td.function());
 
-    CLI = require('../../../lib/cli/cli');
     ui = new MockUI();
     analytics = new MockAnalytics();
     commands = {};
@@ -98,10 +96,6 @@ describe('Unit: CLI', function() {
   });
 
   this.timeout(10000);
-
-  it('exists', function() {
-    expect(CLI).to.be.ok;
-  });
 
   it('ember', function() {
     let help = stubValidateAndRun('help');
