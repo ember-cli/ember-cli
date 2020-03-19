@@ -165,7 +165,7 @@ describe('models/builder.js', function() {
       td.verify(instrumentationStart('build'), { times: 1 });
     });
 
-    it('calls instrumentation.stop(build, result, resultAnnotation)', async function() {
+    it('calls instrumentation.stop(build, result, annotation)', async function() {
       let mockAnnotation = 'MockAnnotation';
 
       await builder.build(null, mockAnnotation);
@@ -282,25 +282,25 @@ describe('models/builder.js', function() {
       hooksCalled = [];
       addon = {
         name: 'TestAddon',
-        preBuild() {
-          hooksCalled.push('preBuild');
+        preBuild(...args) {
+          hooksCalled.push(['preBuild', ...args]);
           expect(this).to.equal(addon);
 
           return Promise.resolve();
         },
 
-        postBuild() {
-          hooksCalled.push('postBuild');
+        postBuild(...args) {
+          hooksCalled.push(['postBuild', ...args]);
 
           return Promise.resolve();
         },
 
-        outputReady() {
-          hooksCalled.push('outputReady');
+        outputReady(...args) {
+          hooksCalled.push(['outputReady', ...args]);
         },
 
-        buildError() {
-          hooksCalled.push('buildError');
+        buildError(...args) {
+          hooksCalled.push(['buildError', ...args]);
         },
       };
 
@@ -312,11 +312,12 @@ describe('models/builder.js', function() {
           setupBroccoliBuilder.call(this);
           let originalBuild = this.builder.build;
           this.builder.build = () => {
-            hooksCalled.push('build');
+            hooksCalled.push(['build']);
             return originalBuild.call(this);
           };
         },
-        copyToOutputPath() {
+        copyToOutputPath(...args) {
+          hooksCalled.push(['copyToOutputPath', ...args]);
           return [];
         },
         project,
@@ -364,49 +365,34 @@ describe('models/builder.js', function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      it('invokes the instrumentation hook if it is preset', async function() {
-        addon.instrumentation = function() {
-          hooksCalled.push('instrumentation');
+      it('invokes the instrumentation hook if it is present', async function() {
+        addon.instrumentation = function(type) {
+          hooksCalled.push(['instrumentation', type]);
         };
 
-        await builder.build(null, {});
-        expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'instrumentation']);
+        let annotation = {};
+        await builder.build(null, annotation);
+        expect(hooksCalled).to.deep.equal([
+          ['preBuild', annotation],
+          ['build'],
+          ['postBuild', buildResults],
+          ['copyToOutputPath', buildResults.directory],
+          ['outputReady', Object.assign({ outputChanges: [] }, buildResults)],
+          ['instrumentation', 'build'],
+        ]);
       });
     });
 
     it('hooks are called in the right order without visualization', async function() {
       await builder.build();
-      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady']);
-    });
 
-    it('should call postBuild before copying to dist', async function() {
-      let called = [];
-
-      addon.postBuild = function() {
-        called.push('postBuild');
-      };
-
-      builder.copyToOutputPath = function() {
-        called.push('copyToOutputPath');
-      };
-
-      await builder.build();
-      expect(called).to.deep.equal(['postBuild', 'copyToOutputPath']);
-    });
-
-    it('should call outputReady after copying to output path', async function() {
-      let called = [];
-
-      builder.copyToOutputPath = function() {
-        called.push('copyToOutputPath');
-      };
-
-      addon.outputReady = function() {
-        called.push('outputReady');
-      };
-
-      await builder.build();
-      expect(called).to.deep.equal(['copyToOutputPath', 'outputReady']);
+      expect(hooksCalled).to.deep.equal([
+        ['preBuild', undefined],
+        ['build'],
+        ['postBuild', buildResults],
+        ['copyToOutputPath', buildResults.directory],
+        ['outputReady', Object.assign({ outputChanges: [] }, buildResults)],
+      ]);
     });
 
     it('buildError receives the error object from the errored step', async function() {
@@ -418,7 +404,7 @@ describe('models/builder.js', function() {
       };
 
       builder.builder.build = function() {
-        hooksCalled.push('build');
+        hooksCalled.push(['build']);
 
         return Promise.reject(thrownBuildError);
       };
@@ -428,47 +414,69 @@ describe('models/builder.js', function() {
     });
 
     it('calls buildError and does not call build, postBuild or outputReady when preBuild fails', async function() {
-      addon.preBuild = function() {
-        hooksCalled.push('preBuild');
+      let error = new Error('preBuild error');
+      addon.preBuild = function(...args) {
+        hooksCalled.push(['preBuild', ...args]);
 
-        return Promise.reject(new Error('preBuild Error'));
+        return Promise.reject(error);
       };
 
       await expect(builder.build()).to.be.rejected;
-      expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
+      expect(hooksCalled).to.deep.equal([
+        ['preBuild', undefined],
+        ['buildError', error],
+      ]);
     });
 
     it('calls buildError and does not call postBuild or outputReady when build fails', async function() {
+      let error = new Error('build Error');
       builder.builder.build = function() {
-        hooksCalled.push('build');
+        hooksCalled.push(['build']);
 
-        return Promise.reject(new Error('build Error'));
+        return Promise.reject(error);
       };
 
       await expect(builder.build()).to.be.rejected;
-      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
+
+      expect(hooksCalled).to.deep.equal([['preBuild', undefined], ['build'], ['buildError', error]]);
     });
 
     it('calls buildError when postBuild fails', async function() {
-      addon.postBuild = function() {
-        hooksCalled.push('postBuild');
+      let error = new Error('postBuild Error');
+      addon.postBuild = function(...args) {
+        hooksCalled.push(['postBuild', ...args]);
 
-        return Promise.reject(new Error('preBuild Error'));
+        return Promise.reject(error);
       };
 
       await expect(builder.build()).to.be.rejected;
-      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
+
+      expect(hooksCalled).to.deep.equal([
+        ['preBuild', undefined],
+        ['build'],
+        ['postBuild', buildResults],
+        ['buildError', error],
+      ]);
     });
 
     it('calls buildError when outputReady fails', async function() {
-      addon.outputReady = function() {
-        hooksCalled.push('outputReady');
+      let error = new Error('outputReady Error');
+      addon.outputReady = function(...args) {
+        hooksCalled.push(['outputReady', ...args]);
 
-        return Promise.reject(new Error('outputReady Error'));
+        return Promise.reject(error);
       };
 
       await expect(builder.build()).to.be.rejected;
-      expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady', 'buildError']);
+
+      expect(hooksCalled).to.deep.equal([
+        ['preBuild', undefined],
+        ['build'],
+        ['postBuild', buildResults],
+        ['copyToOutputPath', buildResults.directory],
+        ['outputReady', Object.assign({ outputChanges: [] }, buildResults)],
+        ['buildError', error],
+      ]);
     });
   });
 
