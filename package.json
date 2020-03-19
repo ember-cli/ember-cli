@@ -144,7 +144,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "fixturify": "^2.1.0",
-    "mocha": "^7.1.0",
+    "mocha": "^7.1.1",
     "nock": "^12.0.3",
     "nyc": "^15.0.0",
     "prettier": "1.19.1",
