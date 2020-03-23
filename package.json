@@ -83,7 +83,7 @@
     "find-up": "^4.1.0",
     "find-yarn-workspace-root": "^1.2.1",
     "fixturify-project": "^2.1.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "fs-tree-diff": "^2.0.1",
     "get-caller-file": "^2.0.5",
     "git-repo-info": "^2.1.1",
