@@ -9,16 +9,16 @@ const td = require('testdouble');
 
 let HelpCommand = require('../../../lib/commands/help');
 
-describe('help command', function() {
+describe('help command', function () {
   let options;
 
-  beforeEach(function() {
+  beforeEach(function () {
     options = commandOptions();
   });
 
-  describe('common to both', function() {
-    it('finds command on disk', function() {
-      let Command1 = function() {};
+  describe('common to both', function () {
+    it('finds command on disk', function () {
+      let Command1 = function () {};
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
 
@@ -29,7 +29,7 @@ describe('help command', function() {
       let command = new HelpCommand(options);
 
       let wasCalled;
-      command._lookupCommand = function() {
+      command._lookupCommand = function () {
         expect(arguments[0]).to.equal(options.commands);
         expect(arguments[1]).to.equal('command-2');
         wasCalled = true;
@@ -42,10 +42,10 @@ describe('help command', function() {
       expect(wasCalled).to.be.true;
     });
 
-    it('looks up multiple commands', function() {
-      let Command1 = function() {};
-      let Command2 = function() {};
-      let Command3 = function() {};
+    it('looks up multiple commands', function () {
+      let Command1 = function () {};
+      let Command2 = function () {};
+      let Command3 = function () {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
       Command3.prototype.printBasicHelp = td.function();
@@ -72,10 +72,10 @@ describe('help command', function() {
     });
   });
 
-  describe('unique to text printing', function() {
-    it('lists commands', function() {
-      let Command1 = function() {};
-      let Command2 = function() {};
+  describe('unique to text printing', function () {
+    it('lists commands', function () {
+      let Command1 = function () {};
+      let Command2 = function () {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
@@ -96,9 +96,9 @@ describe('help command', function() {
       td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
 
-    it('works with single command', function() {
-      let Command1 = function() {};
-      let Command2 = function() {};
+    it('works with single command', function () {
+      let Command1 = function () {};
+      let Command2 = function () {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
@@ -119,8 +119,8 @@ describe('help command', function() {
       td.verify(Command2.prototype.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
     });
 
-    it('works with single command alias', function() {
-      let Command1 = function() {};
+    it('works with single command alias', function () {
+      let Command1 = function () {};
       Command1.prototype.aliases = ['my-alias'];
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
@@ -136,8 +136,8 @@ describe('help command', function() {
       td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
-    it('passes extra commands to `generate`', function() {
-      let Generate = function() {};
+    it('passes extra commands to `generate`', function () {
+      let Generate = function () {};
       Generate.prototype.printBasicHelp = td.function();
       Generate.prototype.printDetailedHelp = td.function();
 
@@ -158,8 +158,8 @@ describe('help command', function() {
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
     });
 
-    it('handles no extra commands to `generate`', function() {
-      let Generate = function() {};
+    it('handles no extra commands to `generate`', function () {
+      let Generate = function () {};
       Generate.prototype.printBasicHelp = td.function();
       Generate.prototype.printDetailedHelp = td.function();
 
@@ -180,8 +180,8 @@ describe('help command', function() {
       expect(captor.value.rawArgs).to.be.undefined;
     });
 
-    it('passes extra commands to `generate` alias', function() {
-      let Generate = function() {};
+    it('passes extra commands to `generate` alias', function () {
+      let Generate = function () {};
       Generate.prototype.aliases = ['g'];
       Generate.prototype.printBasicHelp = td.function();
       Generate.prototype.printDetailedHelp = td.function();
@@ -203,8 +203,8 @@ describe('help command', function() {
       expect(captor.value.rawArgs).to.deep.equal(['something', 'else']);
     });
 
-    it('handles missing command', function() {
-      let Command1 = function() {};
+    it('handles missing command', function () {
+      let Command1 = function () {};
 
       options.commands = {
         Command1,
@@ -224,11 +224,11 @@ ${EOL}\
       expect(output).to.include(testString);
     });
 
-    it('respects skipHelp when listing', function() {
-      let Command1 = function() {
+    it('respects skipHelp when listing', function () {
+      let Command1 = function () {
         this.skipHelp = true;
       };
-      let Command2 = function() {};
+      let Command2 = function () {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
 
@@ -245,8 +245,8 @@ ${EOL}\
       td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
-    it('ignores skipHelp when single', function() {
-      let Command1 = function() {
+    it('ignores skipHelp when single', function () {
+      let Command1 = function () {
         this.skipHelp = true;
       };
       Command1.prototype.printBasicHelp = td.function();
@@ -263,13 +263,13 @@ ${EOL}\
       td.verify(Command1.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
-    it('lists addons', function() {
-      let Command1 = function() {};
-      let Command2 = function() {};
+    it('lists addons', function () {
+      let Command1 = function () {};
+      let Command2 = function () {};
       Command1.prototype.printBasicHelp = td.function();
       Command2.prototype.printBasicHelp = td.function();
 
-      options.project.eachAddonCommand = function(callback) {
+      options.project.eachAddonCommand = function (callback) {
         callback('my-addon', {
           Command1,
           Command2,
@@ -291,13 +291,13 @@ Available commands from my-addon:${EOL}`);
       td.verify(Command2.prototype.printBasicHelp(), { ignoreExtraArgs: true, times: 1 });
     });
 
-    it('finds single addon command', function() {
-      let Command1 = function() {};
-      let Command2 = function() {};
+    it('finds single addon command', function () {
+      let Command1 = function () {};
+      let Command2 = function () {};
       Command1.prototype.printBasicHelp = td.function();
       Command1.prototype.printDetailedHelp = td.function();
 
-      options.project.eachAddonCommand = function(callback) {
+      options.project.eachAddonCommand = function (callback) {
         callback('my-addon', {
           Command1,
           Command2,
@@ -312,13 +312,13 @@ Available commands from my-addon:${EOL}`);
     });
   });
 
-  describe('unique to json printing', function() {
-    beforeEach(function() {
+  describe('unique to json printing', function () {
+    beforeEach(function () {
       options.json = true;
     });
 
-    it('lists commands', function() {
-      let Command1 = function() {
+    it('lists commands', function () {
+      let Command1 = function () {
         return {
           getJson() {
             return {
@@ -328,7 +328,7 @@ Available commands from my-addon:${EOL}`);
         };
       };
 
-      let Command2 = function() {
+      let Command2 = function () {
         return {
           getJson() {
             return {
@@ -356,8 +356,8 @@ Available commands from my-addon:${EOL}`);
       ]);
     });
 
-    it('handles special option `Path`', function() {
-      let Command1 = function() {
+    it('handles special option `Path`', function () {
+      let Command1 = function () {
         return {
           getJson() {
             return {
@@ -382,14 +382,14 @@ Available commands from my-addon:${EOL}`);
       ]);
     });
 
-    it('respects skipHelp when listing', function() {
-      let Command1 = function() {
+    it('respects skipHelp when listing', function () {
+      let Command1 = function () {
         return {
           skipHelp: true,
         };
       };
 
-      let Command2 = function() {
+      let Command2 = function () {
         return {
           getJson() {
             return {
@@ -414,8 +414,8 @@ Available commands from my-addon:${EOL}`);
       ]);
     });
 
-    it('lists addons', function() {
-      let Command1 = function() {
+    it('lists addons', function () {
+      let Command1 = function () {
         return {
           getJson() {
             return {
@@ -425,7 +425,7 @@ Available commands from my-addon:${EOL}`);
         };
       };
 
-      let Command2 = function() {
+      let Command2 = function () {
         return {
           getJson() {
             return {
@@ -435,7 +435,7 @@ Available commands from my-addon:${EOL}`);
         };
       };
 
-      options.project.eachAddonCommand = function(callback) {
+      options.project.eachAddonCommand = function (callback) {
         callback('my-addon', { Command1, Command2 });
       };
 

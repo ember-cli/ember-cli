@@ -81,18 +81,18 @@ function stdout(value) {
   });
 }
 
-describe('models/hardware-info.js', function() {
-  afterEach(function() {
+describe('models/hardware-info.js', function () {
+  afterEach(function () {
     td.reset();
   });
 
-  describe('.isUsingBattery', function() {
-    it('returns null for unsupported platforms', function() {
+  describe('.isUsingBattery', function () {
+    it('returns null for unsupported platforms', function () {
       expect(hwinfo.isUsingBattery('not-a-real-platform')).to.be.null;
     });
 
-    describe('on FreeBSD', function() {
-      it('returns false via apm when not on battery', function() {
+    describe('on FreeBSD', function () {
+      it('returns false via apm when not on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenReturn({ stdout: '1\n' });
@@ -102,7 +102,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('freebsd')).to.be.false;
       });
 
-      it('returns true via apm when on battery', function() {
+      it('returns true via apm when on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenReturn({ stdout: '0\n' });
@@ -112,7 +112,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('freebsd')).to.be.true;
       });
 
-      it('returns false via upower when not on battery', function() {
+      it('returns false via upower when not on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -122,7 +122,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('freebsd')).to.be.false;
       });
 
-      it('returns true via upower when on battery', function() {
+      it('returns true via upower when on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -132,7 +132,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('freebsd')).to.be.true;
       });
 
-      it('returns null when battery status cannot be determined', function() {
+      it('returns null when battery status cannot be determined', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -142,8 +142,8 @@ describe('models/hardware-info.js', function() {
       });
     });
 
-    describe('on Linux', function() {
-      it('returns false via /sys/class/power_supply when not on battery', function() {
+    describe('on Linux', function () {
+      it('returns false via /sys/class/power_supply when not on battery', function () {
         const execaStub = td.function(execa.sync);
 
         td.when(execaStub(), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -157,7 +157,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('linux')).to.be.false;
       });
 
-      it('returns true via /sys/class/power_supply when on battery', function() {
+      it('returns true via /sys/class/power_supply when on battery', function () {
         const execaStub = td.function(execa.sync);
 
         td.when(execaStub(), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -171,7 +171,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('linux')).to.be.true;
       });
 
-      it('returns false via acpi when not on battery', function() {
+      it('returns false via acpi when not on battery', function () {
         const execaStub = td.function(execa.sync);
 
         td.when(execaStub('acpi'), { ignoreExtraArgs: true }).thenReturn({ stdout: 'Adapter 0: on-line\n' });
@@ -186,7 +186,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('linux')).to.be.false;
       });
 
-      it('returns true via acpi when on battery', function() {
+      it('returns true via acpi when on battery', function () {
         const execaStub = td.function(execa.sync);
 
         td.when(execaStub('acpi'), { ignoreExtraArgs: true }).thenReturn({ stdout: 'Adapter 0: off-line\n' });
@@ -201,7 +201,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('linux')).to.be.true;
       });
 
-      it('returns false via upower when not on battery', function() {
+      it('returns false via upower when not on battery', function () {
         const execaStub = td.function(execa.sync);
 
         td.when(execaStub('acpi'), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -217,7 +217,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('linux')).to.be.false;
       });
 
-      it('returns true via upower when on battery', function() {
+      it('returns true via upower when on battery', function () {
         const execaStub = td.function(execa.sync);
 
         td.when(execaStub('acpi'), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -233,7 +233,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('linux')).to.be.true;
       });
 
-      it('returns null when battery status cannot be determined', function() {
+      it('returns null when battery status cannot be determined', function () {
         const execaStub = td.function(execa.sync);
 
         td.when(execaStub(), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -248,8 +248,8 @@ describe('models/hardware-info.js', function() {
       });
     });
 
-    describe('on macOS', function() {
-      it('returns false when not on battery', function() {
+    describe('on macOS', function () {
+      it('returns false when not on battery', function () {
         td.replace(
           execa,
           'sync',
@@ -261,7 +261,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('darwin')).to.be.false;
       });
 
-      it('returns true when on battery', function() {
+      it('returns true when on battery', function () {
         td.replace(
           execa,
           'sync',
@@ -273,7 +273,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('darwin')).to.be.true;
       });
 
-      it('returns null when an error occurs', function() {
+      it('returns null when an error occurs', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('whoops!'));
@@ -283,8 +283,8 @@ describe('models/hardware-info.js', function() {
       });
     });
 
-    describe('on OpenBSD', function() {
-      it('returns false via apm when not on battery', function() {
+    describe('on OpenBSD', function () {
+      it('returns false via apm when not on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenReturn({ stdout: '1\n' });
@@ -294,7 +294,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('openbsd')).to.be.false;
       });
 
-      it('returns true via apm when on battery', function() {
+      it('returns true via apm when on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenReturn({ stdout: '0\n' });
@@ -304,7 +304,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('openbsd')).to.be.true;
       });
 
-      it('returns false via upower when not on battery', function() {
+      it('returns false via upower when not on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -314,7 +314,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('openbsd')).to.be.false;
       });
 
-      it('returns true via upower when on battery', function() {
+      it('returns true via upower when on battery', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub('apm'), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -324,7 +324,7 @@ describe('models/hardware-info.js', function() {
         expect(hwinfo.isUsingBattery('openbsd')).to.be.true;
       });
 
-      it('returns null when battery status cannot be determined', function() {
+      it('returns null when battery status cannot be determined', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('command not found'));
@@ -334,8 +334,8 @@ describe('models/hardware-info.js', function() {
       });
     });
 
-    describe('on Windows', function() {
-      it('returns false when not on battery', function() {
+    describe('on Windows', function () {
+      it('returns false when not on battery', function () {
         td.replace(
           execa,
           'sync',
@@ -351,7 +351,7 @@ PowerOnline=TRUE
         expect(hwinfo.isUsingBattery('win32')).to.be.false;
       });
 
-      it('returns true when on battery', function() {
+      it('returns true when on battery', function () {
         td.replace(
           execa,
           'sync',
@@ -367,7 +367,7 @@ PowerOnline=FALSE
         expect(hwinfo.isUsingBattery('win32')).to.be.true;
       });
 
-      it('returns null when an error occurs', function() {
+      it('returns null when an error occurs', function () {
         const stub = td.function(execa.sync);
 
         td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('whoops!'));
@@ -378,12 +378,12 @@ PowerOnline=FALSE
     });
   });
 
-  describe('.memorySwapUsed', function() {
-    it('returns null for unsupported platforms', function() {
+  describe('.memorySwapUsed', function () {
+    it('returns null for unsupported platforms', function () {
       expect(hwinfo.memorySwapUsed('not-a-real-platform')).to.be.null;
     });
 
-    it('returns the expected value on FreeBSD', function() {
+    it('returns the expected value on FreeBSD', function () {
       td.replace(
         execa,
         'sync',
@@ -396,7 +396,7 @@ PowerOnline=FALSE
       expect(hwinfo.memorySwapUsed('freebsd')).to.equal(1865728);
     });
 
-    it('returns null on FreeBSD when an error occurs', function() {
+    it('returns null on FreeBSD when an error occurs', function () {
       const stub = td.function(execa.sync);
 
       td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('whoops!'));
@@ -405,7 +405,7 @@ PowerOnline=FALSE
       expect(hwinfo.memorySwapUsed('freebsd')).to.be.null;
     });
 
-    it('returns the expected value on Linux', function() {
+    it('returns the expected value on Linux', function () {
       td.replace(
         execa,
         'sync',
@@ -418,7 +418,7 @@ Swap:   67448598528   121593856 67327004672
       expect(hwinfo.memorySwapUsed('linux')).to.equal(121593856);
     });
 
-    it('returns null on Linux when an error occurs', function() {
+    it('returns null on Linux when an error occurs', function () {
       const stub = td.function(execa.sync);
 
       td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('whoops!'));
@@ -427,7 +427,7 @@ Swap:   67448598528   121593856 67327004672
       expect(hwinfo.memorySwapUsed('linux')).to.be.null;
     });
 
-    it('returns the expected value on macOS', function() {
+    it('returns the expected value on macOS', function () {
       td.replace(
         execa,
         'sync',
@@ -438,7 +438,7 @@ Swap:   67448598528   121593856 67327004672
       expect(hwinfo.memorySwapUsed('darwin')).to.equal(5230034944);
     });
 
-    it('returns null on macOS when an error occurs', function() {
+    it('returns null on macOS when an error occurs', function () {
       const stub = td.function(execa.sync);
 
       td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('whoops!'));
@@ -447,7 +447,7 @@ Swap:   67448598528   121593856 67327004672
       expect(hwinfo.memorySwapUsed('darwin')).to.be.null;
     });
 
-    it('returns the expected value on OpenBSD', function() {
+    it('returns the expected value on OpenBSD', function () {
       td.replace(
         execa,
         'sync',
@@ -460,7 +460,7 @@ Swap:   67448598528   121593856 67327004672
       expect(hwinfo.memorySwapUsed('openbsd')).to.equal(932864);
     });
 
-    it('returns null on OpenBSD when an error occurs', function() {
+    it('returns null on OpenBSD when an error occurs', function () {
       const stub = td.function(execa.sync);
 
       td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('whoops!'));
@@ -469,7 +469,7 @@ Swap:   67448598528   121593856 67327004672
       expect(hwinfo.memorySwapUsed('openbsd')).to.be.null;
     });
 
-    it('returns the expected value on Windows', function() {
+    it('returns the expected value on Windows', function () {
       td.replace(
         execa,
         'sync',
@@ -485,7 +485,7 @@ CurrentUsage=325
       expect(hwinfo.memorySwapUsed('win32')).to.equal(340787200);
     });
 
-    it('returns null on Windows when an error occurs', function() {
+    it('returns null on Windows when an error occurs', function () {
       const stub = td.function(execa.sync);
 
       td.when(stub(), { ignoreExtraArgs: true }).thenThrow(new Error('whoops!'));
@@ -495,14 +495,14 @@ CurrentUsage=325
     });
   });
 
-  describe('.processorLoad', function() {
-    it('returns null on Windows', function() {
+  describe('.processorLoad', function () {
+    it('returns null on Windows', function () {
       expect(hwinfo.processorLoad('win32')).to.be.null;
     });
   });
 
-  describe('.processorSpeed', function() {
-    it("averages the processors' speeds", function() {
+  describe('.processorSpeed', function () {
+    it("averages the processors' speeds", function () {
       td.replace(os, 'cpus', () => [{ speed: 1 }, { speed: 2 }, { speed: 3 }, { speed: 4 }, { speed: 5 }]);
 
       expect(hwinfo.processorSpeed()).to.equal(3);

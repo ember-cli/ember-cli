@@ -9,10 +9,10 @@ const broccoliTestHelper = require('broccoli-test-helper');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('.ember-cli leek options', function() {
+describe('.ember-cli leek options', function () {
   let passedOptions, leekConfigFolder;
 
-  before(async function() {
+  before(async function () {
     leekConfigFolder = await createTempDir();
 
     leekConfigFolder.write({
@@ -36,7 +36,7 @@ describe('.ember-cli leek options', function() {
       primary: primaryPath,
     });
 
-    let mockedLeek = function(options) {
+    let mockedLeek = function (options) {
       passedOptions = options;
     };
 
@@ -47,11 +47,11 @@ describe('.ember-cli leek options', function() {
     });
   });
 
-  after(async function() {
+  after(async function () {
     await leekConfigFolder.dispose();
   });
 
-  it('should contain the leek options from .ember-cli file', function() {
+  it('should contain the leek options from .ember-cli file', function () {
     expect(passedOptions.adapterUrls).to.contain.keys(['event', 'exception', 'timing', 'appview']);
   });
 });

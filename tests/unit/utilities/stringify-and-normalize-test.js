@@ -3,14 +3,14 @@
 const expect = require('chai').expect;
 const stringifyAndNormalize = require('../../../lib/utilities/stringify-and-normalize');
 
-describe('stringify-and-normalize', function() {
+describe('stringify-and-normalize', function () {
   let packageJson = {
     dependencies: {
       'test-package': '^1.0.0',
     },
   };
 
-  it('indents 2 spaces and ends in newline', function() {
+  it('indents 2 spaces and ends in newline', function () {
     let string = stringifyAndNormalize(packageJson);
 
     expect(string).to.equal('\

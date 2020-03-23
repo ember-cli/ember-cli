@@ -9,17 +9,17 @@ const Builder = require('../../../lib/models/builder');
 const { createTempDir, fromBuilder } = broccoliTestHelper;
 const ROOT = process.cwd();
 
-describe('Builder - broccoli tests', function() {
+describe('Builder - broccoli tests', function () {
   let projectRoot, builderOutputPath, output, project, builder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     projectRoot = await createTempDir();
     builderOutputPath = await createTempDir();
 
     project = new MockProject({ root: projectRoot.path() });
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     // this is needed because lib/utilities/find-build-file.js does a
     // `process.chdir` when it looks for the `ember-cli-build.js`
     process.chdir(ROOT);
@@ -29,7 +29,7 @@ describe('Builder - broccoli tests', function() {
     await output.dispose();
   });
 
-  it('falls back to broccoli-builder@0.18 when legacy plugins exist in build', async function() {
+  it('falls back to broccoli-builder@0.18 when legacy plugins exist in build', async function () {
     projectRoot.write({
       'ember-cli-build.js': `
         const fs = require('fs');

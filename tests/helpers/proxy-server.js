@@ -22,15 +22,15 @@ class ProxyServer {
     });
 
     let websocketEvents = (this.websocketEvents = []);
-    wsServer.on('connect', connection => {
+    wsServer.on('connect', (connection) => {
       websocketEvents.push('connect');
 
-      connection.on('message', message => {
+      connection.on('message', (message) => {
         websocketEvents.push(`message: ${message.utf8Data}`);
         connection.sendUTF(message.utf8Data);
       });
 
-      connection.on('error', error => {
+      connection.on('error', (error) => {
         websocketEvents.push(`error: ${error}`);
       });
 

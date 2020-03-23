@@ -37,8 +37,8 @@ module.exports = {
 
   fileMapTokens() {
     return {
-      __root__: options => this._processTokens(options.dasherizedModuleName).root,
-      __name__: options => this._processTokens(options.dasherizedModuleName).name,
+      __root__: (options) => this._processTokens(options.dasherizedModuleName).root,
+      __name__: (options) => this._processTokens(options.dasherizedModuleName).name,
     };
   },
 

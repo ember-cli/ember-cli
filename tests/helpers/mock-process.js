@@ -14,7 +14,7 @@ module.exports = class MockProcess extends EventEmitter {
       new EventEmitter(),
       {
         isRaw: process.stdin.isRaw,
-        setRawMode: flag => {
+        setRawMode: (flag) => {
           stdin.isRaw = flag;
         },
       },

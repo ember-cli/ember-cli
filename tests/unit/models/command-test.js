@@ -77,32 +77,32 @@ let OptionsAliasCommand = Command.extend({
   },
 });
 
-describe('models/command.js', function() {
+describe('models/command.js', function () {
   let ui;
   let config;
   let options;
 
-  before(function() {
+  before(function () {
     config = new Yam('ember-cli', {
       secondary: `${process.cwd()}/tests/fixtures/home`,
       primary: `${process.cwd()}/tests/fixtures/project`,
     });
   });
 
-  beforeEach(function() {
+  beforeEach(function () {
     options = commandOptions();
     ui = options.ui;
   });
 
-  afterEach(function() {
+  afterEach(function () {
     td.reset();
   });
 
-  it('parseArgs() should parse the command options.', function() {
+  it('parseArgs() should parse the command options.', function () {
     expect(new ServeCommand(options).parseArgs(['--port', '80'])).to.have.nested.property('options.port', 80);
   });
 
-  it('parseArgs() should get command options from the config file and command line', function() {
+  it('parseArgs() should get command options from the config file and command line', function () {
     expect(
       new ServeCommand(
         Object.assign(options, {
@@ -122,11 +122,11 @@ describe('models/command.js', function() {
     });
   });
 
-  it('parseArgs() should set default option values.', function() {
+  it('parseArgs() should set default option values.', function () {
     expect(new ServeCommand(options).parseArgs([])).to.have.nested.property('options.port', 4200);
   });
 
-  it('parseArgs() should return args too.', function() {
+  it('parseArgs() should return args too.', function () {
     expect(
       new ServeCommand(
         Object.assign(options, {
@@ -146,7 +146,7 @@ describe('models/command.js', function() {
     });
   });
 
-  it('parseArgs() should warn if an option is invalid.', function() {
+  it('parseArgs() should warn if an option is invalid.', function () {
     new ServeCommand(
       Object.assign(options, {
         settings: config.getAll(),
@@ -157,18 +157,18 @@ describe('models/command.js', function() {
     );
   });
 
-  it('parseArgs() should parse shorthand options.', function() {
+  it('parseArgs() should parse shorthand options.', function () {
     expect(new ServeCommand(options).parseArgs(['-e', 'tacotown'])).to.have.nested.property(
       'options.environment',
       'tacotown'
     );
   });
 
-  it('parseArgs() should parse shorthand dasherized options.', function() {
+  it('parseArgs() should parse shorthand dasherized options.', function () {
     expect(new ServeCommand(options).parseArgs(['-lr', 'false'])).to.have.nested.property('options.liveReload', false);
   });
 
-  it('parseArgs() should parse string options.', function() {
+  it('parseArgs() should parse string options.', function () {
     let CustomAliasCommand = Command.extend({
       name: 'custom-alias',
       availableOptions: [
@@ -185,14 +185,14 @@ describe('models/command.js', function() {
     expect(command).to.have.nested.property('options.options', '--split 2 --random');
   });
 
-  describe('#validateAndRun', function() {
-    it('should reject and print a message if a required option is missing.', function() {
-      return new DevelopEmberCLICommand(options).validateAndRun([]).catch(function() {
+  describe('#validateAndRun', function () {
+    it('should reject and print a message if a required option is missing.', function () {
+      return new DevelopEmberCLICommand(options).validateAndRun([]).catch(function () {
         expect(ui.output).to.match(/requires the option.*package-name/);
       });
     });
 
-    it('should print a message if outside a project and command is not valid there.', function() {
+    it('should print a message if outside a project and command is not valid there.', function () {
       return new InsideProjectCommand(
         Object.assign(options, {
           project: {
@@ -206,12 +206,12 @@ describe('models/command.js', function() {
         })
       )
         .validateAndRun([])
-        .catch(function(reason) {
+        .catch(function (reason) {
           expect(reason.message).to.match(/You have to be inside an ember-cli project/);
         });
     });
 
-    it('selects watcher if an option', function() {
+    it('selects watcher if an option', function () {
       return new InsideProjectCommand(
         Object.assign(options, {
           availableOptions: [{ type: 'string', name: 'watcher' }],
@@ -226,12 +226,12 @@ describe('models/command.js', function() {
         })
       )
         .validateAndRun([])
-        .then(function(options) {
+        .then(function (options) {
           expect(options).to.have.property('watcher');
         });
     });
 
-    it('selects NO watcher if NOT an option', function() {
+    it('selects NO watcher if NOT an option', function () {
       return new InsideProjectCommand(
         Object.assign(options, {
           availableOptions: [{ type: 'string', name: 'foo' }],
@@ -246,19 +246,19 @@ describe('models/command.js', function() {
         })
       )
         .validateAndRun([])
-        .then(function(options) {
+        .then(function (options) {
           expect(options).to.not.have.property('watcher');
         });
     });
 
-    it('should print a message if inside a project and command is not valid there.', function() {
-      return new OutsideProjectCommand(options).validateAndRun([]).catch(function(reason) {
+    it('should print a message if inside a project and command is not valid there.', function () {
+      return new OutsideProjectCommand(options).validateAndRun([]).catch(function (reason) {
         expect(reason.message).to.match(/You cannot use.*inside an ember-cli project/);
       });
     });
   });
 
-  it('should be able to set availableOptions within init', function() {
+  it('should be able to set availableOptions within init', function () {
     let AvailableOptionsInitCommand = Command.extend({
       name: 'available-options-init-command',
       init() {
@@ -290,12 +290,12 @@ describe('models/command.js', function() {
       })
     )
       .validateAndRun([])
-      .then(function(commandOptions) {
+      .then(function (commandOptions) {
         expect(commandOptions).to.deep.equal({ spicy: true });
       });
   });
 
-  it('should be able to set availableOptions within beforeRun', function() {
+  it('should be able to set availableOptions within beforeRun', function () {
     let AvailableOptionsInitCommand = Command.extend({
       name: 'available-options-init-command',
 
@@ -308,7 +308,7 @@ describe('models/command.js', function() {
       ],
 
       beforeRun() {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           resolve(
             this.availableOptions.push({
               name: 'foobar',
@@ -337,13 +337,13 @@ describe('models/command.js', function() {
     );
 
     return command.beforeRun().then(() =>
-      command.validateAndRun([]).then(commandOptions => {
+      command.validateAndRun([]).then((commandOptions) => {
         expect(commandOptions).to.deep.equal({ spicy: true, foobar: 'bazbaz' });
       })
     );
   });
 
-  it('availableOptions with aliases should work.', function() {
+  it('availableOptions with aliases should work.', function () {
     expect(new OptionsAliasCommand(options).parseArgs(['-soft-shell'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
@@ -353,7 +353,7 @@ describe('models/command.js', function() {
     });
   });
 
-  it('availableOptions with aliases should work with minimum characters.', function() {
+  it('availableOptions with aliases should work with minimum characters.', function () {
     expect(new OptionsAliasCommand(options).parseArgs(['-so'])).to.deep.equal({
       options: {
         taco: 'soft-shell',
@@ -363,7 +363,7 @@ describe('models/command.js', function() {
     });
   });
 
-  it('availableOptions with aliases should work with hyphenated options', function() {
+  it('availableOptions with aliases should work with hyphenated options', function () {
     expect(new OptionsAliasCommand(options).parseArgs(['-dm', 'hi'])).to.deep.equal({
       options: {
         taco: 'traditional',
@@ -383,7 +383,7 @@ describe('models/command.js', function() {
     });
   });
 
-  it('registerOptions() should allow adding availableOptions.', function() {
+  it('registerOptions() should allow adding availableOptions.', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let extendedAvailableOptions = [
       {
@@ -424,7 +424,7 @@ describe('models/command.js', function() {
     });
   });
 
-  it('registerOptions() should allow overriding availableOptions.', function() {
+  it('registerOptions() should allow overriding availableOptions.', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let extendedAvailableOptions = [
       {
@@ -483,7 +483,7 @@ describe('models/command.js', function() {
     });
   });
 
-  it('registerOptions() should not allow aliases with the same name.', function() {
+  it('registerOptions() should not allow aliases with the same name.', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let extendedAvailableOptions = [
       {
@@ -508,7 +508,7 @@ describe('models/command.js', function() {
     );
   });
 
-  it('registerOptions() should warn on options override attempts.', function() {
+  it('registerOptions() should warn on options override attempts.', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let extendedAvailableOptions = [
       {
@@ -522,7 +522,7 @@ describe('models/command.js', function() {
     expect(ui.output).to.match(/The ".*" alias cannot be overridden. Please use a different alias./);
   });
 
-  it('registerOptions() should handle invalid alias definitions.', function() {
+  it('registerOptions() should handle invalid alias definitions.', function () {
     //check for different types, validate proper errors are thrown
     let optionsAlias = new OptionsAliasCommand(options);
     let badArrayAvailableOptions = [
@@ -556,7 +556,7 @@ describe('models/command.js', function() {
     );
   });
 
-  it('parseAlias() should parse aliases and return an object', function() {
+  it('parseAlias() should parse aliases and return an object', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let option = {
       name: 'filling',
@@ -573,7 +573,7 @@ describe('models/command.js', function() {
     });
   });
 
-  it('validateOption() should validate options', function() {
+  it('validateOption() should validate options', function () {
     let option = {
       name: 'filling',
       type: String,
@@ -595,7 +595,7 @@ describe('models/command.js', function() {
     expect(optionsAliasCommand.validateOption(dupe)).to.be.false;
   });
 
-  it('validateOption() should throw an error when option is missing name or type', function() {
+  it('validateOption() should throw an error when option is missing name or type', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let notype = { name: 'taco' };
     let noname = { type: Boolean };
@@ -608,7 +608,7 @@ describe('models/command.js', function() {
     );
   });
 
-  it('validateOption() should throw an error when option name is camelCase or capitalized', function() {
+  it('validateOption() should throw an error when option name is camelCase or capitalized', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let capital = {
       name: 'Taco',
@@ -627,7 +627,7 @@ describe('models/command.js', function() {
     );
   });
 
-  it('mergeDuplicateOption() should merge duplicate options together', function() {
+  it('mergeDuplicateOption() should merge duplicate options together', function () {
     let optionsAlias = new OptionsAliasCommand(options);
     let garbageAvailableOptions = [{ name: 'spicy', type: Boolean, default: true, aliases: [{ mild: true }] }];
     optionsAlias.registerOptions({ availableOptions: garbageAvailableOptions });
@@ -690,7 +690,7 @@ describe('models/command.js', function() {
     ]);
   });
 
-  it('implicit shorthands work with values.', function() {
+  it('implicit shorthands work with values.', function () {
     expect(new OptionsAliasCommand(options).parseArgs(['-s', 'false', '-t', 'hard-shell'])).to.deep.equal({
       options: {
         taco: 'hard-shell',
@@ -700,12 +700,12 @@ describe('models/command.js', function() {
     });
   });
 
-  describe('runTask', function() {
+  describe('runTask', function () {
     let command;
 
     class AsyncTask extends Task {
       run(options) {
-        return new Promise(function(resolve) {
+        return new Promise(function (resolve) {
           setTimeout(() => resolve(options), 50);
         });
       }
@@ -723,7 +723,7 @@ describe('models/command.js', function() {
       }
     }
 
-    beforeEach(function() {
+    beforeEach(function () {
       // this should be changed to new Command(), but needs more mocking
       command = new ServeCommand(
         Object.assign({}, options, {
@@ -736,15 +736,15 @@ describe('models/command.js', function() {
       );
     });
 
-    it('always handles task as a promise', function() {
-      return command.runTask('Sync', { param: 'value' }).then(result => {
+    it('always handles task as a promise', function () {
+      return command.runTask('Sync', { param: 'value' }).then((result) => {
         expect(result).to.eql({
           param: 'value',
         });
       });
     });
 
-    it('command environment should be shared with a task', function() {
+    it('command environment should be shared with a task', function () {
       let taskRun = command.runTask('Async', { param: 'value' });
 
       expect(command._currentTask.ui).to.eql(command.ui);
@@ -754,7 +754,7 @@ describe('models/command.js', function() {
       return taskRun;
     });
 
-    it('_currentTask should store a reference to the current task', function() {
+    it('_currentTask should store a reference to the current task', function () {
       expect(command._currentTask).to.be.undefined;
       let taskRun = command.runTask('Sync', { param: 'value' }).then(() => {
         expect(command._currentTask).to.be.undefined;
@@ -764,13 +764,13 @@ describe('models/command.js', function() {
       return taskRun;
     });
 
-    it('_currentTask should cleanup current task on fail', function() {
+    it('_currentTask should cleanup current task on fail', function () {
       return expect(command.runTask('Failing', { param: 'value' })).to.be.rejected.then(() => {
         expect(command._currentTask).to.be.undefined;
       });
     });
 
-    it('throws on attempt to launch concurrent tasks', function() {
+    it('throws on attempt to launch concurrent tasks', function () {
       let asyncTaskRun, syncTaskRun;
 
       expect(() => {
@@ -781,7 +781,7 @@ describe('models/command.js', function() {
       return Promise.all([asyncTaskRun, syncTaskRun]);
     });
 
-    it('throws if the task is not found', function() {
+    it('throws if the task is not found', function () {
       try {
         let taskRun = command.runTask('notfound');
 
@@ -794,25 +794,25 @@ describe('models/command.js', function() {
     });
   });
 
-  describe('help', function() {
+  describe('help', function () {
     let command;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // this should be changed to new Command(), but needs more mocking
       command = new ServeCommand(options);
     });
 
-    describe('printBasicHelp', function() {
-      beforeEach(function() {
+    describe('printBasicHelp', function () {
+      beforeEach(function () {
         td.replace(command, '_printCommand', td.function());
         td.when(command._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
       });
 
-      afterEach(function() {
+      afterEach(function () {
         td.reset();
       });
 
-      it('calls printCommand', function() {
+      it('calls printCommand', function () {
         let output = command.printBasicHelp();
 
         let testString = processHelpString(`ember serve command printed${EOL}`);
@@ -820,7 +820,7 @@ describe('models/command.js', function() {
         expect(output).to.equal(testString);
       });
 
-      it('is root', function() {
+      it('is root', function () {
         command.isRoot = true;
 
         let output = command.printBasicHelp();
@@ -831,30 +831,30 @@ describe('models/command.js', function() {
       });
     });
 
-    describe('printDetailedHelp', function() {
-      it('has no-op function', function() {
+    describe('printDetailedHelp', function () {
+      it('has no-op function', function () {
         let output = command.printDetailedHelp();
 
         expect(output).to.be.undefined;
       });
     });
 
-    describe('hasOption', function() {
-      it('reports false if no option with that name is present', function() {
+    describe('hasOption', function () {
+      it('reports false if no option with that name is present', function () {
         expect(command.hasOption('no-option-by-this-name')).to.be.false;
       });
 
-      it('reports true if option with that name is present', function() {
+      it('reports true if option with that name is present', function () {
         expect(command.hasOption('port')).to.be.true;
       });
     });
 
-    describe('getJson', function() {
-      beforeEach(function() {
+    describe('getJson', function () {
+      beforeEach(function () {
         command._printableProperties = ['test1', 'test2'];
       });
 
-      it('iterates options', function() {
+      it('iterates options', function () {
         Object.assign(command, {
           test1: 'a test',
           test2: 'another test',
@@ -868,7 +868,7 @@ describe('models/command.js', function() {
         });
       });
 
-      it('calls detailed json', function() {
+      it('calls detailed json', function () {
         td.replace(command, 'addAdditionalJsonForHelp', td.function());
 
         let options = {};

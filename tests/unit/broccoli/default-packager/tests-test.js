@@ -11,7 +11,7 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
-describe('Default Packager: Tests', function() {
+describe('Default Packager: Tests', function () {
   let input, output;
   let name = 'the-best-app-ever';
   let env = 'development';
@@ -108,27 +108,27 @@ describe('Default Packager: Tests', function() {
         // files as the input tree, but the contents will be
         // different
         lintTree(type, tree) {
-          return stew.map(tree, string => string.toUpperCase());
+          return stew.map(tree, (string) => string.toUpperCase());
         },
       },
     ],
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(TESTS);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('caches packaged tests tree', async function() {
+  it('caches packaged tests tree', async function () {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -149,7 +149,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      registry: setupRegistryFor('js', tree => tree),
+      registry: setupRegistryFor('js', (tree) => tree),
     });
 
     expect(defaultPackager._cachedTests).to.equal(null);
@@ -159,7 +159,7 @@ describe('Default Packager: Tests', function() {
     expect(defaultPackager._cachedTests).to.not.equal(null);
   });
 
-  it('packages test files (with sourcemaps)', async function() {
+  it('packages test files (with sourcemaps)', async function () {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -180,7 +180,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      registry: setupRegistryFor('js', tree => tree),
+      registry: setupRegistryFor('js', (tree) => tree),
     });
 
     output = await buildOutput(defaultPackager.packageTests(input.path()));
@@ -206,7 +206,7 @@ describe('Default Packager: Tests', function() {
     expect(outputFiles.assets['tests.js']).to.include('EmberENV.TESTS_FILE_LOADED = true;');
   });
 
-  it('packages test files (without sourcemaps)', async function() {
+  it('packages test files (without sourcemaps)', async function () {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -228,7 +228,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      registry: setupRegistryFor('js', tree => tree),
+      registry: setupRegistryFor('js', (tree) => tree),
     });
 
     output = await buildOutput(defaultPackager.packageTests(input.path()));
@@ -249,7 +249,7 @@ describe('Default Packager: Tests', function() {
     expect(outputFiles.assets['tests.js']).to.include('EmberENV.TESTS_FILE_LOADED = true;');
   });
 
-  it('does not process `addon-test-support` folder', async function() {
+  it('does not process `addon-test-support` folder', async function () {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -270,7 +270,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      registry: setupRegistryFor('js', function(tree) {
+      registry: setupRegistryFor('js', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/js/g, 'js-test');
@@ -324,7 +324,7 @@ describe('Default Packager: Tests', function() {
     });
   });
 
-  it('processes tests files according to the registry', async function() {
+  it('processes tests files according to the registry', async function () {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -345,7 +345,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      registry: setupRegistryFor('js', function(tree) {
+      registry: setupRegistryFor('js', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/js/g, 'js-test');
@@ -399,7 +399,7 @@ describe('Default Packager: Tests', function() {
     });
   });
 
-  it('emits dist/assets/tests.js by default', async function() {
+  it('emits dist/assets/tests.js by default', async function () {
     let emptyInput = await createTempDir();
     let emptyTestFolder = {
       'addon-tree-output': {},
@@ -471,7 +471,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      registry: setupRegistryFor('js', tree => tree),
+      registry: setupRegistryFor('js', (tree) => tree),
     });
 
     output = await buildOutput(defaultPackager.packageTests(input.path()));
@@ -492,7 +492,7 @@ describe('Default Packager: Tests', function() {
     emptyInput.dispose();
   });
 
-  it('lintTree results do not "win" over app tests', async function() {
+  it('lintTree results do not "win" over app tests', async function () {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -513,7 +513,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: [],
       legacyTestFilesToAppend: [],
 
-      registry: setupRegistryFor('js', tree => tree),
+      registry: setupRegistryFor('js', (tree) => tree),
     });
 
     output = await buildOutput(defaultPackager.packageTests(input.path()));
@@ -525,7 +525,7 @@ describe('Default Packager: Tests', function() {
     expect(outputFiles.assets['tests.js']).to.include('// login-test.js');
   });
 
-  it('maintains the concatenation order', async function() {
+  it('maintains the concatenation order', async function () {
     let defaultPackager = new DefaultPackager({
       project,
       name,
@@ -546,7 +546,7 @@ describe('Default Packager: Tests', function() {
       vendorTestStaticStyles: ['vendor/custom/a.css', 'vendor/custom/b.css'],
       legacyTestFilesToAppend: ['vendor/custom/a.js', 'vendor/custom/b.js'],
 
-      registry: setupRegistryFor('js', tree => tree),
+      registry: setupRegistryFor('js', (tree) => tree),
     });
 
     output = await buildOutput(defaultPackager.packageTests(input.path()));

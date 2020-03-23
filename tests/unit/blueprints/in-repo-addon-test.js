@@ -12,22 +12,22 @@ const td = require('testdouble');
 const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
 const file = require('ember-cli-blueprint-test-helpers/chai').file;
 
-describe('Acceptance: ember generate and destroy in-repo-addon', function() {
+describe('Acceptance: ember generate and destroy in-repo-addon', function () {
   setupTestHooks(this, {
     cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
-  it('in-repo-addon fooBar', function() {
+  it('in-repo-addon fooBar', function () {
     let args = ['in-repo-addon', 'fooBar'];
 
     return emberNew()
-      .then(function() {
+      .then(function () {
         expect(fs.readJsonSync('package.json')['ember-addon']).to.be.undefined;
       })
-      .then(function() {
+      .then(function () {
         return emberGenerate(args);
       })
-      .then(function() {
+      .then(function () {
         expect(file('lib/foo-bar/package.json')).to.exist;
         expect(file('lib/foo-bar/index.js')).to.exist;
 
@@ -40,10 +40,10 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
           paths: ['lib/foo-bar'],
         });
       })
-      .then(function() {
+      .then(function () {
         return emberDestroy(args);
       })
-      .then(function() {
+      .then(function () {
         expect(file('lib/foo-bar/package.json')).to.not.exist;
         expect(file('lib/foo-bar/index.js')).to.not.exist;
 
@@ -52,13 +52,13 @@ describe('Acceptance: ember generate and destroy in-repo-addon', function() {
   });
 });
 
-describe('Unit: in-repo-addon blueprint', function() {
+describe('Unit: in-repo-addon blueprint', function () {
   let blueprint;
   let readJsonSync;
   let writeFileSync;
   let options;
 
-  beforeEach(function() {
+  beforeEach(function () {
     blueprint = require('../../../blueprints/in-repo-addon');
     blueprint.project = {
       root: 'test-project-root',
@@ -74,11 +74,11 @@ describe('Unit: in-repo-addon blueprint', function() {
     writeFileSync = td.replace(blueprint, '_writeFileSync');
   });
 
-  afterEach(function() {
+  afterEach(function () {
     td.reset();
   });
 
-  it('adds to paths', function() {
+  it('adds to paths', function () {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({});
 
     blueprint.afterInstall(options);
@@ -100,7 +100,7 @@ describe('Unit: in-repo-addon blueprint', function() {
     );
   });
 
-  it('ignores if already exists', function() {
+  it('ignores if already exists', function () {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
         paths: ['lib/test-entity-name'],
@@ -126,7 +126,7 @@ describe('Unit: in-repo-addon blueprint', function() {
     );
   });
 
-  it('removes from paths', function() {
+  it('removes from paths', function () {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
         paths: ['lib/test-entity-name', 'lib/test-entity-name-2'],
@@ -152,7 +152,7 @@ describe('Unit: in-repo-addon blueprint', function() {
     );
   });
 
-  it('removes paths if last one', function() {
+  it('removes paths if last one', function () {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
         paths: ['lib/test-entity-name'],
@@ -172,7 +172,7 @@ describe('Unit: in-repo-addon blueprint', function() {
 }\n');
   });
 
-  it('alphabetizes paths', function() {
+  it('alphabetizes paths', function () {
     td.when(readJsonSync(), { ignoreExtraArgs: true }).thenReturn({
       'ember-addon': {
         paths: ['lib/test-entity-name-2'],

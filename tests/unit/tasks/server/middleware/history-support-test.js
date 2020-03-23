@@ -3,9 +3,9 @@
 const expect = require('chai').expect;
 const HistorySupportAddon = require('../../../../../lib/tasks/server/middleware/history-support');
 
-describe('HistorySupportAddon', function() {
-  describe('.serverMiddleware', function() {
-    it('add middleware when locationType is auto', function() {
+describe('HistorySupportAddon', function () {
+  describe('.serverMiddleware', function () {
+    it('add middleware when locationType is auto', function () {
       let addon = new HistorySupportAddon({
         config() {
           return {
@@ -17,7 +17,7 @@ describe('HistorySupportAddon', function() {
       expect(addon.shouldAddMiddleware()).to.true;
     });
 
-    it('add middleware when locationType is history', function() {
+    it('add middleware when locationType is history', function () {
       let addon = new HistorySupportAddon({
         config() {
           return {
@@ -29,7 +29,7 @@ describe('HistorySupportAddon', function() {
       expect(addon.shouldAddMiddleware()).to.true;
     });
 
-    it('add middleware when locationType is an unknown type', function() {
+    it('add middleware when locationType is an unknown type', function () {
       let addon = new HistorySupportAddon({
         config() {
           return {
@@ -42,7 +42,7 @@ describe('HistorySupportAddon', function() {
       expect(addon.shouldAddMiddleware()).to.true;
     });
 
-    it('add middleware when historySupportMiddleware is true', function() {
+    it('add middleware when historySupportMiddleware is true', function () {
       let addon = new HistorySupportAddon({
         config() {
           return {
@@ -54,7 +54,7 @@ describe('HistorySupportAddon', function() {
       expect(addon.shouldAddMiddleware()).to.true;
     });
 
-    it('do not add middleware when historySupportMiddleware is false and locationType is history', function() {
+    it('do not add middleware when historySupportMiddleware is false and locationType is history', function () {
       let addon = new HistorySupportAddon({
         config() {
           return {

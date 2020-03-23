@@ -22,10 +22,10 @@ let dir = chai.dir;
 let addonName = 'some-cool-addon';
 let addonRoot;
 
-describe('Acceptance: addon-smoke-test', function() {
+describe('Acceptance: addon-smoke-test', function () {
   this.timeout(450000);
 
-  before(function() {
+  before(function () {
     return createTestTargets(addonName, {
       command: 'addon',
     });
@@ -33,13 +33,13 @@ describe('Acceptance: addon-smoke-test', function() {
 
   after(teardownTestTargets);
 
-  beforeEach(function() {
+  beforeEach(function () {
     addonRoot = linkDependencies(addonName);
 
     process.env.JOBS = '1';
   });
 
-  afterEach(function() {
+  afterEach(function () {
     runCommand.killAll();
     // Cleans up a folder set up on the other side of a symlink.
     fs.removeSync(path.join(addonRoot, 'node_modules', 'developing-addon'));
@@ -50,7 +50,7 @@ describe('Acceptance: addon-smoke-test', function() {
     delete process.env.JOBS;
   });
 
-  it('generates package.json with proper metadata', function() {
+  it('generates package.json with proper metadata', function () {
     let packageContents = fs.readJsonSync('package.json');
 
     expect(packageContents.name).to.equal(addonName);
@@ -59,11 +59,11 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(packageContents['ember-addon']).to.deep.equal({ configPath: 'tests/dummy/config' });
   });
 
-  it('ember addon foo, clean from scratch', function() {
+  it('ember addon foo, clean from scratch', function () {
     return ember(['test']);
   });
 
-  it('works in most common scenarios for an example addon', async function() {
+  it('works in most common scenarios for an example addon', async function () {
     await copyFixtureFiles('addon/kitchen-sink');
 
     let packageJsonPath = path.join(addonRoot, 'package.json');
@@ -99,8 +99,8 @@ describe('Acceptance: addon-smoke-test', function() {
     expect(result.code).to.eql(0);
   });
 
-  it('npm pack does not include unnecessary files', async function() {
-    let handleError = function(error, commandName) {
+  it('npm pack does not include unnecessary files', async function () {
+    let handleError = function (error, commandName) {
       if (error.code === 'ENOENT') {
         console.warn(chalk.yellow(`      Your system does not provide ${commandName} -> Skipped this test.`));
       } else {
@@ -139,7 +139,7 @@ describe('Acceptance: addon-smoke-test', function() {
     let outputFiles = output
       .split('\n')
       .filter(Boolean)
-      .map(f => f.replace(/^package\//, ''));
+      .map((f) => f.replace(/^package\//, ''));
 
     expect(outputFiles, 'verify our assumptions about the output structure').to.include.members(necessaryFiles);
 

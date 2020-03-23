@@ -5,20 +5,20 @@ const expect = require('chai').expect;
 const path = require('path');
 const chalk = require('chalk');
 
-describe('MarkdownColor', function() {
+describe('MarkdownColor', function () {
   let mc;
 
-  before(function() {
+  before(function () {
     if (!chalk.supportsColor) {
       this.skip();
     }
   });
 
-  beforeEach(function() {
+  beforeEach(function () {
     mc = new MarkdownColor();
   });
 
-  it('parses default markdown', function() {
+  it('parses default markdown', function () {
     // console.log(mc.render('# foo\n__bold__ **words**\n* un\n* ordered\n* list'))
     expect(mc.render('# foo\n__bold__ words\n* un\n* ordered\n* list')).to.equal(
       '\u001b[35m\u001b[4m\u001b[1m\nfoo\u001b[22m\u001b[24m\u001b[39m\n\u001b[0m' +
@@ -27,7 +27,7 @@ describe('MarkdownColor', function() {
     );
   });
 
-  it('parses color tokens', function() {
+  it('parses color tokens', function () {
     expect(mc.render('<red>red</red>')).to.equal('\u001b[0m\u001b[31mred\u001b[39m\u001b[0m\n\n');
     expect(mc.render('<green>green</green>')).to.equal('\u001b[0m\u001b[32mgreen\u001b[39m\u001b[0m\n\n');
     expect(mc.render('<blue>blue</blue>')).to.equal('\u001b[0m\u001b[34mblue\u001b[39m\u001b[0m\n\n');
@@ -49,13 +49,13 @@ describe('MarkdownColor', function() {
     expect(mc.render('<bgBlack>bgBlack</bgBlack>')).to.equal('\u001b[0m\u001b[40mbgBlack\u001b[49m\u001b[0m\n\n');
   });
 
-  it('parses custom tokens', function() {
+  it('parses custom tokens', function () {
     expect(mc.render('--option')).to.equal('\u001b[0m\u001b[36m--option\u001b[39m\u001b[0m\n\n');
     expect(mc.render('(Default: value)')).to.equal('\u001b[0m\u001b[36m(Default: value)\u001b[39m\u001b[0m\n\n');
     expect(mc.render('(Required)')).to.equal('\u001b[0m\u001b[36m(Required)\u001b[39m\u001b[0m\n\n');
   });
 
-  it('accepts tokens on instantiation', function() {
+  it('accepts tokens on instantiation', function () {
     let mctemp = new MarkdownColor({
       tokens: {
         foo: {
@@ -70,14 +70,14 @@ describe('MarkdownColor', function() {
     );
   });
 
-  it('parses markdown files', function() {
+  it('parses markdown files', function () {
     // console.log(mc.renderFile(path.join(__dirname,'../../../tests/fixtures/markdown/foo.md')))
     expect(mc.renderFile(path.join(__dirname, '../../../tests/fixtures/markdown/foo.md'))).to.equal(
       '\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[39m\u001b[36m \u001b[34mand I\u001b[39m enjoy eating them\u001b[39m\u001b[0m\n\n'
     );
   });
 
-  it('allows tokens inside other token bounds', function() {
+  it('allows tokens inside other token bounds', function () {
     // console.log(mc.render('<cyan>tacos are <yellow>delicious</yellow> and I enjoy eating them</cyan>'))
     expect(mc.render('<cyan>tacos are <yellow>delicious</yellow> and I enjoy eating them</cyan>')).to.equal(
       '\u001b[0m\u001b[36mtacos are \u001b[33mdelicious\u001b[39m\u001b[36m and I enjoy eating them\u001b[39m\u001b[0m\n\n'

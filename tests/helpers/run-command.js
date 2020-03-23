@@ -47,7 +47,7 @@ module.exports = function run(/* command, args, options */) {
   });
 
   let child;
-  const promise = new Promise(function(resolve, reject) {
+  const promise = new Promise(function (resolve, reject) {
     options.log(`      Running: ${command} ${args.join(' ')} in: ${process.cwd()}`);
 
     let opts = {};
@@ -73,7 +73,7 @@ module.exports = function run(/* command, args, options */) {
       code: null,
     };
 
-    child.stdout.on('data', function(data) {
+    child.stdout.on('data', function (data) {
       let string = data.toString();
 
       options.onOutput(string, child);
@@ -81,7 +81,7 @@ module.exports = function run(/* command, args, options */) {
       result.output.push(string);
     });
 
-    child.stderr.on('data', function(data) {
+    child.stderr.on('data', function (data) {
       let string = data.toString();
 
       options.onError(string, child);
@@ -89,7 +89,7 @@ module.exports = function run(/* command, args, options */) {
       result.errors.push(string);
     });
 
-    child.on('close', function(code, signal) {
+    child.on('close', function (code, signal) {
       result.code = code;
       result.signal = signal;
 
@@ -101,15 +101,15 @@ module.exports = function run(/* command, args, options */) {
     });
   });
 
-  promise.kill = function() {
+  promise.kill = function () {
     killCliProcess(child);
   };
 
   return promise;
 };
 
-module.exports.killAll = function() {
-  RUNS.forEach(run => {
+module.exports.killAll = function () {
+  RUNS.forEach((run) => {
     try {
       killCliProcess(run);
     } catch (e) {

@@ -8,13 +8,13 @@ const commandOptions = require('../../factories/command-options');
 const Task = require('../../../lib/models/task');
 const DestroyCommand = require('../../../lib/commands/destroy');
 
-describe('destroy command', function() {
+describe('destroy command', function () {
   let options, command, project;
 
-  beforeEach(function() {
+  beforeEach(function () {
     project = new MockProject();
 
-    project.isEmberCLIProject = function() {
+    project.isEmberCLIProject = function () {
       return true;
     };
 
@@ -33,16 +33,16 @@ describe('destroy command', function() {
     command = new DestroyCommand(options);
   });
 
-  it('runs DestroyFromBlueprint with expected options', function() {
-    return command.validateAndRun(['controller', 'foo']).then(function(options) {
+  it('runs DestroyFromBlueprint with expected options', function () {
+    return command.validateAndRun(['controller', 'foo']).then(function (options) {
       expect(options.dryRun).to.be.false;
       expect(options.verbose).to.be.false;
       expect(options.args).to.deep.equal(['controller', 'foo']);
     });
   });
 
-  it('complains if no entity name is given', function() {
-    return expect(command.validateAndRun(['controller'])).to.be.rejected.then(error => {
+  it('complains if no entity name is given', function () {
+    return expect(command.validateAndRun(['controller'])).to.be.rejected.then((error) => {
       expect(error.message).to.equal(
         'The `ember destroy` command requires an ' +
           'entity name to be specified. ' +
@@ -51,8 +51,8 @@ describe('destroy command', function() {
     });
   });
 
-  it('complains if no blueprint name is given', function() {
-    return expect(command.validateAndRun([])).to.be.rejected.then(error => {
+  it('complains if no blueprint name is given', function () {
+    return expect(command.validateAndRun([])).to.be.rejected.then((error) => {
       expect(error.message).to.equal(
         'The `ember destroy` command requires a ' +
           'blueprint name to be specified. ' +
@@ -61,13 +61,13 @@ describe('destroy command', function() {
     });
   });
 
-  it('does not throw errors when beforeRun is invoked without the blueprint name', function() {
+  it('does not throw errors when beforeRun is invoked without the blueprint name', function () {
     expect(() => {
       command.beforeRun([]);
     }).to.not.throw();
   });
 
-  it('rethrows errors from beforeRun', function() {
+  it('rethrows errors from beforeRun', function () {
     project.blueprintLookupPaths = undefined;
 
     expect(() => {
@@ -75,8 +75,8 @@ describe('destroy command', function() {
     }).to.throw(/(is not a function)|(has no method)/);
   });
 
-  describe('help', function() {
-    it('prints extra info', function() {
+  describe('help', function () {
+    it('prints extra info', function () {
       command.printDetailedHelp();
 
       let output = options.ui.output;

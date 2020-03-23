@@ -5,25 +5,25 @@ const expect = require('chai').expect;
 const MockUI = require('console-ui/mock');
 const td = require('testdouble');
 
-describe('windows-admin', function() {
+describe('windows-admin', function () {
   let ui;
 
-  beforeEach(function() {
+  beforeEach(function () {
     ui = new MockUI();
   });
 
-  describe('on windows', function() {
+  describe('on windows', function () {
     let isWindows = true;
 
-    describe('can symlink', function() {
+    describe('can symlink', function () {
       let canSymlink = true;
 
-      it('attempts to determine admin rights if Windows', function() {
+      it('attempts to determine admin rights if Windows', function () {
         let exec = td.function('exec');
 
         let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
 
-        return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+        return checker.checkIfSymlinksNeedToBeEnabled().then(function (result) {
           expect(result).to.be.ok;
           expect(result.windows).to.be.eql(true);
           expect(result.elevated).to.be.eql(null);
@@ -33,17 +33,17 @@ describe('windows-admin', function() {
       });
     });
 
-    describe('cannot symlink', function() {
+    describe('cannot symlink', function () {
       let canSymlink = false;
 
-      describe('attempts to determine admin rights', function() {
-        it('gets STDERR during NET SESSION exec', function() {
+      describe('attempts to determine admin rights', function () {
+        it('gets STDERR during NET SESSION exec', function () {
           let exec = td.function('exec');
           td.when(exec('NET SESSION', td.callback(null, null, 'error'))).thenReturn();
 
           let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
 
-          return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+          return checker.checkIfSymlinksNeedToBeEnabled().then(function (result) {
             expect(result.windows, 'is windows').to.be.eql(true);
             expect(result.elevated, 'is not elevated').to.be.eql(false);
             td.verify(exec(td.matchers.contains('NET SESSION'), td.matchers.anything()), { times: 1 });
@@ -52,13 +52,13 @@ describe('windows-admin', function() {
           });
         });
 
-        it('gets no stdrrduring NET  SESSION exec', function() {
+        it('gets no stdrrduring NET  SESSION exec', function () {
           let exec = td.function('exec');
           td.when(exec('NET SESSION', td.callback(null, null, null))).thenReturn();
 
           let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
 
-          return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+          return checker.checkIfSymlinksNeedToBeEnabled().then(function (result) {
             expect(result.windows, 'is windows').to.be.eql(true);
             expect(result.elevated, 'is elevated').to.be.eql(true);
             td.verify(exec(td.matchers.contains('NET SESSION'), td.matchers.anything()), { times: 1 });
@@ -69,15 +69,15 @@ describe('windows-admin', function() {
     });
   });
 
-  describe('on linux', function() {
+  describe('on linux', function () {
     let isWindows = false;
     let canSymlink = true;
 
-    it('does not attempt to determine admin', function() {
+    it('does not attempt to determine admin', function () {
       let exec = td.function('exec');
       let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink, exec);
 
-      return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+      return checker.checkIfSymlinksNeedToBeEnabled().then(function (result) {
         expect(result.windows).to.be.eql(false);
         expect(result.elevated).to.be.eql(null);
         expect(td.explain(exec).callCount).to.eql(0);
@@ -86,15 +86,15 @@ describe('windows-admin', function() {
     });
   });
 
-  describe('on darwin', function() {
+  describe('on darwin', function () {
     let isWindows = false;
     let canSymlink = true;
 
-    it('does not attempt to determine admin', function() {
+    it('does not attempt to determine admin', function () {
       let checker = new WindowsSymlinkChecker(ui, isWindows, canSymlink /* exec spy */);
       let exec = td.function('exec');
 
-      return checker.checkIfSymlinksNeedToBeEnabled().then(function(result) {
+      return checker.checkIfSymlinksNeedToBeEnabled().then(function (result) {
         expect(result.windows).to.be.eql(false);
         expect(result.elevated).to.be.eql(null);
         expect(td.explain(exec).callCount).to.eql(0);

@@ -4,10 +4,10 @@ const expect = require('chai').expect;
 const TestTask = require('../../../lib/tasks/test');
 const MockProject = require('../../helpers/mock-project');
 
-describe('test task test', function() {
+describe('test task test', function () {
   let subject;
 
-  it('transforms options for testem configuration', function() {
+  it('transforms options for testem configuration', function () {
     subject = new TestTask({
       project: new MockProject(),
       addonMiddlewares() {
@@ -55,7 +55,7 @@ describe('test task test', function() {
     });
   });
 
-  it('supports conditionally passing SSL configuration forward', function() {
+  it('supports conditionally passing SSL configuration forward', function () {
     subject = new TestTask({
       project: new MockProject(),
 

@@ -15,7 +15,7 @@ const EmberApp = require('../../../lib/broccoli/ember-app');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('template preprocessors', function() {
+describe('template preprocessors', function () {
   let input, output, addon;
 
   class FakeTemplateColocator extends BroccoliPlugin {
@@ -33,7 +33,7 @@ describe('template preprocessors', function() {
       let root = entries[0];
       let files = walkSync(path.join(inputPath, root), { directories: false });
 
-      files.forEach(file => {
+      files.forEach((file) => {
         let fullInputPath = path.join(inputPath, root, file);
         let fullOutputPath = path.join(this.outputPath, root, file);
 
@@ -55,8 +55,8 @@ describe('template preprocessors', function() {
     }
   }
 
-  describe('Addon', function() {
-    beforeEach(async function() {
+  describe('Addon', function () {
+    beforeEach(async function () {
       input = await createTempDir();
       let MockAddon = Addon.extend({
         root: input.path(),
@@ -77,12 +77,12 @@ describe('template preprocessors', function() {
       });
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await input.dispose();
       await output.dispose();
     });
 
-    it('the template preprocessor receives access to all files', async function() {
+    it('the template preprocessor receives access to all files', async function () {
       addon.registry.add('template', {
         name: 'fake-template-compiler',
         ext: 'hbs',
@@ -116,22 +116,22 @@ describe('template preprocessors', function() {
     });
   });
 
-  describe('EmberApp', function() {
+  describe('EmberApp', function () {
     let project;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       input = await createTempDir();
       let cli = new MockCLI();
       let pkg = { name: 'fake-app-test', devDependencies: { 'ember-cli': '*' } };
       project = new Project(input.path(), pkg, cli.ui, cli);
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await input.dispose();
       await output.dispose();
     });
 
-    it('the template preprocessor receives access to all files', async function() {
+    it('the template preprocessor receives access to all files', async function () {
       input.write({
         app: {
           components: {

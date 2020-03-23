@@ -9,13 +9,13 @@ const td = require('testdouble');
 
 let Blueprint = require('../../../lib/models/blueprint');
 
-describe('Blueprint', function() {
-  afterEach(function() {
+describe('Blueprint', function () {
+  afterEach(function () {
     td.reset();
   });
 
-  describe('.mapFile', function() {
-    it('replaces all occurrences of __name__ with module name', function() {
+  describe('.mapFile', function () {
+    it('replaces all occurrences of __name__ with module name', function () {
       let path = Blueprint.prototype.mapFile('__name__/__name__-controller.js', {
         dasherizedModuleName: 'my-blueprint',
       });
@@ -28,7 +28,7 @@ describe('Blueprint', function() {
       expect(path).to.equal('my-blueprint/my-blueprint.js');
     });
 
-    it('accepts locals.fileMap with multiple mappings', function() {
+    it('accepts locals.fileMap with multiple mappings', function () {
       let locals = {};
       locals.fileMap = {
         __name__: 'user',
@@ -45,24 +45,24 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('.list', function() {
-    beforeEach(function() {
-      td.replace(Blueprint, '_existsSync', function(path) {
+  describe('.list', function () {
+    beforeEach(function () {
+      td.replace(Blueprint, '_existsSync', function (path) {
         return path.indexOf('package.json') === -1;
       });
 
       td.replace(Blueprint, 'defaultLookupPaths');
       td.when(Blueprint.defaultLookupPaths()).thenReturn([]);
 
-      td.replace(Blueprint, 'load', function(blueprintPath) {
+      td.replace(Blueprint, 'load', function (blueprintPath) {
         return {
           name: path.basename(blueprintPath),
         };
       });
     });
 
-    it('returns a list of blueprints grouped by lookup path', function() {
-      td.replace(Blueprint, '_readdirSync', function() {
+    it('returns a list of blueprints grouped by lookup path', function () {
+      td.replace(Blueprint, '_readdirSync', function () {
         return ['test1', 'test2'];
       });
 
@@ -83,8 +83,8 @@ describe('Blueprint', function() {
       });
     });
 
-    it('overrides a blueprint of the same name from another package', function() {
-      td.replace(Blueprint, '_readdirSync', function() {
+    it('overrides a blueprint of the same name from another package', function () {
+      td.replace(Blueprint, '_readdirSync', function () {
         return ['test2'];
       });
 
@@ -113,21 +113,21 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('help', function() {
+  describe('help', function () {
     let blueprint;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint('path/to/my-blueprint');
     });
 
-    describe('printBasicHelp', function() {
-      beforeEach(function() {
+    describe('printBasicHelp', function () {
+      beforeEach(function () {
         td.replace(blueprint, '_printCommand', td.function());
         td.replace(blueprint, 'printDetailedHelp', td.function());
         td.when(blueprint.printDetailedHelp(), { ignoreExtraArgs: true }).thenReturn('help in detail');
       });
 
-      it('handles overridden', function() {
+      it('handles overridden', function () {
         Object.assign(blueprint, {
           overridden: true,
         });
@@ -142,7 +142,7 @@ describe('Blueprint', function() {
         td.verify(blueprint._printCommand(), { times: 0 });
       });
 
-      it('calls printCommand', function() {
+      it('calls printCommand', function () {
         td.when(blueprint._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
 
         let output = blueprint.printBasicHelp();
@@ -153,7 +153,7 @@ describe('Blueprint', function() {
         expect(output).to.equal(testString);
       });
 
-      it('prints detailed help if verbose', function() {
+      it('prints detailed help if verbose', function () {
         td.when(blueprint._printCommand(), { ignoreExtraArgs: true }).thenReturn(' command printed');
 
         let availableOptions = [];
@@ -171,9 +171,9 @@ help in detail`);
       });
     });
 
-    describe('printDetailedHelp', function() {
-      it('did not find the file', function() {
-        td.replace(Blueprint, '_existsSync', function() {
+    describe('printDetailedHelp', function () {
+      it('did not find the file', function () {
+        td.replace(Blueprint, '_existsSync', function () {
           return false;
         });
 
@@ -185,12 +185,12 @@ help in detail`);
         td.verify(MarkdownColor.prototype.renderFile(), { ignoreExtraArgs: true, times: 0 });
       });
 
-      it('found the file', function() {
-        td.replace(Blueprint, '_existsSync', function() {
+      it('found the file', function () {
+        td.replace(Blueprint, '_existsSync', function () {
           return true;
         });
 
-        td.replace(MarkdownColor.prototype, 'renderFile', function() {
+        td.replace(MarkdownColor.prototype, 'renderFile', function () {
           expect(arguments[1].indent).to.equal('        ');
           return 'test-file';
         });
@@ -201,12 +201,12 @@ help in detail`);
       });
     });
 
-    describe('getJson', function() {
-      beforeEach(function() {
+    describe('getJson', function () {
+      beforeEach(function () {
         blueprint._printableProperties = ['test1', 'availableOptions'];
       });
 
-      it('iterates options', function() {
+      it('iterates options', function () {
         let availableOptions = [
           {
             type: 'my-string-type',
@@ -238,7 +238,7 @@ help in detail`);
         });
       });
 
-      it('does not print detailed if not verbose', function() {
+      it('does not print detailed if not verbose', function () {
         td.replace(blueprint, 'printDetailedHelp', td.function());
 
         blueprint.getJson();
@@ -246,7 +246,7 @@ help in detail`);
         td.verify(blueprint.printDetailedHelp(), { ignoreExtraArgs: true, times: 0 });
       });
 
-      it('is calling printDetailedHelp with availableOptions', function() {
+      it('is calling printDetailedHelp with availableOptions', function () {
         td.replace(blueprint, 'printDetailedHelp', td.function());
 
         let availableOptions = [];
@@ -259,7 +259,7 @@ help in detail`);
         td.verify(blueprint.printDetailedHelp(availableOptions));
       });
 
-      it("if printDetailedHelp returns falsy, don't attach property detailedHelp", function() {
+      it("if printDetailedHelp returns falsy, don't attach property detailedHelp", function () {
         td.replace(blueprint, 'printDetailedHelp', td.function());
 
         let json = blueprint.getJson(true);
@@ -268,7 +268,7 @@ help in detail`);
         expect(json).to.not.have.property('detailedHelp');
       });
 
-      it('sets detailedHelp properly', function() {
+      it('sets detailedHelp properly', function () {
         td.replace(blueprint, 'printDetailedHelp', td.function());
         td.when(blueprint.printDetailedHelp(), { ignoreExtraArgs: true }).thenReturn('some details');
 

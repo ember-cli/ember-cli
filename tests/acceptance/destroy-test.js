@@ -14,24 +14,24 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 
-describe('Acceptance: ember destroy', function() {
+describe('Acceptance: ember destroy', function () {
   this.timeout(60000);
   let tmpdir;
 
-  before(function() {
+  before(function () {
     BlueprintNpmTask.disableNPM(Blueprint);
   });
 
-  after(function() {
+  after(function () {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     tmpdir = await mkTmpDirIn(tmproot);
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     process.chdir(root);
     return fs.remove(tmproot);
   });
@@ -51,18 +51,18 @@ describe('Acceptance: ember destroy', function() {
   }
 
   function assertFilesExist(files) {
-    files.forEach(function(f) {
+    files.forEach(function (f) {
       expect(file(f)).to.exist;
     });
   }
 
   function assertFilesNotExist(files) {
-    files.forEach(function(f) {
+    files.forEach(function (f) {
       expect(file(f)).to.not.exist;
     });
   }
 
-  const assertDestroyAfterGenerate = async function(args, files) {
+  const assertDestroyAfterGenerate = async function (args, files) {
     await initApp();
 
     await generate(args);
@@ -73,35 +73,35 @@ describe('Acceptance: ember destroy', function() {
     assertFilesNotExist(files);
   };
 
-  it('blueprint foo', function() {
+  it('blueprint foo', function () {
     let commandArgs = ['blueprint', 'foo'];
     let files = ['blueprints/foo/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('blueprint foo/bar', function() {
+  it('blueprint foo/bar', function () {
     let commandArgs = ['blueprint', 'foo/bar'];
     let files = ['blueprints/foo/bar/index.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('http-mock foo', function() {
+  it('http-mock foo', function () {
     let commandArgs = ['http-mock', 'foo'];
     let files = ['server/mocks/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('http-proxy foo', function() {
+  it('http-proxy foo', function () {
     let commandArgs = ['http-proxy', 'foo', 'bar'];
     let files = ['server/proxies/foo.js'];
 
     return assertDestroyAfterGenerate(commandArgs, files);
   });
 
-  it('deletes files generated using blueprints from the project directory', async function() {
+  it('deletes files generated using blueprints from the project directory', async function () {
     let commandArgs = ['foo', 'bar'];
     let files = ['app/foos/bar.js'];
     await initApp();
@@ -118,7 +118,7 @@ describe('Acceptance: ember destroy', function() {
     assertFilesNotExist(files);
   });
 
-  it('correctly identifies the root of the project', async function() {
+  it('correctly identifies the root of the project', async function () {
     let commandArgs = ['controller', 'foo'];
     let files = ['app/controllers/foo.js'];
     await initApp();
@@ -138,7 +138,7 @@ describe('Acceptance: ember destroy', function() {
     assertFilesNotExist(files);
   });
 
-  it('http-mock <name> does not remove server/', async function() {
+  it('http-mock <name> does not remove server/', async function () {
     await initApp();
     await generate(['http-mock', 'foo']);
     await generate(['http-mock', 'bar']);

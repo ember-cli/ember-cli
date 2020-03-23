@@ -8,7 +8,7 @@ const Command = require('../../../lib/models/command');
 const mergeBlueprintOptions = require('../../../lib/utilities/merge-blueprint-options');
 const td = require('testdouble');
 
-describe('merge-blueprint-options', function() {
+describe('merge-blueprint-options', function () {
   let TestCommand = Command.extend({
     name: 'test-command',
     description: 'Runs a test command.',
@@ -20,7 +20,7 @@ describe('merge-blueprint-options', function() {
     beforeRun: mergeBlueprintOptions,
   });
 
-  afterEach(function() {
+  afterEach(function () {
     td.reset();
   });
 
@@ -30,7 +30,7 @@ describe('merge-blueprint-options', function() {
     });
   }
 
-  it("it works as a command's beforeRun()", function() {
+  it("it works as a command's beforeRun()", function () {
     let command, availableOptions;
 
     td.replace(Blueprint, 'lookup', td.function());

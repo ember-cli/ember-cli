@@ -7,14 +7,14 @@ const MockAnalytics = require('../../helpers/mock-analytics');
 const Command = require('../../../lib/models/command');
 const Yam = require('yam');
 
-describe('.ember-cli', function() {
+describe('.ember-cli', function () {
   let ui;
   let analytics;
   let project;
   let settings;
   let homeSettings;
 
-  before(function() {
+  before(function () {
     ui = new MockUI();
     analytics = new MockAnalytics();
     project = {
@@ -36,7 +36,7 @@ describe('.ember-cli', function() {
     }).getAll();
   });
 
-  it('local settings take precedence over global settings', function() {
+  it('local settings take precedence over global settings', function () {
     let command = new Command({
       ui,
       analytics,

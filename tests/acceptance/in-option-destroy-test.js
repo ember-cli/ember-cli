@@ -16,25 +16,25 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 
-describe('Acceptance: ember destroy with --in option', function() {
+describe('Acceptance: ember destroy with --in option', function () {
   let tmpdir;
 
   this.timeout(20000);
 
-  before(function() {
+  before(function () {
     BlueprintNpmTask.disableNPM(Blueprint);
   });
 
-  after(function() {
+  after(function () {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     tmpdir = await mkTmpDirIn(tmproot);
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     this.timeout(10000);
 
     process.chdir(root);
@@ -52,18 +52,18 @@ describe('Acceptance: ember destroy with --in option', function() {
   }
 
   function assertFilesExist(files) {
-    files.forEach(function(f) {
+    files.forEach(function (f) {
       expect(file(f)).to.exist;
     });
   }
 
   function assertFilesNotExist(files) {
-    files.forEach(function(f) {
+    files.forEach(function (f) {
       expect(file(f)).to.not.exist;
     });
   }
 
-  const assertDestroyAfterGenerate = async function(args, addonPath, files) {
+  const assertDestroyAfterGenerate = async function (args, addonPath, files) {
     await initApp();
     await generateUtils.inRepoAddon(addonPath);
     await generateUtils.tempBlueprint();
@@ -76,7 +76,7 @@ describe('Acceptance: ember destroy with --in option', function() {
     assertFilesNotExist(files);
   };
 
-  it('blueprint foo --in lib/other-thing', function() {
+  it('blueprint foo --in lib/other-thing', function () {
     let addonPath = './lib/other-thing';
     let commandArgs = ['foo', 'bar', '--in', addonPath];
     let files = ['lib/other-thing/addon/foos/bar.js'];
@@ -84,7 +84,7 @@ describe('Acceptance: ember destroy with --in option', function() {
     return assertDestroyAfterGenerate(commandArgs, addonPath, files);
   });
 
-  it('blueprint foo --in ./non-lib/other-thing', function() {
+  it('blueprint foo --in ./non-lib/other-thing', function () {
     let addonPath = './non-lib/other-thing';
     let commandArgs = ['foo', 'bar', '--in', addonPath];
     let files = ['non-lib/other-thing/addon/foos/bar.js'];
@@ -92,7 +92,7 @@ describe('Acceptance: ember destroy with --in option', function() {
     return assertDestroyAfterGenerate(commandArgs, addonPath, files);
   });
 
-  it('blueprint foo --in non-lib/other-thing', function() {
+  it('blueprint foo --in non-lib/other-thing', function () {
     let addonPath = 'non-lib/other-thing';
     let commandArgs = ['foo', 'bar', '--in', addonPath];
     let files = ['non-lib/other-thing/addon/foos/bar.js'];
@@ -100,7 +100,7 @@ describe('Acceptance: ember destroy with --in option', function() {
     return assertDestroyAfterGenerate(commandArgs, addonPath, files);
   });
 
-  it('blueprint foo --in non-lib/nested/other-thing', function() {
+  it('blueprint foo --in non-lib/nested/other-thing', function () {
     let addonPath = 'non-lib/nested/other-thing';
     let commandArgs = ['foo', 'bar', '--in', addonPath];
     let files = ['non-lib/nested/other-thing/addon/foos/bar.js'];

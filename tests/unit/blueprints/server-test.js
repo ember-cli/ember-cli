@@ -11,12 +11,12 @@ const chai = require('ember-cli-blueprint-test-helpers/chai');
 let expect = chai.expect;
 let file = chai.file;
 
-describe('Acceptance: ember generate and destroy server', function() {
+describe('Acceptance: ember generate and destroy server', function () {
   setupTestHooks(this, {
     cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
-  it('server', async function() {
+  it('server', async function () {
     let args = ['server'];
 
     await emberNew();
@@ -26,7 +26,7 @@ describe('Acceptance: ember generate and destroy server', function() {
     // TODO: assert that `morgan` and `glob` dependencies were installed
   });
 
-  it('server with ember-cli-jshint', async function() {
+  it('server with ember-cli-jshint', async function () {
     let args = ['server'];
 
     await emberNew();

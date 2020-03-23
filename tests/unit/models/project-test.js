@@ -11,7 +11,7 @@ const emberCLIVersion = require('../../../lib/utilities/version-utils').emberCLI
 const td = require('testdouble');
 const MockCLI = require('../../helpers/mock-cli');
 
-describe('models/project.js', function() {
+describe('models/project.js', function () {
   let project, projectPath, packageContents;
 
   function makeProject() {
@@ -19,24 +19,24 @@ describe('models/project.js', function() {
     project = new Project(projectPath, packageContents, cli.ui, cli);
   }
 
-  beforeEach(function() {
+  beforeEach(function () {
     packageContents = {};
   });
 
-  afterEach(function() {
+  afterEach(function () {
     if (project) {
       project = null;
     }
   });
 
-  describe('constructor', function() {
-    it('sets up bidirectional instrumentation', function() {
+  describe('constructor', function () {
+    it('sets up bidirectional instrumentation', function () {
       let cli = new MockCLI();
 
       expect(cli.instrumentation.project).to.equal(null);
 
       projectPath = 'tmp/test-app';
-      return tmp.setup(projectPath).then(function() {
+      return tmp.setup(projectPath).then(function () {
         touch(`${projectPath}/config/environment.js`, {
           baseURL: '/foo/bar',
         });
@@ -48,13 +48,13 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('Project.prototype.config', function() {
+  describe('Project.prototype.config', function () {
     let called;
     projectPath = 'tmp/test-app';
 
-    beforeEach(function() {
+    beforeEach(function () {
       called = false;
-      return tmp.setup(projectPath).then(function() {
+      return tmp.setup(projectPath).then(function () {
         touch(`${projectPath}/config/environment.js`, {
           baseURL: '/foo/bar',
         });
@@ -69,24 +69,24 @@ describe('models/project.js', function() {
 
         makeProject();
 
-        project.require = function() {
+        project.require = function () {
           called = true;
-          return function() {};
+          return function () {};
         };
       });
     });
 
-    afterEach(function() {
+    afterEach(function () {
       called = null;
       return tmp.teardown(projectPath);
     });
 
-    it('config() finds and requires config/environment', function() {
+    it('config() finds and requires config/environment', function () {
       project.config('development');
       expect(called).to.equal(true);
     });
 
-    it('config() with no args returns the config corresponding to the current EMBER_ENV', function() {
+    it('config() with no args returns the config corresponding to the current EMBER_ENV', function () {
       process.env.EMBER_ENV = 'testing';
 
       project.config();
@@ -99,8 +99,8 @@ describe('models/project.js', function() {
       expect(configCacheKey).to.match(/testing/i);
     });
 
-    describe('memoizes', function() {
-      it('memoizes', function() {
+    describe('memoizes', function () {
+      it('memoizes', function () {
         project.config('development');
         expect(called).to.equal(true);
         called = false;
@@ -108,8 +108,8 @@ describe('models/project.js', function() {
         expect(called).to.equal(false);
       });
 
-      it('considers configPath when memoizing', function() {
-        project.configPath = function() {
+      it('considers configPath when memoizing', function () {
+        project.configPath = function () {
           return `${projectPath}/config/a`;
         };
         project.config('development');
@@ -117,7 +117,7 @@ describe('models/project.js', function() {
         expect(called).to.equal(true);
         called = false;
 
-        project.configPath = function() {
+        project.configPath = function () {
           return `${projectPath}/config/a`;
         };
         project.config('development');
@@ -125,7 +125,7 @@ describe('models/project.js', function() {
         expect(called).to.equal(false);
         called = false;
 
-        project.configPath = function() {
+        project.configPath = function () {
           return `${projectPath}/config/b`;
         };
         project.config('development');
@@ -140,7 +140,7 @@ describe('models/project.js', function() {
       });
     });
 
-    it('configPath() returns tests/dummy/config/environment', function() {
+    it('configPath() returns tests/dummy/config/environment', function () {
       project.pkg = {
         'ember-addon': {
           configPath: 'tests/dummy/config',
@@ -152,10 +152,10 @@ describe('models/project.js', function() {
       expect(project.configPath().slice(-expected.length)).to.equal(expected);
     });
 
-    it('calls getAddonsConfig', function() {
+    it('calls getAddonsConfig', function () {
       let addonConfigCalled = false;
 
-      project.getAddonsConfig = function() {
+      project.getAddonsConfig = function () {
         addonConfigCalled = true;
 
         return {};
@@ -165,12 +165,12 @@ describe('models/project.js', function() {
       expect(addonConfigCalled).to.equal(true);
     });
 
-    it('returns getAddonsConfig result when configPath is not present', function() {
+    it('returns getAddonsConfig result when configPath is not present', function () {
       let expected = {
         foo: 'bar',
       };
 
-      project.getAddonsConfig = function() {
+      project.getAddonsConfig = function () {
         return expected;
       };
 
@@ -178,10 +178,10 @@ describe('models/project.js', function() {
       expect(actual).to.deep.equal(expected);
     });
 
-    describe('merges getAddonsConfig result with app config', function() {
+    describe('merges getAddonsConfig result with app config', function () {
       let projectConfig, addon1Config, addon2Config;
 
-      beforeEach(function() {
+      beforeEach(function () {
         addon1Config = { addon: { derp: 'herp' } };
         addon2Config = { addon: { blammo: 'blahzorz' } };
 
@@ -201,14 +201,14 @@ describe('models/project.js', function() {
 
         project._addonsInitialized = true;
 
-        project.require = function() {
-          return function() {
+        project.require = function () {
+          return function () {
             return projectConfig;
           };
         };
       });
 
-      it('merges getAddonsConfig result with app config', function() {
+      it('merges getAddonsConfig result with app config', function () {
         let expected = {
           foo: 'bar',
           baz: 'qux',
@@ -222,7 +222,7 @@ describe('models/project.js', function() {
         expect(actual).to.deep.equal(expected);
       });
 
-      it('getAddonsConfig does NOT override project config', function() {
+      it('getAddonsConfig does NOT override project config', function () {
         let expected = {
           foo: 'bar',
           baz: 'qux',
@@ -240,18 +240,18 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('Project.prototype.targets', function() {
-    beforeEach(function() {
+  describe('Project.prototype.targets', function () {
+    beforeEach(function () {
       projectPath = 'tmp/test-app';
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return tmp.teardown(projectPath);
     });
 
-    describe('when the is a `/config/targets.js` file', function() {
-      beforeEach(function() {
-        return tmp.setup(projectPath).then(function() {
+    describe('when the is a `/config/targets.js` file', function () {
+      beforeEach(function () {
+        return tmp.setup(projectPath).then(function () {
           let targetsPath = path.join(projectPath, 'config', 'targets.js');
           fs.createFileSync(targetsPath);
           fs.writeFileSync(targetsPath, 'module.exports = { browsers: ["last 2 versions", "safari >= 7"] };', {
@@ -260,27 +260,27 @@ describe('models/project.js', function() {
 
           makeProject();
 
-          project.require = function() {
+          project.require = function () {
             return { browsers: ['last 2 versions', 'safari >= 7'] };
           };
         });
       });
 
-      it('returns the object defined in `/config/targets` if present', function() {
+      it('returns the object defined in `/config/targets` if present', function () {
         expect(project.targets).to.deep.equal({
           browsers: ['last 2 versions', 'safari >= 7'],
         });
       });
     });
 
-    describe("when there isn't a `/config/targets.js` file", function() {
-      beforeEach(function() {
-        return tmp.setup(projectPath).then(function() {
+    describe("when there isn't a `/config/targets.js` file", function () {
+      beforeEach(function () {
+        return tmp.setup(projectPath).then(function () {
           makeProject();
         });
       });
 
-      it('returns the default targets', function() {
+      it('returns the default targets', function () {
         expect(project.targets).to.deep.equal({
           browsers: ['ie 11', 'last 1 Chrome versions', 'last 1 Firefox versions', 'last 1 Safari versions'],
         });
@@ -288,8 +288,8 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('addons', function() {
-    beforeEach(function() {
+  describe('addons', function () {
+    beforeEach(function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       packageContents = require(path.join(projectPath, 'package.json'));
 
@@ -298,7 +298,7 @@ describe('models/project.js', function() {
       project.initializeAddons();
     });
 
-    it("returns a listing of all dependencies in the project's package.json", function() {
+    it("returns a listing of all dependencies in the project's package.json", function () {
       let expected = {
         'ember-cli': 'latest',
         'ember-random-addon': 'latest',
@@ -317,7 +317,7 @@ describe('models/project.js', function() {
       expect(project.dependencies()).to.deep.equal(expected);
     });
 
-    it("returns a listing of all dependencies in the project's bower.json", function() {
+    it("returns a listing of all dependencies in the project's bower.json", function () {
       let expected = {
         jquery: '^1.11.1',
         ember: '1.7.0',
@@ -330,7 +330,7 @@ describe('models/project.js', function() {
       expect(project.bowerDependencies()).to.deep.equal(expected);
     });
 
-    it('returns a listing of all ember-cli-addons directly depended on by the project', function() {
+    it('returns a listing of all ember-cli-addons directly depended on by the project', function () {
       let expected = [
         'amd-transform',
         'broccoli-serve-files',
@@ -351,7 +351,7 @@ describe('models/project.js', function() {
       expect(Object.keys(project.addonPackages)).to.deep.equal(expected);
     });
 
-    it('returns instances of the addons', function() {
+    it('returns instances of the addons', function () {
       let addons = project.addons;
 
       expect(addons[8].name).to.equal('ember-before-blueprint-addon');
@@ -360,25 +360,25 @@ describe('models/project.js', function() {
       expect(addons[14].addons[1].name).to.equal('ember-ng');
     });
 
-    it('addons get passed the project instance', function() {
+    it('addons get passed the project instance', function () {
       let addons = project.addons;
 
       expect(addons[1].project).to.equal(project);
     });
 
-    it('returns an instance of an addon that uses `ember-addon-main`', function() {
+    it('returns an instance of an addon that uses `ember-addon-main`', function () {
       let addons = project.addons;
 
       expect(addons[10].name).to.equal('ember-random-addon');
     });
 
-    it('returns the default blueprints path', function() {
+    it('returns the default blueprints path', function () {
       let expected = project.root + path.normalize('/blueprints');
 
       expect(project.localBlueprintLookupPath()).to.equal(expected);
     });
 
-    it('returns a listing of all addon blueprints paths ordered by last loaded when called once', function() {
+    it('returns a listing of all addon blueprints paths ordered by last loaded when called once', function () {
       let loadedBlueprintPaths = [
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
@@ -392,7 +392,7 @@ describe('models/project.js', function() {
       expect(first).to.deep.equal(expected);
     });
 
-    it('returns a listing of all addon blueprints paths ordered by last loaded when called twice', function() {
+    it('returns a listing of all addon blueprints paths ordered by last loaded when called twice', function () {
       let loadedBlueprintPaths = [
         project.root + path.normalize('/node_modules/ember-before-blueprint-addon/blueprints'),
         project.root + path.normalize('/node_modules/ember-random-addon/blueprints'),
@@ -407,7 +407,7 @@ describe('models/project.js', function() {
       expect(second).to.deep.equal(expected);
     });
 
-    it('returns a listing of all blueprints paths', function() {
+    it('returns a listing of all blueprints paths', function () {
       let expected = [
         project.root + path.normalize('/blueprints'),
         project.root + path.normalize('/node_modules/ember-after-blueprint-addon/blueprints'),
@@ -418,24 +418,24 @@ describe('models/project.js', function() {
       expect(project.blueprintLookupPaths()).to.deep.equal(expected);
     });
 
-    it('does not include blueprint path relative to root if outside a project', function() {
-      project.isEmberCLIProject = function() {
+    it('does not include blueprint path relative to root if outside a project', function () {
+      project.isEmberCLIProject = function () {
         return false;
       };
 
       expect(project.blueprintLookupPaths()).to.deep.equal(project.addonBlueprintLookupPaths());
     });
 
-    it('returns an instance of an addon with an object export', function() {
+    it('returns an instance of an addon with an object export', function () {
       let addons = project.addons;
 
       expect(addons[13] instanceof Addon).to.equal(true);
       expect(addons[13].name).to.equal('ember-generated-with-export-addon');
     });
 
-    it('adds the project itself if it is an addon', function() {
+    it('adds the project itself if it is an addon', function () {
       project.addonPackages = {};
-      project.isEmberCLIAddon = function() {
+      project.isEmberCLIAddon = function () {
         return true;
       };
 
@@ -444,7 +444,7 @@ describe('models/project.js', function() {
       expect(project.addonPackages[project.name()]).to.exist;
     });
 
-    it('should catch addon constructor errors', function() {
+    it('should catch addon constructor errors', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/invalid-constructor');
       packageContents = require(path.join(projectPath, 'package.json'));
 
@@ -460,8 +460,8 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('reloadAddon', function() {
-    beforeEach(function() {
+  describe('reloadAddon', function () {
+    beforeEach(function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       packageContents = require(path.join(projectPath, 'package.json'));
 
@@ -475,26 +475,26 @@ describe('models/project.js', function() {
       project.reloadAddons();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       td.reset();
     });
 
-    it('sets _addonsInitialized to false', function() {
+    it('sets _addonsInitialized to false', function () {
       expect(project._addonsInitialized).to.equal(false);
     });
 
-    it('reloads the package', function() {
+    it('reloads the package', function () {
       td.verify(Project.prototype.reloadPkg(), { ignoreExtraArgs: true });
     });
 
-    it('initializes the addons', function() {
+    it('initializes the addons', function () {
       td.verify(Project.prototype.initializeAddons(), { ignoreExtraArgs: true });
     });
   });
 
-  describe('reloadPkg', function() {
+  describe('reloadPkg', function () {
     let newProjectPath, oldPkg;
-    beforeEach(function() {
+    beforeEach(function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       packageContents = require(path.join(projectPath, 'package.json'));
 
@@ -508,57 +508,57 @@ describe('models/project.js', function() {
       project.root = newProjectPath;
     });
 
-    it('reloads the package from disk', function() {
+    it('reloads the package from disk', function () {
       project.reloadPkg();
 
       expect(oldPkg).to.not.deep.equal(project.pkg);
     });
   });
 
-  describe('emberCLIVersion', function() {
-    beforeEach(function() {
+  describe('emberCLIVersion', function () {
+    beforeEach(function () {
       projectPath = `${process.cwd()}/tmp/test-app`;
       makeProject();
     });
 
-    it('should return the same value as the utility function', function() {
+    it('should return the same value as the utility function', function () {
       expect(project.emberCLIVersion()).to.equal(emberCLIVersion());
     });
   });
 
-  describe('isEmberCLIProject', function() {
-    beforeEach(function() {
+  describe('isEmberCLIProject', function () {
+    beforeEach(function () {
       projectPath = `${process.cwd()}/tmp/test-app`;
 
       makeProject();
     });
 
-    it('returns false when `ember-cli` is not a dependency', function() {
+    it('returns false when `ember-cli` is not a dependency', function () {
       expect(project.isEmberCLIProject()).to.equal(false);
     });
 
-    it('returns true when `ember-cli` is a devDependency', function() {
+    it('returns true when `ember-cli` is a devDependency', function () {
       project.pkg.devDependencies = { 'ember-cli': '*' };
 
       expect(project.isEmberCLIProject()).to.equal(true);
     });
 
-    it('returns true when `ember-cli` is a dependency', function() {
+    it('returns true when `ember-cli` is a dependency', function () {
       project.pkg.dependencies = { 'ember-cli': '*' };
 
       expect(project.isEmberCLIProject()).to.equal(true);
     });
   });
 
-  describe('isEmberCLIAddon', function() {
-    beforeEach(function() {
+  describe('isEmberCLIAddon', function () {
+    beforeEach(function () {
       projectPath = `${process.cwd()}/tmp/test-app`;
 
       makeProject();
       project.initializeAddons();
     });
 
-    it('should return true if `ember-addon` is included in keywords', function() {
+    it('should return true if `ember-addon` is included in keywords', function () {
       project.pkg = {
         keywords: ['ember-addon'],
       };
@@ -566,7 +566,7 @@ describe('models/project.js', function() {
       expect(project.isEmberCLIAddon()).to.equal(true);
     });
 
-    it('should return false if `ember-addon` is not included in keywords', function() {
+    it('should return false if `ember-addon` is not included in keywords', function () {
       project.pkg = {
         keywords: [],
       };
@@ -575,8 +575,8 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('findAddonByName', function() {
-    beforeEach(function() {
+  describe('findAddonByName', function () {
+    beforeEach(function () {
       projectPath = `${process.cwd()}/tmp/test-app`;
 
       makeProject();
@@ -598,16 +598,16 @@ describe('models/project.js', function() {
       ];
     });
 
-    afterEach(function() {
+    afterEach(function () {
       td.reset();
     });
 
-    it('should call initialize addons', function() {
+    it('should call initialize addons', function () {
       project.findAddonByName('foo');
       td.verify(project.initializeAddons(), { ignoreExtraArgs: true });
     });
 
-    it('generally should work and defer to findAddonByName utlity', function() {
+    it('generally should work and defer to findAddonByName utlity', function () {
       let addon;
       addon = project.findAddonByName('foo');
       expect(addon.name).to.equal('foo', 'should have found the foo addon');
@@ -617,49 +617,49 @@ describe('models/project.js', function() {
     });
   });
 
-  describe('bowerDirectory', function() {
-    beforeEach(function() {
+  describe('bowerDirectory', function () {
+    beforeEach(function () {
       projectPath = path.resolve(__dirname, '../../fixtures/addon/simple');
       makeProject();
     });
 
-    it('should be initialized in constructor', function() {
+    it('should be initialized in constructor', function () {
       expect(project.bowerDirectory).to.equal('bower_components');
     });
 
-    it('should be set to directory property in .bowerrc', function() {
+    it('should be set to directory property in .bowerrc', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-with-directory');
       makeProject();
       expect(project.bowerDirectory).to.equal('vendor');
     });
 
-    it('should default to ‘bower_components’ unless directory property is set in .bowerrc', function() {
+    it('should default to ‘bower_components’ unless directory property is set in .bowerrc', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/bowerrc-without-directory');
       makeProject();
       expect(project.bowerDirectory).to.equal('bower_components');
     });
 
-    it('should default to ‘bower_components’ if .bowerrc is not present', function() {
+    it('should default to ‘bower_components’ if .bowerrc is not present', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/no-bowerrc');
       makeProject();
       expect(project.bowerDirectory).to.equal('bower_components');
     });
 
-    it('should default to ‘bower_components’ if .bowerrc json is invalid', function() {
+    it('should default to ‘bower_components’ if .bowerrc json is invalid', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/bower-directory-tests/invalid-bowerrc');
       makeProject();
       expect(project.bowerDirectory).to.equal('bower_components');
     });
   });
 
-  describe('.nullProject', function() {
-    it('is a singleton', function() {
+  describe('.nullProject', function () {
+    it('is a singleton', function () {
       expect(Project.nullProject()).to.equal(Project.nullProject());
     });
   });
 
-  describe('generateTestFile()', function() {
-    it('returns empty file and shows warning', function() {
+  describe('generateTestFile()', function () {
+    it('returns empty file and shows warning', function () {
       projectPath = path.resolve(__dirname, '../../fixtures/project');
       makeProject();
 

@@ -36,7 +36,7 @@ function applyCommand(command, name /*, ...flags*/) {
   let binaryPath = path.resolve(path.join(__dirname, '..', '..', 'bin', 'ember'));
   let args = [binaryPath, command, name, '--disable-analytics', '--watcher=node', '--skip-git', runCommandOptions];
 
-  flags.forEach(function(flag) {
+  flags.forEach(function (flag) {
     args.splice(2, 0, flag);
   });
 

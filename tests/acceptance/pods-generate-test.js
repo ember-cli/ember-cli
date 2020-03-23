@@ -15,25 +15,25 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 
-describe('Acceptance: ember generate pod', function() {
+describe('Acceptance: ember generate pod', function () {
   this.timeout(60000);
 
   let tmpdir;
 
-  before(function() {
+  before(function () {
     BlueprintNpmTask.disableNPM(Blueprint);
   });
 
-  after(function() {
+  after(function () {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     tmpdir = await mkTmpDirIn(tmproot);
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     process.chdir(root);
     return fs.remove(tmproot);
   });
@@ -51,7 +51,7 @@ describe('Acceptance: ember generate pod', function() {
   function generate(args) {
     let generateArgs = ['generate'].concat(args);
 
-    return initApp().then(function() {
+    return initApp().then(function () {
       return ember(generateArgs);
     });
   }
@@ -59,13 +59,13 @@ describe('Acceptance: ember generate pod', function() {
   function generateWithPrefix(args) {
     let generateArgs = ['generate'].concat(args);
 
-    return initApp().then(function() {
+    return initApp().then(function () {
       replaceFile('config/environment.js', '(var|let|const) ENV = {', "$1 ENV = {\npodModulePrefix: 'app/pods', \n");
       return ember(generateArgs);
     });
   }
 
-  it('blueprint foo --pod', async function() {
+  it('blueprint foo --pod', async function () {
     await generate(['blueprint', 'foo', '--pod']);
 
     expect(file('blueprints/foo/index.js')).to.contain(
@@ -86,7 +86,7 @@ describe('Acceptance: ember generate pod', function() {
     );
   });
 
-  it('blueprint foo/bar --pod', async function() {
+  it('blueprint foo/bar --pod', async function () {
     await generate(['blueprint', 'foo/bar', '--pod']);
 
     expect(file('blueprints/foo/bar/index.js')).to.contain(
@@ -107,7 +107,7 @@ describe('Acceptance: ember generate pod', function() {
     );
   });
 
-  it('http-mock foo --pod', async function() {
+  it('http-mock foo --pod', async function () {
     await generate(['http-mock', 'foo', '--pod']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -164,7 +164,7 @@ describe('Acceptance: ember generate pod', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('http-mock foo-bar --pod', async function() {
+  it('http-mock foo-bar --pod', async function () {
     await generate(['http-mock', 'foo-bar', '--pod']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -221,7 +221,7 @@ describe('Acceptance: ember generate pod', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('http-proxy foo --pod', async function() {
+  it('http-proxy foo --pod', async function () {
     await generate(['http-proxy', 'foo', 'http://localhost:5000', '--pod']);
 
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
@@ -249,7 +249,7 @@ describe('Acceptance: ember generate pod', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('uses blueprints from the project directory', async function() {
+  it('uses blueprints from the project directory', async function () {
     await initApp();
     await fs.outputFile(
       'blueprints/foo/files/app/foos/__name__.js',
@@ -261,7 +261,7 @@ describe('Acceptance: ember generate pod', function() {
     expect(file('app/foos/bar.js')).to.contain('foo: true');
   });
 
-  it('allows custom blueprints to override built-ins', async function() {
+  it('allows custom blueprints to override built-ins', async function () {
     await initApp();
     await fs.outputFile(
       'blueprints/controller/files/app/__path__/__name__.js',
@@ -273,7 +273,7 @@ describe('Acceptance: ember generate pod', function() {
     expect(file('app/foo/controller.js')).to.contain('custom: true');
   });
 
-  it('passes custom cli arguments to blueprint options', async function() {
+  it('passes custom cli arguments to blueprint options', async function () {
     await initApp();
     await fs.outputFile(
       'blueprints/customblue/files/app/__name__.js',
@@ -303,7 +303,7 @@ describe('Acceptance: ember generate pod', function() {
     expect(file('app/foo.js')).to.contain('A: Yes!');
   });
 
-  it('correctly identifies the root of the project', async function() {
+  it('correctly identifies the root of the project', async function () {
     await initApp();
     await fs.outputFile(
       'blueprints/controller/files/app/__path__/__name__.js',
@@ -318,7 +318,7 @@ describe('Acceptance: ember generate pod', function() {
   });
 
   // Skip until podModulePrefix is deprecated
-  it.skip('podModulePrefix deprecation warning', async function() {
+  it.skip('podModulePrefix deprecation warning', async function () {
     let result = await generateWithPrefix(['controller', 'foo', '--pod']);
 
     expect(result.outputStream.join()).to.include(

@@ -10,7 +10,7 @@ const EOL = require('os').EOL;
 const chalk = require('chalk');
 const BuildError = require('../../helpers/build-error');
 
-describe('Watcher', function() {
+describe('Watcher', function () {
   let ui;
   let subject;
   let builder;
@@ -35,7 +35,7 @@ describe('Watcher', function() {
     },
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     ui = new MockUI();
     analytics = new MockAnalytics();
 
@@ -49,8 +49,8 @@ describe('Watcher', function() {
     });
   });
 
-  describe('watcher strategy selection', function() {
-    it('selects the events-based watcher by default', function() {
+  describe('watcher strategy selection', function () {
+    it('selects the events-based watcher by default', function () {
       subject.options = null;
 
       expect(subject.buildOptions()).to.deep.equal({
@@ -61,7 +61,7 @@ describe('Watcher', function() {
       });
     });
 
-    it('selects the events-based watcher when given events watcher option', function() {
+    it('selects the events-based watcher when given events watcher option', function () {
       subject.options = {
         watcher: 'events',
       };
@@ -74,7 +74,7 @@ describe('Watcher', function() {
       });
     });
 
-    it('selects the polling watcher when given polling watcher option', function() {
+    it('selects the polling watcher when given polling watcher option', function () {
       subject.options = {
         watcher: 'polling',
       };
@@ -88,27 +88,27 @@ describe('Watcher', function() {
     });
   });
 
-  describe('underlining watcher properly logs change events', function() {
-    it('logs that the file was added', function() {
+  describe('underlining watcher properly logs change events', function () {
+    it('logs that the file was added', function () {
       watcher.emit('change', 'add', 'foo.txt');
       expect(ui.output).to.equal(`file added foo.txt${EOL}`);
     });
-    it('logs that the file was changed', function() {
+    it('logs that the file was changed', function () {
       watcher.emit('change', 'change', 'foo.txt');
       expect(ui.output).to.equal(`file changed foo.txt${EOL}`);
     });
-    it('logs that the file was deleted', function() {
+    it('logs that the file was deleted', function () {
       watcher.emit('change', 'delete', 'foo.txt');
       expect(ui.output).to.equal(`file deleted foo.txt${EOL}`);
     });
   });
 
-  describe(`watcher:buildSuccess`, function() {
-    beforeEach(function() {
+  describe(`watcher:buildSuccess`, function () {
+    beforeEach(function () {
       watcher.emit(`buildSuccess`, mockResult);
     });
 
-    it('tracks events', function() {
+    it('tracks events', function () {
       expect(analytics.tracks).to.deep.equal([
         {
           name: 'ember rebuild',
@@ -117,7 +117,7 @@ describe('Watcher', function() {
       ]);
     });
 
-    it('tracks timings', function() {
+    it('tracks timings', function () {
       expect(analytics.trackTimings).to.deep.equal([
         {
           category: 'rebuild',
@@ -128,15 +128,15 @@ describe('Watcher', function() {
       ]);
     });
 
-    it('logs that the build was successful', function() {
+    it('logs that the build was successful', function () {
       expect(ui.output).to.equal(EOL + chalk.green('Build successful (12344ms)') + EOL);
     });
   });
 
-  describe('output', function() {
+  describe('output', function () {
     this.timeout(40000);
 
-    it('with ssl', function() {
+    it('with ssl', function () {
       let subject = new Watcher({
         ui,
         analytics,
@@ -166,7 +166,7 @@ describe('Watcher', function() {
       expect(output[0]).to.equal(`${chalk.green('Build successful (12344ms)')} – Serving on https://localhost:1337/`);
     });
 
-    it('with baseURL', function() {
+    it('with baseURL', function () {
       let subject = new Watcher({
         ui,
         analytics,
@@ -196,7 +196,7 @@ describe('Watcher', function() {
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
-    it('with rootURL', function() {
+    it('with rootURL', function () {
       let subject = new Watcher({
         ui,
         analytics,
@@ -227,7 +227,7 @@ describe('Watcher', function() {
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
-    it('with empty rootURL', function() {
+    it('with empty rootURL', function () {
       let subject = new Watcher({
         ui,
         analytics,
@@ -256,7 +256,7 @@ describe('Watcher', function() {
       expect(output.length).to.equal(1, 'expected only one line of output');
     });
 
-    it('with customURL', function() {
+    it('with customURL', function () {
       let subject = new Watcher({
         ui,
         analytics,
@@ -277,7 +277,7 @@ describe('Watcher', function() {
           },
         },
       });
-      subject.serveURL = function() {
+      subject.serveURL = function () {
         return `http://customurl.com/`;
       };
       subject.didChange(mockResult);
@@ -287,8 +287,8 @@ describe('Watcher', function() {
     });
   });
 
-  describe('watcher:error', function() {
-    it('tracks errors', function() {
+  describe('watcher:error', function () {
+    it('tracks errors', function () {
       watcher.emit('error', {
         message: 'foo',
         stack: new Error().stack,
@@ -301,7 +301,7 @@ describe('Watcher', function() {
       ]);
     });
 
-    it('watcher error', function() {
+    it('watcher error', function () {
       watcher.emit('error', {
         message: 'foo',
         stack: new Error().stack,
@@ -314,7 +314,7 @@ describe('Watcher', function() {
       expect(outs[0]).to.equal(chalk.red('foo'));
     });
 
-    it('watcher buildFailure', function() {
+    it('watcher buildFailure', function () {
       watcher.emit('buildFailure', {
         isBuilderError: true,
         message: 'I am a build error',
@@ -330,7 +330,7 @@ describe('Watcher', function() {
       expect(outs[2]).to.equal(chalk.red('I am a build error'));
     });
 
-    it('emits without error.file', function() {
+    it('emits without error.file', function () {
       subject.didError(
         new BuildError({
           file: 'someFile',
@@ -346,7 +346,7 @@ describe('Watcher', function() {
       expect(outs[2]).to.equal(chalk.red('buildFailed'));
     });
 
-    it('emits with error.file with error.line without err.col', function() {
+    it('emits with error.file with error.line without err.col', function () {
       subject.didError(
         new BuildError({
           file: 'someFile',
@@ -363,7 +363,7 @@ describe('Watcher', function() {
       expect(outs[2]).to.equal(chalk.red('buildFailed'));
     });
 
-    it('emits with error.file without error.line with err.col', function() {
+    it('emits with error.file without error.line with err.col', function () {
       subject.didError(
         new BuildError({
           file: 'someFile',
@@ -380,7 +380,7 @@ describe('Watcher', function() {
       expect(outs[2]).to.equal(chalk.red('buildFailed'));
     });
 
-    it('emits with error.file with error.line with err.col', function() {
+    it('emits with error.file with error.line with err.col', function () {
       subject.didError(
         new BuildError({
           file: 'someFile',
@@ -399,8 +399,8 @@ describe('Watcher', function() {
     });
   });
 
-  describe('watcher:change afterError', function() {
-    beforeEach(function() {
+  describe('watcher:change afterError', function () {
+    beforeEach(function () {
       watcher.emit('error', {
         message: 'foo',
         stack: new Error().stack,
@@ -409,11 +409,11 @@ describe('Watcher', function() {
       watcher.emit(`buildSuccess`, mockResult);
     });
 
-    it('log that the build was green', function() {
+    it('log that the build was green', function () {
       expect(ui.output).to.match(/Build successful./, 'has successful build output');
     });
 
-    it('keep tracking analytics', function() {
+    it('keep tracking analytics', function () {
       expect(analytics.tracks).to.deep.equal([
         {
           name: 'ember rebuild',

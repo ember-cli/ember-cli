@@ -9,17 +9,17 @@ const MockUI = require('console-ui/mock');
 const MockCLI = require('../../../helpers/mock-cli');
 const FixturifyProject = require('../../../helpers/fixturify-project');
 
-describe('models/package-info-cache/package-info-cache-test.js', function() {
+describe('models/package-info-cache/package-info-cache-test.js', function () {
   let project, projectPath, packageJsonPath, packageContents, projectPackageInfo, resolvedFile, ui, cli, pic;
   this.timeout(20000);
 
-  beforeEach(function() {
+  beforeEach(function () {
     ui = new MockUI();
     cli = new MockCLI({ ui });
   });
 
-  describe('lexicographically', function() {
-    it('works', function() {
+  describe('lexicographically', function () {
+    it('works', function () {
       expect(
         [
           { name: 'c' },
@@ -50,23 +50,23 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
   });
 
-  describe('pushUnique', function() {
-    it('works (and does last write win)', function() {
+  describe('pushUnique', function () {
+    it('works (and does last write win)', function () {
       let a = { name: 'a' };
       let b = { name: 'b' };
       let c = { name: 'c' };
 
       let result = [];
-      [a, a, a, b, a, c, a, c].forEach(entry => PackageInfo.pushUnique(result, entry));
+      [a, a, a, b, a, c, a, c].forEach((entry) => PackageInfo.pushUnique(result, entry));
 
       expect(result).to.eql([b, a, c]);
     });
   });
 
-  describe('packageInfo contents tests on valid project', function() {
+  describe('packageInfo contents tests on valid project', function () {
     let projectPath, packageJsonPath, packageContents, projectPackageInfo;
 
-    beforeEach(function() {
+    beforeEach(function () {
       projectPath = path.resolve(addonFixturePath, 'simple');
       packageJsonPath = path.join(projectPath, 'package.json');
       packageContents = require(packageJsonPath);
@@ -76,23 +76,23 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       projectPackageInfo = pic.getEntry(projectPath);
     });
 
-    it('finds project PackageInfo entry for project root', function() {
+    it('finds project PackageInfo entry for project root', function () {
       expect(projectPackageInfo).to.exist;
     });
 
-    it('projectPackageInfo has a "pkg" field', function() {
+    it('projectPackageInfo has a "pkg" field', function () {
       expect(projectPackageInfo.pkg).to.exist;
     });
 
-    it('shows projectPackageInfo is considered valid', function() {
+    it('shows projectPackageInfo is considered valid', function () {
       expect(projectPackageInfo.valid).to.be.true;
     });
 
-    it('is a project, so it may have addons', function() {
+    it('is a project, so it may have addons', function () {
       expect(projectPackageInfo.mayHaveAddons).to.eql(true);
     });
 
-    it('shows projectPackageInfo has cliInfo at ember-cli root dir', function() {
+    it('shows projectPackageInfo has cliInfo at ember-cli root dir', function () {
       expect(projectPackageInfo.cliInfo).to.exist;
 
       let cliRealPath = projectPackageInfo.cliInfo.realPath;
@@ -100,7 +100,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(cliRealPath).to.equal(emberCliRealPath);
     });
 
-    it('shows projectPackageInfo has 1 error', function() {
+    it('shows projectPackageInfo has 1 error', function () {
       expect(projectPackageInfo.hasErrors()).to.be.true;
 
       let errorArray = projectPackageInfo.errors.getErrors();
@@ -109,14 +109,14 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
 
     // TODO: the input to this test is polluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
-    it.skip('shows projectPackageInfo error is "3 dependencies missing"', function() {
+    it.skip('shows projectPackageInfo error is "3 dependencies missing"', function () {
       let errorArray = projectPackageInfo.errors.getErrors();
       let error = errorArray[0];
       expect(error.type).to.equal('dependenciesMissing');
       expect(error.data.length).to.equal(3);
     });
 
-    it('shows projectPackageInfo has 1 dependencyPackage', function() {
+    it('shows projectPackageInfo has 1 dependencyPackage', function () {
       let dependencyPackages = projectPackageInfo.dependencyPackages;
 
       expect(dependencyPackages).to.exist;
@@ -125,13 +125,13 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
 
     // TODO: the input to this test is polluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
-    it.skip('shows projectPackageInfo has 8 devDependencyPackages', function() {
+    it.skip('shows projectPackageInfo has 8 devDependencyPackages', function () {
       let devDependencyPackages = projectPackageInfo.devDependencyPackages;
       expect(devDependencyPackages).to.exist;
       expect(Object.keys(devDependencyPackages).length).to.equal(8);
     });
 
-    it('shows projectPackageInfo.devDependencyPackages + missing dependencies = project.devDependencies', function() {
+    it('shows projectPackageInfo.devDependencyPackages + missing dependencies = project.devDependencies', function () {
       let devDependencyPackages = projectPackageInfo.devDependencyPackages;
       expect(devDependencyPackages).to.exist;
       let devDependencyPackageNames = Object.keys(devDependencyPackages);
@@ -151,7 +151,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(packageAndErrorNames).to.deep.equal(devDependencyNames);
     });
 
-    it('shows projectPackageInfo has 1 in-repo addon named "ember-super-button"', function() {
+    it('shows projectPackageInfo has 1 in-repo addon named "ember-super-button"', function () {
       let inRepoAddons = projectPackageInfo.inRepoAddons;
       expect(inRepoAddons).to.exist;
       expect(inRepoAddons.length).to.equal(1);
@@ -159,14 +159,14 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(inRepoAddons[0].pkg.name).to.equal('ember-super-button');
     });
 
-    it('shows projectPackageInfo has 7 internal addon packages', function() {
+    it('shows projectPackageInfo has 7 internal addon packages', function () {
       let internalAddons = projectPackageInfo.internalAddons;
       expect(internalAddons).to.exist;
       expect(internalAddons.length).to.equal(7);
     });
 
     // TODO: the input to this test is polluted by other tests: https://github.com/ember-cli/ember-cli/issues/7981
-    it.skip('shows projectPackageInfo has 9 node-module entries', function() {
+    it.skip('shows projectPackageInfo has 9 node-module entries', function () {
       let nodeModules = projectPackageInfo.nodeModules;
       expect(nodeModules).to.exist;
       expect(nodeModules.entries).to.exist;
@@ -174,17 +174,17 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
   });
 
-  describe('packageInfo', function() {
-    describe('project with invalid paths', function() {
+  describe('packageInfo', function () {
+    describe('project with invalid paths', function () {
       let project, fixturifyProject;
-      beforeEach(function() {
+      beforeEach(function () {
         // create a new ember-app
-        fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', project => {
+        fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
           project.addAddon('ember-resolver', '^5.0.1');
           project.addAddon('ember-random-addon', 'latest');
           project.addAddon('loader.js', 'latest');
           project.addAddon('something-else', 'latest');
-          project.addInRepoAddon('ember-super-button', 'latest', function(project) {
+          project.addInRepoAddon('ember-super-button', 'latest', function (project) {
             project.pkg['ember-addon'].paths = ['lib/herp-not-here'];
           });
           project.addDevDependency('ember-cli', 'latest');
@@ -197,35 +197,35 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         project = fixturifyProject.buildProjectModel(Project);
       });
 
-      afterEach(function() {
+      afterEach(function () {
         fixturifyProject.dispose();
         delete process.env.EMBER_CLI_ERROR_ON_INVALID_ADDON;
       });
 
-      it('shows a warning with invalid ember-addon#path', function() {
+      it('shows a warning with invalid ember-addon#path', function () {
         project.discoverAddons();
         expect(project.cli.ui.output).to.include(
           `specifies an invalid, malformed or missing addon at relative path 'lib${path.sep}no-such-path'`
         );
       });
 
-      it('throws an error with flag on', function() {
+      it('throws an error with flag on', function () {
         process.env.EMBER_CLI_ERROR_ON_INVALID_ADDON = 'true';
         expect(() => project.discoverAddons()).to.throw(
           /specifies an invalid, malformed or missing addon at relative path 'lib[\\/]no-such-path'/
         );
       });
     });
-    describe('valid project', function() {
+    describe('valid project', function () {
       let project, fixturifyProject;
-      before(function() {
+      before(function () {
         // create a new ember-app
-        fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', project => {
+        fixturifyProject = new FixturifyProject('simple-ember-app', '0.0.0', (project) => {
           project.addAddon('ember-resolver', '^5.0.1');
-          project.addAddon('ember-random-addon', 'latest', addon => {
-            addon.addAddon('other-nested-addon', 'latest', addon => {
+          project.addAddon('ember-random-addon', 'latest', (addon) => {
+            addon.addAddon('other-nested-addon', 'latest', (addon) => {
               addon.addAddon('ember-resolver', '*');
-              addon.toJSON = function() {
+              addon.toJSON = function () {
                 const json = Object.getPrototypeOf(this).toJSON.call(this);
                 // here we introduce an empty folder in our node_modules.
                 json[this.name].node_modules['ember-resolver'] = {};
@@ -250,11 +250,11 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         projectPackageInfo = pic.getEntry(path.join(fixturifyProject.root, 'simple-ember-app'));
       });
 
-      after(function() {
+      after(function () {
         fixturifyProject.dispose();
       });
 
-      it('was able to find ember-resolver even if an empty directory was left', function() {
+      it('was able to find ember-resolver even if an empty directory was left', function () {
         const emberResolver = project.findAddonByName('ember-resolver');
         const nestedEmberResolver = project.findAddonByName('ember-random-addon').addons[0].addons[0];
         expect(emberResolver.name).to.eql('ember-resolver');
@@ -262,7 +262,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         expect(emberResolver.root).to.eql(nestedEmberResolver.root);
       });
 
-      it('has dependencies who have their mayHaveAddons correctly set', function() {
+      it('has dependencies who have their mayHaveAddons correctly set', function () {
         expect(projectPackageInfo.devDependencyPackages['non-ember-thingy']).to.have.property('mayHaveAddons', false);
         expect(projectPackageInfo.devDependencyPackages['ember-cli']).to.have.property('mayHaveAddons', false);
         expect(projectPackageInfo.dependencyPackages['loader.js']).to.have.property('mayHaveAddons', true);
@@ -271,18 +271,18 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         expect(projectPackageInfo.dependencyPackages['something-else']).to.have.property('mayHaveAddons', true);
       });
 
-      it('validates projectPackageInfo', function() {
+      it('validates projectPackageInfo', function () {
         expect(projectPackageInfo).to.exist;
         expect(projectPackageInfo.pkg).to.exist;
         expect(projectPackageInfo.valid).to.be.true;
       });
 
-      it('shows projectPackageInfo has 0 errors', function() {
+      it('shows projectPackageInfo has 0 errors', function () {
         expect(projectPackageInfo.hasErrors()).to.be.false;
         expect(projectPackageInfo.errors.getErrors()).to.have.property('length', 0);
       });
 
-      it('shows projectPackageInfo has 1 dependencyPackage', function() {
+      it('shows projectPackageInfo has 1 dependencyPackage', function () {
         let dependencyPackages = projectPackageInfo.dependencyPackages;
 
         expect(dependencyPackages).to.exist;
@@ -290,14 +290,14 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         expect(dependencyPackages['something-else']).to.exist;
       });
 
-      it('shows projectPackageInfo has 82devDependencyPackages', function() {
+      it('shows projectPackageInfo has 82devDependencyPackages', function () {
         let devDependencyPackages = projectPackageInfo.devDependencyPackages;
 
         expect(devDependencyPackages).to.exist;
         expect(Object.keys(devDependencyPackages).length).to.equal(2);
       });
 
-      it('shows projectPackageInfo has 1 in-repo addon named "ember-super-button"', function() {
+      it('shows projectPackageInfo has 1 in-repo addon named "ember-super-button"', function () {
         let inRepoAddons = projectPackageInfo.inRepoAddons;
 
         expect(inRepoAddons).to.exist;
@@ -306,14 +306,14 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         expect(inRepoAddons[0].pkg.name).to.equal('ember-super-button');
       });
 
-      it('shows projectPackageInfo has 7 internal addon packages', function() {
+      it('shows projectPackageInfo has 7 internal addon packages', function () {
         let internalAddons = projectPackageInfo.internalAddons;
 
         expect(internalAddons).to.exist;
         expect(internalAddons.length).to.equal(7);
       });
 
-      it('shows projectPackageInfo has 7 node-module entries', function() {
+      it('shows projectPackageInfo has 7 node-module entries', function () {
         let nodeModules = projectPackageInfo.nodeModules;
 
         expect(nodeModules).to.exist;
@@ -323,8 +323,8 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
   });
 
-  describe('packageInfo contents tests on missing project', function() {
-    beforeEach(function() {
+  describe('packageInfo contents tests on missing project', function () {
+    beforeEach(function () {
       projectPath = path.resolve(addonFixturePath, 'fakepackage');
 
       let deps = {
@@ -347,27 +347,27 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       projectPackageInfo = pic.getEntry(projectPath);
     });
 
-    it('creates a packageInfo object for the missing path', function() {
+    it('creates a packageInfo object for the missing path', function () {
       expect(projectPackageInfo).to.exist;
     });
 
-    it('has 3 errors', function() {
+    it('has 3 errors', function () {
       let errors = projectPackageInfo.errors;
       expect(errors).to.exist;
       expect(errors.hasErrors()).to.be.true;
       expect(errors.getErrors().length).to.equal(3);
     });
 
-    it('has a "packageDirectoryMissing" error', function() {
+    it('has a "packageDirectoryMissing" error', function () {
       let errorArray = projectPackageInfo.errors.getErrors();
-      let pkgDirMissingErr = errorArray.find(function(err) {
+      let pkgDirMissingErr = errorArray.find(function (err) {
         return err.type === 'packageDirectoryMissing';
       });
       expect(pkgDirMissingErr).to.exist;
       expect(pkgDirMissingErr.data).to.equal(projectPath);
     });
 
-    it('has empty "dependencyPackages" and "devDependencyPackages" objects', function() {
+    it('has empty "dependencyPackages" and "devDependencyPackages" objects', function () {
       expect(projectPackageInfo.dependencyPackages).to.exist;
       expect(projectPackageInfo.devDependencyPackages).to.exist;
       expect(Object.keys(projectPackageInfo.dependencyPackages).length).to.equal(0);
@@ -375,8 +375,8 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
   });
 
-  describe('packageInfo contents tests on with-nested-addons project', function() {
-    beforeEach(function() {
+  describe('packageInfo contents tests on with-nested-addons project', function () {
+    beforeEach(function () {
       projectPath = path.resolve(addonFixturePath, 'with-nested-addons');
       packageJsonPath = path.join(projectPath, 'package.json');
       packageContents = null; // there is no actual package.json
@@ -386,9 +386,9 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       projectPackageInfo = pic.getEntry(projectPath);
     });
 
-    it('shows projectPackageInfo has a "packageJsonMissing" error', function() {
+    it('shows projectPackageInfo has a "packageJsonMissing" error', function () {
       let errorArray = projectPackageInfo.errors.getErrors();
-      let pkgJsonMissingErr = errorArray.find(function(err) {
+      let pkgJsonMissingErr = errorArray.find(function (err) {
         return err.type === 'packageJsonMissing';
       });
       expect(pkgJsonMissingErr).to.exist;
@@ -396,8 +396,8 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
   });
 
-  describe('packageInfo contents tests on external-dependency project', function() {
-    beforeEach(function() {
+  describe('packageInfo contents tests on external-dependency project', function () {
+    beforeEach(function () {
       projectPath = path.resolve(addonFixturePath, 'external-dependency');
       packageJsonPath = path.join(projectPath, 'package.json');
       packageContents = require(packageJsonPath);
@@ -407,7 +407,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       projectPackageInfo = pic.getEntry(projectPath);
     });
 
-    it('shows projectPackageInfo finds a dependency above project root', function() {
+    it('shows projectPackageInfo finds a dependency above project root', function () {
       expect(projectPackageInfo.dependencyPackages).to.exist;
 
       let emberCliStringUtilsPkgInfo = projectPackageInfo.dependencyPackages['ember-cli-string-utils'];
@@ -419,7 +419,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       );
     });
 
-    it('shows projectPackageInfo finds an external dependency involving a scope', function() {
+    it('shows projectPackageInfo finds an external dependency involving a scope', function () {
       expect(projectPackageInfo.dependencyPackages).to.exist;
 
       let restPkgInfo = projectPackageInfo.dependencyPackages['@octokit/rest'];
@@ -430,18 +430,18 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
   });
 
-  describe('discoverProjectAddons', function() {
+  describe('discoverProjectAddons', function () {
     let fixturifyProject;
 
-    afterEach(function() {
+    afterEach(function () {
       if (fixturifyProject) {
         fixturifyProject.dispose();
       }
     });
 
-    describe('within an addon', function() {
-      beforeEach(function() {
-        fixturifyProject = new FixturifyProject('external-dependency', '0.0.0', project => {
+    describe('within an addon', function () {
+      beforeEach(function () {
+        fixturifyProject = new FixturifyProject('external-dependency', '0.0.0', (project) => {
           project.addDevDependency('ember-cli-string-utils', 'latest');
           project.addDevDependency('@octokit/rest', 'latest');
           project.addAddon('ember-cli-blueprint-test-helpers', 'latest');
@@ -461,7 +461,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
         });
       });
 
-      it('lock down dependency orderings', function() {
+      it('lock down dependency orderings', function () {
         let project = fixturifyProject.buildProjectModel();
 
         project.discoverAddons();
@@ -489,10 +489,10 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
     });
   });
 
-  describe('tests for projectPackageInfo.addonMainPath', function() {
+  describe('tests for projectPackageInfo.addonMainPath', function () {
     let origPackageContents;
 
-    beforeEach(function() {
+    beforeEach(function () {
       projectPath = path.resolve(addonFixturePath, 'external-dependency');
       packageJsonPath = path.join(projectPath, 'package.json');
       // Because we allow the tests to modify packageContents, and the original
@@ -507,7 +507,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       packageContents = JSON.parse(JSON.stringify(origPackageContents));
     });
 
-    it('adds .js if not present', function() {
+    it('adds .js if not present', function () {
       packageContents['ember-addon']['main'] = 'index';
 
       project = new Project(projectPath, packageContents, ui, cli);
@@ -517,7 +517,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(resolvedFile).to.equal('index.js');
     });
 
-    it("doesn't add .js if it is .js", function() {
+    it("doesn't add .js if it is .js", function () {
       packageContents['ember-addon']['main'] = 'index.js';
 
       project = new Project(projectPath, packageContents, ui, cli);
@@ -527,7 +527,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(resolvedFile).to.equal('index.js');
     });
 
-    it("doesn't add .js if it has another extension", function() {
+    it("doesn't add .js if it has another extension", function () {
       packageContents['ember-addon']['main'] = 'index.coffee';
 
       project = new Project(projectPath, packageContents, ui, cli);
@@ -537,7 +537,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(resolvedFile).to.equal('index.coffee');
     });
 
-    it('allows lookup of existing non-`index.js` `main` entry points', function() {
+    it('allows lookup of existing non-`index.js` `main` entry points', function () {
       delete packageContents['ember-addon'];
       packageContents['main'] = 'some/other/path.js';
 
@@ -548,7 +548,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(resolvedFile).to.equal(path.join(projectPath, 'some/other/path.js'));
     });
 
-    it('fails invalid other `main` entry points', function() {
+    it('fails invalid other `main` entry points', function () {
       delete packageContents['ember-addon'];
       packageContents['main'] = 'some/other/non-existent-file.js';
 
@@ -561,7 +561,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(error.type).to.equal('emberAddonMainMissing');
     });
 
-    it('falls back to `index.js` if `main` and `ember-addon` are not found', function() {
+    it('falls back to `index.js` if `main` and `ember-addon` are not found', function () {
       delete packageContents['ember-addon'];
 
       project = new Project(projectPath, packageContents, ui, cli);
@@ -571,7 +571,7 @@ describe('models/package-info-cache/package-info-cache-test.js', function() {
       expect(resolvedFile).to.equal(path.join(projectPath, 'index.js'));
     });
 
-    it('falls back to `index.js` if `main` and `ember-addon.main` are not found', function() {
+    it('falls back to `index.js` if `main` and `ember-addon.main` are not found', function () {
       delete packageContents['ember-addon'].main;
 
       project = new Project(projectPath, packageContents, ui, cli);

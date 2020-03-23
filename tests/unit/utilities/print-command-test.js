@@ -5,8 +5,8 @@ const processHelpString = require('../../helpers/process-help-string');
 const expect = require('chai').expect;
 const EOL = require('os').EOL;
 
-describe('printCommand', function() {
-  it('handles all possible options', function() {
+describe('printCommand', function () {
+  it('handles all possible options', function () {
     let availableOptions = [
       {
         name: 'test-option',
@@ -49,7 +49,7 @@ describe('printCommand', function() {
     expect(output).to.equal(testString);
   });
 
-  it('can have no margin or no options', function() {
+  it('can have no margin or no options', function () {
     let output = printCommand.call({
       availableOptions: [],
       anonymousOptions: [],
@@ -60,7 +60,7 @@ describe('printCommand', function() {
     expect(output).to.equal(testString);
   });
 
-  it('can have an uncolored description', function() {
+  it('can have an uncolored description', function () {
     let output = printCommand.call({
       description: 'a paragraph',
       availableOptions: [],
@@ -73,7 +73,7 @@ describe('printCommand', function() {
     expect(output).to.equal(testString);
   });
 
-  it('does not print with empty aliases', function() {
+  it('does not print with empty aliases', function () {
     let output = printCommand.call({
       availableOptions: [],
       anonymousOptions: [],
@@ -85,7 +85,7 @@ describe('printCommand', function() {
     expect(output).to.equal(testString);
   });
 
-  it('quotes empty strings', function() {
+  it('quotes empty strings', function () {
     let output = printCommand.call({
       availableOptions: [
         {

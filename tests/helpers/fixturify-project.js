@@ -38,7 +38,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   }
 
   addAddon(name, version = '0.0.0', cb) {
-    return this.addDependency(name, version, addon => {
+    return this.addDependency(name, version, (addon) => {
       prepareAddon(addon);
 
       if (typeof cb === 'function') {
@@ -48,7 +48,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   }
 
   addDevAddon(name, version = '0.0.0', cb) {
-    return this.addDevDependency(name, version, addon => {
+    return this.addDevDependency(name, version, (addon) => {
       prepareAddon(addon);
       if (typeof cb === 'function') {
         cb(addon);
@@ -57,7 +57,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
   }
 
   addInRepoAddon(name, version = '0.0.0', cb) {
-    const inRepoAddon = new FixturifyProject(name, version, project => {
+    const inRepoAddon = new FixturifyProject(name, version, (project) => {
       project.pkg.keywords.push('ember-addon');
       project.pkg['ember-addon'] = {};
       project.files['index.js'] = 'module.exports = { name: require("./package").name };';
@@ -72,7 +72,7 @@ module.exports = class EmberCLIFixturifyProject extends FixturifyProject {
     addon.paths = addon.paths || [];
     const addonPath = `lib/${name}`;
 
-    if (addon.paths.find(path => path.toLowerCase() === addonPath.toLowerCase())) {
+    if (addon.paths.find((path) => path.toLowerCase() === addonPath.toLowerCase())) {
       throw new Error(`project: ${this.name} already contains the in-repo-addon: ${name}`);
     }
 

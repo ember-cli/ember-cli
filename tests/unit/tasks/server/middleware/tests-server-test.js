@@ -3,11 +3,11 @@
 const expect = require('chai').expect;
 const TestsServerAddon = require('../../../../../lib/tasks/server/middleware/tests-server');
 
-describe('TestServerAddon', function() {
-  describe('.serverMiddleware', function() {
+describe('TestServerAddon', function () {
+  describe('.serverMiddleware', function () {
     let addon, nextWasCalled, mockRequest, app;
 
-    beforeEach(function() {
+    beforeEach(function () {
       addon = new TestsServerAddon();
       nextWasCalled = false;
       mockRequest = {
@@ -18,14 +18,14 @@ describe('TestServerAddon', function() {
       };
       app = {
         use(callback) {
-          return callback(mockRequest, null, function() {
+          return callback(mockRequest, null, function () {
             nextWasCalled = true;
           });
         },
       };
     });
 
-    it('invokes next when the watcher succeeds', function(done) {
+    it('invokes next when the watcher succeeds', function (done) {
       addon.serverMiddleware({
         app,
         options: {
@@ -44,7 +44,7 @@ describe('TestServerAddon', function() {
       });
     });
 
-    it('invokes next when the watcher fails', function(done) {
+    it('invokes next when the watcher fails', function (done) {
       let mockError = 'bad things are bad';
 
       addon.serverMiddleware({
@@ -63,7 +63,7 @@ describe('TestServerAddon', function() {
       });
     });
 
-    it('allows baseURL containing `+` character', function(done) {
+    it('allows baseURL containing `+` character', function (done) {
       mockRequest.path = '/braden/+/tests/any-old-file';
       mockRequest.headers.accept = ['*/*'];
       addon.serverMiddleware({
@@ -83,7 +83,7 @@ describe('TestServerAddon', function() {
       });
     });
 
-    it('allows rootURL containing `+` character', function(done) {
+    it('allows rootURL containing `+` character', function (done) {
       mockRequest.path = '/grayson/+/tests/any-old-file';
       mockRequest.headers.accept = ['text/html'];
       addon.serverMiddleware({

@@ -7,7 +7,7 @@ const broccoliTestHelper = require('broccoli-test-helper');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Default Packager: Config', function() {
+describe('Default Packager: Config', function () {
   let input, output;
   let name = 'the-best-app-ever';
   let env = 'development';
@@ -27,21 +27,21 @@ describe('Default Packager: Config', function() {
     },
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(CONFIG);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('caches packaged config tree', async function() {
+  it('caches packaged config tree', async function () {
     let defaultPackager = new DefaultPackager({
       name,
       project,
@@ -56,7 +56,7 @@ describe('Default Packager: Config', function() {
     expect(defaultPackager._cachedConfig._annotation).to.equal('Packaged Config');
   });
 
-  it('packages config files w/ tests disabled', async function() {
+  it('packages config files w/ tests disabled', async function () {
     let defaultPackager = new DefaultPackager({
       name,
       project,
@@ -79,7 +79,7 @@ describe('Default Packager: Config', function() {
     });
   });
 
-  it('packages config files w/ tests enabled', async function() {
+  it('packages config files w/ tests enabled', async function () {
     let defaultPackager = new DefaultPackager({
       name,
       project,

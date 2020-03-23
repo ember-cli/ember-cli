@@ -8,19 +8,19 @@ const AddonInstall = require('../../../lib/tasks/addon-install');
 const InstallCommand = require('../../../lib/commands/install');
 const td = require('testdouble');
 
-describe('install command', function() {
+describe('install command', function () {
   let generateBlueprintInstance, npmInstance;
   let command, tasks;
 
-  beforeEach(function() {
+  beforeEach(function () {
     let project = new MockProject();
 
-    project.isEmberCLIProject = function() {
+    project.isEmberCLIProject = function () {
       return true;
     };
 
-    project.initializeAddons = function() {};
-    project.reloadAddons = function() {
+    project.initializeAddons = function () {};
+    project.reloadAddons = function () {
       this.addons = [
         {
           pkg: {
@@ -79,12 +79,12 @@ describe('install command', function() {
     command = new InstallCommand(options);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     td.reset();
   });
 
-  it('initializes npm install and generate blueprint task with ui, project and analytics', function() {
-    return command.validateAndRun(['ember-data']).then(function() {
+  it('initializes npm install and generate blueprint task with ui, project and analytics', function () {
+    return command.validateAndRun(['ember-data']).then(function () {
       expect(npmInstance.ui, 'ui was set').to.be.ok;
       expect(npmInstance.project, 'project was set').to.be.ok;
       expect(npmInstance.analytics, 'analytics was set').to.be.ok;
@@ -95,9 +95,9 @@ describe('install command', function() {
     });
   });
 
-  describe('with args', function() {
-    it('runs the npm install task with given name and save-dev true', function() {
-      return command.validateAndRun(['ember-data']).then(function() {
+  describe('with args', function () {
+    it('runs the npm install task with given name and save-dev true', function () {
+      return command.validateAndRun(['ember-data']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -113,14 +113,14 @@ describe('install command', function() {
       });
     });
 
-    it('runs the npm install task with given name and save-dev true in an addon', function() {
-      command.project.isEmberCLIProject = function() {
+    it('runs the npm install task with given name and save-dev true in an addon', function () {
+      command.project.isEmberCLIProject = function () {
         return false;
       };
-      command.project.isEmberCLIAddon = function() {
+      command.project.isEmberCLIAddon = function () {
         return true;
       };
-      return command.validateAndRun(['ember-data']).then(function() {
+      return command.validateAndRun(['ember-data']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -136,8 +136,8 @@ describe('install command', function() {
       });
     });
 
-    it('runs the npm install task with given name and save true with the --save option', function() {
-      return command.validateAndRun(['ember-data', '--save']).then(function() {
+    it('runs the npm install task with given name and save true with the --save option', function () {
+      return command.validateAndRun(['ember-data', '--save']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -153,14 +153,14 @@ describe('install command', function() {
       });
     });
 
-    it('runs the npm install task with given name and save true in an addon with the --save option', function() {
-      command.project.isEmberCLIProject = function() {
+    it('runs the npm install task with given name and save true in an addon with the --save option', function () {
+      command.project.isEmberCLIProject = function () {
         return false;
       };
-      command.project.isEmberCLIAddon = function() {
+      command.project.isEmberCLIAddon = function () {
         return true;
       };
-      return command.validateAndRun(['ember-data', '--save']).then(function() {
+      return command.validateAndRun(['ember-data', '--save']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -176,8 +176,8 @@ describe('install command', function() {
       });
     });
 
-    it('runs the package name blueprint task with given name and args', function() {
-      return command.validateAndRun(['ember-data']).then(function() {
+    it('runs the package name blueprint task with given name and args', function () {
+      return command.validateAndRun(['ember-data']).then(function () {
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
         let captor = td.matchers.captor();
         td.verify(generateRun(captor.capture()));
@@ -186,8 +186,8 @@ describe('install command', function() {
       });
     });
 
-    it('fails to install second argument for unknown addon', function() {
-      return expect(command.validateAndRun(['ember-cli-cordova', 'com.ember.test'])).to.be.rejected.then(error => {
+    it('fails to install second argument for unknown addon', function () {
+      return expect(command.validateAndRun(['ember-cli-cordova', 'com.ember.test'])).to.be.rejected.then((error) => {
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
         let captor = td.matchers.captor();
         td.verify(generateRun(captor.capture()));
@@ -203,8 +203,8 @@ describe('install command', function() {
       });
     });
 
-    it('runs npmInstall once and installs three addons', function() {
-      return command.validateAndRun(['ember-data', 'ember-cli-cordova', 'ember-cli-qunit']).then(function() {
+    it('runs npmInstall once and installs three addons', function () {
+      return command.validateAndRun(['ember-data', 'ember-cli-cordova', 'ember-cli-qunit']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -219,15 +219,15 @@ describe('install command', function() {
         );
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        let generateRunArgs = td.explain(generateRun).calls.map(function(call) {
+        let generateRunArgs = td.explain(generateRun).calls.map(function (call) {
           return call.args[0].args[0];
         });
         expect(generateRunArgs).to.deep.equal(['ember-data', 'cordova-starter-kit', 'ember-cli-qunit']);
       });
     });
 
-    it('ember-cli/ember-cli-qunit: runs npmInstall but does not install the addon blueprint', function() {
-      return command.validateAndRun(['ember-cli/ember-cli-qunit']).then(function() {
+    it('ember-cli/ember-cli-qunit: runs npmInstall but does not install the addon blueprint', function () {
+      return command.validateAndRun(['ember-cli/ember-cli-qunit']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -246,8 +246,8 @@ describe('install command', function() {
       });
     });
 
-    it('ember-cli-qunit@1.2.0: runs npmInstall and installs the addon blueprint', function() {
-      return command.validateAndRun(['ember-cli-qunit@1.2.0']).then(function() {
+    it('ember-cli-qunit@1.2.0: runs npmInstall and installs the addon blueprint', function () {
+      return command.validateAndRun(['ember-cli-qunit@1.2.0']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -262,15 +262,15 @@ describe('install command', function() {
         );
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        let generateRunArgs = td.explain(generateRun).calls.map(function(call) {
+        let generateRunArgs = td.explain(generateRun).calls.map(function (call) {
           return call.args[0].args[0];
         });
         expect(generateRunArgs).to.deep.equal(['ember-cli-qunit']);
       });
     });
 
-    it('@ember-cli/ember-cli-qunit: runs npmInstall and installs the addon blueprint', function() {
-      return command.validateAndRun(['@ember-cli/ember-cli-qunit']).then(function() {
+    it('@ember-cli/ember-cli-qunit: runs npmInstall and installs the addon blueprint', function () {
+      return command.validateAndRun(['@ember-cli/ember-cli-qunit']).then(function () {
         let npmRun = tasks.NpmInstall.prototype.run;
 
         td.verify(
@@ -285,15 +285,15 @@ describe('install command', function() {
         );
 
         let generateRun = tasks.GenerateFromBlueprint.prototype.run;
-        let generateRunArgs = td.explain(generateRun).calls.map(function(call) {
+        let generateRunArgs = td.explain(generateRun).calls.map(function (call) {
           return call.args[0].args[0];
         });
         expect(generateRunArgs).to.deep.equal(['@ember-cli/ember-cli-qunit']);
       });
     });
 
-    it("gives helpful message if it can't find the addon", function() {
-      return expect(command.validateAndRun(['unknown-addon'])).to.be.rejected.then(error => {
+    it("gives helpful message if it can't find the addon", function () {
+      return expect(command.validateAndRun(['unknown-addon'])).to.be.rejected.then((error) => {
         expect(error.message).to.equal(
           'Install failed. Could not find addon with name: unknown-addon',
           'expected error to have helpful message'
@@ -302,9 +302,9 @@ describe('install command', function() {
     });
   });
 
-  describe('without args', function() {
-    it('gives a helpful message if no arguments are passed', function() {
-      return expect(command.validateAndRun([])).to.be.rejected.then(error => {
+  describe('without args', function () {
+    it('gives a helpful message if no arguments are passed', function () {
+      return expect(command.validateAndRun([])).to.be.rejected.then((error) => {
         expect(error.message).to.equal(
           'The `install` command must take an argument with the name ' +
             'of an ember-cli addon. For installing all npm and bower ' +

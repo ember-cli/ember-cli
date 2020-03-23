@@ -10,7 +10,7 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
-describe('Default Packager: Javascript', function() {
+describe('Default Packager: Javascript', function () {
   let input, output;
 
   let scriptOutputFiles = {
@@ -91,7 +91,7 @@ describe('Default Packager: Javascript', function() {
       return { a: 1 };
     },
 
-    registry: setupRegistryFor('template', function(tree) {
+    registry: setupRegistryFor('template', function (tree) {
       return new Funnel(tree, {
         getDestinationPath(relativePath) {
           return relativePath.replace(/hbs$/g, 'js');
@@ -102,21 +102,21 @@ describe('Default Packager: Javascript', function() {
     addons: [],
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(MODULES);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('caches packaged javascript tree', async function() {
+  it('caches packaged javascript tree', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',
@@ -126,7 +126,7 @@ describe('Default Packager: Javascript', function() {
         vendorJsFile: '/assets/vendor.js',
       },
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');
@@ -148,7 +148,7 @@ describe('Default Packager: Javascript', function() {
     expect(defaultPackager._cachedJavascript._annotation).to.equal('Packaged Javascript');
   });
 
-  it('packages javascript files with sourcemaps on', async function() {
+  it('packages javascript files with sourcemaps on', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',
@@ -158,7 +158,7 @@ describe('Default Packager: Javascript', function() {
         vendorJsFile: '/assets/vendor.js',
       },
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');
@@ -184,7 +184,7 @@ describe('Default Packager: Javascript', function() {
     ]);
   });
 
-  it('packages javascript files with sourcemaps off', async function() {
+  it('packages javascript files with sourcemaps off', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',
@@ -194,7 +194,7 @@ describe('Default Packager: Javascript', function() {
         vendorJsFile: '/assets/vendor.js',
       },
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');
@@ -219,11 +219,11 @@ describe('Default Packager: Javascript', function() {
     expect(Object.keys(outputFiles.assets)).to.deep.equal(['the-best-app-ever.js', 'vendor.js']);
   });
 
-  it('processes javascript according to the registry', async function() {
+  it('processes javascript according to the registry', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('js', function(tree) {
+      registry: setupRegistryFor('js', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/js/g, 'jsx');
@@ -255,14 +255,14 @@ describe('Default Packager: Javascript', function() {
     });
   });
 
-  it('runs pre/post-process add-on hooks', async function() {
+  it('runs pre/post-process add-on hooks', async function () {
     let addonPreprocessTreeHookCalled = false;
     let addonPostprocessTreeHookCalled = false;
 
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('js', tree => tree),
+      registry: setupRegistryFor('js', (tree) => tree),
 
       // avoid using `testdouble.js` here on purpose; it does not have a "proxy"
       // option, where a function call would be registered and the original

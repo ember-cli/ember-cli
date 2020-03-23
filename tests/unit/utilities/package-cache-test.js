@@ -13,14 +13,14 @@ let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;
 
-describe('PackageCache', function() {
+describe('PackageCache', function () {
   let testPackageCache;
 
   let bower = td.function('bower');
   let npm = td.function('npm');
   let yarn = td.function('yarn');
 
-  beforeEach(function() {
+  beforeEach(function () {
     testPackageCache = new PackageCache();
     testPackageCache._conf = new Configstore('package-cache-test');
 
@@ -33,13 +33,13 @@ describe('PackageCache', function() {
     });
   });
 
-  afterEach(function() {
+  afterEach(function () {
     td.reset();
     testPackageCache.__resetForTesting();
     fs.unlinkSync(testPackageCache._conf.path);
   });
 
-  it('defaults rootPath', function() {
+  it('defaults rootPath', function () {
     testPackageCache = new PackageCache();
     expect(testPackageCache.rootPath).to.equal(process.cwd());
 
@@ -47,7 +47,7 @@ describe('PackageCache', function() {
     expect(testPackageCache.rootPath).to.equal('./');
   });
 
-  it('successfully uses getter/setter', function() {
+  it('successfully uses getter/setter', function () {
     testPackageCache._conf.set('foo', true);
     expect(testPackageCache.dirs['foo']).to.be.true;
     testPackageCache._conf.delete('foo');
@@ -58,7 +58,7 @@ describe('PackageCache', function() {
     }).to.throw(Error);
   });
 
-  it('_cleanDirs', function() {
+  it('_cleanDirs', function () {
     testPackageCache._conf.set('existing', __dirname);
     testPackageCache._conf.set('nonexisting', path.join(__dirname, 'nonexisting'));
 
@@ -68,7 +68,7 @@ describe('PackageCache', function() {
     expect(testPackageCache.dirs['nonexisting']).to.not.exist;
   });
 
-  it('_readManifest', function() {
+  it('_readManifest', function () {
     let emberCLIPath = path.resolve(__dirname, '../../..');
     testPackageCache._conf.set('self', emberCLIPath);
     testPackageCache._conf.set('boom', __dirname);
@@ -84,7 +84,7 @@ describe('PackageCache', function() {
     expect(manifest).to.be.null;
   });
 
-  it('_writeManifest', function() {
+  it('_writeManifest', function () {
     let manifest = JSON.stringify({
       name: 'foo',
       dependencies: {
@@ -127,7 +127,7 @@ describe('PackageCache', function() {
     testPackageCache.destroy('yarn');
   });
 
-  it('_checkManifest', function() {
+  it('_checkManifest', function () {
     let manifest = JSON.stringify({
       name: 'foo',
       dependencies: {
@@ -163,7 +163,7 @@ describe('PackageCache', function() {
     testPackageCache.destroy('bower');
   });
 
-  it('_removeLinks', function() {
+  it('_removeLinks', function () {
     // This is our package that is linked in.
     let srcDir = path.join(process.cwd(), 'tmp', 'beta');
     expect(dir(srcDir)).to.not.exist;
@@ -258,7 +258,7 @@ describe('PackageCache', function() {
     fs.removeSync(targetDir);
   });
 
-  it('_restoreLinks', function() {
+  it('_restoreLinks', function () {
     // This is our package that is linked in.
     let srcDir = path.join(process.cwd(), 'tmp', 'beta');
     expect(dir(srcDir)).to.not.exist;
@@ -345,27 +345,27 @@ describe('PackageCache', function() {
     fs.removeSync(targetDir);
   });
 
-  describe('_install', function() {
+  describe('_install', function () {
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
 
-    beforeEach(function() {
+    beforeEach(function () {
       // Fake in the dir label.
       testPackageCache._conf.set('label', 'hello');
     });
 
-    afterEach(function() {
+    afterEach(function () {
       td.reset();
       testPackageCache.destroy('label');
     });
 
-    it('Triggers install.', function() {
+    it('Triggers install.', function () {
       testPackageCache._install('label', 'npm');
       td.verify(npm('install', { cwd: 'hello' }), { times: 1 });
       td.verify(npm(), { times: 1, ignoreExtraArgs: true });
     });
 
-    it('Attempts to link when it is supposed to.', function() {
+    it('Attempts to link when it is supposed to.', function () {
       // Add a link.
       testPackageCache._writeManifest(
         'label',
@@ -385,34 +385,34 @@ describe('PackageCache', function() {
     });
   });
 
-  describe('_upgrade (yarn)', function() {
+  describe('_upgrade (yarn)', function () {
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
     let testCounter = 0;
     let label;
 
-    beforeEach(function() {
+    beforeEach(function () {
       label = `yarn-upgrade-test-${testCounter++}`;
       testPackageCache._conf.set(label, 'hello');
     });
 
-    afterEach(function() {
+    afterEach(function () {
       td.reset();
       testPackageCache.destroy(label);
     });
 
-    describe('without yarn.lock', function() {
-      beforeEach(function() {
+    describe('without yarn.lock', function () {
+      beforeEach(function () {
         testPackageCache._canUpgrade = () => false;
       });
 
-      it('Trigger upgrade.', function() {
+      it('Trigger upgrade.', function () {
         testPackageCache._upgrade(label, 'yarn');
         td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
         td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
       });
 
-      it('Make sure it unlinks, upgrades, re-links.', function() {
+      it('Make sure it unlinks, upgrades, re-links.', function () {
         // Add a link.
         testPackageCache._writeManifest(
           label,
@@ -430,7 +430,7 @@ describe('PackageCache', function() {
         td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
       });
 
-      it('Make sure multiple invocations lock out.', function() {
+      it('Make sure multiple invocations lock out.', function () {
         testPackageCache._upgrade(label, 'yarn');
         testPackageCache._upgrade(label, 'yarn');
         td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
@@ -438,18 +438,18 @@ describe('PackageCache', function() {
       });
     });
 
-    describe('with yarn.lock', function() {
-      beforeEach(function() {
+    describe('with yarn.lock', function () {
+      beforeEach(function () {
         testPackageCache._canUpgrade = () => true;
       });
 
-      it('Trigger upgrade.', function() {
+      it('Trigger upgrade.', function () {
         testPackageCache._upgrade(label, 'yarn');
         td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
         td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
       });
 
-      it('Make sure it unlinks, upgrades, re-links.', function() {
+      it('Make sure it unlinks, upgrades, re-links.', function () {
         // Add a link.
         testPackageCache._writeManifest(
           label,
@@ -467,14 +467,14 @@ describe('PackageCache', function() {
         td.verify(yarn(), { times: 3, ignoreExtraArgs: true });
       });
 
-      it('Make sure multiple invocations lock out.', function() {
+      it('Make sure multiple invocations lock out.', function () {
         testPackageCache._upgrade(label, 'yarn');
         testPackageCache._upgrade(label, 'yarn');
         td.verify(yarn('upgrade', { cwd: 'hello' }), { times: 1 });
         td.verify(yarn(), { times: 1, ignoreExtraArgs: true });
       });
 
-      it('locks out _upgrade after _install', function() {
+      it('locks out _upgrade after _install', function () {
         testPackageCache._install(label, 'yarn');
         testPackageCache._upgrade(label, 'yarn');
         td.verify(yarn('install', { cwd: 'hello' }), { times: 1 });
@@ -483,29 +483,29 @@ describe('PackageCache', function() {
     });
   });
 
-  describe('_upgrade (bower)', function() {
+  describe('_upgrade (bower)', function () {
     // We're only going to test the invocation pattern boundary.
     // Don't want to wait for the install to execute.
     let testCounter = 0;
     let label;
 
-    beforeEach(function() {
+    beforeEach(function () {
       label = `bower-upgrade-test-${testCounter++}`;
       testPackageCache._conf.set(label, 'hello');
     });
 
-    afterEach(function() {
+    afterEach(function () {
       td.reset();
       testPackageCache.destroy(label);
     });
 
-    it('Trigger upgrade.', function() {
+    it('Trigger upgrade.', function () {
       testPackageCache._upgrade(label, 'bower');
       td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
       td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
 
-    it('Make sure it unlinks, updates, re-links.', function() {
+    it('Make sure it unlinks, updates, re-links.', function () {
       // Add a link.
       testPackageCache._writeManifest(
         label,
@@ -523,14 +523,14 @@ describe('PackageCache', function() {
       td.verify(bower(), { times: 3, ignoreExtraArgs: true });
     });
 
-    it('Make sure multiple invocations lock out.', function() {
+    it('Make sure multiple invocations lock out.', function () {
       testPackageCache._upgrade(label, 'bower');
       testPackageCache._upgrade(label, 'bower');
       td.verify(bower('update', { cwd: 'hello' }), { times: 1 });
       td.verify(bower(), { times: 1, ignoreExtraArgs: true });
     });
 
-    it('locks out _upgrade after _install', function() {
+    it('locks out _upgrade after _install', function () {
       testPackageCache._install(label, 'bower');
       testPackageCache._upgrade(label, 'bower');
       td.verify(bower('install', { cwd: 'hello' }), { times: 1 });
@@ -538,7 +538,7 @@ describe('PackageCache', function() {
     });
   });
 
-  it('create', function() {
+  it('create', function () {
     td.when(npm('--version')).thenReturn({ stdout: '1.0.0' });
     let dir = testPackageCache.create('npm', 'npm', '{}');
     let manifestFilePath = path.join(dir, 'package.json');
@@ -598,12 +598,12 @@ describe('PackageCache', function() {
     testPackageCache.destroy('npm');
   });
 
-  it('get', function() {
+  it('get', function () {
     testPackageCache._conf.set('label', 'foo');
     expect(testPackageCache.get('label')).to.equal('foo');
   });
 
-  it('destroy', function() {
+  it('destroy', function () {
     testPackageCache._writeManifest('label', 'bower', '{}');
 
     let dir = testPackageCache.get('label');
@@ -615,7 +615,7 @@ describe('PackageCache', function() {
     expect(testPackageCache.dirs['label']).to.be.undefined;
   });
 
-  it('clone', function() {
+  it('clone', function () {
     testPackageCache._writeManifest('from', 'bower', '{}');
 
     let fromDir = testPackageCache.dirs['from'];
@@ -633,7 +633,7 @@ describe('PackageCache', function() {
     testPackageCache.destroy('to');
   });
 
-  it('succeeds at a clean install', function() {
+  it('succeeds at a clean install', function () {
     this.timeout(15000);
 
     // Intentionally turning off testing mode.

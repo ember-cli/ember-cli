@@ -7,10 +7,10 @@ const MockProject = require('../../helpers/mock-project');
 const MockUI = require('console-ui/mock');
 const MockWatcher = require('../../helpers/mock-watcher');
 
-describe('test server', function() {
+describe('test server', function () {
   let subject;
 
-  it('transforms and sets defaultOptions in testem and invokes testem properly', function() {
+  it('transforms and sets defaultOptions in testem and invokes testem properly', function () {
     let ui = new MockUI();
     let watcher = new MockWatcher();
 
@@ -48,17 +48,17 @@ describe('test server', function() {
         watcher,
         testPage: 'http://my/test/page',
       })
-      .then(function(value) {
+      .then(function (value) {
         expect(value, 'expected exist status of 0').to.eql(0);
       });
     watcher.emit('change');
     return runResult;
   });
 
-  describe('completion', function() {
+  describe('completion', function () {
     let ui, watcher, subject, runOptions;
 
-    before(function() {
+    before(function () {
       ui = new MockUI();
       watcher = new MockWatcher();
 
@@ -83,18 +83,18 @@ describe('test server', function() {
       });
     });
 
-    describe('firstRun', function() {
-      it('rejects with testem exceptions', function() {
+    describe('firstRun', function () {
+      it('rejects with testem exceptions', function () {
         let error = new Error('OMG');
-        subject.testem.setDefaultOptions = function(options) {
+        subject.testem.setDefaultOptions = function (options) {
           this.defaultOptions = options;
         };
 
-        subject.testem.startDev = function(options, finalizer) {
+        subject.testem.startDev = function (options, finalizer) {
           finalizer(1, error);
         };
 
-        let runResult = expect(subject.run(runOptions)).to.be.rejected.then(reason => {
+        let runResult = expect(subject.run(runOptions)).to.be.rejected.then((reason) => {
           expect(reason).to.eql(error);
         });
 
@@ -103,17 +103,17 @@ describe('test server', function() {
         return runResult;
       });
 
-      it('rejects with exit status (1)', function() {
+      it('rejects with exit status (1)', function () {
         let error = new SilentError('Testem finished with non-zero exit code. Tests failed.');
-        subject.testem.setDefaultOptions = function(options) {
+        subject.testem.setDefaultOptions = function (options) {
           this.defaultOptions = options;
         };
 
-        subject.testem.startDev = function(options, finalizer) {
+        subject.testem.startDev = function (options, finalizer) {
           finalizer(1);
         };
 
-        let runResult = expect(subject.run(runOptions)).to.be.rejected.then(reason => {
+        let runResult = expect(subject.run(runOptions)).to.be.rejected.then((reason) => {
           expect(reason).to.eql(error);
         });
 
@@ -121,16 +121,16 @@ describe('test server', function() {
         return runResult;
       });
 
-      it('resolves with exit status (0)', function() {
-        subject.testem.setDefaultOptions = function(options) {
+      it('resolves with exit status (0)', function () {
+        subject.testem.setDefaultOptions = function (options) {
           this.defaultOptions = options;
         };
 
-        subject.testem.startDev = function(options, finalizer) {
+        subject.testem.startDev = function (options, finalizer) {
           finalizer(0);
         };
 
-        let runResult = subject.run(runOptions).then(function(value) {
+        let runResult = subject.run(runOptions).then(function (value) {
           expect(value, 'expected exist status of 0').to.eql(0);
         });
 
@@ -140,14 +140,14 @@ describe('test server', function() {
       });
     });
 
-    describe('restart', function() {
-      it('rejects with testem exceptions', function() {
+    describe('restart', function () {
+      it('rejects with testem exceptions', function () {
         let error = new Error('OMG');
-        subject.testem.setDefaultOptions = function(options) {
+        subject.testem.setDefaultOptions = function (options) {
           this.defaultOptions = options;
         };
 
-        subject.testem.startDev = function(options, finalizer) {
+        subject.testem.startDev = function (options, finalizer) {
           finalizer(0);
         };
 
@@ -155,12 +155,12 @@ describe('test server', function() {
 
         watcher.emit('change');
 
-        return runResult.then(function() {
-          subject.testem.startDev = function(options, finalizer) {
+        return runResult.then(function () {
+          subject.testem.startDev = function (options, finalizer) {
             finalizer(0, error);
           };
 
-          runResult = expect(subject.run(runOptions)).to.be.rejected.then(reason => {
+          runResult = expect(subject.run(runOptions)).to.be.rejected.then((reason) => {
             expect(reason).to.eql(error);
           });
 

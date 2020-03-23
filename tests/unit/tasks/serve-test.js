@@ -5,7 +5,7 @@ const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
 
-describe('serve task', function() {
+describe('serve task', function () {
   let task, ui;
 
   function setupBroccoliBuilder() {
@@ -63,14 +63,14 @@ describe('serve task', function() {
     return task.run(options);
   }
 
-  describe('run with path', function() {
-    it(`Throws error if path doesn't exist`, function() {
+  describe('run with path', function () {
+    it(`Throws error if path doesn't exist`, function () {
       expect(runServeTask.bind(this, 'xyz')).to.throw(
         'The path xyz does not exist. Please specify a valid build directory to serve.'
       );
     });
 
-    it(`Serves ember app from given path`, async function() {
+    it(`Serves ember app from given path`, async function () {
       runServeTask('docs');
 
       await Promise.resolve();
@@ -78,8 +78,8 @@ describe('serve task', function() {
     });
   });
 
-  describe('onInterrupt', function() {
-    it('fulfills the run promise and cleans up the builder', async function() {
+  describe('onInterrupt', function () {
+    it('fulfills the run promise and cleans up the builder', async function () {
       let servePromise = runServeTask();
 
       await Promise.resolve();

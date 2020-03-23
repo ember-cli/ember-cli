@@ -110,22 +110,22 @@ let basicBlueprintFilesAfterBasic2 = [
   'test.txt',
 ];
 
-describe('Blueprint', function() {
+describe('Blueprint', function () {
   const BasicBlueprintClass = require(basicBlueprint);
   let InstrumentedBasicBlueprint = BasicBlueprintClass.extend(instrumented);
 
-  beforeEach(function() {
+  beforeEach(function () {
     resetCalled();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     td.reset();
   });
 
-  describe('.fileMapTokens', function() {
-    it('adds additional tokens from fileMapTokens hook', function() {
+  describe('.fileMapTokens', function () {
+    it('adds additional tokens from fileMapTokens hook', function () {
       let blueprint = Blueprint.lookup(basicBlueprint);
-      blueprint.fileMapTokens = function() {
+      blueprint.fileMapTokens = function () {
         return {
           __foo__() {
             return 'foo';
@@ -137,8 +137,8 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('.generateFileMap', function() {
-    it('should not have locals in the fileMap', function() {
+  describe('.generateFileMap', function () {
+    it('should not have locals in the fileMap', function () {
       let blueprint = Blueprint.lookup(basicBlueprint);
 
       let fileMapVariables = {
@@ -162,8 +162,8 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('.lookup', function() {
-    it('uses an explicit path if one is given', function() {
+  describe('.lookup', function () {
+    it('uses an explicit path if one is given', function () {
       const expectedClass = require(basicBlueprint);
       let blueprint = Blueprint.lookup(basicBlueprint);
 
@@ -172,7 +172,7 @@ describe('Blueprint', function() {
       expect(blueprint instanceof expectedClass).to.equal(true);
     });
 
-    it('finds blueprints within given lookup paths', function() {
+    it('finds blueprints within given lookup paths', function () {
       const expectedClass = require(basicBlueprint);
       let blueprint = Blueprint.lookup('basic', {
         paths: [fixtureBlueprints],
@@ -183,7 +183,7 @@ describe('Blueprint', function() {
       expect(blueprint instanceof expectedClass).to.equal(true);
     });
 
-    it('finds blueprints in the ember-cli package', function() {
+    it('finds blueprints in the ember-cli package', function () {
       let expectedPath = path.resolve(defaultBlueprints, 'app');
       let expectedClass = Blueprint;
 
@@ -194,7 +194,7 @@ describe('Blueprint', function() {
       expect(blueprint instanceof expectedClass).to.equal(true);
     });
 
-    it('can instantiate a blueprint that exports an object instead of a constructor', function() {
+    it('can instantiate a blueprint that exports an object instead of a constructor', function () {
       let blueprint = Blueprint.lookup('exporting-object', {
         paths: [fixtureBlueprints],
       });
@@ -203,13 +203,13 @@ describe('Blueprint', function() {
       expect(blueprint instanceof Blueprint).to.equal(true);
     });
 
-    it('throws an error if no blueprint is found', function() {
+    it('throws an error if no blueprint is found', function () {
       expect(() => {
         Blueprint.lookup('foo');
       }).to.throw('Unknown blueprint: foo');
     });
 
-    it('returns undefined if no blueprint is found and ignoredMissing is passed', function() {
+    it('returns undefined if no blueprint is found and ignoredMissing is passed', function () {
       let blueprint = Blueprint.lookup('foo', {
         ignoreMissing: true,
       });
@@ -218,32 +218,32 @@ describe('Blueprint', function() {
     });
   });
 
-  it('exists', function() {
+  it('exists', function () {
     let blueprint = new Blueprint(basicBlueprint);
     expect(!!blueprint).to.equal(true);
   });
 
-  it('derives name from path', function() {
+  it('derives name from path', function () {
     let blueprint = new Blueprint(basicBlueprint);
     expect(blueprint.name).to.equal('basic');
   });
 
-  describe('filesPath', function() {
-    it('returns the blueprints default files path', function() {
+  describe('filesPath', function () {
+    it('returns the blueprints default files path', function () {
       let blueprint = new Blueprint(basicBlueprint);
 
       expect(blueprint.filesPath()).to.equal(path.join(basicBlueprint, 'files'));
     });
   });
 
-  describe('basic blueprint installation', function() {
+  describe('basic blueprint installation', function () {
     let blueprint;
     let ui;
     let project;
     let options;
     let tmpdir;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const dir = await mkTmpDirIn(tempRoot);
       tmpdir = dir;
       blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
@@ -258,11 +258,11 @@ describe('Blueprint', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('installs basic files', async function() {
+    it('installs basic files', async function () {
       expect(!!blueprint).to.equal(true);
 
       await blueprint.install(options);
@@ -281,7 +281,7 @@ describe('Blueprint', function() {
       expect(output.length).to.equal(0);
       expect(actualFiles).to.deep.equal(basicBlueprintFiles);
       expect(() => {
-        fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function(err, content) {
+        fs.readFile(path.join(tmpdir, 'test.txt'), 'utf-8', function (err, content) {
           if (err) {
             throw 'error';
           }
@@ -290,7 +290,7 @@ describe('Blueprint', function() {
       }).not.to.throw();
     });
 
-    it('re-installing identical files', async function() {
+    it('re-installing identical files', async function () {
       await blueprint.install(options);
 
       let output = ui.output.trim().split(EOL);
@@ -324,7 +324,7 @@ describe('Blueprint', function() {
       expect(actualFiles).to.deep.equal(basicBlueprintFiles);
     });
 
-    it('re-installing conflicting files', async function() {
+    it('re-installing conflicting files', async function () {
       td.when(ui.prompt(td.matchers.anything())).thenReturn(
         Promise.resolve({ answer: 'skip' }),
         Promise.resolve({ answer: 'overwrite' })
@@ -366,7 +366,7 @@ describe('Blueprint', function() {
       expect(actualFiles).to.deep.equal(basicBlueprintFilesAfterBasic2);
     });
 
-    it('installs path globPattern file', async function() {
+    it('installs path globPattern file', async function () {
       options.targetFiles = ['foo.txt'];
       await blueprint.install(options);
       let actualFiles = walkSync(tmpdir).sort();
@@ -387,7 +387,7 @@ describe('Blueprint', function() {
       expect(actualFiles).to.deep.equal(globFiles);
     });
 
-    it('installs multiple globPattern files', async function() {
+    it('installs multiple globPattern files', async function () {
       options.targetFiles = ['foo.txt', 'test.txt'];
       await blueprint.install(options);
       let actualFiles = walkSync(tmpdir).sort();
@@ -409,12 +409,12 @@ describe('Blueprint', function() {
       expect(actualFiles).to.deep.equal(globFiles);
     });
 
-    describe('called on an existing project', function() {
-      beforeEach(function() {
+    describe('called on an existing project', function () {
+      beforeEach(function () {
         Blueprint.ignoredUpdateFiles.push('foo.txt');
       });
 
-      it('ignores files in ignoredUpdateFiles', async function() {
+      it('ignores files in ignoredUpdateFiles', async function () {
         td.when(ui.prompt(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve({ answer: 'skip' }));
         await blueprint.install(options);
 
@@ -433,7 +433,7 @@ describe('Blueprint', function() {
 
         let blueprintNew = new Blueprint(basicNewBlueprint);
 
-        options.project.isEmberCLIProject = function() {
+        options.project.isEmberCLIProject = function () {
           return true;
         };
 
@@ -453,12 +453,12 @@ describe('Blueprint', function() {
       });
     });
 
-    describe('called on a new project', function() {
-      beforeEach(function() {
+    describe('called on a new project', function () {
+      beforeEach(function () {
         Blueprint.ignoredUpdateFiles.push('foo.txt');
       });
 
-      it('does not ignores files in ignoredUpdateFiles', async function() {
+      it('does not ignores files in ignoredUpdateFiles', async function () {
         td.when(ui.prompt(), { ignoreExtraArgs: true }).thenReturn(Promise.resolve({ answer: 'skip' }));
         await blueprint.install(options);
 
@@ -477,7 +477,7 @@ describe('Blueprint', function() {
 
         let blueprintNew = new Blueprint(basicNewBlueprint);
 
-        options.project.isEmberCLIProject = function() {
+        options.project.isEmberCLIProject = function () {
           return false;
         };
 
@@ -498,7 +498,7 @@ describe('Blueprint', function() {
       });
     });
 
-    it('throws error when there is a trailing forward slash in entityName', function() {
+    it('throws error when there is a trailing forward slash in entityName', function () {
       options.entity = { name: 'foo/' };
       expect(() => {
         blueprint.install(options);
@@ -519,14 +519,14 @@ describe('Blueprint', function() {
       }).not.to.throw();
     });
 
-    it('throws error when an entityName is not provided', function() {
+    it('throws error when an entityName is not provided', function () {
       options.entity = {};
       expect(() => {
         blueprint.install(options);
       }).to.throw(SilentError, /The `ember generate <entity-name>` command requires an entity name to be specified./);
     });
 
-    it('throws error when an action does not exist', async function() {
+    it('throws error when an action does not exist', async function () {
       blueprint._actions = {};
       try {
         await blueprint.install(options);
@@ -536,9 +536,9 @@ describe('Blueprint', function() {
       }
     });
 
-    it('calls normalizeEntityName hook during install', async function() {
-      const wait = new Promise(resolve => {
-        blueprint.normalizeEntityName = function() {
+    it('calls normalizeEntityName hook during install', async function () {
+      const wait = new Promise((resolve) => {
+        blueprint.normalizeEntityName = function () {
           resolve();
         };
       });
@@ -547,8 +547,8 @@ describe('Blueprint', function() {
       await wait;
     });
 
-    it('normalizeEntityName hook can modify the entity name', async function() {
-      blueprint.normalizeEntityName = function() {
+    it('normalizeEntityName hook can modify the entity name', async function () {
+      blueprint.normalizeEntityName = function () {
         return 'foo';
       };
       options.entity = { name: 'bar' };
@@ -560,11 +560,11 @@ describe('Blueprint', function() {
       expect(actualFiles).to.not.contain('app/basics/mock-project.txt');
     });
 
-    it('calls normalizeEntityName before locals hook is called', function(done) {
-      blueprint.normalizeEntityName = function() {
+    it('calls normalizeEntityName before locals hook is called', function (done) {
+      blueprint.normalizeEntityName = function () {
         return 'foo';
       };
-      blueprint.locals = function(options) {
+      blueprint.locals = function (options) {
         expect(options.entity.name).to.equal('foo');
         done();
       };
@@ -572,7 +572,7 @@ describe('Blueprint', function() {
       blueprint.install(options);
     });
 
-    it('calls appropriate hooks with correct arguments', async function() {
+    it('calls appropriate hooks with correct arguments', async function () {
       options.entity = { name: 'foo' };
 
       await blueprint.install(options);
@@ -586,12 +586,12 @@ describe('Blueprint', function() {
       expect(afterUninstallCalled).to.be.false;
     });
 
-    it("doesn't throw when running uninstall without installing first", function() {
+    it("doesn't throw when running uninstall without installing first", function () {
       return blueprint.uninstall(options);
     });
   });
 
-  describe('basic blueprint uninstallation', function() {
+  describe('basic blueprint uninstallation', function () {
     const BasicBlueprintClass = require(basicBlueprint);
     let blueprint;
     let ui;
@@ -604,7 +604,7 @@ describe('Blueprint', function() {
       options.ui = ui;
     }
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       let dir = await mkTmpDirIn(tempRoot);
 
       tmpdir = dir;
@@ -620,11 +620,11 @@ describe('Blueprint', function() {
       refreshUI();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('uninstalls basic files', async function() {
+    it('uninstalls basic files', async function () {
       expect(!!blueprint).to.equal(true);
 
       await blueprint.uninstall(options);
@@ -646,7 +646,7 @@ describe('Blueprint', function() {
       expect(fs.existsSync(path.join(tmpdir, 'test.txt'))).to.be.false;
     });
 
-    it("uninstall doesn't remove non-empty folders", async function() {
+    it("uninstall doesn't remove non-empty folders", async function () {
       options.entity = { name: 'foo' };
 
       await blueprint.install(options);
@@ -662,7 +662,7 @@ describe('Blueprint', function() {
       expect(actualFiles).to.contain('app/basics/mock-project.txt');
     });
 
-    it("uninstall doesn't log remove messages when file does not exist", async function() {
+    it("uninstall doesn't log remove messages when file does not exist", async function () {
       options.entity = { name: 'does-not-exist' };
 
       await blueprint.uninstall(options);
@@ -674,7 +674,7 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('instrumented blueprint uninstallation', function() {
+  describe('instrumented blueprint uninstallation', function () {
     let blueprint;
     let ui;
     let project;
@@ -686,7 +686,7 @@ describe('Blueprint', function() {
       options.ui = ui;
     }
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       let dir = await mkTmpDirIn(tempRoot);
       tmpdir = dir;
       blueprint = new InstrumentedBasicBlueprint(basicBlueprint);
@@ -701,7 +701,7 @@ describe('Blueprint', function() {
       refreshUI();
     });
 
-    it('calls appropriate hooks with correct arguments', async function() {
+    it('calls appropriate hooks with correct arguments', async function () {
       options.entity = { name: 'foo' };
 
       await blueprint.uninstall(options);
@@ -717,23 +717,23 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('addPackageToProject', function() {
+  describe('addPackageToProject', function () {
     let blueprint;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
     });
 
-    it('passes a packages array for addPackagesToProject', function() {
-      blueprint.addPackagesToProject = function(packages) {
+    it('passes a packages array for addPackagesToProject', function () {
+      blueprint.addPackagesToProject = function (packages) {
         expect(packages).to.deep.equal([{ name: 'foo-bar' }]);
       };
 
       blueprint.addPackageToProject('foo-bar');
     });
 
-    it('passes a packages array with target for addPackagesToProject', function() {
-      blueprint.addPackagesToProject = function(packages) {
+    it('passes a packages array with target for addPackagesToProject', function () {
+      blueprint.addPackagesToProject = function (packages) {
         expect(packages).to.deep.equal([{ name: 'foo-bar', target: '^123.1.12' }]);
       };
 
@@ -741,26 +741,26 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('addPackagesToProject', function() {
+  describe('addPackagesToProject', function () {
     let blueprint;
     let ui;
     let NpmInstallTask;
     let taskNameLookedUp;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
       ui = new MockUI();
-      blueprint.taskFor = function(name) {
+      blueprint.taskFor = function (name) {
         taskNameLookedUp = name;
         return new NpmInstallTask();
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('looks up the `npm-install` task', function() {
+    it('looks up the `npm-install` task', function () {
       NpmInstallTask = Task.extend({
         run() {},
       });
@@ -770,7 +770,7 @@ describe('Blueprint', function() {
       expect(taskNameLookedUp).to.equal('npm-install');
     });
 
-    it('calls the task with package names', function() {
+    it('calls the task with package names', function () {
       let packages;
 
       NpmInstallTask = Task.extend({
@@ -784,7 +784,7 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
     });
 
-    it('calls the task with package names and versions', function() {
+    it('calls the task with package names and versions', function () {
       let packages;
 
       NpmInstallTask = Task.extend({
@@ -801,7 +801,7 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(['foo-bar@^123.1.12', 'bar-foo@0.0.7']);
     });
 
-    it('writes information to the ui log for a single package', function() {
+    it('writes information to the ui log for a single package', function () {
       blueprint.ui = ui;
 
       blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }]);
@@ -811,7 +811,7 @@ describe('Blueprint', function() {
       expect(output).to.match(/install package.*foo-bar/);
     });
 
-    it('writes information to the ui log for multiple packages', function() {
+    it('writes information to the ui log for multiple packages', function () {
       blueprint.ui = ui;
 
       blueprint.addPackagesToProject([
@@ -824,7 +824,7 @@ describe('Blueprint', function() {
       expect(output).to.match(/install packages.*foo-bar, bar-foo/);
     });
 
-    it('does not error if ui is not present', function() {
+    it('does not error if ui is not present', function () {
       delete blueprint.ui;
 
       blueprint.addPackagesToProject([{ name: 'foo-bar', target: '^123.1.12' }]);
@@ -834,7 +834,7 @@ describe('Blueprint', function() {
       expect(output).to.not.match(/install package.*foo-bar/);
     });
 
-    it('runs task with --save-dev', function() {
+    it('runs task with --save-dev', function () {
       let saveDev;
 
       NpmInstallTask = Task.extend({
@@ -851,7 +851,7 @@ describe('Blueprint', function() {
       expect(!!saveDev).to.equal(true);
     });
 
-    it('does not use verbose mode with the task', function() {
+    it('does not use verbose mode with the task', function () {
       let verbose;
 
       NpmInstallTask = Task.extend({
@@ -869,33 +869,33 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('removePackageFromProject', function() {
+  describe('removePackageFromProject', function () {
     let blueprint;
     let NpmUninstallTask;
     let taskNameLookedUp;
     let project;
 
-    beforeEach(function() {
+    beforeEach(function () {
       project = new MockProject();
 
       blueprint = new Blueprint(basicBlueprint);
       blueprint.project = project;
-      blueprint.taskFor = function(name) {
+      blueprint.taskFor = function (name) {
         taskNameLookedUp = name;
         return new NpmUninstallTask();
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('looks up the `npm-uninstall` task', function() {
+    it('looks up the `npm-uninstall` task', function () {
       NpmUninstallTask = Task.extend({
         run() {},
       });
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-bar': '1.0.0',
         };
@@ -906,30 +906,30 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('removePackagesFromProject', function() {
+  describe('removePackagesFromProject', function () {
     let blueprint;
     let ui;
     let NpmUninstallTask;
     let taskNameLookedUp;
     let project;
 
-    beforeEach(function() {
+    beforeEach(function () {
       project = new MockProject();
 
       blueprint = new Blueprint(basicBlueprint);
       ui = new MockUI();
       blueprint.project = project;
-      blueprint.taskFor = function(name) {
+      blueprint.taskFor = function (name) {
         taskNameLookedUp = name;
         return new NpmUninstallTask();
       };
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return remove(tempRoot);
     });
 
-    it('looks up the `npm-uninstall` task', function() {
+    it('looks up the `npm-uninstall` task', function () {
       NpmUninstallTask = Task.extend({
         run() {},
       });
@@ -939,7 +939,7 @@ describe('Blueprint', function() {
       expect(taskNameLookedUp).to.equal('npm-uninstall');
     });
 
-    it('calls the task with only existing packages', function() {
+    it('calls the task with only existing packages', function () {
       let packages;
 
       NpmUninstallTask = Task.extend({
@@ -948,7 +948,7 @@ describe('Blueprint', function() {
         },
       });
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-bar': '1.0.0',
           'bar-zoo': '2.0.0',
@@ -960,7 +960,7 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(['foo-bar']);
     });
 
-    it('skips uninstall if no matching package exists', function() {
+    it('skips uninstall if no matching package exists', function () {
       let packages;
 
       NpmUninstallTask = Task.extend({
@@ -969,7 +969,7 @@ describe('Blueprint', function() {
         },
       });
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-baz': '1.0.0',
           'bar-zoo': '2.0.0',
@@ -981,7 +981,7 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(undefined);
     });
 
-    it('calls the task with package names', function() {
+    it('calls the task with package names', function () {
       let packages;
 
       NpmUninstallTask = Task.extend({
@@ -990,7 +990,7 @@ describe('Blueprint', function() {
         },
       });
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-bar': '1.0.0',
           'bar-foo': '2.0.0',
@@ -1002,10 +1002,10 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(['foo-bar', 'bar-foo']);
     });
 
-    it('writes information to the ui log for a single package', function() {
+    it('writes information to the ui log for a single package', function () {
       blueprint.ui = ui;
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-bar': '1.0.0',
         };
@@ -1018,10 +1018,10 @@ describe('Blueprint', function() {
       expect(output).to.match(/uninstall package.*foo-bar/);
     });
 
-    it('writes information to the ui log for multiple packages', function() {
+    it('writes information to the ui log for multiple packages', function () {
       blueprint.ui = ui;
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-bar': '1.0.0',
           'bar-foo': '2.0.0',
@@ -1035,7 +1035,7 @@ describe('Blueprint', function() {
       expect(output).to.match(/uninstall packages.*foo-bar, bar-foo/);
     });
 
-    it('does not error if ui is not present', function() {
+    it('does not error if ui is not present', function () {
       delete blueprint.ui;
 
       blueprint.removePackagesFromProject([{ name: 'foo-bar' }]);
@@ -1045,7 +1045,7 @@ describe('Blueprint', function() {
       expect(output).to.not.match(/uninstall package.*foo-bar/);
     });
 
-    it('runs task with --save-dev', function() {
+    it('runs task with --save-dev', function () {
       let saveDev;
 
       NpmUninstallTask = Task.extend({
@@ -1054,7 +1054,7 @@ describe('Blueprint', function() {
         },
       });
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-bar': '1.0.0',
           'bar-foo': '2.0.0',
@@ -1066,7 +1066,7 @@ describe('Blueprint', function() {
       expect(!!saveDev).to.equal(true);
     });
 
-    it('does not use verbose mode with the task', function() {
+    it('does not use verbose mode with the task', function () {
       let verbose;
 
       NpmUninstallTask = Task.extend({
@@ -1075,7 +1075,7 @@ describe('Blueprint', function() {
         },
       });
 
-      project.dependencies = function() {
+      project.dependencies = function () {
         return {
           'foo-bar': '1.0.0',
           'bar-foo': '2.0.0',
@@ -1088,50 +1088,50 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('addBowerPackageToProject', function() {
+  describe('addBowerPackageToProject', function () {
     let blueprint;
     let ui;
     let BowerInstallTask;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
       ui = new MockUI();
       blueprint.ui = ui;
-      blueprint.taskFor = function() {
+      blueprint.taskFor = function () {
         return new BowerInstallTask();
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('passes a packages array for addBowerPackagesToProject', function() {
-      blueprint.addBowerPackagesToProject = function(packages) {
+    it('passes a packages array for addBowerPackagesToProject', function () {
+      blueprint.addBowerPackagesToProject = function (packages) {
         expect(packages).to.deep.equal([{ name: 'foo-bar', source: 'foo-bar', target: '*' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar');
     });
 
-    it('passes a packages array with target for addBowerPackagesToProject', function() {
-      blueprint.addBowerPackagesToProject = function(packages) {
+    it('passes a packages array with target for addBowerPackagesToProject', function () {
+      blueprint.addBowerPackagesToProject = function (packages) {
         expect(packages).to.deep.equal([{ name: 'foo-bar', source: 'foo-bar', target: '1.0.0' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar', '1.0.0');
     });
 
-    it('correctly handles local package naming, with a numbered pkg version', function() {
-      blueprint.addBowerPackagesToProject = function(packages) {
+    it('correctly handles local package naming, with a numbered pkg version', function () {
+      blueprint.addBowerPackagesToProject = function (packages) {
         expect(packages).to.deep.equal([{ name: 'foo-bar-local', target: '1.0.0', source: 'foo-bar' }]);
       };
 
       blueprint.addBowerPackageToProject('foo-bar-local', 'foo-bar#1.0.0');
     });
 
-    it('correctly handles local package naming, with a non-versioned package', function() {
-      blueprint.addBowerPackagesToProject = function(packages) {
+    it('correctly handles local package naming, with a non-versioned package', function () {
+      blueprint.addBowerPackagesToProject = function (packages) {
         expect(packages).to.deep.equal([
           { name: 'foo-bar-local', target: '*', source: 'https://twitter.github.io/bootstrap/assets/bootstrap' },
         ]);
@@ -1141,24 +1141,24 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('addBowerPackagesToProject', function() {
+  describe('addBowerPackagesToProject', function () {
     let blueprint;
     let BowerInstallTask;
     let taskNameLookedUp;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
-      blueprint.taskFor = function(name) {
+      blueprint.taskFor = function (name) {
         taskNameLookedUp = name;
         return new BowerInstallTask();
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('looks up the `bower-install` task', function() {
+    it('looks up the `bower-install` task', function () {
       BowerInstallTask = Task.extend({
         run() {},
       });
@@ -1167,7 +1167,7 @@ describe('Blueprint', function() {
       expect(taskNameLookedUp).to.equal('bower-install');
     });
 
-    it('calls the task with the package names', function() {
+    it('calls the task with the package names', function () {
       let packages;
 
       BowerInstallTask = Task.extend({
@@ -1181,7 +1181,7 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(['foo-bar=foo-bar', 'bar-foo=bar-foo']);
     });
 
-    it('uses the provided target (version, range, sha, etc)', function() {
+    it('uses the provided target (version, range, sha, etc)', function () {
       let packages;
 
       BowerInstallTask = Task.extend({
@@ -1198,7 +1198,7 @@ describe('Blueprint', function() {
       expect(packages).to.deep.equal(['foo-bar=foo-bar#~1.0.0', 'bar-foo=bar-foo#0.7.0']);
     });
 
-    it('properly parses a variety of bower package endpoints', function() {
+    it('properly parses a variety of bower package endpoints', function () {
       let packages;
 
       BowerInstallTask = Task.extend({
@@ -1223,7 +1223,7 @@ describe('Blueprint', function() {
       ]);
     });
 
-    it('uses uses verbose mode with the task', function() {
+    it('uses uses verbose mode with the task', function () {
       let verbose;
 
       BowerInstallTask = Task.extend({
@@ -1241,27 +1241,27 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('addAddonToProject', function() {
+  describe('addAddonToProject', function () {
     let blueprint;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('passes a packages array for addAddonsToProject', function() {
-      blueprint.addAddonsToProject = function(options) {
+    it('passes a packages array for addAddonsToProject', function () {
+      blueprint.addAddonsToProject = function (options) {
         expect(options.packages).to.deep.equal(['foo-bar']);
       };
 
       blueprint.addAddonToProject('foo-bar');
     });
 
-    it('passes a packages array with target for addAddonsToProject', function() {
-      blueprint.addAddonsToProject = function(options) {
+    it('passes a packages array with target for addAddonsToProject', function () {
+      blueprint.addAddonsToProject = function (options) {
         expect(options.packages).to.deep.equal([{ name: 'foo-bar', target: '^123.1.12' }]);
       };
 
@@ -1269,26 +1269,26 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('addAddonsToProject', function() {
+  describe('addAddonsToProject', function () {
     let blueprint;
     let ui;
     let AddonInstallTask;
     let taskNameLookedUp;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
       ui = new MockUI();
-      blueprint.taskFor = function(name) {
+      blueprint.taskFor = function (name) {
         taskNameLookedUp = name;
         return new AddonInstallTask();
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('looks up the `addon-install` task', function() {
+    it('looks up the `addon-install` task', function () {
       AddonInstallTask = Task.extend({
         run() {},
       });
@@ -1298,7 +1298,7 @@ describe('Blueprint', function() {
       expect(taskNameLookedUp).to.equal('addon-install');
     });
 
-    it('calls the task with package name', function() {
+    it('calls the task with package name', function () {
       let pkg;
 
       AddonInstallTask = Task.extend({
@@ -1312,7 +1312,7 @@ describe('Blueprint', function() {
       expect(pkg).to.deep.equal(['foo-bar', 'baz-bat']);
     });
 
-    it('calls the task with correctly parsed options', function() {
+    it('calls the task with correctly parsed options', function () {
       let pkg, args, bluOpts;
 
       AddonInstallTask = Task.extend({
@@ -1341,7 +1341,7 @@ describe('Blueprint', function() {
       expect(bluOpts).to.equal('-foo');
     });
 
-    it('writes information to the ui log for a single package', function() {
+    it('writes information to the ui log for a single package', function () {
       blueprint.ui = ui;
 
       blueprint.addAddonsToProject({
@@ -1358,7 +1358,7 @@ describe('Blueprint', function() {
       expect(output).to.match(/install addon.*foo-bar/);
     });
 
-    it('writes information to the ui log for multiple packages', function() {
+    it('writes information to the ui log for multiple packages', function () {
       blueprint.ui = ui;
 
       blueprint.addAddonsToProject({
@@ -1377,7 +1377,7 @@ describe('Blueprint', function() {
       expect(output).to.match(/install addons.*foo-bar@1.0.0,.*stuff-things,.*baz-bat@0.0.1/);
     });
 
-    it('does not error if ui is not present', function() {
+    it('does not error if ui is not present', function () {
       delete blueprint.ui;
 
       blueprint.addAddonsToProject({
@@ -1395,24 +1395,24 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('load', function() {
-    it('loads and returns a blueprint object', function() {
+  describe('load', function () {
+    it('loads and returns a blueprint object', function () {
       let blueprint = Blueprint.load(basicBlueprint);
       expect(blueprint).to.be.an('object');
       expect(blueprint.name).to.equal('basic');
     });
 
-    it('loads only blueprints with an index.js', function() {
+    it('loads only blueprints with an index.js', function () {
       expect(Blueprint.load(path.join(fixtureBlueprints, '.notablueprint'))).to.not.exist;
     });
   });
 
-  describe('lookupBlueprint', function() {
+  describe('lookupBlueprint', function () {
     let blueprint;
     let tmpdir;
     let project;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       let dir = await mkTmpDirIn(tempRoot);
       tmpdir = dir;
       blueprint = new Blueprint(basicBlueprint);
@@ -1420,29 +1420,29 @@ describe('Blueprint', function() {
       // normally provided by `install`, but mocked here for testing
       project.root = tmpdir;
       blueprint.project = project;
-      project.blueprintLookupPaths = function() {
+      project.blueprintLookupPaths = function () {
         return [fixtureBlueprints];
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await remove(tempRoot);
     });
 
-    it('can lookup other Blueprints from the project blueprintLookupPaths', function() {
+    it('can lookup other Blueprints from the project blueprintLookupPaths', function () {
       let result = blueprint.lookupBlueprint('basic_2');
 
       expect(result.description).to.equal('Another basic blueprint');
     });
 
-    it('can find internal blueprints', function() {
+    it('can find internal blueprints', function () {
       let result = blueprint.lookupBlueprint('blueprint');
 
       expect(result.description).to.equal('Generates a blueprint and definition.');
     });
   });
 
-  describe('._generateFileMapVariables', function() {
+  describe('._generateFileMapVariables', function () {
     let blueprint;
     let project;
     let moduleName;
@@ -1451,7 +1451,7 @@ describe('Blueprint', function() {
     let result;
     let expectation;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
       project = new MockProject();
       moduleName = project.name();
@@ -1478,13 +1478,13 @@ describe('Blueprint', function() {
       };
     });
 
-    it('should create the correct default fileMapVariables', function() {
+    it('should create the correct default fileMapVariables', function () {
       result = blueprint._generateFileMapVariables(moduleName, locals, options);
 
       expect(result).to.eql(expectation);
     });
 
-    it('should use the moduleName method argument for moduleName', function() {
+    it('should use the moduleName method argument for moduleName', function () {
       moduleName = 'foo';
       expectation.dasherizedModuleName = 'foo';
 
@@ -1493,7 +1493,7 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should use the locals method argument for its locals value', function() {
+    it('should use the locals method argument for its locals value', function () {
       locals = { foo: 'bar' };
       expectation.locals = locals;
 
@@ -1502,7 +1502,7 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should use the option.originBlueprintName value as its originBlueprintName if included in the options hash', function() {
+    it('should use the option.originBlueprintName value as its originBlueprintName if included in the options hash', function () {
       options.originBlueprintName = 'foo';
       expectation.originBlueprintName = 'foo';
 
@@ -1511,8 +1511,8 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it("should include a podPath if the project's podModulePrefix is defined", function() {
-      blueprint.project.config = function() {
+    it("should include a podPath if the project's podModulePrefix is defined", function () {
+      blueprint.project.config = function () {
         return {
           podModulePrefix: 'foo/bar',
         };
@@ -1525,10 +1525,10 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should include an inAddon and inDummy flag of true if the project is an addon', function() {
+    it('should include an inAddon and inDummy flag of true if the project is an addon', function () {
       options.dummy = true;
 
-      blueprint.project.isEmberCLIAddon = function() {
+      blueprint.project.isEmberCLIAddon = function () {
         return true;
       };
 
@@ -1540,7 +1540,7 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should include an inAddon and inRepoAddon flag of true if options.inRepoAddon is true', function() {
+    it('should include an inAddon and inRepoAddon flag of true if options.inRepoAddon is true', function () {
       options.inRepoAddon = true;
 
       expectation.inRepoAddon = true;
@@ -1551,7 +1551,7 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should include an in flag of true if options.in is true', function() {
+    it('should include an in flag of true if options.in is true', function () {
       options.in = true;
 
       expectation.in = true;
@@ -1561,7 +1561,7 @@ describe('Blueprint', function() {
       expect(result).to.eql(expectation);
     });
 
-    it('should have a hasPathToken flag of true if the blueprint hasPathToken is true', function() {
+    it('should have a hasPathToken flag of true if the blueprint hasPathToken is true', function () {
       blueprint.hasPathToken = true;
 
       expectation.hasPathToken = true;
@@ -1572,22 +1572,22 @@ describe('Blueprint', function() {
     });
   });
 
-  describe('._locals', function() {
+  describe('._locals', function () {
     let blueprint;
     let project;
     let options;
     let result;
     let expectation;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = new Blueprint(basicBlueprint);
       project = new MockProject();
 
-      blueprint._generateFileMapVariables = function() {
+      blueprint._generateFileMapVariables = function () {
         return {};
       };
 
-      blueprint.generateFileMap = function() {
+      blueprint.generateFileMap = function () {
         return {};
       };
 
@@ -1606,26 +1606,26 @@ describe('Blueprint', function() {
       };
     });
 
-    it('should return a default object if no custom options are passed', async function() {
+    it('should return a default object if no custom options are passed', async function () {
       result = await blueprint._locals(options);
 
       expect(result).to.deep.include(expectation);
     });
 
-    it('it should call the locals method with the correct arguments', function() {
-      blueprint.locals = function(opts) {
+    it('it should call the locals method with the correct arguments', function () {
+      blueprint.locals = function (opts) {
         expect(opts).to.equal(options);
       };
 
       blueprint._locals(options);
     });
 
-    it('should call _generateFileMapVariables with the correct arguments', function() {
-      blueprint.locals = function() {
+    it('should call _generateFileMapVariables with the correct arguments', function () {
+      blueprint.locals = function () {
         return { foo: 'bar' };
       };
 
-      blueprint._generateFileMapVariables = function(modName, lcls, opts) {
+      blueprint._generateFileMapVariables = function (modName, lcls, opts) {
         expect(modName).to.equal('mock-project');
         expect(lcls).to.eql({ foo: 'bar' });
         expect(opts).to.eql(opts);
@@ -1634,19 +1634,19 @@ describe('Blueprint', function() {
       blueprint._locals(options);
     });
 
-    it('should call generateFileMap with the correct arguments', function() {
-      blueprint._generateFileMapVariables = function() {
+    it('should call generateFileMap with the correct arguments', function () {
+      blueprint._generateFileMapVariables = function () {
         return { bar: 'baz' };
       };
 
-      blueprint.generateFileMap = function(fileMapVariables) {
+      blueprint.generateFileMap = function (fileMapVariables) {
         expect(fileMapVariables).to.eql({ bar: 'baz' });
       };
 
       blueprint._locals(options);
     });
 
-    it('should use the options.entity.name as its moduleName if its value is defined', async function() {
+    it('should use the options.entity.name as its moduleName if its value is defined', async function () {
       options.entity = {
         name: 'foo',
       };
@@ -1661,8 +1661,8 @@ describe('Blueprint', function() {
       expect(result).to.deep.include(expectation);
     });
 
-    it('should update its fileMap values to match the generateFileMap result', async function() {
-      blueprint.generateFileMap = function() {
+    it('should update its fileMap values to match the generateFileMap result', async function () {
+      blueprint.generateFileMap = function () {
         return { foo: 'bar' };
       };
 
@@ -1673,8 +1673,8 @@ describe('Blueprint', function() {
       expect(result).to.deep.include(expectation);
     });
 
-    it('should return an object containing custom local values', async function() {
-      blueprint.locals = function() {
+    it('should return an object containing custom local values', async function () {
+      blueprint.locals = function () {
         return { foo: 'bar' };
       };
 

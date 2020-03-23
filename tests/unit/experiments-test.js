@@ -21,11 +21,11 @@ function resetProcessEnv(originalProcessEnv) {
 
 const ORIGINAL_CONSOLE = Object.assign({}, console);
 
-describe('experiments', function() {
-  describe('isExperimentEnabled', function() {
+describe('experiments', function () {
+  describe('isExperimentEnabled', function () {
     let originalProcessEnv, warnings;
 
-    beforeEach(function() {
+    beforeEach(function () {
       originalProcessEnv = Object.assign({}, process.env);
 
       // reset all experiment flags for these tests, they will be restored in
@@ -34,16 +34,16 @@ describe('experiments', function() {
       delete process.env.EMBER_CLI_PACKAGER;
 
       warnings = [];
-      console.warn = warning => warnings.push(warning);
+      console.warn = (warning) => warnings.push(warning);
     });
 
-    afterEach(function() {
+    afterEach(function () {
       resetProcessEnv(originalProcessEnv);
       Object.assign(console, ORIGINAL_CONSOLE);
       _deprecatedExperimentsDeprecationsIssued.length = 0;
     });
 
-    it('should return true for all experiments when `EMBER_CLI_ENABLE_ALL_EXPERIMENTS` is set', function() {
+    it('should return true for all experiments when `EMBER_CLI_ENABLE_ALL_EXPERIMENTS` is set', function () {
       process.env.EMBER_CLI_ENABLE_ALL_EXPERIMENTS = true;
 
       expect(isExperimentEnabled('PACKAGER')).to.be.true;
@@ -51,7 +51,7 @@ describe('experiments', function() {
       expect(warnings).to.deep.equal([]);
     });
 
-    it('setting an already disabled feature to false does not enable it', function() {
+    it('setting an already disabled feature to false does not enable it', function () {
       process.env.EMBER_CLI_PACKAGER = 'false';
       expect(isExperimentEnabled('PACKAGER')).to.be.false;
 

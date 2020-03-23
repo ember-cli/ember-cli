@@ -4,11 +4,11 @@
 
 let logSink;
 
-beforeEach(function() {
+beforeEach(function () {
   logSink = [];
 });
 
-afterEach(function() {
+afterEach(function () {
   if (this.currentTest && this.currentTest.state !== 'passed') {
     // It would be preferable to attach the log output to the error object
     // (this.currentTest.err) and have Mocha report it somehow, so that the
