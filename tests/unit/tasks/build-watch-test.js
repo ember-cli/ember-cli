@@ -5,7 +5,7 @@ const Builder = require('../../../lib/models/builder');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
 
-describe('build-watch task', function() {
+describe('build-watch task', function () {
   let task, ui;
 
   function setupBroccoliBuilder() {
@@ -58,8 +58,8 @@ describe('build-watch task', function() {
     return task.run(options);
   }
 
-  describe('onInterrupt', function() {
-    it('fulfills the run promise and cleans up the builder', async function() {
+  describe('onInterrupt', function () {
+    it('fulfills the run promise and cleans up the builder', async function () {
       let runPromise = runBuildWatchTask();
 
       Promise.resolve().then(() => task.onInterrupt());

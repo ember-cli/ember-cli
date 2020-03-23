@@ -3,14 +3,14 @@
 const expect = require('chai').expect;
 const NodeModulesList = require('../../../../lib/models/package-info-cache/node-modules-list');
 
-describe('models/package-info-cache/node-modules-list-test', function() {
-  it('correctly constructs', function() {
+describe('models/package-info-cache/node-modules-list-test', function () {
+  it('correctly constructs', function () {
     expect(new NodeModulesList()).to.be.ok;
     expect(new NodeModulesList('/some/path')).to.be.ok;
   });
 
-  describe('.NULL', function() {
-    it('returns a singleton, deeply frozen NodeMoudlesList', function() {
+  describe('.NULL', function () {
+    it('returns a singleton, deeply frozen NodeMoudlesList', function () {
       expect(NodeModulesList.NULL).to.equal(NodeModulesList.NULL);
       expect(NodeModulesList.NULL).to.be.frozen;
       expect(NodeModulesList.NULL.entries).to.be.frozen;
@@ -19,13 +19,13 @@ describe('models/package-info-cache/node-modules-list-test', function() {
     });
   });
 
-  describe('findPackage', function() {
-    it('works with no entries', function() {
+  describe('findPackage', function () {
+    it('works with no entries', function () {
       let list = new NodeModulesList();
       expect(list.findPackage('omg')).to.eql(null);
     });
 
-    it('supports basic entries (missing, present, scoped)', function() {
+    it('supports basic entries (missing, present, scoped)', function () {
       let list = new NodeModulesList();
       let scoped = new NodeModulesList();
       let omg = { name: 'omg' };

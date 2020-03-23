@@ -7,7 +7,7 @@ const broccoliTestHelper = require('broccoli-test-helper');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Default Packager: Index', function() {
+describe('Default Packager: Index', function () {
   let input, output;
 
   let project = {
@@ -28,7 +28,7 @@ describe('Default Packager: Index', function() {
   let META_TAG =
     '/best-url-ever/\n<meta name="the-best-app-ever/config/environment" content="{"rootURL":"/best-url-ever/","modulePrefix":"the-best-app-ever"}" />';
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     let indexContent = `
@@ -51,15 +51,15 @@ describe('Default Packager: Index', function() {
     });
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('caches processed index tree', async function() {
+  it('caches processed index tree', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',
@@ -82,7 +82,7 @@ describe('Default Packager: Index', function() {
     expect(defaultPackager._cachedProcessedIndex).to.not.equal(null);
   });
 
-  it('works with a custom path', async function() {
+  it('works with a custom path', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',
@@ -108,7 +108,7 @@ describe('Default Packager: Index', function() {
     expect(indexContent).to.equal(META_TAG);
   });
 
-  it('populates `index.html` according to settings', async function() {
+  it('populates `index.html` according to settings', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',

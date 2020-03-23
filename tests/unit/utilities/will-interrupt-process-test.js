@@ -8,19 +8,19 @@ let td = require('testdouble');
 let chai = require('../../chai');
 let expect = chai.expect;
 
-describe('will interrupt process', function() {
+describe('will interrupt process', function () {
   let cb;
-  beforeEach(function() {
+  beforeEach(function () {
     captureExit = require('capture-exit');
     cb = td.function();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     willInterruptProcess.release();
   });
 
-  describe('capture', function() {
-    it('throws if already captured', function() {
+  describe('capture', function () {
+    it('throws if already captured', function () {
       const mockProcess = new MockProcess();
 
       willInterruptProcess.capture(mockProcess);
@@ -33,10 +33,10 @@ describe('will interrupt process', function() {
       }
     });
 
-    it('throws if the process is not an EventEmitter instance', function() {
+    it('throws if the process is not an EventEmitter instance', function () {
       const dissallowedArgs = [null, true, '', [], {}];
 
-      dissallowedArgs.forEach(arg => {
+      dissallowedArgs.forEach((arg) => {
         try {
           willInterruptProcess.capture(arg);
           expect(true).to.equal(false);
@@ -46,7 +46,7 @@ describe('will interrupt process', function() {
       });
     });
 
-    it('sets process maxListeners count', function() {
+    it('sets process maxListeners count', function () {
       const mockProcess = new MockProcess();
 
       willInterruptProcess.capture(mockProcess);
@@ -55,8 +55,8 @@ describe('will interrupt process', function() {
     });
   });
 
-  describe('addHandler', function() {
-    it('throws if process is not captured', function() {
+  describe('addHandler', function () {
+    it('throws if process is not captured', function () {
       try {
         willInterruptProcess.addHandler(() => {});
         expect(true).to.equal(false);
@@ -70,7 +70,7 @@ describe('will interrupt process', function() {
       willInterruptProcess.release();
     });
 
-    it('throws if process is released', function() {
+    it('throws if process is released', function () {
       willInterruptProcess.capture(new MockProcess());
       willInterruptProcess.release();
 
@@ -83,29 +83,29 @@ describe('will interrupt process', function() {
     });
   });
 
-  describe('capture-exit', function() {
-    it('adds exit handler', function() {
+  describe('capture-exit', function () {
+    it('adds exit handler', function () {
       willInterruptProcess.capture(new MockProcess());
       willInterruptProcess.addHandler(cb);
 
       expect(captureExit.listenerCount()).to.equal(1);
     });
 
-    it('removes exit handler', function() {
+    it('removes exit handler', function () {
       willInterruptProcess.capture(new MockProcess());
       willInterruptProcess.addHandler(cb);
-      willInterruptProcess.addHandler(function() {});
+      willInterruptProcess.addHandler(function () {});
 
       willInterruptProcess.removeHandler(cb);
 
       expect(captureExit.listenerCount()).to.equal(1);
     });
 
-    it('removes all exit handlers', function() {
+    it('removes all exit handlers', function () {
       willInterruptProcess.capture(new MockProcess());
 
       willInterruptProcess.addHandler(cb);
-      willInterruptProcess.addHandler(function() {});
+      willInterruptProcess.addHandler(function () {});
 
       willInterruptProcess.release();
 
@@ -113,15 +113,15 @@ describe('will interrupt process', function() {
     });
   });
 
-  describe('process interruption signal listeners', function() {
+  describe('process interruption signal listeners', function () {
     let _process;
 
-    beforeEach(function() {
+    beforeEach(function () {
       _process = new MockProcess();
       willInterruptProcess.capture(_process);
     });
 
-    it('sets up interruption signal listeners when the first handler added', function() {
+    it('sets up interruption signal listeners when the first handler added', function () {
       willInterruptProcess.addHandler(cb);
 
       expect(_process.getSignalListenerCounts()).to.eql({
@@ -131,9 +131,9 @@ describe('will interrupt process', function() {
       });
     });
 
-    it('sets up interruption signal listeners only once', function() {
+    it('sets up interruption signal listeners only once', function () {
       willInterruptProcess.addHandler(cb);
-      willInterruptProcess.addHandler(function() {});
+      willInterruptProcess.addHandler(function () {});
 
       expect(_process.getSignalListenerCounts()).to.eql({
         SIGINT: 1,
@@ -142,7 +142,7 @@ describe('will interrupt process', function() {
       });
     });
 
-    it('cleans up interruption signal listener', function() {
+    it('cleans up interruption signal listener', function () {
       // will-interrupt-process doesn't have any public API to get actual handlers count
       // so here we make a side test to ensure that we don't add the same callback twice
       willInterruptProcess.addHandler(cb);
@@ -156,7 +156,7 @@ describe('will interrupt process', function() {
       });
     });
 
-    it(`doesn't clean up interruption signal listeners if there are remaining handlers`, function() {
+    it(`doesn't clean up interruption signal listeners if there are remaining handlers`, function () {
       willInterruptProcess.addHandler(cb);
       willInterruptProcess.addHandler(() => cb());
 
@@ -169,9 +169,9 @@ describe('will interrupt process', function() {
       });
     });
 
-    it('cleans up all interruption signal listeners', function() {
+    it('cleans up all interruption signal listeners', function () {
       willInterruptProcess.addHandler(cb);
-      willInterruptProcess.addHandler(function() {});
+      willInterruptProcess.addHandler(function () {});
       willInterruptProcess.addHandler(() => cb);
 
       willInterruptProcess.release();
@@ -184,8 +184,8 @@ describe('will interrupt process', function() {
     });
   });
 
-  describe('Windows CTRL + C Capture', function() {
-    it('exits on CTRL+C when TTY', function() {
+  describe('Windows CTRL + C Capture', function () {
+    it('exits on CTRL+C when TTY', function () {
       let _process = new MockProcess({
         exit: td.function(),
         platform: 'win',
@@ -202,7 +202,7 @@ describe('will interrupt process', function() {
       td.verify(_process.exit());
     });
 
-    it('adds and reverts rawMode on Windows', function() {
+    it('adds and reverts rawMode on Windows', function () {
       const _process = new MockProcess({
         platform: 'win',
         stdin: {
@@ -220,7 +220,7 @@ describe('will interrupt process', function() {
       expect(_process.stdin.isRaw).to.equal(false);
     });
 
-    it('does not enable raw capture when not a Windows', function() {
+    it('does not enable raw capture when not a Windows', function () {
       const _process = new MockProcess({
         exit: td.function(),
 
@@ -242,7 +242,7 @@ describe('will interrupt process', function() {
       td.verify(_process.exit(), { times: 0 });
     });
 
-    it('does not enable raw capture when not a TTY', function() {
+    it('does not enable raw capture when not a TTY', function () {
       const _process = new MockProcess({
         exit: td.function(),
         platform: 'win',

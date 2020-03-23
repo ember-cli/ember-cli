@@ -10,10 +10,10 @@ const Addon = require('../../../../lib/models/addon');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Addon - linting', function() {
+describe('Addon - linting', function () {
   let input, output, addon, lintTrees;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     input = await createTempDir();
     let MockAddon = Addon.extend({
       name: 'first',
@@ -36,12 +36,12 @@ describe('Addon - linting', function() {
     addon = new MockAddon(project, project);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await input.dispose();
     await output.dispose();
   });
 
-  it('calls lintTree on project addons for app directory', async function() {
+  it('calls lintTree on project addons for app directory', async function () {
     input.write({
       app: {
         'derp.js': '// slerpy',
@@ -60,7 +60,7 @@ describe('Addon - linting', function() {
     });
   });
 
-  it('calls lintTree on project addons for addon directory', async function() {
+  it('calls lintTree on project addons for addon directory', async function () {
     input.write({
       addon: {
         'derp.js': '// slerpy',
@@ -89,7 +89,7 @@ describe('Addon - linting', function() {
     });
   });
 
-  it('calls lintTree on project addons for addon directory with only templates', async function() {
+  it('calls lintTree on project addons for addon directory with only templates', async function () {
     input.write({
       addon: {
         templates: {
@@ -118,7 +118,7 @@ describe('Addon - linting', function() {
     });
   });
 
-  it('calls lintTree on project addons for addon directory with templates', async function() {
+  it('calls lintTree on project addons for addon directory with templates', async function () {
     input.write({
       addon: {
         'derp.js': '// slerpy',
@@ -152,7 +152,7 @@ describe('Addon - linting', function() {
     });
   });
 
-  it('calls lintTree on project addons for addon-test-support directory', async function() {
+  it('calls lintTree on project addons for addon-test-support directory', async function () {
     input.write({
       'addon-test-support': {
         'derp.js': '// slerpy',
@@ -171,7 +171,7 @@ describe('Addon - linting', function() {
     });
   });
 
-  it('calls lintTree on project addons for test-support directory', async function() {
+  it('calls lintTree on project addons for test-support directory', async function () {
     input.write({
       'test-support': {
         'derp.js': '// slerpy',
@@ -190,8 +190,8 @@ describe('Addon - linting', function() {
     });
   });
 
-  it('calls lintTree for trees in an addon', async function() {
-    addon.project.addons[0].lintTree = function(type, tree) {
+  it('calls lintTree for trees in an addon', async function () {
+    addon.project.addons[0].lintTree = function (type, tree) {
       return tree;
     };
     let addonRootContents = {

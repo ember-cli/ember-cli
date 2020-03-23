@@ -11,8 +11,8 @@
 if (!process.env['IS_CHILD']) {
   const execa = require('execa');
 
-  describe('YUIDoc', function() {
-    it('parses without warnings', async function() {
+  describe('YUIDoc', function () {
+    it('parses without warnings', async function () {
       await execa('node', [`--unhandled-rejections=strict`, __filename], {
         env: {
           IS_CHILD: true,
@@ -34,7 +34,7 @@ let yuiDoc = new Y.YUIDoc(options);
 let json = yuiDoc.run();
 
 let warnings = {};
-json.warnings.forEach(function(warning) {
+json.warnings.forEach(function (warning) {
   let tmp = warning.line.split(':');
   let file = tmp[0].trim();
   let line = tmp[1];
@@ -50,9 +50,9 @@ json.warnings.forEach(function(warning) {
 });
 
 let message = '';
-Object.keys(warnings).forEach(function(file) {
+Object.keys(warnings).forEach(function (file) {
   message += `\t${file} – YUIDoc issues found:${EOL}${EOL}`;
-  warnings[file].forEach(function(warning) {
+  warnings[file].forEach(function (warning) {
     message += `\t\tline ${warning.line}: ${warning.message}${EOL}`;
   });
 });

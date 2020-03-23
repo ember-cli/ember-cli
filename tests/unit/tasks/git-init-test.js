@@ -11,10 +11,10 @@ const mkTmpDirIn = require('../../../lib/utilities/mk-tmp-dir-in');
 let tmproot = path.join(root, 'tmp');
 const td = require('testdouble');
 
-describe('git-init', function() {
+describe('git-init', function () {
   let task;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     task = new GitInitTask({
       ui: new MockUI(),
       project: new MockProject(),
@@ -28,13 +28,13 @@ describe('git-init', function() {
     process.chdir(tmpdir);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     process.chdir(root);
     await fs.remove(tmproot);
   });
 
-  describe('skipGit: true', function() {
-    it('does not initialize git', async function() {
+  describe('skipGit: true', function () {
+    it('does not initialize git', async function () {
       await task.run({
         skipGit: true,
       });
@@ -43,7 +43,7 @@ describe('git-init', function() {
     });
   });
 
-  it('correctly initializes git if git is around, and more or less works', async function() {
+  it('correctly initializes git if git is around, and more or less works', async function () {
     td.when(task._gitVersion()).thenResolve();
     td.when(task._gitInit()).thenResolve();
     td.when(task._gitAdd()).thenResolve();
@@ -59,7 +59,7 @@ describe('git-init', function() {
     expect(task.ui.errors).to.equal('');
   });
 
-  it('skips initializing git, if `git --version` fails', async function() {
+  it('skips initializing git, if `git --version` fails', async function () {
     td.when(task._gitVersion()).thenReject();
 
     await task.run();
@@ -71,7 +71,7 @@ describe('git-init', function() {
     expect(task.ui.errors).to.equal('');
   });
 
-  it('includes the HOME environment variable in the environment passed to git', function() {
+  it('includes the HOME environment variable in the environment passed to git', function () {
     let env = task.buildGitEnvironment();
     expect(env.HOME).to.equal(process.env.HOME);
   });

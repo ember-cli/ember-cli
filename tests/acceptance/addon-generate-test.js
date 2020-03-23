@@ -13,23 +13,23 @@ const chai = require('../chai');
 let expect = chai.expect;
 let file = chai.file;
 
-describe('Acceptance: ember generate in-addon', function() {
+describe('Acceptance: ember generate in-addon', function () {
   this.timeout(20000);
 
-  before(function() {
+  before(function () {
     BlueprintNpmTask.disableNPM(Blueprint);
   });
 
-  after(function() {
+  after(function () {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     let tmpdir = await mkTmpDirIn(tmproot);
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     process.chdir(root);
     return fs.remove(tmproot);
   });
@@ -52,12 +52,12 @@ describe('Acceptance: ember generate in-addon', function() {
       name = arguments[1];
     }
 
-    return initAddon(name).then(function() {
+    return initAddon(name).then(function () {
       return ember(generateArgs);
     });
   }
 
-  it('in-addon addon-import cannot be called directly', async function() {
+  it('in-addon addon-import cannot be called directly', async function () {
     try {
       await generateInAddon(['addon-import', 'foo']);
     } catch (error) {
@@ -66,7 +66,7 @@ describe('Acceptance: ember generate in-addon', function() {
     }
   });
 
-  it('runs the `addon-import` blueprint from a classic addon', async function() {
+  it('runs the `addon-import` blueprint from a classic addon', async function () {
     await initAddon('my-addon');
 
     await fs.outputFile(
@@ -79,7 +79,7 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('app/services/session.js')).to.exist;
   });
 
-  it('runs a custom "*-addon" blueprint from a classic addon', async function() {
+  it('runs a custom "*-addon" blueprint from a classic addon', async function () {
     await initAddon('my-addon');
 
     await fs.outputFile(
@@ -97,7 +97,7 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('app/services/session.js')).to.exist;
   });
 
-  it('in-addon blueprint foo', async function() {
+  it('in-addon blueprint foo', async function () {
     await generateInAddon(['blueprint', 'foo']);
 
     expect(file('blueprints/foo/index.js')).to.contain(
@@ -118,7 +118,7 @@ describe('Acceptance: ember generate in-addon', function() {
     );
   });
 
-  it('in-addon blueprint foo/bar', async function() {
+  it('in-addon blueprint foo/bar', async function () {
     await generateInAddon(['blueprint', 'foo/bar']);
 
     expect(file('blueprints/foo/bar/index.js')).to.contain(
@@ -139,7 +139,7 @@ describe('Acceptance: ember generate in-addon', function() {
     );
   });
 
-  it('in-addon http-mock foo', async function() {
+  it('in-addon http-mock foo', async function () {
     await generateInAddon(['http-mock', 'foo']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -196,7 +196,7 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('in-addon http-mock foo-bar', async function() {
+  it('in-addon http-mock foo-bar', async function () {
     await generateInAddon(['http-mock', 'foo-bar']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -253,7 +253,7 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('in-addon http-proxy foo', async function() {
+  it('in-addon http-proxy foo', async function () {
     await generateInAddon(['http-proxy', 'foo', 'http://localhost:5000']);
 
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
@@ -281,7 +281,7 @@ describe('Acceptance: ember generate in-addon', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('in-addon server', async function() {
+  it('in-addon server', async function () {
     await generateInAddon(['server']);
     expect(file('server/index.js')).to.exist;
   });

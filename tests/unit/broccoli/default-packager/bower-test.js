@@ -7,7 +7,7 @@ const broccoliTestHelper = require('broccoli-test-helper');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Default Packager: Bower', function() {
+describe('Default Packager: Bower', function () {
   let input;
 
   let BOWER_PACKAGES = {
@@ -28,17 +28,17 @@ describe('Default Packager: Bower', function() {
     },
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(BOWER_PACKAGES);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  it('caches packaged bower tree', async function() {
+  it('caches packaged bower tree', async function () {
     let defaultPackager = new DefaultPackager();
 
     expect(defaultPackager._cachedBower).to.equal(null);
@@ -49,7 +49,7 @@ describe('Default Packager: Bower', function() {
     expect(defaultPackager._cachedBower._annotation).to.equal('Packaged Bower');
   });
 
-  it('packages bower files with default folder', async function() {
+  it('packages bower files with default folder', async function () {
     let defaultPackager = new DefaultPackager();
 
     let packagedBower = await buildOutput(defaultPackager.packageBower(input.path()));
@@ -60,7 +60,7 @@ describe('Default Packager: Bower', function() {
     });
   });
 
-  it('packages bower files with custom folder', async function() {
+  it('packages bower files with custom folder', async function () {
     let defaultPackager = new DefaultPackager();
 
     let packagedBower = await buildOutput(defaultPackager.packageBower(input.path(), 'foobar'));

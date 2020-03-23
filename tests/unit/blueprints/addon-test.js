@@ -4,38 +4,38 @@ const Blueprint = require('../../../lib/models/blueprint');
 const MockProject = require('../../helpers/mock-project');
 const expect = require('chai').expect;
 
-describe('blueprint - addon', function() {
-  describe('Blueprint.lookup', function() {
+describe('blueprint - addon', function () {
+  describe('Blueprint.lookup', function () {
     let blueprint;
 
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = Blueprint.lookup('addon');
     });
 
-    describe('entityName', function() {
+    describe('entityName', function () {
       let mockProject;
 
-      beforeEach(function() {
+      beforeEach(function () {
         mockProject = new MockProject();
-        mockProject.isEmberCLIProject = function() {
+        mockProject.isEmberCLIProject = function () {
           return true;
         };
 
         blueprint.project = mockProject;
       });
 
-      afterEach(function() {
+      afterEach(function () {
         mockProject = null;
       });
 
-      it('throws error when current project is an existing ember-cli project', function() {
+      it('throws error when current project is an existing ember-cli project', function () {
         expect(() => blueprint.normalizeEntityName('foo')).to.throw(
           'Generating an addon in an existing ember-cli project is not supported.'
         );
       });
 
-      it('works when current project is an existing ember-cli addon', function() {
-        mockProject.isEmberCLIAddon = function() {
+      it('works when current project is an existing ember-cli addon', function () {
+        mockProject.isEmberCLIAddon = function () {
           return true;
         };
 
@@ -44,15 +44,15 @@ describe('blueprint - addon', function() {
         );
       });
 
-      it('keeps existing behavior by calling Blueprint.normalizeEntityName', function() {
+      it('keeps existing behavior by calling Blueprint.normalizeEntityName', function () {
         expect(() => blueprint.normalizeEntityName('foo/')).to.throw(/trailing slash/);
       });
     });
   });
 
-  describe('direct blueprint require', function() {
+  describe('direct blueprint require', function () {
     let blueprint;
-    beforeEach(function() {
+    beforeEach(function () {
       blueprint = require('../../../blueprints/addon');
       blueprint.options = {
         entity: { name: 'my-cool-addon' },
@@ -63,8 +63,8 @@ describe('blueprint - addon', function() {
       blueprint.path = 'test-blueprint-path';
     });
 
-    describe('generatePackageJson', function() {
-      it('works', function() {
+    describe('generatePackageJson', function () {
+      it('works', function () {
         let output = blueprint.updatePackageJson(JSON.stringify({}));
         // string to test ordering
         expect(output).to.equal(
@@ -91,25 +91,25 @@ describe('blueprint - addon', function() {
         );
       });
 
-      it('removes the `private` property', function() {
+      it('removes the `private` property', function () {
         let output = blueprint.updatePackageJson(JSON.stringify({}));
 
         expect(JSON.parse(output).private).to.be.undefined;
       });
 
-      it('overwrites `name`', function() {
+      it('overwrites `name`', function () {
         let output = blueprint.updatePackageJson(JSON.stringify({ name: 'OMG' }));
         expect(JSON.parse(output).name).to.eql('my-cool-addon');
       });
 
-      it('overwrites `description`', function() {
+      it('overwrites `description`', function () {
         let output = blueprint.updatePackageJson(JSON.stringify({ description: 'OMG' }));
         let json = JSON.parse(output);
 
         expect(json.description).to.equal('The default blueprint for ember-cli addons.');
       });
 
-      it('moves `ember-cli-babel` from devDependencies to dependencies', function() {
+      it('moves `ember-cli-babel` from devDependencies to dependencies', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
             devDependencies: {
@@ -125,7 +125,7 @@ describe('blueprint - addon', function() {
         expect(json.devDependencies).to.not.have.property('ember-cli-babel');
       });
 
-      it('moves `ember-cli-htmlbars` from devDependencies to dependencies', function() {
+      it('moves `ember-cli-htmlbars` from devDependencies to dependencies', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
             devDependencies: {
@@ -141,7 +141,7 @@ describe('blueprint - addon', function() {
         expect(json.devDependencies).to.not.have.property('ember-cli-htmlbars');
       });
 
-      it('does not push multiple `ember-addon` keywords', function() {
+      it('does not push multiple `ember-addon` keywords', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
             keywords: ['ember-addon'],
@@ -151,7 +151,7 @@ describe('blueprint - addon', function() {
         expect(json.keywords).to.deep.equal(['ember-addon']);
       });
 
-      it('overwrites any version of `ember-disable-prototype-extensions`', function() {
+      it('overwrites any version of `ember-disable-prototype-extensions`', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
             devDependencies: {
@@ -164,7 +164,7 @@ describe('blueprint - addon', function() {
         expect(json.devDependencies['ember-disable-prototype-extensions']).to.equal('^1.1.3');
       });
 
-      it('adds `scripts.test:all`', function() {
+      it('adds `scripts.test:all`', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
             scripts: {},
@@ -175,7 +175,7 @@ describe('blueprint - addon', function() {
         expect(json.scripts['test:ember-compatibility']).to.equal('ember try:each');
       });
 
-      it('overwrites `ember-addon.configPath`', function() {
+      it('overwrites `ember-addon.configPath`', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
             'ember-addon': {
@@ -188,7 +188,7 @@ describe('blueprint - addon', function() {
         expect(json['ember-addon'].configPath).to.equal('tests/dummy/config');
       });
 
-      it('preserves dependency ordering', function() {
+      it('preserves dependency ordering', function () {
         let output = blueprint.updatePackageJson(
           JSON.stringify({
             dependencies: {

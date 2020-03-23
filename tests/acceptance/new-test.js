@@ -21,17 +21,17 @@ const assertVersionLock = require('../helpers/assert-version-lock');
 
 let tmpDir = './tmp/new-test';
 
-describe('Acceptance: ember new', function() {
+describe('Acceptance: ember new', function () {
   this.timeout(10000);
   let ORIGINAL_PROCESS_ENV_CI;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await tmp.setup(tmpDir);
     process.chdir(tmpDir);
     ORIGINAL_PROCESS_ENV_CI = process.env.CI;
   });
 
-  afterEach(function() {
+  afterEach(function () {
     if (ORIGINAL_PROCESS_ENV_CI === undefined) {
       delete process.env.CI;
     } else {
@@ -46,7 +46,7 @@ describe('Acceptance: ember new', function() {
     let actual = walkSync('.').sort();
     let directory = path.basename(process.cwd());
 
-    forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
+    forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
     });
 
@@ -59,7 +59,7 @@ describe('Acceptance: ember new', function() {
     );
   }
 
-  it('ember new adds ember-welcome-page by default', async function() {
+  it('ember new adds ember-welcome-page by default', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git']);
 
     expect(file('package.json')).to.match(/"ember-welcome-page"/);
@@ -67,13 +67,13 @@ describe('Acceptance: ember new', function() {
     expect(file('app/templates/application.hbs')).to.contain('<WelcomePage />');
   });
 
-  it('ember new @foo/bar, when parent directory does not contain `foo`', async function() {
+  it('ember new @foo/bar, when parent directory does not contain `foo`', async function () {
     await ember(['new', '@foo/bar', '--skip-npm', '--skip-bower']);
 
     confirmBlueprintedForDir('blueprints/app', 'foo-bar');
   });
 
-  it('ember new @foo/bar, when direct parent directory contains `foo`', async function() {
+  it('ember new @foo/bar, when direct parent directory contains `foo`', async function () {
     let scopedDirectoryPath = path.join(process.cwd(), 'foo');
     fs.mkdirsSync(scopedDirectoryPath);
     process.chdir(scopedDirectoryPath);
@@ -83,7 +83,7 @@ describe('Acceptance: ember new', function() {
     confirmBlueprintedForDir('blueprints/app', 'bar');
   });
 
-  it('ember new @foo/bar, when parent directory heirarchy contains `foo`', async function() {
+  it('ember new @foo/bar, when parent directory heirarchy contains `foo`', async function () {
     let scopedDirectoryPath = path.join(process.cwd(), 'foo', 'packages');
     fs.mkdirsSync(scopedDirectoryPath);
     process.chdir(scopedDirectoryPath);
@@ -93,7 +93,7 @@ describe('Acceptance: ember new', function() {
     confirmBlueprintedForDir('blueprints/app', 'bar');
   });
 
-  it('ember new --no-welcome skips installation of ember-welcome-page', async function() {
+  it('ember new --no-welcome skips installation of ember-welcome-page', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--no-welcome']);
 
     expect(file('package.json')).not.to.match(/"ember-welcome-page"/);
@@ -101,19 +101,19 @@ describe('Acceptance: ember new', function() {
     expect(file('app/templates/application.hbs')).to.contain('Welcome to Ember');
   });
 
-  it('ember new npm blueprint with old version', async function() {
+  it('ember new npm blueprint with old version', async function () {
     await ember(['new', 'foo', '--blueprint', '@glimmer/blueprint@0.6.4', '--skip-npm', '--skip-bower']);
 
     expect(dir('src')).to.exist;
   });
 
-  it('ember new foo, where foo does not yet exist, works', async function() {
+  it('ember new foo, where foo does not yet exist, works', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower']);
 
     confirmBlueprintedForDir('blueprints/app');
   });
 
-  it('ember new foo, blueprint targets match the default ember-cli targets', async function() {
+  it('ember new foo, blueprint targets match the default ember-cli targets', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower']);
 
     process.env.CI = true;
@@ -122,21 +122,21 @@ describe('Acceptance: ember new', function() {
     expect(blueprintTargets).to.have.same.deep.members(defaultTargets);
   });
 
-  it('ember new with empty app name fails with a warning', async function() {
+  it('ember new with empty app name fails with a warning', async function () {
     let err = await expect(ember(['new', ''])).to.be.rejected;
 
     expect(err.name).to.equal('SilentError');
     expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
   });
 
-  it('ember new without app name fails with a warning', async function() {
+  it('ember new without app name fails with a warning', async function () {
     let err = await expect(ember(['new'])).to.be.rejected;
 
     expect(err.name).to.equal('SilentError');
     expect(err.message).to.contain('The `ember new` command requires a name to be specified.');
   });
 
-  it('ember new with app name creates new directory and has a dasherized package name', async function() {
+  it('ember new with app name creates new directory and has a dasherized package name', async function () {
     await ember(['new', 'FooApp', '--skip-npm', '--skip-bower', '--skip-git']);
 
     expect(dir('FooApp')).to.not.exist;
@@ -146,13 +146,13 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('foo-app');
   });
 
-  it('Can create new ember project in an existing empty directory', async function() {
+  it('Can create new ember project in an existing empty directory', async function () {
     fs.mkdirsSync('bar');
 
     await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--directory=bar']);
   });
 
-  it('Cannot create new ember project in a populated directory', async function() {
+  it('Cannot create new ember project in a populated directory', async function () {
     fs.mkdirsSync('bar');
     fs.writeFileSync(path.join('bar', 'package.json'), '{}');
 
@@ -163,7 +163,7 @@ describe('Acceptance: ember new', function() {
     expect(error.message).to.equal("Directory 'bar' already exists.");
   });
 
-  it('Cannot run ember new, inside of ember-cli project', async function() {
+  it('Cannot run ember new, inside of ember-cli project', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git']);
 
     let error = await expect(ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git'])).to.be.rejected;
@@ -175,7 +175,7 @@ describe('Acceptance: ember new', function() {
     confirmBlueprintedForDir('blueprints/app');
   });
 
-  it('ember new with blueprint uses the specified blueprint directory with a relative path', async function() {
+  it('ember new with blueprint uses the specified blueprint directory with a relative path', async function () {
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/files/gitignore', '');
 
@@ -184,7 +184,7 @@ describe('Acceptance: ember new', function() {
     confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint'));
   });
 
-  it('ember new with blueprint uses the specified blueprint directory with an absolute path', async function() {
+  it('ember new with blueprint uses the specified blueprint directory with an absolute path', async function () {
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync('my_blueprint/files/gitignore', '');
 
@@ -200,7 +200,7 @@ describe('Acceptance: ember new', function() {
     confirmBlueprintedForDir(path.join(tmpDir, 'my_blueprint'));
   });
 
-  it('ember new with git blueprint checks out the blueprint and uses it', async function() {
+  it('ember new with git blueprint checks out the blueprint and uses it', async function () {
     this.timeout(20000); // relies on GH network stuff
 
     await ember([
@@ -215,7 +215,7 @@ describe('Acceptance: ember new', function() {
     expect(file('.ember-cli')).to.exist;
   });
 
-  it('ember new with git blueprint and ref checks out the blueprint with the correct ref and uses it', async function() {
+  it('ember new with git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
     this.timeout(20000); // relies on GH network stuff
 
     await ember([
@@ -230,7 +230,7 @@ describe('Acceptance: ember new', function() {
     expect(file('.named-ref')).to.exist;
   });
 
-  it('ember new with shorthand git blueprint and ref checks out the blueprint with the correct ref and uses it', async function() {
+  it('ember new with shorthand git blueprint and ref checks out the blueprint with the correct ref and uses it', async function () {
     this.timeout(20000); // relies on GH network stuff
 
     await ember([
@@ -245,7 +245,7 @@ describe('Acceptance: ember new', function() {
     expect(file('.named-ref')).to.exist;
   });
 
-  it('ember new passes blueprint options through to blueprint', async function() {
+  it('ember new passes blueprint options through to blueprint', async function () {
     fs.mkdirsSync('my_blueprint/files');
     fs.writeFileSync(
       'my_blueprint/index.js',
@@ -275,7 +275,7 @@ describe('Acceptance: ember new', function() {
     expect(file('.gitignore')).to.contain('customValue');
   });
 
-  it('ember new uses yarn when blueprint has yarn.lock', async function() {
+  it('ember new uses yarn when blueprint has yarn.lock', async function () {
     if (!hasGlobalYarn) {
       this.skip();
     }
@@ -291,7 +291,7 @@ describe('Acceptance: ember new', function() {
     expect(dir('node_modules/fs-extra')).to.not.be.empty;
   });
 
-  it('ember new without skip-git flag creates .git dir', async function() {
+  it('ember new without skip-git flag creates .git dir', async function () {
     await ember(['new', 'foo', '--skip-npm', '--skip-bower'], {
       skipGit: false,
     });
@@ -299,7 +299,7 @@ describe('Acceptance: ember new', function() {
     expect(dir('.git')).to.exist;
   });
 
-  it('ember new cleans up after itself on error', async function() {
+  it('ember new cleans up after itself on error', async function () {
     fs.mkdirsSync('my_blueprint');
     fs.writeFileSync('my_blueprint/index.js', 'throw("this will break");');
 
@@ -308,7 +308,7 @@ describe('Acceptance: ember new', function() {
     expect(dir('foo')).to.not.exist;
   });
 
-  it('ember new with --dry-run does not create new directory', async function() {
+  it('ember new with --dry-run does not create new directory', async function () {
     await ember(['new', 'foo', '--dry-run']);
 
     expect(process.cwd()).to.not.match(/foo/, 'does not change cwd to foo in a dry run');
@@ -316,7 +316,7 @@ describe('Acceptance: ember new', function() {
     expect(dir('.git')).to.not.exist;
   });
 
-  it('ember new with --directory uses given directory name and has correct package name', async function() {
+  it('ember new with --directory uses given directory name and has correct package name', async function () {
     let workdir = process.cwd();
 
     await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--directory=bar']);
@@ -332,7 +332,7 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('foo', 'uses app name for package name');
   });
 
-  it('ember addon with --directory uses given directory name and has correct package name', async function() {
+  it('ember addon with --directory uses given directory name and has correct package name', async function () {
     let workdir = process.cwd();
 
     await ember(['addon', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--directory=bar']);
@@ -348,7 +348,7 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('foo', 'uses addon name for package name');
   });
 
-  it('ember addon @foo/bar when parent directory does not contain `foo`', async function() {
+  it('ember addon @foo/bar when parent directory does not contain `foo`', async function () {
     await ember(['addon', '@foo/bar', '--skip-npm', '--skip-bower', '--skip-git']);
 
     let directoryName = path.basename(process.cwd());
@@ -359,7 +359,7 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
   });
 
-  it('ember addon @foo/bar when parent directory contains `foo`', async function() {
+  it('ember addon @foo/bar when parent directory contains `foo`', async function () {
     let scopedDirectoryPath = path.join(process.cwd(), 'foo');
     fs.mkdirsSync(scopedDirectoryPath);
     process.chdir(scopedDirectoryPath);
@@ -374,7 +374,7 @@ describe('Acceptance: ember new', function() {
     expect(pkgJson.name).to.equal('@foo/bar', 'uses addon name for package name');
   });
 
-  describe('verify fixtures', function() {
+  describe('verify fixtures', function () {
     function checkEslintConfig(fixturePath) {
       expect(file('.eslintrc.js')).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, '.eslintrc.js')));
     }
@@ -389,13 +389,13 @@ describe('Acceptance: ember new', function() {
       expect(file('package.json')).to.equal(fixtureContents);
     }
 
-    it('app + npm + !welcome', async function() {
+    it('app + npm + !welcome', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--no-welcome']);
 
       let namespace = 'app';
       let fixturePath = `${namespace}/npm`;
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach(filePath => {
+      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
@@ -405,19 +405,19 @@ describe('Acceptance: ember new', function() {
       checkEslintConfig(namespace);
     });
 
-    it('app + yarn + welcome', async function() {
+    it('app + yarn + welcome', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--yarn']);
 
       let fixturePath = 'app/yarn';
 
-      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach(filePath => {
+      ['app/templates/application.hbs', '.travis.yml', 'README.md'].forEach((filePath) => {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
       checkPackageJson(fixturePath);
     });
 
-    it('addon + yarn + welcome', async function() {
+    it('addon + yarn + welcome', async function () {
       await ember(['addon', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--yarn', '--welcome']);
 
       let fixturePath = 'addon/yarn';
@@ -428,14 +428,14 @@ describe('Acceptance: ember new', function() {
         '.travis.yml',
         'README.md',
         'CONTRIBUTING.md',
-      ].forEach(filePath => {
+      ].forEach((filePath) => {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
       checkPackageJson(fixturePath);
     });
 
-    it('addon + npm + !welcome', async function() {
+    it('addon + npm + !welcome', async function () {
       await ember(['addon', 'foo', '--skip-npm', '--skip-bower', '--skip-git']);
 
       let namespace = 'addon';
@@ -447,7 +447,7 @@ describe('Acceptance: ember new', function() {
         '.travis.yml',
         'README.md',
         'CONTRIBUTING.md',
-      ].forEach(filePath => {
+      ].forEach((filePath) => {
         expect(file(filePath)).to.equal(file(path.join(__dirname, '../fixtures', fixturePath, filePath)));
       });
 
@@ -458,8 +458,8 @@ describe('Acceptance: ember new', function() {
     });
   });
 
-  describe('verify dependencies', function() {
-    it('are locked down for pre-1.0 versions', async function() {
+  describe('verify dependencies', function () {
+    it('are locked down for pre-1.0 versions', async function () {
       await ember(['new', 'foo', '--skip-npm', '--skip-bower', '--skip-git', '--yarn', '--welcome']);
 
       let pkg = fs.readJsonSync('package.json');

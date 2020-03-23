@@ -7,7 +7,7 @@ const broccoliTestHelper = require('broccoli-test-helper');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Default Packager: Ember CLI Internal', function() {
+describe('Default Packager: Ember CLI Internal', function () {
   let input, output;
 
   let CONFIG = {
@@ -29,21 +29,21 @@ describe('Default Packager: Ember CLI Internal', function() {
     },
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(CONFIG);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('caches packaged ember cli internal tree', async function() {
+  it('caches packaged ember cli internal tree', async function () {
     let defaultPackager = new DefaultPackager({
       env: 'development',
       name: 'the-best-app-ever',
@@ -61,7 +61,7 @@ describe('Default Packager: Ember CLI Internal', function() {
     expect(defaultPackager._cachedEmberCliInternalTree._annotation).to.equal('Packaged Ember CLI Internal Files');
   });
 
-  it('packages internal files properly', async function() {
+  it('packages internal files properly', async function () {
     let defaultPackager = new DefaultPackager({
       env: 'development',
       name: 'the-best-app-ever',
@@ -93,7 +93,7 @@ describe('Default Packager: Ember CLI Internal', function() {
     ]);
   });
 
-  it('populates the contents of internal files correctly', async function() {
+  it('populates the contents of internal files correctly', async function () {
     let defaultPackager = new DefaultPackager({
       env: 'development',
       name: 'the-best-app-ever',
@@ -144,7 +144,7 @@ describe('Default Packager: Ember CLI Internal', function() {
     expect(vendorSuffixFileContent).to.equal('');
   });
 
-  it('populates the contents of internal files correctly when `storeConfigInMeta` is enabled', async function() {
+  it('populates the contents of internal files correctly when `storeConfigInMeta` is enabled', async function () {
     let defaultPackager = new DefaultPackager({
       env: 'development',
       name: 'the-best-app-ever',
@@ -167,7 +167,7 @@ describe('Default Packager: Ember CLI Internal', function() {
     expect(appConfigFileContent).to.contain(`var config = JSON.parse(decodeURIComponent(rawConfig));`);
   });
 
-  it('populates the contents of internal files correctly, including content from add-ons', async function() {
+  it('populates the contents of internal files correctly, including content from add-ons', async function () {
     let defaultPackager = new DefaultPackager({
       env: 'development',
       name: 'the-best-app-ever',

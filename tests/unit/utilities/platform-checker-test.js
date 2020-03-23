@@ -3,10 +3,10 @@
 const expect = require('chai').expect;
 const PlatformChecker = require('../../../lib/utilities/platform-checker');
 
-describe('platform-checker', function() {
-  describe('known versions', function() {
+describe('platform-checker', function () {
+  describe('known versions', function () {
     function check(version, { isTested, isDeprecated, isValid }) {
-      it(`${version}`, function() {
+      it(`${version}`, function () {
         let checker = new PlatformChecker(version);
         expect(checker.isDeprecated).to.equal(isDeprecated);
         expect(checker.isValid).to.equal(isValid);
@@ -21,7 +21,7 @@ describe('platform-checker', function() {
     check('v14.0.0', { isTested: false, isDeprecated: false, isValid: true });
   });
 
-  it('checkIsDeprecated', function() {
+  it('checkIsDeprecated', function () {
     expect(new PlatformChecker('v0.10.1').checkIsDeprecated('4 || 6')).to.be.equal(
       true,
       'versions below the range are deprecated'
@@ -40,7 +40,7 @@ describe('platform-checker', function() {
     );
   });
 
-  it('checkIsValid', function() {
+  it('checkIsValid', function () {
     expect(new PlatformChecker('v0.10.1').checkIsValid('4 || 6')).to.be.equal(
       false,
       'versions below the range are not valid'
@@ -53,7 +53,7 @@ describe('platform-checker', function() {
     );
   });
 
-  it('checkIsTested', function() {
+  it('checkIsTested', function () {
     expect(new PlatformChecker('v0.10.1').checkIsTested('4 || 6')).to.be.equal(
       false,
       'versions not in range are untested'

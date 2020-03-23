@@ -11,10 +11,10 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 const walkSync = require('walk-sync');
 
-describe('EmberApp#appAndDependencies', function() {
+describe('EmberApp#appAndDependencies', function () {
   let input, output;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     process.env.EMBER_ENV = 'development';
 
     input = await createTempDir();
@@ -48,7 +48,7 @@ describe('EmberApp#appAndDependencies', function() {
     });
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     delete process.env.EMBER_ENV;
     await input.dispose();
 
@@ -89,7 +89,7 @@ describe('EmberApp#appAndDependencies', function() {
     });
   }
 
-  it('moduleNormalizerDisabled', async function() {
+  it('moduleNormalizerDisabled', async function () {
     input.write({
       node_modules: {
         'my-addon': {
@@ -120,7 +120,7 @@ describe('EmberApp#appAndDependencies', function() {
 
     let addon = app.project.findAddonByName('my-addon');
 
-    addon.treeForAddon = tree => {
+    addon.treeForAddon = (tree) => {
       const Funnel = require('broccoli-funnel');
       return new Funnel(tree, {
         destDir: 'modules/my-addon',

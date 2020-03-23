@@ -10,7 +10,7 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
-describe('Default Packager: Additional Assets', function() {
+describe('Default Packager: Additional Assets', function () {
   let input, output;
 
   let MODULES = {
@@ -47,7 +47,7 @@ describe('Default Packager: Additional Assets', function() {
       return { a: 1 };
     },
 
-    registry: setupRegistryFor('template', function(tree) {
+    registry: setupRegistryFor('template', function (tree) {
       return new Funnel(tree, {
         getDestinationPath(relativePath) {
           return relativePath.replace(/hbs$/g, 'js');
@@ -58,21 +58,21 @@ describe('Default Packager: Additional Assets', function() {
     addons: [],
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(MODULES);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('caches packaged javascript tree', async function() {
+  it('caches packaged javascript tree', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',
@@ -82,7 +82,7 @@ describe('Default Packager: Additional Assets', function() {
         vendorJsFile: '/assets/vendor.js',
       },
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');
@@ -116,7 +116,7 @@ describe('Default Packager: Additional Assets', function() {
     );
   });
 
-  it('imports additional assets properly', async function() {
+  it('imports additional assets properly', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
       env: 'development',
@@ -126,7 +126,7 @@ describe('Default Packager: Additional Assets', function() {
         vendorJsFile: '/assets/vendor.js',
       },
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');

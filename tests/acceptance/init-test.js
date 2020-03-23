@@ -23,17 +23,17 @@ let defaultIgnoredFiles = Blueprint.ignoredFiles;
 
 let tmpPath = './tmp/init-test';
 
-describe('Acceptance: ember init', function() {
+describe('Acceptance: ember init', function () {
   this.timeout(20000);
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     Blueprint.ignoredFiles = defaultIgnoredFiles;
 
     await tmp.setup(tmpPath);
     process.chdir(tmpPath);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     return tmp.teardown(tmpPath);
   });
 
@@ -42,7 +42,7 @@ describe('Acceptance: ember init', function() {
     let expected = walkSync(blueprintPath).sort();
     let actual = walkSync('.').sort();
 
-    forEach(Blueprint.renamedFiles, function(destFile, srcFile) {
+    forEach(Blueprint.renamedFiles, function (destFile, srcFile) {
       expected[expected.indexOf(srcFile)] = destFile;
     });
 
@@ -91,13 +91,13 @@ describe('Acceptance: ember init', function() {
   }
 
   function removeTmp(array) {
-    remove(array, function(entry) {
+    remove(array, function (entry) {
       return /^tmp[\\/]$/.test(entry);
     });
   }
   function removeIgnored(array) {
-    remove(array, function(fn) {
-      return Blueprint.ignoredFiles.some(function(ignoredFile) {
+    remove(array, function (fn) {
+      return Blueprint.ignoredFiles.some(function (ignoredFile) {
         return minimatch(fn, ignoredFile, {
           matchBase: true,
         });
@@ -105,13 +105,13 @@ describe('Acceptance: ember init', function() {
     });
   }
 
-  it('ember init', async function() {
+  it('ember init', async function () {
     await ember(['init', '--skip-npm', '--skip-bower']);
 
     confirmBlueprinted();
   });
 
-  it("init an already init'd folder", async function() {
+  it("init an already init'd folder", async function () {
     await ember(['init', '--skip-npm', '--skip-bower']);
 
     await ember(['init', '--skip-npm', '--skip-bower']);
@@ -119,13 +119,13 @@ describe('Acceptance: ember init', function() {
     confirmBlueprinted();
   });
 
-  it('init a single file', async function() {
+  it('init a single file', async function () {
     await ember(['init', 'app.js', '--skip-npm', '--skip-bower']);
 
     confirmGlobBlueprinted('app.js');
   });
 
-  it("init a single file on already init'd folder", async function() {
+  it("init a single file on already init'd folder", async function () {
     await ember(['init', '--skip-npm', '--skip-bower']);
 
     await ember(['init', 'app.js', '--skip-npm', '--skip-bower']);
@@ -133,13 +133,13 @@ describe('Acceptance: ember init', function() {
     confirmBlueprinted();
   });
 
-  it('init multiple files by glob pattern', async function() {
+  it('init multiple files by glob pattern', async function () {
     await ember(['init', 'app/**', '--skip-npm', '--skip-bower']);
 
     confirmGlobBlueprinted('app/**');
   });
 
-  it("init multiple files by glob pattern on already init'd folder", async function() {
+  it("init multiple files by glob pattern on already init'd folder", async function () {
     await ember(['init', '--skip-npm', '--skip-bower']);
 
     await ember(['init', 'app/**', '--skip-npm', '--skip-bower']);
@@ -147,13 +147,13 @@ describe('Acceptance: ember init', function() {
     confirmBlueprinted();
   });
 
-  it('init multiple files by glob patterns', async function() {
+  it('init multiple files by glob patterns', async function () {
     await ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm', '--skip-bower']);
 
     confirmGlobBlueprinted('{app/**,{package,bower}.json,resolver.js}');
   });
 
-  it("init multiple files by glob patterns on already init'd folder", async function() {
+  it("init multiple files by glob patterns on already init'd folder", async function () {
     await ember(['init', '--skip-npm', '--skip-bower']);
 
     await ember(['init', 'app/**', '{package,bower}.json', 'resolver.js', '--skip-npm', '--skip-bower']);
@@ -161,7 +161,7 @@ describe('Acceptance: ember init', function() {
     confirmBlueprinted();
   });
 
-  it('should not create .git folder', async function() {
+  it('should not create .git folder', async function () {
     await ember(['init', '--skip-npm', '--skip-bower']);
 
     expect(dir('.git')).to.not.exist;

@@ -15,7 +15,7 @@ const getDependencyFor = defaultPackagerHelpers.getDependencyFor;
 const setupProject = defaultPackagerHelpers.setupProject;
 const validateDefaultPackagedDist = defaultPackagerHelpers.validateDefaultPackagedDist;
 
-describe('EmberApp: Bower Dependencies', function() {
+describe('EmberApp: Bower Dependencies', function () {
   let applicationDirectory, output;
 
   let moment = getDependencyFor('moment', {
@@ -24,11 +24,11 @@ describe('EmberApp: Bower Dependencies', function() {
     'moment.min.js': 'window.moment = "verysmallmoment"',
   });
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     applicationDirectory = await createTempDir();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await applicationDirectory.dispose();
     await output.dispose();
   });
@@ -37,7 +37,7 @@ describe('EmberApp: Bower Dependencies', function() {
    * Both Ember.js and jQuery are packaged by default (when distriburted
    * through bower). `ember-source` takes precedent over bower though.
    */
-  it('are not packaged unless explicitly imported', async function() {
+  it('are not packaged unless explicitly imported', async function () {
     // Given
     applicationDirectory.write(
       getDefaultUnpackagedDist('the-best-app-ever', {
@@ -65,7 +65,7 @@ describe('EmberApp: Bower Dependencies', function() {
     expect(results.assets['vendor.js']).to.not.contain('window.moment');
   });
 
-  it('are packaged when explicitly imported', async function() {
+  it('are packaged when explicitly imported', async function () {
     // Given
     applicationDirectory.write(
       getDefaultUnpackagedDist('the-best-app-ever', {
@@ -93,7 +93,7 @@ describe('EmberApp: Bower Dependencies', function() {
     expect(results.assets['vendor.js']).to.contain('window.moment');
   });
 
-  it('are packaged when explicitly imported for production', async function() {
+  it('are packaged when explicitly imported for production', async function () {
     // Given
     applicationDirectory.write(
       getDefaultUnpackagedDist('the-best-app-ever', {
@@ -124,7 +124,7 @@ describe('EmberApp: Bower Dependencies', function() {
     expect(results.assets['vendor.js']).to.contain('verysmallmoment');
   });
 
-  it('are packaged when explicitly imported for development', async function() {
+  it('are packaged when explicitly imported for development', async function () {
     // Given
     applicationDirectory.write(
       getDefaultUnpackagedDist('the-best-app-ever', {

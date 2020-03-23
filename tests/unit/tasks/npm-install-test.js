@@ -4,11 +4,11 @@ const NpmInstallTask = require('../../../lib/tasks/npm-install');
 const MockUI = require('console-ui/mock');
 const expect = require('chai').expect;
 
-describe('npm install task', function() {
+describe('npm install task', function () {
   let npmInstallTask;
   let ui;
 
-  beforeEach(function() {
+  beforeEach(function () {
     let project = {
       root: __dirname,
     };
@@ -20,12 +20,12 @@ describe('npm install task', function() {
     });
   });
 
-  afterEach(function() {
+  afterEach(function () {
     ui = undefined;
     npmInstallTask = undefined;
   });
 
-  it('skips npm installs if there is no package.json', function() {
+  it('skips npm installs if there is no package.json', function () {
     return npmInstallTask.run({}).then(() => {
       expect(ui.output).to.include('Skipping npm install: package.json not found');
     });

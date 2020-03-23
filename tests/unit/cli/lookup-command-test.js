@@ -23,7 +23,7 @@ let commands = {
 function AddonServeCommand() {
   return this;
 }
-AddonServeCommand.prototype.includedCommands = function() {
+AddonServeCommand.prototype.includedCommands = function () {
   return {
     Serve: {
       name: 'serve',
@@ -32,7 +32,7 @@ AddonServeCommand.prototype.includedCommands = function() {
   };
 };
 
-describe('cli/lookup-command.js', function() {
+describe('cli/lookup-command.js', function () {
   let ui;
   let project = {
     isEmberCLIProject() {
@@ -45,18 +45,18 @@ describe('cli/lookup-command.js', function() {
     eachAddonCommand: Project.prototype.eachAddonCommand,
   };
 
-  before(function() {
+  before(function () {
     ui = new MockUI();
   });
 
-  it('lookupCommand() should find commands by name and aliases.', function() {
+  it('lookupCommand() should find commands by name and aliases.', function () {
     // Valid commands
 
     expect(lookupCommand(commands, 'serve')).to.exist;
     expect(lookupCommand(commands, 's')).to.exist;
   });
 
-  it('lookupCommand() should find commands that addons add by name and aliases.', function() {
+  it('lookupCommand() should find commands that addons add by name and aliases.', function () {
     let command, Command;
 
     Command = lookupCommand(commands, 'addon-command', [], {
@@ -119,7 +119,7 @@ describe('cli/lookup-command.js', function() {
     expect(command.name).to.equal('class-addon-command');
   });
 
-  it('lookupCommand() should write out a warning when overriding a core command', function() {
+  it('lookupCommand() should write out a warning when overriding a core command', function () {
     project = {
       isEmberCLIProject() {
         return true;
@@ -141,7 +141,7 @@ describe('cli/lookup-command.js', function() {
     );
   });
 
-  it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function() {
+  it('lookupCommand() should write out a warning when overriding a core command and allow it if intentional', function () {
     project = {
       isEmberCLIProject() {
         return true;
@@ -163,7 +163,7 @@ describe('cli/lookup-command.js', function() {
     );
   });
 
-  it('lookupCommand() should return UnknownCommand object when command name is not present.', function() {
+  it('lookupCommand() should return UnknownCommand object when command name is not present.', function () {
     let Command = lookupCommand(commands, 'something-else', [], {
       project,
       ui,

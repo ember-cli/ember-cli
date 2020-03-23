@@ -22,10 +22,10 @@ let FooCommand = Command.extend({
   anonymousOptions: ['<speed>'],
 });
 
-describe('Acceptance: ember help', function() {
+describe('Acceptance: ember help', function () {
   let options, command;
 
-  beforeEach(function() {
+  beforeEach(function () {
     let commands = requireAsHash('../../lib/commands/*.js', Command);
 
     options = commandOptions({
@@ -43,7 +43,7 @@ describe('Acceptance: ember help', function() {
     command = new HelpCommand(options);
   });
 
-  it('works', function() {
+  it('works', function () {
     command.run(options, []);
 
     let output = options.ui.output;
@@ -53,8 +53,8 @@ describe('Acceptance: ember help', function() {
     expect(output).to.equal(expected);
   });
 
-  it('prints addon commands', function() {
-    options.project.eachAddonCommand = function(cb) {
+  it('prints addon commands', function () {
+    options.project.eachAddonCommand = function (cb) {
       cb('dummy-addon', { Foo: FooCommand });
     };
 
@@ -68,8 +68,8 @@ describe('Acceptance: ember help', function() {
     expect(output).to.equal(expected);
   });
 
-  it('prints single addon commands', function() {
-    options.project.eachAddonCommand = function(cb) {
+  it('prints single addon commands', function () {
+    options.project.eachAddonCommand = function (cb) {
       cb('dummy-addon', { Foo: FooCommand });
     };
 
@@ -83,7 +83,7 @@ describe('Acceptance: ember help', function() {
     expect(output).to.equal(expected);
   });
 
-  it('prints all blueprints', function() {
+  it('prints all blueprints', function () {
     command.run(options, ['generate']);
 
     let output = options.ui.output;
@@ -94,7 +94,7 @@ describe('Acceptance: ember help', function() {
     expect(output).to.contain(expected);
   });
 
-  it('prints helpful message for unknown command', function() {
+  it('prints helpful message for unknown command', function () {
     command.run(options, ['asdf']);
 
     let output = options.ui.output;
@@ -103,7 +103,7 @@ describe('Acceptance: ember help', function() {
     expect(output).to.not.contain('undefined');
   });
 
-  it('prints a single blueprints', function() {
+  it('prints a single blueprints', function () {
     command.run(options, ['generate', 'blueprint']);
 
     let output = options.ui.output;
@@ -114,8 +114,8 @@ describe('Acceptance: ember help', function() {
     expect(output).to.equal(expected);
   });
 
-  it('prints blueprints from addons', function() {
-    options.project.blueprintLookupPaths = function() {
+  it('prints blueprints from addons', function () {
+    options.project.blueprintLookupPaths = function () {
       return [path.join(__dirname, '..', 'fixtures', 'blueprints')];
     };
 
@@ -129,12 +129,12 @@ describe('Acceptance: ember help', function() {
     expect(output).to.equal(expected);
   });
 
-  describe('--json', function() {
-    beforeEach(function() {
+  describe('--json', function () {
+    beforeEach(function () {
       options.json = true;
     });
 
-    it('works', function() {
+    it('works', function () {
       command.run(options, []);
 
       let json = convertToJson(options.ui.output);
@@ -143,8 +143,8 @@ describe('Acceptance: ember help', function() {
       expect(json).to.deep.equal(expected);
     });
 
-    it('prints commands from addons', function() {
-      options.project.eachAddonCommand = function(cb) {
+    it('prints commands from addons', function () {
+      options.project.eachAddonCommand = function (cb) {
         cb('dummy-addon', { Foo: FooCommand });
       };
 
@@ -156,8 +156,8 @@ describe('Acceptance: ember help', function() {
       expect(json).to.deep.equal(expected);
     });
 
-    it('prints blueprints from addons', function() {
-      options.project.blueprintLookupPaths = function() {
+    it('prints blueprints from addons', function () {
+      options.project.blueprintLookupPaths = function () {
         return [path.join(__dirname, '..', 'fixtures', 'blueprints')];
       };
 
@@ -179,7 +179,7 @@ function loadTextFixture(path) {
 }
 
 function decodeUnicode(str) {
-  return str.replace(/\\u([\d\w]{4})/gi, function(match, grp) {
+  return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
     return String.fromCharCode(parseInt(grp, 16));
   });
 }

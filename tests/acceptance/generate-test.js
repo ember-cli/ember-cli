@@ -18,25 +18,25 @@ let expect = chai.expect;
 let file = chai.file;
 let dir = chai.dir;
 
-describe('Acceptance: ember generate', function() {
+describe('Acceptance: ember generate', function () {
   this.timeout(20000);
 
   let tmpdir;
 
-  before(function() {
+  before(function () {
     BlueprintNpmTask.disableNPM(Blueprint);
   });
 
-  after(function() {
+  after(function () {
     BlueprintNpmTask.restoreNPM(Blueprint);
   });
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     tmpdir = await mkTmpDirIn(tmproot);
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     process.chdir(root);
     return remove(tmproot);
   });
@@ -54,12 +54,12 @@ describe('Acceptance: ember generate', function() {
   function generate(args) {
     let generateArgs = ['generate'].concat(args);
 
-    return initApp().then(function() {
+    return initApp().then(function () {
       return ember(generateArgs);
     });
   }
 
-  it('blueprint foo', async function() {
+  it('blueprint foo', async function () {
     await generate(['blueprint', 'foo']);
 
     expect(file('blueprints/foo/index.js')).to.contain(
@@ -80,7 +80,7 @@ describe('Acceptance: ember generate', function() {
     );
   });
 
-  it('blueprint foo/bar', async function() {
+  it('blueprint foo/bar', async function () {
     await generate(['blueprint', 'foo/bar']);
 
     expect(file('blueprints/foo/bar/index.js')).to.contain(
@@ -101,7 +101,7 @@ describe('Acceptance: ember generate', function() {
     );
   });
 
-  it('http-mock foo', async function() {
+  it('http-mock foo', async function () {
     await generate(['http-mock', 'foo']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -158,7 +158,7 @@ describe('Acceptance: ember generate', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('http-mock foo-bar', async function() {
+  it('http-mock foo-bar', async function () {
     await generate(['http-mock', 'foo-bar']);
 
     expect(file('server/index.js')).to.contain('mocks.forEach(route => route(app));');
@@ -215,7 +215,7 @@ describe('Acceptance: ember generate', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('http-proxy foo', async function() {
+  it('http-proxy foo', async function () {
     await generate(['http-proxy', 'foo', 'http://localhost:5000']);
 
     expect(file('server/index.js')).to.contain('proxies.forEach(route => route(app));');
@@ -243,7 +243,7 @@ describe('Acceptance: ember generate', function() {
     expect(file('server/.jshintrc')).to.contain('{\n  "node": true\n}');
   });
 
-  it('uses blueprints from the project directory', async function() {
+  it('uses blueprints from the project directory', async function () {
     await initApp();
 
     await outputFile(
@@ -256,7 +256,7 @@ describe('Acceptance: ember generate', function() {
     expect(file('app/foos/bar.js')).to.contain('foo: true');
   });
 
-  it('allows custom blueprints to override built-ins', async function() {
+  it('allows custom blueprints to override built-ins', async function () {
     await initApp();
     await outputFile(
       'blueprints/controller/files/app/controllers/__name__.js',
@@ -268,7 +268,7 @@ describe('Acceptance: ember generate', function() {
     expect(file('app/controllers/foo.js')).to.contain('custom: true');
   });
 
-  it('passes custom cli arguments to blueprint options', async function() {
+  it('passes custom cli arguments to blueprint options', async function () {
     await initApp();
 
     await outputFile(
@@ -292,7 +292,7 @@ describe('Acceptance: ember generate', function() {
     expect(file('app/foo.js')).to.contain('A: Yes!');
   });
 
-  it('correctly identifies the root of the project', async function() {
+  it('correctly identifies the root of the project', async function () {
     await initApp();
 
     await outputFile(
@@ -307,17 +307,17 @@ describe('Acceptance: ember generate', function() {
     expect(file('app/controllers/foo.js')).to.contain('custom: true');
   });
 
-  it('server', async function() {
+  it('server', async function () {
     await generate(['server']);
     expect(file('server/index.js')).to.exist;
   });
 
-  it('lib', async function() {
+  it('lib', async function () {
     await generate(['lib']);
     expect(dir('lib')).to.exist;
   });
 
-  it('custom blueprint availableOptions', async function() {
+  it('custom blueprint availableOptions', async function () {
     await initApp();
     await ember(['generate', 'blueprint', 'foo']);
 

@@ -7,7 +7,7 @@ const broccoliTestHelper = require('broccoli-test-helper');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Default Packager: Vendor', function() {
+describe('Default Packager: Vendor', function () {
   let input, output;
 
   let VENDOR_PACKAGES = {
@@ -42,21 +42,21 @@ describe('Default Packager: Vendor', function() {
     },
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(VENDOR_PACKAGES);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('caches packaged vendor tree', async function() {
+  it('caches packaged vendor tree', async function () {
     let defaultPackager = new DefaultPackager();
 
     expect(defaultPackager._cachedVendor).to.equal(null);
@@ -67,7 +67,7 @@ describe('Default Packager: Vendor', function() {
     expect(defaultPackager._cachedVendor._annotation).to.equal('Packaged Vendor');
   });
 
-  it('packages vendor files', async function() {
+  it('packages vendor files', async function () {
     let defaultPackager = new DefaultPackager();
 
     output = await buildOutput(defaultPackager.packageVendor(input.path()));

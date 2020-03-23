@@ -10,7 +10,7 @@ const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 const setupRegistryFor = defaultPackagerHelpers.setupRegistryFor;
 
-describe('Default Packager: Templates', function() {
+describe('Default Packager: Templates', function () {
   let input, output;
 
   let TEMPLATES = {
@@ -24,29 +24,29 @@ describe('Default Packager: Templates', function() {
     },
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(TEMPLATES);
   });
 
-  after(async function() {
+  after(async function () {
     if (input) {
       await input.dispose();
     }
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (output) {
       await output.dispose();
     }
   });
 
-  it('caches processed templates tree', async function() {
+  it('caches processed templates tree', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');
@@ -64,11 +64,11 @@ describe('Default Packager: Templates', function() {
     expect(defaultPackager._cachedProcessedTemplates).to.not.equal(null);
   });
 
-  it('processes templates according to the registry', async function() {
+  it('processes templates according to the registry', async function () {
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');
@@ -95,14 +95,14 @@ describe('Default Packager: Templates', function() {
     });
   });
 
-  it('runs pre/post-process add-on hooks', async function() {
+  it('runs pre/post-process add-on hooks', async function () {
     let addonPreprocessTreeHookCalled = false;
     let addonPostprocessTreeHookCalled = false;
 
     let defaultPackager = new DefaultPackager({
       name: 'the-best-app-ever',
 
-      registry: setupRegistryFor('template', function(tree) {
+      registry: setupRegistryFor('template', function (tree) {
         return new Funnel(tree, {
           getDestinationPath(relativePath) {
             return relativePath.replace(/hbs$/g, 'js');

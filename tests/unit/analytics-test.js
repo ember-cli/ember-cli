@@ -7,8 +7,8 @@ const MockProject = require('../helpers/mock-project');
 let command;
 let called = false;
 
-describe('analytics', function() {
-  beforeEach(function() {
+describe('analytics', function () {
+  beforeEach(function () {
     let analytics = {
       track() {
         called = true;
@@ -21,7 +21,7 @@ describe('analytics', function() {
     });
 
     let project = new MockProject();
-    project.isEmberCLIProject = function() {
+    project.isEmberCLIProject = function () {
       return true;
     };
 
@@ -32,11 +32,11 @@ describe('analytics', function() {
     });
   });
 
-  afterEach(function() {
+  afterEach(function () {
     command = null;
   });
 
-  it('track gets invoked on command.validateAndRun()', async function() {
+  it('track gets invoked on command.validateAndRun()', async function () {
     await command.validateAndRun([]);
     expect(called, 'expected analytics.track to be called').to.be.true;
   });

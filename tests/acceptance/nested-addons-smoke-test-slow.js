@@ -19,26 +19,26 @@ let dir = chai.dir;
 let appName = 'some-cool-app';
 let appRoot;
 
-describe('Acceptance: nested-addons-smoke-test', function() {
+describe('Acceptance: nested-addons-smoke-test', function () {
   this.timeout(360000);
 
-  before(function() {
+  before(function () {
     return createTestTargets(appName);
   });
 
   after(teardownTestTargets);
 
-  beforeEach(function() {
+  beforeEach(function () {
     appRoot = linkDependencies(appName);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     runCommand.killAll();
     cleanupRun(appName);
     expect(dir(appRoot)).to.not.exist;
   });
 
-  it('addons with nested addons compile correctly', async function() {
+  it('addons with nested addons compile correctly', async function () {
     await copyFixtureFiles('addon/with-nested-addons');
 
     let packageJsonPath = path.join(appRoot, 'package.json');

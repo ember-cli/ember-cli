@@ -7,7 +7,7 @@ const broccoliTestHelper = require('broccoli-test-helper');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Default Packager: External', function() {
+describe('Default Packager: External', function () {
   let input, output;
 
   let EXTERNAL = {
@@ -20,21 +20,21 @@ describe('Default Packager: External', function() {
     },
   };
 
-  before(async function() {
+  before(async function () {
     input = await createTempDir();
 
     input.write(EXTERNAL);
   });
 
-  after(async function() {
+  after(async function () {
     await input.dispose();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await output.dispose();
   });
 
-  it('applies transforms to an external tree', async function() {
+  it('applies transforms to an external tree', async function () {
     let customTransformsMap = new Map();
 
     customTransformsMap.set('amd', {

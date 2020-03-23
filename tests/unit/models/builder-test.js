@@ -18,7 +18,7 @@ let tmpRoot = path.join(root, 'tmp');
 
 let Builder;
 
-describe('models/builder.js', function() {
+describe('models/builder.js', function () {
   let addon, builder, buildResults, tmpdir;
 
   function setupBroccoliBuilder() {
@@ -40,7 +40,7 @@ describe('models/builder.js', function() {
     };
   }
 
-  before(function() {
+  before(function () {
     let willInterruptProcess = require('../../../lib/utilities/will-interrupt-process');
     td.replace(willInterruptProcess, 'addHandler', td.function());
     td.replace(willInterruptProcess, 'removeHandler', td.function());
@@ -48,14 +48,14 @@ describe('models/builder.js', function() {
     Builder = require('../../../lib/models/builder');
   });
 
-  afterEach(function() {
+  afterEach(function () {
     if (builder) {
       return builder.cleanup();
     }
   });
 
-  describe('copyToOutputPath', function() {
-    beforeEach(async function() {
+  describe('copyToOutputPath', function () {
+    beforeEach(async function () {
       tmpdir = await mkTmpDirIn(tmpRoot);
       let project = new MockProject();
       builder = new Builder({
@@ -65,22 +65,22 @@ describe('models/builder.js', function() {
       });
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return fs.remove(tmpRoot);
     });
 
-    it('allows for non-existent output-paths at arbitrary depth', function() {
+    it('allows for non-existent output-paths at arbitrary depth', function () {
       builder.outputPath = path.join(tmpdir, 'some', 'path', 'that', 'does', 'not', 'exist');
 
       builder.copyToOutputPath('tests/fixtures/blueprints/basic_2');
       expect(file(path.join(builder.outputPath, 'files', 'foo.txt'))).to.exist;
     });
 
-    describe('build command', function() {
+    describe('build command', function () {
       let command;
       let parentPath = `..${path.sep}..${path.sep}`;
 
-      beforeEach(function() {
+      beforeEach(function () {
         command = new BuildCommand(commandOptions());
 
         let project = new MockProject();
@@ -91,7 +91,7 @@ describe('models/builder.js', function() {
         });
       });
 
-      it('when outputPath is root directory ie., `--output-path=/` or `--output-path=C:`', function() {
+      it('when outputPath is root directory ie., `--output-path=/` or `--output-path=C:`', function () {
         let outputPathArg = '--output-path=.';
         let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
         outputPath = outputPath.split(path.sep)[0] + path.sep;
@@ -100,7 +100,7 @@ describe('models/builder.js', function() {
         expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
       });
 
-      it('when outputPath is project root ie., `--output-path=.`', function() {
+      it('when outputPath is project root ie., `--output-path=.`', function () {
         let outputPathArg = '--output-path=.';
         let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
         builder.outputPath = outputPath;
@@ -108,7 +108,7 @@ describe('models/builder.js', function() {
         expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
       });
 
-      it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function() {
+      it(`when outputPath is a parent directory ie., \`--output-path=${parentPath}\``, function () {
         let outputPathArg = `--output-path=${parentPath}`;
         let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
         builder.outputPath = outputPath;
@@ -116,7 +116,7 @@ describe('models/builder.js', function() {
         expect(builder.canDeleteOutputPath(outputPath)).to.equal(false);
       });
 
-      it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function() {
+      it('allow outputPath to contain the root path as a substring, as long as it is not a parent', function () {
         let outputPathArg = '--output-path=.';
         let outputPath = command.parseArgs([outputPathArg]).options.outputPath;
         outputPath = outputPath.substr(0, outputPath.length - 1);
@@ -127,12 +127,12 @@ describe('models/builder.js', function() {
     });
   });
 
-  describe('build', function() {
+  describe('build', function () {
     let instrumentationStart;
     let instrumentationStop;
     let cwd, project;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // Cache cwd to reset after test
       cwd = process.cwd();
       project = new MockProject();
@@ -149,7 +149,7 @@ describe('models/builder.js', function() {
       instrumentationStop = td.replace(builder.project._instrumentation, 'stopAndReport');
     });
 
-    afterEach(function() {
+    afterEach(function () {
       process.chdir(cwd);
       delete process._heimdall;
       delete process.env.BROCCOLI_VIZ;
@@ -159,13 +159,13 @@ describe('models/builder.js', function() {
       }
     });
 
-    it('calls instrumentation.start', async function() {
+    it('calls instrumentation.start', async function () {
       let mockAnnotation = 'MockAnnotation';
       await builder.build(null, mockAnnotation);
       td.verify(instrumentationStart('build'), { times: 1 });
     });
 
-    it('calls instrumentation.stop(build, result, resultAnnotation)', async function() {
+    it('calls instrumentation.stop(build, result, resultAnnotation)', async function () {
       let mockAnnotation = 'MockAnnotation';
 
       await builder.build(null, mockAnnotation);
@@ -176,7 +176,7 @@ describe('models/builder.js', function() {
       );
     });
 
-    it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', async function() {
+    it('prints a deprecation warning if it discovers a < v0.1.4 version of heimdalljs', async function () {
       process._heimdall = {};
 
       await builder.build();
@@ -185,7 +185,7 @@ describe('models/builder.js', function() {
       expect(output).to.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
     });
 
-    it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', async function() {
+    it('does not print a deprecation warning if it does not discover a < v0.1.4 version of heimdalljs', async function () {
       expect(process._heimdall).to.equal(undefined);
 
       await builder.build();
@@ -194,7 +194,7 @@ describe('models/builder.js', function() {
       expect(output).to.not.include('Heimdalljs < 0.1.4 found.  Please remove old versions');
     });
 
-    it('writes temp files to Broccoli temp dir', async function() {
+    it('writes temp files to Broccoli temp dir', async function () {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
       expect(fs.existsSync(`${builder.project.root}/tmp`)).to.be.false;
@@ -214,7 +214,7 @@ describe('models/builder.js', function() {
       rimraf.sync(result.directory);
     });
 
-    it('produces the correct output', async function() {
+    it('produces the correct output', async function () {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
       const setup = () =>
@@ -231,7 +231,7 @@ describe('models/builder.js', function() {
       expect(fixturify.readSync(result.directory)).to.deep.equal(fixturify.readSync(`${project.root}/dist`));
     });
 
-    it('returns {directory, graph} as the result object', async function() {
+    it('returns {directory, graph} as the result object', async function () {
       const project = new MockProject();
       project.root += '/tests/fixtures/build/simple';
 
@@ -251,8 +251,8 @@ describe('models/builder.js', function() {
     });
   });
 
-  describe('cleanup', function() {
-    beforeEach(function() {
+  describe('cleanup', function () {
+    beforeEach(function () {
       let project = new MockProject();
       builder = new Builder({
         project,
@@ -261,9 +261,9 @@ describe('models/builder.js', function() {
       });
     });
 
-    it('is idempotent', async function() {
+    it('is idempotent', async function () {
       let cleanupCount = 0;
-      builder.builder.cleanup = function() {
+      builder.builder.cleanup = function () {
         cleanupCount++;
       };
 
@@ -275,10 +275,10 @@ describe('models/builder.js', function() {
     });
   });
 
-  describe('addons', function() {
+  describe('addons', function () {
     let hooksCalled;
 
-    beforeEach(function() {
+    beforeEach(function () {
       hooksCalled = [];
       addon = {
         name: 'TestAddon',
@@ -331,26 +331,26 @@ describe('models/builder.js', function() {
       };
     });
 
-    afterEach(function() {
+    afterEach(function () {
       delete process.env.BROCCOLI_VIZ;
       delete process.env.EMBER_CLI_INSTRUMENTATION;
     });
 
-    it('allows addons to add promises preBuild', function() {
+    it('allows addons to add promises preBuild', function () {
       let preBuild = td.replace(addon, 'preBuild', td.function());
       td.when(preBuild(), { ignoreExtraArgs: true, times: 1 }).thenReturn(Promise.resolve());
 
       return builder.build();
     });
 
-    it('allows addons to add promises postBuild', async function() {
+    it('allows addons to add promises postBuild', async function () {
       let postBuild = td.replace(addon, 'postBuild', td.function());
 
       await builder.build();
       td.verify(postBuild(buildResults), { times: 1 });
     });
 
-    it('allows addons to add promises outputReady', async function() {
+    it('allows addons to add promises outputReady', async function () {
       let outputReady = td.replace(addon, 'outputReady', td.function());
 
       await builder.build();
@@ -359,13 +359,13 @@ describe('models/builder.js', function() {
       td.verify(outputReady(expected), { times: 1 });
     });
 
-    describe('instrumentation hooks', function() {
-      beforeEach(function() {
+    describe('instrumentation hooks', function () {
+      beforeEach(function () {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      it('invokes the instrumentation hook if it is preset', async function() {
-        addon.instrumentation = function() {
+      it('invokes the instrumentation hook if it is preset', async function () {
+        addon.instrumentation = function () {
           hooksCalled.push('instrumentation');
         };
 
@@ -374,19 +374,19 @@ describe('models/builder.js', function() {
       });
     });
 
-    it('hooks are called in the right order without visualization', async function() {
+    it('hooks are called in the right order without visualization', async function () {
       await builder.build();
       expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'outputReady']);
     });
 
-    it('should call postBuild before copying to dist', async function() {
+    it('should call postBuild before copying to dist', async function () {
       let called = [];
 
-      addon.postBuild = function() {
+      addon.postBuild = function () {
         called.push('postBuild');
       };
 
-      builder.copyToOutputPath = function() {
+      builder.copyToOutputPath = function () {
         called.push('copyToOutputPath');
       };
 
@@ -394,14 +394,14 @@ describe('models/builder.js', function() {
       expect(called).to.deep.equal(['postBuild', 'copyToOutputPath']);
     });
 
-    it('should call outputReady after copying to output path', async function() {
+    it('should call outputReady after copying to output path', async function () {
       let called = [];
 
-      builder.copyToOutputPath = function() {
+      builder.copyToOutputPath = function () {
         called.push('copyToOutputPath');
       };
 
-      addon.outputReady = function() {
+      addon.outputReady = function () {
         called.push('outputReady');
       };
 
@@ -409,15 +409,15 @@ describe('models/builder.js', function() {
       expect(called).to.deep.equal(['copyToOutputPath', 'outputReady']);
     });
 
-    it('buildError receives the error object from the errored step', async function() {
+    it('buildError receives the error object from the errored step', async function () {
       let thrownBuildError = new Error('buildError');
       let receivedBuildError;
 
-      addon.buildError = function(errorThrown) {
+      addon.buildError = function (errorThrown) {
         receivedBuildError = errorThrown;
       };
 
-      builder.builder.build = function() {
+      builder.builder.build = function () {
         hooksCalled.push('build');
 
         return Promise.reject(thrownBuildError);
@@ -427,8 +427,8 @@ describe('models/builder.js', function() {
       expect(receivedBuildError).to.equal(thrownBuildError);
     });
 
-    it('calls buildError and does not call build, postBuild or outputReady when preBuild fails', async function() {
-      addon.preBuild = function() {
+    it('calls buildError and does not call build, postBuild or outputReady when preBuild fails', async function () {
+      addon.preBuild = function () {
         hooksCalled.push('preBuild');
 
         return Promise.reject(new Error('preBuild Error'));
@@ -438,8 +438,8 @@ describe('models/builder.js', function() {
       expect(hooksCalled).to.deep.equal(['preBuild', 'buildError']);
     });
 
-    it('calls buildError and does not call postBuild or outputReady when build fails', async function() {
-      builder.builder.build = function() {
+    it('calls buildError and does not call postBuild or outputReady when build fails', async function () {
+      builder.builder.build = function () {
         hooksCalled.push('build');
 
         return Promise.reject(new Error('build Error'));
@@ -449,8 +449,8 @@ describe('models/builder.js', function() {
       expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'buildError']);
     });
 
-    it('calls buildError when postBuild fails', async function() {
-      addon.postBuild = function() {
+    it('calls buildError when postBuild fails', async function () {
+      addon.postBuild = function () {
         hooksCalled.push('postBuild');
 
         return Promise.reject(new Error('preBuild Error'));
@@ -460,8 +460,8 @@ describe('models/builder.js', function() {
       expect(hooksCalled).to.deep.equal(['preBuild', 'build', 'postBuild', 'buildError']);
     });
 
-    it('calls buildError when outputReady fails', async function() {
-      addon.outputReady = function() {
+    it('calls buildError when outputReady fails', async function () {
+      addon.outputReady = function () {
         hooksCalled.push('outputReady');
 
         return Promise.reject(new Error('outputReady Error'));
@@ -472,8 +472,8 @@ describe('models/builder.js', function() {
     });
   });
 
-  describe('fallback from broccoli 2 to broccoli-builder', function() {
-    it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', function() {
+  describe('fallback from broccoli 2 to broccoli-builder', function () {
+    it('falls back to broccoli-builder if an InvalidNode error is thrown for read/rebuild api', function () {
       let project = new MockProject();
       const builder = new Builder({
         project,
@@ -496,7 +496,7 @@ describe('models/builder.js', function() {
       );
     });
 
-    it('errors for an invalid node', function() {
+    it('errors for an invalid node', function () {
       let project = new MockProject();
       expect(
         () =>

@@ -11,10 +11,10 @@ const Addon = require('../../../../lib/models/addon');
 const buildOutput = broccoliTestHelper.buildOutput;
 const createTempDir = broccoliTestHelper.createTempDir;
 
-describe('Addon - moduleName', function() {
+describe('Addon - moduleName', function () {
   let input, output, addon;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     input = await createTempDir();
     let MockAddon = Addon.extend({
       root: input.path(),
@@ -40,12 +40,12 @@ describe('Addon - moduleName', function() {
     ];
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await input.dispose();
     await output.dispose();
   });
 
-  it('uses the module name function', async function() {
+  it('uses the module name function', async function () {
     input.write({
       addon: {
         'herp.js': '// slerpy',

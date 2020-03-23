@@ -19,26 +19,26 @@ let dir = chai.dir;
 let appName = 'some-cool-app';
 let appRoot;
 
-describe('Acceptance: preprocessor-smoke-test', function() {
+describe('Acceptance: preprocessor-smoke-test', function () {
   this.timeout(360000);
 
-  before(function() {
+  before(function () {
     return createTestTargets(appName);
   });
 
   after(teardownTestTargets);
 
-  beforeEach(function() {
+  beforeEach(function () {
     appRoot = linkDependencies(appName);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     runCommand.killAll();
     cleanupRun(appName);
     expect(dir(appRoot)).to.not.exist;
   });
 
-  it('addons with standard preprocessors compile correctly', async function() {
+  it('addons with standard preprocessors compile correctly', async function () {
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -53,7 +53,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
     expect(file('dist/assets/vendor.css')).to.contain('addon styles included');
   });
 
-  it('addon registry entries are added in the proper order', async function() {
+  it('addon registry entries are added in the proper order', async function () {
     await copyFixtureFiles(`preprocessor-tests/app-registry-ordering`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -70,7 +70,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       .to.not.contain('__FIRST_PREPROCESSOR_REPLACEMENT_TOKEN__', 'token should not be contained');
   });
 
-  it('addons without preprocessors compile correctly', async function() {
+  it('addons without preprocessors compile correctly', async function () {
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-without-preprocessors`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -92,7 +92,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       |
       |-- preprocessor should not apply to this
   */
-  it('addons depending on preprocessor addon preprocesses addon but not app', async function() {
+  it('addons depending on preprocessor addon preprocesses addon but not app', async function () {
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-2`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');
@@ -120,7 +120,7 @@ describe('Acceptance: preprocessor-smoke-test', function() {
       |
       |-- preprocessor should not apply to this
   */
-  it('addon N levels deep depending on preprocessor preprocesses that parent addon only', async function() {
+  it('addon N levels deep depending on preprocessor preprocesses that parent addon only', async function () {
     await copyFixtureFiles(`preprocessor-tests/app-with-addon-with-preprocessors-3`);
 
     let packageJsonPath = path.join(appRoot, 'package.json');

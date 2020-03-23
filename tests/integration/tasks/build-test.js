@@ -16,26 +16,26 @@ const willInterruptProcess = require('../../../lib/utilities/will-interrupt-proc
 let root = process.cwd();
 let tmproot = path.join(root, 'tmp');
 
-describe('build task test', function() {
+describe('build task test', function () {
   let project, ui, _process;
 
-  beforeEach(function() {
+  beforeEach(function () {
     _process = new MockProcess();
     willInterruptProcess.capture(_process);
     return mkTmpDirIn(tmproot)
-      .then(function(tmpdir) {
+      .then(function (tmpdir) {
         process.chdir(tmpdir);
       })
-      .then(function() {
+      .then(function () {
         return copyFixtureFiles('tasks/builder');
       })
-      .then(function() {
+      .then(function () {
         project = new MockProject();
         ui = project.ui;
       });
   });
 
-  afterEach(function() {
+  afterEach(function () {
     willInterruptProcess.release();
     process.chdir(root);
     delete process.env.BROCCOLI_VIZ;
@@ -43,7 +43,7 @@ describe('build task test', function() {
     return fs.remove(tmproot);
   });
 
-  it('can build', function() {
+  it('can build', function () {
     let outputPath = 'dist';
     let task = new BuildTask({
       analytics: new MockAnalytics(),
@@ -62,7 +62,7 @@ describe('build task test', function() {
     });
   });
 
-  it('generates valid visualization output', function() {
+  it('generates valid visualization output', function () {
     process.env.BROCCOLI_VIZ = '1';
 
     let outputPath = 'dist';
@@ -77,7 +77,7 @@ describe('build task test', function() {
       environment: 'development',
     };
 
-    return task.run(runOptions).then(function() {
+    return task.run(runOptions).then(function () {
       let vizOutputPath = 'instrumentation.build.0.json';
       expect(file(vizOutputPath)).to.exist;
 
@@ -92,7 +92,7 @@ describe('build task test', function() {
     });
   });
 
-  it('it displays environment', function() {
+  it('it displays environment', function () {
     let outputPath = 'dist';
     let task = new BuildTask({
       analytics: new MockAnalytics(),

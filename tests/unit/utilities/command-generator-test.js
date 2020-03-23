@@ -3,19 +3,19 @@
 const td = require('testdouble');
 const Command = require('../../../tests/helpers/command-generator');
 
-describe('command-generator', function() {
+describe('command-generator', function () {
   let yarn, _invoke;
 
-  beforeEach(function() {
+  beforeEach(function () {
     yarn = new Command('yarn');
     _invoke = yarn._invoke = td.function('invoke');
   });
 
-  afterEach(function() {
+  afterEach(function () {
     td.reset();
   });
 
-  it('invoke passes options', function() {
+  it('invoke passes options', function () {
     // Works with subcommand or argument.
     yarn.invoke('install');
     td.verify(_invoke(td.matchers.isA(Array), {}));
@@ -45,7 +45,7 @@ describe('command-generator', function() {
     td.verify(_invoke(), { times: 8, ignoreExtraArgs: true });
   });
 
-  it('builds the proper invocation', function() {
+  it('builds the proper invocation', function () {
     yarn.invoke();
     td.verify(_invoke([]), { ignoreExtraArgs: true });
 

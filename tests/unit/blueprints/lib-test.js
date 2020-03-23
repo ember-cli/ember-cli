@@ -10,28 +10,28 @@ let modifyPackages = blueprintHelpers.modifyPackages;
 const expect = require('ember-cli-blueprint-test-helpers/chai').expect;
 const dir = require('chai-files').dir;
 
-describe('Acceptance: ember generate and destroy lib', function() {
+describe('Acceptance: ember generate and destroy lib', function () {
   setupTestHooks(this, {
     cliPath: path.resolve(`${__dirname}/../../..`),
   });
 
-  it('lib foo', async function() {
+  it('lib foo', async function () {
     let args = ['lib', 'foo'];
 
     await emberNew();
-    await emberGenerateDestroy(args, file => {
+    await emberGenerateDestroy(args, (file) => {
       expect(dir('lib')).to.exist;
       expect(file('lib/.eslintrc.js')).to.not.exist;
       expect(file('lib/.jshintrc')).to.not.exist;
     });
   });
 
-  it('lib foo with ember-cli-jshint', async function() {
+  it('lib foo with ember-cli-jshint', async function () {
     let args = ['lib', 'foo'];
 
     await emberNew();
     await modifyPackages([{ name: 'ember-cli-jshint', dev: true }]);
-    await emberGenerateDestroy(args, file => {
+    await emberGenerateDestroy(args, (file) => {
       expect(dir('lib')).to.exist;
       expect(file('lib/.jshintrc')).to.not.exist;
     });

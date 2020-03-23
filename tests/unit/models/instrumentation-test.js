@@ -24,8 +24,8 @@ const tmproot = path.join(root, 'tmp');
 
 let instrumentation;
 
-describe('models/instrumentation.js', function() {
-  afterEach(async function() {
+describe('models/instrumentation.js', function () {
+  afterEach(async function () {
     delete process.env.BROCCOLI_VIZ;
     delete process.env.EMBER_CLI_INSTRUMENTATION;
 
@@ -33,20 +33,20 @@ describe('models/instrumentation.js', function() {
     await fse.remove(tmproot);
   });
 
-  describe('._enableFSMonitorIfInstrumentationEnabled', function() {
+  describe('._enableFSMonitorIfInstrumentationEnabled', function () {
     let originalStatSync = fs.statSync;
 
-    beforeEach(function() {
+    beforeEach(function () {
       expect(!!process.env.BROCCOLI_VIZ).to.eql(false);
       expect(!!process.env.EMBER_CLI_INSTRUMENTATION).to.eql(false);
       expect(fs.statSync).to.equal(originalStatSync);
     });
 
-    afterEach(function() {
+    afterEach(function () {
       td.reset();
     });
 
-    it('if VIZ is NOT enabled, do not monitor', function() {
+    it('if VIZ is NOT enabled, do not monitor', function () {
       let monitor = Instrumentation._enableFSMonitorIfInstrumentationEnabled();
       try {
         expect(fs.statSync).to.equal(originalStatSync);
@@ -58,7 +58,7 @@ describe('models/instrumentation.js', function() {
       }
     });
 
-    it('if VIZ is enabled, monitor', function() {
+    it('if VIZ is enabled, monitor', function () {
       process.env.BROCCOLI_VIZ = '1';
       let monitor = Instrumentation._enableFSMonitorIfInstrumentationEnabled();
       try {
@@ -70,7 +70,7 @@ describe('models/instrumentation.js', function() {
       }
     });
 
-    it('if instrumentation is enabled, monitor', function() {
+    it('if instrumentation is enabled, monitor', function () {
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
       let monitor = Instrumentation._enableFSMonitorIfInstrumentationEnabled();
       try {
@@ -82,7 +82,7 @@ describe('models/instrumentation.js', function() {
       }
     });
 
-    it('if enableInstrumentation is NOT enabled in .ember-cli, do not monitor', function() {
+    it('if enableInstrumentation is NOT enabled in .ember-cli, do not monitor', function () {
       let mockedYam = new Yam('ember-cli', {
         primary: `${process.cwd()}/tests/fixtures/instrumentation-disabled-config`,
       });
@@ -97,7 +97,7 @@ describe('models/instrumentation.js', function() {
       }
     });
 
-    it('if enableInstrumentation is enabled in .ember-cli, monitor', function() {
+    it('if enableInstrumentation is enabled in .ember-cli, monitor', function () {
       let mockedYam = new Yam('ember-cli', {
         primary: `${process.cwd()}/tests/fixtures/instrumentation-enabled-config`,
       });
@@ -112,25 +112,25 @@ describe('models/instrumentation.js', function() {
     });
   });
 
-  describe('constructor', function() {
+  describe('constructor', function () {
     const heimdall = require('heimdalljs');
     let heimdallStart;
 
-    beforeEach(function() {
+    beforeEach(function () {
       heimdallStart = td.replace(heimdall, 'start');
     });
 
-    afterEach(function() {
+    afterEach(function () {
       delete process.env.EMBER_CLI_INSTRUMENTATION;
       td.reset();
     });
 
-    describe('when instrumentation is enabled', function() {
-      beforeEach(function() {
+    describe('when instrumentation is enabled', function () {
+      beforeEach(function () {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      it('starts an init node if init instrumentation is missing', function() {
+      it('starts an init node if init instrumentation is missing', function () {
         let mockToken = {};
 
         td.when(
@@ -151,7 +151,7 @@ describe('models/instrumentation.js', function() {
         expect(instrumentation.instrumentations.init.node).to.not.equal(undefined);
       });
 
-      it('does not create an init node if init instrumentation is included', function() {
+      it('does not create an init node if init instrumentation is included', function () {
         let mockToken = {};
         let mockInstrumentation = {};
 
@@ -165,7 +165,7 @@ describe('models/instrumentation.js', function() {
         td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
       });
 
-      it('does not warn if init instrumentation is included', function() {
+      it('does not warn if init instrumentation is included', function () {
         td.when(heimdallStart('init'));
 
         let mockInstrumentation = {};
@@ -181,12 +181,12 @@ describe('models/instrumentation.js', function() {
       });
     });
 
-    describe('when instrumentation is not enabled', function() {
-      beforeEach(function() {
+    describe('when instrumentation is not enabled', function () {
+      beforeEach(function () {
         expect(process.env.EMBER_CLI_INSTRUMENTATION).to.eql(undefined);
       });
 
-      it('does not create an init node if init instrumentation is missing', function() {
+      it('does not create an init node if init instrumentation is missing', function () {
         let mockToken = {};
 
         td.when(heimdallStart('init')).thenReturn(mockToken);
@@ -197,7 +197,7 @@ describe('models/instrumentation.js', function() {
         td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
       });
 
-      it('does not warn when init instrumentation is missing', function() {
+      it('does not warn when init instrumentation is missing', function () {
         td.when(heimdallStart('init'));
 
         let ui = new MockUI();
@@ -211,11 +211,11 @@ describe('models/instrumentation.js', function() {
     });
   });
 
-  describe('.isVizEnabled', function() {
+  describe('.isVizEnabled', function () {
     let originalWarn = console.warn;
     let warnInvocations;
 
-    beforeEach(function() {
+    beforeEach(function () {
       instrumentation = new Instrumentation({
         ui: new MockUI(),
       });
@@ -223,37 +223,37 @@ describe('models/instrumentation.js', function() {
       delete process.env.BROCCOLI_VIZ;
       delete process.env.EMBER_CLI_INSTRUMENTATION;
       warnInvocations = [];
-      console.warn = function() {
+      console.warn = function () {
         warnInvocations.push.apply(warnInvocations, Array.prototype.slice.call(arguments));
       };
     });
 
-    afterEach(function() {
+    afterEach(function () {
       console.warn = originalWarn;
     });
 
-    it('is true and does not warn if BROCCOLI_VIZ=1', function() {
+    it('is true and does not warn if BROCCOLI_VIZ=1', function () {
       process.env.BROCCOLI_VIZ = '1';
       expect(instrumentation.isVizEnabled()).to.eql(true);
       expect(warnInvocations).to.eql([]);
     });
 
-    it('is true and warns at most once if BROCCOLI_VIZ is set but not 1', function() {
+    it('is true and warns at most once if BROCCOLI_VIZ is set but not 1', function () {
       process.env.BROCCOLI_VIZ = 'on';
       expect(instrumentation.isVizEnabled()).to.eql(true);
       expect(instrumentation.isVizEnabled()).to.eql(true);
       expect(warnInvocations).to.eql(["Please set BROCCOLI_VIZ=1 to enable visual instrumentation, rather than 'on'"]);
     });
 
-    it('is false if BROCCOLI_VIZ is unset', function() {
+    it('is false if BROCCOLI_VIZ is unset', function () {
       expect('BROCCOLI_VIZ' in process.env).to.eql(false);
       expect(instrumentation.isVizEnabled()).to.eql(false);
       expect(warnInvocations).to.eql([]);
     });
   });
 
-  describe('.isEnabled', function() {
-    beforeEach(function() {
+  describe('.isEnabled', function () {
+    beforeEach(function () {
       instrumentation = new Instrumentation({
         ui: new MockUI(),
       });
@@ -261,41 +261,41 @@ describe('models/instrumentation.js', function() {
       delete process.env.EMBER_CLI_INSTRUMENTATION;
     });
 
-    it('is true if BROCCOLI_VIZ=1', function() {
+    it('is true if BROCCOLI_VIZ=1', function () {
       process.env.BROCCOLI_VIZ = '1';
       expect(instrumentation.isEnabled()).to.eql(true);
     });
 
-    it('is true if EMBER_CLI_INSTRUMENTATION=1', function() {
+    it('is true if EMBER_CLI_INSTRUMENTATION=1', function () {
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
       expect(instrumentation.isEnabled()).to.eql(true);
     });
 
-    it('is false if EMBER_CLI_INSTRUMENTATION != 1', function() {
+    it('is false if EMBER_CLI_INSTRUMENTATION != 1', function () {
       process.env.EMBER_CLI_INSTRUMENTATION = 'on';
       expect(instrumentation.isEnabled()).to.eql(false);
     });
 
-    it('is false if both BROCCOLI_VIZ and EMBER_CLI_INSTRUMENTATION are unset', function() {
+    it('is false if both BROCCOLI_VIZ and EMBER_CLI_INSTRUMENTATION are unset', function () {
       expect('BROCCOLI_VIZ' in process.env).to.eql(false);
       expect('EMBER_CLI_INSTRUMENTATION' in process.env).to.eql(false);
       expect(instrumentation.isEnabled()).to.eql(false);
     });
   });
 
-  describe('.start', function() {
+  describe('.start', function () {
     let project;
     let instrumentation;
     let heimdall;
 
-    beforeEach(function() {
+    beforeEach(function () {
       project = new MockProject();
       instrumentation = project._instrumentation;
       instrumentation._heimdall = heimdall = new Heimdall();
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
     });
 
-    it('starts a new subtree for name', function() {
+    it('starts a new subtree for name', function () {
       let heimdallStart = td.replace(heimdall, 'start');
 
       instrumentation.start('init');
@@ -343,7 +343,7 @@ describe('models/instrumentation.js', function() {
       );
     });
 
-    it('does not start a subtree if instrumentation is disabled', function() {
+    it('does not start a subtree if instrumentation is disabled', function () {
       process.env.EMBER_CLI_INSTRUMENTATION = 'no thanks';
 
       let heimdallStart = td.replace(heimdall, 'start');
@@ -353,13 +353,13 @@ describe('models/instrumentation.js', function() {
       td.verify(heimdallStart(), { times: 0, ignoreExtraArgs: true });
     });
 
-    it('throws if name is unexpected', function() {
+    it('throws if name is unexpected', function () {
       expect(() => {
         instrumentation.start('a party!');
       }).to.throw('No such instrumentation "a party!"');
     });
 
-    it('removes any prior instrumentation information to avoid leaks', function() {
+    it('removes any prior instrumentation information to avoid leaks', function () {
       function build() {
         instrumentation.start('build');
         let a = heimdall.start('a');
@@ -391,13 +391,13 @@ describe('models/instrumentation.js', function() {
     });
   });
 
-  describe('.stopAndReport', function() {
+  describe('.stopAndReport', function () {
     let project;
     let instrumentation;
     let heimdall;
     let addon;
 
-    beforeEach(function() {
+    beforeEach(function () {
       project = new MockProject();
       instrumentation = project._instrumentation;
       heimdall = instrumentation._heimdall = new Heimdall();
@@ -414,17 +414,17 @@ describe('models/instrumentation.js', function() {
       ];
     });
 
-    it('throws if name is unexpected', function() {
+    it('throws if name is unexpected', function () {
       expect(() => instrumentation.stopAndReport('the weather')).to.throw('No such instrumentation "the weather"');
     });
 
-    it('throws if name has not yet started', function() {
+    it('throws if name has not yet started', function () {
       expect(() => instrumentation.stopAndReport('init')).to.throw(
         'Cannot stop instrumentation "init".  It has not started.'
       );
     });
 
-    it('warns if heimdall stop throws (eg when unbalanced)', function() {
+    it('warns if heimdall stop throws (eg when unbalanced)', function () {
       instrumentation.start('init');
       heimdall.start('a ruckus');
 
@@ -436,7 +436,7 @@ describe('models/instrumentation.js', function() {
       expect(() => instrumentation.stopAndReport('init')).to.not.throw();
     });
 
-    it('computes summary for name', function() {
+    it('computes summary for name', function () {
       let buildSummary = td.replace(instrumentation, '_buildSummary');
       let initSummary = td.replace(instrumentation, '_initSummary');
       let treeFor = td.replace(instrumentation, '_instrumentationTreeFor');
@@ -499,8 +499,8 @@ describe('models/instrumentation.js', function() {
       );
     });
 
-    describe('writes to disk', function() {
-      beforeEach(function() {
+    describe('writes to disk', function () {
+      beforeEach(function () {
         let buildSummary = td.replace(instrumentation, '_buildSummary');
         let initSummary = td.replace(instrumentation, '_initSummary');
         let treeFor = td.replace(instrumentation, '_instrumentationTreeFor');
@@ -526,7 +526,7 @@ describe('models/instrumentation.js', function() {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
       });
 
-      it('writes instrumentation info if viz is enabled', async function() {
+      it('writes instrumentation info if viz is enabled', async function () {
         process.env.BROCCOLI_VIZ = '1';
 
         await mkTmpDirIn(tmproot);
@@ -561,7 +561,7 @@ describe('models/instrumentation.js', function() {
         });
       });
 
-      it('does not write instrumentation info if viz is disabled', async function() {
+      it('does not write instrumentation info if viz is disabled', async function () {
         delete process.env.BROCCOLI_VIZ;
 
         await mkTmpDirIn(tmproot);
@@ -585,13 +585,13 @@ describe('models/instrumentation.js', function() {
       });
     });
 
-    describe('addons', function() {
+    describe('addons', function () {
       let mockInitSummary;
       let mockInitTree;
       let mockBuildSummary;
       let mockBuildTree;
 
-      beforeEach(function() {
+      beforeEach(function () {
         let buildSummary = td.replace(instrumentation, '_buildSummary');
         let initSummary = td.replace(instrumentation, '_initSummary');
         let treeFor = td.replace(instrumentation, '_instrumentationTreeFor');
@@ -607,7 +607,7 @@ describe('models/instrumentation.js', function() {
         td.when(treeFor('build')).thenReturn(mockBuildTree);
       });
 
-      it('invokes addons that have [INSTRUMENTATION] for init', function() {
+      it('invokes addons that have [INSTRUMENTATION] for init', function () {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
         let hook = td.function();
@@ -619,7 +619,7 @@ describe('models/instrumentation.js', function() {
         td.verify(hook('init', { summary: mockInitSummary, tree: mockInitTree }));
       });
 
-      it('invokes addons that have [INSTRUMENTATION] for build', function() {
+      it('invokes addons that have [INSTRUMENTATION] for build', function () {
         process.env.EMBER_CLI_INSTRUMENTATION = '1';
 
         let hook = td.function();
@@ -631,7 +631,7 @@ describe('models/instrumentation.js', function() {
         td.verify(hook('build', { summary: mockBuildSummary, tree: mockBuildTree }));
       });
 
-      it('does not invoke addons if instrumentation is disabled', function() {
+      it('does not invoke addons if instrumentation is disabled', function () {
         process.env.EMBER_CLI_INSTRUMENTATION = 'not right now thanks';
 
         let hook = td.function();
@@ -645,7 +645,7 @@ describe('models/instrumentation.js', function() {
     });
   });
 
-  describe('._instrumenationTreeFor', function() {
+  describe('._instrumenationTreeFor', function () {
     function StatsSchema() {
       this.x = 0;
       this.y = 0;
@@ -696,9 +696,9 @@ describe('models/instrumentation.js', function() {
       expect(Object.keys(json)).to.eql(['nodes']);
       expect(json.nodes.length).to.eql(8);
 
-      expect(json.nodes.map(x => x.id)).to.eql([1, 2, 3, 4, 5, 6, 7, 8]);
+      expect(json.nodes.map((x) => x.id)).to.eql([1, 2, 3, 4, 5, 6, 7, 8]);
 
-      expect(json.nodes.map(x => x.label)).to.eql([
+      expect(json.nodes.map((x) => x.label)).to.eql([
         { name, emberCLI: true },
         { name: 'a' },
         { name: 'b1', broccoliNode: true, broccoliCachedNode: false },
@@ -709,10 +709,10 @@ describe('models/instrumentation.js', function() {
         { name: 'c3' },
       ]);
 
-      expect(json.nodes.map(x => x.children)).to.eql([[2], [3, 5], [4], [], [6, 8], [7], [], []]);
+      expect(json.nodes.map((x) => x.children)).to.eql([[2], [3, 5], [4], [], [6, 8], [7], [], []]);
 
-      let stats = json.nodes.map(x => x.stats);
-      stats.forEach(nodeStats => {
+      let stats = json.nodes.map((x) => x.stats);
+      stats.forEach((nodeStats) => {
         expect('own' in nodeStats).to.eql(true);
         expect('time' in nodeStats).to.eql(true);
         expect(nodeStats.time.self).to.be.within(0, 2000000); //2ms in nanoseconds
@@ -726,15 +726,15 @@ describe('models/instrumentation.js', function() {
     }
 
     function assertTreeValidAPI(name, tree) {
-      let depthFirstNames = Array.from(tree.dfsIterator()).map(x => x.label.name);
+      let depthFirstNames = Array.from(tree.dfsIterator()).map((x) => x.label.name);
       expect(depthFirstNames, 'depth first name order').to.eql([name, 'a', 'b1', 'c1', 'b2', 'c2', 'd1', 'c3']);
 
-      let breadthFirstNames = Array.from(tree.bfsIterator()).map(x => x.label.name);
+      let breadthFirstNames = Array.from(tree.bfsIterator()).map((x) => x.label.name);
       expect(breadthFirstNames, 'breadth first name order').to.eql([name, 'a', 'b1', 'b2', 'c1', 'c2', 'c3', 'd1']);
 
-      let c2 = Array.from(tree.dfsIterator()).filter(x => x.label.name === 'c2')[0];
+      let c2 = Array.from(tree.dfsIterator()).filter((x) => x.label.name === 'c2')[0];
 
-      let ancestorNames = Array.from(c2.ancestorsIterator()).map(x => x.label.name);
+      let ancestorNames = Array.from(c2.ancestorsIterator()).map((x) => x.label.name);
       expect(ancestorNames).to.eql(['b2', 'a', name]);
     }
 
@@ -743,24 +743,24 @@ describe('models/instrumentation.js', function() {
       assertTreeValidAPI(name, tree);
     }
 
-    it('produces a valid tree for init', function() {
+    it('produces a valid tree for init', function () {
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
       makeTree('init');
       assertTreeValid('init', instrumentation._instrumentationTreeFor('init'));
     });
 
-    it('produces a valid tree for build', function() {
+    it('produces a valid tree for build', function () {
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
       makeTree('build');
       assertTreeValid('build', instrumentation._instrumentationTreeFor('build'));
     });
   });
 
-  describe('summaries', function() {
+  describe('summaries', function () {
     let instrTree;
     let instrumentation;
 
-    beforeEach(function() {
+    beforeEach(function () {
       instrumentation = new Instrumentation({ ui: new MockUI() });
 
       let heimdall = new Heimdall();
@@ -779,8 +779,8 @@ describe('models/instrumentation.js', function() {
       process.env.EMBER_CLI_INSTRUMENTATION = '1';
     });
 
-    describe('._buildSummary', function() {
-      it('computes initial build sumamries', function() {
+    describe('._buildSummary', function () {
+      it('computes initial build sumamries', function () {
         let result = {
           directory: 'tmp/someplace',
           outputChanges: ['assets/foo.js', 'assets/foo.css'],
@@ -806,7 +806,7 @@ describe('models/instrumentation.js', function() {
         expect(Object.keys(summary.platform)).to.eql(['name', ...Object.keys(hwinfo), 'collectionTime']);
       });
 
-      it('computes rebuild summaries', function() {
+      it('computes rebuild summaries', function () {
         let result = {
           directory: 'tmp/someplace',
           outputChanges: ['assets/foo.js', 'assets/foo.css'],
@@ -843,8 +843,8 @@ describe('models/instrumentation.js', function() {
       });
     });
 
-    describe('._initSummary', function() {
-      it('computes an init summary', function() {
+    describe('._initSummary', function () {
+      it('computes an init summary', function () {
         let summary = instrumentation._initSummary(instrTree);
 
         expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);
@@ -855,8 +855,8 @@ describe('models/instrumentation.js', function() {
       });
     });
 
-    describe('._commandSummary', function() {
-      it('computes a command summary', function() {
+    describe('._commandSummary', function () {
+      it('computes a command summary', function () {
         let summary = instrumentation._commandSummary(instrTree, 'build', ['--like', '--whatever']);
 
         expect(Object.keys(summary)).to.eql(['name', 'args', 'totalTime', 'platform']);
@@ -869,8 +869,8 @@ describe('models/instrumentation.js', function() {
       });
     });
 
-    describe('._shutdownSummary', function() {
-      it('computes a shutdown summary', function() {
+    describe('._shutdownSummary', function () {
+      it('computes a shutdown summary', function () {
         let summary = instrumentation._shutdownSummary(instrTree);
 
         expect(Object.keys(summary)).to.eql(['totalTime', 'platform']);

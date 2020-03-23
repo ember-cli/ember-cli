@@ -27,7 +27,7 @@ class MockProject extends Project {
 
   require(file) {
     if (file === './server') {
-      return function() {
+      return function () {
         return {
           listen() {
             arguments[arguments.length - 1]();
