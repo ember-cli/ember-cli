@@ -322,10 +322,10 @@
     once "^1.4.0"
     universal-user-agent "^5.0.0"
 
-"@octokit/rest@^17.1.0":
-  version "17.1.0"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-17.1.0.tgz#32df64d9dd4855339e9957524a84ced72762a53b"
-  integrity sha512-L5YtpxHZSHZCh2xETbzxz8clBGmcpT+5e78JLZQ+VfuHrHJ1J/r+R2PGwKHwClUEECTeWFMMdAtIik+OCkANBg==
+"@octokit/rest@^17.1.1":
+  version "17.1.1"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-17.1.1.tgz#357a9f6da687fc2ca9276715c1541562bd2c1581"
+  integrity sha512-Cn9XpevTJdQj/GbACY1WjArDabPpdAhvlS5zoCdZ/chiKbl4vutL1X1VeJHzDLK0K6BdZXXe4SnEPN31wKPA7A==
   dependencies:
     "@octokit/core" "^2.4.0"
     "@octokit/plugin-paginate-rest" "^2.0.0"
