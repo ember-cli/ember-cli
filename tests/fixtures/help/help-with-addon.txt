@@ -80,7 +80,7 @@ ember help \u001b[33m<command-name (Default: all)>\u001b[39m \u001b[36m<options.
   \u001b[36m--json\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
 
 ember init \u001b[33m<glob-pattern>\u001b[39m \u001b[36m<options...>\u001b[39m
-  Creates a new ember-cli project in the current folder.
+  Reinitializes a new ember-cli project in the current folder.
   \u001b[36m--dry-run\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
     \u001b[90maliases: -d\u001b[39m
   \u001b[36m--verbose\u001b[39m \u001b[36m(Boolean)\u001b[39m \u001b[36m(Default: false)\u001b[39m
