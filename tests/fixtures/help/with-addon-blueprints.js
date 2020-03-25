@@ -391,7 +391,7 @@ module.exports = {
     },
     {
       name: 'init',
-      description: 'Creates a new ember-cli project in the current folder.',
+      description: 'Reinitializes a new ember-cli project in the current folder.',
       aliases: [],
       works: 'everywhere',
       availableOptions: [
