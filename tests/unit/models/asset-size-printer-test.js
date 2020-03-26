@@ -36,113 +36,110 @@ describe('models/asset-size-printer', function () {
     });
   }
 
-  beforeEach(function () {
-    return mkTmpDirIn(tmpRoot).then(function (tmpdir) {
-      storedTmpDir = tmpdir;
-      assetDir = path.join(storedTmpDir, 'assets');
-      assetChildDir = path.join(assetDir, 'childDir');
+  beforeEach(async function () {
+    storedTmpDir = await mkTmpDirIn(tmpRoot);
+    assetDir = path.join(storedTmpDir, 'assets');
+    assetChildDir = path.join(assetDir, 'childDir');
 
-      fs.mkdirsSync(assetDir);
-      fs.mkdirsSync(assetChildDir);
+    fs.mkdirsSync(assetDir);
+    fs.mkdirsSync(assetChildDir);
 
-      writeFiles();
-    });
+    writeFiles();
   });
 
   afterEach(function () {
     return fs.remove(storedTmpDir);
   });
 
-  it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', function () {
+  it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
-    return sizePrinter.print().then(function () {
-      expect(sizePrinter.ui.output).to.include('File sizes:');
-      expect(sizePrinter.ui.output).to.include('some-project.css: ');
-      expect(sizePrinter.ui.output).to.include('some-project.js: ');
-      expect(sizePrinter.ui.output).to.include('24 B');
-      expect(sizePrinter.ui.output).to.include('32 B');
-      expect(sizePrinter.ui.output).to.include('(44 B gzipped)');
-      expect(sizePrinter.ui.output).to.include('(52 B gzipped)');
-    });
+    await sizePrinter.print();
+
+    expect(sizePrinter.ui.output).to.include('File sizes:');
+    expect(sizePrinter.ui.output).to.include('some-project.css: ');
+    expect(sizePrinter.ui.output).to.include('some-project.js: ');
+    expect(sizePrinter.ui.output).to.include('24 B');
+    expect(sizePrinter.ui.output).to.include('32 B');
+    expect(sizePrinter.ui.output).to.include('(44 B gzipped)');
+    expect(sizePrinter.ui.output).to.include('(52 B gzipped)');
   });
 
-  it('does not print gzipped file sizes of empty files', function () {
+  it('does not print gzipped file sizes of empty files', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
-    return sizePrinter.print().then(function () {
-      expect(sizePrinter.ui.output).to.not.include('0 B gzipped)');
-    });
+    await sizePrinter.print();
+    expect(sizePrinter.ui.output).to.not.include('0 B gzipped)');
   });
 
-  it('does not print project test helper file sizes', function () {
+  it('does not print project test helper file sizes', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
-    return sizePrinter.print().then(function () {
-      expect(sizePrinter.ui.output).to.not.include('test-loader');
-      expect(sizePrinter.ui.output).to.not.include('test-support');
-      expect(sizePrinter.ui.output).to.not.include('testem');
-      expect(sizePrinter.ui.output).to.include('test.js');
-    });
+    await sizePrinter.print();
+
+    expect(sizePrinter.ui.output).to.not.include('test-loader');
+    expect(sizePrinter.ui.output).to.not.include('test-support');
+    expect(sizePrinter.ui.output).to.not.include('testem');
+    expect(sizePrinter.ui.output).to.include('test.js');
   });
 
-  it('does not print non-css or js file sizes', function () {
+  it('does not print non-css or js file sizes', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
-    return sizePrinter.print().then(function () {
-      expect(sizePrinter.ui.output).to.not.include('some-project.scss');
-      expect(sizePrinter.ui.output).to.not.include('some-project.css4');
-      expect(sizePrinter.ui.output).to.not.include('some-project.json');
-    });
+    await sizePrinter.print();
+
+    expect(sizePrinter.ui.output).to.not.include('some-project.scss');
+    expect(sizePrinter.ui.output).to.not.include('some-project.css4');
+    expect(sizePrinter.ui.output).to.not.include('some-project.json');
   });
 
-  it('can print out to JSON', function () {
+  it('can print out to JSON', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
-    return sizePrinter.printJSON().then(function () {
-      let output = JSON.parse(sizePrinter.ui.output);
+    await sizePrinter.printJSON();
 
-      expect(output.files[0].name).to.include('nested-asset.css');
-      expect(output.files[1].name).to.include('nested-asset.js');
-      expect(output.files[1].size).to.equal(32);
-      expect(output.files[1].gzipSize).to.equal(52);
-      expect(output.files[0]).to.not.have.property('showGzipped');
-    });
+    let output = JSON.parse(sizePrinter.ui.output);
+
+    expect(output.files[0].name).to.include('nested-asset.css');
+    expect(output.files[1].name).to.include('nested-asset.js');
+    expect(output.files[1].size).to.equal(32);
+    expect(output.files[1].gzipSize).to.equal(52);
+    expect(output.files[0]).to.not.have.property('showGzipped');
   });
 
-  it('creates an array of asset objects', function () {
+  it('creates an array of asset objects', async function () {
     let assetObjectKeys;
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
     });
 
-    return sizePrinter.makeAssetSizesObject().then(function (assetObject) {
-      assetObjectKeys = Object.keys(assetObject[0]);
+    let assetObject = await sizePrinter.makeAssetSizesObject();
 
-      expect(assetObjectKeys).to.deep.equal(['name', 'size', 'gzipSize', 'showGzipped']);
-      expect(assetObject[0].name).to.include('nested-asset.css');
-      expect(assetObject[1].name).to.include('nested-asset.js');
-      expect(assetObject[2].name).to.include('empty.js');
-      expect(assetObject[3].name).to.include('some-project.css');
-      expect(assetObject[4].name).to.include('some-project.js');
-      expect(assetObject[5].name).to.include('test.js');
-    });
+    assetObjectKeys = Object.keys(assetObject[0]);
+
+    expect(assetObjectKeys).to.deep.equal(['name', 'size', 'gzipSize', 'showGzipped']);
+    expect(assetObject[0].name).to.include('nested-asset.css');
+    expect(assetObject[1].name).to.include('nested-asset.js');
+    expect(assetObject[2].name).to.include('empty.js');
+    expect(assetObject[3].name).to.include('some-project.css');
+    expect(assetObject[4].name).to.include('some-project.js');
+    expect(assetObject[5].name).to.include('test.js');
   });
 
   it('prints an error when no files are found', function () {
