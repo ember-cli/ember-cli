@@ -36,7 +36,7 @@ describe('models/asset-size-printer', function () {
     });
   }
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     storedTmpDir = await mkTmpDirIn(tmpRoot);
     assetDir = path.join(storedTmpDir, 'assets');
     assetChildDir = path.join(assetDir, 'childDir');
@@ -51,7 +51,7 @@ describe('models/asset-size-printer', function () {
     return fs.remove(storedTmpDir);
   });
 
-  it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', async function() {
+  it('prints human-readable file sizes (including gzipped sizes) of css and js files in the output path', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
@@ -68,7 +68,7 @@ describe('models/asset-size-printer', function () {
     expect(sizePrinter.ui.output).to.include('(52 B gzipped)');
   });
 
-  it('does not print gzipped file sizes of empty files', async function() {
+  it('does not print gzipped file sizes of empty files', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
@@ -78,7 +78,7 @@ describe('models/asset-size-printer', function () {
     expect(sizePrinter.ui.output).to.not.include('0 B gzipped)');
   });
 
-  it('does not print project test helper file sizes', async function() {
+  it('does not print project test helper file sizes', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
@@ -92,7 +92,7 @@ describe('models/asset-size-printer', function () {
     expect(sizePrinter.ui.output).to.include('test.js');
   });
 
-  it('does not print non-css or js file sizes', async function() {
+  it('does not print non-css or js file sizes', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
@@ -105,7 +105,7 @@ describe('models/asset-size-printer', function () {
     expect(sizePrinter.ui.output).to.not.include('some-project.json');
   });
 
-  it('can print out to JSON', async function() {
+  it('can print out to JSON', async function () {
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
       outputPath: storedTmpDir,
@@ -122,7 +122,7 @@ describe('models/asset-size-printer', function () {
     expect(output.files[0]).to.not.have.property('showGzipped');
   });
 
-  it('creates an array of asset objects', async function() {
+  it('creates an array of asset objects', async function () {
     let assetObjectKeys;
     let sizePrinter = new AssetSizePrinter({
       ui: new MockUi(),
