@@ -11,7 +11,6 @@ const td = require('testdouble');
 
 describe('new command', function () {
   let command;
-  let error;
 
   beforeEach(function () {
     let options = commandOptions({
@@ -35,43 +34,43 @@ describe('new command', function () {
   });
 
   it("doesn't allow to create an application named `test`", async function () {
-    error = await expect(command.validateAndRun(['test'])).to.be.rejected;
-    expect(error.message).to.equal('We currently do not support a name of `test`.');
+    let { message } = await expect(command.validateAndRun(['test'])).to.be.rejected;
+    expect(message).to.equal('We currently do not support a name of `test`.');
   });
 
   it("doesn't allow to create an application named `ember`", async function () {
-    error = await expect(command.validateAndRun(['ember'])).to.be.rejected;
-    expect(error.message).to.equal('We currently do not support a name of `ember`.');
+    let { message } = await expect(command.validateAndRun(['ember'])).to.be.rejected;
+    expect(message).to.equal('We currently do not support a name of `ember`.');
   });
 
   it("doesn't allow to create an application named `Ember`", async function () {
-    error = await expect(command.validateAndRun(['Ember'])).to.be.rejected;
-    expect(error.message).to.equal('We currently do not support a name of `Ember`.');
+    let { message } = await expect(command.validateAndRun(['Ember'])).to.be.rejected;
+    expect(message).to.equal('We currently do not support a name of `Ember`.');
   });
 
   it("doesn't allow to create an application named `ember-cli`", async function () {
-    error = await expect(command.validateAndRun(['ember-cli'])).to.be.rejected;
-    expect(error.message).to.equal('We currently do not support a name of `ember-cli`.');
+    let { message } = await expect(command.validateAndRun(['ember-cli'])).to.be.rejected;
+    expect(message).to.equal('We currently do not support a name of `ember-cli`.');
   });
 
   it("doesn't allow to create an application named `vendor`", async function () {
-    error = await expect(command.validateAndRun(['vendor'])).to.be.rejected;
-    expect(error.message).to.equal('We currently do not support a name of `vendor`.');
+    let { message } = await expect(command.validateAndRun(['vendor'])).to.be.rejected;
+    expect(message).to.equal('We currently do not support a name of `vendor`.');
   });
 
   it("doesn't allow to create an application with a period in the name", async function () {
-    error = await expect(command.validateAndRun(['zomg.awesome'])).to.be.rejected;
-    expect(error.message).to.equal('We currently do not support a name of `zomg.awesome`.');
+    let { message } = await expect(command.validateAndRun(['zomg.awesome'])).to.be.rejected;
+    expect(message).to.equal('We currently do not support a name of `zomg.awesome`.');
   });
 
   it("doesn't allow to create an application with a name beginning with a number", async function () {
-    error = await expect(command.validateAndRun(['123-my-bagel'])).to.be.rejected;
-    expect(error.message).to.equal('We currently do not support a name of `123-my-bagel`.');
+    let { message } = await expect(command.validateAndRun(['123-my-bagel'])).to.be.rejected;
+    expect(message).to.equal('We currently do not support a name of `123-my-bagel`.');
   });
 
   it('shows a suggestion messages when the application name is a period', async function () {
-    error = await expect(command.validateAndRun(['.'])).to.be.rejected;
-    expect(error.message).to.equal(
+    let { message } = await expect(command.validateAndRun(['.'])).to.be.rejected;
+    expect(message).to.equal(
       `Trying to generate an application structure in this directory? Use \`ember init\` instead.`
     );
   });
