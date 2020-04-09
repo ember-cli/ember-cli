@@ -29,7 +29,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
     process.chdir(tmpdir);
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     process.chdir(root);
     return fs.remove(tmproot);
   });
