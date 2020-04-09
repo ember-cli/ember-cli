@@ -26,52 +26,34 @@ describe('clean-remove', function () {
     fs.removeSync(tempDir);
   });
 
-  it('removes empty folders', function () {
+  it('removes empty folders', async function () {
     let displayPath = path.join(nestedPath, 'file.txt');
     fileInfo.outputPath = path.join(tempDir, displayPath);
     fileInfo.displayPath = displayPath;
 
-    return fs
-      .outputFile(displayPath, '')
-      .then(function () {
-        return fs.stat(displayPath).then(function (stats) {
-          expect(stats).to.be.ok;
-        });
-      })
-      .then(function () {
-        return cleanRemove(fileInfo);
-      })
-      .then(function () {
-        return expect(fs.stat('nested1')).to.be.rejected;
-      });
+    await fs.outputFile(displayPath, '');
+    let stats = await fs.stat(displayPath);
+    expect(stats).to.be.ok;
+    await cleanRemove(fileInfo);
+    return expect(fs.stat('nested1')).to.be.rejected;
   });
 
-  it('preserves filled folders', function () {
+  it('preserves filled folders', async function () {
     let removedDisplayPath = path.join(nestedPath, 'file.txt');
     let preservedDisplayPath = path.join(nestedPath, 'file2.txt');
     fileInfo.outputPath = path.join(tempDir, removedDisplayPath);
     fileInfo.displayPath = removedDisplayPath;
 
-    return fs
-      .outputFile(removedDisplayPath, '')
-      .then(function () {
-        return fs.outputFile(preservedDisplayPath, '');
-      })
-      .then(function () {
-        return fs.stat(preservedDisplayPath).then(function (stats) {
-          expect(stats).to.be.ok;
-        });
-      })
-      .then(function () {
-        return cleanRemove(fileInfo);
-      })
-      .then(function () {
-        return expect(fs.stat(removedDisplayPath)).to.be.rejected;
-      })
-      .then(function () {
-        return fs.stat(preservedDisplayPath).then(function (stats) {
-          expect(stats).to.be.ok;
-        });
-      });
+    await fs.outputFile(removedDisplayPath, '');
+    await fs.outputFile(preservedDisplayPath, '');
+
+    let stats = await fs.stat(preservedDisplayPath);
+    expect(stats).to.be.ok;
+
+    await cleanRemove(fileInfo);
+    await expect(fs.stat(removedDisplayPath)).to.be.rejected;
+
+    let stats_1 = await fs.stat(preservedDisplayPath);
+    expect(stats_1).to.be.ok;
   });
 });
