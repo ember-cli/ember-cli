@@ -31,7 +31,7 @@ describe('Acceptance: ember generate in-addon-dummy', function() {
 
   afterEach(async function() {
     process.chdir(root);
-    return fs.remove(tmproot);
+    await fs.remove(tmproot);
   });
 
   async function initAddon() {
