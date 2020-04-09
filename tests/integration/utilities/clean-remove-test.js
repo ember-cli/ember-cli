@@ -47,13 +47,11 @@ describe('clean-remove', function () {
     await fs.outputFile(removedDisplayPath, '');
     await fs.outputFile(preservedDisplayPath, '');
 
-    let stats = await fs.stat(preservedDisplayPath);
-    expect(stats).to.be.ok;
+    expect(await fs.stat(preservedDisplayPath)).to.be.ok;
 
     await cleanRemove(fileInfo);
     await expect(fs.stat(removedDisplayPath)).to.be.rejected;
 
-    let stats_1 = await fs.stat(preservedDisplayPath);
-    expect(stats_1).to.be.ok;
+    expect(await fs.stat(preservedDisplayPath)).to.be.ok;
   });
 });
