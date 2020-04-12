@@ -46,86 +46,57 @@ describe('Acceptance: ember generate with --in option', function () {
     return fs.writeJsonSync(packageJsonPath, packageJson);
   }
 
-  it('generate blueprint foo using lib', function () {
+  it('generate blueprint foo using lib', async function () {
     // build an app with an in-repo addon in a non-standard path
-    return (
-      initApp()
-        .then(() => generateUtils.inRepoAddon('lib/other-thing'))
-        // generate in project blueprint to allow easier testing of in-repo generation
-        .then(() => generateUtils.tempBlueprint())
-        // confirm that we can generate into the non-lib path
-        .then(() =>
-          ember(['generate', 'foo', 'bar', '--in=lib/other-thing']).then(function () {
-            expect(file('lib/other-thing/addon/foos/bar.js')).to.exist;
-          })
-        )
-    );
+    await initApp();
+    await generateUtils.inRepoAddon('lib/other-thing');
+    await generateUtils.tempBlueprint();
+    await ember(['generate', 'foo', 'bar', '--in=lib/other-thing']);
+
+    return expect(file('lib/other-thing/addon/foos/bar.js')).to.exist;
   });
 
-  it('generate blueprint foo using custom path using current directory', function () {
+  it('generate blueprint foo using custom path using current directory', async function () {
     // build an app with an in-repo addon in a non-standard path
-    return (
-      initApp()
-        .then(() => generateUtils.inRepoAddon('./non-lib/other-thing'))
-        // generate in project blueprint to allow easier testing of in-repo generation
-        .then(() => generateUtils.tempBlueprint())
-        // confirm that we can generate into the non-lib path
-        .then(() =>
-          ember(['generate', 'foo', 'bar', '--in=non-lib/other-thing']).then(function () {
-            expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
-          })
-        )
-    );
+    await initApp();
+    await generateUtils.inRepoAddon('./non-lib/other-thing');
+    await generateUtils.tempBlueprint();
+    await ember(['generate', 'foo', 'bar', '--in=non-lib/other-thing']);
+
+    return expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
   });
 
-  it('generate blueprint foo using custom path', function () {
+  it('generate blueprint foo using custom path', async function () {
     // build an app with an in-repo addon in a non-standard path
-    return (
-      initApp()
-        .then(() => generateUtils.inRepoAddon('./non-lib/other-thing'))
-        // generate in project blueprint to allow easier testing of in-repo generation
-        .then(() => generateUtils.tempBlueprint())
-        // confirm that we can generate into the non-lib path
-        .then(() =>
-          ember(['generate', 'foo', 'bar', '--in=./non-lib/other-thing']).then(function () {
-            expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
-          })
-        )
-    );
+    await initApp();
+    await generateUtils.inRepoAddon('./non-lib/other-thing');
+    // generate in project blueprint to allow easier testing of in-repo generation
+    await generateUtils.tempBlueprint();
+    await ember(['generate', 'foo', 'bar', '--in=./non-lib/other-thing']);
+
+    // confirm that we can generate into the non-lib path
+    return expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
   });
 
-  it('generate blueprint foo using custom nested path', function () {
+  it('generate blueprint foo using custom nested path', async function () {
     // build an app with an in-repo addon in a non-standard path
-    return (
-      initApp()
-        .then(() => generateUtils.inRepoAddon('./non-lib/nested/other-thing'))
-        // generate in project blueprint to allow easier testing of in-repo generation
-        .then(() => generateUtils.tempBlueprint())
-        // confirm that we can generate into the non-lib path
-        .then(() =>
-          ember(['generate', 'foo', 'bar', '--in=./non-lib/nested/other-thing']).then(function () {
-            expect(file('non-lib/nested/other-thing/addon/foos/bar.js')).to.exist;
-          })
-        )
-    );
+    await initApp();
+    await generateUtils.inRepoAddon('./non-lib/nested/other-thing');
+    await generateUtils.tempBlueprint();
+    await ember(['generate', 'foo', 'bar', '--in=./non-lib/nested/other-thing']);
+
+    return expect(file('non-lib/nested/other-thing/addon/foos/bar.js')).to.exist;
   });
 
-  it('generate blueprint foo using sibling path', function () {
+  it('generate blueprint foo using sibling path', async function () {
     // build an app with an in-repo addon in a non-standard path
-    return (
-      initApp()
-        .then(() => fs.mkdirp('../sibling'))
-        .then(() => generateUtils.inRepoAddon('../sibling'))
-        // we want to ensure the project has no awareness of the in-repo addon via `ember-addon.paths`, so we remove it
-        .then(removeAddonPath)
-        // generate in project blueprint to allow easier testing of in-repo generation
-        .then(() => generateUtils.tempBlueprint())
-        // confirm that we can generate into the non-lib path
-        .then(() =>
-          ember(['generate', 'foo', 'bar', '--in=../sibling']).then(function () {
-            expect(file('../sibling/addon/foos/bar.js')).to.exist;
-          })
-        )
-    );
+    await initApp();
+    await fs.mkdirp('../sibling');
+    await generateUtils.inRepoAddon('../sibling');
+    await removeAddonPath();
+    await generateUtils.tempBlueprint();
+    await ember(['generate', 'foo', 'bar', '--in=../sibling']);
+
+    return expect(file('../sibling/addon/foos/bar.js')).to.exist;
   });
 });
