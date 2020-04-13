@@ -53,7 +53,7 @@ describe('Acceptance: ember generate with --in option', function () {
     await generateUtils.tempBlueprint();
     await ember(['generate', 'foo', 'bar', '--in=lib/other-thing']);
 
-    return expect(file('lib/other-thing/addon/foos/bar.js')).to.exist;
+    expect(file('lib/other-thing/addon/foos/bar.js')).to.exist;
   });
 
   it('generate blueprint foo using custom path using current directory', async function () {
@@ -63,7 +63,7 @@ describe('Acceptance: ember generate with --in option', function () {
     await generateUtils.tempBlueprint();
     await ember(['generate', 'foo', 'bar', '--in=non-lib/other-thing']);
 
-    return expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
+    expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
   });
 
   it('generate blueprint foo using custom path', async function () {
@@ -75,7 +75,7 @@ describe('Acceptance: ember generate with --in option', function () {
     await ember(['generate', 'foo', 'bar', '--in=./non-lib/other-thing']);
 
     // confirm that we can generate into the non-lib path
-    return expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
+    expect(file('non-lib/other-thing/addon/foos/bar.js')).to.exist;
   });
 
   it('generate blueprint foo using custom nested path', async function () {
@@ -85,7 +85,7 @@ describe('Acceptance: ember generate with --in option', function () {
     await generateUtils.tempBlueprint();
     await ember(['generate', 'foo', 'bar', '--in=./non-lib/nested/other-thing']);
 
-    return expect(file('non-lib/nested/other-thing/addon/foos/bar.js')).to.exist;
+    expect(file('non-lib/nested/other-thing/addon/foos/bar.js')).to.exist;
   });
 
   it('generate blueprint foo using sibling path', async function () {
@@ -97,6 +97,6 @@ describe('Acceptance: ember generate with --in option', function () {
     await generateUtils.tempBlueprint();
     await ember(['generate', 'foo', 'bar', '--in=../sibling']);
 
-    return expect(file('../sibling/addon/foos/bar.js')).to.exist;
+    expect(file('../sibling/addon/foos/bar.js')).to.exist;
   });
 });
