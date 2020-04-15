@@ -895,4 +895,51 @@ describe('models/addon.js', function () {
       });
     });
   });
+
+  describe('compileAddon', function () {
+    let builder, addon, addonTempDir;
+
+    beforeEach(function () {
+      projectPath = path.resolve(fixturePath, 'simple');
+      let AddonFoo = Addon.extend({
+        name: 'addon-foo',
+        root: projectPath,
+      });
+
+      addon = new AddonFoo();
+    });
+
+    afterEach(async function () {
+      if (builder) {
+        return builder.cleanup();
+      }
+      if (addonTempDir) {
+        await addonTempDir.dispose();
+      }
+    });
+
+    it('it strips out the styles/ directory', async function () {
+      const broccoliTestHelper = require('broccoli-test-helper');
+      const { createTempDir } = broccoliTestHelper;
+      addonTempDir = await createTempDir();
+      addonTempDir.write({
+        components: {
+          'bar.js': '',
+        },
+        styles: {
+          'foo.css': 'foo',
+        },
+        templates: {
+          components: { 'bar.hbs': '' },
+        },
+      });
+
+      let compiledTree = addon.compileAddon(addonTempDir.path());
+      builder = new broccoli.Builder(compiledTree);
+      let results = await builder.build();
+      let outputPath = results.directory;
+
+      expect(walkSync(outputPath, { globs: ['**/*.css'] })).to.be.empty;
+    });
+  });
 });
