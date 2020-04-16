@@ -6,6 +6,7 @@ const fs = require('fs-extra');
 const runCommand = require('../helpers/run-command');
 const acceptance = require('../helpers/acceptance');
 const copyFixtureFiles = require('../helpers/copy-fixture-files');
+const { isExperimentEnabled } = require('../../lib/experiments');
 let createTestTargets = acceptance.createTestTargets;
 let teardownTestTargets = acceptance.teardownTestTargets;
 let linkDependencies = acceptance.linkDependencies;
@@ -23,6 +24,9 @@ describe('Acceptance: preprocessor-smoke-test', function () {
   this.timeout(360000);
 
   before(function () {
+    if (isExperimentEnabled('EMBROIDER')) {
+      this.skip();
+    }
     return createTestTargets(appName);
   });
 
