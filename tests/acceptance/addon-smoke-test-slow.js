@@ -88,7 +88,7 @@ describe('Acceptance: addon-smoke-test', function () {
 
     let cssPath = path.join(addonRoot, 'dist', 'assets', 'vendor.css');
     contents = fs.readFileSync(cssPath, { encoding: 'utf8' });
-    expect(contents).to.contain('addon/styles/app.css is present');
+    expect(contents).to.equal('/* addon/styles/app.css is present */\n');
 
     let robotsPath = path.join(addonRoot, 'dist', 'robots.txt');
     contents = fs.readFileSync(robotsPath, { encoding: 'utf8' });
