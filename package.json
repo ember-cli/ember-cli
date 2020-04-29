@@ -152,7 +152,7 @@
     "strip-ansi": "^6.0.0",
     "supertest": "^4.0.2",
     "testdouble": "^3.13.1",
-    "tmp": "^0.1.0",
+    "tmp": "^0.2.0",
     "websocket": "^1.0.31",
     "which": "2.0.2",
     "yuidoc-ember-cli-theme": "^1.0.4",
