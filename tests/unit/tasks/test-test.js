@@ -7,6 +7,32 @@ const MockProject = require('../../helpers/mock-project');
 describe('test task test', function () {
   let subject;
 
+  it('call testem middleware with options', async function () {
+    let testemMiddlewareOptions;
+    let project = new MockProject();
+
+    project.initializeAddons = function () {};
+    project.addons = [
+      {
+        testemMiddleware(_, options) {
+          testemMiddlewareOptions = options;
+        },
+      },
+    ];
+
+    let options = {
+      reporter: 'xunit',
+      configFile: 'tests/fixtures/tasks/testem-config/testem-dummy.json',
+      path: 'dist',
+      ssl: false,
+    };
+
+    subject = new TestTask({ project });
+    await subject.run(options);
+    expect(testemMiddlewareOptions).to.deep.equal(options);
+    expect(testemMiddlewareOptions.path).to.equal('dist');
+  });
+
   it('transforms options for testem configuration', function () {
     subject = new TestTask({
       project: new MockProject(),
