@@ -1,6 +1,5 @@
 # ember-cli Changelog
 
-
 ## v3.18.0-beta.1
 
 #### Blueprint Changes
@@ -42,6 +41,17 @@ Thank you to all who took the time to contribute!
 - [#9041](https://github.com/ember-cli/ember-cli/pull/9041) Remove usage of RSVP. [@rwjblue](https://github.com/rwjblue)
 - [#9042](https://github.com/ember-cli/ember-cli/pull/9042) Include API documentation `yuidoc` JSON output when publishing [@sivakumar-kailasam](https://github.com/sivakumar-kailasam)
 - [#9045](https://github.com/ember-cli/ember-cli/pull/9045) Add final newline in CONTRIBUTING.md [@kellyselden](https://github.com/kellyselden)
+
+## v3.16.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.16.1...v3.16.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.16.1...v3.16.2)
+
+#### Changelog
+
+- [#9090](https://github.com/ember-cli/ember-cli/pull/9183) Ensure processed addon styles are not doubly-included in vendor.css [@bantic](https://github.com/bantic)
 
 ## v3.16.1
 
