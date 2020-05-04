@@ -1,6 +1,30 @@
 # ember-cli Changelog
 
+## v3.19.0-beta.1
 
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.18.0...v3.19.0-beta.1)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.18.0...v3.19.0-beta.1)
+
+#### Changelog
+
+- [#7538](https://github.com/ember-cli/ember-cli/pull/7538) Fix `configPath` caching [@kanongil](https://github.com/kanongil)
+- [#8258](https://github.com/ember-cli/ember-cli/pull/8258) Tweak `isDevelopingAddon` error message [@stefanpenner](https://github.com/stefanpenner)
+- [#8813](https://github.com/ember-cli/ember-cli/pull/8813) Update NPM version check to avoid double `npm install` when using `npm@5.7.1` or higher. [@deepan83](https://github.com/deepan83)
+- [#9126](https://github.com/ember-cli/ember-cli/pull/9126) chore: fix init help text with the right description [@rajasegar](https://github.com/rajasegar)
+- [#9132](https://github.com/ember-cli/ember-cli/pull/9132) Convert commands to use async/await syntax [@locks](https://github.com/locks)
+- [#9134](https://github.com/ember-cli/ember-cli/pull/9134) [DOC] Update locals hook example [@locks](https://github.com/locks)
+- [#9146](https://github.com/ember-cli/ember-cli/pull/9146) Convert express-server task to async await [@locks](https://github.com/locks)
+- [#9147](https://github.com/ember-cli/ember-cli/pull/9147) Convert serve task to async await [@locks](https://github.com/locks)
+- [#9148](https://github.com/ember-cli/ember-cli/pull/9148) Convert npm-task task to async/await syntax [@locks](https://github.com/locks)
+- [#9149](https://github.com/ember-cli/ember-cli/pull/9149) Update blueprint dependencies to latest [@bmish](https://github.com/bmish)
+- [#9157](https://github.com/ember-cli/ember-cli/pull/9157) Convert insert-into-file to async/await syntax [@locks](https://github.com/locks)
+- [#9158](https://github.com/ember-cli/ember-cli/pull/9158) Convert clean-remove to async/await syntax [@locks](https://github.com/locks)
+- [#9163](https://github.com/ember-cli/ember-cli/pull/9163) Convert in-option-generate-test to async/await syntax [@locks](https://github.com/locks)
+- [#9183](https://github.com/ember-cli/ember-cli/pull/9183) Ensure processed addon styles are not doubly-included in vendor.css [@bantic](https://github.com/bantic)
+
+Thank you to all who took the time to contribute!
 
 ## v3.18.0
 
