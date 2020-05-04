@@ -1,5 +1,16 @@
 # ember-cli Changelog
 
+## v3.16.2
+
+#### Blueprint Changes
+
+- [`ember new` diff](https://github.com/ember-cli/ember-new-output/compare/v3.16.1...v3.16.2)
+- [`ember addon` diff](https://github.com/ember-cli/ember-addon-output/compare/v3.16.1...v3.16.2)
+
+#### Changelog
+
+- [#9090](https://github.com/ember-cli/ember-cli/pull/9183) Ensure processed addon styles are not doubly-included in vendor.css [@bantic](https://github.com/bantic)
+
 ## v3.16.1
 
 #### Blueprint Changes
