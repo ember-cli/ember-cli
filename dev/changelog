@@ -54,7 +54,7 @@ Thank you to all who took the time to contribute!
 
 // only filters when dependabot itself merges a PR
 function excludeDependabot(commitInfo) {
-  let author = commitInfo.author.login;
+  let author = commitInfo.author ? commitInfo.author.login : commitInfo.committer.login;
 
   return author !== 'dependabot-preview[bot]' && author !== 'dependabot[bot]';
 }
@@ -116,7 +116,7 @@ async function processPages(res) {
 }
 
 async function main() {
-  let github = new Octokit({ version: '3.0.0' });
+  let github = new Octokit({ version: '3.0.0', auth: process.env.GITHUB_AUTH });
 
   github.repos
     .compareCommits({
