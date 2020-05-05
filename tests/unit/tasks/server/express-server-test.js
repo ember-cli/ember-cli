@@ -14,6 +14,7 @@ const EOL = require('os').EOL;
 const nock = require('nock');
 const express = require('express');
 const WebSocket = require('websocket').w3cwebsocket;
+const FixturifyProject = require('../../../helpers/fixturify-project');
 
 function checkMiddlewareOptions(options) {
   expect(options).to.satisfy((option) => option.baseURL || option.rootURL);
@@ -22,6 +23,93 @@ function checkMiddlewareOptions(options) {
 function sleep(timeout) {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 }
+
+describe('express-server: processAppMiddlewares', function () {
+  let subject, fixturifyProject;
+
+  nock.enableNetConnect();
+
+  function makeSubject() {
+    subject = new ExpressServer({
+      ui: new MockUI(),
+      project: fixturifyProject.buildProjectModel(),
+      watcher: new MockWatcher(),
+      serverWatcher: new MockServerWatcher(),
+      serverRestartDelayTime: 100,
+      serverRoot: './server',
+      environment: 'development',
+    });
+    return subject;
+  }
+
+  beforeEach(function () {
+    this.timeout(1000);
+    fixturifyProject = new FixturifyProject('awesome-proj', '0.0.0');
+    fixturifyProject.addDevDependency('ember-cli', '*');
+  });
+
+  afterEach(async function () {
+    fixturifyProject.dispose();
+    await subject.stopHttpServer().catch(() => {});
+  });
+
+  it('has a good error message if a file "server.js" exists, but does not export a function', function () {
+    fixturifyProject.addFiles({
+      'server.js': 'module.exports = { name: "foo" }',
+    });
+    let subject = makeSubject();
+
+    expect(() => {
+      subject.processAppMiddlewares();
+    }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
+  });
+
+  it('has a good error message if a file "server/index.js" exists, but does not export a function', function () {
+    fixturifyProject.addFiles({
+      server: {
+        'index.js': 'module.exports = { name: "foo" }',
+      },
+    });
+
+    let subject = makeSubject();
+    expect(() => {
+      subject.processAppMiddlewares();
+    }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
+  });
+
+  it('returns values returned by server/index.js', function () {
+    fixturifyProject.addFiles({
+      server: {
+        'index.js': 'module.exports = function() {return "foo"}',
+      },
+    });
+    let subject = makeSubject();
+    expect(subject.processAppMiddlewares()).to.equal('foo');
+  });
+
+  it('returns values returned by server.js', function () {
+    fixturifyProject.addFiles({
+      'server.js': 'module.exports = function() {return "foo"}',
+    });
+    let subject = makeSubject();
+    expect(subject.processAppMiddlewares()).to.equal('foo');
+  });
+
+  it('returns undefined if middleware files does not exists', function () {
+    let subject = makeSubject();
+    expect(subject.processAppMiddlewares()).to.equal(undefined);
+  });
+
+  it('allow non MODULE_NOT_FOUND errors bubbling if issue happens during module initialization', function () {
+    fixturifyProject.addFiles({
+      server: {
+        'index.js': 'throw new Error("OOPS")',
+      },
+    });
+    let subject = makeSubject();
+    expect(() => subject.processAppMiddlewares()).to.throw(Error, 'OOPS');
+  });
+});
 
 describe('express-server', function () {
   let subject, ui, project, proxy, nockProxy;
@@ -43,8 +131,8 @@ describe('express-server', function () {
     });
   });
 
-  afterEach(function () {
-    return subject
+  afterEach(async function () {
+    await subject
       .stopHttpServer()
       .catch(() => {})
       .then(() => {
@@ -85,38 +173,6 @@ describe('express-server', function () {
 
     it('should use the use localhost if host is not specified', function () {
       expect(subject.displayHost(undefined)).to.equal('localhost');
-    });
-  });
-
-  describe('processAppMiddlewares', function () {
-    it('has a good error message if a file exists, but does not export a function', function () {
-      subject.project = {
-        has() {
-          return true;
-        },
-        require() {
-          return {};
-        },
-      };
-
-      expect(() => {
-        subject.processAppMiddlewares();
-      }).to.throw(TypeError, 'ember-cli expected ./server/index.js to be the entry for your mock or proxy server');
-    });
-
-    it('returns values returned by server/index', function () {
-      subject.project = {
-        has() {
-          return true;
-        },
-        require() {
-          return function () {
-            return 'foo';
-          };
-        },
-      };
-
-      expect(subject.processAppMiddlewares()).to.equal('foo');
     });
   });
 
