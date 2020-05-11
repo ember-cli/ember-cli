@@ -7,10 +7,13 @@ Options:
 
   - '--ember-source' (required) - The dist-tag to use for ember-source
   - '--ember-data' (required) - The dist-tag to use for ember-data
+  - '--filter' (optional) - A RegExp to filter the packages to update by
 
 Example:
 
 node dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
+
+node dev/update-blueprint-dependencies.js --filter eslint
 `);
 }
 
@@ -19,9 +22,19 @@ const util = require('util');
 const nopt = require('nopt');
 const _latestVersion = require('latest-version');
 
+nopt.typeDefs['regexp'] = {
+  type: RegExp,
+  validate(data, key, value) {
+    let regexp = new RegExp(value);
+
+    data[key] = regexp;
+  },
+};
+
 const OPTIONS = nopt({
   'ember-source': String,
   'ember-data': String,
+  filter: RegExp,
 });
 
 const PACKAGE_FILES = [
@@ -32,6 +45,14 @@ const PACKAGE_FILES = [
   'tests/fixtures/addon/yarn/package.json',
   'tests/fixtures/addon/npm/package.json',
 ];
+
+function shouldCheckDependency(dependency) {
+  if (OPTIONS.filter) {
+    return OPTIONS.filter.test(dependency);
+  }
+
+  return true;
+}
 
 const LATEST = new Map();
 async function latestVersion(packageName) {
@@ -55,6 +76,10 @@ async function latestVersion(packageName) {
 
 async function updateDependencies(dependencies) {
   for (let dependency in dependencies) {
+    if (!shouldCheckDependency(dependency)) {
+      continue;
+    }
+
     let previousValue = dependencies[dependency];
 
     // grab the first char (~ or ^)
@@ -99,11 +124,11 @@ if (module === require.main) {
     process.exit(1);
   });
 
-  if (!OPTIONS['ember-source'] || !OPTIONS['ember-data']) {
+  if (OPTIONS.filter || (OPTIONS['ember-source'] && OPTIONS['ember-data'])) {
+    main();
+  } else {
     usage();
     process.exitCode = 1;
     return;
   }
-
-  main();
 }
