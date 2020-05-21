@@ -1,0 +1,9 @@
+{
+  "framework": "qunit",
+  "launch": "Dummy",
+  "launchers": {
+    "Dummy" : {
+      "command": "exit"
+    }
+  }
+}
