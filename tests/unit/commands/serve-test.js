@@ -226,4 +226,23 @@ describe('serve command', function () {
       expect(error.message).to.match(/You have to be inside an ember-cli project/);
     });
   });
+
+  it('waits on the serve tasks promise', async function () {
+    let serveTaskResolved = false;
+
+    tasks.Serve = class extends Task {
+      run() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            serveTaskResolved = true;
+            resolve();
+          }, 10);
+        });
+      }
+    };
+
+    await command.validateAndRun(['--port', '0']);
+
+    expect(serveTaskResolved).to.be.ok;
+  });
 });
